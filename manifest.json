@@ -1,7 +1,7 @@
 ﻿{
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
-	"version": "0.85",
+	"version": "0.86",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -73,7 +73,7 @@
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/",
-		"http://test.streamus.com:61975/Streamus/",
+		"http://localhost:61975/Streamus/",
 		"http://streamus.apphb.com/"
 	],
 	"web_accessible_resources": [
