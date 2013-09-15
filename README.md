@@ -8,10 +8,11 @@ Overview
 
 Streamus consists of a front-end client, the Google Chrome extension, a back-end server ("Streamus Server"), server test cases ("Streamus Server Tests"), and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, StreamusServer and StreamusWebsite, to gain a full understanding of the product.
 
-The Chrome extension uses the following libraries:
-
 Client
 ------
+
+The Google Chrome extension utilizes the following libraries: 
+
 * [jQuery (v2.0.3+)](http://jquery.com/)
 * [jQuery UI (v1.10.3+)](http://jqueryui.com/) [AutoComplete and Sortable modules only]
 * [BackboneJS (v1.0.0+)](http://backbonejs.org/)
@@ -22,15 +23,13 @@ Client
 Installation
 ========
 
-Client
-------
 1. Navigate to the page: chrome://extensions
-2. Mark the checkbox 'Developer mode' as selected.
-3. Click the button 'Load unpacked extensions...'
-4. Select the Streamus directory title 'Chrome Extension' and click OK.
-5. Run the extension.
+2. Check the checkbox 'Developer mode.' This will introduce several new buttons to the chrome://extensions page
+3. Click the button 'Load unpacked extension...'
+4. Select the StreamusChromeExtension directory, click OK.
+5. The extension should now be loaded and ready to be interacted upon.
 
-* NOTE: If you wish to debug the client without a local server instance you will need to set 'localDebug' to false inside 'chrome extension/background/model/settings.js"
+* NOTE: StreamusChromeExtension is dependent on a server. If you wish to debug without a local server instance you will need to set the property 'localDebug' to false. To do so, navigate to: 'StreamusChromeExtension/js/background/model/settings.js"
 
 Supported Functionality
 ========
