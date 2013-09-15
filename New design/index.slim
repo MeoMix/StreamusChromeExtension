@@ -1,0 +1,199 @@
+head
+	link href="css/font-awesome.css" rel="stylesheet"
+	link href="css/main.css" rel="stylesheet"
+	
+	title Streamus                  
+	    
+body
+	#playlists.left-pane
+		.left-top-bar
+			div.playlist-name Playlist name
+			button#button-add-videos.button-label.button-color
+				i.icon-plus
+				| Add videos
+		.left-top-divider
+		.left-list
+			- for i in 0..6 do
+				.item
+					img.item-thumb[src="//img.youtube.com/vi/gqLyzHBH2As/3.jpg"]
+					span.item-title Jungle - Drops
+					span.item-details
+						span.item-author 
+							i.icon-user
+							| majesticcasual
+						span.item-duration 
+							i.icon-time
+							| 2:52	
+		.left-bottom-menubar
+			.playlist-details
+				| 9 songs, 38 minutes
+			.playlist-actions
+				button#button-playlist-play-all.button-label
+					i.icon-play-sign
+					| Play All
+				button#button-playlist-rename.button-label title="Rename Playlist"
+					i.icon-pencil
+					| Rename 
+				button#button-playlist-delete.button-label title="Delete Playlist"
+					i.icon-trash
+					| Delete
+	#search.left-pane
+		.left-top-bar
+			.search-bar
+				input type="input" placeholder="Search.." 	
+				.dummy
+				button#source-select
+					i.icon-youtube-play
+					span.label YouTube
+					i.icon-sort	
+		.left-top-divider
+		.left-list
+			.big-text
+				i.icon-search.i-4x
+				| Start searching and results will appear here
+		.left-bottom-menubar
+			.playlist-details
+				| 25 results
+			.playlist-actions
+				button#button-playlist-play-all.button-label
+					i.icon-play-sign
+					| Play All
+				button#button-playlist-save.button-label title="Save search results as new playlist"
+					i.icon-save
+					| Save as playlist 
+	div.right-pane
+		.player
+			.top-bar
+				.volume
+					button#button-volume.button-icon title="Mute/Unmute"
+						i.icon-volume-up    
+					.volume-slider         
+						.progress style="width: 70%"
+						input#slider-volume.slider type="range" value="70" title="Volume"  
+				.center-group           
+					button#button-previous.button-icon title="Previous"
+						i.icon-backward.icon-large
+					button#button-play.button-icon title="Play/Pause"
+						i.icon-play.icon-large
+					button#button-next.button-icon title="Next"
+						i.icon-forward.icon-large
+				.right-group
+					button#button-video-mode.button-icon title="Toggle video mode"
+						i.icon-film
+			.progress-slider
+				.progress style="width: 33%"
+				input#slider-progress.slider type="range" value="33" title="Progress"
+			.progress-details
+				span.time-elapsed title="Time elapsed" 2:55
+				span.title Now Playing
+				span.time-remaining title="Time remaining" 2:03
+			.list
+				- for i in 0..3 do
+					.item
+						img.item-thumb[src="//img.youtube.com/vi/gqLyzHBH2As/3.jpg"]
+						span.item-title Jungle - Drops
+						span.item-details
+							span.item-author 
+								i.icon-user
+								| majesticcasual
+							span.item-duration 
+								i.icon-time
+								| 2:52	
+			.context-buttons
+				.right-group
+					button#button-stream-save.button-icon.button-small title="Save stream as playlist"
+						i.icon-save
+					button#button-stream-delete.button-icon.button-small title="Clear stream"
+						i.icon-trash	
+				.left-group
+					button#button-stream-repeat.button-icon.button-small title="Repeat playlist"
+						i.icon-repeat
+					button#button-stream-shuffle.button-icon.button-small title="Shuffle songs"
+						i.icon-random
+					button#button-stream-radio.button-icon.button-small title="Toggle Radio mode"
+						i.icon-rss
+		
+	button#button-playlists.button-icon title="Playlist Menu"
+		i.icon-reorder
+	button#button-back.button-icon title="Back"
+		i.icon-arrow-left
+
+	#playlists-panel
+		.panel
+			.header
+				span.title
+					img src="http://streamus.com/img/logo.png" height="25px" 
+				button#button-settings.button-icon.button-icon title="Streamus Settings"
+					i.icon-cogs
+			.list
+				h3.first 
+					| Playlists
+					i.icon-caret-down
+				div
+					ul#streamus-playlists
+						li 
+							i.icon-list.icon-fixed-width 
+							span.title My new playlist
+							span.count 10
+						li           
+							i.icon-list.icon-fixed-width 
+							span.title Rainy Days
+							span.count 5
+						li       
+							i.icon-list.icon-fixed-width 
+							span.title Workout 
+							span.count 3
+				h3 
+					| Youtube
+					i.icon-caret-down
+				div
+					ul#youtube-channels
+						li   
+							i.icon-user.icon-fixed-width 
+							span.title majesticcasual
+							span.count 396
+						li  
+							i.icon-user.icon-fixed-width 
+							span.title DaftPunkVEVO
+							span.count 10
+					ul#youtube-playlists
+						li   
+							i.icon-list.icon-fixed-width 
+							span.title 90's Pop
+							span.count 24
+						li   
+							i.icon-list.icon-fixed-width 
+							span.title Hot Right Now
+							span.count 95
+				h3 
+					| SoundCloud
+					i.icon-caret-down
+				div
+					ul#soundcloud-channels
+						li   
+							i.icon-user.icon-fixed-width 
+							span.title miauk
+							span.count 10
+					ul#soundcloud-playlists
+						li   
+							i.icon-list.icon-fixed-width 
+							span.title Dance
+							span.count 15
+						li   
+							i.icon-list.icon-fixed-width 
+							span.title Bass
+							span.count 12
+			.context-buttons
+				.left-group    
+					button#button-sign-in.button-label.button-small
+						i.icon-signin
+						| Sign in
+				.right-group   
+					button#button-add-playlist.button-icon.button-small title="Add playlist"
+						i.icon-plus
+					button#button-edit-playlists.button-icon.button-small title="Edit playlists"
+						i.icon-pencil
+           
+	script src="js/jquery-1.7.1.js" type="text/javascript"
+	script src="js/ui.js" type="text/javascript"
+				

@@ -1,0 +1,915 @@
+﻿body {
+    -webkit-user-select: none;
+    background: #fff;
+    font: 12px/1.3 sans-serif;
+    height: 524px;
+    min-width: 614px;
+    max-width: 614px;
+}
+
+body.backgroundUnloaded > * {
+    opacity: 0.5;
+}
+
+/*http://beautifulpixels.com/goodies/create-custom-webkit-scrollbar/*/
+
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+
+/* Ensure no buttons are displayed */
+::-webkit-scrollbar-button:start:decrement,
+::-webkit-scrollbar-button:end:increment {
+     height: 0;
+}
+
+::-webkit-scrollbar-track-piece {
+    -webkit-border-radius: 6px;
+    background-color: #efefef;
+}
+
+::-webkit-scrollbar-thumb:vertical {
+    -webkit-border-radius: 6px;
+    background-color: #666;
+    border: 1px solid #eee;
+    height: 50px;
+}
+
+#contentWrapper {
+    text-align: center;
+    height: 100%;
+}
+
+#content {
+    text-align: left;
+    height: 100%;
+}
+
+#content div {
+    -webkit-box-sizing: border-box;
+    overflow: hidden;
+    position: absolute;
+    text-shadow: 0 1px 0 #fff;
+}
+
+.gradient { background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .1)), to(rgba(0, 0, 0, .1))); }
+
+.halfGradient { background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(255, 255, 255, .1)), to(rgba(103, 103, 103, .1))); }
+
+.emptyListNotification {
+    font-size: 14px;
+    top: 154px;
+    left: 70px;
+    display: none;
+}
+
+#head {
+    -webkit-box-shadow: 0 5px 5px rgba(0, 0, 0, .15);
+    background-color: #efefef;
+    height: 70px;
+    left: 0;
+    padding: 10px;
+    top: 0;
+    width: 100%;
+    z-index: 5;
+}
+
+#menu {
+    background: #eaeaea;
+    border-right: 1px solid #fff;
+    bottom: 120px;
+    left: 0;
+    top: 70px;
+    width: 70px;
+    z-index: 2;
+}
+
+#menu a {
+    -webkit-box-sizing: border-box;
+    border-bottom: 1px solid rgba(0, 0, 0, 0);
+    border-radius: 5px;
+    color: #000;
+    display: block;
+    height: 60px;
+    margin: 5px;
+    position: relative;
+    text-decoration: none
+}
+
+#menu a span {
+    bottom: 3px;
+    font: bold 11px/16px sans-serif;
+    left: 0;
+    position: absolute;
+    text-align: center;
+    width: 100%;
+}
+
+#menu a svg {
+    left: 50%;
+    margin: -15px 0 0 -11px;
+    position: absolute;
+    top: 50%;
+}
+
+#menu a.active {
+    background: #fff;
+    border-bottom: 1px solid #ccc;
+}
+
+#menu a:active {
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .2)), to(rgba(0, 0, 0, .05)));
+    border-bottom: 1px solid #fff;
+}
+
+#menu a:active svg * { fill: #0073bf; }
+
+.header {
+    -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, .2);
+    border-left: 1px solid #ccc;
+    height: 40px;
+    left: 0;
+    right: 0;
+    top: 0;
+    z-index: 2;
+}
+
+.header span {
+    font: normal 16px/40px sans-serif;
+    height: 40px;
+    left: 20px;
+    margin: 0;
+    position: absolute;
+    top: 0;
+}
+
+.headerInput {
+    -webkit-transition: border-color .2s;
+    background-color: white;
+    border: 1px solid transparent;
+    color: rgb(0, 0, 0);
+    font: normal 16px/40px sans-serif;
+    margin: 0;
+    outline: none;
+    padding-left: 3px;
+    padding-right: 3px;
+    width: 390px;
+}
+
+.headerInput:hover {
+    border-color: #eee;
+}
+
+.addButton {
+    -webkit-transition: all 0.5s;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    bottom: 6px;
+    cursor: auto;
+    padding: 0 20px 0 40px;
+    right: 6px;
+    top: 6px;
+    width: 120px;
+}
+
+.header.expanded .addButton {
+    width: 545px;   
+}
+
+#addButtonSvg {
+    height: 12px;
+    left: 23px;
+    margin: -6px 0 0 -6px;
+    position: absolute;
+    top: 50%;
+    width: 12px;
+}
+
+.addButton span {
+    color: #666;
+    cursor: pointer;
+    font: bold 12px/27px sans-serif;
+    left: 40px;
+    position: absolute;
+    top: 0;
+}
+
+.addButton input {
+    -webkit-box-sizing: border-box;
+    -webkit-transition: all 0.5s;
+    border: 0;
+    border-radius: 5px;
+    bottom: 0;
+    cursor: pointer;
+    left: 0;
+    opacity: 0;
+    padding: 0 5px;
+    position: absolute;
+    right: 30px;
+    top: 0;
+}
+
+.addButton input:focus {
+     outline: none
+}
+
+.addCancelIcon {
+    -webkit-transition: all 0.5s;
+    background-color: #efefef;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    bottom: 0;
+    cursor: pointer;
+    position: absolute;
+    right: -30px;
+    top: 0;
+    width: 30px;
+}
+
+.header.expanded .addCancelIcon {
+    right: 0;
+}
+
+.addCancelIcon svg {
+    height: 12px;
+    left: 50%;
+    margin: -6px 0 0 -6px;
+    position: absolute;
+    top: 50%;
+    width: 12px;
+}
+
+svg.deleteButtonSvg {
+    height: 12px;
+    width: 12px;
+    position: absolute;
+    right: 0;
+    background-color: #000;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.streamItem:hover svg.deleteButtonSvg {
+    opacity: 1;
+}
+
+.addInput {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.header.expanded .addInput {
+    opacity: 1;
+    cursor: auto;
+}
+
+.headerTitle {
+    right: 130px;
+}
+
+.ui-autocomplete {
+    left: 0 !important;
+    max-height: 346px;
+    max-width: 624px;
+    overflow-y: auto;
+    top: 110px !important;
+    width: 624px !important;
+}
+
+.content {
+    bottom: 120px;
+    left: 70px;
+    right: 0;
+    top: 70px;
+    z-index: 3;
+}
+
+#PlayIcon { left: 54% !important; }
+
+#PlaylistsContent,
+#VideoContent { display: none; }
+
+#VideoContent { background-color: black; }
+
+#VideoContent > canvas{
+    margin-top: 18px;
+}
+
+.clickable {
+    cursor: pointer;
+}
+
+#PlayPauseButton {
+    border-right: 1px solid #fff;
+    cursor: pointer;
+    height: 70px;
+    left: 0;
+    top: 0;
+    width: 70px;
+}
+
+#PlayPauseButton .path { fill: black; }
+
+#NextButton {
+    background-color: #efefef !important;
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #ccc;
+    cursor: pointer;
+    height: 40px;
+    right: 0;
+    top: 0;
+    width: 40px;
+    z-index: 2;
+}
+
+#PreviousButton {
+    background-color: #efefef !important;
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #fff;
+    cursor: pointer;
+    height: 40px;
+    right: 40px;
+    top: 0;
+    width: 40px;
+}
+
+
+
+#PlayPauseButton.disabled:hover {
+    background-color: transparent;
+    cursor: default;
+}
+
+#NextButton.disabled:hover,
+#PreviousButton.disabled:hover {
+    background-color: #efefef !important;
+    cursor: default;
+}
+
+#PlayPauseButton.disabled .path,
+#PreviousButton.disabled > svg *,
+#NextButton.disabled > svg * { fill: gray; }
+
+#PreviousButton > svg *,
+#NextButton > svg * { fill: black; }
+
+#PlayPauseButton.disabled:active,
+#NextButton.disabled:active,
+#PreviousButton.disabled:active { background-image: none; }
+
+#PlayPauseButton:hover,
+#HomeMenuButton:hover,
+#PlaylistsMenuButton:hover { background-color: rgba(255, 255, 255, 0.3); }
+
+#NextButton:hover,
+#PreviousButton:hover { background-color: #F3F3F3 !important; }
+
+#PlayPauseButton:active,
+#NextButton:active,
+#PreviousButton:active { background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .1)), color-stop(0.5, rgba(0, 0, 0, 0))); }
+
+#PlayPauseButton svg {
+    left: 50%;
+    margin: -11px 0 0 -11px;
+    position: absolute;
+    top: 50%;
+}
+
+#NextButton svg {
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    position: absolute;
+    top: 50%;
+}
+
+#PreviousButton svg {
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    position: absolute;
+    top: 50%;
+}
+
+#Header {
+    border-bottom: 1px solid #fff;
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #fff;
+    font: bold 16px/42px sans-serif;
+    height: 40px;
+    left: 70px;
+    overflow: hidden;
+    padding: 0 20px;
+    right: 80px;
+    text-overflow: ellipsis;
+    top: 0;
+    white-space: nowrap;
+}
+
+#PauseIcon { display: none; }
+
+#ProgressBarView {
+    -webkit-appearance: none !important;
+    -webkit-box-sizing: border-box;
+    background-color: #222;
+    border-bottom: 1px solid #666;
+    border-radius: 3px;
+    border-top: 1px solid #000;
+    height: 6px;
+    left: 20px;
+    margin: 0;
+    overflow: visible;
+    position: absolute;
+    right: 140px;
+    top: 12px;
+}
+
+#ProgressBarView::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    -webkit-box-shadow: 0 0 5px #000;
+    background: #eaeaea;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 12px;
+    margin-top: -2px;
+    width: 12px;
+}
+
+#ProgressBarView::-webkit-slider-thumb:active { background: #fff; }
+
+#timeDisplayWrapper {
+    background-color: #666;
+    background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .5)), to(rgba(0, 0, 0, 0)));
+    border-left: 1px solid #000;
+    border-top: 1px solid #000;
+    height: 30px;
+    left: 70px;
+    overflow: hidden;
+    right: 0;
+    top: 40px;
+    z-index: 2;
+}
+
+#time {
+    border-right: 1px solid #666;
+    color: #fff;
+    font: bold 11px/30px sans-serif;
+    right: 40px;
+    text-align: center;
+    text-shadow: 0 1px 0 #000 !important;
+    width: 100px;
+}
+
+#head { overflow: visible !important; }
+
+#VolumeControl {
+    -webkit-transition: height 0.5s;
+    height: 30px;
+    right: 0;
+    top: 40px;
+    width: 40px;
+}
+
+#MuteButton {
+    -webkit-box-shadow: inset 0 3px 5px #000;
+    background: rgba(0, 0, 0, .5);
+    border-left: 1px solid #000;
+    border-right: 1px solid #444;
+    border-right: none;
+    cursor: pointer;
+    height: 30px;
+    right: 0;
+    top: 0;
+    width: 40px;
+    z-index: 2;
+}
+
+#MuteButton svg {
+    left: 50%;
+    margin: -8px 0 0 -8px;
+    position: absolute;
+    top: 50%;
+}
+
+#VolumeSliderWrapper {
+    -webkit-box-shadow: 0 3px 5px rgba(0, 0, 0, 0.3);
+    -webkit-transition: top 0.5s;
+    background: #333;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    height: 100px;
+    right: 0;
+    top: -75px;
+    width: 40px;
+    z-index: 0;
+}
+
+#VolumeControl.expanded { height: 135px !important; }
+
+#VolumeControl.expanded #VolumeSliderWrapper { top: 30px; }
+
+#ShuffleButton:hover,
+#RadioButton:hover,
+#RepeatButton:hover { cursor: pointer; }
+
+#ShuffleButton {
+    bottom: 2px;
+    left: 6px;
+    position: absolute;
+}
+
+#RadioButton {
+    bottom: 1px;
+    left: 28px;
+    position: absolute;
+}
+
+#RepeatButton {
+    bottom: 3px;
+    position: absolute;
+    right: 4px;
+}
+
+#RepeatPlaylistSvg { display: none; }
+
+#VolumeSlider {
+    -webkit-appearance: none !important;
+    -webkit-box-sizing: border-box;
+    -webkit-transform: rotate(270deg);
+    background-color: #222;
+    border-bottom: 1px solid #000;
+    border-radius: 3px;
+   
+    border-top: 1px solid #666;
+    height: 6px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: -20px;
+    top: 45px;
+    width: 80px;
+}
+
+#VolumeSlider::-webkit-slider-thumb {
+    -webkit-appearance: none !important;
+    -webkit-box-shadow: 0 0 5px #000;
+    background: #eaeaea;
+    border-radius: 6px;
+    cursor: pointer;
+    height: 12px;
+    margin-top: -2px;
+    width: 12px;
+}
+
+#VolumeSlider::-webkit-slider-thumb:active { background: #fff; }
+
+.ui-slider-range { border-radius: 2px; }
+
+.ui-slider-handle {
+    background-position: 0% 0%;
+    -webkit-box-shadow: 0 0 5px #000;
+    -webkit-box-sizing: border-box;
+    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, rgba(0, 0, 0, 0)), color-stop(1, rgba(0, 0, 0, 0.1))) !important;
+    border: 1px solid #fff;
+    border-radius: 6px !important;
+    cursor: pointer;
+    height: 12px !important;
+    margin: -6px 0 0 -4px;
+    width: 12px !important;
+    z-index: 1;
+    background-color: #eaeaea !important;
+    background-repeat: repeat !important;
+    background-attachment: scroll !important;
+}
+
+.ui-menu .ui-menu-item a {
+    font-size: 12px !important;
+    white-space: nowrap;
+}
+
+.list {
+    border-left: 1px solid #ccc;
+    bottom: 0px;
+    left: 0px;
+    overflow-y: auto !important;
+    right: 0px;
+    top: 40px;
+    z-index: 1;
+}
+
+.list ul {
+    list-style: none;
+    margin: 2px 0;
+    padding: 0;
+}
+
+.list li {
+    cursor: pointer !important;
+    display: block;
+    height: 44px;
+    position: relative;
+    width: 100%;
+}
+
+.list li:hover { background-color: Gainsboro !important; }
+
+.list li a {
+    color: black;
+    text-decoration: none;
+}
+
+.list li:nth-child(odd),
+.ui-autocomplete li:nth-child(odd) { background-color: #eaeaea }
+
+.list span {
+    height: 19px;
+    left: 0;
+    margin-top: 5px;
+    overflow: hidden;
+}
+
+.list span:nth-of-type(1) {
+    font: 12px/18px sans-serif;
+    top: 5px;
+    z-index: 5;
+}
+
+.list span:nth-of-type(2) {
+    color: #666;
+    position: absolute;
+    top: 20px;
+}
+
+#ActiveFolderView .loaded span { font-weight: bold !important; }
+
+.muted > svg > path { fill: Red !important; }
+
+.muted > svg > rect { fill: Black !important; }
+
+.pressed *,
+.pressed svg * { fill: #6ABD45 !important; }
+
+.sidebar-button {
+    -webkit-transition: 0.2s;
+    background: rgba(245, 184, 0, 1);
+    border: none;
+    border-radius: 2px;
+    color: rgb(39, 39, 39);
+    font-size: 1em;
+    height: 40px;
+    margin-left: 20px;
+    margin-top: 10px;
+    opacity: 0.5;
+    text-transform: uppercase;
+    width: 200px;
+}
+
+.sidebar-button:hover { opacity: 1; }
+
+.textWrapper {
+    height: 44px;
+    left: 60px;
+    overflow: hidden;
+    padding-top: 5px;
+    right: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    top: 0;
+}
+
+#PlaylistsContent .textWrapper {
+    left: 10px;
+}
+
+.playlistItemVideoImage {
+    background-size: 100% auto;
+    height: 38px;
+    margin-left: 3px;
+    margin-top: 3px;
+    width: 50px;
+    z-index: 10;
+}
+
+.streamItem {
+    color: white;
+    width: 120px;
+    height: 90px;
+    display: inline-block;
+    border: 1px solid transparent;
+    margin-top: 15px !important;
+    position: relative;
+    margin: 0 -5px;
+    border: 1px solid #3e404a;
+    -webkit-transform: scale(0.8);
+    transform: scale(0.8);
+    -webkit-transition: -webkit-transform 300ms ease-out;
+    transition: transform 300ms ease-out;
+    -webkit-box-shadow: 3px 3px 4px rgba(0, 0, 0, 0.5);
+    opacity: .9;
+}
+
+.streamItem:hover {
+    -webkit-transform: scale(0.85);
+    opacity: 1.0;
+}
+
+.streamItem.active {
+    z-index: 10;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    margin: 0;
+    opacity: 1.0;
+}
+
+#StreamView {
+    left: 0;
+    right: 0;
+    top: 420px;
+    height: 120px;
+    position: absolute;
+    background-color: #eaeaea;
+    white-space: nowrap;
+    -webkit-box-shadow: inset 0px 2px 5px #FFF;
+    box-shadow: inset 0px 2px 5px #FFF;
+}
+
+#StreamView .overlay {
+    font-size: 14px;
+    position: absolute;
+    top: 51px;
+    left: 160px;
+}
+
+#StreamView ul {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	font-size: 50px;
+    -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, .3);
+}
+
+.videoImage {
+    width: 120px;
+    height: 90px;
+}
+
+.imageOverlayWrapper {
+    font-size: 11px;
+    position: absolute;
+    padding: 0 4px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.videoTimeOverlay.imageOverlayWrapper {
+    right: 0;
+    top: 76px;
+}
+
+.videoTitleOverlay.imageOverlayWrapper {
+    width: 113px;
+}
+
+.videoImageOverlay {
+    opacity: 0.75;
+    font-weight: bold;
+    font-size: 11px;
+    background-color: #000;
+    padding: 0;
+}
+
+.streamItem:hover .videoImageOverlay {
+    opacity: 1.0;
+}
+
+.streamItem.active .videoImageOverlay {
+    opacity: 1.0;
+}
+
+
+/* TODO: All of this is taken from Bootstrap. */
+.alert {
+    padding: 15px 35px 15px 15px;
+    margin-bottom: 20px;
+    color: #c09853;
+    background-color: #fcf8e3;
+    border: 1px solid #fbeed5;
+    z-index: 2000;
+    position: relative !important;
+    display:inline-block;
+}
+
+.alert-error {
+    color: #b94a48;
+    background-color: #f2dede;
+    border-color: #eed3d7;
+}
+
+.alert .close {
+    position: relative;
+    right: -21px;
+    line-height: 10px;
+}
+
+button.close {
+    padding: 0;
+    cursor: pointer;
+    background: transparent;
+    border: 0;
+    -webkit-appearance: none;
+}
+
+.close {
+    float: right;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 20px;
+    color: #000000;
+    text-shadow: 0 1px 0 #ffffff;
+    opacity: 0.2;
+    filter: alpha(opacity=20);
+}
+
+/* Animation keyframes - you need to add prefixes */
+@-webkit-keyframes spin {
+    from {
+              -webkit-transform: rotate(0deg);
+         }
+    to {
+           -webkit-transform: rotate(360deg);
+       }
+}
+
+.reloadPrompt {
+    position: absolute;
+    -webkit-box-sizing: content-box !important;
+    margin-left: -172px;
+
+    text-align: center;
+    top: 30%;
+    left: 50%;
+    opacity: 1 !important;
+}
+
+.reloadPrompt > button {
+    display: block;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+ 
+/* Loading animation container */
+.loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 28px;
+    height: 28px;
+    margin: -14px 0 0 -14px;
+    -webkit-box-sizing: content-box !important;
+}
+
+body.backgroundUnloaded .loading {
+    opacity: 1;
+}
+ 
+/* Spinning circle (inner circle) */
+.loading .maskedCircle {
+    width: 20px;
+    height: 20px;
+    border-radius: 12px;
+    border: 3px solid #444;
+    -webkit-box-sizing: content-box !important;
+}
+ 
+/* Spinning circle mask */
+.loading .mask {
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    -webkit-box-sizing: content-box !important;
+}
+ 
+/* Spinner */
+.loading .spinner {
+    position: absolute;
+    left: 1px;
+    top: 1px;
+    width: 26px;
+    height: 26px;
+    -webkit-animation: spin 1s infinite linear;
+    -webkit-box-sizing: content-box !important;
+}
+
+.html5-bezel {
+    top: 135px;
+    left: 240px;
+    -webkit-box-sizing: content-box !important;
+}
+
+.html5-bezel>div {
+    margin: 0 auto;
+    -webkit-box-sizing: content-box !important;
+    position: static !important;
+}

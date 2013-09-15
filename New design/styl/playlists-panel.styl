@@ -1,0 +1,86 @@
+#button-playlists, #button-back
+	z-index 52
+	box absolute margin auto auto 0 button-width bar-height
+
+#playlists-panel
+	box fixed 0 0 0 0 auto auto
+	background rgba(0,0,0,.5)
+	z-index 50
+	.panel
+		box absolute (-1 * right-width) 0 auto 0 right-width auto
+		background light-grey
+		z-index 51
+		transition left .3s 
+		box-shadow 0 0 20px #000
+	&.visible
+		.panel
+			left 0
+	.header
+		background darken(light-grey, 5%)
+		box absolute 0 auto 0 0 auto bar-height  
+		text-align center
+		span
+			font-weight bold
+			line-height bar-height
+			letter-spacing 2px
+			text-transform uppercase
+			color dark-grey
+			img
+				margin-top 0.6em
+		#button-settings
+			box absolute auto auto margin 0 auto auto
+	.list
+		box absolute margin (bottom-bar-height) 0 (bar-height ) auto auto
+		padding-right margin
+		padding-bottom 1em
+		overflow hidden
+		&:hover
+			overflow-y scroll
+			padding-right 0
+		&::-webkit-scrollbar
+			width margin
+			height margin
+			background transparent
+			&-thumb
+				background dark-grey
+		h3
+			text-transform uppercase
+			height (font-size*2)
+			line-height (font-size*2)
+			margin-top 1em
+			cursor pointer
+			i
+				margin-left 0.3em
+		ul
+			li
+				display block
+				height (font-size*2)
+				line-height (font-size*2)
+				position relative
+				cursor pointer
+				&:hover
+					background darken(light-grey, 3%)
+				span.title
+					box absolute 30px 0 button-width 0 auto auto
+					add-ellipsis t
+				i
+					box absolute 0 0 auto 0 25px auto
+					text-align center
+				span.count
+					box absolute auto auto margin (font-size - 7px) auto auto
+					background dark-grey
+					color #fff
+					font-weight bold
+					font-size 0.85em
+					text-align center
+					line-height 1.4
+					padding 0 0.6em 0 0.5em
+					border-radius 1em
+		
+	.context-buttons
+		box absolute margin 0 margin auto auto bottom-bar-height
+		border-top 1px solid darken(light-grey, 10%)     
+		.left-group
+			box absolute 0 auto (button-width*2) 0 auto bottom-bar-height
+		.right-group
+			box absolute auto auto 0 0 (button-width*2) bottom-bar-height

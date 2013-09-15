@@ -1,0 +1,219 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2EAC119F-E979-44B7-BCF6-0B477BE94B8F}</ProjectGuid>
+    <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Streamus_Chrome_Extension</RootNamespace>
+    <AssemblyName>Streamus Chrome Extension</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="background.htm" />
+    <Content Include="css\contextMenu.css" />
+    <Content Include="css\fullscreen.css" />
+    <Content Include="css\youTube.css" />
+    <Content Include="fullscreen.htm" />
+    <Content Include="js\background\collection\streamItems.js" />
+    <Content Include="js\background\model\omnibox.js" />
+    <Content Include="js\background\model\streamItem.js" />
+    <Content Include="js\foreground\model\reloadPrompt.js" />
+    <Content Include="js\foreground\view\activeFolderTab\activeFolderTabView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistTabView.js" />
+    <Content Include="js\foreground\view\reloadPromptView.js" />
+    <Content Include="js\fullscreen\fullscreen.js" />
+    <Content Include="js\fullscreen\main.js" />
+    <Content Include="js\fullscreen\requirePaths.js" />
+    <Content Include="js\thirdParty\googleApiClient.js" />
+    <Content Include="js\utility.js" />
+    <Content Include="js\foreground\collection\contextMenuGroups.js" />
+    <Content Include="js\foreground\collection\contextMenuItems.js" />
+    <Content Include="js\foreground\model\contextMenu.js" />
+    <Content Include="js\foreground\model\contextMenuGroup.js" />
+    <Content Include="js\foreground\model\contextMenuItem.js" />
+    <Content Include="js\foreground\model\dialog.js" />
+    <Content Include="js\foreground\view\dialogView.js" />
+    <Content Include="js\foreground\view\loadingSpinnerView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\playlistItemView.js" />
+    <Content Include="js\foreground\view\contextMenuView.js" />
+    <Content Include="js\foreground\view\activeFolderTab\playlistView.js" />
+    <Content Include="js\options\settings.js" />
+    <Content Include="js\options\main.js" />
+    <Content Include="js\options\options.js" />
+    <Content Include="js\options\player.js" />
+    <Content Include="js\options\requirePaths.js" />
+    <Content Include="js\enum\shareableEntityType.js" />
+    <Content Include="js\thirdParty\jquery.lazyload.js" />
+    <Content Include="js\thirdParty\sly.js" />
+    <Content Include="options.htm" />
+    <Content Include="css\aristo\aristo.css" />
+    <Content Include="css\aristo\images\bg_fallback.png" />
+    <Content Include="css\aristo\images\icon_sprite.png" />
+    <Content Include="css\aristo\images\progress_bar.gif" />
+    <Content Include="css\aristo\images\slider_handles.png" />
+    <Content Include="css\aristo\images\ui-icons_222222_256x240.png" />
+    <Content Include="css\aristo\images\ui-icons_454545_256x240.png" />
+    <Content Include="css\desktopNotification.css" />
+    <Content Include="css\foreground.css" />
+    <Content Include="css\youTubeInject.css" />
+    <Content Include="css\jasmine.css" />
+    <Content Include="desktopNotification.htm" />
+    <Content Include="foreground.htm" />
+    <Content Include="img\Green 0.png" />
+    <Content Include="img\Green 1.png" />
+    <Content Include="img\Green 2.png" />
+    <Content Include="img\Green 3.png" />
+    <Content Include="img\Green 4.png" />
+    <Content Include="img\Red 0.png" />
+    <Content Include="img\Red 1.png" />
+    <Content Include="img\Red 2.png" />
+    <Content Include="img\Red 3.png" />
+    <Content Include="img\Red 4.png" />
+    <Content Include="img\settingsButton.svg" />
+    <Content Include="img\spinner.svg" />
+    <Content Include="img\streamus_icon128.png" />
+    <Content Include="img\streamus_icon19.png" />
+    <Content Include="img\streamus_icon38.png" />
+    <Content Include="img\streamus_icon48.png" />
+    <Content Include="img\streamus_icon_white19.png" />
+    <Content Include="img\Yellow 0.png" />
+    <Content Include="img\Yellow 1.png" />
+    <Content Include="img\Yellow 2.png" />
+    <Content Include="img\Yellow 3.png" />
+    <Content Include="img\Yellow 4.png" />
+    <Content Include="js\background\background.js" />
+    <Content Include="js\background\model\shareCode.js" />
+    <Content Include="js\background\model\error.js" />
+    <Content Include="js\background\model\iconManager.js" />
+    <Content Include="js\background\model\settings.js" />
+    <Content Include="js\background\main.js" />
+    <Content Include="js\background\model\player.js" />
+    <Content Include="js\background\model\playlist.js" />
+    <Content Include="js\background\model\playlistItem.js" />
+    <Content Include="js\background\collection\playlistItems.js" />
+    <Content Include="js\background\collection\playlists.js" />
+    <Content Include="js\background\requirePaths.js" />
+    <Content Include="js\background\model\folder.js" />
+    <Content Include="js\background\collection\folders.js" />
+    <Content Include="js\background\model\user.js" />
+    <Content Include="js\background\model\video.js" />
+    <Content Include="js\background\collection\videos.js" />
+    <Content Include="js\foreground\collection\streamItems.js" />
+    <Content Include="js\foreground\view\stream\streamItemView.js" />
+    <Content Include="js\foreground\view\stream\streamView.js" />
+    <Content Include="js\inject\streamusShareInject.js" />
+    <Content Include="js\enum\dataSource.js" />
+    <Content Include="js\foreground\model\user.js" />
+    <Content Include="js\foreground\view\contentHeaderView.js" />
+    <Content Include="js\foreground\foreground.js" />
+    <Content Include="js\foreground\view\headerTitleView.js" />
+    <Content Include="js\foreground\model\settings.js" />
+    <Content Include="js\foreground\main.js" />
+    <Content Include="js\foreground\model\player.js" />
+    <Content Include="js\foreground\view\buttons\playPauseButtonView.js" />
+    <Content Include="js\foreground\view\buttons\previousButtonView.js" />
+    <Content Include="js\foreground\view\buttons\radioButtonView.js" />
+    <Content Include="js\foreground\view\buttons\repeatButtonView.js" />
+    <Content Include="js\foreground\view\buttons\shuffleButtonView.js" />
+    <Content Include="js\foreground\view\buttons\nextButtonView.js" />
+    <Content Include="js\foreground\view\volumeControlView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\playlistItemInputView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistView.js" />
+    <Content Include="js\foreground\view\activeFolderTab\playlistInputView.js" />
+    <Content Include="js\foreground\view\activeFolderTab\activeFolderView.js" />
+    <Content Include="js\foreground\view\progressBarView.js" />
+    <Content Include="js\foreground\requirePaths.js" />
+    <Content Include="js\foreground\model\spinnerBuilder.js" />
+    <Content Include="js\foreground\view\video\videoDisplayView.js" />
+    <Content Include="js\inject\streamusInject.js" />
+    <Content Include="js\inject\youTubeInject.js" />
+    <Content Include="js\enum\playerState.js" />
+    <Content Include="js\enum\repeatButtonState.js" />
+    <Content Include="js\tests\main.js" />
+    <Content Include="js\tests\requirePaths.js" />
+    <Content Include="js\thirdParty\backbone.js" />
+    <Content Include="js\thirdParty\googleAnalytics.js" />
+    <Content Include="js\thirdParty\jasmine-html.js" />
+    <Content Include="js\thirdParty\jasmine.js" />
+    <Content Include="js\thirdParty\jquery.js" />
+    <Content Include="js\thirdParty\jquery.scrollIntoView.js" />
+    <Content Include="js\thirdParty\jqueryUi.js" />
+    <Content Include="js\thirdParty\levenshtein.js" />
+    <Content Include="js\thirdParty\require.js" />
+    <Content Include="js\thirdParty\underscore.js" />
+    <Content Include="js\inject\youTubeIFrameInject.js" />
+    <Content Include="js\background\model\youTubePlayerAPI.js" />
+    <Content Include="js\youTubeDataAPI.js" />
+    <Content Include="tests.htm" />
+    <None Include="js\thirdParty\chrome-api-vsdoc.js" />
+    <Content Include="manifest.json" />
+    <Content Include="_locales\en\messages.json" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>False</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>49404</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:64845/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+</Project>

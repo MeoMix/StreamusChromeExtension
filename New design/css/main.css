@@ -1,0 +1,113 @@
+body{overflow:hidden}
+input:focus,button:focus{outline:none}
+html{color:#000;background:#fff}
+body,div,dl,dt,dd,ul,ol,li,h1,h2,h3,h4,h5,h6,pre,code,form,fieldset,legend,input,button,textarea,p,blockquote,th,td{margin:0;padding:0}
+table{border-collapse:collapse;border-spacing:0}
+fieldset,img{border:0}
+address,caption,cite,code,dfn,em,th,var,optgroup{font-style:inherit;font-weight:inherit}
+del,ins{text-decoration:none}
+caption,th{text-align:left}
+h1,h2,h3,h4,h5,h6{font-size:100%}
+q:before,q:after{content:''}
+abbr,acronym{border:0;font-variant:normal}
+sup{vertical-align:baseline}
+sub{vertical-align:baseline}
+legend{color:#000}
+input,button,textarea,select,optgroup,option{font-family:inherit;font-size:inherit;font-style:inherit;font-weight:inherit}
+input,button,textarea,select{font-size:100%}
+a{cursor:pointer}
+.clearfix:before,.clearfix:after{content:".";display:block;height:0;overflow:hidden}
+.clearfix:after{clear:both}
+.clearfix{zoom:1}
+body{font:13px/1.2 sans-serif}
+.playlist-name{font-weight:bold;font-size:1.1em;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.playlist-details{color:#949494;line-height:1.5}
+.item-title{font-size:1.1em;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.item-details{font-size:.8em;color:#949494;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+.item-author{margin-right:.8em}
+.progress-details{font-size:.9em}
+.progress-details .title{font-weight:bold;text-transform:uppercase}
+button{padding:0;margin:0;border:0;background:transparent;transition:color .1s,text-shadow .1s;cursor:pointer;}
+button:active{text-shadow:0 1px 1px rgba(0,0,0,0.3)}
+.button-icon{width:40px;height:45px;line-height:45px;font-size:1.2em}
+.button-small{height:30px;line-height:30px}
+.button-toggle{color:#6c0;text-shadow:0 0 3px #94ff29}
+.button-label{padding:.1em .4em;}
+.button-label i{margin-right:.5em}
+.button-color{background:-webkit-linear-gradient(top,#6edb00,#61c200);border-radius:3px;color:#fff;text-shadow:0 1px 0 #57ad00}
+input[type="range"]{-webkit-appearance:none;background:transparent;padding:0;margin:0;border:0;height:1px;}
+input[type="range"]::-webkit-slider-thumb{-webkit-appearance:none;-webkit-box-shadow:0 0 5px #c5c5c5;cursor:pointer;background:#777;border-radius:100%;height:10px;width:10px}
+.left-pane{display:block;position:absolute;top:0;left:0;bottom:0;right:250px;z-index:1;background:#fff}
+.left-top-bar{display:block;position:absolute;top:0;left:10px;right:10px;height:45px}
+.playlist-name{display:block;position:absolute;top:0;left:50px;bottom:0;right:110px;line-height:45px}
+#button-add-videos{display:block;position:absolute;top:12.5px;right:10px;}
+.left-top-divider{display:block;position:absolute;top:45px;left:10px;right:10px;height:1px;background:#f2f2f2}
+.left-bottom-menubar{display:block;position:absolute;left:10px;bottom:0;right:10px;height:30px;line-height:30px;border-top:1px solid #e6e6e6;}
+.left-bottom-menubar button{line-height:30px;padding:0 .5em;}
+.left-bottom-menubar button i{font-size:1.2em}
+.left-bottom-menubar .playlist-details{display:block;position:absolute;top:0;left:0;bottom:0;line-height:30px}
+.left-bottom-menubar .playlist-actions{display:block;position:absolute;top:0;bottom:0;right:0;line-height:30px}
+.left-list{display:block;position:absolute;top:55px;left:10px;bottom:40px;right:10px;overflow:hidden;}
+.left-list:hover{overflow-y:scroll}
+.item{width:100%;height:30px;position:relative;margin:0 0 10px;}
+.item i{margin-right:.5em}
+.item img{display:block;position:absolute;top:0;left:0;width:40px;height:30px}
+.item-title{display:block;position:absolute;top:0;left:50px;right:10px;}
+.item-details{display:block;position:absolute;left:50px;bottom:0;right:10px;}
+.search-bar{display:block;position:absolute;top:0;left:50px;bottom:0;right:0;}
+.search-bar .dummy{display:block;position:absolute;top:30px;left:0;bottom:10px;right:140px;background:#ccc;z-index:0;transition:background-color .3s;}
+.search-bar .dummy.active{background:#666}
+.search-bar input{-webkit-appearance:none;display:block;position:absolute;top:10px;left:1px;bottom:11px;right:141px;padding:0 .2em;z-index:1;border:0;font:bold 14px/1 sans-serif}
+.search-bar button#source-select{display:block;position:absolute;top:10px;bottom:11px;right:0;width:140px;font-weight:bold;text-align:left;text-indent:.3em;}
+.search-bar button#source-select .label{margin:0 .7em 0 .5em}
+#search .big-text{display:block;margin:2em 0;text-align:center;color:#949494;font-size:1.2em;}
+#search .big-text i{font-size:5em;display:block}
+.right-pane{background:#f2f2f2;display:block;position:absolute;top:0;bottom:0;right:0;width:250px;border-left:1px solid #e6e6e6;z-index:1}
+.player .top-bar{display:block;position:absolute;top:0;left:10px;right:10px;height:44px;}
+.player .top-bar .volume{display:block;position:absolute;top:0;left:0;bottom:0;width:40px;background:#f2f2f2;z-index:2;overflow:hidden;transition:width .3s ease-out;}
+.player .top-bar .volume:hover{width:230px}
+.player .top-bar .volume-slider{display:block;position:absolute;top:22.5px;left:50px;width:170px;height:1px;background:#dadada;}
+.player .top-bar .volume-slider .progress{display:block;position:absolute;top:0;left:0;bottom:0;background:#797979;z-index:1}
+.player .top-bar .volume-slider input{display:block;position:absolute;top:0;left:0;bottom:0;right:0;width:170px;z-index:2}
+.player .top-bar .center-group{z-index:1;display:block;position:absolute;top:0;left:50%;bottom:0;width:120px;margin-left:-60px}
+.player .top-bar .right-group{z-index:1;display:block;position:absolute;top:0;bottom:0;right:0;width:40px;}
+.player .progress-slider{display:block;position:absolute;top:44px;left:10px;right:10px;height:3px;background:#dadada;}
+.player .progress-slider .progress{display:block;position:absolute;top:0;left:0;bottom:0;background:#797979;z-index:1}
+.player .progress-slider input{display:block;position:absolute;top:0;left:0;bottom:0;right:0;width:230px;z-index:2}
+.player .progress-details{display:block;position:absolute;top:55px;left:10px;right:10px;height:19.5px;line-height:1.5;}
+.player .progress-details .time-elapsed{display:block;position:absolute;top:0;left:10px;bottom:0;}
+.player .progress-details .title{display:block;position:absolute;top:0;left:65px;bottom:0;width:100px;text-align:center}
+.player .progress-details .time-remaining{display:block;position:absolute;top:0;bottom:0;right:10px;}
+.player .list{display:block;position:absolute;top:84.5px;left:10px;bottom:40px;right:0;overflow:hidden;padding-right:10px;}
+.player .list:hover{overflow-y:scroll;padding-right:0}
+.player .list::-webkit-scrollbar{width:10px;height:10px;background:transparent;}
+.player .list::-webkit-scrollbar-thumb{background:#949494}
+.player .context-buttons{border-top:1px solid #dadada;display:block;position:absolute;left:10px;bottom:0;right:10px;height:30px;}
+.player .context-buttons .left-group{display:block;position:absolute;top:0;left:0;width:120px;height:30px}
+.player .context-buttons .right-group{display:block;position:absolute;top:0;right:0;width:80px;height:30px}
+#button-playlists,#button-back{z-index:52;display:block;position:absolute;top:0;left:10px;width:40px;height:45px}
+#playlists-panel{display:block;position:fixed;top:0;left:0;bottom:0;right:0;background:rgba(0,0,0,0.5);z-index:50;}
+#playlists-panel .panel{display:block;position:absolute;top:0;left:-250px;bottom:0;width:250px;background:#f2f2f2;z-index:51;transition:left .3s;box-shadow:0 0 20px #000}
+#playlists-panel.visible .panel{left:0}
+#playlists-panel .header{background:#e6e6e6;display:block;position:absolute;top:0;left:0;right:0;height:45px;text-align:center;}
+#playlists-panel .header span{font-weight:bold;line-height:45px;letter-spacing:2px;text-transform:uppercase;color:#949494;}
+#playlists-panel .header span img{margin-top:.6em}
+#playlists-panel .header #button-settings{display:block;position:absolute;top:0;right:10px;}
+#playlists-panel .list{display:block;position:absolute;top:45px;left:10px;bottom:30px;right:0;padding-right:10px;padding-bottom:1em;overflow:hidden;}
+#playlists-panel .list:hover{overflow-y:scroll;padding-right:0}
+#playlists-panel .list::-webkit-scrollbar{width:10px;height:10px;background:transparent;}
+#playlists-panel .list::-webkit-scrollbar-thumb{background:#949494}
+#playlists-panel .list h3{text-transform:uppercase;height:26px;line-height:26px;margin-top:1em;cursor:pointer;}
+#playlists-panel .list h3 i{margin-left:.3em}
+#playlists-panel .list ul li{display:block;height:26px;line-height:26px;position:relative;cursor:pointer;}
+#playlists-panel .list ul li:hover{background:#ebebeb}
+#playlists-panel .list ul li span.title{display:block;position:absolute;top:0;left:30px;bottom:0;right:40px;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}
+#playlists-panel .list ul li i{display:block;position:absolute;top:0;left:0;bottom:0;width:25px;text-align:center}
+#playlists-panel .list ul li span.count{display:block;position:absolute;top:6px;right:10px;background:#949494;color:#fff;font-weight:bold;font-size:.85em;text-align:center;line-height:1.4;padding:0 .6em 0 .5em;border-radius:1em}
+#playlists-panel .context-buttons{display:block;position:absolute;left:10px;bottom:0;right:10px;height:30px;border-top:1px solid #dadada;}
+#playlists-panel .context-buttons .left-group{display:block;position:absolute;top:0;left:0;right:80px;height:30px}
+#playlists-panel .context-buttons .right-group{display:block;position:absolute;top:0;right:0;width:80px;height:30px}
+/* FIX TO MAKE ICONS RENDER NICELY */
+i{font-size:14px !important;}
+i.i-2x{font-size:28px !important}
+i.i-4x{font-size:56px !important}

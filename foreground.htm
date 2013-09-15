@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Streamus</title>
+        <link href="css/foreground.css" rel="stylesheet" type="text/css" />
+        <link href="css/youTube.css" rel="stylesheet" type="text/css" />
+        <link href="css/contextMenu.css" rel="stylesheet" type="text/css" />
+        <link href="css/aristo/aristo.css" rel="stylesheet" type="text/css" />
+
+        <script src="js/foreground/requirePaths.js"></script>
+        <script data-main="main" src="../js/thirdParty/require.js"></script>
+    </head>
+    <body class="backgroundUnloaded">
+
+        <div id="contentWrapper">
+            <div id="content" >
+                <div id="head" class="gradient">
+                    <div id="PlayPauseButton" class="disabled">
+                        <svg id="PlayIcon" width="22" height="22">
+                            <polygon class="path" fill="gray" points="0,0 16.5,11 0,22 "/>
+                        </svg>
+                        <svg id="PauseIcon" width="22" height="22">
+                            <rect class="path" x="3" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
+                            <rect class="path" x="13" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
+                        </svg>
+                        <div id="LoadingSpinner">
+                        </div>
+                    </div>
+                    <div id="Header">
+                        <span id="HeaderTitle"></span>
+                    </div>
+                    <div id="NextButton" class="disabled halfGradient">
+                        <svg width="16px" height="16px">
+                            <rect class="path" x="14" y="3" width="2" height="10" fill="gray" />
+                            <path class="path" d="M0,3 L7,8 L0,13z" fill="gray" />
+                            <path class="path" d="M7,3 L14,8, L7,13z" fill="gray" />
+                        </svg> 
+                    </div>
+                    <div id="PreviousButton" class="disabled halfGradient">
+                        <svg width="16px" height="16px">
+                            <rect class="path" x="0" y="3" width="2" height="10" fill="gray" />
+                            <path class="path" d="M9,3 L2,8 L9,13z" fill="gray" />
+                            <path class="path" d="M16,3 L9,8, L16,13z" fill="gray" />
+                        </svg>  
+                    </div>
+                
+                    <div id="timeDisplayWrapper">
+                        <input type="range" id="ProgressBarView" min="0" step="1" max="0" value="0" />
+
+                        <div id="time">
+                            <label class="TimeDisplay" id="CurrentTimeLabel">00:00</label>
+                            / 
+                            <label class="TimeDisplay" id="TotalTimeLabel">00:00</label>
+                        </div>
+                    </div>
+                
+                    <div id="VolumeControl">
+                        <div id="MuteButton" class="volumeControl">
+                            <svg width="16" height="16">
+                                <path d="M0,6 L3,6 L7,2 L7,14 L3,10 L0,10Z" fill="#fff" />
+                                <rect class="MuteButtonBar" id="MuteButtonBar1" x="9" y="6.5" width="1" height="3" />
+                                <rect class="MuteButtonBar"id="MuteButtonBar2" x="11" y="5" width="1" height="6" />
+                                <rect class="MuteButtonBar" id="MuteButtonBar3" x="13" y="3.5" width="1" height="9" />
+                                <rect class="MuteButtonBar" id="MuteButtonBar4" x="15" y="2" width="1" height="12" />
+                            </svg>
+                        </div>
+                
+                        <div id="VolumeSliderWrapper" class="volumeControl">
+                            <input type="range" id="VolumeSlider" class="volumeControl" min="0" max="100" step="1" value="0" />
+                        </div>
+                    </div>
+
+                </div>
+
+                <div id="menu">
+                    <a id="VideoMenuButton" class="menubutton" data-content="VideoContent" href="#">
+                        <svg width="30" height="30" style="margin-left: -12px">
+                            <g transform="translate(-6.000000, -5.000000) scale(0.9, 0.9)">
+                                <path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linejoin: round; opacity: 0;" fill="none" stroke="#ffffff" d="M27.188,4.875V5.969H22.688V4.875H8.062V5.969H3.5619999999999994V4.875H2.5619999999999994V26.125H3.5619999999999994V25.031H8.062V26.125H22.686999999999998V25.031H27.186999999999998V26.125H28.436999999999998V4.875H27.188ZM8.062,23.719H3.5619999999999994V20.594H8.062V23.719ZM8.062,19.281H3.5619999999999994V16.156H8.062V19.281ZM8.062,14.844H3.5619999999999994V11.719H8.062V14.844ZM8.062,10.406H3.5619999999999994V7.281H8.062V10.406ZM11.247,20.59V9.754L20.628999999999998,15.172L11.247,20.59ZM27.188,23.719H22.688V20.594H27.188V23.719ZM27.188,19.281H22.688V16.156H27.188V19.281ZM27.188,14.844H22.688V11.719H27.188V14.844ZM27.188,10.406H22.688V7.281H27.188V10.406Z" stroke-width="3" stroke-linejoin="round" opacity="0" transform="matrix(1,0,0,1,4,4)"></path>
+                                <path style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 1; fill-opacity: 1;" fill="url(#66790-_0050af-_002c62)" stroke="none" d="M27.188,4.875V5.969H22.688V4.875H8.062V5.969H3.5619999999999994V4.875H2.5619999999999994V26.125H3.5619999999999994V25.031H8.062V26.125H22.686999999999998V25.031H27.186999999999998V26.125H28.436999999999998V4.875H27.188ZM8.062,23.719H3.5619999999999994V20.594H8.062V23.719ZM8.062,19.281H3.5619999999999994V16.156H8.062V19.281ZM8.062,14.844H3.5619999999999994V11.719H8.062V14.844ZM8.062,10.406H3.5619999999999994V7.281H8.062V10.406ZM11.247,20.59V9.754L20.628999999999998,15.172L11.247,20.59ZM27.188,23.719H22.688V20.594H27.188V23.719ZM27.188,19.281H22.688V16.156H27.188V19.281ZM27.188,14.844H22.688V11.719H27.188V14.844ZM27.188,10.406H22.688V7.281H27.188V10.406Z" transform="matrix(1,0,0,1,4,4)" opacity="1" fill-opacity="1"></path>
+                                <rect style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); opacity: 0;" x="0" y="0" width="32" height="32" r="0" rx="0" ry="0" fill="#000000" stroke="#000" opacity="0"></rect>
+                            </g>
+                        </svg>
+                        <span>Video</span>
+                    </a>
+                    <a id="HomeMenuButton" class="menubutton active" data-content="HomeContent" href="#" >
+                        <svg width="30" height="30">
+                            <path d="M11.5,2 L22,12 L0,12 L18,12 L18,20 L13,20 L13,13 L9,13 L9,20 L4,20 L4,12 L0,12Z" fill="#000" />
+                        </svg>
+                        <span>Home</span>
+                    </a>
+                    <a id="PlaylistsMenuButton" class="menubutton" data-content="PlaylistsContent" href="#" >
+                        <svg width="22" height="22">
+                            <rect x="0" y="0.5" width="22" height="3" fill="#000"/>
+                            <rect x="0" y="6.5" width="22" height="3" fill="#000"/>
+                            <rect x="0" y="12.5" width="22" height="3" fill="#000"/>
+                            <rect x="0" y="18.5" width="22" height="3" fill="#000"/>
+                        </svg>
+                        <span>Playlists</span></a>
+
+                    <span id="ShuffleButton">
+                        <svg width="16" height="16">
+                            <path d="m 0,4 0,2 2.5,0 7,6 1.5,0 0,2 5,-3 -5,-3 0,2 -1.5,0 -7,-6 z" fill="#666" />
+                            <path d="m 11,2 0,2 -1.5,0 -7,6 -2.5,0 0,2 2.5,0 7,-6 1.5,0 0,2 5,-3 z" fill="#666" />
+                        </svg>
+                    </span>
+                    <span id="RadioButton">
+                        <svg width="16" height="18">
+                            <g transform="translate(0,20) scale(0.0075,-0.0075)" fill="#666" stroke="none">
+                                <path d="M482 2761 c-151 -125 -261 -302 -318 -511 -28 -102 -26 -358 4 -467
+                        55 -204 174 -387 333 -513 57 -45 85 -50 117 -20 42 39 28 78 -50 138 -58 45
+                        -137 137 -184 217 -150 252 -148 587 6 846 37 62 145 181 218 241 56 46 35
+                        118 -36 118 -22 0 -47 -13 -90 -49z"/>
+                                <path d="M1652 2798 c-7 -7 -12 -28 -12 -47 0 -31 10 -44 91 -119 176 -165
+                        261 -354 265 -588 3 -171 -28 -301 -105 -432 -53 -92 -127 -179 -196 -232 -49
+                        -38 -55 -46 -55 -80 0 -41 24 -70 58 -70 25 0 107 65 182 144 102 108 169 228
+                        222 396 20 67 23 94 23 250 0 154 -3 185 -24 255 -59 204 -189 397 -345 513
+                        -31 24 -85 29 -104 10z"/>
+                                <path d="M651 2483 c-131 -132 -182 -249 -189 -434 -6 -172 30 -290 131 -426
+                        51 -69 138 -143 168 -143 26 0 69 44 69 70 0 13 -25 46 -63 83 -114 111 -163
+                        209 -174 348 -12 162 41 302 164 425 78 79 83 93 45 137 -33 37 -69 22 -151
+                        -60z"/>
+                                <path d="M1468 2549 c-12 -7 -18 -22 -18 -49 0 -34 6 -44 46 -77 111 -93 175
+                        -222 182 -369 8 -167 -35 -279 -154 -404 -77 -81 -90 -112 -58 -144 8 -9 31
+                        -16 49 -16 27 0 46 11 93 55 185 171 255 445 175 684 -30 92 -78 167 -158 249
+                        -66 67 -86 82 -110 82 -17 0 -38 -5 -47 -11z"/>
+                                <path d="M871 2235 c-65 -70 -83 -123 -79 -225 4 -99 22 -143 83 -207 57 -59
+                        114 -55 130 9 5 21 0 34 -29 66 -87 96 -88 201 -2 287 40 39 44 59 20 93 -27
+                        39 -74 30 -123 -23z"/>
+                                <path d="M1286 2264 c-27 -26 -19 -63 23 -111 75 -84 71 -189 -9 -272 -45 -46
+                        -50 -71 -20 -101 33 -33 72 -26 115 21 119 132 120 317 2 437 -45 45 -83 55
+                        -111 26z"/>
+                                <path d="M1106 2034 c-3 -9 -2 -22 4 -29 9 -11 -59 -216 -350 -1055 -130 -373
+                        -142 -411 -138 -415 3 -3 18 -7 34 -11 l30 -6 28 95 c15 51 31 99 36 106 5 10
+                        31 5 109 -19 56 -17 99 -35 96 -40 -3 -6 1 -7 9 -4 8 3 38 -2 66 -11 l50 -17
+                        0 -128 c0 -139 1 -140 58 -140 54 0 57 8 53 143 l-3 124 144 46 c204 67 185
+                        71 222 -48 33 -103 48 -120 86 -96 12 9 12 16 -2 58 -9 26 -120 349 -248 718
+                        -128 369 -232 675 -231 680 0 6 2 21 3 35 3 20 -2 26 -23 28 -18 2 -29 -3 -33
+                        -14z m-34 -476 l39 -12 -3 -113 c-2 -62 -6 -113 -9 -113 -26 0 -139 43 -139
+                        53 0 18 61 197 67 197 3 0 23 -5 45 -12z m209 -84 c16 -49 29 -94 29 -101 0
+                        -11 -127 -59 -135 -51 -2 2 -7 53 -11 114 l-7 111 39 11 c22 5 43 9 48 8 5 -1
+                        22 -42 37 -92z m-220 -204 l39 -11 0 -114 c0 -95 -3 -115 -15 -115 -14 0 -206
+                        59 -214 65 -3 3 56 190 66 207 2 4 22 1 44 -7 22 -8 58 -19 80 -25z m309 -69
+                        c16 -54 30 -101 30 -104 0 -6 -190 -67 -208 -67 -7 0 -12 3 -12 8 -1 4 -3 55
+                        -6 113 l-6 105 68 22 c105 32 99 35 134 -77z m-352 -213 l72 -21 0 -139 c0
+                        -128 -1 -139 -17 -134 -10 3 -54 17 -98 30 -199 60 -200 61 -197 82 2 10 19
+                        67 38 126 l35 107 47 -15 c26 -8 80 -24 120 -36z m447 -81 c20 -65 35 -120 33
+                        -122 -7 -6 -303 -93 -307 -90 -2 2 -6 64 -8 137 l-5 133 118 36 c66 20 122 33
+                        125 30 4 -3 23 -59 44 -124z"/>
+                            </g>
+                        </svg>
+                    </span>
+                
+                    <span id="RepeatButton">
+                    
+                        <svg id="RepeatVideoSvg" width="16" height="16">
+                            <g transform="scale(0.57,0.57)" fill="#666" stroke="none">
+                                <path d="M24.083,15.5C24.073999999999998,20.239,20.238999999999997,24.073999999999998,15.499999999999998,24.083C10.758999999999999,24.073999999999998,6.922999999999998,20.238999999999997,6.914999999999997,15.499999999999998C6.922999999999997,10.758999999999999,10.758999999999997,6.922999999999998,15.499999999999998,6.914999999999997C17.412999999999997,6.914999999999997,19.165,7.543999999999997,20.589999999999996,8.600999999999997L18.807999999999996,10.383999999999997L27.236999999999995,12.639999999999997L24.976999999999997,4.212999999999997L23.086999999999996,6.102999999999997C21.014999999999997,4.425999999999997,18.369999999999997,3.414999999999997,15.499999999999996,3.414999999999997C8.826,3.418,3.418,8.826,3.416,15.5C3.418,22.175,8.826,27.583,15.5,27.583S27.583,22.175,27.583,15.5H24.083Z" stroke-width="3" stroke-linejoin="round">
+                                </path>
+                                <path d="M24.083,15.5C24.073999999999998,20.239,20.238999999999997,24.073999999999998,15.499999999999998,24.083C10.758999999999999,24.073999999999998,6.922999999999998,20.238999999999997,6.914999999999997,15.499999999999998C6.922999999999997,10.758999999999999,10.758999999999997,6.922999999999998,15.499999999999998,6.914999999999997C17.412999999999997,6.914999999999997,19.165,7.543999999999997,20.589999999999996,8.600999999999997L18.807999999999996,10.383999999999997L27.236999999999995,12.639999999999997L24.976999999999997,4.212999999999997L23.086999999999996,6.102999999999997C21.014999999999997,4.425999999999997,18.369999999999997,3.414999999999997,15.499999999999996,3.414999999999997C8.826,3.418,3.418,8.826,3.416,15.5C3.418,22.175,8.826,27.583,15.5,27.583S27.583,22.175,27.583,15.5H24.083Z">
+                                </path>
+                            </g>
+                        </svg> 
+
+                        <svg id="RepeatPlaylistSvg" class="pressed" width="16" height="16" >
+                            <g transform="scale(0.57,0.57)" fill="#666" stroke="none">
+                                <path d="M24.249,15.499C24.24,20.331,20.331,24.240000000000002,15.498999999999999,24.249000000000002C12.983999999999998,24.249000000000002,10.730999999999998,23.185000000000002,9.133999999999999,21.486000000000004L11.201999999999998,20.044000000000004L3.3009999999999984,16.341000000000005L4.044999999999998,25.035000000000004L6.237999999999998,23.506000000000004C8.481999999999998,26.100000000000005,11.799999999999997,27.748000000000005,15.497999999999998,27.748000000000005C22.264999999999997,27.748000000000005,27.747,22.266000000000005,27.747,15.499000000000004H24.249ZM15.499,6.75C18.015,6.75,20.268,7.8149999999999995,21.866,9.514L19.798,10.956999999999999L27.698999999999998,14.658L26.953,5.965L24.761,7.494C22.516,4.9,19.198999999999998,3.2489999999999997,15.498999999999999,3.2489999999999997C8.734,3.25,3.25,8.734,3.249,15.499H6.75C6.758,10.668,10.668,6.758,15.499,6.75Z" stroke-width="3" stroke-linejoin="round">
+                                
+                                </path>
+                                <path d="M24.249,15.499C24.24,20.331,20.331,24.240000000000002,15.498999999999999,24.249000000000002C12.983999999999998,24.249000000000002,10.730999999999998,23.185000000000002,9.133999999999999,21.486000000000004L11.201999999999998,20.044000000000004L3.3009999999999984,16.341000000000005L4.044999999999998,25.035000000000004L6.237999999999998,23.506000000000004C8.481999999999998,26.100000000000005,11.799999999999997,27.748000000000005,15.497999999999998,27.748000000000005C22.264999999999997,27.748000000000005,27.747,22.266000000000005,27.747,15.499000000000004H24.249ZM15.499,6.75C18.015,6.75,20.268,7.8149999999999995,21.866,9.514L19.798,10.956999999999999L27.698999999999998,14.658L26.953,5.965L24.761,7.494C22.516,4.9,19.198999999999998,3.2489999999999997,15.498999999999999,3.2489999999999997C8.734,3.25,3.25,8.734,3.249,15.499H6.75C6.758,10.668,10.668,6.758,15.499,6.75Z"></path>
+                        
+                            </g>
+
+                        </svg>
+
+                    </span>
+                
+                </div>
+            
+                <div id="VideoContent" class="content">
+                   <div class="html5-bezel">
+                       <div class="html5-bezel-pause"></div>
+                       <div class="html5-bezel-play"></div>
+                    </div>
+                </div>
+                
+                <div id="HomeContent" class="content">
+                    <div id="ActivePlaylistView" class="list">
+                        <div class="emptyListNotification"></div>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+
+                <div id="PlaylistsContent" class="content">
+
+                    <div id="ActiveFolderView" class="list">
+                        <div class="emptyListNotification"></div>
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        
+
+        <div id="StreamView" class="gradient frame">
+            <ul class="slidee">
+            </ul>      
+            <div class="overlay"></div>
+        </div>
+
+        <script type="text/template" id="loadingSpinnerTemplate">
+            <div class="spinner">
+                <div class="mask">
+                    <div class="maskedCircle"></div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="dialogTemplate">
+            <button type="button" class="close">×</button>
+            <%- text %>
+        </script>
+        
+        <script type="text/template" id="playlistTemplate">
+            
+            <div class="textWrapper">
+                <span class="playlistTitle"><%- title %></span>
+                <span class="playlistInfo"><%- displayInfo %></span>
+            </div>
+
+        </script>
+        
+        <script type="text/template" id="playlistItemTemplate">
+            
+            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id')%>/default.jpg"  src="" />
+            
+            <div class="textWrapper">
+                <span class="playlistItemTitle"><%- title %></span>
+                <span class="playlistItemInfo"><%- video.get('prettyDuration') %> by <%- video.get('author') %></span>
+            </div>
+        
+        </script>
+        
+        <script type="text/template" id="streamItemTemplate">
+            
+            <div class="videoTitleOverlay imageOverlayWrapper">
+                <span class="videoTitle videoImageOverlay"><%- video.get('title') %></span>
+            </div>
+            
+            <svg class="deleteButtonSvg">
+                <path d="M0,2 L2,0 L12,10 L10,12z" fill="white"/>
+                <path d="M12,2 L10,0 L0,10 L2,12z" fill="white"/>
+            </svg>
+
+            <img class="videoImage lazy" data-original="<%- videoImageUrl %>"  src="" />
+
+            <div class="videoTimeOverlay imageOverlayWrapper">
+                <span class="videoTime videoImageOverlay"><%- video.get('prettyDuration') %></span>
+            </div>
+        
+        </script>
+        
+        <div id="contextMenu">
+            
+        </div>
+        
+        <script type="text/template" id="contextMenuTemplate">
+
+            <% groups.each(function(group){ %>
+                <ul id="<%= group.cid %>">
+                    <% group.get('items').each(function(item){ %>
+                       <li>
+                           <a id="<%= item.cid %>" title="<%= item.get('title') %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
+                       </li>
+                    <% }); %>
+                </ul>
+            <% }); %>
+
+        </script>
+        
+        <script type="text/template" id="contentHeaderTemplate">
+            
+            <span class="headerTitle">
+                <input class="headerInput" type="text" value="<%- title %>" />
+            </span>
+            
+            <div class="addButton">
+
+                <svg id="addButtonSvg">
+                    <rect x="4.625" y="0" width="2.75" height="12"/><rect x="0" y="4.625" width="12" height="2.75"/>
+                </svg>
+
+                <span class="addText"></span>
+                <input class="addInput" type="text" maxlength="255" />
+                
+                <div class="addCancelIcon">
+                    <svg id="addCancelIconSvg">
+                        <path d="M0,2 L2,0 L12,10 L10,12z"/>
+                        <path d="M12,2 L10,0 L0,10 L2,12z"/>
+                    </svg>
+                </div>
+
+            </div>
+
+        </script>
+        
+        <script type="text/template" id="videoDisplayTemplate">
+  
+        </script>
+
+        <script type="text/template" id="reloadPromptTemplate">
+
+            <%- promptText %>
+
+            <button type="button" class="reloadButton"><%- buttonText %></button>
+
+        </script>
+    </body>
+</html>

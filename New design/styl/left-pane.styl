@@ -1,0 +1,93 @@
+/* 
+	LAYOUT
+ */
+
+.left-pane
+	box absolute 0 0 right-width 0 auto auto
+	z-index 1
+	background #fff
+	
+.left-top-bar
+	box absolute margin auto margin 0 auto bar-height
+
+.playlist-name
+	box absolute (button-width+margin) 0 (addbutton-width + margin*2) 0 auto auto
+	line-height bar-height
+
+#button-add-videos
+	box absolute auto auto margin (bar-height/2 - 10px) auto auto
+	
+.left-top-divider
+	box absolute margin auto margin bar-height auto 1px
+	background light-grey
+	
+.left-bottom-menubar
+	box absolute margin 0 margin auto auto bottom-bar-height
+	line-height bottom-bar-height
+	border-top 1px solid darken(light-grey, 5%)
+	button
+		line-height bottom-bar-height
+		padding 0 0.5em
+		i
+			font-size 1.2em
+	.playlist-details
+		box absolute 0 0 auto 0 auto auto      
+		line-height bottom-bar-height
+	.playlist-actions
+		box absolute auto 0 0 0 auto auto    
+		line-height bottom-bar-height
+		
+.left-list
+	box absolute margin (bottom-bar-height + margin) margin (bar-height + margin) auto auto
+	overflow hidden	
+	&:hover
+		overflow-y scroll 
+
+.item
+	width 100%
+	height thumb-height
+	position relative
+	margin 0 0 margin
+	i
+		margin-right 0.5em
+	img
+		box absolute 0 auto auto 0 thumb-width thumb-height 
+	&-title
+		box absolute (thumb-width+margin) auto margin 0 auto auto
+	&-details
+		box absolute (thumb-width+margin) 0 margin auto auto auto
+
+.search-bar
+	box absolute (button-width+margin) 0 0 0 auto auto
+	.dummy
+		box absolute 0 margin 140px (margin*3) auto  auto
+		background #ccc
+		z-index 0		
+		transition background-color 0.3s
+		&.active
+			background #666
+	input
+		-webkit-appearance none
+		box absolute 1px (margin+1) 141px margin auto  auto
+		padding 0 0.2em
+		z-index 1
+		border 0
+		font bold 14px/1 sans-serif
+	button#source-select
+		box absolute auto (margin+1) 0 margin 140px  auto
+		font-weight bold
+		text-align left
+		text-indent 0.3em
+		.label
+			margin 0 0.7em 0 0.5em
+#search
+	.big-text
+		display block
+		margin 2em 0
+		text-align center
+		color dark-grey
+		font-size 1.2em
+		i
+			font-size 5em
+			display block
+			

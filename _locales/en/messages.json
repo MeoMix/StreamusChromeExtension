@@ -1,0 +1,198 @@
+﻿{
+    "extensionName": {
+		"message": "Streamus™ (Beta!)"
+	},
+	"extensionDescription" : {
+		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy."
+	},
+	"extensionTitle": {
+		"message": "Streamus: Simple, streaming music."
+	},
+	"nextVideoCommandDescription": {
+		"message": "Tell Streamus to go to the next video in the stream."
+	},
+	"previousVideoCommandDescription": {
+		"message": "Tell Streamus to go to the previous video in the stream."
+	},
+	"toggleVideoCommandDescription": {
+		"message": "Tell Streamus to toggle (play/pause) the current video."
+	},
+	"addToPlaylist": {
+		"message": "Add to Playlist"
+	},
+	"copyUrl": {
+		"message": "Copy URL"
+	},
+	"copyTitleAndUrl": {
+		"message": "Copy Title - URL"
+	},
+	"deleteVideo": {
+		"message": "Delete Video"
+	},
+	"delete": {
+		"message": "Delete"
+	},
+	"lastPlaylistNoDeleteWarning": {
+		"message": "This is your last Playlist, so you can't delete it."
+	},
+	"addVideoToStream": {
+		"message": "Add Video to Stream"
+	},
+	"addPlaylistToStream": {
+		"message": "Add Playlist to Stream"
+	},
+	"addPlaylistNoAddStreamWarning": {
+		"message": "You need to add items to your Playlist first."
+	},
+	"videoCopyrightBanned": {
+		"message": "Unable to use video because it was banned on copyright grounds."
+	},
+	"banUntilStreamClear": {
+		"message": "Ban until Stream Clear"
+	},
+	"cantBanNeedMoreVideos": {
+		"message": "Your Stream is low on unbanned videos. Try adding more videos before banning again."
+	},
+	"clearStream": {
+		"message": "Clear Stream"
+	},
+	"saveStreamAsPlaylist": {
+		"message": "Save Stream as Playlist"
+	},
+	"addToStreamus": {
+		"message": "Add to Streamus"
+	},
+	"addVideoToStreamus": {
+		"message": "Add Video to Streamus"
+	},
+	"selectPlaylist": {
+		"message": "Select playlist"
+	},
+	"videoAddSuccess": {
+		"message": "Video successfully added to Streamus."
+	},
+	"errorEncountered": {
+		"message": "An error was encountered."
+	},
+	"addVideo": {
+		"message": "Add video"
+	},
+	"working": {
+		"message": "Working..."
+	},
+	"newPlaylist": {
+		"message": "New Playlist"
+	},
+	"emptyStreamItem": {
+		"message": "Empty Stream Item"
+	},
+	"welcomeToStreamus": {
+		"message": "Welcome to Streamus"
+	},
+	"installed": {
+		"message": "Installed"
+	},
+	"noVideosInStream": {
+		"message": "No Videos in Stream. Try clicking on a Playlist Item."
+	},
+	"emptyFolder": {
+		"message": "This Folder is empty. Try adding some videos by clicking above."
+	},
+	"emptyPlaylist": {
+		"message": "This Playlist is empty. Try adding some videos by clicking above."
+	},
+	"repeatDisabled": {
+		"message": "Repeat is disabled. Click to enable Repeat Video."
+	},
+	"repeatVideoEnabled": {
+		"message": "Repeat Video is enabled. Click to enable Repeat Playlist."
+	},
+	"repeatPlaylistEnabled": {
+		"message": "Repeat Playlist is enabled. Click to disable."
+	},
+	"radioEnabled": {
+		"message": "Radio is enabled. Click to disable."
+	},
+	"radioDisabled": {
+		"message": "Radio is disabled. Click to enable."
+	},
+	"shuffleEnabled": {
+		"message": "Playlist shuffling is enabled. Click to disable."
+	},
+	"shuffleDisabled": {
+		"message": "Playlist shuffling is disabled. Click to enable."
+	},
+	"playDisabled": {
+		"message": "Play disabled. Try adding a video to your playlist, first!"
+	},
+	"clickToPlay": {
+		"message": "Click to play the current video."
+	},
+	"clickToPause": {
+		"message": "Click to pause the current video."
+	},
+	"skipNextVideo": {
+		"message": "Skip to the next video."
+	},
+	"backPreviousVideo": {
+		"message": "Go back to the previous video."
+	},
+	"clickDragChangeTime": {
+		"message": "Click or drag to change the time."
+	},
+	"elapsedTime": {
+		"message": "Elapsed time"
+	},
+	"totalTime": {
+		"message": "Video duration"
+	},
+	"toggleVolume": {
+		"message": "Toggle volume"
+	},
+	"clickDragChangeVolume": {
+		"message": "Click or drag to change the volume."
+	},
+	"suggestedQuality": {
+		"message": "Suggested Quality:"
+	},
+	"highest": {
+		"message": "Highest"
+	},
+	"auto": {
+		"message": "Auto"
+	},
+	"lowest": {
+		"message": "Lowest"
+	},
+	"playlist": {
+		"message": "Playlist"
+	},
+	"addSuccess": {
+		"message": "added successfully"
+	},
+	"addErrorCheckUrl": {
+		"message": "There was an issue adding your playlist. Check the URL?"
+	},
+	"selectFolder": {
+		"message": "Select Folder"
+	},
+
+
+
+
+	"fullScreen": {
+		"message": "Full Screen"
+	},
+	"exitFullScreen": {
+		"message": "Exit Full Screen"
+	},
+	"loadVideoBeforeFullScreen": {
+		"message": "Load a video before trying to go full screen"
+	},
+	"reloadPromptText": {
+		"message": "Woah! Streamus is taking a long time to load. Reloading may help."
+	},
+    "reloadButtonText": {
+		"message": "Reload Streamus"
+	}
+}
