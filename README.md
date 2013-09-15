@@ -6,7 +6,7 @@ A Google Chrome extension which allows users to add YouTube videos to playlists,
 Overview
 ========
 
-Streamus consists of a front-end client, the Google Chrome extension, a back-end server ("Streamus Server"), server test cases ("Streamus Server Tests"), and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, StreamusServer and StreamusWebsite, to gain a full understanding of the product.
+Streamus consists of a front-end client, the Google Chrome extension, a back-end server and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, StreamusServer and StreamusWebsite, to gain a full understanding of the product.
 
 Client
 ------
@@ -44,6 +44,13 @@ Supported Functionality
 * Customizable keyboard shortcuts to control play, pause, skip, previous
 * Sharing of playlists via URL
 * Enhancement of YouTube video pages with injected Streamus HTML
+
+Deployment
+========
+
+Streamus Deploy.ps1 is used to prepare the extension for deployment to the Chrome Web Store. The first line of the powershell script should be updated with the current version of the extension. Running the powershell script will create a .zip file containing all of the relevant files. Additionally, debugging information is stripped out by the script. Manual deployment is not reccomended as there are quite a few pieces of debugging information which need to be removed.
+
+Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
  
 Usage Demo
 ========
@@ -60,4 +67,3 @@ Authors
 
 * MeoMix - Original developer, main contributor.
 * Misostc - Phenomenal user interfactor designer.
-* MiracleBlue - Brought on as a second developer to help with work load.
