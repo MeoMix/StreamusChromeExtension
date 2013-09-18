@@ -106,6 +106,9 @@ define([
             this.on('change:loadedVideoId', function () {
                 console.log("clearing seekTo interval");
                 clearInterval(seekToInterval);
+                
+                console.log("Change loadedVideoId detected, setting time to 0");
+                youTubeVideo.currentTime = 0;
             });
             
             var youTubeVideo = $('#YouTubeVideo');
@@ -180,11 +183,6 @@ define([
                     }, 20000);
                 }
 
-            });
-
-            this.on('change:loadedVideoId', function () {
-                console.log("Change loadedVideoId detected, setting time to 0");
-                youTubeVideo.currentTime = 0;
             });
             
             this.on('change:videoStreamSrc', function (model, videoStreamSrc) {

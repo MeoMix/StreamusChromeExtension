@@ -39,10 +39,19 @@ require([
         //  Bypass YouTube's embedded player content restrictions by looking like YouTube
         //  Any referer will do, maybe change to Streamus.com in the future? Or maybe leave as YouTube
         //  to stay under the radar. Not sure which is less suspicious.
-        info.requestHeaders.push({
-            name: 'Referer',
-            value: refererUrl
+        
+        var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
+            return requestHeader.name === 'Referer';
         });
+
+        if (refererRequestHeader === undefined) {
+            info.requestHeaders.push({
+                name: 'Referer',
+                value: refererUrl
+            });
+        } else {
+            refererRequestHeader.value = refererUrl;
+        }
 
         //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if the video has an ad.
         var userAgentRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
@@ -50,7 +59,7 @@ require([
         });
 
         var iPhoneUserAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5';
-        if (userAgentRequestHeader === null) {
+        if (userAgentRequestHeader === undefined) {
             info.requestHeaders.push({
                 name: 'User-Agent',
                 value: iPhoneUserAgent
