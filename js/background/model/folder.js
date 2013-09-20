@@ -59,6 +59,11 @@ define([
                 localStorage.removeItem(self.get('id') + '_activePlaylistId');
             });
 
+
+            this.listenTo(playlists, 'sync', function() {
+                this.trigger('sync');
+            });
+
             this.listenTo(playlists, 'change:active', function (playlist, isActive) {
                 //  Keep local storage up-to-date with the active playlist.
                 if (isActive) {
@@ -199,6 +204,7 @@ define([
                     currentPlaylists.push(playlistCopy);
 
                     callback(playlistCopy);
+                    self.trigger('sync');
                 },
                 error: function (error) {
                     console.error("Error adding playlist by share data", error);

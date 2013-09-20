@@ -8,6 +8,7 @@
         model: PlaylistItem,
         
         save: function (attributes, options) {
+            var self = this;
             
             //  TODO: This doesn't support saving old items yet -- only a bunch of brand new ones.
             if (this.filter(function(item) {
@@ -37,6 +38,13 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     data: JSON.stringify(newItems),
+                    success: function() {
+                        self.trigger('sync');
+                        
+                        if (options && options.success) {
+                            options.success();
+                        }
+                    },
                     error: options ? options.error : null
                 });
                 
@@ -81,6 +89,10 @@
                     this.trigger('empty');
                 }
 
+            });
+            
+            this.on('sync', function () {
+                console.log("I SYNCED!");
             });
 
 

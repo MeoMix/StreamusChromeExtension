@@ -8,6 +8,14 @@
         
         getActiveFolder: function() {
             return this.findWhere({ active: true });
+        },
+        
+        initialize: function() {
+
+            this.on('sync', function() {
+                console.log("I synced");
+            });
+
         }
     });
 

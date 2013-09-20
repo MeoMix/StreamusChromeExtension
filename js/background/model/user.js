@@ -27,6 +27,26 @@ define([
         initialize: function () {
             
             var self = this;
+            
+            //  changes: Object mapping each key that changed to its corresponding StorageChange for that item.
+            //  areaName: The name of the storage area (sync or local) the changes are for.
+            chrome.storage.onChanged.addListener(function (changes, areaName) {
+
+                if (areaName === 'sync') {
+                    var dirtyChange = changes['dirty'];
+                    console.log('Dirty changed:', dirtyChange.newValue);
+                    self.set('dirty', dirtyChange.newValue, { silent: true });
+                }
+
+            });
+            
+            //  TODO: Consider rate limiting this if >1000 saves occur in an hour?
+            this.on('change:dirty', function () {
+                console.log("setting dirty");
+                chrome.storage.sync.set({
+                    'dirty': this.get('dirty')
+                });
+            });
 
             //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
             chrome.storage.sync.get(syncUserIdKey, function (data) {
@@ -52,6 +72,28 @@ define([
                     fetchUser.call(self, false);
                 }
             });
+   
+            this.on('sync', function () {
+                this.set('dirty', true);
+            });
+
+            //  newState is an enum of or "active"or "idle"or "locked"
+            chrome.idle.onStateChanged.addListener(function(newState) {
+
+                console.log("newState:", newState, self.get('dirty'));
+
+                if (newState == active && self.get('dirty')) {
+                    console.log("Reload user because state is dirty");
+                    self.fetch();
+                }
+
+            });
+
+
+            //setTimeout(function() {
+            //    console.log("Reload user because state is dirty");
+            //    self.fetch();
+            //}, 10000);
 
         }
     });
@@ -83,6 +125,10 @@ define([
             folders = new Folders(folders);
             //  Silent because folders is just being properly set.
             this.set('folders', folders, { silent: true });
+            
+            this.listenTo(folders, 'sync', function () {
+                this.trigger('sync');
+            });
         }
 
         //  Try to load active folder from localstorage
@@ -118,7 +164,6 @@ define([
 
         //  Announce that user has loaded so managers can use it to fetch data.
         this.set('loaded', true);
-        this.set('dirty', false);
         Settings.set('userId', this.get('id'));
     }
     

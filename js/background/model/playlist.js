@@ -74,7 +74,7 @@ define([
 
             //  Debounce because I want automatic typing but no reason to spam server with saves.
             this.on('change:title', _.debounce(function (model, title) {
-
+                console.log("Playlist title has changed");
                 $.ajax({
                     url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
                     type: 'POST',
@@ -82,6 +82,9 @@ define([
                     data: {
                         playlistId: model.get('id'),
                         title: title
+                    },
+                    success: function () {
+                        self.trigger('sync');
                     },
                     error: function (error) {
                         console.error("Error saving title", error);
@@ -99,6 +102,9 @@ define([
                         playlistId: model.get('id'),
                         firstItemId: firstItemId
                     },
+                    success: function() {
+                        self.trigger('sync');
+                    },
                     error: function (error) {
                         console.error("Error saving firstItemId", error, error.message);
                     }
@@ -112,6 +118,11 @@ define([
             this.on('change:displayInfo', function() {
                 console.log("Display info has changed:", this.get('displayInfo'));
             });
+
+            this.listenTo(this.get('items'), 'sync', function() {
+                this.trigger('sync');
+            });
+
 
             this.listenTo(this.get('items'), 'remove', function (removedPlaylistItem) {
                 var playlistItems = self.get('items');
@@ -309,8 +320,8 @@ define([
         },
             
         getShareCode: function(callback) {
-
             var self = this;
+            
             $.ajax({
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
                 type: 'GET',
@@ -321,8 +332,8 @@ define([
                 },
                 success: function (shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
-
                     callback(shareCode);
+                    self.trigger('sync');
                 },
                 error: function (error) {
                     console.error("Error retrieving share code", error, error.message);
