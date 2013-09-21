@@ -28,6 +28,10 @@ define([
 
         initialize: function () {
             
+            chrome.storage.sync.set({
+                'dirty': false
+            });
+            
             var self = this;
             
             //  changes: Object mapping each key that changed to its corresponding StorageChange for that item.
@@ -45,7 +49,7 @@ define([
             //  TODO: Consider rate limiting this if >1000 saves occur in an hour?
             this.on('change:dirty', function (model, dirty) {
                 console.log("setting dirty", dirty);
-                console.trace();
+
                 chrome.storage.sync.set({
                     'dirty': dirty
                 });
@@ -85,7 +89,6 @@ define([
                 }
             });
 
-            chrome.idle.setDetectionInterval(15);
             //  newState is an enum of or "active"or "idle"or "locked"
             chrome.idle.onStateChanged.addListener(function(newState) {
 
