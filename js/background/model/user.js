@@ -43,10 +43,11 @@ define([
             });
             
             //  TODO: Consider rate limiting this if >1000 saves occur in an hour?
-            this.on('change:dirty', function () {
-                console.log("setting dirty");
+            this.on('change:dirty', function (model, dirty) {
+                console.log("setting dirty", dirty);
+                console.trace();
                 chrome.storage.sync.set({
-                    'dirty': this.get('dirty')
+                    'dirty': dirty
                 });
             });
 
@@ -83,34 +84,34 @@ define([
                     fetchUser.call(self, false);
                 }
             });
-   
-            this.on('sync', function () {
-                this.set('dirty', true);
-            });
 
+            chrome.idle.setDetectionInterval(15);
             //  newState is an enum of or "active"or "idle"or "locked"
             chrome.idle.onStateChanged.addListener(function(newState) {
 
                 console.log("newState:", newState, self.get('dirty'));
 
-                if (newState == active && self.get('dirty')) {
+                if (newState == 'active' && self.get('dirty')) {
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
                     fetchUser.call(self, false);
                 }
 
             });
 
-            //setTimeout(function () {
-            //    self.set('id', 'E66CC8B7-613C-4DE7-88B1-A2080074F5D3');
-            //    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-            //    fetchUser.call(self, false);
-            //}, 5000);
+            //  Start watching for changes to user or any collection/model underneath it to set dirty flag.
+            this.on('childSync', function (a, e, o) {
+                console.log("trace", a, e, o);
+                console.trace();
+                this.set('dirty', true);
+            });
 
+            console.log('done with onUserloaded');
         }
     });
     
     function onUserLoaded(model, shouldSetSyncStorage) {
 
+        console.log("inside onUserLoaded");
         var folders = this.get('folders');
 
         //  Need to convert folders array to Backbone.Collection
@@ -120,7 +121,8 @@ define([
             this.set('folders', folders, { silent: true });
             
             this.listenTo(folders, 'sync', function () {
-                this.trigger('sync');
+                console.log("Triggering a sync");
+                this.trigger('childSync');
             });
         }
 
@@ -170,6 +172,7 @@ define([
         this.set('loaded', false);
         this.fetch({
             success: function (model) {
+                console.log("fetched");
                 onUserLoaded.call(self, model, shouldSetSyncStorage);
             },
             error: function (error) {

@@ -8,15 +8,8 @@
                 promptText: chrome.i18n.getMessage("reloadPromptText"),
                 buttonText: chrome.i18n.getMessage("reloadButtonText")
             };
-        },
-
-        initialize: function () {
-
-                
-            console.log("Prompt text in init:", this.get('promptText'));
-
         }
-
+        
     });
 
     return ReloadPrompt;
