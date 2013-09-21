@@ -22,6 +22,29 @@ define([
             };
         },
         
+        parse: function (userDto) {
+
+            //  Convert C# Guid.Empty into BackboneJS null
+            for (var key in userDto) {
+                if (userDto.hasOwnProperty(key) && userDto[key] == '00000000-0000-0000-0000-000000000000') {
+                    userDto[key] = null;
+                }
+            }
+
+            if (userDto.folders.length > 0) {
+                //  Reset will load the server's response into items as a Backbone.Collection
+                this.get('folders').reset(userDto.folders);
+
+            } else {
+                this.set('folders', new Folders());
+            }
+
+            // Remove so parse doesn't set and overwrite instance after parse returns.
+            delete userDto.folders;
+
+            return userDto;
+        },
+
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
@@ -90,10 +113,10 @@ define([
             });
 
 
-            //setTimeout(function() {
-            //    console.log("Reload user because state is dirty");
-            //    self.fetch();
-            //}, 10000);
+            setTimeout(function() {
+                console.log("Reload user because state is dirty");
+                self.fetch();
+            }, 2000);
 
         }
     });
