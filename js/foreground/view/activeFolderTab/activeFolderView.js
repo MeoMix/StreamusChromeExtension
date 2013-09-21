@@ -69,6 +69,7 @@ define([
         },
         
         initialize: function () {
+            
             //  TODO: Sortable.
             this.emptyNotification.text(chrome.i18n.getMessage("emptyFolder"));
 

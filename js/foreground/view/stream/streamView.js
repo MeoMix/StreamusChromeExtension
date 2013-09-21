@@ -188,6 +188,10 @@
             });
 
             return false;
+        },
+
+        changeModel: function (newModel) {
+            this.model = newModel;
         }
 
     });

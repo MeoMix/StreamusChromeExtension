@@ -7,7 +7,7 @@
     max-width: 614px;
 }
 
-body.backgroundUnloaded > * {
+body.loading > * {
     opacity: 0.5;
 }
 
@@ -361,8 +361,8 @@ svg.deleteButtonSvg {
 #PreviousButton.disabled:active { background-image: none; }
 
 #PlayPauseButton:hover,
-#HomeMenuButton:hover,
-#PlaylistsMenuButton:hover { background-color: rgba(255, 255, 255, 0.3); }
+#HomeContentButton:hover,
+#PlaylistsContentButton:hover { background-color: rgba(255, 255, 255, 0.3); }
 
 #NextButton:hover,
 #PreviousButton:hover { background-color: #F3F3F3 !important; }
@@ -860,7 +860,7 @@ button.close {
 }
  
 /* Loading animation container */
-.loading {
+.loadingSpinner {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -870,12 +870,12 @@ button.close {
     -webkit-box-sizing: content-box !important;
 }
 
-body.backgroundUnloaded .loading {
+body.loading .loadingSpinner {
     opacity: 1;
 }
  
 /* Spinning circle (inner circle) */
-.loading .maskedCircle {
+.loadingSpinner .maskedCircle {
     width: 20px;
     height: 20px;
     border-radius: 12px;
@@ -884,7 +884,7 @@ body.backgroundUnloaded .loading {
 }
  
 /* Spinning circle mask */
-.loading .mask {
+.loadingSpinner .mask {
     width: 12px;
     height: 12px;
     overflow: hidden;
@@ -892,7 +892,7 @@ body.backgroundUnloaded .loading {
 }
  
 /* Spinner */
-.loading .spinner {
+.loadingSpinner .spinner {
     position: absolute;
     left: 1px;
     top: 1px;

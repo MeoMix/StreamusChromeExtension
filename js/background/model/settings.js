@@ -13,7 +13,7 @@ define([
             return {
                 localDebug: false,
                 serverURL: '',
-                activeContentButtonId: getItem('activeContentButtonId') || 'HomeMenuButton',
+                activeContentButtonId: getItem('activeContentButtonId') || 'HomeContentButton',
                 activeFolderId: getItem('activeFolderId') || null,
                 radioEnabled: getItem('radioEnabled') || false,
                 repeatButtonState: getItem('repeatButtonState') || RepeatButtonState.DISABLED,

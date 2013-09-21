@@ -6,7 +6,8 @@
     var Folders = Backbone.Collection.extend({
         model: Folder,
         
-        getActiveFolder: function() {
+        getActiveFolder: function () {
+            console.log("This:", this);
             return this.findWhere({ active: true });
         },
         

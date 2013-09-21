@@ -14,7 +14,7 @@ define([
     var userModel = Backbone.Model.extend({
         defaults: function() {
             return {
-                id: '',
+                id: null,
                 name: '',
                 dirty: false,
                 loaded: false,
@@ -22,28 +22,7 @@ define([
             };
         },
         
-        parse: function (userDto) {
-
-            //  Convert C# Guid.Empty into BackboneJS null
-            for (var key in userDto) {
-                if (userDto.hasOwnProperty(key) && userDto[key] == '00000000-0000-0000-0000-000000000000') {
-                    userDto[key] = null;
-                }
-            }
-
-            if (userDto.folders.length > 0) {
-                //  Reset will load the server's response into items as a Backbone.Collection
-                this.get('folders').reset(userDto.folders);
-
-            } else {
-                this.set('folders', new Folders());
-            }
-
-            // Remove so parse doesn't set and overwrite instance after parse returns.
-            delete userDto.folders;
-
-            return userDto;
-        },
+        //  TODO: I feel like some of the work should've been done in parse and not onUserLoaded...
 
         urlRoot: Settings.get('serverURL') + 'User/',
 
@@ -84,7 +63,16 @@ define([
                         self.set('id', foundUserId);
                         fetchUser.call(self, true);
                     } else {
-                        createNewUser.call(self);
+                        
+                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+                        self.save({}, {
+                            success: function (model) {
+                                onUserLoaded.call(self, model, true);
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
                     }
 
                 } else {
@@ -106,38 +94,20 @@ define([
                 console.log("newState:", newState, self.get('dirty'));
 
                 if (newState == active && self.get('dirty')) {
-                    console.log("Reload user because state is dirty");
-                    self.fetch();
+                    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
+                    fetchUser.call(self, false);
                 }
 
             });
 
-
-            setTimeout(function() {
-                console.log("Reload user because state is dirty");
-                self.fetch();
-            }, 2000);
+            //setTimeout(function () {
+            //    self.set('id', 'E66CC8B7-613C-4DE7-88B1-A2080074F5D3');
+            //    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
+            //    fetchUser.call(self, false);
+            //}, 5000);
 
         }
     });
-    
-    function createNewUser() {
-        this.set('id', null);
-
-        var self = this;
-        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-        this.save({}, {
-
-            //  TODO: I might need to pull properties out of returned server data and manually push into model.
-            //  Currently only care about userId, name can't be updated.
-            success: function (model) {
-                onUserLoaded.call(self, model, true);
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-    }
     
     function onUserLoaded(model, shouldSetSyncStorage) {
 
@@ -203,8 +173,6 @@ define([
                 onUserLoaded.call(self, model, shouldSetSyncStorage);
             },
             error: function (error) {
-                //  Failed to fetch the user. Recover by creating a new user for now. Should probably do some sort of notify.
-                createNewUser.call(self);
                 console.error(error);
             }
         });

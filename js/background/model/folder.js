@@ -16,7 +16,9 @@ define([
                 id: null,
                 title: '',
                 playlists: new Playlists(),
-                firstPlaylistId: null
+                firstPlaylistId: null,
+                //  This is pulled from localStorage and not tracked server-side.
+                active: false
             };
         },
         urlRoot: Settings.get('serverURL') + 'Video/',

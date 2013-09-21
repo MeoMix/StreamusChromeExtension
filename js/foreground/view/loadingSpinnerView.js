@@ -3,7 +3,7 @@
 
     var LoadingSpinnerView = Backbone.View.extend({
 
-        className: 'loading',
+        className: 'loadingSpinner',
 
         template: _.template($('#loadingSpinnerTemplate').html()),
 

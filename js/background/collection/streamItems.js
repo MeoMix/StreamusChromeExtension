@@ -81,6 +81,8 @@ define([
                     this.trigger('empty');
                 }
 
+                console.log("RemovedStreamItem isSelected and length:", removedStreamItem.get('selected'), this.length);
+
                 if (removedStreamItem.get('selected') && this.length > 0) {
                     this.selectNext(options.index);
                 }
