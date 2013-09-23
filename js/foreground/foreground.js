@@ -1,6 +1,7 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
+    'settings',
     'activeFolderTabView',
     'activePlaylistTabView',
     'streamView',
@@ -15,13 +16,9 @@ define([
     'repeatButtonView',
 
     'volumeControlView',
-    
-    
-    
     'progressBarView',
-
     'headerTitleView'
-], function (ActiveFolderTabView, ActivePlaylistTabView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
+], function (Settings, ActiveFolderTabView, ActivePlaylistTabView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -97,6 +94,7 @@ define([
             $('.contentButton').removeClass('active');
             contentButton.addClass('active');
 
+            //  TODO: I think I can just keep track of this on the background and not in localStorage. Makes more sense to do that anyway b/c when resetting program you expect to be on home.
             Settings.set('activeContentButtonId', contentButton[0].id);
             
             $('.content').hide();

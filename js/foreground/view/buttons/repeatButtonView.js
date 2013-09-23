@@ -30,7 +30,7 @@
                     this.$el.attr('title', this.repeatPlaylistEnabledTitle);
                     break;
                 default:
-                    console.error("Unhandled repeatButtonState:", state);
+                    console.error("Unhandled repeatButtonState:", this.model.get('state'));
                     break;
             }
 
