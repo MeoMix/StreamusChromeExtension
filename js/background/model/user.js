@@ -40,8 +40,11 @@ define([
 
                 if (areaName === 'sync') {
                     var dirtyChange = changes['dirty'];
-                    console.log('Dirty changed:', dirtyChange.newValue);
-                    self.set('dirty', dirtyChange.newValue, { silent: true });
+                    
+                    if (dirtyChange != null) {
+                        self.set('dirty', dirtyChange.newValue, { silent: true });
+                    }
+                    
                 }
 
             });

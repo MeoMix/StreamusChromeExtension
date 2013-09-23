@@ -21,6 +21,7 @@ var require = {
         
         //  Background:
         'background': 'background/background',
+        'commands': 'background/commands',
         'main': 'background/main',
         
         //  Collection:
@@ -44,5 +45,14 @@ var require = {
         'user': 'background/model/user',
         'video': 'background/model/video',
         'youTubePlayerAPI': 'background/model/youTubePlayerAPI',
+        
+        //  Model -> Buttons:
+        'nextButton': 'background/model/buttons/nextButton',
+        'playPauseButton': 'background/model/buttons/playPauseButton',
+        'previousButton': 'background/model/buttons/previousButton',
+        'radioButton': 'background/model/buttons/radioButton',
+        'repeatButton': 'background/model/buttons/repeatButton',
+        'shuffleButton': 'background/model/buttons/shuffleButton'
+        
     }
 };

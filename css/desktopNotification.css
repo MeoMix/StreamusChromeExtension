@@ -31,16 +31,16 @@ body {
     margin-bottom: 5px;
 }
 
-#PreviousButton {
+.previousButton {
     background-color: black;
     margin-left: 50px;
 }
 
-#PlayPauseButton {
+.playPauseButton {
     background-color: green;   
 }
 
-#NextButton {
+.nextButton {
     background-color: blue;
 }
 

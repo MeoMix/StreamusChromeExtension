@@ -48,8 +48,12 @@
     <Content Include="css\youTube.css" />
     <Content Include="fullscreen.htm" />
     <Content Include="js\background\collection\streamItems.js" />
+    <Content Include="js\background\commands.js" />
+    <Content Include="js\background\model\buttons\playPauseButton.js" />
+    <Content Include="js\background\model\buttons\previousButton.js" />
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
+    <Content Include="js\background\model\buttons\nextButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
     <Content Include="js\foreground\view\activeFolderTab\activeFolderTabView.js" />
     <Content Include="js\foreground\view\activePlaylistTab\activePlaylistTabView.js" />

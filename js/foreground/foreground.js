@@ -1,25 +1,27 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
-    'settings',
     'activeFolderTabView',
     'activePlaylistTabView',
     'streamView',
     'videoDisplayView',
     'loadingSpinnerView',
     'reloadPromptView',
-
-    'volumeControlView',
-    'playPauseButtonView',
     'nextButtonView',
     'previousButtonView',
-    'shuffleButtonView',
+    'playPauseButtonView',
     'radioButtonView',
+    'shuffleButtonView',
     'repeatButtonView',
+
+    'volumeControlView',
+    
+    
+    
     'progressBarView',
 
     'headerTitleView'
-], function (Settings, ActiveFolderTabView, ActivePlaylistTabView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView) {
+], function (ActiveFolderTabView, ActivePlaylistTabView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -32,6 +34,13 @@ define([
         videoDisplayView: null,
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
+        nextButtonView: null,
+        previousButtonView: null,
+        playPauseButtonView: null,
+        radioButtonView: null,
+        shuffleButtonView: null,
+        repeatButtonView: null,
+        
         showReloadPromptTimeout: null,
         
         //  These are pulled from the background page. They'll be null until background is fully initialized.
@@ -221,6 +230,35 @@ define([
             this.setContentButtonActive(activeContentButton);
             this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
 
+            this.radioButtonView = new RadioButtonView({
+               model: chrome.extension.getBackgroundPage().RadioButton 
+            });
+            this.$el.find('#menu').append(this.radioButtonView.render().el);
+            
+            this.repeatButtonView = new RepeatButtonView({
+                model: chrome.extension.getBackgroundPage().RepeatButton
+            });
+            this.$el.find('#menu').append(this.repeatButtonView.render().el);
+            
+            this.shuffleButtonView = new ShuffleButtonView({
+                model: chrome.extension.getBackgroundPage().ShuffleButton
+            });
+            this.$el.find('#menu').append(this.shuffleButtonView.render().el);
+            
+            this.playPauseButtonView = new PlayPauseButtonView({
+                model: chrome.extension.getBackgroundPage().PlayPauseButton
+            });
+            this.$el.find('#Header').before(this.playPauseButtonView.render().el);
+
+            this.nextButtonView = new NextButtonView({
+                model: chrome.extension.getBackgroundPage().NextButton
+            });
+            this.$el.find('#Header').after(this.nextButtonView.render().el);
+
+            this.previousButtonView = new PreviousButtonView({
+                model: chrome.extension.getBackgroundPage().PreviousButton
+            });
+            this.$el.find('#Header').after(this.previousButtonView.render().el);
         },
 
     });

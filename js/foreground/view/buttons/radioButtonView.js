@@ -1,10 +1,11 @@
-﻿define([
-    'settings'
-], function (Settings) {
+﻿define(function () {
     'use strict';
 
+    //  TODO: Consider renaming from Radio to Discovery -- sounds nicer..
     var RadioButtonView = Backbone.View.extend({
-        el: $('#RadioButton'),
+        className: 'radioButton button',
+        
+        template: _.template($('#radioButtonTemplate').html()),
         
         events: {
             'click': 'toggleRadio'
@@ -13,33 +14,30 @@
         enabledTitle: chrome.i18n.getMessage("radioEnabled"),
         disabledTitle: chrome.i18n.getMessage("radioDisabled"),
         
-        initialize: function () {
-            //  Remember the initial state across pop-up sessions by writing to/from localStorage.
-
-            if (Settings.get('radioEnabled')) {
-                this.$el
-                    .addClass('pressed')
-                    .attr('title', this.enabledTitle);
-            }
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
             
-        },
-        
-        toggleRadio: function () {
-
-            this.$el.toggleClass('pressed');
+            //  TODO: Consider using the same class (pressed or disabled) for all buttons.
+            this.$el.toggleClass('pressed', this.model.get('enabled'));
             
-            var isPressed = this.$el.hasClass('pressed');
-            
-            if (isPressed) {
+            if (this.model.get('enabled')) {
                 this.$el.attr('title', this.enabledTitle);
             } else {
                 this.$el.attr('title', this.disabledTitle);
             }
-
-            Settings.set('radioEnabled', isPressed);
+            
+            return this;
+        },
+        
+        initialize: function () {
+            this.listenTo(this.model, 'change:enabled', this.render);
+        },
+        
+        toggleRadio: function () {
+            this.model.toggleRadio();
         }
 
     });
 
-    return new RadioButtonView;
+    return RadioButtonView;
 });

@@ -5,10 +5,17 @@ define([
     'youTubeDataAPI',
     'playerState',
     'streamItems',
+    'nextButton',
+    'previousButton',
+    'playPauseButton',
+    'radioButton',
+    'shuffleButton',
+    'repeatButton',
+    'commands',
     'error',
     'iconManager',
     'omnibox'
-], function(Player, User, YouTubeDataAPI, PlayerState, StreamItems, Error, IconManager, Omnibox) {
+], function(Player, User, YouTubeDataAPI, PlayerState, StreamItems, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, RepeatButton, Commands, Error, IconManager, Omnibox) {
     'use strict';
 
     //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?
@@ -52,31 +59,7 @@ define([
         }
     });
 
-    //  Receive keyboard shortcuts from users.
-    chrome.commands.onCommand.addListener(function(command) {
 
-        //  TODO: This logic isn't the most robust... the next/previous buttons have more complicated rules which should be leveraged here.
-        if (command === 'nextVideo' || command === 'previousVideo' && StreamItems.length > 0) {
-
-            if (command == 'nextVideo') {
-                StreamItems.selectNext();
-            } else {
-                StreamItems.selectPrevious();
-            }
-
-        } else if (command === 'toggleVideo') {
-
-            if (Player.isPlaying()) {
-                Player.pause();
-            } else {
-                Player.play();
-            }
-
-        } else {
-            console.error("Unhandled command:", command);
-        }
-
-    });
 
     //  Listen for messages from YouTube video pages.
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {

@@ -1,65 +1,38 @@
-//  When clicked -- skips to the last video. Skips from the begining of the list to the end.
-define([
-    'streamItems',
-    'settings',
-    'repeatButtonState',
-    'player'
-], function (StreamItems, Settings, RepeatButtonState, Player) {
+//  When clicked -- skips to the last video. Skips from the begining of the list to the end. Skip to start of song if >5 seconds have passed.
+define(function () {
     'use strict';
 
     var PreviousButtonView = Backbone.View.extend({
-        el: $('#PreviousButton'),
+
+        className: 'disabled halfGradient previousButton',
+
+        template: _.template($('#previousButtonTemplate').html()),
         
         events: {
-            'click': 'doTimeBasedPrevious'
+            'click': 'tryDoTimeBasedPrevious'
+        },
+        
+        //  TODO: Consider disabled titles
+        attributes: {
+            title: chrome.i18n.getMessage("backPreviousVideo")
         },
         
         render: function () {
- 
-            if (StreamItems.length === 0) {
-                this.disable();
-            } else {
-                this.enable();
-            }
-
+            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.toggleClass('disabled', !this.model.get('enabled'));
+            
             return this;
         },
         
         initialize: function () {
-            this.$el.attr('title', chrome.i18n.getMessage("backPreviousVideo"));
-
-            this.listenTo(StreamItems, 'add addMultiple empty remove change:selected', this.render);
-            this.listenTo(Settings, 'change:radioEnabled change:shuffleEnabled change:repeatButtonState', this.render);
-
-            this.render();
+            this.listenTo(this.model, 'change:enabled', this.render);
         },
         
-        //  Prevent spamming by only allowing a previous click once every 100ms.
-        doTimeBasedPrevious: _.debounce(function () {
-
-            if (!this.$el.hasClass('disabled')) {
-                
-                // Restart video when clicking 'previous' if too much time has passed or if no other video to go to
-                if (StreamItems.length === 1 || Player.get('currentTime') > 5) {
-                    Player.seekTo(0);
-                } else {
-                    
-                    StreamItems.selectPrevious();
-                }
-            }
-
-        }, 100, true),
-        
-        //  Paint the button's path black and bind its click event.
-        enable: function() {
-            this.$el.prop('src', 'images/skip.png').removeClass('disabled');
-        },
-        
-        //  Paint the button's path gray and unbind its click event.
-        disable: function() {
-            this.$el.prop('src', 'images/skip-disabled.png').addClass('disabled');
+        tryDoTimeBasedPrevious: function () {
+            this.model.tryDoTimeBasedPrevious();
         }
+        
     });
 
-    return new PreviousButtonView;
+    return PreviousButtonView;
 });

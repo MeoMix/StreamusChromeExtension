@@ -1,44 +1,42 @@
-define([
-    'settings'
-], function (Settings) {
+define(function () {
     'use strict';
 
     var ShuffleButtonView = Backbone.View.extend({
-        el: $('#ShuffleButton'),
+        className: 'shuffleButton button',
+
+        template: _.template($('#shuffleButtonTemplate').html()),
         
         events: {
-            'click': 'toggleShuffleVideo'
+            'click': 'toggleShuffle'
         },
         
         enabledTitle: chrome.i18n.getMessage("shuffleEnabled"),
         disabledTitle: chrome.i18n.getMessage("shuffleDisabled"),
-        
-        initialize: function() {
-            //  Remember the initial state across pop-up sessions by writing to/from localStorage.
-            if (Settings.get('shuffleEnabled')) {
-                this.$el
-                    .addClass('pressed')
-                    .attr('title', this.enabledTitle);
-            }
-            
-        },
-        
-        toggleShuffleVideo: function () {
 
-            this.$el.toggleClass('pressed');
-            
-            var isPressed = this.$el.hasClass('pressed');
-            
-            if (isPressed) {
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+
+            //  TODO: Consider using the same class (pressed or disabled) for all buttons.
+            this.$el.toggleClass('pressed', this.model.get('enabled'));
+
+            if (this.model.get('enabled')) {
                 this.$el.attr('title', this.enabledTitle);
             } else {
                 this.$el.attr('title', this.disabledTitle);
             }
 
-            Settings.set('shuffleEnabled', isPressed);
+            return this;
+        },
+        
+        initialize: function () {
+            this.listenTo(this.model, 'change:enabled', this.render);
+        },
+        
+        toggleShuffle: function () {
+            this.model.toggleShuffle();
         }
         
     });
     
-    return new ShuffleButtonView;
+    return ShuffleButtonView;
 });

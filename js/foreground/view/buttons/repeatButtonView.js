@@ -1,11 +1,12 @@
 ﻿define([
-    'repeatButtonState',
-    'settings'
-], function (RepeatButtonState, Settings) {
+    'repeatButtonState'
+], function (RepeatButtonState) {
     'use strict';
 
     var RepeatButtonView = Backbone.View.extend({
-        el: $('#RepeatButton'),
+        className: 'repeatButton button',
+        
+        template: _.template($('#repeatButtonTemplate').html()),
 
         events: {
             'click': 'toggleRepeat'
@@ -14,74 +15,36 @@
         disabledTitle: chrome.i18n.getMessage("repeatDisabled"),
         repeatVideoEnabledTitle: chrome.i18n.getMessage("repeatVideoEnabled"),
         repeatPlaylistEnabledTitle: chrome.i18n.getMessage("repeatPlaylistEnabled"),
-
-        state: Settings.get('repeatButtonState'),
         
         render: function () {
-            var repeatVideoSvg = $('#RepeatVideoSvg');
-            var repeatPlaylistSvg = $('#RepeatPlaylistSvg');
+            this.$el.html(this.template(this.model.toJSON()));
 
-            switch(this.state) {
+            switch(this.model.get('state')) {
                 case RepeatButtonState.DISABLED:
-                    //  Can't use .removeClass() on svg elements.
-                    repeatVideoSvg
-                        .show()
-                        .attr('class', '');
-                    
-                    repeatPlaylistSvg.hide();
                     this.$el.attr('title', this.disabledTitle);
-
                     break;
                 case RepeatButtonState.REPEAT_VIDEO_ENABLED:
-                    //  Can't use .addClass() on svg elements.
-                    repeatVideoSvg.attr('class', 'pressed');
                     this.$el.attr('title', this.repeatVideoEnabledTitle);
-
                     break;
                 case RepeatButtonState.REPEAT_STREAM_ENABLED:
-
-                    repeatPlaylistSvg.show();
-                    repeatVideoSvg.hide();
                     this.$el.attr('title', this.repeatPlaylistEnabledTitle);
-
                     break;
                 default:
                     console.error("Unhandled repeatButtonState:", state);
                     break;
             }
 
+            return this;
         },
         
         initialize: function () {
-            this.render();
+            this.listenTo(this.model, 'change:state', this.render);
         },
         
-        toggleRepeat: function() {
-
-            var nextState = null;
-
-            switch (this.state) {
-                case RepeatButtonState.DISABLED:
-                    nextState = RepeatButtonState.REPEAT_VIDEO_ENABLED;
-                    break;
-                case RepeatButtonState.REPEAT_VIDEO_ENABLED:
-                    nextState = RepeatButtonState.REPEAT_STREAM_ENABLED;
-                    break;
-                case RepeatButtonState.REPEAT_STREAM_ENABLED:
-                    nextState = RepeatButtonState.DISABLED;
-                    break;
-                default:
-                    console.error("Unhandled repeatButtonState:", this.state);
-                    break;
-            }
-
-            this.state = nextState;
-            Settings.set('repeatButtonState', nextState);
-
-            this.render();
+        toggleRepeat: function () {
+            this.model.toggleRepeat();
         }
-
     });
 
-    return new RepeatButtonView;
+    return RepeatButtonView;
 });

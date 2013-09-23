@@ -301,7 +301,7 @@ svg.deleteButtonSvg {
     cursor: pointer;
 }
 
-#PlayPauseButton {
+.playPauseButton {
     border-right: 1px solid #fff;
     cursor: pointer;
     height: 70px;
@@ -310,9 +310,9 @@ svg.deleteButtonSvg {
     width: 70px;
 }
 
-#PlayPauseButton .path { fill: black; }
+.playPauseButton .path { fill: black; }
 
-#NextButton {
+.nextButton {
     background-color: #efefef !important;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #ccc;
@@ -324,7 +324,7 @@ svg.deleteButtonSvg {
     z-index: 2;
 }
 
-#PreviousButton {
+.previousButton {
     background-color: #efefef !important;
     border-bottom: 1px solid #fff;
     border-left: 1px solid #ccc;
@@ -338,54 +338,54 @@ svg.deleteButtonSvg {
 
 
 
-#PlayPauseButton.disabled:hover {
+.playPauseButton.disabled:hover {
     background-color: transparent;
     cursor: default;
 }
 
-#NextButton.disabled:hover,
-#PreviousButton.disabled:hover {
+.nextButton.disabled:hover,
+.previousButton.disabled:hover {
     background-color: #efefef !important;
     cursor: default;
 }
 
-#PlayPauseButton.disabled .path,
-#PreviousButton.disabled > svg *,
-#NextButton.disabled > svg * { fill: gray; }
+.playPauseButton.disabled .path,
+.previousButton.disabled > svg *,
+.nextButton.disabled > svg * { fill: gray; }
 
-#PreviousButton > svg *,
-#NextButton > svg * { fill: black; }
+.previousButton > svg *,
+.nextButton > svg * { fill: black; }
 
-#PlayPauseButton.disabled:active,
-#NextButton.disabled:active,
-#PreviousButton.disabled:active { background-image: none; }
+.playPauseButton.disabled:active,
+.nextButton.disabled:active,
+.previousButton.disabled:active { background-image: none; }
 
-#PlayPauseButton:hover,
+.playPauseButton:hover,
 #HomeContentButton:hover,
 #PlaylistsContentButton:hover { background-color: rgba(255, 255, 255, 0.3); }
 
-#NextButton:hover,
-#PreviousButton:hover { background-color: #F3F3F3 !important; }
+.nextButton:hover,
+.previousButton:hover { background-color: #F3F3F3 !important; }
 
-#PlayPauseButton:active,
-#NextButton:active,
-#PreviousButton:active { background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .1)), color-stop(0.5, rgba(0, 0, 0, 0))); }
+.playPauseButton:active,
+.nextButton:active,
+.previousButton:active { background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, .1)), color-stop(0.5, rgba(0, 0, 0, 0))); }
 
-#PlayPauseButton svg {
+.playPauseButton svg {
     left: 50%;
     margin: -11px 0 0 -11px;
     position: absolute;
     top: 50%;
 }
 
-#NextButton svg {
+.nextButton svg {
     left: 50%;
     margin: -8px 0 0 -8px;
     position: absolute;
     top: 50%;
 }
 
-#PreviousButton svg {
+.previousButton svg {
     left: 50%;
     margin: -8px 0 0 -8px;
     position: absolute;
@@ -509,29 +509,29 @@ svg.deleteButtonSvg {
 
 #VolumeControl.expanded #VolumeSliderWrapper { top: 30px; }
 
-#ShuffleButton:hover,
-#RadioButton:hover,
-#RepeatButton:hover { cursor: pointer; }
+.button:hover {
+    cursor: pointer;
+}
 
-#ShuffleButton {
+.button {
+    position: absolute;
+}
+
+.shuffleButton {
     bottom: 2px;
     left: 6px;
-    position: absolute;
 }
 
-#RadioButton {
+.radioButton {
     bottom: 1px;
     left: 28px;
-    position: absolute;
 }
 
-#RepeatButton {
+.repeatButton {
     bottom: 3px;
     position: absolute;
     right: 4px;
 }
-
-#RepeatPlaylistSvg { display: none; }
 
 #VolumeSlider {
     -webkit-appearance: none !important;

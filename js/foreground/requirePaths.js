@@ -36,8 +36,10 @@ var require = {
         'dialog': 'foreground/model/dialog',
         'player': 'foreground/model/player',
         'reloadPrompt': 'foreground/model/reloadPrompt',
-        'settings': 'foreground/model/settings',
         'spinnerBuilder': 'foreground/model/spinnerBuilder',
+        
+        //  Model -> Buttons:
+        'nextButton': 'foreground/model/buttons/nextButton',
         
         //  View:
         'contentHeaderView': 'foreground/view/contentHeaderView',
