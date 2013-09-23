@@ -72,6 +72,11 @@ define([
             
             //  TODO: Sortable.
             this.emptyNotification.text(chrome.i18n.getMessage("emptyFolder"));
+            
+            //  Need to do it this way to support i18n
+            this.emptyNotification.css({
+                'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
+            });
 
             this.startListeningToPlaylists(this.model.get('playlists'));
             this.render();

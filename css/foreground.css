@@ -60,8 +60,9 @@ body.loading > * {
 .emptyListNotification {
     font-size: 14px;
     top: 154px;
-    left: 70px;
+    left: 50%;
     display: none;
+    position: relative !important;
 }
 
 #head {
@@ -738,7 +739,7 @@ svg.deleteButtonSvg {
     font-size: 14px;
     position: absolute;
     top: 51px;
-    left: 160px;
+    left: 50%;
 }
 
 #StreamView ul {

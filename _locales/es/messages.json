@@ -1,0 +1,196 @@
+﻿{
+    "extensionName": {
+  	"message": "Streamus™ (Beta!)"
+	},
+	"extensionDescription" : {
+		"message": "Streamus convierte YouTube en el reproductor de música que siempre quisiste. Streamus hace refrescantemente sencillo reproducir música con YouTube."
+	},
+	"extensionTitle": {
+		"message": "Streamus: Simple, reproducir música."
+	},
+	"nextVideoCommandDescription": {
+		"message": "Saltar a la próxima pista de la cola."
+	},
+	"previousVideoCommandDescription": {
+		"message": "Volver a la pista anterior de la cola."
+	},
+	"toggleVideoCommandDescription": {
+		"message": "Alternar (Reproducir o Pausar) la pista actual."
+	},
+	"addToPlaylist": {
+		"message": "Añadir a la Lista"
+	},
+	"copyUrl": {
+		"message": "Copiar URL"
+	},
+	"copyTitleAndUrl": {
+		"message": "Copiar Título - URL"
+	},
+	"deleteVideo": {
+		"message": "Eliminar Pista"
+	},
+	"delete": {
+		"message": "Eliminar"
+	},
+	"lastPlaylistNoDeleteWarning": {
+		"message": "Esta es tu última Lista, no puedes eliminarla."
+	},
+	"addVideoToStream": {
+		"message": "Añadir Pista a la Cola"
+	},
+	"addPlaylistToStream": {
+		"message": "Añadir Lista a la Cola"
+	},
+	"addPlaylistNoAddStreamWarning": {
+		"message": "Debes añadir pistas a la Lista primero."
+	},
+	"videoCopyrightBanned": {
+		"message": "No se puede utilizar este vídeo, ha sido baneado por copyright."
+	},
+	"banUntilStreamClear": {
+		"message": "Banear hasta que la Cola esté vacía"
+	},
+	"cantBanNeedMoreVideos": {
+		"message": "La Cola se está quedando corta de videos sin baneo. Intenta añadir más pistas antes de banear de nuevo."
+	},
+	"clearStream": {
+		"message": "Vaciar Cola"
+	},
+	"saveStreamAsPlaylist": {
+		"message": "Guardar la Cola en una nueva Lista"
+	},
+	"addToStreamus": {
+		"message": "Añadir a Streamus"
+	},
+	"addVideoToStreamus": {
+		"message": "Añadir Pista a Streamus"
+	},
+	"selectPlaylist": {
+		"message": "Seleccionar Lista"
+	},
+	"videoAddSuccess": {
+		"message": "Pista añadida a Streamus."
+	},
+	"errorEncountered": {
+		"message": "Se ha producido un error."
+	},
+	"addVideo": {
+		"message": "Añadir Pista"
+	},
+	"working": {
+		"message": "Trabajando..."
+	},
+	"newPlaylist": {
+		"message": "Nueva Lista"
+	},
+	"emptyStreamItem": {
+		"message": "Eliminar item de la Cola"
+	},
+	"welcomeToStreamus": {
+		"message": "Bienvenido/a a Streamus"
+	},
+	"installed": {
+		"message": "Instalada"
+	},
+	"noVideosInStream": {
+		"message": "No hay Pistas en la Cola. Prueba a pulsar en una Lista de reproducción."
+	},
+	"emptyFolder": {
+		"message": "Esta Carpeta está vacía. Prueba a añadir pistas pulsando arriba."
+	},
+	"emptyPlaylist": {
+		"message": "Esta Lista está vacía. Prueba a añadir pistas buscando arriba."
+	},
+	"repeatDisabled": {
+		"message": "Repetir está desactivado. Pulsar para activar Repetir Pista."
+	},
+	"repeatVideoEnabled": {
+		"message": "Repetir Pista está desactivado. Pulsar para activar Repetir Lista."
+	},
+	"repeatPlaylistEnabled": {
+		"message": "Repetir Lista está activado. Pulsa para desactivar."
+	},
+	"radioEnabled": {
+		"message": "La Radio está activa. Pulsa para desactivar."
+	},
+	"radioDisabled": {
+		"message": "La Radio está desactivada. Pulsa para activar."
+	},
+	"shuffleEnabled": {
+		"message": "La Reproducción aleatoria está activada. Pulsa para desactivar."
+	},
+	"shuffleDisabled": {
+		"message": "La Reproducción aleatoria está desactivada. Pulsa para activar."
+	},
+	"playDisabled": {
+		"message": "Reproducción desactivada. ¡Prueba a añadir alguna pista a tus listas primero!"
+	},
+	"clickToPlay": {
+		"message": "Pulsar para reproducir la pista actual."
+	},
+	"clickToPause": {
+		"message": "Pulsa para pausar la pista actual."
+	},
+	"skipNextVideo": {
+		"message": "Saltar a la próxima pista"
+	},
+	"backPreviousVideo": {
+		"message": "Volver a la pista anterior"
+	},
+	"clickDragChangeTime": {
+		"message": "Pulsa o arrastra para moverte por la pista"
+	},
+	"elapsedTime": {
+		"message": "Tiempo actual"
+	},
+	"totalTime": {
+		"message": "Duración completa"
+	},
+	"toggleVolume": {
+		"message": "Silenciar/Activar volumen"
+	},
+	"clickDragChangeVolume": {
+		"message": "Pulsa o arrastra para modificar el volumen."
+	},
+	"suggestedQuality": {
+		"message": "Calidad deseada:"
+	},
+	"highest": {
+		"message": "La más alta"
+	},
+	"auto": {
+		"message": "Automática"
+	},
+	"lowest": {
+		"message": "La más baja"
+	},
+	"playlist": {
+		"message": "Lista"
+	},
+	"addSuccess": {
+		"message": "añadida con éxito"
+	},
+	"addErrorCheckUrl": {
+		"message": "Ha habido un problema añadiendo tu lista. ¿Has comprobado la URL?"
+	},
+	"selectFolder": {
+		"message": "Selecciona Carpeta"
+	},
+
+
+    "fullScreen": {
+		"message": ""
+	},
+	"exitFullScreen": {
+		"message": ""
+	},
+	"loadVideoBeforeFullScreen": {
+		"message": ""
+	},
+	"reloadPromptText": {
+		"message": ""
+	},
+    "reloadButtonText": {
+		"message": ""
+	}
+}

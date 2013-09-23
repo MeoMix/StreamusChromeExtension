@@ -69,6 +69,11 @@ define([
             
             this.emptyNotification.text(chrome.i18n.getMessage("emptyPlaylist"));
             
+            //  Need to do it this way to support i18n
+            this.emptyNotification.css({
+                'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
+            });
+            
             //  Allows for drag-and-drop of videos
             this.ul.sortable({
                 axis: 'y',

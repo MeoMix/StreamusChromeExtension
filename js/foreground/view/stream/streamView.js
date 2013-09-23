@@ -25,6 +25,11 @@
             //  Setting it here so I can use internationalization... could probably do it in a template more cleanly though.
             this.overlay.text(chrome.i18n.getMessage("noVideosInStream"));
 
+            //  Need to do it this way to support i18n
+            this.overlay.css({
+                'margin-left': -1 * this.overlay.width() / 2
+            });
+
             // Call Sly on frame
             this.sly = new window.Sly(this.$el, {
                 horizontal: 1,
