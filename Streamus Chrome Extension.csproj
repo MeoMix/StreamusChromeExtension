@@ -51,10 +51,14 @@
     <Content Include="js\background\commands.js" />
     <Content Include="js\background\model\buttons\playPauseButton.js" />
     <Content Include="js\background\model\buttons\previousButton.js" />
+    <Content Include="js\background\model\buttons\radioButton.js" />
+    <Content Include="js\background\model\buttons\repeatButton.js" />
+    <Content Include="js\background\model\buttons\shuffleButton.js" />
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
+    <Content Include="js\foreground\model\settings.js" />
     <Content Include="js\foreground\view\activeFolderTab\activeFolderTabView.js" />
     <Content Include="js\foreground\view\activePlaylistTab\activePlaylistTabView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
@@ -144,7 +148,6 @@
     <Content Include="js\foreground\view\contentHeaderView.js" />
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\view\headerTitleView.js" />
-    <Content Include="js\foreground\model\settings.js" />
     <Content Include="js\foreground\main.js" />
     <Content Include="js\foreground\model\player.js" />
     <Content Include="js\foreground\view\buttons\playPauseButtonView.js" />
@@ -185,6 +188,7 @@
     <None Include="js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="manifest.json" />
     <Content Include="_locales\en\messages.json" />
+    <Content Include="_locales\es\messages.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
