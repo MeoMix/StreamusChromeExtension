@@ -17,7 +17,10 @@
         repeatPlaylistEnabledTitle: chrome.i18n.getMessage("repeatPlaylistEnabled"),
         
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template(_.extend(this.model.toJSON(), {
+                //  mixin the enum to be able to use it in templating
+                'RepeatButtonState': RepeatButtonState 
+            })));
 
             switch(this.model.get('state')) {
                 case RepeatButtonState.DISABLED:

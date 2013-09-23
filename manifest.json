@@ -34,6 +34,27 @@
 		"toggleVideo": {
 			"description": "Toggle (play/pause) the current video."
 		},
+		"addVideoToPlaylist": {
+			"description": "Add the current video to the current playlist."
+		},
+		"deleteVideoFromStream": {
+			"description": "Remove the current video from the stream."
+		},
+		"copyVideoUrl": {
+			"description": "Copy the current video's URL."
+		},
+		"copyVideoTitleAndUrl": {
+			"description": "Copy the current video's title and URL."
+		},
+		"toggleRadio":  {
+			"description": "Toggle (off/on) the radio."
+		},
+		"toggleShuffle":  {
+			"description": "Toggle (off/on) shuffling."
+		},
+		"toggleRepeat":  {
+			"description": "Toggle (off/repeatVideo/repeatStream) repeating."
+		},
 		"_execute_browser_action": {
 		}
 	},
