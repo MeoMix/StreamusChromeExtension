@@ -408,8 +408,6 @@ svg.deleteButtonSvg {
     white-space: nowrap;
 }
 
-#PauseIcon { display: none; }
-
 #ProgressBarView {
     -webkit-appearance: none !important;
     -webkit-box-sizing: border-box;

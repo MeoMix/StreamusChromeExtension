@@ -231,15 +231,18 @@
         
         <script type="text/template" id="playPauseButtonTemplate">
             
-            <svg id="PlayIcon" width="22" height="22">
-                <polygon class="path" fill="gray" points="0,0 16.5,11 0,22 "/>
-            </svg>
-            <svg id="PauseIcon" width="22" height="22">
-                <rect class="path" x="3" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
-                <rect class="path" x="13" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
-            </svg>
-            <div id="LoadingSpinner">
-            </div>
+            <% if(playerState === PlayerState.BUFFERING) { %>
+                <div id="LoadingSpinner"></div>
+            <% } else if(playerState === PlayerState.PLAYING) { %>
+                <svg id="PauseIcon" width="22" height="22">
+                    <rect class="path" x="3" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
+                    <rect class="path" x="13" y="0" width="5" height="22" rx="2px" ry="2px" fill="#000" />
+                </svg>
+            <% } else { %>
+                <svg id="PlayIcon" width="22" height="22">
+                    <polygon class="path" fill="gray" points="0,0 16.5,11 0,22 "/>
+                </svg>
+            <% } %>
 
         </script>
         
