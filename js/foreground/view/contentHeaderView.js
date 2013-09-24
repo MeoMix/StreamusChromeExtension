@@ -24,6 +24,8 @@ define(function () {
 
             this.$el.find('.addText').text(this.buttonText);
             this.$el.find('.addInput').attr('placeholder', this.inputPlaceholderText);
+
+            this.$el.find('.headerInput').prop('disabled', this.$el.hasClass('expanded'));
             
             return this;
         },
@@ -45,7 +47,8 @@ define(function () {
             this.render();
         },
         
-        expand: function() {
+        expand: function () {
+
             this.$el.addClass('expanded');
             this.$el.find('.headerInput').prop('disabled', true);
             this.$el.find('.addInput').focus();

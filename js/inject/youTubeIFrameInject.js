@@ -25,13 +25,10 @@ $(function () {
 
                 videoStream.removeAttr('src');
 
-                console.log("VideoStreamSrc:", videoStreamSrc);
-                
                 //  TODO: I think this is still broken in some scenarios.
                 //  Blob data requires an initial seekTo trigger by the original YT player to give up data.
                 if (videoStreamSrc.indexOf('blob') === -1) {
 
-                    console.log("SeekTo is needed");
                     chrome.runtime.sendMessage({
                         method: "needSeekTo"
                     });

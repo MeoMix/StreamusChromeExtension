@@ -1,9 +1,9 @@
 ﻿define([
     'contextMenuView',
-    'player',
     'utility',
-    'streamItems'
-], function (ContextMenuView, Player, Utility, StreamItems) {
+    'streamItems',
+    'playPauseButton'
+], function (ContextMenuView, Utility, StreamItems, PlayPauseButton) {
     'use strict';
 
     var StreamItemView = Backbone.View.extend({
@@ -45,16 +45,10 @@
         },
 
         togglePlayingState: function () {
-
-            if (Player.isPlaying()) {
-                Player.pause();
-            } else {
-                Player.play();
-            }
+            PlayPauseButton.tryTogglePlayerState();
         },
         
         doDelete: function () {
-            console.log("Destroying model", this.model.get('selected'));
             this.model.destroy();
         },
 

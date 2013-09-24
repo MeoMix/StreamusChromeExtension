@@ -40,57 +40,32 @@ define([
     //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
     function search(text, callback) {
 
-        var searchIndex = 1;
-        var timeInterval = 200;
-        var timeToSpendSearching = 500;
-        var elapsedTime = 0;
-
-        var videoInformationList = [];
-        var maxResultsPerSearch = 50;
-
-        var searchInterval = setInterval(function () {
-            
-            console.log("search interval");
-
-            elapsedTime += timeInterval;
-
-            if (elapsedTime < timeToSpendSearching) {
-                //  Be sure to filter out videos and suggestions which are restricted by the users geographic location.
-                $.ajax({
-                    type: 'GET',
-                    url: 'https://gdata.youtube.com/feeds/api/videos',
-                    dataType: 'json',
-                    data: {
-                        category: 'Music',
-                        time: 'all_time',
-                        'max-results': maxResultsPerSearch,
-                        'start-index': searchIndex,
-                        format: 5,
-                        v: 2,
-                        alt: 'json',
-                        q: text,
-                        key: developerKey,
-                        fields: videosInformationFields,
-                        strict: true
-                    },
-                    success: function(result) {
-
-                        if (result.feed.entry) {
-                            videoInformationList = videoInformationList.concat(result.feed.entry);
-                        }
-
-                        searchIndex += maxResultsPerSearch;
-                    },
-                    error: function(error) {
-                        console.error(error);
-                    }
-                });
+        //  Be sure to filter out videos and suggestions which are restricted by the users geographic location.
+        $.ajax({
+            type: 'GET',
+            url: 'https://gdata.youtube.com/feeds/api/videos',
+            dataType: 'json',
+            data: {
+                category: 'Music',
+                time: 'all_time',
+                'max-results': 50,
+                'start-index': 1,
+                format: 5,
+                v: 2,
+                alt: 'json',
+                q: text,
+                key: developerKey,
+                fields: videosInformationFields,
+                strict: true
+            },
+            success: function (result) {
+                callback(result.feed.entry);
+            },
+            error: function (error) {
+                console.error(error);
             }
-            else {
-                clearInterval(searchInterval);
-                callback(videoInformationList);
-            }
-        }, timeInterval);
+        });
+
     };
     
     function tryGetIdFromUrl(url, identifier) {
@@ -122,7 +97,7 @@ define([
 
             var self = this;
             var youtubeQueryInterval = setInterval(function () {
-                console.log("query youtube interval");
+
                 if (videosProcessed == totalVideosToProcess) {
                     clearInterval(youtubeQueryInterval);
 
@@ -465,7 +440,6 @@ define([
                 type: 'GET',
                 url: url,
                 dataType: 'json',
-                
                 data: {
                     v: 2,
                     alt: 'json',

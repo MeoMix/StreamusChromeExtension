@@ -25,7 +25,6 @@
             if (newItems.length === 1) {
                 //  Default to Backbone if Collection is creating only 1 item.
                 newItems[0].save({}, {
-                    success: options ? options.success : null,
                     error: options ? options.error : null
                 });
             }
@@ -40,10 +39,6 @@
                     data: JSON.stringify(newItems),
                     success: function() {
                         self.trigger('sync');
-                        
-                        if (options && options.success) {
-                            options.success();
-                        }
                     },
                     error: options ? options.error : null
                 });
@@ -57,10 +52,9 @@
                     //  For each of the createdItems, remap properties back to the old items.
                     _.each(createdItems, function (createdItem) {
 
-                        var matchingNewItem = _.find(newItems, function (newItem) {
+                        var matchingNewItem = self.find(function (newItem) {
                             return newItem.cid == createdItem.cid;
                         });
-
                         //  Call parse to emulate going through the Model's save logic.
                         var parsedNewItem = matchingNewItem.parse(createdItem);
 
@@ -84,17 +78,11 @@
             this.on('remove', function (removedPlaylistItem) {
 
                 //  TODO: Select next item??
-
                 if (this.length === 0) {
                     this.trigger('empty');
                 }
 
             });
-            
-            this.on('sync', function () {
-                console.log("I SYNCED!");
-            });
-
 
         }
     });

@@ -176,21 +176,19 @@
 	"selectFolder": {
 		"message": "Selecciona Carpeta"
 	},
-
-
-    "fullScreen": {
-		"message": ""
+	"fullScreen": {
+		"message": "Pantalla completa"
 	},
 	"exitFullScreen": {
-		"message": ""
+		"message": "Salir de Pantalla completa"
 	},
 	"loadVideoBeforeFullScreen": {
-		"message": ""
+		"message": "Carga un video antes de lanzar el modo Pantalla completa"
 	},
 	"reloadPromptText": {
-		"message": ""
+		"message": "Bufff! A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
-    "reloadButtonText": {
-		"message": ""
+    	"reloadButtonText": {
+		"message": "Recargar Streamus"
 	}
 }

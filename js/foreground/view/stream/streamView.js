@@ -78,7 +78,9 @@
 
                 //  Ensure proper item is selected.
                 var selectedStreamItem = StreamItems.getSelectedItem();
-                this.sly.activate(StreamItems.indexOf(selectedStreamItem));
+                var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
+
+                this.sly.activate(selectedItemIndex, true);
             }
 
             //  Whenever an item is added to the collection, visually add an item, too.
@@ -86,7 +88,6 @@
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
             this.listenTo(StreamItems, 'change:selected', this.selectItem);
 
-            this.sly.reload();
             this.listenTo(StreamItems, 'empty', function () {
                 this.overlay.show();
             });
@@ -112,10 +113,7 @@
                 event: 'visible'
             });
 
-            if (streamItem.get('selected')) {
-                //  activateImmediate will go directly to element without animation.
-                this.sly.activate(element, activateImmediate);
-            }
+            this.sly.activate(element, activateImmediate);
 
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..

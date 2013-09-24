@@ -47,7 +47,6 @@ define([
                             //var styledTitle = safeTitle.replace(textStyleRegExp, '<match>' + text + '</match>');
                             var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
 
-                            console.log("styled title:", styledTitle, text);
                             var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;
 
                             return { content: 'http://youtu.be/' + video.get('id'), description: description };

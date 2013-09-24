@@ -110,6 +110,7 @@ define([
                 this.videoDisplayView.render();
             }
             else if (activeContentId == 'HomeContent') {
+                //  TODO: This seems wrong. I think when I destroy/recreate views instead of changing models it won't be necessary?
                 this.activePlaylistTabView.activePlaylistView.$el.trigger('manualShow');
             }
         },
@@ -222,9 +223,7 @@ define([
             //  TODO: Remove the string replace in a few versions, I changed localStorage names and need to support old versions for a while.
             var activeContentButtonId = Settings.get('activeContentButtonId').replace('Menu', 'Content');
             var activeContentButton = $('#' + activeContentButtonId);
-
-            console.log("activeContentButtonId", activeContentButtonId);
-
+            
             this.setContentButtonActive(activeContentButton);
             this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
 

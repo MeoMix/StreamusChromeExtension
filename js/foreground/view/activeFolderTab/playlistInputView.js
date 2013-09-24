@@ -33,8 +33,7 @@
             this.contentHeaderView = new ContentHeaderView({
                 model: this.model.getActivePlaylist(),
                 buttonText: 'Add Playlist',
-                inputPlaceholderText: 'Enter a playlist name or YouTube playlist/channel URL',
-                expanded: false
+                inputPlaceholderText: 'Enter a playlist name or YouTube playlist/channel URL'
             });
 
             this.listenTo(this.model.get('playlists'), 'change:active', function(playlist, isActive) {

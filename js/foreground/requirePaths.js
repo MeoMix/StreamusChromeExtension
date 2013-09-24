@@ -40,7 +40,7 @@ var require = {
         'spinnerBuilder': 'foreground/model/spinnerBuilder',
         
         //  Model -> Buttons:
-        'nextButton': 'foreground/model/buttons/nextButton',
+        'playPauseButton': 'foreground/model/buttons/playPauseButton',
         
         //  View:
         'contentHeaderView': 'foreground/view/contentHeaderView',

@@ -57,6 +57,7 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
     <Content Include="js\foreground\model\settings.js" />
     <Content Include="js\foreground\view\activeFolderTab\activeFolderTabView.js" />

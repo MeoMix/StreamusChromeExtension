@@ -35,8 +35,6 @@ define([
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function (playlistDto) {
 
-            console.log("Plalyist is being parsed:", playlistDto);
-
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in playlistDto) {
                 if (playlistDto.hasOwnProperty(key) && playlistDto[key] == '00000000-0000-0000-0000-000000000000') {
@@ -55,10 +53,8 @@ define([
             // Remove so parse doesn't set and overwrite instance after parse returns.
             delete playlistDto.items;
 
-
             this.setDisplayInfo();
-            console.log("DisplayInfo has been set:", this);
-                
+
             return playlistDto;
         },
         initialize: function () {
@@ -74,7 +70,7 @@ define([
 
             //  Debounce because I want automatic typing but no reason to spam server with saves.
             this.on('change:title', _.debounce(function (model, title) {
-                console.log("Playlist title has changed");
+
                 $.ajax({
                     url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
                     type: 'POST',
@@ -90,6 +86,7 @@ define([
                         console.error("Error saving title", error);
                     }
                 });
+                
             }, 2000));
                 
             this.on('change:firstItemId', function (model, firstItemId) {
@@ -115,14 +112,9 @@ define([
             this.listenTo(this.get('items'), 'add empty', this.setDisplayInfo);
             this.setDisplayInfo();
 
-            this.on('change:displayInfo', function() {
-                console.log("Display info has changed:", this.get('displayInfo'));
-            });
-
             this.listenTo(this.get('items'), 'sync', function() {
                 this.trigger('sync');
             });
-
 
             this.listenTo(this.get('items'), 'remove', function (removedPlaylistItem) {
                 var playlistItems = self.get('items');
@@ -157,9 +149,6 @@ define([
             var sumVideoDurations = _.reduce(videoDurations, function (memo, duration) {
                 return memo + duration;
             }, 0);
-
-            console.log("Sum video durations:", sumVideoDurations);
-            console.log("Videos:", videos.length);
 
             var displayInfo = 'Videos: ' + videos.length + ', Duration: ' + Utility.prettyPrintTime(sumVideoDurations);
             this.set('displayInfo', displayInfo);
@@ -222,7 +211,8 @@ define([
         },
             
         addItems: function (videos, callback) {
-                
+            
+            //  Support arrays or Backbone.Collection as paramaters
             if (!(videos instanceof Backbone.Collection)) {
                 videos = new Videos(videos);
             }
@@ -244,15 +234,16 @@ define([
                 success: function () {
                         
                     var currentItems = self.get('items');
-                        
+
                     //  After a bulk save the following properties are still out of date on the playlist.
                     if (currentItems.length === 0) {
                         //  Silent because the data just came from the sever
                         self.set('firstItemId', itemsToSave.at(0).get('id'), { silent: true });
                     } else {
+
                         var firstItem = currentItems.get(self.get('firstItemId'));
                         var lastItem = currentItems.get(firstItem.get('previousItemId'));
-
+                        
                         lastItem.set('nextItemId', itemsToSave.at(0).get('id'));
                         firstItem.set('previousItemId', itemsToSave.at(itemsToSave.length - 1).get('id'));
                     }

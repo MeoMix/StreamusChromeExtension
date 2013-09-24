@@ -6,8 +6,9 @@ define([
     'video',
     'player',
     'settings',
-    'youTubeDataAPI'
-], function (Playlists, Playlist, Videos, Video, Player, Settings, YouTubeDataAPI) {
+    'youTubeDataAPI',
+    'dataSource'
+], function (Playlists, Playlist, Videos, Video, Player, Settings, YouTubeDataAPI, DataSource) {
     'use strict';
     
     var Folder = Backbone.Model.extend({
@@ -243,6 +244,10 @@ define([
                     }
 
                     currentPlaylists.push(playlist);
+                    
+                    if (dataSource === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES) {
+                        
+                    }
                     
                     //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                     YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {

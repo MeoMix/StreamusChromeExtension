@@ -117,6 +117,10 @@ define([
         startListeningToItems: function (playlistItems) {
             this.listenTo(playlistItems, 'add', this.addItem);
             this.listenTo(playlistItems, 'empty', this.render);
+            this.listenTo(playlistItems, 'remove', function () {
+                //  Trigger a manual show because an item could slide into view and need to load it.
+                this.$el.trigger('manualShow');
+            });
         },
         
         addItem: function (playlistItem) {

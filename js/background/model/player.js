@@ -78,10 +78,7 @@ define([
                     var eightHoursInMilliseconds = 28800000;
 
                     refreshPausedVideoInterval = setInterval(function () {
-
-                        console.log("refreshPausedVideoInterval is firing");
                         
-                        //self.stop();
                         self.loadVideoById(loadedVideoId);
                         self.seekTo(currentTime);
 
@@ -92,10 +89,7 @@ define([
             });
 
             this.on('change:loadedVideoId', function () {
-                console.log("clearing seekTo interval");
                 clearInterval(seekToInterval);
-                
-                console.log("Change loadedVideoId detected, setting time to 0");
                 youTubeVideo.currentTime = 0;
             });
             
@@ -125,7 +119,6 @@ define([
             });
 
             youTubeVideo.on('ended', function () {
-                console.log("youTubeVideo on ended detected. Setting playerState to ended");
                 self.set('state', PlayerState.ENDED);
             });
 
@@ -135,18 +128,15 @@ define([
 
             //  TODO: Would be nice to use this instead of a polling interval.
             youTubeVideo.on('timeupdate', function () {
-                console.log("timeUpdate setting currentTime to:", this.currentTime);
                 self.set('currentTime', Math.ceil(this.currentTime));
             });
 
             youTubeVideo.on('loadedmetadata', function () {
-                console.log("loadedmetadata, these times should be equal: ", self.get('currentTime'), youTubePlayer.getCurrentTime());
                 this.currentTime = self.get('currentTime');
             });
             
             var seekToInterval = null;
             youTubeVideo.on('canplay', function () {
-                console.log("canplay");
                 self.set('streamusPlayer', this);
 
                 //  I store volume out of 100 and volume on HTML5 player is range of 0 to 1 so divide by 100.
@@ -156,12 +146,9 @@ define([
 
                 //  This ensure that youTube continues to update blob data.
                 if (videoStreamSrc.indexOf('blob') > -1) {
-
-                    console.log("blob detected");
                     clearInterval(seekToInterval);
+                    
                     seekToInterval = setInterval(function () {
-
-                        console.log("refretching blob");
 
                         if (self.get('streamusPlayer') != null && self.get('state') === PlayerState.PLAYING) {
                             var currentTime = self.get('streamusPlayer').currentTime;
@@ -199,10 +186,6 @@ define([
 
                             //  Announce that the YouTube Player is ready to go.
                             self.set('ready', true);
-                        },
-                        'onStateChange': function () {
-                            console.log("STATE:", youTubePlayer.getPlayerState());
-                            console.log("Time:", youTubePlayer.getCurrentTime());
                         },
                         'onError': function (error) {
 
@@ -335,6 +318,9 @@ define([
                 var streamusPlayer = this.get('streamusPlayer');
 
                 if (streamusPlayer) {
+                    //  Set autoplay to true to defend against race conditions where user has just called cueVideoById but then decided they actually want to play.
+                    //  The play command can hit before the video has finished buffering, but cueVideoById removes autoplay.
+                    $(streamusPlayer).attr('autoplay', true);
                     streamusPlayer.play();
                 } else {
                     //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.

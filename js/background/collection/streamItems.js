@@ -57,9 +57,7 @@ define([
                     var playerState = Player.get('state');
 
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
-                    console.log("StreamItems change SELECTED is firing, player state is:", playerState);
                     if (playerState === PlayerState.PLAYING || playerState === PlayerState.ENDED) {
-                        console.log("Reloading video by ID");
                         Player.loadVideoById(videoId);
                     } else {
                         Player.cueVideoById(videoId);
@@ -80,8 +78,6 @@ define([
                 if (this.length === 0) {
                     this.trigger('empty');
                 }
-
-                console.log("RemovedStreamItem isSelected and length:", removedStreamItem.get('selected'), this.length);
 
                 if (removedStreamItem.get('selected') && this.length > 0) {
                     this.selectNext(options.index);
@@ -318,7 +314,6 @@ define([
 
                 if (repeatButtonState === RepeatButtonState.REPEAT_VIDEO_ENABLED) {
                     var selectedItem = this.findWhere({ selected: true });
-                    console.log("triggering video selected");
                     selectedItem.trigger('change:selected', selectedItem, true);
                 } else if (Settings.get('shuffleEnabled')) {
 
