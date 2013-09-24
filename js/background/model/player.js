@@ -210,7 +210,6 @@ define([
 
         //  YouTube won't give up the data if the src URL is non-blob unless we trigger a seekTo. Bastards.
         triggerInitialLoadDataSeekTo: function () {
-            console.log("initial load seekto going");
             youTubePlayer.seekTo(1, true);
         },
             
@@ -219,10 +218,7 @@ define([
 
             var streamusPlayer = this.get('streamusPlayer');
             
-            console.log("Streamus Player:", streamusPlayer);
-
             if (streamusPlayer != null) {
-                console.log("paused and removing autoplay");
                 streamusPlayer.pause();
             }
 

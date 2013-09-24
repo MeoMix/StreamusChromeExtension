@@ -24,10 +24,6 @@
 
             });
             
-            this.on('sync', function () {
-                console.log("I synced ttooo");
-            });
-
         }
     });
 

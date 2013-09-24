@@ -1,9 +1,9 @@
 ﻿{
     "extensionName": {
-  	"message": "Streamus™ (Beta!)"
+		"message": "Streamus™ (Beta!)"
 	},
 	"extensionDescription" : {
-		"message": "Streamus convierte YouTube en el reproductor de música que siempre quisiste. Streamus hace refrescantemente sencillo reproducir música con YouTube."
+		"message": "Streamus convierte YouTube en el reproductor de música que siempre quisiste."
 	},
 	"extensionTitle": {
 		"message": "Streamus: Simple, reproducir música."
@@ -188,7 +188,7 @@
 	"reloadPromptText": {
 		"message": "Bufff! A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
-    	"reloadButtonText": {
+    "reloadButtonText": {
 		"message": "Recargar Streamus"
 	}
 }
