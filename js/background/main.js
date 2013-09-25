@@ -26,11 +26,6 @@ require([
     //  This URL is super important. Streamus uses it to bypass the YouTube error 'not allowed to play content in embedded player' by making itself look like YouTube!
     var refererUrl = 'https://www.youtube.com/embed/undefined?enablejsapi=1';
 
-    //  This has to be setup SUPER early because I can't load the YouTube iframe without generating ugly errors unless this is in place.
-    //  Error looks like: Blocked a frame with origin "https://www.youtube.com" from accessing a frame with origin 
-    //  "chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd".  The frame requesting access has a protocol of "https",
-    //  the frame being accessed has a protocol of "chrome-extension". Protocols must match.
-
     //  Modify the iFrame headers to force HTML5 player and to look like we're actually a YouTube page.
     //  The HTML5 player seems more reliable (doesn't crash when Flash goes down) and looking like YouTube
     //  means we can bypass a lot of the embed restrictions.
@@ -74,6 +69,27 @@ require([
     },
         ['blocking', 'requestHeaders']
     );
+
+    //chrome.webRequest.onHeadersReceived.addListener(function(info) {
+
+    //    console.log("Response header information received:", info);
+        
+    //    var xFrameOptionsResponseHeader = _.find(info.responseHeaders, function (responseHeader) {
+    //        return responseHeader.name === 'x-frame-options';
+    //    });
+
+    //    if (xFrameOptionsResponseHeader !== undefined) {
+    //        xFrameOptionsResponseHeader.value = '';
+    //    }
+
+    //    console.log("After:", info);
+
+    //    return { responseHeaders: info.responseHeaders };
+    //}, {
+    //    urls: ['<all_urls>']
+    //},
+    //    ['blocking', 'responseHeaders']
+    //);
 
     //  Only use main.js for loading external helper files before the background is ready. Then, load the background.
     require(['background']);

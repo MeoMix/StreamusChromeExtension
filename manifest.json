@@ -94,7 +94,7 @@
 		"idle",
 		"webRequest",
 		"webRequestBlocking",
-		"*://*.youtube.com/",
+		"*://*.youtube.com/*",
 		"http://localhost:61975/Streamus/",
 		"http://streamus.apphb.com/"
 	],
