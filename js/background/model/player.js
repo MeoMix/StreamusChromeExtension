@@ -27,7 +27,7 @@ define([
             muted: false,
             loadedVideoId: '',
             //  The video object which will hold the iframe-removed player
-            streamusPlayer: null
+            //streamusPlayer: null
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -41,11 +41,11 @@ define([
                 //  thanks to YouTube saving it -- so should keep it always sync'ed.
                 youTubePlayer.setVolume(volume);
                 
-                var streamusPlayer = self.get('streamusPlayer');
+                //var streamusPlayer = self.get('streamusPlayer');
                 
-                if (streamusPlayer != null) {
-                    streamusPlayer.volume = volume / 100;
-                } 
+                //if (streamusPlayer != null) {
+                //    streamusPlayer.volume = volume / 100;
+                //} 
             });
 
             this.on('change:muted', function (model, isMuted) {
@@ -57,13 +57,12 @@ define([
                     youTubePlayer.unMute();
                 }
                 
-                var streamusPlayer = self.get('streamusPlayer');
+                //var streamusPlayer = self.get('streamusPlayer');
                 
-                if (streamusPlayer != null) {
-                    streamusPlayer.muted = isMuted;
-                }
+                //if (streamusPlayer != null) {
+                //    streamusPlayer.muted = isMuted;
+                //}
             });
-
 
             var refreshPausedVideoInterval = null;
             this.on('change:state', function (model, state) {
@@ -79,6 +78,7 @@ define([
 
                     refreshPausedVideoInterval = setInterval(function () {
                         
+                        //  TODO: Instead of calling seekTo just call loadVideoById with the currentTime.
                         self.loadVideoById(loadedVideoId);
                         self.seekTo(currentTime);
 
@@ -88,83 +88,83 @@ define([
 
             });
 
-            this.on('change:loadedVideoId', function () {
-                clearInterval(seekToInterval);
-                youTubeVideo.currentTime = 0;
-            });
+            //this.on('change:loadedVideoId', function () {
+            //    clearInterval(seekToInterval);
+            //    //youTubeVideo.currentTime = 0;
+            //});
             
-            var youTubeVideo = $('#YouTubeVideo');
-            youTubeVideo.on('play', function () {
-                self.set('state', PlayerState.PLAYING);
-            });
+            //var youTubeVideo = $('#YouTubeVideo');
+            //youTubeVideo.on('play', function () {
+            //    self.set('state', PlayerState.PLAYING);
+            //});
 
-            youTubeVideo.on('pause', function () {
-                self.set('state', PlayerState.PAUSED);
-            });
+            //youTubeVideo.on('pause', function () {
+            //    self.set('state', PlayerState.PAUSED);
+            //});
 
-            youTubeVideo.on('waiting', function () {
-                self.set('state', PlayerState.BUFFERING);
-            });
+            //youTubeVideo.on('waiting', function () {
+            //    self.set('state', PlayerState.BUFFERING);
+            //});
 
-            youTubeVideo.on('seeking', function () {
-                if (self.get('state') === PlayerState.PLAYING) {
-                    self.set('state', PlayerState.BUFFERING);
-                }
-            });
+            //youTubeVideo.on('seeking', function () {
+            //    if (self.get('state') === PlayerState.PLAYING) {
+            //        self.set('state', PlayerState.BUFFERING);
+            //    }
+            //});
 
-            youTubeVideo.on('seeked', function () {
-                if (self.get('state') === PlayerState.BUFFERING) {
-                    self.set('state', PlayerState.PLAYING);
-                }
-            });
+            //youTubeVideo.on('seeked', function () {
+            //    if (self.get('state') === PlayerState.BUFFERING) {
+            //        self.set('state', PlayerState.PLAYING);
+            //    }
+            //});
 
-            youTubeVideo.on('ended', function () {
-                self.set('state', PlayerState.ENDED);
-            });
+            //youTubeVideo.on('ended', function () {
+            //    self.set('state', PlayerState.ENDED);
+            //});
 
-            youTubeVideo.on('error', function (error) {
-                console.error("Error:", error);
-            });
+            //youTubeVideo.on('error', function (error) {
+            //    console.error("Error:", error);
+            //});
 
-            //  TODO: Would be nice to use this instead of a polling interval.
-            youTubeVideo.on('timeupdate', function () {
-                self.set('currentTime', Math.ceil(this.currentTime));
-            });
+            ////  TODO: Would be nice to use this instead of a polling interval.
+            //youTubeVideo.on('timeupdate', function () {
+            //    self.set('currentTime', Math.ceil(this.currentTime));
+            //});
 
-            youTubeVideo.on('loadedmetadata', function () {
-                this.currentTime = self.get('currentTime');
-            });
+            //youTubeVideo.on('loadedmetadata', function () {
+            //    this.currentTime = self.get('currentTime');
+            //});
             
-            var seekToInterval = null;
-            youTubeVideo.on('canplay', function () {
-                self.set('streamusPlayer', this);
+            //var seekToInterval = null;
+            //youTubeVideo.on('canplay', function () {
+            //    self.set('streamusPlayer', this);
 
-                //  I store volume out of 100 and volume on HTML5 player is range of 0 to 1 so divide by 100.
-                this.volume = self.get('volume') / 100;
+            //    //  I store volume out of 100 and volume on HTML5 player is range of 0 to 1 so divide by 100.
+            //    this.volume = self.get('volume') / 100;
 
-                var videoStreamSrc = youTubeVideo.attr('src');
+            //    var videoStreamSrc = youTubeVideo.attr('src');
 
-                //  This ensure that youTube continues to update blob data.
-                if (videoStreamSrc.indexOf('blob') > -1) {
-                    clearInterval(seekToInterval);
+            //    //  This ensure that youTube continues to update blob data.
+            //    if (videoStreamSrc.indexOf('blob') > -1) {
+            //        clearInterval(seekToInterval);
                     
-                    seekToInterval = setInterval(function () {
+            //        seekToInterval = setInterval(function () {
 
-                        if (self.get('streamusPlayer') != null && self.get('state') === PlayerState.PLAYING) {
-                            var currentTime = self.get('streamusPlayer').currentTime;
-                            youTubePlayer.seekTo(currentTime, true);
-                        }
+            //            if (self.get('streamusPlayer') != null && self.get('state') === PlayerState.PLAYING) {
+            //                var currentTime = self.get('streamusPlayer').currentTime;
+            //                youTubePlayer.seekTo(currentTime, true);
+            //            }
 
-                    }, 20000);
-                }
+            //        }, 20000);
+            //    }
 
-            });
+            //});
             
-            this.on('change:videoStreamSrc', function (model, videoStreamSrc) {
-                //  Resetting streamusPlayer because it might not be able to play on src change.
-                self.set('streamusPlayer', null);
-                youTubeVideo.attr('src', videoStreamSrc);
-            });
+            //this.on('change:videoStreamSrc', function (model, videoStreamSrc) {
+            //    //  Resetting streamusPlayer because it might not be able to play on src change.
+            //    self.set('streamusPlayer', null);
+            //    youTubeVideo.attr('src', videoStreamSrc);
+            //});
 
             if (YouTubePlayerAPI.get('ready')) {
                 setYouTubePlayer();
@@ -186,6 +186,14 @@ define([
 
                             //  Announce that the YouTube Player is ready to go.
                             self.set('ready', true);
+                        },
+                        'onStateChange': function (state) {
+
+                            console.log("State changed to:", state);
+
+                            //  TODO: I think this is all I need, but maybe more after changing out the old video logic.
+                            self.set('state', state);
+
                         },
                         'onError': function (error) {
 
@@ -209,24 +217,24 @@ define([
         },
 
         //  YouTube won't give up the data if the src URL is non-blob unless we trigger a seekTo. Bastards.
-        triggerInitialLoadDataSeekTo: function () {
-            youTubePlayer.seekTo(1, true);
-        },
+        //triggerInitialLoadDataSeekTo: function () {
+        //    youTubePlayer.seekTo(1, true);
+        //},
             
         cueVideoById: function (videoId) {
             this.set('loadedVideoId', videoId);
 
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
             
-            if (streamusPlayer != null) {
-                streamusPlayer.pause();
-            }
+            //if (streamusPlayer != null) {
+            //    streamusPlayer.pause();
+            //}
 
             //  Sometimes streamusPlayer is null. Need to fix that I think.
             //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-            $('#YouTubeVideo').removeAttr('autoplay');
+            //$('#YouTubeVideo').removeAttr('autoplay');
 
-            youTubePlayer.loadVideoById({
+            youTubePlayer.cueVideoById({
                 videoId: videoId,
                 startSeconds: 0,
                 suggestedQuality: Settings.get('suggestedQuality')
@@ -234,12 +242,13 @@ define([
         },
             
         loadVideoById: function (videoId) {
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer != null) {
-                $(streamusPlayer).attr('autoplay', true);
-            }
-            
+            //if (streamusPlayer != null) {
+            //    $(streamusPlayer).attr('autoplay', true);
+            //}
+
+            console.log("Setting state to buffering");
             this.set('state', PlayerState.BUFFERING);
             this.set('loadedVideoId', videoId);
 
@@ -257,72 +266,72 @@ define([
         mute: function () {
             this.set('muted', true);
 
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer) {
-                streamusPlayer.muted = true;
-            } else {
+            //if (streamusPlayer) {
+            //    streamusPlayer.muted = true;
+            //} else {
                 youTubePlayer.mute();
-            }
+            //}
         },
         
         unMute: function () {
             this.set('muted', false);
             
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer) {
-                streamusPlayer.muted = false;
-            } else {
+            //if (streamusPlayer) {
+            //    streamusPlayer.muted = false;
+            //} else {
                 youTubePlayer.unMute();
-            }
+            //}
         },
-        
+        //  TODO: I don't remember the point of calling stop... something about clearing loadedVideoId, I think. Still seems like it's not very useful -- why not just pause..
         stop: function () {
 
             this.set('state', PlayerState.UNSTARTED);
 
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer) {
-                streamusPlayer.pause();
-            }
+            //if (streamusPlayer) {
+            //    streamusPlayer.pause();
+            //}
             
-            this.set('streamusPlayer', null);
+            //this.set('streamusPlayer', null);
 
             youTubePlayer.stopVideo();
             this.set('loadedVideoId', '');
         },
 
         pause: function () {
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer) {
-                streamusPlayer.pause();
-            } else {
-                //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-                $('#YouTubeVideo').removeAttr('autoplay');
+            //if (streamusPlayer) {
+            //    streamusPlayer.pause();
+            //} else {
+            //    //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
+            //    $('#YouTubeVideo').removeAttr('autoplay');
                 youTubePlayer.pauseVideo();
-            }
+            //}
         },
             
         play: function () {
   
             if (!this.isPlaying()) {
-
+                console.log("Setting state to buffering... again");
                 this.set('state', PlayerState.BUFFERING);
-                var streamusPlayer = this.get('streamusPlayer');
+                //var streamusPlayer = this.get('streamusPlayer');
 
-                if (streamusPlayer) {
-                    //  Set autoplay to true to defend against race conditions where user has just called cueVideoById but then decided they actually want to play.
-                    //  The play command can hit before the video has finished buffering, but cueVideoById removes autoplay.
-                    $(streamusPlayer).attr('autoplay', true);
-                    streamusPlayer.play();
-                } else {
-                    //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-                    $('#YouTubeVideo').attr('autoplay', 'true');
+                //if (streamusPlayer) {
+                //    //  Set autoplay to true to defend against race conditions where user has just called cueVideoById but then decided they actually want to play.
+                //    //  The play command can hit before the video has finished buffering, but cueVideoById removes autoplay.
+                //    $(streamusPlayer).attr('autoplay', true);
+                //    streamusPlayer.play();
+                //} else {
+                //    //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
+                //    $('#YouTubeVideo').attr('autoplay', 'true');
                     youTubePlayer.playVideo();
-                }
+                //}
 
             }
         },
@@ -337,11 +346,11 @@ define([
             youTubePlayer.seekTo(timeInSeconds, true);
 
             this.set('currentTime', timeInSeconds);
-            var streamusPlayer = this.get('streamusPlayer');
+            //var streamusPlayer = this.get('streamusPlayer');
 
-            if (streamusPlayer != null) {
-                streamusPlayer.currentTime = timeInSeconds;
-            }
+            //if (streamusPlayer != null) {
+            //    streamusPlayer.currentTime = timeInSeconds;
+            //}
 
         }, 100),
         

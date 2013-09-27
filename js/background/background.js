@@ -164,15 +164,15 @@ define([
     
     iframe.appendTo('body');
 
-    var iframel = document.getElementById('MusicHolder');
+    //var iframel = document.getElementById('MusicHolder');
     
-    console.log("Contents:", iframel.contentWindow);
-    console.log("SRC:", iframel.src);
-    setInterval(function () {
+    //console.log("Contents:", iframel.contentWindow);
+    //console.log("SRC:", iframel.src);
+    //setInterval(function () {
         
-        console.log("SRC:", iframel.src);
-        console.log("Contents:", iframel.contentWindow);
-    }, 5000);
+    //    console.log("SRC:", iframel.src);
+    //    console.log("Contents:", iframel.contentWindow);
+    //}, 5000);
 
 
 });
