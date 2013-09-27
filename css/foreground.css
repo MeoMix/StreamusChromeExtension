@@ -298,6 +298,13 @@ svg.deleteButtonSvg {
     margin-top: 18px;
 }
 
+#VideoContent .sorry {
+    font-size: 14px;
+    text-shadow: none;
+    color: white;
+    font-weight: bold;
+}
+
 .clickable {
     cursor: pointer;
 }
@@ -422,6 +429,10 @@ svg.deleteButtonSvg {
     position: absolute;
     right: 140px;
     top: 12px;
+}
+
+#ProgressBarView:focus {
+    outline: none;
 }
 
 #ProgressBarView::-webkit-slider-thumb {

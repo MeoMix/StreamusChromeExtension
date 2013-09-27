@@ -113,7 +113,7 @@
                 event: 'visible'
             });
 
-            this.sly.activate(element, activateImmediate);
+            //this.sly.activate(element, activateImmediate);
 
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..

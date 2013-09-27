@@ -152,27 +152,5 @@ define([
         return true;
     });
 
-    //  Build iframe after onBeforeSendHeaders listener to prevent errors and generate correct type of player.
-    var iframe = $('<iframe>', {
-        id: 'MusicHolder',
-        //  Width and Height should have a ratio of 4 to 3
-        width: 480,
-        height: 360,
-        //src: 'https://www.youtube.com/iframe_api'
-        src: 'https://www.youtube.com/embed/undefined?enablejsapi=1'
-    });
-    
-    iframe.appendTo('body');
-
-    //var iframel = document.getElementById('MusicHolder');
-    
-    //console.log("Contents:", iframel.contentWindow);
-    //console.log("SRC:", iframel.src);
-    //setInterval(function () {
-        
-    //    console.log("SRC:", iframel.src);
-    //    console.log("Contents:", iframel.contentWindow);
-    //}, 5000);
-
 
 });

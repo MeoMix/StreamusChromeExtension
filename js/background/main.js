@@ -23,8 +23,9 @@ require([
 ], function ($, _, Backbone, GoogleApiClient) {
     'use strict';
     
+    //  TODO: This probably needs to support https and http.
     //  This URL is super important. Streamus uses it to bypass the YouTube error 'not allowed to play content in embedded player' by making itself look like YouTube!
-    var refererUrl = 'https://www.youtube.com/embed/undefined?enablejsapi=1';
+    var refererUrl = 'http://www.youtube.com/embed/undefined?enablejsapi=1';
 
     //  Modify the iFrame headers to force HTML5 player and to look like we're actually a YouTube page.
     //  The HTML5 player seems more reliable (doesn't crash when Flash goes down) and looking like YouTube
@@ -69,27 +70,15 @@ require([
     },
         ['blocking', 'requestHeaders']
     );
-
-    //chrome.webRequest.onHeadersReceived.addListener(function(info) {
-
-    //    console.log("Response header information received:", info);
-        
-    //    var xFrameOptionsResponseHeader = _.find(info.responseHeaders, function (responseHeader) {
-    //        return responseHeader.name === 'x-frame-options';
-    //    });
-
-    //    if (xFrameOptionsResponseHeader !== undefined) {
-    //        xFrameOptionsResponseHeader.value = '';
-    //    }
-
-    //    console.log("After:", info);
-
-    //    return { responseHeaders: info.responseHeaders };
-    //}, {
-    //    urls: ['<all_urls>']
-    //},
-    //    ['blocking', 'responseHeaders']
-    //);
+    
+    //  Build iframe after onBeforeSendHeaders listener to prevent errors and generate correct type of player.
+    $('<iframe>', {
+        id: 'MusicHolder',
+        //  Width and Height should have a ratio of 4 to 3
+        width: 480,
+        height: 360,
+        src: refererUrl
+    }).appendTo('body');
 
     //  Only use main.js for loading external helper files before the background is ready. Then, load the background.
     require(['background']);

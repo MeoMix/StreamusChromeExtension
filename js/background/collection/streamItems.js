@@ -58,6 +58,7 @@ define([
 
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
                     if (playerState === PlayerState.PLAYING || playerState === PlayerState.ENDED) {
+                        console.log("PlayerState:", playerState);
                         Player.loadVideoById(videoId);
                     } else {
                         Player.cueVideoById(videoId);

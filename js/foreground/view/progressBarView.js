@@ -41,12 +41,15 @@ define([
         },
         
         initialize: function () {
+            //  TODO: Put this in attributes.
             this.$el.attr('title', chrome.i18n.getMessage("clickDragChangeTime"));
+            this.$el.prop('disabled', true);
             //  TODO: naming discrepancy
             this.currentTimeLabel.attr('title', chrome.i18n.getMessage("elapsedTime"));
             this.totalTimeLabel.attr('title', chrome.i18n.getMessage("totalTime"));
             
             this.listenTo(StreamItems, 'empty', this.clear);
+            this.listenTo(StreamItems, 'add addMultiple', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.render);
             this.listenTo(Player, 'change:state', this.stopSeeking);
@@ -60,6 +63,8 @@ define([
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
         updateProgress: function () {
+
+            console.log("Updare progress");
             
             var currentTime = parseInt(this.$el.val(), 10);
             var totalTime = parseInt(this.$el.prop('max'), 10);
@@ -80,10 +85,14 @@ define([
         //  Allow the user to manual time change by click or scroll.
         mousewheelUpdateProgress: function (event) {
 
+            console.log("mswheel");
+
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.$el.val(), 10);
             
             this.setCurrentTime(currentTime + delta);
+
+            console.log("Seeking to:");
             Player.seekTo(currentTime + delta);
             
         },
@@ -102,7 +111,10 @@ define([
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = Player.get('state');
 
+            console.log("Stop Seeking, state:", state);
+
             if (state == PlayerState.PLAYING || state == PlayerState.PAUSED) {
+                console.log("AutoUpdate set to true");
                 this.autoUpdate = true;
             }
 
@@ -110,19 +122,29 @@ define([
         
         seekToTime: function (event) {
 
+            console.log("Seeking to time");
+
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.$el.val(), 10);
+
+                console.log("Seeking to:", currentTime);
                 Player.seekTo(currentTime);
             }
             
         },
        
-        clear: function() {
+        clear: function () {
+            
             this.setCurrentTime(0);
             this.setTotalTime(0);
+            this.$el.prop('disabled', true);
+        },
+        
+        enable: function() {
+            this.$el.prop('disabled', false);
         },
         
         restart: function () {

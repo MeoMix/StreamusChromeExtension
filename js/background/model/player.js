@@ -9,7 +9,6 @@ define([
     'use strict';
 
     //  This is the actual YouTube Player API object housed within the iframe.
-    //  Only player.js should be able to interact with it; all public needs go through streamusPlayer.
     var youTubePlayer = null;
 
     var youTubePlayerModel = Backbone.Model.extend({
@@ -25,9 +24,7 @@ define([
             volume: 50,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
-            loadedVideoId: '',
-            //  The video object which will hold the iframe-removed player
-            //streamusPlayer: null
+            loadedVideoId: ''
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -40,12 +37,6 @@ define([
                 //  We want to update the youtube player's volume no matter what because it persists between browser sessions
                 //  thanks to YouTube saving it -- so should keep it always sync'ed.
                 youTubePlayer.setVolume(volume);
-                
-                //var streamusPlayer = self.get('streamusPlayer');
-                
-                //if (streamusPlayer != null) {
-                //    streamusPlayer.volume = volume / 100;
-                //} 
             });
 
             this.on('change:muted', function (model, isMuted) {
@@ -56,12 +47,7 @@ define([
                 } else {
                     youTubePlayer.unMute();
                 }
-                
-                //var streamusPlayer = self.get('streamusPlayer');
-                
-                //if (streamusPlayer != null) {
-                //    streamusPlayer.muted = isMuted;
-                //}
+
             });
 
             var refreshPausedVideoInterval = null;
@@ -78,93 +64,51 @@ define([
 
                     refreshPausedVideoInterval = setInterval(function () {
                         
-                        //  TODO: Instead of calling seekTo just call loadVideoById with the currentTime.
-                        self.loadVideoById(loadedVideoId);
-                        self.seekTo(currentTime);
+                        self.loadVideoById(loadedVideoId, self.get('currentTime'));
 
                     }, eightHoursInMilliseconds);
 
                 }
 
             });
-
-            //this.on('change:loadedVideoId', function () {
-            //    clearInterval(seekToInterval);
-            //    //youTubeVideo.currentTime = 0;
-            //});
             
-            //var youTubeVideo = $('#YouTubeVideo');
-            //youTubeVideo.on('play', function () {
-            //    self.set('state', PlayerState.PLAYING);
-            //});
+            chrome.runtime.onConnect.addListener(function(port) {
 
-            //youTubeVideo.on('pause', function () {
-            //    self.set('state', PlayerState.PAUSED);
-            //});
+                if (port.name === 'youTubeIFrameConnectRequest') {
 
-            //youTubeVideo.on('waiting', function () {
-            //    self.set('state', PlayerState.BUFFERING);
-            //});
+                    port.onMessage.addListener(function (message) {
+                        
+                        //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
+                        if (message.currentTime !== undefined) {
+                            console.log("Set current time to:", message.currentTime);
+                            self.set('currentTime', message.currentTime);
+                        }
+                        
+                        //  YouTube's API for seeking/buffering doesn't fire events reliably.
+                        //  Listen directly to the video element for better results.
+                        if (message.seeking !== undefined) {
+                            
+                            if (message.seeking) {
+                                
+                                if (self.get('state') === PlayerState.PLAYING) {
+                                    self.set('state', PlayerState.BUFFERING);
+                                }
+                                
+                            } else {
 
-            //youTubeVideo.on('seeking', function () {
-            //    if (self.get('state') === PlayerState.PLAYING) {
-            //        self.set('state', PlayerState.BUFFERING);
-            //    }
-            //});
+                                if (self.get('state') === PlayerState.BUFFERING) {
+                                    self.set('state', PlayerState.PLAYING);
+                                }
+                                
+                            }
 
-            //youTubeVideo.on('seeked', function () {
-            //    if (self.get('state') === PlayerState.BUFFERING) {
-            //        self.set('state', PlayerState.PLAYING);
-            //    }
-            //});
+                        }
 
-            //youTubeVideo.on('ended', function () {
-            //    self.set('state', PlayerState.ENDED);
-            //});
+                    });
 
-            //youTubeVideo.on('error', function (error) {
-            //    console.error("Error:", error);
-            //});
+                }
 
-            ////  TODO: Would be nice to use this instead of a polling interval.
-            //youTubeVideo.on('timeupdate', function () {
-            //    self.set('currentTime', Math.ceil(this.currentTime));
-            //});
-
-            //youTubeVideo.on('loadedmetadata', function () {
-            //    this.currentTime = self.get('currentTime');
-            //});
-            
-            //var seekToInterval = null;
-            //youTubeVideo.on('canplay', function () {
-            //    self.set('streamusPlayer', this);
-
-            //    //  I store volume out of 100 and volume on HTML5 player is range of 0 to 1 so divide by 100.
-            //    this.volume = self.get('volume') / 100;
-
-            //    var videoStreamSrc = youTubeVideo.attr('src');
-
-            //    //  This ensure that youTube continues to update blob data.
-            //    if (videoStreamSrc.indexOf('blob') > -1) {
-            //        clearInterval(seekToInterval);
-                    
-            //        seekToInterval = setInterval(function () {
-
-            //            if (self.get('streamusPlayer') != null && self.get('state') === PlayerState.PLAYING) {
-            //                var currentTime = self.get('streamusPlayer').currentTime;
-            //                youTubePlayer.seekTo(currentTime, true);
-            //            }
-
-            //        }, 20000);
-            //    }
-
-            //});
-            
-            //this.on('change:videoStreamSrc', function (model, videoStreamSrc) {
-            //    //  Resetting streamusPlayer because it might not be able to play on src change.
-            //    self.set('streamusPlayer', null);
-            //    youTubeVideo.attr('src', videoStreamSrc);
-            //});
+            });
 
             if (YouTubePlayerAPI.get('ready')) {
                 setYouTubePlayer();
@@ -183,17 +127,14 @@ define([
 
                             self.set('muted', youTubePlayer.isMuted());
                             self.set('volume', youTubePlayer.getVolume());
+                            self.pause();
 
                             //  Announce that the YouTube Player is ready to go.
                             self.set('ready', true);
                         },
                         'onStateChange': function (state) {
 
-                            console.log("State changed to:", state);
-
-                            //  TODO: I think this is all I need, but maybe more after changing out the old video logic.
-                            self.set('state', state);
-
+                            self.set('state', state.data);
                         },
                         'onError': function (error) {
 
@@ -216,45 +157,27 @@ define([
             };
         },
 
-        //  YouTube won't give up the data if the src URL is non-blob unless we trigger a seekTo. Bastards.
-        //triggerInitialLoadDataSeekTo: function () {
-        //    youTubePlayer.seekTo(1, true);
-        //},
-            
-        cueVideoById: function (videoId) {
+        cueVideoById: function (videoId, startSeconds) {
+            console.log("cueVideoById");
             this.set('loadedVideoId', videoId);
-
-            //var streamusPlayer = this.get('streamusPlayer');
-            
-            //if (streamusPlayer != null) {
-            //    streamusPlayer.pause();
-            //}
-
-            //  Sometimes streamusPlayer is null. Need to fix that I think.
-            //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-            //$('#YouTubeVideo').removeAttr('autoplay');
 
             youTubePlayer.cueVideoById({
                 videoId: videoId,
-                startSeconds: 0,
+                startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
+            
         },
             
-        loadVideoById: function (videoId) {
-            //var streamusPlayer = this.get('streamusPlayer');
+        loadVideoById: function (videoId, startSeconds) {
+            console.log('loadVideoById');
 
-            //if (streamusPlayer != null) {
-            //    $(streamusPlayer).attr('autoplay', true);
-            //}
-
-            console.log("Setting state to buffering");
             this.set('state', PlayerState.BUFFERING);
             this.set('loadedVideoId', videoId);
 
             youTubePlayer.loadVideoById({
                 videoId: videoId,
-                startSeconds: 0,
+                startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
         },
@@ -266,73 +189,30 @@ define([
         mute: function () {
             this.set('muted', true);
 
-            //var streamusPlayer = this.get('streamusPlayer');
-
-            //if (streamusPlayer) {
-            //    streamusPlayer.muted = true;
-            //} else {
-                youTubePlayer.mute();
-            //}
+            youTubePlayer.mute();
         },
         
         unMute: function () {
             this.set('muted', false);
-            
-            //var streamusPlayer = this.get('streamusPlayer');
-
-            //if (streamusPlayer) {
-            //    streamusPlayer.muted = false;
-            //} else {
-                youTubePlayer.unMute();
-            //}
+            youTubePlayer.unMute();
         },
-        //  TODO: I don't remember the point of calling stop... something about clearing loadedVideoId, I think. Still seems like it's not very useful -- why not just pause..
+
         stop: function () {
-
             this.set('state', PlayerState.UNSTARTED);
-
-            //var streamusPlayer = this.get('streamusPlayer');
-
-            //if (streamusPlayer) {
-            //    streamusPlayer.pause();
-            //}
-            
-            //this.set('streamusPlayer', null);
-
             youTubePlayer.stopVideo();
             this.set('loadedVideoId', '');
         },
 
         pause: function () {
-            //var streamusPlayer = this.get('streamusPlayer');
-
-            //if (streamusPlayer) {
-            //    streamusPlayer.pause();
-            //} else {
-            //    //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-            //    $('#YouTubeVideo').removeAttr('autoplay');
-                youTubePlayer.pauseVideo();
-            //}
+            youTubePlayer.pauseVideo();
         },
             
         play: function () {
   
             if (!this.isPlaying()) {
-                console.log("Setting state to buffering... again");
                 this.set('state', PlayerState.BUFFERING);
-                //var streamusPlayer = this.get('streamusPlayer');
 
-                //if (streamusPlayer) {
-                //    //  Set autoplay to true to defend against race conditions where user has just called cueVideoById but then decided they actually want to play.
-                //    //  The play command can hit before the video has finished buffering, but cueVideoById removes autoplay.
-                //    $(streamusPlayer).attr('autoplay', true);
-                //    streamusPlayer.play();
-                //} else {
-                //    //  If YouTubeVideo is loading its metadata we need to keep its state in sync regardless.
-                //    $('#YouTubeVideo').attr('autoplay', 'true');
-                    youTubePlayer.playVideo();
-                //}
-
+                youTubePlayer.playVideo();
             }
         },
 
@@ -341,22 +221,21 @@ define([
         //  seekTo can be spammed via mousewheel scrolling so debounce as to not spam the player, but still capture final result.
         seekTo: _.debounce(function (timeInSeconds) {
 
-            //  Seek even if streamusPlayer is defined because we probably need to update the blob if it is.
-            //  The true paramater allows the youTubePlayer to seek ahead past its buffered video.
-            youTubePlayer.seekTo(timeInSeconds, true);
-
-            this.set('currentTime', timeInSeconds);
-            //var streamusPlayer = this.get('streamusPlayer');
-
-            //if (streamusPlayer != null) {
-            //    streamusPlayer.currentTime = timeInSeconds;
-            //}
-
+            var state = this.get('state');
+            
+            if (state === PlayerState.UNSTARTED || state === PlayerState.VIDCUED) {
+                console.log("LoadedVideoId:", timeInSeconds);
+                this.cueVideoById(this.get('loadedVideoId'), timeInSeconds);
+            } else {
+                
+                //  The true paramater allows the youTubePlayer to seek ahead past its buffered video.
+                youTubePlayer.seekTo(timeInSeconds, true);
+            }
+            
         }, 100),
         
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         setSuggestedQuality: function(suggestedQuality) {
-
             youTubePlayer.setPlaybackQuality(suggestedQuality);
         }
     });
