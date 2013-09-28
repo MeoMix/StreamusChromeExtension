@@ -190,5 +190,11 @@
 	},
     "reloadButtonText": {
 		"message": "Reload Streamus"
+	},
+	"playInStreamus": {
+		"message": "Play in Streamus"
+	},
+    "playAllInStreamus": {
+		"message": "Play All in Streamus"
 	}
 }

@@ -208,6 +208,7 @@ define([
             });
         },
 
+        //  TODO: Combine search and quickSearch and just take a max-results paramater.
         search: search,
         
         //  Like search but limited to just one ajax request and smaller video size (used for omnibox currently)
@@ -230,7 +231,7 @@ define([
                     strict: true
                 },
                 success: function (result) {
-                    callback(result.feed.entry);
+                    callback(result.feed.entry || []);
                 },
                 error: function (error) {
                     console.error(error);

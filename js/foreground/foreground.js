@@ -119,6 +119,8 @@ define([
 
             this.listenTo(this.backgroundUser, 'change:loaded', function (model, loaded) {
 
+                console.log("BackgroundUser change:loaded has fired:", model, loaded);
+
                 if (loaded) {
                     this.waitForBackgroundPlayerReady();
                 } else {

@@ -78,6 +78,11 @@
 			"matches": ["*://*.streamus.com/*"],
 			"run_at": "document_start",
 			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
+		},
+		{
+			"matches": ["*://*.beatport.com/*top-100*"],
+			"run_at": "document_end",
+			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/beatportInject.js"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com https://s.ytimg.com https://apis.google.com; object-src 'self'",
@@ -99,6 +104,7 @@
 		"http://streamus.apphb.com/"
 	],
 	"web_accessible_resources": [
-		"css/youTubeInject.css"
+		"css/youTubeInject.css",
+		"css/beatportInject.css"
 	]
 }

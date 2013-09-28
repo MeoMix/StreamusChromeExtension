@@ -58,6 +58,7 @@ define([
         }
     });
 
+    //  TODO: Move some of these methods into objects instead of letting grow arbitrarily in background.js
     //  Listen for messages from YouTube video pages.
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 

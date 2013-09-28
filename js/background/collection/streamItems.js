@@ -96,7 +96,95 @@ define([
                 }
 
             });
+            
+            //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
+            chrome.runtime.onMessage.addListener(function (request) {
+                
+                switch (request.method) {
+                    case 'addAndPlayStreamItemByTitle':                        
+                        self.searchAndAddByName(request.videoTitle, true);
 
+                    break;
+
+                    case 'addAndPlayStreamItemsByTitles':                        
+                        var videoTitles = request.videoTitles;
+
+                        if (videoTitles.length > 0) {
+                            //  TODO: Kinda sucks to have to do N searches here, but doubt there is any other way.
+                            var videoTitle = videoTitles.shift();
+
+                            var recursiveShiftVideoTitleAndAdd = function () {
+                                
+                                if (videoTitles.length > 0) {
+                                    
+                                    videoTitle = videoTitles.shift();
+                                    self.searchAndAddByName(videoTitle, false, recursiveShiftVideoTitleAndAdd);
+                                }
+                                
+                            };
+
+                            self.searchAndAddByName(videoTitle, true, function () {
+                                recursiveShiftVideoTitleAndAdd();
+                            });
+                            
+                        }
+
+                        break;
+                }
+
+            });
+
+        },
+        
+        searchAndAddByName: function(videoTitle, playOnAdd, callback) {
+            var self = this;
+
+            YouTubeDataAPI.quickSearch(videoTitle, function (videoInformationList) {
+
+                if (videoInformationList.length === 0) {
+                    console.error("Failed to find any videos for:", videoTitle);
+                } else {
+                    
+                    var video = new Video({
+                        videoInformation: videoInformationList[0]
+                    });
+
+                    var streamItem = new StreamItem({
+                        id: _.uniqueId('streamItem_'),
+                        video: video,
+                        title: video.get('title'),
+                        videoImageUrl: 'http://img.youtube.com/vi/' + video.get('id') + '/default.jpg',
+                        selected: !!playOnAdd
+                    });
+
+                    if (playOnAdd) {
+                        self.addAndPlay(streamItem);
+                    } else {
+                        self.add(streamItem);
+                    }
+                    
+                }
+
+                if (callback) {
+                    callback();
+                }
+
+            });
+        },
+        
+        addAndPlay: function (streamItem) {
+            
+            //  Once the Player indicates its loadedVideo has changed (to the video just added to stream) 
+            //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
+            //  is set just before cueVideoById has finished.
+            Player.once('change:loadedVideoId', function () {
+                setTimeout(function () {
+                    Player.play();
+                });
+            });
+
+            StreamItems.add(streamItem);
+            
         },
 
         addMultiple: function(streamItems) {

@@ -67,23 +67,13 @@ define([
                     return text === url;
                 });
 
-                //  Once the Player indicates its loadedVideo has changed (to the video just added to stream) 
-                //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
-                //  is set just before cueVideoById has finished.
-                Player.once('change:loadedVideoId', function() {
-                    setTimeout(function() {
-                        Player.play();
-                    });
-                });
-
-                StreamItems.add({
+                StreamItems.addAndPlay({
                     id: _.uniqueId('streamItem_'),
                     video: pickedVideo,
                     title: pickedVideo.get('title'),
                     videoImageUrl: 'http://img.youtube.com/vi/' + pickedVideo.get('id') + '/default.jpg',
                     selected: true
                 });
-                
 
                 
             });

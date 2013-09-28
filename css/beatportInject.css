@@ -1,0 +1,16 @@
+.streamus.btn-play {
+    width: 22px;
+    background-color: #51a351;
+}
+
+.streamus.btn-play:hover {
+    background-color: #5bb75b;
+}
+
+table.track-grid .colPlay {
+    width: 75px !important;
+}
+
+.playAll-wrapper .streamus.btn-play {
+    background-position: 7px 7px;
+}

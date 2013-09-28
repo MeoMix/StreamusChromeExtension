@@ -95,6 +95,7 @@ define([
             chrome.idle.onStateChanged.addListener(function(newState) {
 
                 if (newState == 'active' && self.get('dirty')) {
+                    console.log("Refetching user");
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
                     fetchUser.call(self, false);
                 }
@@ -155,6 +156,7 @@ define([
         }
 
         //  Announce that user has loaded so managers can use it to fetch data.
+        console.log("About to set loaded to true:", this);
         this.set('loaded', true);
         Settings.set('userId', this.get('id'));
     }
