@@ -64,8 +64,6 @@ define([
         //  values need to be re-rendered.
         updateProgress: function () {
 
-            console.log("Updare progress");
-            
             var currentTime = parseInt(this.$el.val(), 10);
             var totalTime = parseInt(this.$el.prop('max'), 10);
 

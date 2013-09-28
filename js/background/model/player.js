@@ -79,7 +79,6 @@ define([
                         
                         //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
                         if (message.currentTime !== undefined) {
-                            console.log("Set current time to:", message.currentTime);
                             self.set('currentTime', message.currentTime);
                         }
                         

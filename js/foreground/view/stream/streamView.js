@@ -97,7 +97,7 @@
             Utility.scrollChildElements(this.el, '.videoTitle');
         },
         
-        addItem: function (streamItem, activateImmediate) {
+        addItem: function (streamItem) {
 
             var streamItemView = new StreamItemView({
                 model: streamItem,
@@ -112,13 +112,18 @@
                 container: this.$el,
                 event: 'visible'
             });
-
-            //this.sly.activate(element, activateImmediate);
+            
+            if (streamItem.get('selected')) {
+                this.selectItem(streamItem);
+            }
 
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..
             this.sly.reload();
             this.overlay.hide();
+            
+            this.sly.toEnd();
+
         },
         
         addItems: function (streamItems) {

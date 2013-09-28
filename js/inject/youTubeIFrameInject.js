@@ -15,12 +15,22 @@ $(function () {
         
         if (videoStream.length === 0) throw "Expected to find a video stream element";
         if (videoStream.length > 1) throw "Expected to find only one video stream element, actual:" + videoStream.length;
-        
+
+        var lastPostedTime;
+
+        //  TimeUpdate has awesome resolution, but we only display to the nearest second.
+        //  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
         videoStream.on('timeupdate', function () {
 
-            port.postMessage({
-                currentTime: Math.ceil(this.currentTime)
-            });
+            var currentTime = Math.ceil(this.currentTime);
+            
+            if (currentTime !== lastPostedTime) {
+                port.postMessage({
+                    currentTime: currentTime
+                });
+
+                lastPostedTime = currentTime;
+            }
 
         });
         
