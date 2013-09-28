@@ -18,7 +18,6 @@ define([
             //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
             ready: false,
             state: PlayerState.UNSTARTED,
-            videoStreamSrc: null,
             //  This will be set after the player is ready and can communicate its true value.
             //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
             volume: 50,

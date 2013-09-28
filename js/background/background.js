@@ -85,12 +85,6 @@ define([
 
                 sendResponse({ playlists: playlists });
                 break;
-            case 'videoStreamSrcChange':
-                Player.set('videoStreamSrc', request.videoStreamSrc);
-                break;
-            case 'needSeekTo':
-                Player.triggerInitialLoadDataSeekTo();
-                break;
             case 'addVideoByIdToPlaylist':
                 //  TODO: Maybe not active folder.
                 var playlist = User.get('folders').findWhere({ active: true }).get('playlists').get(request.playlistId);

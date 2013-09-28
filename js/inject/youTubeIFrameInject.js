@@ -49,21 +49,24 @@ $(function () {
 
         //    //  Don't send a blank src across, I think?
         //    if (videoStreamSrc != null && $.trim(videoStreamSrc) != '') {
-        //        chrome.runtime.sendMessage({
-        //            method: "videoStreamSrcChange", videoStreamSrc: videoStreamSrc
+
+        //        console.log("VideoStreamSrc:", videoStreamSrc);
+
+        //        port.postMessage({
+        //            videoStreamSrc: videoStreamSrc
         //        });
-            
-        //        videoStream.removeAttr('src');
 
-        //        //  TODO: I think this is still broken in some scenarios.
-        //        //  Blob data requires an initial seekTo trigger by the original YT player to give up data.
-        //        if (videoStreamSrc.indexOf('blob') === -1) {
+        //        //videoStream.removeAttr('src');
 
-        //            chrome.runtime.sendMessage({
-        //                method: "needSeekTo"
-        //            });
+        //        ////  TODO: I think this is still broken in some scenarios.
+        //        ////  Blob data requires an initial seekTo trigger by the original YT player to give up data.
+        //        //if (videoStreamSrc.indexOf('blob') === -1) {
 
-        //        }
+        //        //    chrome.runtime.sendMessage({
+        //        //        method: "needSeekTo"
+        //        //    });
+
+        //        //}
 
         //    }
         //});
