@@ -43,9 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="background.htm" />
+    <Content Include="css\beatportInject.css" />
     <Content Include="css\contextMenu.css" />
+    <Content Include="css\font-awesome.css" />
     <Content Include="css\fullscreen.css" />
+    <Content Include="css\newForegroundUi.css" />
     <Content Include="css\youTube.css" />
+    <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="fullscreen.htm" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
@@ -57,6 +61,7 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\foreground\newForeground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
     <Content Include="js\foreground\model\settings.js" />
@@ -67,6 +72,7 @@
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\fullscreen\requirePaths.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\newForegroundUi.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
     <Content Include="js\utility.js" />
     <Content Include="js\foreground\collection\contextMenuGroups.js" />
@@ -88,6 +94,7 @@
     <Content Include="js\enum\shareableEntityType.js" />
     <Content Include="js\thirdParty\jquery.lazyload.js" />
     <Content Include="js\thirdParty\sly.js" />
+    <Content Include="newForeground.htm" />
     <Content Include="options.htm" />
     <Content Include="css\aristo\aristo.css" />
     <Content Include="css\aristo\images\bg_fallback.png" />
@@ -187,6 +194,10 @@
     <Content Include="js\background\model\youTubePlayerAPI.js" />
     <Content Include="js\youTubeDataAPI.js" />
     <Content Include="tests.htm" />
+    <Content Include="font\fontawesome-webfont.eot" />
+    <Content Include="font\fontawesome-webfont.ttf" />
+    <Content Include="font\fontawesome-webfont.woff" />
+    <Content Include="font\FontAwesome.otf" />
     <None Include="js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="manifest.json" />
     <Content Include="_locales\en\messages.json" />

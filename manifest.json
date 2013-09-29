@@ -17,7 +17,7 @@
 			"38": "img/streamus_icon38.png"
 		},
 		"default_title": "__MSG_extensionTitle__",
-		"default_popup": "foreground.htm"
+		"default_popup": "newForeground.htm"
 	},
 
 	"author": "Sean Anderson",

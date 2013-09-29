@@ -63,7 +63,7 @@ define([
 
                     refreshPausedVideoInterval = setInterval(function () {
                         
-                        self.loadVideoById(loadedVideoId, self.get('currentTime'));
+                        self.loadVideoById(self.get('loadedVideoId'), self.get('currentTime'));
 
                     }, eightHoursInMilliseconds);
 

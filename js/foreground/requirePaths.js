@@ -23,6 +23,7 @@ var require = {
         //  Foreground:
         'main': 'foreground/main',
         'foreground': 'foreground/foreground',
+        'newForeground': 'foreground/newForeground',
 
         //  Collection:
         'contextMenuGroups': 'foreground/collection/contextMenuGroups',
