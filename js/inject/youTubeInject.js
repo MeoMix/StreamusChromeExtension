@@ -1,6 +1,6 @@
 //  This code runs on YouTube pages.
 $(function () {
-
+    //  Inject CSS here to give it priority over all other CSS loaded on the page.
     var style = document.createElement('link');
     style.rel = 'stylesheet';
     style.type = 'text/css';

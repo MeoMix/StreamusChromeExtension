@@ -1,11 +1,12 @@
-﻿var style = document.createElement('link');
+﻿//  Inject CSS here to give it priority over all other CSS loaded on the page.
+var style = document.createElement('link');
 style.rel = 'stylesheet';
 style.type = 'text/css';
 style.href = chrome.extension.getURL('css/beatportInject.css');
 document.head.appendChild(style);
 
 //  This code runs on beatport.com domains.
-$(function () {
+$(function() {
     'use strict';
 
     checkUrlAndInjectIfMatch();
@@ -13,14 +14,18 @@ $(function () {
 
     //  Need to check the URL whenever they click links to see if should inject.
     var checkUrlInterval;
-    var timeout = 8000; //  Give it 8s to change before they'll need to refresh
-    var pollingFrequency = 500;
-    
-    $(document).on('mousedown', 'a', function () {
-        
-        checkUrlInterval = setInterval(function () {
+    var timeout = 10000; //  Give it 10s to change before they'll need to refresh
+    var pollingFrequency = 1000; //  Check every 1s
+
+    $(document).on('mousedown', 'a', function() {
+
+        //  Stop any previous checks
+        clearInterval(checkUrlInterval);
+
+        //  Wait for browser to load and check occassionally until the URL matches or we give up.
+        checkUrlInterval = setInterval(function() {
             var isGoodUrl = checkUrlAndInjectIfMatch();
-            
+
             if (isGoodUrl || timeout <= 0) {
                 clearInterval(checkUrlInterval);
             }
@@ -29,10 +34,10 @@ $(function () {
 
         }, pollingFrequency);
     });
-    
+
     function checkUrlAndInjectIfMatch() {
 
-        var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/*top-100*/)
+        var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/*top-100*/);
 
         if (urlMatchesInjection) {
 
@@ -41,7 +46,7 @@ $(function () {
 
         return urlMatchesInjection;
     }
-    
+
     function injectIcons() {
 
         //  Get references to our needed elements and make sure that worked properly.
@@ -55,9 +60,9 @@ $(function () {
             'role': 'button',
             'href': 'javascript:void(0)',
             'title': chrome.i18n.getMessage("playAllInStreamus"),
-            click: function () {
+            click: function() {
 
-                var videoTitles = _.map($('.streamus.btn-play[data-item-name]'), function (playButton) {
+                var videoTitles = _.map($('.streamus.btn-play[data-item-name]'), function(playButton) {
                     var videoTitle = $(playButton).data('item-name') + ' ' + $(playButton).data('artists');
                     return videoTitle;
                 });
@@ -76,7 +81,7 @@ $(function () {
         if (playButtons.length === 0) throw "Failed to find play buttons";
 
         //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
-        _.each(playButtons, function (button) {
+        _.each(playButtons, function(button) {
 
             var itemName = $(button).data('item-name');
 
@@ -91,7 +96,7 @@ $(function () {
                 'data-item-name': itemName,
                 'data-artists': itemArtists,
                 'title': chrome.i18n.getMessage("playInStreamus"),
-                click: function () {
+                click: function() {
 
                     var videoTitle = $(this).data('item-name');
                     var artists = $(this).data('artists');
@@ -107,7 +112,7 @@ $(function () {
             $(button).before(streamusPlayIcon);
 
         });
-        
+
     }
 
 });
