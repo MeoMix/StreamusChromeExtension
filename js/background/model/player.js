@@ -156,7 +156,7 @@ define([
         },
 
         cueVideoById: function (videoId, startSeconds) {
-            console.log("cueVideoById");
+
             this.set('loadedVideoId', videoId);
 
             youTubePlayer.cueVideoById({
@@ -168,7 +168,6 @@ define([
         },
             
         loadVideoById: function (videoId, startSeconds) {
-            console.log('loadVideoById');
 
             this.set('state', PlayerState.BUFFERING);
             this.set('loadedVideoId', videoId);

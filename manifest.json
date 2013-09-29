@@ -80,7 +80,7 @@
 			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
 		},
 		{
-			"matches": ["*://*.beatport.com/*top-100*"],
+			"matches": ["*://*.beatport.com/*"],
 			"run_at": "document_end",
 			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/beatportInject.js"]
 		}

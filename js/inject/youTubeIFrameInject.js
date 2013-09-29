@@ -60,8 +60,6 @@ $(function () {
         //    //  Don't send a blank src across, I think?
         //    if (videoStreamSrc != null && $.trim(videoStreamSrc) != '') {
 
-        //        console.log("VideoStreamSrc:", videoStreamSrc);
-
         //        port.postMessage({
         //            videoStreamSrc: videoStreamSrc
         //        });

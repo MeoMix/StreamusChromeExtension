@@ -303,6 +303,9 @@ svg.deleteButtonSvg {
     text-shadow: none;
     color: white;
     font-weight: bold;
+    display: inline-block;
+    margin-top: 126px;
+    margin-left: 70px;
 }
 
 .clickable {

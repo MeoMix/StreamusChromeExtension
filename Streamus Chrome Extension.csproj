@@ -66,6 +66,7 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\fullscreen\requirePaths.js" />
+    <Content Include="js\inject\beatportInject.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
     <Content Include="js\utility.js" />
     <Content Include="js\foreground\collection\contextMenuGroups.js" />
