@@ -8,7 +8,7 @@ document.head.appendChild(style);
 //  This code runs on beatport.com domains.
 $(function() {
     'use strict';
-
+    console.log("running");
     checkUrlAndInjectIfMatch();
     $(window).on('hashchange', checkUrlAndInjectIfMatch);
 
@@ -36,11 +36,11 @@ $(function() {
     });
 
     function checkUrlAndInjectIfMatch() {
-
-        var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/*top-100*/);
-
+        console.log("Checking", window.location.href);
+        var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/.*top-100.*/);
+        console.log("And?", urlMatchesInjection);
         if (urlMatchesInjection) {
-
+            console.log("urlMatches");
             injectIcons();
         }
 
