@@ -8,7 +8,7 @@ document.head.appendChild(style);
 //  This code runs on beatport.com domains.
 $(function() {
     'use strict';
-    console.log("running");
+
     checkUrlAndInjectIfMatch();
     $(window).on('hashchange', checkUrlAndInjectIfMatch);
 
@@ -17,30 +17,31 @@ $(function() {
     var timeout = 10000; //  Give it 10s to change before they'll need to refresh
     var pollingFrequency = 1000; //  Check every 1s
 
-    $(document).on('mousedown', 'a', function() {
+    $(document).on('mousedown', 'a', function () {
+        
+        if ($(this).attr('href').match(/^.*top-100.*/)) {
+            //  Stop any previous checks
+            clearInterval(checkUrlInterval);
 
-        //  Stop any previous checks
-        clearInterval(checkUrlInterval);
+            //  Wait for browser to load and check occassionally until the URL matches or we give up.
+            checkUrlInterval = setInterval(function () {
+                var isGoodUrl = checkUrlAndInjectIfMatch();
 
-        //  Wait for browser to load and check occassionally until the URL matches or we give up.
-        checkUrlInterval = setInterval(function() {
-            var isGoodUrl = checkUrlAndInjectIfMatch();
+                if (isGoodUrl || timeout <= 0) {
+                    clearInterval(checkUrlInterval);
+                }
 
-            if (isGoodUrl || timeout <= 0) {
-                clearInterval(checkUrlInterval);
-            }
+                timeout -= pollingFrequency;
 
-            timeout -= pollingFrequency;
+            }, pollingFrequency);
+        }
 
-        }, pollingFrequency);
     });
 
     function checkUrlAndInjectIfMatch() {
-        console.log("Checking", window.location.href);
+ 
         var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/.*top-100.*/);
-        console.log("And?", urlMatchesInjection);
         if (urlMatchesInjection) {
-            console.log("urlMatches");
             injectIcons();
         }
 
