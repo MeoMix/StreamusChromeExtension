@@ -1,15 +1,12 @@
 ﻿define([
-    'activeFolderView',
-    'playlistInputView'
-], function (ActiveFolderView, PlaylistInputView) {
+    'activeFolderView'
+], function (ActiveFolderView) {
     'use strict';
 
     var ActiveFolderTabView = Backbone.View.extend({
         
-        el: $('#PlaylistsContent'),
-            
         activeFolderView: null,
-        playlistInputView: null,
+        //playlistInputView: null,
         
         initialize: function() {
 
@@ -18,11 +15,11 @@
                 model: this.model
             });
             
-            this.playlistInputView = new PlaylistInputView({
-                model: this.model
-            });
+            //this.playlistInputView = new PlaylistInputView({
+            //    model: this.model
+            //});
 
-            this.$el.prepend(this.playlistInputView.render().el);
+            //this.$el.prepend(this.playlistInputView.render().el);
         },
         
         changeModel: function(newModel) {
@@ -30,7 +27,7 @@
             
             //  TODO: Destroy and re-create the view instead of calling changeModel.
             this.activeFolderView.changeModel(newModel);
-            this.playlistInputView.model = newModel;
+            //this.playlistInputView.model = newModel;
         }
 
 

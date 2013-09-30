@@ -51,7 +51,6 @@ $(function() {
             $(this).next().slideDown(200);
         }
 
-
     });
 
     $(".search-bar input").focus(function() {

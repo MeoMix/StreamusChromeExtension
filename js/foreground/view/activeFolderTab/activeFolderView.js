@@ -11,11 +11,13 @@ define([
 
     var ActiveFolderView = Backbone.View.extend({
         
-        el: $('#ActiveFolderView'),
+        el: $('#activeFolderView'),
 
-        ul: $('#ActiveFolderView ul'),
+        //ul: $('#ActiveFolderView ul'),
         
-        emptyNotification: $('#ActiveFolderView .emptyListNotification'),
+
+        
+        //emptyNotification: $('#ActiveFolderView .emptyListNotification'),
         
         loadingSpinnerView: new LoadingSpinnerView,
         
@@ -27,15 +29,15 @@ define([
         
         //  Refreshes the playlist display with the current playlist information.
         render: function () {
-            this.ul.empty();
+            this.$el.empty();
 
             //  TODO: Change this to a template.
             var activeFolder = this.model;
 
             if (activeFolder.get('playlists').length === 0) {
-                this.emptyNotification.show();
+                //this.emptyNotification.show();
             } else {
-                this.emptyNotification.hide();
+                //this.emptyNotification.hide();
                 
                 var firstPlaylistId = activeFolder.get('firstPlaylistId');
                 var playlist = activeFolder.get('playlists').get(firstPlaylistId);
@@ -57,7 +59,7 @@ define([
                 } while (playlist.get('id') !== firstPlaylistId)
                 
                 //  Do this all in one DOM insertion to prevent lag in large folders.
-                this.ul.append(listItems);
+                this.$el.append(listItems);
 
                 //  TODO: This is probably partially handled by the PlaylistView not ActiveFolderView
                 //  TODO: I presume this is still useful, but activePlaylistView doesn't have it so I need to double check.
@@ -69,14 +71,16 @@ define([
         },
         
         initialize: function () {
-            
+
+            console.log("initializing");
+
             //  TODO: Sortable.
-            this.emptyNotification.text(chrome.i18n.getMessage("emptyFolder"));
+            //this.emptyNotification.text(chrome.i18n.getMessage("emptyFolder"));
             
             //  Need to do it this way to support i18n
-            this.emptyNotification.css({
-                'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
-            });
+            //this.emptyNotification.css({
+            //    'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
+            //});
 
             this.startListeningToPlaylists(this.model.get('playlists'));
             this.render();
@@ -107,7 +111,7 @@ define([
                     self.visuallySelectPlaylist(playlist);
                 } else {
                     //  TODO: Change from loaded to active.
-                    self.ul.find('li').removeClass('loaded');
+                    self.$el.find('li').removeClass('loaded');
                 }
 
             });
@@ -126,14 +130,14 @@ define([
 
             var element = playlistView.render().$el;
 
-            if (this.ul.find('li').length > 0) {
+            if (this.$el.find('li').length > 0) {
 
                 var previousPlaylistId = playlist.get('previousPlaylistId');
-                var previousPlaylistLi = this.ul.find('li[data-playlistid="' + previousPlaylistId + '"]');
+                var previousPlaylistLi = this.$el.find('li[data-playlistid="' + previousPlaylistId + '"]');
                 element.insertAfter(previousPlaylistLi);
 
             } else {
-                element.appendTo(this.ul);
+                element.appendTo(this.$el);
             }
 
             if (playlist.has('dataSource')) {
@@ -144,7 +148,7 @@ define([
 
                     if (!playlist.get('dataSourceLoaded')) {
 
-                        var playlistLi = this.ul.find('li[data-playlistid="' + playlist.get('id') + '"]');
+                        var playlistLi = this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]');
                         playlistLi.append(this.loadingSpinnerView.render().el);
 
                         var self = this;
@@ -262,7 +266,7 @@ define([
             if (activePlaylist) {
                 
                 var activePlaylistId = activePlaylist.get('id');
-                var activeListItem = this.ul.find('li[data-playlistid="' + activePlaylistId + '"]');
+                var activeListItem = this.$el.find('li[data-playlistid="' + activePlaylistId + '"]');
 
                 if (activeListItem.length > 0) {
                     activeListItem.scrollIntoView(useAnimation);
@@ -275,8 +279,8 @@ define([
         visuallySelectPlaylist: function(playlist) {
             this.scrollItemIntoView(playlist, false);
 
-            this.ul.find('li').removeClass('loaded');
-            this.ul.find('li[data-playlistid="' + playlist.get('id') + '"]').addClass('loaded');
+            this.$el.find('li').removeClass('loaded');
+            this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]').addClass('loaded');
         }
 
     });

@@ -3,6 +3,15 @@ html {
     height: 540px;
 }
 
+body {
+    width: 100%;
+    height: 100%;
+}
+
+body > * {
+  transition: opacity .2s ease-in-out;
+}
+
 body.loading > * {
     opacity: 0.5;
 }
@@ -47,7 +56,6 @@ body.loading > * {
 }
 
 .modalOverlay .panel {
-    z-index: 51;
     background: #f2f2f2;
     transition: left .3s;
     box-shadow: 0 0 20px #000;
@@ -55,11 +63,11 @@ body.loading > * {
 
 .modalOverlay .panel .header {
     background: #e6e6e6;
-    height: 38px;
+    height: 30px;
     right: 0;
     top: 0;
     left: 0;
-    line-height: 38px;
+    line-height: 30px;
     font-size: 1.1em;
     font-weight: bold;
     padding: 10px;
@@ -67,23 +75,35 @@ body.loading > * {
 
 .modalOverlay .panel .body {
     padding: 10px;
+    font-size: 1.1em;
 }
 
 .reloadPrompt .panel {
     position: absolute;
-    opacity: 1 !important;
     left: 50%;
     margin-left: -250px;
     width: 500px;
-    top: 50%;
     margin-top: -55px;
-    height: 110px;
+    height: 135px;
+    top: -135px;
+    transition: top .3s;
 }
 
-.reloadPrompt .panel > button {
-    display: block;
-    margin: 0 auto;
-    margin-top: 10px;
+.reloadPrompt.visible .panel {
+    top: 50%;
+}
+
+.reloadPrompt .panel button {
+    bottom: 10px;
+    position: absolute;
+}
+
+button.reload {
+    right: 55px;
+}
+
+button.wait {
+    right: 10px;
 }
 
 /*Loading Spinner*/
@@ -127,12 +147,6 @@ body.loading .loadingSpinner {
     height: 26px;
     -webkit-animation: spin 1s infinite linear;
     -webkit-box-sizing: content-box !important;
-}
-
-
-
-body {
-    overflow: hidden;
 }
 
 input:focus, button:focus { outline: none }
@@ -384,16 +398,16 @@ input[type="range"]::-webkit-slider-thumb {
 
 .left-list:hover { overflow-y: scroll }
 
-.item {
+.playlistItem {
     height: 30px;
     margin: 0 0 10px;
     position: relative;
     width: 100%;
 }
 
-.item i { margin-right: .5em }
+.playlistItem i { margin-right: .5em }
 
-.item img {
+.playlistItem img {
     display: block;
     height: 30px;
     left: 0;

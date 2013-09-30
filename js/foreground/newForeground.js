@@ -4,14 +4,18 @@ define([
     'settings',
     'newForegroundUi',
     'loadingSpinnerView',
-    'reloadPromptView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView) {
+    'reloadPromptView',
+    'activeFolderTabView',
+    'activePlaylistTabView'
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderTabView, ActivePlaylistTabView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
 
         el: $('body'),
         
+        activeFolderTabView: null,
+        activePlaylistTabView: null,
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
         showReloadPromptTimeout: null,
@@ -24,10 +28,7 @@ define([
         },
 
         initialize: function () {
-            this.$el.append(this.reloadPromptView.render().el);
-            return;
-
-
+            
             var self = this;
 
             this.$el.append(this.loadingSpinnerView.render().el);
@@ -35,7 +36,14 @@ define([
             //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
-                self.$el.append(self.reloadPromptView.render().el);
+                
+                var reloadPromptElement = self.reloadPromptView.render().el;
+                self.$el.append(reloadPromptElement);
+                
+                $(reloadPromptElement).find('.panel').fadeIn(200, function () {
+                    $(reloadPromptElement).addClass('visible');
+                });
+                
             }, 5000);
 
             //  If the user opens the foreground SUPER FAST then requireJS won't have been able to load everything in the background in time.
@@ -102,6 +110,111 @@ define([
                 this.loadBackgroundDependentContent();
             }
         },
+        
+        loadBackgroundDependentContent: function () {
+            this.$el.removeClass('loading');
+            clearTimeout(this.showReloadPromptTimeout);
+            this.reloadPromptView.remove();
+            this.loadingSpinnerView.remove();
+
+            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+
+            //  TODO: Instead of calling changeModel I should be removing/recreating my views I think.
+            if (this.activeFolderTabView === null) {
+                this.activeFolderTabView = new ActiveFolderTabView({
+                    model: activeFolder
+                });
+            } else {
+                this.activeFolderTabView.changeModel(activeFolder);
+            }
+
+            if (this.activePlaylistTabView === null) {
+                this.activePlaylistTabView = new ActivePlaylistTabView({
+                    model: activeFolder.getActivePlaylist()
+                });
+            } else {
+                this.activePlaylistTabView.changeModel(activeFolder.getActivePlaylist());
+            }
+
+            return;
+
+            if (this.streamView === null) {
+
+                this.streamView = new StreamView({
+                    model: activeFolder
+                });
+
+            } else {
+                this.streamView.changeModel(activeFolder);
+            }
+
+            //  VideoDisplayView properly uses a template so I can just remove and re-create it I believe.
+            if (this.videoDisplayView) {
+                this.videoDisplayView.remove();
+            }
+            this.videoDisplayView = new VideoDisplayView;
+
+            var folders = this.backgroundUser.get('folders');
+
+            this.listenTo(folders, 'change:active', function (folder, isActive) {
+
+                //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
+                if (isActive) {
+                    this.activeFolderTabView.changeModel(folder);
+                    this.streamView.changeModel(activeFolder);
+                }
+
+            });
+
+            //  TODO: if activeFolder changes I think I'll need to unbind and rebind
+            var playlists = folders.getActiveFolder().get('playlists');
+            this.listenTo(playlists, 'change:active', function (playlist, isActive) {
+
+                //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
+                if (isActive) {
+                    this.activePlaylistTabView.changeModel(playlist);
+                }
+
+            });
+
+            //  Set the initially loaded content to whatever was clicked last or the home page as a default
+            //  TODO: Remove the string replace in a few versions, I changed localStorage names and need to support old versions for a while.
+            var activeContentButtonId = Settings.get('activeContentButtonId').replace('Menu', 'Content');
+            var activeContentButton = $('#' + activeContentButtonId);
+
+            this.setContentButtonActive(activeContentButton);
+            this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
+
+            this.radioButtonView = new RadioButtonView({
+                model: chrome.extension.getBackgroundPage().RadioButton
+            });
+            this.$el.find('#menu').append(this.radioButtonView.render().el);
+
+            this.repeatButtonView = new RepeatButtonView({
+                model: chrome.extension.getBackgroundPage().RepeatButton
+            });
+            this.$el.find('#menu').append(this.repeatButtonView.render().el);
+
+            this.shuffleButtonView = new ShuffleButtonView({
+                model: chrome.extension.getBackgroundPage().ShuffleButton
+            });
+            this.$el.find('#menu').append(this.shuffleButtonView.render().el);
+
+            this.playPauseButtonView = new PlayPauseButtonView({
+                model: chrome.extension.getBackgroundPage().PlayPauseButton
+            });
+            this.$el.find('#Header').before(this.playPauseButtonView.render().el);
+
+            this.nextButtonView = new NextButtonView({
+                model: chrome.extension.getBackgroundPage().NextButton
+            });
+            this.$el.find('#Header').after(this.nextButtonView.render().el);
+
+            this.previousButtonView = new PreviousButtonView({
+                model: chrome.extension.getBackgroundPage().PreviousButton
+            });
+            this.$el.find('#Header').after(this.previousButtonView.render().el);
+        }
     });
 
     return new ForegroundView;

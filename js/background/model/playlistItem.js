@@ -53,10 +53,13 @@ define([
 
     //  Public exposure of a constructor for building new PlaylistItem objects.
     return function (config) {
+
+        console.log("PlaylistItem config:", config);
         
         //  Default the PlaylistItem's title to the Video's title, but allow overriding.
         if (config && config.title === undefined || config.title === '') {
-            config.title = config.video.get('title');
+            //  Support data coming straight from the server and being used to initialize
+            config.title = config.video instanceof Backbone.Model ? config.video.get('title') : config.title;
         }
 
         var playlistItem = new playlistItemModel(config);

@@ -186,15 +186,18 @@
 		"message": "Carga un video antes de lanzar el modo Pantalla completa"
 	},
 	"reloadPromptText": {
-		"message": "Bufff! A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
+		"message": "A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
     "reloadButtonText": {
-		"message": "Recargar Streamus"
+		"message": "Recargar"
 	},
 	"playInStreamus": {
 		"message": "Reproducir en Streamus"
 	},
     "playAllInStreamus": {
 		"message": "Todos Reproducir en Streamus"
+	},
+	"waitButtonText": {
+		"message": "Wait"
 	}
 }

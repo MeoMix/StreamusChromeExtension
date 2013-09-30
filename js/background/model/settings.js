@@ -11,7 +11,7 @@ define([
         
         defaults: function() {
             return {
-                localDebug: false,
+                localDebug: true,
                 serverURL: '',
                 activeContentButtonId: getItem('activeContentButtonId') || 'HomeContentButton',
                 activeFolderId: getItem('activeFolderId') || null,
@@ -27,7 +27,7 @@ define([
         initialize: function () {
             //  BaseURL is needed for ajax requests to the server.
             if (this.get('localDebug')) {
-                this.set('serverURL', 'http://test.streamus.com:61975/');
+                this.set('serverURL', 'http://localhost:61975/');
             }
             else {
                 this.set('serverURL', 'http://streamus.apphb.com/');

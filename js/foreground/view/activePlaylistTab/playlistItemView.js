@@ -2,8 +2,6 @@
     'use strict';
 
     var PlaylistItemView = Backbone.View.extend({
-        tagName: 'li',
-        
         className: 'playlistItem',
         
         template: _.template($('#playlistItemTemplate').html()),

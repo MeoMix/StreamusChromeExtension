@@ -476,6 +476,45 @@ define([
 
         },
         
+        doYouTubeLogin: function () {
+
+            //  TODO: It seems like I should be able to use chrome-identity, but I guess not.
+            //chrome.identity.getAuthToken({ 'interactive': true }, function (authToken) {
+
+            //console.log("authToken:", authToken);
+            //gapi.auth.setToken(authToken);
+            // }
+
+            //  Set immediate to false if authResult returns null
+
+            gapi.auth.authorize({
+
+                client_id: '346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner',
+                immediate: true
+            }, function (authResult) {
+
+                //if (authResult == null) {
+
+                //} else {
+
+                //}
+
+                gapi.client.load('youtube', 'v3', function () {
+
+                    var request = gapi.client.youtube.subscriptions.list({
+                        mine: true,
+                        part: 'contentDetails'
+                    });
+
+                    request.execute(function (response) {
+                        console.log("response:", response);
+                    });
+                });
+            });
+
+        },
+
         //  Fetching an auto-generated playlist requires YouTube's v3 API.
         //  The v3 API does not serve up all the necessary information with the first request.
         //  Make two requests: one to get the list of video ids and a second to get the video information

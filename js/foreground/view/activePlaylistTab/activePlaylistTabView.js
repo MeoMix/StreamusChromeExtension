@@ -1,15 +1,14 @@
 ﻿define([
-    'activePlaylistView',
-    'playlistItemInputView'
-], function (ActivePlaylistView, PlaylistItemInputView) {
+    'activePlaylistView'
+], function (ActivePlaylistView) {
     'use strict';
 
     var ActivePlaylistTabView = Backbone.View.extend({
 
-        el: $('#HomeContent'),
+        //el: $('#activePlaylistTabView'),
         
         activePlaylistView: null,
-        playlistItemInputView: null,
+        //playlistItemInputView: null,
 
         initialize: function () {
 
@@ -18,11 +17,11 @@
                 model: this.model
             });
 
-            this.playlistItemInputView = new PlaylistItemInputView({
-                model: this.model
-            });
+            //this.playlistItemInputView = new PlaylistItemInputView({
+            //    model: this.model
+            //});
             
-            this.$el.prepend(this.playlistItemInputView.render().el);
+            //this.$el.prepend(this.playlistItemInputView.render().el);
 
         },
 
@@ -31,7 +30,7 @@
 
             //  TODO: Destroy and re-create the view instead of calling changeModel.
             this.activePlaylistView.changeModel(newModel);
-            this.playlistItemInputView.changeModel(newModel);
+            //this.playlistItemInputView.changeModel(newModel);
         }
 
     });

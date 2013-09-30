@@ -9,33 +9,31 @@ define([
 
     var ActivePlaylistView = Backbone.View.extend({
         
-        el: $('#ActivePlaylistView'),
-        
-        ul: $('#ActivePlaylistView ul'),
+        el: $('#activePlaylistView'),
         
         emptyNotification: $('#ActivePlaylistView .emptyListNotification'),
         
         events: {
             'contextmenu': 'showContextMenu',
-            'contextmenu ul li': 'showItemContextMenu',
-            'click ul li': 'addItemToStream'
+            'contextmenu .playlistItem': 'showItemContextMenu',
+            'click .playlistItem': 'addItemToStream'
         },
         
         render: function () {
-            this.ul.empty();
+            this.$el.empty();
 
             var activePlaylist = this.model;
 
             if (activePlaylist.get('items').length === 0) {
-                this.emptyNotification.show();
+                //this.emptyNotification.show();
             } else {
-                this.emptyNotification.hide();
+                //this.emptyNotification.hide();
 
                 var firstItemId = activePlaylist.get('firstItemId');
                 var playlistItem = activePlaylist.get('items').get(firstItemId);
 
-                //  Build up the ul of li's representing each playlistItem.
-                var listItems = [];
+                //  Build up the views for each playlistItem.
+                var items = [];
                 do {
 
                     var playlistItemView = new PlaylistItemView({
@@ -43,7 +41,7 @@ define([
                     });
 
                     var element = playlistItemView.render().el;
-                    listItems.push(element);
+                    items.push(element);
 
                     var nextItemId = playlistItem.get('nextItemId');
                     playlistItem = activePlaylist.get('items').get(nextItemId);
@@ -51,7 +49,7 @@ define([
                 } while (playlistItem && playlistItem.get('id') !== firstItemId)
 
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
-                this.ul.append(listItems);
+                this.$el.append(items);
             }
 
             this.$el.find('img.lazy').lazyload({
@@ -75,7 +73,7 @@ define([
             });
             
             //  Allows for drag-and-drop of videos
-            this.ul.sortable({
+            this.$el.sortable({
                 axis: 'y',
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
@@ -86,13 +84,13 @@ define([
                     var newIndex = ui.item.index();
                     var nextIndex = newIndex + 1;
 
-                    var nextListItem = self.ul.children('ul li:eq(' + nextIndex + ')');
+                    var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
 
-                    if (nextListItem == null) {
-                        nextListItem = self.ul.children('ul li:eq(0)');
+                    if (nextItem == null) {
+                        nextItem = self.$el.find('item:eq(0)');
                     }
 
-                    var nextItemId = nextListItem.data('itemid');
+                    var nextItemId = nextItem.data('itemid');
 
                     self.model.moveItem(movedItemId, nextItemId);
                 }
@@ -131,15 +129,15 @@ define([
 
             var element = playlistItemView.render().$el;
 
-            if (this.ul.find('li').length > 0) {
+            if (this.$el.find('item').length > 0) {
 
                 var previousItemId = playlistItem.get('previousItemId');
 
-                var previousItemLi = this.ul.find('li[data-itemid="' + previousItemId + '"]');
-                element.insertAfter(previousItemLi);
+                var previousItem = this.$el.find('item[data-itemid="' + previousItemId + '"]');
+                element.insertAfter(previousItem);
 
             } else {
-                element.appendTo(this.ul);
+                element.appendTo(this.$el);
             }
             
             element.find('img.lazy').lazyload({
@@ -154,7 +152,7 @@ define([
         
         showContextMenu: function (event) {
             var self = this;
-            
+
             var isAddPlaylistDisabled = this.model.get('items').length === 0;
 
             ContextMenuView.addGroup({
@@ -194,6 +192,9 @@ define([
         },
         
         showItemContextMenu: function (event) {
+
+            console.log("showcontextMenu");
+
 
             var clickedItemId = $(event.currentTarget).data('itemid');
             var clickedItem = this.model.get('items').get(clickedItemId);
@@ -238,6 +239,7 @@ define([
                         });
                     }
                 }]
+
             });
 
             ContextMenuView.addGroup({
@@ -268,7 +270,6 @@ define([
             });
 
             return false;
-            
         },
         
         addItemToStream: function (event) {
@@ -288,7 +289,7 @@ define([
         
         scrollItemIntoView: function(item) {
             var itemId = item.get('id');
-            var activeItem = this.ul.find('li[data-itemid="' + itemId + '"]');
+            var activeItem = this.$el.find('.playlistItem[data-itemid="' + itemId + '"]');
 
             if (activeItem.length > 0) {
                 activeItem.scrollIntoView(true);

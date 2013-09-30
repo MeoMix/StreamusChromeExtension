@@ -186,15 +186,18 @@
 		"message": "Load a video before trying to go full screen"
 	},
 	"reloadPromptText": {
-		"message": "Woah! Streamus is taking a long time to load. Reloading may help."
+		"message": "Streamus is taking a long time to load. Reloading may help."
 	},
     "reloadButtonText": {
-		"message": "Reload Streamus"
+		"message": "Reload"
 	},
 	"playInStreamus": {
 		"message": "Play in Streamus"
 	},
     "playAllInStreamus": {
 		"message": "Play All in Streamus"
+	},
+	"waitButtonText": {
+		"message": "Wait"
 	}
 }

@@ -12,7 +12,8 @@
         model: new ReloadPrompt,
 
         events: {
-            'click': 'reload'
+            'click .reload': 'reload',
+            'click .wait': 'wait'
         },
 
         render: function () {
@@ -21,11 +22,13 @@
         },
 
         reload: function () {
-
             chrome.runtime.reload();
-
+        },
+        
+        wait: function () {
+            this.$el.removeClass('visible').fadeOut();
         }
-
+        
     });
 
     return RestartPromptView;

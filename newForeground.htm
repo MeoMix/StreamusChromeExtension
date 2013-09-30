@@ -9,17 +9,18 @@
 
         <link href="css/font-awesome.css" rel="stylesheet">
         <link href="css/newForegroundUi.css" rel="stylesheet">
-        
+        <link href="css/contextMenu.css" rel="stylesheet" />
+
         <!--        <link href="css/foreground.css" rel="stylesheet" />
             <link href="css/youTube.css" rel="stylesheet" />
-            <link href="css/contextMenu.css" rel="stylesheet" />
+            
             <link href="css/aristo/aristo.css" rel="stylesheet" />-->
 
         <script src="js/foreground/requirePaths.js"></script>
         <script data-main="main" src="../js/thirdParty/require.js"></script>
     </head>
 
-    <body class="">
+    <body class="loading">
         <div class="left-pane" id="playlists">
             <div class="left-top-bar">
                 <div class="playlist-name">
@@ -28,28 +29,8 @@
                 <button class="button-label button-color" id="button-add-videos"><i class="icon-plus"></i>Add videos</button>
             </div>
             <div class="left-top-divider"></div>
-            <div class="left-list">
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
-                <div class="item">
-                    <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                </div>
+            <div id="activePlaylistView" class="left-list">
+                
             </div>
             <div class="left-bottom-menubar">
                 <div class="playlist-details">
@@ -144,7 +125,7 @@
                 </div>
                 <div class="list">
                     <div class="item">
-                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
+                            <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
                     </div>
                     <div class="item">
                         <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
@@ -177,19 +158,22 @@
                         Playlists<i class="icon-caret-down"></i>
                     </h3>
                     <div>
-                        <ul id="streamus-playlists">
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">My new playlist</span><span class="count">10</span>
-                            </li>
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">Rainy Days</span><span class="count">5</span>
-                            </li>
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">Workout </span><span class="count">3</span>
-                            </li>
+                        <ul id="activeFolderView">
+                            
+
+
+                            <!--                            <li>
+                                                                <i class="icon-list icon-fixed-width"></i><span class="title">My new playlist</span><span class="count">10</span>
+                                                            </li>
+                                <li>
+                                    <i class="icon-list icon-fixed-width"></i><span class="title">Rainy Days</span><span class="count">5</span>
+                                </li>
+                                <li>
+                                    <i class="icon-list icon-fixed-width"></i><span class="title">Workout </span><span class="count">3</span>
+                                </li>-->
                         </ul>
                     </div>
-                    <h3>
+<!--                    <h3>
                         Youtube<i class="icon-caret-down"></i>
                     </h3>
                     <div>
@@ -209,25 +193,7 @@
                                 <i class="icon-list icon-fixed-width"></i><span class="title">Hot Right Now</span><span class="count">95</span>
                             </li>
                         </ul>
-                    </div>
-                    <h3>
-                        SoundCloud<i class="icon-caret-down"></i>
-                    </h3>
-                    <div>
-                        <ul id="soundcloud-channels">
-                            <li>
-                                <i class="icon-user icon-fixed-width"></i><span class="title">miauk</span><span class="count">10</span>
-                            </li>
-                        </ul>
-                        <ul id="soundcloud-playlists">
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">Dance</span><span class="count">15</span>
-                            </li>
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">Bass</span><span class="count">12</span>
-                            </li>
-                        </ul>
-                    </div>
+                    </div>-->
                 </div>
                 <div class="context-buttons">
                     <div class="left-group">
@@ -239,27 +205,87 @@
                 </div>
             </div>
         </div>
+        
+        <div id="contextMenu">     
+        </div>
+
+        <!--Templates:-->
+        <script type="text/template" id="loadingSpinnerTemplate">
+            <div class="spinner">
+                <div class="mask">
+                    <div class="maskedCircle"></div>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="reloadPromptTemplate">
+            <div class="panel">
+                <div class="header">
+                    <span class="title">Reload Streamus</span>
+                </div>
+                <div class="body">
+                    <%- promptText %>
+                    <button class="reload button-label button-color"><%- reloadButtonText %></button>
+                    <button class="wait button-label button-color"><%- waitButtonText %></button>
+                </div>
+            </div>
+        </script>
+
+        <script type="text/template" id="contextMenuTemplate">
+
+            <% groups.each(function(group){ %>
+                <ul id="<%= group.cid %>">
+                    <% group.get('items').each(function(item){ %>
+                        <li>
+                            <a id="<%= item.cid %>" title="<%= item.get('title') %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
+                        </li>
+                    <% }); %>
+                </ul>
+            <% }); %>
+
+        </script>
+        
+        <script type="text/template" id="dialogTemplate">
+            <button type="button" class="close">×</button>
+            <%- text %>
+        </script>
+        
+        <script type="text/template" id="playlistItemTemplate">
+            <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id')%>/default.jpg" src="" />
+            <span class="item-title"><%- title %></span>
+            <span class="item-details">
+                <span class="item-author">
+                    <i class="icon-user"></i><%- video.get('author') %>
+                </span>
+                <span class="item-duration">
+                    <i class="icon-time"></i><%- video.get('prettyDuration') %>	
+                </span>
+            </span>
+        </script>
+
+<!--        <script type="text/template" id="playlistItemTemplate">
+            
+            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id')%>/default.jpg" src="" />
+            
+            <div class="textWrapper">
+                <span class="playlistItemTitle"><%- title %></span>
+                <span class="playlistItemInfo"><%- video.get('prettyDuration') %> by <%- video.get('author') %></span>
+            </div>
+        
+        </script>-->
+
+<!--    <li>
+                      <div class="textWrapper">
+                <span class="playlistTitle"></span>
+                <span class="playlistInfo"><%- displayInfo %></span>
+            </div>  
+
+        </li>-->
+        <script type="text/template" id="playlistTemplate">
+            <i class="icon-list icon-fixed-width"></i>
+            <span class="title"><%- title %></span>
+            <span class="count"><%- items.length %></span>
+        </script>
 
     </body>
 </html>
-
-<!--Templates:-->
-<script type="text/template" id="loadingSpinnerTemplate">
-    <div class="spinner">
-        <div class="mask">
-            <div class="maskedCircle"></div>
-        </div>
-    </div>
-</script>
-
-<script type="text/template" id="reloadPromptTemplate">
-    <div class="panel">
-        <div class="header">
-            <span class="title">Reload Streamus</span>
-        </div>
-        <div class="body">
-            <%- promptText %>
-            <button type="button" class="reloadButton"><%- buttonText %></button>
-        </div>
-    </div>
-</script>

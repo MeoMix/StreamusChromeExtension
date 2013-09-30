@@ -28,7 +28,11 @@
             //  Prevent display outside viewport.
             var offsetTop = this.top;
             var needsVerticalFlip = offsetTop + this.$el.height() > this.$el.parent().height();
+
+            console.log("This height and this parent height:", this.$el.height(), this.$el.parent().height());
+
             if (needsVerticalFlip) {
+                console.log("needs vertical flip");
                 offsetTop = offsetTop - this.$el.height();
             }
 
