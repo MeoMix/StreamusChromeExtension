@@ -185,6 +185,16 @@
         
         <script type="text/template" id="activePlaylistItemsTemplate">
             
+            <% if( items.length === 0 ) { %>
+                <div class="big-text">
+                    <i class="icon-music i-4x"></i>
+
+                    <div class="emptyMessage">
+                        <%- title %> <%- chrome.i18n.getMessage("emptyPlaylist") %>
+                    </div>
+                </div>
+            <% } %>
+
         </script>
         
         <script type="text/template" id="activePlaylistAreaTemplate">
@@ -237,7 +247,7 @@
 				</div>
             </div>
             <div class="left-top-divider"></div>
-            <div class="left-list">
+            <div id="searchResultList" class="left-list">
                 <div class="big-text">
                     <i class="icon-search i-4x"></i>Start searching and results will appear here
                 </div>

@@ -13,8 +13,6 @@ define([
 
         template: _.template($('#activePlaylistItemsTemplate').html()),
         
-        //emptyNotification: $('#ActivePlaylistItemsView .emptyListNotification'),
-        
         events: {
             'contextmenu': 'showContextMenu',
             'contextmenu .playlistItem': 'showItemContextMenu',
@@ -24,19 +22,24 @@ define([
         attributes: {
             'id': 'activePlaylistItemsView'
         },
-
+            
         render: function () {
-            this.$el.empty();
+            this.$el.html(this.template(
+                _.extend(this.model.toJSON(), {
+                    //  Mix in chrome to reference internationalize.
+                    'chrome.i18n': chrome.i18n
+                })
+            ));
 
-            var activePlaylist = this.model;
+            var firstItemId = this.model.get('firstItemId');
 
-            if (activePlaylist.get('items').length === 0) {
-                //this.emptyNotification.show();
-            } else {
-                //this.emptyNotification.hide();
+            var playlistItems = this.model.get('items');
+            
+            if (playlistItems.length > 0) {
 
-                var firstItemId = activePlaylist.get('firstItemId');
-                var playlistItem = activePlaylist.get('items').get(firstItemId);
+                var playlistItem = playlistItems.get(firstItemId);
+
+                console.log("this.model and playlistItem:", this.model, playlistItem);
 
                 //  Build up the views for each playlistItem.
                 var items = [];
@@ -50,19 +53,20 @@ define([
                     items.push(element);
 
                     var nextItemId = playlistItem.get('nextItemId');
-                    playlistItem = activePlaylist.get('items').get(nextItemId);
+                    playlistItem = playlistItems.get(nextItemId);
 
                 } while (playlistItem && playlistItem.get('id') !== firstItemId)
 
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
                 this.$el.append(items);
-            }
 
-            this.$el.find('img.lazy').lazyload({
-                effect : 'fadeIn',
-                container: this.$el,
-                event: 'scroll manualShow'
-            });
+                this.$el.find('img.lazy').lazyload({
+                    effect: 'fadeIn',
+                    container: this.$el,
+                    event: 'scroll manualShow'
+                });
+                
+            }
 
             return this;
         },
@@ -71,24 +75,20 @@ define([
 
             var self = this;
             
-            //this.emptyNotification.text(chrome.i18n.getMessage("emptyPlaylist"));
-            
-            ////  Need to do it this way to support i18n
-            //this.emptyNotification.css({
-            //    'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
-            //});
-            
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
                 axis: 'y',
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
+                cancel: '.big-text',
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
 
                     var movedItemId = ui.item.data('itemid');
                     var newIndex = ui.item.index();
                     var nextIndex = newIndex + 1;
+
+                    console.log("self == this?", self == this);
 
                     var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
 
@@ -103,7 +103,6 @@ define([
             });
 
             this.startListeningToItems(this.model.get('items'));
-            this.render();
 
             Utility.scrollChildElements(this.el, 'span.playlistItemTitle');
         },

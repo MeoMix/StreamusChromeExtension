@@ -61,13 +61,16 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\foreground\model\activePlaylistArea.js" />
     <Content Include="js\foreground\newForeground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
     <Content Include="js\foreground\model\settings.js" />
     <Content Include="js\foreground\view\activeFolderTab\activeFolderTabView.js" />
-    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistTabView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistAreaView.js" />
+    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistItemsView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
+    <Content Include="js\foreground\view\videoSearchView.js" />
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\fullscreen\requirePaths.js" />
@@ -167,7 +170,6 @@
     <Content Include="js\foreground\view\buttons\nextButtonView.js" />
     <Content Include="js\foreground\view\volumeControlView.js" />
     <Content Include="js\foreground\view\activePlaylistTab\playlistItemInputView.js" />
-    <Content Include="js\foreground\view\activePlaylistTab\activePlaylistView.js" />
     <Content Include="js\foreground\view\activeFolderTab\playlistInputView.js" />
     <Content Include="js\foreground\view\activeFolderTab\activeFolderView.js" />
     <Content Include="js\foreground\view\progressBarView.js" />

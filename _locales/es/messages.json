@@ -99,7 +99,7 @@
 		"message": "Esta Carpeta está vacía. Prueba a añadir pistas pulsando arriba."
 	},
 	"emptyPlaylist": {
-		"message": "Esta Lista está vacía. Prueba a añadir pistas buscando arriba."
+		"message": "está vacía. Prueba a añadir pistas buscando arriba."
 	},
 	"repeatDisabled": {
 		"message": "Repetir está desactivado. Pulsar para activar Repetir Pista."

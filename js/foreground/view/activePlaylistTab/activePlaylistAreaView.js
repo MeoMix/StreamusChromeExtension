@@ -33,8 +33,6 @@
                 model: this.model.get('playlist')
             });
             
-
-
             //this.playlistItemInputView = new PlaylistItemInputView({
             //    model: this.model
             //});
