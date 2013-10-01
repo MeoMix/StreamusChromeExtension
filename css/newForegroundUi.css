@@ -8,9 +8,9 @@ body {
     height: 100%;
 }
 
-body > * {
+/*body > * {
   transition: opacity .2s ease-in-out;
-}
+}*/
 
 body.loading > * {
     opacity: 0.5;
@@ -333,7 +333,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-#button-add-videos {
+#addVideosButton {
     display: block;
     position: absolute;
     right: 10px;
@@ -432,7 +432,7 @@ input[type="range"]::-webkit-slider-thumb {
     right: 10px;
 }
 
-.search-bar {
+.searchBar {
     bottom: 0;
     display: block;
     left: 50px;
@@ -441,7 +441,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.search-bar .dummy {
+.searchBar .searchBottomOutline {
     background: #ccc;
     bottom: 10px;
     display: block;
@@ -453,9 +453,9 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 0;
 }
 
-.search-bar .dummy.active { background: #666 }
+.searchBar .searchBottomOutline.active { background: #666 }
 
-.search-bar input {
+.searchBar input {
     -webkit-appearance: none;
     border: 0;
     bottom: 11px;
@@ -469,7 +469,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1;
 }
 
-.search-bar button#source-select {
+.searchBar button#source-select {
     bottom: 11px;
     display: block;
     font-weight: bold;
@@ -481,7 +481,13 @@ input[type="range"]::-webkit-slider-thumb {
     width: 140px;
 }
 
-.search-bar button#source-select .label { margin: 0 .7em 0 .5em }
+.searchBar button#source-select .label { margin: 0 .7em 0 .5em }
+
+/* TODO: Would be nice to just not have the view created until necessary instead of display: none*/
+#button-back,
+#search {
+    display: none;
+}
 
 #search .big-text {
     color: #949494;
@@ -704,7 +710,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #button-playlists, #button-back {
-    display: block;
+
     height: 45px;
     left: 10px;
     position: absolute;

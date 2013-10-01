@@ -31,6 +31,7 @@ var require = {
         'streamItems': 'foreground/collection/streamItems',
 
         //  Model:
+        'activePlaylistArea': 'foreground/model/activePlaylistArea',
         'contextMenu': 'foreground/model/contextMenu',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',
         'contextMenuItem': 'foreground/model/contextMenuItem',
@@ -51,6 +52,7 @@ var require = {
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
+        'videoSearchView': 'foreground/view/videoSearchView',
         'volumeControlView': 'foreground/view/volumeControlView',
         
         //  View -> Buttons:
@@ -68,8 +70,8 @@ var require = {
         'playlistView': 'foreground/view/activeFolderTab/playlistView',
 
         //  View -> ActivePlaylistTab:
-        'activePlaylistTabView': 'foreground/view/activePlaylistTab/activePlaylistTabView',
-        'activePlaylistView': 'foreground/view/activePlaylistTab/activePlaylistView',
+        'activePlaylistAreaView': 'foreground/view/activePlaylistTab/activePlaylistAreaView',
+        'activePlaylistItemsView': 'foreground/view/activePlaylistTab/activePlaylistItemsView',
         'playlistItemInputView': 'foreground/view/activePlaylistTab/playlistItemInputView',
         'playlistItemView': 'foreground/view/activePlaylistTab/playlistItemView',
         

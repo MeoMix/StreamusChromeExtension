@@ -141,6 +141,7 @@ define([
             });
         },
         
+        //  TODO: Not sure where this is being referenced, but introducing setNewDisplayInfo for now
         setDisplayInfo: function () {
 
             var videos = this.get('items').pluck('video');
@@ -150,9 +151,10 @@ define([
                 return memo + duration;
             }, 0);
 
-            var displayInfo = 'Videos: ' + videos.length + ', Duration: ' + Utility.prettyPrintTime(sumVideoDurations);
-            this.set('displayInfo', displayInfo);
+            var videoString = videos.length === 1 ? 'video' : 'videos';
 
+            var displayInfo = videos.length + ' ' + videoString +', ' + Utility.prettyPrintTime(sumVideoDurations);
+            this.set('displayInfo', displayInfo);
         },
             
         //  This is generally called from the foreground to not couple the Video object with the foreground.

@@ -199,5 +199,21 @@
 	},
 	"waitButtonText": {
 		"message": "Wait"
+	},
+
+
+
+
+    "addVideosButtonText": {
+		"message": "Add videos"
+	},
+    "playAllButtonText": {
+		"message": "Play all"
+	},
+	"renameButtonText": {
+		"message": "Rename"
+	},
+    "deleteButtonText": {
+		"message": "Delete"
 	}
 }

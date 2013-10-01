@@ -62,7 +62,7 @@ define([
                 this.$el.append(listItems);
 
                 //  TODO: This is probably partially handled by the PlaylistView not ActiveFolderView
-                //  TODO: I presume this is still useful, but activePlaylistView doesn't have it so I need to double check.
+                //  TODO: I presume this is still useful, but activePlaylistItemsView doesn't have it so I need to double check.
                 var activePlaylist = this.model.getActivePlaylist();
                 this.visuallySelectPlaylist(activePlaylist);
             }
@@ -245,7 +245,10 @@ define([
             return false;
         },
         
-        selectPlaylist: function(event) {
+        selectPlaylist: function (event) {
+
+            console.log("Selecting playlist");
+
             var playlistId = $(event.currentTarget).data('playlistid');
             var playlist = this.model.getPlaylistById(playlistId);
 
@@ -259,7 +262,7 @@ define([
         },
         
         //  TODO: This doesn't seem to be working.
-        //  TODO: Needs to be dry with activePlaylistView
+        //  TODO: Needs to be dry with activePlaylistItemsView
         scrollItemIntoView: function (activePlaylist, useAnimation) {
 
             //  Since we emptied our list we lost the selection, reselect.

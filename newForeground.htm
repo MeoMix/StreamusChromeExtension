@@ -21,72 +21,8 @@
     </head>
 
     <body class="loading">
-        <div class="left-pane" id="playlists">
-            <div class="left-top-bar">
-                <div class="playlist-name">
-                    Playlist name
-                </div>
-                <button class="button-label button-color" id="button-add-videos"><i class="icon-plus"></i>Add videos</button>
-            </div>
-            <div class="left-top-divider"></div>
-            <div id="activePlaylistView" class="left-list">
-                
-            </div>
-            <div class="left-bottom-menubar">
-                <div class="playlist-details">
-                    9 songs, 38 minutes
-                </div>
-                <div class="playlist-actions">
-                    
-                    <button class="button-label" id="button-playlist-play-all">
-                        <i class="icon-play-sign"></i>Play All
-                    </button>
+        
 
-                    <button class="button-label" id="button-playlist-rename" title="Rename Playlist">
-                        <i class="icon-pencil"></i>Rename 
-                    </button>
-
-                    <button class="button-label" id="button-playlist-delete" title="Delete Playlist">
-                        <i class="icon-trash"></i>Delete
-                    </button>
-
-                </div>
-            </div>
-        </div>
-        <div class="left-pane" id="search">
-            <div class="left-top-bar">
-                <div class="search-bar">
-                    <input placeholder="Search.." type="search">
-                    <div class="dummy"></div>
-
-                    <button id="source-select">
-                        <i class="icon-youtube-play"></i>
-                        <span class="label">YouTube</span>
-                        <i class="icon-sort"></i>
-                    </button>
-                </div>
-            </div>
-            <div class="left-top-divider"></div>
-            <div class="left-list">
-                <div class="big-text">
-                    <i class="icon-search i-4x"></i>Start searching and results will appear here
-                </div>
-            </div>
-            <div class="left-bottom-menubar">
-                <div class="playlist-details">
-                    25 results
-                </div>
-                <div class="playlist-actions">
-                    <button class="button-label" id="button-playlist-play-all">
-                        <i class="icon-play-sign"></i>Play All
-                    </button>
-                    
-                    <button class="button-label" id="button-playlist-save" title="Save search results as new playlist">
-                        <i class="icon-save"></i>Save as playlist 
-                    </button>
-                </div>
-            </div>
-        </div>
         <div class="right-pane">
             <div class="player">
                 <div class="top-bar">
@@ -147,11 +83,21 @@
                 </div>
             </div>
         </div>
-        <button class="button-icon" id="button-playlists" title="Playlist Menu"><i class="icon-reorder"></i></button><button class="button-icon" id="button-back" title="Back"><i class="icon-arrow-left"></i></button>
+        <button class="button-icon" id="button-playlists" title="Playlist Menu">
+            <i class="icon-reorder"></i>
+        </button>
+        <button class="button-icon" id="button-back" title="Back">
+            <i class="icon-arrow-left"></i>
+        </button>
         <div id="playlists-panel">
             <div class="panel">
                 <div class="header">
-                    <span class="title"><img height="25px" src="http://streamus.com/img/logo.png"></span><button class="button-icon button-icon" id="button-settings" title="Streamus Settings"><i class="icon-cogs"></i></button>
+                    <span class="title">
+                        <img height="25px" src="http://streamus.com/img/logo.png">
+                    </span>
+                    <button class="button-icon button-icon" id="button-settings" title="Streamus Settings">
+                        <i class="icon-cogs"></i>
+                    </button>
                 </div>
                 <div class="list">
                     <h3 class="first">
@@ -159,41 +105,9 @@
                     </h3>
                     <div>
                         <ul id="activeFolderView">
-                            
 
-
-                            <!--                            <li>
-                                                                <i class="icon-list icon-fixed-width"></i><span class="title">My new playlist</span><span class="count">10</span>
-                                                            </li>
-                                <li>
-                                    <i class="icon-list icon-fixed-width"></i><span class="title">Rainy Days</span><span class="count">5</span>
-                                </li>
-                                <li>
-                                    <i class="icon-list icon-fixed-width"></i><span class="title">Workout </span><span class="count">3</span>
-                                </li>-->
                         </ul>
                     </div>
-<!--                    <h3>
-                        Youtube<i class="icon-caret-down"></i>
-                    </h3>
-                    <div>
-                        <ul id="youtube-channels">
-                            <li>
-                                <i class="icon-user icon-fixed-width"></i><span class="title">majesticcasual</span><span class="count">396</span>
-                            </li>
-                            <li>
-                                <i class="icon-user icon-fixed-width"></i><span class="title">DaftPunkVEVO</span><span class="count">10</span>
-                            </li>
-                        </ul>
-                        <ul id="youtube-playlists">
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">90's Pop</span><span class="count">24</span>
-                            </li>
-                            <li>
-                                <i class="icon-list icon-fixed-width"></i><span class="title">Hot Right Now</span><span class="count">95</span>
-                            </li>
-                        </ul>
-                    </div>-->
                 </div>
                 <div class="context-buttons">
                     <div class="left-group">
@@ -263,28 +177,86 @@
             </span>
         </script>
 
-<!--        <script type="text/template" id="playlistItemTemplate">
-            
-            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id')%>/default.jpg" src="" />
-            
-            <div class="textWrapper">
-                <span class="playlistItemTitle"><%- title %></span>
-                <span class="playlistItemInfo"><%- video.get('prettyDuration') %> by <%- video.get('author') %></span>
-            </div>
-        
-        </script>-->
-
-<!--    <li>
-                      <div class="textWrapper">
-                <span class="playlistTitle"></span>
-                <span class="playlistInfo"><%- displayInfo %></span>
-            </div>  
-
-        </li>-->
         <script type="text/template" id="playlistTemplate">
             <i class="icon-list icon-fixed-width"></i>
             <span class="title"><%- title %></span>
             <span class="count"><%- items.length %></span>
+        </script>
+        
+        <script type="text/template" id="activePlaylistItemsTemplate">
+            
+        </script>
+        
+        <script type="text/template" id="activePlaylistAreaTemplate">
+            
+            <div class="left-top-bar">
+                <div class="playlist-name">
+                   <%- playlist.get('title') %>
+                </div>
+                <button class="button-label button-color" id="addVideosButton" title="<%- addVideosButtonText %>">
+                    <i class="icon-plus"></i><%- addVideosButtonText %>
+                </button>
+            </div>
+            <div class="left-top-divider"></div>
+            <div class="left-bottom-menubar">
+                <div class="playlist-details">
+                    <%- playlist.get('displayInfo') %>
+                    <!--9 songs, 38 minutes-->
+                </div>
+                <div class="playlist-actions">
+                    
+                    <button class="button-label" id="button-playlist-play-all" title="<%- playAllButtonText %>">
+                        <i class="icon-play-sign"></i><%- playAllButtonText %>
+                    </button>
+
+                    <button class="button-label" id="button-playlist-rename" title="<%- renameButtonText %> <%- playlist.get('title') %>">
+                        <i class="icon-pencil"></i><%- renameButtonText %> 
+                    </button>
+
+                    <button class="button-label" id="button-playlist-delete" title="<%- deleteButtonText %> <%- playlist.get('title') %>">
+                        <i class="icon-trash"></i><%- deleteButtonText %>
+                    </button>
+
+                </div>
+            </div>
+
+        </script>
+        
+        <script type="text/template" id="videoSearchTemplate">
+
+            <div class="left-top-bar">
+                <div class="searchBar">
+					<input placeholder="Search.." type="search">
+					<div class="searchBottomOutline"></div>
+
+					<button id="source-select">
+						<i class="icon-youtube-play"></i>
+						<span class="label">YouTube</span>
+						<i class="icon-sort"></i>
+					</button>
+				</div>
+            </div>
+            <div class="left-top-divider"></div>
+            <div class="left-list">
+                <div class="big-text">
+                    <i class="icon-search i-4x"></i>Start searching and results will appear here
+                </div>
+            </div>
+            <div class="left-bottom-menubar">
+                <div class="playlist-details">
+                    25 results
+                </div>
+                <div class="playlist-actions">
+                    <button class="button-label" id="button1">
+                        <i class="icon-play-sign"></i>Play All
+                    </button>
+                    
+                    <button class="button-label" id="button2" title="Save search results as new playlist">
+                        <i class="icon-save"></i>Save as playlist 
+                    </button>
+                </div>
+            </div>
+
         </script>
 
     </body>

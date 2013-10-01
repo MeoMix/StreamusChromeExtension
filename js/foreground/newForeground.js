@@ -6,16 +6,21 @@ define([
     'loadingSpinnerView',
     'reloadPromptView',
     'activeFolderTabView',
-    'activePlaylistTabView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderTabView, ActivePlaylistTabView) {
+    'activePlaylistAreaView',
+    'activePlaylistArea',
+    'videoSearchView'
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderTabView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
 
         el: $('body'),
         
+        //  TODO: These probably don't need to be null at the start.
         activeFolderTabView: null,
-        activePlaylistTabView: null,
+        activePlaylistAreaView: null,
+        videoSearchView: null,
+
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
         showReloadPromptTimeout: null,
@@ -25,6 +30,10 @@ define([
         backgroundUser: chrome.extension.getBackgroundPage().User,
 
         events: {
+            
+            'click #addVideosButton': 'showVideoSearch',
+            'click #button-back': 'hideVideoSearch'
+
         },
 
         initialize: function () {
@@ -128,13 +137,26 @@ define([
                 this.activeFolderTabView.changeModel(activeFolder);
             }
 
-            if (this.activePlaylistTabView === null) {
-                this.activePlaylistTabView = new ActivePlaylistTabView({
-                    model: activeFolder.getActivePlaylist()
+            var activePlaylistArea = new ActivePlaylistArea({
+                playlist: activeFolder.getActivePlaylist()
+            });
+
+            if (this.activePlaylistAreaView === null) {
+
+                this.activePlaylistAreaView = new ActivePlaylistAreaView({
+                    model: activePlaylistArea
                 });
+
+                this.$el.append(this.activePlaylistAreaView.render().el);
+
             } else {
-                this.activePlaylistTabView.changeModel(activeFolder.getActivePlaylist());
+                this.activePlaylistAreaView.changeModel(activePlaylistArea);
             }
+
+            //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
+            this.videoSearchView = new VideoSearchView;
+            this.$el.append(this.videoSearchView.render().el);
+
 
             return;
 
@@ -172,7 +194,12 @@ define([
 
                 //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
                 if (isActive) {
-                    this.activePlaylistTabView.changeModel(playlist);
+                    
+                    var activePlaylistArea = new ActivePlaylistArea({
+                        playlist: activeFolder.getActivePlaylist()
+                    });
+
+                    this.activePlaylistAreaView.changeModel(playlist);
                 }
 
             });
@@ -214,6 +241,22 @@ define([
                 model: chrome.extension.getBackgroundPage().PreviousButton
             });
             this.$el.find('#Header').after(this.previousButtonView.render().el);
+        },
+        
+        showVideoSearch: function () {
+
+            this.videoSearchView.showAndFocus();
+
+            $("#button-playlists, #playlists").fadeOut();
+            $("#button-back").fadeIn();
+        },
+        
+        hideVideoSearch: function () {
+
+            this.videoSearchView.hide();
+            
+            $("#button-back").fadeOut();
+            $("#button-playlists, #playlists").fadeIn();
         }
     });
 

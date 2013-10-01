@@ -3,7 +3,7 @@
 define([
     'settings',
     'activeFolderTabView',
-    'activePlaylistTabView',
+    'activePlaylistView',
     'streamView',
     'videoDisplayView',
     'loadingSpinnerView',
@@ -18,7 +18,7 @@ define([
     'volumeControlView',
     'progressBarView',
     'headerTitleView'
-], function (Settings, ActiveFolderTabView, ActivePlaylistTabView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
+], function (Settings, ActiveFolderTabView, ActivePlaylistView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -26,7 +26,7 @@ define([
         el: $('body'),
         
         activeFolderTabView: null,
-        activePlaylistTabView: null,
+        activePlaylistView: null,
         streamView: null,
         videoDisplayView: null,
         loadingSpinnerView: new LoadingSpinnerView,
@@ -111,7 +111,7 @@ define([
             }
             else if (activeContentId == 'HomeContent') {
                 //  TODO: This seems wrong. I think when I destroy/recreate views instead of changing models it won't be necessary?
-                this.activePlaylistTabView.activePlaylistView.$el.trigger('manualShow');
+                this.activePlaylistView.activePlaylistItemsView.$el.trigger('manualShow');
             }
         },
         
@@ -174,8 +174,8 @@ define([
                 this.activeFolderTabView.changeModel(activeFolder);
             }
 
-            if (this.activePlaylistTabView === null) {
-                this.activePlaylistTabView = new ActivePlaylistTabView({
+            if (this.activePlaylistView === null) {
+                this.activePlaylistView = new ActivePlaylistView({
                     model: activeFolder.getActivePlaylist()
                 });
             } else {
@@ -216,7 +216,7 @@ define([
 
                 //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
                 if (isActive) {
-                    this.activePlaylistTabView.changeModel(playlist);
+                    this.activePlaylistView.changeModel(playlist);
                 }
 
             });

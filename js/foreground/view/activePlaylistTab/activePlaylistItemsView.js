@@ -7,11 +7,13 @@ define([
 ], function (ContextMenuView, StreamItems, PlaylistItemView, Utility) {
     'use strict';
 
-    var ActivePlaylistView = Backbone.View.extend({
+    var ActivePlaylistItemsView = Backbone.View.extend({
         
-        el: $('#activePlaylistView'),
+        className: 'left-list',
+
+        template: _.template($('#activePlaylistItemsTemplate').html()),
         
-        emptyNotification: $('#ActivePlaylistView .emptyListNotification'),
+        //emptyNotification: $('#ActivePlaylistItemsView .emptyListNotification'),
         
         events: {
             'contextmenu': 'showContextMenu',
@@ -19,6 +21,10 @@ define([
             'click .playlistItem': 'addItemToStream'
         },
         
+        attributes: {
+            'id': 'activePlaylistItemsView'
+        },
+
         render: function () {
             this.$el.empty();
 
@@ -65,12 +71,12 @@ define([
 
             var self = this;
             
-            this.emptyNotification.text(chrome.i18n.getMessage("emptyPlaylist"));
+            //this.emptyNotification.text(chrome.i18n.getMessage("emptyPlaylist"));
             
-            //  Need to do it this way to support i18n
-            this.emptyNotification.css({
-                'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
-            });
+            ////  Need to do it this way to support i18n
+            //this.emptyNotification.css({
+            //    'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
+            //});
             
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
@@ -195,7 +201,6 @@ define([
 
             console.log("showcontextMenu");
 
-
             var clickedItemId = $(event.currentTarget).data('itemid');
             var clickedItem = this.model.get('items').get(clickedItemId);
 
@@ -298,5 +303,5 @@ define([
         
     });
 
-    return ActivePlaylistView;
+    return ActivePlaylistItemsView;
 });

@@ -197,7 +197,21 @@
     "playAllInStreamus": {
 		"message": "Todos Reproducir en Streamus"
 	},
+
+
 	"waitButtonText": {
 		"message": "Wait"
+	},
+	"addVideosButtonText": {
+		"message": "Añadir pistas"
+	},    
+	"playAllButtonText": {
+		"message": "Play all"
+	},
+	"renameButtonText": {
+		"message": "Rename"
+	},
+    "deleteButtonText": {
+		"message": "Delete"
 	}
 }

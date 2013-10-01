@@ -53,23 +53,4 @@ $(function() {
 
     });
 
-    $(".search-bar input").focus(function() {
-        $(this).parent().find(".dummy").addClass("active");
-    }).blur(function() {
-        $(this).parent().find(".dummy").removeClass("active");
-    });
-
-	$("#button-back, #search").hide();
-
-	$("#button-add-videos").click(function(){  
-		$("#button-playlists, #playlists").fadeOut();
-		$("#button-back, #search").fadeIn();
-		$(".search-bar input").focus();
-	});
-
-	$("#button-back").click(function(){               
-		$("#button-back, #search").fadeOut();
-		$("#button-playlists, #playlists").fadeIn();
-	});
-	
 })
