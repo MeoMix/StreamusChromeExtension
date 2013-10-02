@@ -24,49 +24,6 @@ define([
 
         return isValid;
     }
-
-    function findPlayableByTitle(title, callback) {
-        search(title, function (videoInformationList) {
-
-            videoInformationList.sort(function (a, b) {
-                return levenshtein(a.title.$t, title) - levenshtein(b.title.$t, title);
-            });
-
-            var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
-            callback(videoInformation);
-        });
-    };
-
-    //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
-    function search(text, callback) {
-
-        //  Be sure to filter out videos and suggestions which are restricted by the users geographic location.
-        $.ajax({
-            type: 'GET',
-            url: 'https://gdata.youtube.com/feeds/api/videos',
-            dataType: 'json',
-            data: {
-                category: 'Music',
-                time: 'all_time',
-                'max-results': 50,
-                'start-index': 1,
-                format: 5,
-                v: 2,
-                alt: 'json',
-                q: text,
-                key: developerKey,
-                fields: videosInformationFields,
-                strict: true
-            },
-            success: function (result) {
-                callback(result.feed.entry);
-            },
-            error: function (error) {
-                console.error(error);
-            }
-        });
-
-    };
     
     function tryGetIdFromUrl(url, identifier) {
         var urlTokens = url.split(identifier);
@@ -142,8 +99,28 @@ define([
 
         },
         
+        findPlayableByTitle: function (title, callback) {
+
+            var searchJqXhr = this.search({
+                text: title,
+                success: function(videoInformationList) {
+
+                    videoInformationList.sort(function(a, b) {
+                        return levenshtein(a.title.$t, title) - levenshtein(b.title.$t, title);
+                    });
+
+                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
+                    callback(videoInformation);
+                }
+            });
+
+            return searchJqXhr;
+        },
+        
         //  When a video comes from the server it won't have its related videos, so need to fetch and populate.
         getRelatedVideoInformation: function (videoId, callback) {
+
+            var self = this;
 
             //  Do an async request for the videos's related videos. There isn't a hard dependency on them existing right as a video is created.
             $.ajax({
@@ -183,7 +160,7 @@ define([
                         
                         var deferred = $.Deferred(function (dfd) {
 
-                            findPlayableByTitle(entry.title.$t, function (playableEntry) {
+                            self.findPlayableByTitle(entry.title.$t, function (playableEntry) {
                                 playableEntryList.push(playableEntry);
                                 dfd.resolve();
                             });
@@ -209,7 +186,42 @@ define([
         },
 
         //  TODO: Combine search and quickSearch and just take a max-results paramater.
-        search: search,
+        //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
+        search: function(options) {
+
+            //  Be sure to filter out videos and suggestions which are restricted by the users geographic location.
+            var searchJqXhr = $.ajax({
+                type: 'GET',
+                url: 'https://gdata.youtube.com/feeds/api/videos',
+                dataType: 'json',
+                data: {
+                    category: 'Music',
+                    time: 'all_time',
+                    'max-results': options.maxResults || 50,
+                    'start-index': 1,
+                    format: 5,
+                    v: 2,
+                    alt: 'json',
+                    q: options.text,
+                    key: developerKey,
+                    fields: videosInformationFields,
+                    strict: true
+                },
+                success: function (result) {
+                    options.success(result.feed.entry || []);
+                },
+                error: function (error) {
+                
+                    //  Aborts from typing too much are OK
+                    if (error.statusText !== 'abort') {
+                        console.error(error);
+                    }
+                
+                }
+            });
+
+            return searchJqXhr;
+        },
         
         //  Like search but limited to just one ajax request and smaller video size (used for omnibox currently)
         quickSearch: function(text, callback) {

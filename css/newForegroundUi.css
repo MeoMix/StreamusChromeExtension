@@ -398,6 +398,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .left-list:hover { overflow-y: scroll }
 
+.videoSearchResultItem,
 .playlistItem {
     height: 30px;
     margin: 0 0 10px;
@@ -405,8 +406,10 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100%;
 }
 
+.videoSearchResultItem i,
 .playlistItem i { margin-right: .5em }
 
+.videoSearchResultItem img,
 .playlistItem img {
     display: block;
     height: 30px;

@@ -33,29 +33,33 @@ define([
                 } else {
 
                     //  TODO: Maybe abort ajax requests during typing.
-                    YouTubeDataAPI.quickSearch(trimmedSearchText, function (videoInformationList) {
+                    YouTubeDataAPI.search({
+                        text: trimmedSearchText,
+                        //  Omnibox can only show 6 results
+                        maxResults: 6,
+                        success: function(videoInformationList) {
 
-                        var suggestions = _.map(videoInformationList, function (videoInformation) {
+                            var suggestions = _.map(videoInformationList, function(videoInformation) {
 
-                            var video = new Video({
-                                videoInformation: videoInformation
+                                var video = new Video({
+                                    videoInformation: videoInformation
+                                });
+                                self.get('suggestedVideos').add(video);
+
+                                var textStyleRegExp = new RegExp(text, "i");
+                                var safeTitle = Utility.htmlEscape(video.get('title'));
+                                //var styledTitle = safeTitle.replace(textStyleRegExp, '<match>' + text + '</match>');
+                                var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
+
+                                var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;
+
+                                return { content: 'http://youtu.be/' + video.get('id'), description: description };
                             });
-                            self.get('suggestedVideos').add(video);
 
-                            var textStyleRegExp = new RegExp(text, "i");
-                            var safeTitle = Utility.htmlEscape(video.get('title'));
-                            //var styledTitle = safeTitle.replace(textStyleRegExp, '<match>' + text + '</match>');
-                            var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
+                            suggest(suggestions);
 
-                            var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;
-
-                            return { content: 'http://youtu.be/' + video.get('id'), description: description };
-                        });
-
-                        suggest(suggestions);
-
+                        }
                     });
-
                 }
 
             });

@@ -85,30 +85,35 @@ define([
                 this.contentHeaderView.setAutocompleteSource([]);
 
             } else {
-                YouTubeDataAPI.search(userInput, function (videoInformationList) {
+                
+                YouTubeDataAPI.search({
+                    text: userInput,
+                    success: function(videoInformationList) {
 
-                    //  Do not display results if searchText was modified while searching.
-                    if (userInput === self.contentHeaderView.getUserInput()) {
+                        //  Do not display results if searchText was modified while searching.
+                        if (userInput === self.contentHeaderView.getUserInput()) {
 
-                        var videoSourceList = _.map(videoInformationList, function (videoInformation) {
+                            var videoSourceList = _.map(videoInformationList, function(videoInformation) {
 
-                            //  I wanted the label to be duration | title to help delinate between typing suggestions and actual videos.
-                            var videoDuration = parseInt(videoInformation.media$group.yt$duration.seconds, 10);
-                            var videoTitle = videoInformation.title.$t;
-                            var label = '<b>' + Utility.prettyPrintTime(videoDuration) + "</b>  " + videoTitle;
+                                //  I wanted the label to be duration | title to help delinate between typing suggestions and actual videos.
+                                var videoDuration = parseInt(videoInformation.media$group.yt$duration.seconds, 10);
+                                var videoTitle = videoInformation.title.$t;
+                                var label = '<b>' + Utility.prettyPrintTime(videoDuration) + "</b>  " + videoTitle;
 
-                            return {
-                                label: label,
-                                value: videoInformation
-                            };
-                        });
+                                return {
+                                    label: label,
+                                    value: videoInformation
+                                };
+                            });
 
-                        //  Show videos found instead of suggestions.
-                        self.contentHeaderView.setAutocompleteSource(videoSourceList);
-                        self.contentHeaderView.triggerAutocompleteSearch();
-   
+                            //  Show videos found instead of suggestions.
+                            self.contentHeaderView.setAutocompleteSource(videoSourceList);
+                            self.contentHeaderView.triggerAutocompleteSearch();
+
+                        }
                     }
                 });
+                
             }
         },
         

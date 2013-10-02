@@ -61,7 +61,10 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\foreground\collection\videoSearchResultItems.js" />
     <Content Include="js\foreground\model\activePlaylistArea.js" />
+    <Content Include="js\foreground\model\videoSearch.js" />
+    <Content Include="js\foreground\model\videoSearchResultItem.js" />
     <Content Include="js\foreground\newForeground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\reloadPrompt.js" />
@@ -70,6 +73,7 @@
     <Content Include="js\foreground\view\activePlaylistTab\activePlaylistAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistTab\activePlaylistItemsView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
+    <Content Include="js\foreground\view\videoSearchResultsView.js" />
     <Content Include="js\foreground\view\videoSearchView.js" />
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
@@ -156,7 +160,6 @@
     <Content Include="js\foreground\view\stream\streamView.js" />
     <Content Include="js\inject\streamusShareInject.js" />
     <Content Include="js\enum\dataSource.js" />
-    <Content Include="js\foreground\model\user.js" />
     <Content Include="js\foreground\view\contentHeaderView.js" />
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\view\headerTitleView.js" />

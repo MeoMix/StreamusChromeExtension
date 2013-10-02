@@ -139,36 +139,39 @@ define([
         searchAndAddByName: function(videoTitle, playOnAdd, callback) {
             var self = this;
 
-            YouTubeDataAPI.quickSearch(videoTitle, function (videoInformationList) {
+            YouTubeDataAPI.search({
+                text: videoTitle,
+                maxResults: 10,
+                success: function(videoInformationList) {
 
-                if (videoInformationList.length === 0) {
-                    console.error("Failed to find any videos for:", videoTitle);
-                } else {
-                    
-                    var video = new Video({
-                        videoInformation: videoInformationList[0]
-                    });
-
-                    var streamItem = new StreamItem({
-                        id: _.uniqueId('streamItem_'),
-                        video: video,
-                        title: video.get('title'),
-                        videoImageUrl: 'http://img.youtube.com/vi/' + video.get('id') + '/default.jpg',
-                        selected: !!playOnAdd
-                    });
-
-                    if (playOnAdd) {
-                        self.addAndPlay(streamItem);
+                    if (videoInformationList.length === 0) {
+                        console.error("Failed to find any videos for:", videoTitle);
                     } else {
-                        self.add(streamItem);
+
+                        var video = new Video({
+                            videoInformation: videoInformationList[0]
+                        });
+
+                        var streamItem = new StreamItem({
+                            id: _.uniqueId('streamItem_'),
+                            video: video,
+                            title: video.get('title'),
+                            videoImageUrl: 'http://img.youtube.com/vi/' + video.get('id') + '/default.jpg',
+                            selected: !!playOnAdd
+                        });
+
+                        if (playOnAdd) {
+                            self.addAndPlay(streamItem);
+                        } else {
+                            self.add(streamItem);
+                        }
+
                     }
-                    
-                }
 
-                if (callback) {
-                    callback();
+                    if (callback) {
+                        callback();
+                    }
                 }
-
             });
         },
         
