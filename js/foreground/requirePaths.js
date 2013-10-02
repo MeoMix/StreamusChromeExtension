@@ -29,8 +29,12 @@ var require = {
         'contextMenuGroups': 'foreground/collection/contextMenuGroups',
         'contextMenuItems': 'foreground/collection/contextMenuItems',
         'streamItems': 'foreground/collection/streamItems',
+        'videoSearchResultItems': 'foreground/collection/videoSearchResultItems',
 
         //  Model:
+        //  TODO: Fix...
+        'video': 'background/model/video',
+
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
         'contextMenu': 'foreground/model/contextMenu',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',
@@ -40,6 +44,8 @@ var require = {
         'reloadPrompt': 'foreground/model/reloadPrompt',
         'settings': 'foreground/model/settings',
         'spinnerBuilder': 'foreground/model/spinnerBuilder',
+        'videoSearch': 'foreground/model/videoSearch',
+        'videoSearchResultItem': 'foreground/model/videoSearchResultItem',
         
         //  Model -> Buttons:
         'playPauseButton': 'foreground/model/buttons/playPauseButton',
@@ -52,6 +58,7 @@ var require = {
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
+        'videoSearchResultsView': 'foreground/view/videoSearchResultsView',
         'videoSearchView': 'foreground/view/videoSearchView',
         'volumeControlView': 'foreground/view/volumeControlView',
         

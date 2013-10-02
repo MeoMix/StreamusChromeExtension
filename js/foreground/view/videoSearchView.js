@@ -1,14 +1,18 @@
 ﻿define([
-    'youTubeDataAPI',
-    'utility'
-], function(YouTubeDataAPI, Utility) {
+    'videoSearch',
+    'videoSearchResultsView'
+], function (VideoSearch, VideoSearchResultsView) {
     'use strict';
 
     var VideoSearchView = Backbone.View.extend({
         
         className: 'left-pane',
         
+        model: new VideoSearch,
+        
         template: _.template($('#videoSearchTemplate').html()),
+        
+        videoSearchResultsView: null,
         
         attributes: {
             id: 'search'
@@ -26,14 +30,23 @@
         },
 
         render: function () {
-            //this.model.toJSON()
-            this.$el.html(this.template());
-            
+            this.$el.html(this.template(
+                _.extend(this.model.toJSON(), {
+                    //  Mix in chrome to reference internationalize.
+                    'chrome.i18n': chrome.i18n
+                })
+            ));
+
+            this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
+
             return this;
         },
         
         initialize: function () {
-            
+
+            this.videoSearchResultsView = new VideoSearchResultsView({
+                model: this.model.get('videoSearchResultItems')
+            });
 
         },
         
@@ -60,43 +73,9 @@
         
         //  Searches youtube for video results based on the given text.
         showVideoSuggestions: function () {
-
             var userInput = this.getUserInput();
-
-            //  Clear results if there is no text.
-            if (userInput === '') {
-
-                $('#searchResultList').empty();
-
-            } else {
-                var self = this;
-
-                YouTubeDataAPI.search(userInput, function (videoInformationList) {
-
-                    //  Do not display results if searchText was modified while searching.
-                    if (userInput === self.getUserInput()) {
-
-                        var videoSourceList = _.map(videoInformationList, function (videoInformation) {
-
-                            //  I wanted the label to be duration | title to help delinate between typing suggestions and actual videos.
-                            var videoDuration = parseInt(videoInformation.media$group.yt$duration.seconds);
-                            var videoTitle = videoInformation.title.$t;
-                            var label = '<b>' + Utility.prettyPrintTime(videoDuration) + "</b>  " + videoTitle;
-
-                            return {
-                                label: label,
-                                value: videoInformation
-                            };
-                        });
-
-                        //  Show videos found instead of suggestions.
-                        self.contentHeaderView.setAutocompleteSource(videoSourceList);
-                        self.contentHeaderView.triggerAutocompleteSearch();
-
-                    }
-                });
-            }
-        },
+            this.model.set('userInput', userInput);
+        }
 
     });
 

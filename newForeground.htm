@@ -236,9 +236,8 @@
 
             <div class="left-top-bar">
                 <div class="searchBar">
-					<input placeholder="Search.." type="search">
+					<input placeholder="<%- chrome.i18n.getMessage('searchText') %>" type="search">
 					<div class="searchBottomOutline"></div>
-
 					<button id="source-select">
 						<i class="icon-youtube-play"></i>
 						<span class="label">YouTube</span>
@@ -247,25 +246,49 @@
 				</div>
             </div>
             <div class="left-top-divider"></div>
-            <div id="searchResultList" class="left-list">
-                <div class="big-text">
-                    <i class="icon-search i-4x"></i>Start searching and results will appear here
-                </div>
-            </div>
+
             <div class="left-bottom-menubar">
-                <div class="playlist-details">
-                    25 results
-                </div>
                 <div class="playlist-actions">
-                    <button class="button-label" id="button1">
-                        <i class="icon-play-sign"></i>Play All
+                    <button class="button-label" title="Start playing the top 10 results">
+                        <i class="icon-play-sign"></i><%- chrome.i18n.getMessage('playTopTenButtonText') %>
                     </button>
                     
-                    <button class="button-label" id="button2" title="Save search results as new playlist">
-                        <i class="icon-save"></i>Save as playlist 
+                    <button class="button-label" title="Save search results as new playlist">
+                        <i class="icon-save"></i><%- chrome.i18n.getMessage('saveAsPlaylist') %>
                     </button>
                 </div>
             </div>
+
+        </script>
+
+        <script type="text/template" id="videoSearchResultsTemplate">
+            
+            <% if( this.model.length === 0 ) { %>
+                
+                <div class="big-text">
+                    <i class="icon-search i-4x"></i><%- chrome.i18n.getMessage('searchInstructions') %>
+                </div>
+
+            <% } else { %>
+
+                <% this.model.each(function(videoSearchResultItem){ %>
+                
+                    <div class="videoSearchResultItem" data-videoid="<%- videoSearchResultItem.get('video').get('id') %>">
+                        <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- videoSearchResultItem.get('video').get('id') %>/default.jpg" src="" />
+                        <span class="item-title"><%- videoSearchResultItem.get('video').get('title') %></span>
+                        <span class="item-details">
+                            <span class="item-author">
+                                <i class="icon-user"></i><%- videoSearchResultItem.get('video').get('author') %>
+                            </span>
+                            <span class="item-duration">
+                                <i class="icon-time"></i><%- videoSearchResultItem.get('video').get('prettyDuration') %>	
+                            </span>
+                        </span>
+                    </div>
+
+                <% }) %>
+
+            <% } %>
 
         </script>
 

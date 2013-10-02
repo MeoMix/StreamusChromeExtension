@@ -56,8 +56,8 @@
 	"clearStream": {
 		"message": "Clear Stream"
 	},
-	"saveStreamAsPlaylist": {
-		"message": "Save Stream as Playlist"
+	"saveAsPlaylist": {
+		"message": "Save as Playlist"
 	},
 	"addToStreamus": {
 		"message": "Add to Streamus"
@@ -210,10 +210,19 @@
     "playAllButtonText": {
 		"message": "Play all"
 	},
+	"playTopTenButtonText": {
+		"message": "Play Top 10"
+	},
 	"renameButtonText": {
 		"message": "Rename"
 	},
     "deleteButtonText": {
 		"message": "Delete"
+	},
+	"searchText": {
+		"message": "Search..."
+	},
+	"searchInstructions": {
+		"message": "Start searching and results will appear here"
 	}
 }

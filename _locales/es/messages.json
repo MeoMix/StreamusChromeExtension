@@ -56,8 +56,8 @@
 	"clearStream": {
 		"message": "Vaciar Cola"
 	},
-	"saveStreamAsPlaylist": {
-		"message": "Guardar la Cola en una nueva Lista"
+	"saveAsPlaylist": {
+		"message": "Guarda en una nueva Lista"
 	},
 	"addToStreamus": {
 		"message": "Añadir a Streamus"
@@ -208,10 +208,16 @@
 	"playAllButtonText": {
 		"message": "Play all"
 	},
+	"playTopTenButtonText": {
+		"message": "Play Top 10"
+	},
 	"renameButtonText": {
 		"message": "Rename"
 	},
     "deleteButtonText": {
 		"message": "Delete"
+	},
+	"searchText": {
+		"message": "Search..."
 	}
 }
