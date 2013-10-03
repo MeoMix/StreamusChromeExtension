@@ -75,8 +75,16 @@ $(function() {
 
             }
         });
+        
+        var streamusLogoIcon = $('<a>', {
+            'class': 'streamus btn-queue',
+            'role': 'button',
+            'href': 'javascript:void(0)'
+        });
 
-        playAllWrapper.find('.btn-play').before(streamusPlayAllIcon);
+        playAllWrapper.find('.btn-play').before(streamusPlayAllIcon.add(streamusLogoIcon));
+
+        streamusPlayAllIcon.tooltip();
 
         var playButtons = $('.btn-play[data-item-name]');
         if (playButtons.length === 0) throw "Failed to find play buttons";
@@ -95,6 +103,7 @@ $(function() {
                 'role': 'button',
                 'href': 'javascript:void(0)',
                 'data-item-name': itemName,
+                'data-toggle': 'tooltip',
                 'data-artists': itemArtists,
                 'title': chrome.i18n.getMessage("playInStreamus"),
                 click: function() {
@@ -110,7 +119,15 @@ $(function() {
                 }
             });
 
-            $(button).before(streamusPlayIcon);
+            var streamusLogoIcon = $('<a>', {
+                'class': 'streamus btn-queue',
+                'role': 'button',
+                'href': 'javascript:void(0)'
+            });
+
+            $(button).before(streamusPlayIcon.add(streamusLogoIcon));
+
+            streamusPlayIcon.tooltip();
 
         });
 

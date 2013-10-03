@@ -1,16 +1,37 @@
 .streamus.btn-play {
-    width: 22px;
     background-color: #51a351;
+    margin-right: 2px;
+}
+
+.streamus.btn-queue {
+    background-color: #439645;
+    background-image: url("../img/streamus_icon16_0bars.png");
+    background-position: 2px;
+}
+
+.streamus.btn-play[data-item-name] {
+    margin-bottom: 2px;
+    margin-right: 0;
 }
 
 .streamus.btn-play:hover {
     background-color: #5bb75b;
 }
 
-table.track-grid .colPlay {
-    width: 75px !important;
+.streamus.btn-queue:hover {
+    background-color: #439645;
 }
 
-.playAll-wrapper .streamus.btn-play {
-    background-position: 7px 7px;
+.tooltip {
+    font-weight: bold;
+    font-size: 13px;
+    font-family: sans-serif;
+    text-shadow: 1px black;
+    border-radius: 5px;
+}
+
+.tooltip > .tooltip-inner {
+    background-color: #333;
+    white-space: nowrap;
+    text-transform: none !important;
 }

@@ -192,10 +192,10 @@
 		"message": "Reload"
 	},
 	"playInStreamus": {
-		"message": "Play in Streamus"
+		"message": "Find & Play in Streamus"
 	},
     "playAllInStreamus": {
-		"message": "Play All in Streamus"
+		"message": "Find & Play All in Streamus"
 	},
 	"waitButtonText": {
 		"message": "Wait"

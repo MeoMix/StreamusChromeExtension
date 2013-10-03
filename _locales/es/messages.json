@@ -191,14 +191,14 @@
     "reloadButtonText": {
 		"message": "Recargar"
 	},
+
+
 	"playInStreamus": {
-		"message": "Reproducir en Streamus"
+		"message": "Find & Play in Streamus"
 	},
     "playAllInStreamus": {
-		"message": "Todos Reproducir en Streamus"
+		"message": "Find & Play All in Streamus"
 	},
-
-
 	"waitButtonText": {
 		"message": "Wait"
 	},
