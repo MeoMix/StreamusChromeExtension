@@ -33,17 +33,27 @@
             return this;
         },
         
-        initialize: function () {
+        initialize: function (options) {
+
+            if (!options.parent) throw "VideoSearchResultsView expects to be initialized with a parent ActivePlaylist";
+            this.parent = options.parent;
+
             this.listenTo(this.model, 'reset', this.render);
         },
         
         addItemToActivePlaylist: function (event) {
 
-            var clickedItem = $(event.target);
+            var clickedItem = $(event.currentTarget);
 
-            var videoSearchResultItem = this.model.get(clickedItem.data('videoid'));
-            
-            
+            var videoSearchResultItem = this.model.find(function(item) {
+                return item.get('video').get('id') === clickedItem.data('videoid');
+            });
+
+            console.log("VideoID and videoSearchResultItem:", clickedItem.data('videoid'), videoSearchResultItem);
+
+            this.parent.addItem(videoSearchResultItem.get('video'), function() {
+                console.log("success");
+            });
 
         }
     });

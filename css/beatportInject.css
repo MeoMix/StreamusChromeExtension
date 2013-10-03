@@ -9,13 +9,16 @@
     background-position: 2px;
 }
 
-.streamus.btn-play[data-item-name] {
-    margin-bottom: 2px;
-    margin-right: 0;
-}
-
 .streamus.btn-play:hover {
     background-color: #5bb75b;
+}
+
+table.track-grid .colPlay {
+    width: 96px !important;
+}
+
+table.track-grid .col3 {
+    width: 100px !important;
 }
 
 .streamus.btn-queue:hover {

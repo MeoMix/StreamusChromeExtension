@@ -45,7 +45,8 @@
         initialize: function () {
 
             this.videoSearchResultsView = new VideoSearchResultsView({
-                model: this.model.get('videoSearchResultItems')
+                model: this.model.get('videoSearchResultItems'),
+                parent: this
             });
 
         },
