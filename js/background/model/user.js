@@ -61,12 +61,11 @@ define([
             chrome.storage.sync.get(syncUserIdKey, function (data) {
                 //  Look for a user id in sync, it might be undefined though.
                 var foundUserId = data[syncUserIdKey];
-                //foundUserId = '50D95FC7-5969-4B11-AB54-A2480147A69A';
+                
                 if (typeof foundUserId === 'undefined') {
 
                     foundUserId = Settings.get('userId');
-                    
-                    
+     
                     if (foundUserId !== null) {
                         self.set('id', foundUserId);
                         fetchUser.call(self, true);

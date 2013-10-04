@@ -8,9 +8,8 @@ define([
     'videos',
     'repeatButtonState',
     'shareCode',
-    'shareableEntityType',
-    'utility'
-], function (PlaylistItems, PlaylistItem, Settings, Video, Videos, RepeatButtonState, ShareCode, ShareableEntityType, Utility) {
+    'shareableEntityType'
+], function (PlaylistItems, PlaylistItem, Settings, Video, Videos, RepeatButtonState, ShareCode, ShareableEntityType) {
     'use strict';
 
     var playlistModel = Backbone.Model.extend({
@@ -153,7 +152,20 @@ define([
 
             var videoString = videos.length === 1 ? 'video' : 'videos';
 
-            var displayInfo = videos.length + ' ' + videoString +', ' + Utility.prettyPrintTime(sumVideoDurations);
+            var prettyVideoTime = '';
+            var videoTimeInMinutes = Math.floor(sumVideoDurations / 60);
+            
+            //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
+            if (videoTimeInMinutes === 1) {
+                prettyVideoTime = videoTimeInMinutes + ' minute';
+            }
+            else if (videoTimeInMinutes > 180) {
+                prettyVideoTime = (videoTimeInMinutes / 3) + ' hours';
+            } else {
+                prettyVideoTime = videoTimeInMinutes + ' minutes';
+            }
+
+            var displayInfo = videos.length + ' ' + videoString + ', ' + prettyVideoTime;
             this.set('displayInfo', displayInfo);
         },
             
@@ -175,6 +187,8 @@ define([
             });
                 
             var self = this;
+
+            console.log("Calling save with:", playlistItem);
 
             //  Save the playlistItem, but push after version from server because the ID will have changed.
             playlistItem.save({}, {

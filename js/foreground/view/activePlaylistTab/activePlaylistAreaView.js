@@ -26,8 +26,6 @@
 
         initialize: function () {
 
-            console.log("Model:", this.model);
-
             //  TODO: Do I have to set this in initialize or can I do it through the property?
             this.activePlaylistItemsView = new ActivePlaylistItemsView({
                 model: this.model.get('playlist')

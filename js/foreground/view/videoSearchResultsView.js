@@ -45,13 +45,11 @@
 
             var clickedItem = $(event.currentTarget);
 
-            var videoSearchResultItem = this.model.find(function(item) {
-                return item.get('video').get('id') === clickedItem.data('videoid');
-            });
+            var videoSearchResultItem = this.model.get(clickedItem.data('videoid'));
+            var videoInformation = videoSearchResultItem.get('videoInformation');
 
-            console.log("VideoID and videoSearchResultItem:", clickedItem.data('videoid'), videoSearchResultItem);
-
-            this.parent.addItem(videoSearchResultItem.get('video'), function() {
+            //  TODO: It feels a bit sloppy to have to reference this through the parent.model -- what happens when I want to drag n drop to the stream?
+            this.parent.model.get('relatedPlaylist').addItemByInformation(videoInformation, function () {
                 console.log("success");
             });
 

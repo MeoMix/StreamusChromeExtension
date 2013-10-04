@@ -132,6 +132,8 @@ define([
                 model: playlistItem
             });
 
+            console.log("Added playlistItem:", playlistItem);
+
             var element = playlistItemView.render().$el;
 
             if (this.$el.find('item').length > 0) {
@@ -142,6 +144,10 @@ define([
                 element.insertAfter(previousItem);
 
             } else {
+
+                //  TODO: Not very good practice to remove it like this.
+                $('.big-text').remove();
+
                 element.appendTo(this.$el);
             }
             
@@ -151,7 +157,6 @@ define([
                 event: 'scroll manualShow'
             });
 
-            this.emptyNotification.hide();
             this.scrollItemIntoView(playlistItem);
         },
         

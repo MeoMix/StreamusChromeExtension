@@ -1,9 +1,8 @@
 ﻿define([
     'videoSearchResultItems',
     'videoSearchResultItem',
-    'youTubeDataAPI',
-    'video'
-], function (VideoSearchResultItems, VideoSearchResultItem, YouTubeDataAPI, Video) {
+    'youTubeDataAPI'
+], function (VideoSearchResultItems, VideoSearchResultItem, YouTubeDataAPI) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({
@@ -12,7 +11,8 @@
             return {
                 userInput: '',
                 searchJqXhr: null,
-                videoSearchResultItems: new VideoSearchResultItems
+                videoSearchResultItems: new VideoSearchResultItems,
+                relatedPlaylist: null
             };
         },
         
@@ -42,9 +42,7 @@
                             var videoSearchResultItems = _.map(videoInformationList, function(videoInformation) {
 
                                 var videoSearchResultItem = new VideoSearchResultItem({
-                                    video: new Video({
-                                        videoInformation: videoInformation
-                                    })
+                                    videoInformation: videoInformation
                                 });
 
                                 return videoSearchResultItem;

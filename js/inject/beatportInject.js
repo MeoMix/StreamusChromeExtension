@@ -6,64 +6,146 @@ style.href = chrome.extension.getURL('css/beatportInject.css');
 document.head.appendChild(style);
 
 //  This code runs on beatport.com domains.
-$(function() {
+$(function () {
     'use strict';
 
-    checkUrlAndInjectIfMatch();
-    $(window).on('hashchange', checkUrlAndInjectIfMatch);
+    injectIconsBasedOnUrl();
 
     //  Need to check the URL whenever they click links to see if should inject.
     var checkUrlInterval;
     var timeout = 10000; //  Give it 10s to change before they'll need to refresh
     var pollingFrequency = 1000; //  Check every 1s
 
-    $(document).on('mousedown', 'a', function () {
-        
-        if ($(this).attr('href').match(/^.*top-100.*/)) {
-            //  Stop any previous checks
-            clearInterval(checkUrlInterval);
+    //  Filter out streamus links because they obviously can't take the user anywhere.
+    $(document).on('mousedown', 'a:not(.streamus)', function () {
 
-            //  Wait for browser to load and check occassionally until the URL matches or we give up.
-            checkUrlInterval = setInterval(function () {
-                var isGoodUrl = checkUrlAndInjectIfMatch();
+        var clickedLinkHref = $(this).attr('href');
 
-                if (isGoodUrl || timeout <= 0) {
-                    clearInterval(checkUrlInterval);
-                }
+        //  Stop any previous checks
+        clearInterval(checkUrlInterval);
 
-                timeout -= pollingFrequency;
+        //  Wait for browser to load and check occassionally until the URL matches or we give up.
+        checkUrlInterval = setInterval(function () {
 
-            }, pollingFrequency);
-        }
+            var currentLocationHref = window.location.href;
+
+            //  If they clicked something like /top-100, url will be beatport.com/top-100 so need to match both ways
+            var clickedRoutingLink = clickedLinkHref.charAt(0) === '/';
+            var hrefContainsRoutingLink = clickedRoutingLink && currentLocationHref.indexOf(clickedLinkHref) !== -1;
+
+            if (currentLocationHref == clickedLinkHref || hrefContainsRoutingLink) {
+                injectIconsBasedOnUrl();
+                clearInterval(checkUrlInterval);
+            }
+
+            timeout -= pollingFrequency;
+
+            if (timeout <= 0) {
+                clearInterval(checkUrlInterval);
+            }
+
+        }, pollingFrequency);
 
     });
 
-    function checkUrlAndInjectIfMatch() {
- 
-        var urlMatchesInjection = window.location.href.match(/^.*beatport.com\/.*top-100.*/);
-        if (urlMatchesInjection) {
-            injectIcons();
-        }
+    function injectIconsBasedOnUrl() {
 
-        return urlMatchesInjection;
+        var currentPageUrl = window.location.href;
+
+        var urlIsBeatportTop100 = currentPageUrl.match(/^.*beatport.com\/.*top-100.*/);
+        var urlIsBeatportFrontPage = currentPageUrl.match(/^.*beatport.com.*/);
+
+        if (urlIsBeatportTop100) {
+            injectTop100Icons();
+        }
+        else if (urlIsBeatportFrontPage) {
+            injectFrontPageIcons();
+        } else {
+            console.error("Failed to match:", href);
+        }
     }
 
-    function injectIcons() {
+    function injectFrontPageIcons() {
 
-        //  Get references to our needed elements and make sure that worked properly.
-        var playAllWrapper = $('.playAll-wrapper');
+        appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
 
-        if (playAllWrapper.length === 0) throw "Failed to find playAll-wrapper";
+        var top10TracksPlayButtons = $('.btn-play[data-item-type="track"]');
+        if (top10TracksPlayButtons.length === 0) throw "Failed to find play buttons";
+
+        //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
+        _.each(top10TracksPlayButtons, function (button) {
+
+            var trackName = $(button).data('item-name');
+            var trackArtists = $(button).closest('.line').find('.itemRenderer-list').text();
+
+            var streamusPlayButton = buildStreamusPlayButton(trackName, trackArtists);
+            $(button).before(streamusPlayButton);
+        });
+
+    }
+
+    function injectTop100Icons() {
+
+        appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
+
+        var playButtons = $('.btn-play[data-item-name]');
+        if (playButtons.length === 0) throw "Failed to find play buttons";
+
+        //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
+        _.each(playButtons, function (button) {
+
+            var trackName = $(button).data('item-name');
+            var trackArtists = $(button).closest('tr.track-grid-content').find('.secondColumn').next().text();
+
+            var streamusPlayButton = buildStreamusPlayButton(trackName, trackArtists);
+            $(button).before(streamusPlayButton);
+        });
+
+    }
+
+    function buildStreamusPlayButton(trackName, trackArtists) {
+
+        var streamusPlayButton = $('<a>', {
+            'class': 'streamus btn-play',
+            'role': 'button',
+            'href': 'javascript:void(0)',
+            'data-item-name': trackArtists.trim(),
+            'data-toggle': 'tooltip',
+            'data-artists': trackArtists.replace(',', '').trim(),
+            'title': chrome.i18n.getMessage("playInStreamus"),
+            click: function () {
+
+                var videoTitle = $(this).data('item-name');
+                var artists = $(this).data('artists');
+
+                chrome.runtime.sendMessage({
+                    method: "addAndPlayStreamItemByTitle",
+                    videoTitle: videoTitle + ' ' + artists
+                });
+
+            }
+        });
+
+        streamusPlayButton.tooltip();
+        var streamusLogoIcon = buildStreamusLogoIcon();
+
+        return streamusPlayButton.add(streamusLogoIcon);
+    }
+
+    function appendPlayAllButtonBeforeSelector(selector) {
+
+        var selectorToAppendBefore = $(selector);
+        if (selectorToAppendBefore.length === 0) throw "Failed to find selector: " + selector;
 
         //  Find the playAll button at the top of the page and inject a Streamus 'Add All To Stream' button
-        var streamusPlayAllIcon = $('<a>', {
+        var streamusPlayAllButton = $('<a>', {
             'class': 'streamus btn-play',
             'role': 'button',
             'href': 'javascript:void(0)',
             'title': chrome.i18n.getMessage("playAllInStreamus"),
-            click: function() {
+            click: function () {
 
-                var videoTitles = _.map($('.streamus.btn-play[data-item-name]'), function(playButton) {
+                var videoTitles = _.map($('.streamus.btn-play[data-item-name]'), function (playButton) {
                     var videoTitle = $(playButton).data('item-name') + ' ' + $(playButton).data('artists');
                     return videoTitle;
                 });
@@ -75,62 +157,21 @@ $(function() {
 
             }
         });
-        
+
+        var streamusLogoIcon = buildStreamusLogoIcon();
+
+        selectorToAppendBefore.before(streamusPlayAllButton.add(streamusLogoIcon));
+        streamusPlayAllButton.tooltip();
+    }
+
+    function buildStreamusLogoIcon() {
         var streamusLogoIcon = $('<a>', {
             'class': 'streamus btn-queue',
             'role': 'button',
             'href': 'javascript:void(0)'
         });
 
-        playAllWrapper.find('.btn-play').before(streamusPlayAllIcon.add(streamusLogoIcon));
-
-        streamusPlayAllIcon.tooltip();
-
-        var playButtons = $('.btn-play[data-item-name]');
-        if (playButtons.length === 0) throw "Failed to find play buttons";
-
-        //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
-        _.each(playButtons, function(button) {
-
-            var itemName = $(button).data('item-name');
-
-            var parentRow = $(button).closest('tr.track-grid-content');
-            var artistColumn = parentRow.find('.secondColumn').next();
-            var itemArtists = artistColumn.text();
-
-            var streamusPlayIcon = $('<a>', {
-                'class': 'streamus btn-play',
-                'role': 'button',
-                'href': 'javascript:void(0)',
-                'data-item-name': itemName,
-                'data-toggle': 'tooltip',
-                'data-artists': itemArtists,
-                'title': chrome.i18n.getMessage("playInStreamus"),
-                click: function() {
-
-                    var videoTitle = $(this).data('item-name');
-                    var artists = $(this).data('artists');
-
-                    chrome.runtime.sendMessage({
-                        method: "addAndPlayStreamItemByTitle",
-                        videoTitle: videoTitle + ' ' + artists
-                    });
-
-                }
-            });
-
-            var streamusLogoIcon = $('<a>', {
-                'class': 'streamus btn-queue',
-                'role': 'button',
-                'href': 'javascript:void(0)'
-            });
-
-            $(button).before(streamusPlayIcon.add(streamusLogoIcon));
-
-            streamusPlayIcon.tooltip();
-
-        });
-
+        return streamusLogoIcon;
     }
 
 });

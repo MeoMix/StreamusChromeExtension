@@ -10,12 +10,6 @@
         <link href="css/font-awesome.css" rel="stylesheet">
         <link href="css/newForegroundUi.css" rel="stylesheet">
         <link href="css/contextMenu.css" rel="stylesheet" />
-
-        <!--        <link href="css/foreground.css" rel="stylesheet" />
-            <link href="css/youTube.css" rel="stylesheet" />
-            
-            <link href="css/aristo/aristo.css" rel="stylesheet" />-->
-
         <script src="js/foreground/requirePaths.js"></script>
         <script data-main="main" src="../js/thirdParty/require.js"></script>
     </head>
@@ -273,15 +267,15 @@
 
                 <% this.model.each(function(videoSearchResultItem){ %>
                 
-                    <div class="videoSearchResultItem" data-videoid="<%- videoSearchResultItem.get('video').get('id') %>">
-                        <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- videoSearchResultItem.get('video').get('id') %>/default.jpg" src="" />
-                        <span class="item-title"><%- videoSearchResultItem.get('video').get('title') %></span>
+                    <div class="videoSearchResultItem" data-videoid="<%- videoSearchResultItem.get('id') %>">
+                        <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- videoSearchResultItem.get('id') %>/default.jpg" src="" />
+                        <span class="item-title"><%- videoSearchResultItem.get('title') %></span>
                         <span class="item-details">
                             <span class="item-author">
-                                <i class="icon-user"></i><%- videoSearchResultItem.get('video').get('author') %>
+                                <i class="icon-user"></i><%- videoSearchResultItem.get('author') %>
                             </span>
                             <span class="item-duration">
-                                <i class="icon-time"></i><%- videoSearchResultItem.get('video').get('prettyDuration') %>	
+                                <i class="icon-time"></i><%- videoSearchResultItem.get('prettyDuration') %>	
                             </span>
                         </span>
                     </div>

@@ -1,14 +1,11 @@
 ﻿define([
-    'videoSearch',
     'videoSearchResultsView'
-], function (VideoSearch, VideoSearchResultsView) {
+], function (VideoSearchResultsView) {
     'use strict';
 
     var VideoSearchView = Backbone.View.extend({
         
         className: 'left-pane',
-        
-        model: new VideoSearch,
         
         template: _.template($('#videoSearchTemplate').html()),
         
@@ -79,7 +76,6 @@
         }
 
     });
-
 
     return VideoSearchView;
 });

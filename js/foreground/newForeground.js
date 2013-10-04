@@ -8,8 +8,9 @@ define([
     'activeFolderTabView',
     'activePlaylistAreaView',
     'activePlaylistArea',
-    'videoSearchView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderTabView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView) {
+    'videoSearchView',
+    'videoSearch'
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderTabView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -154,7 +155,11 @@ define([
             }
 
             //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
-            this.videoSearchView = new VideoSearchView;
+            this.videoSearchView = new VideoSearchView({
+                model: new VideoSearch({
+                    relatedPlaylist: activeFolder.getActivePlaylist()
+                })
+            });
             this.$el.append(this.videoSearchView.render().el);
 
 
@@ -252,11 +257,14 @@ define([
         },
         
         hideVideoSearch: function () {
-
+            console.log("Hiding video search");
             this.videoSearchView.hide();
             
             $("#button-back").fadeOut();
             $("#button-playlists, #playlists").fadeIn();
+
+            console.log("Triggering manual show");
+            this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
         }
     });
 

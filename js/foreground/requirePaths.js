@@ -32,9 +32,6 @@ var require = {
         'videoSearchResultItems': 'foreground/collection/videoSearchResultItems',
 
         //  Model:
-        //  TODO: Fix...
-        'video': 'background/model/video',
-
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
         'contextMenu': 'foreground/model/contextMenu',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',

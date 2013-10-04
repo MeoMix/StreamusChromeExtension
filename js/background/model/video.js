@@ -40,12 +40,11 @@ define([
         
     });
 
-    //  TODO: Do I need to return a function here or can I just call initialize
     return function (config) {
 
         //  Support passing raw YouTube videoInformation instead of a precise config object.
         if (config.videoInformation !== undefined) {
-            
+
             config.id = config.videoInformation.media$group.yt$videoid.$t;
             config.title = config.videoInformation.title.$t;
             config.duration = parseInt(config.videoInformation.media$group.yt$duration.seconds, 10);

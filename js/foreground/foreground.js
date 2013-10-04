@@ -111,7 +111,7 @@ define([
             }
             else if (activeContentId == 'HomeContent') {
                 //  TODO: This seems wrong. I think when I destroy/recreate views instead of changing models it won't be necessary?
-                this.activePlaylistView.activePlaylistItemsView.$el.trigger('manualShow');
+                this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
             }
         },
         

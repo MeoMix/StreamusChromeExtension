@@ -59,7 +59,10 @@ define([
         //  Default the PlaylistItem's title to the Video's title, but allow overriding.
         if (config && config.title === undefined || config.title === '') {
             //  Support data coming straight from the server and being used to initialize
-            config.title = config.video instanceof Backbone.Model ? config.video.get('title') : config.title;
+            //  TODO: I can't use instanceof Backbone.Model here because if the Video came from the foreground and this is evaluated in the background
+            //  instanceof Backbone.Model returns false even if the Video really is a Backbone.Model.
+            //config.title = config.video instanceof Backbone.Model ? config.video.get('title') : config.title;
+            config.title = config.video.get ? config.video.get('title') : config.video.title;
         }
 
         var playlistItem = new playlistItemModel(config);

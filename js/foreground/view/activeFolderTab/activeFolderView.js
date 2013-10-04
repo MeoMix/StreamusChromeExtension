@@ -161,7 +161,7 @@ define([
                 }
             }
 
-            this.emptyNotification.hide();
+            //this.emptyNotification.hide();
             this.scrollItemIntoView(playlist, true);
         },
         

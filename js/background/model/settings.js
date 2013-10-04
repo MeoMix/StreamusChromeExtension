@@ -11,7 +11,7 @@ define([
         
         defaults: function() {
             return {
-                localDebug: false,
+                localDebug: true,
                 serverURL: '',
                 activeContentButtonId: getItem('activeContentButtonId') || 'HomeContentButton',
                 activeFolderId: getItem('activeFolderId') || null,
