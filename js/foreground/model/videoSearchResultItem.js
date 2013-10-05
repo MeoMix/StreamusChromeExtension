@@ -12,6 +12,8 @@
             title: '',
             author: '',
             prettyDuration: '',
+            selected: false,
+
             //  Store the whole video info for later use (saving video)
             videoInformation: null
         }

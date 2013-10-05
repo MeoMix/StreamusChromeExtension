@@ -55,7 +55,7 @@
                 </div>
                 <div class="list">
                     <div class="item">
-                            <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
+                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
                     </div>
                     <div class="item">
                         <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
@@ -263,27 +263,23 @@
                     <i class="icon-search i-4x"></i><%- chrome.i18n.getMessage('searchInstructions') %>
                 </div>
 
-            <% } else { %>
-
-                <% this.model.each(function(videoSearchResultItem){ %>
-                
-                    <div class="videoSearchResultItem" data-videoid="<%- videoSearchResultItem.get('id') %>">
-                        <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- videoSearchResultItem.get('id') %>/default.jpg" src="" />
-                        <span class="item-title"><%- videoSearchResultItem.get('title') %></span>
-                        <span class="item-details">
-                            <span class="item-author">
-                                <i class="icon-user"></i><%- videoSearchResultItem.get('author') %>
-                            </span>
-                            <span class="item-duration">
-                                <i class="icon-time"></i><%- videoSearchResultItem.get('prettyDuration') %>	
-                            </span>
-                        </span>
-                    </div>
-
-                <% }) %>
-
             <% } %>
 
+        </script>
+        
+        <script type="text/template" id="videoSearchResultItemTemplate">
+            
+            <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- id %>/default.jpg" src="" />
+            <span class="item-title"><%- title %></span>
+            <span class="item-details">
+                <span class="item-author">
+                    <i class="icon-user"></i><%- author %>
+                </span>
+                <span class="item-duration">
+                    <i class="icon-time"></i><%- prettyDuration %>	
+                </span>
+            </span>
+        
         </script>
 
     </body>

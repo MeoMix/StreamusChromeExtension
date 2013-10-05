@@ -51,6 +51,8 @@
     <Content Include="css\youTube.css" />
     <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="fullscreen.htm" />
+    <Content Include="img\streamus_icon16.png" />
+    <Content Include="img\streamus_icon16_0bars.png" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
     <Content Include="js\background\model\buttons\playPauseButton.js" />

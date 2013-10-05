@@ -55,8 +55,6 @@ var require = {
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
-        'videoSearchResultsView': 'foreground/view/videoSearchResultsView',
-        'videoSearchView': 'foreground/view/videoSearchView',
         'volumeControlView': 'foreground/view/volumeControlView',
         
         //  View -> Buttons:
@@ -84,6 +82,11 @@ var require = {
         'streamView': 'foreground/view/stream/streamView',
         
         //  View -> Video:
-        'videoDisplayView': 'foreground/view/video/videoDisplayView'
+        'videoDisplayView': 'foreground/view/video/videoDisplayView',
+        
+        //  View -> VideoSearch:
+        'videoSearchResultItemView': 'foreground/view/videoSearch/videoSearchResultItemView',
+        'videoSearchResultsView': 'foreground/view/videoSearch/videoSearchResultsView',
+        'videoSearchView': 'foreground/view/videoSearch/videoSearchView',
     }
 };

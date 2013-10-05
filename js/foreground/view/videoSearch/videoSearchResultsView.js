@@ -1,5 +1,6 @@
 ﻿define([
-], function () {
+    'videoSearchResultItemView'
+], function (VideoSearchResultItemView) {
     'use strict';
 
     var VideoSearchResultsView = Backbone.View.extend({
@@ -11,18 +12,17 @@
             id: 'searchResultsList'
         },
         
-        events: {
-            'click .videoSearchResultItem': 'addItemToActivePlaylist'
-        },
-        
         render: function () {
 
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
+                    'chrome.i18n': chrome.i18n,
+                    'VideoSearchResultItemView': VideoSearchResultItemView
                 })
             ));
+
+            this.addAll();
             
             this.$el.find('img.lazy').lazyload({
                 effect: 'fadeIn',
@@ -39,6 +39,19 @@
             this.parent = options.parent;
 
             this.listenTo(this.model, 'reset', this.render);
+            //this.listenTo(this.model, 'all', this.render);
+        },
+        
+        addOne: function (videoSearchResultItem) {
+            var videoSearchResultItemView = new VideoSearchResultItemView({
+                model: videoSearchResultItem
+            });
+            
+            this.$el.append(videoSearchResultItemView.render().el);
+        },
+        
+        addAll: function () {
+            this.model.each(this.addOne, this);
         },
         
         addItemToActivePlaylist: function (event) {
