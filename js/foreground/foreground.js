@@ -2,62 +2,67 @@
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
     'settings',
-    'activeFolderTabView',
-    'activePlaylistView',
-    'streamView',
-    'videoDisplayView',
+    'newForegroundUi',
     'loadingSpinnerView',
     'reloadPromptView',
-    'nextButtonView',
-    'previousButtonView',
-    'playPauseButtonView',
-    'radioButtonView',
-    'shuffleButtonView',
-    'repeatButtonView',
-
-    'volumeControlView',
-    'progressBarView',
-    'headerTitleView'
-], function (Settings, ActiveFolderTabView, ActivePlaylistView, StreamView, VideoDisplayView, LoadingSpinnerView, ReloadPromptView, NextButtonView, PreviousButtonView, PlayPauseButtonView, RadioButtonView, ShuffleButtonView, RepeatButtonView) {
+    'activeFolderAreaView',
+    'activePlaylistAreaView',
+    'activePlaylistArea',
+    'videoSearchView',
+    'videoSearch',
+    'addSearchResults',
+    'addSearchResultsView',
+    'videoSearchResultItems',
+    'streamView',
+    'contextMenuView'
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResultItems, StreamView, ContextMenuView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
 
         el: $('body'),
         
-        activeFolderTabView: null,
-        activePlaylistView: null,
+        activeFolderAreaView: null,
+        activePlaylistAreaView: null,
+        videoSearchView: null,
         streamView: null,
-        videoDisplayView: null,
+        addSearchResults: null,
+
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
-        nextButtonView: null,
-        previousButtonView: null,
-        playPauseButtonView: null,
-        radioButtonView: null,
-        shuffleButtonView: null,
-        repeatButtonView: null,
-        
         showReloadPromptTimeout: null,
-        
+               
         //  These are pulled from the background page. They'll be null until background is fully initialized.
         backgroundPlayer: chrome.extension.getBackgroundPage().YouTubePlayer,
         backgroundUser: chrome.extension.getBackgroundPage().User,
 
         events: {
-            'click .contentButton': 'showContent'
+            
+            'click #addVideosButton': 'showVideoSearch',
+            'click #button-back': 'hideVideoSearch',
+            'click #toggleActiveFolderAreaButton': 'toggleActiveFolderArea',
+            'click #activeFolderArea': 'doActiveFolderAreaButtonClick',
+            'click .toggleButton': 'toggleButton'
         },
 
         initialize: function () {
+            
             var self = this;
 
             this.$el.append(this.loadingSpinnerView.render().el);
-            
-            //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
-            //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
+
+            //If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
+            //Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
-                self.$el.append(self.reloadPromptView.render().el);
-            }, 5000);
+                
+                var reloadPromptElement = self.reloadPromptView.render().el;
+                self.$el.append(reloadPromptElement);
+                
+                $(reloadPromptElement).find('.panel').fadeIn(200, function () {
+                    $(reloadPromptElement).addClass('visible');
+                });
+                
+            }, 3000);
 
             //  If the user opens the foreground SUPER FAST then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null || this.backgroundUser == null) {
@@ -81,38 +86,11 @@ define([
                 this.waitForBackgroundUserLoaded();
             }
 
-        },
+            //  Whenever a click occurs, close any visible context menus.
+            this.$el.on('click contextmenu', function() {
+                ContextMenuView.reset();
+            });
 
-        showContent: function (event) {
-            var clickedContentButton = $(event.currentTarget);
-            this.setContentButtonActive(clickedContentButton);
-        },
-        
-        setContentButtonActive: function (contentButton) {
-
-            //  Clear content and show new content based on button clicked.
-            $('.contentButton').removeClass('active');
-            contentButton.addClass('active');
-
-            //  TODO: I think I can just keep track of this on the background and not in localStorage. Makes more sense to do that anyway b/c when resetting program you expect to be on home.
-            Settings.set('activeContentButtonId', contentButton[0].id);
-            
-            $('.content').hide();
-
-            //  TODO: Pull active from a ContentButton collection instead of analyzing the View.
-            var activeContentButton = $('.contentButton.active');
-            var activeContentId = activeContentButton.data('content');
-
-            $('#' + activeContentId).show();
-
-            //  Only render the videoDisplayView when it becomes visible to save processing power.
-            if (activeContentId == 'VideoContent') {
-                this.videoDisplayView.render();
-            }
-            else if (activeContentId == 'HomeContent') {
-                //  TODO: This seems wrong. I think when I destroy/recreate views instead of changing models it won't be necessary?
-                this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
-            }
         },
         
         waitForBackgroundUserLoaded: function () {
@@ -139,7 +117,7 @@ define([
         },
         
         waitForBackgroundPlayerReady: function () {
-            
+
             this.listenTo(this.backgroundPlayer, 'change:ready', function (model, ready) {
 
                 if (ready) {
@@ -155,9 +133,8 @@ define([
                 this.loadBackgroundDependentContent();
             }
         },
-
+        
         loadBackgroundDependentContent: function () {
-
             this.$el.removeClass('loading');
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();
@@ -166,32 +143,39 @@ define([
             var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
 
             //  TODO: Instead of calling changeModel I should be removing/recreating my views I think.
-            if (this.activeFolderTabView === null) {
-                this.activeFolderTabView = new ActiveFolderTabView({
-                    model: activeFolder
+            var activePlaylistArea = new ActivePlaylistArea({
+                playlist: activeFolder.getActivePlaylist()
+            });
+
+            if (this.activePlaylistAreaView === null) {
+
+                this.activePlaylistAreaView = new ActivePlaylistAreaView({
+                    model: activePlaylistArea
                 });
+
+                this.$el.append(this.activePlaylistAreaView.render().el);
+
             } else {
-                this.activeFolderTabView.changeModel(activeFolder);
+                this.activePlaylistAreaView.changeModel(activePlaylistArea);
             }
 
-            if (this.activePlaylistView === null) {
-                this.activePlaylistView = new ActivePlaylistView({
-                    model: activeFolder.getActivePlaylist()
-                });
-            } else {
-                this.activePlaylistTabView.changeModel(activeFolder.getActivePlaylist());
-            }
-            
+            //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
+
             if (this.streamView === null) {
 
                 this.streamView = new StreamView({
                     model: activeFolder
                 });
 
+                this.$el.find('.right-pane .player .progress-details').after(this.streamView.render().el);
+
             } else {
                 this.streamView.changeModel(activeFolder);
             }
             
+
+            return;
+
             //  VideoDisplayView properly uses a template so I can just remove and re-create it I believe.
             if (this.videoDisplayView) {
                 this.videoDisplayView.remove();
@@ -204,7 +188,7 @@ define([
 
                 //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
                 if (isActive) {
-                    this.activeFolderTabView.changeModel(folder);
+                    this.activeFolderAreaView.changeModel(folder);
                     this.streamView.changeModel(activeFolder);
                 }
 
@@ -216,7 +200,12 @@ define([
 
                 //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
                 if (isActive) {
-                    this.activePlaylistView.changeModel(playlist);
+                    
+                    var activePlaylistArea = new ActivePlaylistArea({
+                        playlist: activeFolder.getActivePlaylist()
+                    });
+
+                    this.activePlaylistAreaView.changeModel(playlist);
                 }
 
             });
@@ -225,25 +214,25 @@ define([
             //  TODO: Remove the string replace in a few versions, I changed localStorage names and need to support old versions for a while.
             var activeContentButtonId = Settings.get('activeContentButtonId').replace('Menu', 'Content');
             var activeContentButton = $('#' + activeContentButtonId);
-            
+
             this.setContentButtonActive(activeContentButton);
             this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
 
             this.radioButtonView = new RadioButtonView({
-               model: chrome.extension.getBackgroundPage().RadioButton 
+                model: chrome.extension.getBackgroundPage().RadioButton
             });
             this.$el.find('#menu').append(this.radioButtonView.render().el);
-            
+
             this.repeatButtonView = new RepeatButtonView({
                 model: chrome.extension.getBackgroundPage().RepeatButton
             });
             this.$el.find('#menu').append(this.repeatButtonView.render().el);
-            
+
             this.shuffleButtonView = new ShuffleButtonView({
                 model: chrome.extension.getBackgroundPage().ShuffleButton
             });
             this.$el.find('#menu').append(this.shuffleButtonView.render().el);
-            
+
             this.playPauseButtonView = new PlayPauseButtonView({
                 model: chrome.extension.getBackgroundPage().PlayPauseButton
             });
@@ -259,7 +248,118 @@ define([
             });
             this.$el.find('#Header').after(this.previousButtonView.render().el);
         },
+        
+        toggleButton: function (event) {
+            $(event.currentTarget).toggleClass('button-toggle');
+        },
+        
+        doActiveFolderAreaButtonClick: function () {
+            $('#toggleActiveFolderAreaButton').click();
+        },
+        
+        toggleActiveFolderArea: function () {
 
+            var self = this;
+
+            if (this.activeFolderAreaView === null) {
+                
+                var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+
+                this.activeFolderAreaView = new ActiveFolderAreaView({
+                    model: activeFolder
+                });
+
+                this.$el.append(this.activeFolderAreaView.render().el);
+                this.activeFolderAreaView.show();
+
+            } else {
+
+                this.activeFolderAreaView.hide(function() {
+                    self.activeFolderAreaView = null;
+                });
+                
+            }
+
+        },
+        
+        showVideoSearch: function () {
+
+            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+
+            var videoSearch = new VideoSearch({
+                relatedPlaylist: activeFolder.getActivePlaylist()
+            });
+            
+            this.videoSearchView = new VideoSearchView({
+                model: videoSearch
+            });
+            
+            this.$el.append(this.videoSearchView.render().el);
+            this.videoSearchView.showAndFocus();
+
+            this.listenTo(VideoSearchResultItems, 'change:selected', function (changedItem, selected) {
+
+                console.log("this.addSearchResults:", this.addSearchResults);
+                console.log("Selected:", selected);
+
+                if (selected && this.addSearchResults === null) {
+                    this.showAddSearchResults();
+                }
+                else if (!selected) {
+                    
+                    var noSearchResultsSelected = VideoSearchResultItems.selected().length === 0;
+
+                    if (noSearchResultsSelected) {
+                        this.addSearchResults.destroy();
+                    }
+
+                }
+
+            });
+
+            $("#toggleActiveFolderAreaButton, #playlists").fadeOut();
+            $("#button-back").fadeIn();
+            
+        },
+        
+        hideVideoSearch: function () {
+            var self = this;
+            
+            this.videoSearchView.hide(function() {
+                self.videoSearchView = null;
+            });
+            
+            if (this.addSearchResults) {
+                this.addSearchResults.destroy();
+            }
+            
+            $("#button-back").fadeOut();
+            $("#toggleActiveFolderAreaButton, #playlists").fadeIn();
+
+            this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
+        },
+        
+        showAddSearchResults: function () {
+
+            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+
+            this.addSearchResults = new AddSearchResults({
+                relatedFolder: activeFolder
+            });
+
+            this.listenTo(this.addSearchResults, 'destroy', function () {
+                this.stopListening(this.addSearchResults);
+                this.addSearchResults = null;
+            });
+
+            var addSearchResultsView = new AddSearchResultsView({
+                model: this.addSearchResults
+            });
+
+            this.$el.append(addSearchResultsView.render().el);
+            addSearchResultsView.show();
+            
+        }
     });
 
     return new ForegroundView;

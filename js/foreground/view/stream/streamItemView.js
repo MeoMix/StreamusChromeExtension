@@ -8,8 +8,6 @@
 
     var StreamItemView = Backbone.View.extend({
         
-        tagName: 'li',
-
         className: 'streamItem',
 
         template: _.template($('#streamItemTemplate').html()),

@@ -75,7 +75,6 @@ define([
                     id: _.uniqueId('streamItem_'),
                     video: pickedVideo,
                     title: pickedVideo.get('title'),
-                    videoImageUrl: 'http://img.youtube.com/vi/' + pickedVideo.get('id') + '/default.jpg',
                     selected: true
                 });
 

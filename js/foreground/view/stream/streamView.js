@@ -8,66 +8,69 @@
     'use strict';
     
     var StreamView = Backbone.View.extend({
-        el: $('#StreamView'),
         
-        slidee: $('#StreamView ul.slidee'),
+        className: 'list',
+        
+        template: _.template($('#streamViewTemplate').html()),
+        
+        //slidee: $('#StreamView ul.slidee'),
         
         events: {
             'contextmenu': 'showContextMenu',
         },
         
-        sly: null,
-        overlay: $('#StreamView .overlay'),
+        //sly: null,
+        //overlay: $('#StreamView .overlay'),
 
         initialize: function () {
             var self = this;
 
             //  Setting it here so I can use internationalization... could probably do it in a template more cleanly though.
-            this.overlay.text(chrome.i18n.getMessage("noVideosInStream"));
+            //this.overlay.text(chrome.i18n.getMessage("noVideosInStream"));
 
             //  Need to do it this way to support i18n
-            this.overlay.css({
-                'margin-left': -1 * this.overlay.width() / 2
-            });
+            //this.overlay.css({
+            //    'margin-left': -1 * this.overlay.width() / 2
+            //});
 
             // Call Sly on frame
-            this.sly = new window.Sly(this.$el, {
-                horizontal: 1,
-                itemNav: 'centered',
-                smart: 1,
-                activateOn: 'click',
-                mouseDragging: 1,
-                touchDragging: 1,
-                releaseSwing: 1,
-                startAt: 3,
-                speed: 300,
-                elasticBounds: 1,
-                easing: 'easeOutExpo',
-                clickBar: 1,
-				scrollBy: 1
-            }, {
-                //  This is a pretty costly function because it fires so often. Use native javascript.
-                move: _.throttle(function() {
+            //this.sly = new window.Sly(this.$el, {
+            //    horizontal: 1,
+            //    itemNav: 'centered',
+            //    smart: 1,
+            //    activateOn: 'click',
+            //    mouseDragging: 1,
+            //    touchDragging: 1,
+            //    releaseSwing: 1,
+            //    startAt: 3,
+            //    speed: 300,
+            //    elasticBounds: 1,
+            //    easing: 'easeOutExpo',
+            //    clickBar: 1,
+			//	scrollBy: 1
+            //}, {
+            //    //  This is a pretty costly function because it fires so often. Use native javascript.
+            //    move: _.throttle(function() {
  
-                    var unloadedImgElements = self.$el.find('img.lazy[src=""]');
+            //        var unloadedImgElements = self.$el.find('img.lazy[src=""]');
                     
-                    //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
-                    for (var i = 0; i < unloadedImgElements.length; i++) {
-                        var unloadedImgElement = unloadedImgElements[i];
+            //        //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
+            //        for (var i = 0; i < unloadedImgElements.length; i++) {
+            //            var unloadedImgElement = unloadedImgElements[i];
 
-                        var rectangle = unloadedImgElement.getBoundingClientRect();
+            //            var rectangle = unloadedImgElement.getBoundingClientRect();
                         
-                        var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
-                        var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
+            //            var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
+            //            var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
 
-                        if (isInViewportRightSide || isInViewportLeftSide) {
-                            $(unloadedImgElement).trigger('visible');
-                        }
+            //            if (isInViewportRightSide || isInViewportLeftSide) {
+            //                $(unloadedImgElement).trigger('visible');
+            //            }
 
-                    }
+            //        }
 
-                }, 300)
-            }).init();
+            //    }, 300)
+            //}).init();
             
             if (StreamItems.length > 0) {
                 if (StreamItems.length === 1) {
@@ -77,10 +80,10 @@
                 }
 
                 //  Ensure proper item is selected.
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
+                //var selectedStreamItem = StreamItems.getSelectedItem();
+                //var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
 
-                this.sly.activate(selectedItemIndex, true);
+                //this.sly.activate(selectedItemIndex, true);
             }
 
             //  Whenever an item is added to the collection, visually add an item, too.
@@ -88,16 +91,18 @@
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
             this.listenTo(StreamItems, 'change:selected', this.selectItem);
 
-            this.listenTo(StreamItems, 'empty', function () {
-                this.overlay.show();
-            });
+            //this.listenTo(StreamItems, 'empty', function () {
+            //    this.overlay.show();
+            //});
 
-            this.listenTo(StreamItems, 'remove empty', this.sly.reload);
+            //this.listenTo(StreamItems, 'remove empty', this.sly.reload);
             
             Utility.scrollChildElements(this.el, '.videoTitle');
         },
         
         addItem: function (streamItem) {
+
+            console.log("Adding streamItem:", streamItem);
 
             var streamItemView = new StreamItemView({
                 model: streamItem,
@@ -105,7 +110,8 @@
             });
 
             var element = streamItemView.render().el;
-            this.sly.add(element);
+            //this.sly.add(element);
+            this.$el.append(element);
             
             $(element).find('img.lazy').lazyload({
                 effect: 'fadeIn',
@@ -119,10 +125,10 @@
 
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..
-            this.sly.reload();
-            this.overlay.hide();
+            //this.sly.reload();
+            //this.overlay.hide();
             
-            this.sly.toEnd();
+            //this.sly.toEnd();
 
         },
         
@@ -161,7 +167,7 @@
         },
         
         selectItem: function (streamItem) {
-            this.sly.activate(StreamItems.indexOf(streamItem));
+            //this.sly.activate(StreamItems.indexOf(streamItem));
         },
         
         clear: function () {
@@ -173,13 +179,21 @@
         showContextMenu: function (event) {
             var self = this;
 
+            var isClearStreamDisabled = StreamItems.length === 0;
+
             ContextMenuView.addGroup({
                 position: 1,
                 items: [{
                     position: 0,
                     text: chrome.i18n.getMessage("clearStream"),
+                    title: isClearStreamDisabled ? chrome.i18n.getMessage('noClearStreamWarning') : '',
+                    disabled: isClearStreamDisabled,
                     onClick: function () {
-                        self.clear();
+                        
+                        if (!isClearStreamDisabled) {
+                            self.clear();
+                        }
+                        
                     }
                 }, {
                     position: 1,

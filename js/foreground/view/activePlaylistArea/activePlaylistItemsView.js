@@ -180,8 +180,7 @@ define([
                                 return {
                                     id: _.uniqueId('streamItem_'),
                                     video: playlistItem.get('video'),
-                                    title: playlistItem.get('title'),
-                                    videoImageUrl: 'http://img.youtube.com/vi/' + playlistItem.get('video').get('id') + '/default.jpg'
+                                    title: playlistItem.get('title')
                                 };
                             });
 
@@ -243,8 +242,7 @@ define([
                         StreamItems.add({
                             id: _.uniqueId('streamItem_'),
                             video: clickedItem.get('video'),
-                            title: clickedItem.get('title'),
-                            videoImageUrl: 'http://img.youtube.com/vi/' + clickedItem.get('video').get('id') + '/default.jpg'
+                            title: clickedItem.get('title')
                         });
                     }
                 }]
@@ -262,8 +260,7 @@ define([
                             return {
                                 id: _.uniqueId('streamItem_'),
                                 video: playlistItem.get('video'),
-                                title: playlistItem.get('title'),
-                                videoImageUrl: 'http://img.youtube.com/vi/' + playlistItem.get('video').get('id') + '/default.jpg'
+                                title: playlistItem.get('title')
                             };
                         });
 
@@ -290,8 +287,7 @@ define([
             StreamItems.add({
                 id: _.uniqueId('streamItem_'),
                 video: playlistItem.get('video'),
-                title: playlistItem.get('title'),
-                videoImageUrl: 'http://img.youtube.com/vi/' + playlistItem.get('video').get('id') + '/default.jpg'
+                title: playlistItem.get('title')
             });
             
         },

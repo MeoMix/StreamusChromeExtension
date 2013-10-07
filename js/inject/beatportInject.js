@@ -17,7 +17,7 @@ $(function () {
     var pollingFrequency = 1000; //  Check every 1s
 
     //  Filter out streamus links because they obviously can't take the user anywhere.
-    $(document).on('mousedown', 'a:not(.streamus)', function () {
+    $(document).on('mousedown', 'a[href]', function () {
 
         var clickedLinkHref = $(this).attr('href');
 
@@ -105,22 +105,22 @@ $(function () {
 
     function buildStreamusPlayButton(trackName, trackArtists) {
 
+        var query = trackName.trim() + ' ' + trackArtists.replace(',', '').trim();
+
         var streamusPlayButton = $('<a>', {
             'class': 'streamus btn-play',
             'role': 'button',
             'href': 'javascript:void(0)',
-            'data-item-name': trackArtists.trim(),
+            'data-query': query,
             'data-toggle': 'tooltip',
-            'data-artists': trackArtists.replace(',', '').trim(),
             'title': chrome.i18n.getMessage("playInStreamus"),
             click: function () {
 
-                var videoTitle = $(this).data('item-name');
-                var artists = $(this).data('artists');
+                var clickedItemQuery = $(this).data('query');
 
                 chrome.runtime.sendMessage({
-                    method: "addAndPlayStreamItemByTitle",
-                    videoTitle: videoTitle + ' ' + artists
+                    method: "searchAndStreamByQuery",
+                    query: clickedItemQuery
                 });
 
             }
@@ -145,14 +145,14 @@ $(function () {
             'title': chrome.i18n.getMessage("playAllInStreamus"),
             click: function () {
 
-                var videoTitles = _.map($('.streamus.btn-play[data-item-name]'), function (playButton) {
-                    var videoTitle = $(playButton).data('item-name') + ' ' + $(playButton).data('artists');
-                    return videoTitle;
+                var itemQueries = _.map($('.streamus.btn-play[data-query]'), function (playButton) {
+                    var itemQuery = $(playButton).data('query');
+                    return itemQuery;
                 });
 
                 chrome.runtime.sendMessage({
-                    method: "addAndPlayStreamItemsByTitles",
-                    videoTitles: videoTitles
+                    method: "searchAndStreamByQueries",
+                    queries: itemQueries
                 });
 
             }

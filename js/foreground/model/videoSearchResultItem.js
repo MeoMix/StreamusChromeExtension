@@ -13,6 +13,7 @@
             author: '',
             prettyDuration: '',
             selected: false,
+            dragging: false,
 
             //  Store the whole video info for later use (saving video)
             videoInformation: null

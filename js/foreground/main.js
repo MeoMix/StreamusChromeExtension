@@ -29,6 +29,6 @@ require([
 ], function ($, _, Backbone) {
     'use strict';
     
-    require(['newForeground']);
+    require(['foreground']);
 
 });

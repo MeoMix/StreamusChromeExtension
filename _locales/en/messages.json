@@ -224,5 +224,8 @@
 	},
 	"searchInstructions": {
 		"message": "Start searching and results will appear here"
+	},
+	"noClearStreamWarning": {
+		"message": "Can't clear an empty Stream"
 	}
 }

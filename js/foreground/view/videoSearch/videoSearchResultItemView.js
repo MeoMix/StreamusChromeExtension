@@ -14,41 +14,45 @@
             };
         },
         
+        index: -1,
+        
         events: {
-            'click': 'select'
+            'click': 'toggleSelected'
         },
 
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('selected', this.model.get('selected'));
 
+            this.$el.html(this.template(
+                _.extend(this.model.toJSON(), {
+                    //  Mix in chrome to reference internationalize.
+                    'index': this.index
+                })
+            ));
 
-            this.$el.find('img.lazy').lazyload({
-                effect: 'fadeIn',
-                container: this.$el,
-                event: 'scroll manualShow'
-            });
-            
-            //  TODO: Trigger manual show?
+            this.setHighlight();
             
             return this;
         },
         
-        initialize: function () {
-            this.listenTo(this.model, 'change:selected', this.render);
+        initialize: function (options) {
+
+            this.index = options.index;
+
+            this.listenTo(this.model, 'change:selected', this.setHighlight);
         },
         
-        select: function() {
-            console.log("Selecting!");
+        setHighlight: function () {
+            this.$el.toggleClass('selected', this.model.get('selected'));
+        },
+        
+        toggleSelected: function () {
 
-            this.model.set('selected', true);
+            //  A dragged model must always be selected.
+            var selected = !this.model.get('selected') || this.model.get('dragging');
 
-            //var clickedItem = $(event.currentTarget);
-            //var videoSearchResultItem = this.model.get(clickedItem.data('videoid'));
+            this.model.set('selected', selected);
 
-            //videoSearchResultItem.set('selected', true);
         }
-
     });
 
     return VideoSearchResultItemView;

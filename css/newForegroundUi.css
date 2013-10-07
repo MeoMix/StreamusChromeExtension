@@ -246,6 +246,7 @@ body { font: 13px/1.2 sans-serif }
     white-space: nowrap;
 }
 
+.item-count { margin-right: .8em }
 .item-author { margin-right: .8em }
 
 .progress-details { font-size: .9em }
@@ -279,7 +280,7 @@ button:active { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) }
 }
 
 .button-toggle {
-    color: #6c0;
+    color: #6BBD46;
     text-shadow: 0 0 3px #94ff29
 }
 
@@ -288,8 +289,7 @@ button:active { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) }
 .button-label i { margin-right: .5em }
 
 .button-color {
-    background: -webkit-linear-gradient(top, #6edb00, #61c200);
-    border-radius: 3px;
+    background: -webkit-linear-gradient(top, #6edb00, #6BBD46);
     color: #fff;
     text-shadow: 0 1px 0 #57ad00
 }
@@ -389,7 +389,7 @@ input[type="range"]::-webkit-slider-thumb {
 .left-list {
     bottom: 40px;
     display: block;
-    left: 10px;
+    left: 5px;
     overflow: hidden;
     position: absolute;
     right: 10px;
@@ -398,12 +398,33 @@ input[type="range"]::-webkit-slider-thumb {
 
 .left-list:hover { overflow-y: scroll }
 
+.limitedScrollingWidth {
+    display: inline-block;
+    max-width: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 .videoSearchResultItem,
 .playlistItem {
     height: 30px;
-    margin: 0 0 10px;
+    padding: 5px 0;
     position: relative;
-    width: 100%;
+    width: calc(100% - 10px);
+}
+
+.videoSearchResultItem:hover,
+.playlistItem:hover,
+.playlist:hover {
+    background: #ebebeb;
+}
+
+.videoSearchResultItem.selected,
+.playlistItem.selected,
+.playlist.selected {
+    background: #CDDBF2;
+    transition: background .3s;
 }
 
 .videoSearchResultItem i,
@@ -413,24 +434,53 @@ input[type="range"]::-webkit-slider-thumb {
 .playlistItem img {
     display: block;
     height: 30px;
-    left: 0;
+    left: 5px;
     position: absolute;
-    top: 0;
+    top: 5px;
     width: 40px;
+}
+
+.videoSearchResultsLength {
+    width: 15px;
+    height: 15px;
+    padding: 2px;
+    background-color: rgba(0, 0, 0, .8);
+    font-weight: bold;
+    color: white;
+    border-radius: 50%;
+    text-align: center;
+}
+
+#addItems .item-title {
+    left: 65px;
+    position: absolute;
+    right: 10px;
+    top: 5px;
+    font-weight: bold;
+}
+
+#hideAddItemsButton {
+    right: 0;
+    position: absolute;
 }
 
 .item-title {
     display: block;
-    left: 50px;
+    left: 55px;
     position: absolute;
     right: 10px;
-    top: 0;
+    top: 5px;
+}
+
+#addItems .item-details {
+    bottom: 20px;
+    left: 65px;
 }
 
 .item-details {
-    bottom: 0;
+    bottom: 5px;
     display: block;
-    left: 50px;
+    left: 55px;
     position: absolute;
     right: 10px;
 }
@@ -450,7 +500,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: block;
     left: 0;
     position: absolute;
-    right: 140px;
+    right: 15px;
     top: 30px;
     transition: background-color .3s;
     z-index: 0;
@@ -467,7 +517,7 @@ input[type="range"]::-webkit-slider-thumb {
     left: 1px;
     padding: 0 .2em;
     position: absolute;
-    right: 141px;
+    right: 16px;
     top: 10px;
     z-index: 1;
 }
@@ -719,7 +769,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 80px;
 }
 
-#button-playlists, #button-back {
+#toggleActiveFolderAreaButton, #button-back {
 
     height: 45px;
     left: 10px;
@@ -730,7 +780,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .modalOverlay,
-#playlists-panel {
+#activeFolderArea {
     background: rgba(0, 0, 0, 0.5);
     bottom: 0;
     display: block;
@@ -741,7 +791,24 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 50;
 }
 
-#playlists-panel .panel {
+#addItems {
+    background: rgba(0, 0, 0, 0.5);
+    bottom: 0;
+    display: block;
+    left: 380px;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 50;
+    transition: background .3s;
+}
+
+#addItems,
+#activeFolderArea {
+    display: none;
+}
+
+#activeFolderArea .panel {
     background: #f2f2f2;
     bottom: 0;
     box-shadow: 0 0 20px #000;
@@ -749,14 +816,31 @@ input[type="range"]::-webkit-slider-thumb {
     left: -250px;
     position: absolute;
     top: 0;
-    transition: left .3s;
+    transition: left .3s ease-in-out;
     width: 250px;
     z-index: 51;
 }
 
-#playlists-panel.visible .panel { left: 0 }
+#addItems .panel {
+    background: #f2f2f2;
+    bottom: 0;
+    display: block;
+    right: -250px;
+    position: absolute;
+    top: 0;
+    transition: right .3s ease-in-out;
+    width: 250px;
+    z-index: 51;
+}
 
-#playlists-panel .header {
+#addItems.visible .panel {
+    right: 0
+}
+
+#activeFolderArea.visible .panel { left: 0 }
+
+#addItems .header,
+#activeFolderArea .header {
     background: #e6e6e6;
     display: block;
     height: 45px;
@@ -767,7 +851,62 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-#playlists-panel .header span {
+#addItems .header {
+    text-align: left;
+}
+
+#addItems .header span {
+    font-size: 1.1em;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    line-height: 45px;
+    text-align: left;
+    left: 20px;
+    position: absolute;
+}
+
+#addItems .addItemOption.stream {
+    border-bottom: 1px solid #dadada;
+    left: 10px;
+    right: 10px;
+    height: 50px;
+}
+
+#addItems .addItemOption i.hidden {
+    opacity: 0;
+}
+
+#addItems .addItemOption i {
+    border: 3px solid #D5D5D5;
+    padding: 10px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #DEDEDE;
+    color: #656565;
+    transition: opacity 1s;
+    position: absolute;
+}
+
+#addItems .addItemOption i.droppable.icon-drop-hover {
+    border: 3px solid #6BBD46;
+}
+
+#addItems .addItemOption i.dropped {
+    border: 3px solid #6BBD46;
+    background-color: #6BBD46;
+    color: #fff;
+}
+
+#addItems .addItemOption {
+    height: 30px;
+    padding-bottom: 5px;
+    position: relative;
+    top: 55px;
+}
+
+#activeFolderArea .header span {
     color: #949494;
     font-weight: bold;
     letter-spacing: 2px;
@@ -775,16 +914,16 @@ input[type="range"]::-webkit-slider-thumb {
     text-transform: uppercase;
 }
 
-#playlists-panel .header span img { margin-top: .6em }
+#activeFolderArea .header span img { margin-top: .6em }
 
-#playlists-panel .header #button-settings {
+#activeFolderArea .header #button-settings {
     display: block;
     position: absolute;
     right: 10px;
     top: 0;
 }
 
-#playlists-panel .list {
+#activeFolderArea .list {
     bottom: 30px;
     display: block;
     left: 10px;
@@ -796,20 +935,20 @@ input[type="range"]::-webkit-slider-thumb {
     top: 45px;
 }
 
-#playlists-panel .list:hover {
+#activeFolderArea .list:hover {
     overflow-y: scroll;
     padding-right: 0
 }
 
-#playlists-panel .list::-webkit-scrollbar {
+#activeFolderArea .list::-webkit-scrollbar {
     background: transparent;
     height: 10px;
     width: 10px;
 }
 
-#playlists-panel .list::-webkit-scrollbar-thumb { background: #949494 }
+#activeFolderArea .list::-webkit-scrollbar-thumb { background: #949494 }
 
-#playlists-panel .list h3 {
+#activeFolderArea .list h3 {
     cursor: pointer;
     height: 26px;
     line-height: 26px;
@@ -817,9 +956,9 @@ input[type="range"]::-webkit-slider-thumb {
     text-transform: uppercase;
 }
 
-#playlists-panel .list h3 i { margin-left: .3em }
+#activeFolderArea .list h3 i { margin-left: .3em }
 
-#playlists-panel .list ul li {
+#activeFolderArea .list ul li {
     cursor: pointer;
     display: block;
     height: 26px;
@@ -827,9 +966,7 @@ input[type="range"]::-webkit-slider-thumb {
     position: relative;
 }
 
-#playlists-panel .list ul li:hover { background: #ebebeb }
-
-#playlists-panel .list ul li span.title {
+#activeFolderArea .list ul li span.title {
     bottom: 0;
     display: block;
     left: 30px;
@@ -841,7 +978,7 @@ input[type="range"]::-webkit-slider-thumb {
     white-space: nowrap;
 }
 
-#playlists-panel .list ul li i {
+#activeFolderArea .list ul li i {
     bottom: 0;
     display: block;
     left: 0;
@@ -851,7 +988,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 25px;
 }
 
-#playlists-panel .list ul li span.count {
+#activeFolderArea .list ul li span.count {
     background: #949494;
     border-radius: 1em;
     color: #fff;
@@ -866,7 +1003,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 6px;
 }
 
-#playlists-panel .context-buttons {
+#activeFolderArea .context-buttons {
     border-top: 1px solid #dadada;
     bottom: 0;
     display: block;
@@ -876,7 +1013,7 @@ input[type="range"]::-webkit-slider-thumb {
     right: 10px;
 }
 
-#playlists-panel .context-buttons .left-group {
+#activeFolderArea .context-buttons .left-group {
     display: block;
     height: 30px;
     left: 0;
@@ -885,7 +1022,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-#playlists-panel .context-buttons .right-group {
+#activeFolderArea .context-buttons .right-group {
     display: block;
     height: 30px;
     position: absolute;

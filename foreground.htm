@@ -33,7 +33,7 @@
                 
                     <div id="VolumeControl">
                         <div id="MuteButton" class="volumeControl">
-                            <svg width="16" height="16">
+                            <svg width="16" height="16">s
                                 <path d="M0,6 L3,6 L7,2 L7,14 L3,10 L0,10Z" fill="#fff" />
                                 <rect class="MuteButtonBar" id="MuteButtonBar1" x="9" y="6.5" width="1" height="3" />
                                 <rect class="MuteButtonBar"id="MuteButtonBar2" x="11" y="5" width="1" height="6" />
@@ -142,7 +142,7 @@
         
         <script type="text/template" id="playlistItemTemplate">
             
-            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id')%>/default.jpg"  src="" />
+            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg"  src="" />
             
             <div class="textWrapper">
                 <span class="playlistItemTitle"><%- title %></span>
@@ -170,24 +170,6 @@
         
         </script>
         
-        <div id="contextMenu">
-            
-        </div>
-        
-        <script type="text/template" id="contextMenuTemplate">
-
-            <% groups.each(function(group){ %>
-                <ul id="<%= group.cid %>">
-                    <% group.get('items').each(function(item){ %>
-                       <li>
-                           <a id="<%= item.cid %>" title="<%= item.get('title') %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
-                       </li>
-                    <% }); %>
-                </ul>
-            <% }); %>
-
-        </script>
-        
         <script type="text/template" id="contentHeaderTemplate">
             
             <span class="headerTitle">
@@ -211,18 +193,6 @@
                 </div>
 
             </div>
-
-        </script>
-        
-        <script type="text/template" id="videoDisplayTemplate">
-  
-        </script>
-
-        <script type="text/template" id="reloadPromptTemplate">
-
-            <%- promptText %>
-
-            <button type="button" class="reloadButton"><%- buttonText %></button>
 
         </script>
         

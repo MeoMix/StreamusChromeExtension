@@ -1,18 +1,21 @@
 ﻿define([
     'contextMenu',
+    'text!../templates/contextMenuTemplate.htm',
     'utility'
-], function (ContextMenu, Utility) {
+], function (ContextMenu, ContextMenuTemplate, Utility) {
     'use strict';
 
     //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.
     var ContextMenuView = Backbone.View.extend({
 
-        el: $('#contextMenu'),
-        
-        template: _.template($('#contextMenuTemplate').html()),
+        template: _.template(ContextMenuTemplate),
 
         events: {
             'click li': 'onItemClick',
+        },
+        
+        attributes: {
+            id: 'contextMenu'
         },
 
         model: new ContextMenu,
@@ -43,21 +46,12 @@
             }
 
             //  Show the element before setting offset to ensure correct positioning.
-            this.$el.show().offset({
+            this.$el.appendTo('body').offset({
                 top: offsetTop,
                 left: offsetLeft
             });
-
-            return this;
-        },
-
-        initialize: function () {
-            var self = this;
             
-            //  Hide the context menu whenever any click occurs not just when selecting an item.
-            this.$el.parent().on('click contextmenu', function () {
-                self.reset();
-            });
+            return this;
         },
 
         addGroup: function (group) {
@@ -72,7 +66,8 @@
         
         //  Hide the context menu and empty its displayed groups.
         reset: function () {
-            this.$el.hide();
+            console.log("Removing el", this.$el);
+            this.$el.remove();
             this.model.get('groups').reset();
         },
         

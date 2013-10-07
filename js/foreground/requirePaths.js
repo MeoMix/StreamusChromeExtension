@@ -19,11 +19,11 @@ var require = {
         'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
         'sly': 'thirdParty/sly',
         'underscore': 'thirdParty/underscore',
+        'text': 'thirdParty/text',
 
         //  Foreground:
         'main': 'foreground/main',
         'foreground': 'foreground/foreground',
-        'newForeground': 'foreground/newForeground',
 
         //  Collection:
         'contextMenuGroups': 'foreground/collection/contextMenuGroups',
@@ -33,6 +33,7 @@ var require = {
 
         //  Model:
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
+        'addSearchResults': 'foreground/model/addSearchResults',
         'contextMenu': 'foreground/model/contextMenu',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',
         'contextMenuItem': 'foreground/model/contextMenuItem',
@@ -65,17 +66,17 @@ var require = {
         'repeatButtonView': 'foreground/view/buttons/repeatButtonView',
         'shuffleButtonView': 'foreground/view/buttons/shuffleButtonView',
         
-        //  View -> ActiveFolderTab:
-        'activeFolderTabView': 'foreground/view/activeFolderTab/activeFolderTabView',
-        'activeFolderView': 'foreground/view/activeFolderTab/activeFolderView',
-        'playlistInputView': 'foreground/view/activeFolderTab/playlistInputView',
-        'playlistView': 'foreground/view/activeFolderTab/playlistView',
+        //  View -> ActiveFolderArea:
+        'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',
+        'activeFolderView': 'foreground/view/activeFolderArea/activeFolderView',
+        'playlistInputView': 'foreground/view/activeFolderArea/playlistInputView',
+        'playlistView': 'foreground/view/activeFolderArea/playlistView',
 
-        //  View -> ActivePlaylistTab:
-        'activePlaylistAreaView': 'foreground/view/activePlaylistTab/activePlaylistAreaView',
-        'activePlaylistItemsView': 'foreground/view/activePlaylistTab/activePlaylistItemsView',
-        'playlistItemInputView': 'foreground/view/activePlaylistTab/playlistItemInputView',
-        'playlistItemView': 'foreground/view/activePlaylistTab/playlistItemView',
+        //  View -> ActivePlaylistArea:
+        'activePlaylistAreaView': 'foreground/view/activePlaylistArea/activePlaylistAreaView',
+        'activePlaylistItemsView': 'foreground/view/activePlaylistArea/activePlaylistItemsView',
+        'playlistItemInputView': 'foreground/view/activePlaylistArea/playlistItemInputView',
+        'playlistItemView': 'foreground/view/activePlaylistArea/playlistItemView',
         
         //  View -> Stream:
         'streamItemView': 'foreground/view/stream/streamItemView',
@@ -85,8 +86,9 @@ var require = {
         'videoDisplayView': 'foreground/view/video/videoDisplayView',
         
         //  View -> VideoSearch:
+        'addSearchResultsView': 'foreground/view/videoSearch/addSearchResultsView',
         'videoSearchResultItemView': 'foreground/view/videoSearch/videoSearchResultItemView',
         'videoSearchResultsView': 'foreground/view/videoSearch/videoSearchResultsView',
-        'videoSearchView': 'foreground/view/videoSearch/videoSearchView',
+        'videoSearchView': 'foreground/view/videoSearch/videoSearchView'
     }
 };

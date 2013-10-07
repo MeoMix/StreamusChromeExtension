@@ -15,7 +15,6 @@
     </head>
 
     <body class="loading">
-        
 
         <div class="right-pane">
             <div class="player">
@@ -43,7 +42,7 @@
 
                     </div>
                     <div class="right-group">
-                        <button class="button-icon" id="button-video-mode" title="Toggle video mode"><i class="icon-film"></i></button>
+                        <button class="button-icon toggleButton" id="button-video-mode" title="Toggle video mode"><i class="icon-film"></i></button>
                     </div>
                 </div>
                 <div class="progress-slider">
@@ -53,41 +52,137 @@
                 <div class="progress-details">
                     <span class="time-elapsed" title="Time elapsed">2:55</span><span class="title">Now Playing</span><span class="time-remaining" title="Time remaining">2:03</span>
                 </div>
-                <div class="list">
-                    <div class="item">
-                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                    </div>
-                    <div class="item">
-                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                    </div>
-                    <div class="item">
-                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                    </div>
-                    <div class="item">
-                        <img class="item-thumb" src=""><span class="item-title">Jungle - Drops</span><span class="item-details"><span class="item-author"><i class="icon-user"></i>majesticcasual</span><span class="item-duration"><i class="icon-time"></i>2:52	</span></span>
-                    </div>
-                </div>
+
                 <div class="context-buttons">
                     <div class="right-group">
-                        <button class="button-icon button-small" id="button-stream-save" title="Save stream as playlist"><i class="icon-save"></i></button><button class="button-icon button-small" id="button-stream-delete" title="Clear stream"><i class="icon-trash"></i></button>
+                        <button class="button-icon button-small" id="button-stream-save" title="Save stream as playlist">
+                            <i class="icon-save"></i>
+                        </button><button class="button-icon button-small" id="button-stream-delete" title="Clear stream"><i class="icon-trash"></i></button>
                     </div>
                     <div class="left-group">
-                        <button class="button-icon button-small" id="button-stream-repeat" title="Repeat playlist"><i class="icon-repeat"></i></button><button class="button-icon button-small" id="button-stream-shuffle" title="Shuffle songs"><i class="icon-random"></i></button><button class="button-icon button-small" id="button-stream-radio" title="Toggle Radio mode"><i class="icon-rss"></i></button>
+                        <button class="button-icon button-small toggleButton" id="button-stream-repeat" title="Repeat playlist">
+                            <i class="icon-repeat"></i>
+                        </button>
+                        
+                        <button class="button-icon button-small toggleButton" id="button-stream-shuffle" title="Shuffle songs">
+                            <i class="icon-random"></i>
+                        </button>
+                        
+                        <button class="button-icon button-small toggleButton" id="button-stream-radio" title="Toggle Radio mode">
+                            <i class="icon-rss"></i>
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <button class="button-icon" id="button-playlists" title="Playlist Menu">
+        <button class="button-icon toggleButton" id="toggleActiveFolderAreaButton" title="Playlist Menu">
             <i class="icon-reorder"></i>
         </button>
         <button class="button-icon" id="button-back" title="Back">
             <i class="icon-arrow-left"></i>
         </button>
-        <div id="playlists-panel">
+
+        <!--Templates:-->
+        <script type="text/template" id="dialogTemplate">
+            <button type="button" class="close">×</button>
+            <%- text %>
+        </script>
+        
+        <script type="text/template" id="streamViewTemplate">
+            
+
+        </script>
+        
+        <script type="text/template" id="streamItemTemplate">
+<!--            TODO: rename-->
+            <div class="playlistItem">
+                <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" src="" />
+                <span class="item-title">
+                    <%- title %>
+                </span>
+                <span class="item-details">
+                    <span class="item-author">
+                        <i class="icon-user"></i>
+                        <div class="limitedScrollingWidth"><%- video.get('author') %></div>
+                    </span>
+                    <span class="item-duration">
+                        <i class="icon-time"></i>
+                        <%- video.get('prettyDuration') %>
+                    </span>
+
+                </span>
+		    </div>
+
+        </script>
+        
+        
+        <script type="text/template" id="Script1">
+
+            <div class="videoTitleOverlay imageOverlayWrapper">
+                <span class="videoTitle videoImageOverlay"></span>
+            </div>
+    
+            <svg class="deleteButtonSvg">
+                <path d="M0,2 L2,0 L12,10 L10,12z" fill="white"/>
+                <path d="M12,2 L10,0 L0,10 L2,12z" fill="white"/>
+            </svg>
+
+            <img class="videoImage lazy" data-original="<%- videoImageUrl %>"  src="" />
+
+            <div class="videoTimeOverlay imageOverlayWrapper">
+                <span class="videoTime videoImageOverlay"></span>
+            </div>
+
+        </script>
+
+
+        <script type="text/template" id="addSearchResultsTemplate">
+            
+            <div class="panel">
+                <div class="header">
+                    <span>
+<!--                        i18n-->
+                        Add items to:
+                    </span>
+                    <button class="button-icon" id="hideAddItemsButton" title="Hide">
+                        <i class="icon-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="addItemOption stream">
+                    <i class="droppable icon-music"></i>
+                    <i class="icon-ok dropped hidden"></i>
+                    <span class="item-title">Now playing stream</span>
+                    <span class="item-details">
+                        <span class="item-count">
+<!--                            TODO: i18n-->
+                            <% if( streamItemsLength === 1 ) { %>
+                                <%- streamItemsLength %> item
+                            <% } else { %>
+                                <%- streamItemsLength %> items
+                            <% } %> 
+
+                        </span>
+                    </span>
+                </div>
+
+                <div class="list">
+                    <div>
+                        <ul id="Ul2">
+
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        
+        </script>
+        
+        <script type="text/template" id="activeFolderAreaTemplate">
+            
             <div class="panel">
                 <div class="header">
                     <span class="title">
-                        <img height="25px" src="http://streamus.com/img/logo.png">
+                        <img height="25" src="http://streamus.com/img/logo.png">
                     </span>
                     <button class="button-icon button-icon" id="button-settings" title="Streamus Settings">
                         <i class="icon-cogs"></i>
@@ -97,65 +192,26 @@
                     <h3 class="first">
                         Playlists<i class="icon-caret-down"></i>
                     </h3>
-                    <div>
-                        <ul id="activeFolderView">
-
-                        </ul>
-                    </div>
                 </div>
                 <div class="context-buttons">
                     <div class="left-group">
                         <button class="button-label button-small" id="button-sign-in"><i class="icon-signin"></i>Sign in</button>
                     </div>
                     <div class="right-group">
-                        <button class="button-icon button-small" id="button-add-playlist" title="Add playlist"><i class="icon-plus"></i></button><button class="button-icon button-small" id="button-edit-playlists" title="Edit playlists"><i class="icon-pencil"></i></button>
+                        <button class="button-icon button-small" id="button-add-playlist" title="Add playlist">
+                            <i class="icon-plus"></i>
+
+                        </button><button class="button-icon button-small" id="button-edit-playlists" title="Edit playlists">
+                            <i class="icon-pencil"></i>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
-        
-        <div id="contextMenu">     
-        </div>
-
-        <!--Templates:-->
-        <script type="text/template" id="loadingSpinnerTemplate">
-            <div class="spinner">
-                <div class="mask">
-                    <div class="maskedCircle"></div>
-                </div>
-            </div>
-        </script>
-
-        <script type="text/template" id="reloadPromptTemplate">
-            <div class="panel">
-                <div class="header">
-                    <span class="title">Reload Streamus</span>
-                </div>
-                <div class="body">
-                    <%- promptText %>
-                    <button class="reload button-label button-color"><%- reloadButtonText %></button>
-                    <button class="wait button-label button-color"><%- waitButtonText %></button>
-                </div>
-            </div>
-        </script>
-
-        <script type="text/template" id="contextMenuTemplate">
-
-            <% groups.each(function(group){ %>
-                <ul id="<%= group.cid %>">
-                    <% group.get('items').each(function(item){ %>
-                        <li>
-                            <a id="<%= item.cid %>" title="<%= item.get('title') %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
-                        </li>
-                    <% }); %>
-                </ul>
-            <% }); %>
 
         </script>
         
-        <script type="text/template" id="dialogTemplate">
-            <button type="button" class="close">×</button>
-            <%- text %>
+        <script type="text/template" id="activeFolderTemplate">
+            
         </script>
         
         <script type="text/template" id="playlistItemTemplate">
@@ -205,7 +261,6 @@
             <div class="left-bottom-menubar">
                 <div class="playlist-details">
                     <%- playlist.get('displayInfo') %>
-                    <!--9 songs, 38 minutes-->
                 </div>
                 <div class="playlist-actions">
                     
@@ -232,11 +287,11 @@
                 <div class="searchBar">
 					<input placeholder="<%- chrome.i18n.getMessage('searchText') %>" type="search">
 					<div class="searchBottomOutline"></div>
-					<button id="source-select">
+<!--					<button id="source-select">
 						<i class="icon-youtube-play"></i>
 						<span class="label">YouTube</span>
 						<i class="icon-sort"></i>
-					</button>
+					</button>-->
 				</div>
             </div>
             <div class="left-top-divider"></div>
@@ -257,7 +312,7 @@
 
         <script type="text/template" id="videoSearchResultsTemplate">
             
-            <% if( this.model.length === 0 ) { %>
+            <% if( !hasSearchResults ) { %>
                 
                 <div class="big-text">
                     <i class="icon-search i-4x"></i><%- chrome.i18n.getMessage('searchInstructions') %>
@@ -269,7 +324,13 @@
         
         <script type="text/template" id="videoSearchResultItemTemplate">
             
-            <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- id %>/default.jpg" src="" />
+            <!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
+            <% if( index <= 12 ) { %>
+                <img class="item-thumb" src="http://img.youtube.com/vi/<%- id %>/default.jpg" />
+            <% } else { %>
+                <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- id %>/default.jpg" src="" />
+            <% } %>
+
             <span class="item-title"><%- title %></span>
             <span class="item-details">
                 <span class="item-author">

@@ -177,6 +177,21 @@ define([
             },
             error: function (error) {
                 console.error(error);
+                
+                //  If there's an error fetching the user with localDebug enabled -- probably just swapped between DBs
+                //  Its OK to reset the user for debugging purposes. It is NOT ok to reset the user in deployment.
+                if (Settings.get('localDebug')) {
+
+                    console.log("Creating new user.");
+                    self.set('id', null);
+                    //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+                    self.save({}, {
+                        success: function (model) {
+                            onUserLoaded.call(self, model, true);
+                        }
+                    });
+                }
+
             }
         });
     }

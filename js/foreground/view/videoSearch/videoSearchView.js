@@ -34,6 +34,7 @@
                 })
             ));
 
+            console.log("RENDERING VIDEO SEARCH RESULTS VIEW");
             this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
 
             return this;
@@ -42,7 +43,6 @@
         initialize: function () {
 
             this.videoSearchResultsView = new VideoSearchResultsView({
-                model: this.model.get('videoSearchResultItems'),
                 parent: this
             });
 
@@ -61,8 +61,14 @@
             this.$el.find('.searchBar input').focus();
         },
         
-        hide: function() {
-            this.$el.fadeOut();
+        hide: function(callback) {
+            var self = this;
+            
+            this.$el.fadeOut(function() {
+                self.remove();
+                callback();
+            });
+            
         },
         
         getUserInput: function () {

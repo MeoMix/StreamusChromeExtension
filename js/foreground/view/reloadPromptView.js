@@ -1,13 +1,14 @@
 ﻿define([
-    'reloadPrompt'
-], function (ReloadPrompt) {
+    'reloadPrompt',
+    'text!../templates/reloadPromptTemplate.htm'
+], function (ReloadPrompt, ReloadPromptTemplate) {
     'use strict';
 
     var RestartPromptView = Backbone.View.extend({
 
         className: 'modalOverlay reloadPrompt',
 
-        template: _.template($('#reloadPromptTemplate').html()),
+        template: _.template(ReloadPromptTemplate),
 
         model: new ReloadPrompt,
 

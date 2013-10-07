@@ -11,14 +11,10 @@ define([
 
     var ActiveFolderView = Backbone.View.extend({
         
-        el: $('#activeFolderView'),
+        tagName: 'ul',
 
-        //ul: $('#ActiveFolderView ul'),
-        
+        template: _.template($('#activeFolderTemplate').html()),
 
-        
-        //emptyNotification: $('#ActiveFolderView .emptyListNotification'),
-        
         loadingSpinnerView: new LoadingSpinnerView,
         
         events: {
@@ -27,18 +23,19 @@ define([
             'click ul li': 'selectPlaylist'
         },
         
+        attributes: {
+            'id': 'activeFolderView'
+        },
+        
         //  Refreshes the playlist display with the current playlist information.
         render: function () {
-            this.$el.empty();
-
+            this.$el.html(this.template(this.model.toJSON()));
+            
             //  TODO: Change this to a template.
             var activeFolder = this.model;
 
-            if (activeFolder.get('playlists').length === 0) {
-                //this.emptyNotification.show();
-            } else {
-                //this.emptyNotification.hide();
-                
+            if (activeFolder.get('playlists').length > 0) {
+
                 var firstPlaylistId = activeFolder.get('firstPlaylistId');
                 var playlist = activeFolder.get('playlists').get(firstPlaylistId);
 
@@ -72,37 +69,9 @@ define([
         
         initialize: function () {
 
-            console.log("initializing");
-
             //  TODO: Sortable.
-            //this.emptyNotification.text(chrome.i18n.getMessage("emptyFolder"));
+            var playlists = this.model.get('playlists');
             
-            //  Need to do it this way to support i18n
-            //this.emptyNotification.css({
-            //    'margin-left': (-1 * this.emptyNotification.width() / 2) + $('#menu').width()
-            //});
-
-            this.startListeningToPlaylists(this.model.get('playlists'));
-            this.render();
-
-            Utility.scrollChildElements(this.el, 'span.playlitTitle');
-
-            //  todo: find a place for this
-            var activePlaylist = this.model.getActivePlaylist();
-            this.scrollItemIntoView(activePlaylist, false);
-        },
-        
-        changeModel: function(newModel) {
-
-            this.stopListening(this.model.get('playlists'));
-
-            this.model = newModel;
-            this.startListeningToPlaylists(newModel.get('playlists'));
-
-            this.render();
-        },
-
-        startListeningToPlaylists: function (playlists) {
             var self = this;
 
             this.listenTo(playlists, 'change:active', function (playlist, isActive) {
@@ -120,6 +89,11 @@ define([
             this.listenTo(playlists, 'reset empty', this.render);
             this.listenTo(playlists, 'add', this.addItem);
 
+            Utility.scrollChildElements(this.el, 'span.playlitTitle');
+
+            //  todo: find a place for this
+            var activePlaylist = this.model.getActivePlaylist();
+            this.scrollItemIntoView(activePlaylist, false);
         },
 
         addItem: function (playlist) {
@@ -225,8 +199,7 @@ define([
                                 return {
                                     id: _.uniqueId('streamItem_'),
                                     video: playlistItem.get('video'),
-                                    title: playlistItem.get('title'),
-                                    videoImageUrl: 'http://img.youtube.com/vi/' + playlistItem.get('video').get('id') + '/default.jpg'
+                                    title: playlistItem.get('title')
                                 };
                             });
 
@@ -282,8 +255,8 @@ define([
         visuallySelectPlaylist: function(playlist) {
             this.scrollItemIntoView(playlist, false);
 
-            this.$el.find('li').removeClass('loaded');
-            this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]').addClass('loaded');
+            this.$el.find('li').removeClass('selected');
+            this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]').addClass('selected');
         }
 
     });

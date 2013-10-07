@@ -101,29 +101,29 @@ define([
             chrome.runtime.onMessage.addListener(function (request) {
                 
                 switch (request.method) {
-                    case 'addAndPlayStreamItemByTitle':                        
-                        self.searchAndAddByName(request.videoTitle, true);
+                    case 'searchAndStreamByQuery':
+                        self.searchAndAddByName(request.query, true);
 
                     break;
 
-                    case 'addAndPlayStreamItemsByTitles':                        
-                        var videoTitles = request.videoTitles;
+                    case 'searchAndStreamByQueries':
+                        var queries = request.queries;
 
-                        if (videoTitles.length > 0) {
+                        if (queries.length > 0) {
                             //  TODO: Kinda sucks to have to do N searches here, but doubt there is any other way.
-                            var videoTitle = videoTitles.shift();
+                            var query = queries.shift();
 
                             var recursiveShiftVideoTitleAndAdd = function () {
                                 
-                                if (videoTitles.length > 0) {
+                                if (queries.length > 0) {
                                     
-                                    videoTitle = videoTitles.shift();
-                                    self.searchAndAddByName(videoTitle, false, recursiveShiftVideoTitleAndAdd);
+                                    query = queries.shift();
+                                    self.searchAndAddByName(query, false, recursiveShiftVideoTitleAndAdd);
                                 }
                                 
                             };
 
-                            self.searchAndAddByName(videoTitle, true, function () {
+                            self.searchAndAddByName(query, true, function () {
                                 recursiveShiftVideoTitleAndAdd();
                             });
                             
@@ -139,10 +139,14 @@ define([
         searchAndAddByName: function(videoTitle, playOnAdd, callback) {
             var self = this;
 
+            console.log("Searching for:", videoTitle);
+
             YouTubeDataAPI.search({
                 text: videoTitle,
                 maxResults: 10,
-                success: function(videoInformationList) {
+                success: function (videoInformationList) {
+
+                    console.log("VideoInformationList:", videoInformationList);
 
                     if (videoInformationList.length === 0) {
                         console.error("Failed to find any videos for:", videoTitle);
@@ -156,7 +160,6 @@ define([
                             id: _.uniqueId('streamItem_'),
                             video: video,
                             title: video.get('title'),
-                            videoImageUrl: 'http://img.youtube.com/vi/' + video.get('id') + '/default.jpg',
                             selected: !!playOnAdd
                         });
 
@@ -243,6 +246,19 @@ define([
             });
 
             this.trigger('addMultiple', streamItemsFromCollection);
+        },
+        
+        addByVideoInformation: function (videoInformation) {
+
+            var video = new Video({
+                videoInformation: videoInformation
+            });
+
+            StreamItems.add({
+                id: _.uniqueId('streamItem_'),
+                video: video,
+                title: video.get('title')
+            });
         },
 
         deselectAllExcept: function(streamItemCid) {
@@ -377,7 +393,6 @@ define([
                             this.add({
                                 video: randomRelatedVideo,
                                 title: randomRelatedVideo.get('title'),
-                                videoImageUrl: 'http://img.youtube.com/vi/' + randomRelatedVideo.get('id') + '/default.jpg',
                                 selected: true
                             });
 

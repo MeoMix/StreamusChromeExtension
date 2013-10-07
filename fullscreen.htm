@@ -15,21 +15,5 @@
         <script type="text/template" id="videoDisplayTemplate">
         </script>
         
-        <div id="contextMenu">
-        </div>
-        
-        <script type="text/template" id="contextMenuTemplate">
-
-            <% groups.each(function(group){ %>
-                <ul id="<%= group.cid %>">
-                    <% group.get('items').each(function(item){ %>
-                       <li>
-                           <a id="<%= item.cid %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
-                       </li>
-                    <% }); %>
-                </ul>
-            <% }); %>
-
-        </script>
     </body>
 </html>

@@ -1,0 +1,9 @@
+﻿<% groups.each(function(group){ %>
+    <ul id="<%= group.cid %>">
+        <% group.get('items').each(function(item){ %>
+            <li>
+                <a id="<%= item.cid %>" title="<%= item.get('title') %>" <% if( item.get('disabled') ) { %> disabled="disabled" <% } %> href="#"><%= item.get('text') %></a>
+            </li>
+        <% }); %>
+    </ul>
+<% }); %>

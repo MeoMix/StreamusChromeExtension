@@ -11,7 +11,7 @@
             return {
                 userInput: '',
                 searchJqXhr: null,
-                videoSearchResultItems: new VideoSearchResultItems,
+                videoSearchResultItems: VideoSearchResultItems,
                 relatedPlaylist: null
             };
         },
