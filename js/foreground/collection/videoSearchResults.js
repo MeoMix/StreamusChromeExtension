@@ -1,10 +1,10 @@
 ﻿define([
-    'videoSearchResultItem'
-], function (VideoSearchResultItem) {
+    'videoSearchResult'
+], function (VideoSearchResult) {
     'use strict';
 
-    var VideoSearchResultItems = Backbone.Collection.extend({
-        model: VideoSearchResultItem,
+    var VideoSearchResults = Backbone.Collection.extend({
+        model: VideoSearchResult,
         
         initialize: function() {
             
@@ -37,5 +37,5 @@
         
     });
 
-    return new VideoSearchResultItems;
+    return new VideoSearchResults;
 });

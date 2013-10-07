@@ -1,5 +1,5 @@
 ﻿define([
-    'text!../templates/loadingSpinnerTemplate.htm'
+    'text!../template/loadingSpinner.htm'
 ], function (LoadingSpinnerTemplate) {
     'use strict';
 

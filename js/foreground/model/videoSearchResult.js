@@ -4,7 +4,7 @@
     'use strict';
 
     //  It's OK to not be DRY here with Video because I need to not couple the Video object with the foreground.
-    var VideoSearchResultItem = Backbone.Model.extend({
+    var VideoSearchResult = Backbone.Model.extend({
         
         defaults: {
             
@@ -33,7 +33,7 @@
 
         }
 
-        var videoSearchResultItem = new VideoSearchResultItem(config);
-        return videoSearchResultItem;
+        var videoSearchResult = new VideoSearchResult(config);
+        return videoSearchResult;
     };
 })

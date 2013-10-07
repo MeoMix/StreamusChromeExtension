@@ -1,17 +1,18 @@
 ﻿define([
     'streamItems',
     'streamItemView',
+    'text!../template/streamView.htm',
     'contextMenuView',
     'utility',
     'sly'
-], function (StreamItems, StreamItemView, ContextMenuView, Utility) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, ContextMenuView, Utility) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
         
         className: 'list',
         
-        template: _.template($('#streamViewTemplate').html()),
+        template: _.template(StreamViewTemplate),
         
         //slidee: $('#StreamView ul.slidee'),
         

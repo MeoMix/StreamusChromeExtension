@@ -406,31 +406,36 @@ input[type="range"]::-webkit-slider-thumb {
     white-space: nowrap;
 }
 
-.videoSearchResultItem,
-.playlistItem {
+.videoSearchResult,
+.playlistItem,
+.streamItem {
     height: 30px;
     padding: 5px 0;
     position: relative;
     width: calc(100% - 10px);
 }
 
-.videoSearchResultItem:hover,
+.videoSearchResult:hover,
+.streamItem:hover,
 .playlistItem:hover,
 .playlist:hover {
     background: #ebebeb;
 }
 
-.videoSearchResultItem.selected,
+.videoSearchResult.selected,
 .playlistItem.selected,
+.streamItem.selected,
 .playlist.selected {
     background: #CDDBF2;
     transition: background .3s;
 }
 
-.videoSearchResultItem i,
+.videoSearchResult i,
+.streamItem i,
 .playlistItem i { margin-right: .5em }
 
-.videoSearchResultItem img,
+.videoSearchResult img,
+.streamItem img,
 .playlistItem img {
     display: block;
     height: 30px;

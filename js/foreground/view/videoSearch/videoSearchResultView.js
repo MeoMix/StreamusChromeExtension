@@ -1,12 +1,13 @@
 ﻿define([
-], function () {
+    'text!../template/videoSearchResult.htm'
+], function (VideoSearchResultTemplate) {
     'use strict';
 
-    var VideoSearchResultItemView = Backbone.View.extend({
+    var VideoSearchResultView = Backbone.View.extend({
         
-        className: 'videoSearchResultItem',
+        className: 'videoSearchResult',
 
-        template: _.template($('#videoSearchResultItemTemplate').html()),
+        template: _.template(VideoSearchResultTemplate),
         
         attributes: function () {
             return {
@@ -55,5 +56,5 @@
         }
     });
 
-    return VideoSearchResultItemView;
+    return VideoSearchResultView;
 });

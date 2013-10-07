@@ -1,8 +1,8 @@
 ﻿define([
-    'videoSearchResultItems',
-    'videoSearchResultItem',
+    'videoSearchResults',
+    'videoSearchResult',
     'youTubeDataAPI'
-], function (VideoSearchResultItems, VideoSearchResultItem, YouTubeDataAPI) {
+], function (VideoSearchResults, VideoSearchResult, YouTubeDataAPI) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({
@@ -11,7 +11,7 @@
             return {
                 userInput: '',
                 searchJqXhr: null,
-                videoSearchResultItems: VideoSearchResultItems,
+                videoSearchResults: VideoSearchResults,
                 relatedPlaylist: null
             };
         },
@@ -31,7 +31,7 @@
                 }
 
                 if ($.trim(userInput) === '') {
-                    this.get('videoSearchResultItems').reset();
+                    this.get('videoSearchResults').reset();
                 } else {
 
                     var searchJqXhr = YouTubeDataAPI.search({
@@ -39,16 +39,16 @@
                         success: function(videoInformationList) {
 
                             //  Convert video information into search results which contain a reference to the full data incase needed later.
-                            var videoSearchResultItems = _.map(videoInformationList, function(videoInformation) {
+                            var videoSearchResults = _.map(videoInformationList, function(videoInformation) {
 
-                                var videoSearchResultItem = new VideoSearchResultItem({
+                                var videoSearchResult = new VideoSearchResult({
                                     videoInformation: videoInformation
                                 });
 
-                                return videoSearchResultItem;
+                                return videoSearchResult;
                             });
 
-                            self.get('videoSearchResultItems').reset(videoSearchResultItems);
+                            self.get('videoSearchResults').reset(videoSearchResults);
 
                         }
                     });

@@ -2,15 +2,16 @@
     'contextMenuView',
     'utility',
     'streamItems',
+    'text!../template/streamItem.htm',
     'playPauseButton'
-], function (ContextMenuView, Utility, StreamItems, PlayPauseButton) {
+], function (ContextMenuView, Utility, StreamItems, StreamItemTemplate, PlayPauseButton) {
     'use strict';
 
     var StreamItemView = Backbone.View.extend({
         
         className: 'streamItem',
 
-        template: _.template($('#streamItemTemplate').html()),
+        template: _.template(StreamItemTemplate),
 
         events: {
             'contextmenu': 'showContextMenu',

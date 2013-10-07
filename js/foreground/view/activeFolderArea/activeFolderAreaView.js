@@ -1,11 +1,12 @@
 ﻿define([
-    'activeFolderView'
-], function (ActiveFolderView) {
+    'activeFolderView',
+    'text!../template/activeFolderArea.htm'
+], function (ActiveFolderView, ActiveFolderAreaTemplate) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
 
-        template: _.template($('#activeFolderAreaTemplate').html()),
+        template: _.template(ActiveFolderAreaTemplate),
 
         activeFolderView: null,
 

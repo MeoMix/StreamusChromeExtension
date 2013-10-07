@@ -125,50 +125,6 @@
                 </div>
             </div>
         </script>
-
-        <script type="text/template" id="dialogTemplate">
-            <button type="button" class="close">×</button>
-            <%- text %>
-        </script>
-        
-        <script type="text/template" id="playlistTemplate">
-            
-            <div class="textWrapper">
-                <span class="playlistTitle"><%- title %></span>
-                <span class="playlistInfo"><%- displayInfo %></span>
-            </div>
-
-        </script>
-        
-        <script type="text/template" id="playlistItemTemplate">
-            
-            <img class="playlistItemVideoImage lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg"  src="" />
-            
-            <div class="textWrapper">
-                <span class="playlistItemTitle"><%- title %></span>
-                <span class="playlistItemInfo"><%- video.get('prettyDuration') %> by <%- video.get('author') %></span>
-            </div>
-        
-        </script>
-        
-        <script type="text/template" id="streamItemTemplate">
-            
-            <div class="videoTitleOverlay imageOverlayWrapper">
-                <span class="videoTitle videoImageOverlay"><%- video.get('title') %></span>
-            </div>
-            
-            <svg class="deleteButtonSvg">
-                <path d="M0,2 L2,0 L12,10 L10,12z" fill="white"/>
-                <path d="M12,2 L10,0 L0,10 L2,12z" fill="white"/>
-            </svg>
-
-            <img class="videoImage lazy" data-original="<%- videoImageUrl %>"  src="" />
-
-            <div class="videoTimeOverlay imageOverlayWrapper">
-                <span class="videoTime videoImageOverlay"><%- video.get('prettyDuration') %></span>
-            </div>
-        
-        </script>
         
         <script type="text/template" id="contentHeaderTemplate">
             

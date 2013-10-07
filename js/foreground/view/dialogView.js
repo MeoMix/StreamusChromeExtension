@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'text!../template/dialog.htm'
+], function (DialogTemplate) {
     'use strict';
 
     var DialogView = Backbone.View.extend({
@@ -10,7 +12,7 @@
             return className;
         },
 
-        template: _.template($('#dialogTemplate').html()),
+        template: _.template(DialogTemplate),
 
         events: {
             'click button.close': 'close'

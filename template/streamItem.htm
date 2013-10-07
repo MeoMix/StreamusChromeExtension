@@ -1,0 +1,17 @@
+﻿<div class="streamItem">
+    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" src="" />
+    <span class="item-title">
+        <%- title %>
+    </span>
+    <span class="item-details">
+        <span class="item-author">
+            <i class="icon-user"></i>
+            <div class="limitedScrollingWidth"><%- video.get('author') %></div>
+        </span>
+        <span class="item-duration">
+            <i class="icon-time"></i>
+            <%- video.get('prettyDuration') %>
+        </span>
+
+    </span>
+</div>

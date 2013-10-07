@@ -12,10 +12,10 @@ define([
     'videoSearch',
     'addSearchResults',
     'addSearchResultsView',
-    'videoSearchResultItems',
+    'videoSearchResults',
     'streamView',
     'contextMenuView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResultItems, StreamView, ContextMenuView) {
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, StreamView, ContextMenuView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -297,7 +297,7 @@ define([
             this.$el.append(this.videoSearchView.render().el);
             this.videoSearchView.showAndFocus();
 
-            this.listenTo(VideoSearchResultItems, 'change:selected', function (changedItem, selected) {
+            this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
 
                 console.log("this.addSearchResults:", this.addSearchResults);
                 console.log("Selected:", selected);
@@ -307,7 +307,7 @@ define([
                 }
                 else if (!selected) {
                     
-                    var noSearchResultsSelected = VideoSearchResultItems.selected().length === 0;
+                    var noSearchResultsSelected = VideoSearchResults.selected().length === 0;
 
                     if (noSearchResultsSelected) {
                         this.addSearchResults.destroy();

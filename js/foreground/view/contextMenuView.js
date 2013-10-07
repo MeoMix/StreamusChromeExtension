@@ -1,6 +1,6 @@
 ﻿define([
     'contextMenu',
-    'text!../templates/contextMenuTemplate.htm',
+    'text!../template/contextMenu.htm',
     'utility'
 ], function (ContextMenu, ContextMenuTemplate, Utility) {
     'use strict';

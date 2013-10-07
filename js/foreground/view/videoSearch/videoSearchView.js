@@ -1,13 +1,14 @@
 ﻿define([
-    'videoSearchResultsView'
-], function (VideoSearchResultsView) {
+    'videoSearchResultsView',
+    'text!../template/videoSearch.htm'
+], function (VideoSearchResultsView, VideoSearchTemplate) {
     'use strict';
 
     var VideoSearchView = Backbone.View.extend({
         
         className: 'left-pane',
         
-        template: _.template($('#videoSearchTemplate').html()),
+        template: _.template(VideoSearchTemplate),
         
         videoSearchResultsView: null,
         

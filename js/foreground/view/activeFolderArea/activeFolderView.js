@@ -1,19 +1,20 @@
 //  This is the list of playlists on the playlists tab.
 define([
+    'text!../template/activeFolder.htm',
     'contextMenuView',
     'utility',
     'dataSource',
     'streamItems',
     'playlistView',
     'loadingSpinnerView'
-], function (ContextMenuView, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView) {
+], function (ActiveFolderTemplate, ContextMenuView, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
         
         tagName: 'ul',
 
-        template: _.template($('#activeFolderTemplate').html()),
+        template: _.template(ActiveFolderTemplate),
 
         loadingSpinnerView: new LoadingSpinnerView,
         

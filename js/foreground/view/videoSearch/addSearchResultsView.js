@@ -1,12 +1,13 @@
 ﻿define([
+    'text!../template/addSearchResults.htm',
     'streamItems',
-    'videoSearchResultItems'
-], function (StreamItems, VideoSearchResultItems) {
+    'videoSearchResults'
+], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults) {
     'use strict';
 
     var AddSearchResultsView = Backbone.View.extend({
 
-        template: _.template($('#addSearchResultsTemplate').html()),
+        template: _.template(AddSearchResultsTemplate),
         
         attributes: {
             'id': 'addItems'
@@ -34,9 +35,9 @@
                 drop: function (event, ui) {
 
                     var draggedVideoId = ui.draggable.data('videoid');
-                    var videoSearchResultItem = VideoSearchResultItems.get(draggedVideoId);
+                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
 
-                    StreamItems.addByVideoInformation(videoSearchResultItem.get('videoInformation'));
+                    StreamItems.addByVideoInformation(videoSearchResult.get('videoInformation'));
 
                     var streamItemIcon = $(this);
                     var checkIcon = streamItemIcon.next();

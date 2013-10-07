@@ -1,0 +1,36 @@
+﻿<div class="panel">
+    <div class="header">
+        <span>
+            <!--i18n-->
+            Add items to:
+        </span>
+        <button class="button-icon" id="hideAddItemsButton" title="Hide">
+            <i class="icon-arrow-right"></i>
+        </button>
+    </div>
+                
+    <div class="addItemOption stream">
+        <i class="droppable icon-music"></i>
+        <i class="icon-ok dropped hidden"></i>
+        <span class="item-title">Now playing stream</span>
+        <span class="item-details">
+            <span class="item-count">
+                <!-- TODO: i18n-->
+                <% if( streamItemsLength === 1 ) { %>
+                    <%- streamItemsLength %> item
+                <% } else { %>
+                    <%- streamItemsLength %> items
+                <% } %> 
+
+            </span>
+        </span>
+    </div>
+
+    <div class="list">
+        <div>
+            <ul id="Ul2">
+
+            </ul>
+        </div>
+    </div>
+</div>

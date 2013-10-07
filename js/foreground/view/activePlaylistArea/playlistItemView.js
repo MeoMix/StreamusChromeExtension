@@ -1,10 +1,12 @@
-﻿define(function () {
+﻿define([
+    'text!../template/playlistItem.htm'
+], function (PlaylistItemTemplate) {
     'use strict';
 
     var PlaylistItemView = Backbone.View.extend({
         className: 'playlistItem',
         
-        template: _.template($('#playlistItemTemplate').html()),
+        template: _.template(PlaylistItemTemplate),
         
         attributes: function() {
             return {

@@ -3,15 +3,16 @@ define([
     'contextMenuView',
     'streamItems',
     'playlistItemView',
+    'text!../template/activePlaylistItems.htm',
     'utility'
-], function (ContextMenuView, StreamItems, PlaylistItemView, Utility) {
+], function (ContextMenuView, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';
 
     var ActivePlaylistItemsView = Backbone.View.extend({
         
         className: 'left-list',
 
-        template: _.template($('#activePlaylistItemsTemplate').html()),
+        template: _.template(ActivePlaylistItemsTemplate),
         
         events: {
             'contextmenu': 'showContextMenu',

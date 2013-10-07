@@ -29,7 +29,7 @@ var require = {
         'contextMenuGroups': 'foreground/collection/contextMenuGroups',
         'contextMenuItems': 'foreground/collection/contextMenuItems',
         'streamItems': 'foreground/collection/streamItems',
-        'videoSearchResultItems': 'foreground/collection/videoSearchResultItems',
+        'videoSearchResults': 'foreground/collection/videoSearchResults',
 
         //  Model:
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
@@ -43,7 +43,7 @@ var require = {
         'settings': 'foreground/model/settings',
         'spinnerBuilder': 'foreground/model/spinnerBuilder',
         'videoSearch': 'foreground/model/videoSearch',
-        'videoSearchResultItem': 'foreground/model/videoSearchResultItem',
+        'videoSearchResult': 'foreground/model/videoSearchResult',
         
         //  Model -> Buttons:
         'playPauseButton': 'foreground/model/buttons/playPauseButton',
@@ -87,8 +87,8 @@ var require = {
         
         //  View -> VideoSearch:
         'addSearchResultsView': 'foreground/view/videoSearch/addSearchResultsView',
-        'videoSearchResultItemView': 'foreground/view/videoSearch/videoSearchResultItemView',
         'videoSearchResultsView': 'foreground/view/videoSearch/videoSearchResultsView',
+        'videoSearchResultView': 'foreground/view/videoSearch/videoSearchResultView',
         'videoSearchView': 'foreground/view/videoSearch/videoSearchView'
     }
 };

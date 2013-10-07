@@ -1,0 +1,16 @@
+﻿<!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
+<% if( index <= 12 ) { %>
+    <img class="item-thumb" src="http://img.youtube.com/vi/<%- id %>/default.jpg" />
+<% } else { %>
+    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- id %>/default.jpg" src="" />
+<% } %>
+
+<span class="item-title"><%- title %></span>
+<span class="item-details">
+    <span class="item-author">
+        <i class="icon-user"></i><%- author %>
+    </span>
+    <span class="item-duration">
+        <i class="icon-time"></i><%- prettyDuration %>	
+    </span>
+</span>

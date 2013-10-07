@@ -1,0 +1,29 @@
+﻿<div class="left-top-bar">
+    <div class="playlist-name">
+        <%- playlist.get('title') %>
+    </div>
+    <button class="button-label button-color" id="addVideosButton" title="<%- addVideosButtonText %>">
+        <i class="icon-plus"></i><%- addVideosButtonText %>
+    </button>
+</div>
+<div class="left-top-divider"></div>
+<div class="left-bottom-menubar">
+    <div class="playlist-details">
+        <%- playlist.get('displayInfo') %>
+    </div>
+    <div class="playlist-actions">
+                    
+        <button class="button-label" id="button-playlist-play-all" title="<%- playAllButtonText %>">
+            <i class="icon-play-sign"></i><%- playAllButtonText %>
+        </button>
+
+        <button class="button-label" id="button-playlist-rename" title="<%- renameButtonText %> <%- playlist.get('title') %>">
+            <i class="icon-pencil"></i><%- renameButtonText %> 
+        </button>
+
+        <button class="button-label" id="button-playlist-delete" title="<%- deleteButtonText %> <%- playlist.get('title') %>">
+            <i class="icon-trash"></i><%- deleteButtonText %>
+        </button>
+
+    </div>
+</div>

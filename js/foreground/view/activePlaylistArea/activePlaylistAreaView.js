@@ -1,13 +1,14 @@
 ﻿define([
-    'activePlaylistItemsView'
-], function (ActivePlaylistItemsView) {
+    'activePlaylistItemsView',
+    'text!../template/activePlaylistArea.htm'
+], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var ActivePlaylistAreaView = Backbone.View.extend({
 
         className: 'left-pane',
         
-        template: _.template($('#activePlaylistAreaTemplate').html()),
+        template: _.template(ActivePlaylistAreaTemplate),
         
         activePlaylistItemsView: null,
         //playlistItemInputView: null,

@@ -1,6 +1,6 @@
 ﻿define([
     'reloadPrompt',
-    'text!../templates/reloadPromptTemplate.htm'
+    'text!../template/reloadPrompt.htm'
 ], function (ReloadPrompt, ReloadPromptTemplate) {
     'use strict';
 

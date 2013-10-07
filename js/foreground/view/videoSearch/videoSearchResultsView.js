@@ -1,13 +1,14 @@
 ﻿define([
-    'videoSearchResultItemView',
-    'videoSearchResultItems'
-], function (VideoSearchResultItemView, VideoSearchResultItems) {
+    'videoSearchResultView',
+    'videoSearchResults',
+    'text!../template/videoSearchResults.htm'
+], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate) {
     'use strict';
 
     var VideoSearchResultsView = Backbone.View.extend({
         className: 'left-list',
         
-        template: _.template($('#videoSearchResultsTemplate').html()),
+        template: _.template(VideoSearchResultsTemplate),
         
         attributes: {
             id: 'searchResultsList'
@@ -16,11 +17,10 @@
         render: function () {
 
             this.$el.html(this.template({
-                    //  Mix in chrome to reference internationalize.
-                    'hasSearchResults': VideoSearchResultItems.length > 0,
-                    'chrome.i18n': chrome.i18n
-                })
-            );
+                //  Mix in chrome to reference internationalize.
+                'hasSearchResults': VideoSearchResults.length > 0,
+                'chrome.i18n': chrome.i18n
+            }));
 
             this.addAll();
             
@@ -29,7 +29,7 @@
                 container: this.$el
             });
 
-            this.$el.find('.videoSearchResultItem ').draggable({
+            this.$el.find('.videoSearchResult').draggable({
                 helper: function() {
 
                     console.log("Setting helper");
@@ -51,22 +51,22 @@
                 start: function (event, ui) {
 
                     var draggedVideoId = $(this).data('videoid');
-                    var draggedVideo = VideoSearchResultItems.get(draggedVideoId);
-                    draggedVideo.set('selected', true);
-                    draggedVideo.set('dragging', true);
+                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
+                    videoSearchResult.set('selected', true);
+                    videoSearchResult.set('dragging', true);
 
                     //  Set it here not in helper because dragStart may select a search result.
-                    $(ui.helper).text(VideoSearchResultItems.selected().length);
+                    $(ui.helper).text(VideoSearchResults.selected().length);
                 },
                 
                 stop: function () {
 
                     var draggedVideoId = $(this).data('videoid');
-                    var draggedVideo = VideoSearchResultItems.get(draggedVideoId);
-                    console.log("I am setting dragging to false");
-  
+                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
+
+                    //  TODO: Is it really necessary to wrap this in a set timeout?
                     setTimeout(function() {
-                        draggedVideo.set('dragging', false);
+                        videoSearchResult.set('dragging', false);
                     });
 
                 }
@@ -80,33 +80,33 @@
             if (!options.parent) throw "VideoSearchResultsView expects to be initialized with a parent ActivePlaylist";
             this.parent = options.parent;
 
-            this.listenTo(VideoSearchResultItems, 'reset', this.render);
+            this.listenTo(VideoSearchResults, 'reset', this.render);
         },
         
-        addOne: function (videoSearchResultItem) {
+        addOne: function (videoSearchResult) {
 
             //  The first 11 search results should not be lazily loaded because they're immediately visible.
             //  So, keep track of the item's index on the view to be able to account for this during rendering.
-            var index = VideoSearchResultItems.indexOf(videoSearchResultItem);
+            var index = VideoSearchResults.indexOf(videoSearchResult);
 
-            var videoSearchResultItemView = new VideoSearchResultItemView({
-                model: videoSearchResultItem,
+            var videoSearchResultView = new VideoSearchResultView({
+                model: videoSearchResult,
                 index: index
             });
             
-            this.$el.append(videoSearchResultItemView.render().el);
+            this.$el.append(videoSearchResultView.render().el);
         },
         
         addAll: function () {
-            VideoSearchResultItems.each(this.addOne, this);
+            VideoSearchResults.each(this.addOne, this);
         },
         
         addItemToActivePlaylist: function (event) {
 
             var clickedItem = $(event.currentTarget);
 
-            var videoSearchResultItem = VideoSearchResultItems.get(clickedItem.data('videoid'));
-            var videoInformation = videoSearchResultItem.get('videoInformation');
+            var videoSearchResult = VideoSearchResults.get(clickedItem.data('videoid'));
+            var videoInformation = videoSearchResult.get('videoInformation');
 
             //  TODO: It feels a bit sloppy to have to reference this through the parent.model
             this.parent.model.get('relatedPlaylist').addItemByInformation(videoInformation, function () {
