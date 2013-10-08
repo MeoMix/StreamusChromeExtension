@@ -400,7 +400,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .limitedScrollingWidth {
     display: inline-block;
-    max-width: 60px;
+    max-width: 55px;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -579,7 +579,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1
 }
 
-.player .top-bar {
+.right-pane .top-bar {
     display: block;
     height: 44px;
     left: 10px;
@@ -588,7 +588,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.player .top-bar .volume {
+.right-pane .top-bar .volume {
     background: #f2f2f2;
     bottom: 0;
     display: block;
@@ -601,9 +601,9 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 2;
 }
 
-.player .top-bar .volume:hover { width: 230px }
+.right-pane .top-bar .volume:hover { width: 230px }
 
-.player .top-bar .volume-slider {
+.right-pane .top-bar .volume-slider {
     background: #dadada;
     display: block;
     height: 1px;
@@ -613,7 +613,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 170px;
 }
 
-.player .top-bar .volume-slider .progress {
+.right-pane .top-bar .volume-slider .progress {
     background: #797979;
     bottom: 0;
     display: block;
@@ -623,7 +623,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1
 }
 
-.player .top-bar .volume-slider input {
+.right-pane .top-bar .volume-slider input {
     bottom: 0;
     display: block;
     left: 0;
@@ -634,7 +634,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 2
 }
 
-.player .top-bar .center-group {
+.right-pane .top-bar .center-group {
     bottom: 0;
     display: block;
     left: 50%;
@@ -645,7 +645,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1;
 }
 
-.player .top-bar .right-group {
+.right-pane .top-bar .right-group {
     bottom: 0;
     display: block;
     position: absolute;
@@ -655,7 +655,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1;
 }
 
-.player .progress-slider {
+.right-pane .progress-slider {
     background: #dadada;
     display: block;
     height: 3px;
@@ -665,7 +665,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 44px;
 }
 
-.player .progress-slider .progress {
+.right-pane .progress-slider .progress {
     background: #797979;
     bottom: 0;
     display: block;
@@ -675,7 +675,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1
 }
 
-.player .progress-slider input {
+.right-pane .progress-slider input {
     bottom: 0;
     display: block;
     left: 0;
@@ -686,7 +686,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 2
 }
 
-.player .progress-details {
+.right-pane .progress-details {
     display: block;
     height: 19.5px;
     left: 10px;
@@ -696,7 +696,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 55px;
 }
 
-.player .progress-details .time-elapsed {
+.right-pane .progress-details .time-elapsed {
     bottom: 0;
     display: block;
     left: 10px;
@@ -704,7 +704,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.player .progress-details .title {
+.right-pane .progress-details .title {
     bottom: 0;
     display: block;
     left: 65px;
@@ -714,7 +714,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 100px;
 }
 
-.player .progress-details .time-remaining {
+.right-pane .progress-details .time-remaining {
     bottom: 0;
     display: block;
     position: absolute;
@@ -722,7 +722,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.player .list {
+.streamView.list {
     bottom: 40px;
     display: block;
     left: 10px;
@@ -733,20 +733,20 @@ input[type="range"]::-webkit-slider-thumb {
     top: 84.5px;
 }
 
-.player .list:hover {
+.streamView.list:hover {
     overflow-y: scroll;
     padding-right: 0
 }
 
-.player .list::-webkit-scrollbar {
+.streamView.list::-webkit-scrollbar {
     background: transparent;
     height: 10px;
     width: 10px;
 }
 
-.player .list::-webkit-scrollbar-thumb { background: #949494 }
+.streamView.list::-webkit-scrollbar-thumb { background: #949494 }
 
-.player .context-buttons {
+.right-pane .context-buttons {
     border-top: 1px solid #dadada;
     bottom: 0;
     display: block;
@@ -756,16 +756,16 @@ input[type="range"]::-webkit-slider-thumb {
     right: 10px;
 }
 
-.player .context-buttons .left-group {
+.right-pane .context-buttons .left-group {
     display: block;
     height: 30px;
     left: 0;
     position: absolute;
     top: 0;
-    width: 120px;
+    width: 128px;
 }
 
-.player .context-buttons .right-group {
+.right-pane .context-buttons .right-group {
     display: block;
     height: 30px;
     position: absolute;

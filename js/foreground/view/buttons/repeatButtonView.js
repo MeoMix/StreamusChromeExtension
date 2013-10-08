@@ -1,12 +1,16 @@
 ﻿define([
-    'repeatButtonState'
-], function (RepeatButtonState) {
+    'repeatButtonState',
+    'text!../template/repeatButton.htm'
+], function (RepeatButtonState, RepeatButtonTemplate) {
     'use strict';
 
     var RepeatButtonView = Backbone.View.extend({
-        className: 'repeatButton button',
         
-        template: _.template($('#repeatButtonTemplate').html()),
+        tagName: 'button',
+
+        className: 'button-icon button-small toggleButton',
+        
+        template: _.template(RepeatButtonTemplate),
 
         events: {
             'click': 'toggleRepeat'
@@ -36,6 +40,8 @@
                     console.error("Unhandled repeatButtonState:", this.model.get('state'));
                     break;
             }
+            
+            //this.$el.toggleClass('button-toggle');
 
             return this;
         },

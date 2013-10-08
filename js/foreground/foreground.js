@@ -13,9 +13,9 @@ define([
     'addSearchResults',
     'addSearchResultsView',
     'videoSearchResults',
-    'streamView',
-    'contextMenuView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, StreamView, ContextMenuView) {
+    'contextMenuView',
+    'rightPaneView'
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, RightPaneView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -25,8 +25,8 @@ define([
         activeFolderAreaView: null,
         activePlaylistAreaView: null,
         videoSearchView: null,
-        streamView: null,
         addSearchResults: null,
+        rightPaneView: null,
 
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
@@ -48,6 +48,9 @@ define([
         initialize: function () {
             
             var self = this;
+
+
+
 
             this.$el.append(this.loadingSpinnerView.render().el);
 
@@ -142,6 +145,11 @@ define([
 
             var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
 
+            this.rightPaneView = new RightPaneView({
+                activeFolder: activeFolder
+            });
+            this.$el.append(this.rightPaneView.render().el);
+
             //  TODO: Instead of calling changeModel I should be removing/recreating my views I think.
             var activePlaylistArea = new ActivePlaylistArea({
                 playlist: activeFolder.getActivePlaylist()
@@ -161,18 +169,7 @@ define([
 
             //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
 
-            if (this.streamView === null) {
 
-                this.streamView = new StreamView({
-                    model: activeFolder
-                });
-
-                this.$el.find('.right-pane .player .progress-details').after(this.streamView.render().el);
-
-            } else {
-                this.streamView.changeModel(activeFolder);
-            }
-            
 
             return;
 
@@ -217,21 +214,6 @@ define([
 
             this.setContentButtonActive(activeContentButton);
             this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
-
-            this.radioButtonView = new RadioButtonView({
-                model: chrome.extension.getBackgroundPage().RadioButton
-            });
-            this.$el.find('#menu').append(this.radioButtonView.render().el);
-
-            this.repeatButtonView = new RepeatButtonView({
-                model: chrome.extension.getBackgroundPage().RepeatButton
-            });
-            this.$el.find('#menu').append(this.repeatButtonView.render().el);
-
-            this.shuffleButtonView = new ShuffleButtonView({
-                model: chrome.extension.getBackgroundPage().ShuffleButton
-            });
-            this.$el.find('#menu').append(this.shuffleButtonView.render().el);
 
             this.playPauseButtonView = new PlayPauseButtonView({
                 model: chrome.extension.getBackgroundPage().PlayPauseButton

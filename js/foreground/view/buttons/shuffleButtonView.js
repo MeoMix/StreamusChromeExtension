@@ -1,10 +1,15 @@
-define(function () {
+define([
+    'text!../template/shuffleButton.htm'
+], function (ShuffleButtonTemplate) {
     'use strict';
 
     var ShuffleButtonView = Backbone.View.extend({
-        className: 'shuffleButton button',
 
-        template: _.template($('#shuffleButtonTemplate').html()),
+        tagName: 'button',
+
+        className: 'button-icon button-small toggleButton',
+                                
+        template: _.template(ShuffleButtonTemplate),
         
         events: {
             'click': 'toggleShuffle'

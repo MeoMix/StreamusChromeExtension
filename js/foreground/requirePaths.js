@@ -56,6 +56,7 @@ var require = {
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
+        'rightPaneView': 'foreground/view/rightPaneView',
         'volumeControlView': 'foreground/view/volumeControlView',
         
         //  View -> Buttons:

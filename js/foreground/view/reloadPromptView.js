@@ -4,7 +4,7 @@
 ], function (ReloadPrompt, ReloadPromptTemplate) {
     'use strict';
 
-    var RestartPromptView = Backbone.View.extend({
+    var ReloadPromptView = Backbone.View.extend({
 
         className: 'modalOverlay reloadPrompt',
 
@@ -32,5 +32,5 @@
         
     });
 
-    return RestartPromptView;
+    return ReloadPromptView;
 });
