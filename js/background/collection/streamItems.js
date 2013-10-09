@@ -452,7 +452,8 @@ define([
             this.bannedVideoIdList.push(streamItem.get('video').get('id'));
         },
         
-        clear: function() {
+        clear: function () {
+            console.log("Clear");
             this.bannedVideoIdList = [];
             this.reset();
             this.trigger('empty');

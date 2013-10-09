@@ -66,7 +66,6 @@
         
         //  Hide the context menu and empty its displayed groups.
         reset: function () {
-            console.log("Removing el", this.$el);
             this.$el.remove();
             this.model.get('groups').reset();
         },
@@ -84,6 +83,7 @@
         //  Event that runs when any item in a group is clicked.
         //  Maps the click action to the related model's onClick event.
         onItemClick: function (event) {
+            console.log("Hello this is happening");
             var clickGoupItemCid = $(event.currentTarget).find('a').attr('id');
             var clickGroupCid = $(event.target).closest('ul').attr('id');
             
@@ -94,7 +94,7 @@
             var clickedGroupItem = clickedGroup.get('items').find(function (item) {
                 return item.cid == clickGoupItemCid;
             });
-
+            
             // TODO: I don't really like how I'm invoking this event. I don't think the onClick should even be on the model.
             clickedGroupItem.get('onClick')();
         }

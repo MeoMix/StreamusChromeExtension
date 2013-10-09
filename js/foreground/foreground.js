@@ -48,7 +48,7 @@ define([
         initialize: function () {
             
             var self = this;
-
+            console.log("I AM INITIALIZING");
 
 
 
@@ -90,8 +90,13 @@ define([
             }
 
             //  Whenever a click occurs, close any visible context menus.
-            this.$el.on('click contextmenu', function() {
-                ContextMenuView.reset();
+            this.$el.on('click contextmenu', '*:not(#contextMenu, #contextMenu ul, #contextMenu ul li)', function (event) {
+                console.log("Hello this is happening", event, event.currentTarget);
+                
+                //if($(event.currentTarget).)
+
+                //  Clear the ContextMenu only after all events have finished (onClick events for menu items).
+                //ContextMenuView.reset();
             });
 
         },

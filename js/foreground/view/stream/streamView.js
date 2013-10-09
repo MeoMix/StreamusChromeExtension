@@ -10,7 +10,7 @@
     
     var StreamView = Backbone.View.extend({
         
-        className: 'streamView list',
+        className: 'streamView list frame',
         
         template: _.template(StreamViewTemplate),
         
@@ -20,8 +20,72 @@
             'contextmenu': 'showContextMenu',
         },
         
-        //sly: null,
+        sly: null,
         //overlay: $('#StreamView .overlay'),
+        
+        render: function () {
+            this.$el.html(this.template(this.model.toJSON()));
+
+            this.slidee = this.$el.children('ul.slidee');
+
+            // Call Sly on frame
+            this.sly = new window.Sly(this.$el, {
+                horizontal: 0,
+                itemNav: 'centered',
+                smart: 1,
+                activateOn: 'click',
+                mouseDragging: 1,
+                touchDragging: 1,
+                releaseSwing: 1,
+                startAt: 3,
+                speed: 300,
+                elasticBounds: 1,
+                easing: 'easeOutExpo',
+                clickBar: 1,
+                scrollBy: 1
+            }, {
+                //  This is a pretty costly function because it fires so often. Use native javascript.
+                move: _.throttle(function () {
+
+                    var unloadedImgElements = self.$el.find('img.lazy[src=""]');
+
+                    //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
+                    for (var i = 0; i < unloadedImgElements.length; i++) {
+                        var unloadedImgElement = unloadedImgElements[i];
+
+                        var rectangle = unloadedImgElement.getBoundingClientRect();
+
+                        var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
+                        var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
+
+                        if (isInViewportRightSide || isInViewportLeftSide) {
+                            $(unloadedImgElement).trigger('visible');
+                        }
+
+                    }
+
+                }, 300)
+            }).init();
+            
+            if (StreamItems.length > 0) {
+                if (StreamItems.length === 1) {
+                    this.addItem(StreamItems.at(0), true);
+                } else {
+                    this.addItems(StreamItems.models, true);
+                }
+
+                //  Ensure proper item is selected.
+                var selectedStreamItem = StreamItems.getSelectedItem();
+                var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
+
+                this.sly.activate(selectedItemIndex, true);
+            }
+            
+            
+
+            return this;
+
+        },
 
         initialize: function () {
             var self = this;
@@ -34,71 +98,22 @@
             //    'margin-left': -1 * this.overlay.width() / 2
             //});
 
-            // Call Sly on frame
-            //this.sly = new window.Sly(this.$el, {
-            //    horizontal: 1,
-            //    itemNav: 'centered',
-            //    smart: 1,
-            //    activateOn: 'click',
-            //    mouseDragging: 1,
-            //    touchDragging: 1,
-            //    releaseSwing: 1,
-            //    startAt: 3,
-            //    speed: 300,
-            //    elasticBounds: 1,
-            //    easing: 'easeOutExpo',
-            //    clickBar: 1,
-			//	scrollBy: 1
-            //}, {
-            //    //  This is a pretty costly function because it fires so often. Use native javascript.
-            //    move: _.throttle(function() {
- 
-            //        var unloadedImgElements = self.$el.find('img.lazy[src=""]');
-                    
-            //        //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
-            //        for (var i = 0; i < unloadedImgElements.length; i++) {
-            //            var unloadedImgElement = unloadedImgElements[i];
-
-            //            var rectangle = unloadedImgElement.getBoundingClientRect();
-                        
-            //            var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
-            //            var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
-
-            //            if (isInViewportRightSide || isInViewportLeftSide) {
-            //                $(unloadedImgElement).trigger('visible');
-            //            }
-
-            //        }
-
-            //    }, 300)
-            //}).init();
-            
-            if (StreamItems.length > 0) {
-                if (StreamItems.length === 1) {
-                    self.addItem(StreamItems.at(0), true);
-                } else {
-                    self.addItems(StreamItems.models, true);
-                }
-
-                //  Ensure proper item is selected.
-                //var selectedStreamItem = StreamItems.getSelectedItem();
-                //var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
-
-                //this.sly.activate(selectedItemIndex, true);
-            }
-
             //  Whenever an item is added to the collection, visually add an item, too.
             this.listenTo(StreamItems, 'add', this.addItem);
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
             this.listenTo(StreamItems, 'change:selected', this.selectItem);
 
-            //this.listenTo(StreamItems, 'empty', function () {
-            //    this.overlay.show();
-            //});
+            this.listenTo(StreamItems, 'empty', function () {
+                //this.overlay.show();
+            });
 
-            //this.listenTo(StreamItems, 'remove empty', this.sly.reload);
+            this.listenTo(StreamItems, 'remove empty', this.reload);
             
             Utility.scrollChildElements(this.el, '.videoTitle');
+        },
+        
+        reload: function () {
+            this.sly.reload();
         },
         
         addItem: function (streamItem) {
@@ -111,8 +126,8 @@
             });
 
             var element = streamItemView.render().el;
-            //this.sly.add(element);
-            this.$el.append(element);
+            this.sly.add(element);
+            //this.$el.append(element);
             
             $(element).find('img.lazy').lazyload({
                 effect: 'fadeIn',
@@ -126,10 +141,10 @@
 
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..
-            //this.sly.reload();
+            this.sly.reload();
             //this.overlay.hide();
             
-            //this.sly.toEnd();
+            this.sly.toEnd();
 
         },
         
@@ -164,14 +179,15 @@
                 event: 'visible'
             });
 
-            this.overlay.hide();
+            //this.overlay.hide();
         },
         
         selectItem: function (streamItem) {
-            //this.sly.activate(StreamItems.indexOf(streamItem));
+            this.sly.activate(StreamItems.indexOf(streamItem));
         },
         
         clear: function () {
+            console.log("Clearing");
             StreamItems.clear();
             this.slidee.empty();
             this.sly.reload();
@@ -181,6 +197,7 @@
             var self = this;
 
             var isClearStreamDisabled = StreamItems.length === 0;
+            console.log("isClearStreamDisabled?", isClearStreamDisabled);
 
             ContextMenuView.addGroup({
                 position: 1,
@@ -190,8 +207,10 @@
                     title: isClearStreamDisabled ? chrome.i18n.getMessage('noClearStreamWarning') : '',
                     disabled: isClearStreamDisabled,
                     onClick: function () {
+                        console.log("hello");
                         
                         if (!isClearStreamDisabled) {
+                            console.log("here");
                             self.clear();
                         }
                         
