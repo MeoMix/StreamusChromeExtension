@@ -347,8 +347,6 @@ svg.deleteButtonSvg {
     width: 40px;
 }
 
-
-
 .playPauseButton.disabled:hover {
     background-color: transparent;
     cursor: default;

@@ -1,0 +1,8 @@
+﻿<!--TODO: Is this LoadingSpinner div even needed?-->
+<% if(playerState === PlayerState.BUFFERING) { %>
+    <div id="LoadingSpinner"></div>
+<% } else if(playerState === PlayerState.PLAYING) { %>
+    <i class="icon-pause icon-large"></i>
+<% } else { %>
+    <i class="icon-play icon-large"></i>
+<% } %>

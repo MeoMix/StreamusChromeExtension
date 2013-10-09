@@ -8,7 +8,7 @@
         
         tagName: 'button',
 
-        className: 'button-icon button-small toggleButton',
+        className: 'button-icon button-small',
         
         template: _.template(RadioButtonTemplate),
         
@@ -21,11 +21,12 @@
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+
+            var enabled = this.model.get('enabled');
+
+            this.$el.toggleClass('enabled', enabled);
             
-            //  TODO: Consider using the same class (pressed or disabled) for all buttons.
-            this.$el.toggleClass('pressed', this.model.get('enabled'));
-            
-            if (this.model.get('enabled')) {
+            if (enabled) {
                 this.$el.attr('title', this.enabledTitle);
             } else {
                 this.$el.attr('title', this.disabledTitle);

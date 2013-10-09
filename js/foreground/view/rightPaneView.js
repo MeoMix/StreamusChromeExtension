@@ -4,8 +4,11 @@ define([
     'streamView',
     'repeatButtonView',
     'shuffleButtonView',
-    'radioButtonView'
-], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView) {
+    'radioButtonView',
+    'playPauseButtonView',
+    'previousButtonView',
+    'nextButtonView'
+], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -18,9 +21,18 @@ define([
         radioButtonView: null,
         shuffleButtonView: null,
         repeatButtonView: null,
+        playPauseButtonView: null,
+        previousButtonView: null,
+        nextButtonView: null,
         
         render: function() {
             this.$el.html(this.template());
+            
+            var topBarCenterGroup = this.$el.find('.top-bar .center-group');
+
+            topBarCenterGroup.append(this.previousButtonView.render().el);
+            topBarCenterGroup.append(this.playPauseButtonView.render().el);
+            topBarCenterGroup.append(this.nextButtonView.render().el);
 
             this.$el.find('.progress-details').after(this.streamView.render().el);
 
@@ -29,7 +41,7 @@ define([
             leftGroupContextButtons.append(this.shuffleButtonView.render().el);
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
-
+            
             return this;
         },
         
@@ -52,6 +64,18 @@ define([
 
             this.shuffleButtonView = new ShuffleButtonView({
                 model: chrome.extension.getBackgroundPage().ShuffleButton
+            });
+            
+            this.previousButtonView = new PreviousButtonView({
+                model: chrome.extension.getBackgroundPage().PreviousButton
+            });
+            
+            this.playPauseButtonView = new PlayPauseButtonView({
+                model: chrome.extension.getBackgroundPage().PlayPauseButton
+            });
+            
+            this.nextButtonView = new NextButtonView({
+                model: chrome.extension.getBackgroundPage().NextButton
             });
 
         }

@@ -2,15 +2,18 @@
 define([
     'player',
     'playerState',
-    'loadingSpinnerView'
-], function (Player, PlayerState, LoadingSpinnerView) {
+    'loadingSpinnerView',
+    'text!../template/playPauseButton.htm'
+], function (Player, PlayerState, LoadingSpinnerView, PlayPauseButtonTemplate) {
     'use strict';
     
     var PlayPauseButtonView = Backbone.View.extend({
         
-        className: 'disabled playPauseButton',
+        tagName: 'button',
+
+        className: 'button-icon',
         
-        template: _.template($('#playPauseButtonTemplate').html()),
+        template: _.template(PlayPauseButtonTemplate),
         
         events: {
             'click': 'tryTogglePlayerState'
@@ -30,7 +33,7 @@ define([
                 'playerState': Player.get('state')
             })));
 
-            this.$el.toggleClass('disabled', !this.model.get('enabled'));
+            this.$el.prop('disabled', !this.model.get('enabled'));
             
             //  Update which icon is showing whenever the YouTube player changes playing state.
             var playerState = Player.get('state');

@@ -7,7 +7,7 @@ define([
 
         tagName: 'button',
 
-        className: 'button-icon button-small toggleButton',
+        className: 'button-icon button-small',
                                 
         template: _.template(ShuffleButtonTemplate),
         
@@ -21,10 +21,10 @@ define([
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
 
-            //  TODO: Consider using the same class (pressed or disabled) for all buttons.
-            this.$el.toggleClass('pressed', this.model.get('enabled'));
+            var enabled = this.model.get('enabled');
+            this.$el.toggleClass('enabled', enabled);
 
-            if (this.model.get('enabled')) {
+            if (enabled) {
                 this.$el.attr('title', this.enabledTitle);
             } else {
                 this.$el.attr('title', this.disabledTitle);

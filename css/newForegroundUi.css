@@ -1,4 +1,4 @@
-html {
+﻿html {
     width: 630px;
     height: 540px;
 }
@@ -269,9 +269,45 @@ button:active { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) }
 
 .button-icon {
     font-size: 1.2em;
-    height: 45px;
-    line-height: 45px;
+    height: 43px;
+    line-height: 43px;
     width: 40px;
+}
+
+.icon-repeat.repeatVideo,
+.icon-repeat.repeatStream {
+    margin-right: -10px;
+}
+
+.icon-repeat.repeatVideo:after {
+    content: '1';
+    border-radius: 50%;
+    background-color: #797979;
+    color: #fff;
+    font-size: 10px;
+    bottom: -3px;
+    position: relative;
+    right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.icon-repeat.repeatStream:after {
+    content: "∞";
+    border-radius: 50%;
+    background-color: #797979;
+    color: #fff;
+    font-size: 10px;
+    bottom: -3px;
+    position: relative;
+    right: 2px;
+    padding-left: 2px;
+    padding-right: 2px;
+    font-family: sans-serif;
+}
+
+.button-icon[disabled] {
+    cursor: default;
 }
 
 .button-small {
@@ -279,7 +315,7 @@ button:active { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) }
     line-height: 30px
 }
 
-.button-toggle {
+button.enabled {
     color: #6BBD46;
     text-shadow: 0 0 3px #94ff29
 }
@@ -771,7 +807,7 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
     right: 0;
     top: 0;
-    width: 80px;
+    width: 84px;
 }
 
 #toggleActiveFolderAreaButton, #button-back {
@@ -894,7 +930,7 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
 }
 
-#addItems .addItemOption i.droppable.icon-drop-hover {
+#addItems .addItemOption.droppableOnHover i.droppable {
     border: 3px solid #6BBD46;
 }
 

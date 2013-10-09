@@ -25,13 +25,15 @@
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
-                    'streamItemsLength': StreamItems.length
+                    'streamItemsLength': StreamItems.length,
+                    'selectedResultsLength': VideoSearchResults.selected().length
                 })
             ));
 
-            this.$el.find('i.droppable').droppable({
-                hoverClass: 'icon-drop-hover',
+            this.$el.find('.addItemOption').droppable({
+                hoverClass: 'droppableOnHover',
                 tolerance: 'pointer',
+                
                 drop: function (event, ui) {
 
                     var draggedVideoId = ui.draggable.data('videoid');
@@ -39,16 +41,16 @@
 
                     StreamItems.addByVideoInformation(videoSearchResult.get('videoInformation'));
 
-                    var streamItemIcon = $(this);
-                    var checkIcon = streamItemIcon.next();
+                    var droppableIcon = $(this).find('i.droppable');
+                    var checkIcon = droppableIcon.next();
 
                     checkIcon.removeClass('hidden');
-                    streamItemIcon.addClass('hidden');
+                    droppableIcon.addClass('hidden');
 
                     clearTimeout(this.resetStateTimeout);
 
                     this.resetStateTimeout = setTimeout(function() {
-                        streamItemIcon.removeClass('hidden');
+                        droppableIcon.removeClass('hidden');
                         checkIcon.addClass('hidden');
                     }, 2500);
 
@@ -56,12 +58,16 @@
             });
 
             this.itemCount = this.$el.find('span.item-count');
+            this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
 
             return this;
         },
         
         initialize: function() {
             this.listenTo(StreamItems, 'add remove', this.updateStreamItemsLength);
+
+            this.listenTo(VideoSearchResults, 'change:selected', this.updateSelectedItemsMessage);
+
             this.listenTo(this.model, 'destroy', this.hide);
         },
         
@@ -72,6 +78,18 @@
                 this.itemCount.text(StreamItems.length + " item");
             } else {
                 this.itemCount.text(StreamItems.length + " items");
+            }
+
+        },
+        
+        updateSelectedItemsMessage: function() {
+
+            var selectedCount = VideoSearchResults.selected().length;
+            
+            if (selectedCount === 1) {
+                this.selectedItemsMessage.text('Add ' + selectedCount + ' item to:');
+            } else {
+                this.selectedItemsMessage.text('Add ' + selectedCount + ' items to:');
             }
 
         },

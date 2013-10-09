@@ -1,8 +1,14 @@
 ﻿<div class="panel">
     <div class="header">
-        <span>
+        <span class="selectedItemsMessage">
             <!--i18n-->
-            Add items to:
+            
+            <% if( selectedResultsLength === 1 ) { %>
+                Add <%- selectedResultsLength %> item to:
+            <% } else { %>
+                Add <%- selectedResultsLength %> items to:
+            <% } %>
+            
         </span>
         <button class="button-icon" id="hideAddItemsButton" title="Hide">
             <i class="icon-arrow-right"></i>

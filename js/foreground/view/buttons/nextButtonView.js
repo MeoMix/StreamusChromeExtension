@@ -1,12 +1,16 @@
 //  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
-define(function () {
+define([
+    'text!../template/nextButton.htm'
+], function (NextButtonTemplate) {
     'use strict';
 
     var NextButtonView = Backbone.View.extend({
 
-        className: 'disabled halfGradient nextButton',
+        tagName: 'button',
+
+        className: 'button-icon',
         
-        template: _.template($('#nextButtonTemplate').html()),
+        template: _.template(NextButtonTemplate),
         
         events: {
             'click': 'trySelectNextVideo'
@@ -18,7 +22,7 @@ define(function () {
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('disabled', !this.model.get('enabled'));
+            this.$el.prop('disabled', !this.model.get('enabled'));
             
             return this;
         },

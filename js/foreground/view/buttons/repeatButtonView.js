@@ -8,7 +8,7 @@
         
         tagName: 'button',
 
-        className: 'button-icon button-small toggleButton',
+        className: 'button-icon button-small',
         
         template: _.template(RepeatButtonTemplate),
 
@@ -26,7 +26,12 @@
                 'RepeatButtonState': RepeatButtonState 
             })));
 
-            switch(this.model.get('state')) {
+            var state = this.model.get('state');
+            
+            //  The button is considered enabled if it is anything but disabled.
+            this.$el.toggleClass('enabled', state !== RepeatButtonState.DISABLED);
+
+            switch (state) {
                 case RepeatButtonState.DISABLED:
                     this.$el.attr('title', this.disabledTitle);
                     break;
@@ -37,11 +42,9 @@
                     this.$el.attr('title', this.repeatPlaylistEnabledTitle);
                     break;
                 default:
-                    console.error("Unhandled repeatButtonState:", this.model.get('state'));
+                    console.error("Unhandled repeatButtonState:", state);
                     break;
             }
-            
-            //this.$el.toggleClass('button-toggle');
 
             return this;
         },

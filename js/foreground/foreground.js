@@ -214,25 +214,10 @@ define([
 
             this.setContentButtonActive(activeContentButton);
             this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
-
-            this.playPauseButtonView = new PlayPauseButtonView({
-                model: chrome.extension.getBackgroundPage().PlayPauseButton
-            });
-            this.$el.find('#Header').before(this.playPauseButtonView.render().el);
-
-            this.nextButtonView = new NextButtonView({
-                model: chrome.extension.getBackgroundPage().NextButton
-            });
-            this.$el.find('#Header').after(this.nextButtonView.render().el);
-
-            this.previousButtonView = new PreviousButtonView({
-                model: chrome.extension.getBackgroundPage().PreviousButton
-            });
-            this.$el.find('#Header').after(this.previousButtonView.render().el);
         },
         
         toggleButton: function (event) {
-            $(event.currentTarget).toggleClass('button-toggle');
+            $(event.currentTarget).toggleClass('enabled');
         },
         
         doActiveFolderAreaButtonClick: function () {

@@ -1,12 +1,16 @@
 //  When clicked -- skips to the last video. Skips from the begining of the list to the end. Skip to start of song if >5 seconds have passed.
-define(function () {
+define([
+    'text!../template/previousButton.htm'
+], function (PreviousButtonTemplate) {
     'use strict';
 
     var PreviousButtonView = Backbone.View.extend({
 
-        className: 'disabled halfGradient previousButton',
+        tagName: 'button',
 
-        template: _.template($('#previousButtonTemplate').html()),
+        className: 'button-icon',
+
+        template: _.template(PreviousButtonTemplate),
         
         events: {
             'click': 'tryDoTimeBasedPrevious'
@@ -19,7 +23,7 @@ define(function () {
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('disabled', !this.model.get('enabled'));
+            this.$el.prop('disabled', !this.model.get('enabled'));
             
             return this;
         },

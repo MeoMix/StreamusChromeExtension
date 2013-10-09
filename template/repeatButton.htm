@@ -1,1 +1,7 @@
-﻿<i class="icon-repeat"></i>
+﻿<% if(state === RepeatButtonState.REPEAT_STREAM_ENABLED) { %>
+    <i class="icon-repeat repeatStream"></i>
+<% } else if( state === RepeatButtonState.REPEAT_VIDEO_ENABLED) { %>
+    <i class="icon-repeat repeatVideo"></i>
+<% } else { %>
+    <i class="icon-repeat"></i>
+<% } %>
