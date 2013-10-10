@@ -1,10 +1,8 @@
-//  The play/pause icon.
 define([
     'player',
     'playerState',
-    'loadingSpinnerView',
     'text!../template/playPauseButton.htm'
-], function (Player, PlayerState, LoadingSpinnerView, PlayPauseButtonTemplate) {
+], function (Player, PlayerState, PlayPauseButtonTemplate) {
     'use strict';
     
     var PlayPauseButtonView = Backbone.View.extend({
@@ -19,39 +17,33 @@ define([
             'click': 'tryTogglePlayerState'
         },
         
-        loadingSpinnerView: new LoadingSpinnerView,
-        
-        disabledTitle: chrome.i18n.getMessage("playDisabled"),
-        pauseTitle: chrome.i18n.getMessage("clickToPause"),
-        playTitle: chrome.i18n.getMessage("clickToPlay"),
+        disabledTitle: chrome.i18n.getMessage('playDisabled'),
+        pauseTitle: chrome.i18n.getMessage('clickToPause'),
+        playTitle: chrome.i18n.getMessage('clickToPlay'),
         
         render: function () {
             
             this.$el.html(this.template(_.extend(this.model.toJSON(), {
-                //  mixin to be able to use it in templating
                 'PlayerState': PlayerState,
                 'playerState': Player.get('state')
             })));
 
-            this.$el.prop('disabled', !this.model.get('enabled'));
-            
-            //  Update which icon is showing whenever the YouTube player changes playing state.
-            var playerState = Player.get('state');
+            var isEnabled = this.model.get('enabled');
 
-            if (playerState === PlayerState.BUFFERING) {
-                this.$el.append(this.loadingSpinnerView.render().el);
-            } else {
-                // Not buffering, so hide the spinner.
-                this.loadingSpinnerView.remove();
+            this.$el.prop('disabled', !isEnabled);
+
+            //  Update which icon is showing whenever the YouTube player changes playing state.
+            if (isEnabled) {
+                
+                var playerState = Player.get('state');
 
                 if (playerState === PlayerState.PLAYING) {
                     this.$el.attr('title', this.pauseTitle);
                 } else {
                     this.$el.attr('title', this.playTitle);
                 }
-            }
-            
-            if (!this.model.get('enabled')) {
+                
+            } else {
                 this.$el.attr('title', this.disabledTitle);
             }
 
@@ -64,12 +56,11 @@ define([
             this.listenTo(Player, 'change:state', this.render);
 
             this.render();
+            
         },
         
         tryTogglePlayerState: function() {
-
             this.model.tryTogglePlayerState();
-
         }
     });
 

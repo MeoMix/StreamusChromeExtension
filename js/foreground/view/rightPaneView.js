@@ -7,8 +7,9 @@ define([
     'radioButtonView',
     'playPauseButtonView',
     'previousButtonView',
-    'nextButtonView'
-], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView) {
+    'nextButtonView',
+    'volumeControlView'
+], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -24,11 +25,14 @@ define([
         playPauseButtonView: null,
         previousButtonView: null,
         nextButtonView: null,
+        volumeControlView: null,
         
         render: function() {
             this.$el.html(this.template());
             
             var topBarCenterGroup = this.$el.find('.top-bar .center-group');
+
+            topBarCenterGroup.before(this.volumeControlView.render().el);
 
             topBarCenterGroup.append(this.previousButtonView.render().el);
             topBarCenterGroup.append(this.playPauseButtonView.render().el);
@@ -77,6 +81,8 @@ define([
             this.nextButtonView = new NextButtonView({
                 model: chrome.extension.getBackgroundPage().NextButton
             });
+
+            this.volumeControlView = new VolumeControlView();
 
         }
 

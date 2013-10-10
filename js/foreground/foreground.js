@@ -219,14 +219,6 @@ define([
                 }
 
             });
-
-            //  Set the initially loaded content to whatever was clicked last or the home page as a default
-            //  TODO: Remove the string replace in a few versions, I changed localStorage names and need to support old versions for a while.
-            var activeContentButtonId = Settings.get('activeContentButtonId').replace('Menu', 'Content');
-            var activeContentButton = $('#' + activeContentButtonId);
-
-            this.setContentButtonActive(activeContentButton);
-            this.$el.find('#VideoContent').append(this.videoDisplayView.render().el);
         },
         
         toggleButton: function (event) {

@@ -1,7 +1,13 @@
 $(function() {
 
-    $("input[type='range']").change(function() {
-        $(this).parent().find(".progress").css("width", $(this).attr("value") + "%");
-    });
+    //console.log("Rangey:", $("input[type='range']"));
+
+    //$("input[type='range']").change(function () {
+
+    //    var progress = $(this).parent().find(".progress");
+    //    console.log("Progress:", progress);
+
+    //    progress.height(100 - $(this).val() + '%');
+    //});
 
 })

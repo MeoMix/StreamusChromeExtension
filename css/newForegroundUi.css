@@ -114,45 +114,14 @@ button.wait {
 /* Loading animation container */
 .loadingSpinner {
     position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 28px;
-    height: 28px;
-    margin: -14px 0 0 -14px;
-    -webkit-box-sizing: content-box !important;
+    top: calc(50% - 33px);
+    left: calc(50% - 24.5px);
+    color: #797979;
 }
 body.loading .loadingSpinner {
     opacity: 1;
 }
  
-/* Spinning circle (inner circle) */
-.loadingSpinner .maskedCircle {
-    width: 20px;
-    height: 20px;
-    border-radius: 12px;
-    border: 3px solid #444;
-    -webkit-box-sizing: content-box !important;
-}
- 
-/* Spinning circle mask */
-.loadingSpinner .mask {
-    width: 12px;
-    height: 12px;
-    overflow: hidden;
-    -webkit-box-sizing: content-box !important;
-}
- 
-/* Spinner */
-.loadingSpinner .spinner {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    width: 26px;
-    height: 26px;
-    -webkit-animation: spin 1s infinite linear;
-    -webkit-box-sizing: content-box !important;
-}
-
 input:focus, button:focus { outline: none }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
@@ -636,21 +605,21 @@ input[type="range"]::-webkit-slider-thumb {
     overflow: hidden;
     position: absolute;
     top: 0;
-    transition: width .3s ease-out;
-    width: 40px;
+    transition: height .3s ease-out;
+    height: 40px;
     z-index: 2;
 }
 
-.right-pane .top-bar .volume:hover { width: 230px }
+.right-pane .top-bar .volume:hover { height: 230px }
 
 .right-pane .top-bar .volume-slider {
     background: #dadada;
     display: block;
-    height: 1px;
-    left: 50px;
+    width: 1px;
+    left: 20px;
     position: absolute;
-    top: 22.5px;
-    width: 170px;
+    top: 50px;
+    height: 170px;
 }
 
 .right-pane .top-bar .volume-slider .progress {
@@ -660,7 +629,8 @@ input[type="range"]::-webkit-slider-thumb {
     left: 0;
     position: absolute;
     top: 0;
-    z-index: 1
+    z-index: 1;
+    width:1px;
 }
 
 .right-pane .top-bar .volume-slider input {
@@ -671,7 +641,10 @@ input[type="range"]::-webkit-slider-thumb {
     right: 0;
     top: 0;
     width: 170px;
-    z-index: 2
+    z-index: 2;
+    -webkit-transform: rotate(90deg);
+    -webkit-transform-origin: 0 0;
+    height: 0.5px;
 }
 
 .right-pane .top-bar .center-group {

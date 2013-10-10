@@ -13,7 +13,6 @@ define([
             return {
                 localDebug: true,
                 serverURL: '',
-                activeContentButtonId: getItem('activeContentButtonId') || 'HomeContentButton',
                 activeFolderId: getItem('activeFolderId') || null,
                 radioEnabled: getItem('radioEnabled') || false,
                 repeatButtonState: getItem('repeatButtonState') || RepeatButtonState.DISABLED,
@@ -32,10 +31,6 @@ define([
             else {
                 this.set('serverURL', 'http://streamus.apphb.com/');
             }
-            
-            this.on('change:activeContentButtonId', function (model, activeContentButtonId) {
-                localStorage.setItem('activeContentButtonId', activeContentButtonId);
-            });
 
             this.on('change:activeFolderId', function (model, activeFolderId) {
                 localStorage.setItem('activeFolderId', JSON.stringify(activeFolderId));
