@@ -1,13 +1,13 @@
 //  This is the list of playlists on the playlists tab.
 define([
     'text!../template/activeFolder.htm',
-    'contextMenuView',
+    'contextMenuGroups',
     'utility',
     'dataSource',
     'streamItems',
     'playlistView',
     'loadingSpinnerView'
-], function (ActiveFolderTemplate, ContextMenuView, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView) {
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -146,6 +146,9 @@ define([
         },
         
         showItemContextMenu: function (event) {
+
+            event.preventDefault();
+            ContextMenuGroups.reset();
             
             var clickedPlaylistId = $(event.currentTarget).data('playlistid');
             var clickedPlaylist = this.model.get('playlists').get(clickedPlaylistId);
@@ -154,7 +157,7 @@ define([
             var isDeleteDisabled = clickedPlaylist.get('nextPlaylistId') === clickedPlaylist.get('id');
             var isAddPlaylistDisabled = clickedPlaylist.get('items').length === 0;
 
-            ContextMenuView.addGroup({
+            ContextMenuGroups.add({
                 position: 0,
                 items: [{
                     position: 0,
@@ -211,12 +214,6 @@ define([
                 }]
             });
 
-            ContextMenuView.show({
-                top: event.pageY,
-                left: event.pageX + 1
-            });
-
-            return false;
         },
         
         selectPlaylist: function (event) {

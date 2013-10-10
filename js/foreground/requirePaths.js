@@ -34,7 +34,6 @@ var require = {
         //  Model:
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
         'addSearchResults': 'foreground/model/addSearchResults',
-        'contextMenu': 'foreground/model/contextMenu',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',
         'contextMenuItem': 'foreground/model/contextMenuItem',
         'dialog': 'foreground/model/dialog',

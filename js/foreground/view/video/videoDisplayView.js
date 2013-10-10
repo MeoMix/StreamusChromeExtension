@@ -3,8 +3,8 @@ define([
     'streamItems',
     'player',
     'playerState',
-    'contextMenuView'
-], function (StreamItems, Player, PlayerState, ContextMenuView) {
+    'contextMenuGroups'
+], function (StreamItems, Player, PlayerState, ContextMenuGroups) {
     'use strict';
 
     var VideoDisplayView = Backbone.View.extend({
@@ -156,10 +156,12 @@ define([
         
         showContextMenu: function (event) {
 
+            event.preventDefault();
+
             ////  fullscreen detect:
             //if (!window.screenTop && !window.screenY) {
 
-            //    ContextMenuView.addGroup({
+            //    ContextMenuGroups.add({
             //        position: 0,
             //        items: [{
             //            position: 0,
@@ -172,16 +174,16 @@ define([
             //                    chrome.windows.remove(window.id);
 
             //                });
-                            
+
             //            }
             //        }]
             //    });
-                
+
             //} else {
             //    var loadedVideoId = Player.get('loadedVideoId');
             //    var isFullScreenDisabled = loadedVideoId == '';
 
-            //    ContextMenuView.addGroup({
+            //    ContextMenuGroups.add({
             //        position: 0,
             //        items: [{
             //            position: 0,
@@ -189,9 +191,9 @@ define([
             //            disabled: isFullScreenDisabled,
             //            title: isFullScreenDisabled ? chrome.i18n.getMessage("loadVideoBeforeFullScreen") : '',
             //            onClick: function () {
-                            
+
             //                if (!isFullScreenDisabled) {
-                                
+
             //                    chrome.windows.create({
             //                        url: "fullscreen.htm",
             //                        type: "popup",
@@ -209,15 +211,9 @@ define([
             //            }
             //        }]
             //    });
-                
+
             //}
 
-            //ContextMenuView.show({
-            //    top: event.pageY,
-            //    left: event.pageX + 1
-            //});
-
-            //return false;
         }
     });
 

@@ -14,8 +14,9 @@ define([
     'addSearchResultsView',
     'videoSearchResults',
     'contextMenuView',
+    'contextMenuGroups',
     'rightPaneView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, RightPaneView) {
+], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -27,7 +28,7 @@ define([
         videoSearchView: null,
         addSearchResults: null,
         rightPaneView: null,
-
+        contextMenuView: new ContextMenuView,
         loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
         showReloadPromptTimeout: null,
@@ -48,11 +49,9 @@ define([
         initialize: function () {
             
             var self = this;
-            console.log("I AM INITIALIZING");
-
-
-
+            
             this.$el.append(this.loadingSpinnerView.render().el);
+            this.$el.append(this.contextMenuView.render().el);
 
             //If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
             //Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
@@ -89,14 +88,23 @@ define([
                 this.waitForBackgroundUserLoaded();
             }
 
-            //  Whenever a click occurs, close any visible context menus.
-            this.$el.on('click contextmenu', '*:not(#contextMenu, #contextMenu ul, #contextMenu ul li)', function (event) {
-                console.log("Hello this is happening", event, event.currentTarget);
-                
-                //if($(event.currentTarget).)
+            //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
+            //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
+            this.$el.on('click contextmenu', function (event) {
 
-                //  Clear the ContextMenu only after all events have finished (onClick events for menu items).
-                //ContextMenuView.reset();
+                var isDefaultPrevented = event.isDefaultPrevented();
+                
+                if (isDefaultPrevented) {
+
+                    self.contextMenuView.show({
+                        top: event.pageY,
+                        left: event.pageX + 1
+                    });
+                    
+                } else {
+                    ContextMenuGroups.reset();
+                }
+
             });
 
         },

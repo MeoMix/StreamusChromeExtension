@@ -11,5 +11,5 @@
         }
     });
 
-    return ContextMenuGroups;
+    return new ContextMenuGroups;
 });

@@ -8,6 +8,10 @@ body {
     height: 100%;
 }
 
+#contextMenu:empty {
+    display: none;
+}
+
 /*body > * {
   transition: opacity .2s ease-in-out;
 }*/

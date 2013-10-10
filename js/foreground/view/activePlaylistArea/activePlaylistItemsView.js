@@ -1,11 +1,11 @@
 ﻿//  Represents the videos in a given playlist
 define([
-    'contextMenuView',
+    'contextMenuGroups',
     'streamItems',
     'playlistItemView',
     'text!../template/activePlaylistItems.htm',
     'utility'
-], function (ContextMenuView, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
+], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';
 
     var ActivePlaylistItemsView = Backbone.View.extend({
@@ -162,11 +162,15 @@ define([
         },
         
         showContextMenu: function (event) {
+
+            event.preventDefault();
+            ContextMenuGroups.reset();
+
             var self = this;
 
             var isAddPlaylistDisabled = this.model.get('items').length === 0;
 
-            ContextMenuView.addGroup({
+            ContextMenuGroups.add({
                 position: 0,
                 items: [{
                     position: 0,
@@ -193,23 +197,18 @@ define([
                 }]
             });
 
-            ContextMenuView.show({
-                top: event.pageY,
-                left: event.pageX + 1
-            });
-
-            return false;
         },
         
         showItemContextMenu: function (event) {
 
-            console.log("showcontextMenu");
-
+            event.preventDefault();
+            ContextMenuGroups.reset();
+            
             var clickedItemId = $(event.currentTarget).data('itemid');
             var clickedItem = this.model.get('items').get(clickedItemId);
 
             var self = this;
-            ContextMenuView.addGroup({
+            ContextMenuGroups.add({
                 position: 0,
                 items: [{
                     position: 0,
@@ -250,7 +249,7 @@ define([
 
             });
 
-            ContextMenuView.addGroup({
+            ContextMenuGroups.add({
                 position: 1,
                 items: [{
                     position: 0,
@@ -271,12 +270,6 @@ define([
                 }]
             });
 
-            ContextMenuView.show({
-                top: event.pageY,
-                left: event.pageX + 1
-            });
-
-            return false;
         },
         
         addItemToStream: function (event) {

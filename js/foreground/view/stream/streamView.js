@@ -2,10 +2,10 @@
     'streamItems',
     'streamItemView',
     'text!../template/streamView.htm',
-    'contextMenuView',
+    'contextMenuGroups',
     'utility',
     'sly'
-], function (StreamItems, StreamItemView, StreamViewTemplate, ContextMenuView, Utility) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, ContextMenuGroups, Utility) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -194,12 +194,20 @@
         },
 
         showContextMenu: function (event) {
+
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
+            event.preventDefault();
+
+            if (event.target === event.currentTarget) {
+                //  Didn't bubble up from a child -- clear groups.
+                ContextMenuGroups.reset();
+            }
+            
             var self = this;
 
             var isClearStreamDisabled = StreamItems.length === 0;
-            console.log("isClearStreamDisabled?", isClearStreamDisabled);
 
-            ContextMenuView.addGroup({
+            ContextMenuGroups.add({
                 position: 1,
                 items: [{
                     position: 0,
@@ -207,10 +215,8 @@
                     title: isClearStreamDisabled ? chrome.i18n.getMessage('noClearStreamWarning') : '',
                     disabled: isClearStreamDisabled,
                     onClick: function () {
-                        console.log("hello");
-                        
+
                         if (!isClearStreamDisabled) {
-                            console.log("here");
                             self.clear();
                         }
                         
@@ -224,12 +230,6 @@
                 }]
             });
 
-            ContextMenuView.show({
-                top: event.pageY,
-                left: event.pageX + 1
-            });
-
-            return false;
         },
 
         changeModel: function (newModel) {

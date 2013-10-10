@@ -1,10 +1,10 @@
 ﻿define([
-    'contextMenuView',
+    'contextMenuGroups',
     'utility',
     'streamItems',
     'text!../template/streamItem.htm',
     'playPauseButton'
-], function (ContextMenuView, Utility, StreamItems, StreamItemTemplate, PlayPauseButton) {
+], function (ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton) {
     'use strict';
 
     var StreamItemView = Backbone.View.extend({
@@ -51,11 +51,15 @@
             this.model.destroy();
         },
 
-        showContextMenu: function() {
+        showContextMenu: function(event) {
             var self = this;
 
+            event.preventDefault();
+
+            ContextMenuGroups.reset();
+
             //  TODO: Maybe position should be inferred if not provided? Or maybe I say 'first', 'last' instead of 0, 1, 2.. etc
-            ContextMenuView.addGroup({
+            ContextMenuGroups.addGroup({
                 position: 0,
                 items: [{
                         position: 0,
