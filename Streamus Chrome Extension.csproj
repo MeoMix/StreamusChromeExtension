@@ -92,7 +92,6 @@
     <Content Include="js\utility.js" />
     <Content Include="js\foreground\collection\contextMenuGroups.js" />
     <Content Include="js\foreground\collection\contextMenuItems.js" />
-    <Content Include="js\foreground\model\contextMenu.js" />
     <Content Include="js\foreground\model\contextMenuGroup.js" />
     <Content Include="js\foreground\model\contextMenuItem.js" />
     <Content Include="js\foreground\model\dialog.js" />

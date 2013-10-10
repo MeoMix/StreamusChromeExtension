@@ -227,5 +227,11 @@
 	},
 	"noClearStreamWarning": {
 		"message": "Can't clear an empty Stream"
+	},
+	"clickToMute": {
+		"message": "Click to mute"
+	},
+	"clickToUnmute": {
+		"message": "Click to unmute"
 	}
 }

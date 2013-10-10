@@ -1,4 +1,5 @@
-//  Responsible for controlling the volume indicator of the UI.
+//  VolumeControlView represents the mute/unmute button as well as the volume slider.
+//  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
     'text!../template/volumeControl.htm',
     'player'
@@ -7,107 +8,93 @@ define([
 
     var VolumeControlView = Backbone.View.extend({
         
-        className: 'volume',
+        className: 'volumeControl',
 
         template: _.template(VolumeControlTemplate),
         
         events: {
-            'change input[type="range"]': 'updateProgress'
+            'change input.volumeRange': 'setVolume',
+            'click button.mute': 'toggleMute',
+            'mousewheel': 'scrollVolume'
         },
         
         render: function () {
 
             var volume = Player.get('volume');
+            var muted = Player.get('muted');
 
-            console.log("Volume:", volume);
-
+            //  Instead of generating a template from a model, mix in just a couple of properties.
             this.$el.html(this.template({
                 'chrome.i18n': chrome.i18n,
-                'volume': volume
+                'volume': volume,
+                'muted': muted
             }));
 
+            //  Store references to child elements after rendering for ease of use.
+            //  Progress is the shading filler for the volumeRange's value.
             this.progress = this.$el.find('.volume-slider .progress');
+            this.volumeRange = this.$el.find('.volume-slider input.volumeRange');
+            this.muteButton = this.$el.find('button.mute');
+            
+            var volumeIcon = this.getVolumeIcon(volume);
+            this.muteButton.html(volumeIcon);
 
             return this;
         },
 
-        //events: {
-        //    'change #VolumeSlider': 'setVolume',
-        //    'click #MuteButton': 'toggleMute',
-        //    'mousewheel': 'scrollVolume'
-        //},
-        
-        //volumeSliderWapper: $('#VolumeSliderWrapper'),
-        //volumeSlider: $('#VolumeSlider'),
-        //muteButton: $('#MuteButton'),
-
-        //render: function () {
-        //    var volume = Player.get('volume');
-
-        //    //  Repaint the amount of white filled in the bar showing the distance the grabber has been dragged.
-        //    var backgroundImage = '-webkit-gradient(linear,left top, right top, from(#ccc), color-stop(' + volume / 100 + ',#ccc), color-stop(' + volume / 100 + ',rgba(0,0,0,0)), to(rgba(0,0,0,0)))';
-        //    this.volumeSlider.css('background-image', backgroundImage);
-
-        //    var activeBars = Math.ceil((volume / 25));
-        //    this.muteButton.find('.MuteButtonBar:lt(' + (activeBars + 1) + ')').css('fill', '#fff');
-        //    this.muteButton.find('.MuteButtonBar:gt(' + activeBars + ')').css('fill', '#666');
-
-        //    if (activeBars === 0) {
-        //        this.muteButton.find('.MuteButtonBar').css('fill', '#666');
-        //    }
-
-        //    var isMuted = Player.get('muted');
-
-        //    if (isMuted) {
-        //        this.muteButton
-        //            .addClass('muted')
-        //            .attr('title', 'Click to unmute.');
-        //    } else {
-        //        this.muteButton
-        //            .removeClass('muted')
-        //            .attr('title', 'Click to mute.');
-        //    }
-
-        //    return this;
-        //},
-
-        //  Initialize player's volume and muted state to last known information or 100 / unmuted.
         initialize: function () {
-    
-    
-            //this.listenTo(Player, 'change:muted', this.render);
+            this.listenTo(Player, 'change:muted', this.render);
+            this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
         },
         
-        updateProgress: function (event) {
+        setVolume: function () {
+            var volume = parseInt(this.volumeRange.val());
+            Player.set('volume', volume);
+        },
+        
+        //  Need to do this here and not in render to be able to support dragging the volume slider
+        //  If render is called (and reset the HTML entirely) the drag operation is broken and the slider stutters.
+        updateProgressAndVolumeIcon: function () {
 
-            var volumeInput = $(event.currentTarget);
-            var newVolume = 100 - volumeInput.val();
+            var volume = parseInt(Player.get('volume'));
 
-            this.progress.height(volumeInput.val() + '%');
-        }
+            this.volumeRange.val(volume);
+            this.progress.height(volume + '%');
 
-        //  Whenever the volume slider is interacted with by the user, change the volume to reflect.
-        //setVolume: function () {
+            var volumeIcon = this.getVolumeIcon(volume);
+            this.muteButton.html(volumeIcon);
+        },
+        
+        //  Return whichever font-awesome icon is appropriate based on the current volume level.
+        getVolumeIcon: function(volume) {
+            var volumeIconClass = 'off';
 
-        //    var newVolume = parseInt(this.volumeSlider.val(), 10);
-        //    Player.set('volume', newVolume);
+            if (volume > 50) {
+                volumeIconClass = 'up';
+            }
+            else if (volume > 0) {
+                volumeIconClass = 'down';
+            }
 
-        //    this.render();
-        //},
+            var volumeIcon = $('<i>', {
+                'class': 'icon-volume-' + volumeIconClass
+            });
+            
+            return volumeIcon;
+        },
 
         //  Adjust volume when user scrolls mousewheel while hovering over volumeControl.
-        //scrollVolume: function (event) {
-        //    var delta = event.originalEvent.wheelDeltaY / 120;
-
-        //    //  Convert current value from string to int, then go an arbitrary, feel-good amount of volume points in a given direction (thus *3 on delta).
-        //    var newVolume = parseInt(this.volumeSlider.val(), 10) + delta * 3;
-        //    this.volumeSlider.val(newVolume).trigger('change');
-        //},
-
-        //toggleMute: function () {
-        //    var isMuted = Player.get('muted');
-        //    Player.set('muted', !isMuted);
-        //}
+        scrollVolume: function (event) {
+            var delta = event.originalEvent.wheelDeltaY / -120;
+            var volume = parseInt(this.volumeRange.val()) + delta;
+            
+            Player.set('volume', volume);
+        },
+        
+        toggleMute: function () {
+            var isMuted = Player.get('muted');
+            Player.set('muted', !isMuted);
+        }
 
     });
 

@@ -59,6 +59,10 @@ body.loading > *:not(.modalOverlay) {
     z-index: 1;
 }
 
+button.mute.muted{
+    color: red;
+}
+
 .modalOverlay .panel {
     background: #f2f2f2;
     transition: left .3s;
@@ -597,7 +601,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.right-pane .top-bar .volume {
+.right-pane .top-bar .volumeControl {
     background: #f2f2f2;
     bottom: 0;
     display: block;
@@ -610,7 +614,7 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 2;
 }
 
-.right-pane .top-bar .volume:hover { height: 230px }
+.right-pane .top-bar .volumeControl:hover { height: 230px }
 
 .right-pane .top-bar .volume-slider {
     background: #dadada;
