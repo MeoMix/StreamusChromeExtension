@@ -59,7 +59,7 @@
             ContextMenuGroups.reset();
 
             //  TODO: Maybe position should be inferred if not provided? Or maybe I say 'first', 'last' instead of 0, 1, 2.. etc
-            ContextMenuGroups.addGroup({
+            ContextMenuGroups.add({
                 position: 0,
                 items: [{
                         position: 0,

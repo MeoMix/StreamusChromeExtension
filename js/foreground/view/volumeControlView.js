@@ -90,7 +90,7 @@ define([
         //  Adjust volume when user scrolls mousewheel while hovering over volumeControl.
         scrollVolume: function (event) {
             var delta = event.originalEvent.wheelDeltaY / -120;
-            var volume = parseInt(this.volumeRange.val()) + delta;
+            var volume = parseInt(this.volumeRange.val()) + (delta * 3);
             
             Player.set('volume', volume);
         },

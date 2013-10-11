@@ -40,7 +40,7 @@ define([
             
             'click #addVideosButton': 'showVideoSearch',
             'click #button-back': 'hideVideoSearch',
-            'click #toggleActiveFolderAreaButton': 'toggleActiveFolderArea',
+            'click .toggleActiveFolderAreaButton': 'toggleActiveFolderArea',
             'click #activeFolderArea': 'doActiveFolderAreaButtonClick',
             'click .toggleButton': 'toggleButton'
         },
@@ -225,7 +225,7 @@ define([
         },
         
         doActiveFolderAreaButtonClick: function () {
-            $('#toggleActiveFolderAreaButton').click();
+            $('.toggleActiveFolderAreaButton').click();
         },
         
         toggleActiveFolderArea: function () {
@@ -288,7 +288,7 @@ define([
 
             });
 
-            $("#toggleActiveFolderAreaButton, #playlists").fadeOut();
+            $(".toggleActiveFolderAreaButton, #playlists").fadeOut();
             $("#button-back").fadeIn();
             
         },

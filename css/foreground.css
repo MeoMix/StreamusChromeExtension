@@ -791,7 +791,7 @@ input[type="range"]::-webkit-slider-thumb {
     width: 84px;
 }
 
-#toggleActiveFolderAreaButton, #button-back {
+.toggleActiveFolderAreaButton, #button-back {
 
     height: 45px;
     left: 10px;
