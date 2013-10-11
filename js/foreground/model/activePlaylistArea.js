@@ -7,11 +7,7 @@ define(function () {
 
         defaults: function () {
             return {
-                playlist: null,
-                addVideosButtonText: chrome.i18n.getMessage('addVideosButtonText'),
-                playAllButtonText: chrome.i18n.getMessage('playAllButtonText'),
-                renameButtonText: chrome.i18n.getMessage('renameButtonText'),
-                deleteButtonText: chrome.i18n.getMessage('deleteButtonText')
+                playlist: null
             };
         }
 

@@ -29,6 +29,8 @@
         },
         
         events: {
+            'click': 'destroyModel',
+            'click .hideActiveFolderAreaButton': 'destroyModel',
             'click h3': 'toggleActiveFolderVisibility',
             'click .panel': 'consumePanelClick'
         },
@@ -45,7 +47,7 @@
 
             //  TODO: Do I have to set this in initialize or can I do it through the property?
             this.activeFolderView = new ActiveFolderView({
-                model: this.model
+                model: this.model.get('folder')
             });
             
             //this.playlistInputView = new PlaylistInputView({
@@ -53,6 +55,9 @@
             //});
 
             //this.$el.prepend(this.playlistInputView.render().el);
+
+            this.listenTo(this.model, 'destroy', this.hide);
+
         },
         
         show: function() {
@@ -61,14 +66,16 @@
             });
         },
         
-        hide: function(callback) {
+        destroyModel: function () {
+            this.model.destroy();
+        },
+        
+        hide: function() {
             var self = this;
             
             this.$el.removeClass('visible').fadeOut(function () {
                 self.remove();
-                callback();
             });
-
         },
 
         toggleActiveFolderVisibility: function(event) {

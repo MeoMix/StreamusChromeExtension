@@ -1,9 +1,13 @@
-﻿<div class="left-top-bar">
+﻿<button class="button-icon show" title="Playlist Menu">
+    <i class="icon-reorder"></i>
+</button>
+
+<div class="left-top-bar">
     <div class="playlist-name">
         <%- playlist.get('title') %>
     </div>
-    <button class="button-label button-color" id="addVideosButton" title="<%- addVideosButtonText %>">
-        <i class="icon-plus"></i><%- addVideosButtonText %>
+    <button class="button-label button-color" id="addVideosButton" title="<%- chrome.i18n.getMessage('addVideosButtonText') %>">
+        <i class="icon-plus"></i><%- chrome.i18n.getMessage('addVideosButtonText') %>
     </button>
 </div>
 <div class="left-top-divider"></div>
@@ -13,16 +17,16 @@
     </div>
     <div class="playlist-actions">
                     
-        <button class="button-label" id="button-playlist-play-all" title="<%- playAllButtonText %>">
-            <i class="icon-play-sign"></i><%- playAllButtonText %>
+        <button class="button-label" id="button-playlist-play-all" title="<%- chrome.i18n.getMessage('playAllButtonText') %>">
+            <i class="icon-play-sign"></i><%- chrome.i18n.getMessage('playAllButtonText') %>
         </button>
 
-        <button class="button-label" id="button-playlist-rename" title="<%- renameButtonText %> <%- playlist.get('title') %>">
-            <i class="icon-pencil"></i><%- renameButtonText %> 
+        <button class="button-label" id="button-playlist-rename" title="<%- chrome.i18n.getMessage('renameButtonText') %> <%- playlist.get('title') %>">
+            <i class="icon-pencil"></i><%- chrome.i18n.getMessage('renameButtonText') %> 
         </button>
 
-        <button class="button-label" id="button-playlist-delete" title="<%- deleteButtonText %> <%- playlist.get('title') %>">
-            <i class="icon-trash"></i><%- deleteButtonText %>
+        <button class="button-label" id="button-playlist-delete" title="<%- chrome.i18n.getMessage('deleteButtonText') %> <%- playlist.get('title') %>">
+            <i class="icon-trash"></i><%- chrome.i18n.getMessage('deleteButtonText') %>
         </button>
 
     </div>

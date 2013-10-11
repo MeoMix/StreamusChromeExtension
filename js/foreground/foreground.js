@@ -4,6 +4,7 @@ define([
     'settings',
     'loadingSpinnerView',
     'reloadPromptView',
+    'activeFolderArea',
     'activeFolderAreaView',
     'activePlaylistAreaView',
     'activePlaylistArea',
@@ -15,7 +16,7 @@ define([
     'contextMenuView',
     'contextMenuGroups',
     'rightPaneView'
-], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
+], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -40,9 +41,7 @@ define([
             
             'click #addVideosButton': 'showVideoSearch',
             'click #button-back': 'hideVideoSearch',
-            'click .toggleActiveFolderAreaButton': 'toggleActiveFolderArea',
-            'click #activeFolderArea': 'doActiveFolderAreaButtonClick',
-            'click .toggleButton': 'toggleButton'
+            'click #activePlaylistArea button.show': 'showActiveFolderArea'
         },
 
         initialize: function () {
@@ -220,36 +219,26 @@ define([
             });
         },
         
-        toggleButton: function (event) {
-            $(event.currentTarget).toggleClass('enabled');
-        },
-        
-        doActiveFolderAreaButtonClick: function () {
-            $('.toggleActiveFolderAreaButton').click();
-        },
-        
-        toggleActiveFolderArea: function () {
+        //  Slides in the ActiveFolderAreaView from the left side.
+        showActiveFolderArea: function () {
 
-            var self = this;
+            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
 
-            if (this.activeFolderAreaView === null) {
-                
-                var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+            var activeFolderArea = new ActiveFolderArea({
+                folder: activeFolder
+            });
 
-                this.activeFolderAreaView = new ActiveFolderAreaView({
-                    model: activeFolder
-                });
+            this.activeFolderAreaView = new ActiveFolderAreaView({
+                model: activeFolderArea
+            });
 
-                this.$el.append(this.activeFolderAreaView.render().el);
-                this.activeFolderAreaView.show();
+            this.$el.append(this.activeFolderAreaView.render().el);
+            this.activeFolderAreaView.show();
 
-            } else {
-
-                this.activeFolderAreaView.hide(function() {
-                    self.activeFolderAreaView = null;
-                });
-                
-            }
+            //  Cleanup whenever the model is destroyed.
+            this.listenTo(activeFolderArea, 'destroy', function () {
+                this.activeFolderAreaView = null;
+            });
 
         },
         
@@ -270,9 +259,6 @@ define([
 
             this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
 
-                console.log("this.addSearchResults:", this.addSearchResults);
-                console.log("Selected:", selected);
-
                 if (selected && this.addSearchResults === null) {
                     this.showAddSearchResults();
                 }
@@ -288,9 +274,8 @@ define([
 
             });
 
-            $(".toggleActiveFolderAreaButton, #playlists").fadeOut();
-            $("#button-back").fadeIn();
-            
+            this.activePlaylistAreaView.hide();
+
         },
         
         hideVideoSearch: function () {
@@ -303,9 +288,8 @@ define([
             if (this.addSearchResults) {
                 this.addSearchResults.destroy();
             }
-            
-            $("#button-back").fadeOut();
-            $("#toggleActiveFolderAreaButton, #playlists").fadeIn();
+
+            this.activePlaylistAreaView.show();
 
             this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
         },

@@ -32,6 +32,7 @@ var require = {
         'videoSearchResults': 'foreground/collection/videoSearchResults',
 
         //  Model:
+        'activeFolderArea': 'foreground/model/activeFolderArea',
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
         'addSearchResults': 'foreground/model/addSearchResults',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',

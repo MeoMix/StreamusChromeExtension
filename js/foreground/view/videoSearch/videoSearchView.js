@@ -20,7 +20,7 @@
             'focus .searchBar input': 'highlight',
             'blur .searchBar input': 'lowlight',
             
-            'input .searchBar input': 'showVideoSuggestions'
+            'input .searchBar input': 'showVideoSuggestions',
             
             //  TODO: How to support these?
             //'drop .addInput': 'parseUrlInput',

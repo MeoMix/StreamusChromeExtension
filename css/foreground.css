@@ -554,8 +554,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .searchBar button#source-select .label { margin: 0 .7em 0 .5em }
 
-/* TODO: Would be nice to just not have the view created until necessary instead of display: none*/
-#button-back,
 #search {
     display: none;
 }
@@ -791,8 +789,9 @@ input[type="range"]::-webkit-slider-thumb {
     width: 84px;
 }
 
-.toggleActiveFolderAreaButton, #button-back {
-
+#activeFolderArea button.hide,
+#activePlaylistArea button.show,
+#button-back {
     height: 45px;
     left: 10px;
     position: absolute;

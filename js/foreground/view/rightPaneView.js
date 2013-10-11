@@ -28,6 +28,11 @@ define([
         nextButtonView: null,
         volumeControlView: null,
         timeProgressAreaView: null,
+        toggleVideoDisplayButton: null,
+        
+        events: {
+            'click button#toggleVideoDisplay': 'toggleVideoDisplay'
+        },
         
         render: function() {
             this.$el.html(this.template());
@@ -51,7 +56,7 @@ define([
             leftGroupContextButtons.append(this.shuffleButtonView.render().el);
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
-            
+
             return this;
         },
         
@@ -92,7 +97,11 @@ define([
             this.volumeControlView = new VolumeControlView();
             this.timeProgressAreaView = new TimeProgressAreaView();
 
-        }
+        },
+        
+         toggleVideoDisplay: function(event) {
+             $(event.currentTarget).toggleClass('enabled');
+         }
 
     });
 

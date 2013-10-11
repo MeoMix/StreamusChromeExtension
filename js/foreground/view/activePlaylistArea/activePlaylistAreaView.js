@@ -14,11 +14,18 @@
         //playlistItemInputView: null,
         
         attributes: {
-            id: 'playlists'
+            id: 'activePlaylistArea'
         },
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+            
+            this.$el.html(this.template(
+                _.extend(this.model.toJSON(), {
+                    //  Mix in chrome to reference internationalize.
+                    'chrome.i18n': chrome.i18n
+                })
+            ));
 
             this.$el.find('.left-top-divider').after(this.activePlaylistItemsView.render().el);
 
@@ -46,6 +53,14 @@
             //  TODO: Destroy and re-create the view instead of calling changeModel.
             this.activePlaylistItemsView.changeModel(newModel);
             //this.playlistItemInputView.changeModel(newModel);
+        },
+        
+        show: function() {
+            this.$el.fadeIn();
+        },
+        
+        hide: function() {
+            this.$el.fadeOut();
         }
 
     });
