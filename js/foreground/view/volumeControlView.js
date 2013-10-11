@@ -18,6 +18,10 @@ define([
             'mousewheel': 'scrollVolume'
         },
         
+        progress: null,
+        volumeRange: null,
+        muteButton: null,
+        
         render: function () {
 
             var volume = Player.get('volume');

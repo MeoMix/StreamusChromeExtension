@@ -219,5 +219,11 @@
 	},
 	"searchText": {
 		"message": "Search..."
+	},
+	"clickToMute": {
+		"message": "Click to mute"
+	},
+	"clickToUnmute": {
+		"message": "Click to unmute"
 	}
 }

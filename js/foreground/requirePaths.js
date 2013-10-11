@@ -56,6 +56,7 @@ var require = {
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
         'rightPaneView': 'foreground/view/rightPaneView',
+        'timeProgressAreaView': 'foreground/view/timeProgressAreaView',
         'volumeControlView': 'foreground/view/volumeControlView',
         
         //  View -> Buttons:

@@ -47,7 +47,7 @@
     <Content Include="css\contextMenu.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\fullscreen.css" />
-    <Content Include="css\newForegroundUi.css" />
+    <Content Include="css\foreground.css" />
     <Content Include="css\youTube.css" />
     <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="fullscreen.htm" />
@@ -76,6 +76,7 @@
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
     <Content Include="js\foreground\view\rightPaneView.js" />
+    <Content Include="js\foreground\view\timeProgressAreaView.js" />
     <Content Include="js\foreground\view\videoSearch\addSearchResultsView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
     <Content Include="js\foreground\view\videoSearch\videoSearchResultView.js" />
@@ -85,7 +86,6 @@
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\fullscreen\requirePaths.js" />
     <Content Include="js\inject\beatportInject.js" />
-    <Content Include="js\newForegroundUi.js" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
     <Content Include="js\thirdParty\text.js" />
@@ -118,7 +118,6 @@
     <Content Include="css\aristo\images\ui-icons_222222_256x240.png" />
     <Content Include="css\aristo\images\ui-icons_454545_256x240.png" />
     <Content Include="css\desktopNotification.css" />
-    <Content Include="css\foreground.css" />
     <Content Include="css\youTubeInject.css" />
     <Content Include="css\jasmine.css" />
     <Content Include="desktopNotification.htm" />
@@ -217,6 +216,7 @@
     <Content Include="template\playlistItem.htm" />
     <Content Include="template\playPauseButton.htm" />
     <Content Include="template\previousButton.htm" />
+    <Content Include="template\timeProgressArea.htm" />
     <Content Include="template\radioButton.htm" />
     <Content Include="template\reloadPrompt.htm" />
     <Content Include="template\repeatButton.htm" />
@@ -227,6 +227,7 @@
     <Content Include="template\videoSearch.htm" />
     <Content Include="template\videoSearchResult.htm" />
     <Content Include="template\videoSearchResults.htm" />
+    <Content Include="template\volumeControl.htm" />
     <Content Include="tests.htm" />
     <Content Include="font\fontawesome-webfont.eot" />
     <Content Include="font\fontawesome-webfont.ttf" />

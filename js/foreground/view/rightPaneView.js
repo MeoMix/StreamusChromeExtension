@@ -8,8 +8,9 @@ define([
     'playPauseButtonView',
     'previousButtonView',
     'nextButtonView',
-    'volumeControlView'
-], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView) {
+    'volumeControlView',
+    'timeProgressAreaView'
+], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -26,11 +27,16 @@ define([
         previousButtonView: null,
         nextButtonView: null,
         volumeControlView: null,
+        timeProgressAreaView: null,
         
         render: function() {
             this.$el.html(this.template());
+
+            var topBar = this.$el.children('.top-bar');
+
+            topBar.after(this.timeProgressAreaView.render().el);
             
-            var topBarCenterGroup = this.$el.find('.top-bar .center-group');
+            var topBarCenterGroup = topBar.children('.center-group');
 
             topBarCenterGroup.before(this.volumeControlView.render().el);
 
@@ -82,7 +88,9 @@ define([
                 model: chrome.extension.getBackgroundPage().NextButton
             });
 
+            //  TODO: Maybe pass Player in as a model here?
             this.volumeControlView = new VolumeControlView();
+            this.timeProgressAreaView = new TimeProgressAreaView();
 
         }
 

@@ -2,7 +2,6 @@
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
     'settings',
-    'newForegroundUi',
     'loadingSpinnerView',
     'reloadPromptView',
     'activeFolderAreaView',
@@ -16,7 +15,7 @@ define([
     'contextMenuView',
     'contextMenuGroups',
     'rightPaneView'
-], function (Settings, newForegroundUi, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
+], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
