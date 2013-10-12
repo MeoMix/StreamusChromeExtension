@@ -49,9 +49,11 @@ define([
             topBarCenterGroup.append(this.playPauseButtonView.render().el);
             topBarCenterGroup.append(this.nextButtonView.render().el);
 
-            this.$el.find('.progress-details').after(this.streamView.render().el);
+            var contextButtons = this.$el.find('.context-buttons');
 
-            var leftGroupContextButtons = this.$el.find('.context-buttons .left-group');
+            contextButtons.before(this.streamView.render().el);
+
+            var leftGroupContextButtons = contextButtons.children('.left-group');
 
             leftGroupContextButtons.append(this.shuffleButtonView.render().el);
             leftGroupContextButtons.append(this.repeatButtonView.render().el);

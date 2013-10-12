@@ -1,8 +1,9 @@
 ﻿define([
     'videoSearchResultView',
     'videoSearchResults',
-    'text!../template/videoSearchResults.htm'
-], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate) {
+    'text!../template/videoSearchResults.htm',
+    'utility'
+], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility) {
     'use strict';
 
     var VideoSearchResultsView = Backbone.View.extend({
@@ -16,12 +17,15 @@
         
         searchingMessage: null,
         instructions: null,
+        noResultsMessage: null,
         
         render: function () {
 
             this.$el.html(this.template({
                 //  Mix in chrome to reference internationalize.
                 'hasSearchResults': VideoSearchResults.length > 0,
+                'hasSearchQuery': this.parent.model.get('searchQuery').length > 0,
+                'isSearching': this.parent.model.get('searchJqXhr') !== null,
                 'chrome.i18n': chrome.i18n
             }));
 
@@ -76,6 +80,7 @@
 
             this.searchingMessage = this.$el.find('div.searching');
             this.instructions = this.$el.find('div.instructions');
+            this.noResultsMessage = this.$el.find('div.noResults');
 
             return this;
         },
@@ -87,6 +92,8 @@
 
             this.listenTo(VideoSearchResults, 'reset', this.render);
             this.listenTo(this.parent.model, 'change:searchJqXhr', this.toggleLoadingMessage);
+            
+            Utility.scrollChildElements(this.el, '.item-title');
         },
         
         addOne: function (videoSearchResult) {
@@ -125,6 +132,7 @@
 
             var isSearching = this.parent.model.get('searchJqXhr') !== null;
             this.searchingMessage.toggleClass('hidden', !isSearching);
+            this.noResultsMessage.addClass('hidden');
             this.instructions.addClass('hidden');
         }
     });

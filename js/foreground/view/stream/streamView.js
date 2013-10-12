@@ -109,7 +109,7 @@
 
             this.listenTo(StreamItems, 'remove empty', this.reload);
             
-            Utility.scrollChildElements(this.el, '.videoTitle');
+            Utility.scrollChildElements(this.el, '.item-title');
         },
         
         reload: function () {

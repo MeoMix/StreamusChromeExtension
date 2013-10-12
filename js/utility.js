@@ -23,7 +23,7 @@
 
         $(parent).on('mouseover', childElementSelector, function () {
 
-            var distanceToMove = $(this).width() - $(this).parent().width();
+            var distanceToMove = $(this).outerWidth() - $(this).parent().width();
 
             $(this).animate({
                 marginLeft: "-" + distanceToMove + "px"

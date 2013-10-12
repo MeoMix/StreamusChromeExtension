@@ -103,13 +103,12 @@
         },
         
         destroyModel: function () {
-            console.log("Destroying model");
             this.model.destroy();
         },
 
         hide: function () {
             var self = this;
-            console.log("Hiding");
+
             this.$el.removeClass('visible').fadeOut(function () {
                 self.remove();
             });

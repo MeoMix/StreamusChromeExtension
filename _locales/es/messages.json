@@ -220,6 +220,15 @@
 	"searchText": {
 		"message": "Search..."
 	},
+	"searchInstructions": {
+		"message": "Start searching and results will appear here"
+	},
+	"noSearchResults": {
+		"message": "No results found."
+	},
+	"noClearStreamWarning": {
+		"message": "Can't clear an empty Stream"
+	},
 	"clickToMute": {
 		"message": "Click to mute"
 	},

@@ -210,9 +210,8 @@ body { font: 13px/1.2 sans-serif }
 
 .item-title {
     font-size: 1.1em;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
+    padding-left: 55px;
 }
 
 .item-details {
@@ -426,6 +425,8 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 5px 0;
     position: relative;
     width: calc(100% - 10px);
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .videoSearchResult:hover,
@@ -435,12 +436,25 @@ input[type="range"]::-webkit-slider-thumb {
     background: #ebebeb;
 }
 
+#search .videoSearchResult:hover > .item-thumb {
+    background-color: #ebebeb;
+}
+
+.streamItem:hover > .item-thumb {
+    background-color: #ebebeb;
+}
+
 .videoSearchResult.selected,
 .playlistItem.selected,
 .streamItem.selected,
 .playlist.selected {
     background: #CDDBF2;
     transition: background .3s;
+}
+
+#search .videoSearchResult.selected .item-thumb {
+    transition: background .3s;
+    background: #CDDBF2;
 }
 
 .videoSearchResult i,
@@ -452,10 +466,21 @@ input[type="range"]::-webkit-slider-thumb {
 .playlistItem img {
     display: block;
     height: 30px;
-    left: 5px;
     position: absolute;
     top: 5px;
     width: 40px;
+    left: 0;
+    padding-left: 5px;
+    padding-right: 10px;
+}
+
+.videoSearchResult img,
+.playlistItem img {
+    background-color: white;
+}
+
+.streamItem img {
+    background-color: #f2f2f2;
 }
 
 .videoSearchResultsLength {
@@ -470,24 +495,15 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #addItems .item-title {
-    left: 65px;
-    position: absolute;
-    right: 10px;
-    top: 5px;
     font-weight: bold;
+    padding-left: 65px;
+    display: block;
+    padding-top: 5px;
 }
 
 #hideAddItemsButton {
     right: 0;
     position: absolute;
-}
-
-.item-title {
-    display: block;
-    left: 55px;
-    position: absolute;
-    right: 10px;
-    top: 5px;
 }
 
 #addItems .item-details {

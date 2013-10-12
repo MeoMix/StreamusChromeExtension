@@ -33,7 +33,8 @@
 
                 var videoSearchResults = this.get('videoSearchResults');
                 
-                if (videoSearchResults.length > 0) {
+                //  Trigger a reset when clearing the search query to get the view to redraw from 'no results' to 'type something'
+                if (videoSearchResults.length > 0 || searchQuery === '') {
                     videoSearchResults.reset();
                 }
 

@@ -53,6 +53,7 @@ define([
         
         setVolume: function () {
             var volume = parseInt(this.volumeRange.val());
+            console.log("VOLUME:", volume);
             Player.set('volume', volume);
         },
         
@@ -91,6 +92,14 @@ define([
         scrollVolume: function (event) {
             var delta = event.originalEvent.wheelDeltaY / -120;
             var volume = parseInt(this.volumeRange.val()) + (delta * 3);
+            
+            if (volume > 100) {
+                volume = 100;
+            }
+            
+            if (volume < 0) {
+                volume = 0;
+            }
             
             Player.set('volume', volume);
         },

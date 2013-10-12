@@ -273,6 +273,12 @@ define([
 
             });
 
+            this.listenTo(VideoSearchResults, 'change:dragging', function(changedItem, dragging) {
+                if (dragging && this.addSearchResults === null) {
+                    this.showAddSearchResults();
+                }
+            });
+
             this.activePlaylistAreaView.hide();
             
             this.listenToOnce(videoSearch, 'destroy', function () {

@@ -29,6 +29,8 @@ define([
                     addedStreamItem.trigger('change:selected', addedStreamItem, true);
                 }
 
+                console.log("StreamItems on add has fired", self.length);
+
                 //  If the Stream has any items in it, one should be selected.
                 if (self.length === 1) {
                     addedStreamItem.set('selected', true);
@@ -56,11 +58,14 @@ define([
                     //  Maintain the state of the player by playing or cueuing based on current player state.
                     var playerState = Player.get('state');
 
+                    console.log("StreamItems change selected has fired:", videoId);
+
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
                     if (playerState === PlayerState.PLAYING || playerState === PlayerState.ENDED) {
                         console.log("PlayerState:", playerState);
                         Player.loadVideoById(videoId);
                     } else {
+                        console.log("Cueuing video");
                         Player.cueVideoById(videoId);
                     }
                 }

@@ -31,7 +31,7 @@
             ));
 
             this.setHighlight();
-            
+
             return this;
         },
         
@@ -40,6 +40,8 @@
             this.index = options.index;
 
             this.listenTo(this.model, 'change:selected', this.setHighlight);
+
+            
         },
         
         setHighlight: function () {

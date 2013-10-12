@@ -123,6 +123,8 @@ define([
                     events: {
                         'onReady': function () {
 
+                            console.log("Setting player volume and isMuted", youTubePlayer.getVolume(), youTubePlayer.isMuted());
+
                             self.set('muted', youTubePlayer.isMuted());
                             self.set('volume', youTubePlayer.getVolume());
                             self.pause();
@@ -131,7 +133,7 @@ define([
                             self.set('ready', true);
                         },
                         'onStateChange': function (state) {
-
+                            console.log("State has changed:", state);
                             self.set('state', state.data);
                         },
                         'onError': function (error) {
@@ -208,7 +210,7 @@ define([
   
             if (!this.isPlaying()) {
                 this.set('state', PlayerState.BUFFERING);
-
+                console.log("Set to buffering, calling play");
                 youTubePlayer.playVideo();
             }
         },
