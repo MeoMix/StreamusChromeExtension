@@ -64,6 +64,7 @@
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
     <Content Include="js\foreground\collection\videoSearchResults.js" />
+    <Content Include="js\foreground\model\activeFolderArea.js" />
     <Content Include="js\foreground\model\activePlaylistArea.js" />
     <Content Include="js\foreground\model\addSearchResults.js" />
     <Content Include="js\foreground\model\videoSearch.js" />
