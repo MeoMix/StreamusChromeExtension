@@ -38,9 +38,8 @@ define([
         backgroundUser: chrome.extension.getBackgroundPage().User,
 
         events: {
-            
+
             'click #addVideosButton': 'showVideoSearch',
-            'click #button-back': 'hideVideoSearch',
             'click #activePlaylistArea button.show': 'showActiveFolderArea'
         },
 
@@ -51,8 +50,8 @@ define([
             this.$el.append(this.loadingSpinnerView.render().el);
             this.$el.append(this.contextMenuView.render().el);
 
-            //If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
-            //Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
+            //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
+            //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
                 
                 var reloadPromptElement = self.reloadPromptView.render().el;
@@ -236,7 +235,7 @@ define([
             this.activeFolderAreaView.show();
 
             //  Cleanup whenever the model is destroyed.
-            this.listenTo(activeFolderArea, 'destroy', function () {
+            this.listenToOnce(activeFolderArea, 'destroy', function () {
                 this.activeFolderAreaView = null;
             });
 
@@ -275,35 +274,32 @@ define([
             });
 
             this.activePlaylistAreaView.hide();
-
-        },
-        
-        hideVideoSearch: function () {
-            var self = this;
             
-            this.videoSearchView.hide(function() {
-                self.videoSearchView = null;
+            this.listenToOnce(videoSearch, 'destroy', function () {
+                this.videoSearchView = null;
+                
+                //  When VideoSearch is hidden -- hide the AddSearchResults window as well because it's only useful then.
+                if (this.addSearchResults !== null) {
+                    this.addSearchResults.destroy();
+                }
+                
+                this.activePlaylistAreaView.show();
+
+                this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
             });
-            
-            if (this.addSearchResults) {
-                this.addSearchResults.destroy();
-            }
 
-            this.activePlaylistAreaView.show();
-
-            this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
         },
         
+        //  Slides in the AddSearchResults window from the RHS of the foreground.
         showAddSearchResults: function () {
 
             var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
 
             this.addSearchResults = new AddSearchResults({
-                relatedFolder: activeFolder
+                folder: activeFolder
             });
 
-            this.listenTo(this.addSearchResults, 'destroy', function () {
-                this.stopListening(this.addSearchResults);
+            this.listenToOnce(this.addSearchResults, 'destroy', function () {
                 this.addSearchResults = null;
             });
 

@@ -5,7 +5,7 @@
 
         defaults: function () {
             return {
-                relatedFolder: null
+                folder: null
             };
         }
 

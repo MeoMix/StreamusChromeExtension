@@ -16,11 +16,13 @@
             id: 'search'
         },
         
+        searchUnderline: null,
+        
         events: {
             'focus .searchBar input': 'highlight',
             'blur .searchBar input': 'lowlight',
-            
             'input .searchBar input': 'showVideoSuggestions',
+            'click #button-back': 'destroyModel'
             
             //  TODO: How to support these?
             //'drop .addInput': 'parseUrlInput',
@@ -35,8 +37,9 @@
                 })
             ));
 
-            console.log("RENDERING VIDEO SEARCH RESULTS VIEW");
             this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
+
+            this.searchUnderline = $('.searchBar .underline');
 
             return this;
         },
@@ -46,40 +49,50 @@
             this.videoSearchResultsView = new VideoSearchResultsView({
                 parent: this
             });
-
+            
+            this.listenTo(this.model, 'change:searchJqXhr', this.toggleSearching);
+            this.listenTo(this.model, 'destroy', this.hide);
         },
         
         highlight: function() {
-            this.$el.find('.searchBottomOutline').addClass('active');
+            this.searchUnderline.addClass('active');
         },
         
         lowlight: function() {
-            this.$el.find('.searchBottomOutline').removeClass('active');
+            this.searchUnderline.removeClass('active');
         },
         
         showAndFocus: function() {
             this.$el.fadeIn();
-            this.$el.find('.searchBar input').focus();
+            
+            var searchInput = $('.searchBar input');
+            searchInput.focus();
         },
         
-        hide: function(callback) {
+        destroyModel: function () {
+            this.model.destroy();
+        },
+        
+        hide: function() {
             var self = this;
             
             this.$el.fadeOut(function() {
                 self.remove();
-                callback();
             });
-            
         },
         
-        getUserInput: function () {
-            return $.trim(this.$el.find('.searchBar input').val());
+        getSearchQuery: function () {
+            var searchInput = $('.searchBar input');
+            var searchQuery = $.trim(searchInput.val());
+
+            return searchQuery;
         },
         
         //  Searches youtube for video results based on the given text.
         showVideoSuggestions: function () {
-            var userInput = this.getUserInput();
-            this.model.set('userInput', userInput);
+            var searchQuery = this.getSearchQuery();
+
+            this.model.set('searchQuery', searchQuery);
         }
 
     });

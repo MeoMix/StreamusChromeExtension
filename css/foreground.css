@@ -512,7 +512,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.searchBar .searchBottomOutline {
+.searchBar .underline {
     background: #ccc;
     bottom: 10px;
     display: block;
@@ -524,7 +524,11 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 0;
 }
 
-.searchBar .searchBottomOutline.active { background: #666 }
+.searchBar .underline.active { background: #666 }
+
+#search .hidden {
+    display: none;
+}
 
 .searchBar input {
     -webkit-appearance: none;
@@ -567,7 +571,6 @@ input[type="range"]::-webkit-slider-thumb {
 #activePlaylistItemsView .big-text,
 #search .big-text {
     color: #949494;
-    display: block;
     font-size: 1.2em;
     margin: 2em 1em;
     text-align: center;

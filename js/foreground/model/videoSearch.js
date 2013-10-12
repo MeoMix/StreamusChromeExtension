@@ -9,7 +9,7 @@
         
         defaults: function () {
             return {
-                userInput: '',
+                searchQuery: '',
                 searchJqXhr: null,
                 videoSearchResults: VideoSearchResults,
                 relatedPlaylist: null
@@ -20,26 +20,32 @@
             var self = this;
             
             //  TODO: Probably want to rate-limit this slightly.
-            this.on('change:userInput', function (model, userInput) {
+            this.on('change:searchQuery', function (model, searchQuery) {
 
                 //  Do not display results if searchText was modified while searching, abort old request.
                 var previousSearchJqXhr = this.get('searchJqXhr');
                 
                 if (previousSearchJqXhr) {
                     previousSearchJqXhr.abort();
-                    this.set('searchJqXhr', null);
+                    //  I don't want the view's loading icon to stutter on cancelling.
+                    this.set('searchJqXhr', null, { silent: true });
                 }
 
-                if ($.trim(userInput) === '') {
-                    this.get('videoSearchResults').reset();
-                } else {
+                var videoSearchResults = this.get('videoSearchResults');
+                
+                if (videoSearchResults.length > 0) {
+                    videoSearchResults.reset();
+                }
 
+                if (searchQuery !== '') {
+                    
                     var searchJqXhr = YouTubeDataAPI.search({
-                        text: userInput,
+                        text: searchQuery,
                         success: function(videoInformationList) {
-
+                            self.set('searchJqXhr', null);
+                            
                             //  Convert video information into search results which contain a reference to the full data incase needed later.
-                            var videoSearchResults = _.map(videoInformationList, function(videoInformation) {
+                            var searchResults = _.map(videoInformationList, function(videoInformation) {
 
                                 var videoSearchResult = new VideoSearchResult({
                                     videoInformation: videoInformation
@@ -48,8 +54,10 @@
                                 return videoSearchResult;
                             });
 
-                            self.get('videoSearchResults').reset(videoSearchResults);
-
+                            videoSearchResults.reset(searchResults);
+                        },
+                        error: function() {
+                            self.set('searchJqXhr', null);
                         }
                     });
 

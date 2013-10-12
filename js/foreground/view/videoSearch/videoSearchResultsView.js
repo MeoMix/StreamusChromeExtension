@@ -14,6 +14,9 @@
             id: 'searchResultsList'
         },
         
+        searchingMessage: null,
+        instructions: null,
+        
         render: function () {
 
             this.$el.html(this.template({
@@ -31,8 +34,6 @@
 
             this.$el.find('.videoSearchResult').draggable({
                 helper: function() {
-
-                    console.log("Setting helper");
 
                     var helper = $('<span>', {
                         'class': 'videoSearchResultsLength'
@@ -73,6 +74,9 @@
                 }
             });
 
+            this.searchingMessage = this.$el.find('div.searching');
+            this.instructions = this.$el.find('div.instructions');
+
             return this;
         },
         
@@ -82,6 +86,7 @@
             this.parent = options.parent;
 
             this.listenTo(VideoSearchResults, 'reset', this.render);
+            this.listenTo(this.parent.model, 'change:searchJqXhr', this.toggleLoadingMessage);
         },
         
         addOne: function (videoSearchResult) {
@@ -114,6 +119,13 @@
                 console.log("success");
             });
 
+        },
+        
+        toggleLoadingMessage: function() {
+
+            var isSearching = this.parent.model.get('searchJqXhr') !== null;
+            this.searchingMessage.toggleClass('hidden', !isSearching);
+            this.instructions.addClass('hidden');
         }
     });
 
