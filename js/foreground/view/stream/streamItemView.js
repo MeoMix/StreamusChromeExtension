@@ -22,6 +22,8 @@
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+            this.$el.toggleClass('selected', this.model.get('selected'));
+            
             return this;
         },
 
@@ -37,6 +39,8 @@
             this.listenTo(this.model, 'destroy', function () {
                 self.parent.sly.remove(this.render().el);
             });
+
+            this.listenTo(this.model, 'change:selected', this.toggleSelected);
         },
 
         select: function () {
@@ -49,6 +53,12 @@
         
         doDelete: function () {
             this.model.destroy();
+        },
+        
+        //  Force the view to reflect the model's selected class. It's important to do this here, and not through render always, because
+        //  render will cause the lazy-loaded image to be reset.
+        toggleSelected: function () {
+            this.$el.toggleClass('selected', this.model.get('selected'));
         },
 
         showContextMenu: function(event) {

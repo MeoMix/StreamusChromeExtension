@@ -3,8 +3,7 @@
     'streamItemView',
     'text!../template/streamView.htm',
     'contextMenuGroups',
-    'utility',
-    'sly'
+    'utility'
 ], function (StreamItems, StreamItemView, StreamViewTemplate, ContextMenuGroups, Utility) {
     'use strict';
     
@@ -14,73 +13,70 @@
         
         template: _.template(StreamViewTemplate),
         
-        //slidee: $('#StreamView ul.slidee'),
-        
         events: {
             'contextmenu': 'showContextMenu',
         },
         
-        sly: null,
-        //overlay: $('#StreamView .overlay'),
-        
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
              
-            this.slidee = this.$el.children('ul.slidee');
+            //this.slidee = this.$el.children('ul.slidee');
 
             // Call Sly on frame
-            this.sly = new window.Sly(this.$el, {
-                horizontal: 0,
-                itemNav: 'centered',
-                smart: 1,
-                activateOn: 'click',
-                mouseDragging: 1,
-                touchDragging: 1,
-                releaseSwing: 1,
-                startAt: 3,
-                speed: 300,
-                elasticBounds: 1,
-                easing: 'easeOutExpo',
-                clickBar: 1,
-                scrollBy: 1
-            }, {
-                //  This is a pretty costly function because it fires so often. Use native javascript.
-                move: _.throttle(function () {
+            //this.sly = new window.Sly(this.$el, {
+            //    horizontal: 0,
+            //    itemNav: 'centered',
+            //    smart: 1,
+            //    activateOn: 'click',
+            //    mouseDragging: 1,
+            //    touchDragging: 1,
+            //    releaseSwing: 1,
+            //    startAt: 3,
+            //    speed: 300,
+            //    elasticBounds: 1,
+            //    easing: 'easeOutExpo',
+            //    clickBar: 1,
+            //    scrollBy: 1
+            //}, {
+            //    //  This is a pretty costly function because it fires so often. Use native javascript.
+            //    move: _.throttle(function () {
 
-                    var unloadedImgElements = self.$el.find('img.lazy[src=""]');
+            //        var unloadedImgElements = self.$el.find('img.lazy[src=""]');
 
-                    //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
-                    for (var i = 0; i < unloadedImgElements.length; i++) {
-                        var unloadedImgElement = unloadedImgElements[i];
+            //        //  Find images which haven't been lazily loaded, but are in the viewport and trigger an event to get them to load.
+            //        for (var i = 0; i < unloadedImgElements.length; i++) {
+            //            var unloadedImgElement = unloadedImgElements[i];
 
-                        var rectangle = unloadedImgElement.getBoundingClientRect();
+            //            var rectangle = unloadedImgElement.getBoundingClientRect();
 
-                        var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
-                        var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
+            //            var isInViewportLeftSide = rectangle.right >= 0 && rectangle.right <= self.$el.width();
+            //            var isInViewportRightSide = rectangle.left >= 0 && rectangle.left <= self.$el.width();
 
-                        if (isInViewportRightSide || isInViewportLeftSide) {
-                            $(unloadedImgElement).trigger('visible');
-                        }
+            //            if (isInViewportRightSide || isInViewportLeftSide) {
+            //                $(unloadedImgElement).trigger('visible');
+            //            }
 
-                    }
+            //        }
 
-                }, 300)
-            }).init();
+            //    }, 300)
+            //}).init();
             
             if (StreamItems.length > 0) {
+                
                 if (StreamItems.length === 1) {
                     this.addItem(StreamItems.at(0), true);
                 } else {
                     this.addItems(StreamItems.models, true);
+
+                    
                 }
 
-                //  Ensure proper item is selected.
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                var selectedItemIndex = StreamItems.indexOf(selectedStreamItem);
 
-                this.sly.activate(selectedItemIndex, true);
+                var selectedStreamItem = this.$el.find('.streamItem.selected');
+                console.log("item:", selectedStreamItem, selectedStreamItem.isOutOfView());
+                selectedStreamItem.scrollIntoView();
             }
-            
+
             
 
             return this;
@@ -88,24 +84,10 @@
         },
 
         initialize: function () {
-            var self = this;
-
-            //  Setting it here so I can use internationalization... could probably do it in a template more cleanly though.
-            //this.overlay.text(chrome.i18n.getMessage("noVideosInStream"));
-
-            //  Need to do it this way to support i18n
-            //this.overlay.css({
-            //    'margin-left': -1 * this.overlay.width() / 2
-            //});
 
             //  Whenever an item is added to the collection, visually add an item, too.
             this.listenTo(StreamItems, 'add', this.addItem);
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
-            this.listenTo(StreamItems, 'change:selected', this.selectItem);
-
-            this.listenTo(StreamItems, 'empty', function () {
-                //this.overlay.show();
-            });
 
             this.listenTo(StreamItems, 'remove empty', this.reload);
             
@@ -113,7 +95,7 @@
         },
         
         reload: function () {
-            this.sly.reload();
+            //this.sly.reload();
         },
         
         addItem: function (streamItem) {
@@ -126,25 +108,20 @@
             });
 
             var element = streamItemView.render().el;
-            this.sly.add(element);
-            //this.$el.append(element);
-            
+            //this.sly.add(element);
+            this.$el.append(element);
+
             $(element).find('img.lazy').lazyload({
                 effect: 'fadeIn',
-                container: this.$el,
-                event: 'visible'
+                container: this.$el
             });
             
-            if (streamItem.get('selected')) {
-                this.selectItem(streamItem);
-            }
-
             //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
             //  Re-opening the player and calling this same method works fine..
-            this.sly.reload();
+            //this.sly.reload();
             //this.overlay.hide();
             
-            this.sly.toEnd();
+            //this.sly.toEnd();
 
         },
         
@@ -163,34 +140,31 @@
             var elements = _.map(streamItemViews, function (streamItemView) {
                 return streamItemView.render().el;
             });
-            
-            this.sly.add(elements);
 
-            if (streamItems.length === StreamItems.length) {
-                this.sly.activate(0);
+            this.$el.append(elements);
+            
+            //this.sly.add(elements);
+
+            //if (streamItems.length === StreamItems.length) {
+            //    this.sly.activate(0);
                 
-                //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
-                this.sly.reload();
-            }
+            //    //  TODO: This fixes some odd padding issue with slyjs on the first item being added. Not sure why add doesn't fix it? 
+            //    this.sly.reload();
+            //}
 
             $(elements).find('img.lazy').lazyload({
                 effect: 'fadeIn',
-                container: self.$el,
-                event: 'visible'
+                container: self.$el
             });
 
             //this.overlay.hide();
         },
         
-        selectItem: function (streamItem) {
-            this.sly.activate(StreamItems.indexOf(streamItem));
-        },
-        
         clear: function () {
             console.log("Clearing");
             StreamItems.clear();
-            this.slidee.empty();
-            this.sly.reload();
+            //this.slidee.empty();
+            //this.sly.reload();
         },
 
         showContextMenu: function (event) {
@@ -230,10 +204,6 @@
                 }]
             });
 
-        },
-
-        changeModel: function (newModel) {
-            this.model = newModel;
         }
 
     });
