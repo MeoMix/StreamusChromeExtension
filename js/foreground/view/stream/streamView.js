@@ -25,7 +25,7 @@
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-
+             
             this.slidee = this.$el.children('ul.slidee');
 
             // Call Sly on frame
