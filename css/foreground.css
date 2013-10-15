@@ -506,8 +506,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #addItems .item-details {
-    bottom: 20px;
-    left: 65px;
+    position: static;
+    padding-left: 65px;
 }
 
 .item-details {
@@ -878,7 +878,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 #activeFolderArea.visible .panel { left: 0 }
 
-#addItems .header,
 #activeFolderArea .header {
     background: #e6e6e6;
     display: block;
@@ -891,7 +890,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #addItems .header {
-    text-align: left;
+    background: #e6e6e6;
+    height: 45px;
+    margin-bottom: 10px;
 }
 
 #addItems .header span {
@@ -906,11 +907,17 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
 }
 
-#addItems .addItemOption.stream {
+#addItems .divider {
+    margin-top: 5px;
+    margin-bottom: 5px;
     border-bottom: 1px solid #dadada;
+    position: relative;
     left: 10px;
-    right: 10px;
-    height: 50px;
+    width: 230px;
+}
+
+#addItems .addItemOption.playlist {
+    padding-top: 5px;
 }
 
 #addItems .addItemOption i.hidden {
@@ -939,10 +946,11 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #addItems .addItemOption {
-    height: 30px;
-    padding-bottom: 5px;
-    position: relative;
-    top: 55px;
+    height: 50px;
+    margin-top: 5px;
+    margin-left: 10px;
+    margin-bottom: 5px;
+    margin-right: 10px;
 }
 
 #activeFolderArea .header span {

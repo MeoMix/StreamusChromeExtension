@@ -1,8 +1,11 @@
 ﻿define([
     'text!../template/addSearchResults.htm',
     'streamItems',
-    'videoSearchResults'
-], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults) {
+    'videoSearchResults',
+    'addSearchResultOption',
+    'addSearchResultOptionView',
+    'addSearchResultOptionType'
+], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType) {
     'use strict';
 
     var AddSearchResultsView = Backbone.View.extend({
@@ -24,62 +27,50 @@
 
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
-                    //  Mix in chrome to reference internationalize.
-                    'streamItemsLength': StreamItems.length,
                     'selectedResultsLength': VideoSearchResults.selected().length
                 })
             ));
-
-            this.$el.find('.addItemOption').droppable({
-                hoverClass: 'droppableOnHover',
-                tolerance: 'pointer',
-                
-                drop: function (event, ui) {
-
-                    var draggedVideoId = ui.draggable.data('videoid');
-                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
-
-                    StreamItems.addByVideoInformation(videoSearchResult.get('videoInformation'));
-
-                    var droppableIcon = $(this).find('i.droppable');
-                    var checkIcon = droppableIcon.next();
-
-                    checkIcon.removeClass('hidden');
-                    droppableIcon.addClass('hidden');
-
-                    clearTimeout(this.resetStateTimeout);
-
-                    this.resetStateTimeout = setTimeout(function() {
-                        droppableIcon.removeClass('hidden');
-                        checkIcon.addClass('hidden');
-                    }, 2500);
-
-                }
+            
+            var streamAddSearchResultOption = new AddSearchResultOption({
+                title: 'Now playing stream',
+                entity: StreamItems,
+                type: AddSearchResultOptionType.STREAM
             });
 
-            this.itemCount = this.$el.find('span.item-count');
+            var streamAddSearchResultOptionView = new AddSearchResultOptionView({
+                model: streamAddSearchResultOption
+            });
+
+            var divider = this.$el.find('.divider');
+
+            divider.before(streamAddSearchResultOptionView.render().el);
+
+            var playlistAddSearchResultOptionElements = this.model.get('folder').get('playlists').map(function(playlist) {
+
+                var playlistAddSearchResultOption = new AddSearchResultOption({
+                    title: playlist.get('title'),
+                    entity: playlist,
+                    type: AddSearchResultOptionType.PLAYLIST
+                });
+
+                var playlistAddSearchResultOptionView = new AddSearchResultOptionView({
+                    model: playlistAddSearchResultOption
+                });
+
+                return playlistAddSearchResultOptionView.render().el;
+            });
+
+            divider.after(playlistAddSearchResultOptionElements);
+
+            this.streamItemCount = this.$el.find('.addItemOption.stream span.item-count');
             this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
 
             return this;
         },
         
         initialize: function() {
-            this.listenTo(StreamItems, 'add remove', this.updateStreamItemsLength);
-
             this.listenTo(VideoSearchResults, 'change:selected', this.updateSelectedItemsMessage);
-
             this.listenTo(this.model, 'destroy', this.hide);
-        },
-        
-        updateStreamItemsLength: function () {
-            
-            //  TODO: i18n
-            if (StreamItems.length === 1) {
-                this.itemCount.text(StreamItems.length + " item");
-            } else {
-                this.itemCount.text(StreamItems.length + " items");
-            }
-
         },
         
         updateSelectedItemsMessage: function() {
@@ -96,9 +87,7 @@
         
         show: function () {
             this.$el.fadeIn(200, function () {
-                
                 $(this).addClass("visible");
-
             });
         },
         
@@ -112,8 +101,7 @@
             this.$el.removeClass('visible').fadeOut(function () {
                 self.remove();
             });
-
-        },
+        }
 
     });
 

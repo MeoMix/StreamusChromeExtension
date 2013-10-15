@@ -6,6 +6,7 @@ var require = {
         'utility': 'utility',
         
         //  Enum:
+        'addSearchResultOptionType': 'enum/addSearchResultOptionType',
         'dataSource': 'enum/dataSource',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
@@ -34,6 +35,7 @@ var require = {
         //  Model:
         'activeFolderArea': 'foreground/model/activeFolderArea',
         'activePlaylistArea': 'foreground/model/activePlaylistArea',
+        'addSearchResultOption': 'foreground/model/addSearchResultOption',
         'addSearchResults': 'foreground/model/addSearchResults',
         'contextMenuGroup': 'foreground/model/contextMenuGroup',
         'contextMenuItem': 'foreground/model/contextMenuItem',
@@ -88,6 +90,7 @@ var require = {
         'videoDisplayView': 'foreground/view/video/videoDisplayView',
         
         //  View -> VideoSearch:
+        'addSearchResultOptionView': 'foreground/view/videoSearch/addSearchResultOptionView',
         'addSearchResultsView': 'foreground/view/videoSearch/addSearchResultsView',
         'videoSearchResultsView': 'foreground/view/videoSearch/videoSearchResultsView',
         'videoSearchResultView': 'foreground/view/videoSearch/videoSearchResultView',
