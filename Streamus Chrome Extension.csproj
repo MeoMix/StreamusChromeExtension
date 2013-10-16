@@ -63,9 +63,11 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\enum\addSearchResultOptionType.js" />
     <Content Include="js\foreground\collection\videoSearchResults.js" />
     <Content Include="js\foreground\model\activeFolderArea.js" />
     <Content Include="js\foreground\model\activePlaylistArea.js" />
+    <Content Include="js\foreground\model\addSearchResultOption.js" />
     <Content Include="js\foreground\model\addSearchResults.js" />
     <Content Include="js\foreground\model\videoSearch.js" />
     <Content Include="js\foreground\model\videoSearchResult.js" />
@@ -78,6 +80,7 @@
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
     <Content Include="js\foreground\view\rightPaneView.js" />
     <Content Include="js\foreground\view\timeProgressAreaView.js" />
+    <Content Include="js\foreground\view\videoSearch\addSearchResultOptionView.js" />
     <Content Include="js\foreground\view\videoSearch\addSearchResultsView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
     <Content Include="js\foreground\view\videoSearch\videoSearchResultView.js" />
@@ -208,6 +211,7 @@
     <Content Include="template\activeFolderArea.htm" />
     <Content Include="template\activePlaylistArea.htm" />
     <Content Include="template\activePlaylistItems.htm" />
+    <Content Include="template\addSearchResultOption.htm" />
     <Content Include="template\addSearchResults.htm" />
     <Content Include="template\contextMenu.htm" />
     <Content Include="template\dialog.htm" />
