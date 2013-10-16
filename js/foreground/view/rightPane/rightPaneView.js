@@ -2,16 +2,13 @@
 define([
     'text!../template/rightPane.htm',
     'streamView',
-    'repeatButtonView',
-    'shuffleButtonView',
-    'radioButtonView',
     'playPauseButtonView',
     'previousButtonView',
     'nextButtonView',
     'volumeControlView',
     'timeProgressAreaView',
     'streamItems'
-], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, StreamItems) {
+], function(RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, StreamItems) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -21,9 +18,6 @@ define([
         template: _.template(RightPaneTemplate),
         
         streamView: null,
-        radioButtonView: null,
-        shuffleButtonView: null,
-        repeatButtonView: null,
         playPauseButtonView: null,
         previousButtonView: null,
         nextButtonView: null,
@@ -33,9 +27,7 @@ define([
         activeFolder: null,
         
         events: {
-            'click button#toggleVideoDisplay': 'toggleVideoDisplay',
-            'click button#saveStream': 'saveStreamAsPlaylist',
-            'click button#clearStream': 'clearStream'
+            'click button#toggleVideoDisplay': 'toggleVideoDisplay'
         },
         
         render: function() {
@@ -53,20 +45,14 @@ define([
             topBarCenterGroup.append(this.playPauseButtonView.render().el);
             topBarCenterGroup.append(this.nextButtonView.render().el);
 
-            var contextButtons = this.$el.find('.context-buttons');
-
-            contextButtons.before(this.streamView.render().el);
-
-            var leftGroupContextButtons = contextButtons.children('.left-group');
-
-            leftGroupContextButtons.append(this.shuffleButtonView.render().el);
-            leftGroupContextButtons.append(this.repeatButtonView.render().el);
-            leftGroupContextButtons.append(this.radioButtonView.render().el);
+            this.$el.append(this.streamView.render().el);
 
             return this;
         },
         
         initialize: function (options) {
+
+            console.log("Initializing right pane view.");
 
             if (options.activeFolder == null) throw "RightPaneView expects to be initialized with an activeFolder";
 
@@ -76,19 +62,9 @@ define([
                 model: options.activeFolder
             });
             
+            console.log("Radio Button:", chrome.extension.getBackgroundPage().RadioButton);
+            
             //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
-            this.radioButtonView = new RadioButtonView({
-                model: chrome.extension.getBackgroundPage().RadioButton
-            });
-            
-            this.repeatButtonView = new RepeatButtonView({
-                model: chrome.extension.getBackgroundPage().RepeatButton
-            });
-
-            this.shuffleButtonView = new ShuffleButtonView({
-                model: chrome.extension.getBackgroundPage().ShuffleButton
-            });
-            
             this.previousButtonView = new PreviousButtonView({
                 model: chrome.extension.getBackgroundPage().PreviousButton
             });
@@ -109,16 +85,6 @@ define([
 
         toggleVideoDisplay: function (event) {
             $(event.currentTarget).toggleClass('enabled');
-        },
-        
-        //  TODO: Create a prompt here which will allow the user to provide a name instead of defaulting to 'Playlist'
-        saveStreamAsPlaylist: function() {
-            this.activeFolder.addPlaylistWithVideos('Playlist', StreamItems.pluck('video'));
-        },
-        
-        //  TODO: Do I want some sort of prompt on this saying hey you're about to delete X are you sure you want to continue?
-        clearStream: function() {
-            StreamItems.clear();
         }
 
     });

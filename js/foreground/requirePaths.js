@@ -58,17 +58,6 @@ var require = {
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
-        'rightPaneView': 'foreground/view/rightPaneView',
-        'timeProgressAreaView': 'foreground/view/timeProgressAreaView',
-        'volumeControlView': 'foreground/view/volumeControlView',
-        
-        //  View -> Buttons:
-        'nextButtonView': 'foreground/view/buttons/nextButtonView',
-        'playPauseButtonView': 'foreground/view/buttons/playPauseButtonView',
-        'previousButtonView': 'foreground/view/buttons/previousButtonView',
-        'radioButtonView': 'foreground/view/buttons/radioButtonView',
-        'repeatButtonView': 'foreground/view/buttons/repeatButtonView',
-        'shuffleButtonView': 'foreground/view/buttons/shuffleButtonView',
         
         //  View -> ActiveFolderArea:
         'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',
@@ -82,9 +71,22 @@ var require = {
         'playlistItemInputView': 'foreground/view/activePlaylistArea/playlistItemInputView',
         'playlistItemView': 'foreground/view/activePlaylistArea/playlistItemView',
         
-        //  View -> Stream:
-        'streamItemView': 'foreground/view/stream/streamItemView',
-        'streamView': 'foreground/view/stream/streamView',
+        //  View -> RightPane:
+        'nextButtonView': 'foreground/view/rightPane/nextButtonView',
+        'playPauseButtonView': 'foreground/view/rightPane/playPauseButtonView',
+        'previousButtonView': 'foreground/view/rightPane/previousButtonView',
+        'rightPaneView': 'foreground/view/rightPane/rightPaneView',
+        'timeProgressAreaView': 'foreground/view/rightPane/timeProgressAreaView',
+        'volumeControlView': 'foreground/view/rightPane/volumeControlView',
+        
+        //  View -> RightPane -> Stream:
+        'clearStreamButtonView': 'foreground/view/rightPane/stream/clearStreamButtonView',
+        'radioButtonView': 'foreground/view/rightPane/stream/radioButtonView',
+        'repeatButtonView': 'foreground/view/rightPane/stream/repeatButtonView',
+        'saveStreamButtonView': 'foreground/view/rightPane/stream/saveStreamButtonView',
+        'shuffleButtonView': 'foreground/view/rightPane/stream/shuffleButtonView',
+        'streamItemView': 'foreground/view/rightPane/stream/streamItemView',
+        'streamView': 'foreground/view/rightPane/stream/streamView',
         
         //  View -> Video:
         'videoDisplayView': 'foreground/view/video/videoDisplayView',

@@ -78,6 +78,7 @@
     <Content Include="js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
+    <Content Include="js\foreground\view\buttons\saveStreamButtonView.js" />
     <Content Include="js\foreground\view\rightPaneView.js" />
     <Content Include="js\foreground\view\timeProgressAreaView.js" />
     <Content Include="js\foreground\view\videoSearch\addSearchResultOptionView.js" />
@@ -214,6 +215,7 @@
     <Content Include="template\addSearchResultOption.htm" />
     <Content Include="template\addSearchResults.htm" />
     <Content Include="template\contextMenu.htm" />
+    <Content Include="template\saveStreamButton.htm" />
     <Content Include="template\dialog.htm" />
     <Content Include="template\loadingSpinner.htm" />
     <Content Include="template\nextButton.htm" />

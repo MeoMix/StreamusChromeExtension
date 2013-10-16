@@ -760,7 +760,11 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.streamView.list {
+.streamView {
+    
+}
+
+.streamView .list {
     bottom: 40px;
     display: block;
     left: 10px;
@@ -771,15 +775,15 @@ input[type="range"]::-webkit-slider-thumb {
     padding-right: 0
 }
 
-.streamView.list:hover {
+.streamView .list:hover {
     overflow-y: scroll;
 }
 
-.streamView.list::-webkit-scrollbar {
+.streamView .list::-webkit-scrollbar {
     background: transparent;
 }
 
-.streamView.list::-webkit-scrollbar-thumb { background: #949494 }
+.streamView .list::-webkit-scrollbar-thumb { background: #949494 }
 
 .right-pane .context-buttons {
     border-top: 1px solid #dadada;

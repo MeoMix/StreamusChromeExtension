@@ -226,8 +226,17 @@
 	"noSearchResults": {
 		"message": "No results found."
 	},
-	"noClearStreamWarning": {
-		"message": "Can't clear an empty Stream"
+	"clearStreamDisabled": {
+		"message": "Can't clear an empty stream"
+	},
+	"clearStream": {
+		"message": "Clear stream"
+	},
+	"saveStreamDisabled": {
+		"message": "Can't save an empty stream"
+	},
+	"saveStream": {
+		"message": "Save stream"
 	},
 	"clickToMute": {
 		"message": "Click to mute"
