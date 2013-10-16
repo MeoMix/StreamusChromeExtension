@@ -429,7 +429,6 @@ input[type="range"]::-webkit-slider-thumb {
     text-overflow: ellipsis;
 }
 
-
 .videoSearchResult:hover,
 .streamItem:hover,
 .playlistItem:hover,
@@ -438,6 +437,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .streamItem:hover > .item-thumb,
+.playlistItem:hover > .item-thumb,
 #search .videoSearchResult:hover > .item-thumb {
     background-color: #ebebeb;
 }
@@ -451,6 +451,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .streamItem.selected > .item-thumb,
+.playlistItem.selected > .item-thumb,
 #search .videoSearchResult.selected .item-thumb {
     transition: background .3s;
     background: #CDDBF2;
