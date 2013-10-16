@@ -102,13 +102,13 @@
 		"message": "is empty. Try adding some videos by clicking above."
 	},
 	"repeatDisabled": {
-		"message": "Repeat is disabled. Click to enable Repeat Video."
+		"message": "Repeat is disabled. Click to enable repeat video."
 	},
-	"repeatVideoEnabled": {
-		"message": "Repeat Video is enabled. Click to enable Repeat Playlist."
+	"repeatVideo": {
+		"message": "Repeat video is enabled. Click to enable repeat playlist."
 	},
-	"repeatPlaylistEnabled": {
-		"message": "Repeat Playlist is enabled. Click to disable."
+	"repeatStream": {
+		"message": "Repeat stream is enabled. Click to disable."
 	},
 	"radioEnabled": {
 		"message": "Radio is enabled. Click to disable."
@@ -117,10 +117,10 @@
 		"message": "Radio is disabled. Click to enable."
 	},
 	"shuffleEnabled": {
-		"message": "Playlist shuffling is enabled. Click to disable."
+		"message": "Shuffling is enabled. Click to disable."
 	},
 	"shuffleDisabled": {
-		"message": "Playlist shuffling is disabled. Click to enable."
+		"message": "Shuffling is disabled. Click to enable."
 	},
 	"playDisabled": {
 		"message": "Play disabled. Try adding a video to your playlist, first!"

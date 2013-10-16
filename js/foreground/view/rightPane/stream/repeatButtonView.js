@@ -16,9 +16,9 @@
             'click': 'toggleRepeat'
         },
         
-        disabledTitle: chrome.i18n.getMessage("repeatDisabled"),
-        repeatVideoEnabledTitle: chrome.i18n.getMessage("repeatVideoEnabled"),
-        repeatPlaylistEnabledTitle: chrome.i18n.getMessage("repeatPlaylistEnabled"),
+        disabledTitle: chrome.i18n.getMessage('repeatDisabled'),
+        repeatVideoTitle: chrome.i18n.getMessage('repeatVideo'),
+        repeatStreamTitle: chrome.i18n.getMessage('repeatStream'),
         
         render: function () {
             this.$el.html(this.template(_.extend(this.model.toJSON(), {
@@ -35,14 +35,14 @@
                 case RepeatButtonState.DISABLED:
                     this.$el.attr('title', this.disabledTitle);
                     break;
-                case RepeatButtonState.REPEAT_VIDEO_ENABLED:
-                    this.$el.attr('title', this.repeatVideoEnabledTitle);
+                case RepeatButtonState.REPEAT_VIDEO:
+                    this.$el.attr('title', this.repeatVideoTitle);
                     break;
-                case RepeatButtonState.REPEAT_STREAM_ENABLED:
-                    this.$el.attr('title', this.repeatPlaylistEnabledTitle);
+                case RepeatButtonState.REPEAT_STREAM:
+                    this.$el.attr('title', this.repeatStreamTitle);
                     break;
                 default:
-                    console.error("Unhandled repeatButtonState:", state);
+                    console.error('Unhandled repeatButtonState:', state);
                     break;
             }
 

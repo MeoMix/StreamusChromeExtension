@@ -355,7 +355,7 @@ define([
             var repeatButtonState = Settings.get('repeatButtonState');
 
             //  If removedSelectedItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
-            if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.REPEAT_VIDEO_ENABLED) {
+            if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
                 var selectedItem = this.findWhere({ selected: true });
                 selectedItem.trigger('change:selected', selectedItem, true);
             } else if (shuffleEnabled) {
@@ -376,7 +376,7 @@ define([
                 //  Select the next item by index. Potentially loop around to the front.
                 if (nextItemIndex === this.length) {
 
-                    if (repeatButtonState === RepeatButtonState.REPEAT_STREAM_ENABLED) {
+                    if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
                         this.at(0).set('selected', true);
 
                         //  TODO: Might be sending an erroneous trigger on delete?
@@ -424,7 +424,7 @@ define([
 
                 var repeatButtonState = Settings.get('repeatButtonState');
 
-                if (repeatButtonState === RepeatButtonState.REPEAT_VIDEO_ENABLED) {
+                if (repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
                     var selectedItem = this.findWhere({ selected: true });
                     selectedItem.trigger('change:selected', selectedItem, true);
                 } else if (Settings.get('shuffleEnabled')) {
@@ -438,7 +438,7 @@ define([
 
                     if (selectedItemIndex === 0) {
 
-                        if (repeatButtonState === RepeatButtonState.REPEAT_STREAM_ENABLED) {
+                        if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
                             this.at(this.length - 1).set('selected', true);
                         }
 

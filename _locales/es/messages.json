@@ -102,13 +102,13 @@
 		"message": "está vacía. Prueba a añadir pistas buscando arriba."
 	},
 	"repeatDisabled": {
-		"message": "Repetir está desactivado. Pulsar para activar Repetir Pista."
+		"message": "Repetir está desactivado. Pulsar para activar repetir pista."
 	},
-	"repeatVideoEnabled": {
-		"message": "Repetir Pista está desactivado. Pulsar para activar Repetir Lista."
+	"repeatVideo": {
+		"message": "Repetir pista está desactivado. Pulsar para activar repetir lista."
 	},
-	"repeatPlaylistEnabled": {
-		"message": "Repetir Lista está activado. Pulsa para desactivar."
+	"repeatStream": {
+		"message": "Repetir la cola está activado. Pulsa para desactivar."
 	},
 	"radioEnabled": {
 		"message": "La Radio está activa. Pulsa para desactivar."

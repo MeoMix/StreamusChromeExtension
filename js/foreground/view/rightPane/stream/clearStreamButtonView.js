@@ -12,7 +12,7 @@ define([
                                 
         template: _.template(ClearStreamButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage('clearStreamEnabled'),
+        enabledTitle: chrome.i18n.getMessage('clearStream'),
         disabledTitle: chrome.i18n.getMessage('clearStreamDisabled'),
 
         render: function () {

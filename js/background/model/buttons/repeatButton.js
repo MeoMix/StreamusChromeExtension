@@ -21,12 +21,12 @@ define([
 
             switch (this.get('state')) {
                 case RepeatButtonState.DISABLED:
-                    nextState = RepeatButtonState.REPEAT_VIDEO_ENABLED;
+                    nextState = RepeatButtonState.REPEAT_VIDEO;
                     break;
-                case RepeatButtonState.REPEAT_VIDEO_ENABLED:
-                    nextState = RepeatButtonState.REPEAT_STREAM_ENABLED;
+                case RepeatButtonState.REPEAT_VIDEO:
+                    nextState = RepeatButtonState.REPEAT_STREAM;
                     break;
-                case RepeatButtonState.REPEAT_STREAM_ENABLED:
+                case RepeatButtonState.REPEAT_STREAM:
                     nextState = RepeatButtonState.DISABLED;
                     break;
                 default:

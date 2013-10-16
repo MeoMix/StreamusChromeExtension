@@ -1,5 +1,5 @@
 ﻿define({
     DISABLED: 0,
-    REPEAT_VIDEO_ENABLED: 1,
-    REPEAT_STREAM_ENABLED: 2
+    REPEAT_VIDEO: 1,
+    REPEAT_STREAM: 2
 });
