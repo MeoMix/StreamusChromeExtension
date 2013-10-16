@@ -35,11 +35,7 @@
 
             this.parent = options.parent;
 
-            var self = this;
-            this.listenTo(this.model, 'destroy', function () {
-                self.parent.sly.remove(this.render().el);
-            });
-
+            this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change:selected', this.toggleSelected);
         },
 

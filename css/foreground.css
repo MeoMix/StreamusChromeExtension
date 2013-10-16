@@ -542,6 +542,10 @@ input[type="range"]::-webkit-slider-thumb {
 
 .searchBar .underline.active { background: #666 }
 
+#search {
+    box-shadow: 0 0 10px #000;
+}
+
 #search .hidden {
     display: none;
 }
@@ -761,21 +765,18 @@ input[type="range"]::-webkit-slider-thumb {
     display: block;
     left: 10px;
     overflow: hidden;
-    padding-right: 10px;
     position: absolute;
     right: 0;
     top: 84.5px;
+    padding-right: 0
 }
 
 .streamView.list:hover {
     overflow-y: scroll;
-    padding-right: 0
 }
 
 .streamView.list::-webkit-scrollbar {
     background: transparent;
-    height: 10px;
-    width: 10px;
 }
 
 .streamView.list::-webkit-scrollbar-thumb { background: #949494 }
@@ -1076,7 +1077,7 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
     right: 0;
     top: 0;
-    width: 80px;
+    width: 84px;
 }
 /* FIX TO MAKE ICONS RENDER NICELY */
 

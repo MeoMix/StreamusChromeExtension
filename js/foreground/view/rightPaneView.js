@@ -9,8 +9,9 @@ define([
     'previousButtonView',
     'nextButtonView',
     'volumeControlView',
-    'timeProgressAreaView'
-], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView) {
+    'timeProgressAreaView',
+    'streamItems'
+], function(RightPaneTemplate, StreamView, RepeatButtonView, ShuffleButtonView, RadioButtonView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, StreamItems) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -29,9 +30,12 @@ define([
         volumeControlView: null,
         timeProgressAreaView: null,
         toggleVideoDisplayButton: null,
+        activeFolder: null,
         
         events: {
-            'click button#toggleVideoDisplay': 'toggleVideoDisplay'
+            'click button#toggleVideoDisplay': 'toggleVideoDisplay',
+            'click button#saveStream': 'saveStreamAsPlaylist',
+            'click button#clearStream': 'clearStream'
         },
         
         render: function() {
@@ -65,6 +69,8 @@ define([
         initialize: function (options) {
 
             if (options.activeFolder == null) throw "RightPaneView expects to be initialized with an activeFolder";
+
+            this.activeFolder = options.activeFolder;
             
             this.streamView = new StreamView({
                 model: options.activeFolder
@@ -100,10 +106,20 @@ define([
             this.timeProgressAreaView = new TimeProgressAreaView();
 
         },
+
+        toggleVideoDisplay: function (event) {
+            $(event.currentTarget).toggleClass('enabled');
+        },
         
-         toggleVideoDisplay: function(event) {
-             $(event.currentTarget).toggleClass('enabled');
-         }
+        //  TODO: Create a prompt here which will allow the user to provide a name instead of defaulting to 'Playlist'
+        saveStreamAsPlaylist: function() {
+            this.activeFolder.addPlaylistWithVideos('Playlist', StreamItems.pluck('video'));
+        },
+        
+        //  TODO: Do I want some sort of prompt on this saying hey you're about to delete X are you sure you want to continue?
+        clearStream: function() {
+            StreamItems.clear();
+        }
 
     });
 

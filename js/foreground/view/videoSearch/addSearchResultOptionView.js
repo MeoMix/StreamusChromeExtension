@@ -8,23 +8,36 @@
     var AddSearchResultOptionView = Backbone.View.extend({
         
         className: function () {
-            return 'addItemOption ' + this.model.get('type');
+
+            var type = this.model.get('type');
+
+            var typeSpecificClass = '';
+            
+            switch (type) {
+                case AddSearchResultOptionType.STREAM:
+                    typeSpecificClass = 'stream';
+                    break;
+                case AddSearchResultOptionType.PLAYLIST:
+                    typeSpecificClass = 'playlist';
+                    break;
+                default:
+                    console.error('Unhandled type:', type);
+                    break;
+            }
+
+            return 'addItemOption ' + typeSpecificClass;
         },
 
         template: _.template(AddSearchResultOptionTemplate),
         
-        attributes: {
-        },
-        
-        events: {
-        },
-        
         itemCount: null,
+        resetStateTimeout: null,
 
         render: function () {
 
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
+                    'AddSearchResultOptionType': AddSearchResultOptionType
                 })
             ));
 
@@ -33,8 +46,6 @@
 
             return this;
         },
-        
-        resetStateTimeout: null,
         
         initialize: function() {
 

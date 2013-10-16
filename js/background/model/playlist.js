@@ -160,7 +160,7 @@ define([
                 prettyVideoTime = videoTimeInMinutes + ' minute';
             }
             else if (videoTimeInMinutes > 180) {
-                prettyVideoTime = (videoTimeInMinutes / 3) + ' hours';
+                prettyVideoTime = Math.floor(videoTimeInMinutes / 60) + ' hours';
             } else {
                 prettyVideoTime = videoTimeInMinutes + ' minutes';
             }

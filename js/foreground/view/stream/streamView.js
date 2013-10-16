@@ -89,12 +89,13 @@
             this.listenTo(StreamItems, 'add', this.addItem);
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
 
-            this.listenTo(StreamItems, 'remove empty', this.reload);
+            this.listenTo(StreamItems, 'empty', this.render);
             
             Utility.scrollChildElements(this.el, '.item-title');
         },
         
         reload: function () {
+            throw "This is disabled and shouldn't be called";
             //this.sly.reload();
         },
         
@@ -160,13 +161,6 @@
             //this.overlay.hide();
         },
         
-        clear: function () {
-            console.log("Clearing");
-            StreamItems.clear();
-            //this.slidee.empty();
-            //this.sly.reload();
-        },
-
         showContextMenu: function (event) {
 
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
@@ -191,7 +185,7 @@
                     onClick: function () {
 
                         if (!isClearStreamDisabled) {
-                            self.clear();
+                            StreamItems.clear();
                         }
                         
                     }
