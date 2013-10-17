@@ -85,7 +85,6 @@ define([
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
 
-                    var movedItemId = ui.item.data('itemid');
                     var newIndex = ui.item.index();
                     var nextIndex = newIndex + 1;
 
@@ -96,10 +95,11 @@ define([
                     if (nextItem == null) {
                         nextItem = self.$el.find('item:eq(0)');
                     }
+                    
+                    var movedPlaylistItemId = ui.item.data('playlistitemid');
+                    var nextPlaylistItemId = nextItem.data('playlistitemid');
 
-                    var nextItemId = nextItem.data('itemid');
-
-                    self.model.moveItem(movedItemId, nextItemId);
+                    self.model.moveItem(movedPlaylistItemId, nextPlaylistItemId);
                 }
             });
 
@@ -141,7 +141,7 @@ define([
 
                 var previousItemId = playlistItem.get('previousItemId');
 
-                var previousItem = this.$el.find('item[data-itemid="' + previousItemId + '"]');
+                var previousItem = this.$el.find('item[data-playlistitemid="' + previousItemId + '"]');
                 element.insertAfter(previousItem);
 
             } else {
@@ -204,8 +204,8 @@ define([
             event.preventDefault();
             ContextMenuGroups.reset();
             
-            var clickedItemId = $(event.currentTarget).data('itemid');
-            var clickedItem = this.model.get('items').get(clickedItemId);
+            var clickedPlaylistItemId = $(event.currentTarget).data('playlistitemid');
+            var clickedPlaylistItem = this.model.get('items').get(clickedPlaylistItemId);
 
             var self = this;
             ContextMenuGroups.add({
@@ -216,7 +216,7 @@ define([
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: 'http://youtu.be/' + clickedItem.get('video').get('id')
+                            text: 'http://youtu.be/' + clickedPlaylistItem.get('video').get('id')
                         });
                     }
                 }, {
@@ -226,14 +226,14 @@ define([
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + clickedItem.get('title') + '" - http://youtu.be/' + clickedItem.get('video').get('id')
+                            text: '"' + clickedPlaylistItem.get('title') + '" - http://youtu.be/' + clickedPlaylistItem.get('video').get('id')
                         });
                     }
                 }, {
                     position: 2,
                     text: chrome.i18n.getMessage("deleteVideo"),
                     onClick: function () {
-                        clickedItem.destroy();
+                        clickedPlaylistItem.destroy();
                     }
                 }, {
                     position: 3,
@@ -241,8 +241,8 @@ define([
                     onClick: function () {
                         StreamItems.add({
                             id: _.uniqueId('streamItem_'),
-                            video: clickedItem.get('video'),
-                            title: clickedItem.get('title')
+                            video: clickedPlaylistItem.get('video'),
+                            title: clickedPlaylistItem.get('title')
                         });
                     }
                 }]
@@ -275,8 +275,8 @@ define([
         addItemToStream: function (event) {
             
             //  Add item to stream on dblclick.
-            var itemId = $(event.currentTarget).data('itemid');
-            var playlistItem = this.model.getPlaylistItemById(itemId);
+            var playlistItemId = $(event.currentTarget).data('playlistitemid');
+            var playlistItem = this.model.getPlaylistItemById(playlistItemId);
 
             StreamItems.add({
                 id: _.uniqueId('streamItem_'),
@@ -288,7 +288,7 @@ define([
         
         scrollItemIntoView: function(item) {
             var itemId = item.get('id');
-            var activeItem = this.$el.find('.playlistItem[data-itemid="' + itemId + '"]');
+            var activeItem = this.$el.find('.playlistItem[data-playlistitemid="' + itemId + '"]');
 
             if (activeItem.length > 0) {
                 activeItem.scrollIntoView(true);

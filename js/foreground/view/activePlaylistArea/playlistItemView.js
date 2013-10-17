@@ -10,8 +10,7 @@
         
         attributes: function() {
             return {
-                //  TODO: Probably renamed this to playlistitemid to avoid confusion with listitem's id.
-                'data-itemid': this.model.get('id')
+                'data-playlistitemid': this.model.get('id')
             };
         },
         
