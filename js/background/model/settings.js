@@ -2,9 +2,7 @@
 var Settings = null;
 
 //  Denormalization point for the Background's selected models.
-define([
-    'repeatButtonState'
-], function (RepeatButtonState) {
+define(function () {
     'use strict';
 
     var settingsModel = Backbone.Model.extend({
@@ -14,9 +12,6 @@ define([
                 localDebug: true,
                 serverURL: '',
                 activeFolderId: getItem('activeFolderId') || null,
-                radioEnabled: getItem('radioEnabled') || false,
-                repeatButtonState: getItem('repeatButtonState') || RepeatButtonState.DISABLED,
-                shuffleEnabled: getItem('shuffleEnabled') || false,
                 suggestedQuality: getItem('suggestedQuality') || 'default',
                 userId: getItem('userId') || null,
 				youTubeInjectClicked: getItem('youTubeInjectClicked') || true
@@ -36,20 +31,9 @@ define([
                 localStorage.setItem('activeFolderId', JSON.stringify(activeFolderId));
             });
 
+            //  TODO: I think I need to finish implementing this?
             this.on('change:activePlaylistId', function (model, activePlaylistId) {
                 localStorage.setItem('activePlaylistId', JSON.stringify(activePlaylistId));
-            });
-
-            this.on('change:radioEnabled', function (model, radioEnabled) {
-                localStorage.setItem('radioEnabled', JSON.stringify(radioEnabled));
-            });
-            
-            this.on('change:repeatButtonState', function (model, repeatButtonState) {
-                localStorage.setItem('repeatButtonState', JSON.stringify(repeatButtonState));
-            });
-
-            this.on('change:shuffleEnabled', function (model, shuffleEnabled) {
-                localStorage.setItem('shuffleEnabled', JSON.stringify(shuffleEnabled));
             });
             
             this.on('change:suggestedQuality', function(model, suggestedQuality) {

@@ -66,7 +66,8 @@
         'previousButton': 'background/model/buttons/previousButton',
         'radioButton': 'background/model/buttons/radioButton',
         'repeatButton': 'background/model/buttons/repeatButton',
-        'shuffleButton': 'background/model/buttons/shuffleButton'
+        'shuffleButton': 'background/model/buttons/shuffleButton',
+        'videoDisplayButton': 'background/model/buttons/videoDisplayButton'
 
     }
 });

@@ -1,19 +1,18 @@
 ﻿define([
-    'text!../template/reloadPrompt.htm'
-], function (ReloadPromptTemplate) {
+    'text!../template/createPlaylistPrompt.htm'
+], function (CreatePlaylistPromptTemplate) {
     'use strict';
 
-    var ReloadPromptView = Backbone.View.extend({
+    var CreatePlaylistPromptView = Backbone.View.extend({
 
         className: 'modalOverlay reloadPrompt',
 
-        template: _.template(ReloadPromptTemplate),
+        template: _.template(CreatePlaylistPromptTemplate),
 
         panel: null,
 
         events: {
-            'click .reload': 'reload',
-            'click .wait': 'wait'
+            'click .ok': 'createPlaylist',
         },
 
         render: function () {
@@ -29,14 +28,14 @@
             return this;
         },
 
-        reload: function () {
-            chrome.runtime.reload();
-        },
-        
-        wait: function () {
+        createPlaylist: function () {
+
+            //  TODO: Create playlist with name
+
             this.$el.removeClass('visible').fadeOut();
         },
         
+
         fadeInAndShow: function () {
             var self = this;
             
@@ -47,5 +46,5 @@
         
     });
 
-    return ReloadPromptView;
+    return CreatePlaylistPromptView;
 });

@@ -2,14 +2,16 @@
 
 define([
     'streamItem',
-    'settings',
+    'shuffleButton',
+    'radioButton',
+    'repeatButton',
     'repeatButtonState',
     'youTubeDataAPI',
     'video',
     'utility',
     'player',
     'playerState'
-], function (StreamItem, Settings, RepeatButtonState, YouTubeDataAPI, Video, Utility, Player, PlayerState) {
+], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeDataAPI, Video, Utility, Player, PlayerState) {
     'use strict';
 
     var streamItemsCollection = Backbone.Collection.extend({
@@ -350,9 +352,9 @@ define([
         //  If a streamItem which was selected is removed, selectNext will have a removedSelectedItemIndex provided
         selectNext: function(removedSelectedItemIndex) {
 
-            var shuffleEnabled = Settings.get('shuffleEnabled');
-            var radioEnabled = Settings.get('radioEnabled');
-            var repeatButtonState = Settings.get('repeatButtonState');
+            var shuffleEnabled = ShuffleButton.get('enabled');
+            var radioEnabled = RadioButton.get('enabled');
+            var repeatButtonState = RepeatButton.get('state');
 
             //  If removedSelectedItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
             if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
@@ -422,12 +424,13 @@ define([
             //  If no previous item was found in the history, then just go back one item
             if (previousStreamItem == null) {
 
-                var repeatButtonState = Settings.get('repeatButtonState');
+                var shuffleEnabled = ShuffleButton.get('enabled');
+                var repeatButtonState = RepeatButton.get('state');
 
                 if (repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
                     var selectedItem = this.findWhere({ selected: true });
                     selectedItem.trigger('change:selected', selectedItem, true);
-                } else if (Settings.get('shuffleEnabled')) {
+                } else if (shuffleEnabled) {
 
                     var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
                     shuffledItems[0].set('selected', true);

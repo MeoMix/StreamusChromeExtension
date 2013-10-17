@@ -1,7 +1,8 @@
 define([
     'text!../template/saveStreamButton.htm',
-    'streamItems'
-], function (SaveStreamButtonTemplate, StreamItems) {
+    'streamItems',
+    'createPlaylistPromptView'
+], function (SaveStreamButtonTemplate, StreamItems, CreatePlaylistPromptView) {
     'use strict';
 
     var SaveStreamButtonView = Backbone.View.extend({
@@ -14,6 +15,10 @@ define([
 
         enabledTitle: chrome.i18n.getMessage("saveStream"),
         disabledTitle: chrome.i18n.getMessage("saveStreamDisabled"),
+        
+        events: {
+            'click': 'showCreatePlaylistPrompt'
+        },
 
         render: function () {
             this.$el.html(this.template());
@@ -33,6 +38,16 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
+        },
+        
+        showCreatePlaylistPrompt: function() {
+
+            var createPlaylistPromptView = new CreatePlaylistPromptView();
+            //  TODO: Instead of manually appending to body -- prompts should just do this implicitly?
+
+            $('body').append(createPlaylistPromptView.render().el);
+            createPlaylistPromptView.fadeInAndShow();
+
         }
         
     });

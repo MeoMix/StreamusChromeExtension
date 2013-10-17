@@ -3,9 +3,11 @@ var NextButton = null;
 
 define([
     'streamItems',
-    'settings',
+    'radioButton',
+    'shuffleButton',
+    'repeatButton',
     'repeatButtonState'
-], function (StreamItems, Settings, RepeatButtonState) {
+], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
 
     var nextButtonModel = Backbone.Model.extend({
@@ -17,7 +19,9 @@ define([
         initialize: function () {
             
             this.listenTo(StreamItems, 'add addMultiple remove empty change:selected', this.toggleEnabled);
-            this.listenTo(Settings, 'change:radioEnabled change:shuffleEnabled change:repeatButtonState', this.toggleEnabled);
+            this.listenTo(RadioButton, 'change:enabled', this.toggleEnabled);
+            this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);
+            this.listenTo(RepeatButton, 'change:state', this.toggleEnabled);
 
             this.toggleEnabled();
         },
@@ -27,10 +31,10 @@ define([
             var enabled = false;
             
             if (StreamItems.length > 0) {
-                
-                var radioEnabled = Settings.get('radioEnabled');
-                var shuffleEnabled = Settings.get('shuffleEnabled');
-                var repeatButtonState = Settings.get('repeatButtonState');
+
+                var radioEnabled = RadioButton.get('enabled');
+                var shuffleEnabled = ShuffleButton.get('enabled');
+                var repeatButtonState = RepeatButton.get('state');
 
                 //  You can skip with shuffle enabled if there are multiple items to shuffle between.
                 if (shuffleEnabled && StreamItems.length > 1) {

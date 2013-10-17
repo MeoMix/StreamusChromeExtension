@@ -243,5 +243,23 @@
 	},
 	"clickToUnmute": {
 		"message": "Click to unmute"
+	},
+	"videoDisplayEnabled": {
+		"message": "Video is visible. Click to hide."
+	},
+	"videoDisplayDisabled": {
+		"message": "Video is hidden. Click to show."
+	},
+	"reloadStreamus": {
+		"message": "Reload Streamus"
+	},
+	"createNewPlaylist": {
+		"message": "Create new playlist"
+	},
+	"createPlaylistPromptText": {
+		"message": "Enter a name for the playlist or use the one provided:"
+	},
+	"okButtonText": {
+		"message": "OK"
 	}
 }

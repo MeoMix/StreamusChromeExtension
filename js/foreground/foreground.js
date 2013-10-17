@@ -56,11 +56,8 @@ define([
                 
                 var reloadPromptElement = self.reloadPromptView.render().$el;
                 self.$el.append(reloadPromptElement);
-                
-                reloadPromptElement.find('.panel').fadeIn(200, function () {
-                    reloadPromptElement.addClass('visible');
-                });
-                
+                self.reloadPromptView.fadeInAndShow();
+
             }, 3000);
 
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.

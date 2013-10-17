@@ -1,22 +1,23 @@
 ﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var ShuffleButton = null;
+var VideoDisplayButton = null;
 
 define(function () {
     'use strict';
 
-    var shuffleButtonModel = Backbone.Model.extend({
+    var videoDisplayButtonModel = Backbone.Model.extend({
 
         defaults: {
             enabled: false
         },
 
+        //  TODO: Consider debouncing here, too.
         toggleEnabled: function () {
             this.set('enabled', !this.get('enabled'));
         }
 
     });
 
-    ShuffleButton = new shuffleButtonModel;
+    VideoDisplayButton = new videoDisplayButtonModel;
 
-    return ShuffleButton;
+    return VideoDisplayButton;
 });

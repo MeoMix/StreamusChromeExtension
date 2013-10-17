@@ -55,6 +55,7 @@
     <Content Include="img\streamus_icon14_0bars.png" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
+    <Content Include="js\background\model\buttons\videoDisplayButton.js" />
     <Content Include="js\background\model\buttons\playPauseButton.js" />
     <Content Include="js\background\model\buttons\previousButton.js" />
     <Content Include="js\background\model\buttons\radioButton.js" />
@@ -73,11 +74,12 @@
     <Content Include="js\foreground\model\videoSearchResult.js" />
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
-    <Content Include="js\foreground\model\reloadPrompt.js" />
     <Content Include="js\foreground\model\settings.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
+    <Content Include="js\foreground\view\createPlaylistPromptView.js" />
+    <Content Include="js\foreground\view\rightPane\videoDisplayButtonView.js" />
     <Content Include="js\foreground\view\rightPane\stream\clearStreamButtonView.js" />
     <Content Include="js\foreground\view\rightPane\stream\saveStreamButtonView.js" />
     <Content Include="js\foreground\view\rightPane\rightPaneView.js" />
@@ -213,6 +215,8 @@
     <Content Include="template\addSearchResults.htm" />
     <Content Include="template\contextMenu.htm" />
     <Content Include="template\clearStreamButton.htm" />
+    <Content Include="template\createPlaylistPrompt.htm" />
+    <Content Include="template\videoDisplayButton.htm" />
     <Content Include="template\saveStreamButton.htm" />
     <Content Include="template\dialog.htm" />
     <Content Include="template\loadingSpinner.htm" />

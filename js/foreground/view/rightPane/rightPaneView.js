@@ -7,8 +7,8 @@ define([
     'nextButtonView',
     'volumeControlView',
     'timeProgressAreaView',
-    'streamItems'
-], function(RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, StreamItems) {
+    'videoDisplayButtonView'
+], function(RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView) {
     'use strict';
 
     var RightPaneView = Backbone.View.extend({
@@ -23,12 +23,8 @@ define([
         nextButtonView: null,
         volumeControlView: null,
         timeProgressAreaView: null,
-        toggleVideoDisplayButton: null,
+        videoDisplayButtonView: null,
         activeFolder: null,
-        
-        events: {
-            'click button#toggleVideoDisplay': 'toggleVideoDisplay'
-        },
         
         render: function() {
             this.$el.html(this.template());
@@ -44,6 +40,9 @@ define([
             topBarCenterGroup.append(this.previousButtonView.render().el);
             topBarCenterGroup.append(this.playPauseButtonView.render().el);
             topBarCenterGroup.append(this.nextButtonView.render().el);
+
+            var topBarRightGroup = topBar.children('.right-group');
+            topBarRightGroup.append(this.videoDisplayButtonView.render().el);
 
             this.$el.append(this.streamView.render().el);
 
@@ -77,14 +76,16 @@ define([
                 model: chrome.extension.getBackgroundPage().NextButton
             });
 
+            console.log("Video Display Button:", chrome.extension.getBackgroundPage().VideoDisplayButton);
+
+            this.videoDisplayButtonView = new VideoDisplayButtonView({
+                model: chrome.extension.getBackgroundPage().VideoDisplayButton
+            });
+
             //  TODO: Maybe pass Player in as a model here?
             this.volumeControlView = new VolumeControlView();
             this.timeProgressAreaView = new TimeProgressAreaView();
 
-        },
-
-        toggleVideoDisplay: function (event) {
-            $(event.currentTarget).toggleClass('enabled');
         }
 
     });

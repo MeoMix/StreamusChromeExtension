@@ -79,6 +79,7 @@ require.config({
         //  View:
         'contentHeaderView': 'foreground/view/contentHeaderView',
         'contextMenuView': 'foreground/view/contextMenuView',
+        'createPlaylistPromptView': 'foreground/view/createPlaylistPromptView',
         'dialogView': 'foreground/view/dialogView',
         'headerTitleView': 'foreground/view/headerTitleView',
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
@@ -103,6 +104,7 @@ require.config({
         'previousButtonView': 'foreground/view/rightPane/previousButtonView',
         'rightPaneView': 'foreground/view/rightPane/rightPaneView',
         'timeProgressAreaView': 'foreground/view/rightPane/timeProgressAreaView',
+        'videoDisplayButtonView': 'foreground/view/rightPane/videoDisplayButtonView',
         'volumeControlView': 'foreground/view/rightPane/volumeControlView',
 
         //  View -> RightPane -> Stream:

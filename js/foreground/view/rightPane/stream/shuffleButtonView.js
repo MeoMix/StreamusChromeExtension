@@ -38,7 +38,7 @@ define([
         },
         
         toggleShuffle: function () {
-            this.model.toggleShuffle();
+            this.model.toggleEnabled();
         }
         
     });

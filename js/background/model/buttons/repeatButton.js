@@ -2,17 +2,14 @@
 var RepeatButton = null;
 
 define([
-    'settings',
     'repeatButtonState'
-], function (Settings, RepeatButtonState) {
+], function (RepeatButtonState) {
     'use strict';
 
     var repeatButtonModel = Backbone.Model.extend({
 
         defaults: {
-            //  TODO: This isn't entirely necessary anymore, but still might be nice to keep track of when a user reloads the program? Or is it expected that these reset then?
-            //  Remember the initial state across sessions by writing to/from localStorage.
-            state: Settings.get('repeatButtonState')
+            state: RepeatButtonState.DISABLED
         },
         
         toggleRepeat: function () {
@@ -35,7 +32,6 @@ define([
             }
 
             this.set('state', nextState);
-            Settings.set('repeatButtonState', nextState);
         }
 
     });
