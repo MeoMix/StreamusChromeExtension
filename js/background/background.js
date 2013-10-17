@@ -68,12 +68,18 @@ define([
             //  http://stackoverflow.com/questions/5235719/how-to-copy-text-to-clipboard-from-a-google-chrome-extension
             //  Copies text to the clipboard. Has to happen on background page due to elevated privileges.
             case 'copy':
-                var hiddenClipboardElement = $('#HiddenClipboard')[0];
-                hiddenClipboardElement.value = request.text;
+                
+                var clipboard = $('<textarea>');
+
+                clipboard.val(request.text);
+
+                $('body').append(clipboard);
 
                 //  Copy text from hidden field to clipboard.
-                hiddenClipboardElement.select();
+                clipboard.select();
                 document.execCommand('copy', false, null);
+
+                clipboard.remove();
 
                 //  Cleanup
                 sendResponse({});

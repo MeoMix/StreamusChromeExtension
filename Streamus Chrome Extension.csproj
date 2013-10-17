@@ -90,7 +90,6 @@
     <Content Include="js\foreground\view\videoSearch\videoSearchView.js" />
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
-    <Content Include="js\fullscreen\requirePaths.js" />
     <Content Include="js\inject\beatportInject.js" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
@@ -160,7 +159,6 @@
     <Content Include="js\background\model\playlistItem.js" />
     <Content Include="js\background\collection\playlistItems.js" />
     <Content Include="js\background\collection\playlists.js" />
-    <Content Include="js\background\requirePaths.js" />
     <Content Include="js\background\model\folder.js" />
     <Content Include="js\background\collection\folders.js" />
     <Content Include="js\background\model\user.js" />
@@ -186,7 +184,6 @@
     <Content Include="js\foreground\view\activeFolderArea\playlistInputView.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderView.js" />
     <Content Include="js\foreground\view\progressBarView.js" />
-    <Content Include="js\foreground\requirePaths.js" />
     <Content Include="js\foreground\model\spinnerBuilder.js" />
     <Content Include="js\foreground\view\video\videoDisplayView.js" />
     <Content Include="js\inject\streamusInject.js" />

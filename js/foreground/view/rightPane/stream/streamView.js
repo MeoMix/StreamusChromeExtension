@@ -46,7 +46,12 @@
                 }
 
                 var selectedStreamItem = this.streamItemList.find('.streamItem.selected');
-                selectedStreamItem.scrollIntoView();
+
+                //  It's important to wrap scrollIntoView with a setTimeout because if streamView's element has not been
+                //  appended to the DOM yet -- scrollIntoView will not have an effect. Letting the stack clear resolves this.
+                setTimeout(function() {
+                    selectedStreamItem.scrollIntoView(false);
+                });
             }
 
             var contextButtons = this.$el.children('.context-buttons');

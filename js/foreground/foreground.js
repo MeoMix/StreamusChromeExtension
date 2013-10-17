@@ -50,20 +50,20 @@ define([
             this.$el.append(this.loadingSpinnerView.render().el);
             this.$el.append(this.contextMenuView.render().el);
 
-            //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
+            //  If the foreground hasn't properly initialized after 3 seconds offer the ability to restart the program.
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
                 
-                var reloadPromptElement = self.reloadPromptView.render().el;
+                var reloadPromptElement = self.reloadPromptView.render().$el;
                 self.$el.append(reloadPromptElement);
                 
-                $(reloadPromptElement).find('.panel').fadeIn(200, function () {
-                    $(reloadPromptElement).addClass('visible');
+                reloadPromptElement.find('.panel').fadeIn(200, function () {
+                    reloadPromptElement.addClass('visible');
                 });
                 
             }, 3000);
 
-            //  If the user opens the foreground SUPER FAST then requireJS won't have been able to load everything in the background in time.
+            //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null || this.backgroundUser == null) {
 
                 //  TODO: Maybe just wait for a background isReady event and let the background handle this instead of polling?
@@ -95,10 +95,12 @@ define([
 
                     self.contextMenuView.show({
                         top: event.pageY,
+                        //  Show the element just slightly offset as to not break onHover effects.
                         left: event.pageX + 1
                     });
                     
                 } else {
+                    //  Clearing the groups of the context menu will cause it to become hidden.
                     ContextMenuGroups.reset();
                 }
 
@@ -106,6 +108,7 @@ define([
 
         },
         
+        //  Having the current user's information loaded from the server is critical for foreground functionality.
         waitForBackgroundUserLoaded: function () {
 
             this.listenTo(this.backgroundUser, 'change:loaded', function (model, loaded) {
@@ -129,6 +132,7 @@ define([
 
         },
         
+        //  Having the YouTube player functional is critical for foreground functionality.
         waitForBackgroundPlayerReady: function () {
 
             this.listenTo(this.backgroundPlayer, 'change:ready', function (model, ready) {
@@ -147,6 +151,7 @@ define([
             }
         },
         
+        //  Once the user's information has been retrieved and the YouTube player is loaded -- setup the rest of the foreground.
         loadBackgroundDependentContent: function () {
             this.$el.removeClass('loading');
             clearTimeout(this.showReloadPromptTimeout);
@@ -178,8 +183,6 @@ define([
             }
 
             //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
-
-
 
             return;
 
@@ -241,6 +244,7 @@ define([
 
         },
         
+        //  Slide in the VideoSearchView from the left hand side.
         showVideoSearch: function () {
 
             var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
