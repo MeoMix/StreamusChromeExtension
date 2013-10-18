@@ -5,7 +5,7 @@
 
     var ReloadPromptView = Backbone.View.extend({
 
-        className: 'modalOverlay reloadPrompt',
+        className: 'modalOverlay reloadPrompt prompt',
 
         template: _.template(ReloadPromptTemplate),
 

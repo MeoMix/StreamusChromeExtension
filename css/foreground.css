@@ -86,18 +86,29 @@ button.mute.muted{
     font-size: 1.1em;
 }
 
-.reloadPrompt .panel {
+.prompt .panel {
     position: absolute;
     left: 50%;
+    transition: top .3s;
+}
+
+.prompt.reloadPrompt .panel {
     margin-left: -250px;
     width: 500px;
     margin-top: -55px;
     height: 135px;
     top: -135px;
-    transition: top .3s;
 }
 
-.reloadPrompt.visible .panel {
+.prompt.createPlaylistPrompt .panel {
+    margin-left: -125px;
+    width: 250px;
+    margin-top: -55px;
+    height: 135px;
+    top: -135px;
+}
+
+.prompt.visible .panel {
     top: 50%;
 }
 
@@ -529,18 +540,53 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .searchBar .underline {
-    background: #ccc;
     bottom: 10px;
-    display: block;
     left: 0;
     position: absolute;
     right: 15px;
-    top: 30px;
-    transition: background-color .3s;
-    z-index: 0;
 }
 
-.searchBar .underline.active { background: #666 }
+.createPlaylistPrompt .underline {
+    position: absolute;
+    right: 58px;
+    left: 10px;
+    bottom: 10px;
+    height: 5px;
+    width: 188px;
+}
+
+.createPlaylistPrompt button.ok {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    height: 25px;
+}
+
+.invalid {
+    background-color: #ffcccc;
+}
+
+.createPlaylistPrompt input[type="text"] {
+    position: absolute;
+    bottom: 11px;
+    width: 180px;
+    left: 11px;
+    z-index: 1;
+    -webkit-appearance: none;
+    border: 0;
+    padding: 0 .2em;
+    font: bold 14px/1 sans-serif;
+    height: 24px;
+}
+
+.underline {
+    background: #ccc;
+    transition: background-color .3s;
+    z-index: 0;
+    height: 5px;
+}
+
+.underline.active { background: #666 }
 
 #search {
     box-shadow: 0 0 10px #000;

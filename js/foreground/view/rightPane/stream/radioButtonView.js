@@ -20,6 +20,7 @@
         disabledTitle: chrome.i18n.getMessage("radioDisabled"),
         
         render: function () {
+            console.log("Rendering");
             this.$el.html(this.template(this.model.toJSON()));
 
             var enabled = this.model.get('enabled');
@@ -40,6 +41,7 @@
         },
         
         toggleRadio: function () {
+            console.log("Toggling radio");
             this.model.toggleRadio();
         }
 
