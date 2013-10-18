@@ -20,6 +20,7 @@ require.config({
         
         //  For "modules" that are just jQuery or Backbone plugins that do not need to export any module value, the shim config can just be an array of dependencies:
         lazyload: ['jquery'],
+        transit: ['jquery'],
         jqueryUi: ['jquery'],
         scrollIntoView: ['jquery']
         
@@ -43,9 +44,9 @@ require.config({
         'jquery': 'thirdParty/jquery',
         'jqueryUi': 'thirdParty/jqueryUi',
         'lazyload': 'thirdParty/jquery.lazyload',
+        'transit': 'thirdParty/jquery.transit',
         'levenshtein': 'thirdParty/levenshtein',
         'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
-        'sly': 'thirdParty/sly',
         'underscore': 'thirdParty/underscore',
         'text': 'thirdParty/text',
 
@@ -136,6 +137,7 @@ require([
     'underscore',
     'backbone',
     'lazyload',
+    'transit',
     'jqueryUi',
     'scrollIntoView'
 ], function () {

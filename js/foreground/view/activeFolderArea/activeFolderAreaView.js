@@ -29,16 +29,9 @@
         },
         
         events: {
-            'click': 'destroyModel',
+            'click': 'hideIfClickOutsidePanel',
             'click .hideActiveFolderAreaButton': 'destroyModel',
-            'click h3': 'toggleActiveFolderVisibility',
-            'click .panel': 'consumePanelClick'
-        },
-        
-        //  Don't bubble panel clicks up to the overlay so can tell when overlay outside panel has been clicked.
-        consumePanelClick: function (event) {
-            event.stopPropagation();
-            return false;
+            'click h3': 'toggleActiveFolderVisibility'
         },
         
         //playlistInputView: null,
@@ -60,36 +53,65 @@
 
         },
         
-        show: function() {
-            this.$el.fadeIn(200, function () {
-                $(this).addClass("visible");
+        show: function () {
+
+            this.$el.show().transition({
+                opacity: 1
+            }, 200, function () {
+                $(this).addClass('visible');
             });
+            
         },
         
         destroyModel: function () {
             this.model.destroy();
         },
         
+        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
+        hideIfClickOutsidePanel: function(event) {
+
+            if (event.target == event.currentTarget) {
+                this.model.destroy();
+            }
+        },
+        
         hide: function() {
             var self = this;
             
-            this.$el.removeClass('visible').fadeOut(function () {
+            //  TODO: Should the fadeout time be the same as the fadein time?
+            this.$el.removeClass('visible').transition({
+                opacity: 0
+            }, 400, function () {
                 self.remove();
             });
+            
         },
 
         toggleActiveFolderVisibility: function(event) {
 
             var caretIcon = $(event.currentTarget).find('i');
-
+            //  TODO: Would be nice to read from a model and not inspect the view.
             var isExpanded = caretIcon.hasClass('icon-caret-down');
+            
+            var activeFolderViewElement = this.activeFolderView.$el;
 
             if (isExpanded) {
                 caretIcon.removeClass('icon-caret-down').addClass('icon-caret-right');
-                this.activeFolderView.$el.slideUp(200);
+
+                activeFolderViewElement.data('oldheight', activeFolderViewElement.css('height'));
+
+                activeFolderViewElement.transition({
+                    height: 0
+                }, 200, function () {
+                    $(this).hide();
+                });
+
             } else {
                 caretIcon.addClass('icon-caret-down').removeClass('icon-caret-right');
-                this.activeFolderView.$el.slideDown(200);
+
+                this.activeFolderView.$el.show().transition({
+                    height: activeFolderViewElement.data('oldheight')
+                }, 200);
             }
 
         }

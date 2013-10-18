@@ -6,6 +6,13 @@
 body {
     width: 100%;
     height: 100%;
+    -webkit-user-select: none;
+}
+
+.playlist-name,
+.playlist-details,
+#activeFolderView span.title {
+    -webkit-user-select: text;
 }
 
 #contextMenu:empty {
@@ -926,6 +933,11 @@ input[type="range"]::-webkit-slider-thumb {
 
 #addItems.visible .panel {
     right: 0
+}
+
+#activeFolderView {
+    overflow: hidden;
+    height: 26px;
 }
 
 #activeFolderArea.visible .panel { left: 0 }

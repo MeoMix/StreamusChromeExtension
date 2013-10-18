@@ -51,7 +51,7 @@ define([
             this.$el.append(this.loadingSpinnerView.render().el);
             this.$el.append(this.contextMenuView.render().el);
 
-            //  If the foreground hasn't properly initialized after 3 seconds offer the ability to restart the program.
+            //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
                 
@@ -59,7 +59,7 @@ define([
                 self.$el.append(reloadPromptElement);
                 self.reloadPromptView.fadeInAndShow();
 
-            }, 3000);
+            }, 5000);
 
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null || this.backgroundUser == null) {
