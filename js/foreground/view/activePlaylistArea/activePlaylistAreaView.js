@@ -46,14 +46,6 @@
             //this.$el.prepend(this.playlistItemInputView.render().el);
 
         },
-
-        changeModel: function (newModel) {
-            this.model = newModel;
-
-            //  TODO: Destroy and re-create the view instead of calling changeModel.
-            this.activePlaylistItemsView.changeModel(newModel);
-            //this.playlistItemInputView.changeModel(newModel);
-        },
         
         show: function() {
             this.$el.fadeIn();

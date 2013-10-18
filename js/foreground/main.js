@@ -55,6 +55,7 @@ require.config({
         //  Collection:
         'contextMenuGroups': 'foreground/collection/contextMenuGroups',
         'contextMenuItems': 'foreground/collection/contextMenuItems',
+        'folders': 'foreground/collection/folders',
         'streamItems': 'foreground/collection/streamItems',
         'videoSearchResults': 'foreground/collection/videoSearchResults',
 

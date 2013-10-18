@@ -8,8 +8,8 @@ define([
     'radioButton',
     'repeatButton',
     'shuffleButton',
-    'user'
-], function (StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton, User) {
+    'folders'
+], function (StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton, Folders) {
     'use strict';
     
     //  Receive keyboard shortcuts from users.
@@ -64,7 +64,7 @@ define([
                 
             case 'addVideoToPlaylist':
                 
-                var activeFolder = User.get('folders').getActiveFolder();
+                var activeFolder = Folders.getActiveFolder();
                 var selectedStreamItem = StreamItems.getSelectedItem();
                 activeFolder.getActivePlaylist().addItem(selectedStreamItem.get('video'));
 

@@ -83,6 +83,8 @@ define([
 
             this.on('remove', function (removedStreamItem, collection, options) {
 
+                removedStreamItem.destroy();
+
                 if (this.length === 0) {
                     this.trigger('empty');
                 }

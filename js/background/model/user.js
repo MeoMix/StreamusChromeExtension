@@ -18,7 +18,7 @@ define([
                 name: '',
                 dirty: false,
                 loaded: false,
-                folders: new Folders()
+                folders: null
             };
         },
         
@@ -27,6 +27,7 @@ define([
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
+            console.log("user is initializing");
             
             chrome.storage.sync.set({
                 'dirty': false
@@ -56,6 +57,8 @@ define([
                     'dirty': dirty
                 });
             });
+
+            console.log("Requesting");
 
             //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
             chrome.storage.sync.get(syncUserIdKey, function (data) {
@@ -107,42 +110,35 @@ define([
             this.on('childSync', function () {
                 this.set('dirty', true);
             });
+            
+            this.listenTo(Folders, 'sync', function () {
+                this.trigger('childSync');
+            });
+            
+            this.listenTo(Folders, 'change:active', function (folder, isActive) {
+                //  Keep local storage up-to-date with the active folder.
+                if (isActive) {
+                    localStorage.setItem(this.get('id') + '_activeFolderId', folder.get('id'));
+                }
+            });
         }
     });
     
     function onUserLoaded(model, shouldSetSyncStorage) {
-        
-        var folders = this.get('folders');
-
-        //  Need to convert folders array to Backbone.Collection
-        if (!(folders instanceof Backbone.Collection)) {
-            folders = new Folders(folders);
-            //  Silent because folders is just being properly set.
-            this.set('folders', folders, { silent: true });
-            
-            this.listenTo(folders, 'sync', function () {
-                this.trigger('childSync');
-            });
-        }
+        console.log("user loaded, setting folders");
+        //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
+        Folders.reset(this.get('folders'));
 
         //  Try to load active folder from localstorage
-        if (folders.length > 0) {
+        if (Folders.length > 0) {
 
             var activeFolderId = localStorage.getItem(this.get('id') + '_activeFolderId');
 
             //  Be sure to always have an active folder if there is one available.
-            var folderToSetActive = this.get('folders').get(activeFolderId) || folders.at(0);
+            var folderToSetActive = Folders.get(activeFolderId) || Folders.at(0);
             folderToSetActive.set('active', true);
 
         }
-
-        var self = this;
-        this.listenTo(folders, 'change:active', function (folder, isActive) {
-            //  Keep local storage up-to-date with the active folder.
-            if (isActive) {
-                localStorage.setItem(self.get('id') + '_activeFolderId', folder.get('id'));
-            }
-        });
 
         //  TODO: Error handling for writing to sync too much.
         //  Write to sync as little as possible because it has restricted read/write limits per hour.

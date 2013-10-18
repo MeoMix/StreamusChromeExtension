@@ -1,7 +1,7 @@
 ﻿//  Background.js is a bit of a dumping ground for code which needs a permanent housing spot.
 define([
     'player',
-    'user',
+    'folders',
     'youTubeDataAPI',
     'playerState',
     'streamItems',
@@ -15,8 +15,9 @@ define([
     'commands',
     'error',
     'iconManager',
-    'omnibox'
-], function(Player, User, YouTubeDataAPI, PlayerState, StreamItems, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, Error, IconManager, Omnibox) {
+    'omnibox',
+    'user'
+], function(Player, Folders, YouTubeDataAPI, PlayerState, StreamItems, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, Error, IconManager, Omnibox) {
     'use strict';
 
     //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?
@@ -86,18 +87,17 @@ define([
                 sendResponse({});
                 break;
             case 'getFolders':
-                var allFolders = User.get('folders');
-                sendResponse({ folders: allFolders });
+                sendResponse({ folders: Folders });
                 break;
             case 'getPlaylists':
-                var folder = User.get('folders').findWhere({ id: request.folderId });
+                var folder = Folders.get(request.folderId);
                 var playlists = folder.get('playlists');
 
                 sendResponse({ playlists: playlists });
                 break;
             case 'addVideoByIdToPlaylist':
                 //  TODO: Maybe not active folder.
-                var playlist = User.get('folders').findWhere({ active: true }).get('playlists').get(request.playlistId);
+                var playlist = Folders.getActiveFolder().get('playlists').get(request.playlistId);
 
                 YouTubeDataAPI.getVideoInformation({
                     videoId: request.videoId,
@@ -117,7 +117,7 @@ define([
 
                 break;
             case 'addPlaylistByShareData':
-                var activeFolder = User.get('folders').findWhere({ active: true });
+                var activeFolder = Folders.getActiveFolder();
 
                 activeFolder.addPlaylistByShareData(request.shareCodeShortId, request.urlFriendlyEntityTitle, function(playlist) {
 

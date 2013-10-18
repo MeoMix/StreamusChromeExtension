@@ -21,7 +21,7 @@ define([
         events: {
             'contextmenu': 'showContextMenu',
             'contextmenu li': 'showItemContextMenu',
-            'click ul li': 'selectPlaylist'
+            'click li': 'selectPlaylist'
         },
         
         attributes: {
@@ -217,8 +217,6 @@ define([
         },
         
         selectPlaylist: function (event) {
-
-            console.log("Selecting playlist");
 
             var playlistId = $(event.currentTarget).data('playlistid');
             var playlist = this.model.getPlaylistById(playlistId);

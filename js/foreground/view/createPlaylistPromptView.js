@@ -1,7 +1,8 @@
 ﻿define([
     'text!../template/createPlaylistPrompt.htm',
-    'streamItems'
-], function (CreatePlaylistPromptTemplate, StreamItems) {
+    'streamItems',
+    'folders'
+], function (CreatePlaylistPromptTemplate, StreamItems, Folders) {
     'use strict';
 
     var CreatePlaylistPromptView = Backbone.View.extend({
@@ -23,7 +24,7 @@
                 _.extend({
                     //  Mix in chrome to reference internationalize.
                     'chrome.i18n': chrome.i18n,
-                    'playlistCount': chrome.extension.getBackgroundPage().User.get('folders').getActiveFolder().get('playlists').length
+                    'playlistCount': Folders.getActiveFolder().get('playlists').length
                 })
             ));
 
@@ -44,10 +45,13 @@
             if (isValid) {
                 
                 //  TODO: I think I want a Folders collection to always be instantiated.
-                var activeFolder = chrome.extension.getBackgroundPage().User.get('folders').getActiveFolder();
+                var activeFolder = Folders.getActiveFolder();
                 activeFolder.addPlaylistWithVideos(playlistName, StreamItems.pluck('video'));
 
-                this.$el.removeClass('visible').fadeOut();
+                var self = this;
+                this.$el.removeClass('visible').fadeOut(function() {
+                    self.$el.remove();
+                });
                 
             }
 
@@ -64,6 +68,8 @@
 
         fadeInAndShow: function () {
             var self = this;
+            
+            $('body').append(this.render().el);
             
             this.panel.fadeIn(200, function () {
                 self.$el.addClass('visible');

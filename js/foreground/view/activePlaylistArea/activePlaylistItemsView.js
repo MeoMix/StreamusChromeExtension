@@ -61,12 +61,17 @@ define([
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
                 this.$el.append(items);
 
-                this.$el.find('img.lazy').lazyload({
-                    effect: 'fadeIn',
-                    container: this.$el,
-                    event: 'scroll manualShow'
+
+                var self = this;
+                setTimeout(function () {
+                    
+                    self.$el.find('img.lazy').lazyload({
+                        container: self.$el,
+                        event: 'scroll manualShow'
+                    });
+                    
                 });
-                
+
             }
 
             return this;
@@ -103,30 +108,17 @@ define([
                 }
             });
 
-            this.startListeningToItems(this.model.get('items'));
+            this.listenTo(this.model.get('items'), 'add', this.addItem);
+            this.listenTo(this.model.get('items'), 'empty', this.render);
+            this.listenTo(this.model.get('items'), 'remove', function () {
+                //  Trigger a manual show because an item could slide into view and need to load it.
+                console.log("Triggering manual show");
+                this.$el.trigger('manualShow');
+            });
 
             Utility.scrollChildElements(this.el, 'span.playlistItemTitle');
         },
-        
-        changeModel: function(newModel) {
-          
-            this.stopListening(this.model.get('items'));
 
-            this.model = newModel;
-            this.startListeningToItems(newModel.get('items'));
-
-            this.render();
-        },
-
-        startListeningToItems: function (playlistItems) {
-            this.listenTo(playlistItems, 'add', this.addItem);
-            this.listenTo(playlistItems, 'empty', this.render);
-            this.listenTo(playlistItems, 'remove', function () {
-                //  Trigger a manual show because an item could slide into view and need to load it.
-                this.$el.trigger('manualShow');
-            });
-        },
-        
         addItem: function (playlistItem) {
 
             var playlistItemView = new PlaylistItemView({
@@ -151,14 +143,17 @@ define([
 
                 element.appendTo(this.$el);
             }
-            
+
+            var self = this;
+
             element.find('img.lazy').lazyload({
                 effect: 'fadeIn',
-                container: this.$el,
+                container: self.$el,
                 event: 'scroll manualShow'
             });
-
-            this.scrollItemIntoView(playlistItem);
+                
+            self.scrollItemIntoView(playlistItem);
+            
         },
         
         showContextMenu: function (event) {

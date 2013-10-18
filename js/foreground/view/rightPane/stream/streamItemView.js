@@ -3,8 +3,9 @@
     'utility',
     'streamItems',
     'text!../template/streamItem.htm',
-    'playPauseButton'
-], function (ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton) {
+    'playPauseButton',
+    'folders'
+], function (ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton, Folders) {
     'use strict';
 
     var StreamItemView = Backbone.View.extend({
@@ -27,14 +28,7 @@
             return this;
         },
 
-        initialize: function (options) {
-            if (options.parent === undefined) {
-                console.trace();
-                throw "StreamItemView should have a parent.";
-            }
-
-            this.parent = options.parent;
-
+        initialize: function () {
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change:selected', this.toggleSelected);
         },
@@ -71,7 +65,7 @@
                         position: 0,
                         text: chrome.i18n.getMessage("addToPlaylist"),
                         onClick: function () {
-                            self.parent.model.getActivePlaylist().addItem(self.model.get('video'));
+                            Folders.getActivePlaylist().addItem(self.model.get('video'));
                         }
                     }, {
                         position: 1,
@@ -99,7 +93,8 @@
                         position: 3,
                         text: chrome.i18n.getMessage("delete"),
                         onClick: function () {
-                            self.model.destroy();
+                            console.log("Removing model");
+                            StreamItems.remove(self.model);
                         }
                     }, {
                         position: 4,

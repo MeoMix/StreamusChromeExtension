@@ -7,9 +7,10 @@
     'radioButtonView',
     'saveStreamButtonView',
     'clearStreamButtonView',
+    'createPlaylistPromptView',
     'contextMenuGroups',
     'utility'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, CreatePlaylistPromptView, ContextMenuGroups, Utility) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -28,7 +29,6 @@
         
         events: {
             'contextmenu .list': 'showContextMenu',
-            'click .save': 'saveStream',
             'click .clear': 'clearStream'
         },
         
@@ -57,6 +57,7 @@
             var contextButtons = this.$el.children('.context-buttons');
 
             var rightGroupContextButtons = contextButtons.children('.right-group');
+
             rightGroupContextButtons.append(this.saveStreamButtonView.render().el);
             rightGroupContextButtons.append(this.clearStreamButtonView.render().el);
 
@@ -77,6 +78,11 @@
 
             this.listenTo(StreamItems, 'empty', this.render);
             
+            this.listenTo(StreamItems, 'remove', function () {
+                //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
+                this.streamItemList.trigger('scroll');
+            });
+            
             //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
             this.radioButtonView = new RadioButtonView({
                 model: chrome.extension.getBackgroundPage().RadioButton
@@ -96,31 +102,22 @@
             Utility.scrollChildElements(this.el, '.item-title');
         },
         
-        addItem: function (streamItem) {
+        addItem: function (streamItem, loadImagesInstantly) {
 
             var streamItemView = new StreamItemView({
-                model: streamItem,
-                parent: this
+                model: streamItem
             });
 
             var element = streamItemView.render().el;
-            this.streamItemList.append(element);
-
-            $(element).find('img.lazy').lazyload({
-                effect: 'fadeIn',
-                container: this.streamItemList
-            });
-          
+            this.addElementsToStream(element, loadImagesInstantly);
         },
         
-        addItems: function (streamItems) {
+        addItems: function (streamItems, loadImagesInstantly) {
 
-            var self = this;
             var streamItemViews = _.map(streamItems, function(streamItem) {
 
                 return new StreamItemView({
-                    model: streamItem,
-                    parent: self
+                    model: streamItem
                 });
 
             });
@@ -129,13 +126,24 @@
                 return streamItemView.render().el;
             });
 
-            this.streamItemList.append(elements);
+            this.addElementsToStream(elements, loadImagesInstantly);
             
-            $(elements).find('img.lazy').lazyload({
-                effect: 'fadeIn',
-                container: this.streamItemList
-            });
+        },
+        
+        addElementsToStream: function (elements, loadImagesInstantly) {
+            
+            this.streamItemList.append(elements);
 
+            //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
+            setTimeout(function () {
+
+                $(elements).find('img.lazy').lazyload({
+                    effect: loadImagesInstantly ? undefined : 'fadeIn',
+                    container: this.streamItemList
+                });
+
+            });
+            
         },
         
         showContextMenu: function (event) {
@@ -171,12 +179,8 @@
         },
         
         saveStream: function () {
-            
-            //  TODO: Prompt user with dialog to provide playlist name instead of defaulting to the word 'Playlist'
-            if (StreamItems.length > 0) {
-                this.model.addPlaylistWithVideos('Playlist', StreamItems.pluck('video'));
-            }
-            
+            var createPlaylistPromptView = new CreatePlaylistPromptView();
+            createPlaylistPromptView.fadeInAndShow();
         },
         
         clearStream: function() {

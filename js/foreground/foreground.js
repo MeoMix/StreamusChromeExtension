@@ -15,8 +15,9 @@ define([
     'videoSearchResults',
     'contextMenuView',
     'contextMenuGroups',
-    'rightPaneView'
-], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView) {
+    'rightPaneView',
+    'folders'
+], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -155,29 +156,24 @@ define([
             this.reloadPromptView.remove();
             this.loadingSpinnerView.remove();
 
-            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+            var activeFolder = Folders.getActiveFolder();
 
             this.rightPaneView = new RightPaneView({
                 activeFolder: activeFolder
             });
             this.$el.append(this.rightPaneView.render().el);
 
-            //  TODO: Instead of calling changeModel I should be removing/recreating my views I think.
-            var activePlaylistArea = new ActivePlaylistArea({
-                playlist: activeFolder.getActivePlaylist()
+            this.showActivePlaylistArea();
+
+            //  TODO: if activeFolder changes I think I'll need to unbind and rebind
+            var playlists = activeFolder.get('playlists');
+            this.listenTo(playlists, 'change:active', function (playlist, isActive) {
+
+                if (isActive) {
+                    this.showActivePlaylistArea();
+                }
+
             });
-
-            if (this.activePlaylistAreaView === null) {
-
-                this.activePlaylistAreaView = new ActivePlaylistAreaView({
-                    model: activePlaylistArea
-                });
-
-                this.$el.append(this.activePlaylistAreaView.render().el);
-
-            } else {
-                this.activePlaylistAreaView.changeModel(activePlaylistArea);
-            }
 
             //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
 
@@ -189,8 +185,6 @@ define([
             }
             this.videoDisplayView = new VideoDisplayView;
 
-            var folders = this.backgroundUser.get('folders');
-
             this.listenTo(folders, 'change:active', function (folder, isActive) {
 
                 //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
@@ -201,27 +195,33 @@ define([
 
             });
 
-            //  TODO: if activeFolder changes I think I'll need to unbind and rebind
-            var playlists = folders.getActiveFolder().get('playlists');
-            this.listenTo(playlists, 'change:active', function (playlist, isActive) {
+        },
+        
+        //  Cleans up any active playlist view and then renders a fresh view.
+        showActivePlaylistArea: function () {
+            
+            var activeFolder = Folders.getActiveFolder();
 
-                //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
-                if (isActive) {
-                    
-                    var activePlaylistArea = new ActivePlaylistArea({
-                        playlist: activeFolder.getActivePlaylist()
-                    });
+            if (this.activePlaylistAreaView !== null) {
+                this.activePlaylistAreaView.remove();
+            }
 
-                    this.activePlaylistAreaView.changeModel(playlist);
-                }
-
+            var activePlaylistArea = new ActivePlaylistArea({
+                playlist: activeFolder.getActivePlaylist()
             });
+
+            this.activePlaylistAreaView = new ActivePlaylistAreaView({
+                model: activePlaylistArea
+            });
+
+            this.$el.append(this.activePlaylistAreaView.render().el);
+            
         },
         
         //  Slides in the ActiveFolderAreaView from the left side.
         showActiveFolderArea: function () {
 
-            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+            var activeFolder = Folders.getActiveFolder();
 
             var activeFolderArea = new ActiveFolderArea({
                 folder: activeFolder
@@ -244,7 +244,7 @@ define([
         //  Slide in the VideoSearchView from the left hand side.
         showVideoSearch: function () {
 
-            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+            var activeFolder = Folders.getActiveFolder();
 
             var videoSearch = new VideoSearch({
                 relatedPlaylist: activeFolder.getActivePlaylist()
@@ -300,7 +300,7 @@ define([
         //  Slides in the AddSearchResults window from the RHS of the foreground.
         showAddSearchResults: function () {
 
-            var activeFolder = this.backgroundUser.get('folders').getActiveFolder();
+            var activeFolder = Folders.getActiveFolder();
 
             this.addSearchResults = new AddSearchResults({
                 folder: activeFolder

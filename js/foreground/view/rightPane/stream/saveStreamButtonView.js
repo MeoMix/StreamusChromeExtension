@@ -41,13 +41,8 @@ define([
         },
         
         showCreatePlaylistPrompt: function() {
-
             var createPlaylistPromptView = new CreatePlaylistPromptView();
-            //  TODO: Instead of manually appending to body -- prompts should just do this implicitly?
-
-            $('body').append(createPlaylistPromptView.render().el);
             createPlaylistPromptView.fadeInAndShow();
-
         }
         
     });
