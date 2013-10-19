@@ -30,7 +30,7 @@
         
         events: {
             'click': 'hideIfClickOutsidePanel',
-            'click .hideActiveFolderAreaButton': 'destroyModel',
+            'click .hide': 'destroyModel',
             'click h3': 'toggleActiveFolderVisibility'
         },
         

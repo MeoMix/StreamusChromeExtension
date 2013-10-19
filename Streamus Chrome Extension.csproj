@@ -74,6 +74,7 @@
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\settings.js" />
+    <Content Include="js\foreground\view\genericPromptView.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
@@ -93,6 +94,7 @@
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
+    <Content Include="js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="js\thirdParty\jquery.transit.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
     <Content Include="js\thirdParty\text.js" />

@@ -1,11 +1,12 @@
 ﻿define([
     'text!../template/createPlaylistPrompt.htm',
     'streamItems',
-    'folders'
-], function (CreatePlaylistPromptTemplate, StreamItems, Folders) {
+    'folders',
+    'genericPromptView'
+], function (CreatePlaylistPromptTemplate, StreamItems, Folders, GenericPromptView) {
     'use strict';
 
-    var CreatePlaylistPromptView = Backbone.View.extend({
+    var CreatePlaylistPromptView = GenericPromptView.extend({
 
         className: 'modalOverlay createPlaylistPrompt prompt',
 
@@ -15,6 +16,7 @@
         playlistNameInput: null,
 
         events: {
+            'click': 'hideIfClickOutsidePanel',
             'click .ok': 'validateAndCreatePlaylist',
             'keydown input[type="text"]': 'doOkOnEnter'
         },
@@ -59,29 +61,6 @@
                 this.validateAndCreatePlaylist();
             }
             
-        },
-        
-        fadeOutAndHide: function () {
-            var self = this;
-
-            this.$el.removeClass('visible').transition({
-                opacity: 0
-            }, 400, function () {
-                self.remove();
-            });
-        },
-
-        fadeInAndShow: function () {
-            var self = this;
-            
-            $('body').append(this.render().el);
-            
-            this.panel.show().transition({
-                opacity: 1
-            }, 200, function () {
-                self.$el.addClass('visible');
-            });
-
         }
         
     });

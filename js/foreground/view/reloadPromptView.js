@@ -1,9 +1,10 @@
 ﻿define([
-    'text!../template/reloadPrompt.htm'
-], function (ReloadPromptTemplate) {
+    'text!../template/reloadPrompt.htm',
+    'genericPromptView'
+], function (ReloadPromptTemplate, GenericPromptView) {
     'use strict';
 
-    var ReloadPromptView = Backbone.View.extend({
+    var ReloadPromptView = GenericPromptView.extend({
 
         className: 'modalOverlay reloadPrompt prompt',
 
@@ -13,7 +14,7 @@
 
         events: {
             'click .reload': 'reload',
-            'click .wait': 'wait'
+            'click .wait': 'fadeOutAndHide'
         },
 
         render: function () {
@@ -31,36 +32,7 @@
 
         reload: function () {
             chrome.runtime.reload();
-        },
-        
-        wait: function () {
-
-            this.fadeOutAndHide();
-        },
-        
-        fadeOutAndHide: function() {
-            var self = this;
-
-            this.$el.removeClass('visible').transition({
-                opacity: 0
-            }, 400, function () {
-                self.remove();
-            });
-        },
-
-        fadeInAndShow: function () {
-            var self = this;
-            
-            $('body').append(this.render().el);
-
-            this.panel.show().transition({
-                opacity: 1
-            }, 200, function () {
-                self.$el.addClass('visible');
-            });
-
         }
-        
     });
 
     return ReloadPromptView;

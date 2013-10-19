@@ -53,7 +53,7 @@ define([
             this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
 
             var self = this;
-            this.$el.hover(function () {
+            this.$el.hoverIntent(function () {
 
                 $(this).transition({ height: 152 }, 200);
                 self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
