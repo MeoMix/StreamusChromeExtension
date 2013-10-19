@@ -14,7 +14,8 @@
 
         events: {
             'click .reload': 'reload',
-            'click .wait': 'fadeOutAndHide'
+            'click .wait': 'fadeOutAndHide',
+            'click .remove': 'fadeOutAndHide'
         },
 
         render: function () {

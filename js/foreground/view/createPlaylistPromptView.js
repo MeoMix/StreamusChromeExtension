@@ -18,10 +18,12 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click .ok': 'validateAndCreatePlaylist',
-            'keydown input[type="text"]': 'doOkOnEnter'
+            'keydown input[type="text"]': 'doOkOnEnter',
+            'click .remove': 'fadeOutAndHide'
         },
 
         render: function () {
+
             this.$el.html(this.template(
                 _.extend({
                     //  Mix in chrome to reference internationalize.

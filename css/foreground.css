@@ -112,6 +112,12 @@ button.mute.muted{
     width: 250px;
 }
 
+.prompt button.remove {
+    position: absolute;
+    top: 0;
+    right: 0;
+} 
+
 .prompt.visible .panel {
     top: 50%;
 }
@@ -135,7 +141,7 @@ button.wait {
     right: 10px;
 }
 
-/*Loading Spinner*/
+/* Loading Spinner */
 /* Loading animation container */
 .loadingSpinner {
     position: absolute;

@@ -1,8 +1,9 @@
 ﻿define([
     'activeFolderView',
     'text!../template/activeFolderArea.htm',
-    'settingsPromptView'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView) {
+    'settingsPromptView',
+    'createPlaylistPromptView'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -33,7 +34,8 @@
             'click': 'hideIfClickOutsidePanel',
             'click .hide': 'destroyModel',
             'click h3': 'toggleActiveFolderVisibility',
-            'click .settings': 'showSettingsPrompt'
+            'click .settings': 'showSettingsPrompt',
+            'click .add': 'showCreatePlaylistPrompt'
         },
         
         //playlistInputView: null,
@@ -125,6 +127,13 @@
             
             var settingsPromptView = new SettingsPromptView();
             settingsPromptView.fadeInAndShow();
+
+        },
+        
+        showCreatePlaylistPrompt: function() {
+
+            var createPlaylistPromptView = new CreatePlaylistPromptView();
+            createPlaylistPromptView.fadeInAndShow();
 
         }
 

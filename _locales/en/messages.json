@@ -264,8 +264,8 @@
 	"okButtonText": {
 		"message": "OK"
 	},
-	"newPlaylist": {
-		"message": "New playlist"
+	"playlist": {
+		"message": "Playlist"
 	},
 	"settings": {
 		"message": "Settings"

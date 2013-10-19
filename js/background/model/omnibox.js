@@ -65,11 +65,18 @@ define([
             });
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
+
                 //  Find the cached video data by url
                 var pickedVideo = self.get('suggestedVideos').find(function (suggestedVideo) {
                     var url = 'http://youtu.be/' + suggestedVideo.get('id');
                     return text === url;
                 });
+                
+                //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
+                //  take the best suggestion related to their text.
+                if (pickedVideo === undefined) {
+                    pickedVideo = self.get('suggestedVideos').at(0);
+                }
 
                 StreamItems.addAndPlay({
                     id: _.uniqueId('streamItem_'),
