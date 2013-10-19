@@ -15,10 +15,6 @@ define([
 
         enabledTitle: chrome.i18n.getMessage("saveStream"),
         disabledTitle: chrome.i18n.getMessage("saveStreamDisabled"),
-        
-        events: {
-            'click': 'showCreatePlaylistPrompt'
-        },
 
         render: function () {
             this.$el.html(this.template());
@@ -38,11 +34,6 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
-        },
-        
-        showCreatePlaylistPrompt: function() {
-            var createPlaylistPromptView = new CreatePlaylistPromptView();
-            createPlaylistPromptView.fadeInAndShow();
         }
         
     });

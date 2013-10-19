@@ -63,8 +63,11 @@
         },
         
         showAndFocus: function() {
-            this.$el.fadeIn();
-            
+
+            this.$el.show().transition({
+                opacity: 1
+            });
+
             var searchInput = $('.searchBar input');
             searchInput.focus();
         },
@@ -76,9 +79,12 @@
         hide: function() {
             var self = this;
             
-            this.$el.fadeOut(function() {
+            this.$el.transition({
+                opacity: 0
+            }, function () {
                 self.remove();
             });
+
         },
         
         getSearchQuery: function () {

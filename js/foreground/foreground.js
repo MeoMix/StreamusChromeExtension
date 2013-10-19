@@ -55,8 +55,6 @@ define([
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
                 
-                var reloadPromptElement = self.reloadPromptView.render().$el;
-                self.$el.append(reloadPromptElement);
                 self.reloadPromptView.fadeInAndShow();
 
             }, 5000);

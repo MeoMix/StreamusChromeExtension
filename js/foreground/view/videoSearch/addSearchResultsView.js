@@ -86,9 +86,13 @@
         },
         
         show: function () {
-            this.$el.fadeIn(200, function () {
-                $(this).addClass("visible");
+
+            this.$el.show().transition({
+                opacity: 1
+            }, 200, function () {
+                $(this).addClass('visible');
             });
+
         },
         
         destroyModel: function () {
@@ -98,9 +102,12 @@
         hide: function () {
             var self = this;
 
-            this.$el.removeClass('visible').fadeOut(function () {
+            this.$el.removeClass('visible').transition({
+                opacity: 0
+            }, 400, function () {
                 self.remove();
             });
+
         }
 
     });

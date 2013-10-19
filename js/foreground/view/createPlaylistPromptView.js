@@ -44,15 +44,10 @@
 
             if (isValid) {
                 
-                //  TODO: I think I want a Folders collection to always be instantiated.
                 var activeFolder = Folders.getActiveFolder();
                 activeFolder.addPlaylistWithVideos(playlistName, StreamItems.pluck('video'));
 
-                var self = this;
-                this.$el.removeClass('visible').fadeOut(function() {
-                    self.$el.remove();
-                });
-                
+                this.fadeOutAndHide();
             }
 
         },
@@ -65,15 +60,28 @@
             }
             
         },
+        
+        fadeOutAndHide: function () {
+            var self = this;
+
+            this.$el.removeClass('visible').transition({
+                opacity: 0
+            }, 400, function () {
+                self.remove();
+            });
+        },
 
         fadeInAndShow: function () {
             var self = this;
             
             $('body').append(this.render().el);
             
-            this.panel.fadeIn(200, function () {
+            this.panel.show().transition({
+                opacity: 1
+            }, 200, function () {
                 self.$el.addClass('visible');
             });
+
         }
         
     });

@@ -48,11 +48,21 @@
         },
         
         show: function() {
-            this.$el.fadeIn();
+
+            this.$el.show().transition({
+                opacity: 1
+            });
+
         },
         
-        hide: function() {
-            this.$el.fadeOut();
+        hide: function () {
+            
+            this.$el.transition({
+                opacity: 0
+            }, function () {
+                $(this).hide();
+            });
+
         }
 
     });

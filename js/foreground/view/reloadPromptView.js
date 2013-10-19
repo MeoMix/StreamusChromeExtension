@@ -34,15 +34,31 @@
         },
         
         wait: function () {
-            this.$el.removeClass('visible').fadeOut();
+
+            this.fadeOutAndHide();
         },
         
+        fadeOutAndHide: function() {
+            var self = this;
+
+            this.$el.removeClass('visible').transition({
+                opacity: 0
+            }, 400, function () {
+                self.remove();
+            });
+        },
+
         fadeInAndShow: function () {
             var self = this;
             
-            this.panel.fadeIn(200, function () {
+            $('body').append(this.render().el);
+
+            this.panel.show().transition({
+                opacity: 1
+            }, 200, function () {
                 self.$el.addClass('visible');
             });
+
         }
         
     });

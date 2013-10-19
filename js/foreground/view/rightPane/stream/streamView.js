@@ -29,7 +29,8 @@
         
         events: {
             'contextmenu .list': 'showContextMenu',
-            'click .clear': 'clearStream'
+            'click .clear': 'clearStream',
+            'click .save': 'saveStream'
         },
         
         render: function () {
@@ -169,7 +170,7 @@
                     onClick: this.clearStream
                 }, {
                     position: 1,
-                    text: chrome.i18n.getMessage("saveStreamAsPlaylist"),
+                    text: chrome.i18n.getMessage("saveAsPlaylist"),
                     title: isSaveStreamDisabled ? chrome.i18n.getMessage('saveStreamDisabled') : chrome.i18n.getMessage('saveStream'),
                     disabled: isSaveStreamDisabled,
                     onClick: this.saveStream
@@ -179,12 +180,17 @@
         },
         
         saveStream: function () {
-            var createPlaylistPromptView = new CreatePlaylistPromptView();
-            createPlaylistPromptView.fadeInAndShow();
+
+            if (StreamItems.length > 0) {
+
+                var createPlaylistPromptView = new CreatePlaylistPromptView();
+                createPlaylistPromptView.fadeInAndShow();
+                
+            }
         },
         
         clearStream: function() {
-            
+            console.log("Clearing stream");
             if (StreamItems.length > 0) {
                 StreamItems.clear();
             }
