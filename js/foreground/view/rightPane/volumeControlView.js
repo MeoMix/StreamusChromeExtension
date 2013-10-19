@@ -18,6 +18,7 @@ define([
             'mousewheel': 'scrollVolume'
         },
         
+        volumeSlider: null,
         progress: null,
         volumeRange: null,
         muteButton: null,
@@ -36,9 +37,10 @@ define([
 
             //  Store references to child elements after rendering for ease of use.
             //  Progress is the shading filler for the volumeRange's value.
-            this.progress = this.$el.find('.volume-slider .progress');
-            this.volumeRange = this.$el.find('.volume-slider input.volumeRange');
-            this.muteButton = this.$el.find('button.mute');
+            this.volumeSlider = this.$el.children('.volume-slider');
+            this.progress = this.volumeSlider.children('.progress');
+            this.volumeRange = this.volumeSlider.children('input.volumeRange');
+            this.muteButton = this.$el.children('button.mute');
             
             var volumeIcon = this.getVolumeIcon(volume);
             this.muteButton.html(volumeIcon);
@@ -49,11 +51,23 @@ define([
         initialize: function () {
             this.listenTo(Player, 'change:muted', this.render);
             this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
+
+            var self = this;
+            this.$el.hover(function () {
+
+                $(this).transition({ height: 152 }, 200);
+                self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
+                
+            }, function () {
+
+                $(this).transition({ height: 36 }, 200);
+                self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
+            });
+
         },
         
         setVolume: function () {
             var volume = parseInt(this.volumeRange.val());
-            console.log("VOLUME:", volume);
             Player.set('volume', volume);
         },
         

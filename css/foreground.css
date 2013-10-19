@@ -676,53 +676,75 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .right-pane .top-bar .volumeControl {
-    background: #f2f2f2;
     bottom: 0;
     display: block;
     left: 0;
     overflow: hidden;
     position: absolute;
     top: 0;
-    transition: height .3s ease-out;
-    height: 40px;
-    z-index: 2;
+    height: 36px;
+    z-index: 3;
+    width: 42px;
+    background-color: #f2f2f2;
 }
-
-.right-pane .top-bar .volumeControl:hover { height: 230px }
 
 .right-pane .top-bar .volume-slider {
-    background: #dadada;
-    display: block;
-    width: 1px;
-    left: 20px;
+    background: #fafafa;
+    border: 1px solid #ccc;
+    width: 40px;
+    height: 80px;
     position: absolute;
-    top: 50px;
-    height: 170px;
+    top: 44px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    opacity: 0;
+    margin-top: -20px;
 }
 
-.right-pane .top-bar .volume-slider .progress {
-    background: #797979;
-    bottom: 0;
+.right-pane .top-bar .volume-slider:before {
     display: block;
-    left: 0;
+    content: ' ';
+    width: 10px;
+    height: 10px;
+    background: #fafafa;
     position: absolute;
-    top: 0;
-    z-index: 1;
-    width:1px;
+    top: -6px;
+    left: 50%;
+    margin-left: -5px;
+    -webkit-transform: rotate(45deg);
+    border-top: 1px solid #ccc;
+    border-left: 1px solid #ccc;
 }
 
 .right-pane .top-bar .volume-slider input {
-    bottom: 0;
-    display: block;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 170px;
-    z-index: 2;
+    -webkit-appearance: none;
+    width: 80px;
+    height: 2px;
     -webkit-transform: rotate(90deg);
     -webkit-transform-origin: 0 0;
-    height: 0.5px;
+    background: rgba(0,0,0,.1);
+    position: absolute;
+    top: 10px;
+    left: 21px;
+}
+.right-pane .top-bar .volume-slider input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    -webkit-box-shadow: 0 0 5px #c5c5c5;
+    background: #777;
+    border-radius: 100%;
+    cursor: pointer;
+    height: 10px;
+    width: 10px
+}
+
+.right-pane .top-bar .volume-slider input:focus {
+    outline: none
+}
+
+.right-pane .top-bar .volume-slider .progress {
+    margin-left: 19px;
+    width: 2px;
+    background: #777;
 }
 
 .right-pane .top-bar .center-group {
