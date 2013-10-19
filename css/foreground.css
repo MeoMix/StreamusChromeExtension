@@ -97,26 +97,29 @@ button.mute.muted{
     position: absolute;
     left: 50%;
     transition: top .3s;
-}
-
-.prompt.reloadPrompt .panel {
-    margin-left: -250px;
+    
+    /* Default Panel Size */
     width: 500px;
+    margin-left: -250px;
     margin-top: -55px;
     height: 135px;
     top: -135px;
 }
 
+.prompt.settingsPrompt .panel,
 .prompt.createPlaylistPrompt .panel {
     margin-left: -125px;
     width: 250px;
-    margin-top: -55px;
-    height: 135px;
-    top: -135px;
 }
 
 .prompt.visible .panel {
     top: 50%;
+}
+
+.prompt .bottom-right {
+    position: absolute;
+    right: 10px;
+    bottom: 10px;
 }
 
 .reloadPrompt .panel button {
@@ -959,7 +962,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #activeFolderView {
     overflow: hidden;
-    height: 26px;
+    height: auto;
 }
 
 #activeFolderArea.visible .panel { left: 0 }
@@ -1049,7 +1052,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #activeFolderArea .header span img { margin-top: .6em }
 
-#activeFolderArea .header #button-settings {
+#activeFolderArea .header .settings {
     display: block;
     position: absolute;
     right: 10px;

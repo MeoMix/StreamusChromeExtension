@@ -3,7 +3,7 @@
 
     //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.
     var GenericPromptView = Backbone.View.extend({
-                
+        
         fadeOutAndHide: function () {
             var self = this;
 

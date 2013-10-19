@@ -1,8 +1,7 @@
 define([
     'text!../template/saveStreamButton.htm',
-    'streamItems',
-    'createPlaylistPromptView'
-], function (SaveStreamButtonTemplate, StreamItems, CreatePlaylistPromptView) {
+    'streamItems'
+], function (SaveStreamButtonTemplate, StreamItems) {
     'use strict';
 
     var SaveStreamButtonView = Backbone.View.extend({

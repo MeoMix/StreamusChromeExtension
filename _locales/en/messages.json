@@ -266,6 +266,15 @@
 	},
 	"newPlaylist": {
 		"message": "New playlist"
+	},
+	"settings": {
+		"message": "Settings"
+	},
+	"saveButtonText": {
+		"message": "Save"
+	},
+	"cancelButtonText": {
+		"message": "Cancel"
 	}
 	
 }

@@ -50,6 +50,7 @@
                 zIndex: 1500,
                 distance: 5,
                 refreshPositions: true,
+                scroll: false,
                 cursorAt: {
                     right: 35,
                     bottom: 40

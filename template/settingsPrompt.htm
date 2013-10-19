@@ -1,0 +1,39 @@
+﻿<div class="panel">
+    <div class="header">
+        
+        <span class="title">
+            <%- chrome.i18n.getMessage('settings') %>
+        </span>
+
+    </div>
+    <div class="body">
+        
+        <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
+            <%- chrome.i18n.getMessage('suggestedQuality') %>
+        </label>
+
+        <select id="suggestedQualitySelect" name="suggestedQualitySelect">
+            
+            <option value="highres">
+                <%- chrome.i18n.getMessage('highest') %>
+            </option>
+
+            <option value="default">
+                <%- chrome.i18n.getMessage('auto') %>
+            </option>
+
+            <option value="small">
+                <%- chrome.i18n.getMessage('lowest') %>
+            </option>
+
+        </select>
+        
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color"><%- chrome.i18n.getMessage('saveButtonText') %></button>
+            <button class="cancel button-label button-color"><%- chrome.i18n.getMessage('cancelButtonText') %></button>
+
+        </span>
+
+    </div>
+</div>

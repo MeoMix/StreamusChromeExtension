@@ -90,6 +90,7 @@ require.config({
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
+        'settingsPromptView': 'foreground/view/settingsPromptView',
 
         //  View -> ActiveFolderArea:
         'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',

@@ -1,7 +1,8 @@
 ﻿define([
     'activeFolderView',
-    'text!../template/activeFolderArea.htm'
-], function (ActiveFolderView, ActiveFolderAreaTemplate) {
+    'text!../template/activeFolderArea.htm',
+    'settingsPromptView'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -31,7 +32,8 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click .hide': 'destroyModel',
-            'click h3': 'toggleActiveFolderVisibility'
+            'click h3': 'toggleActiveFolderVisibility',
+            'click .settings': 'showSettingsPrompt'
         },
         
         //playlistInputView: null,
@@ -98,9 +100,12 @@
             if (isExpanded) {
                 caretIcon.removeClass('icon-caret-down').addClass('icon-caret-right');
 
-                activeFolderViewElement.data('oldheight', activeFolderViewElement.css('height'));
+                var currentHeight = activeFolderViewElement.height();
 
-                activeFolderViewElement.transition({
+                activeFolderViewElement.data('oldheight', currentHeight);
+
+                //  Need to set height here because transition doesn't work if height is auto through CSS.
+                activeFolderViewElement.height(currentHeight).transition({
                     height: 0
                 }, 200, function () {
                     $(this).hide();
@@ -113,6 +118,13 @@
                     height: activeFolderViewElement.data('oldheight')
                 }, 200);
             }
+
+        },
+        
+        showSettingsPrompt: function () {
+            
+            var settingsPromptView = new SettingsPromptView();
+            settingsPromptView.fadeInAndShow();
 
         }
 
