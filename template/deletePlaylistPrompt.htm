@@ -1,0 +1,26 @@
+﻿<div class="panel">
+    
+    <div class="header">
+        
+        <span class="title">
+            <%- chrome.i18n.getMessage('delete') %> <%- title %>
+        </span>
+        
+        <button class="button-icon remove">
+            <i class="icon-remove"></i>
+        </button>
+    </div>
+
+    <div class="body">
+        
+        <%- chrome.i18n.getMessage('deletePlaylistPromptText') %> <%- title %>?
+
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color"><%- chrome.i18n.getMessage('deleteButtonText') %></button>
+            <button class="cancel button-label button-color"><%- chrome.i18n.getMessage('cancelButtonText') %></button>
+
+        </span>
+    </div>
+
+</div>

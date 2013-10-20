@@ -128,19 +128,6 @@ button.mute.muted{
     bottom: 10px;
 }
 
-.reloadPrompt .panel button {
-    bottom: 10px;
-    position: absolute;
-}
-
-button.reload {
-    right: 55px;
-}
-
-button.wait {
-    right: 10px;
-}
-
 /* Loading Spinner */
 /* Loading animation container */
 .loadingSpinner {
@@ -562,6 +549,17 @@ input[type="range"]::-webkit-slider-thumb {
     right: 15px;
 }
 
+.editPlaylistPrompt .underline {
+    height: 5px;
+    width: 178px;
+    margin-top: -4px;
+    margin-left: 37px;
+}
+
+.editPlaylistPrompt .playlistSettings {
+    margin-top: 10px;
+}
+
 .createPlaylistPrompt .underline {
     position: absolute;
     right: 58px;
@@ -580,6 +578,15 @@ input[type="range"]::-webkit-slider-thumb {
 
 .invalid {
     background-color: #ffcccc;
+}
+
+.editPlaylistPrompt input[type="text"] {
+    z-index: 1;
+    -webkit-appearance: none;
+    border: 0;
+    padding: 0 .2em;
+    font: bold 14px/1 sans-serif;
+    height: 24px;
 }
 
 .createPlaylistPrompt input[type="text"] {

@@ -2,8 +2,11 @@
     'activeFolderView',
     'text!../template/activeFolderArea.htm',
     'settingsPromptView',
-    'createPlaylistPromptView'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView) {
+    'createPlaylistPromptView',
+    'editPlaylistPromptView',
+    'deletePlaylistPromptView',
+    'folders'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, Folders) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -35,7 +38,9 @@
             'click .hide': 'destroyModel',
             'click h3': 'toggleActiveFolderVisibility',
             'click .settings': 'showSettingsPrompt',
-            'click .add': 'showCreatePlaylistPrompt'
+            'click .add': 'showCreatePlaylistPrompt',
+            'click .edit': 'showEditSelectedPlaylistPrompt',
+            'click .delete': 'showDeleteSelectedPlaylistPrompt'
         },
         
         //playlistInputView: null,
@@ -130,10 +135,29 @@
 
         },
         
-        showCreatePlaylistPrompt: function() {
+        showCreatePlaylistPrompt: function () {
 
             var createPlaylistPromptView = new CreatePlaylistPromptView();
             createPlaylistPromptView.fadeInAndShow();
+
+        },
+        
+        showEditSelectedPlaylistPrompt: function () {
+
+            var editPlaylistPromptView = new EditPlaylistPromptView({
+                model: Folders.getActiveFolder().get('playlists').getActivePlaylist()
+            });
+            
+            editPlaylistPromptView.fadeInAndShow();
+
+        },
+        
+        showDeleteSelectedPlaylistPrompt: function () {
+            
+            var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                model: Folders.getActiveFolder().get('playlists').getActivePlaylist(),
+            });
+            deletePlaylistPromptView.fadeInAndShow();
 
         }
 

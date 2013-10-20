@@ -8,37 +8,26 @@
 
     var SettingsPromptView = GenericPromptView.extend({
 
-        className: 'modalOverlay settingsPrompt prompt',
+        className: GenericPromptView.prototype.className + ' settingsPrompt',
 
         template: _.template(SettingsPromptTemplate),
 
-        panel: null,
         suggestedQualitySelect: null,
 
-        events: {
-            'click': 'hideIfClickOutsidePanel',
-            'click .cancel': 'fadeOutAndHide',
-            'click .ok': 'save'
-        },
+        events: _.extend({}, GenericPromptView.prototype.events, {
+        }),
 
         render: function () {
-            this.$el.html(this.template(
-                _.extend({
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
-                })
-            ));
+            GenericPromptView.prototype.render.call(this, arguments);
 
-            this.panel = this.$el.children('.panel');
             this.suggestedQualitySelect = this.panel.find('#suggestedQualitySelect');
-            
             //  Initialize to whatever's stored in localStorage.
             this.suggestedQualitySelect.val(Settings.get('suggestedQuality'));
 
             return this;
         },
-        
-        save: function() {
+
+        doOk: function() {
          
             var suggestedQuality = this.suggestedQualitySelect.val();
 

@@ -8,43 +8,35 @@
 
     var CreatePlaylistPromptView = GenericPromptView.extend({
 
-        className: 'modalOverlay createPlaylistPrompt prompt',
+        className: GenericPromptView.prototype.className + ' createPlaylistPrompt',
 
         template: _.template(CreatePlaylistPromptTemplate),
 
-        panel: null,
-        playlistNameInput: null,
+        playlistTitleInput: null,
 
-        events: {
-            'click': 'hideIfClickOutsidePanel',
-            'click .ok': 'validateAndCreatePlaylist',
-            'keydown input[type="text"]': 'doOkOnEnter',
-            'click .remove': 'fadeOutAndHide'
-        },
+        events: _.extend({}, GenericPromptView.prototype.events, {
+            
+        }),
 
         render: function () {
 
-            this.$el.html(this.template(
-                _.extend({
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n,
-                    'playlistCount': Folders.getActiveFolder().get('playlists').length
-                })
-            ));
+            GenericPromptView.prototype.render.call(this, {
+                'playlistCount': Folders.getActiveFolder().get('playlists').length
+            }, arguments);
 
-            this.panel = this.$el.children('.panel');
-            this.playlistNameInput = this.$el.find('input[type="text"]');
+            this.playlistTitleInput = this.$el.find('input[type="text"]');
 
             return this;
         },
-
-        validateAndCreatePlaylist: function () {
-
-            var playlistName = $.trim(this.playlistNameInput.val());
+        
+        //  Validate input and, if valid, create a playlist with the given name.
+        doOk: function () {
+            
+            var playlistName = $.trim(this.playlistTitleInput.val());
 
             var isValid = playlistName !== '';
-            
-            this.playlistNameInput.toggleClass('invalid', !isValid);
+            console.log("Validate:", playlistName);
+            this.playlistTitleInput.toggleClass('invalid', !isValid);
 
             if (isValid) {
                 
@@ -52,17 +44,9 @@
                 activeFolder.addPlaylistWithVideos(playlistName, StreamItems.pluck('video'));
 
                 this.fadeOutAndHide();
+                console.log("hiding");
             }
 
-        },
-        
-        //  If the enter key is pressed while the input is focused, run validateAndCreatePlaylist
-        doOkOnEnter: function (event) {
-            
-            if (event.which === 13) {
-                this.validateAndCreatePlaylist();
-            }
-            
         }
         
     });

@@ -1,10 +1,32 @@
 ﻿<div class="panel">
+    
     <div class="header">
-        <span class="title"><%- chrome.i18n.getMessage('reloadStreamus') %></span>
+        
+        <span class="title">
+            <%- chrome.i18n.getMessage('reloadStreamus') %>
+        </span>
+
+        <button class="button-icon remove">
+            <i class="icon-remove"></i>
+        </button>
+
     </div>
+
     <div class="body">
+        
         <%- chrome.i18n.getMessage('reloadPromptText') %>
-        <button class="reload button-label button-color"><%- chrome.i18n.getMessage('reloadButtonText') %></button>
-        <button class="wait button-label button-color"><%- chrome.i18n.getMessage('waitButtonText') %></button>
+                
+        <span class="bottom-right">
+                        
+            <button class="reload button-label button-color">
+                <%- chrome.i18n.getMessage('reloadButtonText') %>
+            </button>
+
+            <button class="ok button-label button-color">
+                <%- chrome.i18n.getMessage('waitButtonText') %>
+            </button>
+
+        </span>
     </div>
+
 </div>

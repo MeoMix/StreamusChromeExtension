@@ -6,8 +6,11 @@ define([
     'dataSource',
     'streamItems',
     'playlistView',
-    'loadingSpinnerView'
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView) {
+    'loadingSpinnerView',
+    'deletePlaylistPromptView',
+    'editPlaylistPromptView',
+    'createPlaylistPromptView'
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView, DeletePlaylistPromptView, EditPlaylistPromptView, CreatePlaylistPromptView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -136,12 +139,32 @@ define([
                 }
             }
 
-            //this.emptyNotification.hide();
             this.scrollItemIntoView(playlist, true);
         },
         
-        //  TODO: Folder otpions.
         showContextMenu: function(event) {
+
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
+            event.preventDefault();
+
+            if (event.target === event.currentTarget) {
+                //  Didn't bubble up from a child -- clear groups.
+                ContextMenuGroups.reset();
+            }
+
+            ContextMenuGroups.add({
+                position: 1,
+                items: [{
+                    position: 0,
+                    text: chrome.i18n.getMessage('createPlaylist'),
+                    onClick: function() {
+
+                        var createPlaylistPromptView = new CreatePlaylistPromptView();
+                        createPlaylistPromptView.fadeInAndShow();
+
+                    }
+                }]
+            });
             
         },
         
@@ -187,7 +210,12 @@ define([
                     onClick: function () {
 
                         if (!isDeleteDisabled) {
-                            clickedPlaylist.destroy();
+                            
+                            var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                                model: clickedPlaylist
+                            });
+                            
+                            deletePlaylistPromptView.fadeInAndShow();
                         }
                     }
                 }, {
@@ -209,6 +237,18 @@ define([
 
                             StreamItems.addMultiple(streamItems);
                         }
+
+                    }
+                }, {
+                    position: 3,
+                    text: chrome.i18n.getMessage('edit'),
+                    onClick: function () {
+
+                        var editPlaylistPromptView = new EditPlaylistPromptView({
+                            model: clickedPlaylist
+                        });
+                        
+                        editPlaylistPromptView.fadeInAndShow();
 
                     }
                 }]

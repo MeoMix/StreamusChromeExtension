@@ -111,6 +111,11 @@
 
             var element = streamItemView.render().el;
             this.addElementsToStream(element, loadImagesInstantly);
+            
+            if (streamItemView.get('selected')) {
+                streamItemView.$el.scrollIntoView();
+            }
+
         },
         
         addItems: function (streamItems, loadImagesInstantly) {
@@ -128,7 +133,12 @@
             });
 
             this.addElementsToStream(elements, loadImagesInstantly);
-            
+
+            var selectedElement = _.findWhere(streamItemViews, { selected: true });
+            console.log("Selected element:", selectedElement);
+            if (selectedElement !== undefined) {
+                selectedElement.$el.scrollIntoView();
+            }
         },
         
         addElementsToStream: function (elements, loadImagesInstantly) {

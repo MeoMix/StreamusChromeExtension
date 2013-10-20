@@ -6,30 +6,13 @@
 
     var ReloadPromptView = GenericPromptView.extend({
 
-        className: 'modalOverlay reloadPrompt prompt',
+        className: GenericPromptView.prototype.className + ' reloadPrompt',
 
         template: _.template(ReloadPromptTemplate),
 
-        panel: null,
-
-        events: {
-            'click .reload': 'reload',
-            'click .wait': 'fadeOutAndHide',
-            'click .remove': 'fadeOutAndHide'
-        },
-
-        render: function () {
-            this.$el.html(this.template(
-                _.extend({
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
-                })
-            ));
-
-            this.panel = this.$el.children('.panel');
-
-            return this;
-        },
+        events: _.extend({}, GenericPromptView.prototype.events, {
+            'click .reload': 'reload'
+        }),
 
         reload: function () {
             chrome.runtime.reload();

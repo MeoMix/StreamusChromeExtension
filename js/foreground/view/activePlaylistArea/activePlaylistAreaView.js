@@ -1,7 +1,8 @@
 ﻿define([
     'activePlaylistItemsView',
-    'text!../template/activePlaylistArea.htm'
-], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate) {
+    'text!../template/activePlaylistArea.htm',
+    'streamItems'
+], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, StreamItems) {
     'use strict';
 
     var ActivePlaylistAreaView = Backbone.View.extend({
@@ -15,6 +16,10 @@
         
         attributes: {
             id: 'activePlaylistArea'
+        },
+        
+        events: {
+            'click .playAll': 'addToStreamAndPlay'
         },
         
         render: function () {
@@ -44,6 +49,31 @@
             //});
             
             //this.$el.prepend(this.playlistItemInputView.render().el);
+
+        },
+        
+        addToStreamAndPlay: function () {
+            var playlist = this.model.get('playlist');
+
+            var isFirst = true;
+
+            var streamItems = playlist.get('items').map(function (playlistItem) {
+
+                var selected = isFirst;
+                
+                if (isFirst === true) {
+                    isFirst = false;
+                }
+
+                return {
+                    id: _.uniqueId('streamItem_'),
+                    video: playlistItem.get('video'),
+                    title: playlistItem.get('title'),
+                    selected: selected
+                };
+            });
+
+            StreamItems.addMultiple(streamItems);
 
         },
         

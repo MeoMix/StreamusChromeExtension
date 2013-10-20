@@ -149,6 +149,7 @@ define([
         
         //  Once the user's information has been retrieved and the YouTube player is loaded -- setup the rest of the foreground.
         loadBackgroundDependentContent: function () {
+
             this.$el.removeClass('loading');
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();

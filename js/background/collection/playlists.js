@@ -24,6 +24,10 @@
 
             });
             
+        },
+        
+        getActivePlaylist: function() {
+            return this.findWhere({ active: true });
         }
     });
 

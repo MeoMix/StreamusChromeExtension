@@ -1,0 +1,38 @@
+﻿<div class="panel">
+    
+    <div class="header">
+        
+        <span class="title">
+            <%- chrome.i18n.getMessage('edit') %> <%- title %>
+        </span>
+        
+        <button class="button-icon remove">
+            <i class="icon-remove"></i>
+        </button>
+    </div>
+
+    <div class="body">
+        
+        <%- chrome.i18n.getMessage('editPlaylistPromptText') %>, <%- title %>, <%- chrome.i18n.getMessage('here') %>:
+        
+        <ul class="playlistSettings">
+            <li>
+                <label for="playlistTitleInput"><strong>Title:</strong></label>
+                
+                <span class="inputUnderlineWrapper">
+                     <input id="playlistTitleInput" type="text" class="submittable" value="<%- title %>">
+                    <div class="underline"></div>   
+                </span>
+
+            </li>
+        </ul>
+        
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color"><%- chrome.i18n.getMessage('saveButtonText') %></button>
+            <button class="cancel button-label button-color"><%- chrome.i18n.getMessage('cancelButtonText') %></button>
+
+        </span>
+    </div>
+
+</div>

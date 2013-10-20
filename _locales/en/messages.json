@@ -255,8 +255,8 @@
 	"reloadStreamus": {
 		"message": "Reload Streamus"
 	},
-	"createNewPlaylist": {
-		"message": "Create new playlist"
+	"createPlaylist": {
+		"message": "Create playlist"
 	},
 	"createPlaylistPromptText": {
 		"message": "Enter a name for the playlist or use the one provided:"
@@ -275,6 +275,22 @@
 	},
 	"cancelButtonText": {
 		"message": "Cancel"
+	},
+	"edit": {
+		"message": "Edit"
+	},
+	"editPlaylistPromptText": {
+		"message": "Edit properties of your playlist"
+	},
+	"here": {
+		"message": "here"
+	},
+	"delete": {
+		"message": "Delete"
+	},
+	"deletePlaylistPromptText": {
+		"message": "Are you sure you want to delete playlist"
 	}
+
 	
 }
