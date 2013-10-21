@@ -105,6 +105,7 @@ require.config({
         //  View -> ActivePlaylistArea:
         'activePlaylistAreaView': 'foreground/view/activePlaylistArea/activePlaylistAreaView',
         'activePlaylistItemsView': 'foreground/view/activePlaylistArea/activePlaylistItemsView',
+        'playAllButtonView': 'foreground/view/activePlaylistArea/playAllButtonView',
         'playlistItemInputView': 'foreground/view/activePlaylistArea/playlistItemInputView',
         'playlistItemView': 'foreground/view/activePlaylistArea/playlistItemView',
 

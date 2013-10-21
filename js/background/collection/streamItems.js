@@ -31,8 +31,6 @@ define([
                     addedStreamItem.trigger('change:selected', addedStreamItem, true);
                 }
 
-                console.log("StreamItems on add has fired", self.length);
-
                 //  If the Stream has any items in it, one should be selected.
                 if (self.length === 1) {
                     addedStreamItem.set('selected', true);
@@ -46,6 +44,23 @@ define([
 
                     addedStreamItem.set('relatedVideoInformation', relatedVideoInformation);
                 });
+
+            });
+
+            this.on('addMultiple', function(addedStreamItems) {
+
+                var selectedStreamItem = _.find(addedStreamItems, function(streamItem) {
+                    return streamItem.get('selected');
+                });
+
+                //  If a selected item is added -- manually trigger a selected event to deselect all other items.
+                if (selectedStreamItem !== undefined) {
+                    selectedStreamItem.trigger('change:selected', selectedStreamItem, true);
+                }
+                //  If no selected item was added, and no pre-existing items, ensure at least one is selected;
+                else if (self.length === addedStreamItems.length) {
+                    addedStreamItems[0].set('selected', true);
+                }
 
             });
 
@@ -187,27 +202,30 @@ define([
             });
         },
         
-        addAndPlay: function (streamItem) {
+        addAndPlay: function (streamItems) {
             
             //  Once the Player indicates its loadedVideo has changed (to the video just added to stream) 
             //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
             //  is set just before cueVideoById has finished.
             Player.once('change:loadedVideoId', function () {
+                console.log("loadedVideoId has changed");
                 setTimeout(function () {
                     Player.play();
                 });
             });
+
+            console.log("StreamItems and length:", streamItems, streamItems.length);
             
-            if (streamItem.length === 1) {
-                StreamItems.add(streamItem);
+            if (streamItems.length === 1) {
+                StreamItems.add(streamItems);
             } else {
-                StreamItems.addMultiple(streamItem);
+                StreamItems.addMultiple(streamItems);
             }
 
         },
 
         addMultiple: function(streamItems) {
-
+            console.log("Adding multiple");
             //  Handling this manually to not clog the network with getVideoInformation requests
             this.add(streamItems, { silent: true });
 

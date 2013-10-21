@@ -207,8 +207,11 @@
     "addVideosButtonText": {
 		"message": "Add videos"
 	},
-    "playAllButtonText": {
+    "playAll": {
 		"message": "Play all"
+	},
+	"playAllDisabled": {
+		"message": "Playlist is empty; nothing to play."
 	},
 	"playTopTenButtonText": {
 		"message": "Play Top 10"

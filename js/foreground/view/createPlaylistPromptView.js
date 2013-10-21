@@ -17,6 +17,8 @@
         events: _.extend({}, GenericPromptView.prototype.events, {
             
         }),
+        
+        playlistVideos: [],
 
         render: function () {
 
@@ -29,22 +31,31 @@
             return this;
         },
         
+        initialize: function (options) {
+            console.log("Options:", options);
+            this.playlistVideos = options && options.playlistVideos || [];
+        },
+        
         //  Validate input and, if valid, create a playlist with the given name.
         doOk: function () {
             
             var playlistName = $.trim(this.playlistTitleInput.val());
 
             var isValid = playlistName !== '';
-            console.log("Validate:", playlistName);
+
             this.playlistTitleInput.toggleClass('invalid', !isValid);
 
             if (isValid) {
                 
                 var activeFolder = Folders.getActiveFolder();
-                activeFolder.addPlaylistWithVideos(playlistName, StreamItems.pluck('video'));
+                
+                if (this.playlistVideos.length === 0) {
+                    activeFolder.addEmptyPlaylist(playlistName);
+                } else {
+                    activeFolder.addPlaylistWithVideos(playlistName, this.playlistVideos);
+                }
 
                 this.fadeOutAndHide();
-                console.log("hiding");
             }
 
         }

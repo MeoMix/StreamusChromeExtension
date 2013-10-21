@@ -296,6 +296,7 @@ button:active { text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3) }
     font-family: sans-serif;
 }
 
+.button-label[disabled],
 .button-icon[disabled] {
     cursor: default;
 }

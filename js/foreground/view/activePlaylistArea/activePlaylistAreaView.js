@@ -1,8 +1,9 @@
 ﻿define([
     'activePlaylistItemsView',
     'text!../template/activePlaylistArea.htm',
+    'playAllButtonView',
     'streamItems'
-], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, StreamItems) {
+], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, StreamItems) {
     'use strict';
 
     var ActivePlaylistAreaView = Backbone.View.extend({
@@ -33,21 +34,25 @@
             ));
 
             this.$el.find('.left-top-divider').after(this.activePlaylistItemsView.render().el);
+            this.$el.find('.playlist-actions').append(this.playAllButtonView.render().el);
 
             return this;
         },
 
         initialize: function () {
 
-            //  TODO: Do I have to set this in initialize or can I do it through the property?
             this.activePlaylistItemsView = new ActivePlaylistItemsView({
                 model: this.model.get('playlist')
             });
-            
+
+            this.playAllButtonView = new PlayAllButtonView({
+                model: this.model.get('playlist')
+            });
+
             //this.playlistItemInputView = new PlaylistItemInputView({
             //    model: this.model
             //});
-            
+
             //this.$el.prepend(this.playlistItemInputView.render().el);
 
         },

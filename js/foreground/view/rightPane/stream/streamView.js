@@ -198,7 +198,10 @@
 
             if (StreamItems.length > 0) {
 
-                var createPlaylistPromptView = new CreatePlaylistPromptView();
+                var createPlaylistPromptView = new CreatePlaylistPromptView({
+                    playlistVideos: StreamItems.pluck('video')
+                });
+                
                 createPlaylistPromptView.fadeInAndShow();
                 
             }

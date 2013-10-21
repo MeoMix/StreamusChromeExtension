@@ -216,6 +216,10 @@ define([
             });
 
         },
+        
+        addEmptyPlaylist: function (playlistTitle) {
+            this.addPlaylistByDataSource(playlistTitle, DataSource.USER_INPUT);
+        },
 
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
