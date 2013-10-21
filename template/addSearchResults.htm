@@ -4,9 +4,9 @@
             <!--i18n-->
             
             <% if( selectedResultsLength === 1 ) { %>
-                Add <%- selectedResultsLength %> item to:
+            Add <%- selectedResultsLength %> item to:
             <% } else { %>
-                Add <%- selectedResultsLength %> items to:
+            Add <%- selectedResultsLength %> items to:
             <% } %>
             
         </span>
@@ -14,7 +14,13 @@
             <i class="icon-arrow-right"></i>
         </button>
     </div>
-    
+
     <div class="divider"></div>
 
+    <div class="list">
+        <div class="top scroll" data-direction="up"></div>    
+        <div class="bottom scroll" data-direction="down"></div>
+    </div>  
+
 </div>
+

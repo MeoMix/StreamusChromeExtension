@@ -13,7 +13,7 @@
         template: _.template(AddSearchResultsTemplate),
         
         attributes: {
-            'id': 'addItems'
+            'id': 'addSearchResults'
         },
         
         events: {
@@ -22,6 +22,8 @@
         
         streamItemsLength: null,
         resetStateTimeout: null,
+        list: null,
+        scrollMouseMoveInterval: null,
 
         render: function () {
 
@@ -60,10 +62,26 @@
                 return playlistAddSearchResultOptionView.render().el;
             });
 
-            divider.after(playlistAddSearchResultOptionElements);
+            this.list = this.$el.find('.list');
+
+            this.list.append(playlistAddSearchResultOptionElements);
 
             this.streamItemCount = this.$el.find('.addItemOption.stream span.item-count');
             this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
+
+            var self = this;
+            this.$el.find('.scroll').droppable({
+                tolerance: 'pointer',
+                over: function (event) {
+                    self.doAutoScroll(event);
+                },
+                drop: function() {
+                    self.stopAutoScroll();
+                },
+                out: function(){
+                    self.stopAutoScroll();
+                }
+            });
 
             return this;
         },
@@ -108,6 +126,45 @@
                 self.remove();
             });
 
+        },
+        
+        doAutoScroll: function (event) {
+
+            var scrollElement = $(event.target);
+            var direction = scrollElement.data('direction');
+
+            this.list.autoscroll({
+                direction: direction,
+                step: 150,
+                scroll: true
+            });
+
+            var pageX = event.pageX;
+            var pageY = event.pageY;
+            
+            //  Keep track of pageX and pageY while the mouseMoveInterval is polling.
+            this.list.on('mousemove', function (mousemoveEvent) {
+                pageX = mousemoveEvent.pageX;
+                pageY = mousemoveEvent.pageY;
+            });
+
+            //  Causes the droppable hover to stay correctly positioned.
+            this.scrollMouseMoveInterval = setInterval(function() {
+
+                var mouseMoveEvent = $.Event('mousemove');
+                
+                mouseMoveEvent.pageX = pageX;
+                mouseMoveEvent.pageY = pageY;
+
+                $(document).trigger(mouseMoveEvent);
+            }, 100);
+
+        },
+        
+        stopAutoScroll: function () {
+            this.list.autoscroll('destroy');
+            this.list.off('mousemove');
+            clearInterval(this.scrollMouseMoveInterval);
         }
 
     });
