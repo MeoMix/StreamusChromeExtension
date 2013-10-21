@@ -74,6 +74,8 @@
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\settings.js" />
+    <Content Include="js\foreground\view\deletePlaylistPromptView.js" />
+    <Content Include="js\foreground\view\editPlaylistPromptView.js" />
     <Content Include="js\foreground\view\genericPromptView.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
@@ -84,6 +86,7 @@
     <Content Include="js\foreground\view\rightPane\stream\saveStreamButtonView.js" />
     <Content Include="js\foreground\view\rightPane\rightPaneView.js" />
     <Content Include="js\foreground\view\rightPane\timeProgressAreaView.js" />
+    <Content Include="js\foreground\view\settingsPromptView.js" />
     <Content Include="js\foreground\view\videoSearch\addSearchResultOptionView.js" />
     <Content Include="js\foreground\view\videoSearch\addSearchResultsView.js" />
     <Content Include="js\foreground\view\reloadPromptView.js" />
@@ -94,6 +97,7 @@
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
+    <Content Include="js\thirdParty\jquery.autoscroll.js" />
     <Content Include="js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="js\thirdParty\jquery.transit.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
@@ -201,7 +205,10 @@
     <Content Include="template\addSearchResults.htm" />
     <Content Include="template\contextMenu.htm" />
     <Content Include="template\clearStreamButton.htm" />
+    <Content Include="template\deletePlaylistPrompt.htm" />
+    <Content Include="template\editPlaylistPrompt.htm" />
     <Content Include="template\createPlaylistPrompt.htm" />
+    <Content Include="template\settingsPrompt.htm" />
     <Content Include="template\videoDisplayButton.htm" />
     <Content Include="template\saveStreamButton.htm" />
     <Content Include="template\dialog.htm" />
