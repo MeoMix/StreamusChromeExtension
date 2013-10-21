@@ -134,10 +134,13 @@
 
             this.addElementsToStream(elements, loadImagesInstantly);
 
-            var selectedStreamItem = _.findWhere(streamItems, { selected: true });
+            var selectedStreamItem = _.find(streamItems, function(streamItem) {
+                return streamItem.get('selected') === true;
+            });
+            
             var selectedView = _.findWhere(streamItemViews, { model: selectedStreamItem });
             
-            console.log("Selected selectedView:", selectedView);
+            console.log("Selected selectedView:", selectedView, selectedStreamItem);
             if (selectedView !== undefined) {
                 selectedView.$el.scrollIntoView();
             }

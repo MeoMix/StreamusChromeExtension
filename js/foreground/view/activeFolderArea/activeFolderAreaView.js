@@ -153,11 +153,20 @@
         },
         
         showDeleteSelectedPlaylistPrompt: function () {
+
+            var activePlaylist = Folders.getActiveFolder().get('playlists').getActivePlaylist();
             
-            var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                model: Folders.getActiveFolder().get('playlists').getActivePlaylist(),
-            });
-            deletePlaylistPromptView.fadeInAndShow();
+            //  No need to notify if the playlist is empty.
+            if (activePlaylist.get('items').length === 0) {
+                activePlaylist.destroy();
+            } else {
+
+                var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                    model: activePlaylist
+                });
+                deletePlaylistPromptView.fadeInAndShow();
+                
+            }
 
         }
 

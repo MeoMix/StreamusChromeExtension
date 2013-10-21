@@ -60,10 +60,7 @@
             var streamItems = playlist.get('items').map(function (playlistItem) {
 
                 var selected = isFirst;
-                
-                if (isFirst === true) {
-                    isFirst = false;
-                }
+                isFirst = false;
 
                 return {
                     id: _.uniqueId('streamItem_'),
@@ -73,8 +70,7 @@
                 };
             });
 
-            StreamItems.addMultiple(streamItems);
-
+            StreamItems.addAndPlay(streamItems);
         },
         
         show: function() {

@@ -39,7 +39,7 @@
 		"message": "Add Video to Stream"
 	},
 	"addPlaylistToStream": {
-		"message": "Add Playlist to Stream"
+		"message": "Add to Stream"
 	},
 	"addPlaylistNoAddStreamWarning": {
 		"message": "You need to add items to your Playlist first."
@@ -290,6 +290,9 @@
 	},
 	"deletePlaylistPromptText": {
 		"message": "Are you sure you want to delete playlist"
+	},
+	"sharePlaylistNoShareWarning": {
+		"message": "Playlist is empty, nothing to share"
 	}
 
 	

@@ -61,7 +61,6 @@ define([
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
                 this.$el.append(items);
 
-
                 var self = this;
                 setTimeout(function () {
                     
@@ -158,8 +157,13 @@ define([
         
         showContextMenu: function (event) {
 
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
-            ContextMenuGroups.reset();
+
+            if (event.target === event.currentTarget) {
+                //  Didn't bubble up from a child -- clear groups.
+                ContextMenuGroups.reset();
+            }
 
             var self = this;
 
@@ -202,7 +206,6 @@ define([
             var clickedPlaylistItemId = $(event.currentTarget).data('playlistitemid');
             var clickedPlaylistItem = this.model.get('items').get(clickedPlaylistItemId);
 
-            var self = this;
             ContextMenuGroups.add({
                 position: 0,
                 items: [{
@@ -242,27 +245,6 @@ define([
                     }
                 }]
 
-            });
-
-            ContextMenuGroups.add({
-                position: 1,
-                items: [{
-                    position: 0,
-                    text: chrome.i18n.getMessage("addPlaylistToStream"),
-                    onClick: function () {
-
-                        var streamItems = self.model.get('items').map(function (playlistItem) {
-                            return {
-                                id: _.uniqueId('streamItem_'),
-                                video: playlistItem.get('video'),
-                                title: playlistItem.get('title')
-                            };
-                        });
-
-                        StreamItems.addMultiple(streamItems);
-
-                    }
-                }]
             });
 
         },

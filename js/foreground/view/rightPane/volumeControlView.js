@@ -49,7 +49,7 @@ define([
         },
 
         initialize: function () {
-            this.listenTo(Player, 'change:muted', this.render);
+            this.listenTo(Player, 'change:muted', this.toggleMutedClass);
             this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
 
             var self = this;
@@ -121,6 +121,10 @@ define([
         toggleMute: function () {
             var isMuted = Player.get('muted');
             Player.set('muted', !isMuted);
+        },
+        
+        toggleMutedClass: function() {
+            this.muteButton.toggleClass('muted', Player.get('muted'));
         }
 
     });

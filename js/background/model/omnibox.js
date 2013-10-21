@@ -85,7 +85,6 @@ define([
                     selected: true
                 });
 
-                
             });
             
         }

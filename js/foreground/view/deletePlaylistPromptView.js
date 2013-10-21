@@ -11,7 +11,6 @@
         template: _.template(DeletePlaylistPromptTemplate),
 
         doOk: function () {
-            console.log("Doing ok");
             this.model.destroy();
             this.fadeOutAndHide();
         }

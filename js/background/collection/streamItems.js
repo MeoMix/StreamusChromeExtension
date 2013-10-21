@@ -197,9 +197,13 @@ define([
                     Player.play();
                 });
             });
-
-            StreamItems.add(streamItem);
             
+            if (streamItem.length === 1) {
+                StreamItems.add(streamItem);
+            } else {
+                StreamItems.addMultiple(streamItem);
+            }
+
         },
 
         addMultiple: function(streamItems) {

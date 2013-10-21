@@ -176,14 +176,18 @@ define([
             var clickedPlaylistId = $(event.currentTarget).data('playlistid');
             var clickedPlaylist = this.model.get('playlists').get(clickedPlaylistId);
 
+            var isEmpty = clickedPlaylist.get('items').length === 0;
+
             //  Don't allow deleting of the last playlist in a folder ( at least for now )
             var isDeleteDisabled = clickedPlaylist.get('nextPlaylistId') === clickedPlaylist.get('id');
-            var isAddPlaylistDisabled = clickedPlaylist.get('items').length === 0;
-
+  
             ContextMenuGroups.add({
                 position: 0,
                 items: [{
                     position: 0,
+                    //  No point in sharing an empty playlist...
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage("sharePlaylistNoShareWarning") : '',
                     text: chrome.i18n.getMessage("copyUrl"),
                     onClick: function () {
 
@@ -211,21 +215,28 @@ define([
 
                         if (!isDeleteDisabled) {
                             
-                            var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                                model: clickedPlaylist
-                            });
-                            
-                            deletePlaylistPromptView.fadeInAndShow();
+                            //  No need to notify if the playlist is empty.
+                            if (clickedPlaylist.get('items').length === 0) {
+                                clickedPlaylist.destroy();
+                            } else {
+
+                                var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                                    model: clickedPlaylist
+                                });
+
+                                deletePlaylistPromptView.fadeInAndShow();
+                            }
+
                         }
                     }
                 }, {
                     position: 2,
                     text: chrome.i18n.getMessage("addPlaylistToStream"),
-                    disabled: isAddPlaylistDisabled,
-                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',
                     onClick: function () {
 
-                        if (!isAddPlaylistDisabled) {
+                        if (!isEmpty) {
 
                             var streamItems = clickedPlaylist.get('items').map(function (playlistItem) {
                                 return {
