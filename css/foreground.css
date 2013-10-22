@@ -444,6 +444,11 @@ input[type="range"]::-webkit-slider-thumb {
     text-overflow: ellipsis;
 }
 
+.streamItem {
+    margin-left: 10px;
+    width: calc(100% - 20px);
+}
+
 .videoSearchResult:hover,
 .streamItem:hover,
 .playlistItem:hover,
@@ -852,10 +857,6 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.streamView {
-    
-}
-
 #addSearchResults .list {
     overflow: hidden;
     position: absolute;
@@ -868,7 +869,7 @@ input[type="range"]::-webkit-slider-thumb {
 .streamView .list {
     bottom: 40px;
     display: block;
-    left: 10px;
+    left: 0;
     overflow: hidden;
     position: absolute;
     right: 0;

@@ -7,13 +7,13 @@ require.config({
 
     shim: {
         
-        underscore: {
+        lodash: {
             exports: '_'
         },
         
         backbone: {
             //  These script dependencies should be loaded before loading backbone.js
-            deps: ['underscore', 'jquery'],
+            deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
@@ -51,7 +51,7 @@ require.config({
         'transit': 'thirdParty/jquery.transit',
         'levenshtein': 'thirdParty/levenshtein',
         'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
-        'underscore': 'thirdParty/underscore',
+        'lodash': 'thirdParty/lodash',
         'text': 'thirdParty/text',
 
         //  Foreground:
@@ -99,6 +99,7 @@ require.config({
         //  View -> ActiveFolderArea:
         'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',
         'activeFolderView': 'foreground/view/activeFolderArea/activeFolderView',
+        'deletePlaylistButtonView': 'foreground/view/activeFolderArea/deletePlaylistButtonView',
         'playlistInputView': 'foreground/view/activeFolderArea/playlistInputView',
         'playlistView': 'foreground/view/activeFolderArea/playlistView',
 
@@ -143,7 +144,7 @@ require.config({
 
 require([
     'jquery',
-    'underscore',
+    'lodash',
     'backbone',
     'lazyload',
     'transit',

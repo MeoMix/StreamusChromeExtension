@@ -74,6 +74,7 @@
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\settings.js" />
+    <Content Include="js\foreground\view\activeFolderArea\deletePlaylistButtonView.js" />
     <Content Include="js\foreground\view\deletePlaylistPromptView.js" />
     <Content Include="js\foreground\view\editPlaylistPromptView.js" />
     <Content Include="js\foreground\view\genericPromptView.js" />
@@ -193,7 +194,7 @@
     <Content Include="js\thirdParty\jqueryUi.js" />
     <Content Include="js\thirdParty\levenshtein.js" />
     <Content Include="js\thirdParty\require.js" />
-    <Content Include="js\thirdParty\underscore.js" />
+    <Content Include="js\thirdParty\lodash.js" />
     <Content Include="js\inject\youTubeIFrameInject.js" />
     <Content Include="js\background\model\youTubePlayerAPI.js" />
     <Content Include="js\youTubeDataAPI.js" />
@@ -205,6 +206,7 @@
     <Content Include="template\addSearchResults.htm" />
     <Content Include="template\contextMenu.htm" />
     <Content Include="template\clearStreamButton.htm" />
+    <Content Include="template\deletePlaylistButton.htm" />
     <Content Include="template\deletePlaylistPrompt.htm" />
     <Content Include="template\editPlaylistPrompt.htm" />
     <Content Include="template\createPlaylistPrompt.htm" />

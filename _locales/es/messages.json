@@ -32,9 +32,6 @@
 	"delete": {
 		"message": "Eliminar"
 	},
-	"lastPlaylistNoDeleteWarning": {
-		"message": "Esta es tu última Lista, no puedes eliminarla."
-	},
 	"addVideoToStream": {
 		"message": "Añadir Pista a la Cola"
 	},
@@ -209,7 +206,7 @@
 		"message": "Play all"
 	},
 	"playAllDisabled": {
-		"message": "Playlist is empty; nothing to play."
+		"message": "Playlist is empty"
 	},
 	"playTopTenButtonText": {
 		"message": "Play Top 10"
@@ -288,11 +285,17 @@
 	},
 	"delete": {
 		"message": "Delete"
+	},	
+	"deletePlaylist": {
+		"message": "Delete playlist"
+	},
+	"deletePlaylistDisabled": {
+		"message": "Can't delete your last playlist"
 	},
 	"deletePlaylistPromptText": {
 		"message": "Are you sure you want to delete playlist"
 	},
 	"sharePlaylistNoShareWarning": {
-		"message": "Playlist is empty, nothing to share"
+		"message": "Playlist is empty"
 	}
 }

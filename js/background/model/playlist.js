@@ -108,7 +108,7 @@ define([
                     
             });
 
-            this.listenTo(this.get('items'), 'add empty', this.setDisplayInfo);
+            this.listenTo(this.get('items'), 'add addMultiple empty', this.setDisplayInfo);
             this.setDisplayInfo();
 
             this.listenTo(this.get('items'), 'sync', function() {
@@ -136,13 +136,15 @@ define([
                     self.set('firstItemId', '00000000-0000-0000-0000-000000000000');
                 }
 
+                console.log("removed an item");
+
                 self.setDisplayInfo();
             });
         },
         
         //  TODO: Not sure where this is being referenced, but introducing setNewDisplayInfo for now
         setDisplayInfo: function () {
-
+            console.log("Setting display info");
             var videos = this.get('items').pluck('video');
             var videoDurations = _.invoke(videos, 'get', 'duration');
 
@@ -166,6 +168,9 @@ define([
             }
 
             var displayInfo = videos.length + ' ' + videoString + ', ' + prettyVideoTime;
+
+            console.log("Display info and old:", displayInfo, this.get('displayInfo'));
+
             this.set('displayInfo', displayInfo);
         },
             

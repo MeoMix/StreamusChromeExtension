@@ -62,27 +62,27 @@
 		{
 			"matches": ["*://*.youtube.com/embed/*"],
 			"all_frames": true,
-			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]
+			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]
 		},
 		{
 			"matches": ["*://*.youtube.com/watch?*"],
 			"run_at": "document_start",
-			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
+			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
 		},
 		{
 			"matches": ["*://*.share.streamus.com/*"],
 			"run_at": "document_start",
-			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]
+			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]
 		},
 		{
 			"matches": ["*://*.streamus.com/*"],
 			"run_at": "document_start",
-			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
+			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
 		},
 		{
 			"matches": ["*://*.beatport.com/*"],
 			"run_at": "document_end",
-			"js": ["js/thirdParty/underscore.js", "js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]
+			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://ssl.google-analytics.com https://s.ytimg.com https://apis.google.com; object-src 'self'",
@@ -92,10 +92,22 @@
 	"offline_enabled": false,
 	"omnibox": { "keyword" : "streamus" },
 	"options_page": "options.htm",
+	"oauth2": {
+		"client_id": "346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com",
+		"scopes": [
+			"https://www.googleapis.com/auth/youtube",
+			"https://www.googleapis.com/auth/youtube.readonly",
+			"https://www.googleapis.com/auth/youtube.upload",
+			"https://www.googleapis.com/auth/youtubepartner",
+			"https://www.googleapis.com/auth/plus.login",
+			"https://www.googleapis.com/auth/plus.me"
+		]
+    },
 	"permissions": [
 		"management",
 		"notifications",
 		"storage",
+		"identity",
 		"idle",
 		"webRequest",
 		"webRequestBlocking",

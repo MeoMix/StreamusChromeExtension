@@ -1,12 +1,12 @@
 ﻿require.config({
     baseUrl: '../js/',
     shim: {
-        underscore: {
+        lodash: {
             exports: '_'
         },
         backbone: {
             //  These script dependencies should be loaded before loading backbone.js
-            deps: ['underscore', 'jquery'],
+            deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
@@ -31,7 +31,7 @@
         'backbone': 'thirdParty/backbone',
         'jquery': 'thirdParty/jquery',
         'levenshtein': 'thirdParty/levenshtein',
-        'underscore': 'thirdParty/underscore',
+        'lodash': 'thirdParty/lodash',
         'googleApiClient': 'thirdParty/googleApiClient',
 
         //  Background:
@@ -75,7 +75,7 @@
 //  TODO: I am doing too much in main -- I want main.js to only define the shim and then load background.
 require([
     'jquery',
-    'underscore',
+    'lodash',
     'backbone',
     'googleApiClient'
 ], function ($, _, Backbone, GoogleApiClient) {
@@ -137,7 +137,7 @@ require([
         height: 360,
         src: refererUrl
     }).appendTo('body');
-
+    
     //  Only use main.js for loading external helper files before the background is ready. Then, load the background.
     require(['background']);
 });

@@ -3,12 +3,12 @@ require.config({
     baseUrl: '../js/',
     
     shim: {
-        underscore: {
+        lodash: {
             exports: '_'
         },
         backbone: {
             //  These script dependencies should be loaded before loading backbone.js
-            deps: ['underscore', 'jquery'],
+            deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
@@ -21,7 +21,7 @@ require.config({
         'jquery': 'thirdParty/jquery',
         'jqueryUi': 'thirdParty/jqueryUi',
         'backbone': 'thirdParty/backbone',
-        'underscore': 'thirdParty/underscore',
+        'lodash': 'thirdParty/lodash',
         'options': 'options/options',
         'settings': 'options/settings',
         'player': 'options/player'

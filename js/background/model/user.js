@@ -15,6 +15,7 @@ define([
         defaults: function() {
             return {
                 id: null,
+                googlePlusId: '',
                 name: '',
                 dirty: false,
                 loaded: false,
@@ -59,41 +60,62 @@ define([
             });
 
             console.log("Requesting");
+            
 
-            //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
-            chrome.storage.sync.get(syncUserIdKey, function (data) {
-                //  Look for a user id in sync, it might be undefined though.
-                var foundUserId = data[syncUserIdKey];
+
+            //console.log("Identity:", chrome.identity);
+            //chrome.identity.onSignInChanged.addListener(function (account, signedIn) {
+            //    console.log("HELLO:", account, signedIn);
+            //});
+
+            //setTimeout(function () {
+
+            //chrome.identity.getAuthToken({ 'interactive': true }, function (authToken) {
+            //    console.log("authToken:", authToken);
+
+            //    setTimeout(function () {
+            //        gapi.auth.setToken(authToken);
+
+            //        gapi.client.load('plus', 'v1', function () {
+
+            //            var request = gapi.client.plus.people.get({
+            //                'userId': 'me'
+            //            });
+
+            //            request.execute(function (resp) {
+            //                console.log("Response:", resp);
+            //            });
+
+            //        });
+            //    });
+
+            //});
+
+            //}, 200);
+            
+            this.tryLoginFromStorage();
+
+            //var authorizeImmediately = true;
+            //this.tryAuthorize(authorizeImmediately, function (authResult) {
                 
-                if (typeof foundUserId === 'undefined') {
-
-                    foundUserId = Settings.get('userId');
-     
-                    if (foundUserId !== null) {
-                        self.set('id', foundUserId);
-                        fetchUser.call(self, true);
-                    } else {
-                        
-                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-                        self.save({}, {
-                            success: function (model) {
-                                onUserLoaded.call(self, model, true);
-                            },
-                            error: function (error) {
-                                console.error(error);
-                            }
-                        });
-                    }
-
-                } else {
-
-                    //  Update the model's id to proper value and call fetch to retrieve all data from server.
-                    self.set('id', foundUserId);
+            //    if (authResult == null) {
+            //        authorizeImmediately = false;
                     
-                    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    fetchUser.call(self, false);
-                }
-            });
+            //        self.tryAuthorize(authorizeImmediately, function (immediateAuthResult) {
+
+            //            if (immediateAuthResult == null) {
+            //                console.error("Unable to authorize. Sorry.");
+            //            } else {
+            //                self.doOnAuthorize();
+            //            }
+
+            //        });
+
+            //    } else {
+            //        self.doOnAuthorize();
+            //    }
+
+            //});
 
             //  newState is an enum of or "active"or "idle"or "locked"
             chrome.idle.onStateChanged.addListener(function(newState) {
@@ -121,6 +143,105 @@ define([
                     localStorage.setItem(this.get('id') + '_activeFolderId', folder.get('id'));
                 }
             });
+        },
+        
+        tryAuthorize: function (immediate, callback) {
+            
+            gapi.auth.authorize({
+                client_id: '346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com',
+                scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',
+                //  Set immediate to false if authResult returns null
+                immediate: immediate
+            }, callback);
+            
+        },
+        
+        doOnAuthorize: function () {
+            
+            gapi.client.load('plus', 'v1', function () {
+
+                var request = gapi.client.plus.people.get({
+                    'userId': 'me'
+                });
+
+                request.execute(function (response) {
+                    console.log("Response:", response);
+
+                    if (response && response.id && response.id.length > 0) {
+                        console.log("Setting user's googlePlusId");
+
+                        $.ajax({
+                            url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
+                            type: 'GET',
+                            contentType: 'application/json; charset=utf-8',
+                            dataType: 'json',
+                            data: {
+                                googlePlusId: response.id
+                            },
+                            success: function(userDto) {
+                                console.log("UserDto:", userDto);
+                                if (userDto && userDto.id !== null) {
+                                    console.log("Setting from DTO");
+                                    user.set(userDto);
+                                } else {
+                                    console.log("Load from storage.sync if possible, or create new.");
+
+                                    this.tryLoginFromStorage();
+
+                                }
+
+                            }
+                        });
+                    } else {
+                        this.tryLoginFromStorage();
+                    }
+
+                });
+
+            });
+            
+        },
+        
+        tryLoginFromStorage: function() {
+
+            var self = this;
+
+            //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
+            chrome.storage.sync.get(syncUserIdKey, function (data) {
+                //  Look for a user id in sync, it might be undefined though.
+                var foundUserId = data[syncUserIdKey];
+
+                if (typeof foundUserId === 'undefined') {
+
+                    foundUserId = Settings.get('userId');
+
+                    if (foundUserId !== null) {
+                        self.set('id', foundUserId);
+                        fetchUser.call(self, true);
+                    } else {
+
+                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+                        self.save({}, {
+                            success: function (model) {
+                                onUserLoaded.call(self, model, true);
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+
+                } else {
+
+                    //  Update the model's id to proper value and call fetch to retrieve all data from server.
+                    self.set('id', foundUserId);
+
+                    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
+                    fetchUser.call(self, false);
+                }
+            });
+
+
         }
     });
     

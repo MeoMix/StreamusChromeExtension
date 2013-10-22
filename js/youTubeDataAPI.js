@@ -497,12 +497,13 @@ define([
             //gapi.auth.setToken(authToken);
             // }
 
-            //  Set immediate to false if authResult returns null
+            
 
             gapi.auth.authorize({
 
                 client_id: '346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner',
+                //  Set immediate to false if authResult returns null
                 immediate: true
             }, function (authResult) {
 

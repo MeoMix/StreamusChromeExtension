@@ -4,13 +4,13 @@ require.config({
     
     shim: {
         
-        underscore: {
+        lodash: {
             exports: '_'
         },
         
         backbone: {
             //  These script dependencies should be loaded before loading backbone.js
-            deps: ['underscore', 'jquery'],
+            deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
@@ -19,7 +19,7 @@ require.config({
             'fullscreen': 'fullscreen/fullscreen',
             'jquery': 'thirdParty/jquery',
             'backbone': 'thirdParty/backbone',
-            'underscore': 'thirdParty/underscore',
+            'lodash': 'thirdParty/lodash',
 
             //  Enum:
             'playerState': 'enum/playerState',

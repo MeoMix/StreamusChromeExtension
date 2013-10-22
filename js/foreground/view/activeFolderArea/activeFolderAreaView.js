@@ -5,8 +5,9 @@
     'createPlaylistPromptView',
     'editPlaylistPromptView',
     'deletePlaylistPromptView',
+    'deletePlaylistButtonView',
     'folders'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, Folders) {
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -14,9 +15,20 @@
         template: _.template(ActiveFolderAreaTemplate),
 
         activeFolderView: null,
-
+        deletePlaylistButtonView: null,
+        
         attributes: {
             'id': 'activeFolderArea'
+        },
+
+        events: {
+            'click': 'hideIfClickOutsidePanel',
+            'click .hide': 'destroyModel',
+            'click h3': 'toggleActiveFolderVisibility',
+            'click .settings': 'showSettingsPrompt',
+            'click .add': 'showCreatePlaylistPrompt',
+            'click .edit': 'showEditSelectedPlaylistPrompt',
+            'click .delete': 'showDeleteSelectedPlaylistPrompt'
         },
         
         render: function () {
@@ -29,18 +41,9 @@
             ));
 
             this.$el.find('.list').append(this.activeFolderView.render().el);
+            this.$el.find('.right-group').append(this.deletePlaylistButtonView.render().el);
 
             return this;
-        },
-        
-        events: {
-            'click': 'hideIfClickOutsidePanel',
-            'click .hide': 'destroyModel',
-            'click h3': 'toggleActiveFolderVisibility',
-            'click .settings': 'showSettingsPrompt',
-            'click .add': 'showCreatePlaylistPrompt',
-            'click .edit': 'showEditSelectedPlaylistPrompt',
-            'click .delete': 'showDeleteSelectedPlaylistPrompt'
         },
         
         //playlistInputView: null,
@@ -51,6 +54,8 @@
             this.activeFolderView = new ActiveFolderView({
                 model: this.model.get('folder')
             });
+
+            this.deletePlaylistButtonView = new DeletePlaylistButtonView();
             
             //this.playlistInputView = new PlaylistInputView({
             //    model: this.model

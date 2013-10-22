@@ -14,6 +14,7 @@
         
         activePlaylistItemsView: null,
         //playlistItemInputView: null,
+        playlistDetails: null,
         
         attributes: {
             id: 'activePlaylistArea'
@@ -36,6 +37,8 @@
             this.$el.find('.left-top-divider').after(this.activePlaylistItemsView.render().el);
             this.$el.find('.playlist-actions').append(this.playAllButtonView.render().el);
 
+            this.playlistDetails = this.$el.find('.playlist-details');
+
             return this;
         },
 
@@ -55,6 +58,7 @@
 
             //this.$el.prepend(this.playlistItemInputView.render().el);
 
+            this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
         },
         
         addToStreamAndPlay: function () {
@@ -94,6 +98,11 @@
                 $(this).hide();
             });
 
+        },
+        
+        updatePlaylistDetails: function () {
+            console.log("Setting displayINfo");
+            this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
         }
 
     });

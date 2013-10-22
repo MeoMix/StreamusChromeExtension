@@ -210,7 +210,7 @@ define([
                     position: 1,
                     text: chrome.i18n.getMessage("delete"),
                     disabled: isDeleteDisabled,
-                    title: isDeleteDisabled ? chrome.i18n.getMessage("lastPlaylistNoDeleteWarning") : '',
+                    title: isDeleteDisabled ? chrome.i18n.getMessage("deletePlaylistDisabled") : '',
                     onClick: function () {
 
                         if (!isDeleteDisabled) {
