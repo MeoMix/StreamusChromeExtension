@@ -47,7 +47,7 @@
 
             divider.before(streamAddSearchResultOptionView.render().el);
 
-            var playlistAddSearchResultOptionElements = this.model.get('folder').get('playlists').map(function(playlist) {
+            var playlistAddSearchResultOptionViews = this.model.get('folder').get('playlists').map(function (playlist) {
 
                 var playlistAddSearchResultOption = new AddSearchResultOption({
                     title: playlist.get('title'),
@@ -59,12 +59,24 @@
                     model: playlistAddSearchResultOption
                 });
 
+                return playlistAddSearchResultOptionView;
+            });
+
+            var playlistAddSearchResultOptionElements = _.map(playlistAddSearchResultOptionViews, function (playlistAddSearchResultOptionView) {
                 return playlistAddSearchResultOptionView.render().el;
             });
 
             this.list = this.$el.find('.list');
 
             this.list.append(playlistAddSearchResultOptionElements);
+
+            var activePlaylistView = _.find(playlistAddSearchResultOptionViews, function (view) {
+                return view.model.get('entity').get('active');
+            });
+
+            setTimeout(function() {
+                activePlaylistView.render().$el.scrollIntoView(false);
+            });
 
             this.streamItemCount = this.$el.find('.addItemOption.stream span.item-count');
             this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
