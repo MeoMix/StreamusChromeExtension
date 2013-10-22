@@ -46,6 +46,8 @@ define([
 
         initialize: function () {
             
+            chrome.extension.getBackgroundPage()._gaq.push(['_trackPageview']);
+            
             var self = this;
             
             this.$el.append(this.loadingSpinnerView.render().el);

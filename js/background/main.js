@@ -29,6 +29,7 @@
 
         //  Third Party:
         'backbone': 'thirdParty/backbone',
+        'googleAnalytics': 'thirdParty/googleAnalytics',
         'jquery': 'thirdParty/jquery',
         'levenshtein': 'thirdParty/levenshtein',
         'lodash': 'thirdParty/lodash',
@@ -77,7 +78,8 @@ require([
     'jquery',
     'lodash',
     'backbone',
-    'googleApiClient'
+    'googleApiClient',
+    'googleAnalytics'
 ], function ($, _, Backbone, GoogleApiClient) {
     'use strict';
     

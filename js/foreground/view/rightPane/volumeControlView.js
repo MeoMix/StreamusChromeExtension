@@ -52,6 +52,11 @@ define([
             this.listenTo(Player, 'change:muted', this.toggleMutedClass);
             this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
 
+            var config = {
+                sensitivity: 3,
+                interval: 5000,
+            };
+            
             var self = this;
             this.$el.hoverIntent(function () {
 
@@ -62,7 +67,7 @@ define([
 
                 $(this).transition({ height: 36 }, 200);
                 self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
-            });
+            }, config);
 
         },
         

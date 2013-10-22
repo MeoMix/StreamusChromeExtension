@@ -101,7 +101,6 @@
         },
         
         updatePlaylistDetails: function () {
-            console.log("Setting displayINfo");
             this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
         }
 
