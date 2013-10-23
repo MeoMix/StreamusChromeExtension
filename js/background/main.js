@@ -12,6 +12,9 @@
         },
         googleApiClient: {
             exports: 'GoogleApiClient'
+        },
+        googleAnalytics: {
+            deps: ['jquery']
         }
     },
     
