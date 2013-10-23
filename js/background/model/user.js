@@ -93,7 +93,16 @@ define([
 
             //}, 200);
             
-            this.tryLoginFromStorage();
+            chrome.identity.getAuthToken({ 'interactive': true }, function (token) {
+                console.log("LastError:", chrome.runtime.lastError);
+                if (chrome.runtime.lastError) {
+                    //showButton(signin_button);
+                } else {
+                    getUserInfo(true);
+                }
+            });
+
+            //this.tryLoginFromStorage();
 
             //var authorizeImmediately = true;
             //this.tryAuthorize(authorizeImmediately, function (authResult) {
@@ -312,6 +321,65 @@ define([
             }
         });
     }
+    
+    var revoke_button_token;
+    function xhrWithAuth(method, url, interactive, callback) {
+        var retry = true;
+        var access_token;
+        getToken();
+
+        function getToken() {
+            chrome.identity.getAuthToken({ interactive: interactive }, function (token) {
+                if (chrome.runtime.lastError) {
+                    callback(chrome.runtime.lastError);
+                    return;
+                }
+
+                // Save the token globally for the revoke button.
+                revoke_button_token = token;
+
+                access_token = token;
+                
+                $.ajax({
+                    type: 'GET',
+                    url: 'https://www.googleapis.com/plus/v1/people/me',
+                    headers: {
+                        'Authorization': 'Bearer ' + access_token
+                    },
+                    success: function(response, status, code) {
+                        console.log("Success:", response, status, code);
+                    },
+                    error: function (error) {
+
+                        console.log("Status:", error, status, code);
+
+                        if (error.status == 401 && retry) {
+                            retry = false;
+                            chrome.identity.removeCachedAuthToken({ token: access_token }, getToken);
+
+                        console.error(error);
+                    }
+                });
+
+            });
+        }
+
+    }
+    
+    function getUserInfo(interactive) {
+        xhrWithAuth('GET',
+                    'https://www.googleapis.com/plus/v1/people/me',
+                    interactive,
+                    function (error, status, response) {
+                        if (!error && status == 200) {
+                            console.log("Got the following user info: " + response);
+ 
+                        } else {
+
+                        }
+                    });
+    }
+
 
     //  Only ever instantiate one User.
     User = new userModel();
