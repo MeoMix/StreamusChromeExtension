@@ -85,6 +85,8 @@ require.config({
         'playPauseButton': 'foreground/model/buttons/playPauseButton',
 
         //  View:
+        'clearStreamPromptView': 'foreground/view/clearStreamPromptView',
+        'confirmPromptView': 'foreground/view/confirmPromptView',
         'contentHeaderView': 'foreground/view/contentHeaderView',
         'contextMenuView': 'foreground/view/contextMenuView',
         'createPlaylistPromptView': 'foreground/view/createPlaylistPromptView',

@@ -59,41 +59,6 @@ define([
                 });
             });
 
-            console.log("Requesting");
-            
-
-
-            //console.log("Identity:", chrome.identity);
-            //chrome.identity.onSignInChanged.addListener(function (account, signedIn) {
-            //    console.log("HELLO:", account, signedIn);
-            //});
-
-            //setTimeout(function () {
-
-            //chrome.identity.getAuthToken({ 'interactive': true }, function (authToken) {
-            //    console.log("authToken:", authToken);
-
-            //    setTimeout(function () {
-            //        gapi.auth.setToken(authToken);
-
-            //        gapi.client.load('plus', 'v1', function () {
-
-            //            var request = gapi.client.plus.people.get({
-            //                'userId': 'me'
-            //            });
-
-            //            request.execute(function (resp) {
-            //                console.log("Response:", resp);
-            //            });
-
-            //        });
-            //    });
-
-            //});
-
-            //}, 200);
-            
-
             // Trying to get user's info without signing in, it will work if the
             // Application was previously authorized by the user.
             //this.getUserInfo(false, function (userInfo) {

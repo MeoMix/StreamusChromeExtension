@@ -8,9 +8,10 @@
     'saveStreamButtonView',
     'clearStreamButtonView',
     'createPlaylistPromptView',
+    'clearStreamPromptView',
     'contextMenuGroups',
     'utility'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, CreatePlaylistPromptView, ContextMenuGroups, Utility) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, CreatePlaylistPromptView, ClearStreamPromptView, ContextMenuGroups, Utility) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -208,9 +209,13 @@
         },
         
         clearStream: function() {
-            console.log("Clearing stream");
+            
             if (StreamItems.length > 0) {
-                StreamItems.clear();
+
+                var clearStreamPromptView = new ClearStreamPromptView({
+                    model: StreamItems
+                });
+                clearStreamPromptView.fadeInAndShow();
             }
 
         }

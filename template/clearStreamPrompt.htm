@@ -1,0 +1,31 @@
+﻿<div class="panel">
+    
+    <div class="header">
+        
+        <span class="title">
+            <%- chrome.i18n.getMessage('confirmPromptTitle') %>
+        </span>
+        
+        <button class="button-icon remove">
+            <i class="icon-remove"></i>
+        </button>
+    </div>
+
+    <div class="body">
+        
+        <%- chrome.i18n.getMessage('clearStreamPromptText') %>
+        
+        <div class="reminder">
+            <label for="remindClearStream">Got it. Don't remind me again: </label>
+            <input id="remindClearStream" value="false" type="checkbox">
+        </div>
+
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color"><%- chrome.i18n.getMessage('okButtonText') %></button>
+            <button class="cancel button-label button-color"><%- chrome.i18n.getMessage('cancelButtonText') %></button>
+
+        </span>
+    </div>
+
+</div>

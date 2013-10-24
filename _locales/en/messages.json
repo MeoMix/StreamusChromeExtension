@@ -299,6 +299,12 @@
 	},
 	"sharePlaylistNoShareWarning": {
 		"message": "Playlist is empty"
+	},
+	"confirmPromptTitle": {
+		"message": "Are you sure?"
+	},
+	"clearStreamPromptText": {
+		"message": "Click OK to clear your stream"
 	}
 
 	

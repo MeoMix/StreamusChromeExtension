@@ -417,13 +417,12 @@ input[type="range"]::-webkit-slider-thumb {
     bottom: 40px;
     display: block;
     left: 5px;
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: absolute;
     width: calc(100% - 10px);
     top: 55px;
 }
-
-.left-list:hover { overflow-y: scroll }
 
 .limitedScrollingWidth {
     display: inline-block;
@@ -619,6 +618,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #search {
     box-shadow: 0 0 10px #000;
+    opacity: 0;
 }
 
 #search .hidden {
@@ -1213,3 +1213,8 @@ i { font-size: 14px !important; }
 i.i-2x { font-size: 28px !important }
 
 i.i-4x { font-size: 56px !important }
+
+
+.prompt .reminder {
+    margin-top: 5px;
+}
