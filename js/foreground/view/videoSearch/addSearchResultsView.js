@@ -24,6 +24,7 @@
         resetStateTimeout: null,
         list: null,
         scrollMouseMoveInterval: null,
+        panel: null,
 
         render: function () {
 
@@ -95,6 +96,8 @@
                 }
             });
 
+            this.panel = this.$el.find('.panel');
+
             return this;
         },
         
@@ -119,9 +122,11 @@
 
             this.$el.show().transition({
                 opacity: 1
-            }, 200, function () {
-                $(this).addClass('visible');
-            });
+            }, 400);
+
+            this.panel.transition({
+                right: 0
+            }, 400, 'ease');
 
         },
         
@@ -131,8 +136,12 @@
 
         hide: function () {
             var self = this;
+            
+            this.panel.transition({
+                right: -250
+            }, 400, 'ease');
 
-            this.$el.removeClass('visible').transition({
+            this.$el.transition({
                 opacity: 0
             }, 400, function () {
                 self.remove();

@@ -1,7 +1,9 @@
 ﻿define([
     'videoSearchResultsView',
-    'text!../template/videoSearch.htm'
-], function (VideoSearchResultsView, VideoSearchTemplate) {
+    'text!../template/videoSearch.htm',
+    'playSelectedButtonView',
+    'saveSelectedButtonView'
+], function (VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView) {
     'use strict';
 
     var VideoSearchView = Backbone.View.extend({
@@ -17,6 +19,8 @@
         },
         
         searchUnderline: null,
+        playSelectedButtonView: new PlaySelectedButtonView,
+        saveSelectedButtonView: new SaveSelectedButtonView,
         
         events: {
             'focus .searchBar input': 'highlight',
@@ -38,6 +42,11 @@
             ));
 
             this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
+
+            var playlistActions = this.$el.find('.playlist-actions');
+
+            playlistActions.append(this.playSelectedButtonView.render().el);
+            playlistActions.append(this.saveSelectedButtonView.render().el);
 
             this.searchUnderline = $('.searchBar .underline');
 

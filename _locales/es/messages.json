@@ -208,8 +208,17 @@
 	"playAllDisabled": {
 		"message": "Playlist is empty"
 	},
-	"playTopTenButtonText": {
-		"message": "Play Top 10"
+	"playSelected": {
+		"message": "Play selected"
+	},
+	"playSelectedDisabled": {
+		"message": "You have no search results selected"
+	},
+	"saveSelected": {
+		"message": "Save selected"
+	},
+	"saveSelectedDisabled": {
+		"message": "You have no search results selected"
 	},
 	"renameButtonText": {
 		"message": "Rename"

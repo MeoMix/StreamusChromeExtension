@@ -202,17 +202,55 @@ define([
             });
         },
         
-        addAndPlay: function (streamItems) {
-            
-            //  Once the Player indicates its loadedVideo has changed (to the video just added to stream) 
-            //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
-            //  is set just before cueVideoById has finished.
-            Player.once('change:loadedVideoId', function () {
-                console.log("loadedVideoId has changed");
-                setTimeout(function () {
-                    Player.play();
+        addMultipleByVideoInformation: function (videoInformationList, playOnAdd) {
+
+            if (playOnAdd) {
+                Player.playOnceVideoChanges();
+            }
+
+            var streamItems = _.map(videoInformationList, function (videoInformation, iterator) {
+                
+                var video = new Video({
+                    videoInformation: videoInformation
+                });
+
+                return new StreamItem({
+                    id: _.uniqueId('streamItem_'),
+                    video: video,
+                    title: video.get('title'),
+                    //  Select and play the first added item if playOnAdd is set to true
+                    selected: playOnAdd && iterator === 0
                 });
             });
+            
+            this.addMultiple(streamItems);
+        },
+        
+        addByVideoInformation: function (videoInformation, playOnAdd) {
+
+            if (playOnAdd) {
+                Player.playOnceVideoChanges();
+            }
+            
+            var video = new Video({
+                videoInformation: videoInformation
+            });
+            
+            var streamItem = new StreamItem({
+                id: _.uniqueId('streamItem_'),
+                video: video,
+                title: video.get('title'),
+                //  Select and play the first added item if playOnAdd is set to true
+                selected: playOnAdd
+            });
+
+            this.add(streamItem);
+  
+        },
+        
+        addAndPlay: function (streamItems) {
+            
+            Player.playOnceVideoChanges();
 
             console.log("StreamItems and length:", streamItems, streamItems.length);
             
@@ -277,19 +315,6 @@ define([
             });
 
             this.trigger('addMultiple', streamItemsFromCollection);
-        },
-        
-        addByVideoInformation: function (videoInformation) {
-
-            var video = new Video({
-                videoInformation: videoInformation
-            });
-
-            StreamItems.add({
-                id: _.uniqueId('streamItem_'),
-                video: video,
-                title: video.get('title')
-            });
         },
 
         deselectAllExcept: function(streamItemCid) {

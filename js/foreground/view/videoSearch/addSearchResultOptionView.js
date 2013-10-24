@@ -99,9 +99,9 @@
             var entity = this.model.get('entity');
             
             if (this.model.get('type') === AddSearchResultOptionType.STREAM) {
-                this.listenTo(entity, 'add remove', this.updateItemCount);
+                this.listenTo(entity, 'add addMultiple remove', this.updateItemCount);
             } else {
-                this.listenTo(entity.get('items'), 'add remove', this.updateItemCount);
+                this.listenTo(entity.get('items'), 'add addMultiple remove', this.updateItemCount);
             }
             
         },

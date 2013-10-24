@@ -214,6 +214,20 @@ define([
                 youTubePlayer.playVideo();
             }
         },
+        
+        //  Once the Player indicates its loadedVideo has changed (to the video just selected in the stream) 
+        //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
+        //  is set just before cueVideoById has finished.
+        playOnceVideoChanges: function() {
+            var self = this;
+
+            this.once('change:loadedVideoId', function () {
+                console.log("loadedVideoId has changed");
+                setTimeout(function () {
+                    self.play();
+                });
+            });
+        },
 
         //  TODO: For certain long videos, (example: http://youtu.be/_EKBpHbRTPI ) seekTo's seeked event never returns.
         //  I think this is due to YouTube's old implementation. I might be able to get around this by calling loadVideoById at a specific time-point??

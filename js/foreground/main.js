@@ -98,6 +98,7 @@ require.config({
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
+        'saveSelectedPromptView': 'foreground/view/saveSelectedPromptView',
         'settingsPromptView': 'foreground/view/settingsPromptView',
 
         //  View -> ActiveFolderArea:
@@ -138,6 +139,8 @@ require.config({
         //  View -> VideoSearch:
         'addSearchResultOptionView': 'foreground/view/videoSearch/addSearchResultOptionView',
         'addSearchResultsView': 'foreground/view/videoSearch/addSearchResultsView',
+        'playSelectedButtonView': 'foreground/view/videoSearch/playSelectedButtonView',
+        'saveSelectedButtonView': 'foreground/view/videoSearch/saveSelectedButtonView',
         'videoSearchResultsView': 'foreground/view/videoSearch/videoSearchResultsView',
         'videoSearchResultView': 'foreground/view/videoSearch/videoSearchResultView',
         'videoSearchView': 'foreground/view/videoSearch/videoSearchView'

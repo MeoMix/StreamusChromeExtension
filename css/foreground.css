@@ -430,6 +430,7 @@ input[type="range"]::-webkit-slider-thumb {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    height: 10px;
 }
 
 .videoSearchResult,
@@ -958,6 +959,7 @@ input[type="range"]::-webkit-slider-thumb {
 #addSearchResults,
 #activeFolderArea {
     display: none;
+    opacity: 0;
 }
 
 #activeFolderArea .panel {
@@ -980,13 +982,8 @@ input[type="range"]::-webkit-slider-thumb {
     right: -250px;
     position: absolute;
     top: 0;
-    transition: right .3s ease-in-out;
     width: 250px;
     z-index: 51;
-}
-
-#addSearchResults.visible .panel {
-    right: 0
 }
 
 #activeFolderView {
