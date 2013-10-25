@@ -54,6 +54,9 @@ require.config({
         'levenshtein': 'thirdParty/levenshtein',
         'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
         'lodash': 'thirdParty/lodash',
+        'microplugin': 'thirdParty/microplugin',
+        'selectize': 'thirdParty/selectize',
+        'sifter': 'thirdParty/sifter',
         'text': 'thirdParty/text',
 
         //  Foreground:
@@ -155,6 +158,7 @@ require([
     'backbone',
     'lazyload',
     'transit',
+    'selectize',
     'autoscroll',
     'hoverIntent',
     'jqueryUi',
