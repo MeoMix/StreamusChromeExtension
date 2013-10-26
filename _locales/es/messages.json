@@ -312,5 +312,11 @@
 	},
 	"clearStreamPromptText": {
 		"message": "Click OK to clear your stream"
+	},
+	"saveSelectedVideo": {
+		"message": "Save selected video"
+	},
+	"saveSelectedVideos": {
+		"message": "Save selected videos"
 	}
 }

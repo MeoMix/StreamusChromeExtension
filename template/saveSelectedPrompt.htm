@@ -3,7 +3,7 @@
     <div class="header">
         
         <span class="title">
-            <%- chrome.i18n.getMessage('createPlaylist') %>
+            <%- selectedResultsCount === 1 ? chrome.i18n.getMessage('saveSelectedVideo') : chrome.i18n.getMessage('saveSelectedVideo') %>
         </span>
         
         <button class="button-icon remove">
@@ -13,14 +13,14 @@
 
     <div class="body">
         
-        <%- chrome.i18n.getMessage('createPlaylistPromptText') %>
+        <select class="submittable" placeholder="<%- chrome.i18n.getMessage('selectPlaylistPlaceholder') %>..."></select>
         
-        <select class="submittable"></select>
-        <div class="underline"></div>
-        
-        <button class="ok button-label button-color">
-            <%- chrome.i18n.getMessage('okButtonText') %>
-        </button>
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color">
+                <%- chrome.i18n.getMessage('okButtonText') %>
+            </button>
+        </span>
     </div>
 
 </div>

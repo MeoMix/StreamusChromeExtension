@@ -314,6 +314,15 @@
 	},
 	"clearStreamPromptText": {
 		"message": "Click OK to clear your stream"
+	},
+	"selectPlaylistPlaceholder": {
+		"message": "Pick a playlist"
+	},
+	"saveSelectedVideo": {
+		"message": "Save selected video"
+	},
+	"saveSelectedVideos": {
+		"message": "Save selected videos"
 	}
 
 	

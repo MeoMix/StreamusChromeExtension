@@ -1215,3 +1215,12 @@ i.i-4x { font-size: 56px !important }
 .prompt .reminder {
     margin-top: 5px;
 }
+
+
+/* Selectize Configuration */
+
+.selectize-control .selectize-dropdown .caption {
+    font-size: 12px;
+    display: block;
+    opacity: 0.5;
+}
