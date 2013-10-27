@@ -16,13 +16,21 @@ define([
             'click': 'trySelectNextVideo'
         },
         
-        attributes: {
-            title: chrome.i18n.getMessage("skipNextVideo")
-        },
+        disabledTitle: chrome.i18n.getMessage('skipNextVideoDisabled'),
+        enabledTitle: chrome.i18n.getMessage('skipNextVideo'),
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.prop('disabled', !this.model.get('enabled'));
+
+            var isEnabled = this.model.get('enabled');
+
+            this.$el.prop('disabled', !isEnabled);
+            
+            if (isEnabled) {
+                this.$el.attr('title', this.enabledTitle);
+            } else {
+                this.$el.attr('title', this.disabledTitle);
+            }
             
             return this;
         },

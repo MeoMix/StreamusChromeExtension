@@ -9,7 +9,7 @@ body {
     -webkit-user-select: none;
 }
 
-.playlist-name,
+.playlistTitle
 .playlist-details,
 #activeFolderView span.title {
     -webkit-user-select: text;
@@ -78,11 +78,11 @@ button.mute.muted{
 
 .modalOverlay .panel .header {
     background: #e6e6e6;
-    height: 30px;
+    height: 26px;
     right: 0;
     top: 0;
     left: 0;
-    line-height: 30px;
+    line-height: 26px;
     font-size: 1.1em;
     font-weight: bold;
     padding: 10px;
@@ -110,6 +110,11 @@ button.mute.muted{
 .prompt.createPlaylistPrompt .panel {
     margin-left: -125px;
     width: 250px;
+}
+
+.prompt.saveSelectedPrompt .panel {
+    width: 370px;
+    margin-left: -185px;
 }
 
 .prompt button.remove {
@@ -202,19 +207,13 @@ a { cursor: pointer }
 
 body { font: 13px/1.2 sans-serif }
 
-.playlist-name {
+.playlistTitle {
     font-size: 1.1em;
     font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
     white-space: nowrap;
-    bottom: 0;
-    display: block;
-    left: 50px;
     line-height: 45px;
-    position: absolute;
-    right: 110px;
-    top: 0;
+    padding-left: 50px;
+
 }
 
 .playlist-details {
@@ -356,8 +355,14 @@ input[type="range"]::-webkit-slider-thumb {
     height: 45px;
     left: 10px;
     position: absolute;
-    right: 10px;
+    right: 115px;
     top: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#search .left-top-bar {
+    right: 10px;
 }
 
 #addVideosButton {
@@ -514,11 +519,16 @@ input[type="range"]::-webkit-slider-thumb {
     text-align: center;
 }
 
+#addSearchResults .itemWrapper {
+    padding-top: 5px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-left: 65px;
+}
+
 #addSearchResults .item-title {
     font-weight: bold;
-    padding-left: 65px;
-    display: block;
-    padding-top: 5px;
+    padding-left: 0;
 }
 
 #hideAddItemsButton {
@@ -528,7 +538,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #addSearchResults .item-details {
     position: static;
-    padding-left: 65px;
+    padding-left: 0;
 }
 
 .item-details {
@@ -557,7 +567,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .editPlaylistPrompt .underline {
     height: 5px;
-    width: 178px;
+    width: 308px;
     margin-top: -4px;
     margin-left: 37px;
 }
@@ -593,6 +603,7 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 0 .2em;
     font: bold 14px/1 sans-serif;
     height: 24px;
+    width: 300px;
 }
 
 .createPlaylistPrompt input[type="text"] {
@@ -880,7 +891,8 @@ input[type="range"]::-webkit-slider-thumb {
 
 #addSearchResults .list:hover,
 .streamView .list:hover {
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #addSearchResults .list::-webkit-scrollbar,
@@ -930,6 +942,10 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
     width: 40px;
     z-index: 52;
+}
+
+#activePlaylistArea button.show {
+    background-color: #fff;
 }
 
 .modalOverlay,
@@ -1110,7 +1126,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #activeFolderArea .list:hover {
-    overflow-y: scroll;
+    overflow-x: hidden;
+    overflow-y: auto;
 }
 
 #activeFolderArea .list::-webkit-scrollbar {
@@ -1132,22 +1149,21 @@ input[type="range"]::-webkit-slider-thumb {
 #activeFolderArea .list h3 i { margin-left: .3em }
 
 #activeFolderArea .list ul li {
-    cursor: pointer;
     display: block;
     height: 26px;
     line-height: 26px;
     position: relative;
 }
 
-#activeFolderArea .list ul li span.title {
-    bottom: 0;
-    display: block;
-    left: 30px;
+#activeFolderArea .list ul li span.titleWrapper {
     overflow: hidden;
-    position: absolute;
-    right: 40px;
+    padding-right: 40px;
+    display: block;
     text-overflow: ellipsis;
-    top: 0;
+    margin-left: 30px;
+}
+
+#activeFolderArea .list ul li span.title {
     white-space: nowrap;
 }
 
@@ -1216,11 +1232,26 @@ i.i-4x { font-size: 56px !important }
     margin-top: 5px;
 }
 
-
 /* Selectize Configuration */
-
-.selectize-control .selectize-dropdown .caption {
+html .selectize-control .selectize-dropdown .caption {
     font-size: 12px;
     display: block;
     opacity: 0.5;
+}
+
+html .selectize-control.multi .selectize-input > div {
+    border: none !important;
+}
+
+html .selectize-control.multi .selectize-input [data-value] {
+    background: -webkit-linear-gradient(top, #6edb00, #6BBD46) !important;
+    text-shadow: 0 1px 0 #57ad00 !important;
+}
+
+html .selectize-control.multi .selectize-input [data-value] > .remove {
+    border-color: #6BBD46;
+}
+
+html .selectize-control.multi .selectize-input.full > input {
+    display: none;
 }

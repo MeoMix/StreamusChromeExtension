@@ -2,8 +2,9 @@
     'activePlaylistItemsView',
     'text!../template/activePlaylistArea.htm',
     'playAllButtonView',
-    'streamItems'
-], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, StreamItems) {
+    'streamItems',
+    'utility'
+], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, StreamItems, Utility) {
     'use strict';
 
     var ActivePlaylistAreaView = Backbone.View.extend({
@@ -36,7 +37,7 @@
 
             this.$el.find('.left-top-divider').after(this.activePlaylistItemsView.render().el);
             this.$el.find('.playlist-actions').append(this.playAllButtonView.render().el);
-
+           
             this.playlistDetails = this.$el.find('.playlist-details');
 
             return this;
@@ -59,6 +60,7 @@
             //this.$el.prepend(this.playlistItemInputView.render().el);
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
+            Utility.scrollChildElements(this.el, '.playlistTitle');
         },
         
         addToStreamAndPlay: function () {

@@ -13,8 +13,8 @@
 
 	"browser_action": {
 		"default_icon": {
-			"19": "img/streamus_icon19.png",
-			"38": "img/streamus_icon38.png"
+			"19": "img/streamus_icon_yellow_19_19.png",
+			"38": "img/streamus_icon_yellow_38_38.png"
 		},
 		"default_title": "__MSG_extensionTitle__",
 		"default_popup": "foreground.htm"

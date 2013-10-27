@@ -1,8 +1,12 @@
-﻿<button class="mute button-icon<%- muted ? ' muted' : '' %>" title="<%- muted ? chrome.i18n.getMessage('clickToUnmute'): chrome.i18n.getMessage('clickToMute') %>">
+﻿<button class="mute button-icon<%- muted ? ' muted' : '' %>" title="<%- muted ? chrome.i18n.getMessage('clickToUnmute') : chrome.i18n.getMessage('clickToMute') %>">
     
 </button>
 
 <div class="volume-slider">
-    <div class="progress" style="height: <%- volume %>%"></div>
+    
+    <div class="progress" style="height: <%- volume %>%">
+        
+    </div>
+
     <input class="volumeRange" title="<%- chrome.i18n.getMessage('clickDragChangeVolume') %>" type="range" value="<%- volume %>">
 </div>

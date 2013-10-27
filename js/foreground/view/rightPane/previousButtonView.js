@@ -16,14 +16,22 @@ define([
             'click': 'tryDoTimeBasedPrevious'
         },
         
-        //  TODO: Consider disabled titles
-        attributes: {
-            title: chrome.i18n.getMessage("backPreviousVideo")
-        },
-        
+        disabledTitle: chrome.i18n.getMessage('backPreviousVideoDisabled'),
+        enabledTitle: chrome.i18n.getMessage('backPreviousVideo'),
+
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             this.$el.prop('disabled', !this.model.get('enabled'));
+            
+            var isEnabled = this.model.get('enabled');
+
+            this.$el.prop('disabled', !isEnabled);
+
+            if (isEnabled) {
+                this.$el.attr('title', this.enabledTitle);
+            } else {
+                this.$el.attr('title', this.disabledTitle);
+            }
             
             return this;
         },

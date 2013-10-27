@@ -4,8 +4,9 @@
     'videoSearchResults',
     'addSearchResultOption',
     'addSearchResultOptionView',
-    'addSearchResultOptionType'
-], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType) {
+    'addSearchResultOptionType',
+    'utility'
+], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType, Utility) {
     'use strict';
 
     var AddSearchResultsView = Backbone.View.extend({
@@ -104,6 +105,26 @@
         initialize: function() {
             this.listenTo(VideoSearchResults, 'change:selected', this.updateSelectedItemsMessage);
             this.listenTo(this.model, 'destroy', this.hide);
+            this.listenTo(this.model.get('folder').get('playlists'), 'add', this.addPlaylistOption);
+            
+            Utility.scrollChildElements(this.el, '.item-title');
+        },
+        
+        addPlaylistOption: function (addedPlaylist) {
+
+            var playlistAddSearchResultOption = new AddSearchResultOption({
+                title: addedPlaylist.get('title'),
+                entity: addedPlaylist,
+                type: AddSearchResultOptionType.PLAYLIST
+            });
+
+            var playlistAddSearchResultOptionView = new AddSearchResultOptionView({
+                model: playlistAddSearchResultOption
+            });
+
+            this.list.append(playlistAddSearchResultOptionView.render().el);
+            console.log("Appended option");
+
         },
         
         updateSelectedItemsMessage: function() {

@@ -176,12 +176,27 @@ define([
             
         //  This is generally called from the foreground to not couple the Video object with the foreground.
         addItemByInformation: function (videoInformation) {
+            console.log("inside addItemByInformation");
+            //  Support adding an array of videoInformation, too.
+            if (_.isArray(videoInformation)) {
+                console.log("im an ARRAY!");
+                var videos = _.map(videoInformation, function (info) {
+                    return new Video({
+                        videoInformation: info
+                    });
+                });
 
-            var video = new Video({
-                videoInformation: videoInformation
-            });
+                this.addItems(videos);
+            } else {
+                
+                var video = new Video({
+                    videoInformation: videoInformation
+                });
 
-            this.addItem(video);
+                this.addItem(video);
+                console.log("AddedItem!", video);
+            }
+
         },
 
         addItem: function (video, callback) {
@@ -192,8 +207,6 @@ define([
             });
                 
             var self = this;
-
-            console.log("Calling save with:", playlistItem);
 
             //  Save the playlistItem, but push after version from server because the ID will have changed.
             playlistItem.save({}, {

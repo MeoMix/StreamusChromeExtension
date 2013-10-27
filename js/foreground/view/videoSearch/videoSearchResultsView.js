@@ -2,8 +2,10 @@
     'videoSearchResultView',
     'videoSearchResults',
     'text!../template/videoSearchResults.htm',
-    'utility'
-], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility) {
+    'utility',
+    'contextMenuGroups',
+    'streamItems'
+], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility, ContextMenuGroups, StreamItems) {
     'use strict';
 
     var VideoSearchResultsView = Backbone.View.extend({
@@ -18,6 +20,10 @@
         searchingMessage: null,
         instructions: null,
         noResultsMessage: null,
+        
+        events: {
+            'contextmenu': 'showContextMenu'
+        },
         
         render: function () {
 
@@ -135,6 +141,41 @@
             this.searchingMessage.toggleClass('hidden', !isSearching);
             this.noResultsMessage.addClass('hidden');
             this.instructions.addClass('hidden');
+        },
+
+        showContextMenu: function (event) {
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
+            event.preventDefault();
+
+            if (event.target === event.currentTarget) {
+                //  Didn't bubble up from a child -- clear groups.
+                ContextMenuGroups.reset();
+            }
+
+            var isPlaySelectedDisabled = VideoSearchResults.selected().length === 0;
+
+            ContextMenuGroups.add({
+                position: 0,
+                items: [{
+                    position: 0,
+                    text: chrome.i18n.getMessage("playSelected") + ' (' + VideoSearchResults.selected().length + ')',
+                    disabled: isPlaySelectedDisabled,
+                    title: isPlaySelectedDisabled ? chrome.i18n.getMessage("playSelectedDisabled") : '',
+                    onClick: function () {
+
+                        if (!isPlaySelectedDisabled) {
+
+                            var videoInformation = _.map(VideoSearchResults.selected(), function (videoSearchResult) {
+                                return videoSearchResult.get('videoInformation');
+                            });
+
+                            StreamItems.addMultipleByVideoInformation(videoInformation, true);
+
+                        }
+
+                    }
+                }]
+            });
         }
     });
 

@@ -60,24 +60,7 @@
                     var draggedVideoId = ui.draggable.data('videoid');
                     var videoSearchResult = VideoSearchResults.get(draggedVideoId);
 
-                    var type = self.model.get('type');
-
-                    //  TODO: It would be nice to have a common method name here instead of switch statement.
-                    switch (type) {
-                        case AddSearchResultOptionType.STREAM:
-                            self.model.get('entity').addByVideoInformation(videoSearchResult.get('videoInformation'));
-                            break;
-                        
-                        case AddSearchResultOptionType.PLAYLIST:
-                            
-                            self.model.get('entity').addItemByInformation(videoSearchResult.get('videoInformation'));
-
-                            break;
-                            
-                        default:
-                            console.error("Unhandled type:", type);
-                            break;
-                    }
+                    this.model.get('entity').addByVideoInformation(videoSearchResult.get('videoInformation'));
                     
                     var droppableIcon = self.$el.find('i.droppable');
                     var checkIcon = droppableIcon.next();
@@ -95,7 +78,6 @@
                 }
             });
             
-            //  TODO: Fix 
             var entity = this.model.get('entity');
             
             if (this.model.get('type') === AddSearchResultOptionType.STREAM) {
@@ -107,8 +89,6 @@
         },
         
         updateItemCount: function () {
-            //  TODO: i18n
-            //  TODO: Fix 
             var entity = this.model.get('entity');
 
             var collectionLength;
@@ -120,9 +100,9 @@
             }
 
             if (collectionLength === 1) {
-                this.itemCount.text(collectionLength + ' item');
+                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('item'));
             } else {
-                this.itemCount.text(collectionLength + ' items');
+                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('items'));
             }
 
         }

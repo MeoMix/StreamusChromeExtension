@@ -129,7 +129,14 @@ define([
         },
         
         toggleMutedClass: function() {
-            this.muteButton.toggleClass('muted', Player.get('muted'));
+
+            var isMuted = Player.get('muted');
+
+            this.muteButton.toggleClass('muted', isMuted);
+
+            var title = isMuted ? chrome.i18n.getMessage('clickToUnmute') : chrome.i18n.getMessage('clickToMute');
+
+            this.muteButton.attr('title', title);
         }
 
     });

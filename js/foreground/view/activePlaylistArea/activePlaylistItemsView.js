@@ -16,7 +16,6 @@ define([
         
         events: {
             'contextmenu': 'showContextMenu',
-            'contextmenu .playlistItem': 'showItemContextMenu',
             'click .playlistItem': 'addItemToStream'
         },
         
@@ -115,7 +114,8 @@ define([
                 this.$el.trigger('manualShow');
             });
 
-            Utility.scrollChildElements(this.el, 'span.playlistItemTitle');
+            
+            Utility.scrollChildElements(this.el, 'span.item-title');
         },
 
         addItem: function (playlistItem) {
@@ -194,57 +194,6 @@ define([
 
                     }
                 }]
-            });
-
-        },
-        
-        showItemContextMenu: function (event) {
-
-            event.preventDefault();
-            ContextMenuGroups.reset();
-            
-            var clickedPlaylistItemId = $(event.currentTarget).data('playlistitemid');
-            var clickedPlaylistItem = this.model.get('items').get(clickedPlaylistItemId);
-
-            ContextMenuGroups.add({
-                position: 0,
-                items: [{
-                    position: 0,
-                    text: chrome.i18n.getMessage("copyUrl"),
-                    onClick: function () {
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: 'http://youtu.be/' + clickedPlaylistItem.get('video').get('id')
-                        });
-                    }
-                }, {
-                    position: 1,
-                    text: chrome.i18n.getMessage("copyTitleAndUrl"),
-                    onClick: function () {
-
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: '"' + clickedPlaylistItem.get('title') + '" - http://youtu.be/' + clickedPlaylistItem.get('video').get('id')
-                        });
-                    }
-                }, {
-                    position: 2,
-                    text: chrome.i18n.getMessage("deleteVideo"),
-                    onClick: function () {
-                        clickedPlaylistItem.destroy();
-                    }
-                }, {
-                    position: 3,
-                    text: chrome.i18n.getMessage("addVideoToStream"),
-                    onClick: function () {
-                        StreamItems.add({
-                            id: _.uniqueId('streamItem_'),
-                            video: clickedPlaylistItem.get('video'),
-                            title: clickedPlaylistItem.get('title')
-                        });
-                    }
-                }]
-
             });
 
         },

@@ -3,13 +3,13 @@
 </button>
 
 <div class="left-top-bar">
-    <div class="playlist-name">
+    <span class="playlistTitle">
         <%- playlist.get('title') %>
-    </div>
-    <button class="button-label button-color" id="addVideosButton" title="<%- chrome.i18n.getMessage('addVideosButtonText') %>">
-        <i class="icon-plus"></i><%- chrome.i18n.getMessage('addVideosButtonText') %>
-    </button>
+    </span>
 </div>
+<button class="button-label button-color" id="addVideosButton" title="<%- chrome.i18n.getMessage('addVideosButtonText') %>">
+    <i class="icon-plus"></i><%- chrome.i18n.getMessage('addVideosButtonText') %>
+</button>
 <div class="left-top-divider"></div>
 <div class="left-bottom-menubar">
     <div class="playlist-details">

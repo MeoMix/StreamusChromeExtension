@@ -2,8 +2,9 @@
     'videoSearchResultsView',
     'text!../template/videoSearch.htm',
     'playSelectedButtonView',
-    'saveSelectedButtonView'
-], function (VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView) {
+    'saveSelectedButtonView',
+    'videoSearchResults'
+], function (VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults) {
     'use strict';
 
     var VideoSearchView = Backbone.View.extend({
@@ -27,7 +28,6 @@
             'blur .searchBar input': 'lowlight',
             'input .searchBar input': 'showVideoSuggestions',
             'click #button-back': 'destroyModel'
-            
             //  TODO: How to support these?
             //'drop .addInput': 'parseUrlInput',
             //'paste .addInput': 'parseUrlInput',
@@ -92,6 +92,7 @@
                 opacity: 0
             }, function () {
                 self.remove();
+                VideoSearchResults.reset();
             });
 
         },

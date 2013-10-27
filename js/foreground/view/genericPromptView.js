@@ -30,6 +30,7 @@
             this.$el.html(this.template(genericTemplateOptions));
 
             this.panel = this.$el.children('.panel');
+            this.okButton = this.$el.find('button.ok');
 
             return this;
         },

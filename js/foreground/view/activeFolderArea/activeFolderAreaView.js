@@ -6,8 +6,9 @@
     'editPlaylistPromptView',
     'deletePlaylistPromptView',
     'deletePlaylistButtonView',
-    'folders'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders) {
+    'folders',
+    'utility'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders, Utility) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -64,7 +65,7 @@
             //this.$el.prepend(this.playlistInputView.render().el);
 
             this.listenTo(this.model, 'destroy', this.hide);
-
+            Utility.scrollChildElements(this.el, '.title');
         },
         
         show: function () {

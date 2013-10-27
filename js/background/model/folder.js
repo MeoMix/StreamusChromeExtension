@@ -141,13 +141,43 @@ define([
             this.get('playlists').get(playlistId).addVideoByIdToPlaylist(id);
         },
         
+        addPlaylistByInformation: function(playlistTitle, videoInformation) {
+
+            //  Support adding just a single videoInformation object or an entire array.
+            if (_.isArray(videoInformation)) {
+                var videos = _.map(videoInformation, function (videoInformation) {
+                    return new Video({
+                        videoInformation: videoInformation
+                    });
+                });
+
+                this.addPlaylistWithVideos(playlistTitle, videos);
+            } else {
+                var video = new Video({
+                    videoInformation: videoInformation
+                });
+
+                this.addPlaylistWithVideos(playlistTitle, video);
+            }
+
+
+        },
+        
         addPlaylistWithVideos: function(playlistTitle, videos) {
             var self = this;
+
+            var playlistItems = [];
+            
+            if (_.isArray(videos)) {
+                playlistItems = _.map(videos, function(video) { return { video: video }; });
+            } else {
+                playlistItems.push({ video: videos });
+            }
             
             var playlist = new Playlist({
                 title: playlistTitle,
                 folderId: this.get('id'),
-                items: _.map(videos, function(video) { return { video: video }; })
+                items: playlistItems
             });
 
             //  Save the playlist, but push after version from server because the ID will have changed.

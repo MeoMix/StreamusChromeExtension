@@ -15,6 +15,8 @@ define([
                 var isMuted = Player.get('muted');
                 var volume = Player.get('volume');
 
+                console.log("initializing icon:", playerState);
+
                 setIcon(playerState, isMuted, volume);
             };
             
@@ -67,6 +69,8 @@ define([
         } else {
             iconColor = 'Yellow';
         }
+
+        console.log("IconColor:", iconColor);
 
         //  TODO: It would probably be better to implement this using a canvas rather than swapping images.
         var barCount = Math.ceil((volume / 25));

@@ -36,7 +36,7 @@
 		"message": "Añadir Pista a la Cola"
 	},
 	"addPlaylistToStream": {
-		"message": "Añadir a la Cola"
+		"message": "Añadir Lista a la Cola"
 	},
 	"addPlaylistNoAddStreamWarning": {
 		"message": "Debes añadir pistas a la Lista primero."
@@ -280,6 +280,9 @@
 	"saveButtonText": {
 		"message": "Save"
 	},
+	"createAndSaveButtonText": {
+		"message": "Create playlist & save"
+	},
 	"cancelButtonText": {
 		"message": "Cancel"
 	},
@@ -313,10 +316,37 @@
 	"clearStreamPromptText": {
 		"message": "Click OK to clear your stream"
 	},
+	"selectPlaylistPlaceholder": {
+		"message": "Type to create a playlist or filter your existing playlists"
+	},
 	"saveSelectedVideo": {
 		"message": "Save selected video"
 	},
 	"saveSelectedVideos": {
 		"message": "Save selected videos"
+	},
+    "skipNextVideoDisabled": {
+		"message": "There's no video to skip to"
+	},
+	"backPreviousVideoDisabled": {
+		"message": "There's no video to go back to"
+	},
+	"play": {
+		"message": "Play"
+	},
+	"add": {
+		"message": "Add"
+	},
+	"editPlaylist": {
+		"message": "Edit playlist"
+	},
+	"deletePlaylist": {
+		"message": "Delete playlist"
+	},
+	"item": {
+		"message": "item"
+	},
+	"items": {
+		"message": "items"
 	}
 }

@@ -158,6 +158,10 @@ define([
         },
 
         cueVideoById: function (videoId, startSeconds) {
+            //  Helps for keeping things in sync when the same video reloads.
+            if (this.get('loadedVideoId') === videoId) {
+                this.trigger('change:loadedVideoId');
+            }
 
             this.set('loadedVideoId', videoId);
 
@@ -170,7 +174,11 @@ define([
         },
             
         loadVideoById: function (videoId, startSeconds) {
-
+            //  Helps for keeping things in sync when the same video reloads.
+            if (this.get('loadedVideoId') === videoId) {
+                this.trigger('change:loadedVideoId');
+            }
+            
             this.set('state', PlayerState.BUFFERING);
             this.set('loadedVideoId', videoId);
 
@@ -211,6 +219,7 @@ define([
             if (!this.isPlaying()) {
                 this.set('state', PlayerState.BUFFERING);
                 console.log("Set to buffering, calling play");
+                console.trace();
                 youTubePlayer.playVideo();
             }
         },
@@ -221,8 +230,9 @@ define([
         playOnceVideoChanges: function() {
             var self = this;
 
+            console.log("Playing once the video chances!");
             this.once('change:loadedVideoId', function () {
-                console.log("loadedVideoId has changed");
+                console.log("loadedVideoId has changed PLAYING!");
                 setTimeout(function () {
                     self.play();
                 });
