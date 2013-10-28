@@ -2,7 +2,6 @@
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
     'settings',
-    'loadingSpinnerView',
     'reloadPromptView',
     'activeFolderArea',
     'activeFolderAreaView',
@@ -17,7 +16,7 @@ define([
     'contextMenuGroups',
     'rightPaneView',
     'folders'
-], function (Settings, LoadingSpinnerView, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
+], function (Settings, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -30,7 +29,6 @@ define([
         addSearchResults: null,
         rightPaneView: null,
         contextMenuView: new ContextMenuView,
-        loadingSpinnerView: new LoadingSpinnerView,
         reloadPromptView: new ReloadPromptView,
         showReloadPromptTimeout: null,
                
@@ -50,7 +48,6 @@ define([
             
             var self = this;
             
-            this.$el.append(this.loadingSpinnerView.render().el);
             this.$el.append(this.contextMenuView.render().el);
 
             //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
@@ -155,7 +152,6 @@ define([
             this.$el.removeClass('loading');
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();
-            this.loadingSpinnerView.remove();
 
             var activeFolder = Folders.getActiveFolder();
 

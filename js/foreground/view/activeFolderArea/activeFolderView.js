@@ -6,11 +6,10 @@ define([
     'dataSource',
     'streamItems',
     'playlistView',
-    'loadingSpinnerView',
     'deletePlaylistPromptView',
     'editPlaylistPromptView',
     'createPlaylistPromptView'
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, LoadingSpinnerView, DeletePlaylistPromptView, EditPlaylistPromptView, CreatePlaylistPromptView) {
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistPromptView, EditPlaylistPromptView, CreatePlaylistPromptView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -19,8 +18,6 @@ define([
 
         template: _.template(ActiveFolderTemplate),
 
-        loadingSpinnerView: new LoadingSpinnerView,
-        
         events: {
             'contextmenu': 'showContextMenu',
             'contextmenu li': 'showItemContextMenu',

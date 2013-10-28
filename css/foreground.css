@@ -9,6 +9,22 @@ body {
     -webkit-user-select: none;
 }
 
+body.loading > *:not(.modalOverlay) {
+    opacity: 0.5;
+}
+
+body.loading > .fa-spinner {
+    display: inline-block;
+    opacity: 1;
+    margin-top: 242px;
+    margin-left: 290.5px;
+    color: #797979;
+}
+
+body > .fa-spinner {
+    display: none;
+}
+
 .playlistTitle
 .playlist-details,
 #activeFolderView span.title {
@@ -17,14 +33,6 @@ body {
 
 #contextMenu:empty {
     display: none;
-}
-
-/*body > * {
-  transition: opacity .2s ease-in-out;
-}*/
-
-body.loading > *:not(.modalOverlay) {
-    opacity: 0.5;
 }
 
 /* Custom Webkit Scrollbar */
@@ -140,18 +148,6 @@ button.mute.muted{
     position: absolute;
     right: 10px;
     bottom: 10px;
-}
-
-/* Loading Spinner */
-/* Loading animation container */
-.loadingSpinner {
-    position: absolute;
-    top: calc(50% - 33px);
-    left: calc(50% - 24.5px);
-    color: #797979;
-}
-body.loading .loadingSpinner {
-    opacity: 1;
 }
  
 input:focus, button:focus { outline: none }

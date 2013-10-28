@@ -80,7 +80,6 @@ require.config({
         'player': 'foreground/model/player',
         'reloadPrompt': 'foreground/model/reloadPrompt',
         'settings': 'foreground/model/settings',
-        'spinnerBuilder': 'foreground/model/spinnerBuilder',
         'videoSearch': 'foreground/model/videoSearch',
         'videoSearchResult': 'foreground/model/videoSearchResult',
 
@@ -97,7 +96,6 @@ require.config({
         'dialogView': 'foreground/view/dialogView',
         'editPlaylistPromptView': 'foreground/view/editPlaylistPromptView',
         'genericPromptView': 'foreground/view/genericPromptView',
-        'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
         'saveSelectedPromptView': 'foreground/view/saveSelectedPromptView',
         'settingsPromptView': 'foreground/view/settingsPromptView',
