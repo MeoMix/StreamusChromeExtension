@@ -154,6 +154,8 @@ define([
                 },
                 error: function () {
 
+                    //  TODO: Either name everything dialog or everything prompt..
+
                     var bannedDialog = new Dialog({
                         text: chrome.i18n.getMessage("videoCopyrightBanned"),
                         type: 'error'

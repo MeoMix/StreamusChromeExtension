@@ -13,14 +13,46 @@
 
     <div class="body">
         
-        <%- chrome.i18n.getMessage('createPlaylistPromptText') %>
+        <ul class="options">
+            <li>
+                
+                <label for="playlistTitleInput">
+                    <strong class="required"><%- chrome.i18n.getMessage('title') %></strong>
+                </label>
+
+                <span class="inputUnderlineWrapper">
+                    <input id="playlistTitleInput" type="text" class="playlistTitle submittable" value="<%- chrome.i18n.getMessage('playlist') %> <%- playlistCount %>">
+                    <div class="underline"></div>   
+                </span>
+
+            </li>
+            <li>
+                <label for="youTubeSourceInput">
+                    <strong><%- chrome.i18n.getMessage('source') %></strong>
+                </label>
+
+                <span class="inputUnderlineWrapper">
+                    <input id="youTubeSourceInput" type="text" class="youTubeSource submittable" placeholder="Optional: YouTube playlist or channel URL">
+                    <div class="underline"></div>   
+                </span>
+            </li>
+        </ul>
         
-        <input type="text" class="submittable" value="<%- chrome.i18n.getMessage('playlist') %> <%- playlistCount %>">
-        <div class="underline"></div>
+
         
-        <button class="ok button-label button-color">
-            <%- chrome.i18n.getMessage('okButtonText') %>
-        </button>
+
+        
+        <span class="bottom-right">
+                        
+            <button class="ok button-label button-color">
+                <%- chrome.i18n.getMessage('saveButtonText') %>
+            </button>
+            
+            <button class="cancel button-label button-color">
+                <%- chrome.i18n.getMessage('cancelButtonText') %>
+            </button>
+
+        </span>
     </div>
 
 </div>

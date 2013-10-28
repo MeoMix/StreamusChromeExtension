@@ -60,7 +60,7 @@
                     var draggedVideoId = ui.draggable.data('videoid');
                     var videoSearchResult = VideoSearchResults.get(draggedVideoId);
 
-                    this.model.get('entity').addByVideoInformation(videoSearchResult.get('videoInformation'));
+                    self.model.get('entity').addByVideoInformation(videoSearchResult.get('videoInformation'));
                     
                     var droppableIcon = self.$el.find('i.droppable');
                     var checkIcon = droppableIcon.next();

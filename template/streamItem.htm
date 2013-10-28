@@ -3,9 +3,9 @@
     <%- title %>
 </span>
 <span class="item-details">
+    
     <span class="item-author">
-        <i class="icon-user"></i>
-        <div class="limitedScrollingWidth"><%- video.get('author') %></div>
+        <%-chrome.i18n.getMessage('by')%> <div class="limitedScrollingWidth"><strong><%- video.get('author') %></strong></div>
     </span>
     <span class="item-duration">
         <i class="icon-time"></i>

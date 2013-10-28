@@ -97,9 +97,7 @@ require.config({
         'dialogView': 'foreground/view/dialogView',
         'editPlaylistPromptView': 'foreground/view/editPlaylistPromptView',
         'genericPromptView': 'foreground/view/genericPromptView',
-        'headerTitleView': 'foreground/view/headerTitleView',
         'loadingSpinnerView': 'foreground/view/loadingSpinnerView',
-        'progressBarView': 'foreground/view/progressBarView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
         'saveSelectedPromptView': 'foreground/view/saveSelectedPromptView',
         'settingsPromptView': 'foreground/view/settingsPromptView',
@@ -108,7 +106,6 @@ require.config({
         'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',
         'activeFolderView': 'foreground/view/activeFolderArea/activeFolderView',
         'deletePlaylistButtonView': 'foreground/view/activeFolderArea/deletePlaylistButtonView',
-        'playlistInputView': 'foreground/view/activeFolderArea/playlistInputView',
         'playlistView': 'foreground/view/activeFolderArea/playlistView',
 
         //  View -> ActivePlaylistArea:

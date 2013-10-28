@@ -105,9 +105,9 @@ define([
             chrome.idle.onStateChanged.addListener(function(newState) {
 
                 if (newState == 'active' && self.get('dirty')) {
-                    console.log("Refetching user");
+                    console.log("Here is where I would fetchUser... IF I HAD ONE!");
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    fetchUser.call(self, false);
+                    //fetchUser.call(self, false);
                 }
 
             });

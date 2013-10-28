@@ -48,10 +48,14 @@
     <Content Include="css\font-awesome.css" />
     <Content Include="css\fullscreen.css" />
     <Content Include="css\foreground.css" />
+    <Content Include="css\selectize.css" />
+    <Content Include="css\selectize.default.css" />
     <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="fullscreen.htm" />
     <Content Include="img\streamus_icon16.png" />
     <Content Include="img\streamus_icon14_0bars.png" />
+    <Content Include="img\streamus_icon_yellow_19_19.png" />
+    <Content Include="img\streamus_icon_yellow_38_38.png" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
     <Content Include="js\background\model\buttons\videoDisplayButton.js" />
@@ -109,6 +113,9 @@
     <Content Include="js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="js\thirdParty\jquery.transit.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
+    <Content Include="js\thirdParty\microplugin.js" />
+    <Content Include="js\thirdParty\selectize.js" />
+    <Content Include="js\thirdParty\sifter.js" />
     <Content Include="js\thirdParty\text.js" />
     <Content Include="js\utility.js" />
     <Content Include="js\foreground\collection\contextMenuGroups.js" />
@@ -174,7 +181,6 @@
     <Content Include="js\inject\streamusShareInject.js" />
     <Content Include="js\enum\dataSource.js" />
     <Content Include="js\foreground\view\contentHeaderView.js" />
-    <Content Include="js\foreground\view\headerTitleView.js" />
     <Content Include="js\foreground\main.js" />
     <Content Include="js\foreground\model\player.js" />
     <Content Include="js\foreground\view\rightPane\playPauseButtonView.js" />
@@ -185,9 +191,7 @@
     <Content Include="js\foreground\view\rightPane\nextButtonView.js" />
     <Content Include="js\foreground\view\rightPane\volumeControlView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\playlistItemInputView.js" />
-    <Content Include="js\foreground\view\activeFolderArea\playlistInputView.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderView.js" />
-    <Content Include="js\foreground\view\progressBarView.js" />
     <Content Include="js\foreground\model\spinnerBuilder.js" />
     <Content Include="js\foreground\view\video\videoDisplayView.js" />
     <Content Include="js\inject\streamusInject.js" />

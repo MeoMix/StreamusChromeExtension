@@ -13,9 +13,11 @@
 
     <div class="body">
         
-        <ul class="playlistSettings">
+        <ul class="options">
             <li>
-                <label for="playlistTitleInput"><strong>Title:</strong></label>
+                <label for="playlistTitleInput">
+                    <strong class="required"><%- chrome.i18n.getMessage('title') %></strong>
+                </label>
                 
                 <span class="inputUnderlineWrapper">
                      <input id="playlistTitleInput" type="text" class="submittable" value="<%- title %>">

@@ -24,10 +24,6 @@
                 contextMenuGroups: ContextMenuGroups
             }));
 
-            this.$el.find('a').each(function () {
-                Utility.scrollElementInsideParent(this);
-            });
-
             //  TODO: Should this logic be part of 'show' or 'render' ?
             //  Prevent display outside viewport.
             var offsetTop = this.top;
@@ -54,6 +50,8 @@
         
         initialize: function () {
             this.listenTo(ContextMenuGroups, 'reset add remove', this.render);
+            
+            Utility.scrollElementInsideParent(this.el, 'a');
         },
         
         //  Displays the context menu at given x,y coordinates.

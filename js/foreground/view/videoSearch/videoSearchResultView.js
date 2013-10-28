@@ -30,6 +30,7 @@
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
+                    'chrome.i18n': chrome.i18n,
                     'index': this.index
                 })
             ));

@@ -78,6 +78,8 @@ define([
                     pickedVideo = self.get('suggestedVideos').at(0);
                 }
 
+                console.log("SuggestedVideo:", pickedVideo);
+
                 StreamItems.addAndPlay({
                     id: _.uniqueId('streamItem_'),
                     video: pickedVideo,

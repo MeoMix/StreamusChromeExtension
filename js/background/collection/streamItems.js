@@ -187,6 +187,8 @@ define([
                             selected: !!playOnAdd
                         });
 
+                        console.log("Play on add:", playOnAdd, streamItem);
+
                         if (playOnAdd) {
                             self.addAndPlay(streamItem);
                         } else {
@@ -252,12 +254,10 @@ define([
             
             Player.playOnceVideoChanges();
 
-            console.log("StreamItems and length:", streamItems, streamItems.length);
-            
-            if (streamItems.length === 1) {
-                StreamItems.add(streamItems);
-            } else {
+            if (_.isArray(streamItems)) {
                 StreamItems.addMultiple(streamItems);
+            } else {
+                StreamItems.add(streamItems);
             }
 
         },

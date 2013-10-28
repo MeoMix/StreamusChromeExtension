@@ -46,24 +46,15 @@
 
             return this;
         },
-        
-        //playlistInputView: null,
-        
+
         initialize: function() {
 
-            //  TODO: Do I have to set this in initialize or can I do it through the property?
             this.activeFolderView = new ActiveFolderView({
                 model: this.model.get('folder')
             });
 
             this.deletePlaylistButtonView = new DeletePlaylistButtonView();
             
-            //this.playlistInputView = new PlaylistInputView({
-            //    model: this.model
-            //});
-
-            //this.$el.prepend(this.playlistInputView.render().el);
-
             this.listenTo(this.model, 'destroy', this.hide);
             Utility.scrollChildElements(this.el, '.title');
         },
