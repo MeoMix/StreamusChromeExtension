@@ -117,6 +117,8 @@ button.mute.muted{
     height: 180px;
     margin-top: -90px;
     top: -90px;
+    width: 450px;
+    margin-left: -225px;
 }
 
 .prompt.saveSelectedPrompt .panel {
@@ -1170,11 +1172,9 @@ input.valid {
 
 #activeFolderArea .list ul li i {
     bottom: 0;
-    display: block;
     left: 0;
     position: absolute;
-    text-align: center;
-    top: 0;
+    top: 7px;
     width: 25px;
 }
 
@@ -1238,7 +1238,8 @@ i.i-4x { font-size: 56px !important }
 .required:after {
     color: red;
     content: '*';
-    margin-right: -4px;
+    margin-right: -5px;
+    margin-left: 1px;
 }
 
 .item-thumb:before {

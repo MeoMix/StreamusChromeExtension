@@ -1,8 +1,9 @@
 ﻿define([
     'videoSearchResults',
     'videoSearchResult',
-    'youTubeDataAPI'
-], function (VideoSearchResults, VideoSearchResult, YouTubeDataAPI) {
+    'youTubeDataAPI',
+    'utility'
+], function (VideoSearchResults, VideoSearchResult, YouTubeDataAPI, Utility) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({
@@ -39,6 +40,29 @@
                 }
 
                 if (searchQuery !== '') {
+                    
+                    //  If the search query had a valid ID inside of it -- display that result, otherwise search.
+                    var videoId = Utility.parseVideoIdFromUrl(searchQuery);
+                    
+                    if (videoId) {
+                        YouTubeDataAPI.getVideoInformation({
+                            videoId: videoId,
+                            success: function (videoInformation) {
+                                
+                                //  Convert video information into search results which contain a reference to the full data incase needed later.
+                                var videoSearchResult = new VideoSearchResult({
+                                    videoInformation: videoInformation
+                                });
+
+                                videoSearchResults.reset(videoSearchResult);
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
+                    }
+                    
+                    //  TODO: Support displaying playlists and channel URLs here.
                     
                     var searchJqXhr = YouTubeDataAPI.search({
                         text: searchQuery,

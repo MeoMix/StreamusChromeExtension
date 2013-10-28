@@ -48,7 +48,7 @@ define([
                     //  Don't change the text when user clicks their video selection.
                     event.preventDefault();
                     self.contentHeaderView.clearUserInput();
-                    self.model.addItemByInformation(ui.item.value);
+                    self.model.addByVideoInformation(ui.item.value);
                 }
             });
 
@@ -147,28 +147,7 @@ define([
             var self = this;
             this.contentHeaderView.clearUserInput();
 
-            YouTubeDataAPI.getVideoInformation({
-                videoId: videoId,
-                success: function (videoInformation) {
-                    self.model.addItemByInformation(videoInformation);
-                },
-                error: function () {
 
-                    //  TODO: Either name everything dialog or everything prompt..
-
-                    var bannedDialog = new Dialog({
-                        text: chrome.i18n.getMessage("videoCopyrightBanned"),
-                        type: 'error'
-                    });
-
-                    var bannedDialogView = new DialogView({
-                        model: bannedDialog
-                    });
-
-                    $('#contentWrapper').append(bannedDialogView.render().el);
-
-                }
-            });
         }
         
     });

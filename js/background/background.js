@@ -102,7 +102,7 @@ define([
                 YouTubeDataAPI.getVideoInformation({
                     videoId: request.videoId,
                     success: function(videoInformation) {
-                        playlist.addItemByInformation(videoInformation);
+                        playlist.addByVideoInformation(videoInformation);
 
                         sendResponse({
                             result: 'success'

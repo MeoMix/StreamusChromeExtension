@@ -175,8 +175,8 @@ define([
         },
             
         //  This is generally called from the foreground to not couple the Video object with the foreground.
-        addItemByInformation: function (videoInformation) {
-            console.log("inside addItemByInformation");
+        addByVideoInformation: function (videoInformation) {
+            console.log("inside addByVideoInformation");
             //  Support adding an array of videoInformation, too.
             if (_.isArray(videoInformation)) {
                 console.log("im an ARRAY!");

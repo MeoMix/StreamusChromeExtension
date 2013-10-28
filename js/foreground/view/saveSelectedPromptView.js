@@ -122,7 +122,7 @@
                 } else {
                     
                     var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
-                    selectedPlaylist.addItemByInformation(videoInformation);
+                    selectedPlaylist.addByVideoInformation(videoInformation);
 
                 }
 
