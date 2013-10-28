@@ -74,6 +74,7 @@ button.mute.muted{
     background: #f2f2f2;
     transition: left .3s;
     box-shadow: 0 0 20px #000;
+    opacity: 0;
 }
 
 .modalOverlay .panel .header {
@@ -97,6 +98,8 @@ button.mute.muted{
     position: absolute;
     left: 50%;
     transition: top .3s;
+
+    top: -70px;
     
     /* Default Panel Size */
     width: 500px;
@@ -113,6 +116,7 @@ button.mute.muted{
 .prompt.createPlaylistPrompt .panel {
     height: 180px;
     margin-top: -90px;
+    top: -90px;
 }
 
 .prompt.saveSelectedPrompt .panel {
@@ -274,12 +278,12 @@ button:active {
     width: 40px;
 }
 
-.icon-repeat.repeatVideo,
-.icon-repeat.repeatStream {
+.fa fa-repeat.repeatVideo,
+.fa fa-repeat.repeatStream {
     margin-right: -10px;
 }
 
-.icon-repeat.repeatVideo:after {
+.fa fa-repeat.repeatVideo:after {
     content: '1';
     border-radius: 50%;
     background-color: #797979;
@@ -292,7 +296,7 @@ button:active {
     padding-right: 2px;
 }
 
-.icon-repeat.repeatStream:after {
+.fa fa-repeat.repeatStream:after {
     content: "∞";
     border-radius: 50%;
     background-color: #797979;
@@ -666,7 +670,7 @@ input.valid {
     display: none;
 }
 
-#activePlaylistItemsView .icon-arrow-up {
+#activePlaylistItemsView .fa fa-arrow-up {
     position: absolute;
     right: 32px;
     top: 0;
@@ -1219,6 +1223,8 @@ input.valid {
 /* FIX TO MAKE ICONS RENDER NICELY */
 
 i { font-size: 14px !important; }
+
+i.fa-lg { font-size: 19px !important; }
 
 i.i-2x { font-size: 28px !important }
 

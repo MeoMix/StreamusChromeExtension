@@ -97,12 +97,12 @@
 
             var caretIcon = $(event.currentTarget).find('i');
             //  TODO: Would be nice to read from a model and not inspect the view.
-            var isExpanded = caretIcon.hasClass('icon-caret-down');
+            var isExpanded = caretIcon.hasClass('fa fa-caret-down');
             
             var activeFolderViewElement = this.activeFolderView.$el;
 
             if (isExpanded) {
-                caretIcon.removeClass('icon-caret-down').addClass('icon-caret-right');
+                caretIcon.removeClass('fa fa-caret-down').addClass('fa fa-caret-right');
 
                 var currentHeight = activeFolderViewElement.height();
 
@@ -116,7 +116,7 @@
                 });
 
             } else {
-                caretIcon.addClass('icon-caret-down').removeClass('icon-caret-right');
+                caretIcon.addClass('fa fa-caret-down').removeClass('fa fa-caret-right');
 
                 this.activeFolderView.$el.show().transition({
                     height: activeFolderViewElement.data('oldheight')

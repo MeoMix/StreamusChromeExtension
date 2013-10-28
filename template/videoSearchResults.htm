@@ -1,11 +1,11 @@
 ﻿<div class="big-text searching hidden">
-    <i class="icon-spinner icon-spin i-4x"></i>Searching...
+    <i class="fa fa-spinner fa fa-spin i-4x"></i>Searching...
 </div>
  
 <div class="big-text instructions<%- !hasSearchResults && !hasSearchQuery ? '' : ' hidden'%>">
-    <i class="icon-search i-4x"></i><%- chrome.i18n.getMessage('searchInstructions') %>
+    <i class="fa fa-search i-4x"></i><%- chrome.i18n.getMessage('searchInstructions') %>
 </div>
 
 <div class="big-text noResults<%- !hasSearchResults && hasSearchQuery && !isSearching ? '' : ' hidden'%>">
-    <i class="icon-frown i-4x"></i><%- chrome.i18n.getMessage('noSearchResults') %>
+    <i class="fa fa-frown i-4x"></i><%- chrome.i18n.getMessage('noSearchResults') %>
 </div>

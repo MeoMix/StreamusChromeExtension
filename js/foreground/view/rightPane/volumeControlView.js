@@ -101,7 +101,7 @@ define([
             }
 
             var volumeIcon = $('<i>', {
-                'class': 'icon-volume-' + volumeIconClass
+                'class': 'fa fa-volume-' + volumeIconClass
             });
             
             return volumeIcon;
