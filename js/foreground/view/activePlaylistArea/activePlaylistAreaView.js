@@ -14,7 +14,6 @@
         template: _.template(ActivePlaylistAreaTemplate),
         
         activePlaylistItemsView: null,
-        //playlistItemInputView: null,
         playlistDetails: null,
         
         attributes: {
@@ -52,12 +51,6 @@
             this.playAllButtonView = new PlayAllButtonView({
                 model: this.model.get('playlist')
             });
-
-            //this.playlistItemInputView = new PlaylistItemInputView({
-            //    model: this.model
-            //});
-
-            //this.$el.prepend(this.playlistItemInputView.render().el);
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             Utility.scrollChildElements(this.el, '.playlistTitle');

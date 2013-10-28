@@ -170,9 +170,8 @@ define([
             var isAddPlaylistDisabled = this.model.get('items').length === 0;
 
             ContextMenuGroups.add({
-                position: 0,
+
                 items: [{
-                    position: 0,
                     text: chrome.i18n.getMessage("addPlaylistToStream"),
                     disabled: isAddPlaylistDisabled,
                     title: isAddPlaylistDisabled ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',

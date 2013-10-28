@@ -521,6 +521,18 @@ input[type="range"]::-webkit-slider-thumb {
     background-color: white;
 }
 
+.playlist .fa-spinner {
+    display: none;
+}
+
+.playlist.loading .fa-spinner {
+    display: inline-block;
+}
+
+.playlist.loading .fa-list {
+    display: none;
+}
+
 .streamItem img {
     background-color: #f2f2f2;
 }
@@ -1160,10 +1172,11 @@ input.valid {
 
 #activeFolderArea .list ul li span.titleWrapper {
     overflow: hidden;
-    padding-right: 40px;
-    display: block;
     text-overflow: ellipsis;
-    margin-left: 30px;
+    margin-left: 5px;
+    display: inline-block;
+    width: 165px;
+    margin-bottom: -7px;
 }
 
 #activeFolderArea .list ul li span.title {
@@ -1171,11 +1184,7 @@ input.valid {
 }
 
 #activeFolderArea .list ul li i {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    top: 7px;
-    width: 25px;
+    margin-left: 5px;
 }
 
 #activeFolderArea .list ul li span.count {

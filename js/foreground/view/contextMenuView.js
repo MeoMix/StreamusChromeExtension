@@ -24,7 +24,6 @@
                 contextMenuGroups: ContextMenuGroups
             }));
 
-            //  TODO: Should this logic be part of 'show' or 'render' ?
             //  Prevent display outside viewport.
             var offsetTop = this.top;
             var needsVerticalFlip = offsetTop + this.$el.height() > this.$el.parent().height();

@@ -155,9 +155,7 @@
             var isPlaySelectedDisabled = VideoSearchResults.selected().length === 0;
 
             ContextMenuGroups.add({
-                position: 0,
                 items: [{
-                    position: 0,
                     text: chrome.i18n.getMessage("playSelected") + ' (' + VideoSearchResults.selected().length + ')',
                     disabled: isPlaySelectedDisabled,
                     title: isPlaySelectedDisabled ? chrome.i18n.getMessage("playSelectedDisabled") : '',

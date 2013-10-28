@@ -122,8 +122,6 @@
     <Content Include="js\foreground\collection\contextMenuItems.js" />
     <Content Include="js\foreground\model\contextMenuGroup.js" />
     <Content Include="js\foreground\model\contextMenuItem.js" />
-    <Content Include="js\foreground\model\dialog.js" />
-    <Content Include="js\foreground\view\dialogView.js" />
     <Content Include="js\foreground\view\loadingSpinnerView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="js\foreground\view\contextMenuView.js" />
@@ -180,7 +178,6 @@
     <Content Include="js\foreground\view\rightPane\stream\streamView.js" />
     <Content Include="js\inject\streamusShareInject.js" />
     <Content Include="js\enum\dataSource.js" />
-    <Content Include="js\foreground\view\contentHeaderView.js" />
     <Content Include="js\foreground\main.js" />
     <Content Include="js\foreground\model\player.js" />
     <Content Include="js\foreground\view\rightPane\playPauseButtonView.js" />
@@ -190,7 +187,6 @@
     <Content Include="js\foreground\view\rightPane\stream\shuffleButtonView.js" />
     <Content Include="js\foreground\view\rightPane\nextButtonView.js" />
     <Content Include="js\foreground\view\rightPane\volumeControlView.js" />
-    <Content Include="js\foreground\view\activePlaylistArea\playlistItemInputView.js" />
     <Content Include="js\foreground\view\activeFolderArea\activeFolderView.js" />
     <Content Include="js\foreground\model\spinnerBuilder.js" />
     <Content Include="js\foreground\view\video\videoDisplayView.js" />
@@ -229,7 +225,6 @@
     <Content Include="template\settingsPrompt.htm" />
     <Content Include="template\videoDisplayButton.htm" />
     <Content Include="template\saveStreamButton.htm" />
-    <Content Include="template\dialog.htm" />
     <Content Include="template\loadingSpinner.htm" />
     <Content Include="template\nextButton.htm" />
     <Content Include="template\playlist.htm" />

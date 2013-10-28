@@ -69,21 +69,17 @@
             ContextMenuGroups.reset();
             
             ContextMenuGroups.add({
-                position: 0,
                 items: [{
-                    position: 0,
                     text: chrome.i18n.getMessage('play'),
                     onClick: function () {
                         StreamItems.addByVideoInformation(videoInformation, true);
                     }
-                },{
-                    position: 1,
+                }, {
                     text: chrome.i18n.getMessage('add'),
                     onClick: function () {
                         StreamItems.addByVideoInformation(videoInformation, false);
                     }
                 }, {
-                    position: 2,
                     text: chrome.i18n.getMessage("copyUrl"),
                     onClick: function () {
                         chrome.extension.sendMessage({
@@ -92,7 +88,6 @@
                         });
                     }
                 }, {
-                    position: 3,
                     text: chrome.i18n.getMessage("copyTitleAndUrl"),
                     onClick: function () {
 
@@ -101,7 +96,7 @@
                             text: '"' + self.model.get('title') + '" - http://youtu.be/' + self.model.get('id')
                         });
                     }
-                }, ]
+                }]
             });
 
         }

@@ -64,17 +64,13 @@
 
             ContextMenuGroups.reset();
 
-            //  TODO: Maybe position should be inferred if not provided? Or maybe I say 'first', 'last' instead of 0, 1, 2.. etc
             ContextMenuGroups.add({
-                position: 0,
                 items: [{
-                        position: 0,
                         text: chrome.i18n.getMessage("addToPlaylist"),
                         onClick: function () {
                             Folders.getActivePlaylist().addItem(self.model.get('video'));
                         }
                     }, {
-                        position: 1,
                         text: chrome.i18n.getMessage("copyUrl"),
                         onClick: function () {
 
@@ -85,7 +81,6 @@
 
                         }
                     }, {
-                        position: 2,
                         text: chrome.i18n.getMessage("copyTitleAndUrl"),
                         onClick: function() {
 
@@ -96,14 +91,12 @@
 
                         }
                     }, {
-                        position: 3,
                         text: chrome.i18n.getMessage("delete"),
                         onClick: function () {
                             console.log("Removing model");
                             StreamItems.remove(self.model);
                         }
                     }, {
-                        position: 4,
                         text: chrome.i18n.getMessage("banUntilStreamClear"),
                         disabled: StreamItems.getRelatedVideos().length < 5,
                         title: StreamItems.getRelatedVideos().length < 5 ? chrome.i18n.getMessage("cantBanNeedMoreVideos") : '',

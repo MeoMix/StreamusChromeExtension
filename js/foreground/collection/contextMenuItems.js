@@ -4,11 +4,7 @@
     'use strict';
 
     var ContextMenuItems = Backbone.Collection.extend({
-        model: ContextMenuItem,
-        
-        comparator: function(item) {
-            return item.get('position');
-        }
+        model: ContextMenuItem
     });
 
     return ContextMenuItems;

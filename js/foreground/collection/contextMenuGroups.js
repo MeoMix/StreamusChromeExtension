@@ -4,11 +4,7 @@
     'use strict';
 
     var ContextMenuGroups = Backbone.Collection.extend({
-        model: ContextMenuGroup,
-        
-        comparator: function(group) {
-            return group.get('position');
-        }
+        model: ContextMenuGroup
     });
 
     return new ContextMenuGroups;

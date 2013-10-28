@@ -162,9 +162,7 @@ define([
             //if (!window.screenTop && !window.screenY) {
 
             //    ContextMenuGroups.add({
-            //        position: 0,
             //        items: [{
-            //            position: 0,
             //            text: chrome.i18n.getMessage("exitFullScreen"),
             //            onClick: function () {
 
@@ -184,9 +182,7 @@ define([
             //    var isFullScreenDisabled = loadedVideoId == '';
 
             //    ContextMenuGroups.add({
-            //        position: 0,
             //        items: [{
-            //            position: 0,
             //            text: chrome.i18n.getMessage("fullScreen"),
             //            disabled: isFullScreenDisabled,
             //            title: isFullScreenDisabled ? chrome.i18n.getMessage("loadVideoBeforeFullScreen") : '',

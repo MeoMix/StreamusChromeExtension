@@ -118,27 +118,6 @@ define([
                 element.appendTo(this.$el);
             }
 
-            if (playlist.has('dataSource')) {
-
-                var dataSourceType = playlist.get('dataSource').type;
-
-                if (dataSourceType === DataSource.YOUTUBE_PLAYLIST || dataSourceType === DataSource.YOUTUBE_CHANNEL || dataSourceType === DataSource.YOUTUBE_FAVORITES) {
-
-                    if (!playlist.get('dataSourceLoaded')) {
-
-                        var playlistLi = this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]');
-                        playlistLi.append(this.loadingSpinnerView.render().el);
-
-                        var self = this;
-                        playlist.once('change:dataSourceLoaded', function () {
-                            self.loadingSpinnerView.remove();
-                        });
-
-                    }
-
-                }
-            }
-
             this.scrollItemIntoView(playlist, true);
         },
         
@@ -153,9 +132,7 @@ define([
             }
 
             ContextMenuGroups.add({
-                position: 1,
                 items: [{
-                    position: 0,
                     text: chrome.i18n.getMessage('createPlaylist'),
                     onClick: function() {
 
@@ -182,9 +159,7 @@ define([
             var isDeleteDisabled = clickedPlaylist.get('nextPlaylistId') === clickedPlaylist.get('id');
   
             ContextMenuGroups.add({
-                position: 0,
                 items: [{
-                    position: 0,
                     //  No point in sharing an empty playlist...
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage("sharePlaylistNoShareWarning") : '',
@@ -207,7 +182,6 @@ define([
 
                     }
                 }, {
-                    position: 1,
                     text: chrome.i18n.getMessage("delete"),
                     disabled: isDeleteDisabled,
                     title: isDeleteDisabled ? chrome.i18n.getMessage("deletePlaylistDisabled") : '',
@@ -230,7 +204,6 @@ define([
                         }
                     }
                 }, {
-                    position: 2,
                     text: chrome.i18n.getMessage("addPlaylistToStream"),
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',
@@ -251,7 +224,6 @@ define([
 
                     }
                 }, {
-                    position: 3,
                     text: chrome.i18n.getMessage('edit'),
                     onClick: function () {
 

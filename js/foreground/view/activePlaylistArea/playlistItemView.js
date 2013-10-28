@@ -43,9 +43,7 @@
             ContextMenuGroups.reset();
         
             ContextMenuGroups.add({
-                position: 0,
                 items: [{
-                    position: 0,
                     text: chrome.i18n.getMessage("copyUrl"),
                     onClick: function () {
                         chrome.extension.sendMessage({
@@ -54,7 +52,6 @@
                         });
                     }
                 }, {
-                    position: 1,
                     text: chrome.i18n.getMessage("copyTitleAndUrl"),
                     onClick: function () {
 
@@ -64,13 +61,11 @@
                         });
                     }
                 }, {
-                    position: 2,
                     text: chrome.i18n.getMessage("deleteVideo"),
                     onClick: function () {
                         self.model.destroy();
                     }
                 }, {
-                    position: 3,
                     text: chrome.i18n.getMessage("addVideoToStream"),
                     onClick: function () {
                         StreamItems.add({
