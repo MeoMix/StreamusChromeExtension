@@ -36,7 +36,7 @@ body > .fa-spinner {
 }
 
 /* Custom Webkit Scrollbar */
-/*http://beautifulpixels.com/goodies/create-custom-webkit-scrollbar/*/
+/* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
     height: 4px;
     width: 4px;
@@ -49,12 +49,12 @@ body > .fa-spinner {
 }
 
 ::-webkit-scrollbar-track-piece {
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
     background-color: #efefef;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-    -webkit-border-radius: 6px;
+    border-radius: 6px;
     background-color: #666;
     border: 1px solid #eee;
     height: 50px;
@@ -906,16 +906,6 @@ input.valid {
     overflow-y: auto;
 }
 
-#addSearchResults .list::-webkit-scrollbar,
-.streamView .list::-webkit-scrollbar {
-    background: transparent;
-}
-
-#addSearchResults .list::-webkit-scrollbar-thumb,
-.streamView .list::-webkit-scrollbar-thumb {
-    background: #949494
-}
-
 .right-pane .context-buttons {
     border-top: 1px solid #dadada;
     bottom: 0;
@@ -1140,14 +1130,6 @@ input.valid {
     overflow-x: hidden;
     overflow-y: auto;
 }
-
-#activeFolderArea .list::-webkit-scrollbar {
-    background: transparent;
-    height: 4px;
-    width: 4px;
-}
-
-#activeFolderArea .list::-webkit-scrollbar-thumb { background: #949494 }
 
 #activeFolderArea .list h3 {
     cursor: pointer;
