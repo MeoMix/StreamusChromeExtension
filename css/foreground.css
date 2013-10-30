@@ -357,12 +357,20 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1;
 }
 
+#search.left-pane {
+    width: 380px;
+}
+
+#search .hidden {
+    display: none;
+}
+
 .left-top-bar {
     display: block;
     height: 45px;
     left: 10px;
     position: absolute;
-    right: 115px;
+    right: 125px;
     top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -373,10 +381,9 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 #addVideosButton {
-    display: block;
     position: absolute;
     right: 10px;
-    top: 12.5px;
+    line-height: 50px;
 }
 
 .left-top-divider {
@@ -563,9 +570,9 @@ input[type="range"]::-webkit-slider-thumb {
 .searchBar {
     bottom: 0;
     display: block;
-    left: 50px;
+    left: 10px;
     position: absolute;
-    right: 0;
+    right: 40px;
     top: 0;
 }
 
@@ -635,11 +642,7 @@ input.valid {
 
 #search {
     box-shadow: 0 0 10px #000;
-    opacity: 0;
-}
-
-#search .hidden {
-    display: none;
+    left: -250px;
 }
 
 .searchBar input {
@@ -669,10 +672,6 @@ input.valid {
 }
 
 .searchBar button#source-select .label { margin: 0 .7em 0 .5em }
-
-#search {
-    display: none;
-}
 
 #activePlaylistItemsView .fa fa-arrow-up {
     position: absolute;
@@ -928,9 +927,16 @@ input.valid {
     width: 84px;
 }
 
-#activeFolderArea button.hide,
-#activePlaylistArea button.show,
 #button-back {
+    right: 10px;
+    position: absolute;
+    top: 0;
+    z-index: 52;
+    line-height: 50px;
+}
+
+#activeFolderArea button.hide,
+#activePlaylistArea button.show {
     height: 45px;
     left: 10px;
     position: absolute;

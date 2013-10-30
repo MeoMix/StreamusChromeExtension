@@ -68,10 +68,11 @@
             this.searchUnderline.removeClass('active');
         },
         
-        showAndFocus: function() {
-
-            this.$el.show().transition({
-                opacity: 1
+        showAndFocus: function () {
+            
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('left', this.$el.css('left')).transition({
+                left: 0
             });
 
             var searchInput = $('.searchBar input');
@@ -86,7 +87,7 @@
             var self = this;
             
             this.$el.transition({
-                opacity: 0
+                left: this.$el.data('left')
             }, function () {
                 self.remove();
                 VideoSearchResults.reset();
