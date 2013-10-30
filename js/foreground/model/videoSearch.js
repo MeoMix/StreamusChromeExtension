@@ -13,7 +13,7 @@
                 searchQuery: '',
                 searchJqXhr: null,
                 videoSearchResults: VideoSearchResults,
-                relatedPlaylist: null
+                playlist: null
             };
         },
         

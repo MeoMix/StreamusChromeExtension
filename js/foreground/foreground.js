@@ -1,7 +1,6 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
-    'settings',
     'reloadPromptView',
     'activeFolderArea',
     'activeFolderAreaView',
@@ -16,7 +15,7 @@ define([
     'contextMenuGroups',
     'rightPaneView',
     'folders'
-], function (Settings, ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
+], function (ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -26,7 +25,7 @@ define([
         activeFolderAreaView: null,
         activePlaylistAreaView: null,
         videoSearchView: null,
-        addSearchResults: null,
+        addSearchResultsView: null,
         rightPaneView: null,
         contextMenuView: new ContextMenuView,
         reloadPromptView: new ReloadPromptView,
@@ -40,6 +39,7 @@ define([
 
             'click #addVideosButton': 'showVideoSearch',
             'click #activePlaylistArea button.show': 'showActiveFolderArea'
+
         },
 
         initialize: function () {
@@ -61,7 +61,8 @@ define([
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null || this.backgroundUser == null) {
 
-                //  TODO: Maybe just wait for a background isReady event and let the background handle this instead of polling?
+                console.error("BackgroundPlayer and BackgroundUser", this.backgroundPlayer, this.backgroundUser);
+
                 //  Poll the background until it is ready.
                 var checkBackgroundLoadedInterval = setInterval(function () {
 
@@ -161,58 +162,34 @@ define([
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();
-
-            //  TODO: if activeFolder changes I think I'll need to unbind and rebind
-            var playlists = activeFolder.get('playlists');
-            this.listenTo(playlists, 'change:active', function (playlist, isActive) {
-
-                if (isActive) {
-                    this.showActivePlaylistArea();
-                }
-
-            });
-
-            //  TODO: Refactor ALL of this. Just using it as a transitioning spot to get the new UI into views.
-
-            return;
-
-            //  VideoDisplayView properly uses a template so I can just remove and re-create it I believe.
-            if (this.videoDisplayView) {
-                this.videoDisplayView.remove();
-            }
-            this.videoDisplayView = new VideoDisplayView;
-
-            this.listenTo(folders, 'change:active', function (folder, isActive) {
-
-                //  TODO: Instead of calling changeModel, I would like to remove the view and re-add it.
-                if (isActive) {
-                    this.activeFolderAreaView.changeModel(folder);
-                    this.streamView.changeModel(activeFolder);
-                }
-
-            });
+            this.listenTo(activeFolder.get('playlists'), 'change:active', this.showActivePlaylistArea);
 
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
         showActivePlaylistArea: function () {
             
-            var activeFolder = Folders.getActiveFolder();
+            var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
+            
+            //  Build the view if it hasn't been rendered yet or re-build the view if it is outdated.
+            if (this.activePlaylistAreaView === null || this.activePlaylistAreaView.model.playlist !== activePlaylist) {
+                
+                //  Cleanup an existing view
+                if (this.activePlaylistAreaView !== null) {
+                    this.activePlaylistAreaView.remove();
+                }
+                
+                var activePlaylistArea = new ActivePlaylistArea({
+                    playlist: activePlaylist
+                });
 
-            if (this.activePlaylistAreaView !== null) {
-                this.activePlaylistAreaView.remove();
+                this.activePlaylistAreaView = new ActivePlaylistAreaView({
+                    model: activePlaylistArea
+                });
+
+                this.$el.append(this.activePlaylistAreaView.render().el);
             }
 
-            var activePlaylistArea = new ActivePlaylistArea({
-                playlist: activeFolder.getActivePlaylist()
-            });
-
-            this.activePlaylistAreaView = new ActivePlaylistAreaView({
-                model: activePlaylistArea
-            });
-
-            this.$el.append(this.activePlaylistAreaView.render().el);
-            
         },
         
         //  Slides in the ActiveFolderAreaView from the left side.
@@ -244,7 +221,7 @@ define([
             var activeFolder = Folders.getActiveFolder();
 
             var videoSearch = new VideoSearch({
-                relatedPlaylist: activeFolder.getActivePlaylist()
+                playlist: activeFolder.getActivePlaylist()
             });
             
             this.videoSearchView = new VideoSearchView({
@@ -253,67 +230,60 @@ define([
             
             this.$el.append(this.videoSearchView.render().el);
             this.videoSearchView.showAndFocus();
-
-            this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
-
-                if (selected && this.addSearchResults === null) {
-                    this.showAddSearchResults();
-                }
-                else if (!selected) {
-                    
-                    var noSearchResultsSelected = VideoSearchResults.selected().length === 0;
-
-                    if (noSearchResultsSelected) {
-                        this.addSearchResults.destroy();
-                    }
-
-                }
-
-            });
-
-            this.listenTo(VideoSearchResults, 'change:dragging', function(changedItem, dragging) {
-                if (dragging && this.addSearchResults === null) {
-                    this.showAddSearchResults();
-                }
-            });
-
-            this.activePlaylistAreaView.hide();
             
+            this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
+                //  Whenever a search result is selected - slide in search results.
+                if (selected && this.addSearchResultsView === null) {
+                    this.showAddSearchResults();
+                }
+            });
+
+            this.listenTo(VideoSearchResults, 'change:dragging', function (changedItem, dragging) {
+                //  Whenever a search result is dragged - slide in search results.
+                if (dragging && this.addSearchResultsView === null) {
+                    this.showAddSearchResults();
+                }
+            });
+
             this.listenToOnce(videoSearch, 'destroy', function () {
                 this.videoSearchView = null;
                 
-                //  When VideoSearch is hidden -- hide the AddSearchResults window as well because it's only useful then.
-                if (this.addSearchResults !== null) {
-                    this.addSearchResults.destroy();
+                //  Adding search results is only useful with the video search view.
+                if (this.addSearchResultsView !== null) {
+                    this.addSearchResultsView.hide();
+                    this.addSearchResultsView = null;
                 }
                 
-                this.activePlaylistAreaView.show();
-
-                this.activePlaylistAreaView.activePlaylistItemsView.$el.trigger('manualShow');
             });
 
         },
         
         //  Slides in the AddSearchResults window from the RHS of the foreground.
         showAddSearchResults: function () {
-
-            var activeFolder = Folders.getActiveFolder();
-
-            this.addSearchResults = new AddSearchResults({
-                folder: activeFolder
-            });
-
-            this.listenToOnce(this.addSearchResults, 'destroy', function () {
-                this.addSearchResults = null;
-            });
-
-            var addSearchResultsView = new AddSearchResultsView({
-                model: this.addSearchResults
-            });
-
-            this.$el.append(addSearchResultsView.render().el);
-            addSearchResultsView.show();
             
+            //  If the view has already been rendered -- no need to reshow.
+            if (this.addSearchResultsView === null) {
+                
+                var activeFolder = Folders.getActiveFolder();
+
+                var addSearchResults = new AddSearchResults({
+                    folder: activeFolder
+                });
+
+                this.addSearchResultsView = new AddSearchResultsView({
+                    model: addSearchResults
+                });
+                
+                //  Cleanup if the model is ever destroyed.
+                this.listenToOnce(addSearchResults, 'destroy', function () {
+                    this.addSearchResultsView = null;
+                });
+
+                this.$el.append(this.addSearchResultsView.render().el);
+                this.addSearchResultsView.show();
+                
+            }
+
         }
     });
 

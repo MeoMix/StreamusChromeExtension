@@ -103,7 +103,7 @@
         },
         
         initialize: function() {
-            this.listenTo(VideoSearchResults, 'change:selected', this.updateSelectedItemsMessage);
+            this.listenTo(VideoSearchResults, 'change:selected', this.hideOrUpdate);
             this.listenTo(this.model, 'destroy', this.hide);
             this.listenTo(this.model.get('folder').get('playlists'), 'add', this.addPlaylistOption);
             
@@ -123,7 +123,15 @@
             });
 
             this.list.append(playlistAddSearchResultOptionView.render().el);
-            console.log("Appended option");
+        },
+        
+        hideOrUpdate: function() {
+          
+            if (VideoSearchResults.selected().length === 0) {
+                this.model.destroy();
+            } else {
+                this.updateSelectedItemsMessage();
+            }
 
         },
         

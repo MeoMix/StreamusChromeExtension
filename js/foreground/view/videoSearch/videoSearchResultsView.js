@@ -129,7 +129,7 @@
             var videoInformation = videoSearchResult.get('videoInformation');
 
             //  TODO: It feels a bit sloppy to have to reference this through the parent.model
-            this.parent.model.get('relatedPlaylist').addByVideoInformation(videoInformation, function () {
+            this.parent.model.get('playlist').addByVideoInformation(videoInformation, function () {
                 console.log("success");
             });
 

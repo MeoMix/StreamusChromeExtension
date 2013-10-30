@@ -28,9 +28,6 @@
             'blur .searchBar input': 'lowlight',
             'input .searchBar input': 'showVideoSuggestions',
             'click #button-back': 'destroyModel'
-            //  TODO: How to support these?
-            //'drop .addInput': 'parseUrlInput',
-            //'paste .addInput': 'parseUrlInput',
         },
 
         render: function () {
