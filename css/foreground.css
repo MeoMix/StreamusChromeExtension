@@ -227,6 +227,11 @@ body { font: 13px/1.2 sans-serif }
     color: #333;
 }
 
+/* TODO: This isn't a very pretty color for indicating active... better way? */
+.addItemOption.active .item-title {
+    color: #6BBD46;
+}
+
 .item-details {
     color: #949494;
     font-size: .8em;

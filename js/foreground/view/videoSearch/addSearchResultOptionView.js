@@ -19,6 +19,12 @@
                     break;
                 case AddSearchResultOptionType.PLAYLIST:
                     typeSpecificClass = 'playlist';
+                    
+                    //  Highlight the active playlist
+                    if (this.model.get('entity').get('active')) {
+                        typeSpecificClass += ' active';
+                    }
+
                     break;
                 default:
                     console.error('Unhandled type:', type);
