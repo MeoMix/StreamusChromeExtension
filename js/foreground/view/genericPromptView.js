@@ -36,26 +36,34 @@
         },
 
         fadeOutAndHide: function () {
+
             var self = this;
 
-            this.$el.removeClass('visible').transition({
-                opacity: 0
-            }, 400, function () {
+            this.$el.transition({
+                'background': this.$el.data('background')
+            }, function () {
                 self.remove();
             });
+
+            this.panel.transition({
+                top: this.panel.data('top')
+            });
+
         },
 
         fadeInAndShow: function () {
-            var self = this;
-            
+
             $('body').append(this.render().el);
             
-            this.panel.show().transition({
-                opacity: 1
-            }, 200, function () {
-                self.$el.addClass('visible');
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
             });
 
+            this.panel.data('top', this.panel.css('top')).transition({
+                top: '50%'
+            });
+            
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.

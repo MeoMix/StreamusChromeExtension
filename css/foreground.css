@@ -80,9 +80,7 @@ button.mute.muted{
 
 .modalOverlay .panel {
     background: #f2f2f2;
-    transition: left .3s;
     box-shadow: 0 0 20px #000;
-    opacity: 0;
 }
 
 .modalOverlay .panel .header {
@@ -139,10 +137,6 @@ button.mute.muted{
     top: 0;
     right: 0;
 } 
-
-.prompt.visible .panel {
-    top: 50%;
-}
 
 .prompt .bottom-right {
     position: absolute;
@@ -949,9 +943,18 @@ input.valid {
     background-color: #fff;
 }
 
-.modalOverlay,
+.modalOverlay {
+    /*background: rgba(0, 0, 0, 0.5);*/
+    bottom: 0;
+    display: block;
+    left: 0;
+    position: fixed;
+    right: 0;
+    top: 0;
+    z-index: 50;
+}
+
 #activeFolderArea {
-    background: rgba(0, 0, 0, 0.5);
     bottom: 0;
     display: block;
     left: 0;
@@ -973,8 +976,7 @@ input.valid {
     transition: background .3s;
 }
 
-#addSearchResults,
-#activeFolderArea {
+#addSearchResults {
     display: none;
     opacity: 0;
 }
@@ -1007,8 +1009,6 @@ input.valid {
     overflow: hidden;
     height: auto;
 }
-
-#activeFolderArea.visible .panel { left: 0 }
 
 #activeFolderArea .header {
     background: #e6e6e6;

@@ -139,6 +139,7 @@
 
         },
         
+        // TODO: Should this show slide it in from the right side instead of fading it in?
         show: function () {
 
             this.$el.show().transition({

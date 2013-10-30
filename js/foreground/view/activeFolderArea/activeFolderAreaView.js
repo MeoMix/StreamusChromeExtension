@@ -17,6 +17,7 @@
 
         activeFolderView: null,
         deletePlaylistButtonView: null,
+        panel: null,
         
         attributes: {
             'id': 'activeFolderArea'
@@ -44,6 +45,8 @@
             this.$el.find('.list').append(this.activeFolderView.render().el);
             this.$el.find('.right-group').append(this.deletePlaylistButtonView.render().el);
 
+            this.panel = this.$el.find('.panel');
+
             return this;
         },
 
@@ -60,13 +63,15 @@
         },
         
         show: function () {
-
-            this.$el.show().transition({
-                opacity: 1
-            }, 200, function () {
-                $(this).addClass('visible');
+            
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
             });
             
+            this.panel.data('left', this.panel.css('left')).transition({
+                left: 0
+            });
         },
         
         destroyModel: function () {
@@ -84,11 +89,14 @@
         hide: function() {
             var self = this;
             
-            //  TODO: Should the fadeout time be the same as the fadein time?
-            this.$el.removeClass('visible').transition({
-                opacity: 0
-            }, 400, function () {
+            this.$el.transition({
+                'background': this.$el.data('background')
+            }, function() {
                 self.remove();
+            });
+
+            this.panel.transition({
+                left: this.panel.data('left')
             });
             
         },
