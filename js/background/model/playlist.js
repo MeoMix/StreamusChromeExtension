@@ -5,11 +5,10 @@ define([
     'playlistItem',
     'settings',
     'video',
-    'videos',
     'repeatButtonState',
     'shareCode',
     'shareableEntityType'
-], function (PlaylistItems, PlaylistItem, Settings, Video, Videos, RepeatButtonState, ShareCode, ShareableEntityType) {
+], function (PlaylistItems, PlaylistItem, Settings, Video, RepeatButtonState, ShareCode, ShareableEntityType) {
     'use strict';
 
     var playlistModel = Backbone.Model.extend({
@@ -245,7 +244,7 @@ define([
         },
             
         addItems: function (videos, callback) {
-
+            
             console.log("Calling addItems with videos:", videos);
 
             //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
@@ -253,15 +252,10 @@ define([
                 return this.addItem(videos[0], callback);
             }
             
-            //  Support arrays or Backbone.Collection as paramaters
-            if (!(videos instanceof Backbone.Collection)) {
-                videos = new Videos(videos);
-            }
-  
-            var itemsToSave = new PlaylistItems();
             var self = this;
-
-            videos.each(function (video) {
+            var itemsToSave = new PlaylistItems();
+            
+            _.each(videos, function (video) {
 
                 var playlistItem = new PlaylistItem({
                     playlistId: self.get('id'),

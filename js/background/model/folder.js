@@ -2,13 +2,12 @@
 define([
     'playlists',
     'playlist',
-    'videos',
     'video',
     'player',
     'settings',
     'youTubeDataAPI',
     'dataSource'
-], function (Playlists, Playlist, Videos, Video, Player, Settings, YouTubeDataAPI, DataSource) {
+], function (Playlists, Playlist, Video, Player, Settings, YouTubeDataAPI, DataSource) {
     'use strict';
     
     var Folder = Backbone.Model.extend({
@@ -291,13 +290,13 @@ define([
                         } else {
                     
                             //  Turn videoInformation responses into a Video collection.
-                            var videos = new Videos(_.map(response.results, function(videoInformation) {
+                            var videos = _.map(response.results, function(videoInformation) {
 
                                 return new Video({
                                     videoInformation: videoInformation
                                 });
 
-                            }));
+                            });
 
                             //  Periodicially send bursts of packets to the server and trigger visual update.
                             playlist.addItems(videos, function () {

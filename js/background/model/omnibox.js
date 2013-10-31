@@ -2,17 +2,15 @@
 define([
     'youTubeDataApi',
     'video',
-    'videos',
     'utility',
-    'streamItems',
-    'player'
-], function(YouTubeDataAPI, Video, Videos, Utility, StreamItems, Player) {
+    'streamItems'
+], function(YouTubeDataAPI, Video, Utility, StreamItems) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
             
         defaults: {
-            suggestedVideos: new Videos,
+            suggestedVideos: [],
         },
         
         initialize: function() {
@@ -21,7 +19,8 @@ define([
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
             chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 
-                self.get('suggestedVideos').reset();
+                //  Clear suggested videos
+                self.get('suggestedVideos').length = 0;
 
                 var trimmedSearchText = $.trim(text);
 
@@ -44,7 +43,7 @@ define([
                                 var video = new Video({
                                     videoInformation: videoInformation
                                 });
-                                self.get('suggestedVideos').add(video);
+                                self.get('suggestedVideos').push(video);
 
                                 var textStyleRegExp = new RegExp(text, "i");
                                 var safeTitle = Utility.htmlEscape(video.get('title'));
@@ -67,7 +66,7 @@ define([
             chrome.omnibox.onInputEntered.addListener(function (text) {
 
                 //  Find the cached video data by url
-                var pickedVideo = self.get('suggestedVideos').find(function (suggestedVideo) {
+                var pickedVideo = _.find(self.get('suggestedVideos'), function (suggestedVideo) {
                     var url = 'http://youtu.be/' + suggestedVideo.get('id');
                     return text === url;
                 });
@@ -75,7 +74,7 @@ define([
                 //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
                 //  take the best suggestion related to their text.
                 if (pickedVideo === undefined) {
-                    pickedVideo = self.get('suggestedVideos').at(0);
+                    pickedVideo = self.get('suggestedVideos')[0];
                 }
 
                 console.log("SuggestedVideo:", pickedVideo);

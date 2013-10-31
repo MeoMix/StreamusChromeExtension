@@ -154,6 +154,7 @@ define([
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();
 
+            //  TODO: Folders could potentially be undefined.
             var activeFolder = Folders.getActiveFolder();
 
             this.rightPaneView = new RightPaneView({

@@ -47,7 +47,6 @@
         'playlistItems': 'background/collection/playlistItems',
         'playlists': 'background/collection/playlists',
         'streamItems': 'background/collection/streamItems',
-        'videos': 'background/collection/videos',
 
         //  Model:
         'error': 'background/model/error',
