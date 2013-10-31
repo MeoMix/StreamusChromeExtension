@@ -49,8 +49,6 @@
         
         initialize: function () {
             this.listenTo(ContextMenuGroups, 'reset add remove', this.render);
-            
-            Utility.scrollElementInsideParent(this.el, 'a');
         },
         
         //  Displays the context menu at given x,y coordinates.

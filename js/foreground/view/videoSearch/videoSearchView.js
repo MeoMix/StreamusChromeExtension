@@ -16,7 +16,7 @@
         videoSearchResultsView: null,
         
         attributes: {
-            id: 'search'
+            id: 'videoSearch'
         },
         
         searchUnderline: null,
@@ -73,7 +73,7 @@
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('left', this.$el.css('left')).transition({
                 left: 0
-            });
+            }, 'snap');
 
             var searchInput = $('.searchBar input');
             searchInput.focus();

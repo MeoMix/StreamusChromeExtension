@@ -98,6 +98,7 @@ require.config({
         'genericPromptView': 'foreground/view/genericPromptView',
         'reloadPromptView': 'foreground/view/reloadPromptView',
         'saveSelectedPromptView': 'foreground/view/saveSelectedPromptView',
+        'saveVideosPromptView': 'foreground/view/saveVideosPromptView',
         'settingsPromptView': 'foreground/view/settingsPromptView',
 
         //  View -> ActiveFolderArea:

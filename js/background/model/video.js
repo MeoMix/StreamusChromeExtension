@@ -7,15 +7,20 @@ define([
 
     var videoModel = Backbone.Model.extend({
         
-        defaults: {
-            //  Provided by YouTube's API.
-            id: '',
-            title: '',
-            author: '',
-            duration: -1,
+        defaults: function () {
             
-            prettyDuration: '',
-            cleanTitle: '',
+            return {
+                //  Prevent Backbone collections from dropping duplicate Video entities by uniquely identifying each video.
+                //uniqueId: _.uniqueId('video_'),
+                //  Provided by YouTube's API.
+                id: '',
+                title: '',
+                author: '',
+                duration: -1,
+                prettyDuration: '',
+                cleanTitle: ''            
+            };
+            
         },
         
         urlRoot: Settings.get('serverURL') + 'Video/',

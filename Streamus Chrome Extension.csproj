@@ -83,6 +83,7 @@
     <Content Include="js\foreground\view\activePlaylistArea\playAllButtonView.js" />
     <Content Include="js\foreground\view\clearStreamPromptView.js" />
     <Content Include="js\foreground\view\confirmPromptView.js" />
+    <Content Include="js\foreground\view\saveVideosPromptView.js" />
     <Content Include="js\foreground\view\saveSelectedPromptView.js" />
     <Content Include="js\foreground\view\deletePlaylistPromptView.js" />
     <Content Include="js\foreground\view\editPlaylistPromptView.js" />
@@ -212,6 +213,7 @@
     <Content Include="template\clearStreamPrompt.htm" />
     <Content Include="template\contextMenu.htm" />
     <Content Include="template\clearStreamButton.htm" />
+    <Content Include="template\saveVideosPrompt.htm" />
     <Content Include="template\saveSelectedPrompt.htm" />
     <Content Include="template\playAllButton.htm" />
     <Content Include="template\saveSelectedButton.htm" />

@@ -107,6 +107,7 @@ define([
             });
 
             this.listenTo(this.model.get('items'), 'add', this.addItem);
+            
             this.listenTo(this.model.get('items'), 'empty', this.render);
             this.listenTo(this.model.get('items'), 'remove', function () {
                 //  Trigger a manual show because an item could slide into view and need to load it.
@@ -119,6 +120,8 @@ define([
         },
 
         addItem: function (playlistItem) {
+
+            console.log("addItem is being called with item:", playlistItem);
 
             var playlistItemView = new PlaylistItemView({
                 model: playlistItem

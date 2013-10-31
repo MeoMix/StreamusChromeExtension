@@ -35,6 +35,25 @@
             return this;
         },
 
+        fadeInAndShow: function () {
+
+            $('body').append(this.render().el);
+            
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
+            }, 'snap');
+
+            this.panel.data({
+                top: this.panel.css('top'),
+                opacity: this.panel.css('opacity')
+            }).transition({
+                top: '50%',
+                opacity: 1
+            }, 'snap');
+            
+        },
+        
         fadeOutAndHide: function () {
 
             var self = this;
@@ -46,24 +65,10 @@
             });
 
             this.panel.transition({
-                top: this.panel.data('top')
+                top: this.panel.data('top'),
+                opacity: this.panel.data('opacity')
             });
 
-        },
-
-        fadeInAndShow: function () {
-
-            $('body').append(this.render().el);
-            
-            //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('background', this.$el.css('background')).transition({
-                'background': 'rgba(0, 0, 0, 0.5)'
-            });
-
-            this.panel.data('top', this.panel.css('top')).transition({
-                top: '50%'
-            });
-            
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.

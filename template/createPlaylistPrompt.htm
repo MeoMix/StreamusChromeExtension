@@ -16,31 +16,19 @@
         <ul class="options">
             <li>
                 
-                <label for="playlistTitleInput">
-                    <strong class="required"><%- chrome.i18n.getMessage('title') %></strong>
-                </label>
-
                 <span class="inputUnderlineWrapper">
-                    <input id="playlistTitleInput" type="text" class="playlistTitle submittable" value="<%- chrome.i18n.getMessage('playlist') %> <%- playlistCount %>">
+                    <input id="playlistTitleInput" type="text" class="playlistTitle submittable" placeholder="<%- chrome.i18n.getMessage('requiredTitle') %>"value="<%- chrome.i18n.getMessage('playlist') %> <%- playlistCount %>">
                     <div class="underline"></div>   
                 </span>
 
             </li>
             <li>
-                <label for="youTubeSourceInput">
-                    <strong><%- chrome.i18n.getMessage('source') %></strong>
-                </label>
-
                 <span class="inputUnderlineWrapper">
-                    <input id="youTubeSourceInput" type="text" class="youTubeSource submittable" placeholder="Optional: YouTube playlist or channel URL">
+                    <input id="youTubeSourceInput" type="text" class="youTubeSource submittable" placeholder="<%- chrome.i18n.getMessage('optionalSource') %>">
                     <div class="underline"></div>   
                 </span>
             </li>
         </ul>
-        
-
-        
-
         
         <span class="bottom-right">
                         

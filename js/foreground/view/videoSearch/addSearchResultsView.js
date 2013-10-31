@@ -147,16 +147,16 @@
 
         },
         
-        // TODO: Should this show slide it in from the right side instead of fading it in?
         show: function () {
 
-            this.$el.show().transition({
-                opacity: 1
-            }, 400);
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
+            }, 'snap');
 
-            this.panel.transition({
+            this.panel.data('right', this.panel.css('right')).transition({
                 right: 0
-            }, 400, 'ease');
+            }, 'snap');
 
         },
         
@@ -166,15 +166,15 @@
 
         hide: function () {
             var self = this;
-            
-            this.panel.transition({
-                right: -250
-            }, 400, 'ease');
 
             this.$el.transition({
-                opacity: 0
-            }, 400, function () {
+                'background': this.$el.data('background')
+            }, function () {
                 self.remove();
+            });
+
+            this.panel.transition({
+                right: this.panel.data('right')
             });
 
         },

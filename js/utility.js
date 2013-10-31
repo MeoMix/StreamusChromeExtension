@@ -1,22 +1,4 @@
 ﻿define({
-    
-    scrollElementInsideParent: function (element) {
-        //  Scroll the element if its too long to read.
-        $(element).mouseover(function () {
-            var distanceToMove = $(this).width() - $(this).parent().width();
-
-            $(this).animate({
-                marginLeft: "-" + distanceToMove + "px"
-            }, {
-                //  Just a feel good value; scales as the text gets longer
-                duration: 15 * distanceToMove,
-                easing: 'linear'
-            });
-
-        }).mouseout(function () {
-            $(this).stop(true).animate({ marginLeft: 0 });
-        });
-    },
 
     //  If there are a ton of elements which need to scroll all under a given root element, allow for event delegation
     scrollChildElements: function (parent, childElementSelector) {
@@ -25,18 +7,21 @@
 
             var distanceToMove = $(this).outerWidth() - $(this).parent().width();
 
-            $(this).animate({
-                marginLeft: "-" + distanceToMove + "px"
+            $(this).transit({
+                'margin-left': '-' + distanceToMove + 'px'
             }, {
                 //  Just a feel good value; scales as the text gets longer
-                duration: 15 * distanceToMove,
-                easing: 'linear'
+                duration: 15 * distanceToMove
             });
 
         });
 
         $(parent).on('mouseout', childElementSelector, function () {
-            $(this).stop(true).animate({ marginLeft: 0 });
+
+            $(this).transitionStop(true).transit({
+                'margin-left': 0
+            });
+
         });
 
     },

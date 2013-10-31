@@ -245,12 +245,19 @@ define([
         },
             
         addItems: function (videos, callback) {
+
+            console.log("Calling addItems with videos:", videos);
+
+            //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
+            if (videos.length === 1) {
+                return this.addItem(videos[0], callback);
+            }
             
             //  Support arrays or Backbone.Collection as paramaters
             if (!(videos instanceof Backbone.Collection)) {
                 videos = new Videos(videos);
             }
-
+  
             var itemsToSave = new PlaylistItems();
             var self = this;
 
@@ -263,6 +270,8 @@ define([
 
                 itemsToSave.push(playlistItem);
             });
+
+            console.log("Saving some videos", videos.length);
 
             itemsToSave.save({}, {
                 success: function () {
@@ -281,6 +290,8 @@ define([
                         lastItem.set('nextItemId', itemsToSave.at(0).get('id'));
                         firstItem.set('previousItemId', itemsToSave.at(itemsToSave.length - 1).get('id'));
                     }
+
+                    console.log("Adding models");
                     
                     self.get('items').add(itemsToSave.models);
                     self.setDisplayInfo();

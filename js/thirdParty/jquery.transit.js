@@ -1,4 +1,7 @@
-﻿/*!
+﻿//  NOTE: THIS IS A FORKED VERSION OF JQUERY.TRANSIT: https://github.com/tblasv/jquery.transit/blob/master/jquery.transit.js
+//  IT SUPPORTS STOPPING TRANSITIONS WHICH THE ORIGINAL VERSION DID NOT SUPPORT.
+
+/*!
  * jQuery Transit - CSS3 transitions and transformations
  * (c) 2011-2012 Rico Sta. Cruz <rico@ricostacruz.com>
  * MIT Licensed.
@@ -63,6 +66,7 @@
 
     // Check for the browser's transitions support.
     support.transition = getVendorPropertyName('transition');
+    support.transitionProperty = getVendorPropertyName('transitionProperty');
     support.transitionDelay = getVendorPropertyName('transitionDelay');
     support.transform = getVendorPropertyName('transform');
     support.transformOrigin = getVendorPropertyName('transformOrigin');
@@ -515,10 +519,21 @@
         var delay = 0;
         var queue = true;
 
+        var theseProperties = jQuery.extend(true, {}, properties);
+
         // Account for `.transition(properties, callback)`.
         if (typeof duration === 'function') {
             callback = duration;
             duration = undefined;
+        }
+
+        // Account for `.transition(properties, options)`.
+        if (typeof duration === 'object') {
+            easing = duration.easing;
+            delay = duration.delay || 0;
+            queue = duration.queue || true;
+            callback = duration.complete;
+            duration = duration.duration;
         }
 
         // Account for `.transition(properties, duration, callback)`.
@@ -528,29 +543,29 @@
         }
 
         // Alternate syntax.
-        if (typeof properties.easing !== 'undefined') {
-            easing = properties.easing;
-            delete properties.easing;
+        if (typeof theseProperties.easing !== 'undefined') {
+            easing = theseProperties.easing;
+            delete theseProperties.easing;
         }
 
-        if (typeof properties.duration !== 'undefined') {
-            duration = properties.duration;
-            delete properties.duration;
+        if (typeof theseProperties.duration !== 'undefined') {
+            duration = theseProperties.duration;
+            delete theseProperties.duration;
         }
 
-        if (typeof properties.complete !== 'undefined') {
-            callback = properties.complete;
-            delete properties.complete;
+        if (typeof theseProperties.complete !== 'undefined') {
+            callback = theseProperties.complete;
+            delete theseProperties.complete;
         }
 
-        if (typeof properties.queue !== 'undefined') {
-            queue = properties.queue;
-            delete properties.queue;
+        if (typeof theseProperties.queue !== 'undefined') {
+            queue = theseProperties.queue;
+            delete theseProperties.queue;
         }
 
-        if (typeof properties.delay !== 'undefined') {
-            delay = properties.delay;
-            delete properties.delay;
+        if (typeof theseProperties.delay !== 'undefined') {
+            delay = theseProperties.delay;
+            delete theseProperties.delay;
         }
 
         // Set defaults. (`400` duration, `ease` easing)
@@ -560,7 +575,7 @@
         duration = toMS(duration);
 
         // Build the `transition` property.
-        var transitionValue = getTransition(properties, duration, easing, delay);
+        var transitionValue = getTransition(theseProperties, duration, easing, delay);
 
         // Compute delay until callback.
         // If this becomes 0, don't bother setting the transition property.
@@ -570,7 +585,7 @@
         // If there's nothing to do...
         if (i === 0) {
             var fn = function (next) {
-                self.css(properties);
+                self.css(theseProperties);
                 if (callback) { callback.apply(self); }
                 if (next) { next(); }
             };
@@ -579,53 +594,102 @@
             return self;
         }
 
-        // Save the old transitions of each element so we can restore it later.
-        var oldTransitions = {};
-
-        var run = function (nextCall) {
+        var run = function (nextCall, element) {
             var bound = false;
+            var self = $(element);
+
+            // Save the old transitions of each element so we can restore it later.
+            var oldTransitions = {};
 
             // Prepare the callback.
-            var cb = function () {
+            var cb = function (e) {
+                self.data('transitCallback', null);
+
+                if (e) e.stopPropagation();
+
                 if (bound) { self.unbind(transitionEnd, cb); }
 
-                if (i > 0) {
-                    self.each(function () {
-                        this.style[support.transition] = (oldTransitions[this] || null);
-                    });
-                }
+                element.style[support.transition] = (oldTransitions[this] || null);
 
                 if (typeof callback === 'function') { callback.apply(self); }
                 if (typeof nextCall === 'function') { nextCall(); }
             };
 
-            if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
+            if ((transitionEnd) && ($.transit.useTransitionEnd)) {
                 // Use the 'transitionend' event if it's available.
                 bound = true;
                 self.bind(transitionEnd, cb);
             } else {
                 // Fallback to timers if the 'transitionend' event isn't supported.
-                window.setTimeout(cb, i);
+                var id = window.setTimeout(cb, i);
+                self.data('transitTimer', id);
             }
 
             // Apply transitions.
-            self.each(function () {
-                if (i > 0) {
-                    this.style[support.transition] = transitionValue;
-                }
-                $(this).css(properties);
-            });
+            element.style[support.transition] = transitionValue;
+            self.css(properties);
+            self.data('transitCallback', cb);
         };
 
         // Defer running. This allows the browser to paint any pending CSS it hasn't
         // painted yet before doing the transitions.
         var deferredRun = function (next) {
             this.offsetWidth; // force a repaint
-            run(next);
+            run(next, this);
         };
 
         // Use jQuery's fx queue.
         callOrQueue(self, queue, deferredRun);
+
+        // Chainability.
+        return this;
+    };
+
+    // ## $.fn.transitionStop
+    // Works like $.fn.stop( [clearQueue ] [, jumpToEnd ] )
+    //     
+    $.fn.transitionStop = $.fn.transitStop = function (clearQueue, jumpToEnd) {
+        this.each(function () {
+            var self = $(this);
+
+            var id = self.data('transitTimer');
+            clearTimeout(id);
+
+            self.data('transitTimer', null);
+
+            var properties = this.style[support.transitionProperty];
+
+            if (properties) {
+                properties = properties.replace(/\s*/g, '').split(',');
+
+                var style = window.getComputedStyle(this),
+                    css = {};
+
+                for (var i = 0; i < properties.length; i++) {
+                    css[properties[i]] = this.style[properties[i]];
+                    this.style[properties[i]] = style[properties[i]];
+                }
+
+                this.offsetWidth; // force a repaint
+                this.style[support.transition] = 'none';
+
+                if (clearQueue) {
+                    self.clearQueue();
+                    self.unbind(transitionEnd);
+                };
+
+                if (jumpToEnd) {
+                    for (var i = 0; i < properties.length; i++)
+                        this.style[properties[i]] = css[properties[i]];
+
+                    var cb = self.data('transitCallback');
+                    if (typeof cb === 'function') cb();
+
+                } else if (!clearQueue) {
+                    self.dequeue();
+                };
+            };
+        });
 
         // Chainability.
         return this;
@@ -678,14 +742,16 @@
     // ### toMS(duration)
     // Converts given `duration` to a millisecond string.
     //
-    //     toMS('fast')   //=> '400ms'
-    //     toMS(10)       //=> '10ms'
+    // toMS('fast') => $.fx.speeds[i] => "200ms"
+    // toMS('normal') //=> $.fx.speeds._default => "400ms"
+    // toMS(10) //=> '10ms'
+    // toMS('100ms') //=> '100ms'  
     //
     function toMS(duration) {
         var i = duration;
 
-        // Allow for string durations like 'fast'.
-        if ($.fx.speeds[i]) { i = $.fx.speeds[i]; }
+        // Allow string durations like 'fast' and 'slow', without overriding numeric values.
+        if (typeof i === 'string' && (!i.match(/^[\-0-9\.]+/))) { i = $.fx.speeds[i] || $.fx.speeds._default; }
 
         return unit(i, 'ms');
     }

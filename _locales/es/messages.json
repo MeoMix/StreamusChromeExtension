@@ -319,11 +319,11 @@
 	"selectPlaylistPlaceholder": {
 		"message": "Type to create a playlist or filter your existing playlists"
 	},
-	"saveSelectedVideo": {
-		"message": "Save selected video"
+	"saveVideo": {
+		"message": "Save video"
 	},
-	"saveSelectedVideos": {
-		"message": "Save selected videos"
+	"saveVideos": {
+		"message": "Save videos"
 	},
     "skipNextVideoDisabled": {
 		"message": "There's no video to skip to"
@@ -351,5 +351,11 @@
 	},
 	"by": {
 		"message": "by"
+	},
+	"requiredTitle": {
+		"message": "Required: title"
+	},
+	"optionalSource": {
+		"message": "Optional: YouTube playlist/channel URL"
 	}
 }

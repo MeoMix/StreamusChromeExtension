@@ -17,59 +17,64 @@
                 throw "Not Supported Yet";
             }
 
+            console.log("hi");
+
             var newItems = this.filter(function (item) {
                 return item.isNew();
             });
 
-            var newItemsJqXhr = false;
+            console.log("this and newItems", this, newItems, newItems.length, this.length);
+
             if (newItems.length === 1) {
+                
                 //  Default to Backbone if Collection is creating only 1 item.
                 newItems[0].save({}, {
+                    success: options ? options.success : null,
                     error: options ? options.error : null
                 });
             }
             else if (newItems.length > 1) {
 
+                console.log("NewItems length is greater than 1");
                 //  Otherwise revert to a CreateMultiple
-                newItemsJqXhr = $.ajax({
+                $.ajax({
                     url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     data: JSON.stringify(newItems),
-                    success: function() {
+                    success: function(createdItems) {
+
+                        console.log("Successfully created multiple", createdItems);
+                        
+                        //  For each of the createdItems, remap properties back to the old items.
+                        _.each(createdItems, function (createdItem) {
+
+                            var matchingNewItem = self.find(function (newItem) {
+                                return newItem.cid == createdItem.cid;
+                            });
+                            //  Call parse to emulate going through the Model's save logic.
+                            var parsedNewItem = matchingNewItem.parse(createdItem);
+
+                            //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
+                            matchingNewItem.set(parsedNewItem);
+                        });
+
+                        console.log("Callling success");
                         self.trigger('sync');
+
+                        //  TODO: Pass intelligent paramaters back to options.success
+                        if (options.success) {
+                            options.success();
+                        }
+                        
+                        
+
                     },
                     error: options ? options.error : null
                 });
                 
             }
-
-            $.when(newItemsJqXhr).done(function (createdItems) {
-
-                if (createdItems) {
-
-                    //  For each of the createdItems, remap properties back to the old items.
-                    _.each(createdItems, function (createdItem) {
-
-                        var matchingNewItem = self.find(function (newItem) {
-                            return newItem.cid == createdItem.cid;
-                        });
-                        //  Call parse to emulate going through the Model's save logic.
-                        var parsedNewItem = matchingNewItem.parse(createdItem);
-
-                        //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
-                        matchingNewItem.set(parsedNewItem);
-                    });
-
-                    //  TODO: Pass intelligent paramaters back to options.success
-                    if (options.success) {
-                        options.success();
-                    }
-                    
-                }
-
-            });
 
         },
 

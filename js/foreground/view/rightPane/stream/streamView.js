@@ -7,11 +7,11 @@
     'radioButtonView',
     'saveStreamButtonView',
     'clearStreamButtonView',
-    'createPlaylistPromptView',
+    'saveVideosPromptView',
     'clearStreamPromptView',
     'contextMenuGroups',
     'utility'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, CreatePlaylistPromptView, ClearStreamPromptView, ContextMenuGroups, Utility) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, SaveVideosPromptView, ClearStreamPromptView, ContextMenuGroups, Utility) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -196,11 +196,11 @@
 
             if (StreamItems.length > 0) {
 
-                var createPlaylistPromptView = new CreatePlaylistPromptView({
-                    playlistVideos: StreamItems.pluck('video')
+                var saveVideosPromptView = new SaveVideosPromptView({
+                    videos: StreamItems.pluck('video')
                 });
                 
-                createPlaylistPromptView.fadeInAndShow();
+                saveVideosPromptView.fadeInAndShow();
                 
             }
         },

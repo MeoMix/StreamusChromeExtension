@@ -67,11 +67,11 @@
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
-            });
+            }, 'snap');
             
             this.panel.data('left', this.panel.css('left')).transition({
                 left: 0
-            });
+            }, 'snap');
         },
         
         destroyModel: function () {

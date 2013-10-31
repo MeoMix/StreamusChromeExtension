@@ -103,9 +103,9 @@ button.mute.muted{
 .prompt .panel {
     position: absolute;
     left: 50%;
-    transition: top .3s;
+    opacity: 0;
 
-    top: -70px;
+    top: -80px;
     
     /* Default Panel Size */
     width: 500px;
@@ -122,7 +122,7 @@ button.mute.muted{
 .prompt.createPlaylistPrompt .panel {
     height: 180px;
     margin-top: -90px;
-    top: -90px;
+    top: -100px;
     width: 450px;
     margin-left: -225px;
 }
@@ -362,11 +362,11 @@ input[type="range"]::-webkit-slider-thumb {
     z-index: 1;
 }
 
-#search.left-pane {
+#videoSearch.left-pane {
     width: 380px;
 }
 
-#search .hidden {
+#videoSearch .hidden {
     display: none;
 }
 
@@ -381,14 +381,15 @@ input[type="range"]::-webkit-slider-thumb {
     text-overflow: ellipsis;
 }
 
-#search .left-top-bar {
+#videoSearch .left-top-bar {
     right: 10px;
 }
 
 #addVideosButton {
-    position: absolute;
+    height: 43px;
+    width: 40px;
     right: 15px;
-    line-height: 50px;
+    position: absolute;
 }
 
 .left-top-divider {
@@ -482,7 +483,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .streamItem:hover > .item-thumb,
 .playlistItem:hover > .item-thumb,
-#search .videoSearchResult:hover > .item-thumb {
+#videoSearch .videoSearchResult:hover > .item-thumb {
     background-color: #ebebeb;
 }
 
@@ -496,7 +497,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .streamItem.selected > .item-thumb,
 .playlistItem.selected > .item-thumb,
-#search .videoSearchResult.selected .item-thumb {
+#videoSearch .videoSearchResult.selected .item-thumb {
     transition: background .3s;
     background: #CDDBF2;
 }
@@ -645,9 +646,9 @@ input.valid {
 
 .underline.active { background: #666 }
 
-#search {
+#videoSearch {
     box-shadow: 0 0 10px #000;
-    left: -250px;
+    left: -380px;
 }
 
 .searchBar input {
@@ -685,14 +686,14 @@ input.valid {
 }
 
 #activePlaylistItemsView .big-text,
-#search .big-text {
+#videoSearch .big-text {
     color: #949494;
     font-size: 1.2em;
     margin: 2em 1em;
     text-align: center;
 }
 
-#search .big-text i {
+#videoSearch .big-text i {
     display: block;
     font-size: 5em;
 }
@@ -938,8 +939,8 @@ input.valid {
     position: absolute;
     top: 0;
     z-index: 52;
-    line-height: 50px;
-}
+    height: 43px;
+} 
 
 #activeFolderArea button.hide,
 #activePlaylistArea button.show {
@@ -977,7 +978,7 @@ input.valid {
 }
 
 #addSearchResults {
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.0);
     bottom: 0;
     display: block;
     left: 380px;
@@ -986,11 +987,6 @@ input.valid {
     top: 0;
     z-index: 50;
     transition: background .3s;
-}
-
-#addSearchResults {
-    display: none;
-    opacity: 0;
 }
 
 #activeFolderArea .panel {
