@@ -44,7 +44,7 @@ define([
             
             var volumeIcon = this.getVolumeIcon(volume);
             this.muteButton.html(volumeIcon);
-
+            
             return this;
         },
 
@@ -56,13 +56,13 @@ define([
                 sensitivity: 3,
                 interval: 5000,
             };
-            
+
             var self = this;
             this.$el.hoverIntent(function () {
 
                 $(this).transition({ height: 152 }, 200);
                 self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
-                
+
             }, function () {
 
                 $(this).transition({ height: 36 }, 200);
@@ -109,7 +109,7 @@ define([
 
         //  Adjust volume when user scrolls mousewheel while hovering over volumeControl.
         scrollVolume: function (event) {
-            var delta = event.originalEvent.wheelDeltaY / -120;
+            var delta = event.originalEvent.wheelDeltaY / 120;
             var volume = parseInt(this.volumeRange.val()) + (delta * 3);
             
             if (volume > 100) {

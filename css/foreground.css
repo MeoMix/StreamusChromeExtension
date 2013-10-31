@@ -387,7 +387,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 #addVideosButton {
     position: absolute;
-    right: 10px;
+    right: 15px;
     line-height: 50px;
 }
 
@@ -742,6 +742,7 @@ input.valid {
     padding-bottom: 10px;
     opacity: 0;
     margin-top: -20px;
+    -webkit-transform: rotate(180deg);
 }
 
 .right-pane .top-bar .volume-slider:before {
@@ -751,12 +752,12 @@ input.valid {
     height: 10px;
     background: #fafafa;
     position: absolute;
-    top: -6px;
+    bottom: -6px;
     left: 50%;
     margin-left: -5px;
     -webkit-transform: rotate(45deg);
-    border-top: 1px solid #ccc;
-    border-left: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    border-right: 1px solid #ccc;
 }
 
 .right-pane .top-bar .volume-slider input {
@@ -933,7 +934,7 @@ input.valid {
 }
 
 #button-back {
-    right: 10px;
+    right: 15px;
     position: absolute;
     top: 0;
     z-index: 52;
