@@ -59,18 +59,13 @@
         addToStreamAndPlay: function () {
             var playlist = this.model.get('playlist');
 
-            var isFirst = true;
-
-            var streamItems = playlist.get('items').map(function (playlistItem) {
-
-                var selected = isFirst;
-                isFirst = false;
+            var streamItems = playlist.get('items').map(function (playlistItem, index) {
 
                 return {
                     id: _.uniqueId('streamItem_'),
                     video: playlistItem.get('video'),
                     title: playlistItem.get('title'),
-                    selected: selected
+                    selected: index === 0
                 };
             });
 

@@ -21,8 +21,6 @@
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
 
-            console.log("Models dataSource:", this.model.has('dataSource'), this.model.get('dataSource'), this.model.get('dataSourceLoaded'));
-
             this.$el.toggleClass('loading', this.model.has('dataSource') && !this.model.get('dataSourceLoaded'));
             this.itemCount = this.$el.find('.count');
 

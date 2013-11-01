@@ -171,13 +171,14 @@ define([
             var self = this;
 
             var isAddPlaylistDisabled = this.model.get('items').length === 0;
+            var isPlayPlaylistDisabled = this.model.get('items').length === 0;
 
             ContextMenuGroups.add({
 
                 items: [{
                     text: chrome.i18n.getMessage("addPlaylistToStream"),
                     disabled: isAddPlaylistDisabled,
-                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',
+                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage("noAddStreamWarning") : '',
                     onClick: function () {
 
                         if (!isAddPlaylistDisabled) {
@@ -192,6 +193,30 @@ define([
 
                             StreamItems.addMultiple(streamItems);
                             
+                        }
+
+                    }
+                }, {
+                    text: chrome.i18n.getMessage("playPlaylistInStream"),
+                    disabled: isPlayPlaylistDisabled,
+                    title: isPlayPlaylistDisabled ? chrome.i18n.getMessage("noAddStreamWarning") : '',
+                    onClick: function () {
+
+                        if (!isPlayPlaylistDisabled) {
+
+                            var streamItems = self.model.get('items').map(function (playlistItem, index) {
+                                console.log("Index:", index);
+
+                                return {
+                                    id: _.uniqueId('streamItem_'),
+                                    video: playlistItem.get('video'),
+                                    title: playlistItem.get('title'),
+                                    selected: index === 0
+                                };
+                            });
+
+                            StreamItems.addAndPlay(streamItems);
+   
                         }
 
                     }

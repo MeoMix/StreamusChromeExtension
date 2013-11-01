@@ -203,7 +203,7 @@ define([
                 }, {
                     text: chrome.i18n.getMessage("addPlaylistToStream"),
                     disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage("addPlaylistNoAddStreamWarning") : '',
+                    title: isEmpty ? chrome.i18n.getMessage("noAddStreamWarning") : '',
                     onClick: function () {
 
                         if (!isEmpty) {

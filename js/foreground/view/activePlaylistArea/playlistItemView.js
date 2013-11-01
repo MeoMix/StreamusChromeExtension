@@ -1,7 +1,8 @@
 ﻿define([
     'text!../template/playlistItem.htm',
-    'contextMenuGroups'
-], function (PlaylistItemTemplate, ContextMenuGroups) {
+    'contextMenuGroups',
+    'streamItems'
+], function (PlaylistItemTemplate, ContextMenuGroups, StreamItems) {
     'use strict';
 
     var PlaylistItemView = Backbone.View.extend({
@@ -72,6 +73,16 @@
                             id: _.uniqueId('streamItem_'),
                             video: self.model.get('video'),
                             title: self.model.get('title')
+                        });
+                    }
+                }, {
+                    text: chrome.i18n.getMessage("playVideoInStream"),
+                    onClick: function () {
+                        StreamItems.addAndPlay({
+                            id: _.uniqueId('streamItem_'),
+                            video: self.model.get('video'),
+                            title: self.model.get('title'),
+                            selected: true
                         });
                     }
                 }]

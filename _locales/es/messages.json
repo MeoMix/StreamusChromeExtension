@@ -38,7 +38,7 @@
 	"addPlaylistToStream": {
 		"message": "Añadir Lista a la Cola"
 	},
-	"addPlaylistNoAddStreamWarning": {
+	"noAddStreamWarning": {
 		"message": "Debes añadir pistas a la Lista primero."
 	},
 	"videoCopyrightBanned": {
@@ -357,5 +357,11 @@
 	},
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"
+	},
+	"playVideoInStream": {
+		"message": "Play Video in Stream"
+	},
+	"playPlaylistInStream": {
+		"message": "Play Playlist in Stream"
 	}
 }

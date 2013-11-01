@@ -38,7 +38,7 @@
 	"addPlaylistToStream": {
 		"message": "Add Playlist to Stream"
 	},
-	"addPlaylistNoAddStreamWarning": {
+	"noAddStreamWarning": {
 		"message": "You need to add items to your Playlist first."
 	},
 	"videoCopyrightBanned": {
@@ -365,6 +365,12 @@
 	},
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"
+	},
+	"playVideoInStream": {
+		"message": "Play Video in Stream"
+	},
+	"playPlaylistInStream": {
+		"message": "Play Playlist in Stream"
 	}
 	
 }
