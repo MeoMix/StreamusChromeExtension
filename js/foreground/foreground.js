@@ -195,67 +195,77 @@ define([
         
         //  Slides in the ActiveFolderAreaView from the left side.
         showActiveFolderArea: function () {
+            
+            //  Defend against spam clicking by checking to make sure we're not instantiating currently
+            if (this.activeFolderAreaView === null) {
+                
+                var activeFolder = Folders.getActiveFolder();
 
-            var activeFolder = Folders.getActiveFolder();
+                var activeFolderArea = new ActiveFolderArea({
+                    folder: activeFolder
+                });
 
-            var activeFolderArea = new ActiveFolderArea({
-                folder: activeFolder
-            });
+                this.activeFolderAreaView = new ActiveFolderAreaView({
+                    model: activeFolderArea
+                });
 
-            this.activeFolderAreaView = new ActiveFolderAreaView({
-                model: activeFolderArea
-            });
+                this.$el.append(this.activeFolderAreaView.render().el);
+                this.activeFolderAreaView.show();
 
-            this.$el.append(this.activeFolderAreaView.render().el);
-            this.activeFolderAreaView.show();
-
-            //  Cleanup whenever the model is destroyed.
-            this.listenToOnce(activeFolderArea, 'destroy', function () {
-                this.activeFolderAreaView = null;
-            });
-
+                //  Cleanup whenever the model is destroyed.
+                this.listenToOnce(activeFolderArea, 'destroy', function () {
+                    this.activeFolderAreaView = null;
+                });
+                
+            }
+            
         },
         
         //  Slide in the VideoSearchView from the left hand side.
         showVideoSearch: function () {
-
-            var activeFolder = Folders.getActiveFolder();
-
-            var videoSearch = new VideoSearch({
-                playlist: activeFolder.getActivePlaylist()
-            });
             
-            this.videoSearchView = new VideoSearchView({
-                model: videoSearch
-            });
-            
-            this.$el.append(this.videoSearchView.render().el);
-            this.videoSearchView.showAndFocus();
-            
-            this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
-                //  Whenever a search result is selected - slide in search results.
-                if (selected && this.addSearchResultsView === null) {
-                    this.showAddSearchResults();
-                }
-            });
+            //  Defend against spam clicking by checking to make sure we're not instantiating currently
+            if (this.videoSearchView === null) {
 
-            this.listenTo(VideoSearchResults, 'change:dragging', function (changedItem, dragging) {
-                //  Whenever a search result is dragged - slide in search results.
-                if (dragging && this.addSearchResultsView === null) {
-                    this.showAddSearchResults();
-                }
-            });
+                var activeFolder = Folders.getActiveFolder();
 
-            this.listenToOnce(videoSearch, 'destroy', function () {
-                this.videoSearchView = null;
+                var videoSearch = new VideoSearch({
+                    playlist: activeFolder.getActivePlaylist()
+                });
+
+                this.videoSearchView = new VideoSearchView({
+                    model: videoSearch
+                });
+
+                this.$el.append(this.videoSearchView.render().el);
+                this.videoSearchView.showAndFocus();
+
+                this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
+                    //  Whenever a search result is selected - slide in search results.
+                    if (selected && this.addSearchResultsView === null) {
+                        this.showAddSearchResults();
+                    }
+                });
+
+                this.listenTo(VideoSearchResults, 'change:dragging', function (changedItem, dragging) {
+                    //  Whenever a search result is dragged - slide in search results.
+                    if (dragging && this.addSearchResultsView === null) {
+                        this.showAddSearchResults();
+                    }
+                });
+
+                this.listenToOnce(videoSearch, 'destroy', function () {
+                    this.videoSearchView = null;
+
+                    //  Adding search results is only useful with the video search view.
+                    if (this.addSearchResultsView !== null) {
+                        this.addSearchResultsView.hide();
+                        this.addSearchResultsView = null;
+                    }
+
+                });
                 
-                //  Adding search results is only useful with the video search view.
-                if (this.addSearchResultsView !== null) {
-                    this.addSearchResultsView.hide();
-                    this.addSearchResultsView = null;
-                }
-                
-            });
+            }
 
         },
         

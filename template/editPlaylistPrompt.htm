@@ -15,15 +15,10 @@
         
         <ul class="options">
             <li>
-                <label for="playlistTitleInput">
-                    <strong class="required"><%- chrome.i18n.getMessage('title') %></strong>
-                </label>
-                
                 <span class="inputUnderlineWrapper">
-                     <input id="playlistTitleInput" type="text" class="submittable" value="<%- title %>">
+                    <input id="playlistTitleInput" type="text" class="submittable" placeholder="<%- chrome.i18n.getMessage('title') %>" value="<%- title %>">
                     <div class="underline"></div>   
                 </span>
-
             </li>
         </ul>
         

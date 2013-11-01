@@ -117,22 +117,32 @@ button.mute.muted{
 .prompt.settingsPrompt .panel {
     margin-left: -125px;
     width: 250px;
-    height: 180px;
-    margin-top: -90px;
-    top: -100px;
+    height: 200px;
+    margin-top: -100px;
+    top: -110px;
 }
 
 .prompt.createPlaylistPrompt .panel {
     height: 180px;
     margin-top: -90px;
     top: -100px;
-    width: 450px;
-    margin-left: -225px;
+    width: 330px;
+    margin-left: -165px;
 }
 
 .prompt.clearStreamPrompt .panel {
     width: 300px;
     margin-left: -150px;
+}
+
+.prompt.editPlaylistPrompt .panel {
+    width: 330px;
+    margin-left: -165px;
+}
+
+.prompt.deletePlaylistPrompt .panel {
+    width: 400px;
+    margin-left: -200px;
 }
 
 .prompt.saveSelectedPrompt .panel {

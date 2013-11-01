@@ -279,35 +279,34 @@ define([
                     currentPlaylists.push(playlist);
                     
                     if (dataSource === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES) {
-                        
-                    }
-                    
-                    //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-                    YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {
+     
+                        //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
+                        YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {
 
-                        if (response.results.length === 0) {
-                            playlist.set('dataSourceLoaded', true);
-                        } else {
+                            if (response.results.length === 0) {
+                                playlist.set('dataSourceLoaded', true);
+                            } else {
                     
-                            //  Turn videoInformation responses into a Video collection.
-                            var videos = _.map(response.results, function(videoInformation) {
+                                //  Turn videoInformation responses into a Video collection.
+                                var videos = _.map(response.results, function(videoInformation) {
 
-                                return new Video({
-                                    videoInformation: videoInformation
+                                    return new Video({
+                                        videoInformation: videoInformation
+                                    });
+
                                 });
 
-                            });
+                                //  Periodicially send bursts of packets to the server and trigger visual update.
+                                playlist.addItems(videos, function () {
 
-                            //  Periodicially send bursts of packets to the server and trigger visual update.
-                            playlist.addItems(videos, function () {
+                                    //  Request next batch of data by iteration once addItems has succeeded.
+                                    YouTubeDataAPI.getDataSourceResults(dataSource, ++response.iteration, onGetDataSourceData);
 
-                                //  Request next batch of data by iteration once addItems has succeeded.
-                                YouTubeDataAPI.getDataSourceResults(dataSource, ++response.iteration, onGetDataSourceData);
-
-                            });
+                                });
                     
-                        }
-                    });
+                            }
+                        });
+                    }
                     
                 },
                 error: function (error) {

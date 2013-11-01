@@ -15,7 +15,8 @@ define(function () {
                 suggestedQuality: getItem('suggestedQuality') || 'default',
                 userId: getItem('userId') || null,
                 youTubeInjectClicked: getItem('youTubeInjectClicked') || true,
-                remindClearStream: getItem('remindClearStream') || true
+                remindClearStream: getItem('remindClearStream') || true,
+                remindDeletePlaylist: getItem('remindDeletePlaylist') || true
             };
         },
         
@@ -51,6 +52,10 @@ define(function () {
 
 			this.on('change:remindClearStream', function (model, remindClearStream) {
 			    localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
+			});
+
+            this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
+                localStorage.setItem('remindDeletePlaylist', JSON.stringify(remindDeletePlaylist));
             });
         }
   

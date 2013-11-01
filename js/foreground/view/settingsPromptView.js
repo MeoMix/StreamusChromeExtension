@@ -13,18 +13,17 @@
         template: _.template(SettingsPromptTemplate),
 
         suggestedQualitySelect: null,
-
-        events: _.extend({}, GenericPromptView.prototype.events, {
-        }),
+        remindClearStreamCheckbox: null,
+        remindDeletePlaylistCheckbox: null,
 
         render: function () {
             GenericPromptView.prototype.render.call(this, arguments);
 
             this.remindClearStreamCheckbox = this.$el.find('#remindClearStream');
+            this.remindDeletePlaylistCheckbox = this.$el.find('#remindDeletePlaylist');
 
-            var remindClearStream = Settings.get('remindClearStream');
-            console.log("initializing:", remindClearStream);
-            this.remindClearStreamCheckbox.prop('checked', remindClearStream);
+            this.remindClearStreamCheckbox.prop('checked', Settings.get('remindClearStream'));
+            this.remindDeletePlaylistCheckbox.prop('checked', Settings.get('remindDeletePlaylist'));
 
             this.suggestedQualitySelect = this.panel.find('#suggestedQualitySelect');
             //  Initialize to whatever's stored in localStorage.
@@ -41,8 +40,10 @@
             Player.setSuggestedQuality(suggestedQuality);
             
             var remindClearStream = this.remindClearStreamCheckbox.is(':checked');
-            console.log("ClearStream?", remindClearStream);
             Settings.set('remindClearStream', remindClearStream);
+
+            var remindDeletePlaylist = this.remindDeletePlaylistCheckbox.is(':checked');
+            Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
             this.fadeOutAndHide();
 

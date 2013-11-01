@@ -7,8 +7,9 @@
     'deletePlaylistPromptView',
     'deletePlaylistButtonView',
     'folders',
-    'utility'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders, Utility) {
+    'utility',
+    'settings'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders, Utility, Settings) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -165,11 +166,16 @@
             if (activePlaylist.get('items').length === 0) {
                 activePlaylist.destroy();
             } else {
-
-                var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                    model: activePlaylist
-                });
-                deletePlaylistPromptView.fadeInAndShow();
+                
+                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
+                if (remindDeletePlaylist) {
+                    var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                        model: activePlaylist
+                    });
+                    deletePlaylistPromptView.fadeInAndShow();
+                } else {
+                    activePlaylist.destroy();
+                }
                 
             }
 
