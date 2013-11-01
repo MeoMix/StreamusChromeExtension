@@ -121,20 +121,6 @@
             VideoSearchResults.each(this.addOne, this);
         },
         
-        addItemToActivePlaylist: function (event) {
-
-            var clickedItem = $(event.currentTarget);
-
-            var videoSearchResult = VideoSearchResults.get(clickedItem.data('videoid'));
-            var videoInformation = videoSearchResult.get('videoInformation');
-
-            //  TODO: It feels a bit sloppy to have to reference this through the parent.model
-            this.parent.model.get('playlist').addByVideoInformation(videoInformation, function () {
-                console.log("success");
-            });
-
-        },
-        
         toggleLoadingMessage: function() {
 
             var isSearching = this.parent.model.get('searchJqXhr') !== null;
