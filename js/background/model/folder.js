@@ -253,10 +253,13 @@ define([
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
+            var needsLoading = dataSource === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
+
             var playlist = new Playlist({
                 title: playlistTitle,
                 folderId: this.get('id'),
-                dataSource: dataSource
+                dataSource: dataSource,
+                dataSourceLoaded: !needsLoading
             });
 
             //  Save the playlist, but push after version from server because the ID will have changed.
@@ -278,7 +281,7 @@ define([
 
                     currentPlaylists.push(playlist);
                     
-                    if (dataSource === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES) {
+                    if (needsLoading) {
      
                         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                         YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {

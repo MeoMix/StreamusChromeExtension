@@ -11,7 +11,13 @@
         template: _.template(EditPlaylistPromptTemplate),
 
         playlistTitleInput: null,
+        
+        events: _.extend({}, GenericPromptView.prototype.events, {
 
+            'input input.playlistTitle': 'validateTitle'
+
+        }),
+        
         render: function () {
 
             GenericPromptView.prototype.render.call(this, arguments);
@@ -21,17 +27,19 @@
             return this;
         },
         
+        validateTitle: function () {
+            //  When the user submits - check to see if they provided a playlist name
+            var playlistTitle = $.trim(this.playlistTitleInput.val());
+            this.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
+        },
+        
         //  Validate input and, if valid, edit the playlist's name with the given name.
         doOk: function () {
 
-            var playlistTitle = $.trim(this.playlistTitleInput.val());
+            var valid = this.$el.find('.submittable.invalid').length === 0;
 
-            var isValid = playlistTitle !== '';
-            
-            this.playlistTitleInput.toggleClass('invalid', !isValid);
-
-            if (isValid) {
-                
+            if (valid) {
+                var playlistTitle = $.trim(this.playlistTitleInput.val());
                 this.model.set('title', playlistTitle);
                 this.fadeOutAndHide();
             }

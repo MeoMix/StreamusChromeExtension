@@ -19,9 +19,8 @@
 
         events: _.extend({}, GenericPromptView.prototype.events, {
             
-            'keydown input.youTubeSource': 'processInput',
-            'paste input.youTubeSource': 'processInput',
-            'drop input.youTubeSource': 'processInput'
+            'input input.youTubeSource': 'processInput',
+            'input input.playlistTitle': 'validateTitle'
 
         }),
         
@@ -45,18 +44,16 @@
         
         //  Validate input and, if valid, create a playlist with the given name.
         doOk: function () {
-            
-            var playlistName = $.trim(this.playlistTitleInput.val());
 
-            var isValid = playlistName !== '';
+            //  If all submittable fields indicate themselves as valid -- allow submission.
+            var valid = this.$el.find('.submittable.invalid').length === 0;
 
-            this.playlistTitleInput.toggleClass('invalid', !isValid);
-
-            if (isValid) {
+            if (valid) {
                 
                 var activeFolder = Folders.getActiveFolder();
                 
                 var dataSource = this.youTubeSourceInput.data('datasource');
+                var playlistName = $.trim(this.playlistTitleInput.val());
                 
                 if (dataSource != '') {
                     activeFolder.addPlaylistByDataSource(playlistName, dataSource);
@@ -75,6 +72,12 @@
 
         },
         
+        validateTitle: function() {
+            //  When the user submits - check to see if they provided a playlist name
+            var playlistTitle = $.trim(this.playlistTitleInput.val());
+            this.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
+        },
+        
         //  Throttle for typing support
         processInput: _.throttle(function () {
             var self = this;
@@ -83,6 +86,7 @@
             setTimeout(function() {
 
                 var youTubeSource = $.trim(self.youTubeSourceInput.val());
+                console.log("Setting source:", youTubeSource);
                 self.youTubeSourceInput.data('datasource', '').removeClass('valid invalid');
 
                 if (youTubeSource !== '') {
@@ -121,7 +125,11 @@
 
                             break;
                         default:
-                            console.error("Unhandled dataSource type:", dataSource.type);
+                            //  Typing is invalid, but expected.
+                            if (dataSource.type !== dataSource.USER_INPUT) {
+                                console.error("Unhandled dataSource type:", dataSource.type);
+                            }
+                            
                             self.youTubeSourceInput.addClass('invalid');
                     }
 
