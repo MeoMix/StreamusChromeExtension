@@ -98,6 +98,9 @@ define([
 
             this.on('remove', function (removedStreamItem, collection, options) {
 
+                console.log("Removing stream item");
+                //  TODO: I Don't think I need to call destroy here, being overly careful need to double check though.
+
                 removedStreamItem.destroy();
 
                 if (this.length === 0) {
@@ -426,7 +429,7 @@ define([
 
                 //  Select the next item by index. Potentially loop around to the front.
                 if (nextItemIndex === this.length) {
-
+                    console.log("Selecting next item by looping around to the front");
                     if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
                         this.at(0).set('selected', true);
 
@@ -443,8 +446,7 @@ define([
 
                             console.error("No related video found.");
 
-                        }
-                        else {
+                        } else {
 
                             this.add({
                                 video: randomRelatedVideo,
@@ -454,6 +456,12 @@ define([
 
                         }
 
+                    } else {
+
+                        //  Deleted the last item in stream, it was selected, no loops enabled.
+                        //  Stop the player and select the first item in the playlist.
+                        Player.stop();
+                        this.at(0).set('selected', true);
                     }
 
                 } else {

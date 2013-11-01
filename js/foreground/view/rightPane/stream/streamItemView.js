@@ -94,7 +94,8 @@
                         text: chrome.i18n.getMessage("delete"),
                         onClick: function () {
                             console.log("Removing model");
-                            StreamItems.remove(self.model);
+                            //StreamItems.remove(self.model);
+                            self.model.destroy();
                         }
                     }, {
                         text: chrome.i18n.getMessage("banUntilStreamClear"),
