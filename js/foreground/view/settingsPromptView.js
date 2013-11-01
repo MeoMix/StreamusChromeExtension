@@ -20,6 +20,12 @@
         render: function () {
             GenericPromptView.prototype.render.call(this, arguments);
 
+            this.remindClearStreamCheckbox = this.$el.find('#remindClearStream');
+
+            var remindClearStream = Settings.get('remindClearStream');
+            console.log("initializing:", remindClearStream);
+            this.remindClearStreamCheckbox.prop('checked', remindClearStream);
+
             this.suggestedQualitySelect = this.panel.find('#suggestedQualitySelect');
             //  Initialize to whatever's stored in localStorage.
             this.suggestedQualitySelect.val(Settings.get('suggestedQuality'));
@@ -33,6 +39,10 @@
 
             Settings.set('suggestedQuality', suggestedQuality);
             Player.setSuggestedQuality(suggestedQuality);
+            
+            var remindClearStream = this.remindClearStreamCheckbox.is(':checked');
+            console.log("ClearStream?", remindClearStream);
+            Settings.set('remindClearStream', remindClearStream);
 
             this.fadeOutAndHide();
 

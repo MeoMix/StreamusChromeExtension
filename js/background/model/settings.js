@@ -14,7 +14,8 @@ define(function () {
                 activeFolderId: getItem('activeFolderId') || null,
                 suggestedQuality: getItem('suggestedQuality') || 'default',
                 userId: getItem('userId') || null,
-				youTubeInjectClicked: getItem('youTubeInjectClicked') || true
+                youTubeInjectClicked: getItem('youTubeInjectClicked') || true,
+                remindClearStream: getItem('remindClearStream') || true
             };
         },
         
@@ -46,6 +47,10 @@ define(function () {
 
 			this.on('change:youTubeInjectClicked', function (model, youTubeInjectClicked) {
                 localStorage.setItem('youTubeInjectClicked', JSON.stringify(youTubeInjectClicked));
+			});
+
+			this.on('change:remindClearStream', function (model, remindClearStream) {
+			    localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
             });
         }
   
@@ -54,8 +59,9 @@ define(function () {
     //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
     //  If not, just allow the string type because its assumed to be correct.
     function getItem(key) {
+
         var item = localStorage.getItem(key);
-        
+
         if (item !== null) {
             
             try {

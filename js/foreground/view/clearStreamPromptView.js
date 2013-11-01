@@ -1,7 +1,8 @@
 ﻿define([
     'text!../template/clearStreamPrompt.htm',
-    'confirmPromptView'
-], function (ClearStreamPromptTemplate, ConfirmPromptView) {
+    'confirmPromptView',
+    'settings'
+], function (ClearStreamPromptTemplate, ConfirmPromptView, Settings) {
     'use strict';
 
     var ClearStreamPromptView = ConfirmPromptView.extend({
@@ -9,11 +10,21 @@
         className: ConfirmPromptView.prototype.className + ' clearStreamPrompt',
 
         template: _.template(ClearStreamPromptTemplate),
+        
+        reminderCheckbox: null,
+        
+        render: function() {
+            ConfirmPromptView.prototype.render.call(this, {}, arguments);
+
+            this.reminderCheckbox = this.$el.find('input#remindClearStream');
+
+            return this;
+        },
 
         doOk: function () {
             
-            //  TODO: I want to read the state of the confirm checkbox and write it to localStorage.
-            //  TODO: I want to read the state of the confirm checkbox and initialize with it.
+            var remindClearStream = !this.$el.find('input#remindClearStream').is(':checked');
+            Settings.set('remindClearStream', remindClearStream);
 
             this.model.clear();
             this.fadeOutAndHide();

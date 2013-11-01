@@ -117,6 +117,9 @@ button.mute.muted{
 .prompt.settingsPrompt .panel {
     margin-left: -125px;
     width: 250px;
+    height: 180px;
+    margin-top: -90px;
+    top: -100px;
 }
 
 .prompt.createPlaylistPrompt .panel {
@@ -125,6 +128,11 @@ button.mute.muted{
     top: -100px;
     width: 450px;
     margin-left: -225px;
+}
+
+.prompt.clearStreamPrompt .panel {
+    width: 300px;
+    margin-left: -150px;
 }
 
 .prompt.saveSelectedPrompt .panel {
@@ -1227,7 +1235,9 @@ i.i-4x { font-size: 56px !important }
 
 
 .prompt .reminder {
-    margin-top: 5px;
+    bottom: 10px;
+    left: 10px;
+    position: absolute;
 }
 
 .required:after {
@@ -1246,6 +1256,20 @@ i.i-4x { font-size: 56px !important }
     height: 200px;
     font-size: 20px;
     z-index: 99999;
+}
+
+.remindersLabel {
+    margin-top: 5px;
+    display: inline-block;
+}
+
+.settingsPrompt .remindersList {
+    list-style: none;   
+}
+
+.settingsPrompt .remindersList li {
+    margin-left: 20px;
+    margin-top: 10px;
 }
 
 /* Selectize Configuration */
@@ -1271,3 +1295,4 @@ html .selectize-control.multi .selectize-input [data-value] > .remove {
 html .selectize-control.multi .selectize-input.full > input {
     display: none;
 }
+
