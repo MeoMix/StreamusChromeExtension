@@ -13,11 +13,12 @@ define([
     'videoDisplayButton',
     'repeatButton',
     'commands',
+    'contextMenus',
     'error',
     'iconManager',
     'omnibox',
     'user'
-], function(Player, Folders, YouTubeDataAPI, PlayerState, StreamItems, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, Error, IconManager, Omnibox) {
+], function(Player, Folders, YouTubeDataAPI, PlayerState, StreamItems, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, ContextMenus, Error, IconManager, Omnibox) {
     'use strict';
 
     //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?

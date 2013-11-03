@@ -371,6 +371,9 @@
 	},
 	"playPlaylistInStream": {
 		"message": "Play Playlist in Stream"
+	},
+	"addToStream": {
+		"message": "Add to Stream"
 	}
 	
 }

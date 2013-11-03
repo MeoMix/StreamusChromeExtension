@@ -104,6 +104,7 @@
 		]
     },
 	"permissions": [
+	    "contextMenus",
 		"management",
 		"notifications",
 		"storage",

@@ -48,7 +48,8 @@
         'playlists': 'background/collection/playlists',
         'streamItems': 'background/collection/streamItems',
 
-        //  Model:
+        //  Model:        
+        'contextMenus': 'background/model/contextMenus',
         'error': 'background/model/error',
         'folder': 'background/model/folder',
         'iconManager': 'background/model/iconManager',
@@ -84,7 +85,7 @@ require([
     'googleAnalytics'
 ], function ($, _, Backbone, GoogleApiClient) {
     'use strict';
-    
+
     //  TODO: This probably needs to support https and http.
     //  This URL is super important. Streamus uses it to bypass the YouTube error 'not allowed to play content in embedded player' by making itself look like YouTube!
     var refererUrl = 'http://www.youtube.com/embed/undefined?enablejsapi=1';
