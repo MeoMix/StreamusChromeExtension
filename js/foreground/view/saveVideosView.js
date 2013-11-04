@@ -1,25 +1,25 @@
 ﻿define([
-    'text!../template/saveVideosPrompt.htm',
-    'genericPromptView',
+    'text!../template/saveVideos.htm',
     'folders'
-], function (SaveVideosPromptTemplate, GenericPromptView, Folders) {
+], function (SaveVideosTemplate, Folders) {
     'use strict';
 
-    var SaveVideosPromptView = GenericPromptView.extend({
+    var SaveVideosView = Backbone.View.extend({
 
-        className: GenericPromptView.prototype.className + ' saveVideosPrompt',
+        className: 'saveVideos',
+        
+        template: _.template(SaveVideosTemplate),
 
-        template: _.template(SaveVideosPromptTemplate),
-
-        isCreating: false,
-        videos: [],
+        creating: false,
         
         render: function () {
             
-            GenericPromptView.prototype.render.call(this, {
-                'videoCount': this.videos.length
-            }, arguments);
-
+            var self = this;
+            
+            this.$el.html(this.template({
+                'chrome.i18n': chrome.i18n
+            }));
+            
             var playlistOptions = Folders.getActiveFolder().get('playlists').map(function (playlist) {
                 return {
                     id: playlist.get('id'),
@@ -27,8 +27,6 @@
                     displayInfo: playlist.get('displayInfo')
                 };
             });
-
-            var self = this;
 
             this.playlistSelect = this.$el.find('select.submittable');
             
@@ -77,52 +75,48 @@
 
                     }
 
-                    self.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
-                    self.isCreating = true;
+                    self.creating = true;
+                    self.trigger('change:creating', self.creating);
 
                     return createResult;
                 },
                 onDelete: function() {
-                    self.okButton.text(chrome.i18n.getMessage('saveButtonText'));
-                    self.isCreating = false;
+                    self.creating = false;
+                    self.trigger('change:creating', self.creating);
                 }
             });
 
             return this;
         },
         
-        initialize: function (options) {
-
-            if (!options.videos) throw "SaveVideosPromptView expects to be initialized with an array of videos";
-
-            this.videos = options.videos;
-        },
-        
-        doOk: function () {
+        validate: function() {
 
             var selectedPlaylistId = this.playlistSelect.val();
-            
-            if (selectedPlaylistId) {
-                
-                if (this.isCreating) {
-                    console.log("Creating");
-                    var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
-                    Folders.getActiveFolder().addPlaylistWithVideos(playlistTitle, this.videos);
 
-                } else {
-                    console.log("Saving");
-                    var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
-                    selectedPlaylist.addItems(this.videos);
-      
-                }
+            var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
 
-                this.fadeOutAndHide();
+            return isValid;
+        },
+        
+        save: function () {
+            var selectedPlaylistId = this.playlistSelect.val();
+
+            if (this.creating) {
+
+                var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
+                Folders.getActiveFolder().addPlaylistWithVideos(playlistTitle, this.model);
+
+            } else {
+
+                var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
+                console.log("Selected playlist:", selectedPlaylist, this.model);
+                selectedPlaylist.addItems(this.model);
+
             }
-
         }
 
         
     });
 
-    return SaveVideosPromptView;
+    return SaveVideosView;
 });

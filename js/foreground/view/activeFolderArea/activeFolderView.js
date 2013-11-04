@@ -6,10 +6,11 @@ define([
     'dataSource',
     'streamItems',
     'playlistView',
-    'deletePlaylistPromptView',
-    'editPlaylistPromptView',
-    'createPlaylistPromptView'
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistPromptView, EditPlaylistPromptView, CreatePlaylistPromptView) {
+    'deletePlaylistView',
+    'editPlaylistView',
+    'genericPromptView',
+    'createPlaylistView'
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistView, EditPlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -133,7 +134,12 @@ define([
                     text: chrome.i18n.getMessage('createPlaylist'),
                     onClick: function() {
 
-                        var createPlaylistPromptView = new CreatePlaylistPromptView();
+                        var createPlaylistPromptView = new GenericPromptView({
+                            title: chrome.i18n.getMessage('createPlaylist'),
+                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                            model: new CreatePlaylistView
+                        });
+                        
                         createPlaylistPromptView.fadeInAndShow();
 
                     }
@@ -191,8 +197,12 @@ define([
                                 clickedPlaylist.destroy();
                             } else {
 
-                                var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                                    model: clickedPlaylist
+                                var deletePlaylistPromptView = new GenericPromptView({
+                                    title: chrome.i18n.getMessage('deletePlaylist'),
+                                    okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                                    model: new DeletePlaylistView({
+                                        model: clickedPlaylist
+                                    })
                                 });
 
                                 deletePlaylistPromptView.fadeInAndShow();
@@ -224,8 +234,12 @@ define([
                     text: chrome.i18n.getMessage('edit'),
                     onClick: function () {
 
-                        var editPlaylistPromptView = new EditPlaylistPromptView({
-                            model: clickedPlaylist
+                        var editPlaylistPromptView = new GenericPromptView({
+                            title: chrome.i18n.getMessage('editPlaylist'),
+                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                            model: new EditPlaylistView({
+                                model: clickedPlaylist
+                            })
                         });
                         
                         editPlaylistPromptView.fadeInAndShow();

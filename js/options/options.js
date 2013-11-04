@@ -1,38 +1,28 @@
 ﻿define([
-    'settings',
-    'player'
-], function (Settings, Player) {
+    'settingsView'
+], function (SettingsView) {
     'use strict';
 
-    var suggestedQualitySelectView = Backbone.View.extend({
-        el: $('#suggestedQualitySelect'),
-        
-        label: $('#suggestedQualitySelectLabel'),
+    var OptionsView = Backbone.View.extend({
+        el: $('body'),
         
         events: {
-            'change': 'setSuggestedQuality'
+            'click button.save': 'save'
         },
+        
+        settingsView: new SettingsView,
         
         initialize: function () {
-            this.label.text(chrome.i18n.getMessage("suggestedQuality"));
-            this.$el.find('option[value="highres"]').text(chrome.i18n.getMessage("highest"));
-            this.$el.find('option[value="default"]').text(chrome.i18n.getMessage("auto"));
-            this.$el.find('option[value="small"]').text(chrome.i18n.getMessage("lowest"));
+            this.$el.find('button.save').before(this.settingsView.render().el);
 
-            //  Initialize to whatever's stored in localStorage.
-            this.$el.val(Settings.get('suggestedQuality'));
+            this.$el.find('button.save').text(chrome.i18n.getMessage('saveButtonText'));
         },
         
-        setSuggestedQuality: function () {
-            
-            //  Write user's choice to localStorage.
-            var suggestedQuality = this.$el.val();
-
-            Settings.set('suggestedQuality', suggestedQuality);
-            Player.setSuggestedQuality(suggestedQuality);
-
+        save: function() {
+            this.settingsView.save();
         }
     });
 
-    return new suggestedQualitySelectView;
+    return new OptionsView;
+
 });

@@ -87,19 +87,18 @@ require.config({
         'playPauseButton': 'foreground/model/buttons/playPauseButton',
 
         //  View:
-        'clearStreamPromptView': 'foreground/view/clearStreamPromptView',
-        'confirmPromptView': 'foreground/view/confirmPromptView',
+        'clearStreamView': 'foreground/view/clearStreamView',
         'contentHeaderView': 'foreground/view/contentHeaderView',
         'contextMenuView': 'foreground/view/contextMenuView',
-        'createPlaylistPromptView': 'foreground/view/createPlaylistPromptView',
-        'deletePlaylistPromptView': 'foreground/view/deletePlaylistPromptView',
+        'createPlaylistView': 'foreground/view/createPlaylistView',
+        'deletePlaylistView': 'foreground/view/deletePlaylistView',
         'dialogView': 'foreground/view/dialogView',
-        'editPlaylistPromptView': 'foreground/view/editPlaylistPromptView',
+        'editPlaylistView': 'foreground/view/editPlaylistView',
         'genericPromptView': 'foreground/view/genericPromptView',
-        'reloadPromptView': 'foreground/view/reloadPromptView',
-        'saveSelectedPromptView': 'foreground/view/saveSelectedPromptView',
-        'saveVideosPromptView': 'foreground/view/saveVideosPromptView',
-        'settingsPromptView': 'foreground/view/settingsPromptView',
+        'reloadView': 'foreground/view/reloadView',
+        'saveSelectedView': 'foreground/view/saveSelectedView',
+        'saveVideosView': 'foreground/view/saveVideosView',
+        'settingsView': 'foreground/view/settingsView',
 
         //  View -> ActiveFolderArea:
         'activeFolderAreaView': 'foreground/view/activeFolderArea/activeFolderAreaView',

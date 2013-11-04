@@ -1,0 +1,21 @@
+﻿.remindersList {
+    list-style: none;   
+}
+
+.remindersList li {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.remindersLabel {
+    margin-top: 5px;
+    display: block;
+}
+
+body {
+     font: 13px/1.2 sans-serif
+}
+
+.settings {
+    font-size: 1.1em;
+}

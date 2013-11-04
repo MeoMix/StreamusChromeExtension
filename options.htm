@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 
 <html>
+    
     <head>
-        <title>Streamus</title>
+        <title>
+            Streamus
+        </title>
 
-        <script data-main="main" src="js/thirdParty/require.js"></script>
+        <link href="css/checkbox.css" rel="stylesheet" />
+        <link href="css/options.css" rel="stylesheet">
+
+        <!--Load RequireJS and then go to js/foreground/main to start-->
+        <script data-main="js/options/main" src="js/thirdParty/require.js"></script>
     </head>
+
     <body>
         
-        <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect"></label>
-        <select id="suggestedQualitySelect" name="suggestedQualitySelect">
-            <option value="highres"></option>
-            <option value="default" selected></option>
-            <option value="small"></option>
-        </select>
-
+        <button class="save"></button>
     </body>
+
 </html>

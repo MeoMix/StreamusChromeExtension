@@ -1,10 +1,13 @@
-﻿define(function () {
+﻿define([
+    'text!../template/genericPrompt.htm'
+], function (GenericPromptTemplate) {
     'use strict';
 
-    //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.
     var GenericPromptView = Backbone.View.extend({
         
         className: 'modalOverlay prompt',
+        
+        template: _.template(GenericPromptTemplate),
 
         events: {
             'click': 'hideIfClickOutsidePanel',
@@ -15,24 +18,38 @@
         },
         
         panel: null,
-        
-        render: function (templateOptions) {
-
-            var genericTemplateOptions = _.extend({}, templateOptions, {
-                //  Mix in chrome to reference internationalize.
-                'chrome.i18n': chrome.i18n
-            });
+ 
+        okButtonText: chrome.i18n.getMessage('okButtonText'),
+        cancelButtonText: chrome.i18n.getMessage('cancelButtonText'),
             
-            if (this.model) {
-                genericTemplateOptions = _.extend(genericTemplateOptions, this.model.toJSON());
-            }
+        okButton: null,
+        
+        render: function () {
+            
+            this.$el.html(this.template({
+                //  Mix in chrome to reference internationalize.
+                'chrome.i18n': chrome.i18n,
+                'promptTitle': this.title,
+                'okButtonText': this.okButtonText,
+                'cancelButtonText': this.cancelButtonText
+            }));
 
-            this.$el.html(this.template(genericTemplateOptions));
+            //  Add specific content to the generic dialog's interior
+            this.$el.find('.content').append(this.model.render().el);
 
             this.panel = this.$el.children('.panel');
             this.okButton = this.$el.find('button.ok');
 
             return this;
+        },
+        
+        initialize: function (options) {
+
+            this.title = options.title;
+            this.okButonText = options.okButtonText || this.okButonText;
+            this.cancelButtonText = options.cancelButtonText || this.cancelButtonText;
+            this.$el.addClass(this.model.className + 'Prompt');
+
         },
 
         fadeInAndShow: function () {
@@ -88,9 +105,15 @@
 
         },
         
-        //  Just a stub -- generally expect people to provide their own logic for doOk
-        doOk: function() {
-            this.fadeOutAndHide();
+        doOk: function () {
+            //  Run validation logic if provided else assume valid
+            var isValid = this.model.validate ? this.model.validate() : true;
+            
+            if (isValid) {
+                this.model.save();
+                this.fadeOutAndHide();
+            }
+            
         }
     });
 

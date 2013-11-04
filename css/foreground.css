@@ -95,7 +95,7 @@ button.mute.muted{
     padding: 10px;
 }
 
-.modalOverlay .panel .body {
+.modalOverlay .panel .content {
     padding: 10px;
     font-size: 1.1em;
 }
@@ -1266,20 +1266,6 @@ i.i-4x { font-size: 56px !important }
     height: 200px;
     font-size: 20px;
     z-index: 99999;
-}
-
-.remindersLabel {
-    margin-top: 5px;
-    display: inline-block;
-}
-
-.settingsPrompt .remindersList {
-    list-style: none;   
-}
-
-.settingsPrompt .remindersList li {
-    margin-left: 20px;
-    margin-top: 10px;
 }
 
 /* Selectize Configuration */

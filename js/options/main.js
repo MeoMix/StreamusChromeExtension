@@ -17,14 +17,17 @@ require.config({
     },
     
     paths: {
-        'main': 'options/main',
+        'options': 'options/options',
+        'settings': 'options/settings',
+        'settingsView': 'foreground/view/settingsView',
+        'player': 'options/player',
+        
+        //  Third Party:
+        'text': 'thirdParty/text',
         'jquery': 'thirdParty/jquery',
         'jqueryUi': 'thirdParty/jqueryUi',
         'backbone': 'thirdParty/backbone',
         'lodash': 'thirdParty/lodash',
-        'options': 'options/options',
-        'settings': 'options/settings',
-        'player': 'options/player'
     }
     
 });
@@ -32,7 +35,7 @@ require.config({
 require([
     'jquery',
     'backbone',
-    'underscore',
+    'lodash',
     'jqueryUi'
 ], function ($, Backbone, _) {
     'use strict';

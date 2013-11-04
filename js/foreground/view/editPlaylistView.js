@@ -1,14 +1,14 @@
 ﻿define([
-    'text!../template/editPlaylistPrompt.htm',
+    'text!../template/editPlaylist.htm',
     'genericPromptView'
-], function (EditPlaylistPromptTemplate, GenericPromptView) {
+], function (EditPlaylistTemplate, GenericPromptView) {
     'use strict';
 
-    var EditPlaylistPromptView = GenericPromptView.extend({
+    var EditPlaylistView = GenericPromptView.extend({
 
-        className: GenericPromptView.prototype.className + ' editPlaylistPrompt',
+        className: 'editPlaylist',
 
-        template: _.template(EditPlaylistPromptTemplate),
+        template: _.template(EditPlaylistTemplate),
 
         playlistTitleInput: null,
         
@@ -20,7 +20,10 @@
         
         render: function () {
 
-            GenericPromptView.prototype.render.call(this, arguments);
+            this.$el.html(this.template({
+                'chrome.i18n': chrome.i18n,
+                'title': this.model.get('title')
+            }));
 
             this.playlistTitleInput = this.$el.find('input[type="text"]');
 
@@ -32,21 +35,19 @@
             var playlistTitle = $.trim(this.playlistTitleInput.val());
             this.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
         },
-        
-        //  Validate input and, if valid, edit the playlist's name with the given name.
-        doOk: function () {
 
+        validate: function() {
             var valid = this.$el.find('.submittable.invalid').length === 0;
 
-            if (valid) {
-                var playlistTitle = $.trim(this.playlistTitleInput.val());
-                this.model.set('title', playlistTitle);
-                this.fadeOutAndHide();
-            }
-
+            return valid;
+        },
+        
+        save: function() {
+            var playlistTitle = $.trim(this.playlistTitleInput.val());
+            this.model.set('title', playlistTitle);
         }
 
     });
 
-    return EditPlaylistPromptView;
+    return EditPlaylistView;
 });

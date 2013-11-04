@@ -1,29 +1,24 @@
 ﻿define([
-    'text!../template/saveSelectedPrompt.htm',
-    'genericPromptView',
+    'text!../template/saveSelected.htm',
     'folders',
     'videoSearchResults'
-], function (SaveSelectedPromptTemplate, GenericPromptView, Folders, VideoSearchResults) {
+], function (SaveSelectedTemplate, Folders, VideoSearchResults) {
     'use strict';
 
-    var SaveSelectedPromptView = GenericPromptView.extend({
+    var SaveSelectedView = Backbone.View.extend({
 
-        className: GenericPromptView.prototype.className + ' saveSelectedPrompt',
+        className: 'saveSelected',
 
-        template: _.template(SaveSelectedPromptTemplate),
-
-        events: _.extend({}, GenericPromptView.prototype.events, {
-            
-        }),
+        template: _.template(SaveSelectedTemplate),
         
         isCreating: false,
         
         render: function () {
             
-            GenericPromptView.prototype.render.call(this, {
-                'selectedResultsCount': VideoSearchResults.selected().count
-            }, arguments);
-
+            this.$el.html(this.template({
+                'chrome.i18n': chrome.i18n
+            }));
+            
             var playlistOptions = Folders.getActiveFolder().get('playlists').map(function (playlist) {
                 return {
                     id: playlist.get('id'),
@@ -81,13 +76,13 @@
 
                     }
 
-                    self.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
+                    self.trigger('change:creating', self.creating);
                     self.isCreating = true;
 
                     return createResult;
                 },
                 onDelete: function() {
-                    self.okButton.text(chrome.i18n.getMessage('saveButtonText'));
+                    self.trigger('change:creating', self.creating);
                     self.isCreating = false;
                 }
             });
@@ -95,44 +90,41 @@
             return this;
         },
         
-        doOk: function () {
-
+        validate: function() {
             var selectedPlaylistId = this.playlistSelect.val();
-            
-            if (selectedPlaylistId) {
 
-                var selectedSearchResults = VideoSearchResults.selected();
+            return selectedPlaylistId != null;
+        },
+        
+        save: function() {
+            var selectedSearchResults = VideoSearchResults.selected();
 
-                var videoInformation;
-                if (selectedSearchResults.length === 1) {
-                    videoInformation = selectedSearchResults[0].get('videoInformation');
-                } else {
+            var videoInformation;
+            if (selectedSearchResults.length === 1) {
+                videoInformation = selectedSearchResults[0].get('videoInformation');
+            } else {
 
-                    videoInformation = _.map(VideoSearchResults.selected(), function (selectedVideoSearchResult) {
-                        return selectedVideoSearchResult.get('videoInformation');
-                    });
-                    
-                }
-                
-                if (this.isCreating) {
+                videoInformation = _.map(VideoSearchResults.selected(), function (selectedVideoSearchResult) {
+                    return selectedVideoSearchResult.get('videoInformation');
+                });
 
-                    var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
-                    Folders.getActiveFolder().addPlaylistByInformation(playlistTitle, videoInformation);
+            }
 
-                } else {
-                    
-                    var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
-                    selectedPlaylist.addByVideoInformation(videoInformation);
+            if (this.isCreating) {
 
-                }
+                var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
+                Folders.getActiveFolder().addPlaylistByInformation(playlistTitle, videoInformation);
 
-                this.fadeOutAndHide();
+            } else {
+                var selectedPlaylistId = this.playlistSelect.val();
+                var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
+                selectedPlaylist.addByVideoInformation(videoInformation);
+
             }
 
         }
-
         
     });
 
-    return SaveSelectedPromptView;
+    return SaveSelectedView;
 });

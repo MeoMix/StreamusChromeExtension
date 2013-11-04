@@ -1,0 +1,31 @@
+﻿<label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
+    <%- chrome.i18n.getMessage('suggestedQuality') %>
+</label>
+
+<select id="suggestedQualitySelect" name="suggestedQualitySelect">
+            
+    <option value="highres">
+        <%- chrome.i18n.getMessage('highest') %>
+    </option>
+
+    <option value="default">
+        <%- chrome.i18n.getMessage('auto') %>
+    </option>
+
+    <option value="small">
+        <%- chrome.i18n.getMessage('lowest') %>
+    </option>
+
+</select>
+        
+<span class="remindersLabel">Reminders:</span>
+<ul class="remindersList">
+    <li>
+        <input type="checkbox" id="remindClearStream" class="css-checkbox lrg">
+        <label for="remindClearStream" class="css-label lrg klaus">Remind clear stream</label>
+    </li>
+    <li>
+        <input type="checkbox" id="remindDeletePlaylist" class="css-checkbox lrg">
+        <label for="remindDeletePlaylist" class="css-label lrg klaus">Remind delete playlist</label>
+    </li>
+</ul>

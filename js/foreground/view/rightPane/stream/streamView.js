@@ -7,12 +7,13 @@
     'radioButtonView',
     'saveStreamButtonView',
     'clearStreamButtonView',
-    'saveVideosPromptView',
-    'clearStreamPromptView',
+    'saveVideosView',
+    'genericPromptView',
+    'clearStreamView',
     'contextMenuGroups',
     'utility',
     'settings'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, SaveVideosPromptView, ClearStreamPromptView, ContextMenuGroups, Utility, Settings) {
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, SaveVideosView, GenericPromptView, ClearStreamView, ContextMenuGroups, Utility, Settings) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -197,8 +198,24 @@
 
             if (StreamItems.length > 0) {
 
-                var saveVideosPromptView = new SaveVideosPromptView({
-                    videos: StreamItems.pluck('video')
+                var videos = StreamItems.pluck('video');
+
+                var saveVideosPromptView = new GenericPromptView({
+                    title: StreamItems.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
+                    okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                    model: new SaveVideosView({
+                        model: videos
+                    })
+                });
+                
+                saveVideosPromptView.listenTo(saveVideosPromptView.content, 'change:creating', function (creating) {
+
+                    if (creating) {
+                        this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
+                    } else {
+                        this.okButton.text(chrome.i18n.getMessage('saveButtonText'));
+                    }
+
                 });
                 
                 saveVideosPromptView.fadeInAndShow();
@@ -212,10 +229,15 @@
                 var remindClearStream = Settings.get('remindClearStream');
                 
                 if (remindClearStream) {
-                    var clearStreamPromptView = new ClearStreamPromptView({
-                        model: StreamItems
+
+                    var clearStreamPromptView = new GenericPromptView({
+                        title: chrome.i18n.getMessage('confirmPromptTitle'),
+                        model: new ClearStreamView
                     });
+                    
                     clearStreamPromptView.fadeInAndShow();
+                    
+
                 } else {
                     StreamItems.clear();
                 }

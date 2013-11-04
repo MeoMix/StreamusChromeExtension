@@ -1,8 +1,9 @@
 define([
     'text!../template/saveSelectedButton.htm',
     'videoSearchResults',
-    'saveSelectedPromptView'
-], function (SaveSelectedButtonTemplate, VideoSearchResults, SaveSelectedPromptView) {
+    'genericPromptView',
+    'saveSelectedView'
+], function (SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveSelectedView) {
     'use strict';
 
     var SaveSelectedButtonView = Backbone.View.extend({
@@ -42,11 +43,29 @@ define([
             this.listenTo(VideoSearchResults, 'change:selected', this.render);
         },
         
-        showSaveSelectedPrompt: function() {
-            
-            if (VideoSearchResults.selected().length > 0) {
+        showSaveSelectedPrompt: function () {
 
-                var saveSelectedPromptView = new SaveSelectedPromptView();
+            var selectedCount = VideoSearchResults.selected().length;
+            
+            if (selectedCount > 0) {
+
+                //  TODO: Refactor to use SaveVideosView
+                var saveSelectedPromptView = new GenericPromptView({
+                    title: selectedCount === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
+                    okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                    model: new SaveSelectedView
+                });
+                
+                saveSelectedPromptView.listenTo(saveSelectedPromptView.content, 'change:creating', function (creating) {
+
+                    if (creating) {
+                        this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
+                    } else {
+                        this.okButton.text(chrome.i18n.getMessage('saveButtonText'));
+                    }
+
+                });
+
                 saveSelectedPromptView.fadeInAndShow();
                 
             }

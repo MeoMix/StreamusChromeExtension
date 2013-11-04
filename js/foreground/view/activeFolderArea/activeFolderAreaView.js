@@ -1,15 +1,16 @@
 ﻿define([
     'activeFolderView',
     'text!../template/activeFolderArea.htm',
-    'settingsPromptView',
-    'createPlaylistPromptView',
-    'editPlaylistPromptView',
-    'deletePlaylistPromptView',
+    'settingsView',
+    'genericPromptView',
+    'createPlaylistView',
+    'editPlaylistView',
+    'deletePlaylistView',
     'deletePlaylistButtonView',
     'folders',
     'utility',
     'settings'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsPromptView, CreatePlaylistPromptView, EditPlaylistPromptView, DeletePlaylistPromptView, DeletePlaylistButtonView, Folders, Utility, Settings) {
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistView, DeletePlaylistButtonView, Folders, Utility, Settings) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -136,22 +137,37 @@
         
         showSettingsPrompt: function () {
             
-            var settingsPromptView = new SettingsPromptView();
+            var settingsPromptView = new GenericPromptView({
+                title: chrome.i18n.getMessage('settings'),
+                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                model: new SettingsView
+            });
+
+            console.log("Created settings prompt:", settingsPromptView);
+
             settingsPromptView.fadeInAndShow();
 
         },
         
         showCreatePlaylistPrompt: function () {
 
-            var createPlaylistPromptView = new CreatePlaylistPromptView();
+            var createPlaylistPromptView = new GenericPromptView({
+                title: chrome.i18n.getMessage('createPlaylist'),
+                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                model: new CreatePlaylistView
+            });
             createPlaylistPromptView.fadeInAndShow();
 
         },
         
         showEditSelectedPlaylistPrompt: function () {
 
-            var editPlaylistPromptView = new EditPlaylistPromptView({
-                model: Folders.getActiveFolder().get('playlists').getActivePlaylist()
+            var editPlaylistPromptView = new GenericPromptView({
+                title: chrome.i18n.getMessage('editPlaylist'),
+                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                model: new EditPlaylistView({
+                    model: Folders.getActiveFolder().get('playlists').getActivePlaylist()
+                })
             });
             
             editPlaylistPromptView.fadeInAndShow();
@@ -169,10 +185,16 @@
                 
                 var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
                 if (remindDeletePlaylist) {
-                    var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                        model: activePlaylist
+                    
+                    var deletePlaylistPromptView = new GenericPromptView({
+                        title: chrome.i18n.getMessage('deletePlaylist'),
+                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                        model: new DeletePlaylistView({
+                            model: activePlaylist
+                        })
                     });
                     deletePlaylistPromptView.fadeInAndShow();
+                    
                 } else {
                     activePlaylist.destroy();
                 }

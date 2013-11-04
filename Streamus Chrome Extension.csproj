@@ -44,7 +44,9 @@
   <ItemGroup>
     <Content Include="background.htm" />
     <Content Include="css\beatportInject.css" />
+    <Content Include="css\checkbox.css" />
     <Content Include="css\contextMenu.css" />
+    <Content Include="css\options.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\fullscreen.css" />
     <Content Include="css\foreground.css" />
@@ -52,12 +54,14 @@
     <Content Include="css\selectize.default.css" />
     <Content Include="font\fontawesome-webfont.svg" />
     <Content Include="fullscreen.htm" />
+    <Content Include="img\checkbox.png" />
     <Content Include="img\streamus_icon16.png" />
     <Content Include="img\streamus_icon14_0bars.png" />
     <Content Include="img\streamus_icon_yellow_19_19.png" />
     <Content Include="img\streamus_icon_yellow_38_38.png" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
+    <Content Include="js\background\model\contextMenus.js" />
     <Content Include="js\background\model\buttons\videoDisplayButton.js" />
     <Content Include="js\background\model\buttons\playPauseButton.js" />
     <Content Include="js\background\model\buttons\previousButton.js" />
@@ -109,6 +113,8 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\options\genericPromptView.js" />
+    <Content Include="js\options\settingsPromptView.js" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\jquery.autoscroll.js" />
     <Content Include="js\thirdParty\jquery.hoverIntent.js" />
@@ -172,7 +178,6 @@
     <Content Include="js\background\collection\folders.js" />
     <Content Include="js\background\model\user.js" />
     <Content Include="js\background\model\video.js" />
-    <Content Include="js\background\collection\videos.js" />
     <Content Include="js\foreground\collection\streamItems.js" />
     <Content Include="js\foreground\view\rightPane\stream\streamItemView.js" />
     <Content Include="js\foreground\view\rightPane\stream\streamView.js" />

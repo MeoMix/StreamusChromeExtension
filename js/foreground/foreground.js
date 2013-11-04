@@ -1,7 +1,8 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
-    'reloadPromptView',
+    'genericPromptView',
+    'reloadView',
     'activeFolderArea',
     'activeFolderAreaView',
     'activePlaylistAreaView',
@@ -15,7 +16,7 @@ define([
     'contextMenuGroups',
     'rightPaneView',
     'folders'
-], function (ReloadPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
+], function (GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -28,7 +29,12 @@ define([
         addSearchResultsView: null,
         rightPaneView: null,
         contextMenuView: new ContextMenuView,
-        reloadPromptView: new ReloadPromptView,
+        reloadPromptView: new GenericPromptView({
+            title: chrome.i18n.getMessage('reloadStreamus'),
+            okButtonText: chrome.i18n.getMessage('reloadButtonText'),
+            cancelButtonText: chrome.i18n.getMessage('waitButtonText'),
+            model: new ReloadView
+        }),
         showReloadPromptTimeout: null,
                
         //  These are pulled from the background page. They'll be null until background is fully initialized.
