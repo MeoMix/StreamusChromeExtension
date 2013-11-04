@@ -238,7 +238,10 @@
 		"message": "Delete"
 	},
 	"searchText": {
-		"message": "Search..."
+		"message": "Search"
+	},
+	"searching": {
+		"message": "Searching"
 	},
 	"searchInstructions": {
 		"message": "Start searching and results will appear here"
@@ -360,6 +363,9 @@
 	"items": {
 		"message": "items"
 	},
+	"to": {
+		"message": "to"
+	},
 	"by": {
 		"message": "by"
 	},
@@ -383,6 +389,27 @@
 	},
 	"addToStream": {
 		"message": "Add to Stream"
+	},
+	"playlists": {
+		"message": "Playlists"
+	},
+	"signIn": {
+		"message": "Sign In"
+	},
+	"dontRemindMeAgain": {
+		"message": "Don't remind me again"
+	},
+	"reminders": {
+		"message": "Reminders"
+	},
+	"remindClearStream": {
+		"message": "Remind clear stream"
+	},
+	"remindDeletePlaylist": {
+		"message": "Remind delete playlist"
+	},
+	"nowPlaying": {
+		"message": "Now Playing"
 	}
 	
 }

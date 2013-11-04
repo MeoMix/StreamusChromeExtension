@@ -1,12 +1,11 @@
 ﻿<div class="panel">
     <div class="header">
         <span class="selectedItemsMessage">
-            <!--i18n-->
-            
+
             <% if( selectedResultsLength === 1 ) { %>
-            Add <%- selectedResultsLength %> item to:
+            <%- add %> <%- selectedResultsLength %> <%- item %> <%- to %>:
             <% } else { %>
-            Add <%- selectedResultsLength %> items to:
+            <%- add %> <%- selectedResultsLength %> <%- items %> <%- to %>:
             <% } %>
             
         </span>

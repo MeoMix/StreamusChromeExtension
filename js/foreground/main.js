@@ -84,6 +84,7 @@ require.config({
         'streamAction': 'foreground/model/streamAction',
         'videoSearch': 'foreground/model/videoSearch',
         'videoSearchResult': 'foreground/model/videoSearchResult',
+        'videoSearchResultAction': 'foreground/model/videoSearchResultAction',
 
         //  Model -> Buttons:
         'playPauseButton': 'foreground/model/buttons/playPauseButton',

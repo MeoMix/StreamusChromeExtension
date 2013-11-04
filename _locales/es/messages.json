@@ -232,8 +232,11 @@
     "deleteButtonText": {
 		"message": "Delete"
 	},
-	"searchText": {
-		"message": "Search..."
+	"search": {
+		"message": "Search"
+	},
+	"searching": {
+		"message": "Searching"
 	},
 	"searchInstructions": {
 		"message": "Start searching and results will appear here"
@@ -375,5 +378,26 @@
 	},
 	"timeRemaining": {
 		"message": "Time remaining"
+	},
+	"playlists": {
+		"message": "Playlists"
+	},
+	"signIn": {
+		"message": "Sign In"
+	},
+	"dontRemindMeAgain": {
+		"message": "Don't remind me again"
+	},
+	"reminders": {
+		"message": "Reminders"
+	},
+	"remindClearStream": {
+		"message": "Remind clear stream"
+	},
+	"remindDeletePlaylist": {
+		"message": "Remind delete playlist"
+	},
+	"nowPlaying": {
+		"message": "Now Playing"
 	}
 }

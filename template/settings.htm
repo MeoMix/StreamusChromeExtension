@@ -18,14 +18,14 @@
 
 </select>
         
-<span class="remindersLabel">Reminders:</span>
+<span class="remindersLabel"><%- chrome.i18n.getMessage('reminders') %>:</span>
 <ul class="remindersList">
     <li>
         <input type="checkbox" id="remindClearStream" class="css-checkbox lrg">
-        <label for="remindClearStream" class="css-label lrg klaus">Remind clear stream</label>
+        <label for="remindClearStream" class="css-label lrg klaus"><%- chrome.i18n.getMessage('remindClearStream') %></label>
     </li>
     <li>
         <input type="checkbox" id="remindDeletePlaylist" class="css-checkbox lrg">
-        <label for="remindDeletePlaylist" class="css-label lrg klaus">Remind delete playlist</label>
+        <label for="remindDeletePlaylist" class="css-label lrg klaus"><%- chrome.i18n.getMessage('remindDeletePlaylist') %></label>
     </li>
 </ul>

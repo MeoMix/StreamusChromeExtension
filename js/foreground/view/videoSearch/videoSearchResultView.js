@@ -22,6 +22,7 @@
         
         events: {
             'click': 'toggleSelected',
+            'click .fa-play': 'play',
             'contextmenu': 'showContextMenu'
         },
 
@@ -58,6 +59,10 @@
 
             this.model.set('selected', selected);
 
+        },
+        
+        play: function () {
+            
         },
         
         showContextMenu: function (event) {

@@ -476,6 +476,16 @@ input[type="range"]::-webkit-slider-thumb {
     height: 10px;
 }
 
+.videoSearchResult .fa-play {
+    position: absolute;
+    color: #fff;
+    z-index: 100;
+    width: 50px;
+    text-align: center;
+    line-height: 30px;
+    display: none;
+}
+
 .videoSearchResult,
 .playlistItem,
 .streamItem {
@@ -497,6 +507,11 @@ input[type="range"]::-webkit-slider-thumb {
 .playlistItem:hover,
 .playlist:hover {
     background: #ebebeb;
+}
+
+.videoSearchResult:hover .fa-play {
+    display: block;
+    cursor: pointer;
 }
 
 .streamItem:hover > .item-thumb,
