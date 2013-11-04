@@ -4,8 +4,9 @@ define([
     'streamItems',
     'player',
     'utility',
-    'playerState'
-], function (TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState) {
+    'playerState',
+    'settings'
+], function (TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {
     'use strict';
 
     var TimeProgressAreaView = Backbone.View.extend({
@@ -17,12 +18,13 @@ define([
             'mousewheel input.timeRange': 'mousewheelUpdateProgress',
             'mousedown input.timeRange': 'startSeeking',
             'mouseup input.timeRange': 'seekToTime',
+            'click .time-elapsed': 'toggleShowTimeRemaining'
         },
         
         progress: null,
         timeRange: null,
         timeElapsedLabel: null,
-        timeRemainingLabel: null,
+        durationLabel: null,
         
         autoUpdate: true,
 
@@ -39,7 +41,7 @@ define([
             this.progress = this.$el.find('.time-slider .progress');
             this.timeRange = this.$el.find('.time-slider input.timeRange');
             this.timeElapsedLabel = this.$el.find('.time-elapsed');
-            this.timeRemainingLabel = this.$el.find('.time-remaining');
+            this.durationLabel = this.$el.find('.duration');
                 
             //  If a video is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
@@ -56,7 +58,6 @@ define([
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
             this.listenTo(Player, 'change:state', this.stopSeeking);
-
         },
         
         //  Allow the user to manual time change by click or scroll.
@@ -101,11 +102,27 @@ define([
                 var currentTime = parseInt(this.timeRange.val());
 
                 console.log("CurrentTime:", currentTime);
-                console.log("But what about?", this.$el.find('.time-slider input.timeRange').val())
+                console.log("But what about?", this.$el.find('.time-slider input.timeRange').val());
 
                 Player.seekTo(currentTime);
             }
 
+        },
+        
+        toggleShowTimeRemaining: function() {
+
+            var showTimeRemaining = Settings.get('showTimeRemaining');
+            //  Toggle showTimeRemaining and then read the new state and apply it.
+            Settings.set('showTimeRemaining', !showTimeRemaining);
+
+            if (!showTimeRemaining) {
+                this.timeElapsedLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
+            } else {
+                this.timeElapsedLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
+            }
+
+            this.timeElapsedLabel.toggleClass('timeRemaining', !showTimeRemaining);
+            this.updateProgress();
         },
         
         enable: function () {
@@ -164,9 +181,18 @@ define([
             if (progressPercent < 0 || progressPercent > 100) throw "Wow this really should not have been " + progressPercent;
 
             this.progress.width(progressPercent + '%');
+            
+            if (Settings.get('showTimeRemaining')) {
+                
+                //  Calculate the time remaining from the current time and show that instead.
+                var timeRemaining = totalTime - currentTime;
 
-            this.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
-            this.timeRemainingLabel.text(Utility.prettyPrintTime(totalTime));
+                this.timeElapsedLabel.text(Utility.prettyPrintTime(timeRemaining));
+            } else {
+                this.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
+            }
+
+            this.durationLabel.text(Utility.prettyPrintTime(totalTime));
  
         },
         

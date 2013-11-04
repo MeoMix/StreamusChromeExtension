@@ -208,6 +208,12 @@
 	"playAllDisabled": {
 		"message": "Playlist is empty"
 	},
+	"addAll": {
+		"message": "Add all"
+	},
+	"addAllDisabled": {
+		"message": "Playlist is empty"
+	},
 	"playSelected": {
 		"message": "Play selected"
 	},
@@ -366,5 +372,8 @@
 	},
 	"addToStream": {
 		"message": "Add to Stream"
+	},
+	"timeRemaining": {
+		"message": "Time remaining"
 	}
 }

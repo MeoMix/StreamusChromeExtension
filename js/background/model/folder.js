@@ -253,7 +253,7 @@ define([
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            var needsLoading = dataSource === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
+            var needsLoading = dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
 
             var playlist = new Playlist({
                 title: playlistTitle,
@@ -262,9 +262,13 @@ define([
                 dataSourceLoaded: !needsLoading
             });
 
+            console.log("Saving playlist:", playlist);
+
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
                 success: function () {
+
+                    console.log("Saved");
 
                     //  Update other affected Playlist pointers. DB is already correct, but backbone doesn't update automatically.
                     var currentPlaylists = self.get('playlists');
@@ -280,9 +284,11 @@ define([
                     }
 
                     currentPlaylists.push(playlist);
+
+                    console.log("Needs loading?", needsLoading);
                     
                     if (needsLoading) {
-     
+                        console.log("Loading dataSource");
                         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                         YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {
 

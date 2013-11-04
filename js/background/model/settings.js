@@ -16,7 +16,8 @@ define(function () {
                 userId: getItem('userId') || null,
                 youTubeInjectClicked: getItem('youTubeInjectClicked') || true,
                 remindClearStream: getItem('remindClearStream') || true,
-                remindDeletePlaylist: getItem('remindDeletePlaylist') || true
+                remindDeletePlaylist: getItem('remindDeletePlaylist') || true,
+                showTimeRemaining: getItem('showTimeRemaining') || false
             };
         },
         
@@ -56,6 +57,10 @@ define(function () {
 
             this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
                 localStorage.setItem('remindDeletePlaylist', JSON.stringify(remindDeletePlaylist));
+            });
+
+            this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
+                localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
             });
         }
   

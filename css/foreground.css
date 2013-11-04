@@ -890,7 +890,7 @@ input.valid {
     width: 100px;
 }
 
-.right-pane .progress-details .time-remaining {
+.right-pane .progress-details .duration {
     bottom: 0;
     display: block;
     position: absolute;

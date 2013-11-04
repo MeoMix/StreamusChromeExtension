@@ -140,6 +140,9 @@
 	"elapsedTime": {
 		"message": "Elapsed time"
 	},
+	"timeRemaining": {
+		"message": "Time remaining"
+	},
 	"totalTime": {
 		"message": "Video duration"
 	},
@@ -208,6 +211,12 @@
 		"message": "Play all"
 	},
 	"playAllDisabled": {
+		"message": "Playlist is empty"
+	},
+	"addAll": {
+		"message": "Add all"
+	},
+	"addAllDisabled": {
 		"message": "Playlist is empty"
 	},
 	"playSelected": {
