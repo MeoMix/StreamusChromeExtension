@@ -1,11 +1,10 @@
 ﻿define([
     'text!../template/deletePlaylist.htm',
-    'genericPromptView',
     'settings'
-], function (DeletePlaylistTemplate, GenericPromptView, Settings) {
+], function (DeletePlaylistTemplate, Settings) {
     'use strict';
 
-    var DeletePlaylistView = GenericPromptView.extend({
+    var DeletePlaylistView = Backbone.View.extend({
 
         className: 'deletePlaylist',
 

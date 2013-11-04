@@ -1,12 +1,11 @@
 ﻿define([
     'text!../template/clearStream.htm',
-    'genericPromptView',
     'settings',
     'streamItems'
-], function (ClearStreamTemplate, GenericPromptView, Settings, StreamItems) {
+], function (ClearStreamTemplate, Settings, StreamItems) {
     'use strict';
 
-    var ClearStreamView = GenericPromptView.extend({
+    var ClearStreamView = Backbone.View.extend({
 
         className: 'clearStream',
 

@@ -208,7 +208,7 @@
                     })
                 });
                 
-                saveVideosPromptView.listenTo(saveVideosPromptView.content, 'change:creating', function (creating) {
+                saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
 
                     if (creating) {
                         this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
@@ -236,7 +236,6 @@
                     });
                     
                     clearStreamPromptView.fadeInAndShow();
-                    
 
                 } else {
                     StreamItems.clear();

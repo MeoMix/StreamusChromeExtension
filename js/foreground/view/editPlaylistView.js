@@ -1,10 +1,9 @@
 ﻿define([
     'text!../template/editPlaylist.htm',
-    'genericPromptView'
-], function (EditPlaylistTemplate, GenericPromptView) {
+], function (EditPlaylistTemplate) {
     'use strict';
 
-    var EditPlaylistView = GenericPromptView.extend({
+    var EditPlaylistView = Backbone.View.extend({
 
         className: 'editPlaylist',
 
@@ -12,11 +11,9 @@
 
         playlistTitleInput: null,
         
-        events: _.extend({}, GenericPromptView.prototype.events, {
-
+        events: {
             'input input.playlistTitle': 'validateTitle'
-
-        }),
+        },
         
         render: function () {
 

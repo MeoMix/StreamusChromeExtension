@@ -56,7 +56,7 @@ define([
                     model: new SaveSelectedView
                 });
                 
-                saveSelectedPromptView.listenTo(saveSelectedPromptView.content, 'change:creating', function (creating) {
+                saveSelectedPromptView.listenTo(saveSelectedPromptView.model, 'change:creating', function (creating) {
 
                     if (creating) {
                         this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
