@@ -1,6 +1,7 @@
 define([
-    'text!../template/playAllButton.htm'
-], function (PlayAllButtonTemplate) {
+    'text!../template/playAllButton.htm',
+    'playlistAction'
+], function (PlayAllButtonTemplate, PlaylistAction) {
     'use strict';
 
     var PlayAllButtonView = Backbone.View.extend({
@@ -13,6 +14,10 @@ define([
 
         enabledTitle: chrome.i18n.getMessage("playAll"),
         disabledTitle: chrome.i18n.getMessage("playAllDisabled"),
+        
+        events: {
+            'click': 'addToStreamAndPlay'
+        },
 
         render: function () {
             this.$el.html(this.template());
@@ -32,6 +37,10 @@ define([
         
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
+        },
+        
+        addToStreamAndPlay: function() {
+            PlaylistAction.addToStreamAndPlay(this.model);
         }
         
     });

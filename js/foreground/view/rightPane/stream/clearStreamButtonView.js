@@ -1,7 +1,8 @@
 define([
     'text!../template/clearStreamButton.htm',
-    'streamItems'
-], function (ClearStreamButtonTemplate, StreamItems) {
+    'streamItems',
+    'streamAction'
+], function (ClearStreamButtonTemplate, StreamItems, StreamAction) {
     'use strict';
 
     var ClearStreamButtonView = Backbone.View.extend({
@@ -14,6 +15,10 @@ define([
 
         enabledTitle: chrome.i18n.getMessage('clearStream'),
         disabledTitle: chrome.i18n.getMessage('clearStreamDisabled'),
+        
+        events: {
+            'click': 'clearStream',
+        },
 
         render: function () {
             this.$el.html(this.template());
@@ -33,6 +38,10 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
+        },
+        
+        clearStream: function() {
+            StreamAction.clearStream();
         }
         
     });

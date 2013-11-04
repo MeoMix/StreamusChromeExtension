@@ -1,6 +1,7 @@
 define([
-    'text!../template/addAllButton.htm'
-], function (AddAllButtonTemplate) {
+    'text!../template/addAllButton.htm',
+    'playlistAction'
+], function (AddAllButtonTemplate, PlaylistAction) {
     'use strict';
 
     var AddAllButtonView = Backbone.View.extend({
@@ -32,6 +33,10 @@ define([
         
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
+        },
+        
+        addToStream: function () {
+            PlaylistAction.addToStream(this.model);
         }
         
     });

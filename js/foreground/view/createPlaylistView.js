@@ -125,7 +125,7 @@
                 activeFolder.addPlaylistByDataSource(playlistName, dataSource);
             } else {
 
-                if (this.model.length === 0) {
+                if (!this.model || this.model.length === 0) {
                     activeFolder.addEmptyPlaylist(playlistName);
                 } else {
                     activeFolder.addPlaylistWithVideos(playlistName, this.model);

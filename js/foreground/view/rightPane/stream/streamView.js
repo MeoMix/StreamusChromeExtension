@@ -7,13 +7,10 @@
     'radioButtonView',
     'saveStreamButtonView',
     'clearStreamButtonView',
-    'saveVideosView',
-    'genericPromptView',
-    'clearStreamView',
     'contextMenuGroups',
     'utility',
-    'settings'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, SaveVideosView, GenericPromptView, ClearStreamView, ContextMenuGroups, Utility, Settings) {
+    'streamAction'
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility, StreamAction) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -31,9 +28,7 @@
         template: _.template(StreamViewTemplate),
         
         events: {
-            'contextmenu .list': 'showContextMenu',
-            'click .clear': 'clearStream',
-            'click .save': 'saveStream'
+            'contextmenu .list': 'showContextMenu'
         },
         
         render: function () {
@@ -183,65 +178,18 @@
                     text: chrome.i18n.getMessage("clearStream"),
                     title: isClearStreamDisabled ? chrome.i18n.getMessage('clearStreamDisabled') : chrome.i18n.getMessage('clearStream'),
                     disabled: isClearStreamDisabled,
-                    onClick: this.clearStream
+                    onClick: function() {
+                        StreamAction.clearStream();
+                    }
                 }, {
                     text: chrome.i18n.getMessage("saveAsPlaylist"),
                     title: isSaveStreamDisabled ? chrome.i18n.getMessage('saveStreamDisabled') : chrome.i18n.getMessage('saveStream'),
                     disabled: isSaveStreamDisabled,
-                    onClick: this.saveStream
+                    onClick: function() {
+                        StreamAction.saveStream();
+                    }
                 }]
             });
-
-        },
-        
-        saveStream: function () {
-
-            if (StreamItems.length > 0) {
-
-                var videos = StreamItems.pluck('video');
-
-                var saveVideosPromptView = new GenericPromptView({
-                    title: StreamItems.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
-                    okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                    model: new SaveVideosView({
-                        model: videos
-                    })
-                });
-                
-                saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
-
-                    if (creating) {
-                        this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
-                    } else {
-                        this.okButton.text(chrome.i18n.getMessage('saveButtonText'));
-                    }
-
-                });
-                
-                saveVideosPromptView.fadeInAndShow();
-                
-            }
-        },
-        
-        clearStream: function() {
-            
-            if (StreamItems.length > 0) {
-                var remindClearStream = Settings.get('remindClearStream');
-                
-                if (remindClearStream) {
-
-                    var clearStreamPromptView = new GenericPromptView({
-                        title: chrome.i18n.getMessage('confirmPromptTitle'),
-                        model: new ClearStreamView
-                    });
-                    
-                    clearStreamPromptView.fadeInAndShow();
-
-                } else {
-                    StreamItems.clear();
-                }
-                
-            }
 
         }
 

@@ -4,8 +4,9 @@ define([
     'streamItems',
     'playlistItemView',
     'text!../template/activePlaylistItems.htm',
-    'utility'
-], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
+    'utility',
+    'playlistAction'
+], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility, PlaylistAction) {
     'use strict';
 
     var ActivePlaylistItemsView = Backbone.View.extend({
@@ -182,17 +183,7 @@ define([
                     onClick: function () {
 
                         if (!isAddPlaylistDisabled) {
-                            
-                            var streamItems = self.model.get('items').map(function (playlistItem) {
-                                return {
-                                    id: _.uniqueId('streamItem_'),
-                                    video: playlistItem.get('video'),
-                                    title: playlistItem.get('title')
-                                };
-                            });
-
-                            StreamItems.addMultiple(streamItems);
-                            
+                            PlaylistAction.addToStream(self.model);
                         }
 
                     }
@@ -203,20 +194,7 @@ define([
                     onClick: function () {
 
                         if (!isPlayPlaylistDisabled) {
-
-                            var streamItems = self.model.get('items').map(function (playlistItem, index) {
-                                console.log("Index:", index);
-
-                                return {
-                                    id: _.uniqueId('streamItem_'),
-                                    video: playlistItem.get('video'),
-                                    title: playlistItem.get('title'),
-                                    selected: index === 0
-                                };
-                            });
-
-                            StreamItems.addAndPlay(streamItems);
-   
+                            PlaylistAction.addToStreamAndPlay(self.model);
                         }
 
                     }

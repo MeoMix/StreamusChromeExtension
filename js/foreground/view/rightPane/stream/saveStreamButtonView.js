@@ -1,7 +1,8 @@
 define([
     'text!../template/saveStreamButton.htm',
-    'streamItems'
-], function (SaveStreamButtonTemplate, StreamItems) {
+    'streamItems',
+    'streamAction'
+], function (SaveStreamButtonTemplate, StreamItems, StreamAction) {
     'use strict';
 
     var SaveStreamButtonView = Backbone.View.extend({
@@ -14,6 +15,10 @@ define([
 
         enabledTitle: chrome.i18n.getMessage("saveStream"),
         disabledTitle: chrome.i18n.getMessage("saveStreamDisabled"),
+        
+        events: {
+            'click': 'saveStream'
+        },
 
         render: function () {
             this.$el.html(this.template());
@@ -33,6 +38,10 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
+        },
+        
+        saveStream: function() {
+            StreamAction.saveStream();
         }
         
     });

@@ -253,7 +253,7 @@ define([
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            var needsLoading = dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
+            var needsLoading = dataSource && dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
 
             var playlist = new Playlist({
                 title: playlistTitle,
@@ -261,8 +261,6 @@ define([
                 dataSource: dataSource,
                 dataSourceLoaded: !needsLoading
             });
-
-            console.log("Saving playlist:", playlist);
 
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {

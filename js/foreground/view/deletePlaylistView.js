@@ -19,13 +19,12 @@
                 'title': this.model.get('title')
             }));
 
-            this.reminderCheckbox = this.$el.find('input#remindDeletePlaylist');
-
             return this;
         },
 
         save: function() {
-            var remindDeletePlaylist = !this.reminderCheckbox.is(':checked');
+            var remindDeletePlaylist = !this.$el.find('input#remindDeletePlaylist').is(':checked');
+
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
             this.model.destroy();

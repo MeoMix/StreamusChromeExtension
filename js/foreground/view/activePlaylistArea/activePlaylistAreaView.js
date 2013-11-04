@@ -23,11 +23,6 @@
             id: 'activePlaylistArea'
         },
         
-        events: {
-            'click .playAll': 'addToStreamAndPlay',
-            'click .addAll': 'addToStream'
-        },
-        
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
             
@@ -67,38 +62,7 @@
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             Utility.scrollChildElements(this.el, '.playlistTitle');
         },
-        
-        addToStreamAndPlay: function () {
-            var playlist = this.model.get('playlist');
 
-            var streamItems = playlist.get('items').map(function (playlistItem, index) {
-
-                return {
-                    id: _.uniqueId('streamItem_'),
-                    video: playlistItem.get('video'),
-                    title: playlistItem.get('title'),
-                    selected: index === 0
-                };
-            });
-
-            StreamItems.addAndPlay(streamItems);
-        },
-        
-        addToStream: function() {
-            var playlist = this.model.get('playlist');
-
-            var streamItems = playlist.get('items').map(function (playlistItem) {
-
-                return {
-                    id: _.uniqueId('streamItem_'),
-                    video: playlistItem.get('video'),
-                    title: playlistItem.get('title'),
-                };
-            });
-
-            StreamItems.add(streamItems);
-        },
-        
         show: function() {
 
             this.$el.show().transition({
