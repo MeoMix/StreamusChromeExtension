@@ -287,18 +287,24 @@ define([
                     folder: activeFolder
                 });
 
+                console.log("Showing addSearchResultsView", addSearchResults);
+
                 this.addSearchResultsView = new AddSearchResultsView({
                     model: addSearchResults
                 });
+
+                console.log("Here");
                 
                 //  Cleanup if the model is ever destroyed.
                 this.listenToOnce(addSearchResults, 'destroy', function () {
                     this.addSearchResultsView = null;
                 });
 
+                console.log("Appending");
+
                 this.$el.append(this.addSearchResultsView.render().el);
                 this.addSearchResultsView.show();
-                
+                console.log("Called show");
             }
 
         }

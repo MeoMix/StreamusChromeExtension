@@ -28,12 +28,13 @@
         panel: null,
 
         render: function () {
-
+            console.log("Yep");
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
                     'selectedResultsLength': VideoSearchResults.selected().length
                 })
             ));
+            console.log("YepYep");
             
             var streamAddSearchResultOption = new AddSearchResultOption({
                 title: 'Now playing stream',
@@ -48,7 +49,7 @@
             var divider = this.$el.find('.divider');
 
             divider.before(streamAddSearchResultOptionView.render().el);
-
+            console.log("Yep2");
             var playlistAddSearchResultOptionViews = this.model.get('folder').get('playlists').map(function (playlist) {
 
                 var playlistAddSearchResultOption = new AddSearchResultOption({
@@ -71,7 +72,7 @@
             this.list = this.$el.find('.list');
 
             this.list.append(playlistAddSearchResultOptionElements);
-
+            console.log("Yep3");
             var activePlaylistView = _.find(playlistAddSearchResultOptionViews, function (view) {
                 return view.model.get('entity').get('active');
             });
@@ -96,7 +97,7 @@
                     self.stopAutoScroll();
                 }
             });
-
+            console.log("Yep4");
             this.panel = this.$el.find('.panel');
 
             return this;

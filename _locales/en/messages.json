@@ -237,7 +237,7 @@
     "deleteButtonText": {
 		"message": "Delete"
 	},
-	"searchText": {
+	"search": {
 		"message": "Search"
 	},
 	"searching": {
