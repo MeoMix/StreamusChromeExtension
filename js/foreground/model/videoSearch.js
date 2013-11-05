@@ -1,9 +1,8 @@
 ﻿define([
     'videoSearchResults',
-    'videoSearchResult',
     'youTubeDataAPI',
     'utility'
-], function (VideoSearchResults, VideoSearchResult, YouTubeDataAPI, Utility) {
+], function (VideoSearchResults, YouTubeDataAPI, Utility) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({
@@ -43,49 +42,40 @@
                     
                     //  If the search query had a valid ID inside of it -- display that result, otherwise search.
                     var videoId = Utility.parseVideoIdFromUrl(searchQuery);
-                    
+
+                    var searchJqXhr;
+
                     if (videoId) {
-                        YouTubeDataAPI.getVideoInformation({
+                        searchJqXhr = YouTubeDataAPI.getVideoInformation({
                             videoId: videoId,
                             success: function (videoInformation) {
                                 
-                                //  Convert video information into search results which contain a reference to the full data incase needed later.
-                                var videoSearchResult = new VideoSearchResult({
-                                    videoInformation: videoInformation
-                                });
-
-                                videoSearchResults.reset(videoSearchResult);
+                                self.set('searchJqXhr', null);
+                                videoSearchResults.setFromVideoInformation(videoInformation);
+                                
                             },
-                            error: function (error) {
+                            error: function(error) {
                                 console.error(error);
                             }
                         });
+                    } else {
+                        //  TODO: Support displaying playlists and channel URLs here.
+
+                        searchJqXhr = YouTubeDataAPI.search({
+                            text: searchQuery,
+                            success: function (videoInformationList) {
+                                
+                                self.set('searchJqXhr', null);
+                                videoSearchResults.setFromVideoInformationList(videoInformationList);
+                                
+                            },
+                            error: function () {
+                                self.set('searchJqXhr', null);
+                            }
+                        });
+                        
                     }
                     
-                    //  TODO: Support displaying playlists and channel URLs here.
-                    
-                    var searchJqXhr = YouTubeDataAPI.search({
-                        text: searchQuery,
-                        success: function(videoInformationList) {
-                            self.set('searchJqXhr', null);
-                            
-                            //  Convert video information into search results which contain a reference to the full data incase needed later.
-                            var searchResults = _.map(videoInformationList, function(videoInformation) {
-
-                                var videoSearchResult = new VideoSearchResult({
-                                    videoInformation: videoInformation
-                                });
-
-                                return videoSearchResult;
-                            });
-
-                            videoSearchResults.reset(searchResults);
-                        },
-                        error: function() {
-                            self.set('searchJqXhr', null);
-                        }
-                    });
-
                     this.set('searchJqXhr', searchJqXhr);
                     
                 }

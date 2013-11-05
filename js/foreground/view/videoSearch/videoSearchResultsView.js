@@ -118,6 +118,7 @@
         },
         
         addAll: function () {
+            //  TODO: Is this better than bulk add?
             VideoSearchResults.each(this.addOne, this);
         },
         

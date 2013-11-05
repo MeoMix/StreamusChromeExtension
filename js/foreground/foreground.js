@@ -15,8 +15,9 @@ define([
     'contextMenuView',
     'contextMenuGroups',
     'rightPaneView',
-    'folders'
-], function (GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders) {
+    'folders',
+    'videoDisplayView'
+], function (GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView) {
     'use strict';
 
     var ForegroundView = Backbone.View.extend({
@@ -26,6 +27,7 @@ define([
         activeFolderAreaView: null,
         activePlaylistAreaView: null,
         videoSearchView: null,
+        videoDisplayView: null,
         addSearchResultsView: null,
         rightPaneView: null,
         contextMenuView: new ContextMenuView,
@@ -43,8 +45,9 @@ define([
 
         events: {
 
-            'click #addVideosButton': 'showVideoSearch',
-            'click #activePlaylistArea button.show': 'showActiveFolderArea'
+            'click #addVideosButton': 'onClickShowVideoSearch',
+            'click #activePlaylistArea button.show': 'showActiveFolderArea',
+            'click #videoDisplayButton': 'onClickShowVideoDisplay'
 
         },
 
@@ -107,6 +110,10 @@ define([
                 }
 
             });
+            
+            if (VideoSearchResults.length > 0) {
+                this.showVideoSearch(true);
+            }
 
         },
         
@@ -227,8 +234,29 @@ define([
             
         },
         
+        onClickShowVideoSearch: function () {
+            this.showVideoSearch(false);
+        },
+        
+        onClickShowVideoDisplay: function() {
+          
+            //  Defend against spam clicking by checking to make sure we're not instantiating currently
+            if (this.videoDisplayView === null) {
+
+                this.videoDisplayView = new VideoDisplayView({
+                    
+
+
+                });
+                
+                this.$el.append(this.videoDisplayView.render().el);
+                this.videoSearchView.show();
+            }
+
+        },
+        
         //  Slide in the VideoSearchView from the left hand side.
-        showVideoSearch: function () {
+        showVideoSearch: function (instant) {
             
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoSearchView === null) {
@@ -244,7 +272,7 @@ define([
                 });
 
                 this.$el.append(this.videoSearchView.render().el);
-                this.videoSearchView.showAndFocus();
+                this.videoSearchView.showAndFocus(instant);
 
                 this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
                     //  Whenever a search result is selected - slide in search results.

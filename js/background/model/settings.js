@@ -1,4 +1,5 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
+﻿//  TODO: This is growing enormously. Need to refactor and kill it.
+//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
 var Settings = null;
 
 //  Denormalization point for the Background's selected models.
@@ -62,6 +63,7 @@ define(function () {
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
                 localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
             });
+            
         }
   
     });

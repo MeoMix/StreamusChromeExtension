@@ -1,4 +1,4 @@
-﻿<i class="fa fa-play"></i>
+﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
 <!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
 <% if( index <= 12 ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- id %>/default.jpg" />
@@ -15,3 +15,6 @@
         <i class="fa fa-clock-o"></i><%- prettyDuration %>	
     </span>
 </span>
+
+<i class="fa fa-plus addToStream"></i>
+<i class="fa fa-plus addToActivePlaylist"></i>

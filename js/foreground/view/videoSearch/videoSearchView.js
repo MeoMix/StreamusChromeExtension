@@ -68,12 +68,18 @@
             this.searchUnderline.removeClass('active');
         },
         
-        showAndFocus: function () {
+        showAndFocus: function (instant) {
             
-            //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('left', this.$el.css('left')).transition({
-                left: 0
-            }, 'snap');
+            this.$el.data('left', this.$el.css('left'));
+            
+            if (instant) {
+                this.$el.css({ left: 0 });
+            } else {
+                //  Store original values in data attribute to be able to revert without magic numbers.
+                this.$el.transition({
+                    left: 0
+                }, 'snap');
+            }
 
             var searchInput = $('.searchBar input');
             searchInput.focus();
@@ -81,18 +87,19 @@
         
         destroyModel: function () {
             this.model.destroy();
+            
         },
         
         hide: function() {
             var self = this;
-            
+    
             this.$el.transition({
                 left: this.$el.data('left')
             }, function () {
                 self.remove();
                 VideoSearchResults.reset();
             });
-
+           
         },
         
         getSearchQuery: function () {

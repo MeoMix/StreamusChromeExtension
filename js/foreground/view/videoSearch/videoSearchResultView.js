@@ -2,8 +2,9 @@
     'text!../template/videoSearchResult.htm',
     'contextMenuGroups',
     'videoSearchResults',
-    'streamItems'
-], function (VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems) {
+    'streamItems',
+    'folders'
+], function (VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders) {
     'use strict';
 
     var VideoSearchResultView = Backbone.View.extend({
@@ -22,11 +23,15 @@
         
         events: {
             'click': 'toggleSelected',
-            'click .fa-play': 'play',
+            'click i.playInStream': 'playInStream',
+            'click i.addToStream': 'addToStream',
+            'click i.addToActivePlaylist': 'addToActivePlaylist',
             'contextmenu': 'showContextMenu'
         },
 
         render: function () {
+
+            console.log("Rendering model:", this.model, this.model.toJSON());
 
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
@@ -61,8 +66,31 @@
 
         },
         
-        play: function () {
+        playInStream: function () {
             
+            var videoInformation = this.model.get('videoInformation');
+            StreamItems.addByVideoInformation(videoInformation, true);
+
+            //  Don't open up the AddSearchResults panel
+            return false;
+        },
+        
+        addToStream: function() {
+          
+            var videoInformation = this.model.get('videoInformation');
+            StreamItems.addByVideoInformation(videoInformation, false);
+            
+            //  Don't open up the AddSearchResults panel
+            return false;
+        },
+        
+        addToActivePlaylist: function () {
+            
+            var videoInformation = this.model.get('videoInformation');
+            Folders.getActiveFolder().getActivePlaylist().addByVideoInformation(videoInformation);
+            
+            //  Don't open up the AddSearchResults panel
+            return false;
         },
         
         showContextMenu: function (event) {

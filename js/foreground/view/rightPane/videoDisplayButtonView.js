@@ -16,6 +16,10 @@ define([
             'click': 'toggleVideoDisplay'
         },
         
+        attributes: {
+            'id': 'videoDisplayButton'
+        },
+        
         enabledTitle: chrome.i18n.getMessage("videoDisplayEnabled"),
         disabledTitle: chrome.i18n.getMessage("videoDisplayDisabled"),
         

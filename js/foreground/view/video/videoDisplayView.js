@@ -3,14 +3,15 @@ define([
     'streamItems',
     'player',
     'playerState',
-    'contextMenuGroups'
-], function (StreamItems, Player, PlayerState, ContextMenuGroups) {
+    'contextMenuGroups',
+    'text!../template/videoDisplay.htm',
+], function (StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate) {
     'use strict';
 
     var VideoDisplayView = Backbone.View.extend({
         tagName: 'canvas',
 
-        template: _.template($('#videoDisplayTemplate').html()),
+        //template: _.template($('#videoDisplayTemplate').html()),
 
         events: {
             'click': 'togglePlayerState',
@@ -210,7 +211,21 @@ define([
 
             //}
 
-        }
+        },
+        
+        show: function () {
+
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
+            }, 'snap');
+
+            this.panel.data('top', this.panel.css('top')).transition({
+                top: 0
+            }, 'snap');
+            
+
+        },
     });
 
     return VideoDisplayView;

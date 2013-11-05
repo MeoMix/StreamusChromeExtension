@@ -83,7 +83,6 @@ require.config({
         'settings': 'foreground/model/settings',
         'streamAction': 'foreground/model/streamAction',
         'videoSearch': 'foreground/model/videoSearch',
-        'videoSearchResult': 'foreground/model/videoSearchResult',
         'videoSearchResultAction': 'foreground/model/videoSearchResultAction',
 
         //  Model -> Buttons:

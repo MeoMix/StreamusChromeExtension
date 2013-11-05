@@ -47,6 +47,7 @@
         'playlistItems': 'background/collection/playlistItems',
         'playlists': 'background/collection/playlists',
         'streamItems': 'background/collection/streamItems',
+        'videoSearchResults': 'background/collection/videoSearchResults',
 
         //  Model:        
         'contextMenus': 'background/model/contextMenus',
@@ -62,6 +63,7 @@
         'streamItem': 'background/model/streamItem',
         'user': 'background/model/user',
         'video': 'background/model/video',
+        'videoSearchResult': 'background/model/videoSearchResult',
         'youTubePlayerAPI': 'background/model/youTubePlayerAPI',
 
         //  Model -> Buttons:
