@@ -39,18 +39,22 @@
             if (StreamItems.length > 0) {
                 
                 if (StreamItems.length === 1) {
-                    this.addByVideo(StreamItems.at(0), true);
+                    this.addItem(StreamItems.at(0), true);
                 } else {
-                    this.addByVideos(StreamItems.models, true);
+                    this.addItems(StreamItems.models, true);
                 }
-
-                var selectedStreamItem = this.streamItemList.find('.streamItem.selected');
+                
+                var streamItems = this.streamItemList.find('.streamItem');
+                var selectedStreamItem = streamItems.filter('.selected');
 
                 //  It's important to wrap scrollIntoView with a setTimeout because if streamView's element has not been
                 //  appended to the DOM yet -- scrollIntoView will not have an effect. Letting the stack clear resolves this.
-                setTimeout(function() {
+                setTimeout(function () {
                     selectedStreamItem.scrollIntoView(false);
                 });
+
+                this.makeDraggable(streamItems);
+                
             }
 
             var contextButtons = this.$el.children('.context-buttons');
@@ -74,8 +78,7 @@
             //  Whenever an item is added to the collection, visually add an item, too.
             this.listenTo(StreamItems, 'add', this.addItem);
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
-
-            this.listenTo(StreamItems, 'empty', this.render);
+            this.listenTo(StreamItems, 'empty', this.emptyStreamItemList);
             
             this.listenTo(StreamItems, 'remove', function () {
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
@@ -99,6 +102,51 @@
             this.clearStreamButtonView = new ClearStreamButtonView();
 
             Utility.scrollChildElements(this.el, '.item-title');
+            var self = this;
+            setTimeout(function() {
+
+                self.$el.sortable({
+
+                    helper: function() {
+
+                        var helper = $('<span>', {
+                            'class': 'videoSearchResultsLength',
+                            'text': 1
+                        });
+
+                        return helper;
+                    },
+
+                    //axis: 'y',
+                    //  Adding this helps prevent unwanted clicks to play
+                    delay: 100,
+                    cancel: '.big-text',
+                    connectWith: '#streamItemList',
+                    appendTo: 'body',
+                    containment: 'body',
+
+                    //  Whenever a video row is moved inform the Player of the new video list order
+                    update: function (event, ui) {
+
+                        //var newIndex = ui.item.index();
+                        //var nextIndex = newIndex + 1;
+
+                        //console.log("self == this?", self == this);
+
+                        //var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
+
+                        //if (nextItem == null) {
+                        //    nextItem = self.$el.find('item:eq(0)');
+                        //}
+
+                        //var movedPlaylistItemId = ui.item.data('playlistitemid');
+                        //var nextPlaylistItemId = nextItem.data('playlistitemid');
+
+                        //self.model.moveItem(movedPlaylistItemId, nextPlaylistItemId);
+                    }
+                });
+                
+            }, 3000);
         },
         
         addItem: function (streamItem, loadImagesInstantly) {
@@ -113,6 +161,8 @@
             if (streamItem.get('selected')) {
                 streamItemView.$el.scrollIntoView();
             }
+            
+            this.makeDraggable(element);
 
         },
         
@@ -142,6 +192,56 @@
             if (selectedView !== undefined) {
                 selectedView.$el.scrollIntoView();
             }
+
+            this.makeDraggable(elements);
+        },
+        
+        makeDraggable: function(elements) {
+
+            $(elements).draggable({
+                helper: function () {
+                    //  TODO: ClassName?
+                    var helper = $('<span>', {
+                        'class': 'videoSearchResultsLength',
+                        'text': 1
+                    });
+
+                    return helper;
+                },
+                appendTo: 'body',
+                containment: 'DOM',
+                zIndex: 1500,
+                distance: 5,
+                refreshPositions: true,
+                scroll: false,
+                cursorAt: {
+                    right: 35,
+                    bottom: 40
+                },
+                start: function (event, ui) {
+
+                    //var draggedVideoId = $(this).data('videoid');
+
+                    //console.log("VideoId:", draggedVideoId);
+
+                    //var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
+                    //videoSearchResult.set('selected', true);
+                    //videoSearchResult.set('dragging', true);
+
+                },
+
+                stop: function () {
+
+                    //var draggedVideoId = $(this).data('videoid');
+                    //var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
+
+                    ////  TODO: Is it really necessary to wrap this in a set timeout?
+                    //setTimeout(function () {
+                    //    videoSearchResult.set('dragging', false);
+                    //});
+
+                }
+            });
         },
         
         addElementsToStream: function (elements, loadImagesInstantly) {
@@ -191,6 +291,10 @@
                 }]
             });
 
+        },
+        
+        emptyStreamItemList: function() {
+            this.streamItemList.empty();
         }
 
     });

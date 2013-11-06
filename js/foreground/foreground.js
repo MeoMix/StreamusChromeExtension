@@ -239,18 +239,19 @@ define([
         },
         
         onClickShowVideoDisplay: function() {
-          
+            console.log("onClickShowVideoDisplay");
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
 
-                this.videoDisplayView = new VideoDisplayView({
-                    
+                console.log("this.videoDisplayView === null");
 
+                this.videoDisplayView = new VideoDisplayView({
 
                 });
                 
                 this.$el.append(this.videoDisplayView.render().el);
-                this.videoSearchView.show();
+                this.videoDisplayView.show();
+                console.log("this.videoDisplayView.show();");
             }
 
         },

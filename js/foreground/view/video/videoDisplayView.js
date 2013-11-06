@@ -5,30 +5,49 @@ define([
     'playerState',
     'contextMenuGroups',
     'text!../template/videoDisplay.htm',
-], function (StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate) {
+    'videoDisplayButtonView'
+], function (StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoDisplayButtonView) {
     'use strict';
 
     var VideoDisplayView = Backbone.View.extend({
-        tagName: 'canvas',
-
-        //template: _.template($('#videoDisplayTemplate').html()),
-
-        events: {
-            'click': 'togglePlayerState',
-            'dblclick': 'goFullScreen',
-            'contextmenu': 'showContextMenu'
-        },
+        //tagName: 'canvas',
         
         attributes: {
-            height: "315",
-            width: "560"
+            'id': 'videoDisplay'
         },
+
+        template: _.template(VideoDisplayTemplate),
+
+        //events: {
+        //    'click': 'togglePlayerState',
+        //    'dblclick': 'goFullScreen',
+        //    'contextmenu': 'showContextMenu'
+        //},
         
-        videoDefaultImage: new Image(),
+        //attributes: {
+        //    height: "315",
+        //    width: "560"
+        //},
+        
+        panel: null,
+        
+        //videoDefaultImage: new Image(),
+        
+        videoDisplayButtonView: null,
 
         render: function () {
             var self = this;
-
+            console.log('I am render');
+            
+            this.$el.html(this.template(
+                _.extend({
+                    //  Mix in chrome to reference internationalize.
+                    'chrome.i18n': chrome.i18n
+                })
+            ));
+            
+            this.panel = this.$el.find('.panel');
+            
             ////  Stop drawing entirely when the player stops.
             //if (window != null) {
 
@@ -82,6 +101,10 @@ define([
         },
            
         initialize: function () {
+
+            this.videoDisplayButtonView = new VideoDisplayButtonView({
+                model: chrome.extension.getBackgroundPage().VideoDisplayButton
+            });
 
             //this.context = this.el.getContext('2d');
             //this.video = $(chrome.extension.getBackgroundPage().document).find('#YouTubeVideo')[0];
@@ -215,13 +238,15 @@ define([
         
         show: function () {
 
+            console.log("Showing");
+
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            this.panel.data('top', this.panel.css('top')).transition({
-                top: 0
+            this.panel.data('left', this.panel.css('left')).transition({
+                left: 0
             }, 'snap');
             
 

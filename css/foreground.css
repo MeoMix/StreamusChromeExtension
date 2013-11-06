@@ -1017,6 +1017,7 @@ input.valid {
     z-index: 50;
 }
 
+#videoDisplay,
 #activeFolderArea {
     bottom: 0;
     display: block;
@@ -1025,10 +1026,6 @@ input.valid {
     right: 0;
     top: 0;
     z-index: 50;
-}
-
-#videoDisplay {
-    
 }
 
 #addSearchResults {
@@ -1043,6 +1040,19 @@ input.valid {
     transition: background .3s;
 }
 
+#videoDisplay .panel {
+    background: #f2f2f2;
+    left: -630px;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 630px;
+    box-shadow: 0 0 20px #000;
+    display: block;
+    position: absolute;
+    z-index: 51;
+}
+
 #activeFolderArea .panel {
     background: #f2f2f2;
     bottom: 0;
@@ -1051,7 +1061,6 @@ input.valid {
     left: -250px;
     position: absolute;
     top: 0;
-    transition: left .3s ease-in-out;
     width: 250px;
     z-index: 51;
 }

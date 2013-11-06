@@ -71,9 +71,11 @@
     <Content Include="js\background\model\omnibox.js" />
     <Content Include="js\background\model\streamItem.js" />
     <Content Include="js\background\model\buttons\nextButton.js" />
+    <Content Include="js\background\model\videoSearchResult.js" />
     <Content Include="js\enum\addSearchResultOptionType.js" />
-    <Content Include="js\foreground\collection\folders.js" />
     <Content Include="js\foreground\collection\videoSearchResults.js" />
+    <Content Include="js\foreground\collection\folders.js" />
+    <Content Include="js\background\collection\videoSearchResults.js" />
     <Content Include="js\foreground\model\activeFolderArea.js" />
     <Content Include="js\foreground\model\activePlaylistArea.js" />
     <Content Include="js\foreground\model\addSearchResultOption.js" />
@@ -81,7 +83,6 @@
     <Content Include="js\foreground\model\playlistAction.js" />
     <Content Include="js\foreground\model\streamAction.js" />
     <Content Include="js\foreground\model\videoSearch.js" />
-    <Content Include="js\foreground\model\videoSearchResult.js" />
     <Content Include="js\foreground\foreground.js" />
     <Content Include="js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="js\foreground\model\settings.js" />
@@ -220,6 +221,7 @@
     <Content Include="template\clearStreamButton.htm" />
     <Content Include="template\clearStream.htm" />
     <Content Include="template\addAllButton.htm" />
+    <Content Include="template\videoDisplayTemplate.htm" />
     <Content Include="template\saveSelected.htm" />
     <Content Include="template\reload.htm" />
     <Content Include="template\deletePlaylist.htm" />

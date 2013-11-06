@@ -14,6 +14,10 @@ define([
 
         enabledTitle: chrome.i18n.getMessage("addAll"),
         disabledTitle: chrome.i18n.getMessage("addAllDisabled"),
+        
+        events: {
+            'click': 'addToStream'
+        },
 
         render: function () {
             this.$el.html(this.template());
