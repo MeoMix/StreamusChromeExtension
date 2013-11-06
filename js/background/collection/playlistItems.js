@@ -6,6 +6,8 @@
 
     var PlaylistItems = Backbone.Collection.extend({
         model: PlaylistItem,
+
+        comparator: 'sequence',
         
         save: function (attributes, options) {
             var self = this;

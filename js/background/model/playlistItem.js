@@ -10,8 +10,7 @@ define([
             return {
                 id: null,
                 playlistId: null,
-                nextItemId: null,
-                previousItemId: null,
+                sequence: -1,
                 video: null,
                 title: ''
             };
