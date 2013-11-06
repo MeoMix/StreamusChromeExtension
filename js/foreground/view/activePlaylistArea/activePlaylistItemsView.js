@@ -31,19 +31,12 @@ define([
                 })
             ));
 
-            //var firstItemId = this.model.get('firstItemId');
             //  TODO: Do I even need to check length anymore?
             var playlistItems = this.model.get('items');
             
             if (playlistItems.length > 0) {
 
-                //var playlistItem = playlistItems.get(firstItemId);
-
-                //console.log("this.model and playlistItem:", this.model, playlistItem);
-
                 //  Build up the views for each playlistItem.
-
-                console.log("Items:", playlistItems);
                 var items = playlistItems.map(function(playlistItem) {
                     var playlistItemView = new PlaylistItemView({
                         model: playlistItem
@@ -51,20 +44,6 @@ define([
                     
                     return playlistItemView.render().el;
                 });
-                //do {
-
-                //    var playlistItemView = new PlaylistItemView({
-                //        model: playlistItem
-                //    });
-
-                //    var element = playlistItemView.render().el;
-                //    items.push(element);
-
-                //    var nextItemId = playlistItem.get('nextItemId');
-                //    playlistItem = playlistItems.get(nextItemId);
-
-                //} while (playlistItem && playlistItem.get('id') !== firstItemId)
-                
 
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
                 this.$el.append(items);
@@ -154,13 +133,9 @@ define([
 
         addItem: function (playlistItem) {
 
-            console.log("addItem is being called with item:", playlistItem);
-
             var playlistItemView = new PlaylistItemView({
                 model: playlistItem
             });
-
-            console.log("Added playlistItem:", playlistItem);
 
             var element = playlistItemView.render().$el;
 
@@ -169,9 +144,6 @@ define([
                 var playlistItems = this.model.get('items').get('items');
                 
                 var previousItemId = playlistItems.at(playlistItems.length - 1).get('id');
-
-                //var previousItemId = playlistItem.get('previousItemId');
-
                 var previousItem = this.$el.find('item[data-playlistitemid="' + previousItemId + '"]');
                 element.insertAfter(previousItem);
 
