@@ -79,7 +79,6 @@ require.config({
         'dialog': 'foreground/model/dialog',
         'player': 'foreground/model/player',
         'reloadPrompt': 'foreground/model/reloadPrompt',
-        'playlistAction': 'foreground/model/playlistAction',
         'settings': 'foreground/model/settings',
         'streamAction': 'foreground/model/streamAction',
         'videoSearch': 'foreground/model/videoSearch',

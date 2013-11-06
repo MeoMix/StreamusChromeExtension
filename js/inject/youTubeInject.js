@@ -220,29 +220,12 @@ $(function () {
             selectPlaylistButton.addClass('yt-uix-button-toggled');
             sharePanelPlaylistSelect.removeClass('hid');
 
-            var firstPlaylist = _.find(folders[0].playlists, function (playlist) {
-                return playlist.id == folders[0].firstPlaylistId;
-            });
-                
-            $('<option>', {
-                value: firstPlaylist.id,
-                text: firstPlaylist.title
-            }).appendTo(playlistSelect);
-
-            var nextPlaylist = _.find(folders[0].playlists, function (playlist) {
-                return playlist.id == firstPlaylist.nextPlaylistId;
-            });
-                
-            while (nextPlaylist.id != firstPlaylist.id) {
-                    
+            //  TODO: Make sure this works after refactor
+            for (var i = 0; i < folders[0].playlists.length; i++) {
                 $('<option>', {
-                    value: nextPlaylist.id,
-                    text: nextPlaylist.title
+                    value: folders[0].playlists[i].id,
+                    text: folders[0].playlists[i].title
                 }).appendTo(playlistSelect);
-
-                nextPlaylist = _.find(folders[0].playlists, function (playlist) {
-                    return playlist.id == nextPlaylist.nextPlaylistId;
-                });
             }
             
         }

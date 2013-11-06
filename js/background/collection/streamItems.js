@@ -209,21 +209,33 @@ define([
             
         },
         
+        addByPlaylistItem: function(playlistItem, playOnAdd) {
+            if (playOnAdd) {
+                Player.playOnceVideoChanges();
+            }
+            
+            this.add({
+                id: _.uniqueId('streamItem_'),
+                video: playlistItem.get('video'),
+                title: playlistItem.get('title'),
+                //  Select and play the first added item if playOnAdd is set to true
+                selected: playOnAdd
+            });
+        },
+        
         addByVideo: function (video, playOnAdd) {
             
             if (playOnAdd) {
                 Player.playOnceVideoChanges();
             }
             
-            var streamItem = new StreamItem({
+            this.add({
                 id: _.uniqueId('streamItem_'),
                 video: video,
                 title: video.get('title'),
                 //  Select and play the first added item if playOnAdd is set to true
                 selected: playOnAdd
             });
-
-            this.add(streamItem);
 
         },
         

@@ -1,4 +1,5 @@
-﻿//  Represents the videos in a given playlist
+﻿//  TODO: Is this the activePlaylistView now?
+//  Represents the videos in a given playlist
 define([
     'contextMenuGroups',
     'streamItems',
@@ -31,35 +32,21 @@ define([
                 })
             ));
 
-            //  TODO: Do I even need to check length anymore?
-            var playlistItems = this.model.get('items');
+            //  Group playlistItems into chunks of 200 to render incrementally to prevent long-running operations.
+            var chunkSize = 200;
+            var playlistItemChunks = _.toArray(this.model.get('items').groupBy(function (playlistItem, index) {
+                return Math.floor(index / chunkSize);
+            }));
+
+            var self = this;
+            this.incrementalRender(playlistItemChunks, function () {
+
+                self.$el.find('img.lazy').lazyload({
+                    container: self.$el,
+                    event: 'scroll manualShow'
+                });
+            });
             
-            if (playlistItems.length > 0) {
-
-                //  Build up the views for each playlistItem.
-                var items = playlistItems.map(function(playlistItem) {
-                    var playlistItemView = new PlaylistItemView({
-                        model: playlistItem
-                    });
-                    
-                    return playlistItemView.render().el;
-                });
-
-                //  Do this all in one DOM insertion to prevent lag in large playlists.
-                this.$el.append(items);
-
-                var self = this;
-                setTimeout(function () {
-                    
-                    self.$el.find('img.lazy').lazyload({
-                        container: self.$el,
-                        event: 'scroll manualShow'
-                    });
-                    
-                });
-
-            }
-
             return this;
         },
         
@@ -127,8 +114,35 @@ define([
                 this.$el.trigger('manualShow');
             });
 
-            
             Utility.scrollChildElements(this.el, 'span.item-title');
+        },
+        
+        incrementalRender: function (playlistItemChunks, onRenderComplete) {
+            //  Render a chunk:
+            if (playlistItemChunks.length > 0) {
+                var playlistItemChunk = playlistItemChunks.shift();
+
+                //  Build up the views for each playlistItem.
+                var items = _.map(playlistItemChunk, function(playlistItem) {
+                    var playlistItemView = new PlaylistItemView({
+                        model: playlistItem
+                    });
+
+                    return playlistItemView.render().el;
+                });
+
+                //  Do this all in one DOM insertion to prevent lag in large playlists.
+                this.$el.append(items);
+
+                var self = this;
+                setTimeout(function() {
+                    self.incrementalRender(playlistItemChunks, onRenderComplete);
+                });
+
+            } else {
+                onRenderComplete();
+            }
+
         },
 
         addItem: function (playlistItem) {
@@ -139,19 +153,23 @@ define([
 
             var element = playlistItemView.render().$el;
 
-            if (this.$el.find('item').length > 0) {
+            if (this.$el.find('.playlistItem').length > 0) {
 
-                var playlistItems = this.model.get('items').get('items');
+                var playlistItems = this.model.get('items');
+
+                var currentItemIndex = playlistItems.indexOf(playlistItem);
+    
+                var previousItemId = playlistItems.at(currentItemIndex - 1).get('id');
                 
-                var previousItemId = playlistItems.at(playlistItems.length - 1).get('id');
-                var previousItem = this.$el.find('item[data-playlistitemid="' + previousItemId + '"]');
-                element.insertAfter(previousItem);
+                var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
+
+                element.insertAfter(previousItemElement);
 
             } else {
 
                 //  TODO: Not very good practice to remove it like this.
                 $('.big-text').remove();
-
+    
                 element.appendTo(this.$el);
             }
 
@@ -217,12 +235,7 @@ define([
             var playlistItemId = $(event.currentTarget).data('playlistitemid');
             var playlistItem = this.model.getPlaylistItemById(playlistItemId);
 
-            StreamItems.add({
-                id: _.uniqueId('streamItem_'),
-                video: playlistItem.get('video'),
-                title: playlistItem.get('title')
-            });
-            
+            StreamItems.addByPlaylistItem(playlistItem);
         },
         
         scrollItemIntoView: function(item) {

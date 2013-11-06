@@ -38,25 +38,15 @@ define([
 
             if (activeFolder.get('playlists').length > 0) {
 
-                var firstPlaylistId = activeFolder.get('firstPlaylistId');
-                var playlist = activeFolder.get('playlists').get(firstPlaylistId);
-
                 //  Build up the ul of li's representing each playlist.
-                var listItems = [];
-                do {
-
+                var listItems = activeFolder.get('playlists').map(function(playlist) {
                     var playlistView = new PlaylistView({
                         model: playlist
                     });
 
-                    var element = playlistView.render().el;
-                    listItems.push(element);
+                    return playlistView.render().el;
+                });
 
-                    var nextPlaylistId = playlist.get('nextPlaylistId');
-                    playlist = activeFolder.get('playlists').get(nextPlaylistId);
-
-                } while (playlist.get('id') !== firstPlaylistId)
-                
                 //  Do this all in one DOM insertion to prevent lag in large folders.
                 this.$el.append(listItems);
 
@@ -106,11 +96,17 @@ define([
 
             var element = playlistView.render().$el;
 
-            if (this.$el.find('li').length > 0) {
+            if (this.$el.find('.playlist').length > 0) {
 
-                var previousPlaylistId = playlist.get('previousPlaylistId');
-                var previousPlaylistLi = this.$el.find('li[data-playlistid="' + previousPlaylistId + '"]');
-                element.insertAfter(previousPlaylistLi);
+                var playlists = this.model.get('playlists');
+
+                var currentPlaylistIndex = playlists.indexOf(playlist);
+
+                var previousPlaylistId = playlists.at(currentPlaylistIndex - 1).get('id');
+
+                var previousPlaylistElement = this.$el.find('.playlist[data-playlistid="' + previousPlaylistId + '"]');
+
+                element.insertAfter(previousPlaylistElement);
 
             } else {
                 element.appendTo(this.$el);
@@ -159,7 +155,7 @@ define([
             var isEmpty = clickedPlaylist.get('items').length === 0;
 
             //  Don't allow deleting of the last playlist in a folder ( at least for now )
-            var isDeleteDisabled = clickedPlaylist.get('nextPlaylistId') === clickedPlaylist.get('id');
+            var isDeleteDisabled = this.model.get('playlists').length === 0;
   
             ContextMenuGroups.add({
                 items: [{

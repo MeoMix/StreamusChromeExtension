@@ -16,7 +16,6 @@ define([
                 id: null,
                 title: '',
                 playlists: new Playlists(),
-                firstPlaylistId: null,
                 //  This is pulled from localStorage and not tracked server-side.
                 active: false
             };
@@ -79,27 +78,6 @@ define([
                 //  Clear local storage of the active playlist if it gets removed.
                 if (removedPlaylist.get('active')) {
                     localStorage.setItem(self.get('id') + '_activePlaylistId', null);
-                }
-                
-                var playlists = self.get('playlists');
-
-                if (playlists.length > 0) {
-
-                    //  Update firstPlaylistId if it was removed
-                    if (self.get('firstPlaylistId') === removedPlaylist.get('id')) {
-                        self.set('firstPlaylistId', removedPlaylist.get('nextPlaylistId'));
-                    }
-
-                    //  Update linked list pointers
-                    var previousPlaylist = playlists.get(removedPlaylist.get('previousPlaylistId'));
-                    var nextPlaylist = playlists.get(removedPlaylist.get('nextPlaylistId'));
-
-                    //  Remove the playlist from linked list.
-                    previousPlaylist.set('nextPlaylistId', nextPlaylist.get('id'));
-                    nextPlaylist.set('previousPlaylistId', previousPlaylist.get('id'));
-
-                } else {
-                    self.set('firstPlaylistId', '00000000-0000-0000-0000-000000000000');
                 }
 
             });
@@ -182,24 +160,8 @@ define([
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
                 success: function() {
-
-                    //  TODO: I think I need to update all the pointers for items as well as playlist since I added items to the playlist without
-                    //  setting their pointers.
-
-                    //  Update other affected Playlist pointers. DB is already correct, but backbone doesn't update automatically.
-                    var currentPlaylists = self.get('playlists');
-
-                    if (currentPlaylists.length === 0) {
-                        self.set('firstPlaylistId', playlist.get('id'));
-                    } else {
-                        var firstPlaylist = currentPlaylists.get(self.get('firstPlaylistId'));
-                        var lastPlaylist = currentPlaylists.get(firstPlaylist.get('previousPlaylistId'));
-
-                        lastPlaylist.set('nextPlaylistId', playlist.get('id'));
-                        firstPlaylist.set('previousPlaylistId', playlist.get('id'));
-                    }
                     
-                    currentPlaylists.push(playlist);
+                    self.get('playlists').push(playlist);
                 }
             });
         },
@@ -220,20 +182,7 @@ define([
                     //  Convert back from JSON to a backbone object.
                     playlistCopy = new Playlist(playlistCopy);
 
-                    var playlistId = playlistCopy.get('id');
-                    
-                    var currentPlaylists = self.get('playlists');
-                    if (currentPlaylists.length === 0) {
-                        self.set('firstPlaylistId', playlistId);;
-                    } else {
-                        var firstPlaylist = currentPlaylists.get(self.get('firstPlaylistId'));
-                        var lastPlaylist = currentPlaylists.get(firstPlaylist.get('previousPlaylistId'));
-
-                        lastPlaylist.set('nextPlaylistId', playlistId);
-                        firstPlaylist.set('previousPlaylistId', playlistId);
-                    }
-
-                    currentPlaylists.push(playlistCopy);
+                    self.get('playlists').push(playlistCopy);
 
                     callback(playlistCopy);
                     self.trigger('sync');
@@ -268,20 +217,7 @@ define([
 
                     console.log("Saved");
 
-                    //  Update other affected Playlist pointers. DB is already correct, but backbone doesn't update automatically.
-                    var currentPlaylists = self.get('playlists');
-
-                    if (currentPlaylists.length === 0) {
-                        self.set('firstPlaylistId', playlist.get('id'));
-                    } else {
-                        var firstPlaylist = currentPlaylists.get(self.get('firstPlaylistId'));
-                        var lastPlaylist = currentPlaylists.get(firstPlaylist.get('previousPlaylistId'));
-
-                        lastPlaylist.set('nextPlaylistId', playlist.get('id'));
-                        firstPlaylist.set('previousPlaylistId', playlist.get('id'));
-                    }
-
-                    currentPlaylists.push(playlist);
+                    self.get('playlists').push(playlist);
 
                     console.log("Needs loading?", needsLoading);
                     
@@ -325,22 +261,8 @@ define([
         
         removePlaylistById: function(playlistId) {
 
-            var playlists = this.get('playlists');
-
-            var playlist = playlists.get(playlistId);
-                    
-            if (this.get('firstPlaylistId') === playlistId) {
-                var newFirstPlaylistId = playlist.get('nextPlaylistId');
-                this.set('firstPlaylistId', newFirstPlaylistId);
-            }
-
-            var previousPlaylist = playlists.get(playlist.get('previousPlaylistId'));
-            var nextPlaylist = playlists.get(playlist.get('nextPlaylistId'));
-
-            //  Remove the list from our linked list.
-            previousPlaylist.set('nextPlaylistId', nextPlaylist.get('id'));
-            nextPlaylist.set('previousPlaylistId', previousPlaylist.get('id'));
-
+            var playlist = this.get('playlists').get(playlistId);
+  
             playlist.destroy({
                 success: function () {
                     //  Remove from playlists clientside only after server responds with successful delete.

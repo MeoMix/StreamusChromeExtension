@@ -17,8 +17,6 @@ define([
                 id: null,
                 folderId: null,
                 title: chrome.i18n.getMessage("newPlaylist"),
-                nextPlaylistId: null,
-                previousPlaylistId: null,
                 items: new PlaylistItems(),
                 dataSource: null,
                 dataSourceLoaded: false,

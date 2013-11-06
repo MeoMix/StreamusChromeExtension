@@ -3,6 +3,8 @@
 
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
+        
+        comparator: 'sequence',
 
         initialize: function () {
             var self = this;
@@ -11,11 +13,15 @@
             //  TODO: If the last playlist is removed the 2nd-to-last playlist should be selected, not the first.
             this.on('remove', function (removedPlaylist) {
 
-                if (removedPlaylist.get('active')) {
-
-                    var nextPlaylistId = removedPlaylist.get('nextPlaylistId');
-                    self.get(nextPlaylistId).set('active', true);
-
+                //  TODO: I think this works?
+                var nextPlaylist = self.find(function (playlist) {
+                    return playlist.get('sequence') > removedPlaylist.get('sequence');
+                });
+                
+                if (nextPlaylist === undefined) {
+                    self.at(0).set('active', true);
+                } else {
+                    nextPlaylist.set('active', true);
                 }
 
                 if (this.length === 0) {
