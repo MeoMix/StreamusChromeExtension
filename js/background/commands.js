@@ -66,7 +66,7 @@ define([
                 
                 var activeFolder = Folders.getActiveFolder();
                 var selectedStreamItem = StreamItems.getSelectedItem();
-                activeFolder.getActivePlaylist().addItem(selectedStreamItem.get('video'));
+                activeFolder.getActivePlaylist().addByVideo(selectedStreamItem.get('video'));
 
                 break;
                 

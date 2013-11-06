@@ -14,8 +14,9 @@
         template: _.template(VideoSearchResultTemplate),
         
         attributes: function () {
+            console.log("Model's ID for attributes:", this.model.get('video'));
             return {
-                'data-videoid': this.model.get('id')
+                'data-videoid': this.model.get('video').get('id')
             };
         },
         
@@ -30,8 +31,6 @@
         },
 
         render: function () {
-
-            console.log("Rendering model:", this.model, this.model.toJSON());
 
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
@@ -61,24 +60,23 @@
 
             //  A dragged model must always be selected.
             var selected = !this.model.get('selected') || this.model.get('dragging');
-
+            
             this.model.set('selected', selected);
-
         },
         
         playInStream: function () {
             
-            var videoInformation = this.model.get('videoInformation');
-            StreamItems.addByVideoInformation(videoInformation, true);
-
+            var video = this.model.get('video');
+            StreamItems.addByVideo(video, true);
+            
             //  Don't open up the AddSearchResults panel
             return false;
         },
         
         addToStream: function() {
           
-            var videoInformation = this.model.get('videoInformation');
-            StreamItems.addByVideoInformation(videoInformation, false);
+            var video = this.model.get('video');
+            StreamItems.addByVideo(video, false);
             
             //  Don't open up the AddSearchResults panel
             return false;
@@ -86,16 +84,16 @@
         
         addToActivePlaylist: function () {
             
-            var videoInformation = this.model.get('videoInformation');
-            Folders.getActiveFolder().getActivePlaylist().addByVideoInformation(videoInformation);
+            var video = this.model.get('video');
+            Folders.getActiveFolder().getActivePlaylist().addByVideo(video);
             
             //  Don't open up the AddSearchResults panel
             return false;
         },
         
         showContextMenu: function (event) {
-            var self = this;
-            var videoInformation = this.model.get('videoInformation');
+
+            var video = this.model.get('video');
             
             event.preventDefault();
 
@@ -105,19 +103,19 @@
                 items: [{
                     text: chrome.i18n.getMessage('play'),
                     onClick: function () {
-                        StreamItems.addByVideoInformation(videoInformation, true);
+                        StreamItems.addByVideo(video, true);
                     }
                 }, {
                     text: chrome.i18n.getMessage('add'),
                     onClick: function () {
-                        StreamItems.addByVideoInformation(videoInformation, false);
+                        StreamItems.addByVideo(video, false);
                     }
                 }, {
                     text: chrome.i18n.getMessage("copyUrl"),
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: 'http://youtu.be/' + self.model.get('id')
+                            text: 'http://youtu.be/' + video.get('id')
                         });
                     }
                 }, {
@@ -126,7 +124,7 @@
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + self.model.get('title') + '" - http://youtu.be/' + self.model.get('id')
+                            text: '"' + video.get('title') + '" - http://youtu.be/' + video.get('id')
                         });
                     }
                 }]

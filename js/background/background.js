@@ -5,6 +5,7 @@ define([
     'youTubeDataAPI',
     'playerState',
     'streamItems',
+    'video',
     'videoSearchResults',
     'nextButton',
     'previousButton',
@@ -19,7 +20,7 @@ define([
     'iconManager',
     'omnibox',
     'user'
-], function(Player, Folders, YouTubeDataAPI, PlayerState, StreamItems, VideoSearchResults, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, ContextMenus, Error, IconManager, Omnibox) {
+], function(Player, Folders, YouTubeDataAPI, PlayerState, StreamItems, Video, VideoSearchResults, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, ContextMenus, Error, IconManager, Omnibox) {
     'use strict';
 
     //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?
@@ -103,8 +104,13 @@ define([
 
                 YouTubeDataAPI.getVideoInformation({
                     videoId: request.videoId,
-                    success: function(videoInformation) {
-                        playlist.addByVideoInformation(videoInformation);
+                    success: function (videoInformation) {
+                        
+                        var video = new Video({
+                            videoInformation: videoInformation
+                        });
+
+                        playlist.addByVideo(video);
 
                         sendResponse({
                             result: 'success'

@@ -39,9 +39,9 @@
             if (StreamItems.length > 0) {
                 
                 if (StreamItems.length === 1) {
-                    this.addItem(StreamItems.at(0), true);
+                    this.addByVideo(StreamItems.at(0), true);
                 } else {
-                    this.addItems(StreamItems.models, true);
+                    this.addByVideos(StreamItems.models, true);
                 }
 
                 var selectedStreamItem = this.streamItemList.find('.streamItem.selected');

@@ -110,7 +110,7 @@
 
                 var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
                 console.log("Selected playlist:", selectedPlaylist, this.model);
-                selectedPlaylist.addItems(this.model);
+                selectedPlaylist.addByVideos(this.model);
 
             }
         }

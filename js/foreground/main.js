@@ -98,7 +98,6 @@ require.config({
         'editPlaylistView': 'foreground/view/editPlaylistView',
         'genericPromptView': 'foreground/view/genericPromptView',
         'reloadView': 'foreground/view/reloadView',
-        'saveSelectedView': 'foreground/view/saveSelectedView',
         'saveVideosView': 'foreground/view/saveVideosView',
         'settingsView': 'foreground/view/settingsView',
 

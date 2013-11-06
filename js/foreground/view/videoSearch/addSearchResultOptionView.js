@@ -68,9 +68,9 @@
                     if ($(this).position().top < 0) return false;
 
                     var draggedVideoId = ui.draggable.data('videoid');
-                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
+                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
 
-                    self.model.get('entity').addByVideoInformation(videoSearchResult.get('videoInformation'));
+                    self.model.get('entity').addByVideo(videoSearchResult.get('video'));
                     
                     var droppableIcon = self.$el.find('i.droppable');
                     var checkIcon = droppableIcon.next();

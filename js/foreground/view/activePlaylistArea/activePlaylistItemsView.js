@@ -4,9 +4,8 @@ define([
     'streamItems',
     'playlistItemView',
     'text!../template/activePlaylistItems.htm',
-    'utility',
-    'playlistAction'
-], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility, PlaylistAction) {
+    'utility'
+], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';
 
     var ActivePlaylistItemsView = Backbone.View.extend({
@@ -183,7 +182,7 @@ define([
                     onClick: function () {
 
                         if (!isAddPlaylistDisabled) {
-                            PlaylistAction.addToStream(self.model);
+                            StreamItems.addByPlaylist(self.model, false);
                         }
 
                     }
@@ -194,7 +193,7 @@ define([
                     onClick: function () {
 
                         if (!isPlayPlaylistDisabled) {
-                            PlaylistAction.addToStreamAndPlay(self.model);
+                            StreamItems.addByPlaylist(self.model, true);
                         }
 
                     }

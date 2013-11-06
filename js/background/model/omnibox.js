@@ -77,14 +77,7 @@ define([
                     pickedVideo = self.get('suggestedVideos')[0];
                 }
 
-                console.log("SuggestedVideo:", pickedVideo);
-
-                StreamItems.addAndPlay({
-                    id: _.uniqueId('streamItem_'),
-                    video: pickedVideo,
-                    title: pickedVideo.get('title'),
-                    selected: true
-                });
+                StreamItems.addByVideo(pickedVideo, true);
 
             });
             

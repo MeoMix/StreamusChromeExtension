@@ -42,15 +42,17 @@ define([
             this.listenTo(VideoSearchResults, 'change:selected', this.render);
         },
         
-        playSelected: function() {
+        playSelected: function () {
+
+            var selectedSearchResults = VideoSearchResults.selected();
             
-            if (VideoSearchResults.selected().length > 0) {
+            if (selectedSearchResults.length > 0) {
                 
-                var videoInformation = _.map(VideoSearchResults.selected(), function(videoSearchResult) {
-                    return videoSearchResult.get('videoInformation');
+                var videos = _.map(selectedSearchResults, function (videoSearchResult) {
+                    return videoSearchResult.get('video');
                 });
-                console.log("VideoInformation:", videoInformation);
-                StreamItems.addMultipleByVideoInformation(videoInformation, true);
+
+                StreamItems.addByVideos(videos, true);
 
             }
 

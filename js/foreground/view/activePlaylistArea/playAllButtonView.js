@@ -1,7 +1,7 @@
 define([
     'text!../template/playAllButton.htm',
-    'playlistAction'
-], function (PlayAllButtonTemplate, PlaylistAction) {
+    'streamItems'
+], function (PlayAllButtonTemplate, StreamItems) {
     'use strict';
 
     var PlayAllButtonView = Backbone.View.extend({
@@ -40,7 +40,7 @@ define([
         },
         
         addToStreamAndPlay: function() {
-            PlaylistAction.addToStreamAndPlay(this.model);
+            StreamItems.addByPlaylist(this.model, true);
         }
         
     });

@@ -1,8 +1,9 @@
 ﻿var VideoSearchResults;
 
 define([
-    'videoSearchResult'
-], function (VideoSearchResult) {
+    'videoSearchResult',
+    'video'
+], function (VideoSearchResult, Video) {
     'use strict';
 
     var videoSearchResultsCollection = Backbone.Collection.extend({
@@ -40,7 +41,9 @@ define([
         setFromVideoInformation: function(videoInformation) {
             //  Convert video information into search results which contain a reference to the full data incase needed later.
             var videoSearchResult = new VideoSearchResult({
-                videoInformation: videoInformation
+                video: new Video({
+                    videoInformation: videoInformation
+                })
             });
 
             this.reset(videoSearchResult);
@@ -51,13 +54,25 @@ define([
             var videoSearchResults = _.map(videoInformationList, function (videoInformation) {
 
                 var videoSearchResult = new VideoSearchResult({
-                    videoInformation: videoInformation
+                    video: new Video({
+                        videoInformation: videoInformation
+                    })
                 });
 
                 return videoSearchResult;
             });
 
             this.reset(videoSearchResults);
+        },
+        
+        getByVideoId: function (videoId) {
+
+            var foundVideoSearchResult = this.find(function(videoSearchResult) {
+                return videoSearchResult.get('video').get('id') === videoId;
+            });
+
+            return foundVideoSearchResult;
+
         }
         
     });

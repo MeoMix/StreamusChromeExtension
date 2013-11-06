@@ -2,8 +2,8 @@ define([
     'text!../template/saveSelectedButton.htm',
     'videoSearchResults',
     'genericPromptView',
-    'saveSelectedView'
-], function (SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveSelectedView) {
+    'saveVideosView'
+], function (SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveVideosView) {
     'use strict';
 
     var SaveSelectedButtonView = Backbone.View.extend({
@@ -45,18 +45,25 @@ define([
         
         showSaveSelectedPrompt: function () {
 
-            var selectedCount = VideoSearchResults.selected().length;
+            var selectedSearchResults = VideoSearchResults.selected();
+
+            var selectedCount = selectedSearchResults.length;
             
             if (selectedCount > 0) {
+                //  TODO: Can I pluck here?
+                var videos = _.map(selectedSearchResults, function (searchResult) {
+                    return searchResult.get('video');
+                });
 
-                //  TODO: Refactor to use SaveVideosView
-                var saveSelectedPromptView = new GenericPromptView({
+                var saveVideosPromptView = new GenericPromptView({
                     title: selectedCount === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
                     okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                    model: new SaveSelectedView
+                    model: new SaveVideosView({
+                        model: videos
+                    })
                 });
                 
-                saveSelectedPromptView.listenTo(saveSelectedPromptView.model, 'change:creating', function (creating) {
+                saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
 
                     if (creating) {
                         this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
@@ -66,7 +73,7 @@ define([
 
                 });
 
-                saveSelectedPromptView.fadeInAndShow();
+                saveVideosPromptView.fadeInAndShow();
                 
             }
 

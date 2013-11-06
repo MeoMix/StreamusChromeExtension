@@ -51,13 +51,8 @@ define([
                     var url = onClickData.linkUrl || onClickData.pageUrl;
       
                     self.getVideoFromUrl(url, function (video) {
-                        
-                        StreamItems.addAndPlay({
-                            id: _.uniqueId('streamItem_'),
-                            video: video,
-                            title: video.get('title'),
-                            selected: true
-                        });
+
+                        StreamItems.addByVideo(video, true);
                         
                     });
         
@@ -114,7 +109,7 @@ define([
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
                     self.getVideoFromUrl(url, function (video) {
-                        playlist.addItem(video);
+                        playlist.addByVideo(video);
                     });
                 }
             }));

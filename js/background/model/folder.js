@@ -304,7 +304,7 @@ define([
                                 });
 
                                 //  Periodicially send bursts of packets to the server and trigger visual update.
-                                playlist.addItems(videos, function () {
+                                playlist.addByVideos(videos, function () {
 
                                     //  Request next batch of data by iteration once addItems has succeeded.
                                     YouTubeDataAPI.getDataSourceResults(dataSource, ++response.iteration, onGetDataSourceData);

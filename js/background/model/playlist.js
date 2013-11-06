@@ -172,33 +172,8 @@ define([
 
             this.set('displayInfo', displayInfo);
         },
-            
-        //  This is generally called from the foreground to not couple the Video object with the foreground.
-        addByVideoInformation: function (videoInformation) {
-            console.log("inside addByVideoInformation");
-            //  Support adding an array of videoInformation, too.
-            if (_.isArray(videoInformation)) {
-                console.log("im an ARRAY!");
-                var videos = _.map(videoInformation, function (info) {
-                    return new Video({
-                        videoInformation: info
-                    });
-                });
-
-                this.addItems(videos);
-            } else {
-                
-                var video = new Video({
-                    videoInformation: videoInformation
-                });
-
-                this.addItem(video);
-                console.log("AddedItem!", video);
-            }
-
-        },
-
-        addItem: function (video, callback) {
+        
+        addByVideo: function (video, callback) {
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
@@ -243,13 +218,13 @@ define([
             });
         },
             
-        addItems: function (videos, callback) {
+        addByVideos: function (videos, callback) {
             
             console.log("Calling addItems with videos:", videos);
 
             //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
             if (videos.length === 1) {
-                return this.addItem(videos[0], callback);
+                return this.addByVideo(videos[0], callback);
             }
             
             var self = this;

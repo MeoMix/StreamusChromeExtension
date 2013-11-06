@@ -182,21 +182,8 @@ define([
                         var video = new Video({
                             videoInformation: videoInformationList[0]
                         });
-
-                        var streamItem = new StreamItem({
-                            id: _.uniqueId('streamItem_'),
-                            video: video,
-                            title: video.get('title'),
-                            selected: !!playOnAdd
-                        });
-
-                        console.log("Play on add:", playOnAdd, streamItem);
-
-                        if (playOnAdd) {
-                            self.addAndPlay(streamItem);
-                        } else {
-                            self.add(streamItem);
-                        }
+                        
+                        self.addByVideo(video, !!playOnAdd);
 
                     }
 
@@ -207,39 +194,26 @@ define([
             });
         },
         
-        addMultipleByVideoInformation: function (videoInformationList, playOnAdd) {
-
-            if (playOnAdd) {
-                Player.playOnceVideoChanges();
-            }
-
-            var streamItems = _.map(videoInformationList, function (videoInformation, iterator) {
-                
-                var video = new Video({
-                    videoInformation: videoInformation
-                });
-
-                return new StreamItem({
-                    id: _.uniqueId('streamItem_'),
-                    video: video,
-                    title: video.get('title'),
-                    //  Select and play the first added item if playOnAdd is set to true
-                    selected: playOnAdd && iterator === 0
-                });
+        addByPlaylist: function (playlist, playOnAdd) {
+            
+            //  TODO: Can I pluck here?
+            var videos = playlist.get('items').map(function (playlistItem) {
+                return playlistItem.get('video');
             });
             
-            this.addMultiple(streamItems);
+            if (videos.length === 1) {
+                this.addByVideo(videos[0], playOnAdd);
+            } else {
+                this.addByVideos(videos, playOnAdd);
+            }
+            
         },
         
-        addByVideoInformation: function (videoInformation, playOnAdd) {
-
+        addByVideo: function (video, playOnAdd) {
+            
             if (playOnAdd) {
                 Player.playOnceVideoChanges();
             }
-            
-            var video = new Video({
-                videoInformation: videoInformation
-            });
             
             var streamItem = new StreamItem({
                 id: _.uniqueId('streamItem_'),
@@ -250,23 +224,32 @@ define([
             });
 
             this.add(streamItem);
-  
+
         },
         
-        addAndPlay: function (streamItems) {
+        addByVideos: function (videos, playOnAdd) {
             
-            Player.playOnceVideoChanges();
-
-            if (_.isArray(streamItems)) {
-                StreamItems.addMultiple(streamItems);
-            } else {
-                StreamItems.add(streamItems);
+            if (playOnAdd) {
+                Player.playOnceVideoChanges();
             }
+            
+            var streamItems = _.map(videos, function (video, iterator) {
 
+                return new StreamItem({
+                    id: _.uniqueId('streamItem_'),
+                    video: video,
+                    title: video.get('title'),
+                    //  Select and play the first added item if playOnAdd is set to true
+                    selected: playOnAdd && iterator === 0
+                });
+                
+            });
+
+            this.addMultiple(streamItems);
         },
 
         addMultiple: function(streamItems) {
-            console.log("Adding multiple");
+
             //  Handling this manually to not clog the network with getVideoInformation requests
             this.add(streamItems, { silent: true });
 

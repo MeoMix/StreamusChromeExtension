@@ -69,21 +69,18 @@
                 }, {
                     text: chrome.i18n.getMessage("addVideoToStream"),
                     onClick: function () {
-                        StreamItems.add({
-                            id: _.uniqueId('streamItem_'),
-                            video: self.model.get('video'),
-                            title: self.model.get('title')
-                        });
+
+                        var video = self.model.get('video');
+                        StreamItems.addByVideo(video);
+
                     }
                 }, {
                     text: chrome.i18n.getMessage("playVideoInStream"),
                     onClick: function () {
-                        StreamItems.addAndPlay({
-                            id: _.uniqueId('streamItem_'),
-                            video: self.model.get('video'),
-                            title: self.model.get('title'),
-                            selected: true
-                        });
+
+                        var video = self.model.get('video');
+                        StreamItems.addByVideo(video, true);
+
                     }
                 }]
 

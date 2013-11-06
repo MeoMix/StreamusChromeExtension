@@ -68,7 +68,7 @@
                 items: [{
                         text: chrome.i18n.getMessage("addToPlaylist"),
                         onClick: function () {
-                            Folders.getActiveFolder().getActivePlaylist().addItem(self.model.get('video'));
+                            Folders.getActiveFolder().getActivePlaylist().addByVideo(self.model.get('video'));
                         }
                     }, {
                         text: chrome.i18n.getMessage("copyUrl"),

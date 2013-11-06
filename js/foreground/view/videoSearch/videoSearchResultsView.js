@@ -64,7 +64,10 @@
                 start: function (event, ui) {
 
                     var draggedVideoId = $(this).data('videoid');
-                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
+
+                    console.log("VideoId:", draggedVideoId);
+
+                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
                     videoSearchResult.set('selected', true);
                     videoSearchResult.set('dragging', true);
 
@@ -75,7 +78,7 @@
                 stop: function () {
 
                     var draggedVideoId = $(this).data('videoid');
-                    var videoSearchResult = VideoSearchResults.get(draggedVideoId);
+                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
 
                     //  TODO: Is it really necessary to wrap this in a set timeout?
                     setTimeout(function() {
@@ -139,22 +142,24 @@
                 ContextMenuGroups.reset();
             }
 
-            var isPlaySelectedDisabled = VideoSearchResults.selected().length === 0;
+            var selectedSearchResults = VideoSearchResults.selected();
+
+            var isPlaySelectedDisabled = selectedSearchResults.length === 0;
 
             ContextMenuGroups.add({
                 items: [{
-                    text: chrome.i18n.getMessage("playSelected") + ' (' + VideoSearchResults.selected().length + ')',
+                    text: chrome.i18n.getMessage("playSelected") + ' (' + selectedSearchResults.length + ')',
                     disabled: isPlaySelectedDisabled,
                     title: isPlaySelectedDisabled ? chrome.i18n.getMessage("playSelectedDisabled") : '',
                     onClick: function () {
 
                         if (!isPlaySelectedDisabled) {
 
-                            var videoInformation = _.map(VideoSearchResults.selected(), function (videoSearchResult) {
-                                return videoSearchResult.get('videoInformation');
+                            var videos = _.map(selectedSearchResults, function (videoSearchResult) {
+                                return videoSearchResult.get('video');
                             });
 
-                            StreamItems.addMultipleByVideoInformation(videoInformation, true);
+                            StreamItems.addByVideos(videos, true);
 
                         }
 
