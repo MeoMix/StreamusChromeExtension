@@ -65,6 +65,22 @@ define([
             this.reset(videoSearchResults);
         },
         
+        setFromPlaylistInformationList: function(playlistInformationList) {
+            //  Convert video information into search results which contain a reference to the full data incase needed later.
+            var videoSearchResults = _.map(playlistInformationList, function (playlistInformation) {
+
+                var playlistSearchResult = new VideoSearchResult({
+                    video: new Video({
+                        videoInformation: videoInformation
+                    })
+                });
+
+                return videoSearchResult;
+            });
+
+            this.reset(videoSearchResults);
+        },
+        
         getByVideoId: function (videoId) {
 
             var foundVideoSearchResult = this.find(function(videoSearchResult) {

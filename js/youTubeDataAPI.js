@@ -189,7 +189,7 @@ define([
         //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
         search: function(options) {
 
-            //  Be sure to filter out videos and suggestions which are restricted by the users geographic location.
+            //  TODO: Be sure to filter out videos and suggestions which are restricted by the users geographic location.
             var searchJqXhr = $.ajax({
                 type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/videos',
@@ -217,6 +217,39 @@ define([
                         console.error(error);
                     }
                 
+                }
+            });
+
+            return searchJqXhr;
+        },
+        
+        searchPlaylist: function (options) {
+
+            var searchJqXhr = $.ajax({
+                type: 'GET',
+                url: 'https://gdata.youtube.com/feeds/api/playlists/snippets',
+                dataType: 'json',
+                data: {
+                    'max-results': options.maxResults || 50,
+                    'start-index': 1,
+                    v: 2,
+                    alt: 'json',
+                    q: options.text,
+                    strict: true
+                },
+                success: function (result) {
+
+                    console.log("Result:", result);
+
+                    options.success(result.feed.entry || []);
+                },
+                error: function (error) {
+
+                    //  Aborts from typing too much are OK
+                    if (error.statusText !== 'abort') {
+                        console.error(error);
+                    }
+
                 }
             });
 

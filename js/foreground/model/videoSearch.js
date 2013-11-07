@@ -39,43 +39,65 @@
                 }
 
                 if (searchQuery !== '') {
-                    
-                    //  If the search query had a valid ID inside of it -- display that result, otherwise search.
-                    var videoId = Utility.parseVideoIdFromUrl(searchQuery);
 
-                    var searchJqXhr;
+                    //var playlistIndicator = 'playlist,';
 
-                    if (videoId) {
-                        searchJqXhr = YouTubeDataAPI.getVideoInformation({
-                            videoId: videoId,
-                            success: function (videoInformation) {
-                                
-                                self.set('searchJqXhr', null);
-                                videoSearchResults.setFromVideoInformation(videoInformation);
-                                
-                            },
-                            error: function(error) {
-                                console.error(error);
-                            }
-                        });
-                    } else {
-                        //  TODO: Support displaying playlists and channel URLs here.
+                    //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);
 
-                        searchJqXhr = YouTubeDataAPI.search({
-                            text: searchQuery,
-                            success: function (videoInformationList) {
-                                
-                                self.set('searchJqXhr', null);
-                                videoSearchResults.setFromVideoInformationList(videoInformationList);
-                                
-                            },
-                            error: function () {
-                                self.set('searchJqXhr', null);
-                            }
-                        });
+                    //if (searchQueryPrefix === playlistIndicator) {
+                    //    console.log("Match", searchQueryPrefix);
                         
-                    }
-                    
+                    //    searchJqXhr = YouTubeDataAPI.searchPlaylist({
+                    //        text: searchQuery.substring(playlistIndicator.length + 1),
+                    //        success: function (playlistInformationList) {
+
+                    //            self.set('searchJqXhr', null);
+                    //            videoSearchResults.setFromPlaylistInformationList(playlistInformationList);
+                    //        },
+                    //        error: function () {
+                    //            self.set('searchJqXhr', null);
+                    //        }
+                    //    });
+
+                    //} else {
+
+                        //  If the search query had a valid ID inside of it -- display that result, otherwise search.
+                        var videoId = Utility.parseVideoIdFromUrl(searchQuery);
+
+                        var searchJqXhr;
+
+                        if (videoId) {
+                            searchJqXhr = YouTubeDataAPI.getVideoInformation({
+                                videoId: videoId,
+                                success: function (videoInformation) {
+
+                                    self.set('searchJqXhr', null);
+                                    videoSearchResults.setFromVideoInformation(videoInformation);
+                                },
+                                error: function (error) {
+                                    console.error(error);
+                                }
+                            });
+                        } else {
+                            //  TODO: Support displaying playlists and channel URLs here.
+
+                            searchJqXhr = YouTubeDataAPI.search({
+                                text: searchQuery,
+                                success: function (videoInformationList) {
+
+                                    self.set('searchJqXhr', null);
+                                    videoSearchResults.setFromVideoInformationList(videoInformationList);
+
+                                },
+                                error: function () {
+                                    self.set('searchJqXhr', null);
+                                }
+                            });
+
+                        }
+
+                    //}
+
                     this.set('searchJqXhr', searchJqXhr);
                     
                 }
