@@ -239,11 +239,9 @@ define([
         },
         
         onClickShowVideoDisplay: function() {
-            console.log("onClickShowVideoDisplay");
+
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
-
-                console.log("this.videoDisplayView === null");
 
                 this.videoDisplayView = new VideoDisplayView({
 
@@ -251,7 +249,6 @@ define([
                 
                 this.$el.append(this.videoDisplayView.render().el);
                 this.videoDisplayView.show();
-                console.log("this.videoDisplayView.show();");
             }
 
         },
@@ -316,24 +313,17 @@ define([
                     folder: activeFolder
                 });
 
-                console.log("Showing addSearchResultsView", addSearchResults);
-
                 this.addSearchResultsView = new AddSearchResultsView({
                     model: addSearchResults
                 });
 
-                console.log("Here");
-                
                 //  Cleanup if the model is ever destroyed.
                 this.listenToOnce(addSearchResults, 'destroy', function () {
                     this.addSearchResultsView = null;
                 });
 
-                console.log("Appending");
-
                 this.$el.append(this.addSearchResultsView.render().el);
                 this.addSearchResultsView.show();
-                console.log("Called show");
             }
 
         }

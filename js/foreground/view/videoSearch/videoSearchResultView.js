@@ -14,7 +14,6 @@
         template: _.template(VideoSearchResultTemplate),
         
         attributes: function () {
-            console.log("Model's ID for attributes:", this.model.get('video'));
             return {
                 'data-videoid': this.model.get('video').get('id')
             };

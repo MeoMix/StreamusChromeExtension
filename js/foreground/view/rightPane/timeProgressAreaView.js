@@ -173,8 +173,6 @@ define([
             var currentTime = parseInt(this.timeRange.val());
             var totalTime = parseInt(this.timeRange.prop('max'));
 
-            console.log("CurrentTime and TotalTime:", currentTime, totalTime);
-
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
 

@@ -69,6 +69,63 @@
             leftGroupContextButtons.append(this.shuffleButtonView.render().el);
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
+            
+            console.log("Sortable");
+            var self = this;
+            this.streamItemList.sortable({
+
+                //helper: function() {
+
+                //    var helper = $('<span>', {
+                //        'class': 'videoSearchResultsLength',
+                //        'text': 1
+                //    });
+
+                //    return helper;
+                //},
+                helper: 'clone',
+
+                //axis: 'y',
+                //  Adding this helps prevent unwanted clicks to play
+                delay: 100,
+                cancel: '.big-text',
+                connectWith: '#activePlaylistItemsView',
+                appendTo: 'body',
+                containment: 'body',
+                
+                receive: function (event, ui) {
+
+                    console.log("I've received:", event, ui);
+                    console.log($(ui.item).index());
+                    console.log("Position and Offset:", ui.position, ui.offset);
+                    
+                    ui.sender.data('copied', true);
+                },
+
+                //  Whenever a video row is moved inform the Player of the new video list order
+                update: function (event, ui) {
+
+                    console.log("Update");
+                    return;
+
+                    //var newIndex = ui.item.index();
+                    //var nextIndex = newIndex + 1;
+
+                    //console.log("self == this?", self == this);
+
+                    //var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
+
+                    //if (nextItem == null) {
+                    //    nextItem = self.$el.find('item:eq(0)');
+                    //}
+
+                    //var movedPlaylistItemId = ui.item.data('playlistitemid');
+                    //var nextPlaylistItemId = nextItem.data('playlistitemid');
+
+                    //self.model.moveItem(movedPlaylistItemId, nextPlaylistItemId);
+                }
+            });
+
 
             return this;
         },
@@ -102,51 +159,7 @@
             this.clearStreamButtonView = new ClearStreamButtonView();
 
             Utility.scrollChildElements(this.el, '.item-title');
-            var self = this;
-            setTimeout(function() {
-
-                self.$el.sortable({
-
-                    helper: function() {
-
-                        var helper = $('<span>', {
-                            'class': 'videoSearchResultsLength',
-                            'text': 1
-                        });
-
-                        return helper;
-                    },
-
-                    //axis: 'y',
-                    //  Adding this helps prevent unwanted clicks to play
-                    delay: 100,
-                    cancel: '.big-text',
-                    connectWith: '#streamItemList',
-                    appendTo: 'body',
-                    containment: 'body',
-
-                    //  Whenever a video row is moved inform the Player of the new video list order
-                    update: function (event, ui) {
-
-                        //var newIndex = ui.item.index();
-                        //var nextIndex = newIndex + 1;
-
-                        //console.log("self == this?", self == this);
-
-                        //var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
-
-                        //if (nextItem == null) {
-                        //    nextItem = self.$el.find('item:eq(0)');
-                        //}
-
-                        //var movedPlaylistItemId = ui.item.data('playlistitemid');
-                        //var nextPlaylistItemId = nextItem.data('playlistitemid');
-
-                        //self.model.moveItem(movedPlaylistItemId, nextPlaylistItemId);
-                    }
-                });
-                
-            }, 3000);
+            
         },
         
         addItem: function (streamItem, loadImagesInstantly) {
@@ -197,7 +210,7 @@
         },
         
         makeDraggable: function(elements) {
-
+            return;
             $(elements).draggable({
                 helper: function () {
                     //  TODO: ClassName?

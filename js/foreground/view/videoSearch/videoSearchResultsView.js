@@ -42,51 +42,51 @@
                 container: this.$el
             });
 
-            this.$el.find('.videoSearchResult').draggable({
-                helper: function() {
+            //this.$el.find('.videoSearchResult').draggable({
+            //    helper: function() {
 
-                    var helper = $('<span>', {
-                        'class': 'videoSearchResultsLength'
-                    });
+            //        var helper = $('<span>', {
+            //            'class': 'videoSearchResultsLength'
+            //        });
 
-                    return helper;
-                },
-                appendTo: 'body',
-                containment: 'DOM',
-                zIndex: 1500,
-                distance: 5,
-                refreshPositions: true,
-                scroll: false,
-                cursorAt: {
-                    right: 35,
-                    bottom: 40
-                },
-                start: function (event, ui) {
+            //        return helper;
+            //    },
+            //    appendTo: 'body',
+            //    containment: 'DOM',
+            //    zIndex: 1500,
+            //    distance: 5,
+            //    refreshPositions: true,
+            //    scroll: false,
+            //    cursorAt: {
+            //        right: 35,
+            //        bottom: 40
+            //    },
+            //    start: function (event, ui) {
 
-                    var draggedVideoId = $(this).data('videoid');
+            //        var draggedVideoId = $(this).data('videoid');
 
-                    console.log("VideoId:", draggedVideoId);
+            //        console.log("VideoId:", draggedVideoId);
 
-                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-                    videoSearchResult.set('selected', true);
-                    videoSearchResult.set('dragging', true);
+            //        var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
+            //        videoSearchResult.set('selected', true);
+            //        videoSearchResult.set('dragging', true);
 
-                    //  Set it here not in helper because dragStart may select a search result.
-                    $(ui.helper).text(VideoSearchResults.selected().length);
-                },
+            //        //  Set it here not in helper because dragStart may select a search result.
+            //        $(ui.helper).text(VideoSearchResults.selected().length);
+            //    },
                 
-                stop: function () {
+            //    stop: function () {
 
-                    var draggedVideoId = $(this).data('videoid');
-                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
+            //        var draggedVideoId = $(this).data('videoid');
+            //        var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
 
-                    //  TODO: Is it really necessary to wrap this in a set timeout?
-                    setTimeout(function() {
-                        videoSearchResult.set('dragging', false);
-                    });
+            //        //  TODO: Is it really necessary to wrap this in a set timeout?
+            //        setTimeout(function() {
+            //            videoSearchResult.set('dragging', false);
+            //        });
 
-                }
-            });
+            //    }
+            //});
 
             this.searchingMessage = this.$el.find('div.searching');
             this.instructions = this.$el.find('div.instructions');

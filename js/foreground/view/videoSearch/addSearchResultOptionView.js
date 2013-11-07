@@ -57,36 +57,36 @@
 
             var self = this;
 
-            this.$el.droppable({
-                hoverClass: 'droppableOnHover',
-                tolerance: 'pointer',
+            //this.$el.droppable({
+            //    hoverClass: 'droppableOnHover',
+            //    tolerance: 'pointer',
                 
-                drop: function (event, ui) {
+            //    drop: function (event, ui) {
 
-                    //  When scrolling through options you can have a non-visible option scroll underneath another droppable
-                    //  This causes two events to fire. Stop the second event by checking to see if the drop target is visible.
-                    if ($(this).position().top < 0) return false;
+            //        //  When scrolling through options you can have a non-visible option scroll underneath another droppable
+            //        //  This causes two events to fire. Stop the second event by checking to see if the drop target is visible.
+            //        if ($(this).position().top < 0) return false;
 
-                    var draggedVideoId = ui.draggable.data('videoid');
-                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
+            //        var draggedVideoId = ui.draggable.data('videoid');
+            //        var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
 
-                    self.model.get('entity').addByVideo(videoSearchResult.get('video'));
+            //        self.model.get('entity').addByVideo(videoSearchResult.get('video'));
                     
-                    var droppableIcon = self.$el.find('i.droppable');
-                    var checkIcon = droppableIcon.next();
+            //        var droppableIcon = self.$el.find('i.droppable');
+            //        var checkIcon = droppableIcon.next();
 
-                    checkIcon.removeClass('hidden');
-                    droppableIcon.addClass('hidden');
+            //        checkIcon.removeClass('hidden');
+            //        droppableIcon.addClass('hidden');
 
-                    clearTimeout(self.resetStateTimeout);
+            //        clearTimeout(self.resetStateTimeout);
 
-                    self.resetStateTimeout = setTimeout(function () {
-                        droppableIcon.removeClass('hidden');
-                        checkIcon.addClass('hidden');
-                    }, 2500);
+            //        self.resetStateTimeout = setTimeout(function () {
+            //            droppableIcon.removeClass('hidden');
+            //            checkIcon.addClass('hidden');
+            //        }, 2500);
                     
-                }
-            });
+            //    }
+            //});
             
             var entity = this.model.get('entity');
             

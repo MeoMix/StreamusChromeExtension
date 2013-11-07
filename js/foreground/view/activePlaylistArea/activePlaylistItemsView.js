@@ -56,12 +56,37 @@ define([
             
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
-                axis: 'y',
+                //axis: 'y',
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 cancel: '.big-text',
+                connectWith: '#streamItemList',
+                appendTo: 'body',
+                containment: 'body',
+                placeholder: "sortable-placeholder",
+                helper: function(e,li) {
+                    this.copyHelper = li.clone().insertAfter(li);
+
+                    $(this).data('copied', false);
+
+                    return li.clone();
+                },
+                stop: function () {
+                    var copied = $(this).data('copied');
+
+                    if (!copied) {
+                        this.copyHelper.remove();
+                    }
+
+                    this.copyHelper = null;
+                },
+
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
+
+                    console.log("Update:", event, ui);
+
+                    return;
 
                     var newIndex = parseInt(ui.item.index());
 
