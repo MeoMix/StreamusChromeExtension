@@ -57,17 +57,17 @@
         fadeInAndShow: function () {
 
             $('body').append(this.render().el);
-            
+
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            this.panel.data({
-                top: this.panel.css('top'),
-                opacity: this.panel.css('opacity')
-            }).transition({
-                top: '50%',
+            //  Calculate center for prompt by finding the average difference between prompts height and its parent
+            var yTranslateCenter = (this.$el.parent().height() - this.panel.height()) / 2;
+            
+            this.panel.transition({
+                y: yTranslateCenter,
                 opacity: 1
             }, 'snap');
             
@@ -84,8 +84,8 @@
             });
 
             this.panel.transition({
-                top: this.panel.data('top'),
-                opacity: this.panel.data('opacity')
+                y: 0,
+                opacity: 0
             });
 
         },

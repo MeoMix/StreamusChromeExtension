@@ -27,7 +27,7 @@ body > .fa-spinner {
 
 .playlistTitle
 .playlist-details,
-#activeFolderView span.title {
+#activeFolder span.title {
     -webkit-user-select: text;
 }
 
@@ -105,12 +105,9 @@ button.mute.muted{
     left: 50%;
     opacity: 0;
 
-    top: -80px;
-    
     /* Default Panel Size */
     width: 500px;
     margin-left: -250px;
-    margin-top: -70px;
     height: 140px;
 }
 
@@ -118,14 +115,10 @@ button.mute.muted{
     margin-left: -125px;
     width: 250px;
     height: 200px;
-    margin-top: -100px;
-    top: -110px;
 }
 
 .prompt.createPlaylistPrompt .panel {
     height: 180px;
-    margin-top: -90px;
-    top: -100px;
     width: 330px;
     margin-left: -165px;
 }
@@ -467,15 +460,6 @@ input[type="range"]::-webkit-slider-thumb {
     top: 55px;
 }
 
-.limitedScrollingWidth {
-    display: inline-block;
-    max-width: 55px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    height: 10px;
-}
-
 .videoSearchResult > i {
     position: absolute;
     display: none;
@@ -729,13 +713,13 @@ input.valid {
 
 .searchBar button#source-select .label { margin: 0 .7em 0 .5em }
 
-#activePlaylistItemsView .fa fa-arrow-up {
+#activePlaylistItems .fa fa-arrow-up {
     position: absolute;
     right: 32px;
     top: 0;
 }
 
-#activePlaylistItemsView .big-text,
+#activePlaylistItems .big-text,
 #videoSearch .big-text {
     color: #949494;
     font-size: 1.2em;
@@ -939,7 +923,7 @@ input.valid {
     bottom: 0;
 }
 
-.streamView .list {
+.stream .list {
     bottom: 40px;
     display: block;
     left: 0;
@@ -951,7 +935,7 @@ input.valid {
 }
 
 #addSearchResults .list:hover,
-.streamView .list:hover {
+.stream .list:hover {
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -1076,7 +1060,7 @@ input.valid {
     z-index: 51;
 }
 
-#activeFolderView {
+#activeFolder {
     overflow: hidden;
     height: auto;
 }

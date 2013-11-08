@@ -21,7 +21,7 @@ define([
         },
         
         attributes: {
-            'id': 'activePlaylistItemsView'
+            'id': 'activePlaylistItems'
         },
             
         render: function () {
@@ -159,10 +159,9 @@ define([
                 //  Do this all in one DOM insertion to prevent lag in large playlists.
                 this.$el.append(items);
 
-                var self = this;
                 setTimeout(function() {
-                    self.incrementalRender(playlistItemChunks, onRenderComplete);
-                });
+                    this.incrementalRender(playlistItemChunks, onRenderComplete);
+                }.bind(this));
 
             } else {
                 onRenderComplete();
@@ -183,11 +182,9 @@ define([
                 var playlistItems = this.model.get('items');
 
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
-    
                 var previousItemId = playlistItems.at(currentItemIndex - 1).get('id');
                 
                 var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
-
                 element.insertAfter(previousItemElement);
 
             } else {
@@ -198,16 +195,13 @@ define([
                 element.appendTo(this.$el);
             }
 
-            var self = this;
-
             element.find('img.lazy').lazyload({
                 effect: 'fadeIn',
-                container: self.$el,
+                container: this.$el,
                 event: 'scroll manualShow'
-            });
+            }).bind(this);
                 
-            self.scrollItemIntoView(playlistItem);
-            
+            this.scrollItemIntoView(playlistItem);
         },
         
         showContextMenu: function (event) {

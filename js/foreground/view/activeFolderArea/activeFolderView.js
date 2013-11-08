@@ -26,7 +26,7 @@ define([
         },
         
         attributes: {
-            'id': 'activeFolderView'
+            'id': 'activeFolder'
         },
         
         //  Refreshes the playlist display with the current playlist information.

@@ -245,10 +245,9 @@ define([
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            this.panel.data('left', this.panel.css('left')).transition({
-                left: 0
+            this.panel.transition({
+                x: this.$el.width()
             }, 'snap');
-            
 
         },
     });

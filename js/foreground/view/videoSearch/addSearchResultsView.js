@@ -155,8 +155,8 @@
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            this.panel.data('right', this.panel.css('right')).transition({
-                right: 0
+            this.panel.transition({
+                x: -1 * this.$el.width()
             }, 'snap');
 
         },
@@ -175,8 +175,8 @@
             });
 
             this.panel.transition({
-                right: this.panel.data('right')
-            });
+                x: 0
+            }, 'snap');
 
         },
         

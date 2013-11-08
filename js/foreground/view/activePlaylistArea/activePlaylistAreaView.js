@@ -62,24 +62,6 @@
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             Utility.scrollChildElements(this.el, '.playlistTitle');
         },
-
-        show: function() {
-
-            this.$el.show().transition({
-                opacity: 1
-            });
-
-        },
-        
-        hide: function () {
-            
-            this.$el.transition({
-                opacity: 0
-            }, function () {
-                $(this).hide();
-            });
-
-        },
         
         updatePlaylistDetails: function () {
             this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));

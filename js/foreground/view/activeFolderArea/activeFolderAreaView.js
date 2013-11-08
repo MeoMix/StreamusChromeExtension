@@ -71,9 +71,10 @@
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
             
-            this.panel.data('left', this.panel.css('left')).transition({
-                left: 0
+            this.panel.transition({
+                x: this.panel.width()
             }, 'snap');
+
         },
         
         destroyModel: function () {
@@ -98,7 +99,7 @@
             });
 
             this.panel.transition({
-                left: this.panel.data('left')
+                x: 0
             });
             
         },
@@ -107,12 +108,13 @@
 
             var caretIcon = $(event.currentTarget).find('i');
             //  TODO: Would be nice to read from a model and not inspect the view.
-            var isExpanded = caretIcon.hasClass('fa fa-caret-down');
+            var isExpanded = caretIcon.hasClass('fa-caret-down');
             
             var activeFolderViewElement = this.activeFolderView.$el;
 
+            //  TODO: It would be nice to translate over scale if possible instead of height? Or translate up?
             if (isExpanded) {
-                caretIcon.removeClass('fa fa-caret-down').addClass('fa fa-caret-right');
+                caretIcon.removeClass('fa-caret-down').addClass('fa-caret-right');
 
                 var currentHeight = activeFolderViewElement.height();
 
@@ -126,7 +128,7 @@
                 });
 
             } else {
-                caretIcon.addClass('fa fa-caret-down').removeClass('fa fa-caret-right');
+                caretIcon.addClass('fa-caret-down').removeClass('fa-caret-right');
 
                 this.activeFolderView.$el.show().transition({
                     height: activeFolderViewElement.data('oldheight')
@@ -142,8 +144,6 @@
                 okButtonText: chrome.i18n.getMessage('saveButtonText'),
                 model: new SettingsView
             });
-
-            console.log("Created settings prompt:", settingsPromptView);
 
             settingsPromptView.fadeInAndShow();
 

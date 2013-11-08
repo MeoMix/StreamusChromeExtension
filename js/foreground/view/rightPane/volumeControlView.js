@@ -57,9 +57,10 @@ define([
                 interval: 5000,
             };
 
+            //  TODO: This is a bit of a mess. Replace height/marginTop with translates for efficiency.
             var self = this;
             this.$el.hoverIntent(function () {
-
+                
                 $(this).transition({ height: 152 }, 200);
                 self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
 

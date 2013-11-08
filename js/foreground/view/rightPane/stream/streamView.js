@@ -15,7 +15,7 @@
     
     var StreamView = Backbone.View.extend({
         
-        className: 'streamView',
+        className: 'stream',
         
         radioButtonView: null,
         shuffleButtonView: null,
@@ -89,7 +89,7 @@
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 cancel: '.big-text',
-                connectWith: '#activePlaylistItemsView',
+                connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',
                 
