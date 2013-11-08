@@ -125,34 +125,102 @@ define([
             this.set('displayInfo', displayInfo);
         },
         
+        //  Return what sequence number would be necessary to be at the given index
+        getSequenceFromIndex: function (index) {
+
+            var sequence;
+
+            var sequenceIncrement = 10000;
+            var playlistItems = this.get('items');
+
+            if (playlistItems.length === 0) {
+                sequence = sequenceIncrement;
+                console.log("Set sequence equal to 10k");
+            }
+            else if (index === playlistItems.length) {
+                sequence = playlistItems.at(playlistItems.length - 1).get('sequence') + sequenceIncrement;
+                console.log("Set sequence equal to most + 10k");
+            } else {
+                var previousIndex = index - 1;
+
+                console.log("PlaylistItems previousIndex:", previousIndex);
+                console.log("PlaylistItems:", playlistItems);
+
+                var highSequence = playlistItems.at(index).get('sequence');
+                console.log("At index is:", playlistItems.at(index));
+                console.log("At previous index is:", playlistItems.at(previousIndex));
+
+                var lowSequence = 0;
+                var previousItem = playlistItems.at(previousIndex);
+
+                if (previousItem) {
+                    lowSequence = previousItem.get('sequence');
+                }
+
+                console.log("High and Low:", highSequence, lowSequence);
+
+                sequence = (highSequence + lowSequence) / 2;
+            }
+            
+            console.log("Sequence:", sequence);
+            return sequence;
+        },
+        
+        addByVideoAtIndex: function (video, index) {
+
+            var sequence = this.getSequenceFromIndex(index);
+
+            console.log("Index and Sequence:", index, sequence);
+            
+            var playlistItem = new PlaylistItem({
+                playlistId: this.get('id'),
+                video: video,
+                sequence: sequence
+            });
+
+            console.log("Adding playlistItem with sequence:", playlistItem.get('sequence'));
+
+            var self = this;
+            this.savePlaylistItem(playlistItem, function() {
+                self.get('items').sort();
+                console.log("Items after sort:", self.get('items'));
+            });
+
+        },
+        
         addByVideo: function (video, callback) {
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
                 video: video
             });
-                
+
+            this.savePlaylistItem(playlistItem, callback);
+
+        },
+        
+        savePlaylistItem: function(playlistItem, callback) {
             var self = this;
 
             //  Save the playlistItem, but push after version from server because the ID will have changed.
             playlistItem.save({}, {
-                    
-                success: function () {
 
-                    self.get('items').push(playlistItem);
+                success: function () {
+                    console.log("Pushing playlistItem:", playlistItem);
+                    self.get('items').add(playlistItem);
                     //  TODO: Consider just incrementing displayInfo instead of re-calculating if it becomes too expensive... should be ok though
                     self.setDisplayInfo();
-  
+
                     if (callback) {
                         callback(playlistItem);
                     }
 
                 },
-                    
-                error: function(error) {
+
+                error: function (error) {
                     console.error(error);
                 }
-                    
+
             });
         },
             

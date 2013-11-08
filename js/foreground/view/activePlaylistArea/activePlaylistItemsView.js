@@ -56,7 +56,7 @@ define([
             
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
-                //axis: 'y',
+
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 cancel: '.big-text',
@@ -64,12 +64,23 @@ define([
                 appendTo: 'body',
                 containment: 'body',
                 placeholder: "sortable-placeholder",
-                helper: function(e,li) {
-                    this.copyHelper = li.clone().insertAfter(li);
-
+                forcePlaceholderSize: true,
+                scroll: false,
+                cursorAt: {
+                    right: 35,
+                    bottom: 40
+                },
+                tolerance: 'pointer',
+                helper: function (ui, playlistItem) {
+                    
+                    this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
+                    
                     $(this).data('copied', false);
 
-                    return li.clone();
+                    return $('<span>', {
+                        'class': 'videoSearchResultsLength',
+                        'text': 1
+                    });
                 },
                 stop: function () {
                     var copied = $(this).data('copied');
@@ -80,52 +91,28 @@ define([
 
                     this.copyHelper = null;
                 },
+                receive: function (event, ui) {
 
+                    var streamItemId = $(ui.item).data('streamitemid');
+                    var draggedStreamItem = StreamItems.get(streamItemId);
+                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index());
+                    $(ui.item).remove();
+
+                    ui.sender.data('copied', true);
+
+                },
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
 
                     console.log("Update:", event, ui);
 
                     return;
+                   
+                    var index = parseInt(ui.item.index());
 
-                    var newIndex = parseInt(ui.item.index());
+                    var sequence = self.model.getSequenceFromIndex(index);
 
-                    var nextIndex = newIndex + 1;
-                    var highSequence = 10000;
-
-                    if (nextIndex <= self.model.get('items').length) {
-
-                        var nextItemElement = self.$el.find('.playlistItem:eq(' + nextIndex + ')');
-
-                        if (nextItemElement != null) {
-                            var nextItemId = nextItemElement.data('playlistitemid');
-                            var nextItem = self.model.get('items').get(nextItemId);
-                            highSequence = nextItem.get('sequence');
-                        }
-
-                    }
-
-                    var previousIndex = newIndex - 1;
-                    var lowSequence = 0;
-                    
-                    if (previousIndex > 0) {
-                        
-                        var previousItemElement = self.$el.find('.playlistItem:eq(' + previousIndex + ')');
-
-                        if (previousItemElement != null) {
-                            var previousItemId = previousItemElement.data('playlistitemid');
-                            var previousItem = self.model.get('items').get(previousItemId);
-                            lowSequence = previousItem.get('sequence');
-                        }
-
-                    }
-
-                    var itemId = ui.item.data('playlistitemid');
-                    var item = self.model.get('items').get(itemId);
-
-                    var averageSequence = (highSequence + lowSequence) / 2;
-
-                    item.set('sequence', averageSequence);
+                    item.set('sequence', sequence);
                     item.save();
                     self.model.get('items').sort();
                 }
@@ -182,10 +169,19 @@ define([
                 var playlistItems = this.model.get('items');
 
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
-                var previousItemId = playlistItems.at(currentItemIndex - 1).get('id');
+
+                var previousItem = playlistItems.at(currentItemIndex - 1);
                 
-                var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
-                element.insertAfter(previousItemElement);
+                if (previousItem) {
+                    var previousItemId = previousItem.get('id');
+                    
+                    console.log("PlaylistItem's index:", currentItemIndex);
+                    var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
+                    element.insertAfter(previousItemElement);
+                } else {
+                    element.insertBefore(this.$el.find('.playlistItem')[0]);
+                }
+                
 
             } else {
 
@@ -195,11 +191,12 @@ define([
                 element.appendTo(this.$el);
             }
 
+            var self = this;
             element.find('img.lazy').lazyload({
                 effect: 'fadeIn',
-                container: this.$el,
+                container: self.$el,
                 event: 'scroll manualShow'
-            }).bind(this);
+            });
                 
             this.scrollItemIntoView(playlistItem);
         },

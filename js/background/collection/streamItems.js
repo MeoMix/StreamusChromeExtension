@@ -209,6 +209,18 @@ define([
             
         },
         
+        addByDraggedPlaylistItem: function(playlistItem, index) {
+          
+            this.add({
+                id: _.uniqueId('streamItem_'),
+                video: playlistItem.get('video'),
+                title: playlistItem.get('title')
+            }, {
+                at: index
+            });
+            
+        },
+        
         addByPlaylistItem: function(playlistItem, playOnAdd) {
             if (playOnAdd) {
                 Player.playOnceVideoChanges();

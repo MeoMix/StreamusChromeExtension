@@ -286,12 +286,12 @@ button:active {
     width: 40px;
 }
 
-.fa fa-repeat.repeatVideo,
-.fa fa-repeat.repeatStream {
+.fa.fa-repeat.repeatVideo,
+.fa.fa-repeat.repeatStream {
     margin-right: -10px;
 }
 
-.fa fa-repeat.repeatVideo:after {
+.fa.fa-repeat.repeatVideo:after {
     content: '1';
     border-radius: 50%;
     background-color: #797979;
@@ -304,7 +304,7 @@ button:active {
     padding-right: 2px;
 }
 
-.fa fa-repeat.repeatStream:after {
+.fa.fa-repeat.repeatStream:after {
     content: "∞";
     border-radius: 50%;
     background-color: #797979;
@@ -575,8 +575,8 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .videoSearchResultsLength {
-    width: 15px;
-    height: 15px;
+    width: 15px !important;
+    height: 15px !important;
     padding: 2px;
     background-color: rgba(0, 0, 0, .8);
     font-weight: bold;
@@ -1319,4 +1319,8 @@ html .selectize-control.multi .selectize-input [data-value] > .remove {
 
 html .selectize-control.multi .selectize-input.full > input {
     display: none;
+}
+
+.sortable-placeholder {
+    background-color: red;
 }

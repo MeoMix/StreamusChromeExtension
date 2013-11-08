@@ -13,7 +13,13 @@
         className: 'streamItem',
 
         template: _.template(StreamItemTemplate),
-
+        
+        attributes: function () {
+            return {
+                'data-streamitemid': this.model.get('id')
+            };
+        },
+        
         events: {
             'contextmenu': 'showContextMenu',
             'click': 'select',

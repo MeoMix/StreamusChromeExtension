@@ -9,8 +9,9 @@
     'clearStreamButtonView',
     'contextMenuGroups',
     'utility',
-    'streamAction'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility, StreamAction) {
+    'streamAction',
+    'folders'
+], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility, StreamAction, Folders) {
     'use strict';
     
     var StreamView = Backbone.View.extend({
@@ -74,38 +75,61 @@
             var self = this;
             this.streamItemList.sortable({
 
-                //helper: function() {
-
-                //    var helper = $('<span>', {
-                //        'class': 'videoSearchResultsLength',
-                //        'text': 1
-                //    });
-
-                //    return helper;
-                //},
-                helper: 'clone',
-
-                //axis: 'y',
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 cancel: '.big-text',
                 connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',
-                
+                placeholder: "sortable-placeholder",
+                forcePlaceholderSize: true,
+                scroll: false,
+                cursorAt: {
+                    right: 35,
+                    bottom: 40
+                },
+                tolerance: 'pointer',
+                helper: function (ui, streamItem) {
+                    
+                    this.copyHelper = streamItem.clone().insertAfter(streamItem);
+
+                    $(this).data('copied', false);
+
+                    return $('<span>', {
+                        'class': 'videoSearchResultsLength',
+                        'text': 1
+                    });
+                },
+                stop: function () {
+                    var copied = $(this).data('copied');
+
+                    if (!copied) {
+                        this.copyHelper.remove();
+                    }
+
+                    this.copyHelper = null;
+                },
                 receive: function (event, ui) {
 
-                    console.log("I've received:", event, ui);
-                    console.log($(ui.item).index());
-                    console.log("Position and Offset:", ui.position, ui.offset);
-                    
+                    var playlistItemId = $(ui.item).data('playlistitemid');
+                    var draggedPlaylistItem = Folders.getActiveFolder().getActivePlaylist().get('items').get(playlistItemId);
+
+                    console.log("Dragged index:", ui.item.index());
+
+                    StreamItems.addByDraggedPlaylistItem(draggedPlaylistItem, ui.item.index());
+                    $(ui.item).remove();
+ 
                     ui.sender.data('copied', true);
+
                 },
 
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
 
-                    console.log("Update");
+                    //var playlistItemId = $(ui.item).data('playlistitemid');
+                    //var draggedPlaylistItem = Folders.getActiveFolder().getActivePlaylist().get('items').get(playlistItemId);
+                    //StreamItems.addByDraggedPlaylistItem(draggedPlaylistItem, ui.item.index());
+                    
                     return;
 
                     //var newIndex = ui.item.index();
@@ -163,13 +187,15 @@
         },
         
         addItem: function (streamItem, loadImagesInstantly) {
-            console.log("StreamItem:", streamItem);
+            console.log("StreamItem:", streamItem, loadImagesInstantly);
             var streamItemView = new StreamItemView({
                 model: streamItem
             });
 
+            var index = StreamItems.indexOf(streamItem);
+
             var element = streamItemView.render().el;
-            this.addElementsToStream(element, loadImagesInstantly);
+            this.addElementsToStream(element, loadImagesInstantly, index);
             
             if (streamItem.get('selected')) {
                 streamItemView.$el.scrollIntoView();
@@ -257,9 +283,13 @@
             });
         },
         
-        addElementsToStream: function (elements, loadImagesInstantly) {
-            
-            this.streamItemList.append(elements);
+        addElementsToStream: function (elements, loadImagesInstantly, index) {
+            console.log("Index:", index);
+            if (index !== undefined) {
+                this.streamItemList.children().eq(index).after(elements);
+            } else {
+                this.streamItemList.append(elements);
+            }
 
             //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
             setTimeout(function () {

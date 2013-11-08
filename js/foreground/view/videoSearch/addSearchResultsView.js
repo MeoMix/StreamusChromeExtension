@@ -35,7 +35,6 @@
                 })
             ));
 
-            
             var streamAddSearchResultOption = new AddSearchResultOption({
                 title: 'Now playing stream',
                 entity: StreamItems,
