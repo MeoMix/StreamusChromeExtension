@@ -30,8 +30,6 @@ define([
 
         render: function () {
 
-            console.log("Render:", this.autoUpdate);
-
             this.$el.html(this.template({
                 'chrome.i18n': chrome.i18n
             }));
@@ -42,6 +40,10 @@ define([
             this.timeRange = this.$el.find('.time-slider input.timeRange');
             this.timeElapsedLabel = this.$el.find('.time-elapsed');
             this.durationLabel = this.$el.find('.duration');
+            
+            if (StreamItems.length === 0) {
+                this.timeRange.prop('disabled', true);
+            }
                 
             //  If a video is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.

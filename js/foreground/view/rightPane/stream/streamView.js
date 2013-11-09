@@ -193,6 +193,7 @@
             });
 
             var index = StreamItems.indexOf(streamItem);
+            console.log("Item index:", index);
 
             var element = streamItemView.render().el;
             this.addElementsToStream(element, loadImagesInstantly, index);
@@ -286,7 +287,15 @@
         addElementsToStream: function (elements, loadImagesInstantly, index) {
             console.log("Index:", index);
             if (index !== undefined) {
-                this.streamItemList.children().eq(index).after(elements);
+                
+                var previousStreamItem = this.streamItemList.children().eq(index);
+                
+                if (previousStreamItem.length > 0) {
+                    previousStreamItem.after(elements);
+                } else {
+                    this.streamItemList.append(elements);
+                }
+                
             } else {
                 this.streamItemList.append(elements);
             }
