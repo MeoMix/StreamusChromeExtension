@@ -42,7 +42,7 @@
                 container: this.$el
             });
 
-            this.$el.find('.videoSearchResult').draggable({
+            this.$el.find('.listItem').draggable({
                 helper: function() {
 
                     var helper = $('<span>', {

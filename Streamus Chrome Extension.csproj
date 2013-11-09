@@ -219,7 +219,6 @@
     <Content Include="template\clearStream.htm" />
     <Content Include="template\addAllButton.htm" />
     <Content Include="template\videoDisplay.htm" />
-    <Content Include="template\saveSelected.htm" />
     <Content Include="template\reload.htm" />
     <Content Include="template\deletePlaylist.htm" />
     <Content Include="template\editPlaylist.htm" />

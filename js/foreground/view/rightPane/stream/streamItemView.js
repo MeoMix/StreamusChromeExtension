@@ -10,7 +10,7 @@
 
     var StreamItemView = Backbone.View.extend({
         
-        className: 'streamItem',
+        className: 'listItem',
 
         template: _.template(StreamItemTemplate),
         

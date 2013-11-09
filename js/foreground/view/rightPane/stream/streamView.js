@@ -45,7 +45,7 @@
                     this.addItems(StreamItems.models, true);
                 }
                 
-                var streamItems = this.streamItemList.find('.streamItem');
+                var streamItems = this.streamItemList.find('.listItem');
                 var selectedStreamItem = streamItems.filter('.selected');
 
                 //  It's important to wrap scrollIntoView with a setTimeout because if streamView's element has not been
@@ -53,9 +53,7 @@
                 setTimeout(function () {
                     selectedStreamItem.scrollIntoView(false);
                 });
-
-                this.makeDraggable(streamItems);
-                
+  
             }
 
             var contextButtons = this.$el.children('.context-buttons');
@@ -70,9 +68,7 @@
             leftGroupContextButtons.append(this.shuffleButtonView.render().el);
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
-            
-            console.log("Sortable");
-            var self = this;
+
             this.streamItemList.sortable({
 
                 //  Adding this helps prevent unwanted clicks to play
@@ -81,7 +77,7 @@
                 connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder",
+                placeholder: "sortable-placeholder streamItem",
                 forcePlaceholderSize: true,
                 scroll: false,
                 cursorAt: {
@@ -121,35 +117,22 @@
  
                     ui.sender.data('copied', true);
 
-                },
-
-                //  Whenever a video row is moved inform the Player of the new video list order
-                update: function (event, ui) {
-
-                    //var playlistItemId = $(ui.item).data('playlistitemid');
-                    //var draggedPlaylistItem = Folders.getActiveFolder().getActivePlaylist().get('items').get(playlistItemId);
-                    //StreamItems.addByDraggedPlaylistItem(draggedPlaylistItem, ui.item.index());
-                    
-                    return;
-
-                    //var newIndex = ui.item.index();
-                    //var nextIndex = newIndex + 1;
-
-                    //console.log("self == this?", self == this);
-
-                    //var nextItem = self.$el.find('item:eq(' + nextIndex + ')');
-
-                    //if (nextItem == null) {
-                    //    nextItem = self.$el.find('item:eq(0)');
-                    //}
-
-                    //var movedPlaylistItemId = ui.item.data('playlistitemid');
-                    //var nextPlaylistItemId = nextItem.data('playlistitemid');
-
-                    //self.model.moveItem(movedPlaylistItemId, nextPlaylistItemId);
                 }
             });
 
+            var self = this;
+            this.$el.find('.scroll').droppable({
+                tolerance: 'pointer',
+                over: function (event) {
+                    self.doAutoScroll(event);
+                },
+                drop: function () {
+                    self.stopAutoScroll();
+                },
+                out: function () {
+                    self.stopAutoScroll();
+                }
+            });
 
             return this;
         },
@@ -201,8 +184,6 @@
             if (streamItem.get('selected')) {
                 streamItemView.$el.scrollIntoView();
             }
-            
-            this.makeDraggable(element);
 
         },
         
@@ -233,55 +214,6 @@
                 selectedView.$el.scrollIntoView();
             }
 
-            this.makeDraggable(elements);
-        },
-        
-        makeDraggable: function(elements) {
-            return;
-            $(elements).draggable({
-                helper: function () {
-                    //  TODO: ClassName?
-                    var helper = $('<span>', {
-                        'class': 'videoSearchResultsLength',
-                        'text': 1
-                    });
-
-                    return helper;
-                },
-                appendTo: 'body',
-                containment: 'DOM',
-                zIndex: 1500,
-                distance: 5,
-                refreshPositions: true,
-                scroll: false,
-                cursorAt: {
-                    right: 35,
-                    bottom: 40
-                },
-                start: function (event, ui) {
-
-                    //var draggedVideoId = $(this).data('videoid');
-
-                    //console.log("VideoId:", draggedVideoId);
-
-                    //var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-                    //videoSearchResult.set('selected', true);
-                    //videoSearchResult.set('dragging', true);
-
-                },
-
-                stop: function () {
-
-                    //var draggedVideoId = $(this).data('videoid');
-                    //var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-
-                    ////  TODO: Is it really necessary to wrap this in a set timeout?
-                    //setTimeout(function () {
-                    //    videoSearchResult.set('dragging', false);
-                    //});
-
-                }
-            });
         },
         
         addElementsToStream: function (elements, loadImagesInstantly, index) {
@@ -346,7 +278,47 @@
         },
         
         emptyStreamItemList: function() {
-            this.streamItemList.empty();
+            this.streamItemList.find('.listItem').remove();
+        },
+
+        //  TODO: Keep this DRY with others. Need to create a List view which has this stuff in it.
+        doAutoScroll: function (event) {
+
+            var scrollElement = $(event.target);
+            var direction = scrollElement.data('direction');
+
+            this.streamItemList.autoscroll({
+                direction: direction,
+                step: 150,
+                scroll: true
+            });
+
+            var pageX = event.pageX;
+            var pageY = event.pageY;
+
+            //  Keep track of pageX and pageY while the mouseMoveInterval is polling.
+            this.streamItemList.on('mousemove', function (mousemoveEvent) {
+                pageX = mousemoveEvent.pageX;
+                pageY = mousemoveEvent.pageY;
+            });
+
+            //  Causes the droppable hover to stay correctly positioned.
+            this.scrollMouseMoveInterval = setInterval(function () {
+
+                var mouseMoveEvent = $.Event('mousemove');
+
+                mouseMoveEvent.pageX = pageX;
+                mouseMoveEvent.pageY = pageY;
+
+                $(document).trigger(mouseMoveEvent);
+            }, 100);
+
+        },
+
+        stopAutoScroll: function () {
+            this.streamItemList.autoscroll('destroy');
+            this.streamItemList.off('mousemove');
+            clearInterval(this.scrollMouseMoveInterval);
         }
 
     });

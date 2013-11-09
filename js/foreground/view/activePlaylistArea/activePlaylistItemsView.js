@@ -17,7 +17,7 @@ define([
         
         events: {
             'contextmenu': 'showContextMenu',
-            'click .playlistItem': 'addItemToStream'
+            'click .listItem': 'addItemToStream'
         },
         
         attributes: {
@@ -63,7 +63,7 @@ define([
                 connectWith: '#streamItemList',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder",
+                placeholder: "playlistItem sortable-placeholder",
                 forcePlaceholderSize: true,
                 scroll: false,
                 cursorAt: {
@@ -164,7 +164,7 @@ define([
 
             var element = playlistItemView.render().$el;
 
-            if (this.$el.find('.playlistItem').length > 0) {
+            if (this.$el.find('.listItem').length > 0) {
 
                 var playlistItems = this.model.get('items');
 
@@ -176,10 +176,10 @@ define([
                     var previousItemId = previousItem.get('id');
                     
                     console.log("PlaylistItem's index:", currentItemIndex);
-                    var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
+                    var previousItemElement = this.$el.find('.listItem[data-playlistitemid="' + previousItemId + '"]');
                     element.insertAfter(previousItemElement);
                 } else {
-                    element.insertBefore(this.$el.find('.playlistItem')[0]);
+                    element.insertBefore(this.$el.find('.listItem')[0]);
                 }
                 
 
@@ -256,7 +256,7 @@ define([
         
         scrollItemIntoView: function(item) {
             var itemId = item.get('id');
-            var activeItem = this.$el.find('.playlistItem[data-playlistitemid="' + itemId + '"]');
+            var activeItem = this.$el.find('.listItem[data-playlistitemid="' + itemId + '"]');
 
             if (activeItem.length > 0) {
                 activeItem.scrollIntoView(true);

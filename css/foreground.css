@@ -492,9 +492,7 @@ input[type="range"]::-webkit-slider-thumb {
     color: green;
 }
 
-.videoSearchResult,
-.playlistItem,
-.streamItem {
+.listItem {
     height: 30px;
     padding: 5px 0;
     position: relative;
@@ -503,46 +501,40 @@ input[type="range"]::-webkit-slider-thumb {
     text-overflow: ellipsis;
 }
 
-.streamItem {
+#streamItemList .listItem {
     margin-left: 10px;
     width: calc(100% - 20px);
 }
 
-.videoSearchResult:hover,
-.streamItem:hover,
-.playlistItem:hover,
+/*#streamItemList .listItem img {
+    background-color: #f2f2f2;
+}*/
+
+.listItem:hover,
 .playlist:hover {
     background: #ebebeb;
 }
 
-.streamItem:hover > .item-thumb,
-.playlistItem:hover > .item-thumb,
-#videoSearch .videoSearchResult:hover > .item-thumb {
+.listItem:hover > .item-thumb {
     background-color: #ebebeb;
 }
 
-.videoSearchResult.selected,
-.playlistItem.selected,
-.streamItem.selected,
+.listItem.selected,
 .playlist.selected {
     background: #CDDBF2;
     transition: background .3s;
 }
 
-.streamItem.selected > .item-thumb,
-.playlistItem.selected > .item-thumb,
-#videoSearch .videoSearchResult.selected .item-thumb {
+.listItem.selected > .item-thumb {
     transition: background .3s;
     background: #CDDBF2;
 }
 
-.videoSearchResult i,
-.streamItem i,
-.playlistItem i { margin-right: .5em }
+.listItem i {
+    margin-right: .5em
+}
 
-.videoSearchResult img,
-.streamItem img,
-.playlistItem img {
+.listItem img {
     display: block;
     height: 30px;
     position: absolute;
@@ -551,11 +543,7 @@ input[type="range"]::-webkit-slider-thumb {
     left: 0;
     padding-left: 5px;
     padding-right: 10px;
-}
-
-.videoSearchResult img,
-.playlistItem img {
-    background-color: white;
+    /*background-color: white;*/
 }
 
 .playlist .fa-spinner {
@@ -568,10 +556,6 @@ input[type="range"]::-webkit-slider-thumb {
 
 .playlist.loading .fa-list {
     display: none;
-}
-
-.streamItem img {
-    background-color: #f2f2f2;
 }
 
 .videoSearchResultsLength {
@@ -915,7 +899,8 @@ input.valid {
 }
 
 #addSearchResults .list {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: auto;
     position: absolute;
     top: 125px;
     left: 0;
@@ -927,17 +912,12 @@ input.valid {
     bottom: 40px;
     display: block;
     left: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     position: absolute;
     right: 0;
     top: 84.5px;
     padding-right: 0
-}
-
-#addSearchResults .list:hover,
-.stream .list:hover {
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 .right-pane .context-buttons {
@@ -1094,16 +1074,15 @@ input.valid {
     position: absolute;
 }
 
-#addSearchResults .list .scroll {
-    height: 30px;
-    width: 230px;
+.list .scroll {
+    width: 250px;
     position: fixed;
-    margin-left: 10px;
+    height: 35px;
     z-index: 1;
 }
 
-#addSearchResults .list .scroll.bottom {
-    bottom: 10px;
+.list .scroll.bottom {
+    bottom: 0;
 }
 
 #addSearchResults .divider {
@@ -1322,5 +1301,5 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 
 .sortable-placeholder {
-    background-color: red;
+    background-color: #ebebeb;
 }

@@ -9,7 +9,7 @@
 
     var VideoSearchResultView = Backbone.View.extend({
         
-        className: 'videoSearchResult',
+        className: 'listItem videoSearchResult',
 
         template: _.template(VideoSearchResultTemplate),
         
