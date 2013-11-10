@@ -480,16 +480,14 @@ input[type="range"]::-webkit-slider-thumb {
     text-shadow: 2px 1px 4px #000;}
 
 .videoSearchResult i.addToStream {
-    top: 2.5px;
+    top: 0;
     right: 0;
-    color: blue;
 }
 
 .videoSearchResult i.addToActivePlaylist {
     position: absolute;
-    bottom: 2.5px;
+    bottom: 0;
     right: 0;
-    color: green;
 }
 
 .listItem {
@@ -508,7 +506,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .listItem i.delete {
     position: absolute;
-    top: 2px;
+    top: 0;
     right: 0;
     display: none;
     cursor: pointer;
@@ -518,12 +516,17 @@ input[type="range"]::-webkit-slider-thumb {
     display: block;
 }
 
+.listItem > i.hoverable {
+    padding: 2.5px;
+    margin-right: 0;
+}
+
 .listItem:hover,
 .playlist:hover {
     background: #ebebeb;
 }
 
-.listItem:hover > i.delete,
+.listItem:hover > i.hoverable,
 .listItem:hover > .item-thumb {
     background-color: #ebebeb;
 }
@@ -534,7 +537,7 @@ input[type="range"]::-webkit-slider-thumb {
     transition: background .3s;
 }
 
-.listItem.selected > i.delete,
+.listItem.selected > i.hoverable,
 .listItem.selected > .item-thumb {
     transition: background .3s;
     background: #CDDBF2;

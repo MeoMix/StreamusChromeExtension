@@ -276,23 +276,32 @@
             //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
             setTimeout(function () {
 
-                var elementsInViewport = _.filter(elements, function (element) {
-                    return $.inviewport(element, { threshold: 100, container: window });
-                });
-                    
-                var elementsNotInViewport = _.filter(elements, function (element) {
-                    return !$.inviewport(element, { threshold: 100, container: window });
-                });
+                if (_.isArray(elements)) {
+                    var elementsInViewport = _.filter(elements, function (element) {
+                        return $.inviewport(element, { threshold: 100, container: window });
+                    });
 
-                $(elementsInViewport).find('img.lazy').lazyload({
-                    container: self.list
-                });
-                    
-                $(elementsNotInViewport).find('img.lazy').lazyload({
-                    effect: 'fadeIn',
-                    threshold: 500,
-                    container: self.list
-                });
+                    var elementsNotInViewport = _.filter(elements, function (element) {
+                        return !$.inviewport(element, { threshold: 100, container: window });
+                    });
+
+                    $(elementsInViewport).find('img.lazy').lazyload({
+                        container: self.list
+                    });
+
+                    $(elementsNotInViewport).find('img.lazy').lazyload({
+                        effect: 'fadeIn',
+                        threshold: 500,
+                        container: self.list
+                    });
+                } else {
+                    var isInViewport = $.inviewport(elements, { threshold: 100, container: window });
+                    $(elements).find('img.lazy').lazyload({
+                        effect: isInViewport ? undefined : 'fadeIn',
+                        threshold: 500,
+                        container: self.list
+                    });
+                }
 
             });
             
