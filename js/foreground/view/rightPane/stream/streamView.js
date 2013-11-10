@@ -42,9 +42,9 @@
             if (StreamItems.length > 0) {
                 
                 if (StreamItems.length === 1) {
-                    this.addItem(StreamItems.at(0), true);
+                    this.addItem(StreamItems.at(0));
                 } else {
-                    this.addItems(StreamItems.models, true);
+                    this.addItems(StreamItems.models);
                 }
                 
                 var streamItems = this.list.find('.listItem');
@@ -208,8 +208,8 @@
             
         },
         
-        addItem: function (streamItem, loadImagesInstantly) {
-            console.log("StreamItem:", streamItem, loadImagesInstantly);
+        addItem: function (streamItem) {
+
             var streamItemView = new StreamItemView({
                 model: streamItem
             });
@@ -218,7 +218,7 @@
             console.log("Item index:", index);
 
             var element = streamItemView.render().el;
-            this.addElementsToStream(element, loadImagesInstantly, index);
+            this.addElementsToStream(element, index);
             
             if (streamItem.get('selected')) {
                 streamItemView.$el.scrollIntoView();
@@ -226,7 +226,7 @@
 
         },
         
-        addItems: function (streamItems, loadImagesInstantly) {
+        addItems: function (streamItems) {
 
             var streamItemViews = _.map(streamItems, function(streamItem) {
 
@@ -240,7 +240,7 @@
                 return streamItemView.render().el;
             });
 
-            this.addElementsToStream(elements, loadImagesInstantly);
+            this.addElementsToStream(elements);
 
             var selectedStreamItem = _.find(streamItems, function(streamItem) {
                 return streamItem.get('selected') === true;
@@ -255,7 +255,7 @@
 
         },
         
-        addElementsToStream: function (elements, loadImagesInstantly, index) {
+        addElementsToStream: function (elements, index) {
             console.log("Index:", index);
             if (index !== undefined) {
                 
@@ -276,8 +276,20 @@
             //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
             setTimeout(function () {
 
-                $(elements).find('img.lazy').lazyload({
-                    effect: loadImagesInstantly ? undefined : 'fadeIn',
+                var elementsInViewport = _.filter(elements, function (element) {
+                    return $.inviewport(element, { threshold: 100, container: window });
+                });
+                    
+                var elementsNotInViewport = _.filter(elements, function (element) {
+                    return !$.inviewport(element, { threshold: 100, container: window });
+                });
+
+                $(elementsInViewport).find('img.lazy').lazyload({
+                    container: self.list
+                });
+                    
+                $(elementsNotInViewport).find('img.lazy').lazyload({
+                    effect: 'fadeIn',
                     threshold: 500,
                     container: self.list
                 });

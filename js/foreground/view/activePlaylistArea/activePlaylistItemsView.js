@@ -42,11 +42,27 @@ define([
             var self = this;
             this.incrementalRender(playlistItemChunks, function () {
 
-                self.$el.find('img.lazy').lazyload({
-                    container: self.$el,
+                var lazyImages = self.$el.find('img.lazy');
+    
+                var lazyImagesInViewport = _.filter(lazyImages, function (lazyImage) {
+                    return $.inviewport(lazyImage, { threshold: 100, container: window });
+                });
+                    
+                var lazyImagesNotInViewport = _.filter(lazyImages, function (lazyImage) {
+                    return !$.inviewport(lazyImage, { threshold: 100, container: window });
+                });
+                
+                $(lazyImagesInViewport).lazyload({
+                    container: self.list
+                });
+                    
+                $(lazyImagesNotInViewport).lazyload({
+                    effect: 'fadeIn',
                     threshold: 500,
+                    container: self.list,
                     event: 'scroll manualShow'
                 });
+
             });
             
             this.$el.find('.scroll').droppable({
@@ -216,15 +232,16 @@ define([
  
             } else {
 
-                //  TODO: Not very good practice to remove it like this.
                 $('.big-text').remove();
-    
                 element.appendTo(this.$el);
             }
 
+            var inViewport = $.inviewport(element, { threshold: 100, container: window });
+
             var self = this;
             element.find('img.lazy').lazyload({
-                effect: 'fadeIn',
+                //  Looks bad to fade in when the item should just be visible.
+                effect: inViewport ? undefined : 'fadeIn',
                 container: self.$el,
                 threshold: 500,
                 event: 'scroll manualShow'
