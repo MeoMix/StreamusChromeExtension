@@ -34,7 +34,8 @@
         },
         
         render: function () {
-
+            var self = this;
+            
             this.$el.html(this.template(this.model.toJSON()));
             this.list = this.$el.children('#streamItemList');
 
@@ -53,6 +54,7 @@
                 //  appended to the DOM yet -- scrollIntoView will not have an effect. Letting the stack clear resolves this.
                 setTimeout(function () {
                     selectedStreamItem.scrollIntoView(false);
+                    self.list.trigger('scroll');
                 });
   
             }
@@ -70,7 +72,6 @@
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
 
-            var self = this;
             this.list.sortable({
 
                 //  Adding this helps prevent unwanted clicks to play
@@ -168,6 +169,11 @@
             
             this.listenTo(StreamItems, 'remove', function () {
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
+                this.list.trigger('scroll');
+            });
+
+            this.listenTo(StreamItems, 'change:selected', function() {
+                this.list.find('.listItem.selected').scrollIntoView(true);
                 this.list.trigger('scroll');
             });
             

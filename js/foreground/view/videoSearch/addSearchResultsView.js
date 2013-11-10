@@ -153,25 +153,33 @@
         show: function () {
 
             //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('background', this.$el.css('background')).transition({
-                'background': 'rgba(0, 0, 0, 0.5)'
+
+            var backgroundColor = this.$el.css('background-color');
+            console.log("backgroundColor:", backgroundColor);
+
+            this.$el.data('backgroundColor', backgroundColor).transition({
+                'background-color': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
+            var transitionX = -1 * this.$el.width();
+            console.log("TransitionX", transitionX);
+
             this.panel.transition({
-                x: -1 * this.$el.width()
+                x: transitionX
             }, 'snap');
 
         },
         
         destroyModel: function () {
+            console.log("destroying model");
             this.model.destroy();
         },
 
         hide: function () {
             var self = this;
-
+            console.log("Hiding");
             this.$el.transition({
-                'background': this.$el.data('background')
+                'background-color': this.$el.data('backgroundColor')
             }, function () {
                 self.remove();
             });
