@@ -36,9 +36,7 @@ define([
         videoDisplayButtonView: null,
 
         render: function () {
-            var self = this;
-            console.log('I am render');
-            
+ 
             this.$el.html(this.template(
                 _.extend({
                     //  Mix in chrome to reference internationalize.
@@ -237,8 +235,6 @@ define([
         },
         
         show: function () {
-
-            console.log("Showing");
 
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({

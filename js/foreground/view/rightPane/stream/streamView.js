@@ -151,7 +151,6 @@
                 //  Prevent stuttering of tooltips and general oddities by being specific with accept
                 accept: '.listItem:not(.videoSearchResult)',
                 over: function (event) {
-                    console.log("Over event:", event);
                     self.doAutoScroll(event);
                 },
                 drop: function () {
@@ -215,7 +214,6 @@
             });
 
             var index = StreamItems.indexOf(streamItem);
-            console.log("Item index:", index);
 
             var element = streamItemView.render().el;
             this.addElementsToStream(element, index);
@@ -248,7 +246,6 @@
             
             var selectedView = _.findWhere(streamItemViews, { model: selectedStreamItem });
             
-            console.log("Selected selectedView:", selectedView, selectedStreamItem);
             if (selectedView !== undefined) {
                 selectedView.$el.scrollIntoView();
             }
@@ -256,12 +253,11 @@
         },
         
         addElementsToStream: function (elements, index) {
-            console.log("Index:", index);
+
             if (index !== undefined) {
                 
                 var previousStreamItem = this.list.children().eq(index + 1);
-                console.log("Previous Stream Item:", previousStreamItem);
-                
+     
                 if (previousStreamItem.length > 0) {
                     previousStreamItem.after(elements);
                 } else {

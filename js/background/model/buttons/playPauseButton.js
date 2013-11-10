@@ -29,7 +29,6 @@ define([
                 if (Player.isPlaying()) {
                     Player.pause();
                 } else {
-                    console.log("Calling player play");
                     Player.play();
                 }
                 

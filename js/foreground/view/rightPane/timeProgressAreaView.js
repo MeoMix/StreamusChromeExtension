@@ -68,8 +68,6 @@ define([
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.timeRange.val());
 
-            console.log("CurrentTime:", currentTime);
-
             this.setCurrentTime(currentTime + delta);
 
             Player.seekTo(currentTime + delta);
@@ -102,10 +100,6 @@ define([
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.timeRange.val());
-
-                console.log("CurrentTime:", currentTime);
-                console.log("But what about?", this.$el.find('.time-slider input.timeRange').val());
-
                 Player.seekTo(currentTime);
             }
 

@@ -21,7 +21,6 @@ define([
         },
 
         render: function () {
-            console.log("i'm rendering!");
             this.$el.html(this.template());
 
             var disabled = StreamItems.length === 0;
@@ -42,7 +41,6 @@ define([
         },
         
         clearStream: function () {
-            console.log("Clearing stream");
             StreamAction.clearStream();
         }
         

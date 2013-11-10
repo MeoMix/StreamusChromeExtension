@@ -19,13 +19,9 @@
                 throw "Not Supported Yet";
             }
 
-            console.log("hi");
-
             var newItems = this.filter(function (item) {
                 return item.isNew();
             });
-
-            console.log("this and newItems", this, newItems, newItems.length, this.length);
 
             if (newItems.length === 1) {
                 
@@ -37,7 +33,6 @@
             }
             else if (newItems.length > 1) {
 
-                console.log("NewItems length is greater than 1");
                 //  Otherwise revert to a CreateMultiple
                 $.ajax({
                     url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
@@ -47,8 +42,6 @@
                     data: JSON.stringify(newItems),
                     success: function(createdItems) {
 
-                        console.log("Successfully created multiple", createdItems);
-                        
                         //  For each of the createdItems, remap properties back to the old items.
                         _.each(createdItems, function (createdItem) {
 
@@ -62,7 +55,6 @@
                             matchingNewItem.set(parsedNewItem);
                         });
 
-                        console.log("Callling success");
                         self.trigger('sync');
 
                         //  TODO: Pass intelligent paramaters back to options.success

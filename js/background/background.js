@@ -51,8 +51,6 @@ define([
                     selectedStreamItem.get('title')
                 );
 
-                console.log("Created notification, showing");
-
                 notification.show();
 
                 setTimeout(function() {

@@ -222,8 +222,7 @@ define([
                 
                 if (previousItem) {
                     var previousItemId = previousItem.get('id');
-                    
-                    console.log("PlaylistItem's index:", currentItemIndex);
+
                     var previousItemElement = this.$el.find('.listItem[data-playlistitemid="' + previousItemId + '"]');
                     element.insertAfter(previousItemElement);
                 } else {

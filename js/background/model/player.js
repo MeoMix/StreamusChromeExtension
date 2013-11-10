@@ -123,8 +123,6 @@ define([
                     events: {
                         'onReady': function () {
 
-                            console.log("Setting player volume and isMuted", youTubePlayer.getVolume(), youTubePlayer.isMuted());
-
                             self.set('muted', youTubePlayer.isMuted());
                             self.set('volume', youTubePlayer.getVolume());
                             self.pause();
@@ -133,7 +131,6 @@ define([
                             self.set('ready', true);
                         },
                         'onStateChange': function (state) {
-                            console.log("State has changed:", state);
                             self.set('state', state.data);
                         },
                         'onError': function (error) {
@@ -218,8 +215,6 @@ define([
   
             if (!this.isPlaying()) {
                 this.set('state', PlayerState.BUFFERING);
-                console.log("Set to buffering, calling play");
-                console.trace();
                 youTubePlayer.playVideo();
             }
         },
@@ -230,9 +225,7 @@ define([
         playOnceVideoChanges: function() {
             var self = this;
 
-            console.log("Playing once the video chances!");
             this.once('change:loadedVideoId', function () {
-                console.log("loadedVideoId has changed PLAYING!");
                 setTimeout(function () {
                     self.play();
                 });
@@ -247,7 +240,6 @@ define([
             var state = this.get('state');
             
             if (state === PlayerState.UNSTARTED || state === PlayerState.VIDCUED) {
-                console.log("LoadedVideoId:", timeInSeconds);
                 this.cueVideoById(this.get('loadedVideoId'), timeInSeconds);
             } else {
                 

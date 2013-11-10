@@ -75,14 +75,10 @@ define([
                     //  Maintain the state of the player by playing or cueuing based on current player state.
                     var playerState = Player.get('state');
 
-                    console.log("StreamItems change selected has fired:", videoId);
-
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
                     if (playerState === PlayerState.PLAYING || playerState === PlayerState.ENDED) {
-                        console.log("PlayerState:", playerState);
                         Player.loadVideoById(videoId);
                     } else {
-                        console.log("Cueuing video");
                         Player.cueVideoById(videoId);
                     }
                 }
@@ -98,7 +94,6 @@ define([
 
             this.on('remove', function (removedStreamItem, collection, options) {
 
-                console.log("Removing stream item");
                 //  TODO: I Don't think I need to call destroy here, being overly careful need to double check though.
 
                 removedStreamItem.destroy();
@@ -165,15 +160,11 @@ define([
         
         searchAndAddByName: function(videoTitle, playOnAdd, callback) {
             var self = this;
-
-            console.log("Searching for:", videoTitle);
-
+            
             YouTubeDataAPI.search({
                 text: videoTitle,
                 maxResults: 10,
                 success: function (videoInformationList) {
-
-                    console.log("VideoInformationList:", videoInformationList);
 
                     if (videoInformationList.length === 0) {
                         console.error("Failed to find any videos for:", videoTitle);
@@ -440,7 +431,7 @@ define([
 
                 //  Select the next item by index. Potentially loop around to the front.
                 if (nextItemIndex === this.length) {
-                    console.log("Selecting next item by looping around to the front");
+
                     if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
                         this.at(0).set('selected', true);
 
@@ -529,7 +520,6 @@ define([
         },
         
         clear: function () {
-            console.log("Clear");
             this.bannedVideoIdList = [];
             this.reset();
             this.trigger('empty');

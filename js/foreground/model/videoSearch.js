@@ -45,8 +45,7 @@
                     //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);
 
                     //if (searchQueryPrefix === playlistIndicator) {
-                    //    console.log("Match", searchQueryPrefix);
-                        
+
                     //    searchJqXhr = YouTubeDataAPI.searchPlaylist({
                     //        text: searchQuery.substring(playlistIndicator.length + 1),
                     //        success: function (playlistInformationList) {

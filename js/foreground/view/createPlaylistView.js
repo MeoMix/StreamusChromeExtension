@@ -53,9 +53,7 @@
                 if (youTubeSource !== '') {
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = YouTubeDataAPI.parseUrlForDataSource(youTubeSource);
-
-                    console.log('parsed datasource:', dataSource);
-
+                    
                     self.youTubeSourceInput.data('datasource', dataSource);
                 
                     switch (dataSource.type) {
@@ -108,18 +106,16 @@
             //  If all submittable fields indicate themselves as valid -- allow submission.
             var valid = this.$el.find('.submittable.invalid').length === 0;
 
-            console.log("Am I valid?", valid);
-
             return valid;
         },
 
         save: function () {
-            console.log("Saving...");
+
             var activeFolder = Folders.getActiveFolder();
 
             var dataSource = this.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.playlistTitleInput.val());
-            console.log("DataSource:", dataSource);
+
             if (dataSource != '') {
                 
                 activeFolder.addPlaylistByDataSource(playlistName, dataSource);

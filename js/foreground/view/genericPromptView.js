@@ -45,8 +45,6 @@
         
         initialize: function (options) {
 
-            console.log("Options:", options);
-
             this.title = options.title;
             this.okButonText = options.okButtonText || this.okButonText;
             this.cancelButtonText = options.cancelButtonText || this.cancelButtonText;

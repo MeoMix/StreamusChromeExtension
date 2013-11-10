@@ -53,8 +53,6 @@ define([
     //  Public exposure of a constructor for building new PlaylistItem objects.
     return function (config) {
 
-        console.log("PlaylistItem config:", config);
-        
         //  Default the PlaylistItem's title to the Video's title, but allow overriding.
         if (config && config.title === undefined || config.title === '') {
             //  Support data coming straight from the server and being used to initialize

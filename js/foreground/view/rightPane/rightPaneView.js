@@ -51,8 +51,6 @@ define([
         
         initialize: function (options) {
 
-            console.log("Initializing right pane view.");
-
             if (options.activeFolder == null) throw "RightPaneView expects to be initialized with an activeFolder";
 
             this.activeFolder = options.activeFolder;
@@ -60,8 +58,6 @@ define([
             this.streamView = new StreamView({
                 model: options.activeFolder
             });
-            
-            console.log("Radio Button:", chrome.extension.getBackgroundPage().RadioButton);
             
             //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
             this.previousButtonView = new PreviousButtonView({
@@ -75,8 +71,6 @@ define([
             this.nextButtonView = new NextButtonView({
                 model: chrome.extension.getBackgroundPage().NextButton
             });
-
-            console.log("Video Display Button:", chrome.extension.getBackgroundPage().VideoDisplayButton);
 
             this.videoDisplayButtonView = new VideoDisplayButtonView({
                 model: chrome.extension.getBackgroundPage().VideoDisplayButton

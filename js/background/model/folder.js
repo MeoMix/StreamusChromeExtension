@@ -215,14 +215,10 @@ define([
             playlist.save({}, {
                 success: function () {
 
-                    console.log("Saved");
-
                     self.get('playlists').push(playlist);
 
-                    console.log("Needs loading?", needsLoading);
-                    
                     if (needsLoading) {
-                        console.log("Loading dataSource");
+
                         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                         YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {
 

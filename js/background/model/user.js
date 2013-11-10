@@ -28,8 +28,7 @@ define([
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
-            console.log("user is initializing");
-            
+
             chrome.storage.sync.set({
                 'dirty': false
             });
@@ -163,13 +162,12 @@ define([
                                 googlePlusId: response.id
                             },
                             success: function(userDto) {
-                                console.log("UserDto:", userDto);
+
                                 if (userDto && userDto.id !== null) {
-                                    console.log("Setting from DTO");
+
                                     user.set(userDto);
                                 } else {
-                                    console.log("Load from storage.sync if possible, or create new.");
-
+             
                                     this.tryLoginFromStorage();
 
                                 }

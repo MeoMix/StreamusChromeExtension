@@ -209,7 +209,7 @@ define([
             playlistItem.save({}, {
 
                 success: function () {
-                    console.log("Pushing playlistItem:", playlistItem);
+
                     self.get('items').add(playlistItem);
                     //  TODO: Consider just incrementing displayInfo instead of re-calculating if it becomes too expensive... should be ok though
                     self.setDisplayInfo();
@@ -229,8 +229,6 @@ define([
             
         addByVideos: function (videos, callback) {
             
-            console.log("Calling addItems with videos:", videos);
-
             //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
             if (videos.length === 1) {
                 return this.addByVideo(videos[0], callback);
@@ -248,8 +246,6 @@ define([
 
                 itemsToSave.push(playlistItem);
             });
-
-            console.log("Saving some videos", videos.length);
 
             itemsToSave.save({}, {
                 success: function () {

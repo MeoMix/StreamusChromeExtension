@@ -238,9 +238,6 @@ define([
                     strict: true
                 },
                 success: function (result) {
-
-                    console.log("Result:", result);
-
                     options.success(result.feed.entry || []);
                 },
                 error: function (error) {
