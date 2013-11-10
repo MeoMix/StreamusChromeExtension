@@ -148,11 +148,9 @@ define([
                 });
 
                 request.execute(function (response) {
-                    console.log("Response:", response);
-
+          
                     if (response && response.id && response.id.length > 0) {
-                        console.log("Setting user's googlePlusId");
-
+         
                         $.ajax({
                             url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
                             type: 'GET',
@@ -280,7 +278,6 @@ define([
     });
     
     function onUserLoaded(model, shouldSetSyncStorage) {
-        console.log("user loaded, setting folders");
         //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
         Folders.reset(this.get('folders'));
 
@@ -308,7 +305,6 @@ define([
         }
 
         //  Announce that user has loaded so managers can use it to fetch data.
-        console.log("About to set loaded to true:", this);
         this.set('loaded', true);
         Settings.set('userId', this.get('id'));
     }
@@ -323,7 +319,6 @@ define([
         this.set('loaded', false);
         this.fetch({
             success: function (model) {
-                console.log("fetched");
                 onUserLoaded.call(self, model, shouldSetSyncStorage);
             },
             error: function (error) {
@@ -333,7 +328,6 @@ define([
                 //  Its OK to reset the user for debugging purposes. It is NOT ok to reset the user in deployment.
                 if (Settings.get('localDebug')) {
 
-                    console.log("Creating new user.");
                     self.set('id', null);
                     //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
                     self.save({}, {
