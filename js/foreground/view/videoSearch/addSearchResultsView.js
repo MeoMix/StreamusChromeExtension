@@ -1,15 +1,16 @@
 ﻿define([
     'text!../template/addSearchResults.htm',
+    'genericScrollableView',
     'streamItems',
     'videoSearchResults',
     'addSearchResultOption',
     'addSearchResultOptionView',
     'addSearchResultOptionType',
     'utility'
-], function (AddSearchResultsTemplate, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType, Utility) {
+], function (AddSearchResultsTemplate, GenericScrollableView, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType, Utility) {
     'use strict';
 
-    var AddSearchResultsView = Backbone.View.extend({
+    var AddSearchResultsView = GenericScrollableView.extend({
 
         template: _.template(AddSearchResultsTemplate),
         
@@ -177,45 +178,6 @@
                 x: 0
             }, 'snap');
 
-        },
-        
-        doAutoScroll: function (event) {
-
-            var scrollElement = $(event.target);
-            var direction = scrollElement.data('direction');
-
-            this.list.autoscroll({
-                direction: direction,
-                step: 150,
-                scroll: true
-            });
-
-            var pageX = event.pageX;
-            var pageY = event.pageY;
-            
-            //  Keep track of pageX and pageY while the mouseMoveInterval is polling.
-            this.list.on('mousemove', function (mousemoveEvent) {
-                pageX = mousemoveEvent.pageX;
-                pageY = mousemoveEvent.pageY;
-            });
-
-            //  Causes the droppable hover to stay correctly positioned.
-            this.scrollMouseMoveInterval = setInterval(function() {
-
-                var mouseMoveEvent = $.Event('mousemove');
-                
-                mouseMoveEvent.pageX = pageX;
-                mouseMoveEvent.pageY = pageY;
-
-                $(document).trigger(mouseMoveEvent);
-            }, 100);
-
-        },
-        
-        stopAutoScroll: function () {
-            this.list.autoscroll('destroy');
-            this.list.off('mousemove');
-            clearInterval(this.scrollMouseMoveInterval);
         }
 
     });

@@ -1,15 +1,16 @@
 ﻿//  TODO: Is this the activePlaylistView now?
 //  Represents the videos in a given playlist
 define([
+    'genericScrollableView',
     'contextMenuGroups',
     'streamItems',
     'playlistItemView',
     'text!../template/activePlaylistItems.htm',
     'utility'
-], function (ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
+], function (GenericScrollableView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';
 
-    var ActivePlaylistItemsView = Backbone.View.extend({
+    var ActivePlaylistItemsView = GenericScrollableView.extend({
         
         className: 'left-list',
 
@@ -47,6 +48,19 @@ define([
                 });
             });
             
+            this.$el.find('.scroll').droppable({
+                tolerance: 'pointer',
+                over: function (event) {
+                    self.doAutoScroll(event);
+                },
+                drop: function () {
+                    self.stopAutoScroll();
+                },
+                out: function () {
+                    self.stopAutoScroll();
+                }
+            });
+            
             return this;
         },
         
@@ -63,8 +77,7 @@ define([
                 connectWith: '#streamItemList',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "playlistItem sortable-placeholder",
-                forcePlaceholderSize: true,
+                placeholder: "sortable-placeholder listItem",
                 scroll: false,
                 cursorAt: {
                     right: 35,
@@ -74,7 +87,8 @@ define([
                 helper: function (ui, playlistItem) {
                     
                     this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
-                    
+                    this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
+
                     $(this).data('copied', false);
 
                     return $('<span>', {
@@ -82,20 +96,30 @@ define([
                         'text': 1
                     });
                 },
+                start: function () {
+                    $('body').addClass('dragging');
+                },
                 stop: function () {
+                    $('body').removeClass('dragging');
                     var copied = $(this).data('copied');
 
-                    if (!copied) {
+                    if (copied) {
+                        this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
+                    }
+                    else{
                         this.copyHelper.remove();
                     }
 
                     this.copyHelper = null;
                 },
                 receive: function (event, ui) {
-
+                    console.log("Event/UI", event, ui);
                     var streamItemId = $(ui.item).data('streamitemid');
                     var draggedStreamItem = StreamItems.get(streamItemId);
-                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index());
+
+                    console.log("Dragged Stream Item:", draggedStreamItem, ui.item.index('.playlistItem'), ui.item.index('.listItem'));
+
+                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index('.listItem'));
                     $(ui.item).remove();
 
                     ui.sender.data('copied', true);
@@ -106,18 +130,22 @@ define([
 
                     console.log("Update:", event, ui);
 
-                    return;
-                   
                     var index = parseInt(ui.item.index());
+
+                    console.log("Index:", index);
 
                     var sequence = self.model.getSequenceFromIndex(index);
 
+                    console.log("Sequence:", sequence);
+                    var playlistItemId = ui.item.data('playlistitemid');
+                    var item = self.model.get('items').get(playlistItemId);
+                    
                     item.set('sequence', sequence);
                     item.save();
                     self.model.get('items').sort();
                 }
             });
-
+            
             this.listenTo(this.model.get('items'), 'add', this.addItem);
             
             this.listenTo(this.model.get('items'), 'empty', this.render);
@@ -262,7 +290,7 @@ define([
                 activeItem.scrollIntoView(true);
             }
         }
-        
+
     });
 
     return ActivePlaylistItemsView;

@@ -167,7 +167,7 @@ define([
         },
         
         addByVideoAtIndex: function (video, index) {
-
+            console.log("Index:", index);
             var sequence = this.getSequenceFromIndex(index);
 
             console.log("Index and Sequence:", index, sequence);

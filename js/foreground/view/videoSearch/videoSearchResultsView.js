@@ -60,8 +60,9 @@
                 cursorAt: {
                     right: 35,
                     bottom: 40
-                },
+                },               
                 start: function (event, ui) {
+                    $('body').addClass('dragging');
 
                     var draggedVideoId = $(this).data('videoid');
 
@@ -75,6 +76,7 @@
                 
                 stop: function () {
 
+                    $('body').removeClass('dragging');
                     var draggedVideoId = $(this).data('videoid');
                     var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
 

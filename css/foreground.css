@@ -230,10 +230,19 @@ body { font: 13px/1.2 sans-serif }
     line-height: 1.5
 }
 
+.item-title-wrapper {
+    margin-left: 55px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#addSearchResults .itemWrapper .item-title-wrapper {
+    margin-left: 0;
+}
+
 .item-title {
     font-size: 1.0em;
     white-space: nowrap;
-    padding-left: 55px;
     font-weight: bold;
     color: #333;
 }
@@ -1074,11 +1083,32 @@ input.valid {
     position: absolute;
 }
 
+.scroll {
+    position: fixed;
+    height: 40px;
+    z-index: 1;
+    display: none;
+}
+
+.left-list .scroll {
+    width: 360px;
+}
+
 .list .scroll {
     width: 250px;
-    position: fixed;
-    height: 35px;
-    z-index: 1;
+}
+
+body.dragging .scroll {
+    display: block;
+}
+
+#streamItemList .scroll.top {
+    top: 85px;
+}
+
+#activePlaylistItems .scroll.bottom,
+#streamItemList .scroll.bottom {
+    bottom: 30px;
 }
 
 .list .scroll.bottom {
@@ -1124,11 +1154,8 @@ input.valid {
 }
 
 #addSearchResults .addItemOption {
-    height: 50px;
-    margin-top: 5px;
-    margin-left: 10px;
-    margin-bottom: 5px;
-    margin-right: 10px;
+    height: 45px;
+    margin: 5px 10px;
 }
 
 #activeFolderArea .header span {

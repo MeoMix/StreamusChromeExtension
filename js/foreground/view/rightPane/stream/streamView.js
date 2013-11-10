@@ -1,4 +1,5 @@
 ﻿define([
+    'genericScrollableView',
     'streamItems',
     'streamItemView',
     'text!../template/streamView.htm',
@@ -11,10 +12,10 @@
     'utility',
     'streamAction',
     'folders'
-], function (StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility, StreamAction, Folders) {
+], function (GenericScrollableView, StreamItems, StreamItemView, StreamViewTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView, ContextMenuGroups, Utility, StreamAction, Folders) {
     'use strict';
     
-    var StreamView = Backbone.View.extend({
+    var StreamView = GenericScrollableView.extend({
         
         className: 'stream',
         
@@ -23,8 +24,8 @@
         repeatButtonView: null,
         saveStreamButtonView: null,
         clearStreamButtonView: null,
-        
-        streamItemList: null,
+
+        list: null,
 
         template: _.template(StreamViewTemplate),
         
@@ -35,7 +36,7 @@
         render: function () {
 
             this.$el.html(this.template(this.model.toJSON()));
-            this.streamItemList = this.$el.children('#streamItemList');
+            this.list = this.$el.children('#streamItemList');
 
             if (StreamItems.length > 0) {
                 
@@ -45,7 +46,7 @@
                     this.addItems(StreamItems.models, true);
                 }
                 
-                var streamItems = this.streamItemList.find('.listItem');
+                var streamItems = this.list.find('.listItem');
                 var selectedStreamItem = streamItems.filter('.selected');
 
                 //  It's important to wrap scrollIntoView with a setTimeout because if streamView's element has not been
@@ -69,7 +70,8 @@
             leftGroupContextButtons.append(this.repeatButtonView.render().el);
             leftGroupContextButtons.append(this.radioButtonView.render().el);
 
-            this.streamItemList.sortable({
+            var self = this;
+            this.list.sortable({
 
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
@@ -77,7 +79,7 @@
                 connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder streamItem",
+                placeholder: "sortable-placeholder listItem",
                 forcePlaceholderSize: true,
                 scroll: false,
                 cursorAt: {
@@ -85,9 +87,10 @@
                     bottom: 40
                 },
                 tolerance: 'pointer',
-                helper: function (ui, streamItem) {
+                helper: function (ui, playlistItem) {
                     
-                    this.copyHelper = streamItem.clone().insertAfter(streamItem);
+                    this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
+                    this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
 
                     $(this).data('copied', false);
 
@@ -96,10 +99,18 @@
                         'text': 1
                     });
                 },
+                start: function () {
+                    $('body').addClass('dragging');
+                },
                 stop: function () {
+                    $('body').removeClass('dragging');
+
                     var copied = $(this).data('copied');
 
-                    if (!copied) {
+                    if (copied) {
+                        this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
+                    }
+                    else {
                         this.copyHelper.remove();
                     }
 
@@ -110,17 +121,16 @@
                     var playlistItemId = $(ui.item).data('playlistitemid');
                     var draggedPlaylistItem = Folders.getActiveFolder().getActivePlaylist().get('items').get(playlistItemId);
 
-                    console.log("Dragged index:", ui.item.index());
-
                     StreamItems.addByDraggedPlaylistItem(draggedPlaylistItem, ui.item.index());
                     $(ui.item).remove();
  
                     ui.sender.data('copied', true);
-
+                },
+                update: function() {
+                    
                 }
             });
 
-            var self = this;
             this.$el.find('.scroll').droppable({
                 tolerance: 'pointer',
                 over: function (event) {
@@ -146,7 +156,7 @@
             
             this.listenTo(StreamItems, 'remove', function () {
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
-                this.streamItemList.trigger('scroll');
+                this.list.trigger('scroll');
             });
             
             //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
@@ -220,16 +230,17 @@
             console.log("Index:", index);
             if (index !== undefined) {
                 
-                var previousStreamItem = this.streamItemList.children().eq(index);
+                var previousStreamItem = this.list.children().eq(index + 1);
+                console.log("Previous Stream Item:", previousStreamItem);
                 
                 if (previousStreamItem.length > 0) {
                     previousStreamItem.after(elements);
                 } else {
-                    this.streamItemList.append(elements);
+                    this.list.append(elements);
                 }
                 
             } else {
-                this.streamItemList.append(elements);
+                this.list.append(elements);
             }
 
             //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
@@ -237,7 +248,7 @@
 
                 $(elements).find('img.lazy').lazyload({
                     effect: loadImagesInstantly ? undefined : 'fadeIn',
-                    container: this.streamItemList
+                    container: this.list
                 });
 
             });
@@ -278,47 +289,7 @@
         },
         
         emptyStreamItemList: function() {
-            this.streamItemList.find('.listItem').remove();
-        },
-
-        //  TODO: Keep this DRY with others. Need to create a List view which has this stuff in it.
-        doAutoScroll: function (event) {
-
-            var scrollElement = $(event.target);
-            var direction = scrollElement.data('direction');
-
-            this.streamItemList.autoscroll({
-                direction: direction,
-                step: 150,
-                scroll: true
-            });
-
-            var pageX = event.pageX;
-            var pageY = event.pageY;
-
-            //  Keep track of pageX and pageY while the mouseMoveInterval is polling.
-            this.streamItemList.on('mousemove', function (mousemoveEvent) {
-                pageX = mousemoveEvent.pageX;
-                pageY = mousemoveEvent.pageY;
-            });
-
-            //  Causes the droppable hover to stay correctly positioned.
-            this.scrollMouseMoveInterval = setInterval(function () {
-
-                var mouseMoveEvent = $.Event('mousemove');
-
-                mouseMoveEvent.pageX = pageX;
-                mouseMoveEvent.pageY = pageY;
-
-                $(document).trigger(mouseMoveEvent);
-            }, 100);
-
-        },
-
-        stopAutoScroll: function () {
-            this.streamItemList.autoscroll('destroy');
-            this.streamItemList.off('mousemove');
-            clearInterval(this.scrollMouseMoveInterval);
+            this.list.find('.listItem').remove();
         }
 
     });

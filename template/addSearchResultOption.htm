@@ -1,7 +1,9 @@
 ﻿<i class="droppable <%= type === AddSearchResultOptionType.PLAYLIST ? 'fa fa-list' : 'fa fa-music' %>"></i>
 <i class="fa fa-check dropped hidden"></i>
 <div class="itemWrapper">
-    <span class="item-title"><%- title %></span>
+    <div class="item-title-wrapper">
+        <span class="item-title"><%- title %></span>
+    </div>
 
     <span class="item-details">
         <span class="item-count">

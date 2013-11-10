@@ -96,6 +96,7 @@ require.config({
         'dialogView': 'foreground/view/dialogView',
         'editPlaylistView': 'foreground/view/editPlaylistView',
         'genericPromptView': 'foreground/view/genericPromptView',
+        'genericScrollableView': 'foreground/view/genericScrollableView',
         'reloadView': 'foreground/view/reloadView',
         'saveVideosView': 'foreground/view/saveVideosView',
         'settingsView': 'foreground/view/settingsView',
