@@ -126,8 +126,17 @@
  
                     ui.sender.data('copied', true);
                 },
-                update: function() {
+                update: function (event, ui) {
                     
+                    var streamItemId = ui.item.data('streamitemid');
+
+                    //  Don't run this code when handling playlist items -- only when reorganizing stream items.
+                    if (this === ui.item.parent()[0] && streamItemId) {
+                        //  It's important to do this to make sure I don't count my helper elements in index.
+                        var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                        var currentIndex = StreamItems.indexOf(StreamItems.get(streamItemId));
+                        StreamItems.models.splice(newIndex, 0, StreamItems.models.splice(currentIndex, 1)[0]);
+                    }
                 }
             });
 

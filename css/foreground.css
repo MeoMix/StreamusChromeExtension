@@ -706,18 +706,17 @@ input.valid {
 
 .searchBar button#source-select .label { margin: 0 .7em 0 .5em }
 
-#activePlaylistItems .fa fa-arrow-up {
-    position: absolute;
-    right: 32px;
-    top: 0;
-}
-
 #activePlaylistItems .big-text,
 #videoSearch .big-text {
     color: #949494;
     font-size: 1.2em;
     margin: 2em 1em;
     text-align: center;
+}
+
+#activePlaylistItems .big-text {
+    position: absolute;
+    top: 0;
 }
 
 #videoSearch .big-text i {

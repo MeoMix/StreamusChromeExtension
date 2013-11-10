@@ -113,36 +113,37 @@ define([
                     this.copyHelper = null;
                 },
                 receive: function (event, ui) {
-                    console.log("Event/UI", event, ui);
+
                     var streamItemId = $(ui.item).data('streamitemid');
                     var draggedStreamItem = StreamItems.get(streamItemId);
+                    
+                    //  It's important to do this to make sure I don't count my helper elements in index.
+                    var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
 
-                    console.log("Dragged Stream Item:", draggedStreamItem, ui.item.index('.playlistItem'), ui.item.index('.listItem'));
-
-                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index('.listItem'));
-                    $(ui.item).remove();
+                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function() {
+                        $(ui.item).remove();
+                    });
 
                     ui.sender.data('copied', true);
-
                 },
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
-
-                    console.log("Update:", event, ui);
-
-                    var index = parseInt(ui.item.index());
-
-                    console.log("Index:", index);
-
-                    var sequence = self.model.getSequenceFromIndex(index);
-
-                    console.log("Sequence:", sequence);
-                    var playlistItemId = ui.item.data('playlistitemid');
-                    var item = self.model.get('items').get(playlistItemId);
                     
-                    item.set('sequence', sequence);
-                    item.save();
-                    self.model.get('items').sort();
+                    var playlistItemId = ui.item.data('playlistitemid');
+
+                    //  Don't run this code when handling stream items -- only when reorganizing playlist items.
+                    if (this === ui.item.parent()[0] && playlistItemId) {
+                        //  It's important to do this to make sure I don't count my helper elements in index.
+                        var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+
+                        var sequence = self.model.getSequenceFromIndex(index);
+
+                        var item = self.model.get('items').get(playlistItemId);
+                    
+                        item.set('sequence', sequence);
+                        item.save();
+                        self.model.get('items').sort();
+                    }
                 }
             });
             
@@ -186,15 +187,17 @@ define([
 
         addItem: function (playlistItem) {
 
+            var playlistItems = this.model.get('items');
+
             var playlistItemView = new PlaylistItemView({
-                model: playlistItem
+                model: playlistItem,
+                index: playlistItems.indexOf(playlistItem)
             });
 
             var element = playlistItemView.render().$el;
 
             if (this.$el.find('.listItem').length > 0) {
 
-                var playlistItems = this.model.get('items');
 
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
 

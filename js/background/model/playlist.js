@@ -146,6 +146,8 @@ define([
                 console.log("PlaylistItems previousIndex:", previousIndex);
                 console.log("PlaylistItems:", playlistItems);
 
+                console.log("At index:", playlistItems.at(index));
+
                 var highSequence = playlistItems.at(index).get('sequence');
                 console.log("At index is:", playlistItems.at(index));
                 console.log("At previous index is:", playlistItems.at(previousIndex));
@@ -166,24 +168,20 @@ define([
             return sequence;
         },
         
-        addByVideoAtIndex: function (video, index) {
-            console.log("Index:", index);
-            var sequence = this.getSequenceFromIndex(index);
+        addByVideoAtIndex: function (video, index, callback) {
 
-            console.log("Index and Sequence:", index, sequence);
-            
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
-                video: video,
-                sequence: sequence
+                video: video
             });
-
-            console.log("Adding playlistItem with sequence:", playlistItem.get('sequence'));
 
             var self = this;
             this.savePlaylistItem(playlistItem, function() {
                 self.get('items').sort();
-                console.log("Items after sort:", self.get('items'));
+                
+                if (callback) {
+                    callback();
+                }
             });
 
         },
