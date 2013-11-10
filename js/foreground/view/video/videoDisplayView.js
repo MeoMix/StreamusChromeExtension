@@ -102,9 +102,9 @@ define([
            
         initialize: function () {
 
-            this.videoDisplayButtonView = new VideoDisplayButtonView({
-                model: chrome.extension.getBackgroundPage().VideoDisplayButton
-            });
+            //this.videoDisplayButtonView = new VideoDisplayButtonView({
+            //    model: chrome.extension.getBackgroundPage().VideoDisplayButton
+            //});
 
             //this.context = this.el.getContext('2d');
             //this.video = $(chrome.extension.getBackgroundPage().document).find('#YouTubeVideo')[0];

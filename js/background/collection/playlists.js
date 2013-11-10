@@ -30,10 +30,31 @@
 
             });
             
+            this.on('change:active', function (changedPlaylist, active) {
+
+                //  Ensure only one playlist is selected at a time by de-selecting all other selected playlists.
+                if (active) {
+                    this.deselectAllExcept(changedPlaylist.get('id'));
+                }
+
+            });
+            
         },
         
         getActivePlaylist: function() {
             return this.findWhere({ active: true });
+        },
+        
+        deselectAllExcept: function (playlistId) {
+
+            this.each(function (playlist) {
+
+                if (playlist.get('id') !== playlistId) {
+                    playlist.set('active', false);
+                }
+
+            });
+
         }
     });
 

@@ -20,6 +20,7 @@ define([
                 items: new PlaylistItems(),
                 dataSource: null,
                 dataSourceLoaded: false,
+                active: false,
                 //  This is videos length and total duration of all videos
                 displayInfo: ''
             };

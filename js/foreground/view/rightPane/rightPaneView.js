@@ -82,7 +82,6 @@ define([
                 model: chrome.extension.getBackgroundPage().VideoDisplayButton
             });
 
-            //  TODO: Maybe pass Player in as a model here?
             this.volumeControlView = new VolumeControlView();
             this.timeProgressAreaView = new TimeProgressAreaView();
 

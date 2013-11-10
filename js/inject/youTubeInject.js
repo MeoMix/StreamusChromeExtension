@@ -17,10 +17,7 @@ $(function () {
 	    type: 'button',
 	    role: 'button',
 	    'data-button-toggle': true,
-	    'data-trigger-for': 'action-panel-streamus',
-	    click: function () {
-	        //return false;
-	    }
+	    'data-trigger-for': 'action-panel-streamus'
 	});
 	addButton.appendTo(addButtonWrapper);
     var addButtonContent = $('<span>', {
@@ -72,35 +69,6 @@ $(function () {
         'data-button-toggle-group': 'share-panels'
     });
     sharePanelMainButtons.appendTo(sharePanelButtons);
-    
-    //var selectFolderButton = $('<button>', {
-    //    type: 'button',
-    //    'class': 'share-panel-services yt-uix-button-toggled yt-uix-button yt-uix-button-text',
-    //    'data-button-toggle': true,
-    //    role: 'button',
-    //    onclick: function() {
-    //        return false;
-    //    }
-    //});
-    //selectFolderButton.appendTo(sharePanelMainButtons);
-    
-    //var selectSteamContent = $('<span>', {
-    //    'class': 'yt-uix-button-content',
-    //    text: chrome.i18n.getMessage("selectFolder")
-    //});
-    
-    //selectSteamContent.appendTo(selectFolderButton);
-    
-    //var sharePanelFolderSelect = $('<div>', {
-    //    'class': 'share-panel-folders-container'
-    //});
-    //sharePanelFolderSelect.appendTo(sharePanel);
-
-    //var folderSelect = $('<select>', {
-    //    id: 'folderSelect',
-    //    'class': 'yt-uix-form-input-text share-panel-url'
-    //});
-    //folderSelect.appendTo(sharePanelFolderSelect);
     
     var sharePanelPlaylistSelect = $('<div>', {
         'class': 'share-panel-playlists-container'
@@ -192,20 +160,8 @@ $(function () {
     });
     videoAddButton.appendTo(sharePanelPlaylistSelect);
 
-    //selectFolderButton.click(function () {
-    //    sharePanelFolderSelect.removeClass('hid');
-
-    //    selectPlaylistButton.removeClass('yt-uix-button-toggled');
-    //    selectPlaylistButton.addClass('yt-uix-button');
-    //    sharePanelPlaylistSelect.addClass('hid');
-    //});
-    
     selectPlaylistButton.click(function () {
         sharePanelPlaylistSelect.removeClass('hid');
-
-        //selectFolderButton.addClass('yt-uix-button');
-        //selectFolderButton.removeClass('yt-uix-button-toggled');
-        //sharePanelFolderSelect.addClass('hid');
     });
 
     chrome.runtime.sendMessage({ method: "getFolders" }, function (getFoldersResponse) {
@@ -214,13 +170,9 @@ $(function () {
 
         if (folders.length === 1) {
    
-            //selectFolderButton.removeClass('yt-uix-button-toggled');
-            //sharePanelFolderSelect.addClass('hid');
-            
             selectPlaylistButton.addClass('yt-uix-button-toggled');
             sharePanelPlaylistSelect.removeClass('hid');
 
-            //  TODO: Make sure this works after refactor
             for (var i = 0; i < folders[0].playlists.length; i++) {
                 $('<option>', {
                     value: folders[0].playlists[i].id,
@@ -230,15 +182,6 @@ $(function () {
             
         }
 
-        //_.each(folders, function (folder) {
-
-        //    var folderOption = $('<option>', {
-        //        value: folder.id,
-        //        text: folder.title
-        //    });
-
-        //    folderOption.appendTo(folderSelect);
-        //});
     });
     
     chrome.runtime.onMessage.addListener(function (request) {

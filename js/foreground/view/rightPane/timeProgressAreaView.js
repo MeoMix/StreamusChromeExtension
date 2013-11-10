@@ -195,8 +195,7 @@ define([
             this.durationLabel.text(Utility.prettyPrintTime(totalTime));
  
         },
-        
-        //  TODO: Consider getting this information from the player instead? Maybe?
+
         //  Return 0 or currently selected video's duration.
         getCurrentVideoDuration: function () {
             var duration = 0;

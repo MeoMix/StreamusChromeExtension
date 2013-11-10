@@ -21,8 +21,7 @@ define([
 
         events: {
             'contextmenu': 'showContextMenu',
-            'contextmenu li': 'showItemContextMenu',
-            'click li': 'selectPlaylist'
+            'contextmenu li': 'showItemContextMenu'
         },
         
         attributes: {
@@ -32,14 +31,13 @@ define([
         //  Refreshes the playlist display with the current playlist information.
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            
-            //  TODO: Change this to a template.
-            var activeFolder = this.model;
 
-            if (activeFolder.get('playlists').length > 0) {
+            var playlists = this.model.get('playlists');
+
+            if (playlists.length > 0) {
 
                 //  Build up the ul of li's representing each playlist.
-                var listItems = activeFolder.get('playlists').map(function(playlist) {
+                var listItems = playlists.map(function (playlist) {
                     var playlistView = new PlaylistView({
                         model: playlist
                     });
@@ -49,43 +47,14 @@ define([
 
                 //  Do this all in one DOM insertion to prevent lag in large folders.
                 this.$el.append(listItems);
-
-                //  TODO: This is probably partially handled by the PlaylistView not ActiveFolderView
-                //  TODO: I presume this is still useful, but activePlaylistItemsView doesn't have it so I need to double check.
-                var activePlaylist = this.model.getActivePlaylist();
-                this.visuallySelectPlaylist(activePlaylist);
             }
 
             return this;
         },
         
         initialize: function () {
-
-            //  TODO: Sortable.
-            var playlists = this.model.get('playlists');
-            
-            var self = this;
-
-            this.listenTo(playlists, 'change:active', function (playlist, isActive) {
-
-                if (isActive) {
-                    self.visuallySelectPlaylist(playlist);
-                } else {
-                    //  TODO: Change from loaded to active.
-                    self.$el.find('li').removeClass('loaded');
-                }
-
-            });
-
-            //  TODO: Do I even call playlists.reset anymore?
-            this.listenTo(playlists, 'reset empty', this.render);
-            this.listenTo(playlists, 'add', this.addItem);
-
+            this.listenTo(this.model.get('playlists'), 'add', this.addItem);
             Utility.scrollChildElements(this.el, 'span.playlitTitle');
-
-            //  todo: find a place for this
-            var activePlaylist = this.model.getActivePlaylist();
-            this.scrollItemIntoView(activePlaylist, false);
         },
 
         addItem: function (playlist) {
@@ -111,8 +80,6 @@ define([
             } else {
                 element.appendTo(this.$el);
             }
-
-            this.scrollItemIntoView(playlist, true);
         },
         
         showContextMenu: function(event) {
@@ -143,7 +110,7 @@ define([
             });
             
         },
-        
+        //  TODO: Move this onto the Playlist not inside of ActiveFolder
         showItemContextMenu: function (event) {
 
             event.preventDefault();
@@ -244,45 +211,6 @@ define([
                 }]
             });
 
-        },
-        
-        selectPlaylist: function (event) {
-
-            var playlistId = $(event.currentTarget).data('playlistid');
-            var playlist = this.model.getPlaylistById(playlistId);
-
-            //  If the playlist is already active - do nothing
-            if (!playlist.get('active')) {
-                //  Deselect the presently active playlist before marking the new one as active.
-                var activePlaylist = this.model.getActivePlaylist();
-                activePlaylist.set('active', false);
-                playlist.set('active', true);
-            }
-        },
-        
-        //  TODO: This doesn't seem to be working.
-        //  TODO: Needs to be dry with activePlaylistItemsView
-        scrollItemIntoView: function (activePlaylist, useAnimation) {
-
-            //  Since we emptied our list we lost the selection, reselect.
-            if (activePlaylist) {
-                
-                var activePlaylistId = activePlaylist.get('id');
-                var activeListItem = this.$el.find('li[data-playlistid="' + activePlaylistId + '"]');
-
-                if (activeListItem.length > 0) {
-                    activeListItem.scrollIntoView(useAnimation);
-                }
-            }
-            
-        },
-        
-        //  Removes the old 'current' marking and move it to the newly selected row.
-        visuallySelectPlaylist: function(playlist) {
-            this.scrollItemIntoView(playlist, false);
-
-            this.$el.find('li').removeClass('selected');
-            this.$el.find('li[data-playlistid="' + playlist.get('id') + '"]').addClass('selected');
         }
 
     });
