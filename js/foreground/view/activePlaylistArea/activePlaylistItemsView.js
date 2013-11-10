@@ -44,6 +44,7 @@ define([
 
                 self.$el.find('img.lazy').lazyload({
                     container: self.$el,
+                    threshold: 500,
                     event: 'scroll manualShow'
                 });
             });
@@ -90,6 +91,9 @@ define([
                     
                     this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
                     this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
+                    
+                    this.backCopyHelper = playlistItem.prev();
+                    this.backCopyHelper.addClass('copyHelper');
 
                     $(this).data('copied', false);
 
@@ -103,16 +107,19 @@ define([
                 },
                 stop: function () {
                     $('body').removeClass('dragging');
+                    this.backCopyHelper.removeClass('copyHelper');
+                    
                     var copied = $(this).data('copied');
-
                     if (copied) {
                         this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
+ 
                     }
                     else{
                         this.copyHelper.remove();
                     }
 
                     this.copyHelper = null;
+                    this.backCopyHelper = null;
                 },
                 receive: function (event, ui) {
 
@@ -121,7 +128,7 @@ define([
                     
                     //  It's important to do this to make sure I don't count my helper elements in index.
                     var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-
+                    
                     self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function() {
                         $(ui.item).remove();
                     });
@@ -137,14 +144,7 @@ define([
                     if (this === ui.item.parent()[0] && playlistItemId) {
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-
-                        var sequence = self.model.getSequenceFromIndex(index);
-
-                        var item = self.model.get('items').get(playlistItemId);
-                    
-                        item.set('sequence', sequence);
-                        item.save();
-                        self.model.get('items').sort();
+                        self.model.moveItemToIndex(playlistItemId, index);
                     }
                 }
             });
@@ -200,7 +200,6 @@ define([
 
             if (this.$el.find('.listItem').length > 0) {
 
-
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
 
                 var previousItem = playlistItems.at(currentItemIndex - 1);
@@ -214,8 +213,7 @@ define([
                 } else {
                     element.insertBefore(this.$el.find('.listItem')[0]);
                 }
-                
-
+ 
             } else {
 
                 //  TODO: Not very good practice to remove it like this.
@@ -228,6 +226,7 @@ define([
             element.find('img.lazy').lazyload({
                 effect: 'fadeIn',
                 container: self.$el,
+                threshold: 500,
                 event: 'scroll manualShow'
             });
                 

@@ -92,6 +92,9 @@
                     
                     this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
                     this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
+                    
+                    this.backCopyHelper = playlistItem.prev();
+                    this.backCopyHelper.addClass('copyHelper');
 
                     $(this).data('copied', false);
 
@@ -105,9 +108,9 @@
                 },
                 stop: function () {
                     $('body').removeClass('dragging');
-
+                    this.backCopyHelper.removeClass('copyHelper');
+                    
                     var copied = $(this).data('copied');
-
                     if (copied) {
                         this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
                     }
@@ -116,7 +119,9 @@
                     }
 
                     this.copyHelper = null;
+                    this.backCopyHelper = null;
                 },
+    
                 receive: function (event, ui) {
 
                     var playlistItemId = $(ui.item).data('playlistitemid');
@@ -172,8 +177,14 @@
                 this.list.trigger('scroll');
             });
 
-            this.listenTo(StreamItems, 'change:selected', function() {
-                this.list.find('.listItem.selected').scrollIntoView(true);
+            this.listenTo(StreamItems, 'change:selected', function () {
+
+                var selectedListItemElement = this.list.find('.listItem.selected');
+                
+                if (selectedListItemElement.length === 1) {
+                    selectedListItemElement.scrollIntoView(true);
+                }
+
                 this.list.trigger('scroll');
             });
             
@@ -261,12 +272,14 @@
                 this.list.append(elements);
             }
 
+            var self = this;
             //  The image needs a second to be setup. Wrapping in a setTimeout causes lazyload to work properly.
             setTimeout(function () {
 
                 $(elements).find('img.lazy').lazyload({
                     effect: loadImagesInstantly ? undefined : 'fadeIn',
-                    container: this.list
+                    threshold: 500,
+                    container: self.list
                 });
 
             });

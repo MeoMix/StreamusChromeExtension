@@ -222,7 +222,13 @@
 	"playSelected": {
 		"message": "Play selected"
 	},
+	"addSelected": {
+		"message": "Add selected"
+	},
 	"playSelectedDisabled": {
+		"message": "You have no search results selected"
+	},
+	"addSelectedDisabled": {
 		"message": "You have no search results selected"
 	},
 	"saveSelected": {
@@ -410,6 +416,24 @@
 	},
 	"nowPlaying": {
 		"message": "Now Playing"
+	},
+	"video": {
+		"message": "video"
+	},
+	"videos": {
+		"message": "videos"
+	},
+	"minute": {
+		"message": "minute"
+	},
+	"minutes": {
+		"message": "minutes"
+	},
+	"hours": {
+		"message": "hours"
+	},
+	"days": {
+		"message": "days"
 	}
 	
 }

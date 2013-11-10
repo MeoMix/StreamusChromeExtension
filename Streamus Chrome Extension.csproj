@@ -89,6 +89,7 @@
     <Content Include="js\foreground\view\activePlaylistArea\addAllButtonView.js" />
     <Content Include="js\foreground\view\activePlaylistArea\playAllButtonView.js" />
     <Content Include="js\foreground\view\clearStreamView.js" />
+    <Content Include="js\foreground\view\genericScrollableView.js" />
     <Content Include="js\foreground\view\reloadView.js" />
     <Content Include="js\foreground\view\deletePlaylistView.js" />
     <Content Include="js\foreground\view\editPlaylistView.js" />

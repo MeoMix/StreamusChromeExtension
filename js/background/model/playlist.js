@@ -93,9 +93,8 @@ define([
             });
         },
         
-        //  TODO: Not sure where this is being referenced, but introducing setNewDisplayInfo for now
         setDisplayInfo: function () {
-            console.log("Setting display info");
+
             var videos = this.get('items').pluck('video');
             var videoDurations = _.invoke(videos, 'get', 'duration');
 
@@ -103,24 +102,27 @@ define([
                 return memo + duration;
             }, 0);
 
-            var videoString = videos.length === 1 ? 'video' : 'videos';
+            var videoString = videos.length === 1 ? chrome.i18n.getMessage('video') : chrome.i18n.getMessage('videos');
 
-            var prettyVideoTime = '';
+            var prettyVideoTime;
             var videoTimeInMinutes = Math.floor(sumVideoDurations / 60);
             
             //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
             if (videoTimeInMinutes === 1) {
-                prettyVideoTime = videoTimeInMinutes + ' minute';
+                prettyVideoTime = videoTimeInMinutes + ' ' + chrome.i18n.getMessage('minute');
             }
+            //  3 days
+            else if (videoTimeInMinutes > 4320) {
+                prettyVideoTime = Math.floor(videoTimeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
+            }
+            //  3 hours
             else if (videoTimeInMinutes > 180) {
-                prettyVideoTime = Math.floor(videoTimeInMinutes / 60) + ' hours';
+                prettyVideoTime = Math.floor(videoTimeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
             } else {
-                prettyVideoTime = videoTimeInMinutes + ' minutes';
+                prettyVideoTime = videoTimeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
             }
 
             var displayInfo = videos.length + ' ' + videoString + ', ' + prettyVideoTime;
-
-            console.log("Display info and old:", displayInfo, this.get('displayInfo'));
 
             this.set('displayInfo', displayInfo);
         },
@@ -135,22 +137,13 @@ define([
 
             if (playlistItems.length === 0) {
                 sequence = sequenceIncrement;
-                console.log("Set sequence equal to 10k");
             }
             else if (index === playlistItems.length) {
                 sequence = playlistItems.at(playlistItems.length - 1).get('sequence') + sequenceIncrement;
-                console.log("Set sequence equal to most + 10k");
             } else {
                 var previousIndex = index - 1;
 
-                console.log("PlaylistItems previousIndex:", previousIndex);
-                console.log("PlaylistItems:", playlistItems);
-
-                console.log("At index:", playlistItems.at(index));
-
                 var highSequence = playlistItems.at(index).get('sequence');
-                console.log("At index is:", playlistItems.at(index));
-                console.log("At previous index is:", playlistItems.at(previousIndex));
 
                 var lowSequence = 0;
                 var previousItem = playlistItems.at(previousIndex);
@@ -159,20 +152,31 @@ define([
                     lowSequence = previousItem.get('sequence');
                 }
 
-                console.log("High and Low:", highSequence, lowSequence);
-
                 sequence = (highSequence + lowSequence) / 2;
             }
-            
-            console.log("Sequence:", sequence);
+  
             return sequence;
+        },
+        
+        moveItemToIndex: function(playlistItemId, index) {
+            var sequence = this.getSequenceFromIndex(index);
+
+            var item = this.get('items').get(playlistItemId);
+
+            item.set('sequence', sequence);
+            item.save();
+            //  TODO: I'd like to make sure I have to call sort.
+            this.get('items').sort();
         },
         
         addByVideoAtIndex: function (video, index, callback) {
 
+            var sequence = this.getSequenceFromIndex(index);
+
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
-                video: video
+                video: video,
+                sequence: sequence
             });
 
             var self = this;

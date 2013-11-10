@@ -61,16 +61,18 @@
                 hoverClass: 'droppableOnHover',
                 tolerance: 'pointer',
                 
-                drop: function (event, ui) {
+                drop: function () {
 
                     //  When scrolling through options you can have a non-visible option scroll underneath another droppable
                     //  This causes two events to fire. Stop the second event by checking to see if the drop target is visible.
                     if ($(this).position().top < 0) return false;
 
-                    var draggedVideoId = ui.draggable.data('videoid');
-                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-
-                    self.model.get('entity').addByVideo(videoSearchResult.get('video'));
+                    var selectedSearchResults = VideoSearchResults.selected();
+                    var videos = _.map(selectedSearchResults, function (searchResult) {
+                        return searchResult.get('video');
+                    });
+               
+                    self.model.get('entity').addByVideos(videos);
                     
                     var droppableIcon = self.$el.find('i.droppable');
                     var checkIcon = droppableIcon.next();

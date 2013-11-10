@@ -39,6 +39,7 @@
             
             this.$el.find('img.lazy').lazyload({
                 effect: 'fadeIn',
+                threshold: 500,
                 container: this.$el
             });
 
@@ -55,7 +56,6 @@
                 containment: 'DOM',
                 zIndex: 1500,
                 delay: 100,
-                //distance: 5,
                 refreshPositions: true,
                 scroll: false,
                 cursorAt: {
@@ -146,6 +146,7 @@
             var selectedSearchResults = VideoSearchResults.selected();
 
             var isPlaySelectedDisabled = selectedSearchResults.length === 0;
+            var isAddSelectedDisabled = selectedSearchResults.length === 0;
 
             ContextMenuGroups.add({
                 items: [{
@@ -161,6 +162,23 @@
                             });
 
                             StreamItems.addByVideos(videos, true);
+
+                        }
+
+                    }
+                }, {
+                    text: chrome.i18n.getMessage("addSelected") + ' (' + selectedSearchResults.length + ')',
+                    disabled: isAddSelectedDisabled,
+                    title: isAddSelectedDisabled ? chrome.i18n.getMessage("addSelectedDisabled") : '',
+                    onClick: function () {
+
+                        if (!isAddSelectedDisabled) {
+
+                            var videos = _.map(selectedSearchResults, function (videoSearchResult) {
+                                return videoSearchResult.get('video');
+                            });
+
+                            StreamItems.addByVideos(videos, false);
 
                         }
 

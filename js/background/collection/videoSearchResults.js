@@ -11,15 +11,15 @@ define([
         
         initialize: function() {
             
-            this.on('change:selected', function (changedItem, selected) {
+            //this.on('change:selected', function (changedItem, selected) {
                 
-                //  TODO: Support keyboard shortcuts allowing multiple selections
-                //  Ensure only one item is selected at a time by de-selecting all other selected item.
-                if (selected) {
-                    this.deselectAllExcept(changedItem.cid);
-                }
+            //    //  TODO: Support keyboard shortcuts allowing multiple selections
+            //    //  Ensure only one item is selected at a time by de-selecting all other selected item.
+            //    if (selected) {
+            //        this.deselectAllExcept(changedItem.cid);
+            //    }
 
-            });
+            //});
 
         },
         

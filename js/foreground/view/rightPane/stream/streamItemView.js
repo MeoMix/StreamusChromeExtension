@@ -24,7 +24,7 @@
             'contextmenu': 'showContextMenu',
             'click': 'select',
             'dblclick': 'togglePlayingState',
-            'click .deleteButtonSvg': 'doDelete'
+            'click i.delete': 'doDelete'
         },
 
         render: function () {

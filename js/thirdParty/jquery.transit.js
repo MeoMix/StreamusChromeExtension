@@ -620,9 +620,13 @@
                 bound = true;
                 self.bind(transitionEnd, cb);
             } else {
-                // Fallback to timers if the 'transitionend' event isn't supported.
-                var id = window.setTimeout(cb, i);
-                self.data('transitTimer', id);
+                try {
+                    // Fallback to timers if the 'transitionend' event isn't supported.
+                    var id = window.setTimeout(cb, i);
+                    self.data('transitTimer', id);
+                } catch(exception) {
+                    //  Silently consume exceptions because this code is buggy.
+                }
             }
 
             // Apply transitions.

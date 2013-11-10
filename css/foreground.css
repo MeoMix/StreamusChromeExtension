@@ -7,6 +7,7 @@ body {
     width: 100%;
     height: 100%;
     -webkit-user-select: none;
+    font: 13px/1.2 sans-serif 
 }
 
 body.loading > *:not(.modalOverlay) {
@@ -70,12 +71,10 @@ body > .fa-spinner {
        }
 }
 
-.above {
-    z-index: 1;
-}
-
+/* TODO: These reds aren't very visually pleasing. Help? */
 button.mute.muted{
-    color: red;
+    color: #E20007;
+    text-shadow: 0 0 1px #FF0019;
 }
 
 .modalOverlay .panel {
@@ -154,6 +153,13 @@ button.mute.muted{
     right: 10px;
     bottom: 10px;
 }
+
+/* Reminder checkboxes always go in the bottom right of the prompt */
+.prompt .reminder {
+    bottom: 10px;
+    left: 10px;
+    position: absolute;
+}
  
 input:focus, button:focus { outline: none }
 
@@ -203,19 +209,6 @@ input, button, textarea, select, optgroup, option {
 input, button, textarea, select { font-size: 100% }
 
 a { cursor: pointer }
-
-.clearfix:before, .clearfix:after {
-    content: ".";
-    display: block;
-    height: 0;
-    overflow: hidden
-}
-
-.clearfix:after { clear: both }
-
-.clearfix { zoom: 1 }
-
-body { font: 13px/1.2 sans-serif }
 
 .playlistTitle {
     font-size: 1.1em;
@@ -380,12 +373,10 @@ input[type="range"]::-webkit-slider-thumb {
     right: 250px;
     top: 0;
     z-index: 1;
-}
-
-#videoSearch.left-pane {
     width: 380px;
 }
 
+/* Hide some messages in video search */
 #videoSearch .hidden {
     display: none;
 }
@@ -515,15 +506,24 @@ input[type="range"]::-webkit-slider-thumb {
     width: calc(100% - 20px);
 }
 
-/*#streamItemList .listItem img {
-    background-color: #f2f2f2;
-}*/
+.listItem i.delete {
+    position: absolute;
+    top: 2px;
+    right: 0;
+    display: none;
+    cursor: pointer;
+}
+
+.listItem:hover i.delete {
+    display: block;
+}
 
 .listItem:hover,
 .playlist:hover {
     background: #ebebeb;
 }
 
+.listItem:hover > i.delete,
 .listItem:hover > .item-thumb {
     background-color: #ebebeb;
 }
@@ -534,6 +534,7 @@ input[type="range"]::-webkit-slider-thumb {
     transition: background .3s;
 }
 
+.listItem.selected > i.delete,
 .listItem.selected > .item-thumb {
     transition: background .3s;
     background: #CDDBF2;
@@ -552,7 +553,6 @@ input[type="range"]::-webkit-slider-thumb {
     left: 0;
     padding-left: 5px;
     padding-right: 10px;
-    /*background-color: white;*/
 }
 
 .playlist .fa-spinner {
@@ -980,7 +980,6 @@ input.valid {
 }
 
 .modalOverlay {
-    /*background: rgba(0, 0, 0, 0.5);*/
     bottom: 0;
     display: block;
     left: 0;
@@ -1083,6 +1082,7 @@ input.valid {
     position: absolute;
 }
 
+/* This is a scroll while dragging helper. When someone drags a viable item over it its related list will scroll */
 .scroll {
     position: fixed;
     height: 40px;
@@ -1230,46 +1230,30 @@ body.dragging .scroll {
     background: #949494;
     border-radius: 1em;
     color: #fff;
-    display: block;
     font-size: .85em;
     font-weight: bold;
     line-height: 1.4;
     padding: 0 .6em 0 .5em;
     position: absolute;
     right: 10px;
-    text-align: center;
     top: 6px;
 }
 
 #activeFolderArea .context-buttons {
     border-top: 1px solid #dadada;
     bottom: 0;
-    display: block;
-    height: 30px;
     left: 10px;
     position: absolute;
     right: 10px;
 }
 
-#activeFolderArea .context-buttons .left-group {
-    display: block;
-    height: 30px;
-    left: 0;
-    position: absolute;
-    right: 80px;
-    top: 0;
-}
-
 #activeFolderArea .context-buttons .right-group {
-    display: block;
-    height: 30px;
     position: absolute;
-    right: 0;
     top: 0;
-    width: 118px;
+    right: 0;
 }
-/* FIX TO MAKE ICONS RENDER NICELY */
 
+/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
 i { font-size: 14px !important; }
 
 i.fa-lg { font-size: 19px !important; }
@@ -1278,31 +1262,7 @@ i.i-2x { font-size: 28px !important }
 
 i.i-4x { font-size: 56px !important }
 
-
-.prompt .reminder {
-    bottom: 10px;
-    left: 10px;
-    position: absolute;
-}
-
-.required:after {
-    color: red;
-    content: '*';
-    margin-right: -5px;
-    margin-left: 1px;
-}
-
-.item-thumb:before {
-    content: 'helllllllllllloooo';
-    position: absolute;
-    left: 20px;
-    top: 0;
-    width: 200px;
-    height: 200px;
-    font-size: 20px;
-    z-index: 99999;
-}
-
+/* TODO: I wanted to use Selectize, but it's theme doesn't quit fit Streamus. This could use some re-themeing */
 /* Selectize Configuration */
 html .selectize-control .selectize-dropdown .caption {
     font-size: 12px;
@@ -1327,6 +1287,13 @@ html .selectize-control.multi .selectize-input.full > input {
     display: none;
 }
 
+/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
 .sortable-placeholder {
     background-color: #ebebeb;
+}
+
+/* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+   an item being copied -- it looks weird and doesn't make sense because no move happens */
+.listItem.copyHelper + .sortable-placeholder {
+    display: none;
 }

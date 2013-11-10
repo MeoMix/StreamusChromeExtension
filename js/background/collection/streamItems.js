@@ -253,6 +253,10 @@ define([
         
         addByVideos: function (videos, playOnAdd) {
             
+            if (!_.isArray(videos)) {
+                return this.addByVideo(videos, playOnAdd);
+            }
+
             if (playOnAdd) {
                 Player.playOnceVideoChanges();
             }
