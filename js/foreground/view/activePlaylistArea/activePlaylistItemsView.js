@@ -50,6 +50,8 @@ define([
             
             this.$el.find('.scroll').droppable({
                 tolerance: 'pointer',
+                //  Prevent stuttering of tooltips and general oddities by being specific with accept
+                accept: '.listItem:not(.videoSearchResult)',
                 over: function (event) {
                     self.doAutoScroll(event);
                 },

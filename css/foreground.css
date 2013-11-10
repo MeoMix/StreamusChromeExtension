@@ -756,6 +756,7 @@ input.valid {
     z-index: 3;
     width: 42px;
     background-color: #f2f2f2;
+    cursor: pointer;
 }
 
 .right-pane .top-bar .volume-slider {

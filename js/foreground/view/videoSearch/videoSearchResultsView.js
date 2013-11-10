@@ -54,7 +54,8 @@
                 appendTo: 'body',
                 containment: 'DOM',
                 zIndex: 1500,
-                distance: 5,
+                delay: 100,
+                //distance: 5,
                 refreshPositions: true,
                 scroll: false,
                 cursorAt: {

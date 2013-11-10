@@ -87,7 +87,9 @@
             var self = this;
             this.$el.find('.scroll').droppable({
                 tolerance: 'pointer',
+                accept: '.videoSearchResult',
                 over: function (event) {
+                    console.log("Over event:", event);
                     self.doAutoScroll(event);
                 },
                 drop: function() {
