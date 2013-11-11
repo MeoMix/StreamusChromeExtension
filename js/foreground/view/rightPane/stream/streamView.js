@@ -88,12 +88,19 @@
                     bottom: 40
                 },
                 tolerance: 'pointer',
-                helper: function (ui, playlistItem) {
+                helper: function (ui, streamItem) {
                     
-                    this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
+                    //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
+                    var copyHelperView = new StreamItemView({
+                        model: StreamItems.get(streamItem.data('streamitemid')),
+                        //  Don't lazy-load the view because copy helper is clearly visible
+                        instant: true
+                    });
+
+                    this.copyHelper = copyHelperView.render().$el.insertAfter(streamItem);
                     this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
                     
-                    this.backCopyHelper = playlistItem.prev();
+                    this.backCopyHelper = streamItem.prev();
                     this.backCopyHelper.addClass('copyHelper');
 
                     $(this).data('copied', false);
@@ -337,7 +344,7 @@
         },
         
         emptyStreamItemList: function() {
-            this.list.find('.listItem').remove();
+            this.list.find('.streamItem').remove();
         }
 
     });

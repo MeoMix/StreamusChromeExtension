@@ -1,4 +1,9 @@
-﻿<img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" src="" />
+﻿<!-- Render non-lazily if view is set to instant -->
+<% if( instant ) { %>
+    <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
+<% } else { %>
+    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
+<% } %>
 
 <div class="item-title-wrapper">
     <span class="item-title">

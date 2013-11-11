@@ -104,8 +104,15 @@ define([
                 },
                 tolerance: 'pointer',
                 helper: function (ui, playlistItem) {
+
+                    //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
+                    var copyHelperView = new PlaylistItemView({
+                        model: self.model.get('items').get(playlistItem.data('playlistitemid')),
+                        //  Don't lazy-load the view because copy helper is clearly visible
+                        instant: true
+                    });
                     
-                    this.copyHelper = playlistItem.clone().insertAfter(playlistItem);
+                    this.copyHelper = copyHelperView.render().$el.insertAfter(playlistItem);
                     this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
                     
                     this.backCopyHelper = playlistItem.prev();
@@ -128,7 +135,6 @@ define([
                     var copied = $(this).data('copied');
                     if (copied) {
                         this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
- 
                     }
                     else{
                         this.copyHelper.remove();
@@ -145,9 +151,17 @@ define([
                     //  It's important to do this to make sure I don't count my helper elements in index.
                     var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
                     
-                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function() {
+                    //  Remove blue coloring if visible before waiting for addVideo to finish to give a more seamless swap to the new item.
+                    $(ui.item).removeClass('selected');
+                    self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function () {
+                        //  Remove item because it's a stream item and I've just added a playlist item at that index.
                         $(ui.item).remove();
                     });
+
+                    var emptyPlaylistMessage = self.$el.find('.big-text');
+                    if (emptyPlaylistMessage.length > 0) {
+                        emptyPlaylistMessage.remove();
+                    }
 
                     ui.sender.data('copied', true);
                 },
@@ -205,17 +219,14 @@ define([
 
         addItem: function (playlistItem) {
 
-            var playlistItems = this.model.get('items');
-
             var playlistItemView = new PlaylistItemView({
-                model: playlistItem,
-                index: playlistItems.indexOf(playlistItem)
+                model: playlistItem
             });
 
-            var element = playlistItemView.render().$el;
+            var element = playlistItemView.render().el;
 
-            if (this.$el.find('.listItem').length > 0) {
-
+            if (this.$el.find('.playlistItem').length > 0) {
+                var playlistItems = this.model.get('items');
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
 
                 var previousItem = playlistItems.at(currentItemIndex - 1);
@@ -223,26 +234,29 @@ define([
                 if (previousItem) {
                     var previousItemId = previousItem.get('id');
 
-                    var previousItemElement = this.$el.find('.listItem[data-playlistitemid="' + previousItemId + '"]');
-                    element.insertAfter(previousItemElement);
+                    var previousItemElement = this.$el.find('.playlistItem[data-playlistitemid="' + previousItemId + '"]');
+                    previousItemElement.after(element);
                 } else {
-                    element.insertBefore(this.$el.find('.listItem')[0]);
+                    this.$el.find('.playlistItem').first().before(element);
                 }
  
             } else {
 
-                $('.big-text').remove();
-                element.appendTo(this.$el);
+                var emptyPlaylistMessage = this.$el.find('.big-text');
+                if (emptyPlaylistMessage.length > 0) {
+                    emptyPlaylistMessage.remove();
+                }
+                
+                this.$el.append(element);
             }
 
-            var inViewport = $.inviewport(element, { threshold: 0, container: window });
+            var inViewport = playlistItemView.$el.is(':in-viewport');
 
-            var self = this;
-            element.find('img.lazy').lazyload({
+            playlistItemView.$el.find('img.lazy').lazyload({
                 //  Looks bad to fade in when the item should just be visible.
                 effect: inViewport ? undefined : 'fadeIn',
-                container: self.$el,
-                threshold: 500,
+                container: this.$el,
+                threshold: inViewport ? undefined : 500,
                 event: 'scroll manualShow'
             });
                 

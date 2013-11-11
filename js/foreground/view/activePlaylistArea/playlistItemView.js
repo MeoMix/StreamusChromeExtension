@@ -6,7 +6,7 @@
     'use strict';
 
     var PlaylistItemView = Backbone.View.extend({
-        className: 'listItem',
+        className: 'listItem playlistItem',
         
         template: _.template(PlaylistItemTemplate),
         
@@ -15,6 +15,8 @@
                 'data-playlistitemid': this.model.get('id')
             };
         },
+        //  Usually lazy-load images, but if a option is given -- allow for instant loading.
+        instant: false,
         
         events: {
             'contextmenu': 'showContextMenu'
@@ -26,14 +28,16 @@
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
                     'chrome.i18n': chrome.i18n,
-                    
+                    'instant': this.instant
                 })
             ));
             
             return this;
         },
         
-        initialize: function() {
+        initialize: function (options) {
+            this.instant = options && options.instant || false;
+
             this.listenTo(this.model, 'destroy', this.remove);
         },
 

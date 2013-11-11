@@ -10,9 +10,11 @@
 
     var StreamItemView = Backbone.View.extend({
         
-        className: 'listItem',
+        className: 'listItem streamItem',
 
         template: _.template(StreamItemTemplate),
+        //  Usually lazy-load images, but if a option is given -- allow for instant loading.
+        instant: false,
         
         attributes: function () {
             return {
@@ -31,7 +33,8 @@
             this.$el.html(this.template(
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
+                    'chrome.i18n': chrome.i18n,
+                    'instant': this.instant
                 })
             ));
             
@@ -40,7 +43,9 @@
             return this;
         },
 
-        initialize: function () {
+        initialize: function (options) {
+            this.instant = options && options.instant || false;
+            
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change:selected', this.toggleSelected);
         },

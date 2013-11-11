@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.91",
+	"version": "0.92",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
