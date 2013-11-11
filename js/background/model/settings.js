@@ -10,7 +10,7 @@ define(function () {
         
         defaults: function() {
             return {
-                localDebug: true,
+                localDebug: false,
                 serverURL: '',
                 activeFolderId: getItem('activeFolderId') || null,
                 suggestedQuality: getItem('suggestedQuality') || 'default',

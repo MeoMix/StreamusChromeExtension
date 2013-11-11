@@ -274,11 +274,11 @@
 
                 if (_.isArray(elements)) {
                     var elementsInViewport = _.filter(elements, function (element) {
-                        return $.inviewport(element, { threshold: 100, container: window });
+                        return $.inviewport(element, { threshold: 0, container: window });
                     });
 
                     var elementsNotInViewport = _.filter(elements, function (element) {
-                        return !$.inviewport(element, { threshold: 100, container: window });
+                        return !$.inviewport(element, { threshold: 0, container: window });
                     });
 
                     $(elementsInViewport).find('img.lazy').lazyload({
@@ -291,7 +291,7 @@
                         container: self.list
                     });
                 } else {
-                    var isInViewport = $.inviewport(elements, { threshold: 100, container: window });
+                    var isInViewport = $.inviewport(elements, { threshold: 0, container: window });
                     $(elements).find('img.lazy').lazyload({
                         effect: isInViewport ? undefined : 'fadeIn',
                         threshold: 500,

@@ -45,21 +45,21 @@ define([
                 var lazyImages = self.$el.find('img.lazy');
     
                 var lazyImagesInViewport = _.filter(lazyImages, function (lazyImage) {
-                    return $.inviewport(lazyImage, { threshold: 100, container: window });
+                    return $.inviewport(lazyImage, { threshold: 0, container: window });
                 });
                     
                 var lazyImagesNotInViewport = _.filter(lazyImages, function (lazyImage) {
-                    return !$.inviewport(lazyImage, { threshold: 100, container: window });
+                    return !$.inviewport(lazyImage, { threshold: 0, container: window });
                 });
                 
                 $(lazyImagesInViewport).lazyload({
-                    container: self.list
+                    container: self.list,
                 });
-                    
+
                 $(lazyImagesNotInViewport).lazyload({
                     effect: 'fadeIn',
                     threshold: 500,
-                    container: self.list,
+                    container: self.$el,
                     event: 'scroll manualShow'
                 });
 
@@ -235,7 +235,7 @@ define([
                 element.appendTo(this.$el);
             }
 
-            var inViewport = $.inviewport(element, { threshold: 100, container: window });
+            var inViewport = $.inviewport(element, { threshold: 0, container: window });
 
             var self = this;
             element.find('img.lazy').lazyload({
