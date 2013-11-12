@@ -204,8 +204,6 @@ define([
 
             var needsLoading = dataSource && dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource.type === DataSource.YOUTUBE_PLAYLIST || dataSource.type === DataSource.YOUTUBE_FAVORITES;
 
-            console.log("Adding playlist by dataSource. Needs loading?", dataSource, needsLoading);
-
             var playlist = new Playlist({
                 title: playlistTitle,
                 folderId: this.get('id'),

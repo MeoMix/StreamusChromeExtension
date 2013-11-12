@@ -25,16 +25,18 @@ define([
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
+            this.$el.prop('disabled', true);
+            this.$el.attr('title', 'Video disabled until a bug is fixed in Google Chrome. Working on it!');
 
-            var enabled = this.model.get('enabled');
+            //var enabled = this.model.get('enabled');
 
-            this.$el.toggleClass('enabled', enabled);
+            //this.$el.toggleClass('enabled', enabled);
             
-            if (enabled) {
-                this.$el.attr('title', this.enabledTitle);
-            } else {
-                this.$el.attr('title', this.disabledTitle);
-            }
+            //if (enabled) {
+            //    this.$el.attr('title', this.enabledTitle);
+            //} else {
+            //    this.$el.attr('title', this.disabledTitle);
+            //}
             
             return this;
         },

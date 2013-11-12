@@ -43,7 +43,8 @@ define([
                     'chrome.i18n': chrome.i18n
                 })
             ));
-            
+
+
             this.panel = this.$el.find('.panel');
             
             ////  Stop drawing entirely when the player stops.
