@@ -475,6 +475,8 @@ define([
                     return;
 
             }
+
+            console.log("URL:", url);
             
             var maxResultsPerSearch = 50;
             var startIndex = 1 + (maxResultsPerSearch * currentIteration);
@@ -491,6 +493,8 @@ define([
                     'start-index': startIndex,
                 },
                 success: function (result) {
+
+                    console.log('Get datasource result:', result);
 
                     //  If the video duration has not been provided, video was deleted - skip.
                     var validResults = _.filter(result.feed.entry, function (resultEntry) {

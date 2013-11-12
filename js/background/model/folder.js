@@ -202,7 +202,9 @@ define([
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            var needsLoading = dataSource && dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource === DataSource.YOUTUBE_PLAYLIST || dataSource === DataSource.YOUTUBE_FAVORITES;
+            var needsLoading = dataSource && dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource.type === DataSource.YOUTUBE_PLAYLIST || dataSource.type === DataSource.YOUTUBE_FAVORITES;
+
+            console.log("Adding playlist by dataSource. Needs loading?", dataSource, needsLoading);
 
             var playlist = new Playlist({
                 title: playlistTitle,
@@ -218,6 +220,8 @@ define([
                     self.get('playlists').push(playlist);
 
                     if (needsLoading) {
+
+                        console.log("Loading results");
 
                         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                         YouTubeDataAPI.getDataSourceResults(dataSource, 0, function onGetDataSourceData(response) {
