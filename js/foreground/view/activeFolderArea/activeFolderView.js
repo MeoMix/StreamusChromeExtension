@@ -9,8 +9,9 @@ define([
     'deletePlaylistView',
     'editPlaylistView',
     'genericPromptView',
-    'createPlaylistView'
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistView, EditPlaylistView, GenericPromptView, CreatePlaylistView) {
+    'createPlaylistView',
+    'settings'
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistView, EditPlaylistView, GenericPromptView, CreatePlaylistView, Settings) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -122,7 +123,7 @@ define([
             var isEmpty = clickedPlaylist.get('items').length === 0;
 
             //  Don't allow deleting of the last playlist in a folder ( at least for now )
-            var isDeleteDisabled = this.model.get('playlists').length === 0;
+            var isDeleteDisabled = this.model.get('playlists').length === 1;
   
             ContextMenuGroups.add({
                 items: [{
@@ -159,16 +160,25 @@ define([
                             if (clickedPlaylist.get('items').length === 0) {
                                 clickedPlaylist.destroy();
                             } else {
+                                
+                                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
+                                if (remindDeletePlaylist) {
+                                    
+                                    var deletePlaylistPromptView = new GenericPromptView({
+                                        title: chrome.i18n.getMessage('deletePlaylist'),
+                                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                                        model: new DeletePlaylistView({
+                                            model: clickedPlaylist
+                                        })
+                                    });
 
-                                var deletePlaylistPromptView = new GenericPromptView({
-                                    title: chrome.i18n.getMessage('deletePlaylist'),
-                                    okButtonText: chrome.i18n.getMessage('deleteButtonText'),
-                                    model: new DeletePlaylistView({
-                                        model: clickedPlaylist
-                                    })
-                                });
+                                    deletePlaylistPromptView.fadeInAndShow();
 
-                                deletePlaylistPromptView.fadeInAndShow();
+                                } else {
+                                    clickedPlaylist.destroy();
+                                }
+
+                                
                             }
 
                         }

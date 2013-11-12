@@ -38,6 +38,7 @@
             
             this.$el.html(this.template(this.model.toJSON()));
             this.list = this.$el.children('#streamItemList');
+            console.log("Rendering, this.list:", this.list);
 
             if (StreamItems.length > 0) {
                 

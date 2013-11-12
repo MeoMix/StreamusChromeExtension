@@ -223,7 +223,7 @@ define([
                 model: playlistItem
             });
 
-            var element = playlistItemView.render().el;
+            var element = playlistItemView.render().$el;
 
             if (this.$el.find('.playlistItem').length > 0) {
                 var playlistItems = this.model.get('items');
@@ -250,13 +250,16 @@ define([
                 this.$el.append(element);
             }
 
-            var inViewport = playlistItemView.$el.is(':in-viewport');
-
+            //  TODO: This is throwing crazy errors when I add items, no idea why. Consider writing my own is in viewport.
+            //console.log("Element:", element);
+            //var inViewport = element.is(':in-viewport');
+            //console.log("inViewport:", inViewport);
             playlistItemView.$el.find('img.lazy').lazyload({
                 //  Looks bad to fade in when the item should just be visible.
-                effect: inViewport ? undefined : 'fadeIn',
+                //effect: inViewport ? undefined : 'fadeIn',
                 container: this.$el,
-                threshold: inViewport ? undefined : 500,
+                
+                //threshold: inViewport ? undefined : 500,
                 event: 'scroll manualShow'
             });
                 
