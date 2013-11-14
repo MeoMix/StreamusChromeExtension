@@ -11,10 +11,7 @@
                 //  NOTE: Don't use translateX here because text will get blurry if you translate it.
                 $(this).transit({
                     'margin-left': -1 * distanceToMove
-                }, {
-                    //  Just a feel good value; scales as the text gets longer
-                    duration: 15 * distanceToMove
-                });
+                }, 8 * distanceToMove, 'linear');
 
             }
 

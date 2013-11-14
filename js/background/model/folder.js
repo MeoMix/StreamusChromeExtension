@@ -202,7 +202,7 @@ define([
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            var needsLoading = dataSource && dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource.type === DataSource.YOUTUBE_PLAYLIST || dataSource.type === DataSource.YOUTUBE_FAVORITES;
+            var needsLoading = dataSource && (dataSource.type === DataSource.YOUTUBE_CHANNEL || dataSource.type === DataSource.YOUTUBE_PLAYLIST || dataSource.type === DataSource.YOUTUBE_FAVORITES);
 
             var playlist = new Playlist({
                 title: playlistTitle,

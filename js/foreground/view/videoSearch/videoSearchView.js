@@ -86,7 +86,7 @@
             var self = this;
     
             this.$el.transition({
-                x: 0
+                x: -20
             }, function () {
                 self.remove();
                 VideoSearchResults.reset();

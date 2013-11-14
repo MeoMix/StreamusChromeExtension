@@ -73,7 +73,7 @@
             
             this.panel.transition({
                 x: this.panel.width()
-            }, 'snap');
+            }, 300, 'snap');
 
         },
         
@@ -99,8 +99,8 @@
             });
 
             this.panel.transition({
-                x: 0
-            });
+                x: -20
+            }, 300);
             
         },
 

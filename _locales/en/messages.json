@@ -96,7 +96,7 @@
 		"message": "This Folder is empty. Try adding some videos by clicking above."
 	},
 	"emptyPlaylist": {
-		"message": "is empty. Try adding some videos by clicking above."
+		"message": "is empty. Try adding some videos by clicking the search icon above."
 	},
 	"repeatDisabled": {
 		"message": "Repeat is disabled. Click to enable repeat video."
