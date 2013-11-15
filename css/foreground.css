@@ -400,7 +400,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 43px;
     width: 40px;
     right: 15px;
-    position: absolute;
+    position: absolute; 
 }
 
 .left-top-divider {
