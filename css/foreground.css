@@ -26,7 +26,6 @@ body > .fa-spinner {
     display: none;
 }
 
-
 #contextMenu:empty {
     display: none;
 }
@@ -288,11 +287,6 @@ button:active {
     width: 40px;
 }
 
-.fa.fa-repeat.repeatVideo,
-.fa.fa-repeat.repeatStream {
-    margin-right: -10px;
-}
-
 .fa.fa-repeat.repeatVideo:after {
     content: '1';
     border-radius: 50%;
@@ -304,6 +298,7 @@ button:active {
     right: 2px;
     padding-left: 2px;
     padding-right: 2px;
+    margin-right: -10px;
 }
 
 .fa.fa-repeat.repeatStream:after {
@@ -318,6 +313,7 @@ button:active {
     padding-left: 2px;
     padding-right: 2px;
     font-family: sans-serif;
+    margin-right: -10px;
 }
 
 .button-label[disabled],
@@ -386,19 +382,13 @@ input[type="range"]::-webkit-slider-thumb {
     height: 45px;
     left: 10px;
     position: absolute;
-    right: 125px;
+    right: 65px;
     top: 0;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-#videoSearch .left-top-bar {
-    right: 10px;
-}
-
-#addVideosButton {
-    height: 43px;
-    width: 40px;
+.top-right-button {
     right: 15px;
     position: absolute; 
 }
@@ -608,7 +598,7 @@ input[type="range"]::-webkit-slider-thumb {
     display: block;
     left: 10px;
     position: absolute;
-    right: 40px;
+    right: 0;
     top: 0;
 }
 
@@ -616,7 +606,7 @@ input[type="range"]::-webkit-slider-thumb {
     bottom: 10px;
     left: 0;
     position: absolute;
-    right: 15px;
+    right: 0;
 }
 
 .prompt .underline {
@@ -690,7 +680,7 @@ input.valid {
     left: 1px;
     padding: 0 .2em;
     position: absolute;
-    right: 16px;
+    right: 1px;
     top: 10px;
     z-index: 1;
 }
@@ -709,27 +699,16 @@ input.valid {
 
 .searchBar button#source-select .label { margin: 0 .7em 0 .5em }
 
-.emptyMessage,
 .big-text {
     cursor: default;
-}
-
-#activePlaylistItems .big-text,
-#videoSearch .big-text {
     color: #949494;
     font-size: 1.2em;
     margin: 2em 1em;
     text-align: center;
 }
 
-#activePlaylistItems .big-text {
-    position: absolute;
-    top: 0;
-}
-
-#videoSearch .big-text i {
+.big-text i {
     display: block;
-    font-size: 5em;
 }
 
 .right-pane {
@@ -967,14 +946,6 @@ input.valid {
     top: 0;
     width: 84px;
 }
-
-#button-back {
-    right: 15px;
-    position: absolute;
-    top: 0;
-    z-index: 52;
-    height: 43px;
-} 
 
 #activeFolderArea button.hide,
 #activePlaylistArea button.show {

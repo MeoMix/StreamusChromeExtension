@@ -138,7 +138,7 @@
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
 
-            if (event.target === event.currentTarget) {
+            if (event.target === event.currentTarget || $(event.target).hasClass('big-text') || $(event.target).hasClass('i-4x')) {
                 //  Didn't bubble up from a child -- clear groups.
                 ContextMenuGroups.reset();
             }
