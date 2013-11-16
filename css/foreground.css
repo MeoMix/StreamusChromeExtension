@@ -30,12 +30,21 @@ body > .fa-spinner {
     display: none;
 }
 
+
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
     height: 4px;
     width: 4px;
 }
+
+/*body *:hover::-webkit-scrollbar {
+    width: 10px !important;
+}
+
+body *:hover::-webkit-scrollbar-track-piece {
+    width: 10px !important;
+}*/
 
 /* Ensure no buttons are displayed */
 ::-webkit-scrollbar-button:start:decrement,
@@ -46,6 +55,7 @@ body > .fa-spinner {
 ::-webkit-scrollbar-track-piece {
     border-radius: 6px;
     background-color: #efefef;
+    width: 4px;
 }
 
 ::-webkit-scrollbar-thumb:vertical {
