@@ -22,7 +22,6 @@
         index: -1,
         
         events: {
-            'click': 'toggleSelected',
             'click i.playInStream': 'playInStream',
             'click i.addToStream': 'addToStream',
             'click i.addToActivePlaylist': 'addToActivePlaylist',
@@ -53,14 +52,6 @@
         
         setHighlight: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
-        },
-        
-        toggleSelected: function () {
-
-            //  A dragged model must always be selected.
-            var selected = !this.model.get('selected') || this.model.get('dragging');
-            
-            this.model.set('selected', selected);
         },
         
         playInStream: function () {

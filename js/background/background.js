@@ -25,6 +25,7 @@ define([
 
     //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?
     var notification;
+    var closeNotificationTimeout;
 
     Player.on('change:state', function(model, state) {
 
@@ -42,9 +43,9 @@ define([
                 //  Spam actions can open a lot of notifications, really only want one at a time I think.
                 if (notification) {
                     notification.close();
+                    clearTimeout(closeNotificationTimeout);
                 }
 
-                //  TODO: Create HTML notification in the future. Doesn't have all the support we need currently.
                 notification = window.webkitNotifications.createNotification(
                     'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
                     'Now Playing',
@@ -53,9 +54,13 @@ define([
 
                 notification.show();
 
-                setTimeout(function() {
-                    notification.close();
-                    notification = null;
+                closeNotificationTimeout = setTimeout(function () {
+
+                    if (notification !== null) {
+                        notification.close();
+                        notification = null;
+                    }
+
                 }, 3000);
             }
         } else if (state === PlayerState.ENDED) {

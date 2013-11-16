@@ -11,15 +11,34 @@ define([
         
         initialize: function() {
             
-            //this.on('change:selected', function (changedItem, selected) {
-                
-            //    //  TODO: Support keyboard shortcuts allowing multiple selections
-            //    //  Ensure only one item is selected at a time by de-selecting all other selected item.
-            //    if (selected) {
-            //        this.deselectAllExcept(changedItem.cid);
-            //    }
+            this.on('change:selected', function (changedItem, selected) {
 
-            //});
+                var selectedResults = this.selected();
+
+                if (selectedResults.length === 1) {
+                    selectedResults[0].set('firstSelected', true);
+                }
+                else if (!selected) {
+                    //  An item which is no longer selected definitely can't be the first selected item.
+                    changedItem.set('firstSelected', false);
+                }
+
+            });
+
+            this.on('change:firstSelected', function(changedItem, firstSelected) {
+
+                if (firstSelected) {
+                    
+                    this.each(function (item) {
+                        
+                        if (item != changedItem) {
+                            item.set('firstSelected', false);
+                        }
+                        
+                    });
+                }
+                
+            });
 
         },
         

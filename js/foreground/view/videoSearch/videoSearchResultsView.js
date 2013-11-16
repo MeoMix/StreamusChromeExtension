@@ -22,7 +22,8 @@
         noResultsMessage: null,
         
         events: {
-            'contextmenu': 'showContextMenu'
+            'contextmenu': 'showContextMenu',
+            'click .videoSearchResult': 'setSelectedOnClick'
         },
         
         render: function () {
@@ -185,6 +186,52 @@
                     }
                 }]
             });
+        },
+        
+        setSelectedOnClick: function (event) {
+
+            var videoId = $(event.currentTarget).data('videoid');
+            var clickedVideoSearchResult = VideoSearchResults.getByVideoId(videoId);
+
+            //  A dragged videoSearchResult must always be selected.
+            var selected = !clickedVideoSearchResult.get('selected') || clickedVideoSearchResult.get('dragging');
+            clickedVideoSearchResult.set('selected', selected);
+            
+            //  When the shift key is pressed - select a block of search result items
+            if (event.shiftKey) {
+
+                var firstSelectedIndex = 0;
+                var clickedSearchResultIndex = VideoSearchResults.indexOf(clickedVideoSearchResult);
+
+                //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
+                if (VideoSearchResults.selected().length > 1) {
+                    //  Get the search result which was selected first and go from its index.
+                    var firstSelectedSearchResult = VideoSearchResults.findWhere({ firstSelected: true });
+                    firstSelectedIndex = VideoSearchResults.indexOf(firstSelectedSearchResult);
+                }
+   
+                VideoSearchResults.each(function (videoSearchResult, index) {
+
+                    //  If clickedSearchResultIndex is 10, firstSelectedIndex is 5, select 5 through 10
+                    var isBetweenAbove = index <= clickedSearchResultIndex && index >= firstSelectedIndex;
+                    //  If clickedSearchResultIndex is 5, firstSelectedIndex is 10, select 5 through 10
+                    var isBetweenBelow = index >= clickedSearchResultIndex && index <= firstSelectedIndex;
+
+                    videoSearchResult.set('selected', isBetweenBelow || isBetweenAbove);
+
+                });
+                
+            }
+            else if (event.ctrlKey) {
+                //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
+                //  but doesn't lose the other selected items.
+                clickedVideoSearchResult.set('firstSelected', true);
+            }
+            //  If the user isn't holding the control key when they click -- all other selections are lost.
+            else if (!event.ctrlKey) {
+                VideoSearchResults.deselectAllExcept(clickedVideoSearchResult.cid);
+            }
+
         }
     });
 
