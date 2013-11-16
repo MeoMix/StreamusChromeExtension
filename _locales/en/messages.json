@@ -149,9 +149,6 @@
 	"toggleVolume": {
 		"message": "Toggle volume"
 	},
-	"clickDragChangeVolume": {
-		"message": "Click or drag to change the volume."
-	},
 	"suggestedQuality": {
 		"message": "Suggested Quality:"
 	},

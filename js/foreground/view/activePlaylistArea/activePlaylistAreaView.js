@@ -41,6 +41,15 @@
             playlistActions.append(this.playAllButtonView.render().el);
            
             this.playlistDetails = this.$el.find('.playlist-details');
+            
+            this.$el.find('[title]:enabled').qtip({
+                position: {
+                    viewport: $(window)
+                },
+                style: {
+                    classes: 'qtip-light qtip-shadow'
+                }
+            });
 
             return this;
         },

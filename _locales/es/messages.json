@@ -146,9 +146,6 @@
 	"toggleVolume": {
 		"message": "Silenciar/Activar volumen"
 	},
-	"clickDragChangeVolume": {
-		"message": "Pulsa o arrastra para modificar el volumen."
-	},
 	"suggestedQuality": {
 		"message": "Calidad deseada:"
 	},

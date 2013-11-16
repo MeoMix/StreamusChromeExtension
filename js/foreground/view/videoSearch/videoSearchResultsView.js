@@ -44,6 +44,7 @@
                 container: this.$el
             });
 
+            var self = this;
             this.$el.find('.listItem').draggable({
                 helper: function() {
 
@@ -69,8 +70,13 @@
                     var draggedVideoId = $(this).data('videoid');
 
                     var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-                    videoSearchResult.set('selected', true);
                     videoSearchResult.set('dragging', true);
+
+                    self.doSetSelected({
+                        searchResult: videoSearchResult,
+                        //  Simulate ctrlKey click when dragging an already selected item to not deselect other results
+                        ctrlKey: videoSearchResult.get('selected')
+                    });
 
                     //  Set it here not in helper because dragStart may select a search result.
                     $(ui.helper).text(VideoSearchResults.selected().length);
@@ -123,8 +129,19 @@
         },
         
         addAll: function () {
-            //  TODO: Is this better than bulk add?
-            VideoSearchResults.each(this.addOne, this);
+            
+            var videoSearchResultElements = VideoSearchResults.map(function (videoSearchResult, index) {
+                
+                var videoSearchResultView = new VideoSearchResultView({
+                    model: videoSearchResult,
+                    index: index
+                });
+
+                return videoSearchResultView.render().el;
+
+            });
+            
+            this.$el.append(videoSearchResultElements);
         },
         
         toggleLoadingMessage: function() {
@@ -188,20 +205,21 @@
             });
         },
         
-        setSelectedOnClick: function (event) {
-
-            var videoId = $(event.currentTarget).data('videoid');
-            var clickedVideoSearchResult = VideoSearchResults.getByVideoId(videoId);
-
+        doSetSelected: function(options) {
+            var searchResult = options.searchResult;
+            
+            var shiftKeyPressed = options.shiftKey || false;
+            var ctrlKeyPressed = options.ctrlKey || false;
+            
             //  A dragged videoSearchResult must always be selected.
-            var selected = !clickedVideoSearchResult.get('selected') || clickedVideoSearchResult.get('dragging');
-            clickedVideoSearchResult.set('selected', selected);
+            var selected = !searchResult.get('selected') || searchResult.get('dragging');
+            searchResult.set('selected', selected);
             
             //  When the shift key is pressed - select a block of search result items
-            if (event.shiftKey) {
+            if (shiftKeyPressed) {
 
                 var firstSelectedIndex = 0;
-                var clickedSearchResultIndex = VideoSearchResults.indexOf(clickedVideoSearchResult);
+                var searchResultIndex = VideoSearchResults.indexOf(searchResult);
 
                 //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
                 if (VideoSearchResults.selected().length > 1) {
@@ -209,28 +227,41 @@
                     var firstSelectedSearchResult = VideoSearchResults.findWhere({ firstSelected: true });
                     firstSelectedIndex = VideoSearchResults.indexOf(firstSelectedSearchResult);
                 }
-   
+
                 VideoSearchResults.each(function (videoSearchResult, index) {
 
-                    //  If clickedSearchResultIndex is 10, firstSelectedIndex is 5, select 5 through 10
-                    var isBetweenAbove = index <= clickedSearchResultIndex && index >= firstSelectedIndex;
-                    //  If clickedSearchResultIndex is 5, firstSelectedIndex is 10, select 5 through 10
-                    var isBetweenBelow = index >= clickedSearchResultIndex && index <= firstSelectedIndex;
+                    //  If searchResultIndex is 10, firstSelectedIndex is 5, select 5 through 10
+                    var isBetweenAbove = index <= searchResultIndex && index >= firstSelectedIndex;
+                    //  If searchResultIndex is 5, firstSelectedIndex is 10, select 5 through 10
+                    var isBetweenBelow = index >= searchResultIndex && index <= firstSelectedIndex;
 
                     videoSearchResult.set('selected', isBetweenBelow || isBetweenAbove);
 
                 });
-                
+
             }
-            else if (event.ctrlKey) {
+            else if (ctrlKeyPressed) {
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.
-                clickedVideoSearchResult.set('firstSelected', true);
+                searchResult.set('firstSelected', true);
             }
-            //  If the user isn't holding the control key when they click -- all other selections are lost.
-            else if (!event.ctrlKey) {
-                VideoSearchResults.deselectAllExcept(clickedVideoSearchResult.cid);
+            else {
+                //  If the user isn't holding the control key when they click -- all other selections are lost.
+                VideoSearchResults.deselectAllExcept(searchResult.cid);
             }
+
+        },
+        
+        setSelectedOnClick: function (event) {
+  
+            var videoId = $(event.currentTarget).data('videoid');
+            var clickedVideoSearchResult = VideoSearchResults.getByVideoId(videoId);
+
+            this.doSetSelected({
+                shiftKey: event.shiftKey,
+                ctrlKey: event.ctrlKey,
+                searchResult: clickedVideoSearchResult
+            });
 
         }
     });

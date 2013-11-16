@@ -46,7 +46,16 @@
             playlistActions.append(this.saveSelectedButtonView.render().el);
 
             this.searchUnderline = $('.searchBar .underline');
-
+            
+            this.$el.find('[title]:enabled').qtip({
+                position: {
+                    viewport: $(window)
+                },
+                style: {
+                    classes: 'qtip-light qtip-shadow'
+                }
+            });
+            
             return this;
         },
         

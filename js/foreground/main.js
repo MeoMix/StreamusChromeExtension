@@ -50,6 +50,7 @@ require.config({
         'jquery': 'thirdParty/jquery',
         'jqueryUi': 'thirdParty/jqueryUi',
         'lazyload': 'thirdParty/jquery.lazyload',
+        'qtip': 'thirdParty/jquery.qtip',
         'transit': 'thirdParty/jquery.transit',
         'levenshtein': 'thirdParty/levenshtein',
         'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
@@ -157,6 +158,7 @@ require([
     'selectize',
     'autoscroll',
     'hoverIntent',
+    'qtip',
     'jqueryUi',
     'scrollIntoView'
 ], function () {

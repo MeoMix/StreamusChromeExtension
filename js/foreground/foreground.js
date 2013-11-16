@@ -177,7 +177,6 @@ define([
 
             this.showActivePlaylistArea();
             this.listenTo(activeFolder.get('playlists'), 'change:active', this.showActivePlaylistArea);
-
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.

@@ -49,6 +49,15 @@
 
             this.panel = this.$el.find('.panel');
 
+            this.$el.find('[title]:enabled').qtip({
+                position: {
+                    viewport: $(window)
+                },
+                style: {
+                    classes: 'qtip-light qtip-shadow'
+                }
+            });
+
             return this;
         },
 

@@ -45,6 +45,15 @@ define([
             topBarRightGroup.append(this.videoDisplayButtonView.render().el);
 
             this.$el.append(this.streamView.render().el);
+            
+            this.$el.find('[title]:enabled').qtip({
+                position: {
+                    viewport: $(window)
+                },
+                style: {
+                    classes: 'qtip-light qtip-shadow'
+                }
+            });
 
             return this;
         },

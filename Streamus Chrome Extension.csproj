@@ -46,6 +46,7 @@
     <Content Include="css\beatportInject.css" />
     <Content Include="css\checkbox.css" />
     <Content Include="css\contextMenu.css" />
+    <Content Include="css\jquery.qtip.css" />
     <Content Include="css\options.css" />
     <Content Include="css\font-awesome.css" />
     <Content Include="css\fullscreen.css" />
@@ -118,6 +119,7 @@
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\jquery.autoscroll.js" />
     <Content Include="js\thirdParty\jquery.hoverIntent.js" />
+    <Content Include="js\thirdParty\jquery.qtip.js" />
     <Content Include="js\thirdParty\jquery.transit.js" />
     <Content Include="js\thirdParty\googleApiClient.js" />
     <Content Include="js\thirdParty\microplugin.js" />
