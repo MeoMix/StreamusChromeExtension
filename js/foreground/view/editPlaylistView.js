@@ -39,7 +39,7 @@
             return valid;
         },
         
-        save: function() {
+        doOk: function () {
             var playlistTitle = $.trim(this.playlistTitleInput.val());
             this.model.set('title', playlistTitle);
         }

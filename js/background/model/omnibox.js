@@ -11,6 +11,7 @@ define([
             
         defaults: {
             suggestedVideos: [],
+            searchJqXhr: null
         },
         
         initialize: function() {
@@ -30,14 +31,22 @@ define([
                     suggest();
 
                 } else {
+                    
+                    //  Do not display results if searchText was modified while searching, abort old request.
+                    var previousSearchJqXhr = self.get('searchJqXhr');
 
-                    //  TODO: Maybe abort ajax requests during typing.
-                    YouTubeDataAPI.search({
+                    if (previousSearchJqXhr) {
+                        previousSearchJqXhr.abort();
+                        self.set('searchJqXhr', null);
+                    }
+
+                    var searchJqXhr = YouTubeDataAPI.search({
                         text: trimmedSearchText,
                         //  Omnibox can only show 6 results
                         maxResults: 6,
                         success: function(videoInformationList) {
-
+                            self.set('searchJqXhr', null);
+                            
                             var suggestions = _.map(videoInformationList, function(videoInformation) {
 
                                 var video = new Video({
@@ -59,6 +68,8 @@ define([
 
                         }
                     });
+
+                    self.set('searchJqXhr', searchJqXhr);
                 }
 
             });

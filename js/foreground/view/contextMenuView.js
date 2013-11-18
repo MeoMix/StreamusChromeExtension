@@ -1,8 +1,7 @@
 ﻿define([
     'contextMenuGroups',
-    'text!../template/contextMenu.htm',
-    'utility'
-], function (ContextMenuGroups, ContextMenuTemplate, Utility) {
+    'text!../template/contextMenu.htm'
+], function (ContextMenuGroups, ContextMenuTemplate) {
     'use strict';
 
     //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.

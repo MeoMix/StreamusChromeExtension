@@ -211,7 +211,6 @@ define([
                 success: function () {
 
                     self.get('items').add(playlistItem);
-                    //  TODO: Consider just incrementing displayInfo instead of re-calculating if it becomes too expensive... should be ok though
                     self.setDisplayInfo();
 
                     if (callback) {

@@ -3,7 +3,6 @@
 ], function (VideoDisplayView) {
     'use strict';
 
-    //  TODO: There should probably be a ContentButtonView and Model which keep track of these properties and not just done on the ForegroundView.
     var FullscreenView = Backbone.View.extend({
 
         events: {

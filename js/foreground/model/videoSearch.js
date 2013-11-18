@@ -73,8 +73,9 @@
                                     self.set('searchJqXhr', null);
                                     videoSearchResults.setFromVideoInformation(videoInformation);
                                 },
-                                error: function (error) {
-                                    console.error(error);
+                                error: function () {
+                                    self.set('searchJqXhr', null);
+                                    videoSearchResults.reset();
                                 }
                             });
                         } else {

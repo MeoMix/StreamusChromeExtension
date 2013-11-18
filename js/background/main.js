@@ -1,21 +1,28 @@
 ﻿require.config({
+    
     baseUrl: '../js/',
+    
     shim: {
-        lodash: {
-            exports: '_'
-        },
-        backbone: {
+
+        'backbone': {
             //  These script dependencies should be loaded before loading backbone.js
             deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
-        googleApiClient: {
+        
+        'googleApiClient': {
             exports: 'GoogleApiClient'
         },
-        googleAnalytics: {
+        
+        'googleAnalytics': {
             deps: ['jquery']
+        },
+        
+        'lodash': {
+            exports: '_'
         }
+        
     },
     
     paths: {

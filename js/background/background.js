@@ -68,6 +68,7 @@ define([
         }
     });
 
+    //  TODO: Implement some consistent pattern to respond with failures / success indicators.
     //  TODO: Move some of these methods into objects instead of letting grow arbitrarily in background.js
     //  Listen for messages from YouTube video pages.
     chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
@@ -102,8 +103,12 @@ define([
                 sendResponse({ playlists: playlists });
                 break;
             case 'addVideoByIdToPlaylist':
-                //  TODO: Maybe not active folder.
+
                 var playlist = Folders.getActiveFolder().get('playlists').get(request.playlistId);
+                
+                if (playlist === undefined) {
+                    console.error("Failed to find playlist with id:" + request.playlistId);
+                }
 
                 YouTubeDataAPI.getVideoInformation({
                     videoId: request.videoId,

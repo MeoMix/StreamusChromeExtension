@@ -185,11 +185,10 @@ define([
             });
         },
 
-        //  TODO: Combine search and quickSearch and just take a max-results paramater.
         //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
         search: function(options) {
 
-            //  TODO: Be sure to filter out videos and suggestions which are restricted by the users geographic location.
+            //  TODO: When chrome.location API is stable - filter out videos and suggestions which are restricted by the users geographic location.
             var searchJqXhr = $.ajax({
                 type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/videos',
@@ -253,103 +252,44 @@ define([
             return searchJqXhr;
         },
         
-        //  Like search but limited to just one ajax request and smaller video size (used for omnibox currently)
-        quickSearch: function(text, callback) {
-            var quickSearchJqXhr = $.ajax({
-                type: 'GET',
-                url: 'https://gdata.youtube.com/feeds/api/videos',
-                dataType: 'json',
-                data: {
-                    category: 'Music',
-                    time: 'all_time',
-                    'max-results': 6, // Omnibox can only show 6 results so don't both getting more.
-                    'start-index': 1,
-                    format: 5,
-                    v: 2,
-                    alt: 'json',
-                    q: text,
-                    key: developerKey,
-                    fields: videosInformationFields,
-                    strict: true
-                },
-                success: function (result) {
-                    callback(result.feed.entry || []);
-                },
-                error: function (error) {
-                    console.error(error);
-                }
-            });
-
-            return quickSearchJqXhr;
-        },
-        
-        //  TODO: How can I make this prettier?
         parseUrlForDataSource: function (url) {
+
+            var dataSourceOptions = [{
+                identifiers: ['list=PL'],
+                dataSource: DataSource.YOUTUBE_PLAYLIST
+            }, {
+                identifiers: ['list=FL'],
+                dataSource: DataSource.YOUTUBE_FAVORITES
+            }, {
+                identifiers: ['/user/', '/channel', 'list=UU'],
+                dataSource: DataSource.YOUTUBE_CHANNEL
+            }, {
+                identifiers: ['streamus:'],
+                dataSource: DataSource.SHARED_PLAYLIST
+            }];
 
             var dataSource = {
                 id: null,
                 type: DataSource.USER_INPUT
             };
-            
-            //  Try for PlaylistId:
-            var dataSourceId = tryGetIdFromUrl(url, 'list=PL');
 
-            if (dataSourceId !== '') {
-                dataSource = {
-                    id: dataSourceId,
-                    type: DataSource.YOUTUBE_PLAYLIST
-                };
-                return dataSource;
-            }
-            
-            //  Try for user favorite videos:
-            dataSourceId = tryGetIdFromUrl(url, 'list=FL');
-            
-            if (dataSourceId !== '') {
-                dataSource = {
-                    id: dataSourceId,
-                    type: DataSource.YOUTUBE_FAVORITES
-                };
-                return dataSource;
-            }
-
-            //  Try feed from a user URL
-            dataSourceId = tryGetIdFromUrl(url, '/user/');
+            //  Find whichever option works.
+            _.each(dataSourceOptions, function (dataSourceOption) {
                 
-            //  Maybe they gave a channel ID instead which works same as user
-            if (dataSourceId === '') {
-                dataSourceId = tryGetIdFromUrl(url, '/channel/');
-            }
+                var validIdentifier = _.find(dataSourceOption.identifiers, function (identifier) {
+                    var dataSourceId = tryGetIdFromUrl(url, identifier);
+                    return dataSourceId !== '';
+                });
                 
-            if (dataSourceId !== '') {
-                dataSource = {
-                    id: dataSourceId,
-                    type: DataSource.YOUTUBE_CHANNEL
-                };
+                if (validIdentifier !== undefined) {
+                    dataSource = {
+                        id: tryGetIdFromUrl(url, validIdentifier),
+                        type: dataSourceOption.dataSource
+                    };
+                }
 
-                return dataSource;
-            }
+            });
             
-            dataSourceId = tryGetIdFromUrl(url, 'list=UU');
-
-            if (dataSourceId !== '') {
-                dataSource = {
-                    id: dataSourceId,
-                    type: DataSource.YOUTUBE_CHANNEL
-                };
-                return dataSource;
-            }
-
-            dataSourceId = tryGetIdFromUrl(url, 'streamus:');
-                    
-            if (dataSourceId !== '') {
-                dataSource = {
-                    id: dataSourceId,
-                    type: DataSource.SHARED_PLAYLIST
-                };
-                return dataSource;
-            }
-
             return dataSource;
         },
         

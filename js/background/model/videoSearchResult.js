@@ -6,7 +6,6 @@
         defaults: {
             
             selected: false,
-            dragging: false,
             //  Whether the item was the first to be selected or one of many.
             //  Important for proper shift+click functionality.
             firstSelected: false,

@@ -112,6 +112,7 @@
 		"storage",
 		"identity",
 		"idle",
+
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*",

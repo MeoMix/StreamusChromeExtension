@@ -109,7 +109,7 @@
             return valid;
         },
 
-        save: function () {
+        doOk: function () {
 
             var activeFolder = Folders.getActiveFolder();
 

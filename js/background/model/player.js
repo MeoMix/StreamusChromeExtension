@@ -232,9 +232,6 @@ define([
             });
         },
 
-        //  TODO: For certain long videos, (example: http://youtu.be/_EKBpHbRTPI ) seekTo's seeked event never returns.
-        //  I think this is due to YouTube's old implementation. I might be able to get around this by calling loadVideoById at a specific time-point??
-        //  seekTo can be spammed via mousewheel scrolling so debounce as to not spam the player, but still capture final result.
         seekTo: _.debounce(function (timeInSeconds) {
 
             var state = this.get('state');

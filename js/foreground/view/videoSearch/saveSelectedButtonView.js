@@ -50,7 +50,7 @@ define([
             var selectedCount = selectedSearchResults.length;
             
             if (selectedCount > 0) {
-                //  TODO: Can I pluck here?
+
                 var videos = _.map(selectedSearchResults, function (searchResult) {
                     return searchResult.get('video');
                 });

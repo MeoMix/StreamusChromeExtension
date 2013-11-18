@@ -9,8 +9,7 @@ define(function () {
         defaults: {
             enabled: false
         },
-
-        //  TODO: Consider debouncing here, too.
+        
         toggleEnabled: function () {
             this.set('enabled', !this.get('enabled'));
         }

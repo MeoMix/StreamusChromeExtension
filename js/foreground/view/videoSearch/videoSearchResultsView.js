@@ -70,12 +70,13 @@
                     var draggedVideoId = $(this).data('videoid');
 
                     var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-                    videoSearchResult.set('dragging', true);
+                    //videoSearchResult.set('dragging', true);
 
                     self.doSetSelected({
                         searchResult: videoSearchResult,
                         //  Simulate ctrlKey click when dragging an already selected item to not deselect other results
-                        ctrlKey: videoSearchResult.get('selected')
+                        ctrlKey: videoSearchResult.get('selected'),
+                        drag: true
                     });
 
                     //  Set it here not in helper because dragStart may select a search result.
@@ -83,16 +84,7 @@
                 },
                 
                 stop: function () {
-
                     $('body').removeClass('dragging');
-                    var draggedVideoId = $(this).data('videoid');
-                    var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-
-                    //  TODO: Is it really necessary to wrap this in a set timeout?
-                    setTimeout(function() {
-                        videoSearchResult.set('dragging', false);
-                    });
-
                 }
             });
 
@@ -210,10 +202,10 @@
             
             var shiftKeyPressed = options.shiftKey || false;
             var ctrlKeyPressed = options.ctrlKey || false;
+            var isDrag = options.drag || false;
             
-            //  A dragged videoSearchResult must always be selected.
-            var selected = !searchResult.get('selected') || searchResult.get('dragging');
-            searchResult.set('selected', selected);
+            //  A dragged item is always selected.
+            searchResult.set('selected', !searchResult.get('selected') || isDrag);
             
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {

@@ -10,7 +10,6 @@
             var self = this;
 
             //  Whenever a playlist is removed -- select the next playlist.
-            //  TODO: If the last playlist is removed the 2nd-to-last playlist should be selected, not the first.
             this.on('remove', function (removedPlaylist) {
 
                 //  TODO: I think this works?

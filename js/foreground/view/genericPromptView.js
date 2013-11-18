@@ -46,7 +46,7 @@
         initialize: function (options) {
 
             this.title = options.title;
-            this.okButonText = options.okButtonText || this.okButonText;
+            this.okButtonText = options.okButtonText || this.okButonText;
             this.cancelButtonText = options.cancelButtonText || this.cancelButtonText;
             this.$el.addClass(this.model.className + 'Prompt');
 
@@ -110,7 +110,7 @@
             var isValid = this.model.validate ? this.model.validate() : true;
             
             if (isValid) {
-                this.model.save();
+                this.model.doOk();
                 this.fadeOutAndHide();
             }
             

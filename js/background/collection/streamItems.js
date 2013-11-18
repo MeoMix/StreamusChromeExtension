@@ -186,11 +186,8 @@ define([
         },
         
         addByPlaylist: function (playlist, playOnAdd) {
-            
-            //  TODO: Can I pluck here?
-            var videos = playlist.get('items').map(function (playlistItem) {
-                return playlistItem.get('video');
-            });
+
+            var videos = playlist.get('items').pluck('video');
             
             if (videos.length === 1) {
                 this.addByVideo(videos[0], playOnAdd);

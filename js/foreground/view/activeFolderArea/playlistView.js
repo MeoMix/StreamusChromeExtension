@@ -1,6 +1,12 @@
 ﻿define([
-    'text!../template/playlist.htm'
-], function (PlaylistTemplate) {
+    'text!../template/playlist.htm',
+    'contextMenuGroups',
+    'genericPromptView',
+    'deletePlaylistView',
+    'editPlaylistView',
+    'settings',
+    'folders'
+], function (PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders) {
     'use strict';
 
     var PlaylistView = Backbone.View.extend({
@@ -19,7 +25,8 @@
         },
         
         events: {
-            'click': 'select'
+            'click': 'select',
+            'contextmenu': 'showContextMenu'
         },
 
         render: function () {
@@ -46,6 +53,115 @@
         
         select: function() {
             this.model.set('active', true);
+        },
+        
+        showContextMenu: function (event) {
+
+            event.preventDefault();
+            ContextMenuGroups.reset();
+
+            var isEmpty = this.model.get('items').length === 0;
+
+            //  Don't allow deleting of the last playlist in a folder ( at least for now )
+            var isDeleteDisabled = Folders.get(this.model.get('folderId')).get('playlists').length === 1;
+
+            var self = this;
+            ContextMenuGroups.add({
+                items: [{
+                    //  No point in sharing an empty playlist...
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage("sharePlaylistNoShareWarning") : '',
+                    text: chrome.i18n.getMessage("copyUrl"),
+                    onClick: function () {
+
+                        self.model.getShareCode(function (shareCode) {
+
+                            var shareCodeShortId = shareCode.get('shortId');
+                            var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
+
+                            var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
+
+                            chrome.extension.sendMessage({
+                                method: 'copy',
+                                text: playlistShareUrl
+                            });
+
+                        });
+
+                    }
+                }, {
+                    text: chrome.i18n.getMessage("delete"),
+                    disabled: isDeleteDisabled,
+                    title: isDeleteDisabled ? chrome.i18n.getMessage("deletePlaylistDisabled") : '',
+                    onClick: function () {
+
+                        if (!isDeleteDisabled) {
+
+                            //  No need to notify if the playlist is empty.
+                            if (self.model.get('items').length === 0) {
+                                self.model.destroy();
+                            } else {
+
+                                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
+                                if (remindDeletePlaylist) {
+
+                                    var deletePlaylistPromptView = new GenericPromptView({
+                                        title: chrome.i18n.getMessage('deletePlaylist'),
+                                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                                        model: new DeletePlaylistView({
+                                            model: self.model
+                                        })
+                                    });
+
+                                    deletePlaylistPromptView.fadeInAndShow();
+
+                                } else {
+                                    self.model.destroy();
+                                }
+
+
+                            }
+
+                        }
+                    }
+                }, {
+                    text: chrome.i18n.getMessage("addPlaylistToStream"),
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage("noAddStreamWarning") : '',
+                    onClick: function () {
+
+                        if (!isEmpty) {
+
+                            var streamItems = self.model.get('items').map(function (playlistItem) {
+                                return {
+                                    id: _.uniqueId('streamItem_'),
+                                    video: playlistItem.get('video'),
+                                    title: playlistItem.get('title')
+                                };
+                            });
+
+                            StreamItems.addMultiple(streamItems);
+                        }
+
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('edit'),
+                    onClick: function () {
+
+                        var editPlaylistPromptView = new GenericPromptView({
+                            title: chrome.i18n.getMessage('editPlaylist'),
+                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                            model: new EditPlaylistView({
+                                model: self.model
+                            })
+                        });
+
+                        editPlaylistPromptView.fadeInAndShow();
+
+                    }
+                }]
+            });
+
         }
 
     });

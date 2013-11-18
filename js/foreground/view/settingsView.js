@@ -34,7 +34,7 @@
             return this;
         },
 
-        save: function () {
+        doOk: function () {
 
             var suggestedQuality = this.suggestedQualitySelect.val();
 

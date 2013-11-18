@@ -19,7 +19,7 @@
         },
         
         save: function() {
-            this.settingsView.save();
+            this.settingsView.doOk();
         }
     });
 

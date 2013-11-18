@@ -17,9 +17,8 @@
 
             return this;
         },
-
-        //  TODO: Maybe change save to a more generic term?
-        save: function() {
+        
+        doOk: function () {
             chrome.runtime.reload();
         }
 

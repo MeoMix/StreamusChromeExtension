@@ -120,12 +120,6 @@ define([
                 this.trigger('childSync');
             });
             
-            this.listenTo(Folders, 'change:active', function (folder, isActive) {
-                //  Keep local storage up-to-date with the active folder.
-                if (isActive) {
-                    localStorage.setItem(this.get('id') + '_activeFolderId', folder.get('id'));
-                }
-            });
         },
         
         tryAuthorize: function (immediate, callback) {
@@ -281,16 +275,8 @@ define([
         //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
         Folders.reset(this.get('folders'));
 
-        //  Try to load active folder from localstorage
-        if (Folders.length > 0) {
-
-            var activeFolderId = localStorage.getItem(this.get('id') + '_activeFolderId');
-
-            //  Be sure to always have an active folder if there is one available.
-            var folderToSetActive = Folders.get(activeFolderId) || Folders.at(0);
-            folderToSetActive.set('active', true);
-
-        }
+        //  In the future there might need to be logic here for marking an appropriate folder as active, but for now only 1 folder so it is the active one.
+        Folders.at(0).set('active', true);
 
         //  TODO: Error handling for writing to sync too much.
         //  Write to sync as little as possible because it has restricted read/write limits per hour.

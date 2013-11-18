@@ -19,7 +19,7 @@
             return this;
         },
         
-        save: function() {
+        doOk: function () {
                         
             var remindClearStream = !this.$el.find('input#remindClearStream').is(':checked');
             Settings.set('remindClearStream', remindClearStream);

@@ -7,24 +7,24 @@ require.config({
 
     shim: {
         
-        lodash: {
-            exports: '_'
-        },
-        
-        backbone: {
+        'backbone': {
             //  These script dependencies should be loaded before loading backbone.js
             deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
         },
-        
+
         //  For "modules" that are just jQuery or Backbone plugins that do not need to export any module value, the shim config can just be an array of dependencies:
-        lazyload: ['jquery'],
-        transit: ['jquery'],
-        autoscroll: ['jquery'],
-        hoverIntent: ['jquery'],
-        jqueryUi: ['jquery'],
-        scrollIntoView: ['jquery']
+        'jquery.autoscroll': ['jquery'],
+        'jquery.hoverIntent': ['jquery'],
+        'jquery.lazyload': ['jquery'],
+        'jquery.scrollIntoView': ['jquery'],
+        'jquery.transit': ['jquery'],
+        'jqueryUi': ['jquery'],
+        
+        'lodash': {
+            exports: '_'
+        }
         
     },
     
@@ -43,15 +43,15 @@ require.config({
 
         //  Third Party:
         'backbone': 'thirdParty/backbone',
-        'autoscroll': 'thirdParty/jquery.autoscroll',
-        'hoverIntent': 'thirdParty/jquery.hoverIntent',
+        'jquery.autoscroll': 'thirdParty/jquery.autoscroll',
+        'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
         'jquery': 'thirdParty/jquery',
+        'jquery.lazyload': 'thirdParty/jquery.lazyload',
+        'jquery.qtip': 'thirdParty/jquery.qtip',
+        'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
+        'jquery.transit': 'thirdParty/jquery.transit',
         'jqueryUi': 'thirdParty/jqueryUi',
-        'lazyload': 'thirdParty/jquery.lazyload',
-        'qtip': 'thirdParty/jquery.qtip',
-        'transit': 'thirdParty/jquery.transit',
         'levenshtein': 'thirdParty/levenshtein',
-        'scrollIntoView': 'thirdParty/jquery.scrollIntoView',
         'lodash': 'thirdParty/lodash',
         'microplugin': 'thirdParty/microplugin',
         'selectize': 'thirdParty/selectize',
@@ -148,17 +148,17 @@ require.config({
 });
 
 require([
-    'jquery',
-    'lodash',
     'backbone',
-    'lazyload',
-    'transit',
-    'selectize',
-    'autoscroll',
-    'hoverIntent',
-    'qtip',
+    'jquery.autoscroll',
+    'jquery.hoverIntent',
+    'jquery',
+    'jquery.lazyload',
+    'jquery.qtip',
+    'jquery.scrollIntoView',
+    'jquery.transit',
     'jqueryUi',
-    'scrollIntoView'
+    'lodash',
+    'selectize'
 ], function () {
     'use strict';
     

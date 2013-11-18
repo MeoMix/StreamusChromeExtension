@@ -98,7 +98,7 @@
             return isValid;
         },
         
-        save: function () {
+        doOk: function () {
             var selectedPlaylistId = this.playlistSelect.val();
 
             if (this.creating) {

@@ -3,7 +3,6 @@
 ], function (RadioButtonTemplate) {
     'use strict';
 
-    //  TODO: Consider renaming from Radio to Discovery -- sounds nicer..
     var RadioButtonView = Backbone.View.extend({
         
         tagName: 'button',

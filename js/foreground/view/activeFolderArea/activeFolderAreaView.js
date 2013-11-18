@@ -116,32 +116,44 @@
         toggleActiveFolderVisibility: function(event) {
 
             var caretIcon = $(event.currentTarget).find('i');
-            //  TODO: Would be nice to read from a model and not inspect the view.
-            var isExpanded = caretIcon.hasClass('fa-caret-down');
-            
-            var activeFolderViewElement = this.activeFolderView.$el;
 
-            //  TODO: It would be nice to translate over scale if possible instead of height? Or translate up?
+            var isExpanded = caretIcon.data('expanded');
+
             if (isExpanded) {
-                caretIcon.removeClass('fa-caret-down').addClass('fa-caret-right');
+                caretIcon.data('expanded', false);
+            }
+
+            caretIcon.transitionStop().transition({
+                rotate: isExpanded ? -90 : 0
+            }, 200);
+
+            var activeFolderViewElement = this.activeFolderView.$el;
+            
+            if (isExpanded) {
 
                 var currentHeight = activeFolderViewElement.height();
+     
+                //  Need to set height here because transition doesn't work if height is auto through CSS.
+                var heightStyle = $.trim(activeFolderViewElement[0].style.height);
+                if (heightStyle == '' || heightStyle == 'auto') {
+                    activeFolderViewElement.height(currentHeight);
+                }
 
                 activeFolderViewElement.data('oldheight', currentHeight);
 
-                //  Need to set height here because transition doesn't work if height is auto through CSS.
-                activeFolderViewElement.height(currentHeight).transition({
+                activeFolderViewElement.transitionStop().transition({
                     height: 0
                 }, 200, function () {
-                    $(this).hide();
+                    $(this).hide();  
                 });
 
             } else {
-                caretIcon.addClass('fa-caret-down').removeClass('fa-caret-right');
 
-                this.activeFolderView.$el.show().transition({
+                this.activeFolderView.$el.show().transitionStop().transition({
                     height: activeFolderViewElement.data('oldheight')
-                }, 200);
+                }, 200, function () {
+                    caretIcon.data('expanded', true);
+                });
             }
 
         },

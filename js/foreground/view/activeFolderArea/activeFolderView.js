@@ -6,12 +6,9 @@ define([
     'dataSource',
     'streamItems',
     'playlistView',
-    'deletePlaylistView',
-    'editPlaylistView',
     'genericPromptView',
     'createPlaylistView',
-    'settings'
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, DeletePlaylistView, EditPlaylistView, GenericPromptView, CreatePlaylistView, Settings) {
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({
@@ -21,8 +18,7 @@ define([
         template: _.template(ActiveFolderTemplate),
 
         events: {
-            'contextmenu': 'showContextMenu',
-            'contextmenu li': 'showItemContextMenu'
+            'contextmenu': 'showContextMenu'
         },
         
         attributes: {
@@ -110,117 +106,6 @@ define([
                 }]
             });
             
-        },
-        //  TODO: Move this onto the Playlist not inside of ActiveFolder
-        showItemContextMenu: function (event) {
-
-            event.preventDefault();
-            ContextMenuGroups.reset();
-            
-            var clickedPlaylistId = $(event.currentTarget).data('playlistid');
-            var clickedPlaylist = this.model.get('playlists').get(clickedPlaylistId);
-
-            var isEmpty = clickedPlaylist.get('items').length === 0;
-
-            //  Don't allow deleting of the last playlist in a folder ( at least for now )
-            var isDeleteDisabled = this.model.get('playlists').length === 1;
-  
-            ContextMenuGroups.add({
-                items: [{
-                    //  No point in sharing an empty playlist...
-                    disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage("sharePlaylistNoShareWarning") : '',
-                    text: chrome.i18n.getMessage("copyUrl"),
-                    onClick: function () {
-
-                        clickedPlaylist.getShareCode(function (shareCode) {
-
-                            var shareCodeShortId = shareCode.get('shortId');
-                            var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
-
-                            var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
-
-                            chrome.extension.sendMessage({
-                                method: 'copy',
-                                text: playlistShareUrl
-                            });
-
-                        });
-
-                    }
-                }, {
-                    text: chrome.i18n.getMessage("delete"),
-                    disabled: isDeleteDisabled,
-                    title: isDeleteDisabled ? chrome.i18n.getMessage("deletePlaylistDisabled") : '',
-                    onClick: function () {
-
-                        if (!isDeleteDisabled) {
-                            
-                            //  No need to notify if the playlist is empty.
-                            if (clickedPlaylist.get('items').length === 0) {
-                                clickedPlaylist.destroy();
-                            } else {
-                                
-                                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
-                                if (remindDeletePlaylist) {
-                                    
-                                    var deletePlaylistPromptView = new GenericPromptView({
-                                        title: chrome.i18n.getMessage('deletePlaylist'),
-                                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
-                                        model: new DeletePlaylistView({
-                                            model: clickedPlaylist
-                                        })
-                                    });
-
-                                    deletePlaylistPromptView.fadeInAndShow();
-
-                                } else {
-                                    clickedPlaylist.destroy();
-                                }
-
-                                
-                            }
-
-                        }
-                    }
-                }, {
-                    text: chrome.i18n.getMessage("addPlaylistToStream"),
-                    disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage("noAddStreamWarning") : '',
-                    onClick: function () {
-
-                        if (!isEmpty) {
-
-                            var streamItems = clickedPlaylist.get('items').map(function (playlistItem) {
-                                return {
-                                    id: _.uniqueId('streamItem_'),
-                                    video: playlistItem.get('video'),
-                                    title: playlistItem.get('title')
-                                };
-                            });
-
-                            StreamItems.addMultiple(streamItems);
-                        }
-
-                    }
-                }, {
-                    text: chrome.i18n.getMessage('edit'),
-                    onClick: function () {
-
-                        var editPlaylistPromptView = new GenericPromptView({
-                            title: chrome.i18n.getMessage('editPlaylist'),
-                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                            model: new EditPlaylistView({
-                                model: clickedPlaylist
-                            })
-                        });
-                        
-                        editPlaylistPromptView.fadeInAndShow();
-
-                    }
-                }]
-            });
-
         }
 
     });

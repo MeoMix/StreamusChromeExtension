@@ -22,7 +22,7 @@
             return this;
         },
 
-        save: function() {
+        doOk: function () {
             var remindDeletePlaylist = !this.$el.find('input#remindDeletePlaylist').is(':checked');
 
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);

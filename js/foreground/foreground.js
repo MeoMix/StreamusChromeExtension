@@ -278,13 +278,6 @@ define([
                     }
                 });
 
-                this.listenTo(VideoSearchResults, 'change:dragging', function (changedItem, dragging) {
-                    //  Whenever a search result is dragged - slide in search results.
-                    if (dragging && this.addSearchResultsView === null) {
-                        this.showAddSearchResults();
-                    }
-                });
-
                 this.listenToOnce(videoSearch, 'destroy', function () {
                     this.videoSearchView = null;
 

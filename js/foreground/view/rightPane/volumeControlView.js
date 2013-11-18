@@ -53,20 +53,19 @@ define([
             this.listenTo(Player, 'change:volume', this.updateProgressAndVolumeIcon);
 
             var config = {
-                sensitivity: 3,
-                interval: 5000,
+                sensitivity: 2,
+                interval: 5500,
             };
 
-            //  TODO: This is a bit of a mess. Replace height/marginTop with translates for efficiency.
             var self = this;
             this.$el.hoverIntent(function () {
                 
-                $(this).transition({ height: 152 }, 200);
+                $(this).data('oldheight', $(this).height()).transition({ height: 150 }, 200);
                 self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
 
             }, function () {
 
-                $(this).transition({ height: 36 }, 200);
+                $(this).transition({ height: $(this).data('oldheight') }, 200);
                 self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
             }, config);
 

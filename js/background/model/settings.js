@@ -2,7 +2,6 @@
 //  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
 var Settings = null;
 
-//  Denormalization point for the Background's selected models.
 define(function () {
     'use strict';
 
@@ -12,7 +11,6 @@ define(function () {
             return {
                 localDebug: false,
                 serverURL: '',
-                activeFolderId: getItem('activeFolderId') || null,
                 suggestedQuality: getItem('suggestedQuality') || 'default',
                 userId: getItem('userId') || null,
                 youTubeInjectClicked: getItem('youTubeInjectClicked') || true,
@@ -31,15 +29,6 @@ define(function () {
                 this.set('serverURL', 'http://streamus.apphb.com/');
             }
 
-            this.on('change:activeFolderId', function (model, activeFolderId) {
-                localStorage.setItem('activeFolderId', JSON.stringify(activeFolderId));
-            });
-
-            //  TODO: I think I need to finish implementing this?
-            this.on('change:activePlaylistId', function (model, activePlaylistId) {
-                localStorage.setItem('activePlaylistId', JSON.stringify(activePlaylistId));
-            });
-            
             this.on('change:suggestedQuality', function(model, suggestedQuality) {
                 localStorage.setItem('suggestedQuality', suggestedQuality);
             });
@@ -87,7 +76,6 @@ define(function () {
         return item;
     }
     
-    //  TODO: Broke naming conventions here.
     Settings = new settingsModel();
     return Settings;
 });

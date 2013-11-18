@@ -60,7 +60,6 @@ define([
                 localStorage.removeItem(self.get('id') + '_activePlaylistId');
             });
 
-
             this.listenTo(playlists, 'sync', function() {
                 this.trigger('sync');
             });
