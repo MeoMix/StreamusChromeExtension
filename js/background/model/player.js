@@ -120,6 +120,8 @@ define([
                 //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
                 //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
                 youTubePlayer = new window.YT.Player('MusicHolder', {
+                    width: 480,
+                    height: 360,
                     events: {
                         'onReady': function () {
 
