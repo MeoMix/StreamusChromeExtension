@@ -116,6 +116,13 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\test\main.js" />
+    <Content Include="js\test\test.js" />
+    <Content Include="js\test\youTubeDataApiTest.js" />
+    <Content Include="js\thirdParty\jasmine-html.js" />
+    <Content Include="css\jasmine.css" />
+    <Content Include="js\thirdParty\jasmine.js" />
+    <Content Include="test.htm" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\jquery.autoscroll.js" />
     <Content Include="js\thirdParty\jquery.hoverIntent.js" />
