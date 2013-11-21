@@ -1,5 +1,6 @@
 ﻿define({
 
+    //  TODO: Unsure if I even want this functionality.
     //  If there are a ton of elements which need to scroll all under a given root element, allow for event delegation
     scrollChildElements: function (parent, childElementSelector) {
 
@@ -27,6 +28,7 @@
 
     },
 
+    //  TODO: How do I test something like this?
     //  http://stackoverflow.com/questions/16247825/fetch-z-random-items-from-array-of-size-n-in-z-time
     getRandomNonOverlappingNumbers: function (numbersDesired, maxNumberToUse) {
         var i,
@@ -118,10 +120,10 @@
     
     htmlEscape: function (unsafeString) {
         var safeString = unsafeString
-            .replace(/&/g, "&amp;")
-            .replace(/</g, "&lt;")
-            .replace(/>/g, "&gt;")
-            .replace(/"/g, "&quot;");
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&qot;');
 
         return safeString;
     },
@@ -129,9 +131,6 @@
     /**
     * Cleanse method inspired by the Chrome Last.fm Scrobbler extension
     * by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
-    *
-    * @param {String} artist
-    * @param {String} title
     */
     cleanseVideoTitle: function(title) {
 

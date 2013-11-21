@@ -118,6 +118,7 @@
     <Content Include="js\inject\beatportInject.js" />
     <Content Include="js\test\main.js" />
     <Content Include="js\test\test.js" />
+    <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\youTubeDataApiTest.js" />
     <Content Include="js\thirdParty\jasmine-html.js" />
     <Content Include="css\jasmine.css" />
