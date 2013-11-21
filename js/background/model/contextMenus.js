@@ -8,7 +8,7 @@ define([
     'user'
 ], function (StreamItems, Video, YouTubeDataAPI, Utility, Folders, User) {
     'use strict';
-    
+
     var ContextMenu = Backbone.Model.extend({
         //  Show the Streamus context menu items only when right-clicking on an appropriate target.
         documentUrlPatterns: ["*://*.youtube.com/watch?*", "*://*.youtu.be/*"],

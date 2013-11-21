@@ -1,6 +1,7 @@
 ﻿define([
-    'youTubeDataApiTest'
-], function (YouTubeDataAPITest) {
+    'youTubeDataApiTest',
+    'utilityTest'
+], function (YouTubeDataAPITest, UtilityTest) {
     'use strict';
     
     //  Load up all the specs we're testing.

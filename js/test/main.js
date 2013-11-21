@@ -47,6 +47,7 @@
         
         //  Test:
         'test': 'test/test',
+        'utilityTest': 'test/utilityTest',
         'youTubeDataApiTest': 'test/youTubeDataApiTest'
     }
 

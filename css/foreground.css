@@ -213,12 +213,16 @@ input, button, textarea, select { font-size: 100% }
 
 a { cursor: pointer }
 
-.playlistTitle {
+span.playlistTitle {
     font-size: 1.1em;
     font-weight: bold;
     white-space: nowrap;
     line-height: 45px;
     padding-left: 50px;
+    cursor: default;
+}
+
+.remindersLabel {
     cursor: default;
 }
 
