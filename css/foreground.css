@@ -692,6 +692,7 @@ input.valid {
     right: 1px;
     top: 10px;
     z-index: 1;
+    width: 287px;
 }
 
 .searchBar button#source-select {
