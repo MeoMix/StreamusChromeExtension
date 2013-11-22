@@ -9,32 +9,46 @@ define([
     var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl';
     var videosInformationFields = 'entry(' + videoInformationFields + ')';
 
-    //  A developer key uniquely identifies a product that is submitting an API request.
-    //  https://developers.google.com/youtube/2.0/developers_guide_protocol#Developer_Key
-    var developerKey = 'AI39si7voIBGFYe-bcndXXe8kex6-N_OSzM5iMuWCdPCSnZxLB_qIEnQ-HMijHrwN1Y9sFINBi_frhjzVVrYunHH8l77wfbLCA';
-
     var YouTubeDataAPI = Backbone.Model.extend({
+        
+        sendV2ApiRequest: function(options) {
 
-        //  Performs a search and then grabs the first item most related to the search title by calculating
-        //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
-        findPlayableByTitle: function (title, callback) {
-
-            var searchJqXhr = this.search({
-                text: title,
-                success: function (videoInformationList) {
-
-                    videoInformationList.sort(function (a, b) {
-                        return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
-                    });
-
-                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
-                    callback(videoInformation);
+            return $.ajax({
+                url: options.url,
+                data: $.extend({}, options.data, {
+                    //  The v parameter specifies the version of the API that YouTube should use to handle the API request.
+                    v: 2,
+                    //  The alt parameter specifies the format of the feed to be returned. 
+                    alt: 'json',
+                    //  If you want YouTube to reject API requests that contain invalid parameters, set the strict parameter value to true
+                    strict: true
+                }),
+                //  A developer key uniquely identifies a product that is submitting an API request.
+                //  https://developers.google.com/youtube/2.0/developers_guide_protocol#Developer_Key
+                headers: {
+                    'X-GData-Key': 'key=AI39si7voIBGFYe-bcndXXe8kex6-N_OSzM5iMuWCdPCSnZxLB_qIEnQ-HMijHrwN1Y9sFINBi_frhjzVVrYunHH8l77wfbLCA'
+                },
+                success: function() {
+                    if (options.success) {
+                        options.success(arguments[0]);
+                    }
+                },
+                error: function(error) {
+                    //  Manually aborted events don't need to be reported on
+                    if (error.statusText !== 'abort') {
+                        console.error(error);
+                    }
+                    
+                    if (options.error) {
+                        options.error(arguments[0]);
+                    }
+                    
                 }
             });
-
-            return searchJqXhr;
         },
 
+        //  Process a bunch of videoIds and get all of their related video information.
+        //  Spawns multiple AJAX requests (up to 5) and keeps that queue full while processing.
         getBulkRelatedVideoInformation: function (videoIds, callback) {
 
             var bulkRelatedVideoInformation = [];
@@ -81,7 +95,6 @@ define([
                         };
 
                         getRelatedVideoInfoClosure(currentVideoId);
-
                     }
 
                 }
@@ -96,19 +109,13 @@ define([
             var self = this;
 
             //  Do an async request for the videos's related videos. There isn't a hard dependency on them existing right as a video is created.
-            $.ajax({
+            return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + videoId + '/related',
                 data: {
-                    v: 2,
-                    alt: 'json',
                     category: 'Music',
                     fields: videosInformationFields,
                     //  Don't really need that many suggested videos, take 10.
-                    'max-results': 10,
-                    strict: true
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
+                    'max-results': 10
                 },
                 success: function (result) {
 
@@ -151,192 +158,105 @@ define([
                     });
 
                 },
-                error: function (error) {
-                    console.error(error);
-                    callback();
-                }
+                error: callback
             });
         },
 
         //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
         search: function (options) {
-
+            
             //  TODO: When chrome.location API is stable - filter out videos and suggestions which are restricted by the users geographic location.
-            var searchJqXhr = $.ajax({
+            return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/videos',
                 data: {
-                    v: 2,
-                    alt: 'json',
                     category: 'Music',
                     time: 'all_time',
                     'max-results': options.maxResults || 50,
                     'start-index': 1,
                     format: 5,
                     q: options.text,
-                    fields: videosInformationFields,
-                    strict: true
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
+                    fields: videosInformationFields
                 },
                 success: function (result) {
+                    console.log("Result:", result);
                     options.success(result.feed.entry || []);
-                },
-                error: function (error) {
-
-                    //  Aborts from typing too much are OK
-                    if (error.statusText !== 'abort') {
-                        console.error(error);
-                    }
-
                 }
             });
+        },
+        
+        //  Performs a search and then grabs the first item most related to the search title by calculating
+        //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
+        findPlayableByTitle: function (title, callback) {
 
-            return searchJqXhr;
+            return this.search({
+                text: title,
+                success: function (videoInformationList) {
+
+                    videoInformationList.sort(function (a, b) {
+                        return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
+                    });
+
+                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
+                    callback(videoInformation);
+                }
+            });
         },
 
         //searchPlaylist: function (options) {
 
-        //    var searchJqXhr = $.ajax({
+        //    return this.sendV2ApiRequest({
         //        url: 'https://gdata.youtube.com/feeds/api/playlists/snippets',
         //        data: {
-        //            v: 2,
-        //            alt: 'json',
         //            'max-results': options.maxResults || 50,
         //            'start-index': 1,
-        //            q: options.text,
-        //            strict: true
-        //        },
-        //        headers: {
-        //            'X-GData-Key': 'key=' + developerKey
+        //            q: options.text
         //        },
         //        success: function (result) {
         //            options.success(result.feed.entry || []);
-        //        },
-        //        error: function (error) {
-
-        //            //  Aborts from typing too much are OK
-        //            if (error.statusText !== 'abort') {
-        //                console.error(error);
-        //            }
-
         //        }
         //    });
-
-        //    return searchJqXhr;
         //},
-
-        parseUrlForDataSource: function (url) {
-
-            var dataSourceOptions = [{
-                identifiers: ['list=PL'],
-                dataSource: DataSource.YOUTUBE_PLAYLIST
-            }, {
-                identifiers: ['list=FL'],
-                dataSource: DataSource.YOUTUBE_FAVORITES
-            }, {
-                identifiers: ['list=AL'],
-                dataSource: DataSource.YOUTUBE_AUTOGENERATED
-            }, {
-                identifiers: ['/user/', '/channel', 'list=UU'],
-                dataSource: DataSource.YOUTUBE_CHANNEL
-            }, {
-                identifiers: ['streamus:'],
-                dataSource: DataSource.SHARED_PLAYLIST
-            }];
-
-            var dataSource = {
-                id: null,
-                type: DataSource.USER_INPUT
-            };
-
-            //  Find whichever option works.
-            _.each(dataSourceOptions, function (dataSourceOption) {
-
-                var validIdentifier = _.find(dataSourceOption.identifiers, function (identifier) {
-                    var dataSourceId = tryGetIdFromUrl(url, identifier);
-                    return dataSourceId !== '';
-                });
-
-                if (validIdentifier !== undefined) {
-                    dataSource = {
-                        id: tryGetIdFromUrl(url, validIdentifier),
-                        type: dataSourceOption.dataSource
-                    };
-                }
-
-            });
-
-            return dataSource;
-        },
-
+        
         getChannelName: function (channelId, callback) {
 
-            $.ajax({
+            return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/users/' + channelId,
-                data: {
-                    v: 2,
-                    alt: 'json',
-                    key: developerKey
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
-                },
                 success: function (result) {
                     if (callback) {
                         callback(result.entry.author[0].name.$t);
                     }
                 },
-                error: function (error) {
-                    console.error(error);
-
+                error: function() {
                     if (callback) {
                         callback('Error getting channel name');
                     }
                 }
             });
-
         },
 
         getPlaylistTitle: function (playlistId, callback) {
 
-            $.ajax({
-                url: "https://gdata.youtube.com/feeds/api/playlists/" + playlistId,
+            return this.sendV2ApiRequest({
+                url: 'https://gdata.youtube.com/feeds/api/playlists/' + playlistId,
                 data: {
-                    v: 2,
-                    alt: 'json',
-                    fields: 'title',
-                    strict: true
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
+                    fields: 'title'
                 },
                 success: function (result) {
                     if (callback) {
                         callback(result.feed.title.$t);
                     }
-                },
-                error: function (error) {
-                    console.error(error);
                 }
             });
-            
         },
 
         getVideoInformation: function (config) {
             var self = this;
 
-            $.ajax({
+            return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + config.videoId,
                 data: {
-                    v: 2,
-                    alt: 'json',
                     format: 5,
-                    fields: videoInformationFields,
-                    strict: true
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
+                    fields: videoInformationFields
                 },
                 success: function (result) {
 
@@ -365,11 +285,6 @@ define([
                     }
 
                 },
-                //  This error is silently consumed and handled -- it is an OK scenario if we don't get a video... sometimes
-                //  they are banned on copyright grounds. No need to log this error.
-                error: function () {
-                    config.error();
-                }
             });
         },
 
@@ -384,7 +299,6 @@ define([
             var url;
 
             switch (dataSource.type) {
-
                 case DataSource.YOUTUBE_CHANNEL:
                     url = 'https://gdata.youtube.com/feeds/api/users/' + dataSource.id + '/uploads';
                     break;
@@ -397,42 +311,31 @@ define([
                 default:
                     console.error("Unhandled dataSource type:", dataSource.type);
                     return;
-
             }
             
             var maxResultsPerSearch = 50;
             var startIndex = 1 + (maxResultsPerSearch * currentIteration);
 
-            $.ajax({
+            return this.sendV2ApiRequest({
                 url: url,
                 data: {
-                    v: 2,
-                    alt: 'json',
-                    key: developerKey,
                     'max-results': maxResultsPerSearch,
-                    'start-index': startIndex,
-                },
-                headers: {
-                    'X-GData-Key': 'key=' + developerKey
+                    'start-index': startIndex
                 },
                 success: function (result) {
-
-                    console.log('Get datasource result:', result);
-
-                    //  If the video duration has not been provided, video was deleted - skip.
-                    var validResults = _.filter(result.feed.entry, function (resultEntry) {
-                        return resultEntry.media$group.yt$duration !== undefined;
-                    });
-
-                    if (callback) {
-                        callback({
-                            iteration: currentIteration,
-                            results: validResults
+                        //  If the video duration has not been provided, video was deleted - skip.
+                        var validResults = _.filter(result.feed.entry, function (resultEntry) {
+                            return resultEntry.media$group.yt$duration !== undefined;
                         });
-                    }
+
+                        if (callback) {
+                            callback({
+                                iteration: currentIteration,
+                                results: validResults
+                            });
+                        }
                 },
-                error: function (error) {
-                    console.error(error);
+                error: function () {
 
                     if (callback) {
                         callback({
@@ -455,7 +358,6 @@ define([
             // }
 
             gapi.auth.authorize({
-
                 client_id: '346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com',
                 scope: 'https://www.googleapis.com/auth/youtube https://www.googleapis.com/auth/youtube.readonly https://www.googleapis.com/auth/youtube.upload https://www.googleapis.com/auth/youtubepartner',
                 //  Set immediate to false if authResult returns null
@@ -567,6 +469,50 @@ define([
 
             });
 
+        },
+        
+        parseUrlForDataSource: function (url) {
+
+            var dataSourceOptions = [{
+                identifiers: ['list=PL'],
+                dataSource: DataSource.YOUTUBE_PLAYLIST
+            }, {
+                identifiers: ['list=FL'],
+                dataSource: DataSource.YOUTUBE_FAVORITES
+            }, {
+                identifiers: ['list=AL'],
+                dataSource: DataSource.YOUTUBE_AUTOGENERATED
+            }, {
+                identifiers: ['/user/', '/channel', 'list=UU'],
+                dataSource: DataSource.YOUTUBE_CHANNEL
+            }, {
+                identifiers: ['streamus:'],
+                dataSource: DataSource.SHARED_PLAYLIST
+            }];
+
+            var dataSource = {
+                id: null,
+                type: DataSource.USER_INPUT
+            };
+
+            //  Find whichever option works.
+            _.each(dataSourceOptions, function (dataSourceOption) {
+
+                var validIdentifier = _.find(dataSourceOption.identifiers, function (identifier) {
+                    var dataSourceId = tryGetIdFromUrl(url, identifier);
+                    return dataSourceId !== '';
+                });
+
+                if (validIdentifier !== undefined) {
+                    dataSource = {
+                        id: tryGetIdFromUrl(url, validIdentifier),
+                        type: dataSourceOption.dataSource
+                    };
+                }
+
+            });
+
+            return dataSource;
         },
         
         //  Some videos aren't allowed to be played in Streamus, but we can respond by finding similiar.
