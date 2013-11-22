@@ -43,6 +43,7 @@ require.config({
 
         //  Third Party:
         'backbone': 'thirdParty/backbone',
+        'googleApiClient': 'thirdParty/googleApiClient',
         'jquery.autoscroll': 'thirdParty/jquery.autoscroll',
         'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
         'jquery': 'thirdParty/jquery',
@@ -148,6 +149,7 @@ require.config({
 
 require([
     'backbone',
+    'googleApiClient',
     'jquery.autoscroll',
     'jquery.hoverIntent',
     'jquery',

@@ -62,8 +62,6 @@
                             options.success();
                         }
                         
-                        
-
                     },
                     error: options ? options.error : null
                 });

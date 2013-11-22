@@ -1,53 +1,41 @@
-//  TODO: Clean this file up in general. It should probably be a Backbone.Model
-//  TODO: It is not obvious that this file depends on the GoogleApiClient file, but it is because gapi is in global scope.
-//  A global object which abstracts more difficult implementations of retrieving data from YouTube.
+//  A static object shared between the foreground and background which abstracts more difficult implementations of retrieving data from YouTube.
 define([
     'dataSource',
-    'utility'
+    'utility',
+    'googleApiClient'
 ], function (DataSource, Utility) {
     'use strict';
-
+    
     var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl';
     var videosInformationFields = 'entry(' + videoInformationFields + ')';
-    
+
     //  A developer key uniquely identifies a product that is submitting an API request.
     //  https://developers.google.com/youtube/2.0/developers_guide_protocol#Developer_Key
     var developerKey = 'AI39si7voIBGFYe-bcndXXe8kex6-N_OSzM5iMuWCdPCSnZxLB_qIEnQ-HMijHrwN1Y9sFINBi_frhjzVVrYunHH8l77wfbLCA';
-    
-    //  Some videos aren't allowed to be played in Streamus, but we can respond by finding similiar.
-    function validateEntry(entry) {
-        
-        var ytAccessControlList = entry.yt$accessControl;
 
-        var embedAccessControl = _.find(ytAccessControlList, function (accessControl) {
-            return accessControl.action === 'embed';
-        });
+    var YouTubeDataAPI = Backbone.Model.extend({
 
-        var isValid = embedAccessControl.permission === 'allowed';
+        //  Performs a search and then grabs the first item most related to the search title by calculating
+        //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
+        findPlayableByTitle: function (title, callback) {
 
-        return isValid;
-    }
-    
-    function tryGetIdFromUrl(url, identifier) {
-        var urlTokens = url.split(identifier);
+            var searchJqXhr = this.search({
+                text: title,
+                success: function (videoInformationList) {
 
-        var dataSourceId = '';
+                    videoInformationList.sort(function (a, b) {
+                        return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
+                    });
 
-        if (urlTokens.length > 1) {
-            dataSourceId = url.split(identifier)[1];
-            
-            var ampersandPosition = dataSourceId.indexOf('&');
-            if (ampersandPosition !== -1) {
-                dataSourceId = dataSourceId.substring(0, ampersandPosition);
-            }
-        }
+                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
+                    callback(videoInformation);
+                }
+            });
 
-        return dataSourceId;
-    }
-    
-    return {
-        
-        getBulkRelatedVideoInformation: function(videoIds, callback) {
+            return searchJqXhr;
+        },
+
+        getBulkRelatedVideoInformation: function (videoIds, callback) {
 
             var bulkRelatedVideoInformation = [];
             var totalVideosToProcess = videoIds.length;
@@ -63,9 +51,9 @@ define([
 
                     callback(bulkRelatedVideoInformation);
                 }
-                //  If there's still more videos to process...
+                    //  If there's still more videos to process...
                 else if (videosProcessing + videosProcessed < totalVideosToProcess) {
-                    
+
                     //  Don't flood the network -- process a few at a time.
                     if (videosProcessing <= videosToProcessConcurrently) {
                         videosProcessing++;
@@ -101,25 +89,7 @@ define([
             }, 200);
 
         },
-        
-        findPlayableByTitle: function (title, callback) {
 
-            var searchJqXhr = this.search({
-                text: title,
-                success: function(videoInformationList) {
-
-                    videoInformationList.sort(function(a, b) {
-                        return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
-                    });
-
-                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
-                    callback(videoInformation);
-                }
-            });
-
-            return searchJqXhr;
-        },
-        
         //  When a video comes from the server it won't have its related videos, so need to fetch and populate.
         getRelatedVideoInformation: function (videoId, callback) {
 
@@ -127,27 +97,27 @@ define([
 
             //  Do an async request for the videos's related videos. There isn't a hard dependency on them existing right as a video is created.
             $.ajax({
-                type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + videoId + '/related',
-                dataType: 'json',
                 data: {
-                    category: 'Music',
                     v: 2,
                     alt: 'json',
-                    key: developerKey,
+                    category: 'Music',
                     fields: videosInformationFields,
                     //  Don't really need that many suggested videos, take 10.
                     'max-results': 10,
                     strict: true
+                },
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
 
                     var playableEntryList = [];
                     var unplayableEntryList = [];
 
-                    _.each(result.feed.entry, function(entry) {
+                    _.each(result.feed.entry, function (entry) {
 
-                        var isValid = validateEntry(entry);
+                        var isValid = self.validateEntry(entry);
 
                         if (isValid) {
                             playableEntryList.push(entry);
@@ -156,11 +126,11 @@ define([
                         }
 
                     });
-                    
+
                     var deferredEvents = [];
 
                     _.each(unplayableEntryList, function (entry) {
-                        
+
                         var deferred = $.Deferred(function (dfd) {
 
                             self.findPlayableByTitle(entry.title.$t, function (playableEntry) {
@@ -169,7 +139,7 @@ define([
                             });
 
                         }).promise();
-                        
+
                         deferredEvents.push(deferred);
                     });
 
@@ -181,7 +151,7 @@ define([
                     });
 
                 },
-                error: function(error) {
+                error: function (error) {
                     console.error(error);
                     callback();
                 }
@@ -189,55 +159,25 @@ define([
         },
 
         //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
-        search: function(options) {
+        search: function (options) {
 
             //  TODO: When chrome.location API is stable - filter out videos and suggestions which are restricted by the users geographic location.
             var searchJqXhr = $.ajax({
-                type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/videos',
-                dataType: 'json',
                 data: {
+                    v: 2,
+                    alt: 'json',
                     category: 'Music',
                     time: 'all_time',
                     'max-results': options.maxResults || 50,
                     'start-index': 1,
                     format: 5,
-                    v: 2,
-                    alt: 'json',
                     q: options.text,
-                    key: developerKey,
                     fields: videosInformationFields,
                     strict: true
                 },
-                success: function (result) {
-                    options.success(result.feed.entry || []);
-                },
-                error: function (error) {
-                
-                    //  Aborts from typing too much are OK
-                    if (error.statusText !== 'abort') {
-                        console.error(error);
-                    }
-                
-                }
-            });
-
-            return searchJqXhr;
-        },
-        
-        searchPlaylist: function (options) {
-
-            var searchJqXhr = $.ajax({
-                type: 'GET',
-                url: 'https://gdata.youtube.com/feeds/api/playlists/snippets',
-                dataType: 'json',
-                data: {
-                    'max-results': options.maxResults || 50,
-                    'start-index': 1,
-                    v: 2,
-                    alt: 'json',
-                    q: options.text,
-                    strict: true
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
                     options.success(result.feed.entry || []);
@@ -254,7 +194,38 @@ define([
 
             return searchJqXhr;
         },
-        
+
+        //searchPlaylist: function (options) {
+
+        //    var searchJqXhr = $.ajax({
+        //        url: 'https://gdata.youtube.com/feeds/api/playlists/snippets',
+        //        data: {
+        //            v: 2,
+        //            alt: 'json',
+        //            'max-results': options.maxResults || 50,
+        //            'start-index': 1,
+        //            q: options.text,
+        //            strict: true
+        //        },
+        //        headers: {
+        //            'X-GData-Key': 'key=' + developerKey
+        //        },
+        //        success: function (result) {
+        //            options.success(result.feed.entry || []);
+        //        },
+        //        error: function (error) {
+
+        //            //  Aborts from typing too much are OK
+        //            if (error.statusText !== 'abort') {
+        //                console.error(error);
+        //            }
+
+        //        }
+        //    });
+
+        //    return searchJqXhr;
+        //},
+
         parseUrlForDataSource: function (url) {
 
             var dataSourceOptions = [{
@@ -263,6 +234,9 @@ define([
             }, {
                 identifiers: ['list=FL'],
                 dataSource: DataSource.YOUTUBE_FAVORITES
+            }, {
+                identifiers: ['list=AL'],
+                dataSource: DataSource.YOUTUBE_AUTOGENERATED
             }, {
                 identifiers: ['/user/', '/channel', 'list=UU'],
                 dataSource: DataSource.YOUTUBE_CHANNEL
@@ -278,12 +252,12 @@ define([
 
             //  Find whichever option works.
             _.each(dataSourceOptions, function (dataSourceOption) {
-                
+
                 var validIdentifier = _.find(dataSourceOption.identifiers, function (identifier) {
                     var dataSourceId = tryGetIdFromUrl(url, identifier);
                     return dataSourceId !== '';
                 });
-                
+
                 if (validIdentifier !== undefined) {
                     dataSource = {
                         id: tryGetIdFromUrl(url, validIdentifier),
@@ -292,23 +266,23 @@ define([
                 }
 
             });
-            
+
             return dataSource;
         },
-        
+
         getChannelName: function (channelId, callback) {
-            
+
             $.ajax({
-                type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/users/' + channelId,
-                dataType: 'json',
                 data: {
                     v: 2,
                     alt: 'json',
-                    key: 'AI39si7voIBGFYe-bcndXXe8kex6-N_OSzM5iMuWCdPCSnZxLB_qIEnQ-HMijHrwN1Y9sFINBi_frhjzVVrYunHH8l77wfbLCA'
+                    key: developerKey
+                },
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
-
                     if (callback) {
                         callback(result.entry.author[0].name.$t);
                     }
@@ -323,19 +297,19 @@ define([
             });
 
         },
-        
+
         getPlaylistTitle: function (playlistId, callback) {
-            
+
             $.ajax({
-                type: 'GET',
                 url: "https://gdata.youtube.com/feeds/api/playlists/" + playlistId,
-                dataType: 'json',
                 data: {
                     v: 2,
                     alt: 'json',
-                    key: developerKey,
                     fields: 'title',
                     strict: true
+                },
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
                     if (callback) {
@@ -346,28 +320,29 @@ define([
                     console.error(error);
                 }
             });
+            
         },
 
-        //  implement caching
         getVideoInformation: function (config) {
-            //videoId, optionalVideoTitle, callback
+            var self = this;
+
             $.ajax({
-                type: 'GET',
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + config.videoId,
-                dataType: 'json',
                 data: {
                     v: 2,
                     alt: 'json',
                     format: 5,
-                    key: developerKey,
                     fields: videoInformationFields,
                     strict: true
+                },
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
 
                     //  result will be null if it has been banned on copyright grounds
                     if (result == null) {
-                        
+
                         if (config.videoTitle && $.trim(config.videoTitle) != '') {
 
                             findPlayableByTitle(config.videoTitle, function (playableVideoInformation) {
@@ -377,8 +352,8 @@ define([
 
                     } else {
 
-                        var isValid = validateEntry(result.entry);
-                        
+                        var isValid = self.validateEntry(result.entry);
+
                         if (isValid) {
                             config.success(result.entry);
                         } else {
@@ -386,7 +361,7 @@ define([
                                 config.success(playableVideoInformation);
                             });
                         }
-                        
+
                     }
 
                 },
@@ -397,13 +372,19 @@ define([
                 }
             });
         },
-        
-        getDataSourceResults: function(dataSource, currentIteration, callback) {
+
+        getDataSourceResults: function (dataSource, currentIteration, callback) {
+
+            if (dataSource.type === DataSource.YOUTUBE_AUTOGENERATED) {
+                //  TODO: Need to be able to pass something like currentIteration into here, but v3 API expects nextId not an index to start at.
+                this.getAutoGeneratedPlaylistData(dataSource.id, currentIteration, callback);
+                return;
+            }
 
             var url;
 
-            switch(dataSource.type) {
-            
+            switch (dataSource.type) {
+
                 case DataSource.YOUTUBE_CHANNEL:
                     url = 'https://gdata.youtube.com/feeds/api/users/' + dataSource.id + '/uploads';
                     break;
@@ -418,22 +399,21 @@ define([
                     return;
 
             }
-
-            console.log("URL:", url);
             
             var maxResultsPerSearch = 50;
             var startIndex = 1 + (maxResultsPerSearch * currentIteration);
 
             $.ajax({
-                type: 'GET',
                 url: url,
-                dataType: 'json',
                 data: {
                     v: 2,
                     alt: 'json',
                     key: developerKey,
                     'max-results': maxResultsPerSearch,
                     'start-index': startIndex,
+                },
+                headers: {
+                    'X-GData-Key': 'key=' + developerKey
                 },
                 success: function (result) {
 
@@ -464,7 +444,7 @@ define([
             });
 
         },
-        
+
         doYouTubeLogin: function () {
 
             //  TODO: It seems like I should be able to use chrome-identity, but I guess not.
@@ -481,7 +461,7 @@ define([
                 //  Set immediate to false if authResult returns null
                 immediate: true
             }, function (authResult) {
-                
+
                 //if (authResult == null) {
 
                 //} else {
@@ -502,24 +482,50 @@ define([
             });
 
         },
+        
+        getAutoGeneratedPlaylistTitle: function (playlistId, callback) {
+            //gapi.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
+            gapi.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
+            console.log('playlistId', playlistId);
+            //  TODO: Should I be calling gapi.client.load a lot? Or just once?
+            gapi.client.load('youtube', 'v3', function () {
+
+                var playlistListRequest = gapi.client.youtube.playlists.list({
+                    part: 'snippet',
+                    id: playlistId,
+                });
+
+                playlistListRequest.execute(function (playlistListResponse) {
+                    console.log("playlistListresponse:", playlistListResponse);
+                    if (callback) {
+                        var playlistTitle = playlistListResponse.items[0].snippet.title;
+                        callback(playlistTitle);
+                    }
+                });
+
+            });
+
+        },
 
         //  Fetching an auto-generated playlist requires YouTube's v3 API.
         //  The v3 API does not serve up all the necessary information with the first request.
         //  Make two requests: one to get the list of video ids and a second to get the video information
-        getAutoGeneratedPlaylistData: function(playlistId, callback) {
-  
+        getAutoGeneratedPlaylistData: function (playlistId, currentIteration, callback) {
+
             //  The API Key is set through here: https://code.google.com/apis/console/b/0/?noredirect#project:346456917689:access 
             //  It can expire from time to time. You need to generate a new Simple API Access token with the 'Browser key' with a Referer of 'http://localhost' for testing
+            //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
             //  TODO: Probably want some sort of 'if debugging -- set API key, otherwise fallback' and also probably want to remove this key during deployment?
-            gapi.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
+            //gapi.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
+            gapi.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
             gapi.client.load('youtube', 'v3', function () {
-   
+
                 var playlistItemsListRequest = gapi.client.youtube.playlistItems.list({
                     part: 'contentDetails',
                     maxResults: 50,
                     playlistId: playlistId,
                 });
-                
+
                 playlistItemsListRequest.execute(function (playlistItemsListResponse) {
 
                     var videoIds = _.map(playlistItemsListResponse.items, function (item) {
@@ -535,10 +541,12 @@ define([
 
                     videosListRequest.execute(function (videosListResponse) {
 
-                        var videoInformationList = _.map(videosListResponse.items, function(item) {
+                        console.log("VideosListResponse:", videosListResponse);
+
+                        var videoInformationList = _.map(videosListResponse.items, function (item) {
 
                             return {
-                                
+
                                 id: item.id,
                                 duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
                                 title: item.snippet.title,
@@ -549,14 +557,53 @@ define([
                         });
 
                         if (callback) {
-                            callback(videoInformationList);
+                            callback({
+                                results: videoInformationList
+                            });
                         }
 
                     });
                 });
-                
+
             });
 
+        },
+        
+        //  Some videos aren't allowed to be played in Streamus, but we can respond by finding similiar.
+        validateEntry: function(entry) {
+            var ytAccessControlList = entry.yt$accessControl;
+
+            var embedAccessControl = _.find(ytAccessControlList, function (accessControl) {
+                return accessControl.action === 'embed';
+            });
+
+            var isValid = embedAccessControl.permission === 'allowed';
+
+            return isValid;
         }
-    };
+    });
+
+    return new YouTubeDataAPI;
+    
+    function tryGetIdFromUrl(url, identifier) {
+        var urlTokens = url.split(identifier);
+
+        var dataSourceId = '';
+
+        if (urlTokens.length > 1) {
+            dataSourceId = url.split(identifier)[1];
+            
+            var ampersandPosition = dataSourceId.indexOf('&');
+            if (ampersandPosition !== -1) {
+                dataSourceId = dataSourceId.substring(0, ampersandPosition);
+            }
+            
+            //  Starting in v3 YouTube API wants the full identifier at the front of the dataSource.
+            if (identifier === 'list=AL') {
+                dataSourceId = 'AL' + dataSourceId;
+            }
+        }
+
+        return dataSourceId;
+    }
 });

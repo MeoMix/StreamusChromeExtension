@@ -147,7 +147,6 @@ define([
          
                         $.ajax({
                             url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
-                            type: 'GET',
                             contentType: 'application/json; charset=utf-8',
                             dataType: 'json',
                             data: {
@@ -244,7 +243,6 @@ define([
             var self = this;
 
             $.ajax({
-                type: 'GET',
                 url: 'https://www.googleapis.com/plus/v1/people/me',
                 headers: {
                     'Authorization': 'Bearer ' + authToken

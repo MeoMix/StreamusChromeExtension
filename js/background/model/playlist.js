@@ -268,7 +268,6 @@ define([
             
             $.ajax({
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
-                type: 'GET',
                 dataType: 'json',
                 data: {
                     entityType: ShareableEntityType.PLAYLIST,

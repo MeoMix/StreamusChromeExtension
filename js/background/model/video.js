@@ -46,15 +46,21 @@ define([
     });
 
     return function (config) {
-
+        
         //  Support passing raw YouTube videoInformation instead of a precise config object.
         if (config.videoInformation !== undefined) {
+            
+            //  v3 API videoInformation will have the id stored directly in the information object.
+            if (config.videoInformation.id) {
+                $.extend(config, config.videoInformation);
+            } else {
+                config.id = config.videoInformation.media$group.yt$videoid.$t;
+                config.title = config.videoInformation.title.$t;
+                config.duration = parseInt(config.videoInformation.media$group.yt$duration.seconds, 10);
+                config.author = config.videoInformation.author[0].name.$t;
+            }
 
-            config.id = config.videoInformation.media$group.yt$videoid.$t;
-            config.title = config.videoInformation.title.$t;
-            config.duration = parseInt(config.videoInformation.media$group.yt$duration.seconds, 10);
-            config.author = config.videoInformation.author[0].name.$t;
-
+            delete config.videoInformation;
         }
 
         var video = new videoModel(config);
