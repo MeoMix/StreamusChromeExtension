@@ -3,8 +3,9 @@
     'streamItems',
     'folders',
     'youTubeDataAPI',
-    'dataSource'
-], function (CreatePlaylistTemplate, StreamItems, Folders, YouTubeDataAPI, DataSource) {
+    'dataSource',
+    'utility'
+], function (CreatePlaylistTemplate, StreamItems, Folders, YouTubeDataAPI, DataSource, Utility) {
     'use strict';
 
     var CreatePlaylistView = Backbone.View.extend({
@@ -52,7 +53,7 @@
 
                 if (youTubeSource !== '') {
                     //  Check validity of URL and represent validity via invalid class.
-                    var dataSource = YouTubeDataAPI.parseUrlForDataSource(youTubeSource);
+                    var dataSource = Utility.parseUrlForDataSource(youTubeSource);
                     
                     self.youTubeSourceInput.data('datasource', dataSource);
                 
