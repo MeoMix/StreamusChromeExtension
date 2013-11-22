@@ -51,7 +51,6 @@ require.config({
         'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
         'jquery.transit': 'thirdParty/jquery.transit',
         'jqueryUi': 'thirdParty/jqueryUi',
-        'levenshtein': 'thirdParty/levenshtein',
         'lodash': 'thirdParty/lodash',
         'microplugin': 'thirdParty/microplugin',
         'selectize': 'thirdParty/selectize',

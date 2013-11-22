@@ -1,10 +1,10 @@
+//  TODO: Clean this file up in general. It should probably be a Backbone.Model
 //  TODO: It is not obvious that this file depends on the GoogleApiClient file, but it is because gapi is in global scope.
 //  A global object which abstracts more difficult implementations of retrieving data from YouTube.
 define([
-    'levenshtein',
     'dataSource',
     'utility'
-], function (Levenshtein, DataSource, Utility) {
+], function (DataSource, Utility) {
     'use strict';
 
     var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl';
@@ -16,6 +16,7 @@ define([
     
     //  Some videos aren't allowed to be played in Streamus, but we can respond by finding similiar.
     function validateEntry(entry) {
+        
         var ytAccessControlList = entry.yt$accessControl;
 
         var embedAccessControl = _.find(ytAccessControlList, function (accessControl) {
@@ -108,7 +109,7 @@ define([
                 success: function(videoInformationList) {
 
                     videoInformationList.sort(function(a, b) {
-                        return Levenshtein(a.title.$t, title) - Levenshtein(b.title.$t, title);
+                        return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
                     });
 
                     var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;

@@ -41,7 +41,6 @@
         'backbone': 'thirdParty/backbone',
         'googleAnalytics': 'thirdParty/googleAnalytics',
         'jquery': 'thirdParty/jquery',
-        'levenshtein': 'thirdParty/levenshtein',
         'lodash': 'thirdParty/lodash',
         'googleApiClient': 'thirdParty/googleApiClient',
 

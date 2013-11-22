@@ -41,7 +41,6 @@
         'jasmine-html': 'thirdParty/jasmine-html',
         'jasmine': 'thirdParty/jasmine',
         'jquery': 'thirdParty/jquery',
-        'levenshtein': 'thirdParty/levenshtein',
         'lodash': 'thirdParty/lodash',
         'googleApiClient': 'thirdParty/googleApiClient',
         

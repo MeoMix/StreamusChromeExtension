@@ -5,8 +5,13 @@
     
     describe('Utility', function () {
 
-        //  TODO: Add more combinations of iso date conversions.
         it('Should be able to convert ISO8061 Duration to Seconds', function () {
+            expect(Utility.iso8061DurationToSeconds('PT0H0M0S')).toEqual(0);
+            expect(Utility.iso8061DurationToSeconds('PT0H0M1S')).toEqual(1);
+            expect(Utility.iso8061DurationToSeconds('PT0H0M60S')).toEqual(60);
+            expect(Utility.iso8061DurationToSeconds('PT0H1M0S')).toEqual(60);
+            expect(Utility.iso8061DurationToSeconds('PT0H60M0S')).toEqual(3600);
+            expect(Utility.iso8061DurationToSeconds('PT1H0M0S')).toEqual(3600);
             // 52S + (3 * 60S) + (1 * 60 * 60S) = 3832
             expect(Utility.iso8061DurationToSeconds('PT1H3M52S')).toEqual(3832);
         });
@@ -24,12 +29,16 @@
             expect(Utility.prettyPrintTime(3601)).toEqual('1:00:01');
             expect(Utility.prettyPrintTime(86400)).toEqual('24:00:00');
         });
-
-        //  TODO: Find a few more supported YouTube URL patterns.
+        
         it('Should be able to parse a YouTube video id from a variety of URL patterns', function() {
             expect(Utility.parseVideoIdFromUrl('http://www.youtube.com/watch?v=6od4WeaWDcs')).toEqual('6od4WeaWDcs');
             expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KCayu0E')).toEqual('3sg6KCayu0E');
             expect(Utility.parseVideoIdFromUrl('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).toEqual('aKpLrmQsS_M');
+            
+            //  10 digit URL is not valid:
+            expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KCau0E')).toEqual(null);
+            //  12 digit URL is not valid
+            expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KaaCau0E')).toEqual(null);
         });
 
         it('Should be able to escape an unsafe string', function() {
@@ -48,6 +57,17 @@
             expect(Utility.cleanseVideoTitle('(best version)')).toEqual('');
             expect(Utility.cleanseVideoTitle('official music video')).toEqual('');
             expect(Utility.cleanseVideoTitle('ALBUM TRACK')).toEqual('');
+        });
+
+        it('Should be able to get the Levenshtein Distance between two strings', function() {
+            expect(Utility.getLevenshteinDistance('', '')).toEqual(0);
+            expect(Utility.getLevenshteinDistance('a', 'a')).toEqual(0);
+            expect(Utility.getLevenshteinDistance('a', '')).toEqual(1);
+            expect(Utility.getLevenshteinDistance('', 'a')).toEqual(1);
+            expect(Utility.getLevenshteinDistance('b', 'a')).toEqual(1);
+            expect(Utility.getLevenshteinDistance('a', 'b')).toEqual(1);
+            expect(Utility.getLevenshteinDistance('aa', 'b')).toEqual(2);
+            expect(Utility.getLevenshteinDistance('bb', 'b')).toEqual(1);
         });
 
     });

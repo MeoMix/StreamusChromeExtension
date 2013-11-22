@@ -116,9 +116,9 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\main.js" />
     <Content Include="js\test\test.js" />
-    <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\youTubeDataApiTest.js" />
     <Content Include="js\thirdParty\jasmine-html.js" />
     <Content Include="css\jasmine.css" />
@@ -213,7 +213,6 @@
     <Content Include="js\thirdParty\jquery.js" />
     <Content Include="js\thirdParty\jquery.scrollIntoView.js" />
     <Content Include="js\thirdParty\jqueryUi.js" />
-    <Content Include="js\thirdParty\levenshtein.js" />
     <Content Include="js\thirdParty\require.js" />
     <Content Include="js\thirdParty\lodash.js" />
     <Content Include="js\inject\youTubeIFrameInject.js" />

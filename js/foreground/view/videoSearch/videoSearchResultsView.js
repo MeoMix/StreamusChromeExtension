@@ -235,13 +235,14 @@
             else if (ctrlKeyPressed) {
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.
-                //  TODO: Is it OK to set firstSelect to true here even if the item was set to unselected? That seems like a bug, double check!
                 searchResult.set('firstSelected', true);
             }
             else {
                 //  If the user isn't holding the control key when they click -- all other selections are lost.
                 VideoSearchResults.deselectAllExcept(searchResult.cid);
             }
+
+            console.log("Search Result:", searchResult);
 
         },
         
