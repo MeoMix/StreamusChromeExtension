@@ -227,7 +227,7 @@ define([
         },
             
         addByVideos: function (videos, callback) {
-            
+            console.log("Videos:", videos);
             //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
             if (videos.length === 1) {
                 return this.addByVideo(videos[0], callback);
@@ -245,6 +245,8 @@ define([
 
                 itemsToSave.push(playlistItem);
             });
+
+            console.log("ItemsToSave", itemsToSave);
 
             itemsToSave.save({}, {
                 success: function () {

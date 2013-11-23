@@ -51,7 +51,8 @@ define([
         if (config.videoInformation !== undefined) {
             
             //  v3 API videoInformation will have the id stored directly in the information object.
-            if (config.videoInformation.id) {
+            //  TODO: Need a better v3 detector than this lol.
+            if (config.videoInformation.id && config.videoInformation.id.length === 11) {
                 $.extend(config, config.videoInformation);
             } else {
                 config.id = config.videoInformation.media$group.yt$videoid.$t;

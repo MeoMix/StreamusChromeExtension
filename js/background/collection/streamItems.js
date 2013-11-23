@@ -38,11 +38,17 @@ define([
 
                 var videoId = addedStreamItem.get('video').get('id');
 
-                YouTubeDataAPI.getRelatedVideoInformation(videoId, function (relatedVideoInformation) {
+                YouTubeDataAPI.getRelatedVideoInformation({
+                    videoId: videoId,
+                    success: function (relatedVideoInformation) {
 
-                    if (relatedVideoInformation == null) throw "Related video information not found." + videoId;
+                        if (relatedVideoInformation == null) throw "Related video information not found." + videoId;
 
-                    addedStreamItem.set('relatedVideoInformation', relatedVideoInformation);
+                        addedStreamItem.set('relatedVideoInformation', relatedVideoInformation);
+                    },
+                    error: function() {
+                        //  TODO: Do something with error? Notify user?
+                    }
                 });
 
             });
