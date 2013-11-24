@@ -120,10 +120,12 @@
     <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\main.js" />
     <Content Include="js\test\test.js" />
-    <Content Include="js\test\youTubeDataApiTest.js" />
+    <Content Include="js\test\youTubeV2APITest.js" />
+    <Content Include="js\test\youTubeV3APITest.js" />
     <Content Include="js\thirdParty\jasmine-html.js" />
     <Content Include="css\jasmine.css" />
     <Content Include="js\thirdParty\jasmine.js" />
+    <Content Include="js\youTubeV3API.js" />
     <Content Include="test.htm" />
     <Content Include="js\thirdParty\bootstrap.min.js" />
     <Content Include="js\thirdParty\jquery.autoscroll.js" />
@@ -218,7 +220,7 @@
     <Content Include="js\thirdParty\lodash.js" />
     <Content Include="js\inject\youTubeIFrameInject.js" />
     <Content Include="js\background\model\youTubePlayerAPI.js" />
-    <Content Include="js\youTubeDataAPI.js" />
+    <Content Include="js\youTubeV2API.js" />
     <Content Include="template\activeFolder.htm" />
     <Content Include="template\activeFolderArea.htm" />
     <Content Include="template\activePlaylistArea.htm" />

@@ -10,6 +10,7 @@ define(function () {
         defaults: function() {
             return {
                 localDebug: false,
+                testing: false,
                 serverURL: '',
                 suggestedQuality: getItem('suggestedQuality') || 'default',
                 userId: getItem('userId') || null,

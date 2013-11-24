@@ -28,8 +28,9 @@
     paths: {
 
         //  Global:
-        'youTubeDataAPI': 'youTubeDataAPI',
         'utility': 'utility',
+        'youTubeV2API': 'youTubeV2API',
+        'youTubeV3API': 'youTubeV3API',
 
         //  Enum:
         'dataSource': 'enum/dataSource',

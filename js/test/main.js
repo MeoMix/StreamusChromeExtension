@@ -27,8 +27,9 @@
     paths: {
 
         //  Global:
-        'youTubeDataAPI': 'youTubeDataAPI',
         'utility': 'utility',
+        'youTubeV2API': 'youTubeV2API',
+        'youTubeV3API': 'youTubeV3API',
 
         //  Enum:
         'addSearchResultOptionType': 'enum/addSearchResultOptionType',
@@ -44,10 +45,14 @@
         'lodash': 'thirdParty/lodash',
         'googleApiClient': 'thirdParty/googleApiClient',
         
+        //  Background:
+        'settings': 'background/model/settings',
+        
         //  Test:
         'test': 'test/test',
         'utilityTest': 'test/utilityTest',
-        'youTubeDataApiTest': 'test/youTubeDataApiTest'
+        'youTubeV2APITest': 'test/youTubeV2APITest',
+        'youTubeV3APITest': 'test/youTubeV3ApiTest'
     }
 
 });

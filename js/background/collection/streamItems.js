@@ -6,12 +6,12 @@ define([
     'radioButton',
     'repeatButton',
     'repeatButtonState',
-    'youTubeDataAPI',
+    'youTubeV2API',
     'video',
     'utility',
     'player',
     'playerState'
-], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeDataAPI, Video, Utility, Player, PlayerState) {
+], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeV2API, Video, Utility, Player, PlayerState) {
     'use strict';
 
     var streamItemsCollection = Backbone.Collection.extend({
@@ -38,7 +38,7 @@ define([
 
                 var videoId = addedStreamItem.get('video').get('id');
 
-                YouTubeDataAPI.getRelatedVideoInformation({
+                YouTubeV2API.getRelatedVideoInformation({
                     videoId: videoId,
                     success: function (relatedVideoInformation) {
 
@@ -167,7 +167,7 @@ define([
         searchAndAddByName: function(videoTitle, playOnAdd, callback) {
             var self = this;
             
-            YouTubeDataAPI.search({
+            YouTubeV2API.search({
                 text: videoTitle,
                 maxResults: 10,
                 success: function (videoInformationList) {
@@ -306,8 +306,7 @@ define([
 
             //  Fetch all the related videos for videos on load.
             //  Data won't appear immediately as it is an async request, I just want to get the process started now.
-
-            YouTubeDataAPI.getBulkRelatedVideoInformation(randomVideoIds, function (bulkInformationList) {
+            YouTubeV2API.getBulkRelatedVideoInformation(randomVideoIds, function (bulkInformationList) {
 
                 _.each(bulkInformationList, function (bulkInformation) {
                     var videoId = bulkInformation.videoId;

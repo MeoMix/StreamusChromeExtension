@@ -2,11 +2,11 @@
 define([
     'streamItems',
     'video',
-    'youTubeDataApi',
+    'youTubeV2API',
     'utility',
     'folders',
     'user'
-], function (StreamItems, Video, YouTubeDataAPI, Utility, Folders, User) {
+], function (StreamItems, Video, YouTubeV2API, Utility, Folders, User) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -131,7 +131,7 @@ define([
             var videoId = Utility.parseVideoIdFromUrl(url);
 
             if (videoId) {
-                YouTubeDataAPI.getVideoInformation({
+                YouTubeV2API.getVideoInformation({
                     videoId: videoId,
                     success: function (videoInformation) {
 

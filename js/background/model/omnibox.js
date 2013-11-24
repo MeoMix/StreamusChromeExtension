@@ -1,10 +1,10 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
-    'youTubeDataApi',
+    'youTubeV2API',
     'video',
     'utility',
     'streamItems'
-], function(YouTubeDataAPI, Video, Utility, StreamItems) {
+], function (YouTubeV2API, Video, Utility, StreamItems) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
@@ -40,7 +40,7 @@ define([
                         self.set('searchJqXhr', null);
                     }
 
-                    var searchJqXhr = YouTubeDataAPI.search({
+                    var searchJqXhr = YouTubeV2API.search({
                         text: trimmedSearchText,
                         //  Omnibox can only show 6 results
                         maxResults: 6,
