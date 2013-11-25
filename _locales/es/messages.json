@@ -423,5 +423,8 @@
 	},
 	"addToActivePlaylist": {
 		"message": "Add to Active Playlist"
+	},
+	"errorRetrievingTitle": {
+		"message": "Error retrieving title"	
 	}
 }

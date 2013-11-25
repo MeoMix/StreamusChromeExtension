@@ -26,14 +26,15 @@
     //  It's easier to define all the paths once rather than bloat each file with long paths during the require (keeps things DRY)
     paths: {
 
-        //  Global:
+        //  Global:        
+        'dataSource': 'dataSource',
         'utility': 'utility',
         'youTubeV2API': 'youTubeV2API',
         'youTubeV3API': 'youTubeV3API',
 
         //  Enum:
         'addSearchResultOptionType': 'enum/addSearchResultOptionType',
-        'dataSource': 'enum/dataSource',
+        'dataSourceType': 'enum/dataSourceType',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
 
@@ -49,6 +50,7 @@
         'settings': 'background/model/settings',
         
         //  Test:
+        'dataSourceTest': 'test/dataSourceTest',
         'test': 'test/test',
         'utilityTest': 'test/utilityTest',
         'youTubeV2APITest': 'test/youTubeV2APITest',

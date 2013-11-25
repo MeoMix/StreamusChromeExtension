@@ -63,6 +63,8 @@
     <Content Include="img\streamus_icon_yellow_38_38.png" />
     <Content Include="js\background\collection\streamItems.js" />
     <Content Include="js\background\commands.js" />
+    <Content Include="js\dataSource.js" />
+    <Content Include="js\background\notifications.js" />
     <Content Include="js\background\model\contextMenus.js" />
     <Content Include="js\background\model\buttons\videoDisplayButton.js" />
     <Content Include="js\background\model\buttons\playPauseButton.js" />
@@ -117,6 +119,7 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\test\dataSourceTest.js" />
     <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\main.js" />
     <Content Include="js\test\test.js" />
@@ -195,7 +198,7 @@
     <Content Include="js\foreground\view\rightPane\stream\streamItemView.js" />
     <Content Include="js\foreground\view\rightPane\stream\streamView.js" />
     <Content Include="js\inject\streamusShareInject.js" />
-    <Content Include="js\enum\dataSource.js" />
+    <Content Include="js\enum\dataSourceType.js" />
     <Content Include="js\foreground\main.js" />
     <Content Include="js\foreground\model\player.js" />
     <Content Include="js\foreground\view\rightPane\playPauseButtonView.js" />

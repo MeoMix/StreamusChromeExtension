@@ -32,13 +32,14 @@ require.config({
     paths: {
         
         //  Global:
+        'dataSource': 'dataSource',
         'utility': 'utility',
         'youTubeV2API': 'youTubeV2API',
         'youTubeV3API': 'youTubeV3API',
 
         //  Enum:
         'addSearchResultOptionType': 'enum/addSearchResultOptionType',
-        'dataSource': 'enum/dataSource',
+        'dataSourceType': 'enum/dataSourceType',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
 

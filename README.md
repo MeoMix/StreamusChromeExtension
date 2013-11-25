@@ -13,12 +13,12 @@ Client
 
 The Google Chrome extension utilizes the following libraries: 
 
-* [jQuery (v2.0.3+)](http://jquery.com/)
-* [jQuery UI (v1.10.3+)](http://jqueryui.com/) [AutoComplete and Sortable modules only]
-* [BackboneJS (v1.0.0+)](http://backbonejs.org/)
-* [RequireJS (v2.1.8+)](http://requirejs.org/)
-* [UnderscoreJS (v1.5.1+)](http://underscorejs.org/)
-* [Jasmine (v1.5.8+)](http://pivotal.github.io/jasmine/) [Coming soon...]
+* [jQuery (v2.0.3)](http://jquery.com/)
+* [jQuery UI (v1.10.3)](http://jqueryui.com/)
+* [BackboneJS (v1.1.0)](http://backbonejs.org/)
+* [RequireJS (v2.1.9)](http://requirejs.org/)
+* [Lo-Dash (v1.5.1)](http://lodash.com/)
+* [Jasmine (v1.3.1)](http://pivotal.github.io/jasmine/)
 
 Installation
 ========

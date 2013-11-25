@@ -28,12 +28,13 @@
     paths: {
 
         //  Global:
+        'dataSource': 'dataSource',
         'utility': 'utility',
         'youTubeV2API': 'youTubeV2API',
         'youTubeV3API': 'youTubeV3API',
 
         //  Enum:
-        'dataSource': 'enum/dataSource',
+        'dataSourceType': 'enum/dataSourceType',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
         'shareableEntityType': 'enum/shareableEntityType',
@@ -48,6 +49,7 @@
         //  Background:
         'background': 'background/background',
         'commands': 'background/commands',
+        'notifications': 'background/notifications',
 
         //  Collection:
         'folders': 'background/collection/folders',

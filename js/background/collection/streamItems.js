@@ -10,8 +10,9 @@ define([
     'video',
     'utility',
     'player',
-    'playerState'
-], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeV2API, Video, Utility, Player, PlayerState) {
+    'playerState',
+    'notifications'
+], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeV2API, Video, Utility, Player, PlayerState, Notifications) {
     'use strict';
 
     var streamItemsCollection = Backbone.Collection.extend({
@@ -71,7 +72,7 @@ define([
             });
 
             this.on('change:selected', function(changedStreamItem, selected) {
-                //  TODO: Remember selected state in local storage.
+
                 //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
                 if (selected) {
                     this.deselectAllExcept(changedStreamItem.cid);
@@ -91,18 +92,38 @@ define([
 
             });
 
+            this.listenTo(Player, 'change:state', function (model, state) {
+                
+                if (state === PlayerState.ENDED) {
+                    this.selectNext();
+                }
+                else if (state === PlayerState.PLAYING) {
+
+                    //  Only display notifications if the foreground isn't open.
+                    var foreground = chrome.extension.getViews({ type: "popup" });
+
+                    if (foreground.length === 0) {
+
+                        //  If the foreground UI is not open, show a notification to indicate active video.
+                        var selectedItem = this.getSelectedItem();
+                        var activeVideoId = selectedItem.get('video').get('id');
+
+                        Notifications.showNotification({
+                            iconUrl: 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
+                            title: 'Now Playing',
+                            body: selectedItem.get('title')
+                        });
+
+                    }
+                }
+
+            });
+
             this.on('empty', function () {
-                
-                //  TODO: Clear localStorage once I write to local storage.
                 Player.stop();
-                
             });
 
             this.on('remove', function (removedStreamItem, collection, options) {
-
-                //  TODO: I Don't think I need to call destroy here, being overly careful need to double check though.
-
-                removedStreamItem.destroy();
 
                 if (this.length === 0) {
                     this.trigger('empty');
@@ -131,20 +152,18 @@ define([
                 switch (request.method) {
                     case 'searchAndStreamByQuery':
                         self.searchAndAddByName(request.query, true);
-
                     break;
 
                     case 'searchAndStreamByQueries':
                         var queries = request.queries;
 
                         if (queries.length > 0) {
-                            //  TODO: Kinda sucks to have to do N searches here, but doubt there is any other way.
+                            
                             var query = queries.shift();
 
                             var recursiveShiftVideoTitleAndAdd = function () {
                                 
                                 if (queries.length > 0) {
-                                    
                                     query = queries.shift();
                                     self.searchAndAddByName(query, false, recursiveShiftVideoTitleAndAdd);
                                 }
@@ -156,8 +175,7 @@ define([
                             });
                             
                         }
-
-                        break;
+                    break;
                 }
 
             });

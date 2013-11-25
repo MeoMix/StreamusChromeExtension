@@ -68,9 +68,7 @@
                     $('body').addClass('dragging');
 
                     var draggedVideoId = $(this).data('videoid');
-
                     var videoSearchResult = VideoSearchResults.getByVideoId(draggedVideoId);
-                    //videoSearchResult.set('dragging', true);
 
                     self.doSetSelected({
                         searchResult: videoSearchResult,

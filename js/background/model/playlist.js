@@ -160,14 +160,10 @@ define([
         },
         
         moveItemToIndex: function(playlistItemId, index) {
-            var sequence = this.getSequenceFromIndex(index);
-
             var item = this.get('items').get(playlistItemId);
-
-            item.set('sequence', sequence);
+            
+            item.set('sequence', this.getSequenceFromIndex(index));
             item.save();
-            //  TODO: I'd like to make sure I have to call sort.
-            this.get('items').sort();
         },
         
         addByVideoAtIndex: function (video, index, callback) {

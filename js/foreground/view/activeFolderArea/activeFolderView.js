@@ -3,12 +3,11 @@ define([
     'text!../template/activeFolder.htm',
     'contextMenuGroups',
     'utility',
-    'dataSource',
     'streamItems',
     'playlistView',
     'genericPromptView',
     'createPlaylistView',
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, DataSource, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
+], function (ActiveFolderTemplate, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 
     var ActiveFolderView = Backbone.View.extend({

@@ -3,8 +3,6 @@ define([
     'player',
     'folders',
     'youTubeV2API',
-    'playerState',
-    'streamItems',
     'video',
     'videoSearchResults',
     'nextButton',
@@ -20,53 +18,8 @@ define([
     'iconManager',
     'omnibox',
     'user'
-], function (Player, Folders, YouTubeV2API, PlayerState, StreamItems, Video, VideoSearchResults, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, ContextMenus, Error, IconManager, Omnibox) {
+], function (Player, Folders, YouTubeV2API, Video, VideoSearchResults, NextButton, PreviousButton, PlayPauseButton, RadioButton, ShuffleButton, VideoDisplayButton, RepeatButton, Commands, ContextMenus, Error, IconManager, Omnibox) {
     'use strict';
-
-    //  TODO: Maybe I want a notification manager to enforce only one notification showing at a time?
-    var notification;
-    var closeNotificationTimeout;
-
-    Player.on('change:state', function(model, state) {
-
-        if (state === PlayerState.PLAYING) {
-
-            //  Check if the foreground UI is open.
-            var foreground = chrome.extension.getViews({ type: "popup" });
-
-            if (foreground.length === 0) {
-
-                //  If the foreground UI is not open, show a notification to indicate active video.
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                var activeVideoId = selectedStreamItem.get('video').get('id');
-
-                //  Spam actions can open a lot of notifications, really only want one at a time I think.
-                if (notification) {
-                    notification.close();
-                    clearTimeout(closeNotificationTimeout);
-                }
-
-                notification = window.webkitNotifications.createNotification(
-                    'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
-                    'Now Playing',
-                    selectedStreamItem.get('title')
-                );
-
-                notification.show();
-
-                closeNotificationTimeout = setTimeout(function () {
-
-                    if (notification !== null) {
-                        notification.close();
-                        notification = null;
-                    }
-
-                }, 3000);
-            }
-        } else if (state === PlayerState.ENDED) {
-            StreamItems.selectNext();
-        }
-    });
 
     //  TODO: Implement some consistent pattern to respond with failures / success indicators.
     //  TODO: Move some of these methods into objects instead of letting grow arbitrarily in background.js
@@ -171,6 +124,5 @@ define([
         //  Return true to allow sending a response back.
         return true;
     });
-
 
 });

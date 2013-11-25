@@ -49,6 +49,44 @@ $(function() {
 
         });
 
+        //var canvas = $('<canvas>', {
+        //    id: 'YouTubeVideoCanvas'
+        //});
+
+        //$('body').append(canvas);
+
+        //var context = canvas[0].getContext('2d');
+
+        //setInterval(function () {
+        //    console.log("I am now drawing image onto context", context);
+        //    context.drawImage(videoStream[0], 0, 0, 200, 200);
+            
+        //    console.log("Data URL:", canvas[0].toDataURL());
+        //}, 4000);
+        
+        //var observer = new window.WebKitMutationObserver(function (mutations) {
+
+        //    if (mutations.length > 1) throw "Expected to receive only one mutation, actual: " + mutations.length;
+
+        //    var srcMutation = mutations[0];
+        //    var videoStreamSrc = srcMutation.target.getAttribute(srcMutation.attributeName);
+
+        //    console.log("VideoStreamSrc has changed:", videoStreamSrc);
+
+        //    if (videoStreamSrc && $.trim(videoStreamSrc) != '') {
+
+        //        port.postMessage({
+        //            videoStreamSrc: videoStreamSrc
+        //        });
+
+        //    }
+        //});
+
+        //observer.observe(videoStream[0], {
+        //    attributes: true,
+        //    attributeFilter: ['src']
+        //});
+
     }
 
 });

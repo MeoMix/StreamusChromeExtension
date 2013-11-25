@@ -7,8 +7,9 @@ define([
     'settings',
     'youTubeV2API',
     'youTubeV3API',
-    'dataSource'
-], function (Playlists, Playlist, Video, Player, Settings, YouTubeV2API, YouTubeV3API, DataSource) {
+    'dataSource',
+    'dataSourceType'
+], function (Playlists, Playlist, Video, Player, Settings, YouTubeV2API, YouTubeV3API, DataSource, DataSourceType) {
     'use strict';
     
     var Folder = Backbone.Model.extend({
@@ -193,19 +194,17 @@ define([
         },
         
         addEmptyPlaylist: function (playlistTitle) {
-            this.addPlaylistByDataSource(playlistTitle, DataSource.USER_INPUT);
+            this.addPlaylistByDataSource(playlistTitle, new DataSource);
         },
 
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            var needsLoading = dataSource && DataSource.needsLoading(dataSource.type);
-
             var playlist = new Playlist({
                 title: playlistTitle,
                 folderId: this.get('id'),
                 dataSource: dataSource,
-                dataSourceLoaded: !needsLoading
+                dataSourceLoaded: !dataSource.needsLoading()
             });
 
             //  Save the playlist, but push after version from server because the ID will have changed.
@@ -214,15 +213,17 @@ define([
 
                     self.get('playlists').push(playlist);
 
-                    if (needsLoading) {
+                    if (dataSource.needsLoading()) {
+
+                        console.log("needs loading");
                         
-                        if (DataSource.isV3(dataSource.type)) {
+                        if (dataSource.isV3()) {
                             //  TODO: Finish implementing this.
                             YouTubeV3API.getDataSourceResults(dataSource, function onGetV3DataSourceData(response) {
 
                             });
                         } else {
-                            
+                            console.log("v2");
                             //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                             YouTubeV2API.getDataSourceResults(dataSource, 0, function onGetV2DataSourceData(response) {
                                 console.log("Response:", response);

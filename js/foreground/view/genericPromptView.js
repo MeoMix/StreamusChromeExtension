@@ -46,7 +46,7 @@
         initialize: function (options) {
 
             this.title = options.title;
-            this.okButtonText = options.okButtonText || this.okButonText;
+            this.okButtonText = options.okButtonText || this.okButtonText;
             this.cancelButtonText = options.cancelButtonText || this.cancelButtonText;
             this.$el.addClass(this.model.className + 'Prompt');
 

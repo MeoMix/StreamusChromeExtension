@@ -12,7 +12,6 @@
             //  Whenever a playlist is removed -- select the next playlist.
             this.on('remove', function (removedPlaylist) {
 
-                //  TODO: I think this works?
                 var nextPlaylist = self.find(function (playlist) {
                     return playlist.get('sequence') > removedPlaylist.get('sequence');
                 });

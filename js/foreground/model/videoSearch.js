@@ -1,8 +1,10 @@
 ﻿define([
     'videoSearchResults',
     'youTubeV2API',
-    'utility'
-], function (VideoSearchResults, YouTubeV2API, Utility) {
+    'utility',
+    'dataSource',
+    'dataSourceType'
+], function (VideoSearchResults, YouTubeV2API, Utility, DataSource, DataSourceType) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({
@@ -39,27 +41,14 @@
                 }
 
                 if (searchQuery !== '') {
-
-                    //var playlistIndicator = 'playlist,';
-
-                    //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);
-
-                    //if (searchQueryPrefix === playlistIndicator) {
-
-                    //    searchJqXhr = YouTubeV2API.searchPlaylist({
-                    //        text: searchQuery.substring(playlistIndicator.length + 1),
-                    //        success: function (playlistInformationList) {
-
-                    //            self.set('searchJqXhr', null);
-                    //            videoSearchResults.setFromPlaylistInformationList(playlistInformationList);
-                    //        },
-                    //        error: function () {
-                    //            self.set('searchJqXhr', null);
-                    //        }
-                    //    });
-
-                    //} else {
-
+                    
+                    //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
+                    var dataSource = new DataSource({
+                        urlToParse: searchQuery
+                    });
+                    
+                    //  TODO: parsing the URL for data source should be able to detect video ID.
+                    if (dataSource.get('type') === DataSourceType.UNKNOWN) {
                         //  If the search query had a valid ID inside of it -- display that result, otherwise search.
                         var videoId = Utility.parseVideoIdFromUrl(searchQuery);
 
@@ -95,11 +84,11 @@
                             });
 
                         }
-
-                    //}
-
-                    this.set('searchJqXhr', searchJqXhr);
-                    
+                        
+                        this.set('searchJqXhr', searchJqXhr);
+                    } else {
+                        //  TODO: Handle other data sources
+                    }
                 }
 
             });

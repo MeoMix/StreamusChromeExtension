@@ -1,8 +1,8 @@
 //  A static object shared between the foreground and background which abstracts more difficult implementations of retrieving data from YouTube.
 define([
-    'dataSource',
+    'dataSourceType',
     'utility'
-], function (DataSource, Utility) {
+], function (DataSourceType, Utility) {
     'use strict';
     
     //  These fields tell the YouTube API what fields to respond with to limit the amount of data going over the wire. 
@@ -14,7 +14,15 @@ define([
         
         //  Crafts an AJAX request which has defaults appropriate for a YouTube V2 API request.
         //  Expects options: { url: string, data: object, success: function, error: function }
-        sendV2ApiRequest: function(options) {
+        sendV2ApiRequest: function (options) {
+            
+            if ($.trim(options.url) === '') {
+                console.error("URL expected");
+                
+                if (options.error) {
+                    options.error('URL expected');
+                }
+            }
 
             return $.ajax({
                 url: options.url,
@@ -301,31 +309,13 @@ define([
         //  CurrentIteration is an indexer to be able to grab deeper pages of a data source
         getDataSourceResults: function (dataSource, currentIteration, callback) {
 
-            if (DataSource.isV3(dataSource.type)) throw "YouTubeV2 API getDataSourceResults cannot handle a V3 dataSource";
-
-            //  Craft an appropriate URL based off of the dataSource type and ID
-            var url = 'https://gdata.youtube.com/feeds/api/';
-
-            switch (dataSource.type) {
-                case DataSource.YOUTUBE_CHANNEL:
-                    url += 'users/' + dataSource.id + '/uploads';
-                    break;
-                case DataSource.YOUTUBE_FAVORITES:
-                    url += 'users/' + dataSource.id + '/favorites';
-                    break;
-                case DataSource.YOUTUBE_PLAYLIST:
-                    url += 'playlists/' + dataSource.id;
-                    break;
-                default:
-                    console.error("Unhandled dataSource type:", dataSource.type);
-                    return null;
-            }
+            if (dataSource.isV3()) throw "YouTubeV2 API getDataSourceResults cannot handle a V3 dataSource";
             
             var maxResultsPerSearch = 50;
             var startIndex = 1 + (maxResultsPerSearch * currentIteration);
 
             return this.sendV2ApiRequest({
-                url: url,
+                url: dataSource.get('url'),
                 data: {
                     'max-results': maxResultsPerSearch,
                     'start-index': startIndex
