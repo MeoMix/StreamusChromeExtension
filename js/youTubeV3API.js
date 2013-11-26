@@ -121,7 +121,13 @@
 
             playlistListRequest.execute(function (playlistListResponse) {
                 if (callback) {
-                    var playlistTitle = playlistListResponse.items[0].snippet.title;
+
+                    var playlistTitle = '';
+                    
+                    if (playlistListResponse.items && playlistListResponse.items.length > 0) {
+                        playlistTitle = playlistListResponse.items[0].snippet.title;
+                    }
+
                     callback(playlistTitle);
                 }
             });

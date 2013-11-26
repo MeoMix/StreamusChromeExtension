@@ -119,6 +119,7 @@
     <Content Include="js\fullscreen\fullscreen.js" />
     <Content Include="js\fullscreen\main.js" />
     <Content Include="js\inject\beatportInject.js" />
+    <Content Include="js\test\errorTest.js" />
     <Content Include="js\test\dataSourceTest.js" />
     <Content Include="js\test\utilityTest.js" />
     <Content Include="js\test\main.js" />

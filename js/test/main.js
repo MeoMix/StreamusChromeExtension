@@ -47,10 +47,12 @@
         'googleApiClient': 'thirdParty/googleApiClient',
         
         //  Background:
+        'error': 'background/model/error',
         'settings': 'background/model/settings',
         
         //  Test:
         'dataSourceTest': 'test/dataSourceTest',
+        'errorTest': 'test/errorTest',
         'test': 'test/test',
         'utilityTest': 'test/utilityTest',
         'youTubeV2APITest': 'test/youTubeV2APITest',
