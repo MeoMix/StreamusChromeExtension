@@ -316,7 +316,9 @@ define([
 
             //  Take a statistically significant sample of the videos added and fetch their relatedVideo information.
             var sampleSize = streamItemsFromCollection.length >= 50 ? 50 : streamItemsFromCollection.length;
-            var randomSampleIndices = Utility.getRandomNonOverlappingNumbers(sampleSize, streamItemsFromCollection.length);
+
+            //  Get X samples from an array from 0 to N which has been randomized 
+            var randomSampleIndices = _.shuffle(_.range(streamItemsCollection.length)).slice(sampleSize);
 
             var randomVideoIds = _.map(randomSampleIndices, function (randomSampleIndex) {
                 return streamItemsFromCollection[randomSampleIndex].get('video').get('id');

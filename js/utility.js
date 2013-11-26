@@ -1,13 +1,15 @@
-﻿define([
-    'dataSourceType'
-], function (DataSourceType) {
+﻿define(function () {
     'use strict';
 
     var Utility = Backbone.Model.extend({
 
-        //  TODO: Unsure if I even want this functionality.
-        //  If there are a ton of elements which need to scroll all under a given root element, allow for event delegation
         scrollChildElements: function (parent, childElementSelector) {
+        	/// <summary>
+            /// Scroll a potentially long block of text within its parent using a slow panning effect.
+            /// This is usually used to scroll the title of an element within its container.
+        	/// </summary>
+        	/// <param name="parent">The element (usually a span/div) which restricts the width of child elements</param>
+        	/// <param name="childElementSelector">A CSS selector indicating which children of the parent to be affected</param>
 
             $(parent).on('mouseover', childElementSelector, function () {
 
@@ -24,50 +26,20 @@
             });
 
             $(parent).on('mouseout', childElementSelector, function () {
-
                 $(this).transitionStop(true).transit({
                     'margin-left': 0
                 });
-
             });
 
         },
 
-        //  TODO: How do I test something like this?
-        //  http://stackoverflow.com/questions/16247825/fetch-z-random-items-from-array-of-size-n-in-z-time
-        getRandomNonOverlappingNumbers: function (numbersDesired, maxNumberToUse) {
-            var i,
-            array = [],
-            store = {},
-            result = [],
-            undef,
-            length;
-
-            for (i = 0; i < maxNumberToUse; i += 1) {
-                array.push(i);
-            }
-
-            length = array.length;
-
-            if (numbersDesired > length) {
-                numbersDesired = length;
-            }
-
-            i = 0;
-            while (i < numbersDesired) {
-                var rnd = Math.floor(Math.random() * length);
-
-                if (store[rnd] === undef) {
-                    result[i] = store[rnd] = array[rnd];
-                    i += 1;
-                }
-            }
-
-            return result;
-        },
-
-        //  Takes a time in seconds and converts it to a displayable format of H:mm:ss or mm:ss.
         prettyPrintTime: function (timeInSeconds) {
+        	/// <summary>
+        	/// Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
+        	/// </summary>
+        	/// <param name="timeInSeconds">An integer to convert</param>
+        	/// <returns type="string">A time string that's human readable</returns>
+
             if (isNaN(timeInSeconds)) {
                 timeInSeconds = 0;
             }
@@ -78,7 +50,7 @@
             var minutes = Math.floor(remainingSeconds / 60);
             remainingSeconds = remainingSeconds % 60;
 
-            //  These lines ensure two-digits
+            //  Ensure two-digits for small numbers
             if (minutes < 10) {
                 minutes = "0" + minutes;
             }
@@ -98,6 +70,12 @@
 
         //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
         iso8061DurationToSeconds: function (isoDuration) {
+        	/// <summary>
+        	/// 
+        	/// </summary>
+        	/// <param name="isoDuration"></param>
+        	/// <returns type="integer">An amount of time represented in seconds</returns>
+
             var hoursMatch = isoDuration.match(/(\d+)H/);
             var hours = parseInt(hoursMatch ? hoursMatch[1] : 0);
 
@@ -109,18 +87,6 @@
 
             var secondsDuration = seconds + (60 * minutes) + (60 * 60 * hours);
             return secondsDuration;
-        },
-
-        //  Takes a URL and returns parsed URL information such as schema and video id if found inside of the URL.
-        parseVideoIdFromUrl: function (url) {
-            var videoId = null;
-
-            var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
-            if (match && match[2].length === 11) {
-                videoId = match[2];
-            }
-
-            return videoId;
         },
 
         htmlEscape: function (unsafeString) {

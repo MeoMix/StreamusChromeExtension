@@ -1045,8 +1045,10 @@ input.valid {
 }
 
 #activeFolder {
-    overflow: hidden;
+    overflow-x: hidden;
+    overflow-y: scroll;
     height: auto;
+    max-height: 420px;
 }
 
 #activeFolderArea .header {
@@ -1185,11 +1187,6 @@ body.dragging .scroll {
     position: absolute;
     right: 0;
     top: 45px;
-}
-
-#activeFolderArea .list:hover {
-    overflow-x: hidden;
-    overflow-y: auto;
 }
 
 #activeFolderArea .list h3 {

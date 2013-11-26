@@ -129,10 +129,32 @@
 
             });
 
+            //  Still nothing found? Try parsing out a YouTube video ID.
+            if (dataSourceType === DataSourceType.NONE) {
+                var videoId = this.parseYouTubeVideoIdFromUrl(urlToParse);
+                
+                if (videoId) {
+                    dataSourceId = videoId;
+                    dataSourceType = DataSourceType.YOUTUBE_VIDEO;
+                }
+            }
+
             return {
                 dataSourceType: dataSourceType,
                 dataSourceId: dataSourceId
             };
+        },
+        
+        //  Takes a URL and returns parsed URL information such as schema and video id if found inside of the URL.
+        parseYouTubeVideoIdFromUrl: function (url) {
+            var videoId = null;
+
+            var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
+            if (match && match[2].length === 11) {
+                videoId = match[2];
+            }
+
+            return videoId;
         },
         
         //  Expects options: { success: function, error: function }

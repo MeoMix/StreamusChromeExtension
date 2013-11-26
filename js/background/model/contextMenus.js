@@ -5,8 +5,10 @@ define([
     'youTubeV2API',
     'utility',
     'folders',
-    'user'
-], function (StreamItems, Video, YouTubeV2API, Utility, Folders, User) {
+    'user',
+    'dataSource',
+    'dataSourceType'
+], function (StreamItems, Video, YouTubeV2API, Utility, Folders, User, DataSource, DataSourceType) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -128,24 +130,27 @@ define([
         },
         
         getVideoFromUrl: function(url, callback) {
-            var videoId = Utility.parseVideoIdFromUrl(url);
-
-            if (videoId) {
-                YouTubeV2API.getVideoInformation({
-                    videoId: videoId,
-                    success: function (videoInformation) {
-
-                        var video = new Video({
-                            videoInformation: videoInformation
-                        });
-
-                        callback(video);
-                    },
-                    error: function (error) {
-                        console.error(error);
-                    }
-                });
+            var dataSource = new DataSource({ urlToParse: url });
+            
+            if (dataSource.get('type') !== DataSourceType.YOUTUBE_VIDEO) {
+                throw "Excepected dataSource to be a YouTube video.";
             }
+
+            YouTubeV2API.getVideoInformation({
+                videoId: dataSource.get('sourceId'),
+                success: function (videoInformation) {
+
+                    var video = new Video({
+                        videoInformation: videoInformation
+                    });
+
+                    callback(video);
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
         },
 
     });

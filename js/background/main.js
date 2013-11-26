@@ -95,6 +95,8 @@ require([
     'googleAnalytics'
 ], function ($, _, Backbone, GoogleApiClient) {
     'use strict';
+
+    console.log("Chrome:", chrome);
     
     //  Only use main.js for loading external helper files before the background is ready. Then, load the background.
     require(['background']);

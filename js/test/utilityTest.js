@@ -29,18 +29,6 @@
             expect(Utility.prettyPrintTime(3601)).toEqual('1:00:01');
             expect(Utility.prettyPrintTime(86400)).toEqual('24:00:00');
         });
-        
-        it('Should be able to parse a YouTube video id from a variety of URL patterns', function() {
-            expect(Utility.parseVideoIdFromUrl('http://www.youtube.com/watch?v=6od4WeaWDcs')).toEqual('6od4WeaWDcs');
-            expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KCayu0E')).toEqual('3sg6KCayu0E');
-            expect(Utility.parseVideoIdFromUrl('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).toEqual('aKpLrmQsS_M');
-            expect(Utility.parseVideoIdFromUrl('http://www.youtube.com/watch?feature=player_embedded&v=MKS8Jn_3bnA')).toEqual('MKS8Jn_3bnA');
-            
-            //  10 digit URL is not valid:
-            expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KCau0E')).toEqual(null);
-            //  12 digit URL is not valid
-            expect(Utility.parseVideoIdFromUrl('http://youtu.be/3sg6KaaCau0E')).toEqual(null);
-        });
 
         it('Should be able to escape an unsafe string', function() {
             expect(Utility.htmlEscape('&')).toEqual('&amp;');

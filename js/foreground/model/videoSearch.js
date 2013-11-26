@@ -21,8 +21,7 @@
         initialize: function() {
             var self = this;
             
-            //  TODO: Probably want to rate-limit this slightly.
-            this.on('change:searchQuery', function (model, searchQuery) {
+            this.on('change:searchQuery', _.throttle(function (model, searchQuery) {
 
                 //  Do not display results if searchText was modified while searching, abort old request.
                 var previousSearchJqXhr = this.get('searchJqXhr');
@@ -47,51 +46,64 @@
                         urlToParse: searchQuery
                     });
                     
-                    //  TODO: parsing the URL for data source should be able to detect video ID.
-                    if (dataSource.get('type') === DataSourceType.UNKNOWN) {
-                        //  If the search query had a valid ID inside of it -- display that result, otherwise search.
-                        var videoId = Utility.parseVideoIdFromUrl(searchQuery);
-
-                        var searchJqXhr;
-
-                        if (videoId) {
-                            searchJqXhr = YouTubeV2API.getVideoInformation({
-                                videoId: videoId,
-                                success: function (videoInformation) {
-
-                                    self.set('searchJqXhr', null);
-                                    videoSearchResults.setFromVideoInformation(videoInformation);
-                                },
-                                error: function () {
-                                    self.set('searchJqXhr', null);
-                                    videoSearchResults.reset();
-                                }
-                            });
-                        } else {
-                            //  TODO: Support displaying playlists and channel URLs here.
-
-                            searchJqXhr = YouTubeV2API.search({
-                                text: searchQuery,
-                                success: function (videoInformationList) {
-
-                                    self.set('searchJqXhr', null);
-                                    videoSearchResults.setFromVideoInformationList(videoInformationList);
-
-                                },
-                                error: function () {
-                                    self.set('searchJqXhr', null);
-                                }
-                            });
-
-                        }
+                    var searchJqXhr;
+                    
+                    //  TODO: Support displaying playlists and channel URLs.
+                    //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
+                    if (dataSource.get('type') === DataSourceType.YOUTUBE_VIDEO) {
                         
-                        this.set('searchJqXhr', searchJqXhr);
+                        searchJqXhr = YouTubeV2API.getVideoInformation({
+                            videoId: dataSource.get('sourceId'),
+                            success: function(videoInformation) {
+                                self.set('searchJqXhr', null);
+                                videoSearchResults.setFromVideoInformation(videoInformation);
+                            },
+                            error: function() {
+                                self.set('searchJqXhr', null);
+                                videoSearchResults.reset();
+                            }
+                        });
+                        
                     } else {
-                        //  TODO: Handle other data sources
+                        
+                        searchJqXhr = YouTubeV2API.search({
+                            text: searchQuery,
+                            success: function (videoInformationList) {
+                                self.set('searchJqXhr', null);
+                                videoSearchResults.setFromVideoInformationList(videoInformationList);
+                            },
+                            error: function () {
+                                self.set('searchJqXhr', null);
+                            }
+                        });
+  
                     }
+                    
+                    this.set('searchJqXhr', searchJqXhr);
+
+                    //  TODO: Handle other data sources
+                    //var playlistIndicator = 'playlist,';
+
+                    //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);
+
+                    //if (searchQueryPrefix === playlistIndicator) {
+                    
+                    //    searchJqXhr = YouTubeV2API.searchPlaylist({
+                    //        text: searchQuery.substring(playlistIndicator.length + 1),
+                    //        success: function (playlistInformationList) {
+
+                    //            self.set('searchJqXhr', null);
+                    //            videoSearchResults.setFromPlaylistInformationList(playlistInformationList);
+                    //        },
+                    //        error: function () {
+                    //            self.set('searchJqXhr', null);
+                    //        }
+                    //    });
+
+                    //} else {
                 }
 
-            });
+            }, 100));
 
         }
 
