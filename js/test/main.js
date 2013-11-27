@@ -62,14 +62,20 @@
 });
 
 require([
+    'settings',
     'backbone',
     'jasmine-html',
     'jasmine',
     'jquery',
     'lodash',
     'googleApiClient'
-], function () {
+], function (Settings) {
     'use strict';
+
+    //  Enable testing in Settings so configuration values can be set accordingly (API keys, etc. testing runs on localhost)
+    Settings.set('testing', true);
+    //  Testing should hit a local server and not be ran against the production database.
+    Settings.set('localDebug', true);
 
     require(['test']);
 });

@@ -2,7 +2,9 @@
 //  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
 var Settings = null;
 
-define(function () {
+define([
+    'backbone'
+], function (Backbone) {
     'use strict';
 
     var settingsModel = Backbone.Model.extend({

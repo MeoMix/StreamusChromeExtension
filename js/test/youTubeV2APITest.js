@@ -9,7 +9,7 @@
             var relatedVideoInformation = null;
             runs(function () {
                 YouTubeV2API.getRelatedVideoInformation({
-                    videoId: 'MKS8Jn_3bnA',
+                    videoId: 'CxHFnVCZDRo',
                     success: function(response) {
                         relatedVideoInformation = response;
                     }
@@ -21,6 +21,16 @@
             }, "RelatedVideoInformation should be set", 2000);
 
             runs(function () {
+
+                var videos = _.map(relatedVideoInformation, function (info) {
+                    return {
+                        id: info.media$group.yt$videoid.$t,
+                        title: info.title.$t
+                    };
+                });
+                
+                console.log("V2:");
+                console.table(videos);
                 expect(relatedVideoInformation.length).toBeGreaterThan(0);
                 expect(relatedVideoInformation.length).toBe(10);
             });

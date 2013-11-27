@@ -39,12 +39,12 @@ define([
 
                 var videoId = addedStreamItem.get('video').get('id');
 
+                //  TODO: Why is this done here? Probably should be done in a constructor for StreamItem?
                 YouTubeV2API.getRelatedVideoInformation({
                     videoId: videoId,
                     success: function (relatedVideoInformation) {
 
                         if (relatedVideoInformation == null) throw "Related video information not found." + videoId;
-
                         addedStreamItem.set('relatedVideoInformation', relatedVideoInformation);
                     },
                     error: function() {
@@ -95,6 +95,7 @@ define([
             this.listenTo(Player, 'change:state', function (model, state) {
                 
                 if (state === PlayerState.ENDED) {
+                    console.log("StreamItem has ended. Selecting next.");
                     this.selectNext();
                 }
                 else if (state === PlayerState.PLAYING) {
@@ -482,10 +483,9 @@ define([
 
                     } else {
 
-                        //  Deleted the last item in stream, it was selected, no loops enabled.
-                        //  Stop the player and select the first item in the playlist.
-                        Player.stop();
+                        //  Select the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         this.at(0).set('selected', true);
+                        Player.pause();
                     }
 
                 } else {
