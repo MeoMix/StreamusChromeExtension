@@ -3,7 +3,25 @@
 ], function (YouTubeV2API) {
     'use strict';
 
-    describe('YouTubeV2API', function () {
+    describe('YouTubeV2API', function ()  {
+    
+        it('Should be able to get a video\'s information', function () {
+            var videoInformation = null;
+            runs(function () {
+                YouTubeV2API.getVideoInformation({
+                    videoId: 'mNGpPqxsTmQ',
+                    success: function (response) {
+                        videoInformation = response;
+                    }
+                });
+            }, 500);
+            
+            waitsFor(function () {
+                return videoInformation !== null;
+            }, "RelatedVideoInformation should be set", 2000);
+            
+
+        });
 
         it('Should be able to get a video\'s related video information', function () {
             var relatedVideoInformation = null;

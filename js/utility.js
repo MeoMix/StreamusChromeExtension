@@ -1,15 +1,13 @@
-﻿define(function () {
+﻿define([
+    'jquery',
+    'backbone'
+], function ($, Backbone) {
     'use strict';
 
     var Utility = Backbone.Model.extend({
-
+        //  Scroll a potentially long block of text within its parent using a slow panning effect.
+        //  This is usually used to scroll the title of an element within its container.
         scrollChildElements: function (parent, childElementSelector) {
-        	/// <summary>
-            /// Scroll a potentially long block of text within its parent using a slow panning effect.
-            /// This is usually used to scroll the title of an element within its container.
-        	/// </summary>
-        	/// <param name="parent">The element (usually a span/div) which restricts the width of child elements</param>
-        	/// <param name="childElementSelector">A CSS selector indicating which children of the parent to be affected</param>
 
             $(parent).on('mouseover', childElementSelector, function () {
 
@@ -32,14 +30,8 @@
             });
 
         },
-
+        //  Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
         prettyPrintTime: function (timeInSeconds) {
-        	/// <summary>
-        	/// Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
-        	/// </summary>
-        	/// <param name="timeInSeconds">An integer to convert</param>
-        	/// <returns type="string">A time string that's human readable</returns>
-
             if (isNaN(timeInSeconds)) {
                 timeInSeconds = 0;
             }
@@ -70,12 +62,6 @@
 
         //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
         iso8061DurationToSeconds: function (isoDuration) {
-        	/// <summary>
-        	/// 
-        	/// </summary>
-        	/// <param name="isoDuration"></param>
-        	/// <returns type="integer">An amount of time represented in seconds</returns>
-
             var hoursMatch = isoDuration.match(/(\d+)H/);
             var hours = parseInt(hoursMatch ? hoursMatch[1] : 0);
 
@@ -99,10 +85,7 @@
             return safeString;
         },
 
-        /**
-        * Cleanse method inspired by the Chrome Last.fm Scrobbler extension
-        * by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
-        */
+        //  Cleanse method inspired by the Chrome Last.fm Scrobbler extensionby David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
         cleanseVideoTitle: function (title) {
 
             title = $.trim(title);
@@ -138,15 +121,17 @@
             var n = s.length;
             var m = t.length;
 
-            if (n == 0) return m;
-            if (m == 0) return n;
+            if (n === 0) return m;
+            if (m === 0) return n;
 
             //  Create an array of arrays in javascript (a descending loop is quicker)
-            for (var i = n; i >= 0; i--) d[i] = [];
+            for (var firstStep1Index = n; firstStep1Index >= 0; firstStep1Index--) {
+                d[firstStep1Index] = [];
+            }
 
             //  Step 2
-            for (var i = n; i >= 0; i--) d[i][0] = i;
-            for (var j = m; j >= 0; j--) d[0][j] = j;
+            for (var firstStep2Index = n; firstStep2Index >= 0; firstStep2Index--) d[firstStep2Index][0] = firstStep2Index;
+            for (var secondStep2Index = m; secondStep2Index >= 0; secondStep2Index--) d[0][secondStep2Index] = secondStep2Index;
 
             //  Step 3
             for (var i = 1; i <= n; i++) {
@@ -183,5 +168,5 @@
         }
     });
 
-    return new Utility;
+    return new Utility();
 });

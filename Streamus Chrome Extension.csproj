@@ -274,6 +274,7 @@
     <Content Include="_locales\en\messages.json" />
     <Content Include="_locales\es\messages.json" />
     <Content Include="web.config" />
+    <Content Include="package.json" />
     <None Include="web.Debug.config">
       <DependentUpon>web.config</DependentUpon>
     </None>

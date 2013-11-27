@@ -5,7 +5,7 @@ define([
 ], function (Folder) {
     'use strict';
 
-    var folderCollection = Backbone.Collection.extend({
+    var FolderCollection = Backbone.Collection.extend({
         model: Folder,
         
         getActiveFolder: function () {
@@ -14,7 +14,6 @@ define([
  
     });
 
-    Folders = new folderCollection;
-
+    Folders = new FolderCollection;
     return Folders;
 });

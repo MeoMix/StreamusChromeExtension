@@ -1,0 +1,22 @@
+{
+  "name": "Streamus",
+  "version": "0.0.98",
+  "description": "A Description for Streamus Here",
+  "devDependencies": {
+    "grunt": "~0.4.2"
+  },
+  "main": "Gruntfile.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/MeoMix/StreamusChromeExtension.git"
+  },
+  "author": "Sean Anderson",
+  "license": "Apache License v2.0",
+  "bugs": {
+    "url": "https://github.com/MeoMix/StreamusChromeExtension/issues"
+  },
+  "homepage": "https://github.com/MeoMix/StreamusChromeExtension"
+}

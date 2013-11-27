@@ -274,10 +274,11 @@ define([
                     fields: videoInformationFields
                 },
                 success: function (result) {
-
+					//  TODO: is result undefined or null? use ===
+					console.log("Result:", result);
                     //  Result will be null if it has been banned on copyright grounds
                     if (result == null) {
-                        
+                        //  TODO: It doesn't seem like this is ever happening even if it is banned, but I'm drunk... so double check.
                         //  If the caller knew the video's title along with id -- find a replacement for the banned video
                         findPlayableByTitle({
                             title: options.videoTitle || '',
@@ -287,21 +288,22 @@ define([
 
                     } else {
 
-                        var isValid = self.validateEntry(result.entry);
-
-                        if (isValid) {
-                            options.success(result.entry);
-                        } else {
-                            findPlayableByTitle({
-                                title: result.entry.title.$t,
-                                success: options.success,
-                                error: options.error
-                            });
-                        }
-
+                        findPlayableByTitle({
+                            title: result.entry.title.$t,
+                            success: options.success,
+                            error: options.error
+                        });
                     }
 
                 },
+                error: function() {
+                    //  If the caller knew the video's title along with id -- find a replacement for the banned video
+                    findPlayableByTitle({
+                        title: options.videoTitle || '',
+                        success: options.success,
+                        error: options.error
+                    });
+                }
             });
         },
 
@@ -361,5 +363,5 @@ define([
         }
     });
 
-    return new YouTubeV2API;
+    return new YouTubeV2API();
 });
