@@ -20,7 +20,6 @@
                 return videoInformation !== null;
             }, "RelatedVideoInformation should be set", 2000);
             
-
         });
 
         it('Should be able to get a video\'s related video information', function () {

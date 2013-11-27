@@ -95,6 +95,5 @@ define([
         }
     });
 
-
-    return new Omnibox;
+    return new Omnibox();
 });

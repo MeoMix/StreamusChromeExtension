@@ -1,5 +1,0 @@
-@IF EXIST "%~dp0\node.exe" (
-  "%~dp0\node.exe"  "%~dp0\..\phantomjs\bin\phantomjs" %*
-) ELSE (
-  node  "%~dp0\..\phantomjs\bin\phantomjs" %*
-)

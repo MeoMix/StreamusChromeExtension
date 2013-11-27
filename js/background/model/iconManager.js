@@ -76,5 +76,5 @@ define([
         });
     }
 
-    return new IconManager;
+    return new IconManager();
 });

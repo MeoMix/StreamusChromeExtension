@@ -110,7 +110,6 @@ $(function () {
         var streamusPlayButton = $('<a>', {
             'class': 'streamus btn-play',
             'role': 'button',
-            'href': 'javascript:void(0)',
             'data-query': query,
             'data-toggle': 'tooltip',
             'title': chrome.i18n.getMessage("playInStreamus"),
@@ -141,7 +140,6 @@ $(function () {
         var streamusPlayAllButton = $('<a>', {
             'class': 'streamus btn-play',
             'role': 'button',
-            'href': 'javascript:void(0)',
             'title': chrome.i18n.getMessage("playAllInStreamus"),
             click: function () {
 
@@ -167,8 +165,7 @@ $(function () {
     function buildStreamusLogoIcon() {
         var streamusLogoIcon = $('<a>', {
             'class': 'streamus btn-queue',
-            'role': 'button',
-            'href': 'javascript:void(0)'
+            'role': 'button'
         });
 
         return streamusLogoIcon;

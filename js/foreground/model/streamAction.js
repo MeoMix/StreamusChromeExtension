@@ -16,7 +16,7 @@
 
                     var clearStreamPromptView = new GenericPromptView({
                         title: chrome.i18n.getMessage('confirmPromptTitle'),
-                        model: new ClearStreamView
+                        model: new ClearStreamView()
                     });
 
                     clearStreamPromptView.fadeInAndShow();
@@ -58,5 +58,5 @@
         }
     });
 
-    return new StreamAction;
+    return new StreamAction();
 });

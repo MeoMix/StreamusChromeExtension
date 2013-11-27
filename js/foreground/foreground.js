@@ -30,12 +30,12 @@ define([
         videoDisplayView: null,
         addSearchResultsView: null,
         rightPaneView: null,
-        contextMenuView: new ContextMenuView,
+        contextMenuView: new ContextMenuView(),
         reloadPromptView: new GenericPromptView({
             title: chrome.i18n.getMessage('reloadStreamus'),
             okButtonText: chrome.i18n.getMessage('reloadButtonText'),
             cancelButtonText: chrome.i18n.getMessage('waitButtonText'),
-            model: new ReloadView
+            model: new ReloadView()
         }),
         showReloadPromptTimeout: null,
                
@@ -321,5 +321,5 @@ define([
         }
     });
 
-    return new ForegroundView;
+    return new ForegroundView();
 });

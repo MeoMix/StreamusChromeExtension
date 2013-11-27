@@ -20,8 +20,8 @@
         },
         
         searchUnderline: null,
-        playSelectedButtonView: new PlaySelectedButtonView,
-        saveSelectedButtonView: new SaveSelectedButtonView,
+        playSelectedButtonView: new PlaySelectedButtonView(),
+        saveSelectedButtonView: new SaveSelectedButtonView(),
         
         events: {
             'focus .searchBar input': 'highlight',

@@ -6,7 +6,7 @@
     var ContextMenuGroup = Backbone.Model.extend({
         defaults: function () {
             return {
-                items: new ContextMenuItems
+                items: new ContextMenuItems()
             };
         },
         

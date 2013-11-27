@@ -135,7 +135,7 @@
      
                 //  Need to set height here because transition doesn't work if height is auto through CSS.
                 var heightStyle = $.trim(activeFolderViewElement[0].style.height);
-                if (heightStyle == '' || heightStyle == 'auto') {
+                if (heightStyle === '' || heightStyle === 'auto') {
                     activeFolderViewElement.height(currentHeight);
                 }
 
@@ -163,7 +163,7 @@
             var settingsPromptView = new GenericPromptView({
                 title: chrome.i18n.getMessage('settings'),
                 okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                model: new SettingsView
+                model: new SettingsView()
             });
 
             settingsPromptView.fadeInAndShow();
@@ -175,7 +175,7 @@
             var createPlaylistPromptView = new GenericPromptView({
                 title: chrome.i18n.getMessage('createPlaylist'),
                 okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                model: new CreatePlaylistView
+                model: new CreatePlaylistView()
             });
             createPlaylistPromptView.fadeInAndShow();
 

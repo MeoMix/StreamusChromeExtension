@@ -66,5 +66,5 @@ define(function() {
         }
     });
 
-    return new YouTubePlayerAPI;
+    return new YouTubePlayerAPI();
 });

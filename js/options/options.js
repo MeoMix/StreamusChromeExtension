@@ -10,7 +10,7 @@
             'click button.save': 'save'
         },
         
-        settingsView: new SettingsView,
+        settingsView: new SettingsView(),
         
         initialize: function () {
             this.$el.find('button.save').before(this.settingsView.render().el);
@@ -23,6 +23,6 @@
         }
     });
 
-    return new OptionsView;
+    return new OptionsView();
 
 });

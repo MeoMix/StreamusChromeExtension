@@ -67,12 +67,11 @@
                     var createResult = false;
                     var trimmedInput = $.trim(input);
 
-                    if (trimmedInput != '') {
+                    if (trimmedInput !== '') {
                         createResult = {
                             id: _.uniqueId('newPlaylist_'),
                             title: trimmedInput
                         };
-
                     }
 
                     self.creating = true;

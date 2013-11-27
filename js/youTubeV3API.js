@@ -219,5 +219,5 @@
         
     });
 
-    return new YouTubeV3API;
+    return new YouTubeV3API();
 });

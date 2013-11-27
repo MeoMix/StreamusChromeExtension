@@ -1,3 +1,7 @@
+a.streamus {
+    cursor: pointer;
+}
+
 .streamus.btn-play {
     background-color: #51a351;
     margin-right: 2px;

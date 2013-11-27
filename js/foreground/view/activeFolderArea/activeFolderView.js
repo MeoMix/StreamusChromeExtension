@@ -96,7 +96,7 @@ define([
                         var createPlaylistPromptView = new GenericPromptView({
                             title: chrome.i18n.getMessage('createPlaylist'),
                             okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                            model: new CreatePlaylistView
+                            model: new CreatePlaylistView()
                         });
                         
                         createPlaylistPromptView.fadeInAndShow();

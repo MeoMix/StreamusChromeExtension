@@ -7,5 +7,5 @@
         model: ContextMenuGroup
     });
 
-    return new ContextMenuGroups;
+    return new ContextMenuGroups();
 });

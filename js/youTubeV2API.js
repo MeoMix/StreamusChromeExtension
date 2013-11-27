@@ -200,7 +200,7 @@ define([
         //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
         //  Expects options: { title: string, success: function, error: function }
         findPlayableByTitle: function (options) {
-            
+
             if (!options.title || $.trim(options.title) === '') {
                 if (options.error) options.error('No title provided');
                 return null;
@@ -264,7 +264,6 @@ define([
         },
 
         getVideoInformation: function (options) {
-            var self = this;
 
             return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + options.videoId,
@@ -274,43 +273,27 @@ define([
                     fields: videoInformationFields
                 },
                 success: function (result) {
-					//  TODO: is result undefined or null? use ===
-					console.log("Result:", result);
-                    //  Result will be null if it has been banned on copyright grounds
-                    if (result == null) {
-                        //  TODO: It doesn't seem like this is ever happening even if it is banned, but I'm drunk... so double check.
-                        //  If the caller knew the video's title along with id -- find a replacement for the banned video
-                        findPlayableByTitle({
-                            title: options.videoTitle || '',
+                    var isValid = this.validateEntry(result.entry);
+
+                    if (isValid) {
+                        options.success(result.entry);
+                    } else {
+                        this.findPlayableByTitle({
+                            title: result.entry.title.$t,
                             success: options.success,
                             error: options.error
                         });
-
-                    } else {
-
-                        var isValid = self.validateEntry(result.entry);
-
-                        if (isValid) {
-                            options.success(result.entry);
-                        } else {
-                            findPlayableByTitle({
-                                title: result.entry.title.$t,
-                                success: options.success,
-                                error: options.error
-                            });
-                        }
-
                     }
 
-                },
-                error: function() {
+                }.bind(this),
+                error: function () {
                     //  If the caller knew the video's title along with id -- find a replacement for the banned video
-                    findPlayableByTitle({
-                        title: options.videoTitle || '',
+                    this.findPlayableByTitle({
+                        title: options.videoTitle,
                         success: options.success,
                         error: options.error
                     });
-                }
+                }.bind(this)
             });
         },
 

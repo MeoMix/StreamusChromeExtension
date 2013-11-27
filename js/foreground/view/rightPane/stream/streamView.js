@@ -98,7 +98,9 @@
                     });
 
                     this.copyHelper = copyHelperView.render().$el.insertAfter(streamItem);
-                    this.copyHelper.css({ opacity: .5 }).addClass('copyHelper');
+                    this.copyHelper.css({
+                        opacity: '.5'
+                    }).addClass('copyHelper');
                     
                     this.backCopyHelper = streamItem.prev();
                     this.backCopyHelper.addClass('copyHelper');
@@ -119,7 +121,9 @@
                     
                     var copied = $(this).data('copied');
                     if (copied) {
-                        this.copyHelper.css({ opacity: 1 }).removeClass('copyHelper');
+                        this.copyHelper.css({
+                            opacity: 1
+                        }).removeClass('copyHelper');
                     }
                     else {
                         this.copyHelper.remove();

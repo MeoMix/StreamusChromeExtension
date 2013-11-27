@@ -50,6 +50,7 @@ define([
         }
     });
 
+    //  TODO: Move this into initialize or something instead of wrapping if possible?
     //  Public exposure of a constructor for building new PlaylistItem objects.
     return function (config) {
 

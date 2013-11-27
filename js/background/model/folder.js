@@ -194,7 +194,7 @@ define([
         },
         
         addEmptyPlaylist: function (playlistTitle) {
-            this.addPlaylistByDataSource(playlistTitle, new DataSource);
+            this.addPlaylistByDataSource(playlistTitle, new DataSource());
         },
 
         addPlaylistByDataSource: function (playlistTitle, dataSource) {

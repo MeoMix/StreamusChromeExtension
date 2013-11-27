@@ -30,7 +30,9 @@
           console: true,
           module: true,
           document: true
-        }
+        },
+		//  Don't validate third-party libraries.
+		ignores: ['js/thirdParty/**/*.js']
       }
     },
     watch: {

@@ -15,7 +15,7 @@
         initialize: function () {
 
             //  Make the canvas full-screen size.
-            var videoDisplayView = new VideoDisplayView;
+            var videoDisplayView = new VideoDisplayView();
 
             var element = videoDisplayView.render().el;
             element.width = window.innerWidth;
@@ -70,5 +70,5 @@
 
     });
 
-    return new FullscreenView;
+    return new FullscreenView();
 });

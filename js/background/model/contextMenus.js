@@ -155,6 +155,5 @@ define([
 
     });
 
-    return new ContextMenu;
-
+    return new ContextMenu();
 });

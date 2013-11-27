@@ -7,22 +7,22 @@ define([
     'use strict';
 
     var VolumeControlView = Backbone.View.extend({
-        
+
         className: 'volumeControl',
 
         template: _.template(VolumeControlTemplate),
-        
+
         events: {
             'change input.volumeRange': 'setVolume',
             'click button.mute': 'toggleMute',
             'mousewheel': 'scrollVolume'
         },
-        
+
         volumeSlider: null,
         progress: null,
         volumeRange: null,
         muteButton: null,
-        
+
         render: function () {
 
             var volume = Player.get('volume');
@@ -41,10 +41,10 @@ define([
             this.progress = this.volumeSlider.children('.progress');
             this.volumeRange = this.volumeSlider.children('input.volumeRange');
             this.muteButton = this.$el.children('button.mute');
-            
+
             var volumeIcon = this.getVolumeIcon(volume);
             this.muteButton.html(volumeIcon);
-            
+
             return this;
         },
 
@@ -59,7 +59,7 @@ define([
 
             var self = this;
             this.$el.hoverIntent(function () {
-                
+
                 $(this).data('oldheight', $(this).height()).transition({ height: 150 }, 200);
                 self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
 
@@ -70,12 +70,12 @@ define([
             }, config);
 
         },
-        
+
         setVolume: function () {
             var volume = parseInt(this.volumeRange.val());
             Player.set('volume', volume);
         },
-        
+
         //  Need to do this here and not in render to be able to support dragging the volume slider
         //  If render is called (and reset the HTML entirely) the drag operation is broken and the slider stutters.
         updateProgressAndVolumeIcon: function () {
@@ -88,9 +88,9 @@ define([
             var volumeIcon = this.getVolumeIcon(volume);
             this.muteButton.html(volumeIcon);
         },
-        
+
         //  Return whichever font-awesome icon is appropriate based on the current volume level.
-        getVolumeIcon: function(volume) {
+        getVolumeIcon: function (volume) {
             var volumeIconClass = 'off';
 
             if (volume > 50) {
@@ -103,7 +103,7 @@ define([
             var volumeIcon = $('<i>', {
                 'class': 'fa fa-volume-' + volumeIconClass
             });
-            
+
             return volumeIcon;
         },
 
@@ -111,24 +111,24 @@ define([
         scrollVolume: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var volume = parseInt(this.volumeRange.val()) + (delta * 3);
-            
+
             if (volume > 100) {
                 volume = 100;
             }
-            
+
             if (volume < 0) {
                 volume = 0;
             }
-            
+
             Player.set('volume', volume);
         },
-        
+
         toggleMute: function () {
             var isMuted = Player.get('muted');
             Player.set('muted', !isMuted);
         },
-        
-        toggleMutedClass: function() {
+
+        toggleMutedClass: function () {
 
             var isMuted = Player.get('muted');
 
@@ -142,4 +142,4 @@ define([
     });
 
     return VolumeControlView;
-})
+});

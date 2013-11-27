@@ -11,7 +11,7 @@ define([
 ], function (PlaylistItems, PlaylistItem, Settings, Video, RepeatButtonState, ShareCode, ShareableEntityType) {
     'use strict';
 
-    var playlistModel = Backbone.Model.extend({
+    var Playlist = Backbone.Model.extend({
         defaults: function() {
             return {
                 id: null,
@@ -288,9 +288,5 @@ define([
         }
     });
 
-    return function (config) {
-        var playlist = new playlistModel(config);
-            
-        return playlist;
-    };
+    return Playlist;
 });
