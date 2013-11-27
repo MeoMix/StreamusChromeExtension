@@ -55,8 +55,8 @@ define([
                                 self.get('suggestedVideos').push(video);
 
                                 var textStyleRegExp = new RegExp(text, "i");
-                                var safeTitle = Utility.htmlEscape(video.get('title'));
-                                //var styledTitle = safeTitle.replace(textStyleRegExp, '<match>' + text + '</match>');
+                                
+                                var safeTitle = _.escape(video.get('title'));
                                 var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
 
                                 var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;

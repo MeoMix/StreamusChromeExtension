@@ -30,6 +30,7 @@
             });
 
         },
+        
         //  Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
         prettyPrintTime: function (timeInSeconds) {
             if (isNaN(timeInSeconds)) {
@@ -73,16 +74,6 @@
 
             var secondsDuration = seconds + (60 * minutes) + (60 * 60 * hours);
             return secondsDuration;
-        },
-
-        htmlEscape: function (unsafeString) {
-            var safeString = unsafeString
-                .replace(/&/g, '&amp;')
-                .replace(/</g, '&lt;')
-                .replace(/>/g, '&gt;')
-                .replace(/"/g, '&qot;');
-
-            return safeString;
         },
 
         //  Cleanse method inspired by the Chrome Last.fm Scrobbler extensionby David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)

@@ -30,13 +30,6 @@
             expect(Utility.prettyPrintTime(86400)).toEqual('24:00:00');
         });
 
-        it('Should be able to escape an unsafe string', function() {
-            expect(Utility.htmlEscape('&')).toEqual('&amp;');
-            expect(Utility.htmlEscape('<')).toEqual('&lt;');
-            expect(Utility.htmlEscape('>')).toEqual('&gt;');
-            expect(Utility.htmlEscape('"')).toEqual('&qot;');
-        });
-
         //  TODO: Finish testing this one. It can cleanse more than just this.
         it('Should be able to cleanse a YouTube video title', function() {
             expect(Utility.cleanseVideoTitle(' ')).toEqual('');
