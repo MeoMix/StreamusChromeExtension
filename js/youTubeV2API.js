@@ -288,11 +288,18 @@ define([
 
                     } else {
 
-                        findPlayableByTitle({
-                            title: result.entry.title.$t,
-                            success: options.success,
-                            error: options.error
-                        });
+                        var isValid = self.validateEntry(result.entry);
+
+                        if (isValid) {
+                            options.success(result.entry);
+                        } else {
+                            findPlayableByTitle({
+                                title: result.entry.title.$t,
+                                success: options.success,
+                                error: options.error
+                            });
+                        }
+
                     }
 
                 },
