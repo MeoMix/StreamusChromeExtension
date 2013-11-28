@@ -3,7 +3,8 @@
   "version": "0.0.98",
   "description": "A Description for Streamus Here",
   "devDependencies": {
-    "grunt": "~0.4.2"
+    "grunt": "~0.4.2",
+    "grunt-contrib-jasmine": "~0.5.2"
   },
   "main": "Gruntfile.js",
   "scripts": {

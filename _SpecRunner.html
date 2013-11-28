@@ -1,0 +1,499 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Jasmine Spec Runner</title>
+
+  
+  <link rel="stylesheet" type="text/css" href=".grunt/grunt-contrib-jasmine/jasmine.css">
+  
+
+  <script src=".grunt/grunt-contrib-jasmine/require.js"></script>
+  <script>
+    require.onError = function(error) {
+      var message = error.requireType + ': ';
+      if (error.requireType === 'scripterror' || error.requireType === 'notloaded' && error.requireModules) {
+        message += 'Illegal path or script error: ' + '[\'' + error.requireModules.join("', '") + '\']';
+      } else {
+        message += error.message;
+      }
+
+      throw Error(message);
+    };
+  </script>
+
+  
+  
+  <script src=".grunt/grunt-contrib-jasmine/jasmine.js"></script>
+  
+  <script src=".grunt/grunt-contrib-jasmine/jasmine-html.js"></script>
+  
+  
+
+  <script>
+    
+
+    
+      require.config({
+  "baseUrl": "js/",
+  "shim": {
+    "backbone": {
+      "deps": [
+        "lodash",
+        "jquery"
+      ],
+      "exports": "Backbone"
+    },
+    "googleApiClient": {
+      "exports": "GoogleApiClient"
+    },
+    "jasmine-html": [
+      "jasmine"
+    ],
+    "lodash": {
+      "exports": "_"
+    }
+  }
+});
+    
+  </script>
+
+  <script>
+    function launchTest() {
+    require([
+      
+        
+        'background/background' ,
+      
+        
+        'background/collection/folders' ,
+      
+        
+        'background/collection/playlistItems' ,
+      
+        
+        'background/collection/playlists' ,
+      
+        
+        'background/collection/streamItems' ,
+      
+        
+        'background/collection/videoSearchResults' ,
+      
+        
+        'background/commands' ,
+      
+        
+        'background/main' ,
+      
+        
+        'background/model/buttons/nextButton' ,
+      
+        
+        'background/model/buttons/playPauseButton' ,
+      
+        
+        'background/model/buttons/previousButton' ,
+      
+        
+        'background/model/buttons/radioButton' ,
+      
+        
+        'background/model/buttons/repeatButton' ,
+      
+        
+        'background/model/buttons/shuffleButton' ,
+      
+        
+        'background/model/buttons/videoDisplayButton' ,
+      
+        
+        'background/model/contextMenus' ,
+      
+        
+        'background/model/error' ,
+      
+        
+        'background/model/folder' ,
+      
+        
+        'background/model/iconManager' ,
+      
+        
+        'background/model/omnibox' ,
+      
+        
+        'background/model/player' ,
+      
+        
+        'background/model/playlist' ,
+      
+        
+        'background/model/playlistItem' ,
+      
+        
+        'background/model/settings' ,
+      
+        
+        'background/model/shareCode' ,
+      
+        
+        'background/model/streamItem' ,
+      
+        
+        'background/model/user' ,
+      
+        
+        'background/model/video' ,
+      
+        
+        'background/model/videoSearchResult' ,
+      
+        
+        'background/model/youTubePlayerAPI' ,
+      
+        
+        'background/notifications' ,
+      
+        
+        'dataSource' ,
+      
+        
+        'enum/addSearchResultOptionType' ,
+      
+        
+        'enum/dataSourceType' ,
+      
+        
+        'enum/playerState' ,
+      
+        
+        'enum/repeatButtonState' ,
+      
+        
+        'enum/shareableEntityType' ,
+      
+        
+        'foreground/collection/contextMenuGroups' ,
+      
+        
+        'foreground/collection/contextMenuItems' ,
+      
+        
+        'foreground/collection/folders' ,
+      
+        
+        'foreground/collection/streamItems' ,
+      
+        
+        'foreground/collection/videoSearchResults' ,
+      
+        
+        'foreground/foreground' ,
+      
+        
+        'foreground/main' ,
+      
+        
+        'foreground/model/activeFolderArea' ,
+      
+        
+        'foreground/model/activePlaylistArea' ,
+      
+        
+        'foreground/model/addSearchResultOption' ,
+      
+        
+        'foreground/model/addSearchResults' ,
+      
+        
+        'foreground/model/buttons/playPauseButton' ,
+      
+        
+        'foreground/model/contextMenuGroup' ,
+      
+        
+        'foreground/model/contextMenuItem' ,
+      
+        
+        'foreground/model/player' ,
+      
+        
+        'foreground/model/settings' ,
+      
+        
+        'foreground/model/streamAction' ,
+      
+        
+        'foreground/model/videoSearch' ,
+      
+        
+        'foreground/view/activeFolderArea/activeFolderAreaView' ,
+      
+        
+        'foreground/view/activeFolderArea/activeFolderView' ,
+      
+        
+        'foreground/view/activeFolderArea/deletePlaylistButtonView' ,
+      
+        
+        'foreground/view/activeFolderArea/playlistView' ,
+      
+        
+        'foreground/view/activePlaylistArea/activePlaylistAreaView' ,
+      
+        
+        'foreground/view/activePlaylistArea/activePlaylistItemsView' ,
+      
+        
+        'foreground/view/activePlaylistArea/addAllButtonView' ,
+      
+        
+        'foreground/view/activePlaylistArea/playAllButtonView' ,
+      
+        
+        'foreground/view/activePlaylistArea/playlistItemView' ,
+      
+        
+        'foreground/view/clearStreamView' ,
+      
+        
+        'foreground/view/contextMenuView' ,
+      
+        
+        'foreground/view/createPlaylistView' ,
+      
+        
+        'foreground/view/deletePlaylistView' ,
+      
+        
+        'foreground/view/editPlaylistView' ,
+      
+        
+        'foreground/view/genericPromptView' ,
+      
+        
+        'foreground/view/genericScrollableView' ,
+      
+        
+        'foreground/view/reloadView' ,
+      
+        
+        'foreground/view/rightPane/nextButtonView' ,
+      
+        
+        'foreground/view/rightPane/playPauseButtonView' ,
+      
+        
+        'foreground/view/rightPane/previousButtonView' ,
+      
+        
+        'foreground/view/rightPane/rightPaneView' ,
+      
+        
+        'foreground/view/rightPane/stream/clearStreamButtonView' ,
+      
+        
+        'foreground/view/rightPane/stream/radioButtonView' ,
+      
+        
+        'foreground/view/rightPane/stream/repeatButtonView' ,
+      
+        
+        'foreground/view/rightPane/stream/saveStreamButtonView' ,
+      
+        
+        'foreground/view/rightPane/stream/shuffleButtonView' ,
+      
+        
+        'foreground/view/rightPane/stream/streamItemView' ,
+      
+        
+        'foreground/view/rightPane/stream/streamView' ,
+      
+        
+        'foreground/view/rightPane/timeProgressAreaView' ,
+      
+        
+        'foreground/view/rightPane/videoDisplayButtonView' ,
+      
+        
+        'foreground/view/rightPane/volumeControlView' ,
+      
+        
+        'foreground/view/saveVideosView' ,
+      
+        
+        'foreground/view/settingsView' ,
+      
+        
+        'foreground/view/video/videoDisplayView' ,
+      
+        
+        'foreground/view/videoSearch/addSearchResultOptionView' ,
+      
+        
+        'foreground/view/videoSearch/addSearchResultsView' ,
+      
+        
+        'foreground/view/videoSearch/playSelectedButtonView' ,
+      
+        
+        'foreground/view/videoSearch/saveSelectedButtonView' ,
+      
+        
+        'foreground/view/videoSearch/videoSearchResultView' ,
+      
+        
+        'foreground/view/videoSearch/videoSearchResultsView' ,
+      
+        
+        'foreground/view/videoSearch/videoSearchView' ,
+      
+        
+        'fullscreen/fullscreen' ,
+      
+        
+        'fullscreen/main' ,
+      
+        
+        'inject/beatportInject' ,
+      
+        
+        'inject/streamusInject' ,
+      
+        
+        'inject/streamusShareInject' ,
+      
+        
+        'inject/youTubeIFrameInject' ,
+      
+        
+        'inject/youTubeInject' ,
+      
+        
+        'options/main' ,
+      
+        
+        'options/options' ,
+      
+        
+        'options/player' ,
+      
+        
+        'options/settings' ,
+      
+        
+        'test/dataSourceTest' ,
+      
+        
+        'test/errorTest' ,
+      
+        
+        'test/main' ,
+      
+        
+        'test/test' ,
+      
+        
+        'test/utilityTest' ,
+      
+        
+        'test/youTubeV2APITest' ,
+      
+        
+        'test/youTubeV3APITest' ,
+      
+        
+        'thirdParty/backbone' ,
+      
+        
+        'thirdParty/bootstrap.min' ,
+      
+        
+        'thirdParty/chrome-api-vsdoc' ,
+      
+        
+        'thirdParty/googleAnalytics' ,
+      
+        
+        'thirdParty/googleApiClient' ,
+      
+        
+        'thirdParty/jasmine-html' ,
+      
+        
+        'thirdParty/jasmine' ,
+      
+        
+        'thirdParty/jquery.autoscroll' ,
+      
+        
+        'thirdParty/jquery.hoverIntent' ,
+      
+        
+        'thirdParty/jquery' ,
+      
+        
+        'thirdParty/jquery.lazyload' ,
+      
+        
+        'thirdParty/jquery.qtip' ,
+      
+        
+        'thirdParty/jquery.scrollIntoView' ,
+      
+        
+        'thirdParty/jquery.transit' ,
+      
+        
+        'thirdParty/jqueryUi' ,
+      
+        
+        'thirdParty/lodash' ,
+      
+        
+        'thirdParty/microplugin' ,
+      
+        
+        'thirdParty/require' ,
+      
+        
+        'thirdParty/selectize' ,
+      
+        
+        'thirdParty/sifter' ,
+      
+        
+        'thirdParty/text' ,
+      
+        
+        'utility' ,
+      
+        
+        'youTubeV2API' ,
+      
+        
+        'youTubeV3API' 
+      
+    ],
+    function(){
+      require(['js/test/dataSourceTest.js','js/test/errorTest.js','js/test/utilityTest.js','js/test/youTubeV2APITest.js','js/test/youTubeV3APITest.js','.grunt/grunt-contrib-jasmine/reporter.js'], function(){
+        require(['.grunt/grunt-contrib-jasmine/jasmine-helper.js'], function(){
+          // good to go! Our tests should already be running.
+        })
+      })
+    }
+    )
+  }
+  </script>
+
+  
+  <script>
+  launchTest();
+  </script>
+  
+</head>
+<body>
+</body>
+</html>
