@@ -1,4 +1,5 @@
-﻿//  A Gruntfile defines all of the configuration options necessary to run GruntJS against a given directory.
+﻿/*jslint node: true */
+//  A Gruntfile defines all of the configuration options necessary to run GruntJS against a given directory.
 //  See here for more information: http://gruntjs.com/sample-gruntfile
 'use strict';
 
