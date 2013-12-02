@@ -28,7 +28,7 @@ define([
 
             var disabled = VideoSearchResults.selected().length === 0;
 
-            this.$el.prop('disabled', disabled);
+            this.$el.toggleClass('disabled', disabled);
 
             if (disabled) {
                 this.$el.attr('title', this.disabledTitle);
@@ -44,12 +44,11 @@ define([
         },
         
         showSaveSelectedPrompt: function () {
-
-            var selectedSearchResults = VideoSearchResults.selected();
-
-            var selectedCount = selectedSearchResults.length;
             
-            if (selectedCount > 0) {
+            if (!this.$el.hasClass('disabled')) {
+
+                var selectedSearchResults = VideoSearchResults.selected();
+                var selectedCount = selectedSearchResults.length;
 
                 var videos = _.map(selectedSearchResults, function (searchResult) {
                     return searchResult.get('video');
@@ -62,7 +61,7 @@ define([
                         model: videos
                     })
                 });
-                
+
                 saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
 
                     if (creating) {

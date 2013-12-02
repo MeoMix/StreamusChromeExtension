@@ -22,6 +22,10 @@ define([
                 if (options.error) {
                     options.error('URL expected');
                 }
+                
+                if (options.complete) {
+                    options.complete();
+                }
             }
 
             return $.ajax({
@@ -40,7 +44,13 @@ define([
                 headers: {
                     'X-GData-Key': 'key=AI39si7voIBGFYe-bcndXXe8kex6-N_OSzM5iMuWCdPCSnZxLB_qIEnQ-HMijHrwN1Y9sFINBi_frhjzVVrYunHH8l77wfbLCA'
                 },
-                success: options.success,
+                success: function () {
+                    options.success(arguments[0]);
+                    
+                    if (options.complete) {
+                        options.complete();
+                    }
+                },
                 error: function(error) {
                     //  Manually aborted events don't need to be reported on
                     if (error.statusText !== 'abort') {
@@ -49,6 +59,10 @@ define([
                     
                     if (options.error) {
                         options.error(error);
+                    }
+                    
+                    if (options.complete) {
+                        options.complete();
                     }
                 }
             });
@@ -192,7 +206,8 @@ define([
                 success: function (result) {
                     options.success(result.feed.entry || []);
                 },
-                error: options.error
+                error: options.error,
+                complete: options.complete
             });
         },
         

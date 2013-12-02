@@ -21,11 +21,10 @@ define([
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.prop('disabled', !this.model.get('enabled'));
-            
+
             var isEnabled = this.model.get('enabled');
 
-            this.$el.prop('disabled', !isEnabled);
+            this.$el.toggleClass('disabled', !isEnabled);
 
             if (isEnabled) {
                 this.$el.attr('title', this.enabledTitle);

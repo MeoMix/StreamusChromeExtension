@@ -25,7 +25,7 @@ define([
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.prop('disabled', true);
+            this.$el.toggleClass('disabled', true);
             this.$el.attr('title', 'Video disabled until a bug is fixed in Google Chrome. Working on it!');
 
             //var enabled = this.model.get('enabled');
@@ -46,7 +46,10 @@ define([
         },
         
         toggleVideoDisplay: function () {
-            this.model.toggleEnabled();
+            if (!this.$el.hasClass('disabled')) {
+                this.model.toggleEnabled();
+            }
+            
         }
 
     });

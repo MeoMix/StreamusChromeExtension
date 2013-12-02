@@ -25,7 +25,7 @@ define([
 
             var disabled = StreamItems.length === 0;
 
-            this.$el.prop('disabled', disabled);
+            this.$el.toggleClass('disabled', disabled);
 
             if (disabled) {
                 this.$el.attr('title', this.disabledTitle);
@@ -41,7 +41,10 @@ define([
         },
         
         clearStream: function () {
-            StreamAction.clearStream();
+            console.log("Firing");
+            if (!this.$el.hasClass('disabled')) {
+                StreamAction.clearStream();
+            }
         }
         
     });

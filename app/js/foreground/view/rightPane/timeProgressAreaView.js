@@ -42,7 +42,7 @@ define([
             this.durationLabel = this.$el.find('.duration');
             
             if (StreamItems.length === 0) {
-                this.timeRange.prop('disabled', true);
+                this.timeRange.toggleClass('disabled', true);
             }
                 
             //  If a video is currently playing when the GUI opens then initialize with those values.
@@ -122,14 +122,14 @@ define([
         },
         
         enable: function () {
-            this.timeRange.prop('disabled', false);
+            this.timeRange.toggleClass('disabled', false);
         },
         
         clear: function () {
 
             this.setCurrentTime(0);
             this.setTotalTime(0);
-            this.timeRange.prop('disabled', true);
+            this.timeRange.toggleClass('disabled', true);
         },
         
         restart: function () {

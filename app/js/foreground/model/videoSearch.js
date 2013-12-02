@@ -27,13 +27,12 @@
                 
                 if (previousSearchJqXhr) {
                     previousSearchJqXhr.abort();
-                    //  I don't want the view's loading icon to stutter on cancelling.
-                    this.set('searchJqXhr', null, { silent: true });
+                    this.set('searchJqXhr', null);
                 }
 
                 //  Trigger a reset when clearing the search query to get the view to redraw from 'no results' to 'type something'
                 if (searchQuery === '') {
-                    VideoSearchResults.setResults();
+                    VideoSearchResults.clear();
                 }
                 else{
                     //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
@@ -50,12 +49,13 @@
                         searchJqXhr = YouTubeV2API.getVideoInformation({
                             videoId: dataSource.get('sourceId'),
                             success: function(videoInformation) {
-                                self.set('searchJqXhr', null);
                                 VideoSearchResults.setFromVideoInformation(videoInformation);
                             },
                             error: function() {
+                                VideoSearchResults.clear();
+                            },
+                            complete: function() {
                                 self.set('searchJqXhr', null);
-                                VideoSearchResults.setResults();
                             }
                         });
                         
@@ -64,18 +64,16 @@
                         searchJqXhr = YouTubeV2API.search({
                             text: searchQuery,
                             success: function (videoInformationList) {
-                                self.set('searchJqXhr', null);
-
-                                console.log("SearchQuery and self.get:", searchQuery, self.get('searchQuery'));
-                                
+                                //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                                 if (searchQuery === self.get('searchQuery')) {
                                     VideoSearchResults.setFromVideoInformationList(videoInformationList);
                                 }
-                                
                             },
                             error: function () {
+                                VideoSearchResults.clear();
+                            },
+                            complete: function() {
                                 self.set('searchJqXhr', null);
-                                VideoSearchResults.setResults();
                             }
                         });
   

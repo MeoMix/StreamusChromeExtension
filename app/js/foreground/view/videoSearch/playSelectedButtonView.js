@@ -27,7 +27,7 @@ define([
 
             var disabled = VideoSearchResults.selected().length === 0;
 
-            this.$el.prop('disabled', disabled);
+            this.$el.toggleClass('disabled', disabled);
 
             if (disabled) {
                 this.$el.attr('title', this.disabledTitle);
@@ -43,17 +43,14 @@ define([
         },
         
         playSelected: function () {
-
-            var selectedSearchResults = VideoSearchResults.selected();
             
-            if (selectedSearchResults.length > 0) {
-                
-                var videos = _.map(selectedSearchResults, function (videoSearchResult) {
+            if (!this.$el.hasClass('disabled')) {
+
+                var videos = _.map(VideoSearchResults.selected(), function (videoSearchResult) {
                     return videoSearchResult.get('video');
                 });
 
                 StreamItems.addByVideos(videos, true);
-
             }
 
         }

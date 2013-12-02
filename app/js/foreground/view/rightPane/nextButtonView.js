@@ -24,7 +24,7 @@ define([
 
             var isEnabled = this.model.get('enabled');
 
-            this.$el.prop('disabled', !isEnabled);
+            this.$el.toggleClass('disabled', !isEnabled);
             
             if (isEnabled) {
                 this.$el.attr('title', this.enabledTitle);

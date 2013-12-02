@@ -6,7 +6,7 @@
         </button>
 
         <span class="title">
-            <img src="http://streamus.com/img/logo.png">
+            <img src="http://streamus.com/img/logo.png" alt="Streamus Logo">
         </span>
 
         <button class="button-icon settings" title="Streamus Settings">
@@ -16,7 +16,7 @@
     </div>
     <div class="list">
         
-        <h3 class="first">
+        <h3>
             <%- chrome.i18n.getMessage('playlists') %><i class="fa fa-caret-down" data-expanded="true"></i>
         </h3>
 
@@ -24,7 +24,9 @@
     <div class="context-buttons">
         
         <div class="left-group">
-            <button class="button-label button-small" disabled title="YouTube signin not implemented quite yet. Hold on!" id="button-sign-in"><i class="fa fa-sign-in"></i><%- chrome.i18n.getMessage('signIn') %></button>
+            <button class="button-label button-small disabled" title="YouTube signin not implemented quite yet. Hold on!" id="button-sign-in">
+                <i class="fa fa-sign-in"></i><%- chrome.i18n.getMessage('signIn') %>
+            </button>
         </div>
 
         <div class="right-group">

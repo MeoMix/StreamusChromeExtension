@@ -5,12 +5,10 @@
     'genericPromptView',
     'createPlaylistView',
     'editPlaylistView',
-    'deletePlaylistView',
     'deletePlaylistButtonView',
     'folders',
-    'utility',
-    'settings'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistView, DeletePlaylistButtonView, Folders, Utility, Settings) {
+    'utility'
+], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders, Utility) {
     'use strict';
 
     var ActiveFolderAreaView = Backbone.View.extend({
@@ -31,8 +29,7 @@
             'click h3': 'toggleActiveFolderVisibility',
             'click .settings': 'showSettingsPrompt',
             'click .add': 'showCreatePlaylistPrompt',
-            'click .edit': 'showEditSelectedPlaylistPrompt',
-            'click .delete': 'showDeleteSelectedPlaylistPrompt'
+            'click .edit': 'showEditSelectedPlaylistPrompt'
         },
         
         render: function () {
@@ -192,35 +189,6 @@
             });
             
             editPlaylistPromptView.fadeInAndShow();
-
-        },
-        
-        showDeleteSelectedPlaylistPrompt: function () {
-
-            var activePlaylist = Folders.getActiveFolder().get('playlists').getActivePlaylist();
-            
-            //  No need to notify if the playlist is empty.
-            if (activePlaylist.get('items').length === 0) {
-                activePlaylist.destroy();
-            } else {
-                
-                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
-                if (remindDeletePlaylist) {
-                    
-                    var deletePlaylistPromptView = new GenericPromptView({
-                        title: chrome.i18n.getMessage('deletePlaylist'),
-                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
-                        model: new DeletePlaylistView({
-                            model: activePlaylist
-                        })
-                    });
-                    deletePlaylistPromptView.fadeInAndShow();
-                    
-                } else {
-                    activePlaylist.destroy();
-                }
-                
-            }
 
         }
 

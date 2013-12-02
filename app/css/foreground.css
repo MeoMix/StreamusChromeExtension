@@ -329,8 +329,9 @@ button:active {
     margin-right: -10px;
 }
 
-.button-label[disabled],
-.button-icon[disabled] {
+/* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
+.disabled {
+    color: GrayText;
     cursor: default;
 }
 

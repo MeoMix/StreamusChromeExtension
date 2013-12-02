@@ -181,7 +181,7 @@ define([
         
         //  Cleans up any active playlist view and then renders a fresh view.
         showActivePlaylistArea: function () {
-            
+            console.log("showActivePlaylistArea is firing");
             var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
             
             //  Build the view if it hasn't been rendered yet or re-build the view if it is outdated.

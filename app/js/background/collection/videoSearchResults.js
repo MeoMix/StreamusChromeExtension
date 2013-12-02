@@ -68,6 +68,11 @@ define([
             this.setResults(videoSearchResult);
         },
         
+        //  Call setResults with nothing to clear it, more clear public method.
+        clear: function() {
+            this.setResults();
+        },
+        
         //  Ensure resetting always calls destroy.
         setResults: function(results) {
             //  Destroy all existing models before resetting in order to cause the views to clean-up and prevent memory leaks.

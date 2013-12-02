@@ -95,7 +95,7 @@
                 x: -20
             }, function () {
                 self.remove();
-                VideoSearchResults.reset();
+                VideoSearchResults.clear();
             });
            
         },

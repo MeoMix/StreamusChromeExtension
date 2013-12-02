@@ -30,7 +30,7 @@ define([
 
             var isEnabled = this.model.get('enabled');
 
-            this.$el.prop('disabled', !isEnabled);
+            this.$el.toggleClass('disabled', !isEnabled);
 
             //  Update which icon is showing whenever the YouTube player changes playing state.
             if (isEnabled) {

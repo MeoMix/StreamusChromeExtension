@@ -24,7 +24,7 @@ define([
 
             var disabled = this.model.get('items').length === 0;
 
-            this.$el.prop('disabled', disabled);
+            this.$el.toggleClass('disabled', disabled);
 
             if (disabled) {
                 this.$el.attr('title', this.disabledTitle);
@@ -39,8 +39,10 @@ define([
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
         },
         
-        addToStreamAndPlay: function() {
-            StreamItems.addByPlaylist(this.model, true);
+        addToStreamAndPlay: function () {
+            if (!this.$el.hasClass('disabled')) {
+                StreamItems.addByPlaylist(this.model, true);
+            }
         }
         
     });

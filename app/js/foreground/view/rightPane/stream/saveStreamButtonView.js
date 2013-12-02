@@ -25,7 +25,7 @@ define([
 
             var disabled = StreamItems.length === 0;
 
-            this.$el.prop('disabled', disabled);
+            this.$el.toggleClass('disabled', disabled);
 
             if (disabled) {
                 this.$el.attr('title', this.disabledTitle);
@@ -40,8 +40,10 @@ define([
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
         },
         
-        saveStream: function() {
-            StreamAction.saveStream();
+        saveStream: function () {
+            if (!this.$el.hasClass('disabled')) {
+                StreamAction.saveStream();
+            }
         }
         
     });
