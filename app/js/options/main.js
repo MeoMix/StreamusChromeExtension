@@ -12,11 +12,7 @@ require.config({
         },
         
         //  For "modules" that are just jQuery or Backbone plugins that do not need to export any module value, the shim config can just be an array of dependencies:
-        'jqueryUi': ['jquery'],
-        
-        'lodash': {
-            exports: '_'
-        }
+        'jqueryUi': ['jquery']
     },
     
     paths: {

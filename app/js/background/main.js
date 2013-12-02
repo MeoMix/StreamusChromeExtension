@@ -13,10 +13,6 @@
         
         'googleAnalytics': {
             deps: ['jquery']
-        },
-        
-        'lodash': {
-            exports: '_'
         }
         
     },
@@ -93,8 +89,6 @@ require([
 ], function ($, _, Backbone, GoogleAPI) {
     'use strict';
 
-    console.log("Chrome:", chrome);
-    
     //  Only use main.js for loading external helper files before the background is ready. Then, load the background.
     require(['background']);
 });

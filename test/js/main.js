@@ -16,12 +16,8 @@
             exports: 'Backbone'
         },
 
-        jasmineHtml: ['jasmine'],
-        
-        lodash: {
-            exports: '_'
-        }
-
+        jasmineHtml: ['jasmine']
+       
     },
 
     //  It's easier to define all the paths once rather than bloat each file with long paths during the require (keeps things DRY)

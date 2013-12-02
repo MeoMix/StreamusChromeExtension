@@ -9,10 +9,6 @@ require.config({
             deps: ['lodash', 'jquery'],
             //  Once loaded, use the global 'Backbone' as the module value.
             exports: 'Backbone'
-        },
-        
-        'lodash': {
-            exports: '_'
         }
 
     },

@@ -17,9 +17,9 @@
             id: 'searchResultsList'
         },
         
-        searchingMessage: null,
-        instructions: null,
-        noResultsMessage: null,
+        //searchingMessage: null,
+        //instructions: null,
+        //noResultsMessage: null,
         
         events: {
             'contextmenu': 'showContextMenu',
@@ -28,15 +28,19 @@
         
         render: function () {
 
+            console.log('Rendering');
+
             this.$el.html(this.template({
                 //  Mix in chrome to reference internationalize.
-                'hasSearchResults': VideoSearchResults.length > 0,
-                'hasSearchQuery': this.parent.model.get('searchQuery').length > 0,
-                'isSearching': this.parent.model.get('searchJqXhr') !== null,
-                'chrome.i18n': chrome.i18n
+                //'hasSearchResults': VideoSearchResults.length > 0,
+                //'hasSearchQuery': this.parent.model.get('searchQuery').length > 0,
+                //'isSearching': this.parent.model.get('searchJqXhr') !== null,
+                //'chrome.i18n': chrome.i18n
             }));
 
             this.addAll();
+
+            console.log("Lazy videos:", this.$el.find('img.lazy'));
             
             this.$el.find('img.lazy').lazyload({
                 effect: 'fadeIn',
@@ -44,6 +48,7 @@
                 container: this.$el
             });
 
+            //  TODO: I don't think I have to grab every listItem like this on every render... but maybe...
             var self = this;
             this.$el.find('.listItem').draggable({
                 helper: function() {
@@ -86,22 +91,23 @@
                 }
             });
 
-            this.searchingMessage = this.$el.find('div.searching');
-            this.instructions = this.$el.find('div.instructions');
-            this.noResultsMessage = this.$el.find('div.noResults');
+            //this.searchingMessage = this.$el.find('div.searching');
+            //this.instructions = this.$el.find('div.instructions');
+            //this.noResultsMessage = this.$el.find('div.noResults');
 
             return this;
         },
         
         initialize: function (options) {
 
-            if (!options.parent) throw "VideoSearchResultsView expects to be initialized with a parent ActivePlaylist";
-            this.parent = options.parent;
+            //if (!options.parent) throw "VideoSearchResultsView expects to be initialized with a parent ActivePlaylist";
+            //this.parent = options.parent;
 
             this.listenTo(VideoSearchResults, 'reset', this.render);
-            this.listenTo(this.parent.model, 'change:searchJqXhr', this.toggleLoadingMessage);
+            //this.listenTo(this.parent.model, 'change:searchJqXhr', this.toggleLoadingMessage);
             
-            Utility.scrollChildElements(this.el, '.item-title');
+            //  TODO: play around with event handlers on this guy
+            //Utility.scrollChildElements(this.el, '.item-title');
         },
         
         addOne: function (videoSearchResult) {
@@ -119,9 +125,9 @@
         },
         
         addAll: function () {
-            
+
             var videoSearchResultElements = VideoSearchResults.map(function (videoSearchResult, index) {
-                
+
                 var videoSearchResultView = new VideoSearchResultView({
                     model: videoSearchResult,
                     index: index
@@ -130,16 +136,16 @@
                 return videoSearchResultView.render().el;
 
             });
-            
+
             this.$el.append(videoSearchResultElements);
         },
         
         toggleLoadingMessage: function() {
 
-            var isSearching = this.parent.model.get('searchJqXhr') !== null;
-            this.searchingMessage.toggleClass('hidden', !isSearching);
-            this.noResultsMessage.addClass('hidden');
-            this.instructions.addClass('hidden');
+            //var isSearching = this.parent.model.get('searchJqXhr') !== null;
+            //this.searchingMessage.toggleClass('hidden', !isSearching);
+            //this.noResultsMessage.addClass('hidden');
+            //this.instructions.addClass('hidden');
         },
 
         showContextMenu: function (event) {

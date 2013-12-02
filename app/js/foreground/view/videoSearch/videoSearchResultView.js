@@ -57,6 +57,7 @@
             this.index = options.index;
 
             this.listenTo(this.model, 'change:selected', this.setHighlight);
+            this.listenTo(this.model, 'destroy', this.remove);
         },
         
         setHighlight: function () {

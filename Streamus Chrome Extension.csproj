@@ -70,8 +70,6 @@
     <Content Include="app\img\Red 2.png" />
     <Content Include="app\img\Red 3.png" />
     <Content Include="app\img\Red 4.png" />
-    <Content Include="app\img\settingsButton.svg" />
-    <Content Include="app\img\spinner.svg" />
     <Content Include="app\img\streamus_icon128.png" />
     <Content Include="app\img\streamus_icon14_0bars.png" />
     <Content Include="app\img\streamus_icon16.png" />

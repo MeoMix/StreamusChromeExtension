@@ -13,7 +13,6 @@
             return {
                 searchQuery: '',
                 searchJqXhr: null,
-                videoSearchResults: VideoSearchResults,
                 playlist: null
             };
         },
@@ -32,15 +31,11 @@
                     this.set('searchJqXhr', null, { silent: true });
                 }
 
-                var videoSearchResults = this.get('videoSearchResults');
-                
                 //  Trigger a reset when clearing the search query to get the view to redraw from 'no results' to 'type something'
-                if (videoSearchResults.length > 0 || searchQuery === '') {
-                    videoSearchResults.reset();
+                if (searchQuery === '') {
+                    VideoSearchResults.setResults();
                 }
-
-                if (searchQuery !== '') {
-                    
+                else{
                     //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
                     var dataSource = new DataSource({
                         urlToParse: searchQuery
@@ -56,11 +51,11 @@
                             videoId: dataSource.get('sourceId'),
                             success: function(videoInformation) {
                                 self.set('searchJqXhr', null);
-                                videoSearchResults.setFromVideoInformation(videoInformation);
+                                VideoSearchResults.setFromVideoInformation(videoInformation);
                             },
                             error: function() {
                                 self.set('searchJqXhr', null);
-                                videoSearchResults.reset();
+                                VideoSearchResults.setResults();
                             }
                         });
                         
@@ -70,10 +65,17 @@
                             text: searchQuery,
                             success: function (videoInformationList) {
                                 self.set('searchJqXhr', null);
-                                videoSearchResults.setFromVideoInformationList(videoInformationList);
+
+                                console.log("SearchQuery and self.get:", searchQuery, self.get('searchQuery'));
+                                
+                                if (searchQuery === self.get('searchQuery')) {
+                                    VideoSearchResults.setFromVideoInformationList(videoInformationList);
+                                }
+                                
                             },
                             error: function () {
                                 self.set('searchJqXhr', null);
+                                VideoSearchResults.setResults();
                             }
                         });
   
@@ -103,7 +105,7 @@
                     //} else {
                 }
 
-            }, 100));
+            }, 200));
 
         }
 

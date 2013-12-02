@@ -38,6 +38,7 @@
                 })
             ));
 
+            console.log("VideoSearchView is rendering");
             this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
 
             var playlistActions = this.$el.find('.playlist-actions');
@@ -61,11 +62,7 @@
         
         initialize: function () {
 
-            this.videoSearchResultsView = new VideoSearchResultsView({
-                parent: this
-            });
-            
-            this.listenTo(this.model, 'change:searchJqXhr', this.toggleSearching);
+            this.videoSearchResultsView = new VideoSearchResultsView();
             this.listenTo(this.model, 'destroy', this.hide);
         },
         

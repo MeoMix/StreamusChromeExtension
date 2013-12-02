@@ -9,8 +9,8 @@ define([
     var videoSearchResultsCollection = Backbone.Collection.extend({
         model: VideoSearchResult,
         
-        initialize: function() {
-            
+        initialize: function () {
+
             this.on('change:selected', function (changedItem, selected) {
 
                 var selectedResults = this.selected();
@@ -65,7 +65,14 @@ define([
                 })
             });
 
-            this.reset(videoSearchResult);
+            this.setResults(videoSearchResult);
+        },
+        
+        //  Ensure resetting always calls destroy.
+        setResults: function(results) {
+            //  Destroy all existing models before resetting in order to cause the views to clean-up and prevent memory leaks.
+            _.invoke(this.toArray(), 'destroy');
+            this.reset(results);
         },
         
         setFromVideoInformationList: function (videoInformationList) {
@@ -81,24 +88,24 @@ define([
                 return videoSearchResult;
             });
 
-            this.reset(videoSearchResults);
+            this.setResults(videoSearchResults);
         },
         
-        setFromPlaylistInformationList: function(playlistInformationList) {
-            //  Convert video information into search results which contain a reference to the full data incase needed later.
-            var videoSearchResults = _.map(playlistInformationList, function (playlistInformation) {
+        //setFromPlaylistInformationList: function(playlistInformationList) {
+        //    //  Convert video information into search results which contain a reference to the full data incase needed later.
+        //    var videoSearchResults = _.map(playlistInformationList, function (playlistInformation) {
 
-                var playlistSearchResult = new VideoSearchResult({
-                    video: new Video({
-                        videoInformation: videoInformation
-                    })
-                });
+        //        var playlistSearchResult = new VideoSearchResult({
+        //            video: new Video({
+        //                videoInformation: videoInformation
+        //            })
+        //        });
 
-                return videoSearchResult;
-            });
+        //        return videoSearchResult;
+        //    });
 
-            this.reset(videoSearchResults);
-        },
+        //    this.reset(videoSearchResults);
+        //},
         
         getByVideoId: function (videoId) {
 

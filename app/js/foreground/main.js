@@ -20,11 +20,7 @@ require.config({
         'jquery.lazyload': ['jquery'],
         'jquery.scrollIntoView': ['jquery'],
         'jquery.transit': ['jquery'],
-        'jqueryUi': ['jquery'],
-        
-        'lodash': {
-            exports: '_'
-        }
+        'jqueryUi': ['jquery']
         
     },
     
