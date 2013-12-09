@@ -74,11 +74,10 @@ define([
 
             });
 
-            var self = this;
-            playlists.on('remove', function (removedPlaylist) {
+            this.listenTo(playlists, 'remove', function (removedPlaylist) {
                 //  Clear local storage of the active playlist if it gets removed.
                 if (removedPlaylist.get('active')) {
-                    localStorage.setItem(self.get('id') + '_activePlaylistId', null);
+                    localStorage.setItem(this.get('id') + '_activePlaylistId', null);
                 }
 
             });

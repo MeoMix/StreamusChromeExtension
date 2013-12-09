@@ -30,6 +30,10 @@
 
             this.playlistTitleInput = this.$el.find('input.playlistTitle');
             this.youTubeSourceInput = this.$el.find('input.youTubeSource');
+            
+            this.youTubeSourceInput.data('datasource', new DataSource({
+                type: DataSourceType.NONE
+            }));
 
             return this;
         },

@@ -23,16 +23,16 @@ define([
             } else {
                 Player.once('change:ready', initializeIcon);
             }
-
-            Player.on('change:muted', function (model, isMuted) {
+            
+            this.listenTo(Player, 'change:muted', function (model, isMuted) {
 
                 var playerState = Player.get('state');
                 var volume = Player.get('volume');
 
                 setIcon(playerState, isMuted, volume);
             });
-
-            Player.on('change:state', function (model, playerState) {
+            
+            this.listenTo(Player, 'change:state', function (model, playerState) {
 
                 var isMuted = Player.get('muted');
                 var volume = Player.get('volume');
@@ -40,7 +40,7 @@ define([
                 setIcon(playerState, isMuted, volume);
             });
 
-            Player.on('change:volume', function (model, volume) {
+            this.listenTo(Player, 'change:volume', function (model, volume) {
 
                 var playerState = Player.get('state');
                 var isMuted = Player.get('muted');
