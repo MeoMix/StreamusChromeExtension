@@ -69,7 +69,7 @@ define([
             this.listenTo(playlists, 'change:active', function (playlist, isActive) {
                 //  Keep local storage up-to-date with the active playlist.
                 if (isActive) {
-                    localStorage.setItem(self.get('id') + '_activePlaylistId', playlist.get('id'));
+                    localStorage.setItem(this.get('id') + '_activePlaylistId', playlist.get('id'));
                 }
 
             });
