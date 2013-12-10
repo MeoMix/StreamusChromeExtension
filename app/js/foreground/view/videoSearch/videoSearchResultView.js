@@ -58,6 +58,10 @@
 
             this.listenTo(this.model, 'change:selected', this.setHighlight);
             this.listenTo(this.model, 'destroy', this.remove);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         setHighlight: function () {

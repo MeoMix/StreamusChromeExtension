@@ -124,6 +124,10 @@ define([
             //});
             //this.listenTo(Player, 'change:state', this.render);
             //this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.render);
+            
+            //$(window).unload(function () {
+            //    this.stopListening();
+            //}.bind(this));
         },
         
         togglePlayerState: function () {

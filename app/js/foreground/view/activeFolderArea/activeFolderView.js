@@ -51,6 +51,10 @@ define([
         initialize: function () {
             this.listenTo(this.model.get('playlists'), 'add', this.addItem);
             Utility.scrollChildElements(this.el, 'span.playlitTitle');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
 
         addItem: function (playlist) {

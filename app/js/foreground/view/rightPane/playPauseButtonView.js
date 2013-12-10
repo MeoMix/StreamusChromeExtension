@@ -56,7 +56,11 @@ define([
             this.listenTo(Player, 'change:state', this.render);
 
             this.render();
-            
+
+            $(window).unload(function() {
+                this.stopListening();
+            }.bind(this));
+
         },
         
         tryTogglePlayerState: function() {

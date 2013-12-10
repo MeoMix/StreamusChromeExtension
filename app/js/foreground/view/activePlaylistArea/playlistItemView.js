@@ -39,6 +39,10 @@
             this.instant = options && options.instant || false;
 
             this.listenTo(this.model, 'destroy', this.remove);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
 
         showContextMenu: function (event) {

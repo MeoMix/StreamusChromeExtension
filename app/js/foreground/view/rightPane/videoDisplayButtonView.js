@@ -43,6 +43,10 @@ define([
 
         initialize: function () {
             this.listenTo(this.model, 'change:enabled', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         toggleVideoDisplay: function () {

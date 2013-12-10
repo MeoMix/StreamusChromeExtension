@@ -48,6 +48,10 @@
         
         initialize: function () {
             this.listenTo(ContextMenuGroups, 'reset add remove', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         //  Displays the context menu at given x,y coordinates.

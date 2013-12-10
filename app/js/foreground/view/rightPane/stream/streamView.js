@@ -198,23 +198,18 @@
                 this.list.trigger('scroll');
             });
             
-            //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
-            this.radioButtonView = new RadioButtonView({
-                model: chrome.extension.getBackgroundPage().RadioButton
-            });
-
-            this.repeatButtonView = new RepeatButtonView({
-                model: chrome.extension.getBackgroundPage().RepeatButton
-            });
-
-            this.shuffleButtonView = new ShuffleButtonView({
-                model: chrome.extension.getBackgroundPage().ShuffleButton
-            });
+            this.radioButtonView = new RadioButtonView();
+            this.repeatButtonView = new RepeatButtonView();
+            this.shuffleButtonView = new ShuffleButtonView();
 
             this.saveStreamButtonView = new SaveStreamButtonView();
             this.clearStreamButtonView = new ClearStreamButtonView();
 
             Utility.scrollChildElements(this.el, '.item-title');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
             
         },
         

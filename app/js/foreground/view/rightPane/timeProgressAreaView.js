@@ -60,6 +60,10 @@ define([
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
             this.listenTo(Player, 'change:state', this.stopSeeking);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         //  Allow the user to manual time change by click or scroll.

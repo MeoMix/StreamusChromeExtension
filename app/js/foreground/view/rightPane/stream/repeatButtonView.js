@@ -16,6 +16,8 @@
             'click': 'toggleRepeat'
         },
         
+        model: chrome.extension.getBackgroundPage().RepeatButton,
+        
         disabledTitle: chrome.i18n.getMessage('repeatDisabled'),
         repeatVideoTitle: chrome.i18n.getMessage('repeatVideo'),
         repeatStreamTitle: chrome.i18n.getMessage('repeatStream'),
@@ -51,6 +53,11 @@
         
         initialize: function () {
             this.listenTo(this.model, 'change:state', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
+
         },
         
         toggleRepeat: function () {

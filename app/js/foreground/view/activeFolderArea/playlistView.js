@@ -47,6 +47,10 @@
             this.listenTo(this.model, 'change:active', this.setSelectedClass);
 
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
+
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         setSelectedClass: function() {

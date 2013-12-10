@@ -98,6 +98,10 @@
                 this.listenTo(entity.get('items'), 'add addMultiple remove', this.updateItemCount);
             }
             
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
+            
         },
         
         updateItemCount: function () {

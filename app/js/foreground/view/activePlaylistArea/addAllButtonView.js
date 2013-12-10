@@ -37,6 +37,10 @@ define([
         
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         addToStream: function () {

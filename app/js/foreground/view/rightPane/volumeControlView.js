@@ -69,6 +69,9 @@ define([
                 self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
             }, config);
 
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
 
         setVolume: function () {

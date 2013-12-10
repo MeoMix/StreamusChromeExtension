@@ -108,6 +108,10 @@
             
             //  TODO: play around with event handlers on this guy
             //Utility.scrollChildElements(this.el, '.item-title');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         addOne: function (videoSearchResult) {

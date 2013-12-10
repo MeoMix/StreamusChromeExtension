@@ -15,6 +15,8 @@ define([
             'click': 'toggleShuffle'
         },
         
+        model: chrome.extension.getBackgroundPage().ShuffleButton,
+        
         enabledTitle: chrome.i18n.getMessage("shuffleEnabled"),
         disabledTitle: chrome.i18n.getMessage("shuffleDisabled"),
 
@@ -35,6 +37,10 @@ define([
         
         initialize: function () {
             this.listenTo(this.model, 'change:enabled', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         toggleShuffle: function () {

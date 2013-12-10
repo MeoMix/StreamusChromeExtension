@@ -70,6 +70,10 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             Utility.scrollChildElements(this.el, '.playlistTitle');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         updatePlaylistDetails: function () {

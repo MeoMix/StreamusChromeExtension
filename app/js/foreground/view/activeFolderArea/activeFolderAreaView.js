@@ -68,6 +68,10 @@
             
             this.listenTo(this.model, 'destroy', this.hide);
             Utility.scrollChildElements(this.el, '.title');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         show: function () {

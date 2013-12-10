@@ -48,6 +48,10 @@
             
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change:selected', this.toggleSelected);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
 
         select: function () {

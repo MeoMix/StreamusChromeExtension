@@ -64,6 +64,10 @@
 
             this.videoSearchResultsView = new VideoSearchResultsView();
             this.listenTo(this.model, 'destroy', this.hide);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         highlight: function() {

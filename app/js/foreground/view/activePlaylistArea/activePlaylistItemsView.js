@@ -192,6 +192,10 @@ define([
             });
 
             Utility.scrollChildElements(this.el, 'span.item-title');
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         incrementalRender: function (playlistItemChunks, onRenderComplete) {

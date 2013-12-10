@@ -114,12 +114,19 @@ define([
             if (VideoSearchResults.length > 0) {
                 this.showVideoSearch(true);
             }
+            this.waitForBackgroundUserLoaded();
 
+            console.log("This:", this, this._listeningTo);
+
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         //  Having the current user's information loaded from the server is critical for foreground functionality.
         waitForBackgroundUserLoaded: function () {
-
+            console.log("BackgroundUser Events:", this.backgroundUser._events);
+            console.log("BackgroundPlayer Events:", this.backgroundPlayer._events);
             this.listenTo(this.backgroundUser, 'change:loaded', function (model, loaded) {
 
                 console.log("BackgroundUser change:loaded has fired:", model, loaded);
@@ -183,10 +190,12 @@ define([
         showActivePlaylistArea: function () {
             console.log("showActivePlaylistArea is firing");
             var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
-            
+
             //  Build the view if it hasn't been rendered yet or re-build the view if it is outdated.
-            if (this.activePlaylistAreaView === null || this.activePlaylistAreaView.model.playlist !== activePlaylist) {
-                
+            if (this.activePlaylistAreaView === null || this.activePlaylistAreaView.model.get('playlist') !== activePlaylist) {
+
+                console.log("Cleaning up and doing stuff");
+
                 //  Cleanup an existing view
                 if (this.activePlaylistAreaView !== null) {
                     this.activePlaylistAreaView.remove();

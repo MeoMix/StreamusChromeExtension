@@ -48,7 +48,7 @@ $(function() {
             });
 
         });
-
+        
         //var canvas = $('<canvas>', {
         //    id: 'YouTubeVideoCanvas'
         //});

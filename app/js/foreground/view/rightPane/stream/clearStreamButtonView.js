@@ -38,6 +38,10 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         clearStream: function () {

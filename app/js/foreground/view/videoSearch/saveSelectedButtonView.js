@@ -41,6 +41,10 @@ define([
         
         initialize: function () {
             this.listenTo(VideoSearchResults, 'change:selected', this.render);
+            
+            $(window).unload(function () {
+                this.stopListening();
+            }.bind(this));
         },
         
         showSaveSelectedPrompt: function () {
