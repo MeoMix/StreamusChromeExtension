@@ -1,10 +1,11 @@
 //  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
+    'genericForegroundView',
     'text!../template/nextButton.htm'
-], function (NextButtonTemplate) {
+], function (GenericForegroundView, NextButtonTemplate) {
     'use strict';
 
-    var NextButtonView = Backbone.View.extend({
+    var NextButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -37,10 +38,6 @@ define([
 
         initialize: function () {
             this.listenTo(this.model, 'change:enabled', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         trySelectNextVideo: function () {

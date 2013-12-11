@@ -1,9 +1,10 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/genericPrompt.htm'
-], function (GenericPromptTemplate) {
+], function (GenericForegroundView, GenericPromptTemplate) {
     'use strict';
 
-    var GenericPromptView = Backbone.View.extend({
+    var GenericPromptView = GenericForegroundView.extend({
         
         className: 'modalOverlay prompt',
         

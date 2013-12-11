@@ -1,14 +1,15 @@
 ﻿define([
+    'genericForegroundView',
     'activePlaylistItemsView',
     'text!../template/activePlaylistArea.htm',
     'playAllButtonView',
     'addAllButtonView',
     'streamItems',
     'utility'
-], function (ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, StreamItems, Utility) {
+], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, StreamItems, Utility) {
     'use strict';
 
-    var ActivePlaylistAreaView = Backbone.View.extend({
+    var ActivePlaylistAreaView = GenericForegroundView.extend({
 
         className: 'left-pane',
         
@@ -70,10 +71,6 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             Utility.scrollChildElements(this.el, '.playlistTitle');
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         updatePlaylistDetails: function () {

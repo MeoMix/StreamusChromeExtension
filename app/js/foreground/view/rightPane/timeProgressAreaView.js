@@ -1,15 +1,16 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
 define([
+    'genericForegroundView',
     'text!../template/timeProgressArea.htm',
     'streamItems',
     'player',
     'utility',
     'playerState',
     'settings'
-], function (TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {
+], function (GenericForegroundView, TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {
     'use strict';
 
-    var TimeProgressAreaView = Backbone.View.extend({
+    var TimeProgressAreaView = GenericForegroundView.extend({
             
         template: _.template(TimeProgressAreaTemplate),
         
@@ -60,10 +61,6 @@ define([
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
             this.listenTo(Player, 'change:state', this.stopSeeking);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         //  Allow the user to manual time change by click or scroll.

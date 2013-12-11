@@ -1,10 +1,11 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/saveVideos.htm',
     'folders'
-], function (SaveVideosTemplate, Folders) {
+], function (GenericForegroundView, SaveVideosTemplate, Folders) {
     'use strict';
 
-    var SaveVideosView = Backbone.View.extend({
+    var SaveVideosView = GenericForegroundView.extend({
 
         className: 'saveVideos',
         

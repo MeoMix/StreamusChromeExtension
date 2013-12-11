@@ -1,9 +1,10 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/reload.htm'
-], function (ReloadTemplate) {
+], function (GenericForegroundView, ReloadTemplate) {
     'use strict';
 
-    var ReloadView = Backbone.View.extend({
+    var ReloadView = GenericForegroundView.extend({
 
         className: 'reload',
 

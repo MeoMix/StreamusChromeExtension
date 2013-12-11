@@ -1,9 +1,10 @@
 ﻿define([
-    'text!../template/editPlaylist.htm',
-], function (EditPlaylistTemplate) {
+    'genericForegroundView',
+    'text!../template/editPlaylist.htm'
+], function (GenericForegroundView, EditPlaylistTemplate) {
     'use strict';
 
-    var EditPlaylistView = Backbone.View.extend({
+    var EditPlaylistView = GenericForegroundView.extend({
 
         className: 'editPlaylist',
 

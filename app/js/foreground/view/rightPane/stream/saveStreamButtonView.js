@@ -1,11 +1,12 @@
 define([
+    'genericForegroundView',
     'text!../template/saveStreamButton.htm',
     'streamItems',
     'streamAction'
-], function (SaveStreamButtonTemplate, StreamItems, StreamAction) {
+], function (GenericForegroundView, SaveStreamButtonTemplate, StreamItems, StreamAction) {
     'use strict';
 
-    var SaveStreamButtonView = Backbone.View.extend({
+    var SaveStreamButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -38,10 +39,6 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         saveStream: function () {

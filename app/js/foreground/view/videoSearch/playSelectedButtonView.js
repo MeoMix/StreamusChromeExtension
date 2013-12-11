@@ -1,11 +1,12 @@
 define([
+    'genericForegroundView',
     'text!../template/playSelectedButton.htm',
     'videoSearchResults',
     'streamItems'
-], function (PlaySelectedButtonTemplate, VideoSearchResults, StreamItems) {
+], function (GenericForegroundView, PlaySelectedButtonTemplate, VideoSearchResults, StreamItems) {
     'use strict';
 
-    var PlaySelectedButtonView = Backbone.View.extend({
+    var PlaySelectedButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -40,10 +41,6 @@ define([
         
         initialize: function () {
             this.listenTo(VideoSearchResults, 'change:selected', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         playSelected: function () {

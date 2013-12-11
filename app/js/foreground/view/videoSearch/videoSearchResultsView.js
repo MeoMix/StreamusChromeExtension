@@ -1,14 +1,15 @@
 ﻿define([
+    'genericForegroundView',
     'videoSearchResultView',
     'videoSearchResults',
     'text!../template/videoSearchResults.htm',
     'utility',
     'contextMenuGroups',
     'streamItems'
-], function (VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility, ContextMenuGroups, StreamItems) {
+], function (GenericForegroundView, VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility, ContextMenuGroups, StreamItems) {
     'use strict';
 
-    var VideoSearchResultsView = Backbone.View.extend({
+    var VideoSearchResultsView = GenericForegroundView.extend({
         className: 'left-list',
         
         template: _.template(VideoSearchResultsTemplate),
@@ -108,10 +109,6 @@
             
             //  TODO: play around with event handlers on this guy
             //Utility.scrollChildElements(this.el, '.item-title');
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         addOne: function (videoSearchResult) {

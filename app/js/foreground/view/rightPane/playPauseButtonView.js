@@ -1,11 +1,12 @@
 define([
+    'genericForegroundView',
     'player',
     'playerState',
     'text!../template/playPauseButton.htm'
-], function (Player, PlayerState, PlayPauseButtonTemplate) {
+], function (GenericForegroundView, Player, PlayerState, PlayPauseButtonTemplate) {
     'use strict';
     
-    var PlayPauseButtonView = Backbone.View.extend({
+    var PlayPauseButtonView = GenericForegroundView.extend({
         
         tagName: 'button',
 
@@ -56,11 +57,6 @@ define([
             this.listenTo(Player, 'change:state', this.render);
 
             this.render();
-
-            $(window).unload(function() {
-                this.stopListening();
-            }.bind(this));
-
         },
         
         tryTogglePlayerState: function() {

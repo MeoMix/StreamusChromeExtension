@@ -1,11 +1,12 @@
 ﻿define([
+    'genericForegroundView',
     'contextMenuGroups',
     'text!../template/contextMenu.htm'
-], function (ContextMenuGroups, ContextMenuTemplate) {
+], function (GenericForegroundView, ContextMenuGroups, ContextMenuTemplate) {
     'use strict';
 
     //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.
-    var ContextMenuView = Backbone.View.extend({
+    var ContextMenuView = GenericForegroundView.extend({
 
         template: _.template(ContextMenuTemplate),
 
@@ -48,10 +49,6 @@
         
         initialize: function () {
             this.listenTo(ContextMenuGroups, 'reset add remove', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         //  Displays the context menu at given x,y coordinates.

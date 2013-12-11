@@ -206,11 +206,6 @@
             this.clearStreamButtonView = new ClearStreamButtonView();
 
             Utility.scrollChildElements(this.el, '.item-title');
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
-            
         },
         
         addItem: function (streamItem) {

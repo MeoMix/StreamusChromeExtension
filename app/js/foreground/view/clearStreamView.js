@@ -1,11 +1,12 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/clearStream.htm',
     'settings',
     'streamItems'
-], function (ClearStreamTemplate, Settings, StreamItems) {
+], function (GenericForegroundView, ClearStreamTemplate, Settings, StreamItems) {
     'use strict';
 
-    var ClearStreamView = Backbone.View.extend({
+    var ClearStreamView = GenericForegroundView.extend({
 
         className: 'clearStream',
 

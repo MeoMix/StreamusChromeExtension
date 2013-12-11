@@ -1,9 +1,10 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/radioButton.htm'
-], function (RadioButtonTemplate) {
+], function (GenericForegroundView, RadioButtonTemplate) {
     'use strict';
 
-    var RadioButtonView = Backbone.View.extend({
+    var RadioButtonView = GenericForegroundView.extend({
         
         tagName: 'button',
 
@@ -38,10 +39,6 @@
         
         initialize: function () {
             this.listenTo(this.model, 'change:enabled', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         toggleRadio: function () {

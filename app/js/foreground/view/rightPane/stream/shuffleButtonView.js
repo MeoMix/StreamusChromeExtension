@@ -1,9 +1,10 @@
 define([
+    'genericForegroundView',
     'text!../template/shuffleButton.htm'
-], function (ShuffleButtonTemplate) {
+], function (GenericForegroundView, ShuffleButtonTemplate) {
     'use strict';
 
-    var ShuffleButtonView = Backbone.View.extend({
+    var ShuffleButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -37,10 +38,6 @@ define([
         
         initialize: function () {
             this.listenTo(this.model, 'change:enabled', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         toggleShuffle: function () {

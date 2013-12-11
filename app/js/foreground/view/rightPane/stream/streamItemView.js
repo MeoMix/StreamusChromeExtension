@@ -1,14 +1,15 @@
 ﻿define([
+    'genericForegroundView',
     'contextMenuGroups',
     'utility',
     'streamItems',
     'text!../template/streamItem.htm',
     'playPauseButton',
     'folders'
-], function (ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton, Folders) {
+], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton, Folders) {
     'use strict';
 
-    var StreamItemView = Backbone.View.extend({
+    var StreamItemView = GenericForegroundView.extend({
         
         className: 'listItem streamItem',
 
@@ -48,10 +49,6 @@
             
             this.listenTo(this.model, 'destroy', this.remove);
             this.listenTo(this.model, 'change:selected', this.toggleSelected);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
 
         select: function () {

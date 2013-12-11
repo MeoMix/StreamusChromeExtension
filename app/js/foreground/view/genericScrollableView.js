@@ -1,9 +1,9 @@
 ﻿define([
-        
-], function () {
+    'genericForegroundView'
+], function (GenericForegroundView) {
     'use strict';
 
-    var GenericScrollableView = Backbone.View.extend({
+    var GenericScrollableView = GenericForegroundView.extend({
 
         doAutoScroll: function (event) {
 

@@ -1,13 +1,14 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/videoSearchResult.htm',
     'contextMenuGroups',
     'videoSearchResults',
     'streamItems',
     'folders'
-], function (VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders) {
+], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders) {
     'use strict';
 
-    var VideoSearchResultView = Backbone.View.extend({
+    var VideoSearchResultView = GenericForegroundView.extend({
         
         className: 'listItem videoSearchResult',
 
@@ -58,10 +59,6 @@
 
             this.listenTo(this.model, 'change:selected', this.setHighlight);
             this.listenTo(this.model, 'destroy', this.remove);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         setHighlight: function () {

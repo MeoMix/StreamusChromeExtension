@@ -1,11 +1,12 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/playlistItem.htm',
     'contextMenuGroups',
     'streamItems'
-], function (PlaylistItemTemplate, ContextMenuGroups, StreamItems) {
+], function (GenericForegroundView, PlaylistItemTemplate, ContextMenuGroups, StreamItems) {
     'use strict';
 
-    var PlaylistItemView = Backbone.View.extend({
+    var PlaylistItemView = GenericForegroundView.extend({
         className: 'listItem playlistItem',
         
         template: _.template(PlaylistItemTemplate),
@@ -39,10 +40,6 @@
             this.instant = options && options.instant || false;
 
             this.listenTo(this.model, 'destroy', this.remove);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
 
         showContextMenu: function (event) {

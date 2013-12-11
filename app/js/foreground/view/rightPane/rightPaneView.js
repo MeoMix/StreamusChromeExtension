@@ -1,5 +1,6 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
+    'genericForegroundView',
     'text!../template/rightPane.htm',
     'streamView',
     'playPauseButtonView',
@@ -8,10 +9,10 @@ define([
     'volumeControlView',
     'timeProgressAreaView',
     'videoDisplayButtonView'
-], function (RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView) {
+], function (GenericForegroundView, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView) {
     'use strict';
 
-    var RightPaneView = Backbone.View.extend({
+    var RightPaneView = GenericForegroundView.extend({
 
         className: 'right-pane',
 

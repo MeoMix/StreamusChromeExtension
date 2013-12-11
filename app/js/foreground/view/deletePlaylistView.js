@@ -1,10 +1,11 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/deletePlaylist.htm',
     'settings'
-], function (DeletePlaylistTemplate, Settings) {
+], function (GenericForegroundView, DeletePlaylistTemplate, Settings) {
     'use strict';
 
-    var DeletePlaylistView = Backbone.View.extend({
+    var DeletePlaylistView = GenericForegroundView.extend({
 
         className: 'deletePlaylist',
 

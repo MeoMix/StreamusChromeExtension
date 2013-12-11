@@ -150,6 +150,7 @@
     <Content Include="app\js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="app\js\foreground\view\clearStreamView.js" />
     <Content Include="app\js\foreground\view\contextMenuView.js" />
+    <Content Include="app\js\foreground\view\genericForegroundView.js" />
     <Content Include="app\js\foreground\view\createPlaylistView.js" />
     <Content Include="app\js\foreground\view\deletePlaylistView.js" />
     <Content Include="app\js\foreground\view\editPlaylistView.js" />

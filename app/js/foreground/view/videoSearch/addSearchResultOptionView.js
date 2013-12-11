@@ -1,11 +1,12 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/addSearchResultOption.htm',
     'videoSearchResults',
     'addSearchResultOptionType'
-], function (AddSearchResultOptionTemplate, VideoSearchResults, AddSearchResultOptionType) {
+], function (GenericForegroundView, AddSearchResultOptionTemplate, VideoSearchResults, AddSearchResultOptionType) {
     'use strict';
 
-    var AddSearchResultOptionView = Backbone.View.extend({
+    var AddSearchResultOptionView = GenericForegroundView.extend({
         
         className: function () {
 
@@ -97,11 +98,6 @@
             } else {
                 this.listenTo(entity.get('items'), 'add addMultiple remove', this.updateItemCount);
             }
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
-            
         },
         
         updateItemCount: function () {

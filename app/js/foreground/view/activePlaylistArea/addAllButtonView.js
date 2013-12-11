@@ -1,10 +1,11 @@
 define([
+    'genericForegroundView',
     'text!../template/addAllButton.htm',
     'streamItems'
-], function (AddAllButtonTemplate, StreamItems) {
+], function (GenericForegroundView, AddAllButtonTemplate, StreamItems) {
     'use strict';
 
-    var AddAllButtonView = Backbone.View.extend({
+    var AddAllButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -37,10 +38,6 @@ define([
         
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         addToStream: function () {

@@ -1,13 +1,14 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/createPlaylist.htm',
     'streamItems',
     'folders',
     'dataSource',
     'dataSourceType'
-], function (CreatePlaylistTemplate, StreamItems, Folders, DataSource, DataSourceType) {
+], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Folders, DataSource, DataSourceType) {
     'use strict';
 
-    var CreatePlaylistView = Backbone.View.extend({
+    var CreatePlaylistView = GenericForegroundView.extend({
 
         className: 'createPlaylist',
 

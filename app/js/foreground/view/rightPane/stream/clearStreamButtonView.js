@@ -1,11 +1,12 @@
 define([
+    'genericForegroundView',
     'text!../template/clearStreamButton.htm',
     'streamItems',
     'streamAction'
-], function (ClearStreamButtonTemplate, StreamItems, StreamAction) {
+], function (GenericForegroundView, ClearStreamButtonTemplate, StreamItems, StreamAction) {
     'use strict';
 
-    var ClearStreamButtonView = Backbone.View.extend({
+    var ClearStreamButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -38,10 +39,6 @@ define([
         
         initialize: function () {
             this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         clearStream: function () {

@@ -1,12 +1,13 @@
 //  VolumeControlView represents the mute/unmute button as well as the volume slider.
 //  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
+    'genericForegroundView',
     'text!../template/volumeControl.htm',
     'player'
-], function (VolumeControlTemplate, Player) {
+], function (GenericForegroundView, VolumeControlTemplate, Player) {
     'use strict';
 
-    var VolumeControlView = Backbone.View.extend({
+    var VolumeControlView = GenericForegroundView.extend({
 
         className: 'volumeControl',
 
@@ -68,10 +69,6 @@ define([
                 $(this).transition({ height: $(this).data('oldheight') }, 200);
                 self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
             }, config);
-
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
 
         setVolume: function () {

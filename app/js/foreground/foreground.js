@@ -1,6 +1,7 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
+    'genericForegroundView',
     'genericPromptView',
     'reloadView',
     'activeFolderArea',
@@ -17,10 +18,10 @@ define([
     'rightPaneView',
     'folders',
     'videoDisplayView'
-], function (GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView) {
+], function (GenericForegroundView, GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView) {
     'use strict';
 
-    var ForegroundView = Backbone.View.extend({
+    var ForegroundView = GenericForegroundView.extend({
 
         el: $('body'),
         
@@ -52,7 +53,6 @@ define([
         },
 
         initialize: function () {
-
             chrome.extension.getBackgroundPage()._gaq.push(['_trackPageview']);
             
             var self = this;
@@ -116,11 +116,7 @@ define([
             }
             this.waitForBackgroundUserLoaded();
 
-            console.log("This:", this, this._listeningTo);
-
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
+            console.log("This:", this.backgroundUser._events);
         },
         
         //  Having the current user's information loaded from the server is critical for foreground functionality.

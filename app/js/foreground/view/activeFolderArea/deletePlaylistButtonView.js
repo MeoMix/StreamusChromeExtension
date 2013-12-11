@@ -1,12 +1,13 @@
 define([
+    'genericForegroundView',
     'text!../template/deletePlaylistButton.htm',
     'folders',
     'genericPromptView',
     'deletePlaylistView'
-], function (DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView) {
+], function (GenericForegroundView, DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView) {
     'use strict';
 
-    var DeletePlaylistButtonView = Backbone.View.extend({
+    var DeletePlaylistButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -39,10 +40,6 @@ define([
         
         initialize: function () {
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'add addMultiple remove empty', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
 
         showDeleteSelectedPlaylistPrompt: function () {

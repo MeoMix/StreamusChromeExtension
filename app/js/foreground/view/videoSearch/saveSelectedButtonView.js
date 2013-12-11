@@ -1,12 +1,13 @@
 define([
+    'genericForegroundView',
     'text!../template/saveSelectedButton.htm',
     'videoSearchResults',
     'genericPromptView',
     'saveVideosView'
-], function (SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveVideosView) {
+], function (GenericForegroundView, SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveVideosView) {
     'use strict';
 
-    var SaveSelectedButtonView = Backbone.View.extend({
+    var SaveSelectedButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -41,10 +42,6 @@ define([
         
         initialize: function () {
             this.listenTo(VideoSearchResults, 'change:selected', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         showSaveSelectedPrompt: function () {

@@ -1,10 +1,11 @@
 define([
+    'genericForegroundView',
     'text!../template/playAllButton.htm',
     'streamItems'
-], function (PlayAllButtonTemplate, StreamItems) {
+], function (GenericForegroundView, PlayAllButtonTemplate, StreamItems) {
     'use strict';
 
-    var PlayAllButtonView = Backbone.View.extend({
+    var PlayAllButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
 
@@ -37,10 +38,6 @@ define([
         
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add addMultiple remove empty', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         addToStreamAndPlay: function () {

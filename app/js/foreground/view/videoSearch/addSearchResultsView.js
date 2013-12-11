@@ -119,10 +119,6 @@
             this.listenTo(this.model.get('folder').get('playlists'), 'add', this.addPlaylistOption);
             
             Utility.scrollChildElements(this.el, '.item-title');
-
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         addPlaylistOption: function (addedPlaylist) {

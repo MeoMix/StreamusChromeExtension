@@ -1,4 +1,5 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/playlist.htm',
     'contextMenuGroups',
     'genericPromptView',
@@ -6,10 +7,10 @@
     'editPlaylistView',
     'settings',
     'folders'
-], function (PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders) {
+], function (GenericForegroundView, PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders) {
     'use strict';
 
-    var PlaylistView = Backbone.View.extend({
+    var PlaylistView = GenericForegroundView.extend({
         tagName: 'li',
 
         className: 'playlist',
@@ -47,10 +48,6 @@
             this.listenTo(this.model, 'change:active', this.setSelectedClass);
 
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
-
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         setSelectedClass: function() {

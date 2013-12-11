@@ -1,16 +1,17 @@
 //  This is the list of playlists on the playlists tab.
 define([
+    'genericForegroundView',
     'text!../template/activeFolder.htm',
     'contextMenuGroups',
     'utility',
     'streamItems',
     'playlistView',
     'genericPromptView',
-    'createPlaylistView',
-], function (ActiveFolderTemplate, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
+    'createPlaylistView'
+], function (GenericForegroundView, ActiveFolderTemplate, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 
-    var ActiveFolderView = Backbone.View.extend({
+    var ActiveFolderView = GenericForegroundView.extend({
         
         tagName: 'ul',
 
@@ -51,10 +52,6 @@ define([
         initialize: function () {
             this.listenTo(this.model.get('playlists'), 'add', this.addItem);
             Utility.scrollChildElements(this.el, 'span.playlitTitle');
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
 
         addItem: function (playlist) {

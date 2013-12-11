@@ -1,4 +1,5 @@
 ﻿define([
+    'genericForegroundView',
     'activeFolderView',
     'text!../template/activeFolderArea.htm',
     'settingsView',
@@ -8,10 +9,10 @@
     'deletePlaylistButtonView',
     'folders',
     'utility'
-], function (ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders, Utility) {
+], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders, Utility) {
     'use strict';
 
-    var ActiveFolderAreaView = Backbone.View.extend({
+    var ActiveFolderAreaView = GenericForegroundView.extend({
 
         template: _.template(ActiveFolderAreaTemplate),
 
@@ -58,8 +59,7 @@
             return this;
         },
 
-        initialize: function() {
-
+        initialize: function () {
             this.activeFolderView = new ActiveFolderView({
                 model: this.model.get('folder')
             });
@@ -68,10 +68,6 @@
             
             this.listenTo(this.model, 'destroy', this.hide);
             Utility.scrollChildElements(this.el, '.title');
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         show: function () {

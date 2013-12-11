@@ -1,15 +1,16 @@
 ﻿//  TODO: Decouple streamItems from this so it can be more easily used in fullscreen.
 define([
+    'genericForegroundView',
     'streamItems',
     'player',
     'playerState',
     'contextMenuGroups',
     'text!../template/videoDisplay.htm',
     'videoDisplayButtonView'
-], function (StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoDisplayButtonView) {
+], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoDisplayButtonView) {
     'use strict';
 
-    var VideoDisplayView = Backbone.View.extend({
+    var VideoDisplayView = GenericForegroundView.extend({
         //tagName: 'canvas',
         
         attributes: {
@@ -124,10 +125,6 @@ define([
             //});
             //this.listenTo(Player, 'change:state', this.render);
             //this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.render);
-            
-            //$(window).unload(function () {
-            //    this.stopListening();
-            //}.bind(this));
         },
         
         togglePlayerState: function () {

@@ -1,11 +1,12 @@
 ﻿define([
+    'genericForegroundView',
     'text!../template/settings.htm',
     'player',
     'settings'
-], function (SettingsTemplate, Player, Settings) {
+], function (GenericForegroundView, SettingsTemplate, Player, Settings) {
     'use strict';
 
-    var SettingsView = Backbone.View.extend({
+    var SettingsView = GenericForegroundView.extend({
         
         className: 'settings',
     

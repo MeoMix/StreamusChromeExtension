@@ -1,10 +1,11 @@
 ﻿define([
+    'genericForegroundView',
     'repeatButtonState',
     'text!../template/repeatButton.htm'
-], function (RepeatButtonState, RepeatButtonTemplate) {
+], function (GenericForegroundView, RepeatButtonState, RepeatButtonTemplate) {
     'use strict';
 
-    var RepeatButtonView = Backbone.View.extend({
+    var RepeatButtonView = GenericForegroundView.extend({
         
         tagName: 'button',
 
@@ -53,11 +54,6 @@
         
         initialize: function () {
             this.listenTo(this.model, 'change:state', this.render);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
-
         },
         
         toggleRepeat: function () {

@@ -1,13 +1,14 @@
 ﻿define([
+    'genericForegroundView',
     'videoSearchResultsView',
     'text!../template/videoSearch.htm',
     'playSelectedButtonView',
     'saveSelectedButtonView',
     'videoSearchResults'
-], function (VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults) {
+], function (GenericForegroundView, VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults) {
     'use strict';
 
-    var VideoSearchView = Backbone.View.extend({
+    var VideoSearchView = GenericForegroundView.extend({
         
         className: 'left-pane',
         
@@ -64,10 +65,6 @@
 
             this.videoSearchResultsView = new VideoSearchResultsView();
             this.listenTo(this.model, 'destroy', this.hide);
-            
-            $(window).unload(function () {
-                this.stopListening();
-            }.bind(this));
         },
         
         highlight: function() {
