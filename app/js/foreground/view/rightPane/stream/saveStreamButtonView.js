@@ -14,8 +14,8 @@ define([
                                 
         template: _.template(SaveStreamButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage("saveStream"),
-        disabledTitle: chrome.i18n.getMessage("saveStreamDisabled"),
+        enabledTitle: chrome.i18n.getMessage('saveStream'),
+        disabledTitle: chrome.i18n.getMessage('saveStreamDisabled'),
         
         events: {
             'click': 'saveStream'

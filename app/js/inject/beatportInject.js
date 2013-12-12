@@ -112,7 +112,7 @@ $(function () {
             'role': 'button',
             'data-query': query,
             'data-toggle': 'tooltip',
-            'title': chrome.i18n.getMessage("playInStreamus"),
+            'title': chrome.i18n.getMessage('playInStreamus'),
             click: function () {
 
                 var clickedItemQuery = $(this).data('query');
@@ -140,7 +140,7 @@ $(function () {
         var streamusPlayAllButton = $('<a>', {
             'class': 'streamus btn-play',
             'role': 'button',
-            'title': chrome.i18n.getMessage("playAllInStreamus"),
+            'title': chrome.i18n.getMessage('playAllInStreamus'),
             click: function () {
 
                 var itemQueries = _.map($('.streamus.btn-play[data-query]'), function (playButton) {

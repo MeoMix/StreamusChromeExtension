@@ -15,7 +15,7 @@ $(function () {
 
     var addButton = $('<button>', {
         'class': 'action-panel-trigger yt-uix-button yt-uix-button-text yt-uix-tooltip',
-        title: chrome.i18n.getMessage("addVideoToStreamus"),
+        title: chrome.i18n.getMessage('addVideoToStreamus'),
         type: 'button',
         role: 'button',
         'data-button-toggle': true,
@@ -24,7 +24,7 @@ $(function () {
     addButton.appendTo(addButtonWrapper);
     var addButtonContent = $('<span>', {
         'class': 'yt-uix-button-content',
-        text: chrome.i18n.getMessage("addToStreamus")
+        text: chrome.i18n.getMessage('addToStreamus')
     });
     addButtonContent.appendTo(addButton);
 
@@ -90,21 +90,21 @@ $(function () {
     selectPlaylistButton.appendTo(sharePanelMainButtons);
     var selectPlaylistContent = $('<span>', {
         'class': 'yt-uix-button-content',
-        text: chrome.i18n.getMessage("selectPlaylist")
+        text: chrome.i18n.getMessage('selectPlaylist')
     });
 
     selectPlaylistContent.appendTo(selectPlaylistButton);
 
     var successEventNotification = $('<div>', {
         id: 'successEventNotification',
-        text: chrome.i18n.getMessage("videoAddSuccess"),
+        text: chrome.i18n.getMessage('videoAddSuccess'),
         'class': 'eventNotification'
     });
     successEventNotification.appendTo(sharePanelMainButtons);
 
     var errorEventNotification = $('<div>', {
         id: 'errorEventNotification',
-        text: chrome.i18n.getMessage("errorEncountered"),
+        text: chrome.i18n.getMessage('errorEncountered'),
         'class': 'eventNotification'
     });
     errorEventNotification.appendTo(sharePanelMainButtons);
@@ -118,13 +118,13 @@ $(function () {
 
     var videoAddButton = $('<input>', {
         type: 'button',
-        value: chrome.i18n.getMessage("addVideo"),
-        title: chrome.i18n.getMessage("addVideo"),
+        value: chrome.i18n.getMessage('addVideo'),
+        title: chrome.i18n.getMessage('addVideo'),
         id: 'streamusVideoAddButton',
         'class': 'yt-uix-button yt-uix-tooltip',
         click: function() {
 
-            $(this).val(chrome.i18n.getMessage("working"));
+            $(this).val(chrome.i18n.getMessage('working'));
             $(this).attr('disabled', true);
 
             var match = document.URL.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
@@ -141,7 +141,7 @@ $(function () {
 
                     if (response.result === 'success') {
                         $(self).removeAttr('disabled');
-                        $(self).val(chrome.i18n.getMessage("addVideo"));
+                        $(self).val(chrome.i18n.getMessage('addVideo'));
                         successEventNotification.fadeIn().css("display", "inline-block");
 
                         setTimeout(function() {
@@ -149,7 +149,7 @@ $(function () {
                         }, 3000);
                     } else {
                         $(self).removeAttr('disabled');
-                        $(self).val(chrome.i18n.getMessage("addVideo"));
+                        $(self).val(chrome.i18n.getMessage('addVideo'));
                         errorEventNotification.fadeIn().css("display", "inline-block");
                         setTimeout(function() {
                             errorEventNotification.fadeOut();

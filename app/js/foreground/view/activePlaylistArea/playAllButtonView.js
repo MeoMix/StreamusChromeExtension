@@ -13,8 +13,8 @@ define([
                                 
         template: _.template(PlayAllButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage("playAll"),
-        disabledTitle: chrome.i18n.getMessage("playAllDisabled"),
+        enabledTitle: chrome.i18n.getMessage('playAll'),
+        disabledTitle: chrome.i18n.getMessage('playAllDisabled'),
         
         events: {
             'click': 'addToStreamAndPlay'

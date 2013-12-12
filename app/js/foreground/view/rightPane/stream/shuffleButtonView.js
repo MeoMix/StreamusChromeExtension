@@ -18,8 +18,8 @@ define([
         
         model: chrome.extension.getBackgroundPage().ShuffleButton,
         
-        enabledTitle: chrome.i18n.getMessage("shuffleEnabled"),
-        disabledTitle: chrome.i18n.getMessage("shuffleDisabled"),
+        enabledTitle: chrome.i18n.getMessage('shuffleEnabled'),
+        disabledTitle: chrome.i18n.getMessage('shuffleDisabled'),
 
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));

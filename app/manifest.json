@@ -27,34 +27,34 @@
 	},
     "commands": {
 		"nextVideo": {
-			"description": "Go to the next video in the stream."
+			"description": "__MSG_nextVideoCommandDescription__"
 		},
 		"previousVideo": {
-			"description": "Go to the previous video in the stream."
+			"description": "__MSG_previousVideoCommandDescription__"
 		},
 		"toggleVideo": {
-			"description": "Toggle (play/pause) the current video."
+			"description": "__MSG_toggleVideoCommandDescription__"
 		},
 		"addVideoToPlaylist": {
-			"description": "Add the current video to the current playlist."
+			"description": "__MSG_addVideoCommandDescription__"
 		},
 		"deleteVideoFromStream": {
-			"description": "Remove the current video from the stream."
+			"description": "__MSG_deleteVideoCommandDescription__"
 		},
 		"copyVideoUrl": {
-			"description": "Copy the current video's URL."
+			"description": "__MSG_copyVideoUrlCommandDescription__"
 		},
 		"copyVideoTitleAndUrl": {
-			"description": "Copy the current video's title and URL."
+			"description": "__MSG_copyVideoTitleUrlCommandDescription__"
 		},
 		"toggleRadio":  {
-			"description": "Toggle (off/on) the radio."
+			"description": "__MSG_toggleRadioCommandDescription__"
 		},
 		"toggleShuffle":  {
-			"description": "Toggle (off/on) shuffling."
+			"description": "__MSG_toggleShuffleCommandDescription__"
 		},
 		"toggleRepeat":  {
-			"description": "Toggle (off/repeatVideo/repeatStream) repeating."
+			"description": "__MSG_toggleRepeatCommandDescription__"
 		},
 		"_execute_browser_action": {
 		}

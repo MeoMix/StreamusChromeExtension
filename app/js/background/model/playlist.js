@@ -16,7 +16,7 @@ define([
             return {
                 id: null,
                 folderId: null,
-                title: chrome.i18n.getMessage("newPlaylist"),
+                title: chrome.i18n.getMessage('newPlaylist'),
                 items: new PlaylistItems(),
                 dataSource: null,
                 dataSourceLoaded: false,

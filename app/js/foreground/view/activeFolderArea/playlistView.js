@@ -77,8 +77,8 @@
                 items: [{
                     //  No point in sharing an empty playlist...
                     disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage("sharePlaylistNoShareWarning") : '',
-                    text: chrome.i18n.getMessage("copyUrl"),
+                    title: isEmpty ? chrome.i18n.getMessage('sharePlaylistNoShareWarning') : '',
+                    text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
 
                         self.model.getShareCode(function (shareCode) {
@@ -97,9 +97,9 @@
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage("delete"),
+                    text: chrome.i18n.getMessage('delete'),
                     disabled: isDeleteDisabled,
-                    title: isDeleteDisabled ? chrome.i18n.getMessage("deletePlaylistDisabled") : '',
+                    title: isDeleteDisabled ? chrome.i18n.getMessage('deletePlaylistDisabled') : '',
                     onClick: function () {
 
                         if (!isDeleteDisabled) {
@@ -132,9 +132,9 @@
                         }
                     }
                 }, {
-                    text: chrome.i18n.getMessage("addPlaylistToStream"),
+                    text: chrome.i18n.getMessage('addPlaylistToStream'),
                     disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage("noAddStreamWarning") : '',
+                    title: isEmpty ? chrome.i18n.getMessage('noAddStreamWarning') : '',
                     onClick: function () {
 
                         if (!isEmpty) {

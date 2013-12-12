@@ -13,8 +13,8 @@ define([
                                 
         template: _.template(AddAllButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage("addAll"),
-        disabledTitle: chrome.i18n.getMessage("addAllDisabled"),
+        enabledTitle: chrome.i18n.getMessage('addAll'),
+        disabledTitle: chrome.i18n.getMessage('addAllDisabled'),
         
         events: {
             'click': 'addToStream'

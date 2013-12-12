@@ -78,12 +78,12 @@
 
             ContextMenuGroups.add({
                 items: [{
-                        text: chrome.i18n.getMessage("addToPlaylist"),
+                        text: chrome.i18n.getMessage('addToPlaylist'),
                         onClick: function () {
                             Folders.getActiveFolder().getActivePlaylist().addByVideo(self.model.get('video'));
                         }
                     }, {
-                        text: chrome.i18n.getMessage("copyUrl"),
+                        text: chrome.i18n.getMessage('copyUrl'),
                         onClick: function () {
 
                             chrome.extension.sendMessage({
@@ -93,7 +93,7 @@
 
                         }
                     }, {
-                        text: chrome.i18n.getMessage("copyTitleAndUrl"),
+                        text: chrome.i18n.getMessage('copyTitleAndUrl'),
                         onClick: function() {
 
                             chrome.extension.sendMessage({
@@ -103,14 +103,14 @@
 
                         }
                     }, {
-                        text: chrome.i18n.getMessage("delete"),
+                        text: chrome.i18n.getMessage('delete'),
                         onClick: function () {
                             self.model.destroy();
                         }
                     }, {
-                        text: chrome.i18n.getMessage("banUntilStreamClear"),
+                        text: chrome.i18n.getMessage('banUntilStreamClear'),
                         disabled: StreamItems.getRelatedVideos().length < 5,
-                        title: StreamItems.getRelatedVideos().length < 5 ? chrome.i18n.getMessage("cantBanNeedMoreVideos") : '',
+                        title: StreamItems.getRelatedVideos().length < 5 ? chrome.i18n.getMessage('cantBanNeedMoreVideos') : '',
                         onClick: function () {
                             StreamItems.ban(self.model);
                             self.model.destroy();

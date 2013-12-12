@@ -319,14 +319,14 @@
 
             ContextMenuGroups.add({
                 items: [{
-                    text: chrome.i18n.getMessage("clearStream"),
+                    text: chrome.i18n.getMessage('clearStream'),
                     title: isClearStreamDisabled ? chrome.i18n.getMessage('clearStreamDisabled') : chrome.i18n.getMessage('clearStream'),
                     disabled: isClearStreamDisabled,
                     onClick: function() {
                         StreamAction.clearStream();
                     }
                 }, {
-                    text: chrome.i18n.getMessage("saveAsPlaylist"),
+                    text: chrome.i18n.getMessage('saveAsPlaylist'),
                     title: isSaveStreamDisabled ? chrome.i18n.getMessage('saveStreamDisabled') : chrome.i18n.getMessage('saveStream'),
                     disabled: isSaveStreamDisabled,
                     onClick: function() {

@@ -112,7 +112,7 @@
                         StreamItems.addByVideo(video, false);
                     }
                 }, {
-                    text: chrome.i18n.getMessage("copyUrl"),
+                    text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
@@ -120,7 +120,7 @@
                         });
                     }
                 }, {
-                    text: chrome.i18n.getMessage("copyTitleAndUrl"),
+                    text: chrome.i18n.getMessage('copyTitleAndUrl'),
                     onClick: function () {
 
                         chrome.extension.sendMessage({

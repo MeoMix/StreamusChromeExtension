@@ -51,7 +51,7 @@
         
             ContextMenuGroups.add({
                 items: [{
-                    text: chrome.i18n.getMessage("copyUrl"),
+                    text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
@@ -59,7 +59,7 @@
                         });
                     }
                 }, {
-                    text: chrome.i18n.getMessage("copyTitleAndUrl"),
+                    text: chrome.i18n.getMessage('copyTitleAndUrl'),
                     onClick: function () {
 
                         chrome.extension.sendMessage({
@@ -68,12 +68,12 @@
                         });
                     }
                 }, {
-                    text: chrome.i18n.getMessage("deleteVideo"),
+                    text: chrome.i18n.getMessage('deleteVideo'),
                     onClick: function () {
                         self.model.destroy();
                     }
                 }, {
-                    text: chrome.i18n.getMessage("addVideoToStream"),
+                    text: chrome.i18n.getMessage('addVideoToStream'),
                     onClick: function () {
 
                         var video = self.model.get('video');
@@ -81,7 +81,7 @@
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage("playVideoInStream"),
+                    text: chrome.i18n.getMessage('playVideoInStream'),
                     onClick: function () {
 
                         var video = self.model.get('video');

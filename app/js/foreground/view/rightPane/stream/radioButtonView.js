@@ -18,8 +18,8 @@
             'click': 'toggleRadio'
         },
         
-        enabledTitle: chrome.i18n.getMessage("radioEnabled"),
-        disabledTitle: chrome.i18n.getMessage("radioDisabled"),
+        enabledTitle: chrome.i18n.getMessage('radioEnabled'),
+        disabledTitle: chrome.i18n.getMessage('radioDisabled'),
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));

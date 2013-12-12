@@ -187,7 +187,7 @@ define([
 
             //    ContextMenuGroups.add({
             //        items: [{
-            //            text: chrome.i18n.getMessage("exitFullScreen"),
+            //            text: chrome.i18n.getMessage('exitFullScreen'),
             //            onClick: function () {
 
             //                chrome.windows.getAll(function (windows) {
@@ -207,9 +207,9 @@ define([
 
             //    ContextMenuGroups.add({
             //        items: [{
-            //            text: chrome.i18n.getMessage("fullScreen"),
+            //            text: chrome.i18n.getMessage('fullScreen'),
             //            disabled: isFullScreenDisabled,
-            //            title: isFullScreenDisabled ? chrome.i18n.getMessage("loadVideoBeforeFullScreen") : '',
+            //            title: isFullScreenDisabled ? chrome.i18n.getMessage('loadVideoBeforeFullScreen') : '',
             //            onClick: function () {
 
             //                if (!isFullScreenDisabled) {

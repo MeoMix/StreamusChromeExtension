@@ -288,9 +288,9 @@ define([
             ContextMenuGroups.add({
 
                 items: [{
-                    text: chrome.i18n.getMessage("addPlaylistToStream"),
+                    text: chrome.i18n.getMessage('addPlaylistToStream'),
                     disabled: isAddPlaylistDisabled,
-                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage("noAddStreamWarning") : '',
+                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage('noAddStreamWarning') : '',
                     onClick: function () {
 
                         if (!isAddPlaylistDisabled) {
@@ -299,9 +299,9 @@ define([
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage("playPlaylistInStream"),
+                    text: chrome.i18n.getMessage('playPlaylistInStream'),
                     disabled: isPlayPlaylistDisabled,
-                    title: isPlayPlaylistDisabled ? chrome.i18n.getMessage("noAddStreamWarning") : '',
+                    title: isPlayPlaylistDisabled ? chrome.i18n.getMessage('noAddStreamWarning') : '',
                     onClick: function () {
 
                         if (!isPlayPlaylistDisabled) {

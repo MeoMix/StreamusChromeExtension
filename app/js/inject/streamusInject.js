@@ -10,7 +10,7 @@ $(function () {
     if (installButton.length > 0) {
         installButton
             .attr('disabled', true)
-            .text(chrome.i18n.getMessage("installed"));
+            .text(chrome.i18n.getMessage('installed'));
     }
 
 });

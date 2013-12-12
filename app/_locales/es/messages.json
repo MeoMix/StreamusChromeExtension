@@ -41,9 +41,6 @@
 	"noAddStreamWarning": {
 		"message": "Debes añadir pistas a la Lista primero."
 	},
-	"videoCopyrightBanned": {
-		"message": "No se puede utilizar este vídeo, ha sido baneado por copyright."
-	},
 	"banUntilStreamClear": {
 		"message": "Banear hasta que la Cola esté vacía"
 	},
@@ -83,17 +80,8 @@
 	"emptyStreamItem": {
 		"message": "Eliminar item de la Cola"
 	},
-	"welcomeToStreamus": {
-		"message": "Bienvenido/a a Streamus"
-	},
 	"installed": {
 		"message": "Instalada"
-	},
-	"noVideosInStream": {
-		"message": "No hay Pistas en la Cola. Prueba a pulsar en una Lista de reproducción."
-	},
-	"emptyFolder": {
-		"message": "Esta Carpeta está vacía. Prueba a añadir pistas pulsando arriba."
 	},
 	"emptyPlaylist": {
 		"message": "está vacía. Prueba a añadir pistas buscando arriba."
@@ -143,9 +131,6 @@
 	"totalTime": {
 		"message": "Duración completa"
 	},
-	"toggleVolume": {
-		"message": "Silenciar/Activar volumen"
-	},
 	"suggestedQuality": {
 		"message": "Calidad deseada:"
 	},
@@ -166,9 +151,6 @@
 	},
 	"addErrorCheckUrl": {
 		"message": "Ha habido un problema añadiendo tu lista. ¿Has comprobado la URL?"
-	},
-	"selectFolder": {
-		"message": "Selecciona Carpeta"
 	},
 	"fullScreen": {
 		"message": "Pantalla completa"

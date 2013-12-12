@@ -21,8 +21,8 @@ define([
             'id': 'videoDisplayButton'
         },
         
-        enabledTitle: chrome.i18n.getMessage("videoDisplayEnabled"),
-        disabledTitle: chrome.i18n.getMessage("videoDisplayDisabled"),
+        enabledTitle: chrome.i18n.getMessage('videoDisplayEnabled'),
+        disabledTitle: chrome.i18n.getMessage('videoDisplayDisabled'),
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));

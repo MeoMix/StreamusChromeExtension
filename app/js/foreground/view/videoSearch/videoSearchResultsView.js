@@ -165,9 +165,9 @@
 
             ContextMenuGroups.add({
                 items: [{
-                    text: chrome.i18n.getMessage("playSelected") + ' (' + selectedSearchResults.length + ')',
+                    text: chrome.i18n.getMessage('playSelected') + ' (' + selectedSearchResults.length + ')',
                     disabled: isPlaySelectedDisabled,
-                    title: isPlaySelectedDisabled ? chrome.i18n.getMessage("playSelectedDisabled") : '',
+                    title: isPlaySelectedDisabled ? chrome.i18n.getMessage('playSelectedDisabled') : '',
                     onClick: function () {
 
                         if (!isPlaySelectedDisabled) {
@@ -182,9 +182,9 @@
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage("addSelected") + ' (' + selectedSearchResults.length + ')',
+                    text: chrome.i18n.getMessage('addSelected') + ' (' + selectedSearchResults.length + ')',
                     disabled: isAddSelectedDisabled,
-                    title: isAddSelectedDisabled ? chrome.i18n.getMessage("addSelectedDisabled") : '',
+                    title: isAddSelectedDisabled ? chrome.i18n.getMessage('addSelectedDisabled') : '',
                     onClick: function () {
 
                         if (!isAddSelectedDisabled) {

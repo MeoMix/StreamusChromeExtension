@@ -8,7 +8,7 @@ define([
         defaults: function () {
             return {
                 video: null,
-                title: chrome.i18n.getMessage("emptyStreamItem"),
+                title: chrome.i18n.getMessage('emptyStreamItem'),
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
                 playedRecently: false,
                 selected: false,
