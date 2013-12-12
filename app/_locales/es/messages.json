@@ -1,5 +1,5 @@
 ﻿{
-    "extensionName": {
+	"extensionName": {
 		"message": "Streamus™ (Beta!)"
 	},
 	"extensionDescription" : {
@@ -164,7 +164,7 @@
 	"reloadPromptText": {
 		"message": "A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
-    "reloadButtonText": {
+	"reloadButtonText": {
 		"message": "Recargar"
 	},
 
@@ -172,7 +172,7 @@
 	"playInStreamus": {
 		"message": "Find & Play in Streamus"
 	},
-    "playAllInStreamus": {
+	"playAllInStreamus": {
 		"message": "Find & Play All in Streamus"
 	},
 	"waitButtonText": {
@@ -180,8 +180,8 @@
 	},
 	"addVideosButtonText": {
 		"message": "Añadir pistas"
-	},    
-    "playAll": {
+	},
+	"playAll": {
 		"message": "Play all"
 	},
 	"playAllDisabled": {
@@ -214,7 +214,7 @@
 	"renameButtonText": {
 		"message": "Rename"
 	},
-    "deleteButtonText": {
+	"deleteButtonText": {
 		"message": "Delete"
 	},
 	"search": {
@@ -319,7 +319,7 @@
 	"saveVideos": {
 		"message": "Save videos"
 	},
-    "skipNextVideoDisabled": {
+	"skipNextVideoDisabled": {
 		"message": "There's no video to skip to"
 	},
 	"backPreviousVideoDisabled": {

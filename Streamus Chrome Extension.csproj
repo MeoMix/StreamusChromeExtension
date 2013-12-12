@@ -1838,6 +1838,7 @@
     <Content Include="node_modules\grunt\node_modules\which\README.md" />
     <Content Include="node_modules\grunt\package.json" />
     <Content Include="node_modules\grunt\README.md" />
+    <Content Include="app\_locales\sl\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\font\fontawesome-webfont.eot" />
