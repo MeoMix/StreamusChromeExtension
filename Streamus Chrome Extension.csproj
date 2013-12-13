@@ -121,6 +121,7 @@
     <Content Include="app\js\enum\playerState.js" />
     <Content Include="app\js\enum\repeatButtonState.js" />
     <Content Include="app\js\enum\shareableEntityType.js" />
+    <Content Include="app\js\enum\youTubePlayerError.js" />
     <Content Include="app\js\foreground\collection\contextMenuGroups.js" />
     <Content Include="app\js\foreground\collection\contextMenuItems.js" />
     <Content Include="app\js\foreground\collection\folders.js" />
@@ -135,6 +136,7 @@
     <Content Include="app\js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="app\js\foreground\model\contextMenuGroup.js" />
     <Content Include="app\js\foreground\model\contextMenuItem.js" />
+    <Content Include="app\js\foreground\model\foregroundViewManager.js" />
     <Content Include="app\js\foreground\model\player.js" />
     <Content Include="app\js\foreground\model\settings.js" />
     <Content Include="app\js\foreground\model\streamAction.js" />
@@ -150,6 +152,7 @@
     <Content Include="app\js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="app\js\foreground\view\clearStreamView.js" />
     <Content Include="app\js\foreground\view\contextMenuView.js" />
+    <Content Include="app\js\foreground\view\notificationView.js" />
     <Content Include="app\js\foreground\view\genericForegroundView.js" />
     <Content Include="app\js\foreground\view\createPlaylistView.js" />
     <Content Include="app\js\foreground\view\deletePlaylistView.js" />
@@ -228,6 +231,7 @@
     <Content Include="app\template\clearStream.htm" />
     <Content Include="app\template\clearStreamButton.htm" />
     <Content Include="app\template\contextMenu.htm" />
+    <Content Include="app\template\notification.htm" />
     <Content Include="app\template\createPlaylist.htm" />
     <Content Include="app\template\deletePlaylist.htm" />
     <Content Include="app\template\deletePlaylistButton.htm" />

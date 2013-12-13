@@ -44,7 +44,7 @@
                     
                     //  TODO: Support displaying playlists and channel URLs.
                     //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
-                    if (dataSource.get('type') === DataSourceType.YOUTUBE_VIDEO) {
+                    if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
                         
                         searchJqXhr = YouTubeV2API.getVideoInformation({
                             videoId: dataSource.get('sourceId'),

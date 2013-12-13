@@ -88,7 +88,7 @@ define([
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = Player.get('state');
 
-            if (state == PlayerState.PLAYING || state == PlayerState.PAUSED) {
+            if (state == PlayerState.Playing || state == PlayerState.Paused) {
                 this.autoUpdate = true;
             }
 

@@ -58,7 +58,7 @@ define([
 
             //        var playerState = Player.get('state');
 
-            //        if (playerState == PlayerState.PLAYING) {
+            //        if (playerState == PlayerState.Playing) {
             //            //  Continously render if playing.
 
             //            window.requestAnimationFrame(function() {

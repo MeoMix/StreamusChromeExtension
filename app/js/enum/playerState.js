@@ -1,8 +1,8 @@
 ﻿define({
-    UNSTARTED: -1,
-    ENDED: 0,
-    PLAYING: 1,
-    PAUSED: 2,
-    BUFFERING: 3,
-    VIDCUED: 5
+    Unstarted: -1,
+    Ended: 0,
+    Playing: 1,
+    Paused: 2,
+    Buffering: 3,
+    VideoCued: 5
 });

@@ -32,16 +32,16 @@
             var state = this.model.get('state');
             
             //  The button is considered enabled if it is anything but disabled.
-            this.$el.toggleClass('enabled', state !== RepeatButtonState.DISABLED);
+            this.$el.toggleClass('enabled', state !== RepeatButtonState.Disabled);
 
             switch (state) {
-                case RepeatButtonState.DISABLED:
+                case RepeatButtonState.Disabled:
                     this.$el.attr('title', this.disabledTitle);
                     break;
-                case RepeatButtonState.REPEAT_VIDEO:
+                case RepeatButtonState.RepeatVideo:
                     this.$el.attr('title', this.repeatVideoTitle);
                     break;
-                case RepeatButtonState.REPEAT_STREAM:
+                case RepeatButtonState.RepeatStream:
                     this.$el.attr('title', this.repeatStreamTitle);
                     break;
                 default:

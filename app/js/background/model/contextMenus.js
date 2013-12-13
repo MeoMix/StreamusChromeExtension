@@ -132,7 +132,7 @@ define([
         getVideoFromUrl: function(url, callback) {
             var dataSource = new DataSource({ urlToParse: url });
             
-            if (dataSource.get('type') !== DataSourceType.YOUTUBE_VIDEO) {
+            if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
                 throw "Excepected dataSource to be a YouTube video.";
             }
 

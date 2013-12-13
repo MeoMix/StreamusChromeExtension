@@ -39,7 +39,7 @@
             var streamAddSearchResultOption = new AddSearchResultOption({
                 title: 'Now playing stream',
                 entity: StreamItems,
-                type: AddSearchResultOptionType.STREAM
+                type: AddSearchResultOptionType.Stream
             });
 
             var streamAddSearchResultOptionView = new AddSearchResultOptionView({
@@ -55,7 +55,7 @@
                 var playlistAddSearchResultOption = new AddSearchResultOption({
                     title: playlist.get('title'),
                     entity: playlist,
-                    type: AddSearchResultOptionType.PLAYLIST
+                    type: AddSearchResultOptionType.Playlist
                 });
 
                 var playlistAddSearchResultOptionView = new AddSearchResultOptionView({
@@ -126,7 +126,7 @@
             var playlistAddSearchResultOption = new AddSearchResultOption({
                 title: addedPlaylist.get('title'),
                 entity: addedPlaylist,
-                type: AddSearchResultOptionType.PLAYLIST
+                type: AddSearchResultOptionType.Playlist
             });
 
             var playlistAddSearchResultOptionView = new AddSearchResultOptionView({

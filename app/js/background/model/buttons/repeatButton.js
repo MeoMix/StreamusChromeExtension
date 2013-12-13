@@ -9,7 +9,7 @@ define([
     var repeatButtonModel = Backbone.Model.extend({
 
         defaults: {
-            state: RepeatButtonState.DISABLED
+            state: RepeatButtonState.Disabled
         },
         
         toggleRepeat: function () {
@@ -17,14 +17,14 @@ define([
             var nextState = null;
 
             switch (this.get('state')) {
-                case RepeatButtonState.DISABLED:
-                    nextState = RepeatButtonState.REPEAT_VIDEO;
+                case RepeatButtonState.Disabled:
+                    nextState = RepeatButtonState.RepeatVideo;
                     break;
-                case RepeatButtonState.REPEAT_VIDEO:
-                    nextState = RepeatButtonState.REPEAT_STREAM;
+                case RepeatButtonState.RepeatVideo:
+                    nextState = RepeatButtonState.RepeatStream;
                     break;
-                case RepeatButtonState.REPEAT_STREAM:
-                    nextState = RepeatButtonState.DISABLED;
+                case RepeatButtonState.RepeatStream:
+                    nextState = RepeatButtonState.Disabled;
                     break;
                 default:
                     console.error("Unhandled repeatButtonState:", this.state);

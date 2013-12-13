@@ -268,7 +268,7 @@ define([
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
                 dataType: 'json',
                 data: {
-                    entityType: ShareableEntityType.PLAYLIST,
+                    entityType: ShareableEntityType.Playlist,
                     entityId: self.get('id')
                 },
                 success: function (shareCodeJson) {

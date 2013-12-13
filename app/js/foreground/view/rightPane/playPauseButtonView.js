@@ -38,7 +38,7 @@ define([
                 
                 var playerState = Player.get('state');
 
-                if (playerState === PlayerState.PLAYING) {
+                if (playerState === PlayerState.Playing) {
                     this.$el.attr('title', this.pauseTitle);
                 } else {
                     this.$el.attr('title', this.playTitle);

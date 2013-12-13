@@ -18,8 +18,9 @@ define([
     'rightPaneView',
     'folders',
     'videoDisplayView',
-    'ytPlayerError'
-], function (GenericForegroundView, GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView, YTPlayerError) {
+    'youTubePlayerError',
+    'notificationView'
+], function (GenericForegroundView, GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView, YouTubePlayerError, NotificationView) {
     'use strict';
 
     var ForegroundView = GenericForegroundView.extend({
@@ -71,8 +72,6 @@ define([
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null || this.backgroundUser == null) {
 
-                console.error("BackgroundPlayer and BackgroundUser", this.backgroundPlayer, this.backgroundUser);
-
                 //  Poll the background until it is ready.
                 var checkBackgroundLoadedInterval = setInterval(function () {
 
@@ -115,52 +114,43 @@ define([
             if (VideoSearchResults.length > 0) {
                 this.showVideoSearch(true);
             }
-            this.waitForBackgroundUserLoaded();
 
-            console.log("This:", this.backgroundUser._events);
         },
         
         //  Having the current user's information loaded from the server is critical for foreground functionality.
         waitForBackgroundUserLoaded: function () {
-            console.log("BackgroundUser Events:", this.backgroundUser._events);
-            console.log("BackgroundPlayer Events:", this.backgroundPlayer._events);
-            this.listenTo(this.backgroundUser, 'change:loaded', function (model, loaded) {
-
-                console.log("BackgroundUser change:loaded has fired:", model, loaded);
-
-                if (loaded) {
-                    this.waitForBackgroundPlayerReady();
-                } else {
-                    //  TODO: Display a loading message while user data is refreshing.
-                    console.log("user is unloaded, waiting!");
-                }
-
-            });
 
             //  If the foreground is opened before the background has had a chance to load, wait for the background.
             //  This is easier than having every control on the foreground guard against the background not existing.
             if (this.backgroundUser.get('loaded')) {
                 this.waitForBackgroundPlayerReady();
+            } else {
+
+                this.listenToOnce(this.backgroundUser, 'change:loaded', function (model, loaded) {
+
+                    if (loaded) {
+                        this.waitForBackgroundPlayerReady();
+                    }
+
+                });
             }
 
         },
         
         //  Having the YouTube player functional is critical for foreground functionality.
         waitForBackgroundPlayerReady: function () {
-
-            this.listenTo(this.backgroundPlayer, 'change:ready', function (model, ready) {
-
-                if (ready) {
-                    this.loadBackgroundDependentContent();
-                } else {
-                    console.log("BackgroundPlayer has gone unready, need to show message.");
-                }
-
-            });
-
+   
             if (this.backgroundPlayer.get('ready')) {
                 //  Load foreground when the background indicates it has loaded.
                 this.loadBackgroundDependentContent();
+            } else {
+                this.listenToOnce(this.backgroundPlayer, 'change:ready', function (model, ready) {
+
+                    if (ready) {
+                        this.loadBackgroundDependentContent();
+                    }
+
+                });
             }
         },
         
@@ -182,18 +172,16 @@ define([
             this.showActivePlaylistArea();
             this.listenTo(activeFolder.get('playlists'), 'change:active', this.showActivePlaylistArea);
 
-            this.listenTo(this.backgroundPlayer, 'change:lastError', this.showError);
+            this.listenTo(this.backgroundPlayer, 'error', this.showYouTubeError);
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
         showActivePlaylistArea: function () {
-            console.log("showActivePlaylistArea is firing");
+
             var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
 
             //  Build the view if it hasn't been rendered yet or re-build the view if it is outdated.
             if (this.activePlaylistAreaView === null || this.activePlaylistAreaView.model.get('playlist') !== activePlaylist) {
-
-                console.log("Cleaning up and doing stuff");
 
                 //  Cleanup an existing view
                 if (this.activePlaylistAreaView !== null) {
@@ -328,31 +316,31 @@ define([
 
         },
         
-        showError: function() {
+        showYouTubeError: function(youTubeError) {
 
-            var ytPlayerError = this.backgroundPlayer.get('lastError');
+            var text = chrome.i18n.getMessage('errorEncountered');
 
-            var youTubePlayerErrorPrompt = new GenericPromptView({
-                title: chrome.i18n.getMessage('reloadStreamus'),
-                okButtonText: chrome.i18n.getMessage('reloadButtonText'),
-                cancelButtonText: chrome.i18n.getMessage('waitButtonText'),
-                model: new ReloadView()
-            });
-
-            youTubePlayerErrorPrompt.fadeInAndShow();
-
-
-            switch (ytPlayerError) {
-                case YTPlayerError.VideoNotFound:
-                    alert("Video requested is not found. This occurs when a video has been removed or it has been marked as private.");
+            switch (youTubeError) {
+                case YouTubePlayerError.InvalidParameter:
+                    text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
                     break;
-                case YTPlayerError.NoPlayEmbedded:
-                case YTPlayerError.NoPlayEmbedded2:
-                    alert("Video requested does not allow playback in the embedded players.");
+                case YouTubePlayerError.VideoNotFound:
+                    text = chrome.i18n.getMessage('youTubePlayerErrorVideoNotFound');
+                    break;
+                case YouTubePlayerError.NoPlayEmbedded:
+                case YouTubePlayerError.NoPlayEmbedded2:
+                    text = chrome.i18n.getMessage('youTubePlayerErrorNoPlayEmbedded');
                     break;
             }
 
+            var youTubePlayerErrorPrompt = new GenericPromptView({
+                title: chrome.i18n.getMessage('errorEncountered'),
+                model: new NotificationView({
+                    text: text
+                })
+            });
 
+            youTubePlayerErrorPrompt.fadeInAndShow();
         }
     });
 

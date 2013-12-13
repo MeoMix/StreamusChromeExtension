@@ -1,5 +1,5 @@
 ﻿//  Mirrors the enum ShareableEntityType on the server.
 define({
-    NONE: -1,
-    PLAYLIST: 0
+    None: -1,
+    Playlist: 0
 });

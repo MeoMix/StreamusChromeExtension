@@ -39,7 +39,7 @@ require.config({
         'dataSourceType': 'enum/dataSourceType',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
-        'ytPlayerError': 'enum/ytPlayerError',
+        'youTubePlayerError': 'enum/youTubePlayerError',
 
         //  Third Party:
         'async': 'thirdParty/async',
@@ -98,6 +98,7 @@ require.config({
         'genericForegroundView': 'foreground/view/genericForegroundView',
         'genericPromptView': 'foreground/view/genericPromptView',
         'genericScrollableView': 'foreground/view/genericScrollableView',
+        'notificationView': 'foreground/view/notificationView',
         'reloadView': 'foreground/view/reloadView',
         'saveVideosView': 'foreground/view/saveVideosView',
         'settingsView': 'foreground/view/settingsView',

@@ -33,7 +33,7 @@
             this.youTubeSourceInput = this.$el.find('input.youTubeSource');
             
             this.youTubeSourceInput.data('datasource', new DataSource({
-                type: DataSourceType.NONE
+                type: DataSourceType.None
             }));
 
             return this;
@@ -97,7 +97,7 @@
             var playlistName = $.trim(this.playlistTitleInput.val());
 
             //  TODO: It's weird that addPlaylistByDataSource doesn't work with some of the dataSource types.
-            if (dataSource.get('type') === DataSourceType.NONE || dataSource.get('type') === DataSourceType.UNKNOWN) {
+            if (dataSource.get('type') === DataSourceType.None || dataSource.get('type') === DataSourceType.Unknown) {
                 if (!this.model || this.model.length === 0) {
                     activeFolder.addEmptyPlaylist(playlistName);
                 } else {

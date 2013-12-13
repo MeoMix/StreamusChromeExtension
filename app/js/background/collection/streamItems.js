@@ -83,7 +83,7 @@ define([
                     var playerState = Player.get('state');
 
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
-                    if (playerState === PlayerState.PLAYING || playerState === PlayerState.ENDED) {
+                    if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
                         Player.loadVideoById(videoId);
                     } else {
                         Player.cueVideoById(videoId);
@@ -94,11 +94,11 @@ define([
 
             this.listenTo(Player, 'change:state', function (model, state) {
                 
-                if (state === PlayerState.ENDED) {
+                if (state === PlayerState.Ended) {
                     console.log("StreamItem has ended. Selecting next.");
                     this.selectNext();
                 }
-                else if (state === PlayerState.PLAYING) {
+                else if (state === PlayerState.Playing) {
 
                     //  Only display notifications if the foreground isn't open.
                     var foreground = chrome.extension.getViews({ type: "popup" });
@@ -434,7 +434,7 @@ define([
             var repeatButtonState = RepeatButton.get('state');
 
             //  If removedSelectedItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
-            if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
+            if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.RepeatVideo) {
                 var selectedItem = this.findWhere({ selected: true });
                 selectedItem.trigger('change:selected', selectedItem, true);
             } else if (shuffleEnabled) {
@@ -455,7 +455,7 @@ define([
                 //  Select the next item by index. Potentially loop around to the front.
                 if (nextItemIndex === this.length) {
 
-                    if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
+                    if (repeatButtonState === RepeatButtonState.RepeatStream) {
                         this.at(0).set('selected', true);
 
                         //  TODO: Might be sending an erroneous trigger on delete?
@@ -508,7 +508,7 @@ define([
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
 
-                if (repeatButtonState === RepeatButtonState.REPEAT_VIDEO) {
+                if (repeatButtonState === RepeatButtonState.RepeatVideo) {
                     var selectedItem = this.findWhere({ selected: true });
                     selectedItem.trigger('change:selected', selectedItem, true);
                 } else if (shuffleEnabled) {
@@ -522,7 +522,7 @@ define([
 
                     if (selectedItemIndex === 0) {
 
-                        if (repeatButtonState === RepeatButtonState.REPEAT_STREAM) {
+                        if (repeatButtonState === RepeatButtonState.RepeatStream) {
                             this.at(this.length - 1).set('selected', true);
                         }
 

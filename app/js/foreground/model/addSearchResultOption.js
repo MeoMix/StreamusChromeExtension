@@ -8,14 +8,9 @@
         defaults: function () {
             return {
                 title: '',
-                type: AddSearchResultOptionType.NONE,
+                type: AddSearchResultOptionType.None,
                 entity: null
             };
-        },
-        
-        initialize: function() {
-            var self = this;
-
         }
 
     });

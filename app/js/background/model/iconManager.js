@@ -62,7 +62,7 @@ define([
         if (isMuted) {
             iconColor = 'Red';
         }
-        else if (playerState === PlayerState.PLAYING || playerState === PlayerState.BUFFERING) {
+        else if (playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
             iconColor = 'Green';
         } else {
             iconColor = 'Yellow';

@@ -15,10 +15,10 @@
             var typeSpecificClass = '';
             
             switch (type) {
-                case AddSearchResultOptionType.STREAM:
+                case AddSearchResultOptionType.Stream:
                     typeSpecificClass = 'stream';
                     break;
-                case AddSearchResultOptionType.PLAYLIST:
+                case AddSearchResultOptionType.Playlist:
                     typeSpecificClass = 'playlist';
                     
                     //  Highlight the active playlist
@@ -93,7 +93,7 @@
             
             var entity = this.model.get('entity');
             
-            if (this.model.get('type') === AddSearchResultOptionType.STREAM) {
+            if (this.model.get('type') === AddSearchResultOptionType.Stream) {
                 this.listenTo(entity, 'add addMultiple remove', this.updateItemCount);
             } else {
                 this.listenTo(entity.get('items'), 'add addMultiple remove', this.updateItemCount);
@@ -105,7 +105,7 @@
 
             var collectionLength;
             
-            if (this.model.get('type') === AddSearchResultOptionType.STREAM) {
+            if (this.model.get('type') === AddSearchResultOptionType.Stream) {
                 collectionLength = entity.length;
             } else {
                 collectionLength = entity.get('items').length;

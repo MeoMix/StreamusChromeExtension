@@ -108,10 +108,14 @@
         
         doOk: function () {
             //  Run validation logic if provided else assume valid
-            var isValid = this.model.validate ? this.model.validate() : true;
+            var isValid = _.isFunction(this.model.validate) ? this.model.validate() : true;
             
             if (isValid) {
-                this.model.doOk();
+                
+                if (_.isFunction(this.model.doOk)) {
+                    this.model.doOk();
+                }
+
                 this.fadeOutAndHide();
             }
             

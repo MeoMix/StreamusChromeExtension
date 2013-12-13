@@ -4,9 +4,8 @@ var YouTubePlayer = null;
 define([
     'youTubePlayerAPI',
     'settings',
-    'playerState',
-    'ytPlayerError'
-], function (YouTubePlayerAPI, Settings, PlayerState, YTPlayerError) {
+    'playerState'
+], function (YouTubePlayerAPI, Settings, PlayerState) {
     'use strict';
 
     //  This is the actual YouTube Player API object housed within the iframe.
@@ -18,14 +17,13 @@ define([
             currentTime: 0,
             //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
             ready: false,
-            state: PlayerState.UNSTARTED,
+            state: PlayerState.Unstarted,
             //  This will be set after the player is ready and can communicate its true value.
             //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
             volume: 50,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
-            loadedVideoId: '',
-            lastError: YTPlayerError.None
+            loadedVideoId: ''
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -56,7 +54,7 @@ define([
 
                 clearInterval(refreshPausedVideoInterval);
        
-                if (state === PlayerState.PAUSED) {
+                if (state === PlayerState.Paused) {
 
                     //  Start a long running timer when the player becomes paused. This is because a YouTube video
                     //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
@@ -90,14 +88,14 @@ define([
                             
                             if (message.seeking) {
                                 
-                                if (self.get('state') === PlayerState.PLAYING) {
-                                    self.set('state', PlayerState.BUFFERING);
+                                if (self.get('state') === PlayerState.Playing) {
+                                    self.set('state', PlayerState.Buffering);
                                 }
                                 
                             } else {
 
-                                if (self.get('state') === PlayerState.BUFFERING) {
-                                    self.set('state', PlayerState.PLAYING);
+                                if (self.get('state') === PlayerState.Buffering) {
+                                    self.set('state', PlayerState.Playing);
                                 }
                                 
                             }
@@ -139,7 +137,8 @@ define([
                         },
                         'onError': function (error) {
                             console.error("An error was encountered.", error);
-                            self.set('lastError', error.data);
+                            //  Push the error to the foreground so it can be displayed to the user.
+                            self.trigger('error', error.data);
                         }
                     }
                 });
@@ -169,7 +168,7 @@ define([
                 this.trigger('change:loadedVideoId');
             }
             
-            this.set('state', PlayerState.BUFFERING);
+            this.set('state', PlayerState.Buffering);
             this.set('loadedVideoId', videoId);
 
             youTubePlayer.loadVideoById({
@@ -180,7 +179,7 @@ define([
         },
         
         isPlaying: function () {
-            return this.get('state') === PlayerState.PLAYING;
+            return this.get('state') === PlayerState.Playing;
         },
         
         mute: function () {
@@ -195,7 +194,7 @@ define([
         },
 
         stop: function () {
-            this.set('state', PlayerState.UNSTARTED);
+            this.set('state', PlayerState.Unstarted);
             youTubePlayer.stopVideo();
             this.set('loadedVideoId', '');
         },
@@ -207,7 +206,7 @@ define([
         play: function () {
   
             if (!this.isPlaying()) {
-                this.set('state', PlayerState.BUFFERING);
+                this.set('state', PlayerState.Buffering);
                 youTubePlayer.playVideo();
             }
         },
@@ -229,7 +228,7 @@ define([
 
             var state = this.get('state');
             
-            if (state === PlayerState.UNSTARTED || state === PlayerState.VIDCUED) {
+            if (state === PlayerState.Unstarted || state === PlayerState.VideoCued) {
                 this.cueVideoById(this.get('loadedVideoId'), timeInSeconds);
             } else {
                 

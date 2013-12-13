@@ -436,5 +436,16 @@
 	},
 	"errorRetrievingTitle": {
 		"message": "Napaka pri pridobivanju naslova"  
+	},
+
+
+	"youTubePlayerErrorInvalidParameter": {
+		"message": "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks."
+	},
+	"youTubePlayerErrorVideoNotFound": {
+		"message": "Video requested is not found. This occurs when a video has been removed or it has been marked as private."
+	},
+	"youTubePlayerErrorNoPlayEmbedded": {
+		"message": "Video requested does not allow playback in the embedded players."
 	}
 }
