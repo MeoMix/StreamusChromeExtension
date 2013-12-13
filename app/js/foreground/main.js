@@ -39,6 +39,7 @@ require.config({
         'dataSourceType': 'enum/dataSourceType',
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
+        'ytPlayerError': 'enum/ytPlayerError',
 
         //  Third Party:
         'async': 'thirdParty/async',

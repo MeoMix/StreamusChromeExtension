@@ -31,6 +31,7 @@
         'playerState': 'enum/playerState',
         'repeatButtonState': 'enum/repeatButtonState',
         'shareableEntityType': 'enum/shareableEntityType',
+        'ytPlayerError': 'enum/ytPlayerError',
 
         //  Third Party:
         'async': 'thirdParty/async',

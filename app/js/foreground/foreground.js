@@ -17,8 +17,9 @@ define([
     'contextMenuGroups',
     'rightPaneView',
     'folders',
-    'videoDisplayView'
-], function (GenericForegroundView, GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView) {
+    'videoDisplayView',
+    'ytPlayerError'
+], function (GenericForegroundView, GenericPromptView, ReloadView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, ContextMenuView, ContextMenuGroups, RightPaneView, Folders, VideoDisplayView, YTPlayerError) {
     'use strict';
 
     var ForegroundView = GenericForegroundView.extend({
@@ -180,6 +181,8 @@ define([
 
             this.showActivePlaylistArea();
             this.listenTo(activeFolder.get('playlists'), 'change:active', this.showActivePlaylistArea);
+
+            this.listenTo(this.backgroundPlayer, 'change:lastError', this.showError);
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
@@ -322,6 +325,33 @@ define([
                 this.$el.append(this.addSearchResultsView.render().el);
                 this.addSearchResultsView.show();
             }
+
+        },
+        
+        showError: function() {
+
+            var ytPlayerError = this.backgroundPlayer.get('lastError');
+
+            var youTubePlayerErrorPrompt = new GenericPromptView({
+                title: chrome.i18n.getMessage('reloadStreamus'),
+                okButtonText: chrome.i18n.getMessage('reloadButtonText'),
+                cancelButtonText: chrome.i18n.getMessage('waitButtonText'),
+                model: new ReloadView()
+            });
+
+            youTubePlayerErrorPrompt.fadeInAndShow();
+
+
+            switch (ytPlayerError) {
+                case YTPlayerError.VideoNotFound:
+                    alert("Video requested is not found. This occurs when a video has been removed or it has been marked as private.");
+                    break;
+                case YTPlayerError.NoPlayEmbedded:
+                case YTPlayerError.NoPlayEmbedded2:
+                    alert("Video requested does not allow playback in the embedded players.");
+                    break;
+            }
+
 
         }
     });

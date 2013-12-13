@@ -4,8 +4,9 @@ var YouTubePlayer = null;
 define([
     'youTubePlayerAPI',
     'settings',
-    'playerState'
-], function (YouTubePlayerAPI, Settings, PlayerState) {
+    'playerState',
+    'ytPlayerError'
+], function (YouTubePlayerAPI, Settings, PlayerState, YTPlayerError) {
     'use strict';
 
     //  This is the actual YouTube Player API object housed within the iframe.
@@ -23,7 +24,8 @@ define([
             volume: 50,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
-            loadedVideoId: ''
+            loadedVideoId: '',
+            lastError: YTPlayerError.None
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -136,19 +138,8 @@ define([
                             self.set('state', state.data);
                         },
                         'onError': function (error) {
-
                             console.error("An error was encountered.", error);
-
-                            switch (error.data) {
-                                case 100:
-                                    alert("Video requested is not found. This occurs when a video has been removed or it has been marked as private.");
-                                    break;
-                                case 101:
-                                case 150:
-                                    alert("Video requested does not allow playback in the embedded players.");
-                                    break;
-                            }                            
-
+                            self.set('lastError', error.data);
                         }
                     }
                 });
