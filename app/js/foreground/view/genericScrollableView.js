@@ -4,16 +4,33 @@
     'use strict';
 
     var GenericScrollableView = GenericForegroundView.extend({
-
+        
+        bindDroppable: function(accept) {
+            var self = this;
+            
+            this.$el.find('.scroll').droppable({
+                tolerance: 'pointer',
+                //  Prevent stuttering of tooltips and general oddities by being specific with accept
+                accept: accept,
+                over: function (event) {
+                    self.doAutoScroll(event);
+                },
+                drop: function () {
+                    self.stopAutoScroll();
+                },
+                out: function () {
+                    self.stopAutoScroll();
+                }
+            });
+            
+        },
+        
         doAutoScroll: function (event) {
 
             var scrollElement = $(event.target);
             var direction = scrollElement.data('direction');
 
-            //  TODO: Make it so only lists use this.
-            var list = this.list || this.$el;
-
-            list.autoscroll({
+            this.$el.autoscroll({
                 direction: direction,
                 step: 150,
                 scroll: true
@@ -23,7 +40,7 @@
             var pageY = event.pageY;
 
             //  Keep track of pageX and pageY while the mouseMoveInterval is polling.
-            list.on('mousemove', function (mousemoveEvent) {
+            this.$el.on('mousemove', function (mousemoveEvent) {
                 pageX = mousemoveEvent.pageX;
                 pageY = mousemoveEvent.pageY;
             });
@@ -42,11 +59,8 @@
         },
 
         stopAutoScroll: function () {
-            //  TODO: Make it so only lists use this.
-            var list = this.list || this.$el;
-            
-            list.autoscroll('destroy');
-            list.off('mousemove');
+            this.$el.autoscroll('destroy');
+            this.$el.off('mousemove');
             clearInterval(this.scrollMouseMoveInterval);
         }
     });

@@ -46,15 +46,7 @@
             this.$el.find('.right-group').append(this.deletePlaylistButtonView.render().el);
 
             this.panel = this.$el.find('.panel');
-
-            this.$el.find('[title]:enabled').qtip({
-                position: {
-                    viewport: $(window)
-                },
-                style: {
-                    classes: 'qtip-light qtip-shadow'
-                }
-            });
+            this.initializeTooltips();
 
             return this;
         },

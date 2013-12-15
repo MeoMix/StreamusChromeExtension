@@ -32,7 +32,7 @@ define([
         videoSearchView: null,
         videoDisplayView: null,
         addSearchResultsView: null,
-        rightPaneView: null,
+        rightPaneView: new RightPaneView(),
         contextMenuView: new ContextMenuView(),
         reloadPromptView: new GenericPromptView({
             title: chrome.i18n.getMessage('reloadStreamus'),
@@ -64,9 +64,7 @@ define([
             //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
-                
                 self.reloadPromptView.fadeInAndShow();
-
             }, 5000);
 
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
@@ -161,16 +159,12 @@ define([
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();
 
-            //  TODO: Folders could potentially be undefined.
-            var activeFolder = Folders.getActiveFolder();
-
-            this.rightPaneView = new RightPaneView({
-                activeFolder: activeFolder
-            });
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();
-            this.listenTo(activeFolder.get('playlists'), 'change:active', this.showActivePlaylistArea);
+            
+            //  TODO: Folders could potentially be undefined.
+            this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
 
             this.listenTo(this.backgroundPlayer, 'error', this.showYouTubeError);
         },

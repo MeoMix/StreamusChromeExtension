@@ -1,5 +1,4 @@
-﻿//  TODO: Is this the activePlaylistView now?
-//  Represents the videos in a given playlist
+﻿//  Represents the playlist items in a given playlist
 define([
     'genericScrollableView',
     'contextMenuGroups',
@@ -39,10 +38,9 @@ define([
                 return Math.floor(index / chunkSize);
             }));
 
-            var self = this;
             this.incrementalRender(playlistItemChunks, function () {
 
-                var lazyImages = self.$el.find('img.lazy');
+                var lazyImages = this.$el.find('img.lazy');
     
                 var lazyImagesInViewport = _.filter(lazyImages, function (lazyImage) {
                     return $.inviewport(lazyImage, { threshold: 0, container: window });
@@ -53,32 +51,19 @@ define([
                 });
                 
                 $(lazyImagesInViewport).lazyload({
-                    container: self.list,
+                    container: this.$el,
                 });
 
                 $(lazyImagesNotInViewport).lazyload({
                     effect: 'fadeIn',
                     threshold: 500,
-                    container: self.$el,
+                    container: this.$el,
                     event: 'scroll manualShow'
                 });
 
-            });
-            
-            this.$el.find('.scroll').droppable({
-                tolerance: 'pointer',
-                //  Prevent stuttering of tooltips and general oddities by being specific with accept
-                accept: '.listItem:not(.videoSearchResult)',
-                over: function (event) {
-                    self.doAutoScroll(event);
-                },
-                drop: function () {
-                    self.stopAutoScroll();
-                },
-                out: function () {
-                    self.stopAutoScroll();
-                }
-            });
+            }.bind(this));
+
+            this.bindDroppable('.listItem:not(.videoSearchResult)');
             
             return this;
         },

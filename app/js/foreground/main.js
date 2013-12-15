@@ -131,6 +131,7 @@ require.config({
         'repeatButtonView': 'foreground/view/rightPane/stream/repeatButtonView',
         'saveStreamButtonView': 'foreground/view/rightPane/stream/saveStreamButtonView',
         'shuffleButtonView': 'foreground/view/rightPane/stream/shuffleButtonView',
+        'streamItemsView': 'foreground/view/rightPane/stream/streamItemsView',
         'streamItemView': 'foreground/view/rightPane/stream/streamItemView',
         'streamView': 'foreground/view/rightPane/stream/streamView',
 
@@ -139,6 +140,7 @@ require.config({
 
         //  View -> VideoSearch:
         'addSearchResultOptionView': 'foreground/view/videoSearch/addSearchResultOptionView',
+        'addSearchResultPlaylistOptionsView': 'foreground/view/videoSearch/addSearchResultPlaylistOptionsView',
         'addSearchResultsView': 'foreground/view/videoSearch/addSearchResultsView',
         'playSelectedButtonView': 'foreground/view/videoSearch/playSelectedButtonView',
         'saveSelectedButtonView': 'foreground/view/videoSearch/saveSelectedButtonView',

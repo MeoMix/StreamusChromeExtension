@@ -13,6 +13,9 @@ define([
         
         template: _.template(VideoDisplayButtonTemplate),
         
+        //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
+        model: chrome.extension.getBackgroundPage().VideoDisplayButton,
+        
         events: {
             'click': 'toggleVideoDisplay'
         },

@@ -341,12 +341,7 @@
 	"saveVideos": {
 		"message": "Shrani posnetke"
 	},
-	"skipNextVideoDisabled": {
-		"message": "Ni naslednjega posnetka za preskociti"
-	},
-	"backPreviousVideoDisabled": {
-		"message": "Ni prejšnjega posnetka za vracanje"
-	},
+
 	"play": {
 		"message": "Predvajaj"
 	},
@@ -447,5 +442,17 @@
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
 		"message": "Video requested does not allow playback in the embedded players."
+	},
+	"keyboardCommandFailure": {
+		"message": "Keyboard Command Failure"
+	},
+	"skipNextVideoDisabled": {
+		"message": "Can't skip to the next video."
+	},
+	"backPreviousVideoDisabled": {
+		"message": "Can't go back to the previous video."
+	},
+	"toggleVideoDisabled": {
+		"message": "Can't toggle the current video state."
 	}
 }

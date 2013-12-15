@@ -12,7 +12,18 @@
     };
 
     _.extend(GenericForegroundView.prototype, Backbone.View.prototype, {
-        // put any genericForegroundView methods here:
+        
+        initializeTooltips: function() {
+            this.$el.find('[title]:enabled').qtip({
+                position: {
+                    viewport: $(window)
+                },
+                style: {
+                    classes: 'qtip-light qtip-shadow'
+                }
+            });
+        }
+        
     });
 
     GenericForegroundView.extend = Backbone.View.extend;

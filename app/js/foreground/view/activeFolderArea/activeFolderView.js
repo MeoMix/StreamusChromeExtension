@@ -45,6 +45,8 @@ define([
                 //  Do this all in one DOM insertion to prevent lag in large folders.
                 this.$el.append(listItems);
             }
+            
+            //  TODO: Make playlists sortable.
 
             return this;
         },

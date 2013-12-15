@@ -15,8 +15,6 @@ define([
     
     //  Receive keyboard shortcuts from users.
     chrome.commands.onCommand.addListener(function (command) {
-        
-        //  TODO: Some sort of error icon for the failure notifications?
 
         switch (command) {
             case 'nextVideo':
@@ -24,8 +22,8 @@ define([
 
                 if (!selectedNextVideo) {
                     Notifications.showNotification({
-                        title: 'Keyboard Command Failure',
-                        body: 'Can\'t skip to the next video.'
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        body: chrome.i18n.getMessage('skipNextVideoDisabled')
                     });
                 }
                 
@@ -35,8 +33,8 @@ define([
                 
                 if (!didPrevious) {
                     Notifications.showNotification({
-                        title: 'Keyboard Command Failure',
-                        body: 'Can\'t go to the previous video.'
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        body: chrome.i18n.getMessage('backPreviousVideoDisabled')
                     });
                 }
                 
@@ -46,8 +44,8 @@ define([
 
                 if (!didTogglePlayerState) {
                     Notifications.showNotification({
-                        title: 'Keyboard Command Failure',
-                        body: 'Can\'t toggle the current video state.'
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        body: chrome.i18n.getMessage('toggleVideoDisabled')
                     });
                 }
                 
@@ -63,31 +61,30 @@ define([
                 break;
             case 'addVideoToPlaylist':
                 
-                var activeFolder = Folders.getActiveFolder();
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                activeFolder.getActivePlaylist().addByVideo(selectedStreamItem.get('video'));
+                var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
+                activePlaylist.addByVideo(StreamItems.getSelectedItem().get('video'));
 
                 break;
             case 'deleteVideoFromStream':
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                selectedStreamItem.destroy();
+                StreamItems.getSelectedItem().destroy();
                 
                 break;
             case 'copyVideoUrl':
-                var selectedStreamItem = StreamItems.getSelectedItem();
+                var selectedVideoId = StreamItems.getSelectedItem().get('video').get('id');
 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: 'http://youtu.be/' + selectedStreamItem.get('video').get('id')
+                    text: 'http://youtu.be/' + selectedVideoId
                 });
 
                 break;
             case 'copyVideoTitleAndUrl':                
                 var selectedStreamItem = StreamItems.getSelectedItem();
+                var videoId = StreamItems.getSelectedItem().get('video').get('id');
                 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: '"' + selectedStreamItem.get('title') + '" - http://youtu.be/' + selectedStreamItem.get('video').get('id')
+                    text: '"' + selectedStreamItem.get('title') + '" - http://youtu.be/' + videoId
                 });
 
                 break;

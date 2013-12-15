@@ -722,7 +722,8 @@ input.valid {
     text-align: center;
 }
 
-.big-text i {
+.big-text .fa.i-4x {
+    margin-bottom: 10px;
     display: block;
 }
 
@@ -1297,4 +1298,21 @@ html .selectize-control.multi .selectize-input.full > input {
    an item being copied -- it looks weird and doesn't make sense because no move happens */
 .listItem.copyHelper + .sortable-placeholder {
     display: none;
+}
+
+/* Display: none; on placeholders that get swapped out for actual views. */
+.view-placeholder {
+    display: none;
+}
+
+#videoSearch .big-text{
+    width: calc(100% - 24px);
+    position: absolute;
+    z-index: 99;
+    margin: 0;
+    top: 35px;
+    padding-top: 55px;
+    margin-left: 5px;
+    bottom: 40px;
+    background-color: white;
 }

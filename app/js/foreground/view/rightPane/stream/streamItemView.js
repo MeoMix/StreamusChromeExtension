@@ -4,9 +4,8 @@
     'utility',
     'streamItems',
     'text!../template/streamItem.htm',
-    'playPauseButton',
     'folders'
-], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, PlayPauseButton, Folders) {
+], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders) {
     'use strict';
 
     var StreamItemView = GenericForegroundView.extend({

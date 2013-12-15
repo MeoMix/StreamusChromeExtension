@@ -76,7 +76,7 @@
             var dataSourceId = '';
 
             var dataSourceOptions = [{
-                identifiers: ['list=PL', 'p=PL'],
+                identifiers: ['list=PL', 'p=PL', 'list=RD', 'p=RD'],
                 dataSourceType: DataSourceType.YouTubePlaylist
             }, {
                 identifiers: ['list=FL', 'p=FL'],
@@ -108,6 +108,9 @@
                     //  Starting in v3 YouTube API wants the full identifier at the front of the dataSource.
                     if (identifier === 'list=AL' || identifier === 'p=AL') {
                         parsedDataSourceId = 'AL' + parsedDataSourceId;
+                    }
+                    else if (identifier === 'list=RD' || identifier === 'p=RD') {
+                        parsedDataSourceId = 'RD' + parsedDataSourceId;
                     }
                 }
 

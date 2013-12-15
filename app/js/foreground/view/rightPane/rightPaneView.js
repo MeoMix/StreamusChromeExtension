@@ -18,14 +18,13 @@ define([
 
         template: _.template(RightPaneTemplate),
 
-        streamView: null,
-        playPauseButtonView: null,
-        previousButtonView: null,
-        nextButtonView: null,
-        volumeControlView: null,
-        timeProgressAreaView: null,
-        videoDisplayButtonView: null,
-        activeFolder: null,
+        streamView: new StreamView(),
+        playPauseButtonView: new PlayPauseButtonView(),
+        previousButtonView: new PreviousButtonView(),
+        nextButtonView: new NextButtonView(),
+        volumeControlView: new VolumeControlView(),
+        timeProgressAreaView: new TimeProgressAreaView(),
+        videoDisplayButtonView: new VideoDisplayButtonView(),
 
         render: function () {
             this.$el.html(this.template());
@@ -47,50 +46,9 @@ define([
 
             this.$el.append(this.streamView.render().el);
 
-            this.$el.find('[title]:enabled').qtip({
-                position: {
-                    viewport: $(window)
-                },
-                style: {
-                    classes: 'qtip-light qtip-shadow'
-                }
-            });
+            this.initializeTooltips();
 
             return this;
-        },
-
-        initialize: function (options) {
-
-            if (options.activeFolder === null || options.activeFolder === undefined) {
-                throw "RightPaneView expects to be initialized with an activeFolder";
-            }
-
-            this.activeFolder = options.activeFolder;
-
-            this.streamView = new StreamView({
-                model: options.activeFolder
-            });
-
-            //  TODO: mmm... wat? I know the models are hosted on the background page, but there's gotta be a better way to do this.
-            this.previousButtonView = new PreviousButtonView({
-                model: chrome.extension.getBackgroundPage().PreviousButton
-            });
-
-            this.playPauseButtonView = new PlayPauseButtonView({
-                model: chrome.extension.getBackgroundPage().PlayPauseButton
-            });
-
-            this.nextButtonView = new NextButtonView({
-                model: chrome.extension.getBackgroundPage().NextButton
-            });
-
-            this.videoDisplayButtonView = new VideoDisplayButtonView({
-                model: chrome.extension.getBackgroundPage().VideoDisplayButton
-            });
-
-            this.volumeControlView = new VolumeControlView();
-            this.timeProgressAreaView = new TimeProgressAreaView();
-
         }
 
     });

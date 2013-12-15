@@ -50,6 +50,13 @@
 
             this.itemCount = this.$el.find('.item-count');
             this.updateItemCount();
+            
+            //  Ensure that if the playlist is active -- its option is visible once rendered.
+            if (this.model.get('type') === AddSearchResultOptionType.Playlist && this.model.get('entity').get('active')) {
+                setTimeout(function() {
+                    this.$el.scrollIntoView(false);
+                }.bind(this));
+            }
 
             return this;
         },

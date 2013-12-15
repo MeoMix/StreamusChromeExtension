@@ -14,6 +14,9 @@ define([
         
         template: _.template(PlayPauseButtonTemplate),
         
+        //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
+        model: chrome.extension.getBackgroundPage().PlayPauseButton,
+        
         events: {
             'click': 'tryTogglePlayerState'
         },

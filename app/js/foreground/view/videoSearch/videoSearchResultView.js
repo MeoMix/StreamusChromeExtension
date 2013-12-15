@@ -40,15 +40,6 @@
             ));
 
             this.setHighlight();
-            
-            this.$el.find('[title]').qtip({
-                position: {
-                    viewport: $(window)
-                },
-                style: {
-                    classes: 'qtip-light qtip-shadow'
-                }
-            });
 
             return this;
         },

@@ -24,6 +24,10 @@
         playSelectedButtonView: new PlaySelectedButtonView(),
         saveSelectedButtonView: new SaveSelectedButtonView(),
         
+        searchingMessage: null,
+        instructions: null,
+        noResultsMessage: null,
+        
         events: {
             'focus .searchBar input': 'highlight',
             'blur .searchBar input': 'lowlight',
@@ -39,8 +43,7 @@
                 })
             ));
 
-            console.log("VideoSearchView is rendering");
-            this.$el.find('.left-top-divider').after(this.videoSearchResultsView.render().el);
+            this.$el.find('#videoSearchResultsView').replaceWith(this.videoSearchResultsView.render().el);
 
             var playlistActions = this.$el.find('.playlist-actions');
 
@@ -48,15 +51,14 @@
             playlistActions.append(this.saveSelectedButtonView.render().el);
 
             this.searchUnderline = $('.searchBar .underline');
+
+            this.initializeTooltips();
             
-            this.$el.find('[title]:enabled').qtip({
-                position: {
-                    viewport: $(window)
-                },
-                style: {
-                    classes: 'qtip-light qtip-shadow'
-                }
-            });
+            this.searchingMessage = this.$el.find('div.searching');
+            this.instructions = this.$el.find('div.instructions');
+            this.noResultsMessage = this.$el.find('div.noResults');
+
+            this.toggleBigText();
             
             return this;
         },
@@ -65,6 +67,8 @@
 
             this.videoSearchResultsView = new VideoSearchResultsView();
             this.listenTo(this.model, 'destroy', this.hide);
+            this.listenTo(this.model, 'change:searchJqXhr', this.toggleBigText);
+            this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
         },
         
         highlight: function() {
@@ -113,6 +117,22 @@
             var searchQuery = this.getSearchQuery();
 
             this.model.set('searchQuery', searchQuery);
+        },
+
+        //  Set the visibility of any visible text messages.
+        toggleBigText: function () {
+            //  Hide the search message when not searching.
+            var isNotSearching = this.model.get('searchJqXhr') === null;
+            this.searchingMessage.toggleClass('hidden', isNotSearching);
+            
+            //  Hide the instructions message once user has searched or are searching.
+            var hasSearchResults = VideoSearchResults.length > 0;
+            var hasSearchQuery = this.model.get('searchQuery').length > 0;
+            this.instructions.toggleClass('hidden', hasSearchResults || hasSearchQuery);
+
+            //  Only show no results when all other options are exhausted and user has interacted.
+            var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
+            this.noResultsMessage.toggleClass('hidden',  !hasNoResults);
         }
 
     });

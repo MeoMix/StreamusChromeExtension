@@ -1,16 +1,17 @@
 ﻿define([
     'text!../template/addSearchResults.htm',
-    'genericScrollableView',
+    'genericForegroundView',
     'streamItems',
     'videoSearchResults',
     'addSearchResultOption',
     'addSearchResultOptionView',
+    'addSearchResultPlaylistOptionsView',
     'addSearchResultOptionType',
     'utility'
-], function (AddSearchResultsTemplate, GenericScrollableView, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType, Utility) {
+], function (AddSearchResultsTemplate, GenericForegroundView, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultPlaylistOptionsView, AddSearchResultOptionType, Utility) {
     'use strict';
 
-    var AddSearchResultsView = GenericScrollableView.extend({
+    var AddSearchResultsView = GenericForegroundView.extend({
 
         template: _.template(AddSearchResultsTemplate),
         
@@ -21,11 +22,10 @@
         events: {
             'click #hideAddItemsButton': 'destroyModel'
         },
-        
-        streamItemsLength: null,
-        resetStateTimeout: null,
-        list: null,
-        scrollMouseMoveInterval: null,
+
+        addSearchResultPlaylistOptionsView: null,
+        streamItemCount: null,
+        selectedItemsMessage: null,
         panel: null,
 
         render: function () {
@@ -35,80 +35,25 @@
                     'selectedResultsLength': VideoSearchResults.selected().length
                 })
             ));
-
-            var streamAddSearchResultOption = new AddSearchResultOption({
-                title: 'Now playing stream',
-                entity: StreamItems,
-                type: AddSearchResultOptionType.Stream
-            });
-
+            
             var streamAddSearchResultOptionView = new AddSearchResultOptionView({
-                model: streamAddSearchResultOption
+                model: new AddSearchResultOption({
+                    title: 'Now playing stream',
+                    entity: StreamItems,
+                    type: AddSearchResultOptionType.Stream
+                })
             });
+            
+            this.$el.find('#addSearchResultStreamOptionView').replaceWith(streamAddSearchResultOptionView.render().el);
 
-            var divider = this.$el.find('.divider');
-
-            divider.before(streamAddSearchResultOptionView.render().el);
-
-            var playlistAddSearchResultOptionViews = this.model.get('folder').get('playlists').map(function (playlist) {
-
-                var playlistAddSearchResultOption = new AddSearchResultOption({
-                    title: playlist.get('title'),
-                    entity: playlist,
-                    type: AddSearchResultOptionType.Playlist
-                });
-
-                var playlistAddSearchResultOptionView = new AddSearchResultOptionView({
-                    model: playlistAddSearchResultOption
-                });
-
-                return playlistAddSearchResultOptionView;
-            });
-
-            var playlistAddSearchResultOptionElements = _.map(playlistAddSearchResultOptionViews, function (playlistAddSearchResultOptionView) {
-                return playlistAddSearchResultOptionView.render().el;
-            });
-
-            this.list = this.$el.find('.list');
-
-            this.list.append(playlistAddSearchResultOptionElements);
-
-            var activePlaylistView = _.find(playlistAddSearchResultOptionViews, function (view) {
-                return view.model.get('entity').get('active');
-            });
-
-            setTimeout(function() {
-                activePlaylistView.render().$el.scrollIntoView(false);
-            });
+            this.$el.find('#addSearchResultPlaylistOptionsView').replaceWith(this.addSearchResultPlaylistOptionsView.render().el);
 
             this.streamItemCount = this.$el.find('.addItemOption.stream span.item-count');
             this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
 
-            var self = this;
-            this.$el.find('.scroll').droppable({
-                tolerance: 'pointer',
-                accept: '.videoSearchResult',
-                over: function (event) {
-                    self.doAutoScroll(event);
-                },
-                drop: function() {
-                    self.stopAutoScroll();
-                },
-                out: function(){
-                    self.stopAutoScroll();
-                }
-            });
-
             this.panel = this.$el.find('.panel');
             
-            this.$el.find('[title]:enabled').qtip({
-                position: {
-                    viewport: $(window)
-                },
-                style: {
-                    classes: 'qtip-light qtip-shadow'
-                }
-            });
+            this.initializeTooltips();
 
             return this;
         },
@@ -116,24 +61,12 @@
         initialize: function() {
             this.listenTo(VideoSearchResults, 'change:selected', this.hideOrUpdate);
             this.listenTo(this.model, 'destroy', this.hide);
-            this.listenTo(this.model.get('folder').get('playlists'), 'add', this.addPlaylistOption);
             
             Utility.scrollChildElements(this.el, '.item-title');
-        },
-        
-        addPlaylistOption: function (addedPlaylist) {
 
-            var playlistAddSearchResultOption = new AddSearchResultOption({
-                title: addedPlaylist.get('title'),
-                entity: addedPlaylist,
-                type: AddSearchResultOptionType.Playlist
+            this.addSearchResultPlaylistOptionsView = new AddSearchResultPlaylistOptionsView({
+                model: this.model.get('folder').get('playlists')
             });
-
-            var playlistAddSearchResultOptionView = new AddSearchResultOptionView({
-                model: playlistAddSearchResultOption
-            });
-
-            this.list.append(playlistAddSearchResultOptionView.render().el);
         },
         
         hideOrUpdate: function() {
@@ -165,7 +98,6 @@
                 'background-color': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-
             this.panel.transition({
                 x: -1 * this.$el.width()
             }, 'snap');
@@ -173,18 +105,16 @@
         },
         
         destroyModel: function () {
-
             this.model.destroy();
         },
 
         hide: function () {
-            var self = this;
 
             this.$el.transition({
                 'background-color': this.$el.data('backgroundColor')
             }, function () {
-                self.remove();
-            });
+                this.remove();
+            }.bind(this));
 
             this.panel.transition({
                 x: 0
