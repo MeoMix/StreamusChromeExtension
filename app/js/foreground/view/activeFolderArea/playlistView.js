@@ -18,6 +18,8 @@
         template: _.template(PlaylistTemplate),
         
         itemCount: null,
+        editableTitle: null,
+        readonlyTitle: null,
 
         attributes: function () {
             return {
@@ -27,6 +29,8 @@
         
         events: {
             'click': 'select',
+            'dblclick .titleWrapper': 'edit',
+            'keyup input.editableTitle': 'saveAndStopEditOnEnter',
             'contextmenu': 'showContextMenu'
         },
 
@@ -39,17 +43,26 @@
             
             this.itemCount = this.$el.find('.count');
 
+            this.editableTitle = this.$el.find('.titleWrapper > input');
+            this.readonlyTitle = this.$el.find('.titleWrapper > .title');
+
             return this;
         },
 
         initialize: function () {
             this.listenTo(this.model, 'change:title change:dataSourceLoaded', this.render);
             this.listenTo(this.model, 'destroy', this.remove);
-            this.listenTo(this.model, 'change:active', this.setSelectedClass);
+            this.listenTo(this.model, 'change:active', function(model, active) {
+
+                if (!active) {
+                    this.saveAndStopEdit();
+                }
+
+                this.setSelectedClass();
+
+            });
 
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
-
-            this.listenTo(this.model, 'change:sequence', this.render);
         },
         
         setSelectedClass: function() {
@@ -171,6 +184,27 @@
                 }]
             });
 
+        },
+        
+        edit: function() {
+            this.editableTitle.show();
+            this.readonlyTitle.hide();
+        },
+        
+        saveAndStopEditOnEnter: function(event) {
+            if (event.which === 13) {
+                this.saveAndStopEdit();
+            }
+        },
+        
+        saveAndStopEdit: function () {
+            var newTitle = $.trim(this.editableTitle.val());
+            if (newTitle !== '') {
+                this.model.set('title', newTitle);
+            }
+
+            this.editableTitle.hide();
+            this.readonlyTitle.show();
         }
 
     });
