@@ -185,6 +185,14 @@ define([
             });
             
             this.listenTo(this.model.get('items'), 'add', this.addItem);
+
+            this.listenTo(this.model, 'change:title', function () {
+                //  Update the empty playlist title message when the title changes and it is visible
+                if (this.model.get('items').length === 0) {
+                    this.render();
+                }
+
+            });
             
             this.listenTo(this.model.get('items'), 'empty', this.render);
             this.listenTo(this.model.get('items'), 'remove', function () {

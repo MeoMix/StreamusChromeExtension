@@ -19,6 +19,7 @@
         addAllButtonView: null,
         playAllButtonView: null,
         playlistDetails: null,
+        playlistTitle: null,
         
         attributes: {
             id: 'activePlaylistArea'
@@ -42,6 +43,7 @@
             playlistActions.append(this.playAllButtonView.render().el);
            
             this.playlistDetails = this.$el.find('.playlist-details');
+            this.playlistTitle = this.$el.find('.playlistTitle');
             
             this.initializeTooltips();
 
@@ -63,11 +65,16 @@
             });
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
+            this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
             Utility.scrollChildElements(this.el, '.playlistTitle');
         },
         
         updatePlaylistDetails: function () {
             this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
+        },
+        
+        updatePlaylistTitle: function() {
+            this.playlistTitle.text(this.model.get('playlist').get('title'));
         }
 
     });

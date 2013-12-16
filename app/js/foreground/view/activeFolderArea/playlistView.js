@@ -30,6 +30,7 @@
         events: {
             'click': 'select',
             'dblclick .titleWrapper': 'edit',
+            'blur input.editableTitle': 'saveAndStopEdit',
             'keyup input.editableTitle': 'saveAndStopEditOnEnter',
             'contextmenu': 'showContextMenu'
         },
