@@ -464,24 +464,25 @@ input[type="range"]::-webkit-slider-thumb {
     top: 55px;
 }
 
-.videoSearchResult > i {
+.listItem > i {
     position: absolute;
     display: none;
     cursor: pointer;
 }
 
-.videoSearchResult:hover > i {
+.listItem:hover > i {
     display: block;
 }
 
-.videoSearchResult i.playInStream {
+.listItem i.playInStream {
     color: #fff;
     z-index: 100;
     width: 50px;
     text-align: center;
     line-height: 30px;
     -webkit-text-stroke: 1px black;
-    text-shadow: 2px 1px 4px #000;}
+    text-shadow: 2px 1px 4px #000;
+}
 
 .videoSearchResult i.addToStream {
     top: 0;
@@ -1292,6 +1293,10 @@ html .selectize-control.multi .selectize-input.full > input {
 /* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
 .sortable-placeholder {
     background-color: #ebebeb;
+}
+
+.sortable-placeholder.hiddenUntilChange {
+    display: none;
 }
 
 /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to

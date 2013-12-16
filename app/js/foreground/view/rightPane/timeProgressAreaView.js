@@ -15,10 +15,10 @@ define([
         template: _.template(TimeProgressAreaTemplate),
         
         events: {
-            'change input.timeRange': 'updateProgress',
-            'mousewheel input.timeRange': 'mousewheelUpdateProgress',
-            'mousedown input.timeRange': 'startSeeking',
-            'mouseup input.timeRange': 'seekToTime',
+            'change input.timeRange:not(.disabled)': 'updateProgress',
+            'mousewheel input.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
+            'mousedown input.timeRange:not(.disabled)': 'startSeeking',
+            'mouseup input.timeRange:not(.disabled)': 'seekToTime',
             'click .time-elapsed': 'toggleShowTimeRemaining'
         },
         

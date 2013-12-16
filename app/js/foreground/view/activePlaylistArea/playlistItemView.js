@@ -20,7 +20,8 @@
         instant: false,
         
         events: {
-            'contextmenu': 'showContextMenu'
+            'contextmenu': 'showContextMenu',
+            'click i.playInStream': 'playInStream'
         },
         
         render: function () {
@@ -93,6 +94,13 @@
             });
 
         },
+        
+        playInStream: function () {
+            StreamItems.addByPlaylistItem(this.model, true);
+
+            //  Don't add the item to the stream as well
+            return false;
+        }
 
     });
 

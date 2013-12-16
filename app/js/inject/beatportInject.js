@@ -1,4 +1,4 @@
-﻿//  Inject CSS here to give it priority over all other CSS loaded on the page.
+﻿//  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
 var style = document.createElement('link');
 style.rel = 'stylesheet';
 style.type = 'text/css';
@@ -7,6 +7,7 @@ document.head.appendChild(style);
 
 //  This code runs on beatport.com domains.
 $(function () {
+
     'use strict';
 
     injectIconsBasedOnUrl();
@@ -45,130 +46,153 @@ $(function () {
             }
 
         }, pollingFrequency);
-
+        
     });
 
-    function injectIconsBasedOnUrl() {
-
-        var currentPageUrl = window.location.href;
-
-        var urlIsBeatportTop100 = currentPageUrl.match(/^.*beatport.com\/.*top-100.*/);
-        var urlIsBeatportFrontPage = currentPageUrl.match(/^.*beatport.com.*/);
-
-        if (urlIsBeatportTop100) {
-            injectTop100Icons();
-        }
-        else if (urlIsBeatportFrontPage) {
-            injectFrontPageIcons();
-        } else {
-            console.error("Failed to match:", href);
-        }
-    }
-
-    function injectFrontPageIcons() {
-
-        appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
-
-        var top10TracksPlayButtons = $('.btn-play[data-item-type="track"]');
-        if (top10TracksPlayButtons.length === 0) throw "Failed to find play buttons";
-
-        //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
-        _.each(top10TracksPlayButtons, function (button) {
-
-            var trackName = $(button).data('item-name');
-            var trackArtists = $(button).closest('.line').find('.itemRenderer-list').text();
-
-            var streamusPlayButton = buildStreamusPlayButton(trackName, trackArtists);
-            $(button).before(streamusPlayButton);
-        });
-
-    }
-
-    function injectTop100Icons() {
-
-        appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
-
-        var playButtons = $('.btn-play[data-item-name]');
-        if (playButtons.length === 0) throw "Failed to find play buttons";
-
-        //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
-        _.each(playButtons, function (button) {
-
-            var trackName = $(button).data('item-name');
-            var trackArtists = $(button).closest('tr.track-grid-content').find('.secondColumn').next().text();
-
-            var streamusPlayButton = buildStreamusPlayButton(trackName, trackArtists);
-            $(button).before(streamusPlayButton);
-        });
-
-    }
-
-    function buildStreamusPlayButton(trackName, trackArtists) {
-
-        var query = trackName.trim() + ' ' + trackArtists.replace(',', '').trim();
-
-        var streamusPlayButton = $('<a>', {
-            'class': 'streamus btn-play',
-            'role': 'button',
-            'data-query': query,
-            'data-toggle': 'tooltip',
-            'title': chrome.i18n.getMessage('playInStreamus'),
-            click: function () {
-
-                var clickedItemQuery = $(this).data('query');
-
-                chrome.runtime.sendMessage({
-                    method: "searchAndStreamByQuery",
-                    query: clickedItemQuery
-                });
-
-            }
-        });
-
-        streamusPlayButton.tooltip();
-        var streamusLogoIcon = buildStreamusLogoIcon();
-
-        return streamusPlayButton.add(streamusLogoIcon);
-    }
-
-    function appendPlayAllButtonBeforeSelector(selector) {
-
-        var selectorToAppendBefore = $(selector);
-        if (selectorToAppendBefore.length === 0) throw "Failed to find selector: " + selector;
-
-        //  Find the playAll button at the top of the page and inject a Streamus 'Add All To Stream' button
-        var streamusPlayAllButton = $('<a>', {
-            'class': 'streamus btn-play',
-            'role': 'button',
-            'title': chrome.i18n.getMessage('playAllInStreamus'),
-            click: function () {
-
-                var itemQueries = _.map($('.streamus.btn-play[data-query]'), function (playButton) {
-                    var itemQuery = $(playButton).data('query');
-                    return itemQuery;
-                });
-
-                chrome.runtime.sendMessage({
-                    method: "searchAndStreamByQueries",
-                    queries: itemQueries
-                });
-
-            }
-        });
-
-        var streamusLogoIcon = buildStreamusLogoIcon();
-
-        selectorToAppendBefore.before(streamusPlayAllButton.add(streamusLogoIcon));
-        streamusPlayAllButton.tooltip();
-    }
-
-    function buildStreamusLogoIcon() {
-        var streamusLogoIcon = $('<a>', {
-            'class': 'streamus btn-queue',
-            'role': 'button'
-        });
-
-        return streamusLogoIcon;
-    }
-
 });
+
+
+function injectIconsBasedOnUrl() {
+
+    var currentPageUrl = window.location.href;
+
+    var urlIsBeatportTop100 = currentPageUrl.match(/^.*beatport.com\/.*top-100.*/);
+    var urlIsBeatportRelease = currentPageUrl.match(/^.*beatport.com\/.*release.*/);
+    var urlIsBeatportTrack = currentPageUrl.match(/^.*beatport.com\/.*track.*/);
+    var urlIsBeatportFrontPage = currentPageUrl.match(/^.*beatport.com.*/);
+
+    if (urlIsBeatportTop100) {
+        injectTop100Icons();
+    } else if (urlIsBeatportRelease) {
+        injectReleaseIcons();
+    } else if (urlIsBeatportTrack) {
+        //  TODO: Track support.
+    } else if (urlIsBeatportFrontPage) {
+        injectFrontPageIcons();
+    } else {
+        console.error("Failed to match:", href);
+    }
+}
+
+function injectFrontPageIcons() {
+
+    appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
+
+    var top10TracksPlayButtons = $('.btn-play[data-item-type="track"]');
+    if (top10TracksPlayButtons.length === 0) throw "Failed to find play buttons";
+
+    //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
+    top10TracksPlayButtons.each(function () {
+        var trackName = $(this).data('item-name');
+        var trackArtists = $(this).closest('.line').find('.itemRenderer-list').text();
+
+        buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
+    });
+
+}
+
+function injectTop100Icons() {
+
+    appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
+
+    var playButtons = $('.btn-play[data-item-name]');
+    if (playButtons.length === 0) throw "Failed to find play buttons";
+
+    //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
+    playButtons.each(function () {
+        var trackName = $(this).data('item-name');
+        var trackArtists = $(this).closest('tr.track-grid-content').find('.secondColumn').next().text();
+
+        buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
+    });
+
+}
+
+function injectReleaseIcons() {
+    
+    appendPlayAllButtonBeforeSelector('div[data-module-type="release_detail"] a.btn-play[data-item-type="release"]');
+
+    var playButtons = $('.btn-play[data-item-type="track"]');
+    if (playButtons.length === 0) throw "Failed to find play buttons";
+
+    console.log('playButtons:', playButtons);
+
+    //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
+    playButtons.each(function () {
+
+        var trackName = $(this).data('item-name');
+        var trackArtists = $(this).closest('tr.track-grid-content').find('.titleColumn').find('.artistList').text();
+
+        buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
+    });
+
+}
+
+function buildAndAppendButtonBeforeSelector(selectorToAppendBefore, trackName, trackArtists) {
+
+    var query = trackName.trim() + ' ' + trackArtists.replace(',', '').trim();
+
+    var streamusPlayButton = $('<a>', {
+        'class': 'streamus btn-play',
+        'role': 'button',
+        'data-query': query,
+        'data-toggle': 'tooltip',
+        'title': chrome.i18n.getMessage('playInStreamus'),
+        click: function () {
+
+            var clickedItemQuery = $(this).data('query');
+
+            chrome.runtime.sendMessage({
+                method: "searchAndStreamByQuery",
+                query: clickedItemQuery
+            });
+
+        }
+    });
+
+    var streamusLogoIcon = buildStreamusLogoIcon();
+
+    selectorToAppendBefore.before(streamusPlayButton.add(streamusLogoIcon));
+    streamusPlayButton.tooltip();
+}
+
+function appendPlayAllButtonBeforeSelector(selector) {
+
+    var selectorToAppendBefore = $(selector);
+    if (selectorToAppendBefore.length === 0) throw "Failed to find selector: " + selector;
+
+    //  Find the playAll button at the top of the page and inject a Streamus 'Add All To Stream' button
+    var streamusPlayAllButton = $('<a>', {
+        'class': 'streamus btn-play',
+        'role': 'button',
+        'title': chrome.i18n.getMessage('playAllInStreamus'),
+        click: function () {
+            //  TODO: Detect bad queries such (failure to find) and filter out. Maybe just do distinct for now?
+            var itemQueries = $('.streamus.btn-play[data-query]').map(function (index, playButton) {
+                var itemQuery = $(playButton).data('query');
+                return itemQuery;
+            });
+
+            chrome.runtime.sendMessage({
+                method: "searchAndStreamByQueries",
+                queries: itemQueries.toArray()
+            });
+
+        }
+    });
+
+    var streamusLogoIcon = buildStreamusLogoIcon();
+    
+    selectorToAppendBefore.before(streamusPlayAllButton.add(streamusLogoIcon));
+    streamusPlayAllButton.tooltip();
+    
+}
+
+function buildStreamusLogoIcon() {
+    var streamusLogoIcon = $('<a>', {
+        'class': 'streamus btn-queue',
+        'role': 'button'
+    });
+
+    return streamusLogoIcon;
+}

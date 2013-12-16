@@ -81,7 +81,7 @@ define([
                 connectWith: '#streamItemList',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder listItem",
+                placeholder: "sortable-placeholder listItem hiddenUntilChange",
                 scroll: false,
                 cursorAt: {
                     right: 35,
@@ -111,6 +111,11 @@ define([
                         'class': 'videoSearchResultsLength',
                         'text': 1
                     });
+                },
+                change: function () {
+                    //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
+                    //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
+                    $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
                 start: function () {
                     $('body').addClass('dragging');
@@ -163,6 +168,17 @@ define([
                     if (this === ui.item.parent()[0] && playlistItemId) {
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                        
+                        var playlistItem = self.model.get('items').get(playlistItemId);
+                        var originalindex = self.model.get('items').indexOf(playlistItem);
+
+                        //  When moving an item down the list -- all the items shift up one which causes an off-by-one error when calling
+                        //  movedPlaylistToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
+                        //  no shift happens.
+                        if (originalindex < index) {
+                            index += 1;
+                        }
+
                         self.model.moveItemToIndex(playlistItemId, index);
                     }
                 }

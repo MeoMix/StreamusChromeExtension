@@ -82,8 +82,7 @@
 		},
 		{
 			"matches": ["*://*.beatport.com/*"],
-			"run_at": "document_end",
-			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]
+			"js": ["js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.youtube.com/iframe_api https://ssl.google-analytics.com https://s.ytimg.com https://apis.google.com; object-src 'self'",
@@ -123,6 +122,7 @@
 		"css/youTubeInject.css",
 		"css/beatportInject.css",
 		"img/streamus_icon14_0bars.png",
+		"img/streamus_icon16.png",
 		"img/checkbox.png"
 	]
 }

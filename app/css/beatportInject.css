@@ -13,6 +13,11 @@ a.streamus {
     background-position: 4px;
 }
 
+.play-queue-large .streamus.btn-queue {
+    background-image: url("../img/streamus_icon16.png");
+    background-position: 9px;
+}
+
 .streamus.btn-play[data-query] {
     margin-bottom: 1px;
     margin-right: 0;
@@ -47,6 +52,7 @@ div.top-download-row .playWrapper {
 }
 
 /* This allows tooltip to be seen over Top 10 Rows*/
-.unit-renderer-row {
-    overflow: visible;
+.unit-renderer-row, 
+.play-queue{
+    overflow: visible !important;
 }

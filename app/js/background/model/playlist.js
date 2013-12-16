@@ -22,7 +22,8 @@ define([
                 dataSourceLoaded: false,
                 active: false,
                 //  This is videos length and total duration of all videos
-                displayInfo: ''
+                displayInfo: '',
+                sequence: -1
             };
         },
 
@@ -128,6 +129,7 @@ define([
             this.set('displayInfo', displayInfo);
         },
         
+        //  TODO: Make DRY with Folder.
         //  Return what sequence number would be necessary to be at the given index
         getSequenceFromIndex: function (index) {
 
@@ -139,18 +141,17 @@ define([
             if (playlistItems.length === 0) {
                 sequence = sequenceIncrement;
             }
-            else if (index === playlistItems.length) {
-                sequence = playlistItems.at(playlistItems.length - 1).get('sequence') + sequenceIncrement;
-            } else {
-                var previousIndex = index - 1;
+            else {
+                //  high is either the next playlistItems sequence or the maximum sequence + 10k 
+                var highSequence = playlistItems.at(playlistItems.length - 1).get('sequence') + sequenceIncrement;
+                if (index < playlistItems.length) {
+                    highSequence = playlistItems.at(index).get('sequence');
+                }
 
-                var highSequence = playlistItems.at(index).get('sequence');
-
+                //  low is either the previous playlistItems's sequence or 0.
                 var lowSequence = 0;
-                var previousItem = playlistItems.at(previousIndex);
-
-                if (previousItem) {
-                    lowSequence = previousItem.get('sequence');
+                if (index > 0) {
+                    lowSequence = playlistItems.at(index - 1).get('sequence');
                 }
 
                 sequence = (highSequence + lowSequence) / 2;
@@ -159,11 +160,14 @@ define([
             return sequence;
         },
         
-        moveItemToIndex: function(playlistItemId, index) {
-            var item = this.get('items').get(playlistItemId);
-            
+        moveItemToIndex: function (playlistItemId, index) {
+            var items = this.get('items');
+
+            var item = items.get(playlistItemId);
             item.set('sequence', this.getSequenceFromIndex(index));
             item.save();
+
+            items.sort();
         },
         
         addByVideoAtIndex: function (video, index, callback) {

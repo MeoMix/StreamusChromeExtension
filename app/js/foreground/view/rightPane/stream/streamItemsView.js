@@ -82,11 +82,12 @@
 
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
+                //  TODO: Is this cancel needed still
                 cancel: '.big-text',
                 connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder listItem",
+                placeholder: "sortable-placeholder listItem hiddenUntilChange",
                 forcePlaceholderSize: true,
                 scroll: false,
                 cursorAt: {
@@ -117,6 +118,11 @@
                         'class': 'videoSearchResultsLength',
                         'text': 1
                     });
+                },
+                change: function () {
+                    //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
+                    //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
+                    $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
                 start: function () {
                     $('body').addClass('dragging');

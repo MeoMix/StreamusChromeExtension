@@ -200,11 +200,9 @@ define([
             
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.activeFolderAreaView === null) {
-                
-                var activeFolder = Folders.getActiveFolder();
 
                 var activeFolderArea = new ActiveFolderArea({
-                    folder: activeFolder
+                    folder: Folders.getActiveFolder()
                 });
 
                 this.activeFolderAreaView = new ActiveFolderAreaView({
@@ -222,7 +220,7 @@ define([
             }
             
         },
-        
+
         onClickShowVideoSearch: function () {
             this.showVideoSearch(false);
         },
@@ -248,10 +246,8 @@ define([
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoSearchView === null) {
 
-                var activeFolder = Folders.getActiveFolder();
-
                 var videoSearch = new VideoSearch({
-                    playlist: activeFolder.getActivePlaylist()
+                    playlist: Folders.getActiveFolder().getActivePlaylist()
                 });
 
                 this.videoSearchView = new VideoSearchView({
@@ -288,11 +284,9 @@ define([
             
             //  If the view has already been rendered -- no need to reshow.
             if (this.addSearchResultsView === null) {
-                
-                var activeFolder = Folders.getActiveFolder();
 
                 var addSearchResults = new AddSearchResults({
-                    folder: activeFolder
+                    folder: Folders.getActiveFolder()
                 });
 
                 this.addSearchResultsView = new AddSearchResultsView({
@@ -310,6 +304,8 @@ define([
 
         },
         
+        //  Whenever the YouTube API throws an error in the background, communicate
+        //  that information to the user in the foreground via prompt.
         showYouTubeError: function(youTubeError) {
 
             var text = chrome.i18n.getMessage('errorEncountered');

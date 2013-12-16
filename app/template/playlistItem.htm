@@ -1,4 +1,5 @@
-﻿<!-- Render non-lazily if view is set to instant -->
+﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('playVideoInStream') %>"></i>
+<!-- Render non-lazily if view is set to instant -->
 <% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
 <% } else { %>

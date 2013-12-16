@@ -47,6 +47,47 @@ define([
             }
             
             //  TODO: Make playlists sortable.
+            var self = this;
+            //  Allows for drag-and-drop of videos
+            this.$el.sortable({
+                axis: 'y',
+                //  Adding this helps prevent unwanted clicks to play
+                delay: 100,
+                appendTo: 'body',
+                containment: 'body',
+                placeholder: "sortable-placeholder listItem",
+                scroll: false,
+                cursorAt: {
+                    right: 35,
+                    bottom: 40
+                },
+                tolerance: 'pointer',
+                helper: 'clone',
+                //  Whenever a video row is moved inform the Player of the new video list order
+                update: function (event, ui) {
+                    
+                    var playlistId = ui.item.data('playlistid');
+
+                    //  Run this code only when reorganizing playlists.
+                    if (this === ui.item.parent()[0] && playlistId) {
+                        //  It's important to do this to make sure I don't count my helper elements in index.
+                        var index = parseInt(ui.item.parent().children('.playlist').index(ui.item));
+
+                        var playlist = self.model.get('playlists').get(playlistId);
+                        var originalindex = self.model.get('playlists').indexOf(playlist);
+
+                        //  When moving an item down the list -- all the items shift up one which causes an off-by-one error when calling
+                        //  movedPlaylistToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
+                        //  no shift happens.
+                        if (originalindex < index) {
+                            index += 1;
+                        }
+
+                        self.model.movePlaylistToIndex(playlistId, index);
+                    }
+                    
+                }
+            });
 
             return this;
         },

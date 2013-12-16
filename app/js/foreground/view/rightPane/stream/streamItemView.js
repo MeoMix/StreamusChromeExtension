@@ -4,8 +4,10 @@
     'utility',
     'streamItems',
     'text!../template/streamItem.htm',
-    'folders'
-], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders) {
+    'folders',
+    'playPauseButton',
+    'player'
+], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player) {
     'use strict';
 
     var StreamItemView = GenericForegroundView.extend({
@@ -23,6 +25,7 @@
         },
         
         events: {
+            'click i.playInStream': 'play',
             'contextmenu': 'showContextMenu',
             'click': 'select',
             'dblclick': 'togglePlayingState',
@@ -117,6 +120,20 @@
                     }]
             });
 
+        },
+
+        play: function () {
+            
+            if (this.model.get('selected')) {
+                console.log("playing");
+                Player.play();
+            } else {
+                console.log("Selecting");
+                Player.playOnceVideoChanges();
+                this.select();
+            }
+ 
+            return false;
         }
     });
 

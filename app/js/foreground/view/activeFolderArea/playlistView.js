@@ -36,7 +36,7 @@
             this.$el.toggleClass('loading', this.model.has('dataSource') && !this.model.get('dataSourceLoaded'));
             
             this.setSelectedClass();
-
+            
             this.itemCount = this.$el.find('.count');
 
             return this;
@@ -48,6 +48,8 @@
             this.listenTo(this.model, 'change:active', this.setSelectedClass);
 
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
+
+            this.listenTo(this.model, 'change:sequence', this.render);
         },
         
         setSelectedClass: function() {

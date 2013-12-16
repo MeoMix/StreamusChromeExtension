@@ -3,13 +3,11 @@ define([
     'playlists',
     'playlist',
     'video',
-    'player',
     'settings',
     'youTubeV2API',
     'youTubeV3API',
-    'dataSource',
-    'dataSourceType'
-], function (Playlists, Playlist, Video, Player, Settings, YouTubeV2API, YouTubeV3API, DataSource, DataSourceType) {
+    'dataSource'
+], function (Playlists, Playlist, Video, Settings, YouTubeV2API, YouTubeV3API, DataSource) {
     'use strict';
     
     var Folder = Backbone.Model.extend({
@@ -283,6 +281,47 @@ define([
 
         getPlaylistById: function (playlistId) {
             return this.get('playlists').findWhere({ id: playlistId });
+        },
+        
+        //  TODO: Both of these should be a more generic 'SequenceNumberObject' model shared with playlists.
+        movePlaylistToIndex: function (playlistId, index) {
+            var playlists = this.get('playlists');
+
+            var playlist = playlists.get(playlistId);
+            playlist.set('sequence', this.getSequenceFromIndex(index));
+            playlist.save();
+
+            playlists.sort();
+        },
+        
+        //  Return what sequence number would be necessary to be at the given index
+        getSequenceFromIndex: function (index) {
+
+            var sequence;
+
+            var sequenceIncrement = 10000;
+            var playlists = this.get('playlists');
+
+            if (playlists.length === 0) {
+                sequence = sequenceIncrement;
+            }
+            else {
+                //  high is either the next playlists sequence or the maximum sequence + 10k 
+                var highSequence = playlists.at(playlists.length - 1).get('sequence') + sequenceIncrement;
+                if (index < playlists.length) {
+                    highSequence = playlists.at(index).get('sequence');
+                }
+
+                //  low is either the previous playlist's sequence or 0.
+                var lowSequence = 0;
+                if (index > 0) {
+                    lowSequence = playlists.at(index - 1).get('sequence');
+                }
+
+                sequence = (highSequence + lowSequence) / 2;
+            }
+
+            return sequence;
         }
     });
 
