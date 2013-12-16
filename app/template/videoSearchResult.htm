@@ -17,7 +17,10 @@
     <span class="item-duration">
         <i class="fa fa-clock-o"></i><%- video.get('prettyDuration') %>	
     </span>
+    <% if( video.get('highDefinition') ) { %>
+    <strong>HD</strong>
+    <% } %>
 </span>
 
-<i class="fa fa-arrow-right addToStream hoverable" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
+<i class="fa fa-arrow-right addToStream hoverable upper-right" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
 <i class="fa fa-plus addToActivePlaylist hoverable" title="<%- chrome.i18n.getMessage('addToActivePlaylist') %>"></i>

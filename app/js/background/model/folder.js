@@ -212,18 +212,16 @@ define([
 
                     if (dataSource.needsLoading()) {
 
-                        console.log("needs loading");
-                        
                         if (dataSource.isV3()) {
                             //  TODO: Finish implementing this.
                             YouTubeV3API.getDataSourceResults(dataSource, function onGetV3DataSourceData(response) {
 
                             });
                         } else {
-                            console.log("v2");
+
                             //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
                             YouTubeV2API.getDataSourceResults(dataSource, 0, function onGetV2DataSourceData(response) {
-                                console.log("Response:", response);
+
                                 if (response.results.length === 0) {
                                     playlist.set('dataSourceLoaded', true);
                                 } else {

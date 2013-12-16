@@ -310,8 +310,9 @@ button:active {
     position: relative;
     right: 2px;
     padding-left: 2px;
-    padding-right: 2px;
+    padding-right: 3px;
     margin-right: -10px;
+    font-family: sans-serif;
 }
 
 .fa.fa-repeat.repeatStream:after {

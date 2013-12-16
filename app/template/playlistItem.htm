@@ -17,4 +17,7 @@
     <span class="item-duration">
         <i class="fa fa-clock-o"></i><%- video.get('prettyDuration') %>	
     </span>
+    <% if( video.get('highDefinition') ) { %>
+    <strong>HD</strong>
+    <% } %>
 </span>

@@ -21,7 +21,9 @@
         <i class="fa fa-clock-o"></i>
         <%- video.get('prettyDuration') %>
     </span>
-
+    <% if( video.get('highDefinition') ) { %>
+    <strong>HD</strong>
+    <% } %>
 </span>
 
-<i class="fa fa-times delete hoverable"></i>
+<i class="fa fa-times delete hoverable upper-right"></i>

@@ -115,8 +115,6 @@ function injectReleaseIcons() {
     var playButtons = $('.btn-play[data-item-type="track"]');
     if (playButtons.length === 0) throw "Failed to find play buttons";
 
-    console.log('playButtons:', playButtons);
-
     //  Inject a playVideo icon next to each icon on the page. This will stream the current item.
     playButtons.each(function () {
 

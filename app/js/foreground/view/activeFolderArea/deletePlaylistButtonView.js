@@ -47,12 +47,10 @@ define([
             if (!this.$el.hasClass('disabled')) {
 
                 var activePlaylist = Folders.getActiveFolder().get('playlists').getActivePlaylist();
-                console.log("activePlaylist:", activePlaylist);
-
+ 
                 //  No need to notify if the playlist is empty.
                 if (activePlaylist.get('items').length === 0) {
                     activePlaylist.destroy();
-                    console.log("activePlaylist destroyed");
                 } else {
 
                     var remindDeletePlaylist = Settings.get('remindDeletePlaylist');

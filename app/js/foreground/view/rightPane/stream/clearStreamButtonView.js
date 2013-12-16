@@ -42,7 +42,7 @@ define([
         },
         
         clearStream: function () {
-            console.log("Firing");
+
             if (!this.$el.hasClass('disabled')) {
                 StreamAction.clearStream();
             }

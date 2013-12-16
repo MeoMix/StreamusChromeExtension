@@ -95,7 +95,6 @@ define([
             this.listenTo(Player, 'change:state', function (model, state) {
                 
                 if (state === PlayerState.Ended) {
-                    console.log("StreamItem has ended. Selecting next.");
                     this.selectNext();
                 }
                 else if (state === PlayerState.Playing) {

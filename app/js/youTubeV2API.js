@@ -6,7 +6,7 @@ define([
     'use strict';
     
     //  These fields tell the YouTube API what fields to respond with to limit the amount of data going over the wire. 
-    var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl';
+    var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl,yt:hd';
     //  This is what to return for a list of videos instead of just a single entry.
     var videosInformationFields = 'entry(' + videoInformationFields + ')';
 

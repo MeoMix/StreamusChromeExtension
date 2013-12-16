@@ -18,7 +18,8 @@ define([
                 author: '',
                 duration: -1,
                 prettyDuration: '',
-                cleanTitle: ''            
+                cleanTitle: '',
+                highDefinition: false
             };
             
         },
@@ -59,6 +60,7 @@ define([
                 config.title = config.videoInformation.title.$t;
                 config.duration = parseInt(config.videoInformation.media$group.yt$duration.seconds, 10);
                 config.author = config.videoInformation.author[0].name.$t;
+                config.highDefinition = config.videoInformation.yt$hd != null;
             }
 
             delete config.videoInformation;

@@ -20,7 +20,7 @@
                                 title: info.snippet.title
                             };
                         });
-                        console.log("V3:");
+
                         //console.table(videos);
 
                     }

@@ -171,7 +171,7 @@ module.exports = function (grunt) {
 					to: ''
 				}, {
 					//	Remove permissions that're only needed for debugging.
-					from: '"http://localhost:61975/Streamus/"',
+					from: '"http://localhost:61975/Streamus/",',
 					to: ''
 				}]
 			}

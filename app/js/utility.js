@@ -12,8 +12,17 @@
             $(parent).on('mouseover', childElementSelector, function () {
 
                 var distanceToMove = $(this).outerWidth() - $(this).parent().width();
+                
+                //  Look for any hoverable icons in the top-right corner and take the width into account as well
+                //  This allows the text to scroll a little farther and be fully visible even when an X is showing on-hover.
+
+                var hoverable = $(this).parent().parent().find('.hoverable.upper-right');
+                if (hoverable.length > 0) {
+                    distanceToMove += hoverable.outerWidth();
+                }
 
                 if (distanceToMove > 0) {
+                    
                     //  NOTE: Don't use translateX here because text will get blurry if you translate it.
                     $(this).transit({
                         'margin-left': -1 * distanceToMove

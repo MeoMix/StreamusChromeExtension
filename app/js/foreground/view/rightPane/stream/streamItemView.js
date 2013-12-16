@@ -125,10 +125,8 @@
         play: function () {
             
             if (this.model.get('selected')) {
-                console.log("playing");
                 Player.play();
             } else {
-                console.log("Selecting");
                 Player.playOnceVideoChanges();
                 this.select();
             }

@@ -48,7 +48,6 @@
                     };
                 });
                 
-                console.log("V2:");
                 //console.table(videos);
                 expect(relatedVideoInformation.length).toBeGreaterThan(0);
                 expect(relatedVideoInformation.length).toBe(10);
