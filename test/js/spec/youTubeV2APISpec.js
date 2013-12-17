@@ -24,6 +24,26 @@
             
         });
 
+        it('Should be able to find a playable video by title', function() {
+            var videoInformation = null;
+            runs(function () {
+                YouTubeV2API.findPlayableByTitle({
+                    title: 'Gramatik',
+                    success: function (response) {
+                        videoInformation = response;
+                    }
+                });
+            }, 500);
+
+            waitsFor(function () {
+                return videoInformation !== null;
+            }, "VideoInformation should be set", 2000);
+
+            runs(function () {
+                expect(videoInformation.title.length).toBeGreaterThan(0);
+            });
+        });
+
         it('Should be able to get a video\'s related video information', function () {
             var relatedVideoInformation = null;
             runs(function () {

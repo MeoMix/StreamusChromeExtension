@@ -178,6 +178,7 @@
     <Content Include="app\js\foreground\view\saveVideosView.js" />
     <Content Include="app\js\foreground\view\settingsView.js" />
     <Content Include="app\js\foreground\view\videoSearch\addSearchResultOptionView.js" />
+    <Content Include="app\js\foreground\view\videoSearch\addSearchResultPlaylistOptionsView.js" />
     <Content Include="app\js\foreground\view\videoSearch\addSearchResultsView.js" />
     <Content Include="app\js\foreground\view\videoSearch\playSelectedButtonView.js" />
     <Content Include="app\js\foreground\view\videoSearch\saveSelectedButtonView.js" />

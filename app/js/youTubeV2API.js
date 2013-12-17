@@ -216,13 +216,15 @@ define([
         //  Expects options: { title: string, success: function, error: function }
         findPlayableByTitle: function (options) {
 
-            if (!options.title || $.trim(options.title) === '') {
+            var title = $.trim(options.title || '');
+
+            if (title === '') {
                 if (options.error) options.error('No title provided');
                 return null;
             }
 
             return this.search({
-                text: options.title,
+                text: title,
                 success: function (videoInformationList) {
 
                     videoInformationList.sort(function (a, b) {
