@@ -42,6 +42,12 @@
             } else {
                 doShowNotification(options);
             }
+            
+            //  TODO: Should this be a chrome.notification and not a webkitNotification?
+            //  0 is permission allowed. Permission should just be granted implicitly as a chrome extension, but I'm seeing people get errors?
+            //if (window.webkitNotifications.checkPermission() == 0) {
+                
+            //}
 
         }
     };
