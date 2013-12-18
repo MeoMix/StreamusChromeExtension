@@ -23,7 +23,7 @@ define([
                 if (!selectedNextVideo) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        body: chrome.i18n.getMessage('skipNextVideoDisabled')
+                        message: chrome.i18n.getMessage('skipNextVideoDisabled')
                     });
                 }
                 
@@ -34,7 +34,7 @@ define([
                 if (!didPrevious) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        body: chrome.i18n.getMessage('backPreviousVideoDisabled')
+                        message: chrome.i18n.getMessage('backPreviousVideoDisabled')
                     });
                 }
                 
@@ -45,7 +45,7 @@ define([
                 if (!didTogglePlayerState) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        body: chrome.i18n.getMessage('toggleVideoDisabled')
+                        message: chrome.i18n.getMessage('toggleVideoDisabled')
                     });
                 }
                 

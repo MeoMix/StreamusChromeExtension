@@ -111,7 +111,7 @@ define([
                         Notifications.showNotification({
                             iconUrl: 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
                             title: 'Now Playing',
-                            body: selectedItem.get('title')
+                            message: selectedItem.get('title')
                         });
 
                     }

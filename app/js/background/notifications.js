@@ -1,31 +1,48 @@
-﻿define([
-], function () {
+﻿define(function () {
     'use strict';
 
-    var notification;
+    var existingNotificationId = '';
     var closeNotificationTimeout;
+    
+    function doShowNotification(options) {
+
+        clearTimeout(closeNotificationTimeout);
+
+        var notificationOptions = _.extend({
+            type: 'basic',
+            title: '',
+            message: '',
+            iconUrl: ''
+        }, options);
+        
+        //  Calling create with an existingNotificationId will cause the existing notification to be cleared.
+        chrome.notifications.create(existingNotificationId, notificationOptions, function (notificationId) {
+            existingNotificationId = notificationId;
+        });
+
+        closeNotificationTimeout = setTimeout(function () {
+
+            chrome.notifications.clear(existingNotificationId, function() {
+                existingNotificationId = '';
+            });
+            
+        }, 3000);
+    }
     
     return {
         //  Expects options: { iconUrl: string, title: string, body: string }
         showNotification: function (options) {
-
-            //  Spam actions can open a lot of notifications, really only want one at a time I think.
-            if (notification) {
-                notification.cancel();
-                clearTimeout(closeNotificationTimeout);
+            //  TODO: Future version of Google Chrome will support permission levels on notifications.
+            if (chrome.notifications.getPermissionLevel) {
+                chrome.notifications.getPermissionLevel(function (permissionLevel) {
+                    if (permissionLevel === 'granted') {
+                        doShowNotification(options);
+                    }
+                });
+            } else {
+                doShowNotification(options);
             }
 
-            notification = window.webkitNotifications.createNotification(options.iconUrl || '', options.title || '', options.body || '');
-            notification.show();
-            
-            closeNotificationTimeout = setTimeout(function () {
-
-                if (notification !== null) {
-                    notification.cancel();
-                    notification = null;
-                }
-
-            }, 3000);
         }
     };
 });
