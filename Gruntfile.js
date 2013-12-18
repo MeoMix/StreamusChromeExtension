@@ -126,7 +126,7 @@ module.exports = function (grunt) {
 				src: ['app/manifest.json'],
 				overwrite: true,
 				replacements: [{
-					from: /"version": "\d{0,2}.\d{0,2}"/,
+					from: /"version": "\d{0,3}.\d{0,3}"/,
 					to: '"version": "' + grunt.option('version') + '"'
 				}]
 			}

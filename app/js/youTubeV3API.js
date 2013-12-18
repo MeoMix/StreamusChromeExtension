@@ -32,9 +32,7 @@
         //  It can expire from time to time. You need to generate a new Simple API Access token with the 'Browser key' with a Referer of 'http://localhost' for testing
         //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
         setApiKey: function () {
-
-            console.log("Is API key set for testing:", Settings.get('testing'));
-
+            
             if (Settings.get('testing')) {
                 //  This key corresponds to: http://localhost
                 GoogleAPI.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');

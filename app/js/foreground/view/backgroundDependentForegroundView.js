@@ -4,6 +4,7 @@
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
     'genericForegroundView',
+    'genericPromptView',
     'activeFolderArea',
     'activeFolderAreaView',
     'activePlaylistAreaView',
@@ -19,7 +20,7 @@ define([
     'youTubePlayerError',
     'notificationView',
     'player'
-], function (GenericForegroundView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player) {
+], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({
         //  Same as ForegroundView's element. That is OK.
