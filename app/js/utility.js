@@ -165,6 +165,12 @@
 
             // Step 7
             return d[n][m];
+        },
+        
+        //  http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
+        escapeRegExp: function(string) {
+            var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+            return escapedString;
         }
     });
 

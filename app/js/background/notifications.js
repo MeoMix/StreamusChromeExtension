@@ -17,21 +17,26 @@
         
         //  Calling create with an existingNotificationId will cause the existing notification to be cleared.
         chrome.notifications.create(existingNotificationId, notificationOptions, function (notificationId) {
-            existingNotificationId = notificationId;
+            existingNotificationId = notificationId || '';
         });
 
         closeNotificationTimeout = setTimeout(function () {
 
-            chrome.notifications.clear(existingNotificationId, function() {
-                existingNotificationId = '';
-            });
-            
+            if (existingNotificationId && existingNotificationId !== '') {
+                
+                chrome.notifications.clear(existingNotificationId, function () {
+                    existingNotificationId = '';
+                });
+                
+            }
+
         }, 3000);
     }
     
     return {
         //  Expects options: { iconUrl: string, title: string, body: string }
         showNotification: function (options) {
+            
             //  TODO: Future version of Google Chrome will support permission levels on notifications.
             if (chrome.notifications.getPermissionLevel) {
                 chrome.notifications.getPermissionLevel(function (permissionLevel) {
@@ -43,12 +48,6 @@
                 doShowNotification(options);
             }
             
-            //  TODO: Should this be a chrome.notification and not a webkitNotification?
-            //  0 is permission allowed. Permission should just be granted implicitly as a chrome extension, but I'm seeing people get errors?
-            //if (window.webkitNotifications.checkPermission() == 0) {
-                
-            //}
-
         }
     };
 });

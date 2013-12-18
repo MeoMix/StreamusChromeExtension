@@ -46,23 +46,8 @@ define([
                         maxResults: 6,
                         success: function(videoInformationList) {
                             self.set('searchJqXhr', null);
-                            
-                            var suggestions = _.map(videoInformationList, function(videoInformation) {
 
-                                var video = new Video({
-                                    videoInformation: videoInformation
-                                });
-                                self.get('suggestedVideos').push(video);
-
-                                var textStyleRegExp = new RegExp(text, "i");
-                                
-                                var safeTitle = _.escape(video.get('title'));
-                                var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
-
-                                var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;
-
-                                return { content: 'http://youtu.be/' + video.get('id'), description: description };
-                            });
+                            var suggestions = self.buildSuggestions(videoInformationList, trimmedSearchText);
 
                             suggest(suggestions);
 
@@ -92,6 +77,31 @@ define([
 
             });
             
+        },
+        
+        buildSuggestions: function(videoInformationList, text) {
+            var self = this;
+            
+            var suggestions = _.map(videoInformationList, function (videoInformation) {
+
+                var video = new Video({
+                    videoInformation: videoInformation
+                });
+                self.get('suggestedVideos').push(video);
+
+                var safeTitle = _.escape(video.get('title'));
+                var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), "i");
+                var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
+
+                var description = '<dim>' + video.get('prettyDuration') + "</dim>  " + styledTitle;
+
+                return {
+                    content: 'http://youtu.be/' + video.get('id'),
+                    description: description
+                };
+            });
+
+            return suggestions;
         }
     });
 
