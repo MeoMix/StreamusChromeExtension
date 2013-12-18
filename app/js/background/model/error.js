@@ -50,6 +50,9 @@ define([
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
         if (!Settings.get('localDebug')) {
             
+            //  The first part of the URL is always the same and not very interesting. Drop it off.
+            url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
+            
             var error = new Error({
                 message: message,
                 url: url,

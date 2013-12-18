@@ -18,6 +18,8 @@ define([
             'click button.mute': 'toggleMute',
             'mousewheel': 'scrollVolume'
         },
+        
+        rendered: false,
 
         volumeSlider: null,
         progress: null,
@@ -45,6 +47,8 @@ define([
 
             var volumeIcon = this.getVolumeIcon(volume);
             this.muteButton.html(volumeIcon);
+
+            this.rendered = true;
 
             return this;
         },
@@ -80,13 +84,18 @@ define([
         //  If render is called (and reset the HTML entirely) the drag operation is broken and the slider stutters.
         updateProgressAndVolumeIcon: function () {
 
-            var volume = parseInt(Player.get('volume'));
+            //  This could potentially be called before rendering, but after initialization, depending on when
+            //  a progress tick comes in from the Player. Since the view initializes with correct state, safely ignore.
+            if (this.rendered) {
+                var volume = parseInt(Player.get('volume'));
 
-            this.volumeRange.val(volume);
-            this.progress.height(volume + '%');
+                this.volumeRange.val(volume);
+                this.progress.height(volume + '%');
 
-            var volumeIcon = this.getVolumeIcon(volume);
-            this.muteButton.html(volumeIcon);
+                var volumeIcon = this.getVolumeIcon(volume);
+                this.muteButton.html(volumeIcon);
+            }
+
         },
 
         //  Return whichever font-awesome icon is appropriate based on the current volume level.
@@ -130,13 +139,14 @@ define([
 
         toggleMutedClass: function () {
 
-            var isMuted = Player.get('muted');
+            if (this.rendered) {
+                var isMuted = Player.get('muted');
+                this.muteButton.toggleClass('muted', isMuted);
 
-            this.muteButton.toggleClass('muted', isMuted);
+                var title = isMuted ? chrome.i18n.getMessage('clickToUnmute') : chrome.i18n.getMessage('clickToMute');
+                this.muteButton.attr('title', title);
+            }
 
-            var title = isMuted ? chrome.i18n.getMessage('clickToUnmute') : chrome.i18n.getMessage('clickToMute');
-
-            this.muteButton.attr('title', title);
         }
 
     });
