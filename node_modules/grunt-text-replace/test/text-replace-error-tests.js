@@ -25,28 +25,6 @@ exports.textReplace = {
       done();
     },
 
-    'Test no source files': function (test) {
-      var warnCountBefore = grunt.fail.warncount;
-      replace({
-        dest: 'test/temp/',
-        replacements: [{ from: 'Hello', to: 'Good bye' }]
-      });
-      test.equal(grunt.fail.warncount - warnCountBefore, 1);
-      replace({
-        src: 'test/noSuchFile.txt',
-        dest: 'test/temp/',
-        replacements: [{ from: 'Hello', to: 'Good bye' }]
-      });
-      test.equal(grunt.fail.warncount - warnCountBefore, 2);
-      replace({
-        src: 'test/temp/testA.txt',
-        dest: 'test/temp/',
-        replacements: [{ from: 'Hello', to: 'Good bye' }]
-      });
-      test.equal(grunt.fail.warncount - warnCountBefore, 2);
-      test.done();
-    },
-
     'Test no destination found': function (test) {
       var warnCountBefore = grunt.fail.warncount;
       replace({

@@ -1179,6 +1179,7 @@
     <Content Include="node_modules\grunt\node_modules\which\which.js" />
     <Content Include="test\css\jasmine.css" />
     <Content Include="test\js\main.js" />
+    <Content Include="test\js\spec\backgroundDependentForegroundViewSpec.js" />
     <Content Include="test\js\spec\dataSourceSpec.js" />
     <Content Include="test\js\spec\errorSpec.js" />
     <Content Include="test\js\spec\googleAPISpec.js" />
