@@ -40,7 +40,7 @@
             }, "VideoInformation should be set", 2000);
 
             runs(function () {
-                expect(videoInformation.title.length).toBeGreaterThan(0);
+                expect(videoInformation.title.$t.length).toBeGreaterThan(0);
             });
         });
 
