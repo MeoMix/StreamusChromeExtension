@@ -1,6 +1,9 @@
 Deploy/
 Streamus *.zip
 
+# Webstorm project file
+.idea/
+
 #################
 ## Eclipse
 #################
