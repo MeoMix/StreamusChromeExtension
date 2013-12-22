@@ -31,11 +31,11 @@ $(function () {
             } else {
                 resultText = chrome.i18n.getMessage('addErrorCheckUrl');
             }
-            
-            $('<h3>', {
+
+            $('hr').last().before($('<h3>', {
                 text: resultText,
                 'class': 'jumbotron'
-            }).appendTo('.container-narrow');
+            }));
 
         });
     }

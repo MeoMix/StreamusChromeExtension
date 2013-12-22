@@ -45,18 +45,12 @@ define([
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();
-
-            //  TODO: Folders could potentially be undefined.
-            this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
-
-            this.listenTo(Player, 'error', this.showYouTubeError);
+            this.showVideoSearch(true);
             
-            if (VideoSearchResults.length > 0) {
-                this.showVideoSearch(true);
-            }
+            this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
+            this.listenTo(Player, 'error', this.showYouTubeError);
         },
         
-
         //  Cleans up any active playlist view and then renders a fresh view.
         showActivePlaylistArea: function () {
 
