@@ -116,7 +116,7 @@ module.exports = function (grunt) {
 
 		grunt.option('version', version);
 
-		grunt.task.run('dist-update-manifest-version', 'dist-remove-old-folder', 'dist-copy-source', 'dist-manifest-transform', 'dist-transform-settings', 'dist-compress');
+		grunt.task.run('dist-update-manifest-version', 'dist-remove-old-folder', 'dist-copy-source', 'dist-remove-undeployable-files', 'dist-manifest-transform', 'dist-transform-settings', 'dist-compress');
 	});
 
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
@@ -156,6 +156,12 @@ module.exports = function (grunt) {
 		});
 		grunt.task.run('copy');
 
+	});
+	
+	grunt.registerTask('dist-remove-undeployable-files', 'removes any files that should not be deployed', function () {
+		grunt.file.delete('dist/app/js/thirdParty/chrome-api-vsdoc.js');
+		grunt.file.delete('dist/app/js/thirdParty/jasmine.js');
+		grunt.file.delete('dist/app/js/thirdParty/jasmine-html.js');
 	});
 
 	//	Remove debugging information from the manifest file

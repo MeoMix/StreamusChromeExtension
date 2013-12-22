@@ -34,7 +34,7 @@
     }
     
     return {
-        //  Expects options: { iconUrl: string, title: string, body: string }
+        //  Expects options: { iconUrl: string, title: string, message: string }
         showNotification: function (options) {
             
             //  TODO: Future version of Google Chrome will support permission levels on notifications.
