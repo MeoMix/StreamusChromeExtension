@@ -1,6 +1,6 @@
 ﻿require.config({
 
-    baseUrl: '../app/js/',
+    baseUrl: '../src/js/',
 	
 	//  Cache buster
     //urlArgs: 'cb=' + Math.random(),

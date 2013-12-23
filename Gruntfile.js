@@ -18,7 +18,35 @@ module.exports = function (grunt) {
 		//	Read project settings from package.json in order to be able to reference the properties with grunt.
 		pkg: grunt.file.readJSON('package.json'),
 
-		//	Tasks:
+	    //	Tasks:
+
+	    //  Prepare CSS for deployment by combining into larger files.
+	    //  More options are applied by useminPrepare's evaluation of .html files
+		concat: {
+		    options: {
+		        separator: ';',
+		        stripBanners: true
+		    }
+		},
+
+		htmlmin: {
+		    dist: {
+		        options: {
+		            removeComments: true,
+		            collapseWhitespace: true,
+		            collapseBooleanAttributes: true,
+		            removeAttributeQuotes: true,
+		            removeRedundantAttributes: true,
+		            useShortDoctype: true,
+		            removeEmptyAttributes: true,
+		            removeOptionalTags: true
+		        },
+		        expand: true,
+		        cwd: 'dist',
+		        dest: 'dist/',
+		        src: ['**/*.html']
+		    }
+		},
 
 		//	Connect spins up tiny, quick servers for testing on
 		connect: {
@@ -78,32 +106,41 @@ module.exports = function (grunt) {
 		requirejs: {
 		    production: {
 		        options: {
-		            appDir: 'app',
+		            appDir: 'src',
 		            dir: 'dist/',
 		            //  Inlines the text for any text! dependencies, to avoid the separate
 		            //  async XMLHttpRequest calls to load those dependencies.
 		            inlineText: true,
 		            stubModules: ['text'],
 		            useStrict: true,
-		            mainConfigFile: 'app/js/requireConfig.js',
+		            mainConfigFile: 'src/js/requireConfig.js',
 		            //  List the modules that will be optimized. All their immediate and deep
 		            //  dependencies will be included in the module's file when the build is done
                     //  TODO: Options and FullScreen both need updating.
+		            //modules: [{
+		            //    name: 'background/main',
+                    //    include: ['background/plugins']
+		            //}, {
+		            //    name: 'background/background',
+		            //    exclude: ['background/main', 'background/plugins']
+		            //}, {
+		            //    name: 'foreground/main',
+                    //    include: ['foreground/plugins']
+		            //}, {
+		            //    name: 'foreground/foreground',
+		            //    include: ['foreground/view/backgroundDependentForegroundView'],
+		            //    exclude: ['foreground/main']
+		            //}],
 		            modules: [{
-		                name: 'background/main',
-                        include: ['background/plugins']
+		                name: 'background/main'
 		            }, {
-		                name: 'background/background',
-		                exclude: ['background/main', 'background/plugins']
-		            }, {
-		                name: 'foreground/main',
-                        include: ['foreground/plugins']
-		            }, {
-		                name: 'foreground/foreground',
-		                include: ['foreground/view/backgroundDependentForegroundView'],
-		                exclude: ['foreground/main']
+                        name: 'foreground/main'
 		            }],
+		            findNestedDependencies: true,
 		            optimize: 'uglify2',
+		            //  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
+		            optimizeCss: 'none',
+		            preserveLicenseComments: false,
 		            //  Don't leave a copy of the file if it has been concatenated into a larger one.
 		            removeCombined: true,
 		            //  Skip files which start with a . or end in vs-doc.js
@@ -117,13 +154,23 @@ module.exports = function (grunt) {
 		uglify: {
 		    inject: {
 		        files: {
-		            'dist/js/inject/beatportInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/bootstrap.min.js', 'app/js/inject/beatportInject.js'],
-		            'dist/js/inject/streamusInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/streamusInject.js'],
-		            'dist/js/inject/streamusShareInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/streamusShareInject.js'],
-		            'dist/js/inject/youTubeInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/youTubeInject.js'],
-		            'dist/js/inject/youTubeIFrameInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/youTubeIFrameInject.js']
+		            'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/bootstrap.min.js', 'src/js/inject/beatportInject.js'],
+		            'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
+		            'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
+		            'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
+		            'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
 		        }
 		    }
+		},
+
+		useminPrepare: {
+		    //  Target src here so CSS can still be found.
+            //  TODO: Options, Fullscreen
+		    html: 'src/foreground.html'
+		},
+
+		usemin: {
+		    html: 'dist/foreground.html'
 		},
 	
 		watch: {
@@ -133,20 +180,28 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+    //  Bulky, install on-demand only.
+    //grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
 	grunt.registerTask('default', ['connect jasmine watch']);
 	grunt.registerTask('test', ['connect', 'jasmine']);
-	grunt.registerTask('production', ['dist-remove-old-folder', 'requirejs', 'uglify', 'dist-manifest-transform', 'update-require-config-paths']);
+    //  TODO: enable htmlmin once I figure out why my templates aren't being parsed.
+	grunt.registerTask('production', ['requirejs', 'uglify', 'dist-manifest-transform', 'update-require-config-paths', 'useminPrepare', 'usemin', 'concat', 'cssmin']);
+	//grunt.registerTask('production', ['requirejs']);
 	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
@@ -179,14 +234,14 @@ module.exports = function (grunt) {
 	});
 
 	//	Cleanup any old dist folder to ensure only the files we want are put into the current release.
-	grunt.registerTask('dist-remove-old-folder', 'removes any previously existing dist folder', function () {
-		if (grunt.file.exists('dist')) {
-			//	Can't delete a full directory -- clean it up.
-			grunt.config.set('clean', ['dist']);
-			grunt.task.run('clean');
-			grunt.file.delete('dist');
-		}
-	});
+	//grunt.registerTask('dist-remove-old-folder', 'removes any previously existing dist folder', function () {
+	//	if (grunt.file.exists('dist')) {
+	//		//	Can't delete a full directory -- clean it up.
+	//		grunt.config.set('clean', ['dist']);
+	//		grunt.task.run('clean');
+	//		grunt.file.delete('dist');
+	//	}
+	//});
 
 	//	Copy everything before transforming to not affect the originals.
 	grunt.registerTask('dist-copy-source', 'copy all the needed files to the dist directory', function () {
