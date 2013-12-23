@@ -1,10 +1,10 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
+    'background/collection/streamItems',
+    'background/model/video',
     'youTubeV2API',
-    'video',
-    'utility',
-    'streamItems'
-], function (YouTubeV2API, Video, Utility, StreamItems) {
+    'utility'
+], function (StreamItems, Video, YouTubeV2API, Utility) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({

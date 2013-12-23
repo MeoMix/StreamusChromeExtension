@@ -1,7 +1,7 @@
 ﻿//  Handles setting and managing the Streamus icon state.
 define([
-    'player',
-    'playerState'
+    'background/model/player',
+    'enum/playerState'
 ], function (Player, PlayerState) {
     'use strict';
 

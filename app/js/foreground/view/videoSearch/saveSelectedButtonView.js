@@ -1,9 +1,9 @@
 define([
-    'genericForegroundView',
-    'text!../template/saveSelectedButton.htm',
-    'videoSearchResults',
-    'genericPromptView',
-    'saveVideosView'
+    'foreground/view/genericForegroundView',
+    'text!template/saveSelectedButton.htm',
+    'foreground/collection/videoSearchResults',
+    'foreground/view/genericPromptView',
+    'foreground/view/saveVideosView'
 ], function (GenericForegroundView, SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveVideosView) {
     'use strict';
 

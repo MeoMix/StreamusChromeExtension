@@ -28,14 +28,6 @@ $(function () {
     });
     addButtonContent.appendTo(addButton);
 
-    chrome.runtime.sendMessage({
-            method: "getYouTubeInjectClicked"
-        }, function(response) {
-            if (!response.result) {
-                addButton.addClass("notClickedYet");
-            }
-        });
-
     var streamusActionPanel = $('<div>', {
         id: 'action-panel-streamus',
         'class': 'action-panel-content',

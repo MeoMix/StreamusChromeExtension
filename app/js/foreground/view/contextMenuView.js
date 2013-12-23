@@ -1,7 +1,7 @@
 ﻿define([
-    'genericForegroundView',
-    'contextMenuGroups',
-    'text!../template/contextMenu.htm'
+    'foreground/view/genericForegroundView',
+    'foreground/collection/contextMenuGroups',
+    'text!template/contextMenu.htm'
 ], function (GenericForegroundView, ContextMenuGroups, ContextMenuTemplate) {
     'use strict';
 

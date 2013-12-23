@@ -1,7 +1,7 @@
 //  When clicked -- skips to the last video. Skips from the begining of the list to the end. Skip to start of song if >5 seconds have passed.
 define([
-    'genericForegroundView',
-    'text!../template/previousButton.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/previousButton.htm'
 ], function (GenericForegroundView, PreviousButtonTemplate) {
     'use strict';
 

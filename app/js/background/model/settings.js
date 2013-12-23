@@ -1,23 +1,19 @@
-﻿//  TODO: This is growing enormously. Need to refactor and kill it.
-//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var Settings = null;
-
+﻿//  TODO: This file kind of feels like an anti-pattern.
 define(function () {
     'use strict';
 
-    var settingsModel = Backbone.Model.extend({
+    var Settings = Backbone.Model.extend({
         
         defaults: function() {
             return {
                 localDebug: false,
                 testing: false,
                 serverURL: '',
-                suggestedQuality: getItem('suggestedQuality') || 'default',
-                userId: getItem('userId') || null,
-                youTubeInjectClicked: getItem('youTubeInjectClicked') || true,
-                remindClearStream: getItem('remindClearStream') || true,
-                remindDeletePlaylist: getItem('remindDeletePlaylist') || true,
-                showTimeRemaining: getItem('showTimeRemaining') || false
+                suggestedQuality: this.getItem('suggestedQuality') || 'default',
+                userId: this.getItem('userId') || null,
+                remindClearStream: this.getItem('remindClearStream') || true,
+                remindDeletePlaylist: this.getItem('remindDeletePlaylist') || true,
+                showTimeRemaining: this.getItem('showTimeRemaining') || false
             };
         },
         
@@ -38,12 +34,8 @@ define(function () {
                 localStorage.setItem('userId', JSON.stringify(userId));
             });
 
-			this.on('change:youTubeInjectClicked', function (model, youTubeInjectClicked) {
-                localStorage.setItem('youTubeInjectClicked', JSON.stringify(youTubeInjectClicked));
-			});
-
 			this.on('change:remindClearStream', function (model, remindClearStream) {
-			    localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
+                localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
 			});
 
             this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
@@ -54,29 +46,29 @@ define(function () {
                 localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
             });
             
+        },
+        
+        //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
+        //  If not, just allow the string type because its assumed to be correct.
+        getItem: function(key) {
+            var item = localStorage.getItem(key);
+
+            if (item !== null) {
+
+                try {
+                    //  Make sure I don't send back 'null' or 'undefined' as string types.
+                    item = JSON.parse(item);
+                } catch (exception) {
+                    //  Consume any exceptions because might try and parse a GUID which isn't valid JSON.
+                }
+            }
+
+            return item;
         }
   
     });
     
-    //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
-    //  If not, just allow the string type because its assumed to be correct.
-    function getItem(key) {
-
-        var item = localStorage.getItem(key);
-
-        if (item !== null) {
-            
-            try {
-                //  Make sure I don't send back 'null' or 'undefined' as string types.
-                item = JSON.parse(item);
-            } catch(exception) {
-                //  Consume any exceptions because might try and parse a GUID which isn't valid JSON.
-            }
-        }
-
-        return item;
-    }
-    
-    Settings = new settingsModel();
-    return Settings;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.Settings = new Settings();
+    return window.Settings;
 });

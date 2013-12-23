@@ -1,21 +1,19 @@
-﻿var StreamItems;
-
-define([
-    'streamItem',
-    'shuffleButton',
-    'radioButton',
-    'repeatButton',
-    'repeatButtonState',
-    'youTubeV2API',
-    'video',
+﻿define([
+    'background/notifications',
+    'background/model/streamItem',
+    'background/model/video',
+    'background/model/player',
+    'background/model/buttons/shuffleButton',
+    'background/model/buttons/radioButton',
+    'background/model/buttons/repeatButton',
+    'enum/repeatButtonState',
+    'enum/playerState',
     'utility',
-    'player',
-    'playerState',
-    'notifications'
-], function (StreamItem, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, YouTubeV2API, Video, Utility, Player, PlayerState, Notifications) {
+    'youTubeV2API'
+], function (Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
 
-    var streamItemsCollection = Backbone.Collection.extend({
+    var StreamItems = Backbone.Collection.extend({
         model: StreamItem,
 
         initialize: function () {
@@ -138,8 +136,9 @@ define([
 
                 //  When all streamItems have been played recently, reset to not having been played recently.
                 //  Allows for de-prioritization of played streamItems during shuffling.
-                if (self.where({ playedRecently: true }).length === this.length) {
-                    self.each(function(streamItem) {
+                console.log("PlayedRecently length:", this.where({ playedRecently: true }), this.length);
+                if (this.where({ playedRecently: true }).length === this.length) {
+                    this.each(function(streamItem) {
                         streamItem.set('playedRecently', false);
                     });
                 }
@@ -294,6 +293,7 @@ define([
             this.add(streamItems, { silent: true });
 
             var self = this;
+            
             //  Fetch from collection to make sure references stay correct + leverage conversion to model
             var streamItemsFromCollection = _.map(streamItems, function (streamItem) {
                 var streamItemId;
@@ -318,7 +318,7 @@ define([
             var sampleSize = streamItemsFromCollection.length >= 50 ? 50 : streamItemsFromCollection.length;
 
             //  Get X samples from an array from 0 to N which has been randomized 
-            var randomSampleIndices = _.shuffle(_.range(streamItemsCollection.length)).slice(sampleSize);
+            var randomSampleIndices = _.shuffle(_.range(streamItemsFromCollection.length)).slice(sampleSize);
 
             var randomVideoIds = _.map(randomSampleIndices, function (randomSampleIndex) {
                 return streamItemsFromCollection[randomSampleIndex].get('video').get('id');
@@ -459,7 +459,7 @@ define([
 
                         //  TODO: Might be sending an erroneous trigger on delete?
                         //  Only one item in the playlist and it was already selected, resend selected trigger.
-                        if (this.length == 1) {
+                        if (this.length === 1) {
                             this.at(0).trigger('change:selected', this.at(0), true);
                         }
                     } else if (radioEnabled) {
@@ -546,8 +546,8 @@ define([
             this.trigger('empty');
         }
     });
-
-    StreamItems = new streamItemsCollection;
-
-    return StreamItems;
+    
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.StreamItems = new StreamItems();
+    return window.StreamItems;
 });

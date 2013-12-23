@@ -1,11 +1,11 @@
 ﻿//  PlaylistItems have a one-to-one relationship with a Video object via the videoId property.
 define([
-    'settings',
-    'video'
+    'background/model/settings',
+    'background/model/video'
 ], function (Settings, Video) {
     'use strict';
     
-    var playlistItemModel = Backbone.Model.extend({
+    var PlaylistItem = Backbone.Model.extend({
         defaults: function() {
             return {
                 id: null,
@@ -20,7 +20,7 @@ define([
             
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in playlistItemDto) {
-                if (playlistItemDto.hasOwnProperty(key) && playlistItemDto[key] == '00000000-0000-0000-0000-000000000000') {
+                if (playlistItemDto.hasOwnProperty(key) && playlistItemDto[key] === '00000000-0000-0000-0000-000000000000') {
                     playlistItemDto[key] = null;
                 }
             }
@@ -63,8 +63,7 @@ define([
             config.title = config.video.get ? config.video.get('title') : config.video.title;
         }
 
-        var playlistItem = new playlistItemModel(config);
-
+        var playlistItem = new PlaylistItem(config);
         return playlistItem;
     };
 });

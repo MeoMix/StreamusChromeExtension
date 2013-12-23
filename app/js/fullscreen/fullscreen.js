@@ -1,5 +1,5 @@
 ﻿define([
-    'videoDisplayView'
+    'foreground/view/video/videoDisplayView'
 ], function (VideoDisplayView) {
     'use strict';
 

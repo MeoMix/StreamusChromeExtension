@@ -1,5 +1,5 @@
 ﻿define([
-    'foregroundViewManager'
+    'foreground/model/foregroundViewManager'
 ], function (ForegroundViewManager) {
     'use strict';
     

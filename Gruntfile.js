@@ -67,20 +67,63 @@ module.exports = function (grunt) {
 					console: true
 				},
 
+                //  TODO: I'd like to remove this relaxation from the linter at some point.
+				"eqnull": true,
+
 				//	Don't validate third-party libraries
 				ignores: ['app/js/thirdParty/**/*.js']
 			}
 		},
 		
 		requirejs: {
-			production: {
-			    options: {
-                    baseUrl: './app/js',
-                    name: "../../app/js/background/main",
-					mainConfigFile: "app/js/background/main.js",
-					out: "optimized.js"
-				}
+		    production: {
+		        options: {
+		            appDir: 'app',
+		            dir: 'dist/',
+		            //  Inlines the text for any text! dependencies, to avoid the separate
+		            //  async XMLHttpRequest calls to load those dependencies.
+		            inlineText: true,
+		            stubModules: ['text'],
+		            useStrict: true,
+		            mainConfigFile: 'app/js/requireConfig.js',
+		            //  List the modules that will be optimized. All their immediate and deep
+		            //  dependencies will be included in the module's file when the build is done
+                    //  TODO: Options and FullScreen both need updating.
+		            modules: [{
+		                name: 'background/main',
+                        include: ['background/plugins']
+		            }, {
+		                name: 'background/background',
+		                exclude: ['background/main', 'background/plugins']
+		            }, {
+		                name: 'foreground/main',
+                        include: ['foreground/plugins']
+		            }, {
+		                name: 'foreground/foreground',
+		                include: ['foreground/view/backgroundDependentForegroundView'],
+		                exclude: ['foreground/main']
+		            }],
+		            optimize: 'uglify2',
+		            //  Don't leave a copy of the file if it has been concatenated into a larger one.
+		            removeCombined: true,
+		            //  Skip files which start with a . or end in vs-doc.js
+		            fileExclusionRegExp: /^\.|vsdoc.js$|.css$/
+		        }
+
 			}
+		},
+
+        //  TODO: Is this actually minifying? The files still seem abnormally large.
+		uglify: {
+		    inject: {
+		        files: {
+		            'dist/js/inject/beatportInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/bootstrap.min.js', 'app/js/inject/beatportInject.js'],
+		            'dist/js/inject/streamusInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/streamusInject.js'],
+		            'dist/js/inject/streamusShareInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/streamusShareInject.js'],
+		            'dist/js/inject/youTubeInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/youTubeInject.js'],
+		            'dist/js/inject/youTubeIFrameInject.js': ['app/js/thirdParty/jquery.js', 'app/js/thirdParty/lodash.js', 'app/js/inject/youTubeIFrameInject.js']
+		        }
+		    }
 		},
 	
 		watch: {
@@ -96,13 +139,14 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
 	grunt.registerTask('default', ['connect jasmine watch']);
 	grunt.registerTask('test', ['connect', 'jasmine']);
-	grunt.registerTask('production', ['requirejs']);
+	grunt.registerTask('production', ['dist-remove-old-folder', 'requirejs', 'uglify', 'dist-manifest-transform', 'update-require-config-paths']);
 	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
@@ -164,12 +208,30 @@ module.exports = function (grunt) {
 		grunt.file.delete('dist/app/js/thirdParty/jasmine-html.js');
 	});
 
+    //  TODO: This is probably bad practice.
+	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
+
+	    grunt.config.set('replace', {
+	        removeDebuggingKeys: {
+	            src: ['dist/js/background/main.js', 'dist/js/foreground/main.js'],
+	            overwrite: true,
+	            replacements: [{
+	                //  Change all main files paths to requireConfig for to be accurate for deployment.
+	                from: '../requireConfig',
+	                to: 'requireConfig'
+	            }]
+	        }
+	    });
+
+	    grunt.task.run('replace');
+	});
+
 	//	Remove debugging information from the manifest file
 	grunt.registerTask('dist-manifest-transform', 'removes debugging info from the manifest.json', function () {
 
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
-				src: ['dist/app/manifest.json'],
+				src: ['dist/manifest.json'],
 				overwrite: true,
 				replacements: [{
 					//	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
@@ -179,6 +241,26 @@ module.exports = function (grunt) {
 					//	Remove permissions that're only needed for debugging.
 					from: '"http://localhost:61975/Streamus/",',
 					to: ''
+				}, {
+				    //  Transform inject javascript to reference uglified/concat versions for deployment.
+				    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
+				    to: '"js": ["js/inject/youTubeIFrameInject.js"]'
+				}, {
+				    //  Transform inject javascript to reference uglified/concat versions for deployment.
+				    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
+				    to: '"js": ["js/inject/youTubeInject.js"]'
+				}, {
+				    //  Transform inject javascript to reference uglified/concat versions for deployment.
+				    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
+				    to: '"js": ["js/inject/streamusShareInject.js"]'
+				}, {
+				    //  Transform inject javascript to reference uglified/concat versions for deployment.
+				    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
+				    to: '"js": ["js/inject/streamusInject.js"]'
+				}, {
+				    //  Transform inject javascript to reference uglified/concat versions for deployment.
+				    from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]',
+				    to: '"js": ["js/inject/beatportInject.js"]'
 				}]
 			}
 		});

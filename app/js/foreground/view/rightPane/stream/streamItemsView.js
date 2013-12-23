@@ -1,12 +1,12 @@
 ﻿define([
-    'genericScrollableView',
-    'streamItems',
-    'streamItemView',
-    'text!../template/streamItems.htm',
-    'contextMenuGroups',
+    'foreground/view/genericScrollableView',
+    'foreground/collection/streamItems',
+    'foreground/view/rightPane/stream/streamItemView',
+    'text!template/streamItems.htm',
+    'foreground/collection/contextMenuGroups',
     'utility',
-    'streamAction',
-    'folders'
+    'foreground/model/streamAction',
+    'foreground/collection/folders'
 ], function (GenericScrollableView, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders) {
     'use strict';
     

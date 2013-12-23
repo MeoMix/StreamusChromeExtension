@@ -1,5 +1,5 @@
 ﻿define([
-    'dataSourceType',
+    'enum/dataSourceType',
     'youTubeV2API',
     'youTubeV3API'
 ], function (DataSourceType, YouTubeV2API, YouTubeV3API) {

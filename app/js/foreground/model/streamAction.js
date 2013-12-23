@@ -1,9 +1,9 @@
 ﻿define([
-    'settings',
-    'streamItems',
-    'genericPromptView',
-    'clearStreamView',
-    'saveVideosView'
+    'foreground/model/settings',
+    'foreground/collection/streamItems',
+    'foreground/view/genericPromptView',
+    'foreground/view/clearStreamView',
+    'foreground/view/saveVideosView'
 ], function (Settings, StreamItems, GenericPromptView, ClearStreamView, SaveVideosView) {
 
     var StreamAction = Backbone.Model.extend({

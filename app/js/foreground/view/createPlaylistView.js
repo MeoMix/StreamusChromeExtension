@@ -1,10 +1,10 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/createPlaylist.htm',
-    'streamItems',
-    'folders',
+    'foreground/view/genericForegroundView',
+    'text!template/createPlaylist.htm',
+    'foreground/collection/streamItems',
+    'foreground/collection/folders',
     'dataSource',
-    'dataSourceType'
+    'enum/dataSourceType'
 ], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Folders, DataSource, DataSourceType) {
     'use strict';
 

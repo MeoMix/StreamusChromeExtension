@@ -1,8 +1,8 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/addSearchResultOption.htm',
-    'videoSearchResults',
-    'addSearchResultOptionType'
+    'foreground/view/genericForegroundView',
+    'text!template/addSearchResultOption.htm',
+    'foreground/collection/videoSearchResults',
+    'enum/addSearchResultOptionType'
 ], function (GenericForegroundView, AddSearchResultOptionTemplate, VideoSearchResults, AddSearchResultOptionType) {
     'use strict';
 

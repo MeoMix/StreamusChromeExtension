@@ -1,12 +1,12 @@
 ﻿//  TODO: Decouple streamItems from this so it can be more easily used in fullscreen.
 define([
-    'genericForegroundView',
-    'streamItems',
-    'player',
-    'playerState',
-    'contextMenuGroups',
-    'text!../template/videoDisplay.htm',
-    'videoDisplayButtonView'
+    'foreground/view/genericForegroundView',
+    'foreground/collection/streamItems',
+    'foreground/model/player',
+    'enum/playerState',
+    'foreground/collection/contextMenuGroups',
+    'text!template/videoDisplay.htm',
+    'foreground/view/rightPane/videoDisplayButtonView'
 ], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoDisplayButtonView) {
     'use strict';
 

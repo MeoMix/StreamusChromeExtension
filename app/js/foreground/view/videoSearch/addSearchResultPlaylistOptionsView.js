@@ -1,9 +1,9 @@
 ﻿define([
-    'text!../template/addSearchResultPlaylistOptions.htm',
-    'genericScrollableView',
-    'addSearchResultOption',
-    'addSearchResultOptionView',
-    'addSearchResultOptionType'
+    'text!template/addSearchResultPlaylistOptions.htm',
+    'foreground/view/genericScrollableView',
+    'foreground/model/addSearchResultOption',
+    'foreground/view/videoSearch/addSearchResultOptionView',
+    'enum/addSearchResultOptionType'
 ], function (AddSearchResultPlaylistOptionsTemplate, GenericScrollableView, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType) {
     'use strict';
 

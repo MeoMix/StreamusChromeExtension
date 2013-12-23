@@ -1,13 +1,10 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var PlayPauseButton = null;
-
-define([
-    'streamItems',
-    'player'
+﻿define([
+    'background/collection/streamItems',
+    'background/model/player'
 ], function (StreamItems, Player) {
     'use strict';
     
-    var playPauseButtonModel = Backbone.Model.extend({
+    var PlayPauseButton = Backbone.Model.extend({
         defaults: {
             enabled: false
         },
@@ -39,7 +36,7 @@ define([
         }, 100, true)
     });
     
-    PlayPauseButton = new playPauseButtonModel;
-
-    return PlayPauseButton;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.PlayPauseButton = new PlayPauseButton();
+    return window.PlayPauseButton;
 });

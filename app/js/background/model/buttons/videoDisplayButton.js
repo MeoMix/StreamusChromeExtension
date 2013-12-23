@@ -1,10 +1,7 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var VideoDisplayButton = null;
-
-define(function () {
+﻿define(function () {
     'use strict';
 
-    var videoDisplayButtonModel = Backbone.Model.extend({
+    var VideoDisplayButton = Backbone.Model.extend({
 
         defaults: {
             enabled: false
@@ -12,11 +9,16 @@ define(function () {
         
         toggleEnabled: function () {
             this.set('enabled', !this.get('enabled'));
+        },
+        
+        //  TODO: Implement toggle on/off video via keyboard shortcut.
+        toggleVideoDisplay: function() {
+            console.error('not implemented');
         }
 
     });
-
-    VideoDisplayButton = new videoDisplayButtonModel;
-
-    return VideoDisplayButton;
+    
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.VideoDisplayButton = new VideoDisplayButton();
+    return window.VideoDisplayButton;
 });

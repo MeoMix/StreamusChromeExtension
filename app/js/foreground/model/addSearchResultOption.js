@@ -1,5 +1,5 @@
 ﻿define([
-    'addSearchResultOptionType'
+    'enum/addSearchResultOptionType'
 ], function (AddSearchResultOptionType) {
     'use strict';
 

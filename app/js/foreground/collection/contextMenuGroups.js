@@ -1,5 +1,5 @@
 ﻿define([
-    'contextMenuGroup'
+    'foreground/model/contextMenuGroup'
 ], function (ContextMenuGroup) {
     'use strict';
 

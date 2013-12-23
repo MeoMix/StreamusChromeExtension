@@ -1,10 +1,9 @@
 //  A singleton representing the sole logged on user for the program.
 //  Tries to load itself by ID stored in localStorage and then by chrome.storage.sync.
 //  If still unloaded, tells the server to create a new user and assumes that identiy.
-var User = null;
 define([
-    'folders',
-    'settings',
+    'background/collection/folders',
+    'background/model/settings',
     'googleAPI'
 ], function (Folders, Settings, GoogleAPI) {
     'use strict';
@@ -12,7 +11,7 @@ define([
     var syncUserIdKey = 'UserId';
 
     //  User data will be loaded either from cache or server.
-    var userModel = Backbone.Model.extend({
+    var User = Backbone.Model.extend({
         defaults: function() {
             return {
                 id: null,
@@ -24,7 +23,7 @@ define([
             };
         },
         
-        //  TODO: I feel like some of the work should've been done in parse and not onUserLoaded...
+        //  TODO: I feel like some of the work should've been done in parse and not onLoaded...
 
         urlRoot: Settings.get('serverURL') + 'User/',
 
@@ -41,10 +40,8 @@ define([
             chrome.storage.onChanged.addListener(function (changes, areaName) {
 
                 if (areaName === 'sync') {
-                    var dirtyChange = changes['dirty'];
-                    
-                    if (dirtyChange != null) {
-                        self.set('dirty', dirtyChange.newValue, { silent: true });
+                    if (changes.dirty != null) {
+                        self.set('dirty', changes.dirty.newValue, { silent: true });
                     }
                     
                 }
@@ -72,10 +69,6 @@ define([
             //    }
 
             //});
-
-
-            
-
 
             this.tryLoginFromStorage();
 
@@ -105,9 +98,8 @@ define([
             chrome.idle.onStateChanged.addListener(function(newState) {
 
                 if (newState == 'active' && self.get('dirty')) {
-                    //console.log("Here is where I would fetchUser... IF I HAD ONE!");
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    //fetchUser.call(self, false);
+                    //self.loadFromServer(false);
                 }
 
             });
@@ -191,13 +183,13 @@ define([
 
                     if (foundUserId !== null) {
                         self.set('id', foundUserId);
-                        fetchUser.call(self, true);
+                        self.loadFromServer(true);
                     } else {
 
                         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
                         self.save({}, {
                             success: function (model) {
-                                onUserLoaded.call(self, model, true);
+                                self.onLoaded(model, true);
                             },
                             error: function (error) {
                                 console.error(error);
@@ -211,7 +203,7 @@ define([
                     self.set('id', foundUserId);
 
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    fetchUser.call(self, false);
+                    self.loadFromServer(false);
                 }
             });
 
@@ -266,68 +258,68 @@ define([
                 }
             });
             
+        },
+        
+        onLoaded: function (model, setSyncStorage) {
+            //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
+            Folders.reset(this.get('folders'));
+
+            //  In the future there might need to be logic here for marking an appropriate folder as active, but for now only 1 folder so it is the active one.
+            Folders.at(0).set('active', true);
+
+            //  TODO: Error handling for writing to sync too much.
+            //  Write to sync as little as possible because it has restricted read/write limits per hour.
+            if (setSyncStorage) {
+
+                //  Using the bracket access notation here to leverage the variable which stores the key for chrome.storage.sync
+                //  I want to be able to ensure I am getting/setting from the same location, thus the variable.
+                var storedKey = {};
+                storedKey[syncUserIdKey] = model.get('id');
+
+                chrome.storage.sync.set(storedKey);
+            }
+
+            //  Announce that user has loaded so managers can use it to fetch data.
+            this.set('loaded', true);
+            Settings.set('userId', this.get('id'));
+
+            console.log("User has loaded with UserID:", this.get('id'));
+        },
+
+        //  Loads user data by ID from the server, writes the ID
+        //  to client-side storage locations for future loading and then announces
+        //  that the user has been loaded fully.
+        loadFromServer: function(setSyncStorage) {
+            var self = this;
+
+            this.set('loaded', false);
+            this.fetch({
+                success: function (model) {
+                    self.onLoaded(model, setSyncStorage);
+                },
+                error: function (error) {
+                    console.error(error);
+
+                    //  If there's an error fetching the user with localDebug enabled -- probably just swapped between DBs
+                    //  Its OK to reset the user for debugging purposes. It is NOT ok to reset the user in deployment.
+                    if (Settings.get('localDebug')) {
+
+                        self.set('id', null);
+                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+                        self.save({}, {
+                            success: function (model) {
+                                self.onLoaded(model, true);
+                            }
+                        });
+                    }
+
+                }
+            });
         }
     
     });
-    
-    function onUserLoaded(model, shouldSetSyncStorage) {
-        //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
-        Folders.reset(this.get('folders'));
 
-        //  In the future there might need to be logic here for marking an appropriate folder as active, but for now only 1 folder so it is the active one.
-        Folders.at(0).set('active', true);
-
-        //  TODO: Error handling for writing to sync too much.
-        //  Write to sync as little as possible because it has restricted read/write limits per hour.
-        if (shouldSetSyncStorage) {
-
-            //  Using the bracket access notation here to leverage the variable which stores the key for chrome.storage.sync
-            //  I want to be able to ensure I am getting/setting from the same location, thus the variable.
-            var storedKey = {};
-            storedKey[syncUserIdKey] = model.get('id');
-
-            chrome.storage.sync.set(storedKey);
-        }
-
-        //  Announce that user has loaded so managers can use it to fetch data.
-        this.set('loaded', true);
-        Settings.set('userId', this.get('id'));
-    }
-    
-    //  Loads user data by ID from the server, writes the ID
-    //  to client-side storage locations for future loading and then announces
-    //  that the user has been loaded fully.
-
-    function fetchUser(shouldSetSyncStorage) {
-        var self = this;
-
-        this.set('loaded', false);
-        this.fetch({
-            success: function (model) {
-                onUserLoaded.call(self, model, shouldSetSyncStorage);
-            },
-            error: function (error) {
-                console.error(error);
-                
-                //  If there's an error fetching the user with localDebug enabled -- probably just swapped between DBs
-                //  Its OK to reset the user for debugging purposes. It is NOT ok to reset the user in deployment.
-                if (Settings.get('localDebug')) {
-
-                    self.set('id', null);
-                    //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-                    self.save({}, {
-                        success: function (model) {
-                            onUserLoaded.call(self, model, true);
-                        }
-                    });
-                }
-
-            }
-        });
-    }
-
-    //  Only ever instantiate one User.
-    User = new userModel();
-    
-    return User;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.User = new User();
+    return window.User;
 });

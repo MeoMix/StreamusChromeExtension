@@ -1,10 +1,7 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var ShuffleButton = null;
-
-define(function () {
+﻿define(function () {
     'use strict';
 
-    var shuffleButtonModel = Backbone.Model.extend({
+    var ShuffleButton = Backbone.Model.extend({
 
         defaults: {
             enabled: false
@@ -16,7 +13,7 @@ define(function () {
 
     });
 
-    ShuffleButton = new shuffleButtonModel;
-
-    return ShuffleButton;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.ShuffleButton = new ShuffleButton();
+    return window.ShuffleButton;
 });

@@ -1,6 +1,6 @@
 define([
-    'genericForegroundView',
-    'text!../template/shuffleButton.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/shuffleButton.htm'
 ], function (GenericForegroundView, ShuffleButtonTemplate) {
     'use strict';
 

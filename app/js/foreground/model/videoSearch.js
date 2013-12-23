@@ -1,10 +1,10 @@
 ﻿define([
-    'videoSearchResults',
+    'foreground/collection/videoSearchResults',
+    'enum/dataSourceType',
     'youTubeV2API',
     'utility',
-    'dataSource',
-    'dataSourceType'
-], function (VideoSearchResults, YouTubeV2API, Utility, DataSource, DataSourceType) {
+    'dataSource'
+], function (VideoSearchResults, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
     var VideoSearch = Backbone.Model.extend({

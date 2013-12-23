@@ -1,5 +1,5 @@
 ﻿define([
-    'contextMenuItems'
+    'foreground/collection/contextMenuItems'
 ], function (ContextMenuItems) {
     'use strict';
 

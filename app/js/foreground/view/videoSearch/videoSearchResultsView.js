@@ -1,11 +1,11 @@
 ﻿define([
-    'genericForegroundView',
-    'videoSearchResultView',
-    'videoSearchResults',
-    'text!../template/videoSearchResults.htm',
+    'foreground/view/genericForegroundView',
+    'foreground/view/videoSearch/videoSearchResultView',
+    'foreground/collection/videoSearchResults',
+    'text!template/videoSearchResults.htm',
     'utility',
-    'contextMenuGroups',
-    'streamItems'
+    'foreground/collection/contextMenuGroups',
+    'foreground/collection/streamItems'
 ], function (GenericForegroundView, VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility, ContextMenuGroups, StreamItems) {
     'use strict';
 

@@ -1,6 +1,6 @@
 ﻿//  Holds all the relevant data for a client-side error
 define([
-    'settings'
+    'background/model/settings'
 ], function (Settings) {
     'use strict';
 
@@ -18,7 +18,10 @@ define([
                 url: '',
                 clientVersion: clientVersion,
                 //  This should be set by the server, not the client, in order to be standard across all client.
-                timeOccurred: null              
+                timeOccurred: null,
+                os: '',
+                arch: '',
+                nacl_arch: ''
             };
         },
         
@@ -44,6 +47,18 @@ define([
         
     });
     
+    //  TODO Maybe I should make an error manager.
+    var platformInfo = {
+        os: '',
+        arch: '',
+        nacl_arch: ''
+    };
+
+    chrome.runtime.getPlatformInfo(function(platformInfoResponse) {
+        platformInfo = platformInfoResponse;
+        console.log("PlatformInfo:", platformInfo);
+    });
+    
     //  Send a log message whenever any client errors occur; for debugging purposes.
     window.onerror = _.throttle(function (message, url, lineNumber) {
 
@@ -56,7 +71,10 @@ define([
             var error = new Error({
                 message: message,
                 url: url,
-                lineNumber: lineNumber
+                lineNumber: lineNumber,
+                os: platformInfo.os,
+                arch: platformInfo.arch,
+                nacl_arch: platformInfo.nacl_arch
             });
 
             error.save();

@@ -1,13 +1,10 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var PreviousButton = null;
-
-define([
-    'streamItems',
-    'player'
+﻿define([
+    'background/collection/streamItems',
+    'background/model/player'
 ], function (StreamItems, Player) {
     'use strict';
 
-    var previousButtonModel = Backbone.Model.extend({
+    var PreviousButton = Backbone.Model.extend({
         defaults: {
             enabled: false
         },
@@ -39,8 +36,8 @@ define([
 
         }, 100, true)
     });
-
-    PreviousButton = new previousButtonModel;
-
-    return PreviousButton;
+    
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.PreviousButton = new PreviousButton();
+    return window.PreviousButton;
 });

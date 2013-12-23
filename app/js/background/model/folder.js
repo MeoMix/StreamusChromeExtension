@@ -1,9 +1,9 @@
 ﻿//  A folder is a collection of playlists
 define([
-    'playlists',
-    'playlist',
-    'video',
-    'settings',
+    'background/collection/playlists',
+    'background/model/playlist',
+    'background/model/video',
+    'background/model/settings',
     'youTubeV2API',
     'youTubeV3API',
     'dataSource'
@@ -26,7 +26,7 @@ define([
             
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in folderDto) {
-                if (folderDto.hasOwnProperty(key) && folderDto[key] == '00000000-0000-0000-0000-000000000000') {
+                if (folderDto.hasOwnProperty(key) && folderDto[key] === '00000000-0000-0000-0000-000000000000') {
                     folderDto[key] = null;
                 }
             }

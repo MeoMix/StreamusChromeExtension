@@ -1,6 +1,6 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/editPlaylist.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/editPlaylist.htm'
 ], function (GenericForegroundView, EditPlaylistTemplate) {
     'use strict';
 

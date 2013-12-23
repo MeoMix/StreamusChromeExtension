@@ -1,16 +1,13 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var NextButton = null;
-
-define([
-    'streamItems',
-    'radioButton',
-    'shuffleButton',
-    'repeatButton',
-    'repeatButtonState'
+﻿define([
+    'background/collection/streamItems',
+    'background/model/buttons/radioButton',
+    'background/model/buttons/shuffleButton',
+    'background/model/buttons/repeatButton',
+    'enum/repeatButtonState'
 ], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
 
-    var nextButtonModel = Backbone.Model.extend({
+    var NextButton = Backbone.Model.extend({
         
         defaults: {
             enabled: false
@@ -72,7 +69,7 @@ define([
 
     });
 
-    NextButton = new nextButtonModel;
-
-    return NextButton;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.NextButton = new NextButton();
+    return window.NextButton;
 });

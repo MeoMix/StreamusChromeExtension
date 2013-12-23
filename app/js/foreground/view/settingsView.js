@@ -1,8 +1,8 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/settings.htm',
-    'player',
-    'settings'
+    'foreground/view/genericForegroundView',
+    'text!template/settings.htm',
+    'foreground/model/player',
+    'foreground/model/settings'
 ], function (GenericForegroundView, SettingsTemplate, Player, Settings) {
     'use strict';
 

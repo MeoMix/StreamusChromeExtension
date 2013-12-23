@@ -1,12 +1,12 @@
 ﻿define([
-    'genericForegroundView',
-    'contextMenuGroups',
+    'foreground/view/genericForegroundView',
+    'foreground/collection/contextMenuGroups',
     'utility',
-    'streamItems',
-    'text!../template/streamItem.htm',
-    'folders',
-    'playPauseButton',
-    'player'
+    'foreground/collection/streamItems',
+    'text!template/streamItem.htm',
+    'foreground/collection/folders',
+    'foreground/model/buttons/playPauseButton',
+    'foreground/model/player'
 ], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player) {
     'use strict';
 

@@ -1,7 +1,7 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/deletePlaylist.htm',
-    'settings'
+    'foreground/view/genericForegroundView',
+    'text!template/deletePlaylist.htm',
+    'foreground/model/settings'
 ], function (GenericForegroundView, DeletePlaylistTemplate, Settings) {
     'use strict';
 

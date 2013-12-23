@@ -59,11 +59,8 @@ define(function() {
             window.onYouTubePlayerAPIReady = function() {
                 this.set('ready', true);
             }.bind(this);
-            
-            $('<script>', {
-                src: 'https://www.youtube.com/iframe_api',
-                async: true
-            }).insertBefore($('script:first'));
+
+            $.getScript('https://www.youtube.com/iframe_api');
         }
     });
 

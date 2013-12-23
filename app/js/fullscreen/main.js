@@ -19,23 +19,8 @@ require.config({
         'backbone': 'thirdParty/backbone',
         'lodash': 'thirdParty/lodash',
 
-        //  Enum:
-        'playerState': 'enum/playerState',
-
-        //  Collection:
-        'streamItems': 'foreground/collection/streamItems',
-        'contextMenuGroups': 'foreground/collection/contextMenuGroups',
-        'contextMenuItems': 'foreground/collection/contextMenuItems',
-
         //  Model:
-        'player': 'foreground/model/player',
-        'contextMenu': 'foreground/model/contextMenu',
-        'contextMenuGroup': 'foreground/model/contextMenuGroup',
-        'contextMenuItem': 'foreground/model/contextMenuItem',
-
-        //  View -> Video:
-        'videoDisplayView': 'foreground/view/video/videoDisplayView',
-        'contextMenuView': 'foreground/view/contextMenuView'
+        'contextMenu': 'foreground/model/contextMenu'
     }
     
 });
@@ -44,7 +29,7 @@ require([
     'jquery',
     'backbone',
     'underscore'
-], function ($, Backbone, _) {
+], function () {
     'use strict';
 
     require(['fullscreen']);

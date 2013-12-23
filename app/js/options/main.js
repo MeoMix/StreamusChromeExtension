@@ -16,11 +16,6 @@ require.config({
     },
     
     paths: {
-        'options': 'options/options',
-        'settings': 'options/settings',
-        'settingsView': 'foreground/view/settingsView',
-        'player': 'options/player',
-        
         //  Third Party:
         'text': 'thirdParty/text',
         'jquery': 'thirdParty/jquery',
@@ -36,7 +31,7 @@ require([
     'backbone',
     'lodash',
     'jqueryUi'
-], function ($, Backbone, _) {
+], function () {
     'use strict';
 
     //  Load this once everything else is ready.

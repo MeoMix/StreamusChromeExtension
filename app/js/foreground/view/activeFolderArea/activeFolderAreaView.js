@@ -1,13 +1,13 @@
 ﻿define([
-    'genericForegroundView',
-    'activeFolderView',
-    'text!../template/activeFolderArea.htm',
-    'settingsView',
-    'genericPromptView',
-    'createPlaylistView',
-    'editPlaylistView',
-    'deletePlaylistButtonView',
-    'folders',
+    'foreground/view/genericForegroundView',
+    'foreground/view/activeFolderArea/activeFolderView',
+    'text!template/activeFolderArea.htm',
+    'foreground/view/settingsView',
+    'foreground/view/genericPromptView',
+    'foreground/view/createPlaylistView',
+    'foreground/view/editPlaylistView',
+    'foreground/view/activeFolderArea/deletePlaylistButtonView',
+    'foreground/collection/folders',
     'utility'
 ], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders, Utility) {
     'use strict';

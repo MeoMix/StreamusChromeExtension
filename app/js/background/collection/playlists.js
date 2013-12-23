@@ -1,4 +1,6 @@
-﻿define(['playlist'], function (Playlist) {
+﻿define([
+   'background/model/playlist'
+], function (Playlist) {
     'use strict';
 
     var Playlists = Backbone.Collection.extend({

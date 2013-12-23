@@ -1,9 +1,9 @@
 //  VolumeControlView represents the mute/unmute button as well as the volume slider.
 //  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
-    'genericForegroundView',
-    'text!../template/volumeControl.htm',
-    'player'
+    'foreground/view/genericForegroundView',
+    'text!template/volumeControl.htm',
+    'foreground/model/player'
 ], function (GenericForegroundView, VolumeControlTemplate, Player) {
     'use strict';
 

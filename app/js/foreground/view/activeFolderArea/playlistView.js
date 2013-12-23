@@ -1,12 +1,12 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/playlist.htm',
-    'contextMenuGroups',
-    'genericPromptView',
-    'deletePlaylistView',
-    'editPlaylistView',
-    'settings',
-    'folders'
+    'foreground/view/genericForegroundView',
+    'text!template/playlist.htm',
+    'foreground/collection/contextMenuGroups',
+    'foreground/view/genericPromptView',
+    'foreground/view/deletePlaylistView',
+    'foreground/view/editPlaylistView',
+    'foreground/model/settings',
+    'foreground/collection/folders'
 ], function (GenericForegroundView, PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders) {
     'use strict';
 

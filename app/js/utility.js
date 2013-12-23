@@ -1,7 +1,4 @@
-﻿define([
-    'jquery',
-    'backbone'
-], function ($, Backbone) {
+﻿define(function () {
     'use strict';
 
     var Utility = Backbone.Model.extend({

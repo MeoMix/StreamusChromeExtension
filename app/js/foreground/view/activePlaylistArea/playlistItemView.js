@@ -1,8 +1,8 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/playlistItem.htm',
-    'contextMenuGroups',
-    'streamItems'
+    'foreground/view/genericForegroundView',
+    'text!template/playlistItem.htm',
+    'foreground/collection/contextMenuGroups',
+    'foreground/collection/streamItems'
 ], function (GenericForegroundView, PlaylistItemTemplate, ContextMenuGroups, StreamItems) {
     'use strict';
 

@@ -1,12 +1,10 @@
-﻿var VideoSearchResults;
-
-define([
-    'videoSearchResult',
-    'video'
+﻿define([
+    'background/model/videoSearchResult',
+    'background/model/video'
 ], function (VideoSearchResult, Video) {
     'use strict';
 
-    var videoSearchResultsCollection = Backbone.Collection.extend({
+    var VideoSearchResults = Backbone.Collection.extend({
         model: VideoSearchResult,
         
         initialize: function () {
@@ -124,7 +122,7 @@ define([
         
     });
 
-    VideoSearchResults = new videoSearchResultsCollection;
-
-    return VideoSearchResults;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.VideoSearchResults = new VideoSearchResults();
+    return window.VideoSearchResults;
 });

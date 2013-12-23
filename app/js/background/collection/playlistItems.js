@@ -1,6 +1,6 @@
 ﻿define([
-    'playlistItem',
-    'settings'
+    'background/model/playlistItem',
+    'background/model/settings'
 ], function (PlaylistItem, Settings) {
    'use strict';
 
@@ -46,7 +46,7 @@
                         _.each(createdItems, function (createdItem) {
 
                             var matchingNewItem = self.find(function (newItem) {
-                                return newItem.cid == createdItem.cid;
+                                return newItem.cid === createdItem.cid;
                             });
                             //  Call parse to emulate going through the Model's save logic.
                             var parsedNewItem = matchingNewItem.parse(createdItem);

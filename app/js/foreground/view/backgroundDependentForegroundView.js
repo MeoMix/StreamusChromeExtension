@@ -3,23 +3,23 @@
 //  This means that the foreground module wrappers for background entities will return null on initial load -- causing errors.
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
-    'genericForegroundView',
-    'genericPromptView',
-    'activeFolderArea',
-    'activeFolderAreaView',
-    'activePlaylistAreaView',
-    'activePlaylistArea',
-    'videoSearchView',
-    'videoSearch',
-    'addSearchResults',
-    'addSearchResultsView',
-    'videoSearchResults',
-    'rightPaneView',
-    'videoDisplayView',
-    'folders',
-    'youTubePlayerError',
-    'notificationView',
-    'player'
+    'foreground/view/genericForegroundView',
+    'foreground/view/genericPromptView',
+    'foreground/model/activeFolderArea',
+    'foreground/view/activeFolderArea/activeFolderAreaView',
+    'foreground/view/activePlaylistArea/activePlaylistAreaView',
+    'foreground/model/activePlaylistArea',
+    'foreground/view/videoSearch/videoSearchView',
+    'foreground/model/videoSearch',
+    'foreground/model/addSearchResults',
+    'foreground/view/videoSearch/addSearchResultsView',
+    'foreground/collection/videoSearchResults',
+    'foreground/view/rightPane/rightPaneView',
+    'foreground/view/video/videoDisplayView',
+    'foreground/collection/folders',
+    'enum/youTubePlayerError',
+    'foreground/view/notificationView',
+    'foreground/model/player'
 ], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({

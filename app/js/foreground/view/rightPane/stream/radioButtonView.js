@@ -1,6 +1,6 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/radioButton.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/radioButton.htm'
 ], function (GenericForegroundView, RadioButtonTemplate) {
     'use strict';
 

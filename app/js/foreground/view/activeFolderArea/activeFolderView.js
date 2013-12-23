@@ -1,13 +1,13 @@
 //  This is the list of playlists on the playlists tab.
 define([
-    'genericForegroundView',
-    'text!../template/activeFolder.htm',
-    'contextMenuGroups',
+    'foreground/view/genericForegroundView',
+    'text!template/activeFolder.htm',
+    'foreground/collection/contextMenuGroups',
     'utility',
-    'streamItems',
-    'playlistView',
-    'genericPromptView',
-    'createPlaylistView'
+    'foreground/collection/streamItems',
+    'foreground/view/activeFolderArea/playlistView',
+    'foreground/view/genericPromptView',
+    'foreground/view/createPlaylistView'
 ], function (GenericForegroundView, ActiveFolderTemplate, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 

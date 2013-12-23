@@ -1,12 +1,9 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var RepeatButton = null;
-
-define([
-    'repeatButtonState'
+﻿define([
+    'enum/repeatButtonState'
 ], function (RepeatButtonState) {
     'use strict';
 
-    var repeatButtonModel = Backbone.Model.extend({
+    var RepeatButton = Backbone.Model.extend({
 
         defaults: {
             state: RepeatButtonState.Disabled
@@ -36,7 +33,7 @@ define([
 
     });
 
-    RepeatButton = new repeatButtonModel;
-
-    return RepeatButton;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.RepeatButton = new RepeatButton();
+    return window.RepeatButton;
 });

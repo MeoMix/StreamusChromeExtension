@@ -1,8 +1,8 @@
 define([
-    'genericForegroundView',
-    'player',
-    'playerState',
-    'text!../template/playPauseButton.htm'
+    'foreground/view/genericForegroundView',
+    'foreground/model/player',
+    'enum/playerState',
+    'text!template/playPauseButton.htm'
 ], function (GenericForegroundView, Player, PlayerState, PlayPauseButtonTemplate) {
     'use strict';
     

@@ -1,12 +1,12 @@
 ﻿define([
-    'genericForegroundView',
-    'streamItemsView',
-    'text!../template/stream.htm',
-    'repeatButtonView',
-    'shuffleButtonView',
-    'radioButtonView',
-    'saveStreamButtonView',
-    'clearStreamButtonView'
+   'foreground/view/genericForegroundView',
+    'foreground/view/rightPane/stream/streamItemsView',
+    'text!template/stream.htm',
+    'foreground/view/rightPane/stream/repeatButtonView',
+    'foreground/view/rightPane/stream/shuffleButtonView',
+    'foreground/view/rightPane/stream/radioButtonView',
+    'foreground/view/rightPane/stream/saveStreamButtonView',
+    'foreground/view/rightPane/stream/clearStreamButtonView'
 ], function (GenericForegroundView, StreamItemsView, StreamTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ClearStreamButtonView) {
     'use strict';
     

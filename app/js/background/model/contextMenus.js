@@ -1,17 +1,18 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
-    'streamItems',
-    'video',
+    'background/collection/streamItems',
+    'background/collection/folders',
+    'background/model/user',
+    'background/model/video',
+    'enum/dataSourceType',
     'youTubeV2API',
     'utility',
-    'folders',
-    'user',
-    'dataSource',
-    'dataSourceType'
-], function (StreamItems, Video, YouTubeV2API, Utility, Folders, User, DataSource, DataSourceType) {
+    'dataSource'
+], function (StreamItems, Folders, User, Video, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
+        
         //  Show the Streamus context menu items only when right-clicking on an appropriate target.
         documentUrlPatterns: ["*://*.youtube.com/watch?*", "*://*.youtu.be/*"],
         targetUrlPatterns: ["*://*.youtube.com/watch?*", "*://*.youtu.be/*"],
@@ -82,7 +83,6 @@ define([
             }));
             
             //  Create a sub menu item to hold all Playlists
-
             var playlistsContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 "title": chrome.i18n.getMessage('addToPlaylist'),
                 "parentId": streamusContextMenuId

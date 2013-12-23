@@ -1,10 +1,10 @@
 ﻿define([
-    'genericForegroundView',
-    'activePlaylistItemsView',
-    'text!../template/activePlaylistArea.htm',
-    'playAllButtonView',
-    'addAllButtonView',
-    'streamItems',
+    'foreground/view/genericForegroundView',
+    'foreground/view/activePlaylistArea/activePlaylistItemsView',
+    'text!template/activePlaylistArea.htm',
+    'foreground/view/activePlaylistArea/playAllButtonView',
+    'foreground/view/activePlaylistArea/addAllButtonView',
+    'foreground/collection/streamItems',
     'utility'
 ], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, StreamItems, Utility) {
     'use strict';

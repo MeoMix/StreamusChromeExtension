@@ -1,7 +1,7 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/saveVideos.htm',
-    'folders'
+    'foreground/view/genericForegroundView',
+    'text!template/saveVideos.htm',
+    'foreground/collection/folders'
 ], function (GenericForegroundView, SaveVideosTemplate, Folders) {
     'use strict';
 

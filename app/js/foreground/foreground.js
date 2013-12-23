@@ -1,11 +1,11 @@
 ﻿//  When the foreground is loaded it will load all the ui elements. Grouped like this so I can wait for the
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
-    'genericForegroundView',
-    'genericPromptView',
-    'reloadView',
-    'contextMenuView',
-    'contextMenuGroups'
+    'foreground/view/genericForegroundView',
+    'foreground/view/genericPromptView',
+    'foreground/view/reloadView',
+    'foreground/view/contextMenuView',
+    'foreground/collection/contextMenuGroups'
 ], function (GenericForegroundView, GenericPromptView, ReloadView, ContextMenuView, ContextMenuGroups) {
     'use strict';
 
@@ -128,7 +128,7 @@ define([
             clearTimeout(this.showReloadPromptTimeout);
             this.reloadPromptView.remove();
             
-            require(['backgroundDependentForegroundView']);
+            require(['foreground/view/backgroundDependentForegroundView']);
         }
         
     });

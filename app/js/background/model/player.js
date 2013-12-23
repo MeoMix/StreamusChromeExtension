@@ -1,17 +1,14 @@
-//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var YouTubePlayer = null;
-
 define([
-    'youTubePlayerAPI',
-    'settings',
-    'playerState'
+    'background/model/youTubePlayerAPI',
+    'background/model/settings',
+    'enum/playerState'
 ], function (YouTubePlayerAPI, Settings, PlayerState) {
     'use strict';
 
     //  This is the actual YouTube Player API object housed within the iframe.
     var youTubePlayer = null;
 
-    var youTubePlayerModel = Backbone.Model.extend({
+    var YouTubePlayer = Backbone.Model.extend({
         defaults: {
             //  Returns the elapsed time of the currently loaded video. Returns 0 if no video is playing
             currentTime: 0,
@@ -143,7 +140,7 @@ define([
                     }
                 });
 
-            };
+            }
         },
 
         cueVideoById: function (videoId, startSeconds) {
@@ -244,7 +241,7 @@ define([
         }
     });
 
-    YouTubePlayer = new youTubePlayerModel();
-
-    return YouTubePlayer;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.YouTubePlayer = new YouTubePlayer();
+    return window.YouTubePlayer;
 });

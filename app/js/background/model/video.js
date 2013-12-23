@@ -1,11 +1,11 @@
 ﻿//  Holds all the relevant data for a video.
 define([
-    'settings',
+    'background/model/settings',
     'utility'
 ], function (Settings, Utility) {
     'use strict';
 
-    var videoModel = Backbone.Model.extend({
+    var Video = Backbone.Model.extend({
         
         defaults: function () {
             
@@ -66,7 +66,7 @@ define([
             delete config.videoInformation;
         }
 
-        var video = new videoModel(config);
+        var video = new Video(config);
         return video;
     };
 });

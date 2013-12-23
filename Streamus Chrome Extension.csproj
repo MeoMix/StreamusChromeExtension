@@ -115,6 +115,8 @@
     <Content Include="app\js\background\model\videoSearchResult.js" />
     <Content Include="app\js\background\model\youTubePlayerAPI.js" />
     <Content Include="app\js\background\notifications.js" />
+    <Content Include="app\js\background\plugins.js" />
+    <Content Include="app\js\background\view\clipboardView.js" />
     <Content Include="app\js\dataSource.js" />
     <Content Include="app\js\enum\addSearchResultOptionType.js" />
     <Content Include="app\js\enum\dataSourceType.js" />
@@ -141,6 +143,7 @@
     <Content Include="app\js\foreground\model\settings.js" />
     <Content Include="app\js\foreground\model\streamAction.js" />
     <Content Include="app\js\foreground\model\videoSearch.js" />
+    <Content Include="app\js\foreground\plugins.js" />
     <Content Include="app\js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
     <Content Include="app\js\foreground\view\activeFolderArea\activeFolderView.js" />
     <Content Include="app\js\foreground\view\activeFolderArea\deletePlaylistButtonView.js" />
@@ -197,8 +200,7 @@
     <Content Include="app\js\inject\youTubeInject.js" />
     <Content Include="app\js\options\main.js" />
     <Content Include="app\js\options\options.js" />
-    <Content Include="app\js\options\player.js" />
-    <Content Include="app\js\options\settings.js" />
+    <Content Include="app\js\requireConfig.js" />
     <Content Include="app\js\thirdParty\async.js" />
     <Content Include="app\js\thirdParty\backbone.js" />
     <Content Include="app\js\thirdParty\bootstrap.min.js" />

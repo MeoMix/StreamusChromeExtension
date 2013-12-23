@@ -1,14 +1,14 @@
 //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
 //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
 define([
-    'playlistItems',
-    'playlistItem',
-    'settings',
-    'video',
-    'repeatButtonState',
-    'shareCode',
-    'shareableEntityType'
-], function (PlaylistItems, PlaylistItem, Settings, Video, RepeatButtonState, ShareCode, ShareableEntityType) {
+    'background/collection/playlistItems',
+    'background/model/playlistItem',
+    'background/model/settings',
+    'background/model/video',
+    'background/model/shareCode',
+    'enum/repeatButtonState',
+    'enum/shareableEntityType'
+], function (PlaylistItems, PlaylistItem, Settings, Video, ShareCode, RepeatButtonState, ShareableEntityType) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -35,7 +35,7 @@ define([
 
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in playlistDto) {
-                if (playlistDto.hasOwnProperty(key) && playlistDto[key] == '00000000-0000-0000-0000-000000000000') {
+                if (playlistDto.hasOwnProperty(key) && playlistDto[key] === '00000000-0000-0000-0000-000000000000') {
                     playlistDto[key] = null;
                 }
             }

@@ -1,10 +1,7 @@
-﻿//  Exposed globally so that Chrome Extension's foreground can access through chrome.extension.getBackgroundPage()
-var RadioButton = null;
-
-define(function () {
+﻿define(function () {
     'use strict';
 
-    var radioButtonModel = Backbone.Model.extend({
+    var RadioButton = Backbone.Model.extend({
 
         defaults: {
             enabled: false
@@ -16,7 +13,7 @@ define(function () {
 
     });
 
-    RadioButton = new radioButtonModel;
-
-    return RadioButton;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.RadioButton = new RadioButton();
+    return window.RadioButton;
 });

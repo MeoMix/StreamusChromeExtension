@@ -1,8 +1,8 @@
 define([
-    'genericForegroundView',
-    'text!../template/clearStreamButton.htm',
-    'streamItems',
-    'streamAction'
+    'foreground/view/genericForegroundView',
+    'text!template/clearStreamButton.htm',
+    'foreground/collection/streamItems',
+    'foreground/model/streamAction'
 ], function (GenericForegroundView, ClearStreamButtonTemplate, StreamItems, StreamAction) {
     'use strict';
 

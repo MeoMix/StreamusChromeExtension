@@ -8,7 +8,7 @@
 
         clearTimeout(closeNotificationTimeout);
 
-        var notificationOptions = _.extend({
+        var notificationOptions = _.extend({    
             type: 'basic',
             title: '',
             message: '',
@@ -37,17 +37,20 @@
         //  Expects options: { iconUrl: string, title: string, message: string }
         showNotification: function (options) {
             
-            //  TODO: Future version of Google Chrome will support permission levels on notifications.
-            if (chrome.notifications.getPermissionLevel) {
-                chrome.notifications.getPermissionLevel(function (permissionLevel) {
-                    if (permissionLevel === 'granted') {
-                        doShowNotification(options);
-                    }
-                });
-            } else {
-                doShowNotification(options);
+            //  TODO: Note: This API is currently available on ChromeOS, Windows, and Mac.
+            if (typeof chrome.notifications !== 'undefined') {
+                //  TODO: Future version of Google Chrome will support permission levels on notifications.
+                if (chrome.notifications.getPermissionLevel) {
+                    chrome.notifications.getPermissionLevel(function (permissionLevel) {
+                        if (permissionLevel === 'granted') {
+                            doShowNotification(options);
+                        }
+                    });
+                } else {
+                    doShowNotification(options);
+                }
             }
-            
+
         }
     };
 });

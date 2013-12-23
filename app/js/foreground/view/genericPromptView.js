@@ -1,6 +1,6 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/genericPrompt.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/genericPrompt.htm'
 ], function (GenericForegroundView, GenericPromptTemplate) {
     'use strict';
 

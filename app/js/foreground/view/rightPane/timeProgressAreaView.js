@@ -1,12 +1,12 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
 define([
-    'genericForegroundView',
-    'text!../template/timeProgressArea.htm',
-    'streamItems',
-    'player',
+    'foreground/view/genericForegroundView',
+    'text!template/timeProgressArea.htm',
+    'foreground/collection/streamItems',
+    'foreground/model/player',
     'utility',
-    'playerState',
-    'settings'
+    'enum/playerState',
+    'foreground/model/settings'
 ], function (GenericForegroundView, TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {
     'use strict';
 

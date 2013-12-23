@@ -1,7 +1,7 @@
 //  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
-    'genericForegroundView',
-    'text!../template/videoDisplayButton.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/videoDisplayButton.htm'
 ], function (GenericForegroundView, VideoDisplayButtonTemplate) {
     'use strict';
 

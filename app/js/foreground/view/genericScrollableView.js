@@ -1,5 +1,5 @@
 ﻿define([
-    'genericForegroundView'
+   'foreground/view/genericForegroundView'
 ], function (GenericForegroundView) {
     'use strict';
 

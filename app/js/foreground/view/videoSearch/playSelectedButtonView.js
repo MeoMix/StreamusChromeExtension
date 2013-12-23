@@ -1,8 +1,8 @@
 define([
-    'genericForegroundView',
-    'text!../template/playSelectedButton.htm',
-    'videoSearchResults',
-    'streamItems'
+    'foreground/view/genericForegroundView',
+    'text!template/playSelectedButton.htm',
+    'foreground/collection/videoSearchResults',
+    'foreground/collection/streamItems'
 ], function (GenericForegroundView, PlaySelectedButtonTemplate, VideoSearchResults, StreamItems) {
     'use strict';
 

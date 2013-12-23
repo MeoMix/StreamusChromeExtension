@@ -1,9 +1,9 @@
 define([
-    'genericForegroundView',
-    'text!../template/deletePlaylistButton.htm',
-    'folders',
-    'genericPromptView',
-    'deletePlaylistView'
+    'foreground/view/genericForegroundView',
+    'text!template/deletePlaylistButton.htm',
+    'foreground/collection/folders',
+    'foreground/view/genericPromptView',
+    'foreground/view/deletePlaylistView'
 ], function (GenericForegroundView, DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView) {
     'use strict';
 

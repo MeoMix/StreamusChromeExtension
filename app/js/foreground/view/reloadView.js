@@ -1,6 +1,6 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/reload.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/reload.htm'
 ], function (GenericForegroundView, ReloadTemplate) {
     'use strict';
 

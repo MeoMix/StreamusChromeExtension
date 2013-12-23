@@ -1,14 +1,14 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
-    'genericForegroundView',
-    'text!../template/rightPane.htm',
-    'streamView',
-    'playPauseButtonView',
-    'previousButtonView',
-    'nextButtonView',
-    'volumeControlView',
-    'timeProgressAreaView',
-    'videoDisplayButtonView'
+   'foreground/view/genericForegroundView',
+    'text!template/rightPane.htm',
+    'foreground/view/rightPane/stream/streamView',
+    'foreground/view/rightPane/playPauseButtonView',
+    'foreground/view/rightPane/previousButtonView',
+    'foreground/view/rightPane/nextButtonView',
+    'foreground/view/rightPane/volumeControlView',
+    'foreground/view/rightPane/timeProgressAreaView',
+    'foreground/view/rightPane/videoDisplayButtonView'
 ], function (GenericForegroundView, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView) {
     'use strict';
 

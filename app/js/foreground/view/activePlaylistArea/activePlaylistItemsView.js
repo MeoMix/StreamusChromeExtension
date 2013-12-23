@@ -1,10 +1,10 @@
 ﻿//  Represents the playlist items in a given playlist
 define([
-    'genericScrollableView',
-    'contextMenuGroups',
-    'streamItems',
-    'playlistItemView',
-    'text!../template/activePlaylistItems.htm',
+    'foreground/view/genericScrollableView',
+    'foreground/collection/contextMenuGroups',
+    'foreground/collection/streamItems',
+    'foreground/view/activePlaylistArea/playlistItemView',
+    'text!template/activePlaylistItems.htm',
     'utility'
 ], function (GenericScrollableView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';

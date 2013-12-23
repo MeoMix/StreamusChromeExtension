@@ -1,10 +1,10 @@
 ﻿define([
-    'genericForegroundView',
-    'videoSearchResultsView',
-    'text!../template/videoSearch.htm',
-    'playSelectedButtonView',
-    'saveSelectedButtonView',
-    'videoSearchResults'
+    'foreground/view/genericForegroundView',
+    'foreground/view/videoSearch/videoSearchResultsView',
+    'text!template/videoSearch.htm',
+    'foreground/view/videoSearch/playSelectedButtonView',
+    'foreground/view/videoSearch/saveSelectedButtonView',
+    'foreground/collection/videoSearchResults'
 ], function (GenericForegroundView, VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults) {
     'use strict';
 

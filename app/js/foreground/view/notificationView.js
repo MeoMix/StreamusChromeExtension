@@ -1,6 +1,6 @@
 ﻿define([
-    'genericForegroundView',
-    'text!../template/notification.htm'
+   'foreground/view/genericForegroundView',
+    'text!template/notification.htm'
 ], function (GenericForegroundView, NotificationTemplate) {
     'use strict';
 

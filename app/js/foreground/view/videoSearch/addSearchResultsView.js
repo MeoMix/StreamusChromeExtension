@@ -1,12 +1,12 @@
 ﻿define([
-    'text!../template/addSearchResults.htm',
-    'genericForegroundView',
-    'streamItems',
-    'videoSearchResults',
-    'addSearchResultOption',
-    'addSearchResultOptionView',
-    'addSearchResultPlaylistOptionsView',
-    'addSearchResultOptionType',
+    'text!template/addSearchResults.htm',
+    'foreground/view/genericForegroundView',
+    'foreground/collection/streamItems',
+    'foreground/collection/videoSearchResults',
+    'foreground/model/addSearchResultOption',
+    'foreground/view/videoSearch/addSearchResultOptionView',
+    'foreground/view/videoSearch/addSearchResultPlaylistOptionsView',
+    'enum/addSearchResultOptionType',
     'utility'
 ], function (AddSearchResultsTemplate, GenericForegroundView, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultPlaylistOptionsView, AddSearchResultOptionType, Utility) {
     'use strict';

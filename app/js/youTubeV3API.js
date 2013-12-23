@@ -1,9 +1,8 @@
 ﻿define([
-    'settings',
     'utility',
-    'dataSourceType',
+    'enum/dataSourceType',
     'googleAPI'
-], function (Settings, Utility, DataSourceType, GoogleAPI) {
+], function (Utility, DataSourceType, GoogleAPI) {
     'use strict';
 
     var YouTubeV3API = Backbone.Model.extend({
@@ -33,13 +32,13 @@
         //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
         setApiKey: function () {
             
-            if (Settings.get('testing')) {
+            //if (Settings.get('testing')) {
                 //  This key corresponds to: http://localhost
-                GoogleAPI.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
-            } else {
+                //GoogleAPI.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
+            //} else {
                 //  This key corresponds to: 71.93.45.93
                 GoogleAPI.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
-            }
+            //}
         },
         
         //  Fetching an auto-generated playlist requires YouTube's v3 API.

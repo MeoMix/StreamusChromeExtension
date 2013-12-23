@@ -1,7 +1,7 @@
 ﻿define([
-    'genericForegroundView',
-    'repeatButtonState',
-    'text!../template/repeatButton.htm'
+   'foreground/view/genericForegroundView',
+    'enum/repeatButtonState',
+    'text!template/repeatButton.htm'
 ], function (GenericForegroundView, RepeatButtonState, RepeatButtonTemplate) {
     'use strict';
 

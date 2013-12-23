@@ -1,7 +1,7 @@
 define([
-    'genericForegroundView',
-    'text!../template/playAllButton.htm',
-    'streamItems'
+    'foreground/view/genericForegroundView',
+    'text!template/playAllButton.htm',
+    'foreground/collection/streamItems'
 ], function (GenericForegroundView, PlayAllButtonTemplate, StreamItems) {
     'use strict';
 
