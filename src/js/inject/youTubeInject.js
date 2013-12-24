@@ -1,203 +1,245 @@
 //  This code runs on YouTube pages.
 $(function () {
-    'use strict';
+	'use strict';
 
-    //  Inject CSS here to give it priority over all other CSS loaded on the page.
-    var style = document.createElement('link');
-    style.rel = 'stylesheet';
-    style.type = 'text/css';
-    style.href = chrome.extension.getURL('css/youTubeInject.css');
-    document.head.appendChild(style);
+	//  Inject CSS here to give it priority over all other CSS loaded on the page.
+	var style = document.createElement('link');
+	style.rel = 'stylesheet';
+	style.type = 'text/css';
+	style.href = chrome.extension.getURL('css/youTubeInject.css');
+	document.head.appendChild(style);
 
-    var addButtonWrapper = $('<span>');
-    var youtubeButtonInsertLocation = $('#watch7-secondary-actions');
-    addButtonWrapper.insertBefore(youtubeButtonInsertLocation.children(':first'));
+	//console.log("youtubeInject");
 
-    var addButton = $('<button>', {
-        'class': 'action-panel-trigger yt-uix-button yt-uix-button-text yt-uix-tooltip',
-        title: chrome.i18n.getMessage('addVideoToStreamus'),
-        type: 'button',
-        role: 'button',
-        'data-button-toggle': true,
-        'data-trigger-for': 'action-panel-streamus'
-    });
-    addButton.appendTo(addButtonWrapper);
-    var addButtonContent = $('<span>', {
-        'class': 'yt-uix-button-content',
-        text: chrome.i18n.getMessage('addToStreamus')
-    });
-    addButtonContent.appendTo(addButton);
+	var bodyElem = $("body");
+	var firstLoad = true;
+	var waitingForLoad = false;
 
-    var streamusActionPanel = $('<div>', {
-        id: 'action-panel-streamus',
-        'class': 'action-panel-content',
-        'data-panel-loaded': true,
-        css: {
-            display: 'none',
-            padding: '18px 20px',
-            width: '600px'
-        }
-    });
+	var observer = new window.WebKitMutationObserver(function (mutations) {
+		//console.log(mutations);
+		if (firstLoad) {
+			//console.log("firstLoad");
+			firstLoad = false;
+			injectStreamusButtons();
+		}
+		else {
+			if (!waitingForLoad && !bodyElem.hasClass("page-loaded")) {
+				//console.log("waitingForLoad");
+				waitingForLoad = true;
+			}
+			else if (waitingForLoad && bodyElem.hasClass("page-loaded")) {
+				//console.log("page has loaded");
+				injectStreamusButtons();
+			}
+		}
 
-    var youtubePanelInsertLocation = $('#watch7-action-panels');
-    streamusActionPanel.insertBefore(youtubePanelInsertLocation.children(':first'));
+	});
 
-    var watchActionsSharePanel = $('<div>', {
-        
-    });
-    watchActionsSharePanel.appendTo(streamusActionPanel);
+	observer.observe(document.querySelector("body"), {attributes: true, attributeFilter: ["class"]});
 
-    var sharePanel = $('<div>', {
-        'class': 'share-panel'
-    });
-    sharePanel.appendTo(watchActionsSharePanel);
+	function injectStreamusButtons() {
+		var addButtonWrapper = $('<span>');
+		var youtubeButtonInsertLocation = $('#watch7-secondary-actions');
+		addButtonWrapper.insertBefore(youtubeButtonInsertLocation.children(':first'));
 
-    var sharePanelButtons = $('<div>', {
-        id: 'streamus-panel-buttons',
-        'class': 'share-panel-buttons'
-    });
-    sharePanelButtons.appendTo(sharePanel);
+		var addButton = $('<button>', {
+			'class': 'action-panel-trigger yt-uix-button yt-uix-button-text yt-uix-tooltip',
+			title: chrome.i18n.getMessage('addVideoToStreamus'),
+			type: 'button',
+			role: 'button',
+			'data-button-toggle': true,
+			'data-trigger-for': 'action-panel-streamus'
+		});
+		addButton.appendTo(addButtonWrapper);
+		var addButtonContent = $('<span>', {
+			'class': 'yt-uix-button-content',
+			text: chrome.i18n.getMessage('addToStreamus')
+		});
+		addButtonContent.appendTo(addButton);
 
-    var sharePanelMainButtons = $('<span>', {
-        'class': 'share-panel-main-buttons yt-uix-button-group',
-        'data-button-toggle-group': 'share-panels'
-    });
-    sharePanelMainButtons.appendTo(sharePanelButtons);
+		chrome.runtime.sendMessage({
+			method: "getYouTubeInjectClicked"
+		}, function (response) {
+			if (!response.result) {
+				addButton.addClass("notClickedYet");
+			}
+		});
 
-    var sharePanelPlaylistSelect = $('<div>', {
-        'class': 'share-panel-playlists-container'
-    });
-    sharePanelPlaylistSelect.appendTo(sharePanel);
+		var streamusActionPanel = $('<div>', {
+			id: 'action-panel-streamus',
+			'class': 'action-panel-content',
+			'data-panel-loaded': true,
+			css: {
+				display: 'none',
+				padding: '18px 20px',
+				width: '600px'
+			}
+		});
 
-    var selectPlaylistButton = $('<button>', {
-        type: 'button',
-        'class': 'share-panel-services yt-uix-button yt-uix-button yt-uix-button-text',
-        'data-button-toggle': true,
-        role: 'button',
-        onclick: function() {
-            return false;
-        }
-    });
+		var youtubePanelInsertLocation = $('#watch7-action-panels');
+		streamusActionPanel.insertBefore(youtubePanelInsertLocation.children(':first'));
 
-    selectPlaylistButton.appendTo(sharePanelMainButtons);
-    var selectPlaylistContent = $('<span>', {
-        'class': 'yt-uix-button-content',
-        text: chrome.i18n.getMessage('selectPlaylist')
-    });
+		var watchActionsSharePanel = $('<div>', {
 
-    selectPlaylistContent.appendTo(selectPlaylistButton);
+		});
+		watchActionsSharePanel.appendTo(streamusActionPanel);
 
-    var successEventNotification = $('<div>', {
-        id: 'successEventNotification',
-        text: chrome.i18n.getMessage('videoAddSuccess'),
-        'class': 'eventNotification'
-    });
-    successEventNotification.appendTo(sharePanelMainButtons);
+		var sharePanel = $('<div>', {
+			'class': 'share-panel'
+		});
+		sharePanel.appendTo(watchActionsSharePanel);
 
-    var errorEventNotification = $('<div>', {
-        id: 'errorEventNotification',
-        text: chrome.i18n.getMessage('errorEncountered'),
-        'class': 'eventNotification'
-    });
-    errorEventNotification.appendTo(sharePanelMainButtons);
+		var sharePanelButtons = $('<div>', {
+			id: 'streamus-panel-buttons',
+			'class': 'share-panel-buttons'
+		});
+		sharePanelButtons.appendTo(sharePanel);
 
-    var playlistSelect = $('<select>', {
-        id: 'playlistSelect',
-        'class': 'yt-uix-form-input-text share-panel-url'
-    });
+		var sharePanelMainButtons = $('<span>', {
+			'class': 'share-panel-main-buttons yt-uix-button-group',
+			'data-button-toggle-group': 'share-panels'
+		});
+		sharePanelMainButtons.appendTo(sharePanelButtons);
 
-    playlistSelect.appendTo(sharePanelPlaylistSelect);
+		var sharePanelPlaylistSelect = $('<div>', {
+			'class': 'share-panel-playlists-container'
+		});
+		sharePanelPlaylistSelect.appendTo(sharePanel);
 
-    var videoAddButton = $('<input>', {
-        type: 'button',
-        value: chrome.i18n.getMessage('addVideo'),
-        title: chrome.i18n.getMessage('addVideo'),
-        id: 'streamusVideoAddButton',
-        'class': 'yt-uix-button yt-uix-tooltip',
-        click: function() {
+		var selectPlaylistButton = $('<button>', {
+			type: 'button',
+			'class': 'share-panel-services yt-uix-button yt-uix-button yt-uix-button-text',
+			'data-button-toggle': true,
+			role: 'button',
+			onclick: function () {
+				return false;
+			}
+		});
 
-            $(this).val(chrome.i18n.getMessage('working'));
-            $(this).attr('disabled', true);
+		selectPlaylistButton.appendTo(sharePanelMainButtons);
+		var selectPlaylistContent = $('<span>', {
+			'class': 'yt-uix-button-content',
+			text: chrome.i18n.getMessage('selectPlaylist')
+		});
 
-            var match = document.URL.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
-            var videoId = (match && match[2].length === 11) ? match[2] : null;
+		selectPlaylistContent.appendTo(selectPlaylistButton);
 
-            var playlistId = playlistSelect.val();
+		var successEventNotification = $('<div>', {
+			id: 'successEventNotification',
+			text: chrome.i18n.getMessage('videoAddSuccess'),
+			'class': 'eventNotification'
+		});
+		successEventNotification.appendTo(sharePanelMainButtons);
 
-            var self = this;
-            chrome.runtime.sendMessage({
-                    method: "addVideoByIdToPlaylist",
-                    playlistId: playlistId,
-                    videoId: videoId
-                }, function(response) {
+		var errorEventNotification = $('<div>', {
+			id: 'errorEventNotification',
+			text: chrome.i18n.getMessage('errorEncountered'),
+			'class': 'eventNotification'
+		});
+		errorEventNotification.appendTo(sharePanelMainButtons);
 
-                    if (response.result === 'success') {
-                        $(self).removeAttr('disabled');
-                        $(self).val(chrome.i18n.getMessage('addVideo'));
-                        successEventNotification.fadeIn().css("display", "inline-block");
+		var playlistSelect = $('<select>', {
+			id: 'playlistSelect',
+			'class': 'yt-uix-form-input-text share-panel-url'
+		});
 
-                        setTimeout(function() {
-                            successEventNotification.fadeOut();
-                        }, 3000);
-                    } else {
-                        $(self).removeAttr('disabled');
-                        $(self).val(chrome.i18n.getMessage('addVideo'));
-                        errorEventNotification.fadeIn().css("display", "inline-block");
-                        setTimeout(function() {
-                            errorEventNotification.fadeOut();
-                        }, 3000);
-                    }
+		playlistSelect.appendTo(sharePanelPlaylistSelect);
+
+		var videoAddButton = $('<input>', {
+			type: 'button',
+			value: chrome.i18n.getMessage('addVideo'),
+			title: chrome.i18n.getMessage('addVideo'),
+			id: 'streamusVideoAddButton',
+			'class': 'yt-uix-button yt-uix-tooltip',
+			click: function () {
+
+				$(this).val(chrome.i18n.getMessage('working'));
+				$(this).attr('disabled', true);
+
+				var match = document.URL.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
+				var videoId = (match && match[2].length === 11) ? match[2] : null;
+
+				var playlistId = playlistSelect.val();
+
+				var self = this;
+				chrome.runtime.sendMessage({
+					method: "addVideoByIdToPlaylist",
+					playlistId: playlistId,
+					videoId: videoId
+				}, function (response) {
+
+					if (response.result === 'success') {
+						$(self).removeAttr('disabled');
+						$(self).val(chrome.i18n.getMessage('addVideo'));
+						successEventNotification.fadeIn().css("display", "inline-block");
+
+						setTimeout(function () {
+							successEventNotification.fadeOut();
+						}, 3000);
+					} else {
+						$(self).removeAttr('disabled');
+						$(self).val(chrome.i18n.getMessage('addVideo'));
+						errorEventNotification.fadeIn().css("display", "inline-block");
+						setTimeout(function () {
+							errorEventNotification.fadeOut();
+						}, 3000);
+					}
 
 
-                });
-        }
-    });
-    videoAddButton.appendTo(sharePanelPlaylistSelect);
+				});
+			}
+		});
+		videoAddButton.appendTo(sharePanelPlaylistSelect);
 
-    selectPlaylistButton.click(function() {
-        sharePanelPlaylistSelect.removeClass('hid');
-    });
+		selectPlaylistButton.click(function () {
+			sharePanelPlaylistSelect.removeClass('hid');
+		});
 
-    chrome.runtime.sendMessage({ method: "getFolders" }, function(getFoldersResponse) {
+		chrome.runtime.sendMessage({ method: "getFolders" }, function (getFoldersResponse) {
 
-        var folders = getFoldersResponse.folders;
+			var folders = getFoldersResponse.folders;
 
-        if (folders.length === 1) {
+			if (folders.length === 1) {
 
-            selectPlaylistButton.addClass('yt-uix-button-toggled');
-            sharePanelPlaylistSelect.removeClass('hid');
+				selectPlaylistButton.addClass('yt-uix-button-toggled');
+				sharePanelPlaylistSelect.removeClass('hid');
 
-            for (var i = 0; i < folders[0].playlists.length; i++) {
-                $('<option>', {
-                    value: folders[0].playlists[i].id,
-                    text: folders[0].playlists[i].title
-                }).appendTo(playlistSelect);
-            }
+				for (var i = 0; i < folders[0].playlists.length; i++) {
+					$('<option>', {
+						value: folders[0].playlists[i].id,
+						text: folders[0].playlists[i].title
+					}).appendTo(playlistSelect);
+				}
 
-        }
+			}
 
-    });
+		});
 
-    chrome.runtime.onMessage.addListener(function(request) {
-        switch (request.event) {
-        case 'add':
-            var playlistOption = $('<option>', {
-                value: request.data.id,
-                text: request.data.title
-            });
+		chrome.runtime.onMessage.addListener(function (request) {
+			switch (request.event) {
+				case 'add':
+					var playlistOption = $('<option>', {
+						value: request.data.id,
+						text: request.data.title
+					});
 
-            playlistOption.appendTo(playlistSelect);
-            break;
-        case 'remove':
-            playlistSelect.find('option[value="' + request.data.id + '"]').remove();
-            break;
-        case 'rename':
-            playlistSelect.find('option[value="' + request.data.id + '"]').text(request.data.title);
-            break;
-        default:
-            console.error("Unhandled request", request);
-            break;
-        }
-    });
+					playlistOption.appendTo(playlistSelect);
+					break;
+				case 'remove':
+					playlistSelect.find('option[value="' + request.data.id + '"]').remove();
+					break;
+				case 'rename':
+					playlistSelect.find('option[value="' + request.data.id + '"]').text(request.data.title);
+					break;
+				default:
+					console.error("Unhandled request", request);
+					break;
+			}
+		});
+	}
+
+
+
+
 
 });
