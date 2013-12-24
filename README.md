@@ -71,4 +71,5 @@ Authors
 =======
 
 * MeoMix - Original developer, main contributor.
+* MiracleBlue - Superstar co-developer extraordinare!
 * Misostc - Phenomenal user interfactor designer.
