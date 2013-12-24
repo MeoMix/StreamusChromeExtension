@@ -6,7 +6,7 @@
 //		*	grunt: Start up a server, run Jasmine test cases, watch for changes.
 //		*	grunt test: Start up a server, run Jasmine test cases.
 //		*	grunt lint: Display linter errors about the project
-//		*	grunt dist: Create a dist folder with a .zip containing the extension ready to be uploaded
+//		*	grunt production: Create a dist folder with a .zip containing the extension ready to be uploaded
 //
 //	See here for more information: http://gruntjs.com/sample-gruntfile
 'use strict';
@@ -19,6 +19,32 @@ module.exports = function (grunt) {
 		pkg: grunt.file.readJSON('package.json'),
 
 		//	Tasks:
+		concat: {
+			//  NOTE: Careful not to define separator as semi-colon here. It will error out on font-awesome CSS.
+			options: {
+				stripBanners: true
+			}
+		},
+
+		htmlmin: {
+			dist: {
+				options: {
+					removeComments: true,
+					collapseWhitespace: true,
+					collapseBooleanAttributes: true,
+					removeAttributeQuotes: true,
+					removeRedundantAttributes: true,
+					useShortDoctype: true,
+					removeEmptyAttributes: true,
+					removeOptionalTags: true
+				},
+				expand: true,
+				cwd: 'dist',
+				dest: 'dist/',
+				//  Don't minify template files becuase they can't be reliably parsed w/ javascript injected.
+				src: ['**/*.html', '!**/template/**']
+			}
+		},
 
 		//	Connect spins up tiny, quick servers for testing on
 		connect: {
@@ -27,10 +53,24 @@ module.exports = function (grunt) {
 			}
 		},
 
+		//  Compress image sizes and move to dist folder
+		imagemin: {
+
+			dynamic: {
+				files: [{
+					expand: true,
+					cwd: 'dist/img',
+					src: ['**/*.{png,jpg,gif}'],
+					dest: 'dist/img/'
+				}]
+			}
+
+		},
+
 		//	Jasmine is for running our test cases. This runs in a headless web browser using phantom-js which is pretty sweet.
 		jasmine: {
 			//	Here's all the JavaScript I want to consider when running test cases
-			src: 'app/js/*.js',
+			src: 'src/js/*.js',
 			options: {
 				//	Specs are all the cases I want to run
 				specs: 'test/js/spec/*Spec.js',
@@ -41,7 +81,7 @@ module.exports = function (grunt) {
 					requireConfigFile: 'test/js/main.js',
 					requireConfig: {
 						//	Override the base URL with one relative to the gruntfile.
-						baseUrl: 'app/js/',
+						baseUrl: 'src/js/',
 						//	Emulate main.js' initialization logic.
 						deps: ['settings', 'backbone', 'jquery','lodash'],
 						callback: function (Settings, Backbone, $, _) {
@@ -58,7 +98,7 @@ module.exports = function (grunt) {
 		//	Improve code quality by applying a code-quality check with jshint
 		jshint: {
 			//	Files to analyze: 
-			files: ['Gruntfile.js', 'app/js/**/*.js', 'test/js/**/*.js'],
+			files: ['Gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
 			
 			options: {
 				//	Override JSHint defaults for the extension
@@ -67,20 +107,63 @@ module.exports = function (grunt) {
 					console: true
 				},
 
+				//  TODO: I'd like to remove this relaxation from the linter at some point.
+				"eqnull": true,
+
 				//	Don't validate third-party libraries
-				ignores: ['app/js/thirdParty/**/*.js']
+				ignores: ['src/js/thirdParty/**/*.js']
 			}
 		},
 		
 		requirejs: {
 			production: {
-			    options: {
-                    baseUrl: './app/js',
-                    name: "../../app/js/background/main",
-					mainConfigFile: "app/js/background/main.js",
-					out: "optimized.js"
+				options: {
+					appDir: 'src',
+					dir: 'dist/',
+					//  Inlines the text for any text! dependencies, to avoid the separate
+					//  async XMLHttpRequest calls to load those dependencies.
+					inlineText: true,
+					stubModules: ['text'],
+					useStrict: true,
+					mainConfigFile: 'src/js/requireConfig.js',
+					//  List the modules that will be optimized. All their immediate and deep
+					//  dependencies will be included in the module's file when the build is done
+					//  TODO: Options and FullScreen both need updating.
+					modules: [{
+						name: 'background/main',
+						include: ['background/plugins']
+					}, {
+						name: 'background/background',
+						exclude: ['background/main', 'background/plugins']
+					}, {
+						name: 'foreground/main',
+						include: ['foreground/plugins']
+					}, {
+						name: 'foreground/foreground',
+						include: ['foreground/view/backgroundDependentForegroundView'],
+						exclude: ['foreground/main']
+					}],
+					optimize: 'uglify2',
+					//  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
+					optimizeCss: 'none',
+					preserveLicenseComments: false,
+					//  Don't leave a copy of the file if it has been concatenated into a larger one.
+					removeCombined: true,
+					//  Skip files which start with a . or end in vs-doc.js as well as CSS because it is handled by cssmin
+					fileExclusionRegExp: /^\.|vsdoc.js$|jasmine.js|jasmine-html.js|.css$|Web|Web.Debug|Web.Release/
 				}
+
 			}
+		},
+
+		useminPrepare: {
+			//  Target src here so CSS can still be found.
+			//  TODO: Options, Fullscreen
+			html: 'src/foreground.html'
+		},
+
+		usemin: {
+			html: 'dist/foreground.html'
 		},
 	
 		watch: {
@@ -90,40 +173,44 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-clean');
+	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-connect');
-	grunt.loadNpmTasks('grunt-contrib-copy');
+	grunt.loadNpmTasks('grunt-contrib-htmlmin');
+	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
+	grunt.loadNpmTasks('grunt-contrib-uglify');
+	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
 	grunt.registerTask('default', ['connect jasmine watch']);
 	grunt.registerTask('test', ['connect', 'jasmine']);
-	grunt.registerTask('production', ['requirejs']);
 	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
-	grunt.registerTask('dist', 'Cleanup the extension and zip it up.', function (version) {
+	grunt.registerTask('production', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file.', function (version) {
 
 		//	Update version number in manifest.json:
 		if (version === undefined) {
-			grunt.warn('dist must be called with a version. e.g.: dist:0.98');
+			grunt.warn('production must be called with a production version. e.g.: production:0.98');
 			return;
 		}
 
 		grunt.option('version', version);
 
-		grunt.task.run('dist-update-manifest-version', 'dist-remove-old-folder', 'dist-copy-source', 'dist-manifest-transform', 'dist-transform-settings', 'dist-compress');
+		grunt.task.run('lint', 'update-manifest-version', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'update-require-config-paths', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin', 'cleanup-dist-folder', 'compress-extension');
 	});
 
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
-	grunt.registerTask('dist-update-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
+	grunt.registerTask('update-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
 		grunt.config.set('replace', {
 			updateManifestVersion: {
-				src: ['app/manifest.json'],
+				src: ['src/manifest.json'],
 				overwrite: true,
 				replacements: [{
 					from: /"version": "\d{0,3}.\d{0,3}"/,
@@ -134,36 +221,57 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-	//	Cleanup any old dist folder to ensure only the files we want are put into the current release.
-	grunt.registerTask('dist-remove-old-folder', 'removes any previously existing dist folder', function () {
-		if (grunt.file.exists('dist')) {
-			//	Can't delete a full directory -- clean it up.
-			grunt.config.set('clean', ['dist']);
-			grunt.task.run('clean');
-			grunt.file.delete('dist');
-		}
-	});
-
-	//	Copy everything before transforming to not affect the originals.
-	grunt.registerTask('dist-copy-source', 'copy all the needed files to the dist directory', function () {
-
-		grunt.config.set('copy', {
-			copyExtension: {
-				expand: true,
-				src: 'app/**',
-				dest: 'dist'
+	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
+		//  TODO: Is this actually minifying? The files still seem abnormally large.
+		grunt.config.set('uglify', {
+			inject: {
+				files: {
+					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/bootstrap.min.js', 'src/js/inject/beatportInject.js'],
+					'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
+					'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
+					'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
+					'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+				}
 			}
 		});
-		grunt.task.run('copy');
-
+		grunt.task.run('uglify');
 	});
 
-	//	Remove debugging information from the manifest file
-	grunt.registerTask('dist-manifest-transform', 'removes debugging info from the manifest.json', function () {
+	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
+		if (grunt.file.exists('dist/template')) {
+			//	Can't delete a full directory -- clean it up.
+			grunt.config.set('clean', ['dist/template']);
+			grunt.task.run('clean');
+			grunt.file.delete('dist/template');
+		}
+
+		grunt.file.delete('dist/build.txt');
+	});
+
+	//  TODO: This is probably bad practice.
+	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
 
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
-				src: ['dist/app/manifest.json'],
+				src: ['dist/js/background/main.js', 'dist/js/foreground/main.js'],
+				overwrite: true,
+				replacements: [{
+					//  Change all main files paths to requireConfig for to be accurate for deployment.
+					from: '../requireConfig',
+					to: 'requireConfig'
+				}]
+			}
+		});
+
+		grunt.task.run('replace');
+	});
+
+	//	Remove debugging information from the manifest file
+	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
+
+		grunt.config.set('replace', {
+			removeDebuggingKeys: {
+				src: ['dist/manifest.json'],
 				overwrite: true,
 				replacements: [{
 					//	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
@@ -173,6 +281,26 @@ module.exports = function (grunt) {
 					//	Remove permissions that're only needed for debugging.
 					from: '"http://localhost:61975/Streamus/",',
 					to: ''
+				}, {
+					//  Transform inject javascript to reference uglified/concat versions for deployment.
+					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
+					to: '"js": ["js/inject/youTubeIFrameInject.js"]'
+				}, {
+					//  Transform inject javascript to reference uglified/concat versions for deployment.
+					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
+					to: '"js": ["js/inject/youTubeInject.js"]'
+				}, {
+					//  Transform inject javascript to reference uglified/concat versions for deployment.
+					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
+					to: '"js": ["js/inject/streamusShareInject.js"]'
+				}, {
+					//  Transform inject javascript to reference uglified/concat versions for deployment.
+					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
+					to: '"js": ["js/inject/streamusInject.js"]'
+				}, {
+					//  Transform inject javascript to reference uglified/concat versions for deployment.
+					from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]',
+					to: '"js": ["js/inject/beatportInject.js"]'
 				}]
 			}
 		});
@@ -181,11 +309,11 @@ module.exports = function (grunt) {
 	});
 
 	//	Remove debugging information from the JavaScript
-	grunt.registerTask('dist-transform-settings', 'ensure all the debugging flags are turned off in settings', function () {
+	grunt.registerTask('transform-settings', 'ensure all the debugging flags are turned off in settings', function () {
 
 		grunt.config.set('replace', {
 			transformSettings: {
-				src: ['dist/app/js/background/model/settings.js'],
+				src: ['dist/js/background/model/settings.js'],
 				overwrite: true,
 				replacements: [{
 					//	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
@@ -204,7 +332,7 @@ module.exports = function (grunt) {
 	});
 
 	//	Zip up the dist folder
-	grunt.registerTask('dist-compress', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
+	grunt.registerTask('compress-extension', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
 	
 		var zipFileName = 'Streamus v' + grunt.option('version') + '.zip';
 
@@ -220,7 +348,7 @@ module.exports = function (grunt) {
 					archive: zipFileName
 				},
 				files: [{
-					src: ['dist/app/**'],
+					src: ['dist/**'],
 					dest: 'streamus/'
 				}]
 

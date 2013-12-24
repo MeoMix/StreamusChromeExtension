@@ -1,10 +1,11 @@
 ﻿define([
-    'spec/dataSourceSpec',
-    'spec/errorSpec',
-    'spec/googleAPISpec',
-    'spec/utilitySpec',
-    'spec/youTubeV2APISpec',
-    'spec/youTubeV3APISpec'
+    'spec/backgroundDependentForegroundViewSpec'
+    //'spec/dataSourceSpec',
+    //'spec/errorSpec',
+    //'spec/googleAPISpec',
+    //'spec/utilitySpec',
+    //'spec/youTubeV2APISpec',
+    //'spec/youTubeV3APISpec'
 ], function () {
     'use strict';
 

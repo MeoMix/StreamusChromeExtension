@@ -11,14 +11,17 @@ Streamus consists of a front-end client, the Google Chrome extension, a back-end
 Client
 ------
 
-The Google Chrome extension utilizes the following libraries: 
+The Streamus extension utilizes many third-party libraries. Here's a list of those most prominent: 
 
 * [jQuery (v2.0.3)](http://jquery.com/)
 * [jQuery UI (v1.10.3)](http://jqueryui.com/)
+* [jQuery Transit (v0.9.9)](http://ricostacruz.com/jquery.transit/)
+* [jQuery qTip (v2.2.0)](http://qtip2.com/)
 * [BackboneJS (v1.1.0)](http://backbonejs.org/)
 * [RequireJS (v2.1.9)](http://requirejs.org/)
-* [Lo-Dash (v1.5.1)](http://lodash.com/)
+* [Lo-Dash (v2.2.1)](http://lodash.com/)
 * [Jasmine (v1.3.1)](http://pivotal.github.io/jasmine/)
+* [Selectize (v0.8.1)](http://brianreavis.github.io/selectize.js/)
 
 Installation
 ========
@@ -48,7 +51,9 @@ Supported Functionality
 Deployment
 ========
 
-Streamus Deploy.ps1 is used to prepare the extension for deployment to the Chrome Web Store. The first line of the powershell script should be updated with the current version of the extension. Running the powershell script will create a .zip file containing all of the relevant files. Additionally, debugging information is stripped out by the script. Manual deployment is not reccomended as there are quite a few pieces of debugging information which need to be removed.
+Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store. You'll need to have both of these pieces of software installed in order to build a distribution of Streamus.
+
+Once installed, simply run "grunt dist:0.103" to generate a distribution zip versioned at v0.103. 
 
 Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
  
