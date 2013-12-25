@@ -5,64 +5,64 @@ $(function() {
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'MusicHolder') {
 
-        var port = chrome.runtime.connect({
-            name: 'youTubeIFrameConnectRequest'
-        });
+        //var port = chrome.runtime.connect({
+        //    name: 'youTubeIFrameConnectRequest'
+        //});
 
         //  Monitor the video for change of src so that background can mimic player.
         var videoStream = $('.video-stream');
 
-        if (videoStream.length === 0) console.error("Expected to find a video stream element");
-        if (videoStream.length > 1) console.error("Expected to find only one video stream element, actual:" + videoStream.length);
+        //if (videoStream.length === 0) console.error("Expected to find a video stream element");
+        //if (videoStream.length > 1) console.error("Expected to find only one video stream element, actual:" + videoStream.length);
 
-        var lastPostedTime;
+        //var lastPostedTime;
 
-        //  TimeUpdate has awesome resolution, but we only display to the nearest second.
-        //  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
-        videoStream.on('timeupdate', function() {
+        ////  TimeUpdate has awesome resolution, but we only display to the nearest second.
+        ////  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
+        //videoStream.on('timeupdate', function() {
 
-            var currentTime = Math.ceil(this.currentTime);
+        //    var currentTime = Math.ceil(this.currentTime);
 
-            if (currentTime !== lastPostedTime) {
-                port.postMessage({
-                    currentTime: currentTime
-                });
+        //    if (currentTime !== lastPostedTime) {
+        //        port.postMessage({
+        //            currentTime: currentTime
+        //        });
 
-                lastPostedTime = currentTime;
-            }
+        //        lastPostedTime = currentTime;
+        //    }
 
-        });
-
-        videoStream.on('seeking', function() {
-
-            port.postMessage({
-                seeking: true
-            });
-
-        });
-
-        videoStream.on('seeked', function() {
-
-            port.postMessage({
-                seeking: false
-            });
-
-        });
-        
-        //var canvas = $('<canvas>', {
-        //    id: 'YouTubeVideoCanvas'
         //});
 
-        //$('body').append(canvas);
+        //videoStream.on('seeking', function() {
 
-        //var context = canvas[0].getContext('2d');
+        //    port.postMessage({
+        //        seeking: true
+        //    });
 
-        //setInterval(function () {
-        //    console.log("I am now drawing image onto context", context);
-        //    context.drawImage(videoStream[0], 0, 0, 200, 200);
+        //});
+
+        //videoStream.on('seeked', function() {
+
+        //    port.postMessage({
+        //        seeking: false
+        //    });
+
+        //});
+        
+        var canvas = $('<canvas>', {
+            id: 'YouTubeVideoCanvas'
+        });
+
+        $('body').append(canvas);
+
+        var context = canvas[0].getContext('2d');
+
+        setInterval(function () {
+            console.log("I am now drawing image onto context", context);
+            context.drawImage(videoStream[0], 0, 0, 200, 200);
             
-        //    console.log("Data URL:", canvas[0].toDataURL());
-        //}, 4000);
+            console.log("Data URL:", canvas[0].toDataURL());
+        }, 4000);
         
         //var observer = new window.WebKitMutationObserver(function (mutations) {
 
