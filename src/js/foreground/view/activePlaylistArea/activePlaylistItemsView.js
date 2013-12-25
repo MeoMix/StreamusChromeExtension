@@ -5,7 +5,7 @@ define([
     'foreground/collection/streamItems',
     'foreground/view/activePlaylistArea/playlistItemView',
     'text!template/activePlaylistItems.html',
-    'utility'
+    'common/model/utility'
 ], function (GenericScrollableView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
     'use strict';
 

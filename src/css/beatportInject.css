@@ -31,7 +31,7 @@ a.streamus {
     background-color: #439645;
 }
 
-.tooltip {
+/*.tooltip {
     font-weight: bold;
     font-size: 13px;
     font-family: sans-serif;
@@ -44,7 +44,7 @@ a.streamus {
     background-color: #333;
     white-space: nowrap;
     text-transform: none !important;
-}
+}*/
 
 /* Reduce top offset to account for streamus injected play button */
 div.top-download-row .playWrapper {

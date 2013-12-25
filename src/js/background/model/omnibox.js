@@ -2,8 +2,8 @@
 define([
     'background/collection/streamItems',
     'background/model/video',
-    'youTubeV2API',
-    'utility'
+    'common/model/youTubeV2API',
+    'common/model/utility'
 ], function (StreamItems, Video, YouTubeV2API, Utility) {
     'use strict';
 

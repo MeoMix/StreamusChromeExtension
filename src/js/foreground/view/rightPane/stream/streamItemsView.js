@@ -4,7 +4,7 @@
     'foreground/view/rightPane/stream/streamItemView',
     'text!template/streamItems.html',
     'foreground/collection/contextMenuGroups',
-    'utility',
+    'common/model/utility',
     'foreground/model/streamAction',
     'foreground/collection/folders'
 ], function (GenericScrollableView, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders) {

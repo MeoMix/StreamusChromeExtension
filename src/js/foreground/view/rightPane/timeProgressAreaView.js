@@ -4,7 +4,7 @@ define([
     'text!template/timeProgressArea.html',
     'foreground/collection/streamItems',
     'foreground/model/player',
-    'utility',
+    'common/model/utility',
     'enum/playerState',
     'foreground/model/settings'
 ], function (GenericForegroundView, TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {

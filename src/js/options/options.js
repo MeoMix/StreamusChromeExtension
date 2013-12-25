@@ -1,5 +1,5 @@
 ﻿define([
-    'foreground/view/settingsView'
+    'common/view/settingsView'
 ], function (SettingsView) {
     'use strict';
 

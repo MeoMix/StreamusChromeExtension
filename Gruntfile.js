@@ -7,6 +7,7 @@
 //		*	grunt test: Start up a server, run Jasmine test cases.
 //		*	grunt lint: Display linter errors about the project
 //		*	grunt production: Create a dist folder with a .zip containing the extension ready to be uploaded
+//      *   grunt deploy: Test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
 //
 //	See here for more information: http://gruntjs.com/sample-gruntfile
 'use strict';
@@ -23,6 +24,15 @@ module.exports = function (grunt) {
 			//  NOTE: Careful not to define separator as semi-colon here. It will error out on font-awesome CSS.
 			options: {
 				stripBanners: true
+			}
+		},
+		
+		cssmin: {
+			dist: {
+				files: {
+					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
+					'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
+				}
 			}
 		},
 
@@ -107,7 +117,7 @@ module.exports = function (grunt) {
 					console: true
 				},
 
-				//  TODO: I'd like to remove this relaxation from the linter at some point.
+                //  Don't whine about == on null vs undefined, it's a bit pedantic..
 				"eqnull": true,
 
 				//	Don't validate third-party libraries
@@ -125,10 +135,9 @@ module.exports = function (grunt) {
 					inlineText: true,
 					stubModules: ['text'],
 					useStrict: true,
-					mainConfigFile: 'src/js/requireConfig.js',
+					mainConfigFile: 'src/js/common/requireConfig.js',
 					//  List the modules that will be optimized. All their immediate and deep
 					//  dependencies will be included in the module's file when the build is done
-					//  TODO: Options and FullScreen both need updating.
 					modules: [{
 						name: 'background/main',
 						include: ['background/plugins']
@@ -142,6 +151,18 @@ module.exports = function (grunt) {
 						name: 'foreground/foreground',
 						include: ['foreground/view/backgroundDependentForegroundView'],
 						exclude: ['foreground/main']
+					}, {
+						name: 'options/main',
+						include: ['options/plugins']
+					}, {
+						name: 'options/options',
+						exclude: ['options/main', 'options/plugins']
+					}, {
+						name: 'fullscreen/main',
+						include: ['fullscreen/plugins']
+					}, {
+						name: 'fullscreen/fullscreen',
+						exclude: ['fullscreen/main', 'fullscreen/plugins']
 					}],
 					optimize: 'uglify2',
 					//  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
@@ -155,15 +176,14 @@ module.exports = function (grunt) {
 
 			}
 		},
-
+		
+		//  Target src not dist here so CSS references are still present.
 		useminPrepare: {
-			//  Target src here so CSS can still be found.
-			//  TODO: Options, Fullscreen
-			html: 'src/foreground.html'
+			html: ['src/foreground.html', 'src/fullscreen.html', 'src/options.html']
 		},
 
 		usemin: {
-			html: 'dist/foreground.html'
+			html: ['dist/foreground.html', 'dist/fullscreen.html', 'dist/options.html']
 		},
 	
 		watch: {
@@ -192,6 +212,10 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
+	grunt.registerTask('deploy', 'Useful for testing production. Just for debugging purposes and does not update manifest version', function() {
+		grunt.task.run('requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin',  'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+	});
+
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('production', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file.', function (version) {
 
@@ -203,7 +227,7 @@ module.exports = function (grunt) {
 
 		grunt.option('version', version);
 
-		grunt.task.run('lint', 'update-manifest-version', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'update-require-config-paths', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin', 'cleanup-dist-folder', 'compress-extension');
+		grunt.task.run('lint', 'update-manifest-version', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder', 'compress-extension');
 	});
 
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
@@ -222,11 +246,11 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
-		//  TODO: Is this actually minifying? The files still seem abnormally large.
+
 		grunt.config.set('uglify', {
 			inject: {
 				files: {
-					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/bootstrap.min.js', 'src/js/inject/beatportInject.js'],
+					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/jquery.qtip.js', 'src/js/inject/beatportInject.js'],
 					'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
 					'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
 					'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
@@ -234,6 +258,7 @@ module.exports = function (grunt) {
 				}
 			}
 		});
+	    
 		grunt.task.run('uglify');
 	});
 
@@ -248,17 +273,16 @@ module.exports = function (grunt) {
 		grunt.file.delete('dist/build.txt');
 	});
 
-	//  TODO: This is probably bad practice.
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
 
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
-				src: ['dist/js/background/main.js', 'dist/js/foreground/main.js'],
+				src: ['dist/js/**/main.js'],
 				overwrite: true,
 				replacements: [{
 					//  Change all main files paths to requireConfig for to be accurate for deployment.
-					from: '../requireConfig',
-					to: 'requireConfig'
+					from: '../common/requireConfig',
+					to: 'common/requireConfig'
 				}]
 			}
 		});
@@ -286,21 +310,50 @@ module.exports = function (grunt) {
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
 					to: '"js": ["js/inject/youTubeIFrameInject.js"]'
 				}, {
-					//  Transform inject javascript to reference uglified/concat versions for deployment.
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
 					to: '"js": ["js/inject/youTubeInject.js"]'
 				}, {
-					//  Transform inject javascript to reference uglified/concat versions for deployment.
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
 					to: '"js": ["js/inject/streamusShareInject.js"]'
 				}, {
-					//  Transform inject javascript to reference uglified/concat versions for deployment.
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
 					to: '"js": ["js/inject/streamusInject.js"]'
 				}, {
-					//  Transform inject javascript to reference uglified/concat versions for deployment.
-					from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/bootstrap.min.js", "js/inject/beatportInject.js"]',
+					from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/jquery.qtip.js", "js/inject/beatportInject.js"]',
 					to: '"js": ["js/inject/beatportInject.js"]'
+				}, {
+					//  Transform inject css to reference uglified/concat versions for deployment.
+					from: 'css/youTubeInject.css',
+					to: 'css/youTubeInject.min.css'
+				}, {
+					from: 'css/beatportInject.css',
+					to: 'css/beatportInject.min.css'
+				}, {
+					//  Remove jquery.qtip.css because it has been combined into beatportInject.min.css for deployment.
+					from: '"css/jquery.qtip.css",',
+					to: ''
+				}]
+			}
+		});
+
+		grunt.task.run('replace');
+	});
+
+	grunt.registerTask('transform-injected-js', 'transform inject files so that they reference minified versions of css', function() {
+
+		//var beatportCssUrl = 'css/beatportInject.css';
+		grunt.config.set('replace', {
+			transformSettings: {
+				src: ['dist/js/inject/beatportInject.js', 'dist/js/inject/youTubeInject.js'],
+				overwrite: true,
+				replacements: [{
+					//	Find the line that references beatportInject and change it to a minified reference.
+					from: 'var beatportCssUrl="css/beatportInject.css"',
+					to: 'var beatportCssUrl="css/beatportInject.min.css"'
+				}, {
+					//	Find the line that references youtubeInject and change it to a minified reference.
+					from: "chrome.extension.getURL('css/youTubeInject.css')",
+					to: "chrome.extension.getURL('css/youTubeInject.min.css')"
 				}]
 			}
 		});

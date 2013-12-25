@@ -4,9 +4,9 @@ define([
     'background/model/playlist',
     'background/model/video',
     'background/model/settings',
-    'youTubeV2API',
-    'youTubeV3API',
-    'dataSource'
+    'common/model/youTubeV2API',
+    'common/model/youTubeV3API',
+    'common/model/dataSource'
 ], function (Playlists, Playlist, Video, Settings, YouTubeV2API, YouTubeV3API, DataSource) {
     'use strict';
     

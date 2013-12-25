@@ -1,7 +1,7 @@
 ﻿define([
     'background/model/folder',
     'background/model/video',
-    'youTubeV2API'
+    'common/model/youTubeV2API'
 ], function (Folder, Video, YouTubeV2API) {
     'use strict';
 

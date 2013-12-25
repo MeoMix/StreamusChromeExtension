@@ -5,9 +5,9 @@ define([
     'background/model/user',
     'background/model/video',
     'enum/dataSourceType',
-    'youTubeV2API',
-    'utility',
-    'dataSource'
+    'common/model/youTubeV2API',
+    'common/model/utility',
+    'common/model/dataSource'
 ], function (StreamItems, Folders, User, Video, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 

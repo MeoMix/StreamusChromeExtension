@@ -15,7 +15,7 @@ define([
     'foreground/view/videoSearch/addSearchResultsView',
     'foreground/collection/videoSearchResults',
     'foreground/view/rightPane/rightPaneView',
-    'foreground/view/video/videoDisplayView',
+    'common/view/videoDisplayView',
     'foreground/collection/folders',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',

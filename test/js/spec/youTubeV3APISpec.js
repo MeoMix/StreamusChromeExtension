@@ -1,5 +1,5 @@
 ﻿define([
-    'youTubeV3API'
+    'common/model/youTubeV3API'
 ], function (YouTubeV3API) {
     'use strict';
 

@@ -1,7 +1,7 @@
 ﻿//  Holds all the relevant data for a video.
 define([
     'background/model/settings',
-    'utility'
+    'common/model/utility'
 ], function (Settings, Utility) {
     'use strict';
 

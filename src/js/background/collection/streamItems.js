@@ -8,8 +8,8 @@
     'background/model/buttons/repeatButton',
     'enum/repeatButtonState',
     'enum/playerState',
-    'utility',
-    'youTubeV2API'
+    'common/model/utility',
+    'common/model/youTubeV2API'
 ], function (Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
 

@@ -3,7 +3,7 @@ define([
     'foreground/view/genericForegroundView',
     'text!template/activeFolder.html',
     'foreground/collection/contextMenuGroups',
-    'utility',
+    'common/model/utility',
     'foreground/collection/streamItems',
     'foreground/view/activeFolderArea/playlistView',
     'foreground/view/genericPromptView',

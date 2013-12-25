@@ -1,6 +1,6 @@
 //  Start by loading the requireJS configuration file which is kept DRY between all pages:
 require([
-    '../requireConfig'
+    '../common/requireConfig'
 ], function () {
     'use strict';
 

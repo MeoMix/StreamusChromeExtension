@@ -3,7 +3,7 @@
     'foreground/view/videoSearch/videoSearchResultView',
     'foreground/collection/videoSearchResults',
     'text!template/videoSearchResults.html',
-    'utility',
+    'common/model/utility',
     'foreground/collection/contextMenuGroups',
     'foreground/collection/streamItems'
 ], function (GenericForegroundView, VideoSearchResultView, VideoSearchResults, VideoSearchResultsTemplate, Utility, ContextMenuGroups, StreamItems) {

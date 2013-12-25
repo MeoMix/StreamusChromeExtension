@@ -2,7 +2,6 @@
     'jquery',
     'lodash',
     'backbone',
-    'googleAPI',
     'googleAnalytics'
 ], function () {
 

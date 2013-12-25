@@ -1,16 +1,9 @@
 ﻿define([
-    'foreground/view/video/videoDisplayView'
+    'common/view/videoDisplayView'
 ], function (VideoDisplayView) {
     'use strict';
 
     var FullscreenView = Backbone.View.extend({
-
-        events: {
-        },
-
-        render: function(){
-
-        },
 
         initialize: function () {
 
@@ -63,9 +56,7 @@
                 return false;
                 
             });
-            
-            
-            
+
         }
 
     });

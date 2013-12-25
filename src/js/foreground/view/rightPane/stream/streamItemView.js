@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/view/genericForegroundView',
     'foreground/collection/contextMenuGroups',
-    'utility',
+    'common/model/utility',
     'foreground/collection/streamItems',
     'text!template/streamItem.html',
     'foreground/collection/folders',

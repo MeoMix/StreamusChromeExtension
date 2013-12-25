@@ -4,7 +4,7 @@
 define([
     'background/collection/folders',
     'background/model/settings',
-    'googleAPI'
+    'common/googleAPI'
 ], function (Folders, Settings, GoogleAPI) {
     'use strict';
 

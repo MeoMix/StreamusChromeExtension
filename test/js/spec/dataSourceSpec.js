@@ -1,5 +1,5 @@
 ﻿define([
-    'dataSource',
+    'common/model/dataSource',
     'enum/dataSourceType'
 ], function (DataSource, DataSourceType) {
     'use strict';

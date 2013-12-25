@@ -1,5 +1,5 @@
 ﻿define([
-    'googleAPI'
+    'common/googleAPI'
 ], function (GoogleAPI) {
     'use strict';
 

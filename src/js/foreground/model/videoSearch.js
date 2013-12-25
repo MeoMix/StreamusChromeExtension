@@ -1,9 +1,9 @@
 ﻿define([
     'foreground/collection/videoSearchResults',
     'enum/dataSourceType',
-    'youTubeV2API',
-    'utility',
-    'dataSource'
+    'common/model/youTubeV2API',
+    'common/model/utility',
+    'common/model/dataSource'
 ], function (VideoSearchResults, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 

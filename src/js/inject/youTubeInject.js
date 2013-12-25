@@ -1,13 +1,13 @@
+//  Inject CSS here to give it priority over all other CSS loaded on the page.
+var style = document.createElement('link');
+style.rel = 'stylesheet';
+style.type = 'text/css';
+style.href = chrome.extension.getURL('css/youTubeInject.css');
+document.head.appendChild(style);
+
 //  This code runs on YouTube pages.
 $(function () {
 	'use strict';
-
-	//  Inject CSS here to give it priority over all other CSS loaded on the page.
-	var style = document.createElement('link');
-	style.rel = 'stylesheet';
-	style.type = 'text/css';
-	style.href = chrome.extension.getURL('css/youTubeInject.css');
-	document.head.appendChild(style);
 
 	//console.log("youtubeInject");
 

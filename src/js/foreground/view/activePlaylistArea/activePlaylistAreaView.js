@@ -5,7 +5,7 @@
     'foreground/view/activePlaylistArea/playAllButtonView',
     'foreground/view/activePlaylistArea/addAllButtonView',
     'foreground/collection/streamItems',
-    'utility'
+    'common/model/utility'
 ], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, StreamItems, Utility) {
     'use strict';
 

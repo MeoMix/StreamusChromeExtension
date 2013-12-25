@@ -7,7 +7,7 @@
     'foreground/view/videoSearch/addSearchResultOptionView',
     'foreground/view/videoSearch/addSearchResultPlaylistOptionsView',
     'enum/addSearchResultOptionType',
-    'utility'
+    'common/model/utility'
 ], function (AddSearchResultsTemplate, GenericForegroundView, StreamItems, VideoSearchResults, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultPlaylistOptionsView, AddSearchResultOptionType, Utility) {
     'use strict';
 

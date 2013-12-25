@@ -1,36 +1,9 @@
-require.config({
-    
-    baseUrl: '../js/',
-    
-    shim: {
-
-        'backbone': {
-            //  These script dependencies should be loaded before loading backbone.js
-            deps: ['lodash', 'jquery'],
-            //  Once loaded, use the global 'Backbone' as the module value.
-            exports: 'Backbone'
-        }
-
-    },
-    
-    paths: {
-        'fullscreen': 'fullscreen/fullscreen',
-        'jquery': 'thirdParty/jquery',
-        'backbone': 'thirdParty/backbone',
-        'lodash': 'thirdParty/lodash',
-
-        //  Model:
-        'contextMenu': 'foreground/model/contextMenu'
-    }
-    
-});
-
+//  Start by loading the requireJS configuration file which is kept DRY between all pages:
 require([
-    'jquery',
-    'backbone',
-    'underscore'
+    '../common/requireConfig'
 ], function () {
     'use strict';
 
-    require(['fullscreen']);
+    //  Then, load all of the plugins needed by fullscreen:
+    require(['fullscreen/plugins']);
 });

@@ -3,7 +3,7 @@
     'text!template/createPlaylist.html',
     'foreground/collection/streamItems',
     'foreground/collection/folders',
-    'dataSource',
+    'common/model/dataSource',
     'enum/dataSourceType'
 ], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Folders, DataSource, DataSourceType) {
     'use strict';

@@ -1,13 +1,23 @@
 ﻿//  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
-var style = document.createElement('link');
-style.rel = 'stylesheet';
-style.type = 'text/css';
-style.href = chrome.extension.getURL('css/beatportInject.css');
-document.head.appendChild(style);
+var beatportCssUrl = 'css/beatportInject.css';
+
+var beatportInjectStylesheet = document.createElement('link');
+beatportInjectStylesheet.rel = 'stylesheet';
+beatportInjectStylesheet.type = 'text/css';
+beatportInjectStylesheet.href = chrome.extension.getURL(beatportCssUrl);
+document.head.appendChild(beatportInjectStylesheet);
+
+//  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
+if (beatportCssUrl == 'css/beatportInject.css') {
+    var style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.type = 'text/css';
+    style.href = chrome.extension.getURL('css/jquery.qtip.css');
+    document.head.appendChild(style);
+}
 
 //  This code runs on beatport.com domains.
 $(function () {
-
     'use strict';
 
     injectIconsBasedOnUrl();
@@ -151,7 +161,11 @@ function buildAndAppendButtonBeforeSelector(selectorToAppendBefore, trackName, t
     var streamusLogoIcon = buildStreamusLogoIcon();
 
     selectorToAppendBefore.before(streamusPlayButton.add(streamusLogoIcon));
-    streamusPlayButton.tooltip();
+    streamusPlayButton.qtip({
+        style: {
+            classes: 'qtip-light qtip-shadow'
+        }
+    });
 }
 
 function appendPlayAllButtonBeforeSelector(selector) {
@@ -182,8 +196,11 @@ function appendPlayAllButtonBeforeSelector(selector) {
     var streamusLogoIcon = buildStreamusLogoIcon();
     
     selectorToAppendBefore.before(streamusPlayAllButton.add(streamusLogoIcon));
-    streamusPlayAllButton.tooltip();
-    
+    streamusPlayAllButton.qtip({
+        style: {
+            classes: 'qtip-light qtip-shadow'
+        }
+    });
 }
 
 function buildStreamusLogoIcon() {

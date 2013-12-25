@@ -1,39 +1,9 @@
-require.config({
-    
-    baseUrl: '../js/',
-    
-    shim: {
-
-        'backbone': {
-            //  These script dependencies should be loaded before loading backbone.js
-            deps: ['lodash', 'jquery'],
-            //  Once loaded, use the global 'Backbone' as the module value.
-            exports: 'Backbone'
-        },
-        
-        //  For "modules" that are just jQuery or Backbone plugins that do not need to export any module value, the shim config can just be an array of dependencies:
-        'jqueryUi': ['jquery']
-    },
-    
-    paths: {
-        //  Third Party:
-        'text': 'thirdParty/text',
-        'jquery': 'thirdParty/jquery',
-        'jqueryUi': 'thirdParty/jqueryUi',
-        'backbone': 'thirdParty/backbone',
-        'lodash': 'thirdParty/lodash',
-    }
-    
-});
-
+//  Start by loading the requireJS configuration file which is kept DRY between all pages:
 require([
-    'jquery',
-    'backbone',
-    'lodash',
-    'jqueryUi'
+    '../common/requireConfig'
 ], function () {
     'use strict';
 
-    //  Load this once everything else is ready.
-    require(['options']);
+    //  Then, load all of the plugins needed by options:
+    require(['options/plugins']);
 });
