@@ -118,7 +118,15 @@
     <Content Include="src\js\background\notifications.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
+    <Content Include="src\js\common\googleAPI.js" />
     <Content Include="src\js\common\model\dataSource.js" />
+    <Content Include="src\js\common\model\utility.js" />
+    <Content Include="src\js\common\model\youTubeV2API.js" />
+    <Content Include="src\js\common\model\youTubeV3API.js" />
+    <Content Include="src\js\common\requireConfig.js" />
+    <Content Include="src\js\common\view\settingsView.js" />
+    <Content Include="src\js\common\view\videoDisplayView.js" />
+    <Content Include="src\js\common\view\videoView.js" />
     <Content Include="src\js\enum\addSearchResultOptionType.js" />
     <Content Include="src\js\enum\dataSourceType.js" />
     <Content Include="src\js\enum\playerState.js" />
@@ -181,7 +189,6 @@
     <Content Include="src\js\foreground\view\rightPane\videoDisplayButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\volumeControlView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
-    <Content Include="src\js\common\view\settingsView.js" />
     <Content Include="src\js\foreground\view\videoSearch\addSearchResultOptionView.js" />
     <Content Include="src\js\foreground\view\videoSearch\addSearchResultPlaylistOptionsView.js" />
     <Content Include="src\js\foreground\view\videoSearch\addSearchResultsView.js" />
@@ -190,10 +197,8 @@
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultsView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
-    <Content Include="src\js\foreground\view\video\videoDisplayView.js" />
     <Content Include="src\js\fullscreen\fullscreen.js" />
     <Content Include="src\js\fullscreen\main.js" />
-    <Content Include="src\js\googleAPI.js" />
     <Content Include="src\js\inject\beatportInject.js" />
     <Content Include="src\js\inject\streamusInject.js" />
     <Content Include="src\js\inject\streamusShareInject.js" />
@@ -201,11 +206,8 @@
     <Content Include="src\js\inject\youTubeInject.js" />
     <Content Include="src\js\options\main.js" />
     <Content Include="src\js\options\options.js" />
-    <Content Include="src\js\options\plugins.js" />
-    <Content Include="src\js\requireConfig.js" />
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
-    <Content Include="src\js\thirdParty\bootstrap.min.js" />
     <Content Include="README.md" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
@@ -225,9 +227,6 @@
     <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
-    <Content Include="src\js\common\model\utility.js" />
-    <Content Include="src\js\common\model\youTubeV2API.js" />
-    <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\options.html" />
     <Content Include="src\template\activeFolder.html" />
     <Content Include="src\template\activeFolderArea.html" />

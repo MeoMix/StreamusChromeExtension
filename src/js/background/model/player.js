@@ -74,6 +74,10 @@ define([
 
                     port.onMessage.addListener(function (message) {
                         
+                        if (message.canvasDataURL !== undefined) {
+                            self.set('canvasDataUrl', message.canvasDataURL).trigger('change:canvasDataUrl');
+                        }
+                        
                         //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
                         if (message.currentTime !== undefined) {
                             self.set('currentTime', message.currentTime);
@@ -119,6 +123,7 @@ define([
                 youTubePlayer = new window.YT.Player('MusicHolder', {
                     width: 480,
                     height: 360,
+                    videoId: 'M7lc1UVf-VE',
                     events: {
                         'onReady': function () {
 

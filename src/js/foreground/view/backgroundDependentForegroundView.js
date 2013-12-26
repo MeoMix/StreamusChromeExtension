@@ -36,8 +36,8 @@ define([
         events: {
 
             'click #addVideosButton': 'onClickShowVideoSearch',
-            'click #activePlaylistArea button.show': 'showActiveFolderArea'
-            //'click #videoDisplayButton': 'onClickShowVideoDisplay'
+            'click #activePlaylistArea button.show': 'showActiveFolderArea',
+            'click #videoDisplayButton': 'onClickShowVideoDisplay'
 
         },
 

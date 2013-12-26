@@ -27,8 +27,9 @@ define([
         backgroundUser: chrome.extension.getBackgroundPage().User,
 
         initialize: function () {
+            //  TODO: Maybe track foreground vs background..
             chrome.extension.getBackgroundPage()._gaq.push(['_trackPageview']);
-            
+
             var self = this;
             
             this.$el.append(this.contextMenuView.render().el);

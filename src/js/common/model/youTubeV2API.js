@@ -1,7 +1,7 @@
 ﻿//  A static object shared between the foreground and background which abstracts more difficult implementations of retrieving data from YouTube.
 define([
     'enum/dataSourceType',
-    'utility'
+    'common/model/utility'
 ], function (DataSourceType, Utility) {
     'use strict';
 
