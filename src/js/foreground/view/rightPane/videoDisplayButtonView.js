@@ -1,10 +1,12 @@
 //  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
-   'foreground/view/genericForegroundView',
+    'foreground/view/genericForegroundView',
+    'foreground/model/buttons/videoDisplayButton',
     'text!template/videoDisplayButton.html'
-], function (GenericForegroundView, VideoDisplayButtonTemplate) {
+], function (GenericForegroundView, VideoDisplayButton, VideoDisplayButtonTemplate) {
     'use strict';
 
+    //  TODO: Not always rendered under right pane.
     var VideoDisplayButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
@@ -14,7 +16,7 @@ define([
         template: _.template(VideoDisplayButtonTemplate),
         
         //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
-        model: chrome.extension.getBackgroundPage().VideoDisplayButton,
+        model: VideoDisplayButton,
         
         events: {
             'click': 'toggleVideoDisplay'
@@ -29,18 +31,15 @@ define([
         
         render: function () {
             this.$el.html(this.template(this.model.toJSON()));
-            this.$el.toggleClass('disabled', true);
-            this.$el.attr('title', 'Video disabled until a bug is fixed in Google Chrome. Working on it!');
 
-            //var enabled = this.model.get('enabled');
-
-            //this.$el.toggleClass('enabled', enabled);
+            var enabled = this.model.get('enabled');
+            this.$el.toggleClass('enabled', enabled);
             
-            //if (enabled) {
-            //    this.$el.attr('title', this.enabledTitle);
-            //} else {
-            //    this.$el.attr('title', this.disabledTitle);
-            //}
+            if (enabled) {
+                this.$el.attr('title', this.enabledTitle);
+            } else {
+                this.$el.attr('title', this.disabledTitle);
+            }
             
             return this;
         },
@@ -51,6 +50,7 @@ define([
         
         toggleVideoDisplay: function () {
             if (!this.$el.hasClass('disabled')) {
+                console.log("Toggling enabled!");
                 this.model.toggleEnabled();
             }
             

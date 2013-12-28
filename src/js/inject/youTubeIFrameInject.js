@@ -56,46 +56,34 @@ $(function() {
         $('body').append(canvas);
 
         var context = canvas[0].getContext('2d');
+
+        //  Whenever the foreground connects to the iframe -- start streaming canvas information through the port to it.
+        var streamingCanvasInterval;
         
         chrome.runtime.onConnect.addListener(function (videoViewPort) {
 
             if (videoViewPort.name === 'videoViewPort') {
 
-                setInterval(function () {
-                    console.log("Posting");
+                streamingCanvasInterval = setInterval(function () {
+                    console.log("streaming canvas...");
                     
                     context.drawImage(videoStream[0], 0, 0, 480, 360);
                     
                     videoViewPort.postMessage({
                         dataUrl: canvas[0].toDataURL()
                     });
+                    //  Run at 60 FPS. Can't use window.requestAnimationFrame because the iframe is on an invisible background page.
+                    //  This causes the browser to never yield an animation frame because it is never visible.
                 }, 1000 / 60);
+
+                videoViewPort.onDisconnect.addListener(function () {
+                    console.log("Port is disconnecting.");
+                    clearInterval(streamingCanvasInterval);
+                });
+
             }
 
         });
-
-        //var observer = new window.WebKitMutationObserver(function (mutations) {
-
-        //    if (mutations.length > 1) throw "Expected to receive only one mutation, actual: " + mutations.length;
-
-        //    var srcMutation = mutations[0];
-        //    var videoStreamSrc = srcMutation.target.getAttribute(srcMutation.attributeName);
-
-        //    console.log("VideoStreamSrc has changed:", videoStreamSrc);
-
-        //    if (videoStreamSrc && $.trim(videoStreamSrc) != '') {
-
-        //        port.postMessage({
-        //            videoStreamSrc: videoStreamSrc
-        //        });
-
-        //    }
-        //});
-
-        //observer.observe(videoStream[0], {
-        //    attributes: true,
-        //    attributeFilter: ['src']
-        //});
 
     }
 

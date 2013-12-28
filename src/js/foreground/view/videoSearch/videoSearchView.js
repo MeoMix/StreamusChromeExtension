@@ -83,7 +83,7 @@
             
             this.$el.transition({
                 x: this.$el.width()
-            },  instant ? 0 : undefined, 'snap');
+            }, instant ? 0 : undefined, 'snap');
 
             var searchInput = $('.searchBar input');
             searchInput.focus();

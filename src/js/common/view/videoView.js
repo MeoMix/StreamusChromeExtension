@@ -14,7 +14,7 @@
         events: {
             'click': 'togglePlayerState',
             'dblclick': 'goFullScreen',
-            'contextmenu': 'showContextMenu'
+            //'contextmenu': 'showContextMenu'
         },
         
         attributes: {
@@ -29,6 +29,25 @@
         render: function () {
 
             this.draw();
+
+            console.log("Connecting to iframe...");
+
+            //this.port = chrome.runtime.connect({
+            //    name: 'videoViewPort'
+            //});
+            
+            //this.port.onMessage.addListener(function (message) {
+            //    console.log('port onMessage:', message);
+
+            //    //  TODO: I'm drawing an image when I feel like I should be able to do it with image data...
+
+            //    var image = new Image();
+            //    image.onload = function () {
+            //        this.context.drawImage(image, 0, 0, 480, 360);
+            //    }.bind(this);
+            //    image.src = message.dataUrl;
+
+            //}.bind(this));
 
             return this;
         },
@@ -49,23 +68,15 @@
                 }
 
             });
+            
             this.listenTo(Player, 'change:state', this.draw);
             this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.draw);
-           
-            this.port = chrome.runtime.connect({
-                name: 'videoViewPort'
-            });
-
-            this.port.onMessage.addListener(function(message) {
-                console.log('port onMessage:', message);
-                
-                var image = new Image();
-                image.onload = function () {
-                    this.context.drawImage(image, 0, 0, 480, 360);
-                }.bind(this);
-                image.src = message.dataUrl;
-
+            
+            //  Cleanup port connection whenever foreground closes to ensure that iframe doesn't pump data to nowhere.
+            $(window).unload(function () {
+                this.disconnectPort();
             }.bind(this));
+
         },
         
         drawImage: function() {
@@ -76,7 +87,13 @@
             //image.src = Player.get('canvasDataUrl');
         },
         
-
+        disconnectPort: function() {
+            if (this.port !== null) {
+                this.port.disconnect();
+                this.port = null;
+            }
+        },
+        
         draw: function() {
 
             //window.requestAnimationFrame(function() {

@@ -9,6 +9,7 @@
         
         toggleEnabled: function () {
             this.set('enabled', !this.get('enabled'));
+            console.log("I am now:", this.get('enabled'));
         },
         
         //  TODO: Implement toggle on/off video via keyboard shortcut.

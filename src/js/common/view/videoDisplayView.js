@@ -34,27 +34,57 @@ define([
             ));
 
             this.panel = this.$el.find('.panel');
-            
             this.panel.append(this.videoView.render().el);
+
+            var topBarRightGroup = this.panel.find('.top-bar .right-group');
+            topBarRightGroup.append(this.videoDisplayButtonView.render().el);
 
             return this;
         },
 
         initialize: function () {
 
+            console.log("Listening to model:", this.videoDisplayButtonView.model);
+
+            this.listenTo(this.videoDisplayButtonView.model, 'change:enabled', function (model, enabled) {
+                console.log("Enabled changed!");
+                if (!enabled) {
+                    this.hide();
+                }
+            });
         },
 
-        show: function () {
+        show: function (instant) {
 
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
-            }, 'snap');
+            }, instant ? 0 : undefined, 'snap');
 
             this.panel.transition({
                 x: this.$el.width()
-            }, 'snap');
+            }, instant ? 0 : undefined, 'snap');
 
+            console.log("VideoDisplayView is showing");
+
+        },
+
+        hide: function () {
+
+            console.log("Hiding!");
+
+            this.$el.transition({
+                'background': this.$el.data('background')
+            }, function () {
+                //  Make sure the YouTube iframe doesn't keep spamming messages to the foreground by disconnect port.
+                this.videoView.disconnectPort();
+                this.remove();
+            }.bind(this));
+
+            this.panel.transition({
+                x: -20
+            });
+           
         }
     });
 

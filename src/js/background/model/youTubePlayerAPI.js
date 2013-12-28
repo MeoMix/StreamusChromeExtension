@@ -30,7 +30,7 @@ define(function() {
                     });
                 } else {
                     refererRequestHeader.value = refererUrl;
-                }
+                }   
 
                 //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if the video has an ad.
                 var userAgentRequestHeader = _.find(info.requestHeaders, function (requestHeader) {

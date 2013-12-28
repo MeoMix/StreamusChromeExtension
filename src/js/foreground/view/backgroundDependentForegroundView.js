@@ -19,8 +19,9 @@ define([
     'foreground/collection/folders',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
-    'foreground/model/player'
-], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player) {
+    'foreground/model/player',
+    'foreground/model/buttons/videoDisplayButton'
+], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({
         //  Same as ForegroundView's element. That is OK.
@@ -37,6 +38,7 @@ define([
 
             'click #addVideosButton': 'onClickShowVideoSearch',
             'click #activePlaylistArea button.show': 'showActiveFolderArea',
+            //  TODO: I think the fact that there are more than 1 videoDisplayButton is fucking with this event listener?
             'click #videoDisplayButton': 'onClickShowVideoDisplay'
 
         },
@@ -46,6 +48,10 @@ define([
 
             this.showActivePlaylistArea();
             this.showVideoSearch(true);
+            
+            if (VideoDisplayButton.get('enabled')) {
+                this.showVideoDisplay(true);
+            }
             
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
@@ -108,16 +114,28 @@ define([
         },
 
         onClickShowVideoDisplay: function () {
-
+            this.showVideoDisplay(false);
+        },
+        
+        showVideoDisplay: function(instant) {
+            console.log("This.videoDisplayView:", this.videoDisplayView);
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
 
-                this.videoDisplayView = new VideoDisplayView({
-
-                });
+                console.log("Creating a new VideoDisplayView!");
+                this.videoDisplayView = new VideoDisplayView();
 
                 this.$el.append(this.videoDisplayView.render().el);
-                this.videoDisplayView.show();
+                this.videoDisplayView.show(instant);
+                console.log("showing instantly!");
+                
+                this.listenTo(VideoDisplayButton, 'change:enabled', function (model, enabled) {
+                    //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
+                    if (!enabled) {
+                        this.videoDisplayView = null;
+                    }
+                });
+                
             }
 
         },
