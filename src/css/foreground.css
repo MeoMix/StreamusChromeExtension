@@ -1,6 +1,7 @@
 ﻿html {
     width: 630px;
-    height: 540px;
+    height: 410px;
+    /*height: 540px;*/
 }
 
 body {
@@ -741,7 +742,8 @@ input.valid {
     z-index: 1
 }
 
-.right-pane .top-bar {
+.right-pane .top-bar, 
+#videoDisplay .top-bar{
     display: block;
     height: 44px;
     left: 10px;
@@ -835,7 +837,8 @@ input.valid {
     z-index: 1;
 }
 
-.right-pane .top-bar .right-group {
+.right-pane .top-bar .right-group,
+#videoDisplay .top-bar .right-group{
     bottom: 0;
     display: block;
     position: absolute;
@@ -998,6 +1001,11 @@ input.valid {
     right: 0;
     top: 0;
     z-index: 50;
+}
+
+#videoDisplay canvas {
+    position: absolute;
+    bottom: 0;
 }
 
 #addSearchResults {
@@ -1321,4 +1329,8 @@ html .selectize-control.multi .selectize-input.full > input {
     margin-left: 5px;
     bottom: 40px;
     background-color: white;
+}
+
+.clickable {
+    cursor: pointer;
 }

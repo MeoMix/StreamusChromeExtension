@@ -79,10 +79,9 @@ define([
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
-                //  Make sure the YouTube iframe doesn't keep spamming messages to the foreground by disconnect port.
-                this.videoView.disconnectPort();
                 //  TODO: Do I need to remove videoView here as well?
                 this.remove();
+                this.videoView.remove();
             }.bind(this));
 
             this.panel.transition({

@@ -48,38 +48,34 @@ $(function() {
             });
 
         });
-        
+
+        //  Don't set width/height inside of the jQuery creator because width/height are set as css properties not as properties of the canvas.
         var canvas = $('<canvas>', {
             id: 'YouTubeVideoCanvas'
+        }).prop({
+            //  TODO: These magic numbers are synced in a couple of spots. Need to figure out how to standardize.
+            width: 640,
+            height: 360
         });
 
         $('body').append(canvas);
 
         var context = canvas[0].getContext('2d');
 
-        //  Whenever the foreground connects to the iframe -- start streaming canvas information through the port to it.
-        var streamingCanvasInterval;
-        
         chrome.runtime.onConnect.addListener(function (videoViewPort) {
 
             if (videoViewPort.name === 'videoViewPort') {
 
-                streamingCanvasInterval = setInterval(function () {
-                    console.log("streaming canvas...");
+                videoViewPort.onMessage.addListener(function (message) {
                     
-                    //context.drawImage(videoStream[0], 0, 0, 630, 473);
-                    context.drawImage(videoStream[0], 0, 0);
+                    if (message.getData) {
+                        context.drawImage(videoStream[0], 0, 0);
 
-                    videoViewPort.postMessage({
-                        dataUrl: canvas[0].toDataURL()
-                    });
-                    //  Run at 60 FPS. Can't use window.requestAnimationFrame because the iframe is on an invisible background page.
-                    //  This causes the browser to never yield an animation frame because it is never visible.
-                }, 1000 / 60);
+                        videoViewPort.postMessage({
+                            dataUrl: canvas[0].toDataURL()
+                        });
+                    }
 
-                videoViewPort.onDisconnect.addListener(function () {
-                    console.log("Port is disconnecting.");
-                    clearInterval(streamingCanvasInterval);
                 });
 
             }

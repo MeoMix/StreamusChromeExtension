@@ -18,36 +18,43 @@
         },
         
         attributes: {
-            height: "473",
-            width: "630"
+            height: 360,
+            width: 640
         },
 
         context: null,
-        videoDefaultImage: new Image(),
-        port: null,
+        videoDefaultImage: new Image(640, 360),
+        animationFrameRequestId: null,
+        port: chrome.runtime.connect({
+            name: 'videoViewPort'
+        }),
         
         render: function () {
-
-            this.draw();
-
-            console.log("Connecting to iframe...");
-
-            this.port = chrome.runtime.connect({
-                name: 'videoViewPort'
-            });
+            console.log("Rendering - doingDrawingAction.");
             
-            this.port.onMessage.addListener(function (message) {
-                console.log('port onMessage:', message);
+            this.setClickable();
 
-                //  TODO: I'm drawing an image when I feel like I should be able to do it with image data...
+            if (!window) {
+                chrome.extension.getBackgroundPage().console.error("should NOT be writing without view visible");
+                return this;
+            }
 
-                var image = new Image();
-                image.onload = function () {
-                    this.context.drawImage(image, 0, 0, this.el.width, this.el.height);
-                }.bind(this);
-                image.src = message.dataUrl;
+            if (StreamItems.length > 0) {
 
-            }.bind(this));
+                var playerState = Player.get('state');
+
+                if (playerState == PlayerState.Playing) {
+                    this.startDrawing();
+                } else if (Player.get('currentTime') > 0) {
+                    //  The player might open while paused. Render the current video frame, but don't continously render until play starts.
+                    this.getImageAndUpdate();
+                } else {
+                    this.drawDefaultImage();
+                }
+
+            } else {
+                this.drawDefaultImage();
+            }
 
             return this;
         },
@@ -55,112 +62,112 @@
         initialize: function() {
 
             this.context = this.el.getContext('2d');
-  
-            this.videoDefaultImage.onload = function () {
-                this.context.drawImage(this.videoDefaultImage, 0, 0, this.el.width, this.el.height);
-            }.bind(this);
-
-            this.listenTo(Player, 'change:loadedVideoId', function () {
-                var loadedVideoId = Player.get('loadedVideoId');
-
-                if (loadedVideoId != '') {
-                    this.videoDefaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
+            //  TODO: continous drawing is starting up multiple times because it fires when these event handlers run below
+            //  but it doesn't make sense to draw unless the view is actually rendered...
+            console.log("Adding iframe eventListener...");
+            this.port.onMessage.addListener(function (message) {
+                
+                if (message.dataUrl !== undefined) {
+                    this.drawImageFromSrc(message.dataUrl);
                 }
-            });
-            
-            //this.listenTo(Player, 'change:state', this.draw);
-            //this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.draw);
-            
-            //  Cleanup port connection whenever foreground closes to ensure that iframe doesn't pump data to nowhere.
-            $(window).unload(function () {
-                this.disconnectPort();
+
             }.bind(this));
+            
+            this.setVideoDefaultImageSource();
+            this.listenTo(Player, 'change:loadedVideoId', this.setVideoDefaultImageSource);
+            this.listenTo(Player, 'change:state', this.render);
+            this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.render);
+        },
+        
+        setVideoDefaultImageSource: function() {
+            var loadedVideoId = Player.get('loadedVideoId');
+            
+            //  TODO: What if it IS empty and this is called? Should I remove src attr?
+            if (loadedVideoId != '') {
+                this.videoDefaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
+            }
 
         },
         
-        drawImage: function() {
-            //var image = new Image();
-            //image.onload = function () {
-            //    this.context.drawImage(image, 0, 0);
-            //}.bind(this);
-            //image.src = Player.get('canvasDataUrl');
-        },
-        
-        disconnectPort: function() {
-            if (this.port !== null) {
-                this.port.disconnect();
-                this.port = null;
+        stopDrawing: function () {
+            console.log("I AM NOW STOPPING DRAWING:", this.animationFrameRequestId);
+            if (this.animationFrameRequestId !== null) {
+                window.cancelAnimationFrame(this.animationFrameRequestId);
+                this.animationFrameRequestId = null;
             }
         },
         
-        draw: function() {
-
-            //window.requestAnimationFrame(function() {
-            //    this.draw();
-
-            //    this.port.postMessage({
-            //        getData: true
-            //    });
-
-            //}.bind(this));
-
-        },
-
-        
-        //draw: function () {
-
-        //    var self = this;
+        //  Clear the canvas by painting over it with black or draw the default video image if one is loaded
+        //  TODO: Perhaps something more visually appealing / indicative than black fill?
+        drawDefaultImage: function () {
+            //  Don't draw over the default image with streaming content.
+            this.stopDrawing();
             
-        //    //  No reason to draw if there's nothing visible.
-        //    if (window != null) {
+            //  TODO: I think there's a race condition here where videoDefaultImage might not be loaded?
+            var loadedVideoId = Player.get('loadedVideoId');
 
-        //        var streamItemExists = StreamItems.length > 0;
-        //        this.$el.toggleClass('clickable', streamItemExists);
+            console.log("LoadedVideoId:", loadedVideoId);
 
-        //        if (streamItemExists) {
-
-        //            var playerState = Player.get('state');
-
-        //            if (playerState == PlayerState.Playing) {
-                        
-        //                //  Continously render if playing.
-        //                window.requestAnimationFrame(function() {
-
-        //                    //  TODO: For some reason if I just let this render infinitely it starts going black... but why?
-        //                    //if (self.$el.is(':visible')) {
-        //                        self.draw();
-        //                    //}
-
-        //                });
-
-
-        //                this.drawImage();
-        //            } else if (Player.get('currentTime') > 0) {
-        //                //  The player might open while paused. Render the current video frame, but don't continously render until play starts.
-        //                this.drawImage();
-        //            } else {
-        //                var loadedVideoId = Player.get('loadedVideoId');
-
-        //                if (loadedVideoId != '') {
-        //                    //  Be sure to clear the source because if the canvas resized with the src intact it will be white and won't refresh when setting source again.
-        //                    this.videoDefaultImage.src = '';
-        //                    this.videoDefaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
-        //                }
-        //            }
-
-        //        } else {
-
-        //            setTimeout(function() {
-        //                //  Clear the canvas by painting over it with black.
-        //                //  TODO: Perhaps something more visually appealing / indicative than black fill?
-        //                self.context.rect(0, 0, self.el.width, self.el.height);
-        //                self.context.fillStyle = 'black';
-        //                self.context.fill();
-        //            }, 0);
-
-        //        }
+            if (loadedVideoId === '') {
+                this.drawBlankImage();
+            } else {
+                this.context.drawImage(this.videoDefaultImage, 0, 0, this.el.width, this.el.height);
+            }
+            
+        },
+        
+        drawBlankImage: function() {
+            this.context.rect(0, 0, this.el.width, this.el.height);
+            this.context.fillStyle = 'black';
+            this.context.fill();
+        },
+        
+        //  TODO: I feel like it would be more efficient to render an image using the byte array rather than redrawing the image.
+        drawImageFromSrc: function (imageSource) {
+            var image = new Image();
+            image.onload = function () {
+                this.context.drawImage(image, 0, 0, this.el.width, this.el.height);
+            }.bind(this);
+            image.src = imageSource;
+        },
+        
+        //disconnectPort: function() {
+        //    if (this.port !== null) {
+        //        this.port.disconnect();
+        //        this.port = null;
         //    }
         //},
+        
+        startDrawing: function() {
+            if (this.animationFrameRequestId === null) {
+                this.drawContinously();
+            } else {
+                console.error("Can't start drawing -- already drawing.");
+            }
+        },
+        
+        //  Request an animation frame and continously loop the drawing of images onto the canvas.
+        drawContinously: function () {
+            console.log("Draw continously...");
+ 
+            this.animationFrameRequestId = window.requestAnimationFrame(function () {
+                this.drawContinously();
+                this.getImageAndUpdate();
+            }.bind(this));
+        },
+        
+        //  Post a message to the YouTube iframe indicating a desire for the current video frame.
+        //  The post message response event handler will then cause the frame to be rendered.
+        getImageAndUpdate: function () {
+            this.port.postMessage({
+                getData: true
+            });
+        },
+        
+        setClickable: function() {
+            var streamItemExists = StreamItems.length > 0;
+            this.$el.toggleClass('clickable', streamItemExists);
+        },
         
         togglePlayerState: function () {
 
