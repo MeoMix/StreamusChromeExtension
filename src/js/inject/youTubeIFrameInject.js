@@ -61,7 +61,7 @@ $(function() {
         $('body').append(canvas);
 
         var context = canvas[0].getContext('2d');
-
+        
         chrome.runtime.onConnect.addListener(function (videoViewPort) {
 
             if (videoViewPort.name === 'videoViewPort') {
@@ -71,9 +71,11 @@ $(function() {
                     if (message.getData) {
                         context.drawImage(videoStream[0], 0, 0);
 
-                        videoViewPort.postMessage({
-                            dataUrl: canvas[0].toDataURL()
-                        });
+                        videoViewPort.postMessage(
+                            //  https://developers.google.com/speed/webp/
+                            //  TODO: Experiment with toDataUrlHD (doesn't seem to be defined, but it should be?) and quality paramater of toDataURL( 0-1 value )
+                            canvas[0].toDataURL('image/webp')
+                        );
                     }
 
                 });

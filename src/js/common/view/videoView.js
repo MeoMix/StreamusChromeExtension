@@ -3,8 +3,9 @@
     'foreground/collection/streamItems',
     'foreground/model/player',
     'enum/playerState',
-    'foreground/collection/contextMenuGroups'
-], function(GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups) {
+    'foreground/collection/contextMenuGroups',
+    'foreground/model/buttons/playPauseButton'
+], function(GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, PlayPauseButton) {
     'use strict';
 
     var VideoView = GenericForegroundView.extend({
@@ -21,39 +22,48 @@
             height: 360,
             width: 640
         },
-
-        context: null,
-        videoDefaultImage: new Image(640, 360),
+        
         animationFrameRequestId: null,
-        port: chrome.runtime.connect({
-            name: 'videoViewPort'
-        }),
+        context: null,
+        port: null,
+        //  This image represents the current frame of the canvas. Create the image here as an optimization
+        //  since creating a new image every time the stream image function is invoked would be expensive.
+        streamingImage: new Image(640, 360),
+        //  This is the YouTube default image return from a YouTube video URL
+        defaultImage: null,
         
         render: function () {
-            console.log("Rendering - doingDrawingAction.");
-            
-            this.setClickable();
 
-            if (!window) {
-                chrome.extension.getBackgroundPage().console.error("should NOT be writing without view visible");
-                return this;
-            }
+            var streamItemExists = StreamItems.length > 0;
+            this.$el.toggleClass('clickable', streamItemExists);
 
-            if (StreamItems.length > 0) {
+            if (streamItemExists) {
 
                 var playerState = Player.get('state');
 
                 if (playerState == PlayerState.Playing) {
                     this.startDrawing();
-                } else if (Player.get('currentTime') > 0) {
-                    //  The player might open while paused. Render the current video frame, but don't continously render until play starts.
-                    this.getImageAndUpdate();
                 } else {
-                    this.drawDefaultImage();
+                    //  Don't draw over the image with any potential streaming content.
+                    this.stopDrawing();
+                    
+                    //  The player might open while paused. Render the current video frame.
+                    if (Player.get('currentTime') > 0) {
+                        this.getImageAndUpdate();
+                    } else {
+                        //  Video is loaded, but hasn't started. Render its default image provided by YouTube.
+                        if (this.defaultImage !== null) {
+                            this.context.drawImage(this.defaultImage, 0, 0, this.el.width, this.el.height);
+                        } else {
+                            //  The default image for the video might not load. Recover gracefully with a blank image.
+                            this.drawBlankImage();
+                        }
+                        
+                    }
                 }
 
             } else {
-                this.drawDefaultImage();
+                this.drawBlankImage();
             }
 
             return this;
@@ -62,82 +72,54 @@
         initialize: function() {
 
             this.context = this.el.getContext('2d');
-            //  TODO: continous drawing is starting up multiple times because it fires when these event handlers run below
-            //  but it doesn't make sense to draw unless the view is actually rendered...
-            console.log("Adding iframe eventListener...");
-            this.port.onMessage.addListener(function (message) {
-                
-                if (message.dataUrl !== undefined) {
-                    this.drawImageFromSrc(message.dataUrl);
-                }
-
-            }.bind(this));
             
-            this.setVideoDefaultImageSource();
-            this.listenTo(Player, 'change:loadedVideoId', this.setVideoDefaultImageSource);
+            this.port = chrome.runtime.connect({
+                name: 'videoViewPort'
+            });
+            this.port.onMessage.addListener(this.drawImageFromDataURL.bind(this));
+            
+            this.setDefaultImage();
+            this.listenTo(Player, 'change:loadedVideoId', this.setDefaultImage);
             this.listenTo(Player, 'change:state', this.render);
             this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.render);
         },
         
-        setVideoDefaultImageSource: function() {
-            var loadedVideoId = Player.get('loadedVideoId');
-            
-            //  TODO: What if it IS empty and this is called? Should I remove src attr?
-            if (loadedVideoId != '') {
-                this.videoDefaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
-            }
-
+        //  I thought it might be more efficient to use a canvas ImageData object rather than a dataURL, but
+        //  the postMessage call transforms an ImageData object into a regular object, which has to be cast again.
+        //  At that point I'm pretty sure it's cheaper to just use an Image.
+        drawImageFromDataURL: function (imageSource) {
+            this.streamingImage.src = imageSource;
+            this.context.drawImage(this.streamingImage, 0, 0);
         },
         
+        setDefaultImage: function () {
+            var loadedVideoId = Player.get('loadedVideoId');
+            
+            if (loadedVideoId === '') {
+                this.defaultImage = null;
+            }
+            else{
+                this.defaultImage = new Image(640, 360);
+                this.defaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
+            }
+        },
+        
+        //  Break the drawing animation loop by cancelling the next animation frame request.
         stopDrawing: function () {
-            console.log("I AM NOW STOPPING DRAWING:", this.animationFrameRequestId);
             if (this.animationFrameRequestId !== null) {
                 window.cancelAnimationFrame(this.animationFrameRequestId);
                 this.animationFrameRequestId = null;
             }
         },
-        
-        //  Clear the canvas by painting over it with black or draw the default video image if one is loaded
+
+        //  Clear the canvas by painting over it with black 
         //  TODO: Perhaps something more visually appealing / indicative than black fill?
-        drawDefaultImage: function () {
-            //  Don't draw over the default image with streaming content.
-            this.stopDrawing();
-            
-            //  TODO: I think there's a race condition here where videoDefaultImage might not be loaded?
-            var loadedVideoId = Player.get('loadedVideoId');
-
-            console.log("LoadedVideoId:", loadedVideoId);
-
-            if (loadedVideoId === '') {
-                this.drawBlankImage();
-            } else {
-                this.context.drawImage(this.videoDefaultImage, 0, 0, this.el.width, this.el.height);
-            }
-            
-        },
-        
         drawBlankImage: function() {
             this.context.rect(0, 0, this.el.width, this.el.height);
             this.context.fillStyle = 'black';
             this.context.fill();
         },
-        
-        //  TODO: I feel like it would be more efficient to render an image using the byte array rather than redrawing the image.
-        drawImageFromSrc: function (imageSource) {
-            var image = new Image();
-            image.onload = function () {
-                this.context.drawImage(image, 0, 0, this.el.width, this.el.height);
-            }.bind(this);
-            image.src = imageSource;
-        },
-        
-        //disconnectPort: function() {
-        //    if (this.port !== null) {
-        //        this.port.disconnect();
-        //        this.port = null;
-        //    }
-        //},
-        
+       
         startDrawing: function() {
             if (this.animationFrameRequestId === null) {
                 this.drawContinously();
@@ -148,8 +130,6 @@
         
         //  Request an animation frame and continously loop the drawing of images onto the canvas.
         drawContinously: function () {
-            console.log("Draw continously...");
- 
             this.animationFrameRequestId = window.requestAnimationFrame(function () {
                 this.drawContinously();
                 this.getImageAndUpdate();
@@ -164,24 +144,9 @@
             });
         },
         
-        setClickable: function() {
-            var streamItemExists = StreamItems.length > 0;
-            this.$el.toggleClass('clickable', streamItemExists);
-        },
-        
+        //  Clicking on the video player should change the state between playing and pausing.
         togglePlayerState: function () {
-
-            if (StreamItems.length > 0) {
-
-                if (Player.isPlaying()) {
-                    Player.pause();
-
-                } else {
-                    Player.play();
-                }
-
-            }
-
+            PlayPauseButton.tryTogglePlayerState();
         },
 
         goFullScreen: function () {

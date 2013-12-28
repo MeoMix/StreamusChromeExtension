@@ -48,7 +48,6 @@ define([
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
 
-
             //  TODO: It seems REALLY weird to have videoDisplayView be shown here but hidden by itself. Surely both thoughts should be on one or the other.
             if (VideoDisplayButton.get('enabled')) {
                 //  Open instantly on first load.
@@ -129,9 +128,8 @@ define([
             console.log("showVideoDisplay", this.videoDisplayView);
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
-
                 this.videoDisplayView = new VideoDisplayView();
-
+                
                 this.$el.append(this.videoDisplayView.render().el);
                 this.videoDisplayView.show(instant);
             }

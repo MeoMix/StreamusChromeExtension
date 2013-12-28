@@ -1,5 +1,6 @@
 ﻿html {
-    width: 630px;
+    /*width: 630px;*/
+    width: 640px;
     height: 410px;
     /*height: 540px;*/
 }
@@ -385,7 +386,8 @@ input[type="range"]::-webkit-slider-thumb {
     right: 250px;
     top: 0;
     z-index: 1;
-    width: 380px;
+    /*width: 380px;*/
+    width: 390px;
 }
 
 /* Hide some messages in video search */
@@ -685,7 +687,8 @@ input.valid {
 
 #videoSearch {
     box-shadow: 0 0 10px #000;
-    left: -380px;
+    /*left: -380px;*/
+    left: -390px
 }
 
 .searchBar input {
@@ -700,7 +703,8 @@ input.valid {
     right: 1px;
     top: 10px;
     z-index: 1;
-    width: 287px;
+    /*width: 287px;*/
+    width: 297px;
 }
 
 .searchBar button#source-select {
@@ -742,8 +746,8 @@ input.valid {
     z-index: 1
 }
 
-.right-pane .top-bar, 
-#videoDisplay .top-bar{
+.right-pane .top-bar,
+#videoDisplay .top-bar {
     display: block;
     height: 44px;
     left: 10px;
@@ -1012,7 +1016,8 @@ input.valid {
     background: rgba(0, 0, 0, 0.0);
     bottom: 0;
     display: block;
-    left: 380px;
+    /*left: 380px;*/
+    left: 390px;
     position: fixed;
     right: 0;
     top: 0;
@@ -1022,11 +1027,11 @@ input.valid {
 
 #videoDisplay .panel {
     background: #f2f2f2;
-    left: -630px;
+    left: -640px;
     top: 0;
     bottom: 0;
     right: 0;
-    width: 630px;
+    width: 640px;
     box-shadow: 0 0 20px #000;
     display: block;
     position: absolute;

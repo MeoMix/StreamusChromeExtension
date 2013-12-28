@@ -21,8 +21,7 @@ define([
 
         panel: null,
         
-        //  TODO: Do I need to remove sub-views when removing a view? I think so...
-        videoView: new VideoView(),
+        videoView: null,
         
         events: {
             'click .remove': 'toggleVideoDisplay',
@@ -44,6 +43,8 @@ define([
         },
 
         initialize: function () {
+
+            this.videoView = new VideoView();
 
             this.listenTo(VideoDisplayButton, 'change:enabled', function (model, enabled) {
                 if (!enabled) {
@@ -74,13 +75,12 @@ define([
 
         hide: function () {
 
-            console.log("Hiding!");
-
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
                 //  TODO: Do I need to remove videoView here as well?
                 this.remove();
+                this.videoView.stopDrawing();
                 this.videoView.remove();
             }.bind(this));
 
