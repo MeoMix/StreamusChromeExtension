@@ -22,15 +22,11 @@ define([
             'click': 'toggleVideoDisplay'
         },
         
-        attributes: {
-            'id': 'videoDisplayButton'
-        },
-        
         enabledTitle: chrome.i18n.getMessage('videoDisplayEnabled'),
         disabledTitle: chrome.i18n.getMessage('videoDisplayDisabled'),
         
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+            this.$el.html(this.template());
 
             var enabled = this.model.get('enabled');
             this.$el.toggleClass('enabled', enabled);
@@ -49,8 +45,8 @@ define([
         },
         
         toggleVideoDisplay: function () {
+            console.log("toggleVideoDisplay has been ran");
             if (!this.$el.hasClass('disabled')) {
-                console.log("Toggling enabled!");
                 this.model.toggleEnabled();
             }
             

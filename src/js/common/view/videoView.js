@@ -18,8 +18,8 @@
         },
         
         attributes: {
-            height: "360",
-            width: "560"
+            height: "473",
+            width: "630"
         },
 
         context: null,
@@ -32,22 +32,22 @@
 
             console.log("Connecting to iframe...");
 
-            //this.port = chrome.runtime.connect({
-            //    name: 'videoViewPort'
-            //});
+            this.port = chrome.runtime.connect({
+                name: 'videoViewPort'
+            });
             
-            //this.port.onMessage.addListener(function (message) {
-            //    console.log('port onMessage:', message);
+            this.port.onMessage.addListener(function (message) {
+                console.log('port onMessage:', message);
 
-            //    //  TODO: I'm drawing an image when I feel like I should be able to do it with image data...
+                //  TODO: I'm drawing an image when I feel like I should be able to do it with image data...
 
-            //    var image = new Image();
-            //    image.onload = function () {
-            //        this.context.drawImage(image, 0, 0, 480, 360);
-            //    }.bind(this);
-            //    image.src = message.dataUrl;
+                var image = new Image();
+                image.onload = function () {
+                    this.context.drawImage(image, 0, 0, this.el.width, this.el.height);
+                }.bind(this);
+                image.src = message.dataUrl;
 
-            //}.bind(this));
+            }.bind(this));
 
             return this;
         },
@@ -56,9 +56,9 @@
 
             this.context = this.el.getContext('2d');
   
-            //this.videoDefaultImage.onload = function () {
-            //    this.context.drawImage(this, 0, 0, this.el.width, this.el.height);
-            //}.bind(this);
+            this.videoDefaultImage.onload = function () {
+                this.context.drawImage(this.videoDefaultImage, 0, 0, this.el.width, this.el.height);
+            }.bind(this);
 
             this.listenTo(Player, 'change:loadedVideoId', function () {
                 var loadedVideoId = Player.get('loadedVideoId');
@@ -66,11 +66,10 @@
                 if (loadedVideoId != '') {
                     this.videoDefaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
                 }
-
             });
             
-            this.listenTo(Player, 'change:state', this.draw);
-            this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.draw);
+            //this.listenTo(Player, 'change:state', this.draw);
+            //this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.draw);
             
             //  Cleanup port connection whenever foreground closes to ensure that iframe doesn't pump data to nowhere.
             $(window).unload(function () {

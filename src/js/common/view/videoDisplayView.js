@@ -6,9 +6,9 @@ define([
     'enum/playerState',
     'foreground/collection/contextMenuGroups',
     'text!template/videoDisplay.html',
-    'foreground/view/rightPane/videoDisplayButtonView',
-    'common/view/videoView'
-], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoDisplayButtonView, VideoView) {
+    'common/view/videoView',
+    'foreground/model/buttons/videoDisplayButton'
+], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoView, VideoDisplayButton) {
     'use strict';
 
     var VideoDisplayView = GenericForegroundView.extend({
@@ -20,9 +20,13 @@ define([
         template: _.template(VideoDisplayTemplate),
 
         panel: null,
-
-        videoDisplayButtonView: new VideoDisplayButtonView(),
+        
+        //  TODO: Do I need to remove sub-views when removing a view? I think so...
         videoView: new VideoView(),
+        
+        events: {
+            'click .remove': 'toggleVideoDisplay',
+        },
 
         render: function () {
 
@@ -35,23 +39,22 @@ define([
 
             this.panel = this.$el.find('.panel');
             this.panel.append(this.videoView.render().el);
-
-            var topBarRightGroup = this.panel.find('.top-bar .right-group');
-            topBarRightGroup.append(this.videoDisplayButtonView.render().el);
-
+            
             return this;
         },
 
         initialize: function () {
 
-            console.log("Listening to model:", this.videoDisplayButtonView.model);
-
-            this.listenTo(this.videoDisplayButtonView.model, 'change:enabled', function (model, enabled) {
-                console.log("Enabled changed!");
+            this.listenTo(VideoDisplayButton, 'change:enabled', function (model, enabled) {
                 if (!enabled) {
                     this.hide();
                 }
             });
+        },
+        
+        toggleVideoDisplay: function () {
+            VideoDisplayButton.toggleEnabled();
+            console.log("VideoDisplayButton is now:", VideoDisplayButton.get('enabled'));
         },
 
         show: function (instant) {
@@ -78,6 +81,7 @@ define([
             }, function () {
                 //  Make sure the YouTube iframe doesn't keep spamming messages to the foreground by disconnect port.
                 this.videoView.disconnectPort();
+                //  TODO: Do I need to remove videoView here as well?
                 this.remove();
             }.bind(this));
 

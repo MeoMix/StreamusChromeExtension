@@ -67,8 +67,9 @@ $(function() {
                 streamingCanvasInterval = setInterval(function () {
                     console.log("streaming canvas...");
                     
-                    context.drawImage(videoStream[0], 0, 0, 480, 360);
-                    
+                    //context.drawImage(videoStream[0], 0, 0, 630, 473);
+                    context.drawImage(videoStream[0], 0, 0);
+
                     videoViewPort.postMessage({
                         dataUrl: canvas[0].toDataURL()
                     });

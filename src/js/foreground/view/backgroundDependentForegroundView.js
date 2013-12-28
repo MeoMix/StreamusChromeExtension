@@ -35,12 +35,8 @@ define([
         rightPaneView: new RightPaneView(),
         
         events: {
-
             'click #addVideosButton': 'onClickShowVideoSearch',
-            'click #activePlaylistArea button.show': 'showActiveFolderArea',
-            //  TODO: I think the fact that there are more than 1 videoDisplayButton is fucking with this event listener?
-            'click #videoDisplayButton': 'onClickShowVideoDisplay'
-
+            'click #activePlaylistArea button.show': 'showActiveFolderArea'
         },
 
         initialize: function() {
@@ -49,12 +45,28 @@ define([
             this.showActivePlaylistArea();
             this.showVideoSearch(true);
             
-            if (VideoDisplayButton.get('enabled')) {
-                this.showVideoDisplay(true);
-            }
-            
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
+
+
+            //  TODO: It seems REALLY weird to have videoDisplayView be shown here but hidden by itself. Surely both thoughts should be on one or the other.
+            if (VideoDisplayButton.get('enabled')) {
+                //  Open instantly on first load.
+                this.showVideoDisplay(true);
+            }
+
+            this.listenTo(VideoDisplayButton, 'change:enabled', function(model, enabled) {
+
+                if (enabled) {
+                    //  Show an animation when changing after first load.
+                    this.showVideoDisplay(false);
+                } else {
+                    console.log("setting videoDisplayView to null");
+                    //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
+                    this.videoDisplayView = null;
+                }
+
+            });
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
@@ -112,30 +124,16 @@ define([
         onClickShowVideoSearch: function () {
             this.showVideoSearch(false);
         },
-
-        onClickShowVideoDisplay: function () {
-            this.showVideoDisplay(false);
-        },
         
         showVideoDisplay: function(instant) {
-            console.log("This.videoDisplayView:", this.videoDisplayView);
+            console.log("showVideoDisplay", this.videoDisplayView);
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
 
-                console.log("Creating a new VideoDisplayView!");
                 this.videoDisplayView = new VideoDisplayView();
 
                 this.$el.append(this.videoDisplayView.render().el);
                 this.videoDisplayView.show(instant);
-                console.log("showing instantly!");
-                
-                this.listenTo(VideoDisplayButton, 'change:enabled', function (model, enabled) {
-                    //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
-                    if (!enabled) {
-                        this.videoDisplayView = null;
-                    }
-                });
-                
             }
 
         },
