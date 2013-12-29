@@ -1339,3 +1339,11 @@ html .selectize-control.multi .selectize-input.full > input {
 .clickable {
     cursor: pointer;
 }
+
+.big-text > strong {
+    display: block;   
+}
+
+.searchLink {
+    color: #4EA6EA;
+}
