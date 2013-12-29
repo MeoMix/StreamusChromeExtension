@@ -1,5 +1,5 @@
 ﻿define([
-   'foreground/view/genericForegroundView',
+    'foreground/view/genericForegroundView',
     'text!template/genericPrompt.html'
 ], function (GenericForegroundView, GenericPromptTemplate) {
     'use strict';
@@ -13,7 +13,6 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click .remove': 'fadeOutAndHide',
-            'click .cancel': 'fadeOutAndHide',
             'click .ok': 'doOk',
             'keydown .submittable': 'doOkOnEnter'
         },
@@ -21,9 +20,9 @@
         panel: null,
  
         okButtonText: chrome.i18n.getMessage('okButtonText'),
-        cancelButtonText: chrome.i18n.getMessage('cancelButtonText'),
-            
+
         okButton: null,
+        showCancelButton: true,
         
         render: function () {
             
@@ -31,8 +30,7 @@
                 //  Mix in chrome to reference internationalize.
                 'chrome.i18n': chrome.i18n,
                 'promptTitle': this.title,
-                'okButtonText': this.okButtonText,
-                'cancelButtonText': this.cancelButtonText
+                'okButtonText': this.okButtonText
             }));
 
             //  Add specific content to the generic dialog's interior
@@ -48,7 +46,7 @@
 
             this.title = options.title;
             this.okButtonText = options.okButtonText || this.okButtonText;
-            this.cancelButtonText = options.cancelButtonText || this.cancelButtonText;
+            this.showCancelButton = options.showCancelButton || this.showCancelButton;
             this.$el.addClass(this.model.className + 'Prompt');
 
         },

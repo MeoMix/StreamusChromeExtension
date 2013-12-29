@@ -197,9 +197,6 @@
 	"playAllInStreamus": {
 		"message": "Poišci in predvajaj vse v Streamus"
 	},
-	"waitButtonText": {
-		"message": "Pocakaj"
-	},
 	"addVideosButtonText": {
 		"message": "Dodaj posnetke"
 	},
@@ -298,9 +295,6 @@
 	},
 	"createAndSaveButtonText": {
 		"message": "Ustvari seznam predvajanja in shrani"
-	},
-	"cancelButtonText": {
-		"message": "Preklici"
 	},
 	"edit": {
 		"message": "Urejanje"

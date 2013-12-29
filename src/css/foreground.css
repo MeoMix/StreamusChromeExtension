@@ -19,8 +19,8 @@ body.loading > *:not(.modalOverlay) {
 body.loading > .fa-spinner {
     display: inline-block;
     opacity: 1;
-    margin-top: 242px;
-    margin-left: 290.5px;
+    margin-top: 177px;
+    margin-left: 295.5px;
     color: #797979;
 }
 
@@ -391,7 +391,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 /* Hide some messages in video search */
-.hidden {
+.big-text.hidden {
     display: none;
 }
 
@@ -457,15 +457,22 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.left-list {
+.big-text-wrapper {
+    top: 55px;
     bottom: 40px;
-    display: block;
     left: 5px;
+    width: calc(100% - 10px);
+    position: absolute;
+}
+
+.left-list {
+    bottom: 0;
+    top: 0;
+    left: 5px;
+    right: 5px;
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    width: calc(100% - 10px);
-    top: 55px;
 }
 
 .listItem > i {
@@ -1324,24 +1331,28 @@ html .selectize-control.multi .selectize-input.full > input {
     display: none;
 }
 
-#videoSearch .big-text{
-    width: calc(100% - 24px);
-    position: absolute;
-    z-index: 99;
-    margin: 0;
-    top: 35px;
-    padding-top: 55px;
-    margin-left: 5px;
-    bottom: 40px;
-    background-color: white;
-}
-
 .clickable {
     cursor: pointer;
 }
 
-.big-text > strong {
-    display: block;   
+#activePlaylistArea .big-text,
+#videoSearch .big-text {
+    padding-bottom: 187.5px;
+    padding-top: 62.5px;
+    background-color: white;
+    margin: 0;
+
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1;
+}
+
+.big-text-header {
+    padding-bottom: 20px;
+    font-weight: bold; 
 }
  
 .searchLink {

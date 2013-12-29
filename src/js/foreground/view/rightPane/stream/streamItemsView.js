@@ -83,7 +83,7 @@
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 //  TODO: Is this cancel needed still
-                cancel: '.big-text',
+                //cancel: '.big-text',
                 connectWith: '#activePlaylistItems',
                 appendTo: 'body',
                 containment: 'body',

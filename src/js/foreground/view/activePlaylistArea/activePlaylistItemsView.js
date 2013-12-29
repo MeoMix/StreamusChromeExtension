@@ -77,7 +77,7 @@ define([
 
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
-                cancel: '.big-text',
+                //cancel: '.big-text',
                 connectWith: '#streamItemList',
                 appendTo: 'body',
                 containment: 'body',
@@ -152,9 +152,11 @@ define([
                         $(ui.item).remove();
                     });
 
-                    var emptyPlaylistMessage = self.$el.find('.big-text');
+                    //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
+                    //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
+                    var emptyPlaylistMessage = $('.playlistEmpty');
                     if (emptyPlaylistMessage.length > 0) {
-                        emptyPlaylistMessage.remove();
+                        emptyPlaylistMessage.addClass('hidden');
                     }
 
                     ui.sender.data('copied', true);
@@ -185,16 +187,7 @@ define([
             });
             
             this.listenTo(this.model.get('items'), 'add', this.addItem);
-
-            this.listenTo(this.model, 'change:title', function () {
-                //  Update the empty playlist title message when the title changes and it is visible
-                if (this.model.get('items').length === 0) {
-                    this.render();
-                }
-
-            });
             
-            this.listenTo(this.model.get('items'), 'empty', this.render);
             this.listenTo(this.model.get('items'), 'remove', function () {
                 //  Trigger a manual show because an item could slide into view and need to load it.
                 this.$el.trigger('manualShow');
@@ -243,7 +236,7 @@ define([
                 var currentItemIndex = playlistItems.indexOf(playlistItem);
 
                 var previousItem = playlistItems.at(currentItemIndex - 1);
-                
+                    
                 if (previousItem) {
                     var previousItemId = previousItem.get('id');
 
@@ -254,12 +247,6 @@ define([
                 }
  
             } else {
-
-                var emptyPlaylistMessage = this.$el.find('.big-text');
-                if (emptyPlaylistMessage.length > 0) {
-                    emptyPlaylistMessage.remove();
-                }
-                
                 this.$el.append(element);
             }
 

@@ -20,6 +20,7 @@
         playAllButtonView: null,
         playlistDetails: null,
         playlistTitle: null,
+        playlistEmptyMessage: null,
         
         attributes: {
             id: 'activePlaylistArea'
@@ -35,7 +36,7 @@
                 })
             ));
 
-            this.$el.find('.left-top-divider').after(this.activePlaylistItemsView.render().el);
+            this.$el.find('#activePlaylistItemsView').replaceWith(this.activePlaylistItemsView.render().el);
 
             var playlistActions = this.$el.find('.playlist-actions');
 
@@ -44,8 +45,10 @@
            
             this.playlistDetails = this.$el.find('.playlist-details');
             this.playlistTitle = this.$el.find('.playlistTitle');
-            
+            this.playlistEmptyMessage = this.$el.find('div.playlistEmpty');
+
             this.initializeTooltips();
+            this.toggleBigText();
 
             return this;
         },
@@ -66,6 +69,8 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
+            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove empty', this.toggleBigText);
+
             Utility.scrollChildElements(this.el, '.playlistTitle');
         },
         
@@ -75,8 +80,13 @@
         
         updatePlaylistTitle: function() {
             this.playlistTitle.text(this.model.get('playlist').get('title'));
+        },
+        
+        //  Set the visibility of any visible text messages.
+        toggleBigText: function() {
+            var isPlaylistEmpty = this.model.get('playlist').get('items').length === 0;
+            this.playlistEmptyMessage.toggleClass('hidden', !isPlaylistEmpty);
         }
-
     });
 
     return ActivePlaylistAreaView;

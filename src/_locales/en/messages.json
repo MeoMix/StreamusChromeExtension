@@ -197,9 +197,6 @@
 	"playAllInStreamus": {
 		"message": "Find & Play All in Streamus"
 	},
-	"waitButtonText": {
-		"message": "Wait"
-	},
 	"addVideosButtonText": {
 		"message": "Add videos"
 	},
@@ -298,9 +295,6 @@
 	},
 	"createAndSaveButtonText": {
 		"message": "Create playlist & save"
-	},
-	"cancelButtonText": {
-		"message": "Cancel"
 	},
 	"edit": {
 		"message": "Edit"

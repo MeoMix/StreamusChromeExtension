@@ -9,7 +9,7 @@
         className: 'reload',
 
         template: _.template(ReloadTemplate),
-        
+       
         render: function () {
 
             this.$el.html(this.template({

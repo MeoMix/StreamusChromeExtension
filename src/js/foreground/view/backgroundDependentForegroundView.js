@@ -36,7 +36,9 @@ define([
         
         events: {
             'click #addVideosButton': 'onClickShowVideoSearch',
-            'click #activePlaylistArea button.show': 'showActiveFolderArea'
+            'click #activePlaylistArea button.show': 'showActiveFolderArea',
+            //  TODO: I really think this event handler should be in activePlaylistAreaView...
+            'click #videoSearchLink': 'onClickShowVideoSearch'
         },
 
         initialize: function() {

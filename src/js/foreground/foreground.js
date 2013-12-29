@@ -14,14 +14,10 @@ define([
         el: $('body'),
         
         contextMenuView: new ContextMenuView(),
-        reloadPromptView: new GenericPromptView({
-            title: chrome.i18n.getMessage('reloadStreamus'),
-            okButtonText: chrome.i18n.getMessage('reloadButtonText'),
-            cancelButtonText: chrome.i18n.getMessage('waitButtonText'),
-            model: new ReloadView()
-        }),
+        reloadPromptView: null,
         showReloadPromptTimeout: null,
                
+        //  TODO: If I place these in initialize instead of here will they still sometimes be undefined?
         //  These are pulled from the background page. They'll be null until background is fully initialized.
         backgroundPlayer: chrome.extension.getBackgroundPage().YouTubePlayer,
         backgroundUser: chrome.extension.getBackgroundPage().User,
@@ -37,8 +33,16 @@ define([
             //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
             //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
             this.showReloadPromptTimeout = setTimeout(function () {
-                self.reloadPromptView.fadeInAndShow();
-            }, 5000);
+
+                this.reloadPromptView = new GenericPromptView({
+                    title: chrome.i18n.getMessage('reloadStreamus'),
+                    okButtonText: chrome.i18n.getMessage('reloadButtonText'),
+                    showCancelButton: false,
+                    model: new ReloadView()
+                });
+
+                this.reloadPromptView.fadeInAndShow();
+            }.bind(this), 5000);
 
             //  TODO: Watch VideoSearchResults and Folders as well.
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
@@ -124,10 +128,12 @@ define([
         
         //  Once the user's information has been retrieved and the YouTube player is loaded -- setup the rest of the foreground.
         loadBackgroundDependentContent: function () {
-
             this.$el.removeClass('loading');
             clearTimeout(this.showReloadPromptTimeout);
-            this.reloadPromptView.remove();
+            
+            if (this.reloadPromptView !== null) {
+                this.reloadPromptView.remove();
+            }
             
             require(['foreground/view/backgroundDependentForegroundView']);
         }

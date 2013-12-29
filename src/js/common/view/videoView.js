@@ -15,7 +15,7 @@
         events: {
             'click': 'togglePlayerState',
             'dblclick': 'goFullScreen',
-            //'contextmenu': 'showContextMenu'
+            'contextmenu': 'showContextMenu'
         },
         
         attributes: {
