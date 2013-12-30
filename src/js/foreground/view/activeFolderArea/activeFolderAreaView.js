@@ -59,7 +59,6 @@
             this.deletePlaylistButtonView = new DeletePlaylistButtonView();
             
             this.listenTo(this.model, 'destroy', this.hide);
-            Utility.scrollChildElements(this.el, '.title');
         },
         
         show: function () {

@@ -18,13 +18,13 @@ define([
 
         template: _.template(RightPaneTemplate),
 
-        streamView: new StreamView(),
-        playPauseButtonView: new PlayPauseButtonView(),
-        previousButtonView: new PreviousButtonView(),
-        nextButtonView: new NextButtonView(),
-        volumeControlView: new VolumeControlView(),
-        timeProgressAreaView: new TimeProgressAreaView(),
-        videoDisplayButtonView: new VideoDisplayButtonView(),
+        streamView: null,
+        playPauseButtonView: null,
+        previousButtonView: null,
+        nextButtonView: null,
+        volumeControlView: null,
+        timeProgressAreaView: null,
+        videoDisplayButtonView: null,
 
         render: function () {
             this.$el.html(this.template());
@@ -49,6 +49,16 @@ define([
             this.initializeTooltips();
 
             return this;
+        },
+        
+        initialize: function() {
+            this.streamView = new StreamView();
+            this.playPauseButtonView = new PlayPauseButtonView();
+            this.previousButtonView = new PreviousButtonView();
+            this.nextButtonView = new NextButtonView();
+            this.volumeControlView = new VolumeControlView();
+            this.timeProgressAreaView = new TimeProgressAreaView();
+            this.videoDisplayButtonView = new VideoDisplayButtonView();
         }
 
     });

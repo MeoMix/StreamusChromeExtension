@@ -62,8 +62,6 @@
             this.listenTo(VideoSearchResults, 'change:selected', this.hideOrUpdate);
             this.listenTo(this.model, 'destroy', this.hide);
             
-            Utility.scrollChildElements(this.el, '.item-title');
-
             this.addSearchResultPlaylistOptionsView = new AddSearchResultPlaylistOptionsView({
                 model: this.model.get('folder').get('playlists')
             });

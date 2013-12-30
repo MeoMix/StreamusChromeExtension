@@ -42,6 +42,8 @@
             ));
             
             this.$el.toggleClass('selected', this.model.get('selected'));
+            console.log("tooltip init");
+            this.initializeTooltips();
             
             return this;
         },

@@ -32,7 +32,7 @@ define([
         videoSearchView: null,
         videoDisplayView: null,
         addSearchResultsView: null,
-        rightPaneView: new RightPaneView(),
+        rightPaneView: null,
         
         events: {
             'click #addVideosButton': 'onClickShowVideoSearch',
@@ -41,7 +41,8 @@ define([
             'click #videoSearchLink': 'onClickShowVideoSearch'
         },
 
-        initialize: function() {
+        initialize: function () {
+            this.rightPaneView = new RightPaneView();
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();

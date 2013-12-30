@@ -14,7 +14,8 @@
     _.extend(GenericForegroundView.prototype, Backbone.View.prototype, {
         
         initializeTooltips: function() {
-            this.$el.find('[title]:enabled').qtip({
+            this.$el.find('[title]').qtip({
+                //  TODO: This tooltip looks shit on some views? Why? Even if I fuss with it :(
                 position: {
                     viewport: $(window)
                 },

@@ -21,8 +21,8 @@
         },
         
         searchUnderline: null,
-        playSelectedButtonView: new PlaySelectedButtonView(),
-        saveSelectedButtonView: new SaveSelectedButtonView(),
+        playSelectedButtonView: null,
+        saveSelectedButtonView: null,
         
         searchingMessage: null,
         instructions: null,
@@ -64,6 +64,9 @@
         },
         
         initialize: function () {
+
+            this.playSelectedButtonView = new PlaySelectedButtonView();
+            this.saveSelectedButtonView = new SaveSelectedButtonView();
 
             this.videoSearchResultsView = new VideoSearchResultsView();
             this.listenTo(this.model, 'destroy', this.hide);
@@ -121,6 +124,7 @@
 
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
+
             //  Hide the search message when not searching.
             var isNotSearching = this.model.get('searchJqXhr') === null;
             this.searchingMessage.toggleClass('hidden', isNotSearching);

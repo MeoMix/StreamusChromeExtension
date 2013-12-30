@@ -192,8 +192,6 @@ define([
                 //  Trigger a manual show because an item could slide into view and need to load it.
                 this.$el.trigger('manualShow');
             });
-
-            Utility.scrollChildElements(this.el, 'span.item-title');
         },
         
         incrementalRender: function (playlistItemChunks, onRenderComplete) {

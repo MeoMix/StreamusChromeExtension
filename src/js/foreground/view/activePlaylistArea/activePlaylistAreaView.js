@@ -70,8 +70,6 @@
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
             this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove empty', this.toggleBigText);
-
-            Utility.scrollChildElements(this.el, '.playlistTitle');
         },
         
         updatePlaylistDetails: function () {

@@ -6,7 +6,6 @@ define([
 ], function (GenericForegroundView, VideoDisplayButton, VideoDisplayButtonTemplate) {
     'use strict';
 
-    //  TODO: Not always rendered under right pane.
     var VideoDisplayButtonView = GenericForegroundView.extend({
 
         tagName: 'button',
@@ -27,29 +26,32 @@ define([
         
         render: function () {
             this.$el.html(this.template());
-
-            var enabled = this.model.get('enabled');
-            this.$el.toggleClass('enabled', enabled);
-            
-            if (enabled) {
-                this.$el.attr('title', this.enabledTitle);
-            } else {
-                this.$el.attr('title', this.disabledTitle);
-            }
+            this.subRender();
             
             return this;
         },
 
         initialize: function () {
-            this.listenTo(this.model, 'change:enabled', this.render);
+            this.listenTo(this.model, 'change:enabled', this.subRender);
         },
         
         toggleVideoDisplay: function () {
-            console.log("toggleVideoDisplay has been ran");
             if (!this.$el.hasClass('disabled')) {
                 this.model.toggleEnabled();
             }
-            
+        },
+        
+        //  It's important to have a subRendder method because modifying the element's HTML
+        //  onClick messes with qTip's tooltip render -- swapping the title + HTML out, etc...
+        subRender: function() {
+            var enabled = this.model.get('enabled');
+            this.$el.toggleClass('enabled', enabled);
+
+            if (enabled) {
+                this.$el.attr('title', this.enabledTitle);
+            } else {
+                this.$el.attr('title', this.disabledTitle);
+            }
         }
 
     });

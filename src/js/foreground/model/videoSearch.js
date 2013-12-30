@@ -29,8 +29,6 @@
                     previousSearchJqXhr.abort();
                 }
                 
-                VideoSearchResults.clear();
-
                 //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
                 var dataSource = new DataSource({
                     urlToParse: searchQuery

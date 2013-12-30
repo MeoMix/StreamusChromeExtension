@@ -87,25 +87,25 @@
 		"message": "está vacía. Prueba a añadir pistas buscando arriba."
 	},
 	"repeatDisabled": {
-		"message": "Repetir está desactivado. Pulsar para activar repetir pista."
+		"message": "Repetir está desactivado."
 	},
 	"repeatVideo": {
-		"message": "Repetir pista está desactivado. Pulsar para activar repetir lista."
+		"message": "Repetir pista está desactivado."
 	},
 	"repeatStream": {
-		"message": "Repetir la cola está activado. Pulsa para desactivar."
+		"message": "Repetir la cola está activado."
 	},
 	"radioEnabled": {
-		"message": "La Radio está activa. Pulsa para desactivar."
+		"message": "La Radio está  activa."
 	},
 	"radioDisabled": {
-		"message": "La Radio está desactivada. Pulsa para activar."
+		"message": "La Radio está  desactivada."
 	},
 	"shuffleEnabled": {
-		"message": "La Reproducción aleatoria está activada. Pulsa para desactivar."
+		"message": "La Reproducción aleatoria está activada."
 	},
 	"shuffleDisabled": {
-		"message": "La Reproducción aleatoria está desactivada. Pulsa para activar."
+		"message": "La Reproducción aleatoria está desactivada."
 	},
 	"playDisabled": {
 		"message": "Reproducción desactivada. ¡Prueba a añadir alguna pista a tus listas primero!"
@@ -121,9 +121,6 @@
 	},
 	"backPreviousVideo": {
 		"message": "Volver a la pista anterior"
-	},
-	"clickDragChangeTime": {
-		"message": "Pulsa o arrastra para moverte por la pista"
 	},
 	"elapsedTime": {
 		"message": "Tiempo actual"
@@ -245,10 +242,10 @@
 		"message": "Click to unmute"
 	},
 	"videoDisplayEnabled": {
-		"message": "Video is visible. Click to hide."
+		"message": "Video enabled."
 	},
 	"videoDisplayDisabled": {
-		"message": "Video is hidden. Click to show."
+		"message": "Video disabled."
 	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"

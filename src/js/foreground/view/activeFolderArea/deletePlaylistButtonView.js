@@ -11,7 +11,7 @@ define([
 
         tagName: 'button',
 
-        className: 'button-label delete',
+        className: 'button-icon button-small delete',
                                 
         template: _.template(DeletePlaylistButtonTemplate),
 

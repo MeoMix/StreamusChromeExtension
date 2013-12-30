@@ -9,7 +9,7 @@ body {
     width: 100%;
     height: 100%;
     -webkit-user-select: none;
-    font: 13px/1.2 sans-serif 
+    font: 13px/1.2 Segoe UI 
 }
 
 body.loading > *:not(.modalOverlay) {
@@ -36,16 +36,8 @@ body > .fa-spinner {
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
     height: 4px;
-    width: 4px;
+    width: 10px;
 }
-
-/*body *:hover::-webkit-scrollbar {
-    width: 10px !important;
-}
-
-body *:hover::-webkit-scrollbar-track-piece {
-    width: 10px !important;
-}*/
 
 /* Ensure no buttons are displayed */
 ::-webkit-scrollbar-button:start:decrement,
@@ -54,16 +46,25 @@ body *:hover::-webkit-scrollbar-track-piece {
 }
 
 ::-webkit-scrollbar-track-piece {
-    border-radius: 6px;
-    background-color: #efefef;
-    width: 4px;
+    background-color: #fff;
+    width: 10px;
+}
+
+::-webkit-scrollbar-track-piece:hover {
+    background-color: #efefef
 }
 
 ::-webkit-scrollbar-thumb:vertical {
-    border-radius: 6px;
-    background-color: #666;
-    border: 1px solid #eee;
+    background-color: #D7D7D7;
     height: 50px;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover {
+    background-color: #666;
+}
+
+::-webkit-scrollbar-thumb:vertical:hover ::-webkit-scrollbar-track-piece {
+    background-color: #D7D7D7;
 }
 
 /* Animation keyframes - you need to add prefixes */
@@ -216,8 +217,7 @@ input, button, textarea, select { font-size: 100% }
 a { cursor: pointer }
 
 span.playlistTitle {
-    font-size: 1.1em;
-    font-weight: bold;
+    font-size: 1.2em;
     white-space: nowrap;
     line-height: 45px;
     padding-left: 50px;
@@ -245,9 +245,8 @@ span.playlistTitle {
 }
 
 .item-title {
-    font-size: 1.0em;
+    font-size: 1.1em;
     white-space: nowrap;
-    font-weight: bold;
     color: #333;
     cursor: default;
 }
@@ -395,6 +394,10 @@ input[type="range"]::-webkit-slider-thumb {
     display: none;
 }
 
+.editableTitle.hidden {
+    display: none;
+}
+
 .left-top-bar {
     display: block;
     height: 45px;
@@ -510,7 +513,7 @@ input[type="range"]::-webkit-slider-thumb {
     height: 30px;
     padding: 5px 0;
     position: relative;
-    width: calc(100% - 10px);
+    width: calc(100% - 1px);
     overflow: hidden;
     text-overflow: ellipsis;
 }
@@ -731,7 +734,7 @@ input.valid {
 .big-text {
     cursor: default;
     color: #949494;
-    font-size: 1.2em;
+    font-size: 1.0em;
     margin: 2em 1em;
     text-align: center;
 }
@@ -1337,11 +1340,10 @@ html .selectize-control.multi .selectize-input.full > input {
 
 #activePlaylistArea .big-text,
 #videoSearch .big-text {
-    padding-bottom: 187.5px;
-    padding-top: 62.5px;
+    padding-bottom: 190px;
+    padding-top: 60px;
     background-color: white;
     margin: 0;
-
     position: absolute;
     bottom: 0;
     top: 0;
@@ -1351,10 +1353,34 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 
 .big-text-header {
-    padding-bottom: 20px;
-    font-weight: bold; 
+    padding-bottom: 15px;
+    font-size: 23px;
+    color: #666666;
 }
  
 .searchLink {
     color: #4EA6EA;
+}
+
+.remindersList {
+    list-style: none;   
+}
+
+.remindersList li {
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.remindersLabel {
+    margin-top: 5px;
+    display: block;
+}
+
+input[type=checkbox], input[type=radio] {
+    vertical-align: middle;
+    position: relative;
+    bottom: 1px;
+}
+input[type=radio] {
+    bottom: 2px;
 }

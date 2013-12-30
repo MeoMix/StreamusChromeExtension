@@ -11,13 +11,14 @@
 </div>
 
 <span class="item-details">
-    <span class="item-author">
-        <%-chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
-    </span>
+        HD · 
+    <!--    <span class="item-author">
+                <%-chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
+            </span>-->
     <span class="item-duration">
-        <i class="fa fa-clock-o"></i><%- video.get('prettyDuration') %>	
+        <!--<i class="fa fa-clock-o"></i>--><%- video.get('prettyDuration') %>	
     </span>
     <% if( video.get('highDefinition') ) { %>
-    <strong>HD</strong>
+
     <% } %>
 </span>

@@ -164,19 +164,22 @@
 
             } else {
                 
+                //  Enter full screen
                 var loadedVideoId = Player.get('loadedVideoId');
                 var isFullScreenDisabled = loadedVideoId == '';
 
                 if (!isFullScreenDisabled) {
 
                     chrome.windows.create({
-                        url: "fullscreen.html",
-                        type: "popup",
+                        url: 'fullscreen.html',
+                        type: 'popup',
                         focused: true
                     }, function (window) {
 
+                        console.log("opened fullscreen.html");
+
                         chrome.windows.update(window.id, {
-                            state: "fullscreen"
+                            state: 'fullscreen'
                         });
 
                     });

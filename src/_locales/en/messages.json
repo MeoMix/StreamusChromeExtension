@@ -108,25 +108,25 @@
 		"message": "is empty. Try adding some videos by clicking the search icon above."
 	},
 	"repeatDisabled": {
-		"message": "Repeat is disabled. Click to enable repeat video."
+		"message": "Repeat disabled."
 	},
 	"repeatVideo": {
-		"message": "Repeat video is enabled. Click to enable repeat playlist."
+		"message": "Repeat video enabled."
 	},
 	"repeatStream": {
-		"message": "Repeat stream is enabled. Click to disable."
+		"message": "Repeat stream enabled."
 	},
 	"radioEnabled": {
-		"message": "Radio is enabled. Click to disable."
+		"message": "Radio enabled."
 	},
 	"radioDisabled": {
-		"message": "Radio is disabled. Click to enable."
+		"message": "Radio disabled."
 	},
 	"shuffleEnabled": {
-		"message": "Shuffling is enabled. Click to disable."
+		"message": "Shuffling enabled."
 	},
 	"shuffleDisabled": {
-		"message": "Shuffling is disabled. Click to enable."
+		"message": "Shuffling disabled."
 	},
 	"playDisabled": {
 		"message": "Play disabled. Try adding a video to your playlist, first!"
@@ -142,9 +142,6 @@
 	},
 	"backPreviousVideo": {
 		"message": "Go back to the previous video."
-	},
-	"clickDragChangeTime": {
-		"message": "Click or drag to change the time."
 	},
 	"elapsedTime": {
 		"message": "Elapsed time"
@@ -267,10 +264,10 @@
 		"message": "Click to unmute"
 	},
 	"videoDisplayEnabled": {
-		"message": "Video is visible. Click to hide."
+		"message": "Video enabled."
 	},
 	"videoDisplayDisabled": {
-		"message": "Video is hidden. Click to show."
+		"message": "Video disabled."
 	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"

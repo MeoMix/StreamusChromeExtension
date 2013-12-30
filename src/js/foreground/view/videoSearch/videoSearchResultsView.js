@@ -79,7 +79,6 @@
         
         initialize: function () {
             this.listenTo(VideoSearchResults, 'reset', this.render);
-            Utility.scrollChildElements(this.el, '.item-title');
         },
         
         addOne: function (videoSearchResult) {

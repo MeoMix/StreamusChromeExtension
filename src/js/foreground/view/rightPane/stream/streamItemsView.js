@@ -76,8 +76,6 @@
                 this.$el.trigger('scroll');
             });
 
-            Utility.scrollChildElements(this.el, '.item-title');
-            
             this.$el.sortable({
 
                 //  Adding this helps prevent unwanted clicks to play

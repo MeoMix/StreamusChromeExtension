@@ -7,6 +7,7 @@
     'use strict';
 
     var PlaylistItemView = GenericForegroundView.extend({
+        
         className: 'listItem playlistItem',
         
         template: _.template(PlaylistItemTemplate),
@@ -16,6 +17,7 @@
                 'data-playlistitemid': this.model.get('id')
             };
         },
+        
         //  Usually lazy-load images, but if a option is given -- allow for instant loading.
         instant: false,
         

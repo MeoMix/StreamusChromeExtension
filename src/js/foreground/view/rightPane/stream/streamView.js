@@ -14,13 +14,12 @@
         
         className: 'stream',
         
-        radioButtonView: new RadioButtonView(),
-        shuffleButtonView: new ShuffleButtonView(),
-        repeatButtonView: new RepeatButtonView(),
-        saveStreamButtonView: new SaveStreamButtonView(),
-        clearStreamButtonView: new ClearStreamButtonView(),
-
-        streamItemsView: new StreamItemsView(),
+        radioButtonView: null,
+        shuffleButtonView: null,
+        repeatButtonView: null,
+        saveStreamButtonView: null,
+        clearStreamButtonView: null,
+        streamItemsView: null,
 
         template: _.template(StreamTemplate),
 
@@ -44,6 +43,15 @@
             leftGroupContextButtons.append(this.radioButtonView.render().el);
 
             return this;
+        },
+        
+        initialize: function() {
+            this.radioButtonView = new RadioButtonView();
+            this.shuffleButtonView = new ShuffleButtonView();
+            this.repeatButtonView = new RepeatButtonView();
+            this.saveStreamButtonView = new SaveStreamButtonView();
+            this.clearStreamButtonView = new ClearStreamButtonView();
+            this.streamItemsView = new StreamItemsView();
         }
 
     });

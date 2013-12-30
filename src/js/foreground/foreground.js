@@ -8,7 +8,7 @@ define([
     'foreground/collection/contextMenuGroups'
 ], function (GenericForegroundView, GenericPromptView, ReloadView, ContextMenuView, ContextMenuGroups) {
     'use strict';
-
+    //  TODO: Probably rename this file foregroundView and move into view folder.
     var ForegroundView = GenericForegroundView.extend({
 
         el: $('body'),

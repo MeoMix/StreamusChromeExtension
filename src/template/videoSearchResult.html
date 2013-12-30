@@ -1,6 +1,7 @@
 ﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('playVideoInStream') %>"></i>
 <!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
-<% if( index <= 12 ) { %>
+<!-- TODO: This is horribly hard-coded. I should find a way to lazy-load only the items I want without being dependent on a fixed number -->
+<% if( index <= 8 ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
 <% } else { %>
     <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" src="" />
@@ -11,14 +12,14 @@
 </div>
 
 <span class="item-details">
-    <span class="item-author">
-        <%- chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
-    </span>
+    <!--    <span class="item-author">
+                <%- chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
+            </span>-->
+    HD · 
     <span class="item-duration">
-        <i class="fa fa-clock-o"></i><%- video.get('prettyDuration') %>	
+        <!--<i class="fa fa-clock-o"></i>--><%- video.get('prettyDuration') %>	
     </span>
     <% if( video.get('highDefinition') ) { %>
-    <strong>HD</strong>
     <% } %>
 </span>
 

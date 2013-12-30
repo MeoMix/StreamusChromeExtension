@@ -1,4 +1,5 @@
-﻿define([
+﻿//  TODO: Rename this options for easy finding??
+define([
     'foreground/view/genericForegroundView',
     'text!template/settings.html',
     'foreground/model/player',

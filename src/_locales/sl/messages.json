@@ -108,25 +108,25 @@
 		"message": "je prazen. Poskusite dodati nekaj posnetkov s klikom na ikono za iskanje zgoraj."
 	},
 	"repeatDisabled": {
-		"message": "Ponavljanje je onemogoceno. Kliknite, da omogocite ponavljanje posnetka."
+		"message": "Ponavljanje je onemogoceno."
 	},
 	"repeatVideo": {
-		"message": "Ponavljanje posnetka je omogoceno. Kliknite, da omogocite ponavljanje seznama predvajanja."
+		"message": "Ponavljanje posnetka je omogoceno."
 	},
 	"repeatStream": {
-		"message": "Ponavljanje streama je omogoceno. Kliknite, da onemogocite."
+		"message": "Ponavljanje streama je omogoceno."
 	},
 	"radioEnabled": {
-		"message": "Radio je omogocen. Kliknite, da onemogocite."
+		"message": "Radio je omogocen."
 	},
 	"radioDisabled": {
-		"message": "Radio je onemogocen. Kliknite, da onemogocite."
+		"message": "Radio je onemogocen."
 	},
 	"shuffleEnabled": {
-		"message": "Nakljucno predvajanje je omogoceno. Kliknite, da onemogocite."
+		"message": "Nakljucno predvajanje je omogoceno."
 	},
 	"shuffleDisabled": {
-		"message": "Nakljucno predvajanje je onemogoceno. Kliknite, da omogocite."
+		"message": "Nakljucno predvajanje je onemogoceno."
 	},
 	"playDisabled": {
 		"message": "Predvajanje onemogoceno. Najprej poskusite dodati posnetek na vaš seznam predvajanja!"
@@ -142,9 +142,6 @@
 	},
 	"backPreviousVideo": {
 		"message": "Pojdi nazaj na prejšnji posnetek."
-	},
-	"clickDragChangeTime": {
-		"message": "Kliknite ali povlecite, da spremenite cas."
 	},
 	"elapsedTime": {
 		"message": "Porabljen cas"
@@ -267,10 +264,10 @@
 		"message": "Kliknite za unmute"
 	},
 	"videoDisplayEnabled": {
-		"message": "Posnetek je viden. Kliknite, da ga skrijete."
+		"message": "Posnetek je viden."
 	},
 	"videoDisplayDisabled": {
-		"message": "Posnetek je skrit. Kliknite, da ga pokažete."
+		"message": "Posnetek je skrit."
 	},
 	"reloadStreamus": {
 		"message": "Ponovno naloži Streamus"

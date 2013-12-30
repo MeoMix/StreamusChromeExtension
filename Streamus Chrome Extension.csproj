@@ -46,7 +46,6 @@
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
     <Content Include="src\css\beatportInject.css" />
-    <Content Include="src\css\checkbox.css" />
     <Content Include="src\css\contextMenu.css" />
     <Content Include="src\css\font-awesome.css" />
     <Content Include="src\css\foreground.css" />
@@ -145,6 +144,7 @@
     <Content Include="src\js\foreground\model\addSearchResultOption.js" />
     <Content Include="src\js\foreground\model\addSearchResults.js" />
     <Content Include="src\js\foreground\model\buttons\playPauseButton.js" />
+    <Content Include="src\js\foreground\model\buttons\videoDisplayButton.js" />
     <Content Include="src\js\foreground\model\contextMenuGroup.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\foregroundViewManager.js" />
@@ -199,6 +199,7 @@
     <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
     <Content Include="src\js\fullscreen\fullscreen.js" />
     <Content Include="src\js\fullscreen\main.js" />
+    <Content Include="src\js\fullscreen\plugins.js" />
     <Content Include="src\js\inject\beatportInject.js" />
     <Content Include="src\js\inject\streamusInject.js" />
     <Content Include="src\js\inject\streamusShareInject.js" />
@@ -206,6 +207,7 @@
     <Content Include="src\js\inject\youTubeInject.js" />
     <Content Include="src\js\options\main.js" />
     <Content Include="src\js\options\options.js" />
+    <Content Include="src\js\options\plugins.js" />
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
