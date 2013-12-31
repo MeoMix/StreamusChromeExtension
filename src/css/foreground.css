@@ -102,7 +102,7 @@ button.mute.muted{
 
 .modalOverlay .panel .content {
     padding: 10px;
-    font-size: 1.1em;
+    /*font-size: 1.1em;*/
 }
 
 .prompt .panel {
@@ -215,6 +215,10 @@ input, button, textarea, select, optgroup, option {
 input, button, textarea, select { font-size: 100% }
 
 a { cursor: pointer }
+
+.prompt span.title {
+    cursor: default;
+}
 
 span.playlistTitle {
     font-size: 1.2em;
@@ -1073,9 +1077,8 @@ input.valid {
 
 #activeFolder {
     overflow-x: hidden;
-    overflow-y: scroll;
     height: auto;
-    max-height: 420px;
+    max-height: 290px;
 }
 
 #activeFolderArea .header {
@@ -1362,7 +1365,7 @@ html .selectize-control.multi .selectize-input.full > input {
     color: #4EA6EA;
 }
 
-.remindersList {
+ul {
     list-style: none;   
 }
 
