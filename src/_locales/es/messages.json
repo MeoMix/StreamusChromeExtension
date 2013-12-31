@@ -110,12 +110,6 @@
 	"playDisabled": {
 		"message": "Reproducción desactivada. ¡Prueba a añadir alguna pista a tus listas primero!"
 	},
-	"clickToPlay": {
-		"message": "Pulsar para reproducir la pista actual."
-	},
-	"clickToPause": {
-		"message": "Pulsa para pausar la pista actual."
-	},
 	"skipNextVideo": {
 		"message": "Saltar a la próxima pista"
 	},
@@ -124,9 +118,6 @@
 	},
 	"elapsedTime": {
 		"message": "Tiempo actual"
-	},
-	"totalTime": {
-		"message": "Duración completa"
 	},
 	"suggestedQuality": {
 		"message": "Calidad deseada:"
@@ -241,12 +232,6 @@
 	"clickToUnmute": {
 		"message": "Click to unmute"
 	},
-	"videoDisplayEnabled": {
-		"message": "Video enabled."
-	},
-	"videoDisplayDisabled": {
-		"message": "Video disabled."
-	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"
 	},
@@ -337,12 +322,6 @@
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"
 	},
-	"playVideoInStream": {
-		"message": "Play Video in Stream"
-	},
-	"playPlaylistInStream": {
-		"message": "Play Playlist in Stream"
-	},
 	"addToStream": {
 		"message": "Add to Stream"
 	},
@@ -414,5 +393,17 @@
 	},
 	"toggleVideoDisabled": {
 		"message": "Can't toggle the current video state."
+	},
+	"pause": {
+		"message": "Pause"
+	},
+	"totalTime": {
+		"message": "total time"
+	},
+	"videoDisplayEnabled": {
+		"message": "hide video"
+	},
+	"videoDisplayDisabled": {
+		"message": "show video"
 	}
 }

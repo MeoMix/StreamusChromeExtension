@@ -131,12 +131,6 @@
 	"playDisabled": {
 		"message": "Play disabled. Try adding a video to your playlist, first!"
 	},
-	"clickToPlay": {
-		"message": "Click to play the current video."
-	},
-	"clickToPause": {
-		"message": "Click to pause the current video."
-	},
 	"skipNextVideo": {
 		"message": "Skip to the next video."
 	},
@@ -150,7 +144,7 @@
 		"message": "Time remaining"
 	},
 	"totalTime": {
-		"message": "Video duration"
+		"message": "total time"
 	},
 	"suggestedQuality": {
 		"message": "Suggested Quality:"
@@ -263,12 +257,6 @@
 	"clickToUnmute": {
 		"message": "Click to unmute"
 	},
-	"videoDisplayEnabled": {
-		"message": "Video enabled."
-	},
-	"videoDisplayDisabled": {
-		"message": "Video disabled."
-	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"
 	},
@@ -371,9 +359,6 @@
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"
 	},
-	"playVideoInStream": {
-		"message": "Play Video in Stream"
-	},
 	"playPlaylistInStream": {
 		"message": "Play Playlist in Stream"
 	},
@@ -445,5 +430,14 @@
 	},
 	"toggleVideoDisabled": {
 		"message": "Can't toggle the current video state."
+	},
+	"pause": {
+		"message": "Pause"
+	},
+	"videoDisplayEnabled": {
+		"message": "hide video"
+	},
+	"videoDisplayDisabled": {
+		"message": "show video"
 	}
 }

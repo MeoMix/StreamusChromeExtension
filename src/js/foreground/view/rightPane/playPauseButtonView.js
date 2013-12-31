@@ -22,8 +22,8 @@ define([
         },
         
         disabledTitle: chrome.i18n.getMessage('playDisabled'),
-        pauseTitle: chrome.i18n.getMessage('clickToPause'),
-        playTitle: chrome.i18n.getMessage('clickToPlay'),
+        pauseTitle: chrome.i18n.getMessage('pause'),
+        playTitle: chrome.i18n.getMessage('play'),
         
         render: function () {
             

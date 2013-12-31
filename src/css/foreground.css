@@ -36,7 +36,7 @@ body > .fa-spinner {
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
     height: 4px;
-    width: 10px;
+    width: 8px;
 }
 
 /* Ensure no buttons are displayed */
@@ -47,12 +47,16 @@ body > .fa-spinner {
 
 ::-webkit-scrollbar-track-piece {
     background-color: #fff;
-    width: 10px;
+    width: 8px;
 }
 
-::-webkit-scrollbar-track-piece:hover {
+/*::-webkit-scrollbar-track-piece:hover {
     background-color: #efefef
 }
+
+.panel ::-webkit-scrollbar-track-piece:hover {
+    background-color: #fff
+}*/
 
 ::-webkit-scrollbar-thumb:vertical {
     background-color: #D7D7D7;
@@ -61,10 +65,6 @@ body > .fa-spinner {
 
 ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: #666;
-}
-
-::-webkit-scrollbar-thumb:vertical:hover ::-webkit-scrollbar-track-piece {
-    background-color: #D7D7D7;
 }
 
 /* Animation keyframes - you need to add prefixes */
@@ -77,10 +77,8 @@ body > .fa-spinner {
        }
 }
 
-/* TODO: These reds aren't very visually pleasing. Help? */
 button.mute.muted{
     color: #E20007;
-    text-shadow: 0 0 1px #FF0019;
 }
 
 .modalOverlay .panel {
@@ -119,7 +117,7 @@ button.mute.muted{
 .prompt.settingsPrompt .panel {
     margin-left: -125px;
     width: 250px;
-    height: 200px;
+    height: 195px;
 }
 
 .prompt.createPlaylistPrompt .panel {
@@ -152,6 +150,7 @@ button.mute.muted{
     position: absolute;
     top: 0;
     right: 0;
+    /*background: url('../img/close.png') no-repeat;*/
 } 
 
 .prompt .bottom-right {
@@ -348,18 +347,11 @@ button:active {
 
 button.enabled {
     color: #6BBD46;
-    text-shadow: 0 0 3px #94ff29
 }
 
 .button-label { padding: .1em .4em; }
 
 .button-label i { margin-right: .5em }
-
-.button-color {
-    background: -webkit-linear-gradient(top, #6edb00, #6BBD46);
-    color: #fff;
-    text-shadow: 0 1px 0 #57ad00
-}
 
 input[type="range"] {
     -webkit-appearance: none;
@@ -398,6 +390,14 @@ input[type="range"]::-webkit-slider-thumb {
     display: none;
 }
 
+.stream .big-text-wrapper {
+    top: 89px;
+}
+
+.editableTitle {
+    width: 145px;
+}
+
 .editableTitle.hidden {
     display: none;
 }
@@ -429,7 +429,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .left-bottom-menubar {
-    border-top: 1px solid #e6e6e6;
+    border-top: 1px solid #f2f2f2;
     bottom: 0;
     display: block;
     height: 30px;
@@ -520,11 +520,6 @@ input[type="range"]::-webkit-slider-thumb {
     width: calc(100% - 1px);
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-#streamItemList .listItem {
-    margin-left: 10px;
-    width: calc(100% - 20px);
 }
 
 .listItem i.delete {
@@ -691,18 +686,20 @@ input.valid {
 }
 
 .underline {
-    background: #ccc;
+    background-color: #f2f2f2;
     transition: background-color .3s;
     z-index: 0;
     height: 5px;
 }
 
-.underline.active { background: #666 }
+.underline.active {
+    background-color: #e6e6e6
+}
 
 #videoSearch {
     box-shadow: 0 0 10px #000;
     /*left: -380px;*/
-    left: -390px
+    left: -395px
 }
 
 .searchBar input {
@@ -710,7 +707,7 @@ input.valid {
     border: 0;
     bottom: 11px;
     display: block;
-    font: bold 14px/1 sans-serif;
+    font-size: 14px;
     left: 1px;
     padding: 0 .2em;
     position: absolute;
@@ -738,7 +735,6 @@ input.valid {
 .big-text {
     cursor: default;
     color: #949494;
-    font-size: 1.0em;
     margin: 2em 1em;
     text-align: center;
 }
@@ -749,14 +745,13 @@ input.valid {
 }
 
 .right-pane {
-    background: #f2f2f2;
     border-left: 1px solid #e6e6e6;
     bottom: 0;
     display: block;
     position: absolute;
     right: 0;
     top: 0;
-    width: 250px;
+    width: 255px;
     z-index: 1
 }
 
@@ -780,12 +775,11 @@ input.valid {
     height: 40px;
     z-index: 3;
     width: 42px;
-    background-color: #f2f2f2;
     cursor: pointer;
 }
 
 .right-pane .top-bar .volume-slider {
-    background: #fafafa;
+    background: #fff;
     border: 1px solid #ccc;
     width: 40px;
     height: 80px;
@@ -803,7 +797,7 @@ input.valid {
     content: ' ';
     width: 10px;
     height: 10px;
-    background: #fafafa;
+    background: #fff;
     position: absolute;
     bottom: -6px;
     left: 50%;
@@ -848,7 +842,7 @@ input.valid {
     bottom: 0;
     display: block;
     left: 50%;
-    margin-left: -64px;
+    margin-left: -61px;
     position: absolute;
     top: 0;
     width: 128px;
@@ -867,13 +861,13 @@ input.valid {
 }
 
 .right-pane .time-slider {
-    background: #dadada;
+    background: #f2f2f2;
     display: block;
     height: 3px;
-    left: 10px;
+    left: 59px;
     position: absolute;
-    right: 10px;
-    top: 44px;
+    right: 58px;
+    top: 53px;
 }
 
 .right-pane .time-slider .progress {
@@ -893,18 +887,18 @@ input.valid {
     position: absolute;
     right: 0;
     top: 0;
-    width: 230px;
+    width: 138px;
     z-index: 2
 }
 
 .right-pane .progress-details {
     display: block;
     height: 19.5px;
-    left: 10px;
+    left: 7.5px;
     line-height: 1.5;
     position: absolute;
-    right: 10px;
-    top: 55px;
+    right: 7.5px;
+    top: 45px;
 }
 
 .right-pane .progress-details .time-elapsed {
@@ -949,17 +943,17 @@ input.valid {
 .stream .list {
     bottom: 40px;
     display: block;
-    left: 0;
+    left: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
-    right: 0;
-    top: 84.5px;
+    right: 10px;
+    top: 73.5px;
     padding-right: 0
 }
 
 .right-pane .context-buttons {
-    border-top: 1px solid #dadada;
+    border-top: 1px solid #f2f2f2;
     bottom: 0;
     display: block;
     height: 30px;
@@ -1053,7 +1047,7 @@ input.valid {
 }
 
 #activeFolderArea .panel {
-    background: #f2f2f2;
+    background: #fff;
     bottom: 0;
     box-shadow: 0 0 20px #000;
     display: block;
@@ -1082,7 +1076,7 @@ input.valid {
 }
 
 #activeFolderArea .header {
-    background: #e6e6e6;
+    background: #fff;
     display: block;
     height: 45px;
     left: 0;
@@ -1146,7 +1140,7 @@ body.dragging .scroll {
 #addSearchResults .divider {
     margin-top: 10px;
     margin-bottom: 5px;
-    border-bottom: 1px solid #dadada;
+    border-bottom: 1px solid #f2f2f2;
     position: relative;
     left: 10px;
     width: 230px;
@@ -1223,8 +1217,11 @@ body.dragging .scroll {
     cursor: pointer;
     height: 26px;
     line-height: 26px;
-    margin-top: 1em;
-    text-transform: uppercase;
+    margin-top: .6em;
+    display: inline-block;
+    font-weight: normal;
+    font-size: 1.2em;
+    margin-bottom: .2em;
 }
 
 #activeFolderArea .list h3 i { margin-left: .3em }
@@ -1234,6 +1231,7 @@ body.dragging .scroll {
     height: 26px;
     line-height: 26px;
     position: relative;
+    width: calc(100% - 1px);
 }
 
 #activeFolderArea .list ul li span.titleWrapper {
@@ -1260,7 +1258,7 @@ body.dragging .scroll {
     color: #fff;
     font-size: .85em;
     font-weight: bold;
-    line-height: 1.4;
+    line-height: 1.3;
     padding: 0 .6em 0 .5em;
     position: absolute;
     right: 10px;
@@ -1269,7 +1267,7 @@ body.dragging .scroll {
 }
 
 #activeFolderArea .context-buttons {
-    border-top: 1px solid #dadada;
+    border-top: 1px solid #f2f2f2;
     bottom: 0;
     left: 10px;
     position: absolute;
@@ -1306,7 +1304,6 @@ html .selectize-control.multi .selectize-input > div {
 
 html .selectize-control.multi .selectize-input [data-value] {
     background: -webkit-linear-gradient(top, #6edb00, #6BBD46) !important;
-    text-shadow: 0 1px 0 #57ad00 !important;
 }
 
 html .selectize-control.multi .selectize-input [data-value] > .remove {
@@ -1386,4 +1383,31 @@ input[type=checkbox], input[type=radio] {
 }
 input[type=radio] {
     bottom: 2px;
+}
+
+/* qtip overrides: */
+body .qtip {
+    min-width: 0;
+}
+
+body .qtip-light {
+    border-color: #F2F2F2;
+    color: #666666;
+}
+
+.topic {
+    font-size: 16px;
+}
+
+.category {
+    margin-left: 10px;
+    margin-top: 5px;
+}
+
+.category li {
+    padding: 5px 0;
+}
+
+.button-label .fa-play {
+    font-size: 1.0em !important;
 }

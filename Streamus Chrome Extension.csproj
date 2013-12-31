@@ -59,7 +59,7 @@
     <Content Include="src\font\fontawesome-webfont.svg" />
     <Content Include="src\foreground.html" />
     <Content Include="src\fullscreen.html" />
-    <Content Include="src\img\checkbox.png" />
+    <Content Include="src\img\close.png" />
     <Content Include="src\img\Green 0.png" />
     <Content Include="src\img\Green 1.png" />
     <Content Include="src\img\Green 2.png" />

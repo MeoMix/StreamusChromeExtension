@@ -84,7 +84,7 @@
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage('playVideoInStream'),
+                    text: chrome.i18n.getMessage('play'),
                     onClick: function () {
 
                         var video = self.model.get('video');

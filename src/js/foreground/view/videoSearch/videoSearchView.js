@@ -50,7 +50,7 @@
             playlistActions.append(this.playSelectedButtonView.render().el);
             playlistActions.append(this.saveSelectedButtonView.render().el);
 
-            this.searchUnderline = $('.searchBar .underline');
+            this.searchUnderline = this.$el.find('.searchBar .underline');
 
             this.initializeTooltips();
             
@@ -74,7 +74,8 @@
             this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
         },
         
-        highlight: function() {
+        highlight: function () {
+            console.log("adding active to searchUnderline", this.searchUnderline);
             this.searchUnderline.addClass('active');
         },
         

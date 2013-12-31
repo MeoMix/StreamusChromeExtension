@@ -15,9 +15,10 @@
         
         initializeTooltips: function() {
             this.$el.find('[title]').qtip({
-                //  TODO: This tooltip looks shit on some views? Why? Even if I fuss with it :(
                 position: {
-                    viewport: $(window)
+                    viewport: $(window),
+                    my: 'top center',
+                    at: 'bottom center'
                 },
                 style: {
                     classes: 'qtip-light qtip-shadow'

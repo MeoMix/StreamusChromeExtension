@@ -131,12 +131,6 @@
 	"playDisabled": {
 		"message": "Predvajanje onemogoceno. Najprej poskusite dodati posnetek na vaš seznam predvajanja!"
 	},
-	"clickToPlay": {
-		"message": "Kliknite za predvajanje trenutnega posnetka."
-	},
-	"clickToPause": {
-		"message": "Kliknite za pavziranje trenutnega posnetka."
-	},
 	"skipNextVideo": {
 		"message": "Preskoci na naslednji posnetek."
 	},
@@ -148,9 +142,6 @@
 	},
 	"timeRemaining": {
 		"message": "Preostali cas"
-	},
-	"totalTime": {
-		"message": "Dolžina posnetka"
 	},
 	"suggestedQuality": {
 		"message": "Priporocena kvaliteta:"
@@ -263,12 +254,6 @@
 	"clickToUnmute": {
 		"message": "Kliknite za unmute"
 	},
-	"videoDisplayEnabled": {
-		"message": "Posnetek je viden."
-	},
-	"videoDisplayDisabled": {
-		"message": "Posnetek je skrit."
-	},
 	"reloadStreamus": {
 		"message": "Ponovno naloži Streamus"
 	},
@@ -369,9 +354,6 @@
 	"optionalSource": {
 		"message": "Opcijsko: YouTube seznam predvajanja/kanalov URL"
 	},
-	"playVideoInStream": {
-		"message": "Predvajaj posnetek v streamu"
-	},
 	"playPlaylistInStream": {
 		"message": "Predvajaj seznam predvajanja v streamu"
 	},
@@ -445,5 +427,17 @@
 	},
 	"toggleVideoDisabled": {
 		"message": "Can't toggle the current video state."
+	},
+	"pause": {
+		"message": "Pause"
+	},
+	"totalTime": {
+		"message": "total time"
+	},
+	"videoDisplayEnabled": {
+		"message": "hide video"
+	},
+	"videoDisplayDisabled": {
+		"message": "show video"
 	}
 }
