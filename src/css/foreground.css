@@ -353,6 +353,12 @@ button.enabled {
 
 .button-label i { margin-right: .5em }
 
+.button-color {
+    background: -webkit-linear-gradient(top, #6edb00, #6BBD46);
+    color: #fff;
+    text-shadow: 0 1px 0 #57ad00
+}
+
 input[type="range"] {
     -webkit-appearance: none;
     background: transparent;
@@ -391,7 +397,7 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .stream .big-text-wrapper {
-    top: 89px;
+    top: 79px;
 }
 
 .editableTitle {
@@ -692,8 +698,8 @@ input.valid {
     height: 5px;
 }
 
-.underline.active {
-    background-color: #e6e6e6
+.searchBar input:focus  ~ .underline {
+    background-color: #4EA6EA;
 }
 
 #videoSearch {
@@ -941,14 +947,14 @@ input.valid {
 }
 
 .stream .list {
-    bottom: 40px;
     display: block;
     left: 10px;
     overflow-y: auto;
     overflow-x: hidden;
     position: absolute;
     right: 10px;
-    top: 73.5px;
+    top: 0px;
+    bottom: 0px;
     padding-right: 0
 }
 

@@ -20,7 +20,7 @@
             id: 'videoSearch'
         },
         
-        searchUnderline: null,
+        searchInput: null,
         playSelectedButtonView: null,
         saveSelectedButtonView: null,
         
@@ -29,8 +29,6 @@
         noResultsMessage: null,
         
         events: {
-            'focus .searchBar input': 'highlight',
-            'blur .searchBar input': 'lowlight',
             'input .searchBar input': 'showVideoSuggestions',
             'click #button-back': 'destroyModel'
         },
@@ -50,7 +48,7 @@
             playlistActions.append(this.playSelectedButtonView.render().el);
             playlistActions.append(this.saveSelectedButtonView.render().el);
 
-            this.searchUnderline = this.$el.find('.searchBar .underline');
+            this.searchInput = this.$el.find('.searchBar input');
 
             this.initializeTooltips();
             
@@ -74,23 +72,13 @@
             this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
         },
         
-        highlight: function () {
-            console.log("adding active to searchUnderline", this.searchUnderline);
-            this.searchUnderline.addClass('active');
-        },
-        
-        lowlight: function() {
-            this.searchUnderline.removeClass('active');
-        },
-        
         showAndFocus: function (instant) {
             
             this.$el.transition({
                 x: this.$el.width()
             }, instant ? 0 : undefined, 'snap');
 
-            var searchInput = $('.searchBar input');
-            searchInput.focus();
+            this.searchInput.focus();
         },
         
         destroyModel: function () {
@@ -98,34 +86,30 @@
         },
         
         hide: function() {
-            var self = this;
-    
             this.$el.transition({
                 x: -20
             }, function () {
-                self.remove();
+                this.remove();
                 VideoSearchResults.clear();
-            });
-           
+            }.bind(this));
         },
         
         getSearchQuery: function () {
-            var searchInput = $('.searchBar input');
-            var searchQuery = $.trim(searchInput.val());
-
+            var searchQuery = $.trim(this.searchInput.val());
             return searchQuery;
         },
         
         //  Searches youtube for video results based on the given text.
         showVideoSuggestions: function () {
+            
             var searchQuery = this.getSearchQuery();
-
             this.model.set('searchQuery', searchQuery);
+            
         },
 
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
-
+            
             //  Hide the search message when not searching.
             var isNotSearching = this.model.get('searchJqXhr') === null;
             this.searchingMessage.toggleClass('hidden', isNotSearching);
@@ -137,7 +121,8 @@
 
             //  Only show no results when all other options are exhausted and user has interacted.
             var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
-            this.noResultsMessage.toggleClass('hidden',  !hasNoResults);
+            this.noResultsMessage.toggleClass('hidden', !hasNoResults);
+            
         }
 
     });
