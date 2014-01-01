@@ -131,12 +131,6 @@
 	"playDisabled": {
 		"message": "Predvajanje onemogoceno. Najprej poskusite dodati posnetek na vaš seznam predvajanja!"
 	},
-	"skipNextVideo": {
-		"message": "Preskoci na naslednji posnetek."
-	},
-	"backPreviousVideo": {
-		"message": "Pojdi nazaj na prejšnji posnetek."
-	},
 	"elapsedTime": {
 		"message": "Porabljen cas"
 	},
@@ -189,22 +183,22 @@
 		"message": "Dodaj posnetke"
 	},
 	"playAll": {
-		"message": "Predvajaj vse"
+		"message": "predvajaj vse"
 	},
 	"playAllDisabled": {
 		"message": "Seznam predvajanja je prazen"
 	},
 	"addAll": {
-		"message": "Dodaj vse"
+		"message": "dodaj vse"
 	},
 	"addAllDisabled": {
 		"message": "Seznam predvajanja je prazen"
 	},
 	"playSelected": {
-		"message": "Predvajaj izbrano"
+		"message": "predvajaj izbrano"
 	},
 	"addSelected": {
-		"message": "Dodaj izbrano"
+		"message": "dodaj izbrano"
 	},
 	"playSelectedDisabled": {
 		"message": "Niste izbrali nobenih rezultatov iskanja"
@@ -213,7 +207,7 @@
 		"message": "Niste izbrali nobenih rezultatov iskanja"
 	},
 	"saveSelected": {
-		"message": "Shrani izbrano"
+		"message": "shrani izbrano"
 	},
 	"saveSelectedDisabled": {
 		"message": "Niste izbrali nobenih rezultatov iskanja"
@@ -249,10 +243,10 @@
 		"message": "Shrani stream"
 	},
 	"clickToMute": {
-		"message": "Kliknite za mute"
+		"message": "mute"
 	},
 	"clickToUnmute": {
-		"message": "Kliknite za unmute"
+		"message": "unmute"
 	},
 	"reloadStreamus": {
 		"message": "Ponovno naloži Streamus"
@@ -439,5 +433,11 @@
 	},
 	"videoDisplayDisabled": {
 		"message": "show video"
+	},
+	"skipNextVideo": {
+		"message": "Next video"
+	},
+	"backPreviousVideo": {
+		"message": "Previous video"
 	}
 }

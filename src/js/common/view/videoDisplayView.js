@@ -7,10 +7,16 @@ define([
     'foreground/collection/contextMenuGroups',
     'text!template/videoDisplay.html',
     'common/view/videoView',
-    'foreground/model/buttons/videoDisplayButton'
-], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoView, VideoDisplayButton) {
+    'foreground/model/buttons/videoDisplayButton',
+    //  TODO: Should be moved to a common location:
+    'foreground/view/rightPane/playPauseButtonView',
+    'foreground/view/rightPane/previousButtonView',
+    'foreground/view/rightPane/nextButtonView',
+    'foreground/view/rightPane/volumeControlView'
+], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoView, VideoDisplayButton, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView) {
     'use strict';
 
+    //  TODO: Maybe I should implement a naming standard like VideoAreaView for groupings around explicit views.
     var VideoDisplayView = GenericForegroundView.extend({
 
         attributes: {
@@ -22,6 +28,10 @@ define([
         panel: null,
         
         videoView: null,
+        playPauseButtonView: null,
+        previousButtonView: null,
+        nextButtonView: null,
+        volumeControlView: null,
         
         events: {
             'click .remove': 'toggleVideoDisplay',
@@ -32,30 +42,49 @@ define([
             this.$el.html(this.template(
                 _.extend({
                     //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
+                    'chrome.i18n': chrome.i18n,
+                    
                 })
             ));
 
             this.panel = this.$el.find('.panel');
             this.panel.append(this.videoView.render().el);
-            
+
+            this.$el.find('#volumeControlView').replaceWith(this.volumeControlView.render().el);
+
+            this.$el.find('#previousButtonView').replaceWith(this.previousButtonView.render().el);
+            this.$el.find('#playPauseButtonView').replaceWith(this.playPauseButtonView.render().el);
+            this.$el.find('#nextButtonView').replaceWith(this.nextButtonView.render().el);
+
             return this;
         },
 
         initialize: function () {
-
             this.videoView = new VideoView();
+            this.listenTo(VideoDisplayButton, 'change:enabled', this.hideOnDisabled);
+            
+            this.playPauseButtonView = new PlayPauseButtonView();
+            this.previousButtonView = new PreviousButtonView();
+            this.nextButtonView = new NextButtonView();
+            this.volumeControlView = new VolumeControlView();
+            
 
-            this.listenTo(VideoDisplayButton, 'change:enabled', function (model, enabled) {
-                if (!enabled) {
-                    this.hide();
-                }
-            });
+            //  TODO: TimeProgressAreaView is still useful, hopefully.
+            //this.timeProgressAreaView = new TimeProgressAreaView();
+            //this.videoDisplayButtonView = new VideoDisplayButtonView();
         },
         
         toggleVideoDisplay: function () {
             VideoDisplayButton.toggleEnabled();
             console.log("VideoDisplayButton is now:", VideoDisplayButton.get('enabled'));
+        },
+        
+        hideOnDisabled: function() {
+            var enabled = VideoDisplayButton.get('enabled');
+
+            if (!enabled) {
+                this.hide();
+            }
         },
 
         show: function (instant) {

@@ -72,13 +72,11 @@
         
         fadeOutAndHide: function () {
 
-            var self = this;
-
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
-                self.remove();
-            });
+                this.remove();
+            }.bind(this));
 
             this.panel.transition({
                 y: 0,

@@ -28,6 +28,8 @@
         instructions: null,
         noResultsMessage: null,
         
+        bottomMenuBar: null,
+        
         events: {
             'input .searchBar input': 'showVideoSuggestions',
             'click #button-back': 'destroyModel'
@@ -43,6 +45,8 @@
 
             this.$el.find('#videoSearchResultsView').replaceWith(this.videoSearchResultsView.render().el);
 
+            this.bottomMenuBar = this.$el.find('.left-bottom-menubar');
+
             var playlistActions = this.$el.find('.playlist-actions');
 
             playlistActions.append(this.playSelectedButtonView.render().el);
@@ -57,7 +61,7 @@
             this.noResultsMessage = this.$el.find('div.noResults');
 
             this.toggleBigText();
-            
+
             return this;
         },
         
@@ -70,6 +74,7 @@
             this.listenTo(this.model, 'destroy', this.hide);
             this.listenTo(this.model, 'change:searchJqXhr', this.toggleBigText);
             this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
+            this.listenTo(VideoSearchResults, 'add addMultiple remove empty reset', this.toggleBottomMenuBarVisibility);
         },
         
         showAndFocus: function (instant) {
@@ -105,6 +110,10 @@
             var searchQuery = this.getSearchQuery();
             this.model.set('searchQuery', searchQuery);
             
+        },
+        
+        toggleBottomMenuBarVisibility: function () {
+           //  TODO: Hide bottom menu bar until it is relevant.
         },
 
         //  Set the visibility of any visible text messages.

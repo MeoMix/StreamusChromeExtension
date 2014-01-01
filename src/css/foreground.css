@@ -67,6 +67,10 @@ body > .fa-spinner {
     background-color: #666;
 }
 
+/*::-webkit-scrollbar-thumb:vertical:hover + ::-webkit-scrollbar-track-piece{
+    background-color: #red !important;
+}*/
+
 /* Animation keyframes - you need to add prefixes */
 @-webkit-keyframes spin {
     from {
@@ -117,7 +121,7 @@ button.mute.muted{
 .prompt.settingsPrompt .panel {
     margin-left: -125px;
     width: 250px;
-    height: 195px;
+    height: 200px;
 }
 
 .prompt.createPlaylistPrompt .panel {
@@ -346,7 +350,8 @@ button:active {
 }
 
 button.enabled {
-    color: #6BBD46;
+    /*color: #6BBD46;*/
+    color: #4EA6EA;
 }
 
 .button-label { padding: .1em .4em; }
@@ -494,6 +499,11 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
+.listItem:hover .item-title-wrapper{
+    /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
+    margin-right: 21px;
+}
+
 .listItem:hover > i {
     display: block;
 }
@@ -542,7 +552,7 @@ input[type="range"]::-webkit-slider-thumb {
 
 .listItem > i.hoverable {
     padding: 2.5px;
-    margin-right: 0;
+    margin-right: 2px;
 }
 
 .listItem:hover,
@@ -699,6 +709,7 @@ input.valid {
 }
 
 .searchBar input:focus  ~ .underline {
+    /*background-color: #339933;*/
     background-color: #4EA6EA;
 }
 
@@ -761,8 +772,7 @@ input.valid {
     z-index: 1
 }
 
-.right-pane .top-bar,
-#videoDisplay .top-bar {
+.right-pane .top-bar {
     display: block;
     height: 44px;
     left: 10px;
@@ -771,6 +781,32 @@ input.valid {
     top: 0;
 }
 
+#videoDisplay .top-bar {
+    display: block;
+    height: 50px;
+    left: 10px;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
+
+#videoDisplay .top-bar .left-side {
+    height: 50px;
+    width: 390px;
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+
+#videoDisplay .top-bar .right-side {
+    height: 50px;
+    width: 235px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+#videoDisplay .top-bar .volumeControl,
 .right-pane .top-bar .volumeControl {
     bottom: 0;
     display: block;
@@ -784,6 +820,7 @@ input.valid {
     cursor: pointer;
 }
 
+#videoDisplay .top-bar .volume-slider,
 .right-pane .top-bar .volume-slider {
     background: #fff;
     border: 1px solid #ccc;
@@ -798,6 +835,7 @@ input.valid {
     -webkit-transform: rotate(180deg);
 }
 
+#videoDisplay .top-bar .volume-slider:before,
 .right-pane .top-bar .volume-slider:before {
     display: block;
     content: ' ';
@@ -813,6 +851,7 @@ input.valid {
     border-right: 1px solid #ccc;
 }
 
+#videoDisplay .top-bar .volume-slider input,
 .right-pane .top-bar .volume-slider input {
     -webkit-appearance: none;
     width: 80px;
@@ -824,6 +863,8 @@ input.valid {
     top: 10px;
     left: 21px;
 }
+
+#videoDisplay .top-bar .volume-slider input::-webkit-slider-thumb,
 .right-pane .top-bar .volume-slider input::-webkit-slider-thumb {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 0 5px #c5c5c5;
@@ -834,16 +875,19 @@ input.valid {
     width: 10px
 }
 
+#videoDisplay .top-bar .volume-slider input:focus,
 .right-pane .top-bar .volume-slider input:focus {
     outline: none
 }
 
+#videoDisplay .top-bar .volume-slider .progress,
 .right-pane .top-bar .volume-slider .progress {
     margin-left: 19px;
     width: 2px;
     background: #777;
 }
 
+#videoDisplay .top-bar .center-group,
 .right-pane .top-bar .center-group {
     bottom: 0;
     display: block;
@@ -1227,7 +1271,7 @@ body.dragging .scroll {
     display: inline-block;
     font-weight: normal;
     font-size: 1.2em;
-    margin-bottom: .2em;
+    margin-bottom: .3em;
 }
 
 #activeFolderArea .list h3 i { margin-left: .3em }
@@ -1355,6 +1399,11 @@ html .selectize-control.multi .selectize-input.full > input {
     top: 0;
     left: 0;
     right: 0;
+    z-index: 1;
+}
+
+.big-text.streamEmpty {
+    position: absolute;
     z-index: 1;
 }
 

@@ -132,10 +132,10 @@
 		"message": "Play disabled. Try adding a video to your playlist, first!"
 	},
 	"skipNextVideo": {
-		"message": "Skip to the next video."
+		"message": "Next video."
 	},
 	"backPreviousVideo": {
-		"message": "Go back to the previous video."
+		"message": "Previous video."
 	},
 	"elapsedTime": {
 		"message": "Elapsed time"
@@ -192,22 +192,22 @@
 		"message": "Add videos"
 	},
 	"playAll": {
-		"message": "Play all"
+		"message": "play all"
 	},
 	"playAllDisabled": {
 		"message": "Playlist is empty"
 	},
 	"addAll": {
-		"message": "Add all"
+		"message": "add all"
 	},
 	"addAllDisabled": {
 		"message": "Playlist is empty"
 	},
 	"playSelected": {
-		"message": "Play selected"
+		"message": "play selected"
 	},
 	"addSelected": {
-		"message": "Add selected"
+		"message": "add selected"
 	},
 	"playSelectedDisabled": {
 		"message": "You have no search results selected"
@@ -216,7 +216,7 @@
 		"message": "You have no search results selected"
 	},
 	"saveSelected": {
-		"message": "Save selected"
+		"message": "save selected"
 	},
 	"saveSelectedDisabled": {
 		"message": "You have no search results selected"
@@ -252,10 +252,10 @@
 		"message": "Save stream"
 	},
 	"clickToMute": {
-		"message": "Click to mute"
+		"message": "mute"
 	},
 	"clickToUnmute": {
-		"message": "Click to unmute"
+		"message": "unmute"
 	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"
