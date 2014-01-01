@@ -636,7 +636,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.searchBar .underline {
+.searchBar .underline { 
     bottom: 10px;
     left: 0;
     position: absolute;
