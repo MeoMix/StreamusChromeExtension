@@ -173,7 +173,7 @@
             
             //  Dragging needs to always trigger a select so the addsearchresults view open
             if (searchResult.get('selected') && isDrag) {
-                searchResult.trigger('selected', true);
+                searchResult.set('selected', false, { silent: true}).set('selected', true);
             } else {
                 //  A dragged item is always selected.
                 searchResult.set('selected', !searchResult.get('selected') || isDrag);

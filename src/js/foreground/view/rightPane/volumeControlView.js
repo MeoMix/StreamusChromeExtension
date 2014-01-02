@@ -65,13 +65,24 @@ define([
             var self = this;
             this.$el.hoverIntent(function () {
 
-                $(this).data('oldheight', $(this).height()).transition({ height: 150 }, 200);
-                self.volumeSlider.transition({ opacity: 1, marginTop: 0 }, 200);
+                $(this).data('oldheight', $(this).height()).transition({
+                    height: 150
+                }, 250, 'snap');
+                
+                self.volumeSlider.transition({
+                    opacity: 1
+                }, 250, 'snap');
 
             }, function () {
 
-                $(this).transition({ height: $(this).data('oldheight') }, 200);
-                self.volumeSlider.transition({ opacity: 0, marginTop: -20 }, 200);
+                $(this).transition({
+                    height: $(this).data('oldheight')
+                }, 250);
+
+                self.volumeSlider.transition({
+                    opacity: 0
+                }, 250);
+                
             }, config);
         },
 
@@ -142,9 +153,6 @@ define([
             if (this.rendered) {
                 var isMuted = Player.get('muted');
                 this.muteButton.toggleClass('muted', isMuted);
-
-                var title = isMuted ? chrome.i18n.getMessage('clickToUnmute') : chrome.i18n.getMessage('clickToMute');
-                this.muteButton.attr('title', title);
             }
 
         }

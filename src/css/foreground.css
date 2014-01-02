@@ -258,9 +258,9 @@ span.playlistTitle {
     cursor: default;
 }
 
-/* TODO: This isn't a very pretty color for indicating active... better way? */
 .addItemOption.active .item-title {
-    color: #6BBD46;
+    /*color: #6BBD46;*/
+    color: #4EA6EA;
 }
 
 .item-details {
@@ -401,8 +401,18 @@ input[type="range"]::-webkit-slider-thumb {
     display: none;
 }
 
-.stream .big-text-wrapper {
+#stream {
+    position: absolute;
     top: 79px;
+    bottom: 0;
+    right: 0;
+    left: 0;
+}
+
+#stream .big-text-wrapper {
+    top: 0;
+    bottom: 40px;
+    width: calc(100% - 10px);
 }
 
 .editableTitle {
@@ -555,6 +565,7 @@ input[type="range"]::-webkit-slider-thumb {
     margin-right: 2px;
 }
 
+.addItemOption.stream:hover,
 .listItem:hover,
 .playlist:hover {
     background: #ebebeb;
@@ -619,12 +630,7 @@ input[type="range"]::-webkit-slider-thumb {
     padding-top: 5px;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 65px;
-}
-
-#addSearchResults .item-title {
-    font-weight: bold;
-    padding-left: 0;
+    margin-left: 55px;
 }
 
 #hideAddItemsButton {
@@ -716,7 +722,7 @@ input.valid {
 #videoSearch {
     box-shadow: 0 0 10px #000;
     /*left: -380px;*/
-    left: -395px
+    left: -400px
 }
 
 .searchBar input {
@@ -831,7 +837,6 @@ input.valid {
     padding-top: 10px;
     padding-bottom: 10px;
     opacity: 0;
-    margin-top: -20px;
     -webkit-transform: rotate(180deg);
 }
 
@@ -984,10 +989,12 @@ input.valid {
     overflow-x: hidden;
     overflow-y: auto;
     position: absolute;
-    top: 125px;
+    top: 110px;
     left: 0;
     right: 10px;
     bottom: 0;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }
 
 .stream .list {
@@ -997,8 +1004,8 @@ input.valid {
     overflow-x: hidden;
     position: absolute;
     right: 10px;
-    top: 0px;
-    bottom: 0px;
+    top: 0;
+    bottom: 0;
     padding-right: 0
 }
 
@@ -1109,7 +1116,7 @@ input.valid {
 }
 
 #addSearchResults .panel {
-    background: #f2f2f2;
+    background: #fff;
     bottom: 0;
     display: block;
     right: -250px;
@@ -1137,9 +1144,8 @@ input.valid {
 }
 
 #addSearchResults .header {
-    background: #e6e6e6;
-    height: 45px;
-    margin-bottom: 10px;
+    background: #fff;
+    height: 40px;
 }
 
 #addSearchResults .header span {
@@ -1150,7 +1156,7 @@ input.valid {
     white-space: nowrap;
     line-height: 45px;
     text-align: left;
-    left: 20px;
+    left: 15px;
     position: absolute;
 }
 
@@ -1188,7 +1194,7 @@ body.dragging .scroll {
 }
 
 #addSearchResults .divider {
-    margin-top: 10px;
+    margin-top: 5px;
     margin-bottom: 5px;
     border-bottom: 1px solid #f2f2f2;
     position: relative;
@@ -1196,19 +1202,19 @@ body.dragging .scroll {
     width: 230px;
 }
 
-#addSearchResults .addItemOption.playlist {
-    padding-top: 5px;
-}
-
 #addSearchResults .addItemOption i.hidden {
     opacity: 0;
+}
+
+#addSearchResults .addItemOption.stream {
+    margin-top: 5px;
 }
 
 #addSearchResults .addItemOption i {
     border: 3px solid #D5D5D5;
     padding: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
     background-color: #DEDEDE;
     color: #656565;
     transition: opacity 1s;
@@ -1227,7 +1233,9 @@ body.dragging .scroll {
 
 #addSearchResults .addItemOption {
     height: 45px;
-    margin: 5px 10px;
+    margin-left: 5px;
+    width: 226px;
+    padding-top: 5px;
 }
 
 #activeFolderArea .header span {
@@ -1276,15 +1284,14 @@ body.dragging .scroll {
 
 #activeFolderArea .list h3 i { margin-left: .3em }
 
-#activeFolderArea .list ul li {
-    display: block;
+li.playlist {
     height: 26px;
     line-height: 26px;
     position: relative;
     width: calc(100% - 1px);
 }
 
-#activeFolderArea .list ul li span.titleWrapper {
+li.playlist span.titleWrapper {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-left: 5px;
@@ -1293,16 +1300,16 @@ body.dragging .scroll {
     margin-bottom: -7px;
 }
 
-#activeFolderArea .list ul li span.title {
+li.playlist span.title {
     white-space: nowrap;
     cursor: default;
 }
 
-#activeFolderArea .list ul li i {
+li.playlist i {
     margin-left: 5px;
 }
 
-#activeFolderArea .list ul li span.count {
+li.playlist span.count {
     background: #949494;
     border-radius: 1em;
     color: #fff;
@@ -1405,6 +1412,7 @@ html .selectize-control.multi .selectize-input.full > input {
 .big-text.streamEmpty {
     position: absolute;
     z-index: 1;
+    margin-top: 34px;
 }
 
 .big-text-header {
@@ -1417,7 +1425,7 @@ html .selectize-control.multi .selectize-input.full > input {
     color: #4EA6EA;
 }
 
-ul {
+ul, li {
     list-style: none;   
 }
 

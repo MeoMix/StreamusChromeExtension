@@ -101,6 +101,7 @@ define([
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.timeRange.val());
+                console.log("Seeking to time:", currentTime);
                 Player.seekTo(currentTime);
             }
 

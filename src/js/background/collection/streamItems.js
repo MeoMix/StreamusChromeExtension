@@ -426,7 +426,9 @@
         },
         
         //  If a streamItem which was selected is removed, selectNext will have a removedSelectedItemIndex provided
-        selectNext: function(removedSelectedItemIndex) {
+        selectNext: function (removedSelectedItemIndex) {
+
+            var nextItem = null;
 
             var shuffleEnabled = ShuffleButton.get('enabled');
             var radioEnabled = RadioButton.get('enabled');
@@ -436,10 +438,12 @@
             if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.RepeatVideo) {
                 var selectedItem = this.findWhere({ selected: true });
                 selectedItem.trigger('change:selected', selectedItem, true);
+                nextItem = selectedItem;
             } else if (shuffleEnabled) {
 
                 var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
                 shuffledItems[0].set('selected', true);
+                nextItem = shuffledItems[0];
             } else {
 
                 var nextItemIndex;
@@ -462,22 +466,23 @@
                         if (this.length === 1) {
                             this.at(0).trigger('change:selected', this.at(0), true);
                         }
+
+                        nextItem = this.at(0);
                     } else if (radioEnabled) {
 
                         var randomRelatedVideo = this.getRandomRelatedVideo();
 
                         if (randomRelatedVideo === null) {
-
                             console.error("No related video found.");
-
                         } else {
 
-                            this.add({
+                            nextItem = new StreamItem({
                                 video: randomRelatedVideo,
                                 title: randomRelatedVideo.get('title'),
                                 selected: true
                             });
 
+                            this.add(nextItem);
                         }
 
                     } else {
@@ -489,9 +494,12 @@
 
                 } else {
                     this.at(nextItemIndex).set('selected', true);
+                    nextItem = this.at(nextItemIndex);
                 }
 
             }
+
+            return nextItem;
 
         },
 

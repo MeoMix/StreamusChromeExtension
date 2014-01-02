@@ -46,7 +46,7 @@ define([
                 this.$el.append(listItems);
             }
             
-            //  TODO: Make playlists sortable.
+            //  TODO: Makes playlists scroll when you drag 'em around.
             var self = this;
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
@@ -57,10 +57,6 @@ define([
                 containment: 'body',
                 placeholder: "sortable-placeholder listItem",
                 scroll: false,
-                cursorAt: {
-                    right: 35,
-                    bottom: 40
-                },
                 tolerance: 'pointer',
                 helper: 'clone',
                 //  Whenever a video row is moved inform the Player of the new video list order

@@ -10,12 +10,32 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple empty remove', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add addMultiple empty remove change:selected', this.toggleEnabled);
+            this.listenTo(Player, 'change:currentTime', this.toggleEnabled);
+
             this.toggleEnabled();
         },
         
         toggleEnabled: function () {
-            this.set('enabled', StreamItems.length !== 0);
+
+            var enabled = false;
+            
+            if (StreamItems.length > 0) {
+
+                var selectedStreamItem = StreamItems.getSelectedItem();
+
+                console.log("Index:", StreamItems.indexOf(selectedStreamItem));
+                console.log("Time:", Player.get('currentTime'));
+                if (StreamItems.indexOf(selectedStreamItem) > 0) {
+                    enabled = true;
+                }
+                else if (Player.get('currentTime') > 0) {
+                    enabled = true;
+                }
+
+            }
+
+            this.set('enabled', enabled);
         },
         
         //  Prevent spamming by only allowing a previous click once every 100ms.
@@ -23,11 +43,10 @@
 
             if (this.get('enabled')){
 
-                // Restart video when clicking 'previous' if too much time has passed or if no other video to go to
+                //  Restart video when clicking 'previous' if too much time has passed or if no other video to go to
                 if (StreamItems.length === 1 || Player.get('currentTime') > 5) {
                     Player.seekTo(0);
                 } else {
-
                     StreamItems.selectPrevious();
                 }
             }

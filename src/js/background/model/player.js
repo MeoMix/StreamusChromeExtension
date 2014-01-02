@@ -161,7 +161,11 @@ define([
                 startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
-            
+
+            //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
+            //  but until the video actually loads -- current time isn't set.
+            this.set('currentTime', startSeconds || 0);
+
         },
             
         loadVideoById: function (videoId, startSeconds) {

@@ -31,8 +31,11 @@
         streamingImage: new Image(640, 360),
         //  This is the YouTube default image return from a YouTube video URL
         defaultImage: null,
+        defaultImageLoaded: false,
+        //notificationId: '',
         
         render: function () {
+            console.log("VideoView is rendering");
 
             var streamItemExists = StreamItems.length > 0;
             this.$el.toggleClass('clickable', streamItemExists);
@@ -51,9 +54,19 @@
                     if (Player.get('currentTime') > 0) {
                         this.getImageAndUpdate();
                     } else {
+                        console.log("Default image:", this.defaultImage);
                         //  Video is loaded, but hasn't started. Render its default image provided by YouTube.
                         if (this.defaultImage !== null) {
-                            this.context.drawImage(this.defaultImage, 0, 0, this.el.width, this.el.height);
+                            console.log("Drawing default image:", this.el.width, this.el.height);
+                            
+                            if (this.defaultImageLoaded) {
+                                this.context.drawImage(this.defaultImage, 0, 0, this.el.width, this.el.height);
+                            } else {
+                                this.defaultImage.onload = function () {
+                                    this.context.drawImage(this.defaultImage, 0, 0, this.el.width, this.el.height);
+                                }.bind(this);
+                            }
+
                         } else {
                             //  The default image for the video might not load. Recover gracefully with a blank image.
                             this.drawBlankImage();
@@ -90,9 +103,35 @@
         drawImageFromDataURL: function (imageSource) {
             this.streamingImage.src = imageSource;
             this.context.drawImage(this.streamingImage, 0, 0);
+            
+            //if (this.notificationId === '') {
+            //    chrome.notifications.create(this.notificationId, {
+            //        type: 'image',
+            //        imageUrl: imageSource,
+            //        iconUrl: 'http://img.youtube.com/vi/' + 'btDPtzCGNTE' + '/default.jpg',
+            //        title: 'Now Playing',
+            //        message: 'Hello World'
+            //    }, function (createdNotificationId) {
+            //        this.notificationId = createdNotificationId;
+            //    }.bind(this));
+            //} else {
+            //    chrome.notifications.update(this.notificationId, {
+            //        type: 'image',
+            //        imageUrl: imageSource,
+            //        iconUrl: 'http://img.youtube.com/vi/' + 'btDPtzCGNTE' + '/default.jpg',
+            //        title: 'Now Playing',
+            //        message: 'Hello World'
+            //    }, function () {
+            //        console.log("success");
+            //    });
+            //}
+ 
         },
         
         setDefaultImage: function () {
+            console.log("setDefaultImage");
+            this.defaultImageLoaded = false;
+
             var loadedVideoId = Player.get('loadedVideoId');
             
             if (loadedVideoId === '') {
@@ -100,7 +139,13 @@
             }
             else{
                 this.defaultImage = new Image(640, 360);
-                this.defaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg ';
+                this.defaultImage.src = 'http://i2.ytimg.com/vi/' + loadedVideoId + '/mqdefault.jpg';
+
+                this.defaultImage.onload = function() {
+                    this.defaultImageLoaded = true;
+                };
+
+                console.log("it's set");
             }
         },
         

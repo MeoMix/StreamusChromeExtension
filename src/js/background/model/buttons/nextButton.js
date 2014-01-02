@@ -59,11 +59,14 @@
         //  Prevent spamming by only allowing a next click once every 100ms.
         trySelectNextVideo: _.debounce(function () {
 
+            var selectedNextItem = false;
+
             if (this.get('enabled')) {
-                StreamItems.selectNext();
+                var nextItem = StreamItems.selectNext();
+                selectedNextItem = nextItem !== null;
             }
 
-            return this.get('enabled');
+            return selectedNextItem;
 
         }, 100, true)
 

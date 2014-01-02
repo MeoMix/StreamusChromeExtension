@@ -13,7 +13,9 @@
     
     var StreamView = GenericForegroundView.extend({
         
-        className: 'stream',
+        attributes: {
+            'id': 'stream'
+        },
         
         radioButtonView: null,
         shuffleButtonView: null,

@@ -38,14 +38,12 @@ define([
         },
 
         render: function () {
-
-            this.$el.html(this.template(
-                _.extend({
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n,
-                    
-                })
-            ));
+            
+            this.$el.html(this.template({
+                //  Mix in chrome to reference internationalize.
+                'chrome.i18n': chrome.i18n,
+                'title': StreamItems.getSelectedItem().get('title')
+            }));
 
             this.panel = this.$el.find('.panel');
             this.panel.append(this.videoView.render().el);
@@ -56,18 +54,20 @@ define([
             this.$el.find('#playPauseButtonView').replaceWith(this.playPauseButtonView.render().el);
             this.$el.find('#nextButtonView').replaceWith(this.nextButtonView.render().el);
 
+            this.title = this.$el.find('.title');
+
             return this;
         },
 
         initialize: function () {
             this.videoView = new VideoView();
             this.listenTo(VideoDisplayButton, 'change:enabled', this.hideOnDisabled);
+            this.listenTo(StreamItems, 'change:selected', this.updateTitle);
             
             this.playPauseButtonView = new PlayPauseButtonView();
             this.previousButtonView = new PreviousButtonView();
             this.nextButtonView = new NextButtonView();
             this.volumeControlView = new VolumeControlView();
-            
 
             //  TODO: TimeProgressAreaView is still useful, hopefully.
             //this.timeProgressAreaView = new TimeProgressAreaView();
@@ -117,6 +117,10 @@ define([
                 x: -20
             });
            
+        },
+        
+        updateTitle: function() {
+            this.title.text(StreamItems.getSelectedItem().get('title'));
         }
     });
 

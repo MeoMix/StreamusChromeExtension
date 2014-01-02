@@ -3,8 +3,9 @@ define([
     'text!template/deletePlaylistButton.html',
     'foreground/collection/folders',
     'foreground/view/genericPromptView',
-    'foreground/view/deletePlaylistView'
-], function (GenericForegroundView, DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView) {
+    'foreground/view/deletePlaylistView',
+    'foreground/model/settings'
+], function (GenericForegroundView, DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView, Settings) {
     'use strict';
 
     var DeletePlaylistButtonView = GenericForegroundView.extend({

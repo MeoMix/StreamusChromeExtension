@@ -20,7 +20,7 @@ define([
         switch (command) {
             case 'nextVideo':
                 var selectedNextVideo = NextButton.trySelectNextVideo();
-
+                console.log("selectedNextVideo:", selectedNextVideo);
                 if (!selectedNextVideo) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),

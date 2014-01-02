@@ -21,10 +21,6 @@ define([
             'click': 'tryTogglePlayerState'
         },
         
-        disabledTitle: chrome.i18n.getMessage('playDisabled'),
-        pauseTitle: chrome.i18n.getMessage('pause'),
-        playTitle: chrome.i18n.getMessage('play'),
-        
         render: function () {
             
             this.$el.html(this.template(_.extend(this.model.toJSON(), {
@@ -33,23 +29,7 @@ define([
             })));
 
             var isEnabled = this.model.get('enabled');
-
             this.$el.toggleClass('disabled', !isEnabled);
-
-            //  Update which icon is showing whenever the YouTube player changes playing state.
-            if (isEnabled) {
-                
-                var playerState = Player.get('state');
-
-                if (playerState === PlayerState.Playing) {
-                    this.$el.attr('title', this.pauseTitle);
-                } else {
-                    this.$el.attr('title', this.playTitle);
-                }
-                
-            } else {
-                this.$el.attr('title', this.disabledTitle);
-            }
 
             return this;
         },
