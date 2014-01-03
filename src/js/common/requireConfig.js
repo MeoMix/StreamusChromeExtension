@@ -64,6 +64,7 @@
             'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
             'jquery.transit': 'thirdParty/jquery.transit',
             'jqueryUi': 'thirdParty/jqueryUi',
+            'keymaster': 'thirdParty/keymaster',
             'lodash': 'thirdParty/lodash',
             'microplugin': 'thirdParty/microplugin',
             'selectize': 'thirdParty/selectize',

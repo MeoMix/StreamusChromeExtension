@@ -28,6 +28,8 @@
         instructions: null,
         noResultsMessage: null,
         
+        searchInputFocused: false,
+        
         bottomMenuBar: null,
         
         events: {

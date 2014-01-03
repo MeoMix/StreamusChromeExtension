@@ -8,6 +8,7 @@
     'jquery.scrollIntoView',
     'jquery.transit',
     'jqueryUi',
+    'keymaster',
     'lodash',
     'selectize'
 ], function () {

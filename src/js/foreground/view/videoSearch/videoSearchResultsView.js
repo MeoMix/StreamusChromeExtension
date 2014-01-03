@@ -20,7 +20,11 @@
         
         events: {
             'contextmenu': 'showContextMenu',
-            'click .videoSearchResult': 'setSelectedOnClick'
+            'click .videoSearchResult': 'setSelectedOnClick',
+            //  TODO: views don't throw a 'destroyed' event. This view probably memory leaks in its current implementation
+            //  because whenever VideoSearchView hides itself (and calls removed on itself), this view's html is removed, but
+            //  none of the event listeners are cleaned up. Suggest we implement something to fix that!
+            //'destroyed': 'destroyedHandler'
         },
         
         render: function () {
@@ -79,6 +83,44 @@
         
         initialize: function () {
             this.listenTo(VideoSearchResults, 'reset', this.render);
+            
+            //  TODO: re-add once complete.
+            //  Add key bindings
+            //key('down, up', this.selectResultOnUpDown.bind(this));
+        },
+        
+        //  When the user presses the 'up' key or the 'down' key while there are video search results,
+        //  select the logically next or previous result.
+        selectResultOnUpDown: function(event) {
+            console.log("keyPress", event.keyIdentifier);
+            var previousElem = VideoSearchResults.selected();
+            if (previousElem.length) previousElem = previousElem[0];
+
+            var nextElem;
+            //  TODO: Why is the keyIdentifier capital down but the key listener is lowercase?
+            if (event.keyIdentifier == "Down") {
+                if (!previousElem) nextElem = VideoSearchResults.at(0);
+                else nextElem = VideoSearchResults.at(VideoSearchResults.indexOf(previousElem) + 1);
+            }
+            else {
+                if (!previousElem) nextElem = VideoSearchResults.at(0);
+                else nextElem = VideoSearchResults.at(VideoSearchResults.indexOf(previousElem) - 1);
+            }
+
+            //  TODO: Unfinished code:
+            var videoId = nextElem.get("video").get("id");
+            var videoSearchResult = VideoSearchResults.getByVideoId(videoId);
+            console.log(nextElem);
+
+            this.doSetSelected({
+                searchResult: nextElem,
+                ctrlKey: false,
+                drag: false
+            });
+        },
+
+        destroyedHandler: function () {
+            key.unbind("down, up");
         },
         
         addOne: function (videoSearchResult) {

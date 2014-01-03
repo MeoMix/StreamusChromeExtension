@@ -97,9 +97,7 @@ define([
             this.panel.transition({
                 x: this.$el.width()
             }, instant ? 0 : undefined, 'snap');
-
-            console.log("VideoDisplayView is showing");
-
+            
         },
 
         hide: function () {
