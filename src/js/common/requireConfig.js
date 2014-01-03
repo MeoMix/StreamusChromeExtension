@@ -43,6 +43,9 @@
             'jqueryUi': {
                 deps: ['jquery'],
                 exports: '$.ui'
+            },
+            'keymaster': {
+                exports: 'window.key'
             }
 
         },

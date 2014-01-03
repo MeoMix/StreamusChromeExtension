@@ -96,7 +96,11 @@
             this.$el.transition({
                 x: -20
             }, function () {
+                
+
                 this.remove();
+                
+
                 VideoSearchResults.clear();
             }.bind(this));
         },
