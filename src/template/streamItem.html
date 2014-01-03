@@ -1,5 +1,4 @@
-﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-<!-- Render non-lazily if view is set to instant -->
+﻿<!-- Render non-lazily if view is set to instant -->
 <% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
 <% } else { %>
@@ -21,4 +20,7 @@
     </span>
 </span>
 
-<i class="fa fa-times delete hoverable upper-right"></i>
+<span class="hover-actions">
+    <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
+    <i class="fa fa-times delete"></i>
+</span>

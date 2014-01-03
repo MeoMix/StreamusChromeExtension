@@ -1,5 +1,4 @@
-﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-<!-- Render non-lazily if view is set to instant -->
+﻿<!-- Render non-lazily if view is set to instant -->
 <% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
 <% } else { %>
@@ -11,14 +10,16 @@
 </div>
 
 <span class="item-details">
-        HD · 
-    <!--    <span class="item-author">
-                <%-chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
-            </span>-->
-    <span class="item-duration">
-        <!--<i class="fa fa-clock-o"></i>--><%- video.get('prettyDuration') %>	
-    </span>
     <% if( video.get('highDefinition') ) { %>
-
+        HD · 
     <% } %>
+    <span class="item-duration">
+        <%- video.get('prettyDuration') %>	
+    </span>
+</span>
+
+<span class="hover-actions">
+    <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
+    <i class="fa fa-plus addToStream" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
+<!--    <i class="fa fa-times delete hoverable"></i>-->
 </span>

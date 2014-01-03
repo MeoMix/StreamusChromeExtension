@@ -1,5 +1,4 @@
-﻿<i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-<!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
+﻿<!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
 <!-- TODO: This is horribly hard-coded. I should find a way to lazy-load only the items I want without being dependent on a fixed number -->
 <% if( index <= 8 ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
@@ -12,16 +11,16 @@
 </div>
 
 <span class="item-details">
-    <!--    <span class="item-author">
-                <%- chrome.i18n.getMessage('by')%> <strong><%- video.get('author') %></strong>
-            </span>-->
     HD · 
     <span class="item-duration">
-        <!--<i class="fa fa-clock-o"></i>--><%- video.get('prettyDuration') %>	
+        <%- video.get('prettyDuration') %>	
     </span>
     <% if( video.get('highDefinition') ) { %>
     <% } %>
 </span>
 
-<i class="fa fa-arrow-right addToStream hoverable upper-right" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
-<i class="fa fa-plus addToActivePlaylist hoverable" title="<%- chrome.i18n.getMessage('addToActivePlaylist') %>"></i>
+<span class="hover-actions">
+    <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
+    <i class="fa fa-plus addToActivePlaylist" title="<%- chrome.i18n.getMessage('addToActivePlaylist') %>"></i>
+    <i class="fa fa-save addToStream" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
+</span>

@@ -465,8 +465,6 @@ input[type="range"]::-webkit-slider-thumb {
     padding: 0 .5em;
 }
 
-.left-bottom-menubar button i { font-size: 1.2em }
-
 .left-bottom-menubar .playlist-details {
     bottom: 0;
     display: block;
@@ -503,40 +501,40 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
 }
 
-.listItem > i {
-    position: absolute;
-    display: none;
+.listItem i {
     cursor: pointer;
 }
 
 .listItem:hover .item-title-wrapper{
-    /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
     margin-right: 21px;
 }
 
-.listItem:hover > i {
+/* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
+.listItem.streamItem:hover .item-title-wrapper,
+.listItem.playlistItem:hover .item-title-wrapper {
+    margin-right: 46px;
+}
+
+.listItem.videoSearchResult:hover .item-title-wrapper {
+    margin-right: 68px;
+}
+
+.listItem:hover > .hover-actions {
     display: block;
-}
-
-.listItem i.playInStream {
-    color: #fff;
-    z-index: 100;
-    width: 50px;
-    text-align: center;
-    line-height: 30px;
-    -webkit-text-stroke: 1px black;
-    text-shadow: 2px 1px 4px #000;
-}
-
-.videoSearchResult i.addToStream {
-    top: 0;
-    right: 0;
-}
-
-.videoSearchResult i.addToActivePlaylist {
     position: absolute;
-    bottom: 0;
+}
+
+.hover-actions {
+    display: none;
     right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 100;
+}
+
+.hover-actions i {
+    font-size: 14px;
+    margin-top: 12px;
 }
 
 .listItem {
@@ -546,23 +544,6 @@ input[type="range"]::-webkit-slider-thumb {
     width: calc(100% - 1px);
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.listItem i.delete {
-    position: absolute;
-    top: 0;
-    right: 0;
-    display: none;
-    cursor: pointer;
-}
-
-.listItem:hover i.delete {
-    display: block;
-}
-
-.listItem > i.hoverable {
-    padding: 2.5px;
-    margin-right: 2px;
 }
 
 .addItemOption.stream:hover,
@@ -1180,6 +1161,10 @@ body.dragging .scroll {
     display: block;
 }
 
+#streamItemList {
+    height: 100%;
+}
+
 #streamItemList .scroll.top {
     top: 85px;
 }
@@ -1339,13 +1324,13 @@ li.playlist span.count {
 }
 
 /* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
-i { font-size: 14px !important; }
+i { font-size: 14px; }
 
-i.fa-lg { font-size: 19px !important; }
+i.fa-lg { font-size: 19px; }
 
-i.i-2x { font-size: 28px !important }
+i.i-2x { font-size: 28px }
 
-i.i-4x { font-size: 56px !important }
+i.i-4x { font-size: 56px }
 
 /* TODO: I wanted to use Selectize, but it's theme doesn't quit fit Streamus. This could use some re-themeing */
 /* Selectize Configuration */
