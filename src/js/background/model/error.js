@@ -19,9 +19,8 @@ define([
                 clientVersion: clientVersion,
                 //  This should be set by the server, not the client, in order to be standard across all client.
                 timeOccurred: null,
-                os: '',
-                arch: '',
-                nacl_arch: ''
+                operatingSystem: '',
+                architecture: ''
             };
         },
         
@@ -72,9 +71,8 @@ define([
                 message: message,
                 url: url,
                 lineNumber: lineNumber,
-                os: platformInfo.os,
-                arch: platformInfo.arch,
-                nacl_arch: platformInfo.nacl_arch
+                operatingSystem: platformInfo.os,
+                architecture: platformInfo.arch
             });
 
             error.save();
