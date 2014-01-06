@@ -95,6 +95,9 @@
                 tolerance: 'pointer',
                 helper: function (ui, streamItem) {
 
+                    console.log("StreamItem:", streamItem, streamItem.data('streamitemid'));
+                    console.log("AND:", StreamItems.get(streamItem.data('streamitemid')));
+
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView = new StreamItemView({
                         model: StreamItems.get(streamItem.data('streamitemid')),
@@ -171,6 +174,8 @@
         
         addItem: function (streamItem) {
 
+            console.log("adding item:", streamItem);
+
             var streamItemView = new StreamItemView({
                 model: streamItem
             });
@@ -178,6 +183,9 @@
             var index = StreamItems.indexOf(streamItem);
 
             var element = streamItemView.render().el;
+
+            console.log("Element:", element);
+
             this.addElementsToStream(element, index);
             
             if (streamItem.get('selected')) {

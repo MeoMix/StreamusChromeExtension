@@ -19,6 +19,9 @@
         instant: false,
         
         attributes: function () {
+
+            console.log("this:", this);
+
             return {
                 'data-streamitemid': this.model.get('id')
             };

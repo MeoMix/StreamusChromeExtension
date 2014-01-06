@@ -1,7 +1,8 @@
 ﻿//  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
-    'background/model/video'
-], function (Video) {
+    'background/model/video',
+    'common/model/youTubeV2API'
+], function (Video, YouTubeV2API) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
@@ -28,16 +29,26 @@ define([
                 this.set('video', new Video(video), { silent: true });
             }
             
-            var self = this;
             //  Whenever a streamItem is selected it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
-            this.on('change:selected', function() {
-
-                if (self.get('selected')) {
-                    self.set('playedRecently', true);
+            this.on('change:selected', function(model, selected) {
+                if (selected) {
+                    this.set('playedRecently', true);
                 }
-
             });
+            
+            YouTubeV2API.getRelatedVideoInformation({
+                videoId: this.get('video').get('id'),
+                success: function (relatedVideoInformation) {
+
+                    if (relatedVideoInformation == null) {
+                        throw "Related video information not found." + videoId;
+                    }
+                    
+                    this.set('relatedVideoInformation', relatedVideoInformation);
+                }.bind(this)
+            });
+
 
         }
     });

@@ -34,22 +34,7 @@
                 if (self.length === 1) {
                     addedStreamItem.set('selected', true);
                 }
-
-                var videoId = addedStreamItem.get('video').get('id');
-
-                //  TODO: Why is this done here? Probably should be done in a constructor for StreamItem?
-                YouTubeV2API.getRelatedVideoInformation({
-                    videoId: videoId,
-                    success: function (relatedVideoInformation) {
-
-                        if (relatedVideoInformation == null) throw "Related video information not found." + videoId;
-                        addedStreamItem.set('relatedVideoInformation', relatedVideoInformation);
-                    },
-                    error: function() {
-                        //  TODO: Do something with error? Notify user?
-                    }
-                });
-
+                
             });
 
             this.on('addMultiple', function(addedStreamItems) {
