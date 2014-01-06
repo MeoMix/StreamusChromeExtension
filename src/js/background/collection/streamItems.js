@@ -207,7 +207,6 @@
         addByDraggedPlaylistItem: function(playlistItem, index) {
           
             this.add({
-                id: _.uniqueId('streamItem_'),
                 video: playlistItem.get('video'),
                 title: playlistItem.get('title')
             }, {
@@ -222,7 +221,6 @@
             }
             
             this.add({
-                id: _.uniqueId('streamItem_'),
                 video: playlistItem.get('video'),
                 title: playlistItem.get('title'),
                 //  Select and play the first added item if playOnAdd is set to true
@@ -237,7 +235,6 @@
             }
             
             this.add({
-                id: _.uniqueId('streamItem_'),
                 video: video,
                 title: video.get('title'),
                 //  Select and play the first added item if playOnAdd is set to true
@@ -259,7 +256,6 @@
             var streamItems = _.map(videos, function (video, iterator) {
 
                 return new StreamItem({
-                    id: _.uniqueId('streamItem_'),
                     video: video,
                     title: video.get('title'),
                     //  Select and play the first added item if playOnAdd is set to true
@@ -460,13 +456,12 @@
                             console.error("No related video found.");
                         } else {
 
-                            nextItem = new StreamItem({
+                            nextItem = this.add({
                                 video: randomRelatedVideo,
                                 title: randomRelatedVideo.get('title'),
                                 selected: true
                             });
-
-                            this.add(nextItem);
+                            
                         }
 
                     } else {

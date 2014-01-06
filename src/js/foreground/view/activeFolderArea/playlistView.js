@@ -159,7 +159,6 @@
 
                             var streamItems = self.model.get('items').map(function (playlistItem) {
                                 return {
-                                    id: _.uniqueId('streamItem_'),
                                     video: playlistItem.get('video'),
                                     title: playlistItem.get('title')
                                 };

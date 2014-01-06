@@ -72,7 +72,6 @@ define([
                     self.getVideoFromUrl(url, function (video) {
 
                         StreamItems.add({
-                            id: _.uniqueId('streamItem_'),
                             video: video,
                             title: video.get('title')
                         });

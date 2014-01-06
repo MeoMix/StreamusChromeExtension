@@ -8,6 +8,7 @@ define([
     var StreamItem = Backbone.Model.extend({
         defaults: function () {
             return {
+                id: _.uniqueId('streamItem_'),
                 video: null,
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.

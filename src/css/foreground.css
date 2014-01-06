@@ -1,15 +1,20 @@
-﻿html {
-    /*width: 630px;*/
+﻿@font-face {
+  font-family: 'Open Sans';
+  src: url('../font/OpenSans-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+html {
     width: 640px;
     height: 410px;
-    /*height: 540px;*/
 }
 
 body {
     width: 100%;
     height: 100%;
     -webkit-user-select: none;
-    font: 13px/1.2 Segoe UI;
+    font: 13px/1.2 'Open Sans';
     color: #333;
 }
 
@@ -51,14 +56,6 @@ body > .fa-spinner {
     width: 8px;
 }
 
-/*::-webkit-scrollbar-track-piece:hover {
-    background-color: #efefef
-}
-
-.panel ::-webkit-scrollbar-track-piece:hover {
-    background-color: #fff
-}*/
-
 ::-webkit-scrollbar-thumb:vertical {
     background-color: #D7D7D7;
     height: 50px;
@@ -68,10 +65,6 @@ body > .fa-spinner {
 ::-webkit-scrollbar-thumb:vertical:hover {
     background-color: #666;
 }
-
-/*::-webkit-scrollbar-thumb:vertical:hover + ::-webkit-scrollbar-track-piece{
-    background-color: #red !important;
-}*/
 
 /* Animation keyframes - you need to add prefixes */
 @-webkit-keyframes spin {
@@ -98,8 +91,7 @@ button.mute.muted{
     top: 0;
     left: 0;
     line-height: 26px;
-    font-size: 1.1em;
-    font-weight: bold;
+    font-size: 1.3em;
     padding: 10px;
 }
 
@@ -158,7 +150,6 @@ button.mute.muted{
     position: absolute;
     top: 0;
     right: 0;
-    /*background: url('../img/close.png') no-repeat;*/
 } 
 
 .prompt .bottom-right {
@@ -372,10 +363,6 @@ button > i {
     transition: color .1s;
 }
 
-/*button:not(.disabled):hover > i {
-    color: #4EA6EA;
-}*/
-
 input[type="range"] {
     -webkit-appearance: none;
     background: transparent;
@@ -395,10 +382,6 @@ input[type="range"]::-webkit-slider-thumb {
     width: 10px;
     transition:background .1s;
 }
-
-/*input[type="range"]::-webkit-slider-thumb:hover {
-    background: #4EA6EA;
-}*/
 
 .left-pane {
     background: #fff;
@@ -1454,7 +1437,6 @@ button {
 }
 
 button.enabled{
-    /*color: #6BBD46;*/
     color: #4EA6EA;
 }
 

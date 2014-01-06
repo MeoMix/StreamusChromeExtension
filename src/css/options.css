@@ -1,10 +1,17 @@
-﻿.remindersLabel {
+﻿@font-face {
+  font-family: 'Open Sans';
+  src: url('../font/OpenSans-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.remindersLabel {
     margin-top: 5px;
     display: block;
 }
 
 body {
-     font: 13px/1.2 Segoe UI
+     font: 13px/1.2 'Open Sans';
 }
 
 .settings {
