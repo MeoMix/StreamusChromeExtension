@@ -15,7 +15,7 @@
         events: {
             'click': 'togglePlayerState',
             'dblclick': 'goFullScreen',
-            'contextmenu': 'showContextMenu'
+            //'contextmenu': 'showContextMenu'
         },
         
         attributes: {
@@ -206,24 +206,17 @@
             } else {
                 
                 //  Enter full screen
-                var loadedVideoId = Player.get('loadedVideoId');
-                var isFullScreenDisabled = loadedVideoId == '';
+                chrome.windows.create({
+                    url: 'fullscreen.html',
+                    type: 'popup',
+                    focused: true
+                }, function (window) {
 
-                if (!isFullScreenDisabled) {
-
-                    chrome.windows.create({
-                        url: 'fullscreen.html',
-                        type: 'popup',
-                        focused: true
-                    }, function (window) {
-
-                        chrome.windows.update(window.id, {
-                            state: 'fullscreen'
-                        });
-
+                    chrome.windows.update(window.id, {
+                        state: 'fullscreen'
                     });
 
-                }
+                });
 
             }
 

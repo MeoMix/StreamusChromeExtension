@@ -164,8 +164,8 @@
             }
 
             var selectedSearchResults = VideoSearchResults.selected();
-            
-            var noSearchResultsSelected = selectedSearchResults.length === 0
+
+            var noSearchResultsSelected = selectedSearchResults.length === 0;
 
             ContextMenuGroups.add({
                 items: [{
