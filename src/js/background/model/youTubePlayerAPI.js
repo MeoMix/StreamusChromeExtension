@@ -8,7 +8,7 @@ define(function() {
             ready: false
         },
 
-        initialize: function() {
+        initialize: function () {
 
             //  Modify the iFrame headers to force HTML5 player and to look like we're actually a YouTube page.
             //  The HTML5 player seems more reliable (doesn't crash when Flash goes down) and looking like YouTube
@@ -49,7 +49,7 @@ define(function() {
 
                 return { requestHeaders: info.requestHeaders };
             }, {
-                urls: ['*://*.youtube.com/embed/*']
+                urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd']
             },
                 ['blocking', 'requestHeaders']
             );

@@ -123,7 +123,6 @@ define([
                 youTubePlayer = new window.YT.Player('MusicHolder', {
                     width: 640,
                     height: 360,
-                    videoId: 'M7lc1UVf-VE',
                     events: {
                         'onReady': function () {
 
