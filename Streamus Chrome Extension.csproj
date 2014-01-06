@@ -223,6 +223,7 @@
     <Content Include="src\js\thirdParty\jquery.scrollIntoView.js" />
     <Content Include="src\js\thirdParty\jquery.transit.js" />
     <Content Include="src\js\thirdParty\jqueryUi.js" />
+    <Content Include="src\js\thirdParty\keymaster.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\microplugin.js" />
     <Content Include="src\js\thirdParty\require.js" />
@@ -230,7 +231,6 @@
     <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <Content Include="src\options.html" />
-    <Content Include="src\template\activeFolder.html" />
     <Content Include="src\template\activeFolderArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\activePlaylistItems.html" />
