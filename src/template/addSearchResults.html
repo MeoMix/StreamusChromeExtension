@@ -3,9 +3,9 @@
         <span class="selectedItemsMessage">
 
             <% if( selectedResultsLength === 1 ) { %>
-            <%- chrome.i18n.getMessage('add') %> <%- selectedResultsLength %> <%- chrome.i18n.getMessage('item') %> <%- chrome.i18n.getMessage('to') %>:
+            <%- chrome.i18n.getMessage('add') %> <%- selectedResultsLength %> <%- chrome.i18n.getMessage('item').toLowerCase() %> <%- chrome.i18n.getMessage('to').toLowerCase() %>:
             <% } else { %>
-            <%- chrome.i18n.getMessage('add') %> <%- selectedResultsLength %> <%- chrome.i18n.getMessage('items') %> <%- chrome.i18n.getMessage('to') %>:
+            <%- chrome.i18n.getMessage('add') %> <%- selectedResultsLength %> <%- chrome.i18n.getMessage('items').toLowerCase() %> <%- chrome.i18n.getMessage('to').toLowerCase() %>:
             <% } %>
             
         </span>

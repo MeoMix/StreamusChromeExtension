@@ -33,7 +33,7 @@
             this.$el.find('img.lazy').lazyload({
                 effect: 'fadeIn',
                 threshold: 500,
-                container: this.$el
+                container: this.el
             });
 
             var self = this;
@@ -77,6 +77,8 @@
                     $('body').removeClass('dragging');
                 }
             });
+            
+            this.initializeTooltips();
 
             return this;
         },
@@ -92,7 +94,7 @@
         //  When the user presses the 'up' key or the 'down' key while there are video search results,
         //  select the logically next or previous result.
         selectResultOnUpDown: function(event) {
-            console.log("keyPress", event.keyIdentifier);
+
             var previousElem = VideoSearchResults.selected();
             if (previousElem.length) previousElem = previousElem[0];
 
@@ -110,7 +112,6 @@
             //  TODO: Unfinished code:
             var videoId = nextElem.get("video").get("id");
             var videoSearchResult = VideoSearchResults.getByVideoId(videoId);
-            console.log(nextElem);
 
             this.doSetSelected({
                 searchResult: nextElem,
@@ -163,18 +164,16 @@
             }
 
             var selectedSearchResults = VideoSearchResults.selected();
-
-            var isPlaySelectedDisabled = selectedSearchResults.length === 0;
-            var isAddSelectedDisabled = selectedSearchResults.length === 0;
+            
+            var noSearchResultsSelected = selectedSearchResults.length === 0
 
             ContextMenuGroups.add({
                 items: [{
                     text: chrome.i18n.getMessage('playSelected') + ' (' + selectedSearchResults.length + ')',
-                    disabled: isPlaySelectedDisabled,
-                    title: isPlaySelectedDisabled ? chrome.i18n.getMessage('playSelectedDisabled') : '',
+                    disabled: noSearchResultsSelected,
                     onClick: function () {
 
-                        if (!isPlaySelectedDisabled) {
+                        if (!noSearchResultsSelected) {
 
                             var videos = _.map(selectedSearchResults, function (videoSearchResult) {
                                 return videoSearchResult.get('video');
@@ -186,12 +185,11 @@
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage('addSelected') + ' (' + selectedSearchResults.length + ')',
-                    disabled: isAddSelectedDisabled,
-                    title: isAddSelectedDisabled ? chrome.i18n.getMessage('addSelectedDisabled') : '',
+                    text: chrome.i18n.getMessage('enqueueSelected') + ' (' + selectedSearchResults.length + ')',
+                    disabled: noSearchResultsSelected,
                     onClick: function () {
 
-                        if (!isAddSelectedDisabled) {
+                        if (!noSearchResultsSelected) {
 
                             var videos = _.map(selectedSearchResults, function (videoSearchResult) {
                                 return videoSearchResult.get('video');

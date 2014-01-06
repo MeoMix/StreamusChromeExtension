@@ -119,9 +119,9 @@
             }
 
             if (collectionLength === 1) {
-                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('item'));
+                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('item').toLowerCase());
             } else {
-                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('items'));
+                this.itemCount.text(collectionLength + ' ' + chrome.i18n.getMessage('items').toLowerCase());
             }
 
         }

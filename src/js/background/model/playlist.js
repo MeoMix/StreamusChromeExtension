@@ -256,9 +256,6 @@ define([
                         callback();
                     }
 
-                },
-                error: function (error) {
-                    console.error("There was an issue saving" + self.get('title'), error);
                 }
             });
         },

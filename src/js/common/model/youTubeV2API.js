@@ -310,7 +310,8 @@ define([
                         success: options.success,
                         error: options.error
                     });
-                }.bind(this)
+                }.bind(this),
+                complete: options.complete
             });
         },
 
@@ -334,7 +335,7 @@ define([
                     var validResults = _.filter(result.feed.entry, function (resultEntry) {
                         return resultEntry.media$group.yt$duration !== undefined;
                     });
-
+    
                     if (callback) {
                         callback({
                             iteration: currentIteration,

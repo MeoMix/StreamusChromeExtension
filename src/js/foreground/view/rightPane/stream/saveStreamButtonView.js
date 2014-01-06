@@ -1,9 +1,8 @@
 define([
     'foreground/view/genericForegroundView',
     'text!template/saveStreamButton.html',
-    'foreground/collection/streamItems',
     'foreground/model/streamAction'
-], function (GenericForegroundView, SaveStreamButtonTemplate, StreamItems, StreamAction) {
+], function (GenericForegroundView, SaveStreamButtonTemplate, StreamAction) {
     'use strict';
 
     var SaveStreamButtonView = GenericForegroundView.extend({
@@ -14,8 +13,9 @@ define([
                                 
         template: _.template(SaveStreamButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage('saveStream'),
-        disabledTitle: chrome.i18n.getMessage('saveStreamDisabled'),
+        attributes: {
+            title: chrome.i18n.getMessage('saveStream')
+        },
         
         events: {
             'click': 'saveStream'
@@ -23,28 +23,11 @@ define([
 
         render: function () {
             this.$el.html(this.template());
-
-            var disabled = StreamItems.length === 0;
-
-            this.$el.toggleClass('disabled', disabled);
-
-            if (disabled) {
-                this.$el.attr('title', this.disabledTitle);
-            } else {
-                this.$el.attr('title', this.enabledTitle);
-            }
-
             return this;
         },
-        
-        initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
-        },
-        
+
         saveStream: function () {
-            if (!this.$el.hasClass('disabled')) {
-                StreamAction.saveStream();
-            }
+            StreamAction.saveStream();
         }
         
     });

@@ -1,34 +1,28 @@
-//  Inject CSS here to give it priority over all other CSS loaded on the page.
-var style = document.createElement('link');
-style.rel = 'stylesheet';
-style.type = 'text/css';
-style.href = chrome.extension.getURL('css/youTubeInject.css');
-document.head.appendChild(style);
-
 //  This code runs on YouTube pages.
 $(function () {
-	'use strict';
-
-	//console.log("youtubeInject");
+    'use strict';
+    
+    //  Inject CSS here to give it priority over all other CSS loaded on the page.
+    var style = document.createElement('link');
+    style.rel = 'stylesheet';
+    style.type = 'text/css';
+    style.href = chrome.extension.getURL('css/youTubeInject.css');
+    document.head.appendChild(style);
 
 	var bodyElem = $("body");
 	var firstLoad = true;
 	var waitingForLoad = false;
 
 	var observer = new window.WebKitMutationObserver(function (mutations) {
-		//console.log(mutations);
 		if (firstLoad) {
-			//console.log("firstLoad");
 			firstLoad = false;
 			injectStreamusButtons();
 		}
 		else {
 			if (!waitingForLoad && !bodyElem.hasClass("page-loaded")) {
-				//console.log("waitingForLoad");
 				waitingForLoad = true;
 			}
 			else if (waitingForLoad && bodyElem.hasClass("page-loaded")) {
-				//console.log("page has loaded");
 				injectStreamusButtons();
 			}
 		}
@@ -44,7 +38,7 @@ $(function () {
 
 		var addButton = $('<button>', {
 			'class': 'action-panel-trigger yt-uix-button yt-uix-button-text yt-uix-tooltip',
-			title: chrome.i18n.getMessage('addVideoToStreamus'),
+			title: chrome.i18n.getMessage('addToStreamus'),
 			type: 'button',
 			role: 'button',
 			'data-button-toggle': true,
@@ -153,7 +147,7 @@ $(function () {
 			'class': 'yt-uix-button yt-uix-tooltip',
 			click: function () {
 
-				$(this).val(chrome.i18n.getMessage('working'));
+				$(this).val(chrome.i18n.getMessage('working') + '...');
 				$(this).attr('disabled', true);
 
 				var match = document.URL.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);

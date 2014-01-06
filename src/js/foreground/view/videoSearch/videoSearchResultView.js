@@ -4,8 +4,10 @@
     'foreground/collection/contextMenuGroups',
     'foreground/collection/videoSearchResults',
     'foreground/collection/streamItems',
-    'foreground/collection/folders'
-], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders) {
+    'foreground/collection/folders',
+    'foreground/view/genericPromptView',
+    'foreground/view/saveVideosView'
+], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, GenericPromptView, SaveVideosView) {
     'use strict';
 
     var VideoSearchResultView = GenericForegroundView.extend({
@@ -25,7 +27,7 @@
         events: {
             'click i.playInStream': 'playInStream',
             'click i.addToStream': 'addToStream',
-            'click i.addToActivePlaylist': 'addToActivePlaylist',
+            'click i.save': 'saveToPlaylist',
             'contextmenu': 'showContextMenu'
         },
 
@@ -66,7 +68,7 @@
         },
         
         addToStream: function() {
-          
+
             var video = this.model.get('video');
             StreamItems.addByVideo(video, false);
             
@@ -74,11 +76,31 @@
             return false;
         },
         
-        addToActivePlaylist: function () {
-            
+        saveToPlaylist: function () {
+           
             var video = this.model.get('video');
-            Folders.getActiveFolder().getActivePlaylist().addByVideo(video);
-            
+
+            var saveVideosPromptView = new GenericPromptView({
+                title: chrome.i18n.getMessage('saveVideo'),
+                okButtonText: chrome.i18n.getMessage('save'),
+                model: new SaveVideosView({
+                    //  SaveVideosView expects an array of video.
+                    model: [video]
+                })
+            });
+
+            saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
+
+                if (creating) {
+                    this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
+                } else {
+                    this.okButton.text(chrome.i18n.getMessage('save'));
+                }
+
+            });
+
+            saveVideosPromptView.fadeInAndShow();
+
             //  Don't open up the AddSearchResults panel
             return false;
         },
@@ -98,7 +120,7 @@
                         StreamItems.addByVideo(video, true);
                     }
                 }, {
-                    text: chrome.i18n.getMessage('add'),
+                    text: chrome.i18n.getMessage('enqueue'),
                     onClick: function () {
                         StreamItems.addByVideo(video, false);
                     }
@@ -107,7 +129,7 @@
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: 'http://youtu.be/' + video.get('id')
+                            text: video.get('url')
                         });
                     }
                 }, {
@@ -116,8 +138,17 @@
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + video.get('title') + '" - http://youtu.be/' + video.get('id')
+                            text: '"' + video.get('title') + '" - ' + video.get('url')
                         });
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('watchOnYouTube'),
+                    onClick: function () {
+
+                        chrome.tabs.create({
+                            url: video.get('url')
+                        });
+
                     }
                 }]
             });

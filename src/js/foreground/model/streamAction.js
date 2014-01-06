@@ -36,7 +36,7 @@
 
                 var saveVideosPromptView = new GenericPromptView({
                     title: StreamItems.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
-                    okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                    okButtonText: chrome.i18n.getMessage('save'),
                     model: new SaveVideosView({
                         model: videos
                     })
@@ -45,9 +45,9 @@
                 saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
 
                     if (creating) {
-                        this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
+                        this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
                     } else {
-                        this.okButton.text(chrome.i18n.getMessage('saveButtonText'));
+                        this.okButton.text(chrome.i18n.getMessage('save'));
                     }
 
                 });

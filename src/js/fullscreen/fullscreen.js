@@ -6,7 +6,6 @@
     var FullscreenView = Backbone.View.extend({
 
         initialize: function () {
-            console.log("fullscreen view is initialized");
             //  Make the canvas full-screen size.
             var videoDisplayView = new VideoDisplayView();
 

@@ -11,8 +11,8 @@
     'use strict';
     
     var StreamItemsView = GenericScrollableView.extend({
-        
-        className: 'list',
+        //  TODO: Change all left-list to just list.
+        className: 'left-list',
         
         attributes: {
             'id': 'streamItemList'
@@ -236,28 +236,28 @@
 
                 if (_.isArray(elements)) {
                     var elementsInViewport = _.filter(elements, function (element) {
-                        return $.inviewport(element, { threshold: 0, container: window });
-                    });
+                        return $.inviewport(element, { threshold: 0, container: this.el });
+                    }.bind(this));
 
                     var elementsNotInViewport = _.filter(elements, function (element) {
-                        return !$.inviewport(element, { threshold: 0, container: window });
-                    });
+                        return !$.inviewport(element, { threshold: 0, container: this.el });
+                    }.bind(this));
 
                     $(elementsInViewport).find('img.lazy').lazyload({
-                        container: this.$el
+                        container: this.el
                     });
 
                     $(elementsNotInViewport).find('img.lazy').lazyload({
                         effect: 'fadeIn',
                         threshold: 500,
-                        container: this.$el
+                        container: this.el
                     });
                 } else {
-                    var isInViewport = $.inviewport(elements, { threshold: 0, container: window });
+                    var isInViewport = $.inviewport(elements, { threshold: 0, container: this.el });
                     $(elements).find('img.lazy').lazyload({
                         effect: isInViewport ? undefined : 'fadeIn',
                         threshold: 500,
-                        container: this.$el
+                        container: this.el
                     });
                 }
 
@@ -275,21 +275,20 @@
                 ContextMenuGroups.reset();
             }
             
-            var isClearStreamDisabled = StreamItems.length === 0;
-            var isSaveStreamDisabled = StreamItems.length === 0;
+            var isStreamEmpty = StreamItems.length === 0;
 
             ContextMenuGroups.add({
                 items: [{
                     text: chrome.i18n.getMessage('clearStream'),
-                    title: isClearStreamDisabled ? chrome.i18n.getMessage('clearStreamDisabled') : chrome.i18n.getMessage('clearStream'),
-                    disabled: isClearStreamDisabled,
+                    title: isStreamEmpty ? chrome.i18n.getMessage('streamEmpty') : '',
+                    disabled: isStreamEmpty,
                     onClick: function() {
                         StreamAction.clearStream();
                     }
                 }, {
-                    text: chrome.i18n.getMessage('saveAsPlaylist'),
-                    title: isSaveStreamDisabled ? chrome.i18n.getMessage('saveStreamDisabled') : chrome.i18n.getMessage('saveStream'),
-                    disabled: isSaveStreamDisabled,
+                    text: chrome.i18n.getMessage('saveStream'),
+                    title: isStreamEmpty ? chrome.i18n.getMessage('streamEmpty') : '',
+                    disabled: isStreamEmpty,
                     onClick: function() {
                         StreamAction.saveStream();
                     }

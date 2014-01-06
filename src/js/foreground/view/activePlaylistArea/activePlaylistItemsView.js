@@ -4,9 +4,8 @@ define([
     'foreground/collection/contextMenuGroups',
     'foreground/collection/streamItems',
     'foreground/view/activePlaylistArea/playlistItemView',
-    'text!template/activePlaylistItems.html',
-    'common/model/utility'
-], function (GenericScrollableView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate, Utility) {
+    'text!template/activePlaylistItems.html'
+], function (GenericScrollableView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate) {
     'use strict';
 
     var ActivePlaylistItemsView = GenericScrollableView.extend({
@@ -43,21 +42,21 @@ define([
                 var lazyImages = this.$el.find('img.lazy');
     
                 var lazyImagesInViewport = _.filter(lazyImages, function (lazyImage) {
-                    return $.inviewport(lazyImage, { threshold: 0, container: window });
-                });
-                    
+                    return $.inviewport(lazyImage, { threshold: 0, container: this.el });
+                }.bind(this));
+                
                 var lazyImagesNotInViewport = _.filter(lazyImages, function (lazyImage) {
-                    return !$.inviewport(lazyImage, { threshold: 0, container: window });
-                });
+                    return !$.inviewport(lazyImage, { threshold: 0, container: this.el });
+                }.bind(this));
                 
                 $(lazyImagesInViewport).lazyload({
-                    container: this.$el,
+                    container: this.el
                 });
 
                 $(lazyImagesNotInViewport).lazyload({
                     effect: 'fadeIn',
                     threshold: 500,
-                    container: this.$el,
+                    container: this.el,
                     event: 'scroll manualShow'
                 });
 
@@ -249,19 +248,18 @@ define([
             }
 
             //  TODO: This is throwing crazy errors when I add items, no idea why. Consider writing my own is in viewport.
-            //console.log("Element:", element);
             //var inViewport = element.is(':in-viewport');
-            //console.log("inViewport:", inViewport);
             playlistItemView.$el.find('img.lazy').lazyload({
                 //  Looks bad to fade in when the item should just be visible.
                 //effect: inViewport ? undefined : 'fadeIn',
-                container: this.$el,
+                container: this.el,
                 
                 //threshold: inViewport ? undefined : 500,
                 event: 'scroll manualShow'
             });
                 
             this.scrollItemIntoView(playlistItem);
+            this.initializeTooltips();
         },
         
         showContextMenu: function (event) {
@@ -275,30 +273,29 @@ define([
             }
 
             var self = this;
-
-            var isAddPlaylistDisabled = this.model.get('items').length === 0;
-            var isPlayPlaylistDisabled = this.model.get('items').length === 0;
+            
+            var isPlaylistEmpty = this.model.get('items').length === 0;
 
             ContextMenuGroups.add({
 
                 items: [{
-                    text: chrome.i18n.getMessage('addPlaylistToStream'),
-                    disabled: isAddPlaylistDisabled,
-                    title: isAddPlaylistDisabled ? chrome.i18n.getMessage('noAddStreamWarning') : '',
+                    text: chrome.i18n.getMessage('enqueuePlaylist'),
+                    disabled: isPlaylistEmpty,
+                    title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
 
-                        if (!isAddPlaylistDisabled) {
+                        if (!isPlaylistEmpty) {
                             StreamItems.addByPlaylist(self.model, false);
                         }
 
                     }
                 }, {
-                    text: chrome.i18n.getMessage('playPlaylistInStream'),
-                    disabled: isPlayPlaylistDisabled,
-                    title: isPlayPlaylistDisabled ? chrome.i18n.getMessage('noAddStreamWarning') : '',
+                    text: chrome.i18n.getMessage('playPlaylist'),
+                    disabled: isPlaylistEmpty,
+                    title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
 
-                        if (!isPlayPlaylistDisabled) {
+                        if (!isPlaylistEmpty) {
                             StreamItems.addByPlaylist(self.model, true);
                         }
 

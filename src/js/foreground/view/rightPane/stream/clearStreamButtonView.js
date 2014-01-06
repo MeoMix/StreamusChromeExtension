@@ -14,8 +14,9 @@ define([
                                 
         template: _.template(ClearStreamButtonTemplate),
 
-        enabledTitle: chrome.i18n.getMessage('clearStream'),
-        disabledTitle: chrome.i18n.getMessage('clearStreamDisabled'),
+        attributes: {
+            title: chrome.i18n.getMessage('clearStream')
+        },
         
         events: {
             'click': 'clearStream',
@@ -23,29 +24,11 @@ define([
 
         render: function () {
             this.$el.html(this.template());
-
-            var disabled = StreamItems.length === 0;
-
-            this.$el.toggleClass('disabled', disabled);
-
-            if (disabled) {
-                this.$el.attr('title', this.disabledTitle);
-            } else {
-                this.$el.attr('title', this.enabledTitle);
-            }
-
             return this;
         },
         
-        initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple remove empty', this.render);
-        },
-        
         clearStream: function () {
-
-            if (!this.$el.hasClass('disabled')) {
-                StreamAction.clearStream();
-            }
+            StreamAction.clearStream();
         }
         
     });

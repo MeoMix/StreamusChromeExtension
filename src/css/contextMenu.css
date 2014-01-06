@@ -25,15 +25,17 @@
     padding: 0 15px;
 }
 
-#contextMenu ul li:hover { background: #EFEFEF; }
+#contextMenu ul li:not([disabled]):hover {
+    background: #EBEBEB;
+}
 
-#contextMenu ul li:active {
-    background: #efefef;
+#contextMenu ul li:not([disabled]):active {
+    background: #EBEBEB;
     color: #fff;
 }
 
 #contextMenu ul li a {
-    color: #000;
+    color: #333;
     font: 12px/2.2 sans-serif;
     text-decoration: none;
     cursor: default;
@@ -41,7 +43,6 @@
 
 #contextMenu ul li a[disabled=disabled] {
     background-color: transparent !important;
-    color: gray !important;
+    color: GrayText !important;
     cursor: default;
-    text-decoration: line-through !important;
 }

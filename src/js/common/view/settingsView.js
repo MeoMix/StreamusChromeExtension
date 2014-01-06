@@ -14,6 +14,7 @@ define([
         template: _.template(SettingsTemplate),
 
         suggestedQualitySelect: null,
+        showTooltipsCheckbox: null,
         remindClearStreamCheckbox: null,
         remindDeletePlaylistCheckbox: null,
 
@@ -23,14 +24,16 @@ define([
                 'chrome.i18n': chrome.i18n
             }));
 
+            this.showTooltipsCheckbox = this.$el.find('#showTooltips');
             this.remindClearStreamCheckbox = this.$el.find('#remindClearStream');
             this.remindDeletePlaylistCheckbox = this.$el.find('#remindDeletePlaylist');
-
+            
+            //  Initialize to whatever's stored in localStorage.
+            this.showTooltipsCheckbox.prop('checked', Settings.get('showTooltips'));
             this.remindClearStreamCheckbox.prop('checked', Settings.get('remindClearStream'));
             this.remindDeletePlaylistCheckbox.prop('checked', Settings.get('remindDeletePlaylist'));
 
             this.suggestedQualitySelect = this.$el.find('#suggestedQualitySelect');
-            //  Initialize to whatever's stored in localStorage.
             this.suggestedQualitySelect.val(Settings.get('suggestedQuality'));
 
             return this;
@@ -48,6 +51,12 @@ define([
 
             var remindDeletePlaylist = this.remindDeletePlaylistCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
+
+            var showTooltips = this.showTooltipsCheckbox.is(':checked');
+            Settings.set('showTooltips', showTooltips);
+            
+            //  TODO: Introduce a Tooltip Manager?
+            $('[title]').qtip('disable', !showTooltips);
         }
 
     });

@@ -36,7 +36,7 @@ define([
         rightPaneView: null,
         
         events: {
-            'click #addVideosButton': 'onClickShowVideoSearch',
+            'click button#showVideoSearch': 'onClickShowVideoSearch',
             'click #activePlaylistArea button.show': 'showActiveFolderArea',
             //  TODO: I really think this event handler should be in activePlaylistAreaView...
             'click #videoSearchLink': 'onClickShowVideoSearch'
@@ -64,7 +64,6 @@ define([
                     //  Show an animation when changing after first load.
                     this.showVideoDisplay(false);
                 } else {
-                    console.log("setting videoDisplayView to null");
                     //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
                     this.videoDisplayView = null;
                 }
@@ -129,7 +128,7 @@ define([
         },
         
         showVideoDisplay: function(instant) {
-            console.log("showVideoDisplay", this.videoDisplayView);
+
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
                 this.videoDisplayView = new VideoDisplayView();
@@ -141,7 +140,7 @@ define([
         },
 
         //  Slide in the VideoSearchView from the left hand side.
-        showVideoSearch: function (instant) {
+        showVideoSearch: _.throttle(function (instant) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoSearchView === null) {
@@ -157,14 +156,14 @@ define([
                 this.$el.append(this.videoSearchView.render().el);
                 this.videoSearchView.showAndFocus(instant);
 
-                this.listenTo(VideoSearchResults, 'change:selected', function (changedItem, selected) {
+                this.listenTo(VideoSearchResults, 'change:selected', function(changedItem, selected) {
                     //  Whenever a search result is selected - slide in search results.
                     if (selected && this.addSearchResultsView === null) {
                         this.showAddSearchResults();
                     }
                 });
 
-                this.listenToOnce(videoSearch, 'destroy', function () {
+                this.listenToOnce(videoSearch, 'destroy', function() {
                     this.videoSearchView = null;
 
                     //  Adding search results is only useful with the video search view.
@@ -175,9 +174,11 @@ define([
 
                 });
 
+            } else {
+                this.videoSearchView.$el.effect("shake");
             }
 
-        },
+        }, 400),
 
         //  Slides in the AddSearchResults window from the RHS of the foreground.
         showAddSearchResults: function () {

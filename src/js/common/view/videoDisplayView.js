@@ -12,8 +12,9 @@ define([
     'foreground/view/rightPane/playPauseButtonView',
     'foreground/view/rightPane/previousButtonView',
     'foreground/view/rightPane/nextButtonView',
-    'foreground/view/rightPane/volumeControlView'
-], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoView, VideoDisplayButton, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView) {
+    'foreground/view/rightPane/volumeControlView',
+    'foreground/view/rightPane/timeProgressAreaView'
+], function (GenericForegroundView, StreamItems, Player, PlayerState, ContextMenuGroups, VideoDisplayTemplate, VideoView, VideoDisplayButton, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView) {
     'use strict';
 
     //  TODO: Maybe I should implement a naming standard like VideoAreaView for groupings around explicit views.
@@ -32,6 +33,7 @@ define([
         previousButtonView: null,
         nextButtonView: null,
         volumeControlView: null,
+        timeProgressAreaView: null,
         
         events: {
             'click .remove': 'toggleVideoDisplay',
@@ -47,6 +49,8 @@ define([
 
             this.panel = this.$el.find('.panel');
             this.panel.append(this.videoView.render().el);
+
+            this.$el.find('#timeProgressAreaView').replaceWith(this.timeProgressAreaView.render().el);
 
             this.$el.find('#volumeControlView').replaceWith(this.volumeControlView.render().el);
 
@@ -68,15 +72,11 @@ define([
             this.previousButtonView = new PreviousButtonView();
             this.nextButtonView = new NextButtonView();
             this.volumeControlView = new VolumeControlView();
-
-            //  TODO: TimeProgressAreaView is still useful, hopefully.
-            //this.timeProgressAreaView = new TimeProgressAreaView();
-            //this.videoDisplayButtonView = new VideoDisplayButtonView();
+            this.timeProgressAreaView = new TimeProgressAreaView();
         },
         
         toggleVideoDisplay: function () {
             VideoDisplayButton.toggleEnabled();
-            console.log("VideoDisplayButton is now:", VideoDisplayButton.get('enabled'));
         },
         
         hideOnDisabled: function() {

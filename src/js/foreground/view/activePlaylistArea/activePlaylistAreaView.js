@@ -3,10 +3,8 @@
     'foreground/view/activePlaylistArea/activePlaylistItemsView',
     'text!template/activePlaylistArea.html',
     'foreground/view/activePlaylistArea/playAllButtonView',
-    'foreground/view/activePlaylistArea/addAllButtonView',
-    'foreground/collection/streamItems',
-    'common/model/utility'
-], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, StreamItems, Utility) {
+    'foreground/view/activePlaylistArea/addAllButtonView'
+], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView) {
     'use strict';
 
     var ActivePlaylistAreaView = GenericForegroundView.extend({
@@ -21,6 +19,7 @@
         playlistDetails: null,
         playlistTitle: null,
         playlistEmptyMessage: null,
+        bottomMenubar: null,
         
         attributes: {
             id: 'activePlaylistArea'
@@ -46,9 +45,11 @@
             this.playlistDetails = this.$el.find('.playlist-details');
             this.playlistTitle = this.$el.find('.playlistTitle');
             this.playlistEmptyMessage = this.$el.find('div.playlistEmpty');
+            this.bottomMenubar = this.$el.find('.left-bottom-menubar');
 
             this.initializeTooltips();
             this.toggleBigText();
+            this.toggleBottomMenubar();
 
             return this;
         },
@@ -69,7 +70,10 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
-            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove empty', this.toggleBigText);
+            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove empty', function() {
+                this.toggleBigText();
+                this.toggleBottomMenubar();
+            });
         },
         
         updatePlaylistDetails: function () {
@@ -84,6 +88,16 @@
         toggleBigText: function() {
             var isPlaylistEmpty = this.model.get('playlist').get('items').length === 0;
             this.playlistEmptyMessage.toggleClass('hidden', !isPlaylistEmpty);
+        },
+        
+        toggleBottomMenubar: function() {
+            var isPlaylistEmpty = this.model.get('playlist').get('items').length === 0;
+            
+            if (isPlaylistEmpty) {
+                this.bottomMenubar.hide();
+            } else {
+                this.bottomMenubar.show();
+            }
         }
     });
 

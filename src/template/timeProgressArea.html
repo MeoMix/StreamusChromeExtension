@@ -1,9 +1,8 @@
 ﻿<div class="time-slider">
+    <!--TODO: is this style property necessary? and default value on input?-->
     <div class="progress" style="width: 33%"></div>
     <input class="timeRange" type="range" value="33">
 </div>
 
-<div class="progress-details">
-    <span class="time-elapsed" title="<%- chrome.i18n.getMessage('elapsedTime') %>"></span>
-    <span class="duration" title="<%- chrome.i18n.getMessage('totalTime') %>"></span>
-</div>
+<span class="time-elapsed" title="<%- chrome.i18n.getMessage('elapsedTime') %>"></span>
+<span class="duration" title="<%- chrome.i18n.getMessage('totalTime') %>"></span>

@@ -8,8 +8,9 @@ define([
     'foreground/view/rightPane/nextButtonView',
     'foreground/view/rightPane/volumeControlView',
     'foreground/view/rightPane/timeProgressAreaView',
-    'foreground/view/rightPane/videoDisplayButtonView'
-], function (GenericForegroundView, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView) {
+    'foreground/view/rightPane/videoDisplayButtonView',
+    'foreground/collection/streamItems'
+], function (GenericForegroundView, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView, StreamItems) {
     'use strict';
 
     var RightPaneView = GenericForegroundView.extend({
@@ -45,7 +46,6 @@ define([
             topBarRightGroup.append(this.videoDisplayButtonView.render().el);
 
             this.$el.append(this.streamView.render().el);
-
             this.initializeTooltips();
 
             return this;
@@ -59,7 +59,7 @@ define([
             this.volumeControlView = new VolumeControlView();
             this.timeProgressAreaView = new TimeProgressAreaView();
             this.videoDisplayButtonView = new VideoDisplayButtonView();
-        }
+        },
 
     });
 

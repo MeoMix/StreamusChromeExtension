@@ -1,21 +1,18 @@
 //  This is the list of playlists on the playlists tab.
 define([
     'foreground/view/genericForegroundView',
-    'text!template/activeFolder.html',
     'foreground/collection/contextMenuGroups',
     'common/model/utility',
     'foreground/collection/streamItems',
     'foreground/view/activeFolderArea/playlistView',
     'foreground/view/genericPromptView',
     'foreground/view/createPlaylistView'
-], function (GenericForegroundView, ActiveFolderTemplate, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
+], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
     'use strict';
 
     var ActiveFolderView = GenericForegroundView.extend({
         
         tagName: 'ul',
-
-        template: _.template(ActiveFolderTemplate),
 
         events: {
             'contextmenu': 'showContextMenu'
@@ -27,7 +24,6 @@ define([
         
         //  Refreshes the playlist display with the current playlist information.
         render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
 
             var playlists = this.model.get('playlists');
 
@@ -103,13 +99,11 @@ define([
             if (this.$el.find('.playlist').length > 0) {
 
                 var playlists = this.model.get('playlists');
-
                 var currentPlaylistIndex = playlists.indexOf(playlist);
 
                 var previousPlaylistId = playlists.at(currentPlaylistIndex - 1).get('id');
-
                 var previousPlaylistElement = this.$el.find('.playlist[data-playlistid="' + previousPlaylistId + '"]');
-
+                
                 element.insertAfter(previousPlaylistElement);
 
             } else {
@@ -134,7 +128,7 @@ define([
 
                         var createPlaylistPromptView = new GenericPromptView({
                             title: chrome.i18n.getMessage('createPlaylist'),
-                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                            okButtonText: chrome.i18n.getMessage('create'),
                             model: new CreatePlaylistView()
                         });
                         
@@ -144,6 +138,76 @@ define([
                 }]
             });
             
+        },
+        
+        getIsOverflowing: function () {
+            
+            //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
+            var currentHeight = this.$el.height();
+
+            if (currentHeight === 0) {
+                currentHeight = this.$el.data('oldheight');
+            }
+
+            var isOverflowing = false;
+            var playlistCount = this.model.get('playlists').length;
+
+            if (playlistCount > 0) {
+                var playlistHeight = this.$el.find('li').height();
+                var maxPlaylistsWithoutOverflow = currentHeight / playlistHeight;
+
+                isOverflowing = playlistCount > maxPlaylistsWithoutOverflow;
+            }
+
+            return isOverflowing;
+        },
+        
+        collapse: function() {
+            
+            var isOverflowing = this.getIsOverflowing();
+            
+            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
+            if (!isOverflowing) {
+                this.$el.css('overflow-y', 'hidden');
+            }
+
+            //  Need to set height here because transition doesn't work if height is auto through CSS.
+            var currentHeight = this.$el.height();
+            var heightStyle = $.trim(this.$el[0].style.height);
+            if (heightStyle === '' || heightStyle === 'auto') {
+                this.$el.height(currentHeight);
+            }
+
+            this.$el.data('oldheight', currentHeight);
+
+            this.$el.transitionStop().transition({
+                height: 0
+            }, 200, function() {
+                this.$el.hide();
+                
+                if (!isOverflowing) {
+                    this.$el.css('overflow-y', 'auto');
+                }
+            }.bind(this));
+        },
+        
+        expand: function (onComplete) {
+            
+            var isOverflowing = this.getIsOverflowing();
+
+            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
+            if (!isOverflowing) {
+                this.$el.css('overflow-y', 'hidden');
+            }
+
+            this.$el.show().transitionStop().transition({
+                height: this.$el.data('oldheight')
+            }, 200, function() {
+                if (!isOverflowing) {
+                    this.$el.css('overflow-y', 'auto');
+                }
+                onComplete();
+            }.bind(this));
         }
 
     });

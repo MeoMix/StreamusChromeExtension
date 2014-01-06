@@ -7,9 +7,8 @@
     'foreground/view/createPlaylistView',
     'foreground/view/editPlaylistView',
     'foreground/view/activeFolderArea/deletePlaylistButtonView',
-    'foreground/collection/folders',
-    'common/model/utility'
-], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders, Utility) {
+    'foreground/collection/folders'
+], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders) {
     'use strict';
 
     var ActiveFolderAreaView = GenericForegroundView.extend({
@@ -104,7 +103,6 @@
         toggleActiveFolderVisibility: function(event) {
 
             var caretIcon = $(event.currentTarget).find('i');
-
             var isExpanded = caretIcon.data('expanded');
 
             if (isExpanded) {
@@ -115,31 +113,10 @@
                 rotate: isExpanded ? -90 : 0
             }, 200);
 
-            var activeFolderViewElement = this.activeFolderView.$el;
-            
             if (isExpanded) {
-
-                var currentHeight = activeFolderViewElement.height();
-     
-                //  Need to set height here because transition doesn't work if height is auto through CSS.
-                var heightStyle = $.trim(activeFolderViewElement[0].style.height);
-                if (heightStyle === '' || heightStyle === 'auto') {
-                    activeFolderViewElement.height(currentHeight);
-                }
-
-                activeFolderViewElement.data('oldheight', currentHeight);
-
-                activeFolderViewElement.transitionStop().transition({
-                    height: 0
-                }, 200, function () {
-                    $(this).hide();  
-                });
-
+                this.activeFolderView.collapse();
             } else {
-
-                this.activeFolderView.$el.show().transitionStop().transition({
-                    height: activeFolderViewElement.data('oldheight')
-                }, 200, function () {
+                this.activeFolderView.expand(function () {
                     caretIcon.data('expanded', true);
                 });
             }
@@ -150,7 +127,7 @@
             
             var settingsPromptView = new GenericPromptView({
                 title: chrome.i18n.getMessage('settings'),
-                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                okButtonText: chrome.i18n.getMessage('save'),
                 model: new SettingsView()
             });
 
@@ -162,7 +139,7 @@
 
             var createPlaylistPromptView = new GenericPromptView({
                 title: chrome.i18n.getMessage('createPlaylist'),
-                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                okButtonText: chrome.i18n.getMessage('create'),
                 model: new CreatePlaylistView()
             });
             createPlaylistPromptView.fadeInAndShow();
@@ -173,7 +150,7 @@
 
             var editPlaylistPromptView = new GenericPromptView({
                 title: chrome.i18n.getMessage('editPlaylist'),
-                okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                okButtonText: chrome.i18n.getMessage('update'),
                 model: new EditPlaylistView({
                     model: Folders.getActiveFolder().get('playlists').getActivePlaylist()
                 })

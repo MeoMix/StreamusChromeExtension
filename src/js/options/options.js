@@ -15,7 +15,7 @@
         initialize: function () {
             this.$el.find('button.save').before(this.settingsView.render().el);
 
-            this.$el.find('button.save').text(chrome.i18n.getMessage('saveButtonText'));
+            this.$el.find('button.save').text(chrome.i18n.getMessage('save'));
         },
         
         save: function() {

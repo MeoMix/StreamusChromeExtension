@@ -1,13 +1,4 @@
-﻿.remindersList {
-    list-style: none;   
-}
-
-.remindersList li {
-    margin-left: 20px;
-    margin-top: 10px;
-}
-
-.remindersLabel {
+﻿.remindersLabel {
     margin-top: 5px;
     display: block;
 }
@@ -18,4 +9,8 @@ body {
 
 .settings {
     font-size: 1.1em;
+}
+
+ul, li {
+    list-style-type: none;
 }

@@ -25,6 +25,11 @@
 
             this.playlistTitleInput = this.$el.find('input[type="text"]');
 
+            setTimeout(function () {
+                //  Reset val to prevent highlighting and just focus.
+                this.playlistTitleInput.focus().val(this.playlistTitleInput.val());
+            }.bind(this));
+
             return this;
         },
         

@@ -1,8 +1,8 @@
 ﻿<div class="panel">
     
     <div class="header">
-        <!-- TODO: i18n -->
-        <button class="button-icon hide enabled" title="close menu">
+
+        <button class="button-icon hide enabled" title="<%- chrome.i18n.getMessage('closeMenu') %>">
             <i class="fa fa-reorder"></i>
         </button>
 
@@ -10,8 +10,7 @@
             <img src="http://streamus.com/img/logo.png" alt="Streamus Logo">
         </span>
         
-        <!--TODO: i18n-->
-        <button class="button-icon settings" title="settings">
+        <button class="button-icon settings" title="<%- chrome.i18n.getMessage('settings') %>">
             <i class="fa fa-cogs"></i>
         </button>
 
@@ -33,12 +32,12 @@
         </div>-->
 
         <div class="right-group">
-            <!--TODO: i18n-->
-            <button class="button-icon button-small add" title="Add playlist">
+
+            <button class="button-icon button-small add" title="<%- chrome.i18n.getMessage('createPlaylist') %>">
                 <i class="fa fa-plus"></i>
             </button>
 
-            <button class="button-icon button-small edit" title="Edit playlist">
+            <button class="button-icon button-small edit" title="<%- chrome.i18n.getMessage('editPlaylist') %>">
                 <i class="fa fa-pencil"></i>
             </button>
 

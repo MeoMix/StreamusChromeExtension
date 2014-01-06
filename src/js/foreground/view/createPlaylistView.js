@@ -36,6 +36,11 @@
                 type: DataSourceType.None
             }));
 
+            setTimeout(function () {
+                //  Reset the value after focusing to focus without selecting.
+                this.playlistTitleInput.focus().val(this.playlistTitleInput.val());
+            }.bind(this));
+
             return this;
         },
 

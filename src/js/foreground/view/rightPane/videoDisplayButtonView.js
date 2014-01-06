@@ -10,7 +10,7 @@ define([
 
         tagName: 'button',
 
-        className: 'button-icon',
+        className: 'button-icon videoDisplay',
         
         template: _.template(VideoDisplayButtonTemplate),
         
@@ -21,8 +21,8 @@ define([
             'click': 'toggleVideoDisplay'
         },
         
-        enabledTitle: chrome.i18n.getMessage('videoDisplayEnabled'),
-        disabledTitle: chrome.i18n.getMessage('videoDisplayDisabled'),
+        enabledTitle: chrome.i18n.getMessage('hideVideo'),
+        disabledTitle: chrome.i18n.getMessage('showVideo'),
         
         render: function () {
             this.$el.html(this.template());
@@ -44,19 +44,18 @@ define([
         //  It's important to have a subRendder method because modifying the element's HTML
         //  onClick messes with qTip's tooltip render -- swapping the title + HTML out, etc...
         subRender: function () {
+
+            var disabled = this.model.get('disabled');
+            this.$el.toggleClass('disabled', disabled);
+
             //  TODO: seems odd to keep track of both enabed and disabled -- disabled means it can't be opened, enabled means it is opened.
             //  perhaps enabled should be active.
             var enabled = this.model.get('enabled');
-            this.$el.toggleClass('enabled', enabled);
 
-            var disabled = this.model.get('disabled');
-
-            this.$el.toggleClass('disabled', disabled);
-
-            if (disabled) {
-                this.$el.attr('title', this.disabledTitle);
-            } else {
+            if (enabled) {
                 this.$el.attr('title', this.enabledTitle);
+            } else {
+                this.$el.attr('title', this.disabledTitle);
             }
         }
 

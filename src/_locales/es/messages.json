@@ -17,47 +17,32 @@
 	"toggleVideoCommandDescription": {
 		"message": "Alternar (Reproducir o Pausar) la pista actual."
 	},
-	"addToPlaylist": {
-		"message": "Añadir a la Lista"
+	"save": {
+		"message": "Save"
+	},
+	"enqueue": {
+		"message": "Enqueue"
 	},
 	"copyUrl": {
 		"message": "Copiar URL"
 	},
 	"copyTitleAndUrl": {
-		"message": "Copiar Título - URL"
+		"message": "Copiar título - URL"
 	},
 	"deleteVideo": {
-		"message": "Eliminar Pista"
+		"message": "Eliminar pista"
 	},
 	"delete": {
 		"message": "Eliminar"
 	},
-	"addVideoToStream": {
-		"message": "Añadir Pista a la Cola"
-	},
-	"addPlaylistToStream": {
-		"message": "Añadir Lista a la Cola"
-	},
-	"noAddStreamWarning": {
-		"message": "Debes añadir pistas a la Lista primero."
-	},
-	"banUntilStreamClear": {
+	"banUntilClear": {
 		"message": "Banear hasta que la Cola esté vacía"
-	},
-	"cantBanNeedMoreVideos": {
-		"message": "La Cola se está quedando corta de videos sin baneo. Intenta añadir más pistas antes de banear de nuevo."
 	},
 	"clearStream": {
 		"message": "Vaciar Cola"
 	},
-	"saveAsPlaylist": {
-		"message": "Guarda en una nueva Lista"
-	},
 	"addToStreamus": {
 		"message": "Añadir a Streamus"
-	},
-	"addVideoToStreamus": {
-		"message": "Añadir Pista a Streamus"
 	},
 	"selectPlaylist": {
 		"message": "Seleccionar Lista"
@@ -72,19 +57,13 @@
 		"message": "Añadir Pista"
 	},
 	"working": {
-		"message": "Trabajando..."
+		"message": "Trabajando"
 	},
 	"newPlaylist": {
 		"message": "Nueva Lista"
 	},
-	"emptyStreamItem": {
-		"message": "Eliminar item de la Cola"
-	},
 	"installed": {
 		"message": "Instalada"
-	},
-	"emptyPlaylist": {
-		"message": "está vacía. Prueba a añadir pistas buscando arriba."
 	},
 	"repeatDisabled": {
 		"message": "Repetir está desactivado."
@@ -107,14 +86,8 @@
 	"shuffleDisabled": {
 		"message": "La Reproducción aleatoria está desactivada."
 	},
-	"playDisabled": {
-		"message": "Reproducción desactivada. ¡Prueba a añadir alguna pista a tus listas primero!"
-	},
 	"elapsedTime": {
 		"message": "Tiempo actual"
-	},
-	"suggestedQuality": {
-		"message": "Calidad deseada:"
 	},
 	"highest": {
 		"message": "La más alta"
@@ -128,7 +101,7 @@
 	"playlist": {
 		"message": "Lista"
 	},
-	"addSuccess": {
+	"addedSuccessfully": {
 		"message": "añadida con éxito"
 	},
 	"addErrorCheckUrl": {
@@ -140,61 +113,20 @@
 	"exitFullScreen": {
 		"message": "Salir de Pantalla completa"
 	},
-	"loadVideoBeforeFullScreen": {
-		"message": "Carga un video antes de lanzar el modo Pantalla completa"
-	},
 	"reloadPromptText": {
 		"message": "A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
 	"reloadButtonText": {
 		"message": "Recargar"
 	},
-
-
-	"playInStreamus": {
-		"message": "Find & Play in Streamus"
-	},
-	"playAllInStreamus": {
-		"message": "Find & Play All in Streamus"
-	},
-	"addVideosButtonText": {
-		"message": "Añadir pistas"
-	},
 	"playAll": {
-		"message": "play all"
-	},
-	"playAllDisabled": {
-		"message": "Playlist is empty"
-	},
-	"addAll": {
-		"message": "add all"
-	},
-	"addAllDisabled": {
-		"message": "Playlist is empty"
+		"message": "Play all"
 	},
 	"playSelected": {
-		"message": "play selected"
-	},
-	"addSelected": {
-		"message": "add selected"
-	},
-	"playSelectedDisabled": {
-		"message": "You have no search results selected"
-	},
-	"addSelectedDisabled": {
-		"message": "You have no search results selected"
+		"message": "Play selected"
 	},
 	"saveSelected": {
-		"message": "save selected"
-	},
-	"saveSelectedDisabled": {
-		"message": "You have no search results selected"
-	},
-	"renameButtonText": {
-		"message": "Rename"
-	},
-	"deleteButtonText": {
-		"message": "Delete"
+		"message": "Save selected"
 	},
 	"search": {
 		"message": "Search"
@@ -205,26 +137,14 @@
 	"searchInstructions": {
 		"message": "Start searching and results will appear here"
 	},
-	"noSearchResults": {
-		"message": "No results found."
-	},
-	"clearStreamDisabled": {
-		"message": "Can't clear an empty stream"
+	"noResultsFound": {
+		"message": "No results found"
 	},
 	"clearStream": {
 		"message": "Clear stream"
 	},
-	"saveStreamDisabled": {
-		"message": "Can't save an empty stream"
-	},
 	"saveStream": {
 		"message": "Save stream"
-	},
-	"clickToMute": {
-		"message": "mute"
-	},
-	"clickToUnmute": {
-		"message": "unmute"
 	},
 	"reloadStreamus": {
 		"message": "Reload Streamus"
@@ -235,7 +155,7 @@
 	"createPlaylistPromptText": {
 		"message": "Enter a name for the playlist or use the one provided:"
 	},
-	"okButtonText": {
+	"ok": {
 		"message": "OK"
 	},
 	"playlist": {
@@ -244,20 +164,8 @@
 	"settings": {
 		"message": "Settings"
 	},
-	"saveButtonText": {
-		"message": "Save"
-	},
-	"createAndSaveButtonText": {
-		"message": "Create playlist & save"
-	},
 	"edit": {
 		"message": "Edit"
-	},
-	"editPlaylistPromptText": {
-		"message": "Edit properties of your playlist,"
-	},
-	"here": {
-		"message": "here"
 	},
 	"delete": {
 		"message": "Delete"
@@ -270,9 +178,6 @@
 	},
 	"deletePlaylistPromptText": {
 		"message": "Are you sure you want to delete playlist"
-	},
-	"sharePlaylistNoShareWarning": {
-		"message": "Playlist is empty"
 	},
 	"confirmPromptTitle": {
 		"message": "Are you sure?"
@@ -307,17 +212,11 @@
 	"items": {
 		"message": "items"
 	},
-	"by": {
-		"message": "by"
-	},
 	"requiredTitle": {
 		"message": "Required: title"
 	},
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"
-	},
-	"addToStream": {
-		"message": "Add to Stream"
 	},
 	"timeRemaining": {
 		"message": "Time remaining"
@@ -326,7 +225,7 @@
 		"message": "Playlists"
 	},
 	"signIn": {
-		"message": "Sign In"
+		"message": "Sign in"
 	},
 	"dontRemindMeAgain": {
 		"message": "Don't remind me again"
@@ -340,29 +239,23 @@
 	"remindDeletePlaylist": {
 		"message": "Remind delete playlist"
 	},
-	"nowPlaying": {
-		"message": "Now Playing"
-	},
 	"video": {
-		"message": "video"
+		"message": "Video"
 	},
 	"videos": {
-		"message": "videos"
+		"message": "Videos"
 	},
 	"minute": {
-		"message": "minute"
+		"message": "Minute"
 	},
 	"minutes": {
-		"message": "minutes"
+		"message": "Minutes"
 	},
 	"hours": {
-		"message": "hours"
+		"message": "Hours"
 	},
 	"days": {
-		"message": "days"
-	},
-	"addToActivePlaylist": {
-		"message": "Add to Active Playlist"
+		"message": "Days"
 	},
 	"errorRetrievingTitle": {
 		"message": "Error retrieving title"	
@@ -377,33 +270,97 @@
 		"message": "Video requested does not allow playback in the embedded players."
 	},
 	"keyboardCommandFailure": {
-		"message": "Keyboard Command Failure"
+		"message": "Keyboard command failure"
 	},
-	"skipNextVideoDisabled": {
-		"message": "Can't skip to the next video."
-	},	
-	"backPreviousVideoDisabled": {
-		"message": "Can't go back to the previous video."
+	"cantSkipToNextVideo": {
+		"message": "Can't skip to next video."
 	},
-	"toggleVideoDisabled": {
-		"message": "Can't toggle the current video state."
+	"cantGoBackToPreviousVideo": {
+		"message": "Can't go back to previous video."
 	},
-	"pause": {
-		"message": "Pause"
+	"cantToggleVideoState": {
+		"message": "Can't toggle video state."
 	},
 	"totalTime": {
-		"message": "total time"
+		"message": "Total time"
 	},
-	"videoDisplayEnabled": {
-		"message": "hide video"
+	"hideVideo": {
+		"message": "Hide video"
 	},
-	"videoDisplayDisabled": {
-		"message": "show video"
+	"showVideo": {
+		"message": "Show video"
 	},
-	"skipNextVideo": {
-		"message": "Next video"
+	"streamEmpty": {
+		"message": "Stream empty"
 	},
-	"backPreviousVideo": {
-		"message": "Previous video"
+	"enqueueSelected": {
+		"message": "Enqueue selected"
+	},
+	"playlistEmpty": {
+		"message": "Playlist empty"
+	},
+	"enqueuePlaylist": {
+		"message": "Enqueue playlist"
+	},
+	"playPlaylist": {
+		"message": "Play playlist"
+	},
+	"enqueueAll": {
+		"message": "Enqueue all"
+	},
+	"create": {
+		"message": "Create"
+	},
+	"update": {
+		"message": "Update"
+	},
+	"showTooltips": {
+		"message": "Show tooltips"
+	},
+	"showVideoSearch": {
+		"message": "Show video search"
+	},
+	"hideVideoSearch": {
+		"message": "Hide video search"
+	},
+	"closeMenu": {
+		"message": "Close menu"
+	},
+	"openMenu": {
+		"message": "Open menu"
+	},
+	"wouldYouLikeTo": {
+		"message": "Would you like to"
+	},
+	"searchForVideos": {
+		"message": "Search for videos"
+	},
+	"hd": {
+		"message": "HD"
+	},
+	"general": {
+		"message": "General"
+	},
+	"videoQuality": {
+		"message": "Video quality"
+	},
+	"whyNotAddAVideoFromAPlaylistOr": {
+		"message": "Why not add a video from a playlist or"
+	},
+	"startTyping": {
+		"message": "Start typing"
+	},
+	"resultsWillAppearAsYouSearch": {
+		"message": "Results will appear as you search"
+	},
+	"sorryAboutThat": {
+		"message": "Sorry about that"
+	},
+	"trySearchingForSomethingElse": {
+		"message": "Try searching for something else"
+	},
+	"watchOnYouTube": {
+		"message": "Watch on YouTube"
 	}
+	
 }

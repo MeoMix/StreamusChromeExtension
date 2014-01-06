@@ -27,7 +27,7 @@ $(function () {
             var resultText;
 
             if (response.result === 'success') {
-                resultText = chrome.i18n.getMessage('playlist') + ' ' + response.playlistTitle + ' ' + chrome.i18n.getMessage('addSuccess');
+                resultText = chrome.i18n.getMessage('playlist') + ' ' + response.playlistTitle + ' ' + chrome.i18n.getMessage('addedSuccessfully').toLowerCase();
             } else {
                 resultText = chrome.i18n.getMessage('addErrorCheckUrl');
             }
@@ -41,6 +41,3 @@ $(function () {
     }
 
 });
-
-
-

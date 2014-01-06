@@ -42,7 +42,6 @@
             ));
             
             this.$el.toggleClass('selected', this.model.get('selected'));
-            console.log("tooltip init");
             this.initializeTooltips();
             
             return this;
@@ -82,7 +81,7 @@
 
             ContextMenuGroups.add({
                 items: [{
-                        text: chrome.i18n.getMessage('addToPlaylist'),
+                        text: chrome.i18n.getMessage('save'),
                         onClick: function () {
                             Folders.getActiveFolder().getActivePlaylist().addByVideo(self.model.get('video'));
                         }
@@ -92,7 +91,7 @@
 
                             chrome.extension.sendMessage({
                                 method: 'copy',
-                                text: 'http://youtu.be/' + self.model.get('video').get('id')
+                                text: self.model.get('video').get('url')
                             });
 
                         }
@@ -102,7 +101,7 @@
 
                             chrome.extension.sendMessage({
                                 method: 'copy',
-                                text: '"' + self.model.get('title') + '" - http://youtu.be/' + self.model.get('video').get('id')
+                                text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
                             });
 
                         }
@@ -112,12 +111,20 @@
                             self.model.destroy();
                         }
                     }, {
-                        text: chrome.i18n.getMessage('banUntilStreamClear'),
+                        text: chrome.i18n.getMessage('banUntilClear'),
                         disabled: StreamItems.getRelatedVideos().length < 5,
-                        title: StreamItems.getRelatedVideos().length < 5 ? chrome.i18n.getMessage('cantBanNeedMoreVideos') : '',
                         onClick: function () {
                             StreamItems.ban(self.model);
                             self.model.destroy();
+                        }
+                    }, {
+                        text: chrome.i18n.getMessage('watchOnYouTube'),
+                        onClick: function () {
+
+                            chrome.tabs.create({
+                                url: self.model.get('video').get('url')
+                            });
+
                         }
                     }]
             });

@@ -1,24 +1,24 @@
-﻿//  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
-var beatportCssUrl = 'css/beatportInject.css';
-
-var beatportInjectStylesheet = document.createElement('link');
-beatportInjectStylesheet.rel = 'stylesheet';
-beatportInjectStylesheet.type = 'text/css';
-beatportInjectStylesheet.href = chrome.extension.getURL(beatportCssUrl);
-document.head.appendChild(beatportInjectStylesheet);
-
-//  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
-if (beatportCssUrl == 'css/beatportInject.css') {
-    var style = document.createElement('link');
-    style.rel = 'stylesheet';
-    style.type = 'text/css';
-    style.href = chrome.extension.getURL('css/jquery.qtip.css');
-    document.head.appendChild(style);
-}
-
-//  This code runs on beatport.com domains.
+﻿//  This code runs on beatport.com domains.
 $(function () {
     'use strict';
+    
+    //  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
+    var beatportCssUrl = 'css/beatportInject.css';
+
+    var beatportInjectStylesheet = document.createElement('link');
+    beatportInjectStylesheet.rel = 'stylesheet';
+    beatportInjectStylesheet.type = 'text/css';
+    beatportInjectStylesheet.href = chrome.extension.getURL(beatportCssUrl);
+    document.head.appendChild(beatportInjectStylesheet);
+
+    //  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
+    if (beatportCssUrl == 'css/beatportInject.css') {
+        var style = document.createElement('link');
+        style.rel = 'stylesheet';
+        style.type = 'text/css';
+        style.href = chrome.extension.getURL('css/jquery.qtip.css');
+        document.head.appendChild(style);
+    }
 
     injectIconsBasedOnUrl();
 
@@ -145,7 +145,7 @@ function buildAndAppendButtonBeforeSelector(selectorToAppendBefore, trackName, t
         'role': 'button',
         'data-query': query,
         'data-toggle': 'tooltip',
-        'title': chrome.i18n.getMessage('playInStreamus'),
+        'title': chrome.i18n.getMessage('play'),
         click: function () {
 
             var clickedItemQuery = $(this).data('query');
@@ -177,7 +177,7 @@ function appendPlayAllButtonBeforeSelector(selector) {
     var streamusPlayAllButton = $('<a>', {
         'class': 'streamus btn-play',
         'role': 'button',
-        'title': chrome.i18n.getMessage('playAllInStreamus'),
+        'title': chrome.i18n.getMessage('playAll'),
         click: function () {
             //  TODO: Detect bad queries such (failure to find) and filter out. Maybe just do distinct for now?
             var itemQueries = $('.streamus.btn-play[data-query]').map(function (index, playButton) {

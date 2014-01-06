@@ -24,6 +24,7 @@
         clearStreamButtonView: null,
         streamItemsView: null,
         
+        contextButtons: null,
         streamEmptyMessage: null,
 
         template: _.template(StreamTemplate),
@@ -34,23 +35,19 @@
 
             this.$el.find('#streamItemsView').replaceWith(this.streamItemsView.render().el);
            
-            var contextButtons = this.$el.children('.context-buttons');
+            this.$el.find('#saveStreamButtonView').replaceWith(this.saveStreamButtonView.render().el);
+            this.$el.find('#clearStreamButtonView').replaceWith(this.clearStreamButtonView.render().el);
 
-            var rightGroupContextButtons = contextButtons.children('.right-group');
-
-            rightGroupContextButtons.append(this.saveStreamButtonView.render().el);
-            rightGroupContextButtons.append(this.clearStreamButtonView.render().el);
-
-            var leftGroupContextButtons = contextButtons.children('.left-group');
-
-            leftGroupContextButtons.append(this.shuffleButtonView.render().el);
-            leftGroupContextButtons.append(this.repeatButtonView.render().el);
-            leftGroupContextButtons.append(this.radioButtonView.render().el);
-
+            this.$el.find('#shuffleButtonView').replaceWith(this.shuffleButtonView.render().el);
+            this.$el.find('#repeatButtonView').replaceWith(this.repeatButtonView.render().el);
+            this.$el.find('#radioButtonView').replaceWith(this.radioButtonView.render().el);
+           
             this.streamEmptyMessage = this.$el.find('.streamEmpty');
-            
-            this.toggleBigText();
+            this.contextButtons = this.$el.find('.context-buttons');
 
+            this.toggleBigText();
+            this.toggleContextButtons();
+            
             return this;
         },
         
@@ -62,13 +59,26 @@
             this.clearStreamButtonView = new ClearStreamButtonView();
             this.streamItemsView = new StreamItemsView();
             
-            this.listenTo(StreamItems, 'add addMultiple remove empty', this.toggleBigText);
+            this.listenTo(StreamItems, 'add addMultiple remove empty', function() {
+                this.toggleBigText();
+                this.toggleContextButtons();
+            });
         },
         
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
             var isStreamEmpty = StreamItems.length === 0;
             this.streamEmptyMessage.toggleClass('hidden', !isStreamEmpty);
+        },
+        
+        //  Set the visibility of context buttons based on the state of the Stream
+        toggleContextButtons: function () {
+
+            if (StreamItems.length === 0) {
+                this.contextButtons.hide();
+            } else {
+                this.contextButtons.show();
+            }
         }
 
     });

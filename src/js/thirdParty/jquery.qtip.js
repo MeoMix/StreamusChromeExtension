@@ -1305,8 +1305,8 @@ PROTOTYPE._storeMouse = function(event) {
 		pageX: event.pageX,
 		pageY: event.pageY,
 		type: 'mousemove',
-		scrollX: window.pageXOffset || document.body.scrollLeft || document.documentElement.scrollLeft,
-		scrollY: window.pageYOffset || document.body.scrollTop || document.documentElement.scrollTop
+		scrollX: window.pageXOffset || document.documentElement.scrollLeft,
+		scrollY: window.pageYOffset || document.documentElement.scrollTop
 	};
 };
 

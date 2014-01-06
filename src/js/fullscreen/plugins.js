@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'jquery.hoverIntent',
     'jquery',
     'lodash'
 ], function () {

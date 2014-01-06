@@ -5,8 +5,8 @@
     </div>
 </div>
 
-<button class="button-icon remove top-right-button" id="button-back">
-    <i class="fa fa-times"></i>
+<button class="button-icon remove top-right-button enabled" id="hideVideoSearch" title="<%- chrome.i18n.getMessage('hideVideoSearch') %>">
+    <i class="fa fa-search fa-lg"></i>
 </button>
 
 <div class="left-top-divider"></div>
@@ -14,18 +14,18 @@
 <div class="big-text-wrapper">
     
     <div class="big-text instructions">
-        <div class="big-text-header">start typing</div>
-        Results will appear as you search.
+        <div class="big-text-header"><%- chrome.i18n.getMessage('startTyping') %></div>
+        <%- chrome.i18n.getMessage('resultsWillAppearAsYouSearch') %>.
     </div>
 
     <div class="big-text searching hidden">
-        <div class="big-text-header">searching...</div>
+        <div class="big-text-header"><%- chrome.i18n.getMessage('searching') %>...</div>
         <i class="fa fa-spinner fa fa-spin i-2x"></i>
     </div>
 
     <div class="big-text noResults hidden">
-        <div class="big-text-header">no results found</div>
-        Sorry about that. Try searching for something else.
+        <div class="big-text-header"><%- chrome.i18n.getMessage('noResultsFound') %></div>
+        <%- chrome.i18n.getMessage('sorryAboutThat') %>. <%- chrome.i18n.getMessage('trySearchingForSomethingElse') %>.
     </div>
 
     <div id="videoSearchResultsView" class="view-placeholder">

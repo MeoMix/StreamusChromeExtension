@@ -59,7 +59,7 @@ define([
 
                         var deletePlaylistPromptView = new GenericPromptView({
                             title: chrome.i18n.getMessage('deletePlaylist'),
-                            okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                            okButtonText: chrome.i18n.getMessage('delete'),
                             model: new DeletePlaylistView({
                                 model: activePlaylist
                             })

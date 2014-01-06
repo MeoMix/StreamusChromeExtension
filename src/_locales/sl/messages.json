@@ -38,8 +38,11 @@
 	"toggleRepeatCommandDescription": {
 		"message": "Stikalo (off/ponovi_posnetek/ponovi_stream) ponavljanje"
 	},
-	"addToPlaylist": {
-		"message": "Dodaj na seznam predvajanja"
+	"save": {
+		"message": "Save"
+	},
+	"enqueue": {
+		"message": "Enqueue"
 	},
 	"copyUrl": {
 		"message": "Kopiraj URL"
@@ -53,32 +56,14 @@
 	"delete": {
 		"message": "Odstrani"
 	},
-	"addVideoToStream": {
-		"message": "Dodaj posnetek na stream"
-	},
-	"addPlaylistToStream": {
-		"message": "Dodaj seznam predvajanja na stream"
-	},
-	"noAddStreamWarning": {
-		"message": "Najprej dodajte iteme na vaš seznam predvajanja."
-	},
-	"banUntilStreamClear": {
-		"message": "Blokiraj dokler ni Stream prazen"
-	},
-	"cantBanNeedMoreVideos": {
-		"message": "Your Stream is low on unbanned videos. Try adding more videos before banning again."
+	"banUntilClear": {
+		"message": "Blokiraj dokler prazen"
 	},
 	"clearStream": {
 		"message": "Pocisti Stream"
 	},
-	"saveAsPlaylist": {
-		"message": "Shrani kot seznam predvajanja"
-	},
 	"addToStreamus": {
 		"message": "Dodaj na Streamus"
-	},
-	"addVideoToStreamus": {
-		"message": "Dodaj posnetek na Streamus"
 	},
 	"selectPlaylist": {
 		"message": "Izberi seznam predvajanja"
@@ -93,52 +78,40 @@
 		"message": "Dodaj posnetek"
 	},
 	"working": {
-		"message": "Delam..."
+		"message": "Delam"
 	},
 	"newPlaylist": {
 		"message": "Nov seznam predvajanja"
 	},
-	"emptyStreamItem": {
-		"message": "Pocisti Stream Item"
-	},
 	"installed": {
 		"message": "Namešceno"
 	},
-	"emptyPlaylist": {
-		"message": "je prazen. Poskusite dodati nekaj posnetkov s klikom na ikono za iskanje zgoraj."
-	},
 	"repeatDisabled": {
-		"message": "Ponavljanje je onemogoceno."
+		"message": "Ponavljanje je onemogoceno"
 	},
 	"repeatVideo": {
-		"message": "Ponavljanje posnetka je omogoceno."
+		"message": "Ponavljanje posnetka je omogoceno"
 	},
 	"repeatStream": {
-		"message": "Ponavljanje streama je omogoceno."
+		"message": "Ponavljanje streama je omogoceno"
 	},
 	"radioEnabled": {
-		"message": "Radio je omogocen."
+		"message": "Radio je omogocen"
 	},
 	"radioDisabled": {
-		"message": "Radio je onemogocen."
+		"message": "Radio je onemogocen"
 	},
 	"shuffleEnabled": {
-		"message": "Nakljucno predvajanje je omogoceno."
+		"message": "Nakljucno predvajanje je omogoceno"
 	},
 	"shuffleDisabled": {
-		"message": "Nakljucno predvajanje je onemogoceno."
-	},
-	"playDisabled": {
-		"message": "Predvajanje onemogoceno. Najprej poskusite dodati posnetek na vaš seznam predvajanja!"
+		"message": "Nakljucno predvajanje je onemogoceno"
 	},
 	"elapsedTime": {
 		"message": "Porabljen cas"
 	},
 	"timeRemaining": {
 		"message": "Preostali cas"
-	},
-	"suggestedQuality": {
-		"message": "Priporocena kvaliteta:"
 	},
 	"highest": {
 		"message": "Najvišja"
@@ -152,8 +125,8 @@
 	"playlist": {
 		"message": "Seznam predvajanja"
 	},
-	"addSuccess": {
-		"message": "uspešno dodano"
+	"addedSuccessfully": {
+		"message": "Uspešno dodano"
 	},
 	"addErrorCheckUrl": {
 		"message": "Prišlo je do težave pri dodajanju vašega seznama predvajanja. Preverite URL?"
@@ -164,59 +137,20 @@
 	"exitFullScreen": {
 		"message": "Izhod iz celozaslonskega nacina"
 	},
-	"loadVideoBeforeFullScreen": {
-		"message": "Prosim najprej naložite YouTube posnetek, preden poskušate celozaslonski nacin"
-	},
 	"reloadPromptText": {
 		"message": "Streamus potrebuje veliko casa za nalaganje. Ponovno nalaganje lahko pomaga."
 	},
 	"reloadButtonText": {
 		"message": "Ponovno naloži"
 	},
-	"playInStreamus": {
-		"message": "Poišci in predvajaj v Streamus"
-	},
-	"playAllInStreamus": {
-		"message": "Poišci in predvajaj vse v Streamus"
-	},
-	"addVideosButtonText": {
-		"message": "Dodaj posnetke"
-	},
 	"playAll": {
-		"message": "predvajaj vse"
-	},
-	"playAllDisabled": {
-		"message": "Seznam predvajanja je prazen"
-	},
-	"addAll": {
-		"message": "dodaj vse"
-	},
-	"addAllDisabled": {
-		"message": "Seznam predvajanja je prazen"
+		"message": "Predvajaj vse"
 	},
 	"playSelected": {
-		"message": "predvajaj izbrano"
-	},
-	"addSelected": {
-		"message": "dodaj izbrano"
-	},
-	"playSelectedDisabled": {
-		"message": "Niste izbrali nobenih rezultatov iskanja"
-	},
-	"addSelectedDisabled": {
-		"message": "Niste izbrali nobenih rezultatov iskanja"
+		"message": "Predvajaj izbrano"
 	},
 	"saveSelected": {
-		"message": "shrani izbrano"
-	},
-	"saveSelectedDisabled": {
-		"message": "Niste izbrali nobenih rezultatov iskanja"
-	},
-	"renameButtonText": {
-		"message": "Preimenuj"
-	},
-	"deleteButtonText": {
-		"message": "Izbriši"
+		"message": "Shrani izbrano"
 	},
 	"search": {
 		"message": "Iskanje"
@@ -227,26 +161,14 @@
 	"searchInstructions": {
 		"message": "Zacnite iskanje in rezultati se bodo pojavili tu"
 	},
-	"noSearchResults": {
-		"message": "Ni bilo najdenih rezultatov."
-	},
-	"clearStreamDisabled": {
-		"message": "Ne morem pocistiti praznega streama"
+	"noResultsFound": {
+		"message": "Ni bilo najdenih rezultatov"
 	},
 	"clearStream": {
 		"message": "Pocisti stream"
 	},
-	"saveStreamDisabled": {
-		"message": "Ne morete shraniti praznega stream"
-	},
 	"saveStream": {
 		"message": "Shrani stream"
-	},
-	"clickToMute": {
-		"message": "mute"
-	},
-	"clickToUnmute": {
-		"message": "unmute"
 	},
 	"reloadStreamus": {
 		"message": "Ponovno naloži Streamus"
@@ -257,7 +179,7 @@
 	"createPlaylistPromptText": {
 		"message": "Vnesite ime za seznam predvajanja ali uporabite predlaganega:"
 	},
-	"okButtonText": {
+	"ok": {
 		"message": "OK"
 	},
 	"playlist": {
@@ -266,20 +188,8 @@
 	"settings": {
 		"message": "Nastavitve"
 	},
-	"saveButtonText": {
-		"message": "Shrani"
-	},
-	"createAndSaveButtonText": {
-		"message": "Ustvari seznam predvajanja in shrani"
-	},
 	"edit": {
 		"message": "Urejanje"
-	},
-	"editPlaylistPromptText": {
-		"message": "Urejanje lastnosti vašega seznama predvajanja"
-	},
-	"here": {
-		"message": "tukaj"
 	},
 	"delete": {
 		"message": "Izbriši"
@@ -292,9 +202,6 @@
 	},
 	"deletePlaylistPromptText": {
 		"message": "Ste prepricani, da želite izbrisati seznam predvajanja"
-	},
-	"sharePlaylistNoShareWarning": {
-		"message": "Seznam predvajanje je prazen"
 	},
 	"confirmPromptTitle": {
 		"message": "Ste prepricani?"
@@ -311,7 +218,6 @@
 	"saveVideos": {
 		"message": "Shrani posnetke"
 	},
-
 	"play": {
 		"message": "Predvajaj"
 	},
@@ -325,34 +231,22 @@
 		"message": "Izbriši sezname predvajanja"
 	},
 	"item": {
-		"message": "item"
+		"message": "Item"
 	},
 	"items": {
-		"message": "items"
+		"message": "Items"
 	},
 	"to": {
-		"message": "to"
-	},
-	"by": {
-		"message": "by"
+		"message": "To"
 	},
 	"title": {
 		"message": "Naslov"
-	},
-	"source": {
-		"message": "Vir"
 	},
 	"requiredTitle": {
 		"message": "Obvezno: naslov"
 	},
 	"optionalSource": {
 		"message": "Opcijsko: YouTube seznam predvajanja/kanalov URL"
-	},
-	"playPlaylistInStream": {
-		"message": "Predvajaj seznam predvajanja v streamu"
-	},
-	"addToStream": {
-		"message": "Dodaj na stream"
 	},
 	"playlists": {
 		"message": "Seznami predvajanja"
@@ -372,35 +266,27 @@
 	"remindDeletePlaylist": {
 		"message": "Opomni brisanje seznamov predvajanja"
 	},
-	"nowPlaying": {
-		"message": "Trenutno predvajanje"
-	},
 	"video": {
-		"message": "posnetek"
+		"message": "Posnetek"
 	},
 	"videos": {
-		"message": "posnetki"
+		"message": "Posnetki"
 	},
 	"minute": {
-		"message": "minuta"
+		"message": "Minuta"
 	},
 	"minutes": {
-		"message": "minute"
+		"message": "Minute"
 	},
 	"hours": {
-		"message": "ur"
+		"message": "Ur"
 	},
 	"days": {
-		"message": "dnevov"
-	},
-	"addToActivePlaylist": {
-		"message": "Dodaj na aktiven seznam predvajanja"
+		"message": "Dnevov"
 	},
 	"errorRetrievingTitle": {
 		"message": "Napaka pri pridobivanju naslova"  
 	},
-
-
 	"youTubePlayerErrorInvalidParameter": {
 		"message": "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks."
 	},
@@ -411,33 +297,96 @@
 		"message": "Video requested does not allow playback in the embedded players."
 	},
 	"keyboardCommandFailure": {
-		"message": "Keyboard Command Failure"
+		"message": "Keyboard command failure"
 	},
-	"skipNextVideoDisabled": {
-		"message": "Can't skip to the next video."
+	"cantSkipToNextVideo": {
+		"message": "Can't skip to next video."
 	},
-	"backPreviousVideoDisabled": {
-		"message": "Can't go back to the previous video."
+	"cantGoBackToPreviousVideo": {
+		"message": "Can't go back to previous video."
 	},
-	"toggleVideoDisabled": {
-		"message": "Can't toggle the current video state."
-	},
-	"pause": {
-		"message": "Pause"
+	"cantToggleVideoState": {
+		"message": "Can't toggle video state."
 	},
 	"totalTime": {
-		"message": "total time"
+		"message": "Total time"
 	},
-	"videoDisplayEnabled": {
-		"message": "hide video"
+	"hideVideo": {
+		"message": "Hide video"
 	},
-	"videoDisplayDisabled": {
-		"message": "show video"
+	"showVideo": {
+		"message": "Show video"
 	},
-	"skipNextVideo": {
-		"message": "Next video"
+	"streamEmpty": {
+		"message": "Stream empty"
 	},
-	"backPreviousVideo": {
-		"message": "Previous video"
+	"enqueueSelected": {
+		"message": "Enqueue selected"
+	},
+	"playlistEmpty": {
+		"message": "Playlist empty"
+	},
+	"enqueuePlaylist": {
+		"message": "Enqueue playlist"
+	},
+	"playPlaylist": {
+		"message": "Play playlist"
+	},
+	"enqueueAll": {
+		"message": "Enqueue all"
+	},
+	"create": {
+		"message": "Create"
+	},
+	"update": {
+		"message": "Update"
+	},
+	"showTooltips": {
+		"message": "Show tooltips"
+	},
+	"showVideoSearch": {
+		"message": "Show video search"
+	},
+	"hideVideoSearch": {
+		"message": "Hide video search"
+	},
+	"closeMenu": {
+		"message": "Close menu"
+	},
+	"openMenu": {
+		"message": "Open menu"
+	},
+	"wouldYouLikeTo": {
+		"message": "Would you like to"
+	},
+	"searchForVideos": {
+		"message": "Search for videos"
+	},
+	"hd": {
+		"message": "HD"
+	},
+	"general": {
+		"message": "General"
+	},
+	"videoQuality": {
+		"message": "Video quality"
+	},
+	"whyNotAddAVideoFromAPlaylistOr": {
+		"message": "Why not add a video from a playlist or"
+	},
+	"startTyping": {
+		"message": "Start typing"
+	},
+	"resultsWillAppearAsYouSearch": {
+		"message": "Results will appear as you search"
+	},
+	"sorryAboutThat": {
+		"message": "Sorry about that"
+	},
+	"trySearchingForSomethingElse": {
+		"message": "Try searching for something else"
+	},
+	"watchOnYouTube": {
+		"message": "Watch on YouTube"
 	}
 }

@@ -20,11 +20,11 @@ define([
         switch (command) {
             case 'nextVideo':
                 var selectedNextVideo = NextButton.trySelectNextVideo();
-                console.log("selectedNextVideo:", selectedNextVideo);
+
                 if (!selectedNextVideo) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('skipNextVideoDisabled')
+                        message: chrome.i18n.getMessage('cantSkipToNextVideo')
                     });
                 }
                 
@@ -35,7 +35,7 @@ define([
                 if (!didPrevious) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('backPreviousVideoDisabled')
+                        message: chrome.i18n.getMessage('cantGoBackToPreviousVideo')
                     });
                 }
                 
@@ -46,7 +46,7 @@ define([
                 if (!didTogglePlayerState) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('toggleVideoDisabled')
+                        message: chrome.i18n.getMessage('cantToggleVideoState')
                     });
                 }
                 
@@ -74,21 +74,19 @@ define([
                 
                 break;
             case 'copyVideoUrl':
-                var selectedVideoId = StreamItems.getSelectedItem().get('video').get('id');
 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: 'http://youtu.be/' + selectedVideoId
+                    text: StreamItems.getSelectedItem().get('video').get('url')
                 });
 
                 break;
             case 'copyVideoTitleAndUrl':                
                 var selectedStreamItem = StreamItems.getSelectedItem();
-                var videoId = StreamItems.getSelectedItem().get('video').get('id');
                 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: '"' + selectedStreamItem.get('title') + '" - http://youtu.be/' + videoId
+                    text: '"' + selectedStreamItem.get('title') + '" - ' + selectedStreamItem.get('video').get('url')
                 });
 
                 break;

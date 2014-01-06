@@ -11,9 +11,11 @@ define(function () {
                 serverURL: '',
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',
                 userId: this.getItem('userId') || null,
+                showTooltips: this.getItem('showTooltips') || true,
                 remindClearStream: this.getItem('remindClearStream') || true,
                 remindDeletePlaylist: this.getItem('remindDeletePlaylist') || true,
-                showTimeRemaining: this.getItem('showTimeRemaining') || false
+                showTimeRemaining: this.getItem('showTimeRemaining') || false,
+                searchQuery: this.getItem('searchQuery') || ''
             };
         },
         
@@ -34,6 +36,10 @@ define(function () {
                 localStorage.setItem('userId', JSON.stringify(userId));
             });
 
+            this.on('change:showTooltips', function(model, showTooltips) {
+                localStorage.setItem('showTooltips', JSON.stringify(showTooltips));
+            });
+
 			this.on('change:remindClearStream', function (model, remindClearStream) {
                 localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
 			});
@@ -45,7 +51,11 @@ define(function () {
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
                 localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
             });
-            
+
+            this.on('change:searchQuery', function(model, searchQuery) {
+                localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
+            });
+
         },
         
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.

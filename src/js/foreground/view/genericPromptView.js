@@ -19,7 +19,7 @@
         
         panel: null,
  
-        okButtonText: chrome.i18n.getMessage('okButtonText'),
+        okButtonText: chrome.i18n.getMessage('ok'),
 
         okButton: null,
         showCancelButton: true,

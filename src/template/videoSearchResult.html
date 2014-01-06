@@ -11,16 +11,16 @@
 </div>
 
 <span class="item-details">
-    HD · 
+    <% if( video.get('highDefinition') ) { %>
+        <%- chrome.i18n.getMessage('hd') %> · 
+    <% } %>
     <span class="item-duration">
         <%- video.get('prettyDuration') %>	
     </span>
-    <% if( video.get('highDefinition') ) { %>
-    <% } %>
 </span>
 
 <span class="hover-actions">
     <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-    <i class="fa fa-plus addToActivePlaylist" title="<%- chrome.i18n.getMessage('addToActivePlaylist') %>"></i>
-    <i class="fa fa-save addToStream" title="<%- chrome.i18n.getMessage('addToStream') %>"></i>
+    <i class="fa fa-plus addToStream" title="<%- chrome.i18n.getMessage('enqueue') %>"></i>
+    <i class="fa fa-save save" title="<%- chrome.i18n.getMessage('save') %>"></i>
 </span>

@@ -23,7 +23,8 @@
         
         events: {
             'contextmenu': 'showContextMenu',
-            'click i.playInStream': 'playInStream'
+            'click i.playInStream': 'playInStream',
+            'click i.delete': 'doDelete'
         },
         
         render: function () {
@@ -44,6 +45,10 @@
 
             this.listenTo(this.model, 'destroy', this.remove);
         },
+        
+        doDelete: function () {
+            this.model.destroy();
+        },
 
         showContextMenu: function (event) {
 
@@ -58,7 +63,7 @@
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: 'http://youtu.be/' + self.model.get('video').get('id')
+                            text: self.model.get('video').get('url')
                         });
                     }
                 }, {
@@ -67,7 +72,7 @@
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + self.model.get('title') + '" - http://youtu.be/' + self.model.get('video').get('id')
+                            text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
                         });
                     }
                 }, {
@@ -76,7 +81,7 @@
                         self.model.destroy();
                     }
                 }, {
-                    text: chrome.i18n.getMessage('addVideoToStream'),
+                    text: chrome.i18n.getMessage('enqueue'),
                     onClick: function () {
 
                         var video = self.model.get('video');
@@ -89,6 +94,15 @@
 
                         var video = self.model.get('video');
                         StreamItems.addByVideo(video, true);
+
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('watchOnYouTube'),
+                    onClick: function () {
+
+                        chrome.tabs.create({
+                            url: self.model.get('video').get('url')
+                        });
 
                     }
                 }]

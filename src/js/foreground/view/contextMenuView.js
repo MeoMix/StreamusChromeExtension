@@ -38,6 +38,8 @@
                 offsetLeft = offsetLeft - this.$el.width();
             }
 
+            this.initializeTooltips();
+
             //  Show the element before setting offset to ensure correct positioning.
             this.$el.offset({
                 top: offsetTop,
@@ -65,8 +67,16 @@
         //  Maps the click action to the related model's onClick event.
         onItemClick: function (event) {
 
-            var clickGoupItemCid = $(event.currentTarget).find('a').attr('id');
-            var clickGroupCid = $(event.target).closest('ul').attr('id');
+            var li = $(event.currentTarget);
+
+            //  Don't allow the context menu to close if a disabled item is clicked (emulate Chrome functionality)
+            //  You can't use :disabled here because li is not an input-type element.
+            if (li.attr('disabled') === 'disabled') {
+                return false;
+            }
+
+            var clickGoupItemCid = li.find('a').attr('id');
+            var clickGroupCid = li.closest('ul').attr('id');
             
             var clickedGroup = ContextMenuGroups.find(function (group) {
                 return group.cid == clickGroupCid;

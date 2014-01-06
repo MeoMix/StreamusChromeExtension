@@ -6,8 +6,9 @@
     'foreground/view/deletePlaylistView',
     'foreground/view/editPlaylistView',
     'foreground/model/settings',
-    'foreground/collection/folders'
-], function (GenericForegroundView, PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders) {
+    'foreground/collection/folders',
+    'foreground/collection/streamItems'
+], function (GenericForegroundView, PlaylistTemplate, ContextMenuGroups, GenericPromptView, DeletePlaylistView, EditPlaylistView, Settings, Folders, StreamItems) {
     'use strict';
 
     var PlaylistView = GenericForegroundView.extend({
@@ -93,7 +94,7 @@
                 items: [{
                     //  No point in sharing an empty playlist...
                     disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage('sharePlaylistNoShareWarning') : '',
+                    title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
 
@@ -128,9 +129,10 @@
                                 var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
                                 if (remindDeletePlaylist) {
 
+                                    //  TODO: keep DRY with other delete prompt
                                     var deletePlaylistPromptView = new GenericPromptView({
                                         title: chrome.i18n.getMessage('deletePlaylist'),
-                                        okButtonText: chrome.i18n.getMessage('deleteButtonText'),
+                                        okButtonText: chrome.i18n.getMessage('delete'),
                                         model: new DeletePlaylistView({
                                             model: self.model
                                         })
@@ -148,9 +150,9 @@
                         }
                     }
                 }, {
-                    text: chrome.i18n.getMessage('addPlaylistToStream'),
+                    text: chrome.i18n.getMessage('enqueue'),
                     disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage('noAddStreamWarning') : '',
+                    title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
 
                         if (!isEmpty) {
@@ -173,7 +175,7 @@
 
                         var editPlaylistPromptView = new GenericPromptView({
                             title: chrome.i18n.getMessage('editPlaylist'),
-                            okButtonText: chrome.i18n.getMessage('saveButtonText'),
+                            okButtonText: chrome.i18n.getMessage('update'),
                             model: new EditPlaylistView({
                                 model: self.model
                             })
@@ -187,8 +189,9 @@
 
         },
         
-        edit: function() {
-            this.editableTitle.show();
+        edit: function () {
+            //  Reset val after focusing to prevent selection while maintaining focus.
+            this.editableTitle.show().focus().val(this.editableTitle.val());
             this.readonlyTitle.hide();
         },
         

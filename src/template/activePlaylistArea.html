@@ -1,5 +1,4 @@
-﻿        <!-- TODO: i18n -->
-<button class="button-icon show" title="open menu">
+﻿<button class="button-icon show" title="<%- chrome.i18n.getMessage('openMenu') %>">
     <i class="fa fa-reorder"></i>
 </button>
 
@@ -9,7 +8,7 @@
     </span>
 </div>
 
-<button class="button-icon top-right-button" id="addVideosButton" title="<%- chrome.i18n.getMessage('addVideosButtonText') %>">
+<button class="button-icon top-right-button" id="showVideoSearch" title="<%- chrome.i18n.getMessage('showVideoSearch') %>">
     <i class="fa fa-search fa-lg"></i>
 </button>
 
@@ -18,8 +17,10 @@
 <div class="big-text-wrapper">
     
     <div class="big-text playlistEmpty">
-        <div class="big-text-header">playlist empty</div>
-        Would you like to <span id="videoSearchLink" class="searchLink clickable">search for videos</span>?
+        <div class="big-text-header">
+            <%- chrome.i18n.getMessage('playlistEmpty') %>
+        </div>
+        <%- chrome.i18n.getMessage('wouldYouLikeTo') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%- chrome.i18n.getMessage('searchForVideos') %></span>?
     </div>
 
     <div id="activePlaylistItemsView" class="view-placeholder">
@@ -27,7 +28,7 @@
 </div>
 
 <div class="left-bottom-menubar">
-    <div class="playlist-details">
+    <div class="playlist-details lowercase">
         <%- playlist.get('displayInfo') %>
     </div>
     <div class="playlist-actions">

@@ -9,7 +9,8 @@ body {
     width: 100%;
     height: 100%;
     -webkit-user-select: none;
-    font: 13px/1.2 Segoe UI 
+    font: 13px/1.2 Segoe UI;
+    color: #333;
 }
 
 body.loading > *:not(.modalOverlay) {
@@ -61,6 +62,7 @@ body > .fa-spinner {
 ::-webkit-scrollbar-thumb:vertical {
     background-color: #D7D7D7;
     height: 50px;
+    transition: background-color .1s;
 }
 
 ::-webkit-scrollbar-thumb:vertical:hover {
@@ -86,12 +88,11 @@ button.mute.muted{
 }
 
 .modalOverlay .panel {
-    background: #f2f2f2;
-    box-shadow: 0 0 20px #000;
+    box-shadow: 0 0 20px #333;
 }
 
 .modalOverlay .panel .header {
-    background: #e6e6e6;
+    background: #fff;
     height: 26px;
     right: 0;
     top: 0;
@@ -104,7 +105,10 @@ button.mute.muted{
 
 .modalOverlay .panel .content {
     padding: 10px;
-    /*font-size: 1.1em;*/
+}
+
+.panel {
+    background: #fff;
 }
 
 .prompt .panel {
@@ -119,9 +123,9 @@ button.mute.muted{
 }
 
 .prompt.settingsPrompt .panel {
-    margin-left: -125px;
-    width: 250px;
-    height: 200px;
+    margin-left: -140px;
+    width: 280px;
+    height: 230px;
 }
 
 .prompt.createPlaylistPrompt .panel {
@@ -206,7 +210,7 @@ sup { vertical-align: baseline }
 
 sub { vertical-align: baseline }
 
-legend { color: #000 }
+legend { color: #333 }
 
 input, button, textarea, select, optgroup, option {
     font-family: inherit;
@@ -223,6 +227,13 @@ a { cursor: pointer }
     cursor: default;
 }
 
+span.videoTitle {
+    font-size: 1.2em;
+    white-space: nowrap;
+    cursor: default;
+    line-height: 1.5em;
+}
+
 span.playlistTitle {
     font-size: 1.2em;
     white-space: nowrap;
@@ -236,7 +247,7 @@ span.playlistTitle {
 }
 
 .playlist-details {
-    color: #949494;
+    color: #9999;
     line-height: 1.5;
     cursor: default;
 }
@@ -245,6 +256,7 @@ span.playlistTitle {
     margin-left: 55px;
     overflow: hidden;
     text-overflow: ellipsis;
+    color: #333;
 }
 
 #addSearchResults .itemWrapper .item-title-wrapper {
@@ -259,12 +271,11 @@ span.playlistTitle {
 }
 
 .addItemOption.active .item-title {
-    /*color: #6BBD46;*/
     color: #4EA6EA;
 }
 
 .item-details {
-    color: #949494;
+    color: #9999;
     font-size: .8em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -279,14 +290,6 @@ span.playlistTitle {
 
 .item-count { margin-right: .8em }
 .item-author { margin-right: .8em }
-
-.progress-details { font-size: .9em }
-
-.progress-details .title {
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: default;
-}
 
 button {
     background: transparent;
@@ -349,20 +352,29 @@ button:active {
     line-height: 30px
 }
 
-button.enabled {
-    /*color: #6BBD46;*/
-    color: #4EA6EA;
-}
-
 .button-label { padding: .1em .4em; }
 
 .button-label i { margin-right: .5em }
 
 .button-color {
-    background: -webkit-linear-gradient(top, #6edb00, #6BBD46);
-    color: #fff;
-    text-shadow: 0 1px 0 #57ad00
+    background: #f2f2f2;
+    border: 1px solid #cacaca;
+    transition: all .1s;
 }
+
+.button-color:not(.disabled):hover {
+    border-color: #4EA6EA;
+    background: #4EA6EA;
+    color: white;
+}
+
+button > i {
+    transition: color .1s;
+}
+
+/*button:not(.disabled):hover > i {
+    color: #4EA6EA;
+}*/
 
 input[type="range"] {
     -webkit-appearance: none;
@@ -376,24 +388,27 @@ input[type="range"] {
 input[type="range"]::-webkit-slider-thumb {
     -webkit-appearance: none;
     -webkit-box-shadow: 0 0 5px #c5c5c5;
-    background: #777;
+    background: #666;
     border-radius: 100%;
     cursor: pointer;
     height: 10px;
-    width: 10px
+    width: 10px;
+    transition:background .1s;
 }
+
+/*input[type="range"]::-webkit-slider-thumb:hover {
+    background: #4EA6EA;
+}*/
 
 .left-pane {
     background: #fff;
     bottom: 0;
-    display: block;
     left: 0;
     position: absolute;
     right: 250px;
     top: 0;
     z-index: 1;
-    /*width: 380px;*/
-    width: 390px;
+    width: 385px;
 }
 
 /* Hide some messages in video search */
@@ -412,7 +427,19 @@ input[type="range"]::-webkit-slider-thumb {
 #stream .big-text-wrapper {
     top: 0;
     bottom: 40px;
-    width: calc(100% - 10px);
+}
+
+#videoSearch .big-text-wrapper.extended {
+    bottom: 5px;   
+}
+
+.big-text-wrapper {
+    top: 55px;
+    bottom: 40px;
+    width: 100%;
+    left: 0;
+    right: 0;
+    position: absolute;
 }
 
 .editableTitle {
@@ -483,14 +510,6 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.big-text-wrapper {
-    top: 55px;
-    bottom: 40px;
-    left: 5px;
-    width: calc(100% - 10px);
-    position: absolute;
-}
-
 .left-list {
     bottom: 0;
     top: 0;
@@ -552,21 +571,56 @@ input[type="range"]::-webkit-slider-thumb {
     background: #ebebeb;
 }
 
-.listItem:hover > i.hoverable,
-.listItem:hover > .item-thumb {
+.listItem:hover > i.hoverable {
     background-color: #ebebeb;
 }
 
 .listItem.selected,
 .playlist.selected {
-    background: #CDDBF2;
+    background: #4EA6EA;
     transition: background .3s;
 }
 
-.listItem.selected > i.hoverable,
-.listItem.selected > .item-thumb {
-    transition: background .3s;
-    background: #CDDBF2;
+.listItem .item-details {
+    transition: color .3s;
+}
+
+.listItem.selected .item-details {
+    color: #C5E6FF;
+}
+
+.listItem .hover-actions,
+.listItem .item-title{
+    transition: color .1s;
+}
+
+
+.listItem.selected .hover-actions {
+    color: #C5E6FF;
+}
+
+.fa-spinner {
+    color: #4EA6EA;
+}
+
+.listItem.selected .hover-actions:hover {
+    color: #fff;
+}
+
+.listItem .hover-actions:hover {
+    color: #000;
+}
+
+.playlist.selected .title,
+.playlist.selected i,
+.listItem.selected .item-title,
+.listItem.selected .item-title-wrapper {
+    color: #fff;
+}
+
+.playlist.selected .count {
+    background: #C5E6FF;
+    color: #4EA6EA;
 }
 
 .listItem i {
@@ -695,15 +749,14 @@ input.valid {
     height: 5px;
 }
 
-.searchBar input:focus  ~ .underline {
-    /*background-color: #339933;*/
+input:focus  ~ .underline {
     background-color: #4EA6EA;
 }
 
+
 #videoSearch {
-    box-shadow: 0 0 10px #000;
-    /*left: -380px;*/
-    left: -400px
+    box-shadow: 0 0 10px #333;
+    left: -385px;
 }
 
 .searchBar input {
@@ -718,8 +771,7 @@ input.valid {
     right: 1px;
     top: 10px;
     z-index: 1;
-    /*width: 287px;*/
-    width: 297px;
+    width: 292px;
 }
 
 .searchBar button#source-select {
@@ -738,7 +790,7 @@ input.valid {
 
 .big-text {
     cursor: default;
-    color: #949494;
+    color: #666;
     margin: 2em 1em;
     text-align: center;
 }
@@ -749,9 +801,7 @@ input.valid {
 }
 
 .right-pane {
-    border-left: 1px solid #e6e6e6;
     bottom: 0;
-    display: block;
     position: absolute;
     right: 0;
     top: 0;
@@ -793,10 +843,8 @@ input.valid {
     top: 0;
 }
 
-#videoDisplay .top-bar .volumeControl,
-.right-pane .top-bar .volumeControl {
+.top-bar .volumeControl {
     bottom: 0;
-    display: block;
     left: 0;
     overflow: hidden;
     position: absolute;
@@ -807,8 +855,7 @@ input.valid {
     cursor: pointer;
 }
 
-#videoDisplay .top-bar .volume-slider,
-.right-pane .top-bar .volume-slider {
+.top-bar .volume-slider {
     background: #fff;
     border: 1px solid #ccc;
     width: 40px;
@@ -819,10 +866,10 @@ input.valid {
     padding-bottom: 10px;
     opacity: 0;
     -webkit-transform: rotate(180deg);
+    cursor: default;
 }
 
-#videoDisplay .top-bar .volume-slider:before,
-.right-pane .top-bar .volume-slider:before {
+.top-bar .volume-slider:before {
     display: block;
     content: ' ';
     width: 10px;
@@ -837,8 +884,7 @@ input.valid {
     border-right: 1px solid #ccc;
 }
 
-#videoDisplay .top-bar .volume-slider input,
-.right-pane .top-bar .volume-slider input {
+.top-bar .volume-slider input {
     -webkit-appearance: none;
     width: 80px;
     height: 2px;
@@ -850,31 +896,17 @@ input.valid {
     left: 21px;
 }
 
-#videoDisplay .top-bar .volume-slider input::-webkit-slider-thumb,
-.right-pane .top-bar .volume-slider input::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    -webkit-box-shadow: 0 0 5px #c5c5c5;
-    background: #777;
-    border-radius: 100%;
-    cursor: pointer;
-    height: 10px;
-    width: 10px
-}
-
-#videoDisplay .top-bar .volume-slider input:focus,
-.right-pane .top-bar .volume-slider input:focus {
+.top-bar .volume-slider input:focus {
     outline: none
 }
 
-#videoDisplay .top-bar .volume-slider .progress,
-.right-pane .top-bar .volume-slider .progress {
+.top-bar .volume-slider .progress {
     margin-left: 19px;
     width: 2px;
-    background: #777;
+    background: #4EA6EA;
 }
 
-#videoDisplay .top-bar .center-group,
-.right-pane .top-bar .center-group {
+.top-bar .center-group {
     bottom: 0;
     display: block;
     left: 50%;
@@ -885,8 +917,7 @@ input.valid {
     z-index: 1;
 }
 
-.right-pane .top-bar .right-group,
-#videoDisplay .top-bar .right-group{
+.top-bar .right-group{
     bottom: 0;
     display: block;
     position: absolute;
@@ -896,18 +927,17 @@ input.valid {
     z-index: 1;
 }
 
-.right-pane .time-slider {
+.timeProgressArea .time-slider {
     background: #f2f2f2;
-    display: block;
     height: 3px;
-    left: 59px;
+    left: 45px;
     position: absolute;
-    right: 58px;
-    top: 53px;
+    right: 45px;
+    top: 8px;
 }
 
-.right-pane .time-slider .progress {
-    background: #797979;
+.timeProgressArea .time-slider .progress {
+    background: #4EA6EA;
     bottom: 0;
     display: block;
     left: 0;
@@ -916,54 +946,24 @@ input.valid {
     z-index: 1
 }
 
-.right-pane .time-slider input {
+.timeProgressArea .time-slider input {
     bottom: 0;
-    display: block;
     left: 0;
     position: absolute;
     right: 0;
     top: 0;
-    width: 138px;
+    width: 100%;
     z-index: 2
 }
 
-.right-pane .progress-details {
-    display: block;
-    height: 19.5px;
-    left: 7.5px;
-    line-height: 1.5;
+.timeProgressArea .time-elapsed {
     position: absolute;
-    right: 7.5px;
-    top: 45px;
+    left: 0;
 }
 
-.right-pane .progress-details .time-elapsed {
-    bottom: 0;
-    display: block;
-    left: 10px;
+.timeProgressArea .duration {
     position: absolute;
-    top: 0;
-    cursor: default;
-}
-
-.right-pane .progress-details .title {
-    bottom: 0;
-    display: block;
-    left: 65px;
-    position: absolute;
-    text-align: center;
-    top: 0;
-    width: 100px;
-    cursor: default;
-}
-
-.right-pane .progress-details .duration {
-    bottom: 0;
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 0;
-    cursor: default;
+    right: 0;
 }
 
 #addSearchResults .list {
@@ -976,18 +976,6 @@ input.valid {
     bottom: 0;
     margin-bottom: 5px;
     margin-top: 5px;
-}
-
-.stream .list {
-    display: block;
-    left: 10px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    position: absolute;
-    right: 10px;
-    top: 0;
-    bottom: 0;
-    padding-right: 0
 }
 
 .right-pane .context-buttons {
@@ -1061,9 +1049,7 @@ input.valid {
 #addSearchResults {
     background: rgba(0, 0, 0, 0.0);
     bottom: 0;
-    display: block;
-    /*left: 380px;*/
-    left: 390px;
+    left: 380px;
     position: fixed;
     right: 0;
     top: 0;
@@ -1072,22 +1058,21 @@ input.valid {
 }
 
 #videoDisplay .panel {
-    background: #f2f2f2;
+
     left: -640px;
     top: 0;
     bottom: 0;
     right: 0;
     width: 640px;
-    box-shadow: 0 0 20px #000;
+    box-shadow: 0 0 20px #333;
     display: block;
     position: absolute;
     z-index: 51;
 }
 
 #activeFolderArea .panel {
-    background: #fff;
     bottom: 0;
-    box-shadow: 0 0 20px #000;
+    box-shadow: 0 0 20px #333;
     display: block;
     left: -250px;
     position: absolute;
@@ -1097,13 +1082,12 @@ input.valid {
 }
 
 #addSearchResults .panel {
-    background: #fff;
     bottom: 0;
     display: block;
-    right: -250px;
+    right: -260px;
     position: absolute;
     top: 0;
-    width: 250px;
+    width: 260px;
     z-index: 51;
 }
 
@@ -1150,10 +1134,14 @@ input.valid {
 }
 
 .left-list .scroll {
-    width: 360px;
+    width: 375px;
 }
 
-.list .scroll {
+#streamItemList.left-list .scroll {
+    width: 245px;
+}
+
+#addSearchResults .list .scroll {
     width: 250px;
 }
 
@@ -1161,12 +1149,8 @@ body.dragging .scroll {
     display: block;
 }
 
-#streamItemList {
-    height: 100%;
-}
-
 #streamItemList .scroll.top {
-    top: 85px;
+    top: 80px;
 }
 
 #activePlaylistItems .scroll.bottom,
@@ -1176,6 +1160,14 @@ body.dragging .scroll {
 
 .list .scroll.bottom {
     bottom: 0;
+}
+
+.panel .divider {
+    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-right: 10px;
+    background-color: #f2f2f2;
+    height: 1px;
 }
 
 #addSearchResults .divider {
@@ -1193,6 +1185,7 @@ body.dragging .scroll {
 
 #addSearchResults .addItemOption.stream {
     margin-top: 5px;
+    width: calc(100% - 24px);
 }
 
 #addSearchResults .addItemOption i {
@@ -1219,12 +1212,12 @@ body.dragging .scroll {
 #addSearchResults .addItemOption {
     height: 45px;
     margin-left: 5px;
-    width: 226px;
+    width: calc(100% - 6px);
     padding-top: 5px;
 }
 
 #activeFolderArea .header span {
-    color: #949494;
+    color: #999;
     font-weight: bold;
     letter-spacing: 2px;
     line-height: 45px;
@@ -1295,7 +1288,7 @@ li.playlist i {
 }
 
 li.playlist span.count {
-    background: #949494;
+    background: #999;
     border-radius: 1em;
     color: #fff;
     font-size: .85em;
@@ -1403,7 +1396,7 @@ html .selectize-control.multi .selectize-input.full > input {
 .big-text-header {
     padding-bottom: 15px;
     font-size: 23px;
-    color: #666666;
+    color: #333;
 }
  
 .searchLink {
@@ -1444,7 +1437,7 @@ body .qtip-light {
 }
 
 .topic {
-    font-size: 16px;
+    font-size: 1.1em;
 }
 
 .category {
@@ -1456,6 +1449,31 @@ body .qtip-light {
     padding: 5px 0;
 }
 
-.button-label .fa-play {
-    font-size: 1.0em !important;
+button {
+    color: #333;
 }
+
+button.enabled{
+    /*color: #6BBD46;*/
+    color: #4EA6EA;
+}
+
+.lowercase {
+    text-transform: lowercase;
+}
+
+#videoDisplay .timeProgressArea {
+    top: 25px;
+    left: 0;
+}
+
+.timeProgressArea {
+    top: 45px;
+    left: 15px;
+    right: 15px;
+    position: absolute;
+    font-size: .9em;
+    height: 20px;
+    line-height: 1.5;
+}
+

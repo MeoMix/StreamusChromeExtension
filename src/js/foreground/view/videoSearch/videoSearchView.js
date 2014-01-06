@@ -4,8 +4,9 @@
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/playSelectedButtonView',
     'foreground/view/videoSearch/saveSelectedButtonView',
-    'foreground/collection/videoSearchResults'
-], function (GenericForegroundView, VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults) {
+    'foreground/collection/videoSearchResults',
+    'foreground/model/settings'
+], function (GenericForegroundView, VideoSearchResultsView, VideoSearchTemplate, PlaySelectedButtonView, SaveSelectedButtonView, VideoSearchResults, Settings) {
     'use strict';
 
     var VideoSearchView = GenericForegroundView.extend({
@@ -27,14 +28,15 @@
         searchingMessage: null,
         instructions: null,
         noResultsMessage: null,
+        bigTextWrapper: null,
         
         searchInputFocused: false,
         
-        bottomMenuBar: null,
+        bottomMenubar: null,
         
         events: {
             'input .searchBar input': 'showVideoSuggestions',
-            'click #button-back': 'destroyModel'
+            'click button#hideVideoSearch': 'destroyModel'
         },
 
         render: function () {
@@ -47,7 +49,7 @@
 
             this.$el.find('#videoSearchResultsView').replaceWith(this.videoSearchResultsView.render().el);
 
-            this.bottomMenuBar = this.$el.find('.left-bottom-menubar');
+            this.bottomMenubar = this.$el.find('.left-bottom-menubar');
 
             var playlistActions = this.$el.find('.playlist-actions');
 
@@ -55,15 +57,27 @@
             playlistActions.append(this.saveSelectedButtonView.render().el);
 
             this.searchInput = this.$el.find('.searchBar input');
-
             this.initializeTooltips();
             
             this.searchingMessage = this.$el.find('div.searching');
             this.instructions = this.$el.find('div.instructions');
             this.noResultsMessage = this.$el.find('div.noResults');
+            this.bigTextWrapper = this.$el.find('div.big-text-wrapper');
 
             this.toggleBigText();
-
+            this.toggleBottomMenubar();
+            
+            var searchQuery = Settings.get('searchQuery');
+            this.searchInput.val(searchQuery);
+            
+            //  Refresh search results if necessary (search query and no results, or no search query at all -- clear)
+            if (searchQuery === '' || VideoSearchResults.length === 0) {
+                this.searchInput.trigger('input');
+            } else {
+                //  Otherwise keep the model's state in sync because we just loaded searchQuery from settings.
+                this.model.set('searchQuery', searchQuery, { silent: true });
+            }
+            
             return this;
         },
         
@@ -71,12 +85,14 @@
 
             this.playSelectedButtonView = new PlaySelectedButtonView();
             this.saveSelectedButtonView = new SaveSelectedButtonView();
-
             this.videoSearchResultsView = new VideoSearchResultsView();
+            
             this.listenTo(this.model, 'destroy', this.hide);
-            this.listenTo(this.model, 'change:searchJqXhr', this.toggleBigText);
+            this.listenTo(this.model, 'change:searchJqXhr change:searchQuery', this.toggleBigText);
             this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
-            this.listenTo(VideoSearchResults, 'add addMultiple remove empty reset', this.toggleBottomMenuBarVisibility);
+            this.listenTo(VideoSearchResults, 'change:selected', this.toggleBottomMenubar);
+
+            $(window).unload(this.saveSearchQuery.bind(this));
         },
         
         showAndFocus: function (instant) {
@@ -96,13 +112,15 @@
             this.$el.transition({
                 x: -20
             }, function () {
-                
 
                 this.remove();
-                
-
+ 
                 VideoSearchResults.clear();
             }.bind(this));
+        },
+        
+        saveSearchQuery: function () {
+            Settings.set('searchQuery', this.model.get('searchQuery'));
         },
         
         getSearchQuery: function () {
@@ -112,23 +130,29 @@
         
         //  Searches youtube for video results based on the given text.
         showVideoSuggestions: function () {
-            
             var searchQuery = this.getSearchQuery();
             this.model.set('searchQuery', searchQuery);
-            
         },
         
-        toggleBottomMenuBarVisibility: function () {
-           //  TODO: Hide bottom menu bar until it is relevant.
+        toggleBottomMenubar: function () {
+            
+            if (VideoSearchResults.selected().length === 0) {
+                this.bottomMenubar.hide();
+                this.bigTextWrapper.addClass('extended');
+            } else {
+                this.bottomMenubar.show();
+                this.bigTextWrapper.removeClass('extended');
+            }
+            
         },
 
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
-            
+
             //  Hide the search message when not searching.
             var isNotSearching = this.model.get('searchJqXhr') === null;
             this.searchingMessage.toggleClass('hidden', isNotSearching);
-            
+
             //  Hide the instructions message once user has searched or are searching.
             var hasSearchResults = VideoSearchResults.length > 0;
             var hasSearchQuery = this.model.get('searchQuery').length > 0;
@@ -137,7 +161,7 @@
             //  Only show no results when all other options are exhausted and user has interacted.
             var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
             this.noResultsMessage.toggleClass('hidden', !hasNoResults);
-            
+
         }
 
     });

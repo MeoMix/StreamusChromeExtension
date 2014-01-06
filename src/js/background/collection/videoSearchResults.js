@@ -54,18 +54,7 @@
         selected: function () {
             return this.where({ selected: true });
         },
-        
-        setFromVideoInformation: function(videoInformation) {
-            //  Convert video information into search results which contain a reference to the full data incase needed later.
-            var videoSearchResult = new VideoSearchResult({
-                video: new Video({
-                    videoInformation: videoInformation
-                })
-            });
 
-            this.setResults(videoSearchResult);
-        },
-        
         //  Call setResults with nothing to clear it, more clear public method.
         clear: function() {
             this.setResults();
@@ -78,6 +67,17 @@
             this.reset(results);
         },
         
+        setFromVideoInformation: function (videoInformation) {
+            //  Convert video information into search results which contain a reference to the full data incase needed later.
+            var videoSearchResult = new VideoSearchResult({
+                video: new Video({
+                    videoInformation: videoInformation
+                })
+            });
+
+            this.setResults(videoSearchResult);
+        },
+
         setFromVideoInformationList: function (videoInformationList) {
             //  Convert video information into search results which contain a reference to the full data incase needed later.
             var videoSearchResults = _.map(videoInformationList, function (videoInformation) {

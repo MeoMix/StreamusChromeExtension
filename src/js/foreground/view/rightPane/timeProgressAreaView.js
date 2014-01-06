@@ -14,6 +14,8 @@ define([
             
         template: _.template(TimeProgressAreaTemplate),
         
+        className: 'timeProgressArea',
+        
         events: {
             'change input.timeRange:not(.disabled)': 'updateProgress',
             'mousewheel input.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
@@ -101,7 +103,6 @@ define([
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.timeRange.val());
-                console.log("Seeking to time:", currentTime);
                 Player.seekTo(currentTime);
             }
 

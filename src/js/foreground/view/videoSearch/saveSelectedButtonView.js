@@ -14,9 +14,10 @@ define([
         className: 'button-label',
                                 
         template: _.template(SaveSelectedButtonTemplate),
-
-        enabledTitle: chrome.i18n.getMessage('saveSelected'),
-        disabledTitle: chrome.i18n.getMessage('saveSelectedDisabled'),
+        
+        attributes: {
+            title: chrome.i18n.getMessage('saveSelected')
+        },
         
         events: {
             'click': 'showSaveSelectedPrompt'
@@ -27,55 +28,37 @@ define([
                 'chrome.i18n': chrome.i18n
             }));
 
-            var disabled = VideoSearchResults.selected().length === 0;
-
-            this.$el.toggleClass('disabled', disabled);
-
-            if (disabled) {
-                this.$el.attr('title', this.disabledTitle);
-            } else {
-                this.$el.attr('title', this.enabledTitle);
-            }
-
             return this;
-        },
-        
-        initialize: function () {
-            this.listenTo(VideoSearchResults, 'change:selected', this.render);
         },
         
         showSaveSelectedPrompt: function () {
             
-            if (!this.$el.hasClass('disabled')) {
+            var selectedSearchResults = VideoSearchResults.selected();
+            var selectedCount = selectedSearchResults.length;
 
-                var selectedSearchResults = VideoSearchResults.selected();
-                var selectedCount = selectedSearchResults.length;
+            var videos = _.map(selectedSearchResults, function (searchResult) {
+                return searchResult.get('video');
+            });
 
-                var videos = _.map(selectedSearchResults, function (searchResult) {
-                    return searchResult.get('video');
-                });
+            var saveVideosPromptView = new GenericPromptView({
+                title: selectedCount === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
+                okButtonText: chrome.i18n.getMessage('save'),
+                model: new SaveVideosView({
+                    model: videos
+                })
+            });
 
-                var saveVideosPromptView = new GenericPromptView({
-                    title: selectedCount === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
-                    okButtonText: chrome.i18n.getMessage('saveButtonText'),
-                    model: new SaveVideosView({
-                        model: videos
-                    })
-                });
+            saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
 
-                saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
+                if (creating) {
+                    this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
+                } else {
+                    this.okButton.text(chrome.i18n.getMessage('save'));
+                }
 
-                    if (creating) {
-                        this.okButton.text(chrome.i18n.getMessage('createAndSaveButtonText'));
-                    } else {
-                        this.okButton.text(chrome.i18n.getMessage('saveButtonText'));
-                    }
+            });
 
-                });
-
-                saveVideosPromptView.fadeInAndShow();
-                
-            }
+            saveVideosPromptView.fadeInAndShow();
 
         }
         

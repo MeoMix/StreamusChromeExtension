@@ -63,7 +63,7 @@ define([
             }));
 
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": chrome.i18n.getMessage('addToStream'),
+                "title": chrome.i18n.getMessage('enqueue'),
                 "parentId": streamusContextMenuId,
                 "onclick": function (onClickData) {
 
@@ -84,7 +84,7 @@ define([
             
             //  Create a sub menu item to hold all Playlists
             var playlistsContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": chrome.i18n.getMessage('addToPlaylist'),
+                "title": chrome.i18n.getMessage('save'),
                 "parentId": streamusContextMenuId
             }));
 

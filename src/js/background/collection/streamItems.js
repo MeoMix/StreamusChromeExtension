@@ -136,7 +136,6 @@
 
                 //  When all streamItems have been played recently, reset to not having been played recently.
                 //  Allows for de-prioritization of played streamItems during shuffling.
-                console.log("PlayedRecently length:", this.where({ playedRecently: true }), this.length);
                 if (this.where({ playedRecently: true }).length === this.length) {
                     this.each(function(streamItem) {
                         streamItem.set('playedRecently', false);

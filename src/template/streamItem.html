@@ -13,7 +13,7 @@
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>
-        HD · 
+        <%- chrome.i18n.getMessage('hd') %> · 
     <% } %>
     <span class="item-duration">
         <%- video.get('prettyDuration') %>
@@ -22,5 +22,5 @@
 
 <span class="hover-actions">
     <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-    <i class="fa fa-times delete"></i>
+    <i class="fa fa-trash-o delete" title="<%- chrome.i18n.getMessage('delete') %>"></i>
 </span>

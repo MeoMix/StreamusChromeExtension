@@ -24,8 +24,6 @@
 
                 var selectedStreamItem = StreamItems.getSelectedItem();
 
-                console.log("Index:", StreamItems.indexOf(selectedStreamItem));
-                console.log("Time:", Player.get('currentTime'));
                 if (StreamItems.indexOf(selectedStreamItem) > 0) {
                     enabled = true;
                 }

@@ -1,24 +1,25 @@
 ﻿<div class="big-text-wrapper">
     
     <div class="big-text streamEmpty">
-        <div class="big-text-header">stream empty</div>
+        <div class="big-text-header"><%- chrome.i18n.getMessage('streamEmpty') %></div>
         
-        Why not add a video from a playlist or <span id="videoSearchLink" class="searchLink clickable">search for videos</span>?
+        <%- chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%- chrome.i18n.getMessage('searchForVideos') %></span>?
     </div>
     
     <div id="streamItemsView" class="view-placeholder"></div>
 </div>
 
-
-
 <div class="context-buttons">
     
-    <div class="right-group">
-        
-    </div>
-
     <div class="left-group">
-        
+        <div id="shuffleButtonView" class="view-placeholder"></div>
+        <div id="repeatButtonView" class="view-placeholder"></div>
+        <div id="radioButtonView" class="view-placeholder"></div>
+    </div>
+    
+    <div class="right-group">
+        <div id="saveStreamButtonView" class="view-placeholder"></div>
+        <div id="clearStreamButtonView" class="view-placeholder"></div>
     </div>
 
 </div>

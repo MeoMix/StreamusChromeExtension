@@ -8,7 +8,6 @@ define([
     var Video = Backbone.Model.extend({
         
         defaults: function () {
-            
             return {
                 //  Prevent Backbone collections from dropping duplicate Video entities by uniquely identifying each video.
                 //uniqueId: _.uniqueId('video_'),
@@ -18,6 +17,7 @@ define([
                 author: '',
                 duration: -1,
                 prettyDuration: '',
+                url: '',
                 cleanTitle: '',
                 highDefinition: false
             };
@@ -28,10 +28,13 @@ define([
         
         initialize: function() {            
             
-            this.listenTo(this, 'change:duration', this.setPrettyDuration);
-            this.listenTo(this, 'change:title', this.setCleanTitle);
+            this.on('change:duration', this.setPrettyDuration);
+            this.on('change:title', this.setCleanTitle);
+            this.on('change:id', this.setURL);
+
             this.setPrettyDuration();
             this.setCleanTitle();
+            this.setURL();
         },
         
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
@@ -42,6 +45,10 @@ define([
         //  Useful for comparisons and other searching.
         setCleanTitle: function() {
             this.set('cleanTitle', Utility.cleanseVideoTitle(this.get('title')));
+        },
+        
+        setURL: function() {
+            this.set('url', 'https://youtu.be/' + this.get('id'));
         }
         
     });

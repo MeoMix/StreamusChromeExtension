@@ -1,27 +1,38 @@
-﻿<!--TODO: i18n-->
-<div class="topic">
-    General
+﻿<div class="topic">
+    <%- chrome.i18n.getMessage('general') %>
 </div>
 <div class="category">
-    <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
-        Video Quality
-    </label>
 
-    <select id="suggestedQualitySelect" name="suggestedQualitySelect">
+    <ul>
+        <li>
+            <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
+                <%- chrome.i18n.getMessage('videoQuality') %>
+            </label>
             
-        <option value="highres">
-            <%- chrome.i18n.getMessage('highest') %>
-        </option>
+            <select id="suggestedQualitySelect" name="suggestedQualitySelect">
+            
+                <option value="highres">
+                    <%- chrome.i18n.getMessage('highest') %>
+                </option>
 
-        <option value="default">
-            <%- chrome.i18n.getMessage('auto') %>
-        </option>
+                <option value="default">
+                    <%- chrome.i18n.getMessage('auto') %>
+                </option>
 
-        <option value="small">
-            <%- chrome.i18n.getMessage('lowest') %>
-        </option>
+                <option value="small">
+                    <%- chrome.i18n.getMessage('lowest') %>
+                </option>
 
-    </select>
+            </select>
+        </li>
+        <li>
+            <input type="checkbox" id="showTooltips">
+            <label for="showTooltips">
+                <%- chrome.i18n.getMessage('showTooltips') %>
+            </label>
+        </li>
+    </ul>
+
 </div>
 
 <div class="remindersLabel topic">
@@ -31,11 +42,15 @@
     <ul>
         <li>
             <input type="checkbox" id="remindClearStream">
-            <label for="remindClearStream" class="css-label lrg klaus"><%- chrome.i18n.getMessage('remindClearStream') %></label>
+            <label for="remindClearStream">
+                <%- chrome.i18n.getMessage('remindClearStream') %>
+            </label>
         </li>
         <li>
             <input type="checkbox" id="remindDeletePlaylist">
-            <label for="remindDeletePlaylist" class="css-label lrg klaus"><%- chrome.i18n.getMessage('remindDeletePlaylist') %></label>
+            <label for="remindDeletePlaylist">
+                <%- chrome.i18n.getMessage('remindDeletePlaylist') %>
+            </label>
         </li>
     </ul>
 </div>

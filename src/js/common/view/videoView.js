@@ -35,7 +35,6 @@
         //notificationId: '',
         
         render: function () {
-            console.log("VideoView is rendering");
 
             var streamItemExists = StreamItems.length > 0;
             this.$el.toggleClass('clickable', streamItemExists);
@@ -54,11 +53,10 @@
                     if (Player.get('currentTime') > 0) {
                         this.getImageAndUpdate();
                     } else {
-                        console.log("Default image:", this.defaultImage);
+
                         //  Video is loaded, but hasn't started. Render its default image provided by YouTube.
                         if (this.defaultImage !== null) {
-                            console.log("Drawing default image:", this.el.width, this.el.height);
-                            
+
                             if (this.defaultImageLoaded) {
                                 this.context.drawImage(this.defaultImage, 0, 0, this.el.width, this.el.height);
                             } else {
@@ -122,14 +120,13 @@
             //        title: 'Now Playing',
             //        message: 'Hello World'
             //    }, function () {
-            //        console.log("success");
             //    });
             //}
  
         },
         
         setDefaultImage: function () {
-            console.log("setDefaultImage");
+
             this.defaultImageLoaded = false;
 
             var loadedVideoId = Player.get('loadedVideoId');
@@ -145,7 +142,6 @@
                     this.defaultImageLoaded = true;
                 };
 
-                console.log("it's set");
             }
         },
         
@@ -221,8 +217,6 @@
                         focused: true
                     }, function (window) {
 
-                        console.log("opened fullscreen.html");
-
                         chrome.windows.update(window.id, {
                             state: 'fullscreen'
                         });
@@ -259,31 +253,23 @@
                 });
 
             } else {
-                var loadedVideoId = Player.get('loadedVideoId');
-                var isFullScreenDisabled = loadedVideoId == '';
-
+ 
                 ContextMenuGroups.add({
                     items: [{
                         text: chrome.i18n.getMessage('fullScreen'),
-                        disabled: isFullScreenDisabled,
-                        title: isFullScreenDisabled ? chrome.i18n.getMessage('loadVideoBeforeFullScreen') : '',
                         onClick: function () {
 
-                            if (!isFullScreenDisabled) {
+                            chrome.windows.create({
+                                url: "fullscreen.html",
+                                type: "popup",
+                                focused: true
+                            }, function (window) {
 
-                                chrome.windows.create({
-                                    url: "fullscreen.html",
-                                    type: "popup",
-                                    focused: true
-                                }, function (window) {
-
-                                    chrome.windows.update(window.id, {
-                                        state: "fullscreen"
-                                    });
-
+                                chrome.windows.update(window.id, {
+                                    state: "fullscreen"
                                 });
 
-                            }
+                            });
 
                         }
                     }]

@@ -20,7 +20,7 @@
         initialize: function() {
             var self = this;
             
-            this.on('change:searchQuery', _.throttle(function (model, searchQuery) {
+            this.on('change:searchQuery', function (model, searchQuery) {
 
                 //  Do not display results if searchText was modified while searching, abort old request.
                 var previousSearchJqXhr = this.get('searchJqXhr');
@@ -29,23 +29,29 @@
                     previousSearchJqXhr.abort();
                 }
                 
+                //  If the user provided no text -- clear it.
+                if ($.trim(searchQuery) === '') {
+                    VideoSearchResults.setFromVideoInformationList([]);
+                    return;
+                }
+
                 //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
                 var dataSource = new DataSource({
                     urlToParse: searchQuery
                 });
                     
                 var searchJqXhr;
-                    
+
                 //  TODO: Support displaying playlists and channel URLs.
                 //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                 if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
-                        
+
                     searchJqXhr = YouTubeV2API.getVideoInformation({
                         videoId: dataSource.get('sourceId'),
-                        success: function(videoInformation) {
+                        success: function (videoInformation) {
                             VideoSearchResults.setFromVideoInformation(videoInformation);
                         },
-                        complete: function() {
+                        complete: function () {
                             self.set('searchJqXhr', null);
                         }
                     });
@@ -90,7 +96,7 @@
 
                 //} else {
 
-            }, 200));
+            });
 
         }
 
