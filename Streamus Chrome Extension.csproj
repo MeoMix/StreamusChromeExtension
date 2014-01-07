@@ -285,6 +285,7 @@
     <Content Include="test\js\test.js" />
     <Content Include="test\test.htm" />
     <Content Include="package.json" />
+    <Content Include="src\_locales\pt_BR\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
