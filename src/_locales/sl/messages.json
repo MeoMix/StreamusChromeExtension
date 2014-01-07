@@ -17,7 +17,7 @@
 	"toggleVideoCommandDescription": {
 		"message": "Stikalo(predvajaj/pavziraj) trenutek posnetek"
 	},
-	"addVideoCommandDescription": {
+	"saveVideoCommandDescription": {
 		"message": "Dodaj trenutek posnetek na trenuten seznam predvajanja"
 	},
 	"deleteVideoCommandDescription": {

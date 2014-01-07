@@ -1,12 +1,15 @@
 ﻿{
 	"extensionName": {
-		"message": "Streamus™ (Beta!)"
+		"message": "Streamus™ (Beta!)",
+		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
-		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy."
+		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy.",
+		"description": "The description of the extension"
 	},
 	"extensionTitle": {
-		"message": "Streamus: Simple, streaming music."
+		"message": "Streamus: Simple, streaming music.",
+		"description": "The title/slogan of the extension"
 	},
 	"nextVideoCommandDescription": {
 		"message": "Go to the next video in the stream"
@@ -17,7 +20,7 @@
 	"toggleVideoCommandDescription": {
 		"message": "Toggle (play/pause) the current video"
 	},
-	"addVideoCommandDescription": {
+	"saveVideoCommandDescription": {
 		"message": "Add the current video to the current playlist"
 	},
 	"deleteVideoCommandDescription": {
@@ -39,10 +42,12 @@
 		"message": "Toggle (off/repeatVideo/repeatStream) repeating"
 	},
 	"save": {
-		"message": "Save"
+		"message": "Save",
+		"description": "Just the singular word, as seen on a button."
 	},
 	"enqueue": {
-		"message": "Enqueue"
+		"message": "Enqueue",
+		"description": "Add a playlist or video to the stream. It won't start playing -- it is simply queued up."
 	},
 	"copyUrl": {
 		"message": "Copy URL"
@@ -54,13 +59,16 @@
 		"message": "Delete video"
 	},
 	"delete": {
-		"message": "Delete"
+		"message": "Delete",
+		"description": "Just the singular word, as seen on a button."
 	},
 	"banUntilClear": {
-		"message": "Ban until clear"
+		"message": "Ban until clear",
+		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
 	},
 	"clearStream": {
-		"message": "Clear stream"
+		"message": "Clear stream",
+		"description": "An action -- empty the stream of items"
 	},
 	"saveStream": {
 		"message": "Save stream"
@@ -81,13 +89,15 @@
 		"message": "Add video"
 	},
 	"working": {
-		"message": "Working"
+		"message": "Working",
+		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "New playlist"
 	},
 	"installed": {
-		"message": "Installed"
+		"message": "Installed",
+		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
 	"repeatDisabled": {
 		"message": "Repeat disabled"
@@ -120,13 +130,16 @@
 		"message": "Total time"
 	},
 	"highest": {
-		"message": "Highest"
+		"message": "Highest",
+		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
 	},
 	"auto": {
-		"message": "Auto"
+		"message": "Auto",
+		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
 	},
 	"lowest": {
-		"message": "Lowest"
+		"message": "Lowest",
+		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
 	},
 	"playlist": {
 		"message": "Playlist"

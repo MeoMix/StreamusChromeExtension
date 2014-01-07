@@ -36,7 +36,7 @@
 			"description": "__MSG_toggleVideoCommandDescription__"
 		},
 		"addVideoToPlaylist": {
-			"description": "__MSG_addVideoCommandDescription__"
+			"description": "__MSG_saveVideoCommandDescription__"
 		},
 		"deleteVideoFromStream": {
 			"description": "__MSG_deleteVideoCommandDescription__"

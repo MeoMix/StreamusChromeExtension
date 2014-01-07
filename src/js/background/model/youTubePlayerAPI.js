@@ -49,6 +49,7 @@ define(function() {
 
                 return { requestHeaders: info.requestHeaders };
             }, {
+                //  ONLY match on my specific iframe else I'll corrupt other people's embedded youtube videos.
                 urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd']
             },
                 ['blocking', 'requestHeaders']
