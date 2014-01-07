@@ -46,14 +46,14 @@
                 var playerState = Player.get('state');
 
                 if (playerState == PlayerState.Playing) {
-                    this.startDrawing();
+                    this.connectPortDrawContinously();
                 } else {
                     //  Don't draw over the image with any potential streaming content.
-                    this.stopDrawing();
+                    this.disconnectPort();
                     
                     //  The player might open while paused. Render the current video frame.
                     if (Player.get('currentTime') > 0) {
-                        this.getImageAndUpdate();
+                        this.connectPortDrawFrame();
                     } else {
 
                         //  Video is loaded, but hasn't started. Render its default image provided by YouTube.
@@ -86,10 +86,7 @@
 
             this.context = this.el.getContext('2d');
             
-            this.port = chrome.runtime.connect({
-                name: 'videoViewPort'
-            });
-            this.port.onMessage.addListener(this.drawImageFromDataURL.bind(this));
+            $(window).unload(this.disconnectPort.bind(this));
             
             this.setDefaultImage();
             this.listenTo(Player, 'change:loadedVideoId', this.setDefaultImage);
@@ -97,6 +94,42 @@
             this.listenTo(StreamItems, 'add addMultiple empty change:selected', this.render);
         },
         
+        connectPortDrawContinously: function() {
+            this.connectPort();
+            this.port.onMessage.addListener(this.drawImageFromDataURL.bind(this));
+        },
+        
+        connectPortDrawFrame: function () {
+            this.connectPort();
+            this.port.onMessage.addListener(function(dataURL) {
+                this.drawImageFromDataURL(dataURL);
+                this.disconnectPort();
+            }.bind(this));
+        },
+        
+        connectPort: function () {
+            
+            if (this.port === null) {
+                this.port = chrome.runtime.connect({
+                    name: 'videoViewPort'
+                });
+            } else {
+                console.error("Port already connected.");
+            }
+
+        },
+        
+        disconnectPort: function () {
+            
+            if (this.port !== null) {
+                this.port.disconnect();
+                this.port = null;
+            } else {
+                console.error("Port already disconnected.");
+            }
+            
+        },
+
         //  I thought it might be more efficient to use a canvas ImageData object rather than a dataURL, but
         //  the postMessage call transforms an ImageData object into a regular object, which has to be cast again.
         //  At that point I'm pretty sure it's cheaper to just use an Image.
@@ -148,12 +181,14 @@
         },
         
         //  Break the drawing animation loop by cancelling the next animation frame request.
-        stopDrawing: function () {
-            if (this.animationFrameRequestId !== null) {
-                window.cancelAnimationFrame(this.animationFrameRequestId);
-                this.animationFrameRequestId = null;
-            }
-        },
+        //stopDrawing: function () {
+        //    if (this.animationFrameRequestId !== null) {
+        //        window.cancelAnimationFrame(this.animationFrameRequestId);
+        //        this.animationFrameRequestId = null;
+        //    }
+
+        //    this.disconnectPort();
+        //},
 
         //  Clear the canvas by painting over it with black 
         //  TODO: Perhaps something more visually appealing / indicative than black fill?
@@ -163,29 +198,29 @@
             this.context.fill();
         },
        
-        startDrawing: function() {
-            if (this.animationFrameRequestId === null) {
-                this.drawContinously();
-            } else {
-                console.error("Can't start drawing -- already drawing.");
-            }
-        },
+        //startDrawing: function() {
+        //    if (this.animationFrameRequestId === null) {
+        //        this.drawContinously();
+        //    } else {
+        //        console.error("Can't start drawing -- already drawing.");
+        //    }
+        //},
         
         //  Request an animation frame and continously loop the drawing of images onto the canvas.
-        drawContinously: function () {
-            this.animationFrameRequestId = window.requestAnimationFrame(function () {
-                this.drawContinously();
-                this.getImageAndUpdate();
-            }.bind(this));
-        },
+        //drawContinously: function () {
+        //    this.animationFrameRequestId = window.requestAnimationFrame(function () {
+        //        this.drawContinously();
+        //        this.getImageAndUpdate();
+        //    }.bind(this));
+        //},
         
         //  Post a message to the YouTube iframe indicating a desire for the current video frame.
         //  The post message response event handler will then cause the frame to be rendered.
-        getImageAndUpdate: function () {
-            this.port.postMessage({
-                getData: true
-            });
-        },
+        //getImageAndUpdate: function () {
+        //    this.port.postMessage({
+        //        getData: true
+        //    });
+        //},
         
         //  Clicking on the video player should change the state between playing and pausing.
         togglePlayerState: function () {

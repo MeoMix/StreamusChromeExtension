@@ -5,7 +5,7 @@ $(function() {
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'MusicHolder') {
 
-        var port = chrome.runtime.connect({
+        var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'
         });
 
@@ -24,7 +24,7 @@ $(function() {
             var currentTime = Math.ceil(this.currentTime);
 
             if (currentTime !== lastPostedTime) {
-                port.postMessage({
+                youTubeIFrameConnectRequestPort.postMessage({
                     currentTime: currentTime
                 });
 
@@ -35,7 +35,7 @@ $(function() {
 
         videoStream.on('seeking', function() {
 
-            port.postMessage({
+            youTubeIFrameConnectRequestPort.postMessage({
                 seeking: true
             });
 
@@ -43,7 +43,7 @@ $(function() {
 
         videoStream.on('seeked', function() {
 
-            port.postMessage({
+            youTubeIFrameConnectRequestPort.postMessage({
                 seeking: false
             });
 
@@ -60,29 +60,59 @@ $(function() {
 
         $('body').append(canvas);
 
+
+        var videoStreamingInterval = null;
+
         var context = canvas[0].getContext('2d');
-        
         chrome.runtime.onConnect.addListener(function (videoViewPort) {
 
             if (videoViewPort.name === 'videoViewPort') {
 
-                videoViewPort.onMessage.addListener(function (message) {
-                    
-                    if (message.getData) {
-                        context.drawImage(videoStream[0], 0, 0);
+                console.log("onConnect");
 
-                        videoViewPort.postMessage(
-                            //  https://developers.google.com/speed/webp/
-                            //  TODO: Experiment with toDataUrlHD (doesn't seem to be defined, but it should be?) and quality paramater of toDataURL( 0-1 value )
-                            canvas[0].toDataURL('image/webp')
-                        );
-                    }
+                clearInterval(videoStreamingInterval);
+                videoStreamingInterval = setInterval(function () {
+                    console.log("Sending message");
+                    context.drawImage(videoStream[0], 0, 0);
 
+                    videoViewPort.postMessage(
+                        //  https://developers.google.com/speed/webp/
+                        //  TODO: Experiment with toDataUrlHD (doesn't seem to be defined, but it should be?) and quality paramater of toDataURL( 0-1 value )
+                        canvas[0].toDataURL('image/webp')
+                    );
+                //  1000 / 60 for 60fps?
+                }, 1000 / 60);
+
+                videoViewPort.onDisconnect.addListener(function () {
+                    console.log("onDisconnect detected -- clearing streaming interval");
+                    clearInterval(videoStreamingInterval);
                 });
 
             }
 
         });
+
+        //chrome.runtime.onConnect.addListener(function (videoViewPort) {
+
+        //    if (videoViewPort.name === 'videoViewPort') {
+
+        //        videoViewPort.onMessage.addListener(function (message) {
+                    
+        //            if (message.getData) {
+        //                context.drawImage(videoStream[0], 0, 0);
+
+        //                videoViewPort.postMessage(
+        //                    //  https://developers.google.com/speed/webp/
+        //                    //  TODO: Experiment with toDataUrlHD (doesn't seem to be defined, but it should be?) and quality paramater of toDataURL( 0-1 value )
+        //                    canvas[0].toDataURL('image/webp')
+        //                );
+        //            }
+
+        //        });
+
+        //    }
+
+        //});
 
     }
 

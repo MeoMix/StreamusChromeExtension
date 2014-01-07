@@ -1,0 +1,399 @@
+﻿{
+	"extensionName": {
+		"message": "Streamus™ (Beta!)",
+		"description": "The name of the extension"
+	},
+	"extensionDescription" : {
+		"message": "Streamus transforma o YouTube em o player de música que você sempre quis. Streamus faz o streaming do YouTube deliciosamente fácil."
+	},
+	"extensionTitle": {
+		"message": "Streamus: Streaming de música simples."
+	},
+	"nextVideoCommandDescription": {
+		"message": "Vá para o próximo vídeo no stream"
+	},
+	"previousVideoCommandDescription": {
+		"message": "Vá para o vídeo anterior no stream"
+	},
+	"toggleVideoCommandDescription": {
+		"message": "Alternar (play/pausar) o vídeo atual"
+	},
+	"saveVideoCommandDescription": {
+		"message": "Adicionar o vídeo atual em uma playlist"
+	},
+	"deleteVideoCommandDescription": {
+		"message": "Remover o vídeo atual do stream"
+	},
+	"copyVideoUrlCommandDescription": {
+		"message": "Copiar a URL do vídeo atual"
+	},
+	"copyVideoTitleUrlCommandDescription": {
+		"message": "Copiar a URL e o título do vídeo atual"
+	},
+	"toggleRadioCommandDescription": {
+		"message": "Alternar (desligado/ligado) o rádio"
+	},
+	"toggleShuffleCommandDescription": {
+		"message": "Alternar (desligado/ligado) o shuffle"
+	},
+	"toggleRepeatCommandDescription": {
+		"message": "Alternar (desligado/repeatVideo/repeatStream) repetir"
+	},
+	"save": {
+		"message": "Salvar"
+	},
+	"enqueue": {
+		"message": "Colocar na fila",
+	},
+	"copyUrl": {
+		"message": "Copiar URL"
+	},
+	"copyTitleAndUrl": {
+		"message": "Copiar título - URL"
+	},
+	"deleteVideo": {
+		"message": "Deletar vídeo"
+	},
+	"delete": {
+		"message": "Deletar",
+		"description": "Just the singular word, as seen on a button."
+	},
+	"banUntilClear": {
+		"message": "Banir até limpar",
+		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
+	},
+	"clearStream": {
+		"message": "Limpar stream",
+		"description": "An action -- empty the stream of items"
+	},
+	"saveStream": {
+		"message": "Salvar stream"
+	},
+	"addToStreamus": {
+		"message": "Adicionar ao Streamus"
+	},
+	"selectPlaylist": {
+		"message": "Selecionar playlist"
+	},
+	"videoAddSuccess": {
+		"message": "Vídeo adicionado com sucesso ao Streamus."
+	},
+	"errorEncountered": {
+		"message": "Um erro foi encontrado."
+	},
+	"addVideo": {
+		"message": "Adicionar video"
+	},
+	"working": {
+		"message": "Processando",
+		"description": "An action -- Streamus is working/processing something"
+	},
+	"newPlaylist": {
+		"message": "Nova playlist"
+	},
+	"installed": {
+		"message": "Instalado",
+		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
+	},
+	"repeatDisabled": {
+		"message": "Repeat desativado"
+	},
+	"repeatVideo": {
+		"message": "Repetir vídeo"
+	},
+	"repeatStream": {
+		"message": "Repetir stream"
+	},
+	"radioEnabled": {
+		"message": "Radio ativado"
+	},
+	"radioDisabled": {
+		"message": "Radio desativado"
+	},
+	"shuffleEnabled": {
+		"message": "Aleatório ativado"
+	},
+	"shuffleDisabled": {
+		"message": "Aleatório desativado"
+	},
+	"elapsedTime": {
+		"message": "Tempo decorrido"
+	},
+	"timeRemaining": {
+		"message": "Tempo restante"
+	},
+	"totalTime": {
+		"message": "Tempo total"
+	},
+	"highest": {
+		"message": "Mais alta",
+		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
+	},
+	"auto": {
+		"message": "Auto",
+		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
+	},
+	"lowest": {
+		"message": "Mais baixa",
+		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
+	},
+	"addedSuccessfully": {
+		"message": "Adicionado com sucesso"
+	},
+	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
+		"message": "Um erro foi encontrado ao adicionar a playlist. Checar a URL?"
+	},
+	"fullScreen": {
+		"message": "Tela cheia"
+	},
+	"exitFullScreen": {
+		"message": "Sair da tela cheia"
+	},
+	"streamusIsTakingALongTimeToLoad": {
+		"message": "Streamus está demorando muito para carregar. Recarregar pode ajudar."
+	},
+	"reload": {
+		"message": "Recarregar"
+	},
+	"playAll": {
+		"message": "Tocar tudo"
+	},
+	"playSelected": {
+		"message": "Tocar selecionados"
+	},
+	"saveSelected": {
+		"message": "Salvar selecionados"
+	},
+	"search": {
+		"message": "Procurar"
+	},
+	"searching": {
+		"message": "Procurando"
+	},
+	"noResultsFound": {
+		"message": "Nenhum resultado encontrado"
+	},
+	"clearStream": {
+		"message": "Limpar stream"
+	},
+	"reloadStreamus": {
+		"message": "Recarregar Streamus"
+	},
+	"createPlaylist": {
+		"message": "Criar playlist"
+	},
+	"ok": {
+		"message": "OK"
+	},
+	"playlist": {
+		"message": "Playlist"
+	},
+	"settings": {
+		"message": "Configurações"
+	},
+	"edit": {
+		"message": "Editar"
+	},
+	"deletePlaylist": {
+		"message": "Deletar playlist"
+	},
+	"cantDeleteLastPlaylist": {
+		"message": "Não foi possível deletar a última playlist"
+	},
+	"areYouSure": {
+		"message": "Você tem certeza?"
+	},
+	"areYouSureYouWantToDeletePlaylist": {
+		"message": "Você tem certeza que deseja deletar a playlist",
+		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
+	},
+	"areYouSureYouWantToClearYourStream": {
+		"message": "Você tem certeza que você quer limpar este stream?"
+	},
+	"typeToCreateOrFilterPlaylists": {
+		"message": "Digite para criar ou filtrar playlists"
+	},
+	"saveVideo": {
+		"message": "Salvar video"
+	},
+	"saveVideos": {
+		"message": "Salvar vídeos"
+	},
+	"play": {
+		"message": "Play"
+	},
+	"add": {
+		"message": "Adicionar"
+	},
+	"editPlaylist": {
+		"message": "Editar playlist"
+	},
+	"deletePlaylist": {
+		"message": "Deletar playlist"
+	},
+	"item": {
+		"message": "Item"
+	},
+	"items": {
+		"message": "Itens"
+	},
+	"to": {
+		"message": "Para"
+	},
+	"title": {
+		"message": "Título"
+	},
+	"required": {
+		"message": "Obrigatório"
+	},
+	"optional": {
+		"message": "Opcional"
+	},
+	"channel": {
+		"message": "Canal",
+		"description": "A noun -- as in a YouTube channel of music"
+	},
+	"url": {
+		"message": "URL"
+	},
+	"playlists": {
+		"message": "Playlists"
+	},
+	"signIn": {
+		"message": "Sign in"
+	},
+	"dontRemindMeAgain": {
+		"message": "Não me lembre mais"
+	},
+	"reminders": {
+		"message": "Lembretes"
+	},
+	"remindClearStream": {
+		"message": "Lembre-se de limpar o stream",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. "Reminders:  - Remind clear stream".
+	},
+	"remindDeletePlaylist": {
+		"message": "Lembre-se de deletar a playlist",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. "Reminders:  - Remind delete playlist".
+	},
+	"video": {
+		"message": "Vídeo"
+	},
+	"videos": {
+		"message": "Vídeos"
+	},
+	"minute": {
+		"message": "Minuto"
+	},
+	"minutes": {
+		"message": "Minutos"
+	},
+	"hours": {
+		"message": "Horas"
+	},
+	"days": {
+		"message": "Dias"
+	},
+	"errorRetrievingTitle": {
+		"message": "Erro ao recuperar o título"	
+	},
+	"youTubePlayerErrorInvalidParameter": {
+		"message": "A solicitação possui um parâmetro inválido. Por exemplo, este erro acontece se você específicar o ID de um vídeo que não possui 11 caracteres, ou se o ID do vídeo possui caracteres inválidos, como pontos de exclamação e asteriscos."
+	},
+	"youTubePlayerErrorVideoNotFound": {
+		"message": "O vídeo não foi encontrado. Isso acontece quando um vídeo foi deletado ou marcado como privado."
+	},
+	"youTubePlayerErrorNoPlayEmbedded": {
+		"message": "O vídeo solicitado não permite playback em player incorporado."
+	},
+	"keyboardCommandFailure": {
+		"message": "Falha de comando de teclado"
+	},
+	"cantSkipToNextVideo": {
+		"message": "Não foi possível pular o próximo vídeo."
+	},
+	"cantGoBackToPreviousVideo": {
+		"message": "Não foi possível retornar ao vídeo anterior."
+	},
+	"cantToggleVideoState": {
+		"message": "Não foi possível alterar o estado do vídeo."
+	},
+	"hideVideo": {
+		"message": "Esconder vídeo"
+	},
+	"showVideo": {
+		"message": "Mostrar vídeo"
+	},
+	"streamEmpty": {
+		"message": "Stream vazio"
+	},
+	"enqueueSelected": {
+		"message": "Enfileirar selecionados"
+	},
+	"playlistEmpty": {
+		"message": "Playlist vazia"
+	},
+	"enqueuePlaylist": {
+		"message": "Enfileirar playlist"
+	},
+	"playPlaylist": {
+		"message": "Tocar playlist"
+	},
+	"enqueueAll": {
+		"message": "Enfileirar tudo"
+	},
+	"create": {
+		"message": "Criar"
+	},
+	"update": {
+		"message": "Atualizar"
+	},
+	"showTooltips": {
+		"message": "Mostrar dicas"
+	},
+	"showVideoSearch": {
+		"message": "Mostrar busca de vídeos"
+	},
+	"hideVideoSearch": {
+		"message": "Esconder busca de vídeos"
+	},
+	"closeMenu": {
+		"message": "Fechar menu"
+	},
+	"openMenu": {
+		"message": "Abrir menu"
+	},
+	"wouldYouLikeTo": {
+		"message": "Você gostaria de"
+	},
+	"searchForVideos": {
+		"message": "Procurar por vídeos"
+	},
+	"hd": {
+		"message": "HD"
+	},
+	"general": {
+		"message": "Geral"
+	},
+	"videoQuality": {
+		"message": "Qualidade do vídeo"
+	},
+	"whyNotAddAVideoFromAPlaylistOr": {
+		"message": "Porque não adicionar um vídeo de uma playlist ou"
+	},
+	"startTyping": {
+		"message": "Comece a digitar"
+	},
+	"resultsWillAppearAsYouSearch": {
+		"message": "Os resultados vão aparecer conforme você digita"
+	},
+	"sorryAboutThat": {
+		"message": "Desculpe-nos"
+	},
+	"trySearchingForSomethingElse": {
+		"message": "Tente procurar por outra coisa"
+	},
+	"watchOnYouTube": {
+		"message": "Assistir no YouTube"
+	}
+}
