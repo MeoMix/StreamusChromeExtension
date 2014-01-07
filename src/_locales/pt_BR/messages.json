@@ -43,7 +43,7 @@
 		"message": "Salvar"
 	},
 	"enqueue": {
-		"message": "Colocar na fila",
+		"message": "Colocar na fila"
 	},
 	"copyUrl": {
 		"message": "Copiar URL"
