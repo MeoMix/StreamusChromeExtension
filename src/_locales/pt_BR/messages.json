@@ -270,11 +270,11 @@
 	},
 	"remindClearStream": {
 		"message": "Lembre-se de limpar o stream",
-		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. "Reminders:  - Remind clear stream".
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'"
 	},
 	"remindDeletePlaylist": {
 		"message": "Lembre-se de deletar a playlist",
-		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. "Reminders:  - Remind delete playlist".
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
 	},
 	"video": {
 		"message": "Vídeo"
