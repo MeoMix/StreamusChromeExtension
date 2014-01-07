@@ -4,12 +4,10 @@
 		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
-		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy.",
-		"description": "The description of the extension"
+		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy."
 	},
 	"extensionTitle": {
-		"message": "Streamus: Simple, streaming music.",
-		"description": "The title/slogan of the extension"
+		"message": "Streamus: Simple, streaming music."
 	},
 	"nextVideoCommandDescription": {
 		"message": "Go to the next video in the stream"
@@ -42,12 +40,10 @@
 		"message": "Toggle (off/repeatVideo/repeatStream) repeating"
 	},
 	"save": {
-		"message": "Save",
-		"description": "Just the singular word, as seen on a button."
+		"message": "Save"
 	},
 	"enqueue": {
-		"message": "Enqueue",
-		"description": "Add a playlist or video to the stream. It won't start playing -- it is simply queued up."
+		"message": "Enqueue"
 	},
 	"copyUrl": {
 		"message": "Copy URL"
@@ -103,10 +99,10 @@
 		"message": "Repeat disabled"
 	},
 	"repeatVideo": {
-		"message": "Repeat video enabled"
+		"message": "Repeat video"
 	},
 	"repeatStream": {
-		"message": "Repeat stream enabled"
+		"message": "Repeat stream"
 	},
 	"radioEnabled": {
 		"message": "Radio enabled"
@@ -141,14 +137,11 @@
 		"message": "Lowest",
 		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
 	},
-	"playlist": {
-		"message": "Playlist"
-	},
 	"addedSuccessfully": {
 		"message": "Added successfully"
 	},
-	"addErrorCheckUrl": {
-		"message": "There was an issue adding your playlist. Check the URL?"
+	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
+		"message": "An issue was encountered while adding your playlist. Check the URL?"
 	},
 	"fullScreen": {
 		"message": "Full screen"
@@ -156,10 +149,10 @@
 	"exitFullScreen": {
 		"message": "Exit full screen"
 	},
-	"reloadPromptText": {
+	"streamusIsTakingALongTimeToLoad": {
 		"message": "Streamus is taking a long time to load. Reloading may help."
 	},
-	"reloadButtonText": {
+	"reload": {
 		"message": "Reload"
 	},
 	"playAll": {
@@ -177,9 +170,6 @@
 	"searching": {
 		"message": "Searching"
 	},
-	"searchInstructions": {
-		"message": "Start searching and results will appear here"
-	},
 	"noResultsFound": {
 		"message": "No results found"
 	},
@@ -191,9 +181,6 @@
 	},
 	"createPlaylist": {
 		"message": "Create playlist"
-	},
-	"createPlaylistPromptText": {
-		"message": "Enter a name for the playlist or use the one provided:"
 	},
 	"ok": {
 		"message": "OK"
@@ -207,35 +194,30 @@
 	"edit": {
 		"message": "Edit"
 	},
-	"delete": {
-		"message": "Delete"
-	},
 	"deletePlaylist": {
 		"message": "Delete playlist"
 	},
-	"deletePlaylistDisabled": {
-		"message": "Can't delete your last playlist"
+	"cantDeleteLastPlaylist": {
+		"message": "Can't delete last playlist"
 	},
-	"deletePlaylistPromptText": {
-		"message": "Are you sure you want to delete playlist"
-	},
-	"confirmPromptTitle": {
+	"areYouSure": {
 		"message": "Are you sure?"
 	},
-	"clearStreamPromptText": {
-		"message": "Click OK to clear your stream"
+	"areYouSureYouWantToDeletePlaylist": {
+		"message": "Are you sure you want to delete playlist",
+		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
 	},
-	"selectPlaylistPlaceholder": {
-		"message": "Type to create a playlist or filter your existing playlists"
+	"areYouSureYouWantToClearYourStream": {
+		"message": "Are you sure you want to clear your stream?"
+	},
+	"typeToCreateOrFilterPlaylists": {
+		"message": "Type to create or filter playlists"
 	},
 	"saveVideo": {
 		"message": "Save video"
 	},
 	"saveVideos": {
 		"message": "Save videos"
-	},
-	"backPreviousVideoDisabled": {
-		"message": "There's no video to go back to"
 	},
 	"play": {
 		"message": "Play"
@@ -261,11 +243,18 @@
 	"title": {
 		"message": "Title"
 	},
-	"requiredTitle": {
-		"message": "Required: title"
+	"required": {
+		"message": "Required"
 	},
-	"optionalSource": {
-		"message": "Optional: YouTube playlist/channel URL"
+	"optional": {
+		"message": "Optional"
+	},
+	"channel": {
+		"message": "Channel",
+		"description": "A noun -- as in a YouTube channel of music"
+	},
+	"url": {
+		"message": "URL"
 	},
 	"playlists": {
 		"message": "Playlists"
@@ -280,10 +269,12 @@
 		"message": "Reminders"
 	},
 	"remindClearStream": {
-		"message": "Remind clear stream"
+		"message": "Remind clear stream",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'"
 	},
 	"remindDeletePlaylist": {
-		"message": "Remind delete playlist"
+		"message": "Remind delete playlist",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
 	},
 	"video": {
 		"message": "Video"

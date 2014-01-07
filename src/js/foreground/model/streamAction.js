@@ -15,7 +15,7 @@
                 if (remindClearStream) {
 
                     var clearStreamPromptView = new GenericPromptView({
-                        title: chrome.i18n.getMessage('confirmPromptTitle'),
+                        title: chrome.i18n.getMessage('areYouSure'),
                         model: new ClearStreamView()
                     });
 

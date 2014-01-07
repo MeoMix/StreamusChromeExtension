@@ -116,7 +116,7 @@
 	"reloadPromptText": {
 		"message": "A Streamus le está llevando mucho cargar. Podría ayudar que recargases."
 	},
-	"reloadButtonText": {
+	"reload": {
 		"message": "Recargar"
 	},
 	"playAll": {
@@ -134,9 +134,6 @@
 	"searching": {
 		"message": "Searching"
 	},
-	"searchInstructions": {
-		"message": "Start searching and results will appear here"
-	},
 	"noResultsFound": {
 		"message": "No results found"
 	},
@@ -151,9 +148,6 @@
 	},
 	"createPlaylist": {
 		"message": "Create playlist"
-	},
-	"createPlaylistPromptText": {
-		"message": "Enter a name for the playlist or use the one provided:"
 	},
 	"ok": {
 		"message": "OK"
@@ -212,8 +206,11 @@
 	"items": {
 		"message": "items"
 	},
-	"requiredTitle": {
-		"message": "Required: title"
+	"required": {
+		"message": "Required"
+	},
+	"optional": {
+		"message": "Optional"
 	},
 	"optionalSource": {
 		"message": "Optional: YouTube playlist/channel URL"

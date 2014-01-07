@@ -17,7 +17,7 @@ define([
         template: _.template(DeletePlaylistButtonTemplate),
 
         enabledTitle: chrome.i18n.getMessage('deletePlaylist'),
-        disabledTitle: chrome.i18n.getMessage('deletePlaylistDisabled'),
+        disabledTitle: chrome.i18n.getMessage('cantDeleteLastPlaylist'),
         
         events: {
             'click': 'showDeleteSelectedPlaylistPrompt'

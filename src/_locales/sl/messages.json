@@ -140,7 +140,7 @@
 	"reloadPromptText": {
 		"message": "Streamus potrebuje veliko casa za nalaganje. Ponovno nalaganje lahko pomaga."
 	},
-	"reloadButtonText": {
+	"reload": {
 		"message": "Ponovno naloži"
 	},
 	"playAll": {
@@ -158,9 +158,6 @@
 	"searching": {
 		"message": "Išcem"
 	},
-	"searchInstructions": {
-		"message": "Zacnite iskanje in rezultati se bodo pojavili tu"
-	},
 	"noResultsFound": {
 		"message": "Ni bilo najdenih rezultatov"
 	},
@@ -175,9 +172,6 @@
 	},
 	"createPlaylist": {
 		"message": "Ustvari seznam predvajanja"
-	},
-	"createPlaylistPromptText": {
-		"message": "Vnesite ime za seznam predvajanja ali uporabite predlaganega:"
 	},
 	"ok": {
 		"message": "OK"
@@ -242,8 +236,8 @@
 	"title": {
 		"message": "Naslov"
 	},
-	"requiredTitle": {
-		"message": "Obvezno: naslov"
+	"required": {
+		"message": "Required"
 	},
 	"optionalSource": {
 		"message": "Opcijsko: YouTube seznam predvajanja/kanalov URL"

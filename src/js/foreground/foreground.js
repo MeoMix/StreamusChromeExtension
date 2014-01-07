@@ -36,7 +36,7 @@ define([
 
                 this.reloadPromptView = new GenericPromptView({
                     title: chrome.i18n.getMessage('reloadStreamus'),
-                    okButtonText: chrome.i18n.getMessage('reloadButtonText'),
+                    okButtonText: chrome.i18n.getMessage('reload'),
                     showCancelButton: false,
                     model: new ReloadView()
                 });

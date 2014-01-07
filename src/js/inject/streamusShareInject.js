@@ -29,7 +29,7 @@ $(function () {
             if (response.result === 'success') {
                 resultText = chrome.i18n.getMessage('playlist') + ' ' + response.playlistTitle + ' ' + chrome.i18n.getMessage('addedSuccessfully').toLowerCase();
             } else {
-                resultText = chrome.i18n.getMessage('addErrorCheckUrl');
+                resultText = chrome.i18n.getMessage('anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl');
             }
 
             $('hr').last().before($('<h3>', {

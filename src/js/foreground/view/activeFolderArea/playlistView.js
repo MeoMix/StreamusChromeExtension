@@ -116,7 +116,7 @@
                 }, {
                     text: chrome.i18n.getMessage('delete'),
                     disabled: isDeleteDisabled,
-                    title: isDeleteDisabled ? chrome.i18n.getMessage('deletePlaylistDisabled') : '',
+                    title: isDeleteDisabled ? chrome.i18n.getMessage('cantDeleteLastPlaylist') : '',
                     onClick: function () {
 
                         if (!isDeleteDisabled) {
