@@ -341,19 +341,18 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('transform-injected-js', 'transform inject files so that they reference minified versions of css', function() {
 
-		//var beatportCssUrl = 'css/beatportInject.css';
 		grunt.config.set('replace', {
 			transformSettings: {
 				src: ['dist/js/inject/beatportInject.js', 'dist/js/inject/youTubeInject.js'],
 				overwrite: true,
 				replacements: [{
 					//	Find the line that references beatportInject and change it to a minified reference.
-					from: 'var beatportCssUrl="css/beatportInject.css"',
-					to: 'var beatportCssUrl="css/beatportInject.min.css"'
+					from: 'css/beatportInject.cs"',
+					to: 'css/beatportInject.min.css'
 				}, {
 					//	Find the line that references youtubeInject and change it to a minified reference.
-					from: "chrome.extension.getURL('css/youTubeInject.css')",
-					to: "chrome.extension.getURL('css/youTubeInject.min.css')"
+					from: "css/youTubeInject.css",
+					to: "css/youTubeInject.min.css"
 				}]
 			}
 		});
