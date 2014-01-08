@@ -149,7 +149,7 @@
 	"exitFullScreen": {
 		"message": "Exit full screen"
 	},
-	"streamusIsTakingALongTimeToLoad": {
+	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
 		"message": "Streamus is taking a long time to load. Reloading may help."
 	},
 	"reload": {

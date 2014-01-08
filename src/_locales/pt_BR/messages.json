@@ -149,7 +149,7 @@
 	"exitFullScreen": {
 		"message": "Sair da tela cheia"
 	},
-	"streamusIsTakingALongTimeToLoad": {
+	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
 		"message": "Streamus está demorando muito para carregar. Recarregar pode ajudar."
 	},
 	"reload": {

@@ -18,7 +18,8 @@ define([
             var self = this;
             
             chrome.omnibox.setDefaultSuggestion({
-                description: 'Press enter to play. Press ctrl+enter to enqueue.'
+                //  TODO: i18n
+                description: 'Press enter to play.'
             });
             
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
@@ -63,8 +64,12 @@ define([
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
 
+                console.log("onInputEntered text:", self.get('suggestedVideos'));
+
                 //  Find the cached video data by url
-                var pickedVideo = _.findWhere(self.get('suggestedVideos'), { url: text });
+                var pickedVideo = _.find(self.get('suggestedVideos'), function(suggestedVideo) {
+                    return suggestedVideo.get('url') === text;
+                });
                 
                 //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
                 //  take the best suggestion related to their text.

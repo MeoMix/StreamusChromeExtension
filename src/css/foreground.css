@@ -25,9 +25,10 @@ body.loading > *:not(.modalOverlay) {
 body.loading > .fa-spinner {
     display: inline-block;
     opacity: 1;
+    /* TODO: Make this more flexible so the app size can grow/shrink with this still properly positioned */
     margin-top: 177px;
     margin-left: 295.5px;
-    color: #797979;
+    color: #4EA6EA;
 }
 
 body > .fa-spinner {

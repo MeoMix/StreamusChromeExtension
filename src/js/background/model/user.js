@@ -56,16 +56,13 @@ define([
                 });
             });
 
-            // Trying to get user's info without signing in, it will work if the
-            // Application was previously authorized by the user.
+            //  Trying to get user's info without signing in, it will work if the
+            //  Application was previously authorized by the user.
             //this.getUserInfo(false, function (userInfo) {
-                
+            //    console.log("User Info:", userInfo);
             //    if (userInfo === null) {
             //        //  There was an issue fetching your information
-                    
             //    } else {
-            //        console.log("User Info:", userInfo);
-            //        //    
             //    }
 
             //});
@@ -216,23 +213,33 @@ define([
         
         getAuthToken: function (interactive, retry, onUserInfoReceived) {
 
-            var self = this;
-            
+            console.log("I am now calling chrome.identity.getAuthToken with interactive set to: " + interactive + " and retry set to " + retry);
             chrome.identity.getAuthToken({ interactive: interactive }, function (authToken) {
                 
                 if (chrome.runtime.lastError) {
-                    //  Is this really just erroring out? Shouldn't I try with interactive true?
-                    console.error(chrome.runtime.lastError);
+                    //  The most common error here would be the fact the user isn't signed into Google Chrome.
+                    var errorMessage = chrome.runtime.lastError.message;
+                    console.error(errorMessage);
+                    onUserInfoReceived(null);
+                    
+                    if (errorMessage === 'The user is not signed in.') {
+                        //  TODO: It is bad form to just automatically prompt the user to sign-in.
+                        //  The interactive: true flag should only be set after a user interaction such as clicking a "sign-in" button.
+                        //this.getAuthToken(true, retry, onUserInfoReceived);
+                    }
+
                 } else {
-                    self.getUserInfoWithAuthToken(authToken, retry, onUserInfoReceived);
+
+                    this.getUserInfoWithAuthToken(authToken, retry, onUserInfoReceived);
+                    
                 }
 
-            });
+            }.bind(this));
             
         },
         
         getUserInfoWithAuthToken: function (authToken, retry, onUserInfoReceived) {
-
+            
             var self = this;
 
             $.ajax({
@@ -241,6 +248,7 @@ define([
                     'Authorization': 'Bearer ' + authToken
                 },
                 success: function (response) {
+                    console.log("Received user info");
                     onUserInfoReceived(response);
                 },
                 error: function (error) {
