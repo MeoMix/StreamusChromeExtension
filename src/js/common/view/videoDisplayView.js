@@ -107,7 +107,7 @@ define([
             }, function () {
                 //  TODO: Do I need to remove videoView here as well?
                 this.remove();
-                this.videoView.stopDrawing();
+                this.videoView.disconnectPort();
                 this.videoView.remove();
             }.bind(this));
 

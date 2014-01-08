@@ -61,6 +61,10 @@ $(function() {
         $('body').append(canvas);
 
 
+        //  TODO: I think it would be more efficient to use a proxy here once implemented by Chrome.
+        //Returns a CanvasProxy object that can be used to transfer control for this canvas over to another document (e.g. an iframe from another origin) or to a worker.
+        //var canvasProxy = canvas[0].transferControlToProxy();
+
         var videoStreamingInterval = null;
 
         var context = canvas[0].getContext('2d');
@@ -77,8 +81,8 @@ $(function() {
 
                     videoViewPort.postMessage(
                         //  https://developers.google.com/speed/webp/
-                        //  TODO: Experiment with toDataUrlHD (doesn't seem to be defined, but it should be?) and quality paramater of toDataURL( 0-1 value )
-                        canvas[0].toDataURL('image/webp')
+                        //  TODO: toDataURLHD isn't available yet, but will be in the future. Lossless webp compression not available yet, either.
+                        canvas[0].toDataURL('image/webp', 1)
                     );
                 //  1000 / 60 for 60fps?
                 }, 1000 / 60);
@@ -97,7 +101,7 @@ $(function() {
         //    if (videoViewPort.name === 'videoViewPort') {
 
         //        videoViewPort.onMessage.addListener(function (message) {
-                    
+
         //            if (message.getData) {
         //                context.drawImage(videoStream[0], 0, 0);
 
