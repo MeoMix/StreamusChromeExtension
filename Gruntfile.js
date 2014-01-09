@@ -347,12 +347,12 @@ module.exports = function (grunt) {
 				overwrite: true,
 				replacements: [{
 					//	Find the line that references beatportInject and change it to a minified reference.
-					from: 'css/beatportInject.cs"',
+					from: 'css/beatportInject.css',
 					to: 'css/beatportInject.min.css'
 				}, {
 					//	Find the line that references youtubeInject and change it to a minified reference.
-					from: "css/youTubeInject.css",
-					to: "css/youTubeInject.min.css"
+					from: 'css/youTubeInject.css',
+					to: 'css/youTubeInject.min.css'
 				}]
 			}
 		});
