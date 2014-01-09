@@ -117,7 +117,7 @@ module.exports = function (grunt) {
 					console: true
 				},
 
-                //  Don't whine about == on null vs undefined, it's a bit pedantic..
+				//  Don't whine about == on null vs undefined, it's a bit pedantic..
 				"eqnull": true,
 
 				//	Don't validate third-party libraries
@@ -258,7 +258,7 @@ module.exports = function (grunt) {
 				}
 			}
 		});
-	    
+		
 		grunt.task.run('uglify');
 	});
 
