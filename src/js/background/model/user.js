@@ -263,7 +263,7 @@ define([
             //  Testing that GooglePlusId logic works before relying on it.
             $.ajax({
                 url: Settings.get('serverURL') + 'User/UpdateGooglePlusId',
-                contentType: 'application/json; charset=utf-8',
+                type: 'POST',
                 dataType: 'json',
                 data: {
                     userId: this.get('id'),
