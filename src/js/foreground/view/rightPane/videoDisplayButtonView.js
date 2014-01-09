@@ -27,6 +27,9 @@ define([
         render: function () {
             this.$el.html(this.template());
             this.subRender();
+
+            //  TODO: disabled for now.
+            this.$el.hide();
             
             return this;
         },

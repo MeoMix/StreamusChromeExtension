@@ -5,6 +5,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../font/OpenSans-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+
 html {
     width: 640px;
     height: 410px;
@@ -319,7 +326,7 @@ button:active {
 }
 
 .fa.fa-repeat.repeatStream:after {
-    content: "∞";
+    content: "\221E ";
     border-radius: 50%;
     background-color: #797979;
     color: #fff;
@@ -1239,8 +1246,8 @@ body.dragging .scroll {
     line-height: 26px;
     margin-top: .6em;
     display: inline-block;
-    font-weight: normal;
-    font-size: 1.2em;
+    font-weight: bold;
+    font-size: 1.1em;
     margin-bottom: .3em;
 }
 
@@ -1309,28 +1316,43 @@ i.i-2x { font-size: 28px }
 
 i.i-4x { font-size: 56px }
 
-/* TODO: I wanted to use Selectize, but it's theme doesn't quit fit Streamus. This could use some re-themeing */
 /* Selectize Configuration */
+.selectize-input,
+.selectize-input * {
+    border-radius: 0 !important;
+    background-image: none !important;
+}
+
+.selectize-dropdown {
+    border: none !important;
+}
+
 html .selectize-control .selectize-dropdown .caption {
     font-size: 12px;
     display: block;
-    opacity: 0.5;
+    color: #C5E6FF;
 }
 
 html .selectize-control.multi .selectize-input > div {
     border: none !important;
+    border-radius: 0;
 }
 
 html .selectize-control.multi .selectize-input [data-value] {
-    background: -webkit-linear-gradient(top, #6edb00, #6BBD46) !important;
+    background-color: #4EA6EA;
 }
 
 html .selectize-control.multi .selectize-input [data-value] > .remove {
-    border-color: #6BBD46;
+    border-color: #4EA6EA;
 }
 
 html .selectize-control.multi .selectize-input.full > input {
     display: none;
+}
+
+.selectize-dropdown-content div.selected {
+    background-color: #4EA6EA;
+    color: #fff;
 }
 
 /* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */

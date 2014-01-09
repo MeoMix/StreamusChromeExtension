@@ -5,6 +5,9 @@
         baseUrl: 'js/',
 
         enforceDefine: true,
+        
+        //  I'm seeing load timeouts on in googleAPI -- seeing if increasing wait time helps.
+        waitSeconds: 90,
 
         shim: {
 

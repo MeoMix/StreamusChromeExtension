@@ -140,6 +140,12 @@ define([
         
         getAuthToken: function (interactive, retry, onUserInfoReceived) {
 
+            if (typeof chrome.identity === 'undefined') {
+                console.error('chrome.identity permission not granted.');
+                onUserInfoReceived(null);
+                return;
+            }
+
             console.log("I am now calling chrome.identity.getAuthToken with interactive set to: " + interactive + " and retry set to " + retry);
             chrome.identity.getAuthToken({ interactive: interactive }, function (authToken) {
                 

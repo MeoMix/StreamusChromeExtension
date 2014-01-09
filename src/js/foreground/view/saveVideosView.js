@@ -30,6 +30,8 @@
             });
 
             this.playlistSelect = this.$el.find('select.submittable');
+
+            var activePlaylistId = Folders.getActiveFolder().getActivePlaylist().get('id');
             
             this.playlistSelect.selectize({
                 //  If false, items created by the user will not show up as available options once they are unselected.
@@ -47,13 +49,12 @@
                 plugins: ['remove_button'],
                 render: {
                     item: function (item, escape) {
-
-                        return '<div>' + '<span class="title">' + escape(item.title) +'</span>' + '</div>';
-                        
+                        return '<div>' + '<span class="title">' + escape(item.title) + '</span>' + '</div>';
                     },
                     option: function (item, escape) {
 
-                        var option = '<div>';
+                        var className = item.id === activePlaylistId ? 'selected' : '';
+                        var option = '<div class="' + className + '">';
 
                         option += '<span class="label">' + escape(item.title) + '</span>';
                         option += '<span class="caption">' + escape(item.displayInfo) + '</span>';
