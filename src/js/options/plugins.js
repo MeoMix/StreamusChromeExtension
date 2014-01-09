@@ -1,7 +1,8 @@
 ﻿define([
     'backbone',
     'jquery',
-    'lodash'
+    'lodash',
+    'googleAnalytics'
 ], function () {
 
     //  Finally, load options:

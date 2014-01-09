@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'googleAnalytics',
     'jquery.autoscroll',
     'jquery.hoverIntent',
     'jquery',

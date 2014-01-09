@@ -24,144 +24,71 @@ define([
         },
         
         //  TODO: I feel like some of the work should've been done in parse and not onLoaded...
-
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
 
-            chrome.storage.sync.set({
-                'dirty': false
-            });
+            //chrome.storage.sync.set({
+            //    'dirty': false
+            //});
             
-            var self = this;
+            //var self = this;
             
             //  changes: Object mapping each key that changed to its corresponding StorageChange for that item.
             //  areaName: The name of the storage area (sync or local) the changes are for.
-            chrome.storage.onChanged.addListener(function (changes, areaName) {
+            //chrome.storage.onChanged.addListener(function (changes, areaName) {
 
-                if (areaName === 'sync') {
-                    if (changes.dirty != null) {
-                        self.set('dirty', changes.dirty.newValue, { silent: true });
-                    }
+            //    if (areaName === 'sync') {
+            //        if (changes.dirty != null) {
+            //            self.set('dirty', changes.dirty.newValue, { silent: true });
+            //        }
                     
-                }
+            //    }
 
-            });
+            //});
             
             //  TODO: Consider rate limiting this if >1000 saves occur in an hour?
-            this.on('change:dirty', function (model, dirty) {
+            //this.on('change:dirty', function (model, dirty) {
 
-                chrome.storage.sync.set({
-                    'dirty': dirty
-                });
-            });
+            //    chrome.storage.sync.set({
+            //        'dirty': dirty
+            //    });
+            //});
 
             //  Trying to get user's info without signing in, it will work if the
             //  Application was previously authorized by the user.
-            //this.getUserInfo(false, function (userInfo) {
+            //this.getUserInfo(function (userInfo) {
             //    console.log("User Info:", userInfo);
+
             //    if (userInfo === null) {
             //        //  There was an issue fetching your information
+            //        this.tryLoginFromStorage();
             //    } else {
+            //        this.tryLoginWithGooglePlusId();
             //    }
 
-            //});
+            //}.bind(this));
 
             this.tryLoginFromStorage();
 
-            //var authorizeImmediately = true;
-            //this.tryAuthorize(authorizeImmediately, function (authResult) {
-                
-            //    if (authResult == null) {
-            //        authorizeImmediately = false;
-                    
-            //        self.tryAuthorize(authorizeImmediately, function (immediateAuthResult) {
+            //  newState is an enum of or "active"or "idle"or "locked"
+            //chrome.idle.onStateChanged.addListener(function(newState) {
 
-            //            if (immediateAuthResult == null) {
-            //                console.error("Unable to authorize. Sorry.");
-            //            } else {
-            //                self.doOnAuthorize();
-            //            }
-
-            //        });
-
-            //    } else {
-            //        self.doOnAuthorize();
+            //    if (newState == 'active' && self.get('dirty')) {
+            //        //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
+            //        // self.loadFromServer(false);
             //    }
 
             //});
 
-            //  newState is an enum of or "active"or "idle"or "locked"
-            chrome.idle.onStateChanged.addListener(function(newState) {
-
-                if (newState == 'active' && self.get('dirty')) {
-                    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    //self.loadFromServer(false);
-                }
-
-            });
-
             //  Start watching for changes to user or any collection/model underneath it to set dirty flag.
-            this.on('childSync', function () {
-                this.set('dirty', true);
-            });
+            //this.on('childSync', function () {
+            //    this.set('dirty', true);
+            //});
             
-            this.listenTo(Folders, 'sync', function () {
-                this.trigger('childSync');
-            });
-            
-        },
-        
-        tryAuthorize: function (immediate, callback) {
-            
-            GoogleAPI.auth.authorize({
-                client_id: '346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com',
-                scope: 'https://www.googleapis.com/auth/plus.login https://www.googleapis.com/auth/plus.me',
-                //  Set immediate to false if authResult returns null
-                immediate: immediate
-            }, callback);
-            
-        },
-        
-        doOnAuthorize: function () {
-            
-            GoogleAPI.client.load('plus', 'v1', function () {
-
-                var request = GoogleAPI.client.plus.people.get({
-                    'userId': 'me'
-                });
-
-                request.execute(function (response) {
-          
-                    if (response && response.id && response.id.length > 0) {
-         
-                        $.ajax({
-                            url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
-                            contentType: 'application/json; charset=utf-8',
-                            dataType: 'json',
-                            data: {
-                                googlePlusId: response.id
-                            },
-                            success: function(userDto) {
-
-                                if (userDto && userDto.id !== null) {
-
-                                    user.set(userDto);
-                                } else {
-             
-                                    this.tryLoginFromStorage();
-
-                                }
-
-                            }
-                        });
-                    } else {
-                        this.tryLoginFromStorage();
-                    }
-
-                });
-
-            });
+            //this.listenTo(Folders, 'sync', function () {
+            //    this.trigger('childSync');
+            //});
             
         },
         
@@ -207,8 +134,8 @@ define([
 
         },
         
-        getUserInfo: function (interactive, onUserInfoReceived) {
-            this.getAuthToken(interactive, true, onUserInfoReceived);
+        getUserInfo: function (onUserInfoReceived) {
+            this.getAuthToken(false, true, onUserInfoReceived);
         },
         
         getAuthToken: function (interactive, retry, onUserInfoReceived) {
@@ -291,6 +218,12 @@ define([
             this.set('loaded', true);
             Settings.set('userId', this.get('id'));
 
+            this.getUserInfo(function(userInfo) {
+                if (userInfo !== null) {
+                    this.updateWithGooglePlusId(userInfo.id);
+                }
+            }.bind(this));
+
             console.log("User has loaded with UserID:", this.get('id'));
         },
 
@@ -323,6 +256,42 @@ define([
 
                 }
             });
+        },
+        
+        updateWithGooglePlusId: function(googlePlusId) {
+
+            //  Testing that GooglePlusId logic works before relying on it.
+            $.ajax({
+                url: Settings.get('serverURL') + 'User/UpdateGooglePlusId',
+                contentType: 'application/json; charset=utf-8',
+                dataType: 'json',
+                data: {
+                    userId: this.get('id'),
+                    googlePlusId: googlePlusId
+                }
+            });
+            
+        },
+        
+        tryLoginWithGooglePlusId: function (googlePlusId) {
+
+            //$.ajax({
+            //    url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
+            //    contentType: 'application/json; charset=utf-8',
+            //    dataType: 'json',
+            //    data: {
+            //        googlePlusId: googlePlusId
+            //    },
+            //    success: function (userDto) {
+
+            //        if (userDto && userDto.id !== null) {
+            //            //user.set(userDto);
+            //        } else {
+            //            this.tryLoginFromStorage();
+            //        }
+
+            //    }
+            //}.bind(this));
         }
     
     });

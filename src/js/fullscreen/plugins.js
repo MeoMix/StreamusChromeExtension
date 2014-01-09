@@ -2,7 +2,8 @@
     'backbone',
     'jquery.hoverIntent',
     'jquery',
-    'lodash'
+    'lodash',
+    'googleAnalytics'
 ], function () {
 
     //  Finally, load fullscreen:
