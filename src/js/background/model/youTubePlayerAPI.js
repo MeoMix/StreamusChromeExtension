@@ -46,11 +46,13 @@ define(function() {
                 } else {
                     userAgentRequestHeader.value = iPhoneUserAgent;
                 }
-
+                //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
                 return { requestHeaders: info.requestHeaders };
             }, {
                 //  ONLY match on my specific iframe else I'll corrupt other people's embedded youtube videos.
-                urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd']
+                //  TODO: Before the YouTube iFrame API broke, I was able to specify my exact extension ID: jbnkffmindojffecdhbbmekbmkkfpmjd
+                //  The logic appears broken for now, so I am as fine-grained as possible (chrome-extension) but can't specify my extension ID.
+                urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\*']
             },
                 ['blocking', 'requestHeaders']
             );
@@ -65,6 +67,11 @@ define(function() {
                 src: 'https://www.youtube.com/iframe_api',
                 async: true
             }).insertBefore($('script:first'));
+
+            var iframe = document.createElement('iframe');
+            iframe.id = 'MusicHolder';
+            iframe.src = 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
+            document.body.appendChild(iframe);
         }
     });
 
