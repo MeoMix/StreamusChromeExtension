@@ -4,5 +4,8 @@ define([
     'async!https://apis.google.com/js/client.js!onload'
 ], function () {
     'use strict';
+    
+    console.log("googleAPI has loaded", window.gapi, window.gapi.client);
+
     return window.gapi;
 });

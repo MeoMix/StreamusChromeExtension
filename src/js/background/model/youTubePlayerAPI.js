@@ -63,6 +63,7 @@ define(function() {
                 this.set('ready', true);
             }.bind(this);
 
+            // https://github.com/millermedeiros/requirejs-plugins/pull/39
             $('<script>', {
                 src: 'https://www.youtube.com/iframe_api',
                 async: true
