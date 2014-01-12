@@ -9,27 +9,34 @@ $(function () {
     style.href = chrome.extension.getURL('css/youTubeInject.css');
     document.head.appendChild(style);
 
-	var bodyElem = $("body");
-	var firstLoad = true;
+	var isFirstLoad = true;
 	var waitingForLoad = false;
 
 	var observer = new window.WebKitMutationObserver(function (mutations) {
-		if (firstLoad) {
-			firstLoad = false;
+
+	    if (isFirstLoad) {
+	        isFirstLoad = false;
 			injectStreamusButtons();
 		}
 		else {
-			if (!waitingForLoad && !bodyElem.hasClass("page-loaded")) {
+
+		    var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
+	
+		    if (!waitingForLoad && !isPageLoaded) {
 				waitingForLoad = true;
 			}
-			else if (waitingForLoad && bodyElem.hasClass("page-loaded")) {
-				injectStreamusButtons();
+		    else if (waitingForLoad && isPageLoaded) {
+			    injectStreamusButtons();
+			    waitingForLoad = false;
 			}
 		}
 
 	});
 
-	observer.observe(document.querySelector("body"), {attributes: true, attributeFilter: ["class"]});
+	observer.observe(document.querySelector("body"), {
+	    attributes: true,
+	    attributeFilter: ["class"]
+	});
 
 	function injectStreamusButtons() {
 		var addButtonWrapper = $('<span>');
@@ -231,9 +238,5 @@ $(function () {
 			}
 		});
 	}
-
-
-
-
 
 });
