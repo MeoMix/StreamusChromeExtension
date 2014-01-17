@@ -48,7 +48,6 @@
     <Content Include="src\css\beatportInject.css" />
     <Content Include="src\css\contextMenu.css" />
     <Content Include="src\css\font-awesome.css" />
-    <Content Include="src\css\foreground.css" />
     <Content Include="src\css\fullscreen.css" />
     <Content Include="src\css\jasmine.css" />
     <Content Include="src\css\jquery.qtip.css" />
@@ -85,6 +84,7 @@
     <Content Include="src\img\Yellow 3.png" />
     <Content Include="src\img\Yellow 4.png" />
     <Content Include="src\js\background\background.js" />
+    <Content Include="src\js\background\collection\multiSelectCollection.js" />
     <Content Include="src\js\background\collection\folders.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
     <Content Include="src\js\background\collection\playlists.js" />
@@ -92,6 +92,7 @@
     <Content Include="src\js\background\collection\videoSearchResults.js" />
     <Content Include="src\js\background\commands.js" />
     <Content Include="src\js\background\main.js" />
+    <Content Include="src\js\background\mixin\sequencedCollectionMixin.js" />
     <Content Include="src\js\background\model\buttons\nextButton.js" />
     <Content Include="src\js\background\model\buttons\playPauseButton.js" />
     <Content Include="src\js\background\model\buttons\previousButton.js" />
@@ -119,10 +120,13 @@
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\common\googleAPI.js" />
     <Content Include="src\js\common\model\dataSource.js" />
+    <Content Include="src\js\common\model\relatedVideoInformationManager.js" />
     <Content Include="src\js\common\model\utility.js" />
     <Content Include="src\js\common\model\youTubeV2API.js" />
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
+    <Content Include="src\js\enum\listItemType.js" />
+    <Content Include="src\js\foreground\mixin\scrollableMixin.js" />
     <Content Include="src\js\common\view\settingsView.js" />
     <Content Include="src\js\common\view\videoDisplayView.js" />
     <Content Include="src\js\common\view\videoView.js" />
@@ -132,6 +136,7 @@
     <Content Include="src\js\enum\repeatButtonState.js" />
     <Content Include="src\js\enum\shareableEntityType.js" />
     <Content Include="src\js\enum\youTubePlayerError.js" />
+    <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuGroups.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
     <Content Include="src\js\foreground\collection\folders.js" />
@@ -160,6 +165,7 @@
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistItemsView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\addAllButtonView.js" />
+    <Content Include="src\js\foreground\view\activePlaylistArea\searchButtonView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\playAllButtonView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="src\js\foreground\view\backgroundDependentForegroundView.js" />
@@ -170,7 +176,7 @@
     <Content Include="src\js\foreground\view\editPlaylistView.js" />
     <Content Include="src\js\foreground\view\genericForegroundView.js" />
     <Content Include="src\js\foreground\view\genericPromptView.js" />
-    <Content Include="src\js\foreground\view\genericScrollableView.js" />
+    <Content Include="src\js\foreground\view\multiSelectView.js" />
     <Content Include="src\js\foreground\view\notificationView.js" />
     <Content Include="src\js\foreground\view\reloadView.js" />
     <Content Include="src\js\foreground\view\rightPane\nextButtonView.js" />
@@ -208,10 +214,13 @@
     <Content Include="src\js\options\main.js" />
     <Content Include="src\js\options\options.js" />
     <Content Include="src\js\options\plugins.js" />
+    <Content Include="src\js\test\plugins.js" />
+    <Content Include="src\js\test\spec\playlistItemsSpec.js" />
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
+    <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jasmine-html.js" />
     <Content Include="src\js\thirdParty\jasmine.js" />
@@ -224,13 +233,21 @@
     <Content Include="src\js\thirdParty\jquery.transit.js" />
     <Content Include="src\js\thirdParty\jqueryUi.js" />
     <Content Include="src\js\thirdParty\keymaster.js" />
+    <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\microplugin.js" />
     <Content Include="src\js\thirdParty\require.js" />
     <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
+    <Content Include="src\less\foreground.css">
+      <DependentUpon>foreground.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\foreground.min.css">
+      <DependentUpon>foreground.less</DependentUpon>
+    </Content>
     <Content Include="src\options.html" />
+    <None Include="src\less\foreground.less" />
     <Content Include="src\template\activeFolderArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\activePlaylistItems.html" />
@@ -241,6 +258,7 @@
     <Content Include="src\template\clearStream.html" />
     <Content Include="src\template\clearStreamButton.html" />
     <Content Include="src\template\contextMenu.html" />
+    <Content Include="src\template\searchButton.html" />
     <Content Include="src\template\createPlaylist.html" />
     <Content Include="src\template\deletePlaylist.html" />
     <Content Include="src\template\deletePlaylistButton.html" />
@@ -273,17 +291,19 @@
     <Content Include="src\template\videoSearchResult.html" />
     <Content Include="src\template\videoSearchResults.html" />
     <Content Include="src\template\volumeControl.html" />
-    <Content Include="test\css\jasmine.css" />
-    <Content Include="test\js\main.js" />
-    <Content Include="test\js\spec\backgroundDependentForegroundViewSpec.js" />
-    <Content Include="test\js\spec\dataSourceSpec.js" />
-    <Content Include="test\js\spec\errorSpec.js" />
-    <Content Include="test\js\spec\googleAPISpec.js" />
-    <Content Include="test\js\spec\utilitySpec.js" />
-    <Content Include="test\js\spec\youTubeV2APISpec.js" />
-    <Content Include="test\js\spec\youTubeV3APISpec.js" />
-    <Content Include="test\js\test.js" />
-    <Content Include="test\test.htm" />
+    <Content Include="src\js\test\main.js" />
+    <Content Include="src\js\test\spec\backgroundDependentForegroundViewSpec.js" />
+    <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
+    <Content Include="src\js\test\spec\dataSourceSpec.js" />
+    <Content Include="src\js\test\spec\errorSpec.js" />
+    <Content Include="src\js\test\spec\googleAPISpec.js" />
+    <Content Include="src\js\test\spec\streamItemsSpec.js" />
+    <Content Include="src\js\test\spec\utilitySpec.js" />
+    <Content Include="src\js\test\spec\youTubeV2APISpec.js" />
+    <Content Include="src\js\test\spec\youTubeV3APISpec.js" />
+    <Content Include="src\js\test\test.js" />
+    <Content Include="src\js\test\testUtility.js" />
+    <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
   </ItemGroup>
