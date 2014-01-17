@@ -1,14 +1,11 @@
 ﻿<!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
-<!-- TODO: This is horribly hard-coded. I should find a way to lazy-load only the items I want without being dependent on a fixed number -->
-<% if( index <= 8 ) { %>
+<% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
 <% } else { %>
     <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" src="" />
 <% } %>
 
-<div class="item-title-wrapper">
-    <span class="item-title"><%- video.get('title') %></span>
-</div>
+<span class="item-title" title="<%- video.get('title') %>"><%- video.get('title') %></span>
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>

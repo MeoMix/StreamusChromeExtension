@@ -1,16 +1,16 @@
-﻿<button class="button-icon show" title="<%- chrome.i18n.getMessage('openMenu') %>">
-    <i class="fa fa-reorder"></i>
-</button>
+﻿<div class="left-top-bar">
+    <button class="button-icon show" title="<%- chrome.i18n.getMessage('openMenu') %>">
+        <i class="fa fa-reorder"></i>
+    </button>
 
-<div class="left-top-bar">
-    <span class="playlistTitle" title="<%- playlist.get('title') %>">
+    <div class="playlistTitle" title="<%- playlist.get('title') %>">
         <%- playlist.get('title') %>
-    </span>
+    </div>
+    
+    <button class="button-icon" id="showVideoSearch" title="<%- chrome.i18n.getMessage('showVideoSearch') %>">
+        <i class="fa fa-search"></i>
+    </button>
 </div>
-
-<button class="button-icon top-right-button" id="showVideoSearch" title="<%- chrome.i18n.getMessage('showVideoSearch') %>">
-    <i class="fa fa-search fa-lg"></i>
-</button>
 
 <div class="left-top-divider"></div>
 
@@ -32,6 +32,8 @@
         <%- playlist.get('displayInfo') %>
     </div>
     <div class="playlist-actions">
-
+        <div id="searchButtonView" class="view-placeholder"></div>
+        <div id="addAllButtonView" class="view-placeholder"></div>
+        <div id="playAllButtonView" class="view-placeholder"></div>
     </div>
 </div>

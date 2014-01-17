@@ -3,11 +3,11 @@
         <input placeholder="<%- chrome.i18n.getMessage('search') %>..." type="text">
         <div class="underline"></div>
     </div>
+    
+    <button class="button-icon remove" id="hideVideoSearch" title="<%- chrome.i18n.getMessage('hideVideoSearch') %>">
+        <i class="fa fa-times"></i>
+    </button>
 </div>
-
-<button class="button-icon remove top-right-button" id="hideVideoSearch" title="<%- chrome.i18n.getMessage('hideVideoSearch') %>">
-    <i class="fa fa-times"></i>
-</button>
 
 <div class="left-top-divider"></div>
 
@@ -20,7 +20,7 @@
 
     <div class="big-text searching hidden">
         <div class="big-text-header"><%- chrome.i18n.getMessage('searching') %>...</div>
-        <i class="fa fa-spinner fa fa-spin i-2x"></i>
+        <div class="spinner spinner-medium"></div>
     </div>
 
     <div class="big-text noResults hidden">
