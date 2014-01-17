@@ -281,17 +281,6 @@ define([
             return this.get('playlists').findWhere({ id: playlistId });
         },
         
-        //  TODO: Both of these should be a more generic 'SequenceNumberObject' model shared with playlists.
-        movePlaylistToIndex: function (playlistId, index) {
-            var playlists = this.get('playlists');
-
-            var playlist = playlists.get(playlistId);
-            playlist.set('sequence', this.getSequenceFromIndex(index));
-            playlist.save();
-
-            playlists.sort();
-        },
-        
         //  Return what sequence number would be necessary to be at the given index
         getSequenceFromIndex: function (index) {
 

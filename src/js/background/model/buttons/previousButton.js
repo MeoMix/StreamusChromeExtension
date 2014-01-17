@@ -10,7 +10,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple empty remove change:selected', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add addMultiple remove change:selected sort', this.toggleEnabled);
             this.listenTo(Player, 'change:currentTime', this.toggleEnabled);
 
             this.toggleEnabled();

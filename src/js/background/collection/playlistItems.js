@@ -1,13 +1,29 @@
 ﻿define([
+    'background/collection/multiSelectCollection',
+    'background/mixin/sequencedCollectionMixin',
     'background/model/playlistItem',
     'background/model/settings'
-], function (PlaylistItem, Settings) {
-   'use strict';
-
-    var PlaylistItems = Backbone.Collection.extend({
+], function (MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings) {
+    'use strict';
+    
+    var PlaylistItems = MultiSelectCollection.extend({
         model: PlaylistItem,
+        
+        playlistId: null,
 
         comparator: 'sequence',
+        
+        initialize: function (models, options) {
+            //  Handle optional parameters
+            if (options === undefined && !_.isArray(models)) {
+                options = models;
+            }
+
+            this.playlistId = options.playlistId;
+            console.log("SETTING PLAYLIST ID TO:", options);
+
+            MultiSelectCollection.prototype.initialize.apply(this, arguments);
+        },
         
         save: function (attributes, options) {
             var self = this;
@@ -70,19 +86,102 @@
 
         },
 
-        initialize: function () {
+        addByVideoAtIndex: function (video, index, callback) {
 
-            this.on('remove', function (removedPlaylistItem) {
+            var sequence = this.getSequenceFromIndex(index);
 
-                //  TODO: Select next item??
-                if (this.length === 0) {
-                    this.trigger('empty');
-                }
+            console.log("This:", this, this.playlistId);
 
+            var playlistItem = new PlaylistItem({
+                playlistId: this.playlistId,
+                video: video,
+                sequence: sequence
             });
 
+            var self = this;
+            this.savePlaylistItem(playlistItem, function () {
+                self.sort();
+
+                if (callback) {
+                    callback();
+                }
+            });
+
+        },
+
+        savePlaylistItem: function (playlistItem, callback) {
+
+            if (this.itemAlreadyExists(playlistItem)) {
+                if (callback) {
+                    callback(playlistItem);
+                }
+            }
+            else {
+                //  Save the playlistItem, but push after version from server because the ID will have changed.
+                playlistItem.save({}, {
+
+                    success: function () {
+
+                        //  TODO: This doesn't call addMultiple?? Didn't it used to?
+                        this.add(playlistItem);
+
+                        if (callback) {
+                            callback(playlistItem);
+                        }
+
+                    }.bind(this),
+
+                    error: function (error) {
+                        console.error(error);
+                    }
+
+                });
+            }
+
+        },
+        
+        //  Figure out if an item is already in the collection by videoId
+        //  Can take a playlistItem or a streamItem.
+        itemAlreadyExists: function(itemToLookFor) {
+            return this.some(function (item) {
+                return item.get('video').get('id') === itemToLookFor.get('video').get('id');
+            });
         }
+        
     });
+    
+    function trySetDuplicateVideoId(playlistItemToAdd) {
+        var duplicatePlaylistItem = this.find(function (playlistItem) {
+            return playlistItem.get('video').get('id') === playlistItemToAdd.get('video').get('id');
+        });
+
+        if (duplicatePlaylistItem !== undefined) {
+
+            if (duplicatePlaylistItem.has('id')) {
+                playlistItemToAdd.set('id', duplicatePlaylistItem.get('id'));
+            } else {
+                playlistItemToAdd.cid = duplicatePlaylistItem.cid;
+            }
+
+        }
+    }
+    
+    //  Don't allow duplicate PlaylistItems by videoID. 
+    PlaylistItems.prototype.add = function (playlistItemToAdd, options) {
+        
+        if (_.isArray(playlistItemToAdd)) {
+            _.each(playlistItemToAdd, function(itemToAdd) {
+                trySetDuplicateVideoId.call(this, itemToAdd);
+            }.bind(this));
+        } else {
+            trySetDuplicateVideoId.call(this, playlistItemToAdd);
+        }
+
+        return MultiSelectCollection.prototype.add.call(this, playlistItemToAdd, options);
+    };
+
+    //  Mixin methods needed for sequenced collections
+    _.extend(PlaylistItems.prototype, SequencedCollectionMixin);
 
     return PlaylistItems;
 });

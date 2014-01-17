@@ -69,13 +69,13 @@ define([
                         var originalindex = self.model.get('playlists').indexOf(playlist);
 
                         //  When moving an item down the list -- all the items shift up one which causes an off-by-one error when calling
-                        //  movedPlaylistToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
+                        //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
                         //  no shift happens.
                         if (originalindex < index) {
                             index += 1;
                         }
 
-                        self.model.movePlaylistToIndex(playlistId, index);
+                        self.model.get('playlists').moveToIndex(playlistId, index);
                     }
                     
                 }

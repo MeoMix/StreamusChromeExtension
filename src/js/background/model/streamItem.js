@@ -1,8 +1,8 @@
 ﻿//  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
     'background/model/video',
-    'common/model/youTubeV2API'
-], function (Video, YouTubeV2API) {
+    'common/model/relatedVideoInformationManager'
+], function (Video, RelatedVideoInformationManager) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
@@ -38,7 +38,7 @@ define([
                 }
             });
             
-            YouTubeV2API.getRelatedVideoInformation({
+            RelatedVideoInformationManager.getRelatedVideoInformation({
                 videoId: this.get('video').get('id'),
                 success: function (relatedVideoInformation) {
 

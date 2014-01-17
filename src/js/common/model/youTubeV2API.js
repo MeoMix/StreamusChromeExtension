@@ -5,12 +5,19 @@ define([
 ], function (DataSourceType, Utility) {
     'use strict';
 
-    //  These fields tell the YouTube API what fields to respond with to limit the amount of data going over the wire. 
-    var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl,yt:hd';
-    //  This is what to return for a list of videos instead of just a single entry.
-    var videosInformationFields = 'entry(' + videoInformationFields + ')';
-
     var YouTubeV2API = Backbone.Model.extend({
+        
+        defaults: function () {
+
+            var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl,yt:hd';
+
+            return {
+                //  These fields tell the YouTube API what fields to respond with to limit the amount of data going over the wire. 
+                videoInformationFields: videoInformationFields,
+                //  This is what to return for a list of videos instead of just a single entry.
+                videoListInformationFields: 'entry(' + videoInformationFields + ')'
+            };
+        },
 
         //  Crafts an AJAX request which has defaults appropriate for a YouTube V2 API request.
         //  Expects options: { url: string, data: object, success: function, error: function }
@@ -68,124 +75,6 @@ define([
             });
         },
 
-        //  Process a bunch of videoIds and get all of their related video information.
-        //  Spawns multiple AJAX requests (up to 5) and keeps that queue full while processing.
-        getBulkRelatedVideoInformation: function (videoIds, callback) {
-
-            var bulkRelatedVideoInformation = [];
-            var totalVideosToProcess = videoIds.length;
-            var videosProcessed = 0;
-            var videosToProcessConcurrently = 5;
-            var videosProcessing = 0;
-
-            var self = this;
-            var youtubeQueryInterval = setInterval(function () {
-
-                if (videosProcessed == totalVideosToProcess) {
-                    clearInterval(youtubeQueryInterval);
-                    callback(bulkRelatedVideoInformation);
-                }
-                else if (videosProcessing + videosProcessed < totalVideosToProcess) {
-
-                    //  Don't flood the network -- process a few at a time.
-                    if (videosProcessing <= videosToProcessConcurrently) {
-                        videosProcessing++;
-
-                        var currentVideoId = videoIds.pop();
-
-                        //  Use a closure to ensure that I iterate over the proper videoId for each async call.
-                        var getRelatedVideoInfoClosure = function (closureCurrentVideoId) {
-
-                            self.getRelatedVideoInformation({
-                                videoId: closureCurrentVideoId,
-                                success: function (relatedVideoInformation) {
-
-                                    //  getRelatedVideoInformation might error out.
-                                    if (relatedVideoInformation) {
-
-                                        bulkRelatedVideoInformation.push({
-                                            videoId: closureCurrentVideoId,
-                                            relatedVideoInformation: relatedVideoInformation
-                                        });
-                                    }
-
-                                    videosProcessed++;
-                                    videosProcessing--;
-                                },
-                                error: function () {
-                                    //  TODO: Do something with error?
-                                }
-                            });
-
-                        };
-
-                        getRelatedVideoInfoClosure(currentVideoId);
-                    }
-
-                }
-
-            }, 200);
-
-        },
-
-        //  When a video comes from the server it won't have its related videos, so need to fetch and populate.
-        //  Expects options: { videoId: string, success: function, error: function }
-        getRelatedVideoInformation: function (options) {
-
-            var self = this;
-
-            //  Do an async request for the videos's related videos. There isn't a hard dependency on them existing right as a video is created.
-            return this.sendV2ApiRequest({
-                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.videoId + '/related',
-                data: {
-                    category: 'Music',
-                    fields: videosInformationFields,
-                    //  Don't really need that many suggested videos, take 10.
-                    'max-results': 10
-                },
-                success: function (result) {
-
-                    var playableEntryList = [];
-                    var unplayableEntryList = [];
-
-                    //  Sort all of the related videos returned into two piles - playable and unplayable.
-                    _.each(result.feed.entry, function (entry) {
-
-                        var isValid = self.validateEntry(entry);
-
-                        if (isValid) {
-                            playableEntryList.push(entry);
-                        } else {
-                            unplayableEntryList.push(entry);
-                        }
-
-                    });
-
-                    //  For each unplayable video -- research YouTube by title and find a replacement.
-                    //  Since this is an asynchronous action -- need to wait for all of the events to finish before we have a fully complete list.
-                    var deferredEvents = _.map(unplayableEntryList, function (entry) {
-                        return self.findPlayableByTitle({
-                            title: entry.title.$t,
-                            success: function (playableEntry) {
-                                //  Successfully found a replacement playable video
-                                playableEntryList.push(playableEntry);
-                            },
-                            error: function (error) {
-                                console.error("There was an error find a playable entry for:" + entry.title.$t, error);
-                            }
-                        });
-                    });
-
-                    //  Wait for all of the findPlayableByTitle AJAX requests to complete.
-                    $.when.apply($, deferredEvents).done(function () {
-                        options.success(playableEntryList);
-                    });
-
-                },
-                error: options.error
-            });
-        },
-
         //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function (options) {
@@ -201,7 +90,7 @@ define([
                     //  Developers commonly add &format=5 to their queries to restrict results to videos that can be embedded on their sites.
                     format: 5,
                     q: options.text,
-                    fields: videosInformationFields
+                    fields: this.get('videoListInformationFields')
                 },
                 success: function (result) {
                     options.success(result.feed.entry || []);
@@ -287,7 +176,7 @@ define([
                 data: {
                     //  Developers commonly add &format=5 to their queries to restrict results to videos that can be embedded on their sites.
                     format: 5,
-                    fields: videoInformationFields
+                    fields: this.get('videoInformationFields')
                 },
                 success: function (result) {
                     var isValid = this.validateEntry(result.entry);
@@ -356,6 +245,7 @@ define([
 
         },
 
+        //  TODO: I only call this in one spot, but I feel like it could be useful elsewhere?
         //  Some videos aren't allowed to be played in Streamus, but it is possible to find a replacement
         //  after detecting that the video would not be allowed.
         validateEntry: function (entry) {

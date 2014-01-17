@@ -15,7 +15,7 @@
         
         initialize: function () {
             
-            this.listenTo(StreamItems, 'add addMultiple remove empty change:selected', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add addMultiple remove reset change:selected', this.toggleEnabled);
             this.listenTo(RadioButton, 'change:enabled', this.toggleEnabled);
             this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);
             this.listenTo(RepeatButton, 'change:state', this.toggleEnabled);

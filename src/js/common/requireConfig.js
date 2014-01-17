@@ -5,9 +5,33 @@
         baseUrl: 'js/',
 
         enforceDefine: true,
-        
-        //  I'm seeing load timeouts on in googleAPI -- seeing if increasing wait time helps.
-        waitSeconds: 90,
+
+        paths: {
+
+            //  Paths:
+            'template': '../template',
+
+            //  Third Party:
+            'async': 'thirdParty/async',
+            'backbone': 'thirdParty/backbone',
+            'backbone.marionette': 'thirdParty/backbone.marionette',
+            'googleAnalytics': 'thirdParty/googleAnalytics',
+            'jquery.autoscroll': 'thirdParty/jquery.autoscroll',
+            'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
+            'jquery': 'thirdParty/jquery',
+            'jquery.lazyload': 'thirdParty/jquery.lazyload',
+            'jquery.qtip': 'thirdParty/jquery.qtip',
+            'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
+            'jquery.transit': 'thirdParty/jquery.transit',
+            'jqueryUi': 'thirdParty/jqueryUi',
+            'keymaster': 'thirdParty/keymaster',
+            'less': 'thirdParty/less',
+            'lodash': 'thirdParty/lodash',
+            'microplugin': 'thirdParty/microplugin',
+            'selectize': 'thirdParty/selectize',
+            'sifter': 'thirdParty/sifter',
+            'text': 'thirdParty/text'
+        },
 
         shim: {
 
@@ -49,33 +73,11 @@
             },
             'keymaster': {
                 exports: 'window.key'
+            },
+            'less': {
+                exports: 'window.less'
             }
 
-        },
-
-        paths: {
-
-            //  Paths:
-            'template': '../template',
-
-            //  Third Party:
-            'async': 'thirdParty/async',
-            'backbone': 'thirdParty/backbone',
-            'googleAnalytics': 'thirdParty/googleAnalytics',
-            'jquery.autoscroll': 'thirdParty/jquery.autoscroll',
-            'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
-            'jquery': 'thirdParty/jquery',
-            'jquery.lazyload': 'thirdParty/jquery.lazyload',
-            'jquery.qtip': 'thirdParty/jquery.qtip',
-            'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
-            'jquery.transit': 'thirdParty/jquery.transit',
-            'jqueryUi': 'thirdParty/jqueryUi',
-            'keymaster': 'thirdParty/keymaster',
-            'lodash': 'thirdParty/lodash',
-            'microplugin': 'thirdParty/microplugin',
-            'selectize': 'thirdParty/selectize',
-            'sifter': 'thirdParty/sifter',
-            'text': 'thirdParty/text'
         }
 
     });

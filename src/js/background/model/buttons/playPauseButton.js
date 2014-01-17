@@ -10,7 +10,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'change:selected empty remove', this.toggleEnabled);
+            this.listenTo(StreamItems, 'change:selected remove reset', this.toggleEnabled);
             this.toggleEnabled();
         },
         

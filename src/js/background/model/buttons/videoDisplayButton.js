@@ -13,7 +13,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple empty remove', this.setDisabled);
+            this.listenTo(StreamItems, 'add addMultiple remove reset', this.setDisabled);
         },
         
         setDisabled: function () {
@@ -27,7 +27,7 @@
         //  TODO: Implement toggle on/off video via keyboard shortcut.
         toggleVideoDisplay: function() {
             console.error('not implemented');
-        },
+        }
 
     });
     

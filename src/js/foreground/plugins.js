@@ -10,6 +10,7 @@
     'jquery.transit',
     'jqueryUi',
     'keymaster',
+    'less',
     'lodash',
     'selectize'
 ], function () {

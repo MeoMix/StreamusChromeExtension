@@ -12,12 +12,16 @@ define([
     'use strict';
 
     var Playlist = Backbone.Model.extend({
-        defaults: function() {
+        defaults: function () {
+
+            console.log("My Id:", this.get('id'));
             return {
                 id: null,
                 folderId: null,
                 title: chrome.i18n.getMessage('newPlaylist'),
-                items: new PlaylistItems(),
+                items: new PlaylistItems([], {
+                    playlistId: this.get('id')
+                }),
                 dataSource: null,
                 dataSourceLoaded: false,
                 active: false,
@@ -45,7 +49,9 @@ define([
                 this.get('items').reset(playlistDto.items);
 
             } else {
-                this.set('items', new PlaylistItems());
+                this.set('items', new PlaylistItems([], {
+                    playlistId: this.get('id')
+                }));
             }
                 
             // Remove so parse doesn't set and overwrite instance after parse returns.
@@ -59,9 +65,13 @@ define([
             var self = this;
             var items = this.get('items');
 
+            console.log("Initializing playlist");
+
             //  Need to convert items array to Backbone.Collection
             if (!(items instanceof Backbone.Collection)) {
-                items = new PlaylistItems(items);
+                items = new PlaylistItems(items, {
+                    playlistId: this.get('id')
+                });
                 //  Silent because items is just being properly set.
                 this.set('items', items, { silent: true });
             }
@@ -87,7 +97,7 @@ define([
                 
             }, 2000));
                 
-            this.listenTo(this.get('items'), 'add addMultiple empty remove', this.setDisplayInfo);
+            this.listenTo(this.get('items'), 'add addMultiple reset remove', this.setDisplayInfo);
             this.setDisplayInfo();
 
             this.listenTo(this.get('items'), 'sync', function() {
@@ -129,68 +139,7 @@ define([
             this.set('displayInfo', displayInfo);
         },
         
-        //  TODO: Make DRY with Folder.
-        //  Return what sequence number would be necessary to be at the given index
-        getSequenceFromIndex: function (index) {
-
-            var sequence;
-
-            var sequenceIncrement = 10000;
-            var playlistItems = this.get('items');
-
-            if (playlistItems.length === 0) {
-                sequence = sequenceIncrement;
-            }
-            else {
-                //  high is either the next playlistItems sequence or the maximum sequence + 10k 
-                var highSequence = playlistItems.at(playlistItems.length - 1).get('sequence') + sequenceIncrement;
-                if (index < playlistItems.length) {
-                    highSequence = playlistItems.at(index).get('sequence');
-                }
-
-                //  low is either the previous playlistItems's sequence or 0.
-                var lowSequence = 0;
-                if (index > 0) {
-                    lowSequence = playlistItems.at(index - 1).get('sequence');
-                }
-
-                sequence = (highSequence + lowSequence) / 2;
-            }
-  
-            return sequence;
-        },
-        
-        moveItemToIndex: function (playlistItemId, index) {
-            var items = this.get('items');
-
-            var item = items.get(playlistItemId);
-            item.set('sequence', this.getSequenceFromIndex(index));
-            item.save();
-
-            items.sort();
-        },
-        
-        addByVideoAtIndex: function (video, index, callback) {
-
-            var sequence = this.getSequenceFromIndex(index);
-
-            var playlistItem = new PlaylistItem({
-                playlistId: this.get('id'),
-                video: video,
-                sequence: sequence
-            });
-
-            var self = this;
-            this.savePlaylistItem(playlistItem, function() {
-                self.get('items').sort();
-                
-                if (callback) {
-                    callback();
-                }
-            });
-
-        },
-        
+        //  TODO: Move these to collection.
         addByVideo: function (video, callback) {
 
             var playlistItem = new PlaylistItem({
@@ -198,32 +147,8 @@ define([
                 video: video
             });
 
-            this.savePlaylistItem(playlistItem, callback);
+            this.get('items').savePlaylistItem(playlistItem, callback);
 
-        },
-        
-        savePlaylistItem: function(playlistItem, callback) {
-            var self = this;
-
-            //  Save the playlistItem, but push after version from server because the ID will have changed.
-            playlistItem.save({}, {
-
-                success: function () {
-
-                    self.get('items').add(playlistItem);
-                    self.setDisplayInfo();
-
-                    if (callback) {
-                        callback(playlistItem);
-                    }
-
-                },
-
-                error: function (error) {
-                    console.error(error);
-                }
-
-            });
         },
             
         addByVideos: function (videos, callback) {
@@ -234,7 +159,9 @@ define([
             }
             
             var self = this;
-            var itemsToSave = new PlaylistItems();
+            var itemsToSave = new PlaylistItems([], {
+                playlistId: this.get('id')
+            });
             
             _.each(videos, function (video) {
 
@@ -242,15 +169,17 @@ define([
                     playlistId: self.get('id'),
                     video: video
                 });
-
-                itemsToSave.push(playlistItem);
+                
+                if (!self.get('items').itemAlreadyExists(playlistItem)) {
+                    itemsToSave.push(playlistItem);
+                }
+                
             });
 
             itemsToSave.save({}, {
                 success: function () {
 
                     self.get('items').add(itemsToSave.models);
-                    self.setDisplayInfo();
    
                     if (callback) {
                         callback();

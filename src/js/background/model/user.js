@@ -3,9 +3,8 @@
 //  If still unloaded, tells the server to create a new user and assumes that identiy.
 define([
     'background/collection/folders',
-    'background/model/settings',
-    'common/googleAPI'
-], function (Folders, Settings, GoogleAPI) {
+    'background/model/settings'
+], function (Folders, Settings) {
     'use strict';
 
     var syncUserIdKey = 'UserId';

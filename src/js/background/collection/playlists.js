@@ -1,6 +1,7 @@
 ﻿define([
-   'background/model/playlist'
-], function (Playlist) {
+    'background/mixin/sequencedCollectionMixin',
+    'background/model/playlist'
+], function (SequencedCollectionMixin, Playlist) {
     'use strict';
 
     var Playlists = Backbone.Collection.extend({
@@ -9,23 +10,22 @@
         comparator: 'sequence',
 
         initialize: function () {
-            var self = this;
 
-            //  Whenever a playlist is removed -- select the next playlist.
+            //  Whenever a playlist is removed, if it was selected, select the next playlist.
             this.on('remove', function (removedPlaylist) {
-
-                var nextPlaylist = self.find(function (playlist) {
-                    return playlist.get('sequence') > removedPlaylist.get('sequence');
-                });
                 
-                if (nextPlaylist === undefined) {
-                    self.at(0).set('active', true);
-                } else {
-                    nextPlaylist.set('active', true);
-                }
+                if (removedPlaylist.get('active')) {
 
-                if (this.length === 0) {
-                    this.trigger('empty');
+                    var nextPlaylist = this.find(function (playlist) {
+                        return playlist.get('sequence') > removedPlaylist.get('sequence');
+                    });
+
+                    if (nextPlaylist === undefined) {
+                        this.at(0).set('active', true);
+                    } else {
+                        nextPlaylist.set('active', true);
+                    }
+                    
                 }
 
             });
@@ -56,7 +56,11 @@
             });
 
         }
+        
     });
+    
+    //  Mixin methods needed for sequenced collections
+    _.extend(Playlists.prototype, SequencedCollectionMixin);
 
     return Playlists;
 });

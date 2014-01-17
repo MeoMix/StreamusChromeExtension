@@ -12,7 +12,11 @@ define([
                 playlistId: null,
                 sequence: -1,
                 video: null,
-                title: ''
+                title: '',
+                
+                //  TODO: Not stored on the server... not sure if that's a big deal just yet.
+                selected: false,
+                firstSelected: false
             };
         },
         urlRoot: Settings.get('serverURL') + 'PlaylistItem/',

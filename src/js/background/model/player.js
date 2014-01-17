@@ -154,12 +154,16 @@ define([
             }
 
             this.set('loadedVideoId', videoId);
-
-            youTubePlayer.cueVideoById({
-                videoId: videoId,
-                startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('suggestedQuality')
-            });
+            
+            if (youTubePlayer === null) {
+                console.error('youTubePlayer not instantiated');
+            } else {
+                youTubePlayer.cueVideoById({
+                    videoId: videoId,
+                    startSeconds: startSeconds || 0,
+                    suggestedQuality: Settings.get('suggestedQuality')
+                });
+            }
 
             //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
             //  but until the video actually loads -- current time isn't set.

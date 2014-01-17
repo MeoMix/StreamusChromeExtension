@@ -9,6 +9,7 @@ define([
         
         defaults: function () {
             return {
+                //  TODO: This is commented out -- but it sounds necessary. Lets make a test case for it.
                 //  Prevent Backbone collections from dropping duplicate Video entities by uniquely identifying each video.
                 //uniqueId: _.uniqueId('video_'),
                 //  Provided by YouTube's API.
@@ -16,6 +17,8 @@ define([
                 title: '',
                 author: '',
                 duration: -1,
+                
+                //  These are calculated:
                 prettyDuration: '',
                 url: '',
                 cleanTitle: '',
@@ -54,6 +57,8 @@ define([
     });
 
     return function (config) {
+
+        if (config === undefined) throw "Video expects to be constructed with either videoInformation or properties";
         
         //  Support passing raw YouTube videoInformation instead of a precise config object.
         if (config.videoInformation !== undefined) {

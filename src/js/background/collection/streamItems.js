@@ -30,28 +30,10 @@
                     addedStreamItem.trigger('change:selected', addedStreamItem, true);
                 }
 
-                //  If the Stream has any items in it, one should be selected.
-                if (self.length === 1) {
+                //  Ensure a stream item is always selected
+                if (this.selected().length === 0) {
                     addedStreamItem.set('selected', true);
                 }
-                
-            });
-
-            this.on('addMultiple', function(addedStreamItems) {
-
-                var selectedStreamItem = _.find(addedStreamItems, function(streamItem) {
-                    return streamItem.get('selected');
-                });
-
-                //  If a selected item is added -- manually trigger a selected event to deselect all other items.
-                if (selectedStreamItem !== undefined) {
-                    selectedStreamItem.trigger('change:selected', selectedStreamItem, true);
-                }
-                //  If no selected item was added, and no pre-existing items, ensure at least one is selected;
-                else if (self.length === addedStreamItems.length) {
-                    addedStreamItems[0].set('selected', true);
-                }
-
             });
 
             this.on('change:selected', function(changedStreamItem, selected) {
@@ -102,16 +84,13 @@
 
             });
 
-            this.on('empty', function () {
-                Player.stop();
+            this.on('remove reset', function() {
+                if (this.length === 0) {
+                    Player.stop();
+                }
             });
 
             this.on('remove', function (removedStreamItem, collection, options) {
-
-                if (this.length === 0) {
-                    this.trigger('empty');
-                }
-
                 if (removedStreamItem.get('selected') && this.length > 0) {
                     this.selectNext(options.index);
                 }
@@ -192,9 +171,9 @@
             });
         },
         
-        addByPlaylist: function (playlist, playOnAdd) {
+        addByPlaylistItems: function (playlistItems, playOnAdd) {
 
-            var videos = playlist.get('items').pluck('video');
+            var videos = playlistItems.pluck('video');
             
             if (videos.length === 1) {
                 this.addByVideo(videos[0], playOnAdd);
@@ -204,15 +183,38 @@
             
         },
         
-        addByDraggedPlaylistItem: function(playlistItem, index) {
-          
-            this.add({
-                video: playlistItem.get('video'),
-                title: playlistItem.get('title')
-            }, {
+        //  TODO: DRY!
+        addByDraggedVideoSearchResults: function(videoSearchResults, index) {
+
+            if (!_.isArray(videoSearchResults)) throw "Error";
+
+            //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
+            var streamItems = _.map(videoSearchResults, function (videoSearchResult) {
+                return {
+                    video: videoSearchResult.get('video'),
+                    title: videoSearchResult.get('video').get('title')
+                };
+            });
+
+            this.add(streamItems, {
                 at: index
             });
-            
+        },
+        
+        addByDraggedPlaylistItems: function(playlistItems, index) {
+            //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
+            if (!_.isArray(playlistItems)) throw "Error";
+
+            var streamItems = _.map(playlistItems, function (playlistItem) {
+                return {
+                    video: playlistItem.get('video'),
+                    title: playlistItem.get('title')
+                };
+            });
+
+            this.add(streamItems, {
+                at: index
+            });
         },
         
         addByPlaylistItem: function(playlistItem, playOnAdd) {
@@ -267,61 +269,23 @@
             this.addMultiple(streamItems);
         },
 
+        //  TODO: pretty sure addMultiple was a bad idea.
         addMultiple: function(streamItems) {
 
             //  Handling this manually to not clog the network with getVideoInformation requests
-            this.add(streamItems, { silent: true });
-
-            var self = this;
-            
-            //  Fetch from collection to make sure references stay correct + leverage conversion to model
-            var streamItemsFromCollection = _.map(streamItems, function (streamItem) {
-                var streamItemId;
-
-                if (streamItem instanceof Backbone.Model) {
-                    streamItemId = streamItem.get('id');
-                } else {
-                    streamItemId = streamItem.id;
-                }
-
-                return self.get(streamItemId);
-            });
+            var addedStreamItems = this.add(streamItems, { silent: true });
             
             var selectedStreamItem = this.getSelectedItem();
 
             if (selectedStreamItem === null) {
-                //  If the Stream has any items in it, one should be selected.
+                //  If no selected item was added, and no pre-existing items, ensure at least one is selected
                 this.at(0).set('selected', true);
+            } else {
+                //  If a selected item is added -- manually trigger a selected event to deselect all other items.
+                selectedStreamItem.trigger('change:selected', selectedStreamItem, true);
             }
 
-            //  Take a statistically significant sample of the videos added and fetch their relatedVideo information.
-            var sampleSize = streamItemsFromCollection.length >= 50 ? 50 : streamItemsFromCollection.length;
-
-            //  Get X samples from an array from 0 to N which has been randomized 
-            var randomSampleIndices = _.shuffle(_.range(streamItemsFromCollection.length)).slice(sampleSize);
-
-            var randomVideoIds = _.map(randomSampleIndices, function (randomSampleIndex) {
-                return streamItemsFromCollection[randomSampleIndex].get('video').get('id');
-            });
-
-            //  Fetch all the related videos for videos on load.
-            //  Data won't appear immediately as it is an async request, I just want to get the process started now.
-            YouTubeV2API.getBulkRelatedVideoInformation(randomVideoIds, function (bulkInformationList) {
-
-                _.each(bulkInformationList, function (bulkInformation) {
-                    var videoId = bulkInformation.videoId;
-
-                    var streamItem = _.find(streamItemsFromCollection, function (streamItemFromCollection) {
-                        return streamItemFromCollection.get('video').get('id') === videoId;
-                    });
-
-                    streamItem.set('relatedVideoInformation', bulkInformation.relatedVideoInformation);
-
-                });
-
-            });
-
-            this.trigger('addMultiple', streamItemsFromCollection);
+            this.trigger('addMultiple', addedStreamItems);
         },
 
         deselectAllExcept: function(streamItemCid) {
@@ -530,7 +494,11 @@
         clear: function () {
             this.bannedVideoIdList = [];
             this.reset();
-            this.trigger('empty');
+        },
+        
+        //  Return a list of selected models.
+        selected: function () {
+            return this.where({ selected: true });
         }
     });
     
