@@ -3,8 +3,9 @@
     'foreground/view/activePlaylistArea/activePlaylistItemsView',
     'text!template/activePlaylistArea.html',
     'foreground/view/activePlaylistArea/playAllButtonView',
-    'foreground/view/activePlaylistArea/addAllButtonView'
-], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView) {
+    'foreground/view/activePlaylistArea/addAllButtonView',
+    'foreground/view/activePlaylistArea/searchButtonView'
+], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, SearchButtonView) {
     'use strict';
 
     var ActivePlaylistAreaView = GenericForegroundView.extend({
@@ -14,6 +15,7 @@
         template: _.template(ActivePlaylistAreaTemplate),
         
         activePlaylistItemsView: null,
+        searchButtonView: null,
         addAllButtonView: null,
         playAllButtonView: null,
         playlistDetails: null,
@@ -37,10 +39,9 @@
 
             this.$el.find('#activePlaylistItemsView').replaceWith(this.activePlaylistItemsView.render().el);
 
-            var playlistActions = this.$el.find('.playlist-actions');
-
-            playlistActions.append(this.addAllButtonView.render().el);
-            playlistActions.append(this.playAllButtonView.render().el);
+            this.$el.find('#searchButtonView').replaceWith(this.searchButtonView.render().el);
+            this.$el.find('#addAllButtonView').replaceWith(this.addAllButtonView.render().el);
+            this.$el.find('#playAllButtonView').replaceWith(this.playAllButtonView.render().el);
            
             this.playlistDetails = this.$el.find('.playlist-details');
             this.playlistTitle = this.$el.find('.playlistTitle');
@@ -57,7 +58,11 @@
         initialize: function () {
 
             this.activePlaylistItemsView = new ActivePlaylistItemsView({
-                model: this.model.get('playlist')
+                model: this.model.get('playlist').get('items')
+            });
+
+            this.searchButtonView = new SearchButtonView({
+                mode: this.model.get('playlist')
             });
 
             this.playAllButtonView = new PlayAllButtonView({
@@ -70,18 +75,21 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
-            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove empty', function() {
+            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove reset', function() {
                 this.toggleBigText();
                 this.toggleBottomMenubar();
             });
+ 
         },
         
         updatePlaylistDetails: function () {
             this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
         },
         
-        updatePlaylistTitle: function() {
-            this.playlistTitle.text(this.model.get('playlist').get('title'));
+        updatePlaylistTitle: function () {
+            var playlistTitle = this.model.get('playlist').get('title');
+            this.playlistTitle.text(playlistTitle);
+            this.playlistTitle.qtip('option', 'content.text', playlistTitle);
         },
         
         //  Set the visibility of any visible text messages.

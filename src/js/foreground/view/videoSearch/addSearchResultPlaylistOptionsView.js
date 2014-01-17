@@ -1,13 +1,14 @@
 ﻿define([
     'text!template/addSearchResultPlaylistOptions.html',
-    'foreground/view/genericScrollableView',
+    'foreground/view/genericForegroundView',
+    'foreground/mixin/scrollableMixin',
     'foreground/model/addSearchResultOption',
     'foreground/view/videoSearch/addSearchResultOptionView',
     'enum/addSearchResultOptionType'
-], function (AddSearchResultPlaylistOptionsTemplate, GenericScrollableView, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType) {
+], function (AddSearchResultPlaylistOptionsTemplate, GenericForegroundView, ScrollableMixin, AddSearchResultOption, AddSearchResultOptionView, AddSearchResultOptionType) {
     'use strict';
 
-    var AddSearchResultPlaylistOptionsView = GenericScrollableView.extend({
+    var AddSearchResultPlaylistOptionsView = GenericForegroundView.extend({
 
         template: _.template(AddSearchResultPlaylistOptionsTemplate),
         
@@ -60,6 +61,8 @@
         }
 
     });
+
+    _.extend(AddSearchResultPlaylistOptionsView.prototype, ScrollableMixin);
 
     return AddSearchResultPlaylistOptionsView;
 });

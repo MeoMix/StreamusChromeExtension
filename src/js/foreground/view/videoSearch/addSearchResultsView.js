@@ -51,6 +51,8 @@
             this.streamItemCount = this.$el.find('.addItemOption.stream span.item-count');
             this.selectedItemsMessage = this.$el.find('span.selectedItemsMessage');
 
+            console.log("Set selectedItemsMessage");
+
             this.panel = this.$el.find('.panel');
             
             this.initializeTooltips();
@@ -82,6 +84,7 @@
             var selectedCount = VideoSearchResults.selected().length;
             
             if (selectedCount === 1) {
+                //  TODO: i18n:
                 this.selectedItemsMessage.text('Add ' + selectedCount + ' item to:');
             } else {
                 this.selectedItemsMessage.text('Add ' + selectedCount + ' items to:');
@@ -89,16 +92,16 @@
 
         },
         
-        show: function () {
-
+        show: function (instant) {
+            return false;
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('backgroundColor', this.$el.css('background-color')).transition({
                 'background-color': 'rgba(0, 0, 0, 0.5)'
-            }, 'snap');
+            }, instant ? 0 : undefined, 'snap');
 
             this.panel.transition({
                 x: -1 * this.$el.width()
-            }, 'snap');
+            }, instant ? 0 : undefined, 'snap');
 
         },
         

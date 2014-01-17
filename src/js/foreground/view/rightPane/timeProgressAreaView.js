@@ -58,7 +58,7 @@ define([
         
         initialize: function () {
 
-            this.listenTo(StreamItems, 'empty', this.clear);
+            this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add addMultiple', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
@@ -126,6 +126,12 @@ define([
         
         enable: function () {
             this.timeRange.toggleClass('disabled', false);
+        },
+        
+        clearOnEmpty: function () {
+            if (StreamItems.length === 0) {
+                this.clear();
+            }
         },
         
         clear: function () {

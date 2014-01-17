@@ -112,10 +112,11 @@
             this.$el.transition({
                 x: -20
             }, function () {
-
+                console.log("setting val to empty");
+                this.model.set('searchQuery', '');
                 this.remove();
- 
                 VideoSearchResults.clear();
+                
             }.bind(this));
         },
         

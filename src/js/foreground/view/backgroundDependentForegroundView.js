@@ -69,6 +69,19 @@ define([
                 }
 
             });
+
+            key('s', function() {
+
+                console.log("s key pressed");
+                if (this.videoSearchView === null) {
+                    
+                    console.log("show search");
+                    
+
+
+                }
+                
+            }.bind(this));
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
@@ -155,11 +168,15 @@ define([
 
                 this.$el.append(this.videoSearchView.render().el);
                 this.videoSearchView.showAndFocus(instant);
+                
+                if (VideoSearchResults.selected().length > 0) {
+                    this.showAddSearchResults(true);
+                }
 
                 this.listenTo(VideoSearchResults, 'change:selected', function(changedItem, selected) {
                     //  Whenever a search result is selected - slide in search results.
                     if (selected && this.addSearchResultsView === null) {
-                        this.showAddSearchResults();
+                        this.showAddSearchResults(false);
                     }
                 });
 
@@ -181,7 +198,7 @@ define([
         }, 400),
 
         //  Slides in the AddSearchResults window from the RHS of the foreground.
-        showAddSearchResults: function () {
+        showAddSearchResults: function (instant) {
 
             //  If the view has already been rendered -- no need to reshow.
             if (this.addSearchResultsView === null) {
@@ -199,8 +216,9 @@ define([
                     this.addSearchResultsView = null;
                 });
 
+                console.log("Rendering addSearchResultsView");
                 this.$el.append(this.addSearchResultsView.render().el);
-                this.addSearchResultsView.show();
+                this.addSearchResultsView.show(instant);
             }
 
         },

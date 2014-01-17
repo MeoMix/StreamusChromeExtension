@@ -1,18 +1,21 @@
 ﻿define([
-    'foreground/view/genericScrollableView',
+    'foreground/view/genericForegroundView',
+    'foreground/mixin/scrollableMixin',
     'foreground/collection/streamItems',
     'foreground/view/rightPane/stream/streamItemView',
     'text!template/streamItems.html',
     'foreground/collection/contextMenuGroups',
     'common/model/utility',
     'foreground/model/streamAction',
-    'foreground/collection/folders'
-], function (GenericScrollableView, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders) {
+    'foreground/collection/folders',
+    'foreground/collection/videoSearchResults',
+    'enum/listItemType'
+], function (GenericForegroundView, ScrollableMixin, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders, VideoSearchResults, ListItemType) {
     'use strict';
     
-    var StreamItemsView = GenericScrollableView.extend({
+    var StreamItemsView = GenericForegroundView.extend({
         //  TODO: Change all left-list to just list.
-        className: 'left-list',
+        className: 'left-list droppable-list',
         
         attributes: {
             'id': 'streamItemList'
@@ -58,11 +61,16 @@
             //  Whenever an item is added to the collection, visually add an item, too.
             this.listenTo(StreamItems, 'add', this.addItem);
             this.listenTo(StreamItems, 'addMultiple', this.addItems);
-            this.listenTo(StreamItems, 'empty', this.emptyStreamItemList);
-            
-            this.listenTo(StreamItems, 'remove', function () {
+
+            this.listenTo(StreamItems, 'remove reset', function () {
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
                 this.$el.trigger('scroll');
+                
+                //  TODO: Is this OK and not a memory leak? Why don't the stream items clean up after themselves??
+                if (StreamItems.length === 0) {
+                    this.emptyStreamItemList();
+                }
+
             });
 
             this.listenTo(StreamItems, 'change:selected', function () {
@@ -77,29 +85,26 @@
             });
 
             this.$el.sortable({
-
-                //  Adding this helps prevent unwanted clicks to play
-                delay: 100,
-                //  TODO: Is this cancel needed still
-                //cancel: '.big-text',
-                connectWith: '#activePlaylistItems',
                 appendTo: 'body',
+                connectWith: '.droppable-list',
+                
                 containment: 'body',
-                placeholder: "sortable-placeholder listItem hiddenUntilChange",
-                forcePlaceholderSize: true,
-                scroll: false,
+                
                 cursorAt: {
                     right: 35,
                     bottom: 40
                 },
-                tolerance: 'pointer',
+                
+                //  Adding this helps prevent unwanted clicks to play
+                delay: 100,
+                
+                placeholder: "sortable-placeholder listItem hiddenUntilChange",
+                
                 helper: function (ui, streamItem) {
-
-                    console.log("inside streamItemsView helper:", streamItem, streamItem.data('streamitemid'), StreamItems.get(streamItem.data('streamitemid')));
-
+                    
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView = new StreamItemView({
-                        model: StreamItems.get(streamItem.data('streamitemid')),
+                        model: StreamItems.get(streamItem.data('id')),
                         //  Don't lazy-load the view because copy helper is clearly visible
                         instant: true
                     });
@@ -115,7 +120,7 @@
                     $(this).data('copied', false);
 
                     return $('<span>', {
-                        'class': 'videoSearchResultsLength',
+                        'class': 'selectedModelsLength',
                         'text': 1
                     });
                 },
@@ -124,6 +129,7 @@
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
+                scroll: false,
                 start: function () {
                     $('body').addClass('dragging');
                 },
@@ -144,27 +150,45 @@
                     this.copyHelper = null;
                     this.backCopyHelper = null;
                 },
-
+                tolerance: 'pointer',
                 receive: function (event, ui) {
 
-                    var playlistItemId = $(ui.item).data('playlistitemid');
-                    var draggedPlaylistItem = Folders.getActiveFolder().getActivePlaylist().get('items').get(playlistItemId);
+                    //  It's important to do this to make sure I don't count my helper elements in index.
+                    var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                    
+                    var listItemType = ui.item.data('type');
 
-                    StreamItems.addByDraggedPlaylistItem(draggedPlaylistItem, ui.item.index());
-                    $(ui.item).remove();
+                    if (listItemType === ListItemType.PlaylistItem) {
+                        var activePlaylistItems = Folders.getActiveFolder().getActivePlaylist().get('items');
 
+                        var draggedPlaylistItems = activePlaylistItems.selected();
+                        StreamItems.addByDraggedPlaylistItems(draggedPlaylistItems, index);
+                        
+                        activePlaylistItems.deselectAllExcept(null);
+                    } else if(listItemType === ListItemType.VideoSearchResult) {
+                        var draggedSearchResults = VideoSearchResults.selected();
+                        StreamItems.addByDraggedVideoSearchResults(draggedSearchResults, index);
+                        VideoSearchResults.deselectAllExcept(null);
+                    }
+                    
+                    ui.item.remove();
                     ui.sender.data('copied', true);
                 },
                 update: function (event, ui) {
-
-                    var streamItemId = ui.item.data('streamitemid');
+                    var listItemType = ui.item.data('type');
 
                     //  Don't run this code when handling playlist items -- only when reorganizing stream items.
-                    if (this === ui.item.parent()[0] && streamItemId) {
+                    if (listItemType === ListItemType.StreamItem) {
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                        
+                        var streamItemId = ui.item.data('id');
                         var currentIndex = StreamItems.indexOf(StreamItems.get(streamItemId));
                         StreamItems.models.splice(newIndex, 0, StreamItems.models.splice(currentIndex, 1)[0]);
+                        
+                        //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
+                        //  to using the sequencedCollection for client-side collections, too.
+                        StreamItems.trigger('sort');
                     }
                 }
             });
@@ -174,7 +198,6 @@
         addItem: function (streamItem) {
 
             console.log("adding item:", streamItem);
-            console.trace();
 
             var streamItemView = new StreamItemView({
                 model: streamItem
@@ -310,6 +333,8 @@
         }
 
     });
+
+    _.extend(StreamItemsView.prototype, ScrollableMixin);
 
     return StreamItemsView;
 });

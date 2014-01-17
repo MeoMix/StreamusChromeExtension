@@ -4,7 +4,7 @@ $(function() {
 
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'MusicHolder') {
-
+        
         var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'
         });
@@ -60,14 +60,50 @@ $(function() {
 
         $('body').append(canvas);
 
+        var messageChannel = new MessageChannel();
 
-        //  TODO: I think it would be more efficient to use a proxy here once implemented by Chrome.
-        //Returns a CanvasProxy object that can be used to transfer control for this canvas over to another document (e.g. an iframe from another origin) or to a worker.
-        //var canvasProxy = canvas[0].transferControlToProxy();
+        //  Transfer port2 to the background page to establish communications.
+        window.parent.postMessage('connect', 'chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd', [messageChannel.port2]);
 
+        messageChannel.port1.onmessage = function (message) {
+            console.log("iframe message:", message);
+        };
+
+        messageChannel.port1.start();
+ 
         var videoStreamingInterval = null;
 
         var context = canvas[0].getContext('2d');
+
+        setTimeout(function() {
+            //var parts = canvas[0].toDataURL().match(/data:([^;]*)(;base64)?,([0-9A-Za-z+/]+)/);
+
+            //var binStr = atob(parts[3]);
+            //var buf = new ArrayBuffer(binStr.length);
+            //var view = new Uint8Array(buf);
+            //for (var i = 0; i < view.length; i++)
+            //    view[i] = binStr.charCodeAt(i);
+            
+            var uInt8Array = new Uint8Array(1024 * 1024 * 32); // 32MB
+            for (var i = 0; i < uInt8Array.length; ++i) {
+                uInt8Array[i] = i;
+            }
+
+            //console.log('posting msg', view, view.buffer);
+            //messageChannel.port1.postMessage({
+            //    view: view.buffer,
+            //    type: parts[1]
+            //}, [view.buffer]);
+
+            messageChannel.port1.postMessage(uInt8Array.buffer, [uInt8Array.buffer]);
+            messageChannel.port1.postMessage('hello');
+
+
+            if (uInt8Array.buffer.byteLength) {
+                throw "Failed to transfer buffer";
+            }
+        },1000);
+        
         chrome.runtime.onConnect.addListener(function (videoViewPort) {
 
             if (videoViewPort.name === 'videoViewPort') {
@@ -78,13 +114,32 @@ $(function() {
                 videoStreamingInterval = setInterval(function () {
                     console.log("Sending message");
                     context.drawImage(videoStream[0], 0, 0);
+                    
+                    
 
-                    videoViewPort.postMessage(
-                        //  https://developers.google.com/speed/webp/
-                        //  TODO: toDataURLHD isn't available yet, but will be in the future. Lossless webp compression not available yet, either.
-                        canvas[0].toDataURL('image/webp', 1)
-                    );
-                //  1000 / 60 for 60fps?
+
+                    //take apart data URL
+                    //var parts = canvas[0].toDataURL().match(/data:([^;]*)(;base64)?,([0-9A-Za-z+/]+)/);
+
+                    //console.log("Sub1:", parts[1]);
+
+                    //assume base64 encoding
+                    //var binStr = atob(parts[3]);
+
+                    //convert to binary in ArrayBuffer
+                    //var buf = new ArrayBuffer(binStr.length);
+                    //var view = new Uint8Array(buf);
+                    //for (var i = 0; i < view.length; i++)
+                    //    view[i] = binStr.charCodeAt(i);
+
+                    //window.parent.postMessage(view, '*', [view]);
+
+                    //videoViewPort.postMessage(
+                    //    //  https://developers.google.com/speed/webp/
+                    //    //  TODO: toDataURLHD isn't available yet, but will be in the future. Lossless webp compression not available yet, either.
+                    //    canvas[0].toDataURL('image/webp', 1)
+                    //);
+                    //  1000 / 60 for 60fps?
                 }, 1000 / 60);
 
                 videoViewPort.onDisconnect.addListener(function () {

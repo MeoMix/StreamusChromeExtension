@@ -2,8 +2,9 @@
     'foreground/view/genericForegroundView',
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuGroups',
-    'foreground/collection/streamItems'
-], function (GenericForegroundView, PlaylistItemTemplate, ContextMenuGroups, StreamItems) {
+    'foreground/collection/streamItems',
+    'enum/listItemType'
+], function (GenericForegroundView, PlaylistItemTemplate, ContextMenuGroups, StreamItems, ListItemType) {
     'use strict';
 
     var PlaylistItemView = GenericForegroundView.extend({
@@ -14,7 +15,8 @@
         
         attributes: function() {
             return {
-                'data-playlistitemid': this.model.get('id')
+                'data-id': this.model.get('id'),
+                'data-type': ListItemType.PlaylistItem
             };
         },
         
@@ -23,7 +25,9 @@
         
         events: {
             'contextmenu': 'showContextMenu',
+            'dblclick': 'playInStream',
             'click i.playInStream': 'playInStream',
+            'click i.addToStream': 'addToStream',
             'click i.delete': 'doDelete'
         },
         
@@ -37,6 +41,8 @@
                 })
             ));
             
+            this.setHighlight();
+
             return this;
         },
         
@@ -44,6 +50,11 @@
             this.instant = options && options.instant || false;
 
             this.listenTo(this.model, 'destroy', this.remove);
+            this.listenTo(this.model, 'change:selected', this.setHighlight);
+        },
+        
+        setHighlight: function () {
+            this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
         doDelete: function () {
@@ -113,9 +124,10 @@
         
         playInStream: function () {
             StreamItems.addByPlaylistItem(this.model, true);
-
-            //  Don't add the item to the stream as well
-            return false;
+        },
+        
+        addToStream: function() {
+            StreamItems.addByPlaylistItem(this.model, false);
         }
 
     });

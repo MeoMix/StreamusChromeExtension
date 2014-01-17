@@ -40,7 +40,7 @@ define([
         },
         
         initialize: function () {
-            this.listenTo(Folders.getActiveFolder().get('playlists'), 'add addMultiple remove empty', this.render);
+            this.listenTo(Folders.getActiveFolder().get('playlists'), 'add addMultiple remove reset', this.render);
         },
 
         showDeleteSelectedPlaylistPrompt: function () {

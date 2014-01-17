@@ -27,7 +27,7 @@ define([
         },
         
         addToStreamAndPlay: function () {
-            StreamItems.addByPlaylist(this.model, true);
+            StreamItems.addByPlaylistItems(this.model.get('items'), true);
         }
         
     });

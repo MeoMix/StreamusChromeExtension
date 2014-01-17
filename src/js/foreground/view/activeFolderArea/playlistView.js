@@ -48,6 +48,8 @@
             this.editableTitle = this.$el.find('.titleWrapper > input');
             this.readonlyTitle = this.$el.find('.titleWrapper > .title');
 
+            this.initializeTooltips();
+
             return this;
         },
 

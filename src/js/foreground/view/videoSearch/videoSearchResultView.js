@@ -6,8 +6,9 @@
     'foreground/collection/streamItems',
     'foreground/collection/folders',
     'foreground/view/genericPromptView',
-    'foreground/view/saveVideosView'
-], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, GenericPromptView, SaveVideosView) {
+    'foreground/view/saveVideosView',
+    'enum/listItemType'
+], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, GenericPromptView, SaveVideosView, ListItemType) {
     'use strict';
 
     var VideoSearchResultView = GenericForegroundView.extend({
@@ -18,11 +19,12 @@
         
         attributes: function () {
             return {
-                'data-videoid': this.model.get('video').get('id')
+                'data-id': this.model.get('id'),
+                'data-type': ListItemType.VideoSearchResult
             };
         },
         
-        index: -1,
+        instant: false,
         
         events: {
             'click i.playInStream': 'playInStream',
@@ -37,7 +39,7 @@
                 _.extend(this.model.toJSON(), {
                     //  Mix in chrome to reference internationalize.
                     'chrome.i18n': chrome.i18n,
-                    'index': this.index
+                    'instant': this.instant
                 })
             ));
 
@@ -47,8 +49,7 @@
         },
         
         initialize: function (options) {
-
-            this.index = options.index;
+            this.instant = options && options.instant || false;
 
             this.listenTo(this.model, 'change:selected', this.setHighlight);
             this.listenTo(this.model, 'destroy', this.remove);
@@ -70,6 +71,7 @@
         addToStream: function() {
 
             var video = this.model.get('video');
+            console.log("video:", video);
             StreamItems.addByVideo(video, false);
             
             //  Don't open up the AddSearchResults panel

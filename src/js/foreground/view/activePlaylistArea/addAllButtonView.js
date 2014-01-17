@@ -27,7 +27,7 @@ define([
         },
         
         addToStream: function () {
-            StreamItems.addByPlaylist(this.model, false);
+            StreamItems.addByPlaylistItems(this.model.get('items'), false);
         }
         
     });

@@ -6,8 +6,9 @@
     'text!template/streamItem.html',
     'foreground/collection/folders',
     'foreground/model/buttons/playPauseButton',
-    'foreground/model/player'
-], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player) {
+    'foreground/model/player',
+    'enum/listItemType'
+], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player, ListItemType) {
     'use strict';
 
     var StreamItemView = GenericForegroundView.extend({
@@ -21,7 +22,8 @@
         attributes: function () {
 
             return {
-                'data-streamitemid': this.model.get('id')
+                'data-id': this.model.get('id'),
+                'data-type': ListItemType.StreamItem
             };
         },
         

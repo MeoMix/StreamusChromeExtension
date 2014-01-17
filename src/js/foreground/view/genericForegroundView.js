@@ -19,16 +19,34 @@
             
             if (Settings.get('showTooltips')) {
 
-                this.$el.find('[title]').qtip({
-                    position: {
-                        viewport: $(window),
-                        my: 'top center',
-                        at: 'bottom center'
-                    },
-                    style: {
-                        classes: 'qtip-light qtip-shadow'
-                    }
-                });
+                setTimeout(function() {
+
+                    var elementsNeedingTooltip = this.$el.find('[title]');
+
+                    //  Text elements need only show their tooltip if they're overflowing.
+                    elementsNeedingTooltip.filter(function () {
+                        var hideTooltip = false;
+                        
+                        //  TODO: Standardize this.
+                        if ($(this).hasClass('playlistTitle') || $(this).hasClass('title') || $(this).hasClass('item-title')) {
+                            hideTooltip = this.offsetWidth === this.scrollWidth;
+                        }
+
+                        return hideTooltip;
+                    }).attr('title', '');
+
+                    elementsNeedingTooltip.qtip({
+                        position: {
+                            viewport: $(window),
+                            my: 'top center',
+                            at: 'bottom center'
+                        },
+                        style: {
+                            classes: 'qtip-light qtip-shadow'
+                        }
+                    });
+                    
+                }.bind(this));
                 
             }
 

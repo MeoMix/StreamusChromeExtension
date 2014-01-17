@@ -72,6 +72,7 @@
                     dataSource.getTitle({
                         success: function (title) {
                             self.playlistTitleInput.val(title);
+                            self.validateTitle();
                             self.youTubeSourceInput.addClass('valid');
                         },
                         error: function () {
