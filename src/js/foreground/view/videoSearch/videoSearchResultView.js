@@ -13,7 +13,7 @@
 
     var VideoSearchResultView = GenericForegroundView.extend({
         
-        className: 'listItem videoSearchResult',
+        className: 'listItem videoSearchResult multiSelectItem',
 
         template: _.template(VideoSearchResultTemplate),
         
@@ -30,6 +30,7 @@
             'click i.playInStream': 'playInStream',
             'click i.addToStream': 'addToStream',
             'click i.save': 'saveToPlaylist',
+            'dblclick': 'playInStream',
             'contextmenu': 'showContextMenu'
         },
 
@@ -60,22 +61,13 @@
         },
         
         playInStream: function () {
-            
             var video = this.model.get('video');
             StreamItems.addByVideo(video, true);
-            
-            //  Don't open up the AddSearchResults panel
-            return false;
         },
         
         addToStream: function() {
-
             var video = this.model.get('video');
-            console.log("video:", video);
             StreamItems.addByVideo(video, false);
-            
-            //  Don't open up the AddSearchResults panel
-            return false;
         },
         
         saveToPlaylist: function () {
@@ -102,9 +94,6 @@
             });
 
             saveVideosPromptView.fadeInAndShow();
-
-            //  Don't open up the AddSearchResults panel
-            return false;
         },
         
         showContextMenu: function (event) {

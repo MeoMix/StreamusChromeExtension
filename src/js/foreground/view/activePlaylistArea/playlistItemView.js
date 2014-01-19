@@ -9,7 +9,7 @@
 
     var PlaylistItemView = GenericForegroundView.extend({
         
-        className: 'listItem playlistItem',
+        className: 'listItem playlistItem multiSelectItem',
         
         template: _.template(PlaylistItemTemplate),
         

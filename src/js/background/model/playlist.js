@@ -14,14 +14,12 @@ define([
     var Playlist = Backbone.Model.extend({
         defaults: function () {
 
-            console.log("My Id:", this.get('id'));
             return {
                 id: null,
                 folderId: null,
                 title: chrome.i18n.getMessage('newPlaylist'),
-                items: new PlaylistItems([], {
-                    playlistId: this.get('id')
-                }),
+                //  This is set to a PlaylistItemsCollection once the playlist has an ID.
+                items: null,
                 dataSource: null,
                 dataSourceLoaded: false,
                 active: false,

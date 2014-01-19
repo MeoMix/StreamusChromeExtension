@@ -1,6 +1,5 @@
 ﻿define([
     'backbone',
-    'jquery.autoscroll',
     'jquery.hoverIntent',
     'jquery',
     'jquery.lazyload',

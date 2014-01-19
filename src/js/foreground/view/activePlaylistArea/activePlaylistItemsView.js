@@ -1,12 +1,11 @@
 ﻿//  Represents the playlist items in a given playlist
 define([
     'foreground/view/multiSelectView',
-    'foreground/mixin/scrollableMixin',
     'foreground/collection/contextMenuGroups',
     'foreground/collection/streamItems',
     'foreground/view/activePlaylistArea/playlistItemView',
     'text!template/activePlaylistItems.html'
-], function (MultiSelectView, ScrollableMixin, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate) {
+], function (MultiSelectView, ContextMenuGroups, StreamItems, PlaylistItemView, ActivePlaylistItemsTemplate) {
     'use strict';
 
     var ActivePlaylistItemsView = MultiSelectView.extend({
@@ -59,8 +58,6 @@ define([
                 });
 
             }.bind(this));
-
-            this.bindDroppable('.listItem:not(.videoSearchResult)');
             
             MultiSelectView.prototype.render.call(this, arguments);
             
@@ -68,9 +65,6 @@ define([
         },
         
         initialize: function() {
-
-            var self = this;
-            
             this.listenTo(this.model, 'add', this.addItem);
             
             this.listenTo(this.model, 'remove', function () {
@@ -203,8 +197,6 @@ define([
         }
 
     });
-
-    _.extend(ActivePlaylistItemsView.prototype, ScrollableMixin);
 
     return ActivePlaylistItemsView;
 });

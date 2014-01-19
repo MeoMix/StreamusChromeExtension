@@ -34,13 +34,23 @@
             });
 
         },
+        
+        //  Just a nicer naming for deselectAll
+        deselectAll: function () {
+            console.log("deselecting all");
+            chrome.extension.getBackgroundPage().console.log("deselecting all", this);
+            this.deselectAllExcept(null);
+        },
 
         //  TODO: Maybe this could take a model instead of a cid or id and that'd be OK?
         //  This takes cid not id because it works for models which aren't persisted to the server.
         deselectAllExcept: function (selectedModelCid) {
-            this.each(function (model) {
-                if (model.cid != selectedModelCid) {
-                    model.set('selected', false);
+
+            var selected = this.selected();
+
+            _.each(selected, function (selectedModel) {
+                if (selectedModel.cid != selectedModelCid) {
+                    selectedModel.set('selected', false);
                 }
             });
         },

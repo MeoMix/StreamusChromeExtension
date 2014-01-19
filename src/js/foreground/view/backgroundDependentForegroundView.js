@@ -11,8 +11,6 @@ define([
     'foreground/model/activePlaylistArea',
     'foreground/view/videoSearch/videoSearchView',
     'foreground/model/videoSearch',
-    'foreground/model/addSearchResults',
-    'foreground/view/videoSearch/addSearchResultsView',
     'foreground/collection/videoSearchResults',
     'foreground/view/rightPane/rightPaneView',
     'common/view/videoDisplayView',
@@ -20,9 +18,8 @@ define([
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/player',
-    'foreground/model/buttons/videoDisplayButton',
-    'foreground/collection/streamItems'
-], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, AddSearchResults, AddSearchResultsView, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, StreamItems) {
+    'foreground/model/buttons/videoDisplayButton'
+], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({
         //  Same as ForegroundView's element. That is OK.
@@ -32,7 +29,6 @@ define([
         activePlaylistAreaView: null,
         videoSearchView: null,
         videoDisplayView: null,
-        addSearchResultsView: null,
         rightPaneView: null,
         
         events: {
@@ -66,6 +62,25 @@ define([
                 } else {
                     //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
                     this.videoDisplayView = null;
+                }
+
+            });
+            
+            $(window).unload(function () {
+                Folders.getActiveFolder().get('playlists').getActivePlaylist().get('items').deselectAll();
+                VideoSearchResults.deselectAll();
+            });
+
+            this.$el.click(function (event) {
+
+                console.log("body click is running");
+
+                var isMultiSelectItem = $(event.target).hasClass('.multiSelectItem');
+                var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
+
+                if (!isMultiSelectItem && !isChildMultiSelectItem) {
+                    Folders.getActiveFolder().get('playlists').getActivePlaylist().get('items').deselectAll();
+                    VideoSearchResults.deselectAll();
                 }
 
             });
@@ -168,27 +183,9 @@ define([
 
                 this.$el.append(this.videoSearchView.render().el);
                 this.videoSearchView.showAndFocus(instant);
-                
-                if (VideoSearchResults.selected().length > 0) {
-                    this.showAddSearchResults(true);
-                }
-
-                this.listenTo(VideoSearchResults, 'change:selected', function(changedItem, selected) {
-                    //  Whenever a search result is selected - slide in search results.
-                    if (selected && this.addSearchResultsView === null) {
-                        this.showAddSearchResults(false);
-                    }
-                });
 
                 this.listenToOnce(videoSearch, 'destroy', function() {
                     this.videoSearchView = null;
-
-                    //  Adding search results is only useful with the video search view.
-                    if (this.addSearchResultsView !== null) {
-                        this.addSearchResultsView.hide();
-                        this.addSearchResultsView = null;
-                    }
-
                 });
 
             } else {
@@ -196,32 +193,6 @@ define([
             }
 
         }, 400),
-
-        //  Slides in the AddSearchResults window from the RHS of the foreground.
-        showAddSearchResults: function (instant) {
-
-            //  If the view has already been rendered -- no need to reshow.
-            if (this.addSearchResultsView === null) {
-
-                var addSearchResults = new AddSearchResults({
-                    folder: Folders.getActiveFolder()
-                });
-
-                this.addSearchResultsView = new AddSearchResultsView({
-                    model: addSearchResults
-                });
-
-                //  Cleanup if the model is ever destroyed.
-                this.listenToOnce(addSearchResults, 'destroy', function () {
-                    this.addSearchResultsView = null;
-                });
-
-                console.log("Rendering addSearchResultsView");
-                this.$el.append(this.addSearchResultsView.render().el);
-                this.addSearchResultsView.show(instant);
-            }
-
-        },
 
         //  Whenever the YouTube API throws an error in the background, communicate
         //  that information to the user in the foreground via prompt.

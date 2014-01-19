@@ -20,10 +20,8 @@
             
             //  Allows for drag-and-drop of videos
             this.$el.sortable({
-                appendTo: 'body',
+
                 connectWith: '.droppable-list',
-                
-                containment: 'body',
 
                 cursorAt: {
                     right: 35,
@@ -34,9 +32,9 @@
                 delay: 100,
 
                 placeholder: 'sortable-placeholder listItem hiddenUntilChange',
-                
+
                 helper: function (ui, listItem) {
-                    
+
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
@@ -47,7 +45,7 @@
 
                     var listItemType = listItem.data('type');
 
-                    switch(listItemType) {
+                    switch (listItemType) {
                         case ListItemType.PlaylistItem:
                             copyHelperView = new PlaylistItemView(viewOptions);
                             break;
@@ -60,7 +58,7 @@
                         default:
                             throw 'Unhandled ListItemType: ' + listItemType;
                     }
-                    
+
                     this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
                     this.copyHelper.addClass('copyHelper');
 
@@ -87,11 +85,8 @@
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
-                scroll: false,
                 start: function (event, ui) {
                     //  TODO: Color this to indicate no duplicates allowed.
-                    $('body').addClass('dragging');
-
                     var modelToSelect = self.model.get(ui.item.data('id'));
 
                     self.doSetSelected({
@@ -102,18 +97,20 @@
                     //  Set it here not in helper because dragStart may select a search result.
                     ui.helper.text(self.model.selected().length);
                 },
-                stop: function () {
-                    $('body').removeClass('dragging');
+                
+                stop: function (event, ui) {
+
                     this.backCopyHelper.removeClass('copyHelper');
 
                     var copied = $(this).data('copied');
+  
                     if (copied) {
                         this.copyHelper.removeClass('copyHelper');
                     }
                     else {
                         this.copyHelper.remove();
                     }
-                    
+
                     this.selectedItems.css({
                         opacity: '1'
                     });
@@ -121,15 +118,18 @@
                     this.copyHelper = null;
                     this.backCopyHelper = null;
                     this.selectedItems = null;
+
+                    //  Don't allow VideoSearchResults to be sorted -- copied is true when it moves to StreamItems.
+                    //  Returning false cancels the sort.
+                    return copied || !(ui.item.data('type') === ListItemType.VideoSearchResult);
                 },
+
                 tolerance: 'pointer',
                 receive: function (event, ui) {
                     var listItemType = ui.item.data('type');
 
-                    console.log("listItem received:", listItemType);
-
                     if (listItemType === ListItemType.StreamItem) {
-                        
+
                         var streamItemId = ui.item.data('id');
                         var draggedStreamItem = StreamItems.get(streamItemId);
 
@@ -140,13 +140,12 @@
                         var itemAlreadyExists = self.model.itemAlreadyExists(draggedStreamItem);
 
                         if (itemAlreadyExists) {
-                            //  TODO: Convey no duplicates allowed.
-                            console.error('item already exists');
                             ui.item.remove();
                         }
                         else {
                             //  It's important to do this to make sure I don't count my helper elements in index.
-                            var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                            //var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+                            var index = parseInt(ui.item.index);
 
                             self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
@@ -169,10 +168,10 @@
 
                 //  Whenever a video row is moved inform the Player of the new video list order
                 update: function (event, ui) {
-   
+
                     var listItemId = ui.item.data('id');
                     var listItemType = ui.item.data('type');
-                    
+
                     //  TODO: This needs to be made generic if I'm going to support StreamItems too.
                     //  Don't run this code when handling stream items -- only when reorganizing playlist items.
                     if (listItemType === ListItemType.PlaylistItem) {
@@ -180,9 +179,14 @@
                         var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
                         self.model.moveToIndex(listItemId, index);
                     }
+                },
+                
+                over: function (event, ui) {
+                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
+                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }
             });
-
+  
             return this;
         },
 
@@ -190,6 +194,8 @@
   
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.model.get(id);
+
+            console.log("setSelectedOnClick is running", modelToSelect);
 
             this.doSetSelected({
                 shiftKey: event.shiftKey,
@@ -202,18 +208,14 @@
         doSetSelected: function (options) {
             var modelToSelect = options.modelToSelect;
 
+            console.log("modelToSelect:", modelToSelect);
+
             var shiftKeyPressed = options.shiftKey || false;
             var ctrlKeyPressed = options.ctrlKey || false;
             var isDrag = options.drag || false;
 
-            //  TODO: This won't be necessary in the future.
-            //  Dragging needs to always trigger a select so the addSearchResults view open
-            if (modelToSelect.get('selected') && isDrag) {
-                modelToSelect.set('selected', false, { silent: true }).set('selected', true);
-            } else {
-                //  A dragged item is always selected.
-                modelToSelect.set('selected', !modelToSelect.get('selected') || isDrag);
-            }
+            //  A dragged item is always selected.
+            modelToSelect.set('selected', !modelToSelect.get('selected') || isDrag);
 
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {

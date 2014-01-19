@@ -1,6 +1,5 @@
 ﻿define([
     'foreground/view/genericForegroundView',
-    'foreground/mixin/scrollableMixin',
     'foreground/collection/streamItems',
     'foreground/view/rightPane/stream/streamItemView',
     'text!template/streamItems.html',
@@ -10,7 +9,7 @@
     'foreground/collection/folders',
     'foreground/collection/videoSearchResults',
     'enum/listItemType'
-], function (GenericForegroundView, ScrollableMixin, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders, VideoSearchResults, ListItemType) {
+], function (GenericForegroundView, StreamItems, StreamItemView, StreamItemsTemplate, ContextMenuGroups, Utility, StreamAction, Folders, VideoSearchResults, ListItemType) {
     'use strict';
     
     var StreamItemsView = GenericForegroundView.extend({
@@ -51,8 +50,6 @@
   
             }
 
-            this.bindDroppable('.listItem:not(.videoSearchResult)');
-
             return this;
         },
 
@@ -84,11 +81,10 @@
                 this.$el.trigger('scroll');
             });
 
+
             this.$el.sortable({
-                appendTo: 'body',
+
                 connectWith: '.droppable-list',
-                
-                containment: 'body',
                 
                 cursorAt: {
                     right: 35,
@@ -99,7 +95,7 @@
                 delay: 100,
                 
                 placeholder: "sortable-placeholder listItem hiddenUntilChange",
-                
+
                 helper: function (ui, streamItem) {
                     
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
@@ -121,20 +117,26 @@
 
                     return $('<span>', {
                         'class': 'selectedModelsLength',
-                        'text': 1
+                        'text': '1'
                     });
                 },
+                
                 change: function () {
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
-                scroll: false,
-                start: function () {
-                    $('body').addClass('dragging');
+                start: function (event, ui) {
+                    var streamItemId = ui.item.data('id');
+                    
+                    //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
+                    var draggedStreamItem = StreamItems.get(streamItemId);
+                    //  TODO: Standardize getActivePlaylist on either Folder or Playlists.
+                    var itemAlreadyExists = Folders.getActiveFolder().getActivePlaylist().get('items').itemAlreadyExists(draggedStreamItem);
+
+                    ui.placeholder.toggleClass('noDrop', itemAlreadyExists);
                 },
                 stop: function () {
-                    $('body').removeClass('dragging');
                     this.backCopyHelper.removeClass('copyHelper');
 
                     var copied = $(this).data('copied');
@@ -149,13 +151,13 @@
 
                     this.copyHelper = null;
                     this.backCopyHelper = null;
+
                 },
                 tolerance: 'pointer',
                 receive: function (event, ui) {
 
-                    //  It's important to do this to make sure I don't count my helper elements in index.
-                    var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-                    
+                    var index = parseInt(ui.item.index());
+    
                     var listItemType = ui.item.data('type');
 
                     if (listItemType === ListItemType.PlaylistItem) {
@@ -164,13 +166,14 @@
                         var draggedPlaylistItems = activePlaylistItems.selected();
                         StreamItems.addByDraggedPlaylistItems(draggedPlaylistItems, index);
                         
-                        activePlaylistItems.deselectAllExcept(null);
+                        activePlaylistItems.deselectAll();
                     } else if(listItemType === ListItemType.VideoSearchResult) {
                         var draggedSearchResults = VideoSearchResults.selected();
+
                         StreamItems.addByDraggedVideoSearchResults(draggedSearchResults, index);
-                        VideoSearchResults.deselectAllExcept(null);
+                        VideoSearchResults.deselectAll();
                     }
-                    
+
                     ui.item.remove();
                     ui.sender.data('copied', true);
                 },
@@ -179,6 +182,7 @@
 
                     //  Don't run this code when handling playlist items -- only when reorganizing stream items.
                     if (listItemType === ListItemType.StreamItem) {
+             
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
                         
@@ -190,14 +194,17 @@
                         //  to using the sequencedCollection for client-side collections, too.
                         StreamItems.trigger('sort');
                     }
+                },
+                
+                over: function (event, ui) {
+                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
+                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }
             });
 
         },
         
         addItem: function (streamItem) {
-
-            console.log("adding item:", streamItem);
 
             var streamItemView = new StreamItemView({
                 model: streamItem
@@ -207,10 +214,9 @@
 
             var element = streamItemView.render().el;
 
-            console.log("Element:", element);
-
             this.addElementsToStream(element, index);
             
+            //  TODO: Maybe I should scroll to it always? Or show some msg saying it added?
             if (streamItem.get('selected')) {
                 streamItemView.$el.scrollIntoView();
             }
@@ -248,9 +254,9 @@
         addElementsToStream: function (elements, index) {
 
             if (index !== undefined) {
-                
-                var previousStreamItem = this.$el.children().eq(index + 1);
-     
+
+                var previousStreamItem = this.$el.children().eq(index);
+
                 if (previousStreamItem.length > 0) {
                     previousStreamItem.after(elements);
                 } else {
@@ -333,8 +339,6 @@
         }
 
     });
-
-    _.extend(StreamItemsView.prototype, ScrollableMixin);
 
     return StreamItemsView;
 });

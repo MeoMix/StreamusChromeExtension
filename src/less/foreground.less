@@ -232,13 +232,9 @@ span.videoTitle {
 }
 
 .playlist-details {
-    color: #9999;
+    color: #666;
     line-height: 1.5;
     cursor: default;
-}
-
-#addSearchResults .itemWrapper .item-title {
-    margin-left: 0;
 }
 
 .item-title {
@@ -258,7 +254,7 @@ span.videoTitle {
 }
 
 .item-details {
-    color: #9999;
+    color: #666;
     font-size: .8em;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -382,7 +378,6 @@ input[type="range"]::-webkit-slider-thumb {
     position: absolute;
     right: 250px;
     top: 0;
-    z-index: 1;
     width: 385px;
 }
 
@@ -470,13 +465,10 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .left-list {
-    bottom: 0;
-    top: 0;
-    left: 5px;
-    right: 5px;
-    overflow-x: hidden;
+    height: 100%;
+    margin-left: 5px;
+    margin-right: 5px;
     overflow-y: auto;
-    position: absolute;
 }
 
 .listItem i {
@@ -609,28 +601,13 @@ input[type="range"]::-webkit-slider-thumb {
     width: 15px !important;
     height: 15px !important;
     padding: 2px;
-    background-color: rgba(0, 0, 0, .8);
+    background-color: #333;
     font-weight: bold;
     color: white;
     border-radius: 50%;
     text-align: center;
-}
-
-#addSearchResults .itemWrapper {
-    padding-top: 5px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    margin-left: 55px;
-}
-
-#hideAddItemsButton {
-    right: 0;
-    position: absolute;
-}
-
-#addSearchResults .item-details {
-    position: static;
-    padding-left: 0;
+    z-index: 9999 !important;
+    position: absolute !important;
 }
 
 .prompt .underline {
@@ -698,6 +675,20 @@ input:focus  ~ .underline {
     left: -385px;
 }
 
+/* Can't sort videoSearch */
+#videoSearch .sortable-placeholder {
+    display: none;
+}
+
+/* Don't allow duplicates to be dropped into playlist items */
+#activePlaylistItems .sortable-placeholder.noDrop {
+    background-color: #E20007;
+}
+
+/* TODO: Clean this up a bit. Need to do i18n for it */
+#activePlaylistItems .sortable-placeholder.noDrop:after {
+    content: 'Duplicates not allowed'
+}
 
 .searchBar button#source-select {
     bottom: 11px;
@@ -731,7 +722,6 @@ input:focus  ~ .underline {
     right: 0;
     top: 0;
     width: 255px;
-    z-index: 1
 }
 
 .right-pane .top-bar {
@@ -891,18 +881,6 @@ input:focus  ~ .underline {
     right: 0;
 }
 
-#addSearchResults .list {
-    overflow-x: hidden;
-    overflow-y: auto;
-    position: absolute;
-    top: 110px;
-    left: 0;
-    right: 10px;
-    bottom: 0;
-    margin-bottom: 5px;
-    margin-top: 5px;
-}
-
 .right-pane .context-buttons {
     border-top: 1px solid #f2f2f2;
     bottom: 0;
@@ -970,17 +948,6 @@ input:focus  ~ .underline {
     bottom: 0;
 }
 
-#addSearchResults {
-    background: rgba(0, 0, 0, 0.0);
-    bottom: 0;
-    left: 380px;
-    position: fixed;
-    right: 0;
-    top: 0;
-    z-index: 50;
-    transition: background .3s;
-}
-
 #videoDisplay .panel {
 
     left: -640px;
@@ -1005,16 +972,6 @@ input:focus  ~ .underline {
     z-index: 51;
 }
 
-#addSearchResults .panel {
-    bottom: 0;
-    display: block;
-    right: -260px;
-    position: absolute;
-    top: 0;
-    width: 260px;
-    z-index: 51;
-}
-
 #activeFolder {
     overflow-x: hidden;
     height: auto;
@@ -1032,60 +989,6 @@ input:focus  ~ .underline {
     top: 0;
 }
 
-#addSearchResults .header {
-    background: #fff;
-    height: 40px;
-}
-
-#addSearchResults .header span {
-    font-size: 1.1em;
-    font-weight: bold;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    line-height: 45px;
-    text-align: left;
-    left: 15px;
-    position: absolute;
-}
-
-/* This is a scroll while dragging helper. When someone drags a viable item over it its related list will scroll */
-.scroll {
-    position: fixed;
-    height: 40px;
-    z-index: 1;
-    display: none;
-}
-
-.left-list .scroll {
-    width: 375px;
-}
-
-#streamItemList.left-list .scroll {
-    width: 245px;
-}
-
-#addSearchResults .list .scroll {
-    width: 250px;
-}
-
-body.dragging .scroll {
-    display: block;
-}
-
-#streamItemList .scroll.top {
-    top: 80px;
-}
-
-#activePlaylistItems .scroll.bottom,
-#streamItemList .scroll.bottom {
-    bottom: 30px;
-}
-
-.list .scroll.bottom {
-    bottom: 0;
-}
-
 .panel .divider {
     margin-bottom: 5px;
     margin-left: 10px;
@@ -1094,54 +997,8 @@ body.dragging .scroll {
     height: 1px;
 }
 
-#addSearchResults .divider {
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-bottom: 1px solid #f2f2f2;
-    position: relative;
-    left: 10px;
-    width: 230px;
-}
-
-#addSearchResults .addItemOption i.hidden {
-    opacity: 0;
-}
-
-#addSearchResults .addItemOption.stream {
-    margin-top: 5px;
-    width: calc(~"100% - 24px");
-}
-
-#addSearchResults .addItemOption i {
-    border: 3px solid #D5D5D5;
-    padding: 10px;
-    margin-left: 5px;
-    margin-right: 5px;
-    background-color: #DEDEDE;
-    color: #656565;
-    transition: opacity 1s;
-    position: absolute;
-}
-
-#addSearchResults .addItemOption.droppableOnHover i.droppable {
-    border: 3px solid #6BBD46;
-}
-
-#addSearchResults .addItemOption i.dropped {
-    border: 3px solid #6BBD46;
-    background-color: #6BBD46;
-    color: #fff;
-}
-
-#addSearchResults .addItemOption {
-    height: 45px;
-    margin-left: 5px;
-    width: calc(~"100% - 6px");
-    padding-top: 5px;
-}
-
 #activeFolderArea .header span {
-    color: #999;
+    color: #666;
     font-weight: bold;
     letter-spacing: 2px;
     line-height: 45px;
@@ -1218,7 +1075,7 @@ li.playlist i {
 }
 
 li.playlist span.count {
-    background: #999;
+    background: #666;
     border-radius: 1em;
     color: #fff;
     font-size: .85em;
@@ -1269,6 +1126,10 @@ i.i-4x { font-size: 56px }
 html .selectize-control .selectize-dropdown .caption {
     font-size: 12px;
     display: block;
+    color: #666;
+}
+
+html .selectize-control.multi .selectize-dropdown .selected .caption {
     color: #C5E6FF;
 }
 

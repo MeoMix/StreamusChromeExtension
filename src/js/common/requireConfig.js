@@ -16,7 +16,6 @@
             'backbone': 'thirdParty/backbone',
             'backbone.marionette': 'thirdParty/backbone.marionette',
             'googleAnalytics': 'thirdParty/googleAnalytics',
-            'jquery.autoscroll': 'thirdParty/jquery.autoscroll',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
             'jquery.lazyload': 'thirdParty/jquery.lazyload',
@@ -45,11 +44,6 @@
             'googleAnalytics': {
                 deps: ['jquery'],
                 exports: '_gaq'
-            },
-
-            'jquery.autoscroll': {
-                deps: ['jquery'],
-                exports: '$.fn.autoscroll'
             },
             'jquery.hoverIntent': {
                 deps: ['jquery'],

@@ -20,7 +20,6 @@
             }
 
             this.playlistId = options.playlistId;
-            console.log("SETTING PLAYLIST ID TO:", options);
 
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
