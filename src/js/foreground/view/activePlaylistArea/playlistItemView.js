@@ -24,11 +24,14 @@
         instant: false,
         
         events: {
-            'contextmenu': 'showContextMenu',
-            'dblclick': 'playInStream',
-            'click i.playInStream': 'playInStream',
             'click i.addToStream': 'addToStream',
-            'click i.delete': 'doDelete'
+            'click i.delete': 'doDelete',
+            'click i.playInStream': 'playInStream',
+            'contextmenu': 'showContextMenu',
+            //  Capture double-click events to prevent bubbling up to main dblclick event.
+            'dblclick': 'playInStream',
+            'dblclick i.addToStream': 'addToStream',
+            'dblclick i.playInStream': 'playInStream',
         },
         
         render: function () {
@@ -59,6 +62,9 @@
         
         doDelete: function () {
             this.model.destroy();
+            
+            //  Don't allow click to bubble up to the list item and cause a selection.
+            return false;
         },
 
         showContextMenu: function (event) {
@@ -122,13 +128,20 @@
 
         },
         
-        playInStream: function () {
-            StreamItems.addByPlaylistItem(this.model, true);
-        },
+        //  TODO: Is there a way to keep these actions DRY across multiple views?
+        playInStream: _.debounce(function () {
+            StreamItems.addByVideo(this.model, true);
+            
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
+            return false;
+        }, 100, true),
         
-        addToStream: function() {
+        addToStream: _.debounce(function() {
             StreamItems.addByPlaylistItem(this.model, false);
-        }
+
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
+            return false;
+        }, 100, true)
 
     });
 

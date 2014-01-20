@@ -30,8 +30,13 @@
             'click i.playInStream': 'playInStream',
             'click i.addToStream': 'addToStream',
             'click i.save': 'saveToPlaylist',
+            'contextmenu': 'showContextMenu',
+            //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
-            'contextmenu': 'showContextMenu'
+            'dblclick i.playInStream': 'playInStream',
+            'dblclick i.save': 'saveToPlaylist',
+            'dblclick i.addToStream': 'addToStream'
+
         },
 
         render: function () {
@@ -60,17 +65,24 @@
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
-        playInStream: function () {
+        //  TODO: Is there a way to keep these actions DRY across multiple views?
+        playInStream: _.debounce(function () {
             var video = this.model.get('video');
             StreamItems.addByVideo(video, true);
-        },
+            
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
+            return false;
+        }, 100, true),
         
-        addToStream: function() {
+        addToStream: _.debounce(function() {
             var video = this.model.get('video');
             StreamItems.addByVideo(video, false);
-        },
+
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
+            return false;
+        }, 100, true),
         
-        saveToPlaylist: function () {
+        saveToPlaylist: _.debounce(function () {
            
             var video = this.model.get('video');
 
@@ -94,7 +106,9 @@
             });
 
             saveVideosPromptView.fadeInAndShow();
-        },
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
+            return false;
+        }, 100, true),
         
         showContextMenu: function (event) {
 

@@ -62,20 +62,13 @@
                     this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
                     this.copyHelper.addClass('copyHelper');
 
-                    this.selectedItems = self.$el.find('.selected');
-
-                    this.selectedItems.css({
-                        opacity: '.5'
-                    });
-
                     this.backCopyHelper = listItem.prev();
                     this.backCopyHelper.addClass('copyHelper');
 
                     $(this).data('copied', false);
 
                     return $('<span>', {
-                        'class': 'selectedModelsLength',
-                        'text': 1
+                        'class': 'selectedModelsLength'
                     });
                 },
                 change: function () {
@@ -86,12 +79,18 @@
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
                 start: function (event, ui) {
-                    //  TODO: Color this to indicate no duplicates allowed.
+  
                     var modelToSelect = self.model.get(ui.item.data('id'));
 
                     self.doSetSelected({
                         modelToSelect: modelToSelect,
                         drag: true
+                    });
+
+                    this.selectedItems = self.$el.find('.selected');
+
+                    this.selectedItems.css({
+                        opacity: '.5'
                     });
 
                     //  Set it here not in helper because dragStart may select a search result.
@@ -143,8 +142,6 @@
                             ui.item.remove();
                         }
                         else {
-                            //  It's important to do this to make sure I don't count my helper elements in index.
-                            //var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
                             var index = parseInt(ui.item.index);
 
                             self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function () {

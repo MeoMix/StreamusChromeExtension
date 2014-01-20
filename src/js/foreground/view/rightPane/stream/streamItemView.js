@@ -28,11 +28,13 @@
         },
         
         events: {
+            'click': 'select',
+            'click i.delete': 'doDelete',
             'click i.playInStream': 'play',
             'contextmenu': 'showContextMenu',
-            'click': 'select',
+            //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'togglePlayingState',
-            'click i.delete': 'doDelete'
+            'dblclick i.playInStream': 'play'
         },
 
         render: function () {
@@ -67,6 +69,9 @@
         
         doDelete: function () {
             this.model.destroy();
+
+            //  Don't allow click to bubble up to the list item and cause a selection.
+            return false;
         },
         
         //  Force the view to reflect the model's selected class. It's important to do this here, and not through render always, because
@@ -134,7 +139,7 @@
 
         },
 
-        play: function () {
+        play: _.debounce(function () {
             
             if (this.model.get('selected')) {
                 Player.play();
@@ -143,8 +148,9 @@
                 this.select();
             }
  
+            //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
-        }
+        }, 100, true)
     });
 
     return StreamItemView;

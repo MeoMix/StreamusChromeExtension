@@ -491,7 +491,6 @@ input[type="range"]::-webkit-slider-thumb {
   right: 0;
   top: 0;
   bottom: 0;
-  z-index: 100;
 }
 .hover-actions i {
   font-size: 14px;
@@ -715,7 +714,7 @@ input:focus ~ .underline {
   overflow: hidden;
   position: absolute;
   top: 0;
-  height: 40px;
+  height: 45px;
   z-index: 3;
   width: 42px;
   cursor: pointer;
@@ -767,14 +766,10 @@ input:focus ~ .underline {
   background: #4EA6EA;
 }
 .top-bar .center-group {
-  bottom: 0;
-  display: block;
   left: 50%;
-  margin-left: -61px;
+  margin-left: -60px;
   position: absolute;
-  top: 0;
-  width: 128px;
-  z-index: 1;
+  width: 120px;
 }
 .top-bar .right-group {
   bottom: 0;
@@ -1086,6 +1081,7 @@ html .selectize-control.multi .selectize-input.full > input {
   margin: 0;
   padding-bottom: 190px;
   padding-top: 60px;
+  z-index: 1;
 }
 #activePlaylistArea .big-text,
 #videoSearch .big-text {
@@ -1095,11 +1091,9 @@ html .selectize-control.multi .selectize-input.full > input {
   top: 0;
   left: 0;
   right: 0;
-  z-index: 1;
 }
 .big-text.streamEmpty {
   position: absolute;
-  z-index: 1;
   margin-top: 34px;
 }
 .big-text-header {
@@ -1152,6 +1146,9 @@ body .qtip-light {
 }
 button {
   color: #333;
+}
+button:hover {
+  color: #000;
 }
 button.enabled {
   color: #4EA6EA;

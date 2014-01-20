@@ -22,6 +22,8 @@
 
         template: _.template(StreamItemsTemplate),
         
+
+        
         events: {
             'contextmenu': 'showContextMenu'
         },
@@ -81,7 +83,6 @@
                 this.$el.trigger('scroll');
             });
 
-
             this.$el.sortable({
 
                 connectWith: '.droppable-list',
@@ -94,7 +95,7 @@
                 //  Adding this helps prevent unwanted clicks to play
                 delay: 100,
                 
-                placeholder: "sortable-placeholder listItem hiddenUntilChange",
+                placeholder: 'sortable-placeholder listItem hiddenUntilChange',
 
                 helper: function (ui, streamItem) {
                     

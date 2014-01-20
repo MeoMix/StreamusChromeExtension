@@ -111,7 +111,6 @@
                 });
 
                 return videoSearchResultView.render().el;
-
             });
 
             this.$el.append(videoSearchResultElements);
