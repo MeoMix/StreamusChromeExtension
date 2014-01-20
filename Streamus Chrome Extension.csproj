@@ -126,11 +126,9 @@
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\enum\listItemType.js" />
-    <Content Include="src\js\foreground\mixin\scrollableMixin.js" />
     <Content Include="src\js\common\view\settingsView.js" />
     <Content Include="src\js\common\view\videoDisplayView.js" />
     <Content Include="src\js\common\view\videoView.js" />
-    <Content Include="src\js\enum\addSearchResultOptionType.js" />
     <Content Include="src\js\enum\dataSourceType.js" />
     <Content Include="src\js\enum\playerState.js" />
     <Content Include="src\js\enum\repeatButtonState.js" />
@@ -146,8 +144,6 @@
     <Content Include="src\js\foreground\main.js" />
     <Content Include="src\js\foreground\model\activeFolderArea.js" />
     <Content Include="src\js\foreground\model\activePlaylistArea.js" />
-    <Content Include="src\js\foreground\model\addSearchResultOption.js" />
-    <Content Include="src\js\foreground\model\addSearchResults.js" />
     <Content Include="src\js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="src\js\foreground\model\buttons\videoDisplayButton.js" />
     <Content Include="src\js\foreground\model\contextMenuGroup.js" />
@@ -195,9 +191,6 @@
     <Content Include="src\js\foreground\view\rightPane\videoDisplayButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\volumeControlView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\addSearchResultOptionView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\addSearchResultPlaylistOptionsView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\addSearchResultsView.js" />
     <Content Include="src\js\foreground\view\videoSearch\playSelectedButtonView.js" />
     <Content Include="src\js\foreground\view\videoSearch\saveSelectedButtonView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultsView.js" />
@@ -224,7 +217,6 @@
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jasmine-html.js" />
     <Content Include="src\js\thirdParty\jasmine.js" />
-    <Content Include="src\js\thirdParty\jquery.autoscroll.js" />
     <Content Include="src\js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.lazyload.js" />
@@ -252,9 +244,6 @@
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\activePlaylistItems.html" />
     <Content Include="src\template\addAllButton.html" />
-    <Content Include="src\template\addSearchResultOption.html" />
-    <Content Include="src\template\addSearchResultPlaylistOptions.html" />
-    <Content Include="src\template\addSearchResults.html" />
     <Content Include="src\template\clearStream.html" />
     <Content Include="src\template\clearStreamButton.html" />
     <Content Include="src\template\contextMenu.html" />
