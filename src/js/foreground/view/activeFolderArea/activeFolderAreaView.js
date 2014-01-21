@@ -3,12 +3,13 @@
     'foreground/view/activeFolderArea/activeFolderView',
     'text!template/activeFolderArea.html',
     'common/view/settingsView',
-    'foreground/view/genericPromptView',
+    'foreground/view/prompt/genericPromptView',
+    'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/createPlaylistView',
-    'foreground/view/editPlaylistView',
+    'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/activeFolderArea/deletePlaylistButtonView',
     'foreground/collection/folders'
-], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistView, EditPlaylistView, DeletePlaylistButtonView, Folders) {
+], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, DeletePlaylistButtonView, Folders) {
     'use strict';
 
     var ActiveFolderAreaView = GenericForegroundView.extend({
@@ -52,7 +53,8 @@
 
         initialize: function () {
             this.activeFolderView = new ActiveFolderView({
-                model: this.model.get('folder')
+                
+                collection: this.model.get('folder').get('playlists')
             });
 
             this.deletePlaylistButtonView = new DeletePlaylistButtonView();
@@ -136,24 +138,16 @@
         },
         
         showCreatePlaylistPrompt: function () {
-
-            var createPlaylistPromptView = new GenericPromptView({
-                title: chrome.i18n.getMessage('createPlaylist'),
-                okButtonText: chrome.i18n.getMessage('create'),
-                model: new CreatePlaylistView()
-            });
+            var createPlaylistPromptView = new CreatePlaylistPromptView();
             createPlaylistPromptView.fadeInAndShow();
-
         },
         
         showEditSelectedPlaylistPrompt: function () {
 
-            var editPlaylistPromptView = new GenericPromptView({
-                title: chrome.i18n.getMessage('editPlaylist'),
-                okButtonText: chrome.i18n.getMessage('update'),
-                model: new EditPlaylistView({
-                    model: Folders.getActiveFolder().get('playlists').getActivePlaylist()
-                })
+            var activePlaylist = Folders.getActiveFolder().get('playlists').getActivePlaylist();
+
+            var editPlaylistPromptView = new EditPlaylistPromptView({
+                playlist: activePlaylist
             });
             
             editPlaylistPromptView.fadeInAndShow();

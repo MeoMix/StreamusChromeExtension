@@ -1,69 +1,76 @@
 ﻿{
 	"extensionName": {
-		"message": "Streamus™ (Beta!)"
+		"message": "Streamus™ (Beta!)",
+		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
-		"message": "Streamus spremeni YouTube v glasbeni predvajalnik, kot ste si vedno želeli. Streamus naredi predvajanje YouTube-a osvežujoce lahko."
+		"message": "Streamus spremeni YouTube v predvajalnik glasbe, ki ste ga vedno želeli. Streamus naredi predvajanje YouTube-a osvežujoče lahko."
 	},
 	"extensionTitle": {
-		"message": "Streamus: Simple, streaming music."
+		"message": "Streamus: Preprosto, predvajanje glasbe."
 	},
 	"nextVideoCommandDescription": {
-		"message": "Pojdi na naslednji posnetek na streamu"
+		"message": "Pojdi na naslednji posnetek v streamu"
 	},
 	"previousVideoCommandDescription": {
-		"message": "Pojdi na prejšnji posnetek na streamu"
+		"message": " Pojdi na prejšnji posnetek v streamu"
 	},
 	"toggleVideoCommandDescription": {
-		"message": "Stikalo(predvajaj/pavziraj) trenutek posnetek"
+		"message": "Stikalo (predvajaj/pavziraj) trenuten posnetek"
 	},
 	"saveVideoCommandDescription": {
-		"message": "Dodaj trenutek posnetek na trenuten seznam predvajanja"
+		"message": "Dodaj trenutni posnetek na trenutni seznam predvajanja"
 	},
 	"deleteVideoCommandDescription": {
-		"message": "Odstrani trenutek posnetek s streama"
+		"message": "Odstrani trenutni posnetek s streama"
 	},
 	"copyVideoUrlCommandDescription": {
-		"message": "Kopiraj trenuten URL posnetka"
+		"message": "Kopiraj povezavo trenutnega posnetka"
 	},
 	"copyVideoTitleUrlCommandDescription": {
-		"message": "Kopiraj trenuten naslov posnetka in URL"
+		"message": "Kopiraj trenutni naslov in povezavo posnetka"
 	},
 	"toggleRadioCommandDescription": {
-		"message": "Stikalo (off/on) radio"
+		"message": "Stikalo (izključeno/vključeno) radio"
 	},
 	"toggleShuffleCommandDescription": {
-		"message": "Stikalo (off/on) nakljucno predvajanje"
+		"message": "Stikalo (izključeno/vključeno) naključno predvajanje"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Stikalo (off/ponovi_posnetek/ponovi_stream) ponavljanje"
+		"message": "Stikalo (izključeno/ponoviPosnetek/ponoviStream) ponavljanja"
 	},
 	"save": {
-		"message": "Save"
+		"message": "Shrani"
 	},
 	"enqueue": {
 		"message": "Enqueue"
 	},
 	"copyUrl": {
-		"message": "Kopiraj URL"
+		"message": "Kopiraj povezavo"
 	},
 	"copyTitleAndUrl": {
-		"message": "Kopiraj naslov - URL"
+		"message": "Kopiraj naslov - povezavo"
 	},
 	"deleteVideo": {
 		"message": "Odstrani posnetek"
 	},
 	"delete": {
-		"message": "Odstrani"
+		"message": "Odstrani",
+		"description": "Just the singular word, as seen on a button."
 	},
 	"banUntilClear": {
-		"message": "Blokiraj dokler prazen"
+		"message": "Blokiral dokler ni počiščeno",
+		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
 	},
 	"clearStream": {
-		"message": "Pocisti Stream"
+		"message": "Počisti stream",
+		"description": "An action -- empty the stream of items"
+	},
+	"saveStream": {
+		"message": "Shrani stream"
 	},
 	"addToStreamus": {
-		"message": "Dodaj na Streamus"
+		"message": "Dodaj v Streamus"
 	},
 	"selectPlaylist": {
 		"message": "Izberi seznam predvajanja"
@@ -78,67 +85,72 @@
 		"message": "Dodaj posnetek"
 	},
 	"working": {
-		"message": "Delam"
+		"message": "Delam…",
+		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "Nov seznam predvajanja"
 	},
 	"installed": {
-		"message": "Namešceno"
+		"message": "Nameščeno",
+		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
 	"repeatDisabled": {
-		"message": "Ponavljanje je onemogoceno"
+		"message": "Ponavljanje onemogočeno"
 	},
 	"repeatVideo": {
-		"message": "Ponavljanje posnetka je omogoceno"
+		"message": "Ponovi posnetek"
 	},
 	"repeatStream": {
-		"message": "Ponavljanje streama je omogoceno"
+		"message": "Ponovi stream"
 	},
 	"radioEnabled": {
-		"message": "Radio je omogocen"
+		"message": "Radio omogočen"
 	},
 	"radioDisabled": {
-		"message": "Radio je onemogocen"
+		"message": "Radio onemogočen"
 	},
 	"shuffleEnabled": {
-		"message": "Nakljucno predvajanje je omogoceno"
+		"message": "Naključno predvajanje omogočeno"
 	},
 	"shuffleDisabled": {
-		"message": "Nakljucno predvajanje je onemogoceno"
+		"message": " Naključno predvajanje onemogočeno "
 	},
 	"elapsedTime": {
-		"message": "Porabljen cas"
+		"message": "Porabljen čas"
 	},
 	"timeRemaining": {
-		"message": "Preostali cas"
+		"message": "Preostali čas"
+	},
+	"totalTime": {
+		"message": "Skupen čas"
 	},
 	"highest": {
-		"message": "Najvišja"
+		"message": "Najvišja",
+		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
 	},
 	"auto": {
-		"message": "Samodejno"
+		"message": "Samodejno",
+		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
 	},
 	"lowest": {
-		"message": "Najnižja"
-	},
-	"playlist": {
-		"message": "Seznam predvajanja"
+		"message": "Najnižja",
+		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
 	},
 	"addedSuccessfully": {
 		"message": "Uspešno dodano"
 	},
-	"addErrorCheckUrl": {
-		"message": "Prišlo je do težave pri dodajanju vašega seznama predvajanja. Preverite URL?"
+	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
+		"message": "An issue was encountered while adding your playlist. Check the URL?"
 	},
 	"fullScreen": {
-		"message": "Celozaslonski nacin"
+		"message": "Celozaslonski način"
 	},
 	"exitFullScreen": {
-		"message": "Izhod iz celozaslonskega nacina"
+		"message": "Izhod iz celozaslonskega načina"
 	},
-	"reloadPromptText": {
-		"message": "Streamus potrebuje veliko casa za nalaganje. Ponovno nalaganje lahko pomaga."
+	"streamusIsTakingALongTimeToLoad": {
+		"message": "Streamus potrebuje veliko časa, da se naloži. Ponovna naložitev lahko pomaga."
 	},
 	"reload": {
 		"message": "Ponovno naloži"
@@ -156,16 +168,13 @@
 		"message": "Iskanje"
 	},
 	"searching": {
-		"message": "Išcem"
+		"message": "Iščem…"
 	},
 	"noResultsFound": {
-		"message": "Ni bilo najdenih rezultatov"
+		"message": "Ni najdenih rezultatov"
 	},
 	"clearStream": {
-		"message": "Pocisti stream"
-	},
-	"saveStream": {
-		"message": "Shrani stream"
+		"message": "Počisti stream"
 	},
 	"reloadStreamus": {
 		"message": "Ponovno naloži Streamus"
@@ -183,28 +192,26 @@
 		"message": "Nastavitve"
 	},
 	"edit": {
-		"message": "Urejanje"
-	},
-	"delete": {
-		"message": "Izbriši"
+		"message": "Uredi"
 	},
 	"deletePlaylist": {
 		"message": "Izbriši seznam predvajanja"
 	},
-	"deletePlaylistDisabled": {
-		"message": "Ne morem izbrisati vaš zadnji seznam predvajanja."
+	"cantDeleteLastPlaylist": {
+		"message": "Ne morem izbrisati zadnjega seznama predvajanja"
 	},
-	"deletePlaylistPromptText": {
-		"message": "Ste prepricani, da želite izbrisati seznam predvajanja"
+	"areYouSure": {
+		"message": "Ste prepričani?"
 	},
-	"confirmPromptTitle": {
-		"message": "Ste prepricani?"
+	"areYouSureYouWantToDeletePlaylist": {
+		"message": "Ste prepričani, da želite izbrisati seznam predvajanja",
+		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
 	},
-	"clearStreamPromptText": {
-		"message": "Kliknite OK, da pocistite vaš stream"
+	"areYouSureYouWantToClearYourStream": {
+		"message": "Ste prepričani, da želite počistiti vaš stream?"
 	},
-	"selectPlaylistPlaceholder": {
-		"message": "Pišite, da ustvarite seznam predvajanja ali filtrirate trenutno obstojece sezname predvajanja"
+	"typeToCreateOrFilterPlaylists": {
+		"message": "Type to create or filter playlists"
 	},
 	"saveVideo": {
 		"message": "Shrani posnetek"
@@ -237,10 +244,17 @@
 		"message": "Naslov"
 	},
 	"required": {
-		"message": "Required"
+		"message": "Zahtevano"
 	},
-	"optionalSource": {
-		"message": "Opcijsko: YouTube seznam predvajanja/kanalov URL"
+	"optional": {
+		"message": "Opcijsko"
+	},
+	"channel": {
+		"message": "Kanal",
+		"description": "A noun -- as in a YouTube channel of music"
+	},
+	"url": {
+		"message": "povezava"
 	},
 	"playlists": {
 		"message": "Seznami predvajanja"
@@ -249,16 +263,18 @@
 		"message": "Prijava"
 	},
 	"dontRemindMeAgain": {
-		"message": "Ne opomni me ponovno"
+		"message": "Ne spomni me ponovno"
 	},
 	"reminders": {
 		"message": "Opomniki"
 	},
 	"remindClearStream": {
-		"message": "Opomni cišcenje streama"
+		"message": "Remind clear stream",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'."
 	},
 	"remindDeletePlaylist": {
-		"message": "Opomni brisanje seznamov predvajanja"
+		"message": "Remind delete playlist",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'."
 	},
 	"video": {
 		"message": "Posnetek"
@@ -273,13 +289,13 @@
 		"message": "Minute"
 	},
 	"hours": {
-		"message": "Ur"
+		"message": "Ure"
 	},
 	"days": {
-		"message": "Dnevov"
+		"message": "Dni"
 	},
 	"errorRetrievingTitle": {
-		"message": "Napaka pri pridobivanju naslova"  
+		"message": "Error retrieving title"	
 	},
 	"youTubePlayerErrorInvalidParameter": {
 		"message": "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks."
@@ -294,49 +310,46 @@
 		"message": "Keyboard command failure"
 	},
 	"cantSkipToNextVideo": {
-		"message": "Can't skip to next video."
+		"message": "Ne morem skočiti na naslednji posnetek."
 	},
 	"cantGoBackToPreviousVideo": {
-		"message": "Can't go back to previous video."
+		"message": "Ne morem skočiti na prejšnji posnetek."
 	},
 	"cantToggleVideoState": {
 		"message": "Can't toggle video state."
 	},
-	"totalTime": {
-		"message": "Total time"
-	},
 	"hideVideo": {
-		"message": "Hide video"
+		"message": "Skrij sliko posnetka"
 	},
 	"showVideo": {
-		"message": "Show video"
+		"message": "Pokaži sliko posnetka"
 	},
 	"streamEmpty": {
-		"message": "Stream empty"
+		"message": "Stream je prazen"
 	},
 	"enqueueSelected": {
 		"message": "Enqueue selected"
 	},
 	"playlistEmpty": {
-		"message": "Playlist empty"
+		"message": "Seznam predvajanja je prazen"
 	},
 	"enqueuePlaylist": {
 		"message": "Enqueue playlist"
 	},
 	"playPlaylist": {
-		"message": "Play playlist"
+		"message": "Predvajaj seznam predvajanja"
 	},
 	"enqueueAll": {
 		"message": "Enqueue all"
 	},
 	"create": {
-		"message": "Create"
+		"message": "Ustvari"
 	},
 	"update": {
-		"message": "Update"
+		"message": "Posodobi"
 	},
 	"showTooltips": {
-		"message": "Show tooltips"
+		"message": "Pokaži nasvete"
 	},
 	"showVideoSearch": {
 		"message": "Show video search"
@@ -345,13 +358,13 @@
 		"message": "Hide video search"
 	},
 	"closeMenu": {
-		"message": "Close menu"
+		"message": "Zapri menu"
 	},
 	"openMenu": {
-		"message": "Open menu"
+		"message": "Odpri menu"
 	},
 	"wouldYouLikeTo": {
-		"message": "Would you like to"
+		"message": "Želite"
 	},
 	"searchForVideos": {
 		"message": "Search for videos"
@@ -363,13 +376,13 @@
 		"message": "General"
 	},
 	"videoQuality": {
-		"message": "Video quality"
+		"message": "Kvaliteta videa"
 	},
 	"whyNotAddAVideoFromAPlaylistOr": {
 		"message": "Why not add a video from a playlist or"
 	},
 	"startTyping": {
-		"message": "Start typing"
+		"message": "Začnite pisati"
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Results will appear as you search"
@@ -378,9 +391,9 @@
 		"message": "Sorry about that"
 	},
 	"trySearchingForSomethingElse": {
-		"message": "Try searching for something else"
+		"message": "Poskusite iskati nekaj drugega"
 	},
 	"watchOnYouTube": {
-		"message": "Watch on YouTube"
+		"message": "Oglej si na YouTube"
 	}
 }

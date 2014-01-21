@@ -13,8 +13,10 @@
 
             //  Third Party:
             'async': 'thirdParty/async',
+            'backbone.babysitter': 'thirdParty/backbone.babysitter',
             'backbone': 'thirdParty/backbone',
             'backbone.marionette': 'thirdParty/backbone.marionette',
+            'backbone.wreqr': 'thirdParty/backbone.wreqr',
             'googleAnalytics': 'thirdParty/googleAnalytics',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',

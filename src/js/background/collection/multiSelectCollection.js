@@ -37,8 +37,6 @@
         
         //  Just a nicer naming for deselectAll
         deselectAll: function () {
-            console.log("deselecting all");
-            chrome.extension.getBackgroundPage().console.log("deselecting all", this);
             this.deselectAllExcept(null);
         },
 

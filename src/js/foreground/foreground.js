@@ -2,7 +2,7 @@
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
     'foreground/view/genericForegroundView',
-    'foreground/view/genericPromptView',
+    'foreground/view/prompt/genericPromptView',
     'foreground/view/reloadView',
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuGroups'

@@ -209,6 +209,7 @@ define([
                 success: function () {
 
                     self.get('playlists').push(playlist);
+                    //self.get('playlists').sort();
 
                     if (dataSource.needsLoading()) {
 

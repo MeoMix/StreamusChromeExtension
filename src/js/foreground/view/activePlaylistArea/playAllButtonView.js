@@ -1,11 +1,13 @@
 define([
     'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/playAllButton.html',
     'foreground/collection/streamItems'
-], function (GenericForegroundView, PlayAllButtonTemplate, StreamItems) {
+], function (GenericForegroundView, ForegroundViewManager, PlayAllButtonTemplate, StreamItems) {
     'use strict';
 
-    var PlayAllButtonView = GenericForegroundView.extend({
+    //  TODO: Starting to integrate MarionetteJS. Need to support better.
+    var PlayAllButtonView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'button',
 
@@ -18,18 +20,16 @@ define([
         },
         
         events: {
-            'click': 'addToStreamAndPlay'
-        },
-
-        render: function () {
-            this.$el.html(this.template());
-            return this;
+            'click': function () {
+                StreamItems.addByPlaylistItems(this.model.get('items'), true);
+            }
         },
         
-        addToStreamAndPlay: function () {
-            StreamItems.addByPlaylistItems(this.model.get('items'), true);
+        initialize: function () {
+            //  TODO: I am not certain I need a ViewManager for this if I use Marionette properly. 
+            ForegroundViewManager.get('views').push(this);
+            GenericForegroundView.prototype.initializeTooltips.call(this);
         }
-        
     });
     
     return PlayAllButtonView;

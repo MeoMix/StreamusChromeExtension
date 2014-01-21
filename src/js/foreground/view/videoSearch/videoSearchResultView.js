@@ -5,10 +5,9 @@
     'foreground/collection/videoSearchResults',
     'foreground/collection/streamItems',
     'foreground/collection/folders',
-    'foreground/view/genericPromptView',
-    'foreground/view/saveVideosView',
+    'foreground/view/prompt/saveVideosPromptView',
     'enum/listItemType'
-], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, GenericPromptView, SaveVideosView, ListItemType) {
+], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, SaveVideosPromptView, ListItemType) {
     'use strict';
 
     var VideoSearchResultView = GenericForegroundView.extend({
@@ -86,26 +85,14 @@
            
             var video = this.model.get('video');
 
-            var saveVideosPromptView = new GenericPromptView({
-                title: chrome.i18n.getMessage('saveVideo'),
-                okButtonText: chrome.i18n.getMessage('save'),
-                model: new SaveVideosView({
-                    //  SaveVideosView expects an array of video.
-                    model: [video]
-                })
+            console.log("Saving to playlist, video:", video);
+
+            var saveVideosPromptView = new SaveVideosPromptView({
+                videos: [video]
             });
-
-            saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
-
-                if (creating) {
-                    this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
-                } else {
-                    this.okButton.text(chrome.i18n.getMessage('save'));
-                }
-
-            });
-
+            
             saveVideosPromptView.fadeInAndShow();
+
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
         }, 100, true),

@@ -43,12 +43,10 @@
         },
         
         initialize: function (options) {
-
-            this.title = options.title;
+            this.title = options.title || this.title;
             this.okButtonText = options.okButtonText || this.okButtonText;
             this.showCancelButton = options.showCancelButton || this.showCancelButton;
             this.$el.addClass(this.model.className + 'Prompt');
-
         },
 
         fadeInAndShow: function () {

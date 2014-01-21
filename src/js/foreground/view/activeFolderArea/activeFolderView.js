@@ -1,47 +1,33 @@
 //  This is the list of playlists on the playlists tab.
 define([
     'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'foreground/collection/contextMenuGroups',
     'common/model/utility',
     'foreground/collection/streamItems',
     'foreground/view/activeFolderArea/playlistView',
-    'foreground/view/genericPromptView',
-    'foreground/view/createPlaylistView'
-], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, PlaylistView, GenericPromptView, CreatePlaylistView) {
+    'foreground/view/prompt/createPlaylistPromptView',
+    'enum/listItemType'
+], function (GenericForegroundView, ForegroundViewManager, ContextMenuGroups, Utility, StreamItems, PlaylistView, CreatePlaylistPromptView, ListItemType) {
     'use strict';
 
-    var ActiveFolderView = GenericForegroundView.extend({
+    //  TODO: Consider using a CompositeView vs a CollectionView.
+    //  TODO: Rename this to PlaylistsCollectionView because it doesn't depend on a folder.
+    var ActiveFolderView = Backbone.Marionette.CollectionView.extend({
         
         tagName: 'ul',
+        id: 'activeFolder',
+        itemView: PlaylistView,
 
+        //  TODO: triggers for showContextMenu
         events: {
             'contextmenu': 'showContextMenu'
         },
         
-        attributes: {
-            'id': 'activeFolder'
-        },
+        // TODO: This seems useful:
+        //There may be scenarios where you need to pass data from your parent collection view in to each of the itemView instances. To do this, provide a itemViewOptions definition on your collection view as an object literal. This will be passed to the constructor of your itemView as part of the options.
         
-        //  Refreshes the playlist display with the current playlist information.
-        render: function () {
-
-            var playlists = this.model.get('playlists');
-
-            if (playlists.length > 0) {
-
-                //  Build up the ul of li's representing each playlist.
-                var listItems = playlists.map(function (playlist) {
-                    var playlistView = new PlaylistView({
-                        model: playlist
-                    });
-
-                    return playlistView.render().el;
-                });
-
-                //  Do this all in one DOM insertion to prevent lag in large folders.
-                this.$el.append(listItems);
-            }
-            
+        onDomRefresh: function() {
             //  TODO: Makes playlists scroll when you drag 'em around.
             var self = this;
             //  Allows for drag-and-drop of videos
@@ -51,23 +37,28 @@ define([
                 delay: 100,
                 appendTo: 'body',
                 containment: 'body',
-                placeholder: "sortable-placeholder listItem",
+                placeholder: 'sortable-placeholder listItem',
                 scroll: false,
                 tolerance: 'pointer',
                 helper: 'clone',
-                //  Whenever a video row is moved inform the Player of the new video list order
+                
+                //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {
-                    
-                    var playlistId = ui.item.data('playlistid');
+                    var listItemType = ui.item.data('type');
 
                     //  Run this code only when reorganizing playlists.
-                    if (this === ui.item.parent()[0] && playlistId) {
+                    if (listItemType === ListItemType.Playlist) {
+
+                        var playlistId = ui.item.data('id');
+
+                        //  TODO: I don't believe this anymore, double check.
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var index = parseInt(ui.item.parent().children('.playlist').index(ui.item));
 
-                        var playlist = self.model.get('playlists').get(playlistId);
-                        var originalindex = self.model.get('playlists').indexOf(playlist);
+                        var playlist = self.collection.get(playlistId);
+                        var originalindex = self.collection.indexOf(playlist);
 
+                        //  TODO: I don't believe this, either!
                         //  When moving an item down the list -- all the items shift up one which causes an off-by-one error when calling
                         //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
                         //  no shift happens.
@@ -75,41 +66,44 @@ define([
                             index += 1;
                         }
 
-                        self.model.get('playlists').moveToIndex(playlistId, index);
+                        self.collection.moveToIndex(playlistId, index);
                     }
-                    
+
                 }
             });
-
-            return this;
         },
         
         initialize: function () {
-            this.listenTo(this.model.get('playlists'), 'add', this.addItem);
+            //  TODO: This might not be necessary with Marionette.
+            //this.listenTo(this.model.get('playlists'), 'add', this.addItem);
+            
+            //  TODO: Don't do memory management like this -- use regions, I think!
+            ForegroundViewManager.get('views').push(this);
         },
 
-        addItem: function (playlist) {
+        //  TODO: Hopefully not needed anymore.
+        //addItem: function (playlist) {
 
-            var playlistView = new PlaylistView({
-                model: playlist
-            });
+        //    var playlistView = new PlaylistView({
+        //        model: playlist
+        //    });
 
-            var element = playlistView.render().$el;
+        //    var element = playlistView.render().$el;
 
-            if (this.$el.find('.playlist').length > 0) {
+        //    if (this.$el.find('.playlist').length > 0) {
 
-                var playlists = this.model.get('playlists');
-                var currentPlaylistIndex = playlists.indexOf(playlist);
+        //        var playlists = this.model.get('playlists');
+        //        var currentPlaylistIndex = playlists.indexOf(playlist);
 
-                var previousPlaylistId = playlists.at(currentPlaylistIndex - 1).get('id');
-                var previousPlaylistElement = this.$el.find('.playlist[data-playlistid="' + previousPlaylistId + '"]');
+        //        var previousPlaylistId = playlists.at(currentPlaylistIndex - 1).get('id');
+        //        var previousPlaylistElement = this.$el.find('.playlist[data-id="' + previousPlaylistId + '"]');
                 
-                element.insertAfter(previousPlaylistElement);
+        //        element.insertAfter(previousPlaylistElement);
 
-            } else {
-                element.appendTo(this.$el);
-            }
-        },
+        //    } else {
+        //        element.appendTo(this.$el);
+        //    }
+        //},
         
         showContextMenu: function(event) {
 
@@ -125,21 +119,15 @@ define([
                 items: [{
                     text: chrome.i18n.getMessage('createPlaylist'),
                     onClick: function() {
-
-                        var createPlaylistPromptView = new GenericPromptView({
-                            title: chrome.i18n.getMessage('createPlaylist'),
-                            okButtonText: chrome.i18n.getMessage('create'),
-                            model: new CreatePlaylistView()
-                        });
-                        
+                        var createPlaylistPromptView = new CreatePlaylistPromptView();
                         createPlaylistPromptView.fadeInAndShow();
-
                     }
                 }]
             });
             
         },
         
+        //  TODO: I still think it's possible to improve the clarity of this with better CSS/HTML mark-up.
         getIsOverflowing: function () {
             
             //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
@@ -150,7 +138,7 @@ define([
             }
 
             var isOverflowing = false;
-            var playlistCount = this.model.get('playlists').length;
+            var playlistCount = this.collection.length;
 
             if (playlistCount > 0) {
                 var playlistHeight = this.$el.find('li').height();
@@ -162,6 +150,7 @@ define([
             return isOverflowing;
         },
         
+        //  TODO: Maybe I can use show/hide? Maybe that's a poor idea though.
         collapse: function() {
             
             var isOverflowing = this.getIsOverflowing();
@@ -181,7 +170,8 @@ define([
             this.$el.data('oldheight', currentHeight);
 
             this.$el.transitionStop().transition({
-                height: 0
+                height: 0,
+                opacity: 0
             }, 200, function() {
                 this.$el.hide();
                 
@@ -201,7 +191,8 @@ define([
             }
 
             this.$el.show().transitionStop().transition({
-                height: this.$el.data('oldheight')
+                height: this.$el.data('oldheight'),
+                opacity: 1
             }, 200, function() {
                 if (!isOverflowing) {
                     this.$el.css('overflow-y', 'auto');

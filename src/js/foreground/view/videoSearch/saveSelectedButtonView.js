@@ -1,10 +1,9 @@
 define([
     'foreground/view/genericForegroundView',
     'text!template/saveSelectedButton.html',
-    'foreground/collection/videoSearchResults',
-    'foreground/view/genericPromptView',
-    'foreground/view/saveVideosView'
-], function (GenericForegroundView, SaveSelectedButtonTemplate, VideoSearchResults, GenericPromptView, SaveVideosView) {
+    'foreground/view/prompt/saveVideosPromptView',
+    'foreground/collection/videoSearchResults'
+], function (GenericForegroundView, SaveSelectedButtonTemplate, SaveVideosPromptView, VideoSearchResults) {
     'use strict';
 
     var SaveSelectedButtonView = GenericForegroundView.extend({
@@ -32,34 +31,17 @@ define([
         },
         
         showSaveSelectedPrompt: function () {
-            
             var selectedSearchResults = VideoSearchResults.selected();
-            var selectedCount = selectedSearchResults.length;
 
             var videos = _.map(selectedSearchResults, function (searchResult) {
                 return searchResult.get('video');
             });
 
-            var saveVideosPromptView = new GenericPromptView({
-                title: selectedCount === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
-                okButtonText: chrome.i18n.getMessage('save'),
-                model: new SaveVideosView({
-                    model: videos
-                })
+            var saveVideosPromptView = new SaveVideosPromptView({
+                videos: videos
             });
-
-            saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
-
-                if (creating) {
-                    this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
-                } else {
-                    this.okButton.text(chrome.i18n.getMessage('save'));
-                }
-
-            });
-
+            
             saveVideosPromptView.fadeInAndShow();
-
         }
         
     });

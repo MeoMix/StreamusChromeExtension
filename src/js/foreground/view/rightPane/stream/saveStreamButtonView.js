@@ -5,6 +5,7 @@ define([
 ], function (GenericForegroundView, SaveStreamButtonTemplate, StreamAction) {
     'use strict';
 
+    //  TODO: This is called SaveStream but then the dialog which opens is SaveVideos -- can I be more clear?
     var SaveStreamButtonView = GenericForegroundView.extend({
 
         tagName: 'button',

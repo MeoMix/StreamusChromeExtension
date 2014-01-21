@@ -16,8 +16,7 @@ define([
     window.onmessage = function(messageEvent) {
 
         if (messageEvent.origin === 'https://www.youtube.com') {
-            console.log("messageEvent:", messageEvent);
-            
+ 
             if (messageEvent.ports.length > 0 && messageEvent.data === 'connect') {
                 var port = messageEvent.ports[0];
                 

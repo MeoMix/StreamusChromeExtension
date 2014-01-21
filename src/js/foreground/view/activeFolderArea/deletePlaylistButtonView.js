@@ -1,14 +1,13 @@
 define([
     'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/deletePlaylistButton.html',
     'foreground/collection/folders',
-    'foreground/view/genericPromptView',
-    'foreground/view/deletePlaylistView',
-    'foreground/model/settings'
-], function (GenericForegroundView, DeletePlaylistButtonTemplate, Folders, GenericPromptView, DeletePlaylistView, Settings) {
+    'foreground/view/prompt/deletePlaylistPromptView'
+], function (GenericForegroundView, ForegroundViewManager, DeletePlaylistButtonTemplate, Folders, DeletePlaylistPromptView) {
     'use strict';
 
-    var DeletePlaylistButtonView = GenericForegroundView.extend({
+    var DeletePlaylistButtonView = Backbone.Marionette.ItemView.extend({
 
         tagName: 'button',
 
@@ -23,17 +22,14 @@ define([
             'click': 'showDeleteSelectedPlaylistPrompt'
         },
 
-        render: function () {
-            this.$el.html(this.template());
+        onRender: function () {
+            //  Can't delete the last playlist:
+            var canDelete = Folders.getActiveFolder().get('playlists').canDelete();
 
-            var disabled = Folders.getActiveFolder().get('playlists').length === 1;
-
-            this.$el.toggleClass('disabled', disabled);
-
-            if (disabled) {
-                this.$el.attr('title', this.disabledTitle);
+            if (canDelete) {
+                this.$el.attr('title', this.enabledTitle).removeClass('disabled');
             } else {
-                this.$el.attr('title', this.enabledTitle);
+                this.$el.attr('title', this.disabledTitle).addClass('disabled');
             }
 
             return this;
@@ -41,37 +37,30 @@ define([
         
         initialize: function () {
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'add addMultiple remove reset', this.render);
+            
+            //  TODO: Don't do memory management like this -- use regions, I think!
+            ForegroundViewManager.get('views').push(this);
         },
 
         showDeleteSelectedPlaylistPrompt: function () {
-            
-            if (!this.$el.hasClass('disabled')) {
+            var playlists = Folders.getActiveFolder().get('playlists');
+            var canDelete = playlists.canDelete();
 
-                var activePlaylist = Folders.getActiveFolder().get('playlists').getActivePlaylist();
+            if (canDelete) {
+                var activePlaylist = playlists.getActivePlaylist();
+                var isEmpty = activePlaylist.get('items').length === 0;
  
                 //  No need to notify if the playlist is empty.
-                if (activePlaylist.get('items').length === 0) {
+                if (isEmpty) {
                     activePlaylist.destroy();
                 } else {
-
-                    var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
-                    if (remindDeletePlaylist) {
-
-                        var deletePlaylistPromptView = new GenericPromptView({
-                            title: chrome.i18n.getMessage('deletePlaylist'),
-                            okButtonText: chrome.i18n.getMessage('delete'),
-                            model: new DeletePlaylistView({
-                                model: activePlaylist
-                            })
-                        });
-                        deletePlaylistPromptView.fadeInAndShow();
-
-                    } else {
-                        activePlaylist.destroy();
-                    }
-
+                    var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                        playlist: activePlaylist
+                    });
+                    
+                    //  TODO: This doesn't highlight the fact that Settings controls whether it shows or not.
+                    deletePlaylistPromptView.fadeInAndShow();
                 }
-
             }
 
         }

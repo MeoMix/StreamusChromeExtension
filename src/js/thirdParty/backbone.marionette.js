@@ -20,16 +20,16 @@
 (function (root, factory) {
     if (typeof exports === 'object') {
 
-        var underscore = require('underscore');
+        var lodash = require('lodash');
         var backbone = require('backbone');
         var wreqr = require('backbone.wreqr');
         var babysitter = require('backbone.babysitter');
 
-        module.exports = factory(underscore, backbone, wreqr, babysitter);
+        module.exports = factory(lodash, backbone, wreqr, babysitter);
 
     } else if (typeof define === 'function' && define.amd) {
 
-        define(['underscore', 'backbone', 'backbone.wreqr', 'backbone.babysitter'], factory);
+        define(['lodash', 'backbone', 'backbone.wreqr', 'backbone.babysitter'], factory);
 
     }
 }(this, function (_, Backbone) {
@@ -652,7 +652,7 @@
             // Borrowing this code from Backbone.Collection:
             // http://backbonejs.org/docs/backbone.html#section-106
             //
-            // Mix in methods from Underscore, for iteration, and other
+            // Mix in methods from Lo-dash, for iteration, and other
             // collection related features.
             var methods = ['forEach', 'each', 'map', 'find', 'detect', 'filter',
               'select', 'reject', 'every', 'all', 'some', 'any', 'include',
@@ -1019,7 +1019,7 @@
         // ---------
 
         // A single item view implementation that contains code for rendering
-        // with underscore.js templates, serializing the view's model or collection,
+        // with lodash.js templates, serializing the view's model or collection,
         // and calling several methods on extended views, such as `onRender`.
         Marionette.ItemView = Marionette.View.extend({
 
@@ -1048,7 +1048,7 @@
                 return data;
             },
 
-            // Render the view, defaulting to underscore.js templates.
+            // Render the view, defaulting to lodash.js templates.
             // You can override this in your view definition to provide
             // a very specific rendering for your view. In general, though,
             // you should override the `Marionette.Renderer` object to

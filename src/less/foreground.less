@@ -1038,38 +1038,38 @@ input:focus  ~ .underline {
 
 #activeFolderArea .list h3 i { margin-left: .3em }
 
-li.playlist {
+#activeFolder .listItem {
     height: 26px;
     line-height: 26px;
     position: relative;
     width: calc(~"100% - 1px");
     cursor: default;
+    padding: 0;
 }
 
-li.playlist span.titleWrapper {
+#activeFolder .listItem span.titleWrapper {
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 5px;
     display: inline-block;
     width: 165px;
     margin-bottom: -7px;
 }
 
-li.playlist.selected span.titleWrapper {
+#activeFolder .listItem.selected span.titleWrapper {
     color: #fff;
     cursor: default;
 }
 
-li.playlist .title {
+#activeFolder .listItem .title {
     white-space: nowrap;
     cursor: default;
 }
 
-li.playlist i {
+#activeFolder .listItem i {
     margin-left: 5px;
 }
 
-li.playlist span.count {
+#activeFolder .listItem span.count {
     background: #666;
     border-radius: 1em;
     color: #fff;

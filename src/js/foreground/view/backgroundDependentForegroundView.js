@@ -4,7 +4,7 @@
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
     'foreground/view/genericForegroundView',
-    'foreground/view/genericPromptView',
+    'foreground/view/prompt/genericPromptView',
     'foreground/model/activeFolderArea',
     'foreground/view/activeFolderArea/activeFolderAreaView',
     'foreground/view/activePlaylistArea/activePlaylistAreaView',

@@ -8,6 +8,7 @@
     'use strict';
 
     var PlaylistItemView = GenericForegroundView.extend({
+        //  TODO: Maybe this should be a li?
         
         className: 'listItem playlistItem multiSelectItem',
         
@@ -130,7 +131,7 @@
         
         //  TODO: Is there a way to keep these actions DRY across multiple views?
         playInStream: _.debounce(function () {
-            StreamItems.addByVideo(this.model, true);
+            StreamItems.addByPlaylistItem(this.model, true);
             
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
