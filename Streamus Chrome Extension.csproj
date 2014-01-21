@@ -171,7 +171,11 @@
     <Content Include="src\js\foreground\view\deletePlaylistView.js" />
     <Content Include="src\js\foreground\view\editPlaylistView.js" />
     <Content Include="src\js\foreground\view\genericForegroundView.js" />
-    <Content Include="src\js\foreground\view\genericPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\editPlaylistPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\deletePlaylistPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\createPlaylistPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\saveVideosPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\genericPromptView.js" />
     <Content Include="src\js\foreground\view\multiSelectView.js" />
     <Content Include="src\js\foreground\view\notificationView.js" />
     <Content Include="src\js\foreground\view\reloadView.js" />
@@ -212,8 +216,10 @@
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
+    <Content Include="src\js\thirdParty\backbone.wreqr.js" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
+    <Content Include="src\js\thirdParty\backbone.babysitter.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jasmine-html.js" />
     <Content Include="src\js\thirdParty\jasmine.js" />
