@@ -59,7 +59,7 @@
             this.clearStreamButtonView = new ClearStreamButtonView();
             this.streamItemsView = new StreamItemsView();
             
-            this.listenTo(StreamItems, 'add addMultiple remove reset', function() {
+            this.listenTo(StreamItems, 'add remove reset', function() {
                 this.toggleBigText();
                 this.toggleContextButtons();
             });

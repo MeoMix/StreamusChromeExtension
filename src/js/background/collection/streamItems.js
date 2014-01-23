@@ -270,26 +270,7 @@
                 
             });
 
-            this.addMultiple(streamItems);
-        },
-
-        //  TODO: pretty sure addMultiple was a bad idea.
-        addMultiple: function(streamItems) {
-
-            //  Handling this manually to not clog the network with getVideoInformation requests
-            var addedStreamItems = this.add(streamItems, { silent: true });
-            
-            var selectedStreamItem = this.getSelectedItem();
-
-            if (selectedStreamItem === null) {
-                //  If no selected item was added, and no pre-existing items, ensure at least one is selected
-                this.at(0).set('selected', true);
-            } else {
-                //  If a selected item is added -- manually trigger a selected event to deselect all other items.
-                selectedStreamItem.trigger('change:selected', selectedStreamItem, true);
-            }
-
-            this.trigger('addMultiple', addedStreamItems);
+            this.add(streamItems);
         },
 
         deselectAllExcept: function(streamItemCid) {

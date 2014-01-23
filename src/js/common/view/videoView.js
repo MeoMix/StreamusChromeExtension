@@ -91,7 +91,7 @@
             this.setDefaultImage();
             this.listenTo(Player, 'change:loadedVideoId', this.setDefaultImage);
             this.listenTo(Player, 'change:state', this.render);
-            this.listenTo(StreamItems, 'add addMultiple remove reset change:selected', this.render);
+            this.listenTo(StreamItems, 'add remove reset change:selected', this.render);
         },
         
         connectPortDrawContinously: function() {

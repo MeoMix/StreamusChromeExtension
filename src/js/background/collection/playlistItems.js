@@ -123,8 +123,7 @@
                 playlistItem.save({}, {
 
                     success: function () {
-
-                        //  TODO: This doesn't call addMultiple?? Didn't it used to?
+                        
                         this.add(playlistItem);
 
                         if (callback) {

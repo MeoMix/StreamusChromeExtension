@@ -37,6 +37,7 @@
                 if (StreamItems.length === 1) {
                     this.addItem(StreamItems.at(0));
                 } else {
+                    //  TODO: Remove this dependency on addItems, keep it simple.
                     this.addItems(StreamItems.models);
                 }
                 
@@ -59,8 +60,7 @@
 
             //  Whenever an item is added to the collection, visually add an item, too.
             this.listenTo(StreamItems, 'add', this.addItem);
-            this.listenTo(StreamItems, 'addMultiple', this.addItems);
-
+      
             this.listenTo(StreamItems, 'remove reset', function () {
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
                 this.$el.trigger('scroll');

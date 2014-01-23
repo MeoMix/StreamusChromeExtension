@@ -59,7 +59,7 @@ define([
         initialize: function () {
 
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
-            this.listenTo(StreamItems, 'add addMultiple', this.enable);
+            this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
             this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
             this.listenTo(Player, 'change:state', this.stopSeeking);

@@ -7,21 +7,21 @@
 
     describe('StreamItems', function() {
 
-        it('Should be able to add multiple items', function() {
+        //it('Should be able to add multiple items', function() {
 
-            var streamItems = [];
+        //    var streamItems = [];
             
-            for (var i = 0; i < 5; i++) {
+        //    for (var i = 0; i < 5; i++) {
 
 
-                streamItems.push({
-                    video: TestUtility.buildVideo(),
-                    title: ''
-                });
-            }
+        //        streamItems.push({
+        //            video: TestUtility.buildVideo(),
+        //            title: ''
+        //        });
+        //    }
 
-            StreamItems.addMultiple(streamItems);
-        });
+        //    StreamItems.addMultiple(streamItems);
+        //});
 
     });
 

@@ -13,7 +13,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add addMultiple remove reset', this.setDisabled);
+            this.listenTo(StreamItems, 'add remove reset', this.setDisabled);
         },
         
         setDisabled: function () {

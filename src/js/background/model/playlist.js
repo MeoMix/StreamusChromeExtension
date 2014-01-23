@@ -93,9 +93,7 @@ define([
                 
             }, 2000));
 
-            console.log("LISTENING TO ITEMS");
-            //  TODO: Am I losing my items collection? setDisplayInfo doesn't seem to be firing.
-            this.listenTo(this.get('items'), 'add addMultiple reset remove', this.setDisplayInfo);
+            this.listenTo(this.get('items'), 'add reset remove', this.setDisplayInfo);
             this.setDisplayInfo();
 
             this.listenTo(this.get('items'), 'sync', function() {

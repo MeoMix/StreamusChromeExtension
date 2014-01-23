@@ -168,15 +168,7 @@
                     onClick: function () {
 
                         if (!isEmpty) {
-
-                            var streamItems = self.model.get('items').map(function (playlistItem) {
-                                return {
-                                    video: playlistItem.get('video'),
-                                    title: playlistItem.get('title')
-                                };
-                            });
-
-                            StreamItems.addMultiple(streamItems);
+                            StreamItems.addByPlaylistItems(self.model.get('items'), false);
                         }
 
                     }

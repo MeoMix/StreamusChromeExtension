@@ -75,7 +75,7 @@
 
             this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
             this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
-            this.listenTo(this.model.get('playlist').get('items'), 'add addMultiple remove reset', function() {
+            this.listenTo(this.model.get('playlist').get('items'), 'add remove reset', function() {
                 this.toggleBigText();
                 this.toggleBottomMenubar();
             });
