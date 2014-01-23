@@ -145,9 +145,8 @@
                             ui.item.remove();
                         }
                         else {
-                            var index = parseInt(ui.item.index);
-
-                            self.model.addByVideoAtIndex(draggedStreamItem.get('video'), index, function () {
+                            
+                            self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
                             });

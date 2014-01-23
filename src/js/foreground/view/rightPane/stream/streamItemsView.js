@@ -159,8 +159,6 @@
                 },
                 tolerance: 'pointer',
                 receive: function (event, ui) {
-
-                    var index = parseInt(ui.item.index());
     
                     var listItemType = ui.item.data('type');
 
@@ -168,13 +166,13 @@
                         var activePlaylistItems = Folders.getActiveFolder().getActivePlaylist().get('items');
 
                         var draggedPlaylistItems = activePlaylistItems.selected();
-                        StreamItems.addByDraggedPlaylistItems(draggedPlaylistItems, index);
+                        StreamItems.addByDraggedPlaylistItems(draggedPlaylistItems, ui.item.index());
                         
                         activePlaylistItems.deselectAll();
                     } else if(listItemType === ListItemType.VideoSearchResult) {
                         var draggedSearchResults = VideoSearchResults.selected();
 
-                        StreamItems.addByDraggedVideoSearchResults(draggedSearchResults, index);
+                        StreamItems.addByDraggedVideoSearchResults(draggedSearchResults, ui.item.index());
                         VideoSearchResults.deselectAll();
                     }
 

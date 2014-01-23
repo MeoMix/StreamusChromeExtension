@@ -156,7 +156,11 @@ define([
 
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
-                success: function() {            
+                success: function () {
+                    
+                    //  TODO: this sucks. stop having to update collections' id.
+                    playlist.get('items').playlistId = playlist.get('id');
+
                     self.get('playlists').push(playlist);
                 }
             });
@@ -205,8 +209,14 @@ define([
             });
 
             //  Save the playlist, but push after version from server because the ID will have changed.
+            console.log("Saving playlist!", playlist);
             playlist.save({}, {
-                success: function () {
+                success: function (a, e) {
+
+                    //  TODO: this sucks. stop having to update collections' id.
+                    playlist.get('items').playlistId = playlist.get('id');
+
+                    console.log("playlist SAVED!", playlist, a, e);
 
                     self.get('playlists').push(playlist);
                     //self.get('playlists').sort();

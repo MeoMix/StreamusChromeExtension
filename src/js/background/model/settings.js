@@ -4,17 +4,23 @@ define(function () {
 
     var Settings = Backbone.Model.extend({
         
-        defaults: function() {
+        defaults: function () {
+
+            var remindClearStream = this.getItem('remindClearStream');
+            var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
+            var showTimeRemaining = this.getItem('showTimeRemaining');
+            var showTooltips = this.getItem('showTooltips');
+            
             return {
                 localDebug: false,
                 testing: false,
                 serverURL: '',
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',
                 userId: this.getItem('userId') || null,
-                showTooltips: this.getItem('showTooltips') || true,
-                remindClearStream: this.getItem('remindClearStream') || true,
-                remindDeletePlaylist: this.getItem('remindDeletePlaylist') || true,
-                showTimeRemaining: this.getItem('showTimeRemaining') || false,
+                showTooltips: showTooltips === null ? true : showTooltips,
+                remindClearStream: remindClearStream === null ? true : remindClearStream,
+                remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
+                showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
                 searchQuery: this.getItem('searchQuery') || ''
             };
         },
@@ -36,7 +42,8 @@ define(function () {
                 localStorage.setItem('userId', JSON.stringify(userId));
             });
 
-            this.on('change:showTooltips', function(model, showTooltips) {
+            this.on('change:showTooltips', function (model, showTooltips) {
+                console.log("showTooltips has changed to:", showTooltips, JSON.stringify(showTooltips));
                 localStorage.setItem('showTooltips', JSON.stringify(showTooltips));
             });
 
@@ -56,14 +63,22 @@ define(function () {
                 localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
             });
 
+
+            console.log("I have initialized:", this);
+
         },
         
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
         //  If not, just allow the string type because its assumed to be correct.
-        getItem: function(key) {
+        getItem: function (key) {
+
+            console.log("I AM NOW RETRIEVING KEY FROM LOCAL STORAGE:", key);
+
             var item = localStorage.getItem(key);
 
             if (item !== null) {
+
+                console.log("ITEM:", item);
 
                 try {
                     //  Make sure I don't send back 'null' or 'undefined' as string types.

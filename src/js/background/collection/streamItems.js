@@ -396,6 +396,7 @@
 
                 var nextItemIndex;
 
+                //  TODO: I shouldn't have to check both undefined and null here.
                 if (removedSelectedItemIndex !== undefined && removedSelectedItemIndex !== null) {
                     nextItemIndex = removedSelectedItemIndex;
                 } else {
@@ -416,7 +417,13 @@
                         }
 
                         nextItem = this.at(0);
-                    } else if (radioEnabled) {
+                    }
+                        //  If the selected item was deleted and there's nothing to advance forward to -- select the previous item and pause.
+                    else if (removedSelectedItemIndex !== undefined && removedSelectedItemIndex !== null) {
+                        this.at(this.length - 1).set('selected', true);
+                        Player.pause();
+                    }
+                    else if (radioEnabled) {
 
                         var randomRelatedVideo = this.getRandomRelatedVideo();
 
@@ -434,7 +441,7 @@
 
                     } else {
 
-                        //  Select the first item in the playlist and then pause the player because playlist looping shouldn't continue.
+                        //  Otherwise, select the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         this.at(0).set('selected', true);
                         Player.pause();
                     }

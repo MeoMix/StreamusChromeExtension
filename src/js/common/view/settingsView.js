@@ -29,6 +29,7 @@ define([
             this.remindDeletePlaylistCheckbox = this.$el.find('#remindDeletePlaylist');
             
             //  Initialize to whatever's stored in localStorage.
+            console.log("Settings showTooltips:", Settings.get('showTooltips'));
             this.showTooltipsCheckbox.prop('checked', Settings.get('showTooltips'));
             this.remindClearStreamCheckbox.prop('checked', Settings.get('remindClearStream'));
             this.remindDeletePlaylistCheckbox.prop('checked', Settings.get('remindDeletePlaylist'));
@@ -53,6 +54,7 @@ define([
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
             var showTooltips = this.showTooltipsCheckbox.is(':checked');
+            console.log("ShowTooltips?", showTooltips);
             Settings.set('showTooltips', showTooltips);
             
             //  TODO: Introduce a Tooltip Manager?

@@ -41,16 +41,12 @@ define([
                     playlistDto[key] = null;
                 }
             }
-
-            if (playlistDto.items.length > 0) {
-                //  Reset will load the server's response into items as a Backbone.Collection
-                this.get('items').reset(playlistDto.items);
-
-            } else {
-                this.set('items', new PlaylistItems([], {
-                    playlistId: this.get('id')
-                }));
-            }
+            
+            //  Reset will load the server's response into items as a Backbone.Collection
+            this.get('items').reset(playlistDto.items);
+            
+            // TODO: this sucks. Shouldn't have to do it manually.
+            this.get('items').playlistId = this.get('id');
                 
             // Remove so parse doesn't set and overwrite instance after parse returns.
             delete playlistDto.items;
@@ -70,6 +66,8 @@ define([
                 items = new PlaylistItems(items, {
                     playlistId: this.get('id')
                 });
+
+                console.log("SETTING ITEMS");
                 //  Silent because items is just being properly set.
                 this.set('items', items, { silent: true });
             }
@@ -94,7 +92,9 @@ define([
                 });
                 
             }, 2000));
-                
+
+            console.log("LISTENING TO ITEMS");
+            //  TODO: Am I losing my items collection? setDisplayInfo doesn't seem to be firing.
             this.listenTo(this.get('items'), 'add addMultiple reset remove', this.setDisplayInfo);
             this.setDisplayInfo();
 
@@ -104,6 +104,8 @@ define([
         },
         
         setDisplayInfo: function () {
+
+            console.log("setting display info");
 
             var videos = this.get('items').pluck('video');
             var videoDurations = _.invoke(videos, 'get', 'duration');
@@ -177,7 +179,10 @@ define([
             itemsToSave.save({}, {
                 success: function () {
 
+                    //  TODO: Why is this .models and not just itemsToSave?
                     self.get('items').add(itemsToSave.models);
+
+                    console.log("Added items to playlist!", self.get('items'));
    
                     if (callback) {
                         callback();

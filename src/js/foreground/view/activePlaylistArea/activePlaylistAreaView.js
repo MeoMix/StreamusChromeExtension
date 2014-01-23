@@ -83,6 +83,7 @@
         },
         
         updatePlaylistDetails: function () {
+            console.log("updating playlist details");
             this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
         },
         

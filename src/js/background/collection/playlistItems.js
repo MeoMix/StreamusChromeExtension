@@ -18,8 +18,9 @@
             if (options === undefined && !_.isArray(models)) {
                 options = models;
             }
-
+            
             this.playlistId = options.playlistId;
+            console.log("PlaylistId:", this.playlistId);
 
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
@@ -89,7 +90,8 @@
 
             var sequence = this.getSequenceFromIndex(index);
 
-            console.log("This:", this, this.playlistId);
+            console.log("addByVideoAtIndex has an index of:", index);
+            console.log("addByVideoAtIndex has a sequence of:", sequence);
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.playlistId,
@@ -99,6 +101,7 @@
 
             var self = this;
             this.savePlaylistItem(playlistItem, function () {
+                //  TODO: Why is this necessary?
                 self.sort();
 
                 if (callback) {
