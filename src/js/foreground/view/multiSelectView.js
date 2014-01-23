@@ -94,7 +94,10 @@
                     });
 
                     //  Set it here not in helper because dragStart may select a search result.
-                    ui.helper.text(self.model.selected().length);
+                    ui.helper.text(self.model.selected().length);                    
+                    
+                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
+                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 },
                 
                 stop: function (event, ui) {

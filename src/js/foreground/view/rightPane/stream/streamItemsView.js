@@ -136,6 +136,9 @@
                     var itemAlreadyExists = Folders.getActiveFolder().getActivePlaylist().get('items').itemAlreadyExists(draggedStreamItem);
 
                     ui.placeholder.toggleClass('noDrop', itemAlreadyExists);
+                    
+                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
+                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 },
                 stop: function () {
                     this.backCopyHelper.removeClass('copyHelper');
