@@ -301,6 +301,7 @@
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
+    <Content Include="src\_locales\de\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
