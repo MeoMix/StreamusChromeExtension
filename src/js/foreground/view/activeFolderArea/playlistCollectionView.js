@@ -27,7 +27,6 @@ define([
             this.$el.sortable({
                 axis: 'y',
                 placeholder: 'sortable-placeholder listItem',
-                tolerance: 'pointer',
                 //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {
                     var listItemType = ui.item.data('type');
@@ -40,16 +39,20 @@ define([
                         var index = ui.item.index();
 
                         var playlist = self.collection.get(playlistId);
-                        var originalindex = self.collection.indexOf(playlist);
+                        var originalIndex = self.collection.indexOf(playlist);
 
-                        //  TODO: I don't believe this, either!
-                        //  When moving an item down the list -- all the items shift up one which causes an off-by-one error when calling
-                        //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
-                        //  no shift happens.
-                        if (originalindex < index) {
-                            console.log("original index is LESS!");
+                        //  When moving an item all the items shift up one which causes an off-by-one error when calling
+                        //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
+                        if (originalIndex < index) {
                             index += 1;
                         }
+
+
+                        //else {
+                        //    index -= 1;
+                        //}
+
+                        console.log("I am putting myself at index:", index);
 
                         self.collection.moveToIndex(playlistId, index);
                     }
@@ -95,9 +98,9 @@ define([
             var isOverflowing = this.getIsOverflowing();
             
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            if (!isOverflowing) {
-                this.$el.css('overflow-y', 'hidden');
-            }
+            //if (!isOverflowing) {
+            //    this.$el.css('overflow-y', 'hidden');
+            //}
 
             //  Need to set height here because transition doesn't work if height is auto through CSS.
             var currentHeight = this.$el.height();
@@ -114,9 +117,9 @@ define([
             }, 200, function() {
                 this.$el.hide();
                 
-                if (!isOverflowing) {
-                    this.$el.css('overflow-y', 'auto');
-                }
+                //if (!isOverflowing) {
+                //    this.$el.css('overflow-y', 'auto');
+                //}
             }.bind(this));
         },
         
@@ -125,17 +128,17 @@ define([
             var isOverflowing = this.getIsOverflowing();
 
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            if (!isOverflowing) {
-                this.$el.css('overflow-y', 'hidden');
-            }
+            //if (!isOverflowing) {
+            //    this.$el.css('overflow-y', 'hidden');
+            //}
 
             this.$el.show().transitionStop().transition({
                 height: this.$el.data('oldheight'),
                 opacity: 1
             }, 200, function() {
-                if (!isOverflowing) {
-                    this.$el.css('overflow-y', 'auto');
-                }
+                //if (!isOverflowing) {
+                //    this.$el.css('overflow-y', 'auto');
+                //}
                 onComplete();
             }.bind(this));
         }

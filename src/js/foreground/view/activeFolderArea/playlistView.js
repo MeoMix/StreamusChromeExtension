@@ -22,7 +22,8 @@
         attributes: function () {
             return {
                 'data-id': this.model.get('id'),
-                'data-type': ListItemType.Playlist
+                'data-type': ListItemType.Playlist,
+                'data-sequence': this.model.get('sequence')
             };
         },
         
