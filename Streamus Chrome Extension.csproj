@@ -155,7 +155,7 @@
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
-    <Content Include="src\js\foreground\view\activeFolderArea\activeFolderView.js" />
+    <Content Include="src\js\foreground\view\activeFolderArea\playlistCollectionView.js" />
     <Content Include="src\js\foreground\view\activeFolderArea\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\activeFolderArea\playlistView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
