@@ -69,8 +69,6 @@
                     });
                 },
                 change: function () {
-                    console.log("CHANGE FIRED");
-                    //  TODO: This doesn't seem to be working reliably. :(
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
@@ -191,8 +189,6 @@
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.model.get(id);
 
-            console.log("setSelectedOnClick is running", modelToSelect);
-
             this.doSetSelected({
                 shiftKey: event.shiftKey,
                 ctrlKey: event.ctrlKey,
@@ -203,8 +199,6 @@
 
         doSetSelected: function (options) {
             var modelToSelect = options.modelToSelect;
-
-            console.log("modelToSelect:", modelToSelect);
 
             var shiftKeyPressed = options.shiftKey || false;
             var ctrlKeyPressed = options.ctrlKey || false;

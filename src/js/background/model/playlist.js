@@ -102,9 +102,6 @@ define([
         },
         
         setDisplayInfo: function () {
-
-            console.log("setting display info");
-
             var videos = this.get('items').pluck('video');
             var videoDurations = _.invoke(videos, 'get', 'duration');
 
