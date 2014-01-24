@@ -11,37 +11,23 @@ define([
 ], function (GenericForegroundView, ForegroundViewManager, ContextMenuGroups, Utility, StreamItems, PlaylistView, CreatePlaylistPromptView, ListItemType) {
     'use strict';
 
-    //  TODO: Consider using a CompositeView vs a CollectionView.
-    //  TODO: Rename this to PlaylistsCollectionView because it doesn't depend on a folder.
-    var ActiveFolderView = Backbone.Marionette.CollectionView.extend({
+    var PlaylistCollectionView = Backbone.Marionette.CollectionView.extend({
         
         tagName: 'ul',
         id: 'activeFolder',
         itemView: PlaylistView,
-
-        //  TODO: triggers for showContextMenu
-        events: {
-            'contextmenu': 'showContextMenu'
-        },
-        
+       
         // TODO: This seems useful:
         //There may be scenarios where you need to pass data from your parent collection view in to each of the itemView instances. To do this, provide a itemViewOptions definition on your collection view as an object literal. This will be passed to the constructor of your itemView as part of the options.
         
-        onDomRefresh: function() {
-            //  TODO: Makes playlists scroll when you drag 'em around.
+        //  TODO: use onDomRefresh after a region is introduced and view is called via region.show
+        onRender: function () {
+
             var self = this;
-            //  Allows for drag-and-drop of videos
             this.$el.sortable({
                 axis: 'y',
-                //  Adding this helps prevent unwanted clicks to play
-                delay: 100,
-                appendTo: 'body',
-                containment: 'body',
                 placeholder: 'sortable-placeholder listItem',
-                scroll: false,
                 tolerance: 'pointer',
-                helper: 'clone',
-                
                 //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {
                     var listItemType = ui.item.data('type');
@@ -50,10 +36,8 @@ define([
                     if (listItemType === ListItemType.Playlist) {
 
                         var playlistId = ui.item.data('id');
-
-                        //  TODO: I don't believe this anymore, double check.
-                        //  It's important to do this to make sure I don't count my helper elements in index.
-                        var index = parseInt(ui.item.parent().children('.playlist').index(ui.item));
+                        
+                        var index = ui.item.index();
 
                         var playlist = self.collection.get(playlistId);
                         var originalindex = self.collection.indexOf(playlist);
@@ -63,6 +47,7 @@ define([
                         //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since
                         //  no shift happens.
                         if (originalindex < index) {
+                            console.log("original index is LESS!");
                             index += 1;
                         }
 
@@ -81,52 +66,6 @@ define([
             ForegroundViewManager.get('views').push(this);
         },
 
-        //  TODO: Hopefully not needed anymore.
-        //addItem: function (playlist) {
-
-        //    var playlistView = new PlaylistView({
-        //        model: playlist
-        //    });
-
-        //    var element = playlistView.render().$el;
-
-        //    if (this.$el.find('.playlist').length > 0) {
-
-        //        var playlists = this.model.get('playlists');
-        //        var currentPlaylistIndex = playlists.indexOf(playlist);
-
-        //        var previousPlaylistId = playlists.at(currentPlaylistIndex - 1).get('id');
-        //        var previousPlaylistElement = this.$el.find('.playlist[data-id="' + previousPlaylistId + '"]');
-                
-        //        element.insertAfter(previousPlaylistElement);
-
-        //    } else {
-        //        element.appendTo(this.$el);
-        //    }
-        //},
-        
-        showContextMenu: function(event) {
-
-            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
-            event.preventDefault();
-
-            if (event.target === event.currentTarget) {
-                //  Didn't bubble up from a child -- clear groups.
-                ContextMenuGroups.reset();
-            }
-
-            ContextMenuGroups.add({
-                items: [{
-                    text: chrome.i18n.getMessage('createPlaylist'),
-                    onClick: function() {
-                        var createPlaylistPromptView = new CreatePlaylistPromptView();
-                        createPlaylistPromptView.fadeInAndShow();
-                    }
-                }]
-            });
-            
-        },
-        
         //  TODO: I still think it's possible to improve the clarity of this with better CSS/HTML mark-up.
         getIsOverflowing: function () {
             
@@ -203,5 +142,5 @@ define([
 
     });
 
-    return ActiveFolderView;
+    return PlaylistCollectionView;
 });

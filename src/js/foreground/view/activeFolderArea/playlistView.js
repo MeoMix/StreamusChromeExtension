@@ -38,8 +38,7 @@
             //  TODO: I don't think I should be calling render from my view anymore.
             'change:title': 'render',
             'change:dataSourceLoaded': 'toggleLoadingClass',
-            'change:active': 'stopEditingOnInactive toggleSelectedClass',
-            'destroy': 'remove'
+            'change:active': 'stopEditingOnInactive toggleSelectedClass'
         },
         
         ui: {

@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/view/genericForegroundView',
-    'foreground/view/activeFolderArea/activeFolderView',
+    'foreground/view/activeFolderArea/playlistCollectionView',
     'text!template/activeFolderArea.html',
     'common/view/settingsView',
     'foreground/view/prompt/genericPromptView',
@@ -9,14 +9,14 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/activeFolderArea/deletePlaylistButtonView',
     'foreground/collection/folders'
-], function (GenericForegroundView, ActiveFolderView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, DeletePlaylistButtonView, Folders) {
+], function (GenericForegroundView, PlaylistCollectionView, ActiveFolderAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, DeletePlaylistButtonView, Folders) {
     'use strict';
 
     var ActiveFolderAreaView = GenericForegroundView.extend({
 
         template: _.template(ActiveFolderAreaTemplate),
 
-        activeFolderView: null,
+        playlistCollectionView: null,
         deletePlaylistButtonView: null,
         panel: null,
         
@@ -42,7 +42,7 @@
                 })
             ));
 
-            this.$el.find('.list').append(this.activeFolderView.render().el);
+            this.$el.find('.list').append(this.playlistCollectionView.render().el);
             this.$el.find('.right-group').append(this.deletePlaylistButtonView.render().el);
 
             this.panel = this.$el.find('.panel');
@@ -52,8 +52,7 @@
         },
 
         initialize: function () {
-            this.activeFolderView = new ActiveFolderView({
-                
+            this.playlistCollectionView = new PlaylistCollectionView({
                 collection: this.model.get('folder').get('playlists')
             });
 
@@ -116,9 +115,9 @@
             }, 200);
 
             if (isExpanded) {
-                this.activeFolderView.collapse();
+                this.playlistCollectionView.collapse();
             } else {
-                this.activeFolderView.expand(function () {
+                this.playlistCollectionView.expand(function () {
                     caretIcon.data('expanded', true);
                 });
             }

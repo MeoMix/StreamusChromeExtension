@@ -92,9 +92,6 @@
                     bottom: 40
                 },
                 
-                //  Adding this helps prevent unwanted clicks to play
-                delay: 100,
-                
                 placeholder: 'sortable-placeholder listItem hiddenUntilChange',
 
                 helper: function (ui, streamItem) {

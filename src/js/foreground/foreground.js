@@ -69,6 +69,8 @@ define([
             this.$el.on('click contextmenu', function (event) {
 
                 var isDefaultPrevented = event.isDefaultPrevented();
+
+                console.log("isDefaultPrevent:", isDefaultPrevented);
                 
                 if (isDefaultPrevented) {
 

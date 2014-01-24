@@ -28,11 +28,19 @@
             'click i.addToStream': 'addToStream',
             'click i.delete': 'doDelete',
             'click i.playInStream': 'playInStream',
-            'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
             'dblclick i.addToStream': 'addToStream',
             'dblclick i.playInStream': 'playInStream',
+        },
+        
+        triggers: {
+            //  TODO: contextmenu vs contextMenu 
+            'contextmenu': {
+                event: 'showContextMenu',
+                //  Set preventDefault to true to let foreground know to not reset the context menu.
+                preventDefault: true
+            }
         },
         
         render: function () {
@@ -68,11 +76,10 @@
             return false;
         },
 
-        showContextMenu: function (event) {
+        showContextMenu: function () {
 
             var self = this;
 
-            event.preventDefault();
             ContextMenuGroups.reset();
         
             ContextMenuGroups.add({
