@@ -41,18 +41,11 @@ define([
                         var playlist = self.collection.get(playlistId);
                         var originalIndex = self.collection.indexOf(playlist);
 
-                        //  When moving an item all the items shift up one which causes an off-by-one error when calling
+                        //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
                         //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
                         if (originalIndex < index) {
                             index += 1;
                         }
-
-
-                        //else {
-                        //    index -= 1;
-                        //}
-
-                        console.log("I am putting myself at index:", index);
 
                         self.collection.moveToIndex(playlistId, index);
                     }

@@ -1,10 +1,10 @@
 ﻿<div class="left-top-bar">
     <div class="searchBar">
-        <input placeholder="<%- chrome.i18n.getMessage('search') %>..." type="text">
+        <input placeholder="<%= chrome.i18n.getMessage('search') %>..." type="text">
         <div class="underline"></div>
     </div>
     
-    <button class="button-icon remove" id="hideVideoSearch" title="<%- chrome.i18n.getMessage('hideVideoSearch') %>">
+    <button class="button-icon remove" id="hideVideoSearch" title="<%= chrome.i18n.getMessage('hideVideoSearch') %>">
         <i class="fa fa-times"></i>
     </button>
 </div>
@@ -14,18 +14,18 @@
 <div class="big-text-wrapper">
     
     <div class="big-text instructions">
-        <div class="big-text-header"><%- chrome.i18n.getMessage('startTyping') %></div>
-        <%- chrome.i18n.getMessage('resultsWillAppearAsYouSearch') %>.
+        <div class="big-text-header"><%= chrome.i18n.getMessage('startTyping') %></div>
+        <%= chrome.i18n.getMessage('resultsWillAppearAsYouSearch') %>.
     </div>
 
     <div class="big-text searching hidden">
-        <div class="big-text-header"><%- chrome.i18n.getMessage('searching') %>...</div>
+        <div class="big-text-header"><%= chrome.i18n.getMessage('searching') %>...</div>
         <div class="spinner spinner-medium"></div>
     </div>
 
     <div class="big-text noResults hidden">
-        <div class="big-text-header"><%- chrome.i18n.getMessage('noResultsFound') %></div>
-        <%- chrome.i18n.getMessage('sorryAboutThat') %>. <%- chrome.i18n.getMessage('trySearchingForSomethingElse') %>.
+        <div class="big-text-header"><%= chrome.i18n.getMessage('noResultsFound') %></div>
+        <%= chrome.i18n.getMessage('sorryAboutThat') %>. <%= chrome.i18n.getMessage('trySearchingForSomethingElse') %>.
     </div>
 
     <div id="videoSearchResultsView" class="view-placeholder">

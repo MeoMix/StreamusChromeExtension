@@ -210,8 +210,10 @@
             var ctrlKeyPressed = options.ctrlKey || false;
             var isDrag = options.drag || false;
 
+            var targetAlreadySelected = modelToSelect.get('selected');
+
             //  A dragged item is always selected.
-            modelToSelect.set('selected', !modelToSelect.get('selected') || isDrag);
+            modelToSelect.set('selected', !targetAlreadySelected || isDrag);
 
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
@@ -237,7 +239,7 @@
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.
                 modelToSelect.set('firstSelected', true);
-            } else if(!isDrag){
+            } else if (!isDrag || (isDrag && !targetAlreadySelected)) {
                 //  All other selections are lost if the control key is not held when a click occurs.
                 this.model.deselectAllExcept(modelToSelect.cid);
             }

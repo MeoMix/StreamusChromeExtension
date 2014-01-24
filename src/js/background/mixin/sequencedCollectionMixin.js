@@ -11,19 +11,10 @@ define({
         model.save();
 
         this.sort();
-
-        console.table(this.map(function(eachModel) {
-            return {
-                title: eachModel.get('title'),
-                sequence: eachModel.get('sequence')
-            };
-        }));
     },
 
     //  Return what sequence number would be necessary to be at the given index     
     getSequenceFromIndex: function (index) {
-
-        console.log("getting sequence for index", index);
 
         var sequence;
         var sequenceIncrement = 10000;
@@ -32,22 +23,20 @@ define({
             sequence = sequenceIncrement;
         }
         else {
-            //  highSequence is either the next models' sequence or the maximum sequence + 10k 
+            //  highSequence is either the next models' sequence or the maximum sequence + (sequenceIncrement * 2)
             var highSequence;
             if (index < this.length) {
                 highSequence = this.at(index).get('sequence');
             } else {
-                highSequence = this.at(this.length - 1).get('sequence') + sequenceIncrement;
+                highSequence = this.at(this.length - 1).get('sequence') + (sequenceIncrement * 2);
             }
-            console.log("high sequence is:", highSequence);
 
             //  lowSequence is either the previous model's sequence or 0.
             var lowSequence = 0;
             if (index > 0) {
                 lowSequence = this.at(index - 1).get('sequence');
             }
-            console.log('low sequence:', lowSequence);
-
+ 
             sequence = (highSequence + lowSequence) / 2;
         }
 

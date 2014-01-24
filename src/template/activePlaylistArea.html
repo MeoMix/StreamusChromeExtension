@@ -1,13 +1,13 @@
 ﻿<div class="left-top-bar">
-    <button class="button-icon show" title="<%- chrome.i18n.getMessage('openMenu') %>">
+    <button class="button-icon show" title="<%= chrome.i18n.getMessage('openMenu') %>">
         <i class="fa fa-reorder"></i>
     </button>
 
-    <div class="playlistTitle" title="<%- playlist.get('title') %>">
-        <%- playlist.get('title') %>
+    <div class="playlistTitle" title="<%= playlist.get('title') %>">
+        <%= playlist.get('title') %>
     </div>
     
-    <button class="button-icon" id="showVideoSearch" title="<%- chrome.i18n.getMessage('showVideoSearch') %>">
+    <button class="button-icon" id="showVideoSearch" title="<%= chrome.i18n.getMessage('showVideoSearch') %>">
         <i class="fa fa-search"></i>
     </button>
 </div>
@@ -18,9 +18,9 @@
     
     <div class="big-text playlistEmpty">
         <div class="big-text-header">
-            <%- chrome.i18n.getMessage('playlistEmpty') %>
+            <%= chrome.i18n.getMessage('playlistEmpty') %>
         </div>
-        <%- chrome.i18n.getMessage('wouldYouLikeTo') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%- chrome.i18n.getMessage('searchForVideos') %></span>?
+        <%= chrome.i18n.getMessage('wouldYouLikeTo') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= chrome.i18n.getMessage('searchForVideos') %></span>?
     </div>
 
     <div id="activePlaylistItemsView" class="view-placeholder">
@@ -29,7 +29,7 @@
 
 <div class="left-bottom-menubar">
     <div class="playlist-details lowercase">
-        <%- playlist.get('displayInfo') %>
+        <%= playlist.get('displayInfo') %>
     </div>
     <div class="playlist-actions">
         <div id="searchButtonView" class="view-placeholder"></div>

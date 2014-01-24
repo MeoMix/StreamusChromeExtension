@@ -1,12 +1,12 @@
-﻿<button class="mute button-icon<%- muted ? ' muted' : '' %>">
+﻿<button class="mute button-icon<%= muted ? ' muted' : '' %>">
     
 </button>
 
 <div class="volume-slider">
     
-    <div class="progress" style="height: <%- volume %>%">
+    <div class="progress" style="height: <%= volume %>%">
         
     </div>
 
-    <input class="volumeRange" type="range" value="<%- volume %>">
+    <input class="volumeRange" type="range" value="<%= volume %>">
 </div>

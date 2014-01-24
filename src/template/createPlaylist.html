@@ -2,14 +2,14 @@
     <li>
                 
         <span class="inputUnderlineWrapper">
-            <input id="playlistTitleInput" type="text" class="playlistTitle submittable" placeholder="<%- chrome.i18n.getMessage('required') %>: <%- chrome.i18n.getMessage('title').toLowerCase() %>" value="<%- chrome.i18n.getMessage('playlist') %> <%- playlistCount %>">
+            <input id="playlistTitleInput" type="text" class="playlistTitle submittable" placeholder="<%= chrome.i18n.getMessage('required') %>: <%= chrome.i18n.getMessage('title').toLowerCase() %>" value="<%= chrome.i18n.getMessage('playlist') %> <%= playlistCount %>">
             <div class="underline"></div>   
         </span>
 
     </li>
     <li>
         <span class="inputUnderlineWrapper">
-            <input id="youTubeSourceInput" type="text" class="youTubeSource submittable" placeholder="<%- chrome.i18n.getMessage('optional') %>: <%- chrome.i18n.getMessage('playlist').toLowerCase() %> / <%- chrome.i18n.getMessage('channel').toLowerCase() %> <%- chrome.i18n.getMessage('url') %>">
+            <input id="youTubeSourceInput" type="text" class="youTubeSource submittable" placeholder="<%= chrome.i18n.getMessage('optional') %>: <%= chrome.i18n.getMessage('playlist').toLowerCase() %> / <%= chrome.i18n.getMessage('channel').toLowerCase() %> <%= chrome.i18n.getMessage('url') %>">
             <div class="underline"></div>   
         </span>
     </li>

@@ -1,26 +1,26 @@
 ﻿<div class="topic">
-    <%- chrome.i18n.getMessage('general') %>
+    <%= chrome.i18n.getMessage('general') %>
 </div>
 <div class="category">
 
     <ul>
         <li>
             <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
-                <%- chrome.i18n.getMessage('videoQuality') %>
+                <%= chrome.i18n.getMessage('videoQuality') %>
             </label>
             
             <select id="suggestedQualitySelect" name="suggestedQualitySelect">
             
                 <option value="highres">
-                    <%- chrome.i18n.getMessage('highest') %>
+                    <%= chrome.i18n.getMessage('highest') %>
                 </option>
 
                 <option value="default">
-                    <%- chrome.i18n.getMessage('auto') %>
+                    <%= chrome.i18n.getMessage('auto') %>
                 </option>
 
                 <option value="small">
-                    <%- chrome.i18n.getMessage('lowest') %>
+                    <%= chrome.i18n.getMessage('lowest') %>
                 </option>
 
             </select>
@@ -28,7 +28,7 @@
         <li>
             <input type="checkbox" id="showTooltips">
             <label for="showTooltips">
-                <%- chrome.i18n.getMessage('showTooltips') %>
+                <%= chrome.i18n.getMessage('showTooltips') %>
             </label>
         </li>
     </ul>
@@ -36,20 +36,20 @@
 </div>
 
 <div class="remindersLabel topic">
-    <%- chrome.i18n.getMessage('reminders') %>
+    <%= chrome.i18n.getMessage('reminders') %>
 </div>
 <div class="category">
     <ul>
         <li>
             <input type="checkbox" id="remindClearStream">
             <label for="remindClearStream">
-                <%- chrome.i18n.getMessage('remindClearStream') %>
+                <%= chrome.i18n.getMessage('remindClearStream') %>
             </label>
         </li>
         <li>
             <input type="checkbox" id="remindDeletePlaylist">
             <label for="remindDeletePlaylist">
-                <%- chrome.i18n.getMessage('remindDeletePlaylist') %>
+                <%= chrome.i18n.getMessage('remindDeletePlaylist') %>
             </label>
         </li>
     </ul>

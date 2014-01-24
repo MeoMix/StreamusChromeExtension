@@ -22,8 +22,7 @@
         attributes: function () {
             return {
                 'data-id': this.model.get('id'),
-                'data-type': ListItemType.Playlist,
-                'data-sequence': this.model.get('sequence')
+                'data-type': ListItemType.Playlist
             };
         },
         
@@ -64,7 +63,7 @@
             //  TODO: I think it is OK to listen to this like this... but maybe there's a better way!
             //  Maybe PlaylistView should be a CompositeView since it references a collection of Items?
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
-            
+
             //  TODO: Don't do memory management like this -- use regions, I think!
             ForegroundViewManager.get('views').push(this);
         },

@@ -1,24 +1,24 @@
 ﻿<!-- Render non-lazily if view is set to instant -->
 <% if( instant ) { %>
-    <img class="item-thumb" src="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
+    <img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } else { %>
-    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%- video.get('id') %>/default.jpg" />
+    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } %>
 
-<span class="item-title" title="<%- title %>">
-    <%- title %>
+<span class="item-title" title="<%= title %>">
+    <%= title %>
 </span>
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>
-        <%- chrome.i18n.getMessage('hd') %> · 
+        <%= chrome.i18n.getMessage('hd') %> · 
     <% } %>
     <span class="item-duration">
-        <%- video.get('prettyDuration') %>
+        <%= video.get('prettyDuration') %>
     </span>
 </span>
 
 <span class="hover-actions">
-    <i class="fa fa-play playInStream" title="<%- chrome.i18n.getMessage('play') %>"></i>
-    <i class="fa fa-trash-o delete" title="<%- chrome.i18n.getMessage('delete') %>"></i>
+    <i class="fa fa-play playInStream" title="<%= chrome.i18n.getMessage('play') %>"></i>
+    <i class="fa fa-trash-o delete" title="<%= chrome.i18n.getMessage('delete') %>"></i>
 </span>
