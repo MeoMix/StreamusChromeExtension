@@ -20,7 +20,8 @@
     "grunt-contrib-cssmin": "~0.7.0",
     "grunt-contrib-htmlmin": "~0.1.3",
     "grunt-usemin": "~2.0.2",
-    "grunt-contrib-imagemin": "~0.4.0"
+    "grunt-contrib-imagemin": "~0.4.0",
+    "grunt-contrib-less": "~0.9.0"
   },
   "main": "Gruntfile.js",
   "scripts": {
