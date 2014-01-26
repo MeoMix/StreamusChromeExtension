@@ -5,9 +5,8 @@ define([
     'background/model/video',
     'background/model/settings',
     'common/model/youTubeV2API',
-    'common/model/youTubeV3API',
     'common/model/dataSource'
-], function (Playlists, Playlist, Video, Settings, YouTubeV2API, YouTubeV3API, DataSource) {
+], function (Playlists, Playlist, Video, Settings, YouTubeV2API, DataSource) {
     'use strict';
     
     var Folder = Backbone.Model.extend({
@@ -225,9 +224,9 @@ define([
 
                         if (dataSource.isV3()) {
                             //  TODO: Finish implementing this.
-                            YouTubeV3API.getDataSourceResults(dataSource, function onGetV3DataSourceData(response) {
+                            //YouTubeV3API.getDataSourceResults(dataSource, function onGetV3DataSourceData(response) {
 
-                            });
+                            //});
                         } else {
 
                             //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.

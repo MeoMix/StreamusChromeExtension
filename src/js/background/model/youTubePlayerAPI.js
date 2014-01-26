@@ -10,13 +10,13 @@ define(function() {
 
         initialize: function () {
 
-            //  Modify the iFrame headers to force HTML5 player and to look like we're actually a YouTube page.
-            //  The HTML5 player seems more reliable (doesn't crash when Flash goes down) and looking like YouTube
-            //  means we can bypass a lot of the embed restrictions.
+            // Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
+            // Benefits include faster loading, less CPU usage, and no crashing
+            // Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
+            // Without a Referer - YouTube will reject most of the requests to play music.
             chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
 
                 //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
-                //  I chose to look like YouTube because that seems the best/safest ooption.
                 var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                     return requestHeader.name === 'Referer';
                 });

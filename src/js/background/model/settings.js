@@ -10,6 +10,7 @@ define(function () {
             var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
+            var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
             
             return {
                 localDebug: false,
@@ -21,7 +22,8 @@ define(function () {
                 remindClearStream: remindClearStream === null ? true : remindClearStream,
                 remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
-                searchQuery: this.getItem('searchQuery') || ''
+                searchQuery: this.getItem('searchQuery') || '',
+                alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
             };
         },
         
@@ -41,9 +43,12 @@ define(function () {
             this.on('change:userId', function (model, userId) {
                 localStorage.setItem('userId', JSON.stringify(userId));
             });
+            
+            this.on('change:alwaysOpenToSearch', function (model, alwaysOpenToSearch) {
+                localStorage.setItem('alwaysOpenToSearch', JSON.stringify(alwaysOpenToSearch));
+            });
 
             this.on('change:showTooltips', function (model, showTooltips) {
-                console.log("showTooltips has changed to:", showTooltips, JSON.stringify(showTooltips));
                 localStorage.setItem('showTooltips', JSON.stringify(showTooltips));
             });
 
@@ -62,9 +67,6 @@ define(function () {
             this.on('change:searchQuery', function(model, searchQuery) {
                 localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
             });
-
-
-            console.log("I have initialized:", this);
 
         },
         

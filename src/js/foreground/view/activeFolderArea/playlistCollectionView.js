@@ -91,9 +91,9 @@ define([
             var isOverflowing = this.getIsOverflowing();
             
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            //if (!isOverflowing) {
-            //    this.$el.css('overflow-y', 'hidden');
-            //}
+            if (!isOverflowing) {
+                this.$el.css('overflow-y', 'hidden');
+            }
 
             //  Need to set height here because transition doesn't work if height is auto through CSS.
             var currentHeight = this.$el.height();
@@ -110,9 +110,9 @@ define([
             }, 200, function() {
                 this.$el.hide();
                 
-                //if (!isOverflowing) {
-                //    this.$el.css('overflow-y', 'auto');
-                //}
+                if (!isOverflowing) {
+                    this.$el.css('overflow-y', 'auto');
+                }
             }.bind(this));
         },
         
@@ -121,17 +121,17 @@ define([
             var isOverflowing = this.getIsOverflowing();
 
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            //if (!isOverflowing) {
-            //    this.$el.css('overflow-y', 'hidden');
-            //}
+            if (!isOverflowing) {
+                this.$el.css('overflow-y', 'hidden');
+            }
 
             this.$el.show().transitionStop().transition({
                 height: this.$el.data('oldheight'),
                 opacity: 1
             }, 200, function() {
-                //if (!isOverflowing) {
-                //    this.$el.css('overflow-y', 'auto');
-                //}
+                if (!isOverflowing) {
+                    this.$el.css('overflow-y', 'auto');
+                }
                 onComplete();
             }.bind(this));
         }

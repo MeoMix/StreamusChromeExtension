@@ -123,7 +123,7 @@ button.mute.muted{
 .prompt.settingsPrompt .panel {
     margin-left: -140px;
     width: 280px;
-    height: 230px;
+    height: 250px;
 }
 
 .prompt.createPlaylistPrompt .panel {
@@ -471,18 +471,14 @@ input[type="range"]::-webkit-slider-thumb {
     overflow-y: auto;
 }
 
-.listItem i {
-    cursor: pointer;
-}
-
 /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 .listItem.streamItem:hover .item-title {
-    width: calc(~"100% - 96px");
+    width: calc(~"100% - 100px");
 }
 
 .listItem.playlistItem:hover .item-title,
 .listItem.videoSearchResult:hover .item-title {
-    width: calc(~"100% - 118px");
+    width: calc(~"100% - 135px");
 }
 
 .listItem:hover > .hover-actions {
@@ -495,11 +491,15 @@ input[type="range"]::-webkit-slider-thumb {
     right: 0;
     top: 0;
     bottom: 0;
+    font-size: 0;
 }
 
-.hover-actions i {
+.hover-actions .button-icon {
+    height: 40px;
+    line-height: 40px;
+    width: 25px;
     font-size: 14px;
-    margin-top: 12px;
+    cursor: pointer;
 }
 
 .listItem {
@@ -564,14 +564,19 @@ input[type="range"]::-webkit-slider-thumb {
     color: #fff;
 }
 
-.playlist.selected .count {
+#activeFolder .listItem i {
+    margin-left: .4em;
+    margin-right: .4em;
+}
+
+#activeFolder .playlist.selected .count {
     background: #C5E6FF;
     color: #4EA6EA;
 }
 
-.listItem i {
-    margin-right: .5em
-}
+/*.listItem i {
+    margin-right: .5em;
+}*/
 
 .listItem img {
     display: block;
@@ -1043,33 +1048,19 @@ input:focus  ~ .underline {
     line-height: 26px;
     position: relative;
     width: calc(~"100% - 1px");
-    cursor: default;
     padding: 0;
 }
 
-#activeFolder .listItem span.titleWrapper {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    display: inline-block;
-    width: 165px;
-    margin-bottom: -7px;
-}
-
-#activeFolder .listItem.selected span.titleWrapper {
-    color: #fff;
+#activeFolder .listItem,
+#activeFolder .listItem * {
     cursor: default;
 }
 
 #activeFolder .listItem .title {
     white-space: nowrap;
-    cursor: default;
 }
 
-#activeFolder .listItem i {
-    margin-left: 5px;
-}
-
-#activeFolder .listItem span.count {
+#activeFolder .listItem .count {
     background: #666;
     border-radius: 1em;
     color: #fff;
@@ -1414,8 +1405,12 @@ border-top-color: transparent;
 
 #activeFolder span.title {
     display: inline-block;
-    width: 100%;
     overflow: hidden;
     vertical-align: top;
     text-overflow: ellipsis;
+}
+
+#activeFolder span.title,
+#activeFolder input.editableTitle {
+    width: 160px;
 }

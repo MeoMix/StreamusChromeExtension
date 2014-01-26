@@ -1,6 +1,8 @@
 ﻿define([
     'backbone',
+    'backbone.marionette',
     'jquery',
+    'jquery.qtip',
     'lodash',
     'googleAnalytics'
 ], function () {

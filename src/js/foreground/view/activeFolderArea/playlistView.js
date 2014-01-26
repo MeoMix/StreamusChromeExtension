@@ -30,7 +30,7 @@
             'blur @ui.editableTitle': 'saveAndStopEdit',
             'click': 'select',
             'contextmenu': 'showContextMenu',
-            'dblclick @ui.titleWrapper': 'startEdit',
+            'dblclick @ui.readonlyTitle': 'startEdit',
             'keyup @ui.editableTitle': 'saveAndStopEditOnEnter'
         },
         
@@ -43,9 +43,8 @@
         
         ui: {
             itemCount: '.count',
-            titleWrapper: '.titleWrapper',
-            editableTitle: '.titleWrapper > input',
-            readonlyTitle: '.titleWrapper > .title'
+            editableTitle: 'input.editableTitle',
+            readonlyTitle: 'span.title'
         },
         
         //  TODO: instead of passing items into render -- maybe I can just pass in the item count necessary?

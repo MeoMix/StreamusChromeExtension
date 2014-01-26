@@ -4,7 +4,7 @@
 		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
-		"message": "Streamus turns YouTube into the music player you always wanted. Streamus makes streaming YouTube refreshingly easy."
+		"message": "Streamus turns YouTube into the music player you always wanted."
 	},
 	"extensionTitle": {
 		"message": "Streamus: Simple, streaming music."
@@ -395,5 +395,9 @@
 	},
 	"watchOnYouTube": {
 		"message": "Watch on YouTube"
+	},
+	
+	"alwaysOpenToSearch": {
+		"message": "Always open to search"
 	}
 }

@@ -18,8 +18,9 @@ define([
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/player',
-    'foreground/model/buttons/videoDisplayButton'
-], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton) {
+    'foreground/model/buttons/videoDisplayButton',
+    'foreground/model/settings'
+], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({
         //  Same as ForegroundView's element. That is OK.
@@ -43,7 +44,10 @@ define([
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();
-            this.showVideoSearch(true);
+            
+            if (Settings.get('alwaysOpenToSearch')) {
+                this.showVideoSearch(true);
+            }
             
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
@@ -85,18 +89,18 @@ define([
 
             });
 
-            key('s', function() {
+            //key('s', function() {
 
-                console.log("s key pressed");
-                if (this.videoSearchView === null) {
+            //    console.log("s key pressed");
+            //    if (this.videoSearchView === null) {
                     
-                    console.log("show search");
+            //        console.log("show search");
                     
 
 
-                }
+            //    }
                 
-            }.bind(this));
+            //}.bind(this));
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.

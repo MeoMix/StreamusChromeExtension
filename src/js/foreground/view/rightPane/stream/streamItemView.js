@@ -29,12 +29,12 @@
         
         events: {
             'click': 'select',
-            'click i.delete': 'doDelete',
-            'click i.playInStream': 'play',
+            'click button.delete': 'doDelete',
+            'click button.playInStream': 'play',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'togglePlayingState',
-            'dblclick i.playInStream': 'play'
+            'dblclick button.playInStream': 'play'
         },
 
         render: function () {

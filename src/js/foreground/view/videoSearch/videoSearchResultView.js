@@ -26,15 +26,15 @@
         instant: false,
         
         events: {
-            'click i.playInStream': 'playInStream',
-            'click i.addToStream': 'addToStream',
-            'click i.save': 'saveToPlaylist',
+            'click button.playInStream': 'playInStream',
+            'click button.addToStream': 'addToStream',
+            'click button.save': 'saveToPlaylist',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
-            'dblclick i.playInStream': 'playInStream',
-            'dblclick i.save': 'saveToPlaylist',
-            'dblclick i.addToStream': 'addToStream'
+            'dblclick button.playInStream': 'playInStream',
+            'dblclick button.save': 'saveToPlaylist',
+            'dblclick button.addToStream': 'addToStream'
 
         },
 

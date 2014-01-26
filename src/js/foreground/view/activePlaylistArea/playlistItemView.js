@@ -25,13 +25,13 @@
         instant: false,
         
         events: {
-            'click i.addToStream': 'addToStream',
-            'click i.delete': 'doDelete',
-            'click i.playInStream': 'playInStream',
+            'click button.addToStream': 'addToStream',
+            'click button.delete': 'doDelete',
+            'click button.playInStream': 'playInStream',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
-            'dblclick i.addToStream': 'addToStream',
-            'dblclick i.playInStream': 'playInStream',
+            'dblclick button.addToStream': 'addToStream',
+            'dblclick button.playInStream': 'playInStream',
         },
         
         triggers: {

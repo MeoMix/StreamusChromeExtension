@@ -1,64 +1,53 @@
-﻿//  TODO: Rename this options for easy finding??
-define([
+﻿define([
     'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/settings.html',
     'foreground/model/player',
     'foreground/model/settings'
-], function (GenericForegroundView, SettingsTemplate, Player, Settings) {
+], function (GenericForegroundView, ForegroundViewManager, SettingsTemplate, Player, Settings) {
     'use strict';
 
-    var SettingsView = GenericForegroundView.extend({
+    var SettingsView = Backbone.Marionette.ItemView.extend({
 
         className: 'settings',
 
         template: _.template(SettingsTemplate),
+        
+        model: Settings,
+        
+        ui: {
+            suggestedQualitySelect: '#suggestedQualitySelect',
+            showTooltipsCheckbox: '#showTooltips',
+            remindClearStreamCheckbox: '#remindClearStream',
+            remindDeletePlaylistCheckbox: '#remindDeletePlaylist',
+            alwaysOpenToSearchCheckbox: '#alwaysOpenToSearch'
+        },
 
-        suggestedQualitySelect: null,
-        showTooltipsCheckbox: null,
-        remindClearStreamCheckbox: null,
-        remindDeletePlaylistCheckbox: null,
-
-        render: function () {
-
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n
-            }));
-
-            this.showTooltipsCheckbox = this.$el.find('#showTooltips');
-            this.remindClearStreamCheckbox = this.$el.find('#remindClearStream');
-            this.remindDeletePlaylistCheckbox = this.$el.find('#remindDeletePlaylist');
-            
-            //  Initialize to whatever's stored in localStorage.
-            console.log("Settings showTooltips:", Settings.get('showTooltips'));
-            this.showTooltipsCheckbox.prop('checked', Settings.get('showTooltips'));
-            this.remindClearStreamCheckbox.prop('checked', Settings.get('remindClearStream'));
-            this.remindDeletePlaylistCheckbox.prop('checked', Settings.get('remindDeletePlaylist'));
-
-            this.suggestedQualitySelect = this.$el.find('#suggestedQualitySelect');
-            this.suggestedQualitySelect.val(Settings.get('suggestedQuality'));
-
-            return this;
+        templateHelpers: {
+            'chrome.i18n': chrome.i18n
+        },
+        
+        initialize: function() {
+            ForegroundViewManager.get('views').push(this);
         },
 
         doOk: function () {
-
-            var suggestedQuality = this.suggestedQualitySelect.val();
-
+            var suggestedQuality = this.ui.suggestedQualitySelect.val();
             Settings.set('suggestedQuality', suggestedQuality);
             Player.setSuggestedQuality(suggestedQuality);
 
-            var remindClearStream = this.remindClearStreamCheckbox.is(':checked');
+            var remindClearStream = this.ui.remindClearStreamCheckbox.is(':checked');
             Settings.set('remindClearStream', remindClearStream);
 
-            var remindDeletePlaylist = this.remindDeletePlaylistCheckbox.is(':checked');
+            var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
-            var showTooltips = this.showTooltipsCheckbox.is(':checked');
-            console.log("ShowTooltips?", showTooltips);
+            var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
             Settings.set('showTooltips', showTooltips);
-            
-            //  TODO: Introduce a Tooltip Manager?
             $('[title]').qtip('disable', !showTooltips);
+
+            var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
+            Settings.set('alwaysOpenToSearch', alwaysOpenToSearch);
         }
 
     });

@@ -1,9 +1,9 @@
 ﻿<i class="fa fa-list fa-fw"></i>
 <div class="spinner spinner-small"></div>
 
-<span class="titleWrapper">
-    <span class="title" title="<%= title %>"><%= title %></span>
-    <input type="text" value="<%= title %>" class="editableTitle hidden"/>
+<span class="title" title="<%= title %>">
+    <%= title %>
 </span>
+<input type="text" value="<%= title %>" class="editableTitle hidden" maxlength="255"/>
 
 <span class="count"><%= items.length %></span>
