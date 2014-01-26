@@ -125,6 +125,16 @@ module.exports = function (grunt) {
 			}
 		},
 		
+		less: {
+		    options: {
+		        strictMath: true,
+		        ieCompat: false
+		    },
+		    files: {
+		        "src/css/foreground.css": "src/less/foreground.less"
+		    }
+		},
+		
 		requirejs: {
 			production: {
 				options: {
@@ -201,6 +211,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
+	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-usemin');
@@ -213,7 +224,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('lint', ['jshint']);
 
 	grunt.registerTask('deploy', 'Useful for testing production. Just for debugging purposes and does not update manifest version', function() {
-		grunt.task.run('requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin',  'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+	    grunt.task.run('requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'useminPrepare', 'usemin', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
 	});
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
@@ -227,7 +238,7 @@ module.exports = function (grunt) {
 
 		grunt.option('version', version);
 
-		grunt.task.run('lint', 'update-manifest-version', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder', 'compress-extension');
+		grunt.task.run('lint', 'update-manifest-version', 'remove-key-from-manifest', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder', 'compress-extension');
 	});
 
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
@@ -265,9 +276,10 @@ module.exports = function (grunt) {
 	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
 		if (grunt.file.exists('dist/template')) {
 			//	Can't delete a full directory -- clean it up.
-			grunt.config.set('clean', ['dist/template']);
+			grunt.config.set('clean', ['dist/template', 'dist/less']);
 			grunt.task.run('clean');
 			grunt.file.delete('dist/template');
+		    grunt.file.delete('dist/less');
 		}
 
 		grunt.file.delete('dist/build.txt');
@@ -290,6 +302,38 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
+    grunt.registerTask('remove-less-reference', 'remove less reference in foreground', function() {
+        grunt.config.set('replace', {
+            removeDebuggingKeys: {
+                src: ['dist/foreground.html'],
+                overwrite: true,
+                replacements: [{
+                    //  Change all main files paths to requireConfig for to be accurate for deployment.
+                    from: '<link href=less/foreground.less rel=stylesheet/less>',
+                    to: ''
+                }]
+            }
+        });
+
+        grunt.task.run('replace');
+    });
+
+    grunt.registerTask('remove-key-from-manifest', 'removes the key from manifest, separate because needed for testing deployment', function() {
+        grunt.config.set('replace', {
+            removeDebuggingKeys: {
+                src: ['dist/manifest.json'],
+                overwrite: true,
+                replacements: [{
+                    //	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
+                    from: /"key".*/,
+                    to: ''
+                }]
+            }
+        });
+
+        grunt.task.run('replace');
+    });
+
 	//	Remove debugging information from the manifest file
 	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
 
@@ -298,10 +342,6 @@ module.exports = function (grunt) {
 				src: ['dist/manifest.json'],
 				overwrite: true,
 				replacements: [{
-					//	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
-					from: /"key".*/,
-					to: ''
-				}, {
 					//	Remove permissions that're only needed for debugging.
 					from: '"http://localhost:61975/Streamus/",',
 					to: ''
