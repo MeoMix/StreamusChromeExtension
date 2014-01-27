@@ -73,15 +73,10 @@ define(function () {
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
         //  If not, just allow the string type because its assumed to be correct.
         getItem: function (key) {
-
-            console.log("I AM NOW RETRIEVING KEY FROM LOCAL STORAGE:", key);
-
+            
             var item = localStorage.getItem(key);
 
             if (item !== null) {
-
-                console.log("ITEM:", item);
-
                 try {
                     //  Make sure I don't send back 'null' or 'undefined' as string types.
                     item = JSON.parse(item);
