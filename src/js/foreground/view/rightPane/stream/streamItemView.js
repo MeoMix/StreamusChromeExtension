@@ -86,55 +86,63 @@
             event.preventDefault();
 
             ContextMenuGroups.reset();
+            
+            var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
+            var videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(self.model.get('video'));
 
             ContextMenuGroups.add({
                 items: [{
-                        text: chrome.i18n.getMessage('save'),
-                        onClick: function () {
-                            Folders.getActiveFolder().getActivePlaylist().addByVideo(self.model.get('video'));
+                    text: chrome.i18n.getMessage('save'),
+                    //  TODO: i18n
+                    title: videoAlreadyExists ? 'Duplicates not allowed' : '',
+                    disabled: videoAlreadyExists,
+                    onClick: function () {
+                        if (!videoAlreadyExists) {
+                            activePlaylist.addByVideo(self.model.get('video'));
                         }
-                    }, {
-                        text: chrome.i18n.getMessage('copyUrl'),
-                        onClick: function () {
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('copyUrl'),
+                    onClick: function () {
 
-                            chrome.extension.sendMessage({
-                                method: 'copy',
-                                text: self.model.get('video').get('url')
-                            });
+                        chrome.extension.sendMessage({
+                            method: 'copy',
+                            text: self.model.get('video').get('url')
+                        });
 
-                        }
-                    }, {
-                        text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                        onClick: function() {
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('copyTitleAndUrl'),
+                    onClick: function() {
 
-                            chrome.extension.sendMessage({
-                                method: 'copy',
-                                text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
-                            });
+                        chrome.extension.sendMessage({
+                            method: 'copy',
+                            text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
+                        });
 
-                        }
-                    }, {
-                        text: chrome.i18n.getMessage('delete'),
-                        onClick: function () {
-                            self.model.destroy();
-                        }
-                    }, {
-                        text: chrome.i18n.getMessage('banUntilClear'),
-                        disabled: StreamItems.getRelatedVideos().length < 5,
-                        onClick: function () {
-                            StreamItems.ban(self.model);
-                            self.model.destroy();
-                        }
-                    }, {
-                        text: chrome.i18n.getMessage('watchOnYouTube'),
-                        onClick: function () {
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('delete'),
+                    onClick: function () {
+                        self.model.destroy();
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('banUntilClear'),
+                    disabled: StreamItems.getRelatedVideos().length < 5,
+                    onClick: function () {
+                        StreamItems.ban(self.model);
+                        self.model.destroy();
+                    }
+                }, {
+                    text: chrome.i18n.getMessage('watchOnYouTube'),
+                    onClick: function () {
 
-                            chrome.tabs.create({
-                                url: self.model.get('video').get('url')
-                            });
+                        chrome.tabs.create({
+                            url: self.model.get('video').get('url')
+                        });
 
-                        }
-                    }]
+                    }
+                }]
             });
 
         },

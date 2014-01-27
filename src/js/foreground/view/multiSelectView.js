@@ -134,9 +134,9 @@
                         ui.item.removeClass('selected');
 
                         //  Don't allow duplicates
-                        var itemAlreadyExists = self.model.itemAlreadyExists(draggedStreamItem);
+                        var videoAlreadyExists = self.model.videoAlreadyExists(draggedStreamItem.get('video'));
 
-                        if (itemAlreadyExists) {
+                        if (videoAlreadyExists) {
                             ui.item.remove();
                         }
                         else {

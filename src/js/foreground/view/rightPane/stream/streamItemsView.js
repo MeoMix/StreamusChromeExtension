@@ -130,9 +130,9 @@
                     //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
                     var draggedStreamItem = StreamItems.get(streamItemId);
                     //  TODO: Standardize getActivePlaylist on either Folder or Playlists.
-                    var itemAlreadyExists = Folders.getActiveFolder().getActivePlaylist().get('items').itemAlreadyExists(draggedStreamItem);
+                    var videoAlreadyExists = Folders.getActiveFolder().getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
 
-                    ui.placeholder.toggleClass('noDrop', itemAlreadyExists);
+                    ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
                     
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();

@@ -159,13 +159,13 @@ define([
             });
             
             _.each(videos, function (video) {
-
-                var playlistItem = new PlaylistItem({
-                    playlistId: self.get('id'),
-                    video: video
-                });
                 
-                if (!self.get('items').itemAlreadyExists(playlistItem)) {
+                if (!self.get('items').videoAlreadyExists(video)) {
+                    var playlistItem = new PlaylistItem({
+                        playlistId: self.get('id'),
+                        video: video
+                    });
+
                     itemsToSave.push(playlistItem);
                 }
                 

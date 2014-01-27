@@ -113,7 +113,7 @@
 
         savePlaylistItem: function (playlistItem, callback) {
 
-            if (this.itemAlreadyExists(playlistItem)) {
+            if (this.videoAlreadyExists(playlistItem.get('video'))) {
                 if (callback) {
                     callback(playlistItem);
                 }
@@ -143,9 +143,9 @@
         
         //  Figure out if an item is already in the collection by videoId
         //  Can take a playlistItem or a streamItem.
-        itemAlreadyExists: function(itemToLookFor) {
-            return this.some(function (item) {
-                return item.get('video').get('id') === itemToLookFor.get('video').get('id');
+        videoAlreadyExists: function(videoToLookFor) {
+            return this.some(function (playlistItem) {
+                return playlistItem.get('video').get('id') === videoToLookFor.get('id');
             });
         }
         
