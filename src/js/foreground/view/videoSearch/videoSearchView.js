@@ -31,6 +31,7 @@
         bigTextWrapper: null,
         
         searchInputFocused: false,
+        clearResultsTimeout: null,
         
         bottomMenubar: null,
         
@@ -92,7 +93,10 @@
             this.listenTo(VideoSearchResults, 'reset', this.toggleBigText);
             this.listenTo(VideoSearchResults, 'change:selected', this.toggleBottomMenubar);
 
-            $(window).unload(this.saveSearchQuery.bind(this));
+            $(window).unload(function() {
+                this.saveSearchQuery();
+                this.startClearResultsTimeout();
+            }.bind(this));
         },
         
         showAndFocus: function (instant) {
@@ -102,6 +106,8 @@
             }, instant ? 0 : undefined, 'snap');
 
             this.searchInput.focus();
+
+            clearTimeout(this.clearResultsTimeout);
         },
         
         destroyModel: function () {
@@ -112,12 +118,22 @@
             this.$el.transition({
                 x: -20
             }, function () {
-                console.log("setting val to empty");
-                this.model.set('searchQuery', '');
                 this.remove();
-                VideoSearchResults.clear();
-                
+                this.startClearResultsTimeout();
             }.bind(this));
+        },
+        
+        //  Wait a while before forgetting search results because sometimes people just leave for a second and its frustrating to lose the results.
+        //  But, if you've been gone away a while you don't want to have to clear your old stuff.
+        startClearResultsTimeout: function () {
+            //  Safe-guard against multiple setTimeouts, just incase.
+            clearTimeout(this.clearResultsTimeout);
+
+            var fiveMinutes = 300000;
+            this.clearResultsTimeout = setTimeout(function () {
+                this.model.set('searchQuery', '');
+                VideoSearchResults.clear();
+            }, fiveMinutes);
         },
         
         saveSearchQuery: function () {
