@@ -4,7 +4,8 @@
     'background/model/playlistItem',
     'background/model/settings'
 ], function (MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings) {
-    'use strict';
+    //  TODO: Fix this.
+    //'use strict';
     
     var PlaylistItems = MultiSelectCollection.extend({
         model: PlaylistItem,
@@ -20,8 +21,7 @@
             }
             
             this.playlistId = options.playlistId;
-            console.log("PlaylistId:", this.playlistId);
-
+ 
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
@@ -89,9 +89,6 @@
         addByVideoAtIndex: function (video, index, callback) {
 
             var sequence = this.getSequenceFromIndex(index);
-
-            console.log("addByVideoAtIndex has an index of:", index);
-            console.log("addByVideoAtIndex has a sequence of:", sequence);
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.playlistId,

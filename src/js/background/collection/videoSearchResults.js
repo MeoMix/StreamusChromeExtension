@@ -10,7 +10,6 @@
         
         //  Call setResults with nothing to clear it, more clear public method.
         clear: function () {
-            console.log("Calling setResults");
             this.setResults();
         },
         

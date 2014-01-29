@@ -35,8 +35,6 @@
         //notificationId: '',
         
         render: function () {
-            console.log("Rendering....");
-            console.log("My width and height:", this.el.width, this.el.height);
 
             var streamItemExists = StreamItems.length > 0;
             this.$el.toggleClass('clickable', streamItemExists);

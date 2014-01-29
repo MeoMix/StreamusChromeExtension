@@ -59,15 +59,12 @@ define([
             var self = this;
             var items = this.get('items');
 
-            console.log("Initializing playlist");
-
             //  Need to convert items array to Backbone.Collection
             if (!(items instanceof Backbone.Collection)) {
                 items = new PlaylistItems(items, {
                     playlistId: this.get('id')
                 });
-
-                console.log("SETTING ITEMS");
+                
                 //  Silent because items is just being properly set.
                 this.set('items', items, { silent: true });
             }
@@ -177,8 +174,6 @@ define([
                     //  TODO: Why is this .models and not just itemsToSave?
                     self.get('items').add(itemsToSave.models);
 
-                    console.log("Added items to playlist!", self.get('items'));
-   
                     if (callback) {
                         callback();
                     }

@@ -2,10 +2,9 @@
     'use strict';
 
     var MultiSelectCollection = Backbone.Collection.extend({
+        initialize: function() {
 
-        initialize: function () {
-
-            this.on('change:selected', function (changedModel, selected) {
+            this.on('change:selected', function(changedModel, selected) {
 
                 //  Whenever only one model is selected -- it becomes the first one to be selected.
                 var selectedModels = this.selected();
@@ -21,10 +20,10 @@
             });
 
             //  Ensure that only 1 item is ever first selected.
-            this.on('change:firstSelected', function (changedModel, firstSelected) {
-                
+            this.on('change:firstSelected', function(changedModel, firstSelected) {
+
                 if (firstSelected) {
-                    this.each(function (model) {
+                    this.each(function(model) {
                         if (model !== changedModel) {
                             model.set('firstSelected', false);
                         }
@@ -34,19 +33,19 @@
             });
 
         },
-        
+
         //  Just a nicer naming for deselectAll
-        deselectAll: function () {
+        deselectAll: function() {
             this.deselectAllExcept(null);
         },
 
         //  TODO: Maybe this could take a model instead of a cid or id and that'd be OK?
         //  This takes cid not id because it works for models which aren't persisted to the server.
-        deselectAllExcept: function (selectedModelCid) {
+        deselectAllExcept: function(selectedModelCid) {
 
             var selected = this.selected();
 
-            _.each(selected, function (selectedModel) {
+            _.each(selected, function(selectedModel) {
                 if (selectedModel.cid != selectedModelCid) {
                     selectedModel.set('selected', false);
                 }
@@ -54,10 +53,10 @@
         },
 
         //  Return a list of selected models.
-        selected: function () {
+        selected: function() {
             return this.where({ selected: true });
         },
-        
+
         //  Returns the model which was first selected (or selected last if ctrl was pressed)
         firstSelected: function() {
             return this.findWhere({ firstSelected: true });
@@ -65,4 +64,4 @@
     });
 
     return MultiSelectCollection;
-})
+});

@@ -31,7 +31,6 @@
         bigTextWrapper: null,
         
         searchInputFocused: false,
-        clearResultsTimeout: null,
         
         bottomMenubar: null,
         
@@ -107,7 +106,7 @@
 
             this.searchInput.focus();
 
-            clearTimeout(this.clearResultsTimeout);
+            chrome.extension.getBackgroundPage().stopClearResultsTimer();
         },
         
         destroyModel: function () {
@@ -126,14 +125,8 @@
         //  Wait a while before forgetting search results because sometimes people just leave for a second and its frustrating to lose the results.
         //  But, if you've been gone away a while you don't want to have to clear your old stuff.
         startClearResultsTimeout: function () {
-            //  Safe-guard against multiple setTimeouts, just incase.
-            clearTimeout(this.clearResultsTimeout);
-
-            var fiveMinutes = 300000;
-            this.clearResultsTimeout = setTimeout(function () {
-                this.model.set('searchQuery', '');
-                VideoSearchResults.clear();
-            }, fiveMinutes);
+            //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
+            chrome.extension.getBackgroundPage().startClearResultsTimer();
         },
         
         saveSearchQuery: function () {

@@ -1,5 +1,4 @@
 ﻿define([
-
 ], function() {
     'use strict';
 
@@ -10,8 +9,7 @@
     });
 
     //  Setup modules for initialization. All of these will run when ForegroundApplication.start is called.
-    ForegroundApplication.addInitializer(function (options) {
-        
+    ForegroundApplication.addInitializer(function(options) {
 
 
     });
@@ -28,12 +26,12 @@
 
     //  This options object is passed to each initialization function and the initialize events.
     ForegroundApplication.start({
-        
+            
     });
-    
+
     //  See https://github.com/marionettejs/backbone.wreqr for more information.
     //  This allows for application-wide events which allows modules to be able to communicate
     //  while also being completely ignorant of each other.
     //ForegroundApplication.vent.on('foo', function () { alert('bar'); });
     //ForegroundApplication.vent.trigger('foo');
-})
+});

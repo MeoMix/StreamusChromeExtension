@@ -2,6 +2,7 @@
 define([
     'background/commands',
     'background/collection/folders',
+    'background/model/settings',
     'background/collection/videoSearchResults',
     'background/model/player',
     'background/model/contextMenus',
@@ -10,7 +11,7 @@ define([
     'background/model/omnibox',
     'background/model/user',
     'background/view/clipboardView'
-], function () {
+], function (Commands, Folders, Settings, VideoSearchResults) {
     'use strict';
 
     window.onmessage = function(messageEvent) {
@@ -26,5 +27,23 @@ define([
             }
 
         }
+    };
+
+    window.clearResultsTimeout = null;
+    var twentySeconds = 20000;
+    //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
+    window.startClearResultsTimer = function () {
+        //  Safe-guard against multiple setTimeouts, just incase.
+        stopClearResultsTimer();
+
+        window.clearResultsTimeout = setTimeout(function () {
+            Settings.set('searchQuery', '');
+            VideoSearchResults.clear();
+        }, twentySeconds);
+    };
+
+    //  The foreground has to be able to call this whenever a view opens.
+    window.stopClearResultsTimer = function() {
+        clearTimeout(window.clearResultsTimeout);
     };
 });

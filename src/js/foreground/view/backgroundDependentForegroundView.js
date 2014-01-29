@@ -77,8 +77,6 @@ define([
 
             this.$el.click(function (event) {
 
-                console.log("body click is running");
-
                 var isMultiSelectItem = $(event.target).hasClass('.multiSelectItem');
                 var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
 

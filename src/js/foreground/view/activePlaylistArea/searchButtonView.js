@@ -28,7 +28,6 @@ define([
         },
         
         searchPlaylist: function () {
-            console.log("Search playlist...");
         }
         
     });

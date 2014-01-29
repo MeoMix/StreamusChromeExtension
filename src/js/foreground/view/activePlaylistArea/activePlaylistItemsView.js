@@ -25,7 +25,7 @@ define([
         },
             
         render: function () {
-            console.log("rendering");
+
             this.$el.html(this.template());
 
             //  Group playlistItems into chunks of 200 to render incrementally to prevent long-running operations.
@@ -101,7 +101,7 @@ define([
         },
 
         addItem: function (playlistItem) {
-            console.log("adding item");
+
             var playlistItemView = new PlaylistItemView({
                 model: playlistItem
             });

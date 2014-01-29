@@ -196,13 +196,9 @@
                 };
             });
 
-            console.log("Adding stream items at index:", streamItems, index);
-
             this.add(streamItems, {
                 at: index
             });
-
-            console.log("index of inserted stream item", this.indexOf(streamItems[0]), this);
         },
         
         addByDraggedPlaylistItems: function(playlistItems, index) {

@@ -17,8 +17,6 @@
                 model: options.videos
             });
 
-            console.log("Options.videos.length:", options.videos.length, options.videos.length === 1);
-
             this.title = options.videos.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos');
 
             this.listenTo(this.model, 'change:creating', function (creating) {

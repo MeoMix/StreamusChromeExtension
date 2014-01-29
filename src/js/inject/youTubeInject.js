@@ -1,41 +1,41 @@
 //  This code runs on YouTube pages.
 $(function () {
-    'use strict';
-    
-    //  Inject CSS here to give it priority over all other CSS loaded on the page.
-    var style = document.createElement('link');
-    style.rel = 'stylesheet';
-    style.type = 'text/css';
-    style.href = chrome.extension.getURL('css/youTubeInject.css');
-    document.head.appendChild(style);
+	'use strict';
+	
+	//  Inject CSS here to give it priority over all other CSS loaded on the page.
+	var style = document.createElement('link');
+	style.rel = 'stylesheet';
+	style.type = 'text/css';
+	style.href = chrome.extension.getURL('css/youTubeInject.css');
+	document.head.appendChild(style);
 
 	var isFirstLoad = true;
 	var waitingForLoad = false;
 
 	var observer = new window.WebKitMutationObserver(function (mutations) {
 
-	    if (isFirstLoad) {
-	        isFirstLoad = false;
+		if (isFirstLoad) {
+			isFirstLoad = false;
 			injectStreamusButtons();
 		}
 		else {
 
-		    var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
+			var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
 	
-		    if (!waitingForLoad && !isPageLoaded) {
+			if (!waitingForLoad && !isPageLoaded) {
 				waitingForLoad = true;
 			}
-		    else if (waitingForLoad && isPageLoaded) {
-			    injectStreamusButtons();
-			    waitingForLoad = false;
+			else if (waitingForLoad && isPageLoaded) {
+				injectStreamusButtons();
+				waitingForLoad = false;
 			}
 		}
 
 	});
 
 	observer.observe(document.querySelector("body"), {
-	    attributes: true,
-	    attributeFilter: ["class"]
+		attributes: true,
+		attributeFilter: ["class"]
 	});
 
 	function injectStreamusButtons() {

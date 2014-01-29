@@ -70,8 +70,6 @@ define([
 
                 var isDefaultPrevented = event.isDefaultPrevented();
 
-                console.log("isDefaultPrevent:", isDefaultPrevented);
-                
                 if (isDefaultPrevented) {
 
                     self.contextMenuView.show({

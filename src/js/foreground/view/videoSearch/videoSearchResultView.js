@@ -85,8 +85,6 @@
            
             var video = this.model.get('video');
 
-            console.log("Saving to playlist, video:", video);
-
             var saveVideosPromptView = new SaveVideosPromptView({
                 videos: [video]
             });

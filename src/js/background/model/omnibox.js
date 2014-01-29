@@ -64,8 +64,6 @@ define([
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
 
-                console.log("onInputEntered text:", self.get('suggestedVideos'));
-
                 //  Find the cached video data by url
                 var pickedVideo = _.find(self.get('suggestedVideos'), function(suggestedVideo) {
                     return suggestedVideo.get('url') === text;

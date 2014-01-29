@@ -118,7 +118,9 @@
 
                     //  Don't allow VideoSearchResults to be sorted -- copied is true when it moves to StreamItems.
                     //  Returning false cancels the sort.
-                    return copied || !(ui.item.data('type') === ListItemType.VideoSearchResult);
+                    var isVideoSearchResult = ui.item.data('type') === ListItemType.VideoSearchResult;
+                    
+                    return copied || !isVideoSearchResult;
                 },
 
                 tolerance: 'pointer',
