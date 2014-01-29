@@ -126,13 +126,13 @@ module.exports = function (grunt) {
 		},
 		
 		less: {
-		    files: {
-                expand: true,
-                cwd: 'src',
-                src: ['less/*.less'],
-                dest: 'src/css',
-                ext: '.css'
-            }
+			files: {
+				expand: true,
+				cwd: 'src',
+				src: ['less/*.less'],
+				dest: 'src/css',
+				ext: '.css'
+			}
 		},
 		
 		requirejs: {
@@ -224,7 +224,7 @@ module.exports = function (grunt) {
 	grunt.registerTask('lint', ['jshint']);
 
 	grunt.registerTask('deploy', 'Useful for testing production. Just for debugging purposes and does not update manifest version', function() {
-	    grunt.task.run('requirejs', 'manifest-transform', 'plugins-transform', 'transform-settings', 'concat-uglify-injected-javascript',  'useminPrepare', 'usemin', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+		grunt.task.run('requirejs', 'manifest-transform', 'plugins-transform', 'transform-settings', 'concat-uglify-injected-javascript',  'useminPrepare', 'usemin', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
 	});
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
@@ -279,7 +279,7 @@ module.exports = function (grunt) {
 			grunt.config.set('clean', ['dist/template', 'dist/less']);
 			grunt.task.run('clean');
 			grunt.file.delete('dist/template');
-		    grunt.file.delete('dist/less');
+			grunt.file.delete('dist/less');
 		}
 
 		grunt.file.delete('dist/build.txt');
@@ -302,41 +302,41 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-    grunt.registerTask('remove-less-reference', 'remove less reference in foreground', function() {
-        grunt.config.set('replace', {
-            removeDebuggingKeys: {
-                src: ['dist/foreground.html'],
-                overwrite: true,
-                replacements: [{
-                    //  Change all main files paths to requireConfig for to be accurate for deployment.
-                    from: '<link href=less/foreground.less rel=stylesheet/less>',
-                    to: ''
-                }]
-            }
-        });
+	grunt.registerTask('remove-less-reference', 'remove less reference in foreground', function() {
+		grunt.config.set('replace', {
+			removeDebuggingKeys: {
+				src: ['dist/foreground.html'],
+				overwrite: true,
+				replacements: [{
+					//  Change all main files paths to requireConfig for to be accurate for deployment.
+					from: '<link href=less/foreground.less rel=stylesheet/less>',
+					to: ''
+				}]
+			}
+		});
 
-        grunt.task.run('replace');
-    });
+		grunt.task.run('replace');
+	});
 
-    grunt.registerTask('remove-key-from-manifest', 'removes the key from manifest, separate because needed for testing deployment', function() {
-        grunt.config.set('replace', {
-            removeDebuggingKeys: {
-                src: ['dist/manifest.json'],
-                overwrite: true,
-                replacements: [{
-                    //	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
-                    from: /"key".*/,
-                    to: ''
-                }]
-            }
-        });
+	grunt.registerTask('remove-key-from-manifest', 'removes the key from manifest, separate because needed for testing deployment', function() {
+		grunt.config.set('replace', {
+			removeDebuggingKeys: {
+				src: ['dist/manifest.json'],
+				overwrite: true,
+				replacements: [{
+					//	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
+					from: /"key".*/,
+					to: ''
+				}]
+			}
+		});
 
-        grunt.task.run('replace');
-    });
+		grunt.task.run('replace');
+	});
 
-    grunt.registerTask('plugins-transform', 'remove the reference to LESS javascript from foreground', function() {
+	grunt.registerTask('plugins-transform', 'remove the reference to LESS javascript from foreground', function() {
 
-    });
+	});
 
 	//	Remove debugging information from the manifest file
 	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
