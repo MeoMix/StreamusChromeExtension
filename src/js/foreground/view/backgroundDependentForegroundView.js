@@ -8,7 +8,6 @@ define([
     'foreground/model/activeFolderArea',
     'foreground/view/activeFolderArea/activeFolderAreaView',
     'foreground/view/activePlaylistArea/activePlaylistAreaView',
-    'foreground/model/activePlaylistArea',
     'foreground/view/videoSearch/videoSearchView',
     'foreground/model/videoSearch',
     'foreground/collection/videoSearchResults',
@@ -20,7 +19,7 @@ define([
     'foreground/model/player',
     'foreground/model/buttons/videoDisplayButton',
     'foreground/model/settings'
-], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, ActivePlaylistArea, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
+], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
 
     var BackgroundDependentForegroundView = GenericForegroundView.extend({
         //  Same as ForegroundView's element. That is OK.
@@ -114,12 +113,12 @@ define([
                     this.activePlaylistAreaView.remove();
                 }
 
-                var activePlaylistArea = new ActivePlaylistArea({
-                    playlist: activePlaylist
-                });
+                console.log("activePlaylist:", activePlaylist.get('displayInfo'));
 
+                //  TODO: rename this properly
                 this.activePlaylistAreaView = new ActivePlaylistAreaView({
-                    model: activePlaylistArea
+                    model: activePlaylist,
+                    collection: activePlaylist.get('items')
                 });
 
                 this.$el.append(this.activePlaylistAreaView.render().el);
@@ -180,6 +179,7 @@ define([
                 });
 
                 this.videoSearchView = new VideoSearchView({
+                    collection: VideoSearchResults,
                     model: videoSearch
                 });
 

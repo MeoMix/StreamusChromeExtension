@@ -96,11 +96,7 @@
                 sequence: sequence
             });
 
-            var self = this;
             this.savePlaylistItem(playlistItem, function () {
-                //  TODO: Why is this necessary?
-                self.sort();
-
                 if (callback) {
                     callback();
                 }

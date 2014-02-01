@@ -223,8 +223,10 @@ define([
             this.set('loaded', true);
             Settings.set('userId', this.get('id'));
 
+            console.log('onLoaded has fired. Calling getUserInfo', this);
+
             this.getUserInfo(function(userInfo) {
-                if (userInfo !== null) {
+                if (userInfo !== null && userInfo.id !== this.get('googlePlusId')) {
                     this.updateWithGooglePlusId(userInfo.id);
                 }
             }.bind(this));

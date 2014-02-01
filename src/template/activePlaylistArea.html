@@ -3,8 +3,8 @@
         <i class="fa fa-reorder"></i>
     </button>
 
-    <div class="playlistTitle" title="<%= playlist.get('title') %>">
-        <%= playlist.get('title') %>
+    <div class="playlistTitle" title="<%= title %>">
+        <%= title %>
     </div>
     
     <button class="button-icon" id="showVideoSearch" title="<%= chrome.i18n.getMessage('showVideoSearch') %>">
@@ -23,13 +23,13 @@
         <%= chrome.i18n.getMessage('wouldYouLikeTo') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= chrome.i18n.getMessage('searchForVideos') %></span>?
     </div>
 
-    <div id="activePlaylistItemsView" class="view-placeholder">
+    <div id="activePlaylistItems" class="left-list droppable-list">
     </div>
 </div>
 
 <div class="left-bottom-menubar">
     <div class="playlist-details lowercase">
-        <%= playlist.get('displayInfo') %>
+        <%= displayInfo %>
     </div>
     <div class="playlist-actions">
         <div id="searchButtonView" class="view-placeholder"></div>

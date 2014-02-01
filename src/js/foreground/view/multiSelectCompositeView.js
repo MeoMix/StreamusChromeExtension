@@ -8,19 +8,17 @@
 ], function (GenericForegroundView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
     'use strict';
 
-    //  TODO: Rename MultiSelectCollectionView
-    var MultiSelectView = Backbone.Marionette.CollectionView.extend({
-        
+    var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
+
         events: {
             'click .listItem': 'setSelectedOnClick'
         },
-        
-        onRender: function() {
-            console.log("multiSelectView onRender has fired");
+
+        onRender: function () {
             var self = this;
-            
+
             //  Allows for drag-and-drop of videos
-            this.$el.sortable({
+            this.$el.find(this.itemViewContainer).sortable({
 
                 connectWith: '.droppable-list',
 
@@ -36,7 +34,7 @@
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
-                        model: self.model.get(listItem.data('id')),
+                        model: self.collection.get(listItem.data('id')),
                         //  Don't lazy-load the view because copy helper is clearly visible
                         instant: true
                     };
@@ -75,8 +73,8 @@
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
                 start: function (event, ui) {
-  
-                    var modelToSelect = self.model.get(ui.item.data('id'));
+
+                    var modelToSelect = self.collection.get(ui.item.data('id'));
 
                     self.doSetSelected({
                         modelToSelect: modelToSelect,
@@ -90,18 +88,18 @@
                     });
 
                     //  Set it here not in helper because dragStart may select a search result.
-                    ui.helper.text(self.model.selected().length);                    
-                    
+                    ui.helper.text(self.collection.selected().length);
+
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 },
-                
+
                 stop: function (event, ui) {
 
                     this.backCopyHelper.removeClass('copyHelper');
 
                     var copied = $(this).data('copied');
-  
+
                     if (copied) {
                         this.copyHelper.removeClass('copyHelper');
                     }
@@ -120,7 +118,7 @@
                     //  Don't allow VideoSearchResults to be sorted -- copied is true when it moves to StreamItems.
                     //  Returning false cancels the sort.
                     var isVideoSearchResult = ui.item.data('type') === ListItemType.VideoSearchResult;
-                    
+
                     return copied || !isVideoSearchResult;
                 },
 
@@ -137,14 +135,16 @@
                         ui.item.removeClass('selected');
 
                         //  Don't allow duplicates
-                        var videoAlreadyExists = self.model.videoAlreadyExists(draggedStreamItem.get('video'));
+                        var videoAlreadyExists = self.collection.videoAlreadyExists(draggedStreamItem.get('video'));
 
                         if (videoAlreadyExists) {
                             ui.item.remove();
                         }
                         else {
-                            
-                            self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
+
+                            console.log("Received! Adding to collect at index:", ui.item.index());
+
+                            self.collection.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
                             });
@@ -174,21 +174,21 @@
                     if (listItemType === ListItemType.PlaylistItem) {
                         //  It's important to do this to make sure I don't count my helper elements in index.
                         var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-                        self.model.moveToIndex(listItemId, index);
+                        self.collection.moveToIndex(listItemId, index);
                     }
                 },
-                
+
                 over: function (event, ui) {
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }
             });
-  
+
             return this;
         },
 
         setSelectedOnClick: function (event) {
-  
+
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.collection.get(id);
 
@@ -243,5 +243,5 @@
         }
     });
 
-    return MultiSelectView;
+    return MultiSelectCompositeView;
 });

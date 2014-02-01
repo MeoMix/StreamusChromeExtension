@@ -1,111 +1,160 @@
 ﻿define([
     'foreground/view/genericForegroundView',
-    'foreground/view/activePlaylistArea/activePlaylistItemsView',
+    'foreground/model/foregroundViewManager',
     'text!template/activePlaylistArea.html',
     'foreground/view/activePlaylistArea/playAllButtonView',
     'foreground/view/activePlaylistArea/addAllButtonView',
-    'foreground/view/activePlaylistArea/searchButtonView'
-], function (GenericForegroundView, ActivePlaylistItemsView, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, SearchButtonView) {
+    'foreground/view/activePlaylistArea/searchButtonView',
+    'foreground/view/multiSelectCompositeView',
+    'foreground/collection/contextMenuGroups',
+    'foreground/view/activePlaylistArea/playlistItemView'
+], function (GenericForegroundView, ForegroundViewManager, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, SearchButtonView, MultiSelectCompositeView, ContextMenuGroups, PlaylistItemView) {
     'use strict';
 
-    var ActivePlaylistAreaView = GenericForegroundView.extend({
+    var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
 
         className: 'left-pane',
+        id: 'activePlaylistArea',
         
         template: _.template(ActivePlaylistAreaTemplate),
         
-        activePlaylistItemsView: null,
-        searchButtonView: null,
-        addAllButtonView: null,
-        playAllButtonView: null,
-        playlistDetails: null,
-        playlistTitle: null,
-        playlistEmptyMessage: null,
-        bottomMenubar: null,
+        itemViewContainer: '#activePlaylistItems',
+
+        itemView: PlaylistItemView,
         
-        attributes: {
-            id: 'activePlaylistArea'
+        itemViewOptions: function (model, index) {
+            return {
+                //  TODO: I used to have more complex logic for doing this which actually calculated whether the item was visible or not. Is that still needed? If so, why?
+                //  I think it might be needed for dragging an item.
+                //  TODO: This is hardcoded. Need to calculate whether a search result is visible or not.
+                instant: index <= 8
+            };
+        },
+
+        ui: {
+            playlistDetails: '.playlist-details',
+            playlistTitle: '.playlistTitle',
+            playlistEmptyMessage: 'div.playlistEmpty',
+            bottomMenubar: '.left-bottom-menubar',
+            activePlaylistItems: '#activePlaylistItems'
         },
         
-        render: function () {
-            this.$el.html(this.template(this.model.toJSON()));
+        events: _.extend({}, MultiSelectCompositeView.prototype.events, {
+            'input @ui.searchInput': 'showVideoSuggestions',
+            'click button#hideVideoSearch': 'destroyModel',
+            'contextmenu @ui.activePlaylistItems': 'showContextMenu'
+        }),
+
+        templateHelpers: {
+            //  Mix in chrome to reference internationalize.
+            'chrome.i18n': chrome.i18n
+        },
+        
+        modelEvents: {
+            'change:displayInfo': 'updatePlaylistDetails',
+            'change:title': 'updatePlaylistTitle'
+        },
+        
+        collectionEvents: {
+            'add remove reset': function() {
+                this.toggleBigText();
+                this.toggleBottomMenubar();
+            }
+        },
+        
+        onRender: function () {            
+            var searchButtonView = new SearchButtonView({
+                mode: this.model
+            });
+            this.$el.find('#searchButtonView').replaceWith(searchButtonView.render().el);
             
-            this.$el.html(this.template(
-                _.extend(this.model.toJSON(), {
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n
-                })
-            ));
+            var playAllButtonView = new PlayAllButtonView({
+                model: this.model
+            });
+            this.$el.find('#playAllButtonView').replaceWith(playAllButtonView.render().el);
 
-            this.$el.find('#activePlaylistItemsView').replaceWith(this.activePlaylistItemsView.render().el);
+            var addAllButtonView = new AddAllButtonView({
+                model: this.model
+            });
+            this.$el.find('#addAllButtonView').replaceWith(addAllButtonView.render().el);
 
-            this.$el.find('#searchButtonView').replaceWith(this.searchButtonView.render().el);
-            this.$el.find('#addAllButtonView').replaceWith(this.addAllButtonView.render().el);
-            this.$el.find('#playAllButtonView').replaceWith(this.playAllButtonView.render().el);
-           
-            this.playlistDetails = this.$el.find('.playlist-details');
-            this.playlistTitle = this.$el.find('.playlistTitle');
-            this.playlistEmptyMessage = this.$el.find('div.playlistEmpty');
-            this.bottomMenubar = this.$el.find('.left-bottom-menubar');
-
-            this.initializeTooltips();
+            GenericForegroundView.prototype.initializeTooltips.call(this);
             this.toggleBigText();
             this.toggleBottomMenubar();
-
-            return this;
+            
+            //  TODO: Is there a better way to do this?
+            MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
 
         initialize: function () {
-
-            this.activePlaylistItemsView = new ActivePlaylistItemsView({
-                model: this.model.get('playlist').get('items')
-            });
-
-            this.searchButtonView = new SearchButtonView({
-                mode: this.model.get('playlist')
-            });
-
-            this.playAllButtonView = new PlayAllButtonView({
-                model: this.model.get('playlist')
-            });
-            
-            this.addAllButtonView = new AddAllButtonView({
-                model: this.model.get('playlist')
-            });
-
-            this.listenTo(this.model.get('playlist'), 'change:displayInfo', this.updatePlaylistDetails);
-            this.listenTo(this.model.get('playlist'), 'change:title', this.updatePlaylistTitle);
-            this.listenTo(this.model.get('playlist').get('items'), 'add remove reset', function() {
-                this.toggleBigText();
-                this.toggleBottomMenubar();
-            });
- 
+            ForegroundViewManager.get('views').push(this);
         },
         
         updatePlaylistDetails: function () {
-            this.playlistDetails.text(this.model.get('playlist').get('displayInfo'));
+            this.ui.playlistDetails.text(this.model.get('displayInfo'));
         },
         
         updatePlaylistTitle: function () {
-            var playlistTitle = this.model.get('playlist').get('title');
-            this.playlistTitle.text(playlistTitle);
-            this.playlistTitle.qtip('option', 'content.text', playlistTitle);
+            var playlistTitle = this.model.get('title');
+            this.ui.playlistTitle.text(playlistTitle);
+            this.ui.playlistTitle.qtip('option', 'content.text', playlistTitle);
         },
         
         //  Set the visibility of any visible text messages.
         toggleBigText: function() {
-            var isPlaylistEmpty = this.model.get('playlist').get('items').length === 0;
-            this.playlistEmptyMessage.toggleClass('hidden', !isPlaylistEmpty);
+            var isPlaylistEmpty = this.collection.length === 0;
+            this.ui.playlistEmptyMessage.toggleClass('hidden', !isPlaylistEmpty);
         },
         
         toggleBottomMenubar: function() {
-            var isPlaylistEmpty = this.model.get('playlist').get('items').length === 0;
+            var isPlaylistEmpty = this.collection.length === 0;
             
             if (isPlaylistEmpty) {
-                this.bottomMenubar.hide();
+                this.ui.bottomMenubar.hide();
             } else {
-                this.bottomMenubar.show();
+                this.ui.bottomMenubar.show();
             }
+        },
+        
+        showContextMenu: function (event) {
+
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
+            event.preventDefault();
+
+            if (event.target === event.currentTarget || $(event.target).hasClass('big-text') || $(event.target).hasClass('i-4x')) {
+                //  Didn't bubble up from a child -- clear groups.
+                ContextMenuGroups.reset();
+
+                var isPlaylistEmpty = this.collection.length === 0;
+
+                ContextMenuGroups.add({
+                    items: [{
+                        text: chrome.i18n.getMessage('enqueuePlaylist'),
+                        disabled: isPlaylistEmpty,
+                        title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
+                        onClick: function () {
+
+                            if (!isPlaylistEmpty) {
+                                StreamItems.addByPlaylistItems(this.model, false);
+                            }
+
+                        }.bind(this)
+                    }, {
+                        text: chrome.i18n.getMessage('playPlaylist'),
+                        disabled: isPlaylistEmpty,
+                        title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
+                        onClick: function () {
+
+                            if (!isPlaylistEmpty) {
+                                StreamItems.addByPlaylistItems(this.model, true);
+                            }
+
+                        }.bind(this)
+                    }]
+                });
+
+            }
+
         }
     });
 
