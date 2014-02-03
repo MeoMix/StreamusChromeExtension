@@ -7,8 +7,9 @@
     'foreground/view/videoSearch/playSelectedButtonView',
     'foreground/view/videoSearch/saveSelectedButtonView',
     'foreground/model/settings',
-    'foreground/collection/contextMenuGroups'
-], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, PlaySelectedButtonView, SaveSelectedButtonView, Settings, ContextMenuGroups) {
+    'foreground/collection/contextMenuGroups',
+    'foreground/model/lazyLoader'
+], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, PlaySelectedButtonView, SaveSelectedButtonView, Settings, ContextMenuGroups, LazyLoader) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -20,14 +21,9 @@
         itemViewContainer: '#videoSearchResults',
         
         itemView: VideoSearchResultView,
-
-        itemViewOptions: function (model, index) {
-            return {
-                //  TODO: This is hardcoded. Need to calculate whether a search result is visible or not.
-                instant: index <= 8
-            };
-        },
-
+        shown: false,
+        searchResultsBeingRemoved: [],
+        
         ui: {
             bottomMenubar: '.left-bottom-menubar',
             playlistActions: '.playlist-actions',
@@ -64,6 +60,33 @@
             'reset': 'toggleBigText',
             'change:selected': 'toggleBottomMenubar'
         },
+        
+        onAfterItemAdded: function (itemView) {
+            //  TODO: onAfterItemAdded will fire as the UI is sliding open, which causes lag. It would be better to defer this until after the animation has completed.
+            if (this.shown) {
+                LazyLoader.showOrSubscribe(this.ui.videoSearchResults, itemView.ui.imageThumbnail);
+            }
+        },
+        
+        //  This gets called a lot. Queue up items being removed until defer actually runs.
+        onItemRemoved: function (itemView) {
+            console.log("itemView:", this, this.searchResultsBeingRemoved, this.deferredUnsubscribe);
+            this.searchResultsBeingRemoved.push(itemView);
+            this.deferredUnsubscribe();
+        },
+        
+        //  Defer unsubscribing because it always comes in bulk and would rather unsubscribe 
+        //  from all removed elements at the end rather than each one individually.
+        deferredUnsubscribe: _.defer(function () {
+            var thumbnails = this.searchResultsBeingRemoved.map(function(searchResult) {
+                return searchResult.ui.imageThumbnail;
+            });
+
+            LazyLoader.unsubscribe(this.ui.videoSearchResults, thumbnails);
+            
+            //  Cleanup searchResultBeingRemoved after unsubscribe has happened.
+            this.searchResultsBeingRemoved.length = 0;
+        }, 100),
 
         onRender: function () {
             
@@ -77,7 +100,7 @@
             
             var searchQuery = Settings.get('searchQuery');
             this.ui.searchInput.val(searchQuery);
-            
+
             //  Refresh search results if necessary (search query and no results, or no search query at all -- clear)
             if (searchQuery === '' || this.collection.length === 0) {
                 this.ui.searchInput.trigger('input');
@@ -85,12 +108,6 @@
                 //  Otherwise keep the model's state in sync because we just loaded searchQuery from settings.
                 this.model.set('searchQuery', searchQuery, { silent: true });
             }
-            
-            this.$el.find('img.lazy').lazyload({
-                effect: 'fadeIn',
-                threshold: 500,
-                container: this.el
-            });
 
             //  TODO: Is there a better way to do this?
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
@@ -114,7 +131,14 @@
             
             this.$el.transition({
                 x: this.$el.width()
-            }, instant ? 0 : undefined, 'snap');
+            }, instant ? 0 : undefined, 'snap', function () {
+                var imageThumbnails = this.children.map(function(child) {
+                    return child.ui.imageThumbnail;
+                });
+
+                LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
+                this.shown = true;
+            }.bind(this));
 
             this.ui.searchInput.focus();
 

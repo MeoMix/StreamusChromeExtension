@@ -26,6 +26,9 @@
                     right: 35,
                     bottom: 40
                 },
+                
+                //  Adding a delay helps preventing unwanted drags when clicking on an element.
+                delay: 100,
 
                 placeholder: 'sortable-placeholder listItem hiddenUntilChange',
 
@@ -35,6 +38,7 @@
                     var copyHelperView;
                     var viewOptions = {
                         model: self.collection.get(listItem.data('id')),
+                        //  TODO: IS THIS RELEVANT ANYMORE?!
                         //  Don't lazy-load the view because copy helper is clearly visible
                         instant: true
                     };
@@ -99,12 +103,17 @@
                     this.backCopyHelper.removeClass('copyHelper');
 
                     var copied = $(this).data('copied');
-
                     if (copied) {
                         this.copyHelper.removeClass('copyHelper');
                     }
                     else {
                         this.copyHelper.remove();
+                        
+                        //  Whenever a PlaylistItem row is reorganized -- inform the Player of the new order
+                        var listItemType = ui.item.data('type');
+                        if (listItemType === ListItemType.PlaylistItem) {
+                            self.collection.moveToIndex(ui.item.data('id'), ui.item.index());
+                        }
                     }
 
                     this.selectedItems.css({
@@ -142,8 +151,6 @@
                         }
                         else {
 
-                            console.log("Received! Adding to collect at index:", ui.item.index());
-
                             self.collection.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
@@ -156,26 +163,9 @@
                                 emptyPlaylistMessage.addClass('hidden');
                             }
                         }
-                    } else {
-                        console.error('Unsupported.');
                     }
 
                     ui.sender.data('copied', true);
-                },
-
-                //  Whenever a video row is moved inform the Player of the new video list order
-                update: function (event, ui) {
-
-                    var listItemId = ui.item.data('id');
-                    var listItemType = ui.item.data('type');
-
-                    //  TODO: This needs to be made generic if I'm going to support StreamItems too.
-                    //  Don't run this code when handling stream items -- only when reorganizing playlist items.
-                    if (listItemType === ListItemType.PlaylistItem) {
-                        //  It's important to do this to make sure I don't count my helper elements in index.
-                        var index = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-                        self.collection.moveToIndex(listItemId, index);
-                    }
                 },
 
                 over: function (event, ui) {
@@ -207,10 +197,9 @@
             var ctrlKeyPressed = options.ctrlKey || false;
             var isDrag = options.drag || false;
 
-            var targetAlreadySelected = modelToSelect.get('selected');
+            var isSelectedAlready = modelToSelect.get('selected');
 
-            //  A dragged item is always selected.
-            modelToSelect.set('selected', !targetAlreadySelected || isDrag);
+            modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
@@ -236,9 +225,19 @@
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.
                 modelToSelect.set('firstSelected', true);
-            } else if (!isDrag || (isDrag && !targetAlreadySelected)) {
-                //  All other selections are lost if the control key is not held when a click occurs.
+            } else if (!(isDrag && isSelectedAlready)) {
+                //  All other selections are lost unless dragging a group of items.
                 this.collection.deselectAllExcept(modelToSelect.cid);
+            }
+        },
+        
+        appendHtml: function (collectionView, itemView, index) {
+            var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
+            var children = childrenContainer.children();
+            if (children.size() <= index) {
+                childrenContainer.append(itemView.el);
+            } else {
+                children.eq(index).before(itemView.el);
             }
         }
     });

@@ -29,11 +29,14 @@ define({
                 highSequence = this.at(this.length - 1).get('sequence') + (sequenceIncrement * 2);
             }
 
+            console.log("high sequence: ", highSequence);
+
             //  lowSequence is either the previous model's sequence or 0.
             var lowSequence = 0;
             if (index > 0) {
                 lowSequence = this.at(index - 1).get('sequence');
             }
+            console.log("low sequence ", lowSequence);
 
             sequence = (highSequence + lowSequence) / 2;
         }

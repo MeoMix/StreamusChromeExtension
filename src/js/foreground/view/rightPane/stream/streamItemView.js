@@ -1,4 +1,5 @@
 ﻿define([
+    'foreground/model/foregroundViewManager',
     'foreground/view/genericForegroundView',
     'foreground/collection/contextMenuGroups',
     'common/model/utility',
@@ -8,19 +9,18 @@
     'foreground/model/buttons/playPauseButton',
     'foreground/model/player',
     'enum/listItemType'
-], function (GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player, ListItemType) {
+], function (ForegroundViewManager, GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player, ListItemType) {
     'use strict';
 
-    var StreamItemView = GenericForegroundView.extend({
+    var StreamItemView = Backbone.Marionette.ItemView.extend({
         
         className: 'listItem streamItem',
 
         template: _.template(StreamItemTemplate),
-        //  Usually lazy-load images, but if a option is given -- allow for instant loading.
-        instant: false,
         
-        attributes: function () {
+        instant: false,
 
+        attributes: function () {
             return {
                 'data-id': this.model.get('id'),
                 'data-type': ListItemType.StreamItem
@@ -36,27 +36,33 @@
             'dblclick': 'togglePlayingState',
             'dblclick button.playInStream': 'play'
         },
-
-        render: function () {
-            this.$el.html(this.template(
-                _.extend(this.model.toJSON(), {
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n,
-                    'instant': this.instant
-                })
-            ));
-            
-            this.$el.toggleClass('selected', this.model.get('selected'));
-            this.initializeTooltips();
-            
-            return this;
+        
+        ui: {
+            'imageThumbnail': 'img.item-thumb'
+        },
+        
+        templateHelpers: function () {
+            return {
+                //  Mix in chrome to reference internationalize.
+                'chrome.i18n': chrome.i18n,
+                instant: this.instant             
+            };
+        },
+        
+        modelEvents: {
+            'change:selected': 'toggleSelected',
+            'destroy': 'remove'
         },
 
-        initialize: function (options) {
-            this.instant = options && options.instant || false;
+        onRender: function () {
+            this.$el.toggleClass('selected', this.model.get('selected'));
+            GenericForegroundView.prototype.initializeTooltips.call(this);
+        },
             
-            this.listenTo(this.model, 'destroy', this.remove);
-            this.listenTo(this.model, 'change:selected', this.toggleSelected);
+        initialize: function (options) {
+            this.instant = options && options.instant !== undefined ? options.instant : this.instant;
+            
+            ForegroundViewManager.get('views').push(this);
         },
 
         select: function () {
@@ -68,6 +74,7 @@
         },
         
         doDelete: function () {
+            this.$el.qtip('destroy');
             this.model.destroy();
 
             //  Don't allow click to bubble up to the list item and cause a selection.

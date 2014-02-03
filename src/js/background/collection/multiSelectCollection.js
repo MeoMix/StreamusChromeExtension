@@ -45,7 +45,10 @@
 
             var selected = this.selected();
 
-            _.each(selected, function(selectedModel) {
+            console.log("selected:", selected);
+
+            _.each(selected, function (selectedModel) {
+                console.log("selected and selectedModelCid:", selectedModel.cid, selectedModelCid);
                 if (selectedModel.cid != selectedModelCid) {
                     selectedModel.set('selected', false);
                 }

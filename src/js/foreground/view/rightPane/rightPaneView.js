@@ -1,6 +1,7 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
-   'foreground/view/genericForegroundView',
+    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/rightPane.html',
     'foreground/view/rightPane/stream/streamView',
     'foreground/view/rightPane/playPauseButtonView',
@@ -10,16 +11,21 @@ define([
     'foreground/view/rightPane/timeProgressAreaView',
     'foreground/view/rightPane/videoDisplayButtonView',
     'foreground/collection/streamItems'
-], function (GenericForegroundView, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView, StreamItems) {
+], function (GenericForegroundView, ForegroundViewManager, RightPaneTemplate, StreamView, PlayPauseButtonView, PreviousButtonView, NextButtonView, VolumeControlView, TimeProgressAreaView, VideoDisplayButtonView, StreamItems) {
     'use strict';
 
-    var RightPaneView = GenericForegroundView.extend({
+    var RightPaneView = Backbone.Marionette.Layout.extend({
 
         className: 'right-pane',
 
         template: _.template(RightPaneTemplate),
+        
+        regions: {
+            stream: {
+                selector: '#stream'
+            }
+        },
 
-        streamView: null,
         playPauseButtonView: null,
         previousButtonView: null,
         nextButtonView: null,
@@ -27,9 +33,7 @@ define([
         timeProgressAreaView: null,
         videoDisplayButtonView: null,
 
-        render: function () {
-            this.$el.html(this.template());
-
+        onRender: function () {
             var topBar = this.$el.children('.top-bar');
 
             topBar.after(this.timeProgressAreaView.render().el);
@@ -45,20 +49,22 @@ define([
             var topBarRightGroup = topBar.children('.right-group');
             topBarRightGroup.append(this.videoDisplayButtonView.render().el);
 
-            this.$el.append(this.streamView.render().el);
-            this.initializeTooltips();
-
-            return this;
+            this.stream.show(new StreamView({
+                collection: StreamItems
+            }));
+            GenericForegroundView.prototype.initializeTooltips.call(this);
         },
         
         initialize: function() {
-            this.streamView = new StreamView();
+
             this.playPauseButtonView = new PlayPauseButtonView();
             this.previousButtonView = new PreviousButtonView();
             this.nextButtonView = new NextButtonView();
             this.volumeControlView = new VolumeControlView();
             this.timeProgressAreaView = new TimeProgressAreaView();
             this.videoDisplayButtonView = new VideoDisplayButtonView();
+
+            ForegroundViewManager.get('views').push(this);
         },
 
     });

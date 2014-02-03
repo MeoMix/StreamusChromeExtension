@@ -140,7 +140,6 @@ define([
             });
 
             this.get('items').savePlaylistItem(playlistItem, callback);
-
         },
             
         addByVideos: function (videos, callback) {

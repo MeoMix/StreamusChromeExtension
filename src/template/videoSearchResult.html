@@ -1,8 +1,7 @@
-﻿<!--Render those items immediately visible as non-lazy. The rest can lazy in later.-->
-<% if( instant ) { %>
+﻿<% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } else { %>
-    <img class="item-thumb lazy" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" src="" />
+    <img class="item-thumb" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } %>
 
 <span class="item-title" title="<%= video.get('title') %>"><%= video.get('title') %></span>
@@ -25,7 +24,7 @@
         <i class="fa fa-plus"></i>
     </button>
     
-    <button class="button-icon delete" title="<%= chrome.i18n.getMessage('delete') %>">
-        <i class="fa fa-trash-o"></i>
+    <button class="button-icon save" title="<%= chrome.i18n.getMessage('save') %>">
+        <i class="fa fa-save"></i>
     </button>
 </span>

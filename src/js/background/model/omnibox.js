@@ -9,9 +9,11 @@ define([
 
     var Omnibox = Backbone.Model.extend({
             
-        defaults: {
-            suggestedVideos: [],
-            searchJqXhr: null
+        defaults: function () {
+            return {
+                suggestedVideos: [],
+                searchJqXhr: null
+            };
         },
         
         initialize: function() {

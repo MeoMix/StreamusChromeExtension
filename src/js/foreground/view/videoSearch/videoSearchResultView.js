@@ -1,5 +1,6 @@
 ﻿define([
     'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/videoSearchResult.html',
     'foreground/collection/contextMenuGroups',
     'foreground/collection/videoSearchResults',
@@ -7,10 +8,10 @@
     'foreground/collection/folders',
     'foreground/view/prompt/saveVideosPromptView',
     'enum/listItemType'
-], function (GenericForegroundView, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, SaveVideosPromptView, ListItemType) {
+], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, SaveVideosPromptView, ListItemType) {
     'use strict';
 
-    var VideoSearchResultView = GenericForegroundView.extend({
+    var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
         
         className: 'listItem videoSearchResult multiSelectItem',
 
@@ -23,8 +24,6 @@
             };
         },
         
-        instant: false,
-        
         events: {
             'click button.playInStream': 'playInStream',
             'click button.addToStream': 'addToStream',
@@ -35,29 +34,34 @@
             'dblclick button.playInStream': 'playInStream',
             'dblclick button.save': 'saveToPlaylist',
             'dblclick button.addToStream': 'addToStream'
-
-        },
-
-        render: function () {
-
-            this.$el.html(this.template(
-                _.extend(this.model.toJSON(), {
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n,
-                    'instant': this.instant
-                })
-            ));
-
-            this.setHighlight();
-
-            return this;
         },
         
-        initialize: function (options) {
-            this.instant = options && options.instant || false;
+        ui: {
+            imageThumbnail: 'img.item-thumb'
+        },
+        
+        templateHelpers: function () {
+            return {
+                //  Mix in chrome to reference internationalize.
+                'chrome.i18n': chrome.i18n,
+                instant: this.instant
+            };
+        },
+        
+        modelEvents: {
+            'change:selected': 'setHighlight',
+            'destroy': 'remove'
+        },
+        
+        onRender: function () {
+            this.setHighlight();
+            GenericForegroundView.prototype.initializeTooltips.call(this);
+        },
 
-            this.listenTo(this.model, 'change:selected', this.setHighlight);
-            this.listenTo(this.model, 'destroy', this.remove);
+        initialize: function (options) {
+            this.instant = options && options.instant !== undefined ? options.instant : this.instant;
+
+            ForegroundViewManager.get('views').push(this);
         },
         
         setHighlight: function () {

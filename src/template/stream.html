@@ -6,7 +6,7 @@
         <%= chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= chrome.i18n.getMessage('searchForVideos') %></span>?
     </div>
     
-    <div id="streamItemsView" class="view-placeholder"></div>
+    <div id="streamItems" class="left-list droppable-list"></div>
 </div>
 
 <div class="context-buttons">
@@ -18,8 +18,11 @@
     </div>
     
     <div class="right-group">
+
         <div id="saveStreamButtonView" class="view-placeholder"></div>
-        <div id="clearStreamButtonView" class="view-placeholder"></div>
+        <button id="clearStream" class="button-icon button-small clear" title="<%= chrome.i18n.getMessage('clearStream') %>">
+            <i class="fa fa-trash-o"></i>
+        </button>
     </div>
 
 </div>
