@@ -4,12 +4,10 @@
     'foreground/model/foregroundViewManager',
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/videoSearchResultView',
-    'foreground/view/videoSearch/playSelectedButtonView',
-    'foreground/view/videoSearch/saveSelectedButtonView',
-    'foreground/model/settings',
     'foreground/collection/contextMenuGroups',
-    'foreground/model/lazyLoader'
-], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, PlaySelectedButtonView, SaveSelectedButtonView, Settings, ContextMenuGroups, LazyLoader) {
+    'foreground/model/lazyLoader',
+    'foreground/view/prompt/saveVideosPromptView',
+], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, LazyLoader, SaveVideosPromptView) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -26,7 +24,6 @@
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
-            playlistActions: '.playlist-actions',
             searchInput: '.searchBar input',
             searchingMessage: 'div.searching',
             instructions: 'div.instructions',
@@ -37,13 +34,11 @@
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
-            'input @ui.searchInput': 'showVideoSuggestions',
+            'input @ui.searchInput': 'search',
             'click button#hideVideoSearch': 'destroyModel',
-            'contextmenu @ui.videoSearchResults': 'showContextMenu',
-            //  TODO: views don't throw a 'destroyed' event. This view probably memory leaks in its current implementation
-            //  because whenever VideoSearchView hides itself (and calls removed on itself), this view's html is removed, but
-            //  none of the event listeners are cleaned up. Suggest we implement something to fix that!
-            //'destroyed': 'destroyedHandler'
+            'click button#playSelected': 'playSelected',
+            'click button#saveSelected': 'showSaveSelectedPrompt',
+            'contextmenu @ui.videoSearchResults': 'showContextMenu'
         }),
         
         templateHelpers: {
@@ -53,7 +48,7 @@
         
         modelEvents: {
             'destroy': 'hide',
-            'change:searchJqXhr change:searchQuery': 'toggleBigText'
+            'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
         },
 
         collectionEvents: {
@@ -63,68 +58,47 @@
         
         onAfterItemAdded: function (itemView) {
             //  TODO: onAfterItemAdded will fire as the UI is sliding open, which causes lag. It would be better to defer this until after the animation has completed.
-            if (this.shown) {
-                LazyLoader.showOrSubscribe(this.ui.videoSearchResults, itemView.ui.imageThumbnail);
-            }
+            //if (this.shown) {
+            //    LazyLoader.showOrSubscribe(this.ui.videoSearchResults, itemView.ui.imageThumbnail);
+            //}
         },
         
         //  This gets called a lot. Queue up items being removed until defer actually runs.
         onItemRemoved: function (itemView) {
-            console.log("itemView:", this, this.searchResultsBeingRemoved, this.deferredUnsubscribe);
-            this.searchResultsBeingRemoved.push(itemView);
-            this.deferredUnsubscribe();
+            //console.log("itemView:", this, this.searchResultsBeingRemoved, this.deferredUnsubscribe);
+            //this.searchResultsBeingRemoved.push(itemView);
+            //this.debouncedUnsubscribe();
         },
         
-        //  Defer unsubscribing because it always comes in bulk and would rather unsubscribe 
+        //  Debounce unsubscribing because it always comes in bulk and would rather unsubscribe 
         //  from all removed elements at the end rather than each one individually.
-        deferredUnsubscribe: _.defer(function () {
-            var thumbnails = this.searchResultsBeingRemoved.map(function(searchResult) {
-                return searchResult.ui.imageThumbnail;
-            });
+        //debouncedUnsubscribe: _.debounce(function () {
+        //    var thumbnails = this.searchResultsBeingRemoved.map(function(searchResult) {
+        //        return searchResult.ui.imageThumbnail;
+        //    });
 
-            LazyLoader.unsubscribe(this.ui.videoSearchResults, thumbnails);
+        //    LazyLoader.unsubscribe(this.ui.videoSearchResults, thumbnails);
             
-            //  Cleanup searchResultBeingRemoved after unsubscribe has happened.
-            this.searchResultsBeingRemoved.length = 0;
-        }, 100),
+        //    //  Cleanup searchResultBeingRemoved after unsubscribe has happened.
+        //    this.searchResultsBeingRemoved.length = 0;
+        //}, 500),
 
         onRender: function () {
-            
-            this.ui.playlistActions.append((new PlaySelectedButtonView()).render().el);
-            this.ui.playlistActions.append((new SaveSelectedButtonView()).render().el);
-
-            GenericForegroundView.prototype.initializeTooltips.call(this);
-
             this.toggleBigText();
             this.toggleBottomMenubar();
             
-            var searchQuery = Settings.get('searchQuery');
-            this.ui.searchInput.val(searchQuery);
-
-            //  Refresh search results if necessary (search query and no results, or no search query at all -- clear)
-            if (searchQuery === '' || this.collection.length === 0) {
-                this.ui.searchInput.trigger('input');
-            } else {
-                //  Otherwise keep the model's state in sync because we just loaded searchQuery from settings.
-                this.model.set('searchQuery', searchQuery, { silent: true });
-            }
-
-            //  TODO: Is there a better way to do this?
-            MultiSelectCompositeView.prototype.onRender.call(this, arguments);
+            GenericForegroundView.prototype.initializeTooltips.call(this);
+            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         initialize: function () {
 
             $(window).unload(function() {
-                this.saveSearchQuery();
+                this.model.saveSearchQuery();
                 this.cleanup();
             }.bind(this));
             
             ForegroundViewManager.get('views').push(this);
-            
-            //  TODO: re-add once complete.
-            //  Add key bindings
-            //key('down, up', this.selectResultOnUpDown.bind(this));
         },
         
         showAndFocus: function (instant) {
@@ -132,15 +106,16 @@
             this.$el.transition({
                 x: this.$el.width()
             }, instant ? 0 : undefined, 'snap', function () {
-                var imageThumbnails = this.children.map(function(child) {
-                    return child.ui.imageThumbnail;
-                });
+                //var imageThumbnails = this.children.map(function(child) {
+                //    return child.ui.imageThumbnail;
+                //});
 
-                LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
+                //LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
                 this.shown = true;
             }.bind(this));
-
-            this.ui.searchInput.focus();
+            
+            //  Reset val after focusing to prevent selecting the text while maintaining focus.
+            this.ui.searchInput.focus().val(this.ui.searchInput.val());
 
             chrome.extension.getBackgroundPage().stopClearResultsTimer();
         },
@@ -167,19 +142,10 @@
             chrome.extension.getBackgroundPage().startClearResultsTimer();
         },
         
-        saveSearchQuery: function () {
-            Settings.set('searchQuery', this.model.get('searchQuery'));
-        },
-        
-        getSearchQuery: function () {
-            var searchQuery = $.trim(this.ui.searchInput.val());
-            return searchQuery;
-        },
-        
         //  Searches youtube for video results based on the given text.
-        showVideoSuggestions: function () {
-            var searchQuery = this.getSearchQuery();
-            this.model.set('searchQuery', searchQuery);
+        search: function () {
+            var searchQuery = $.trim(this.ui.searchInput.val());
+            this.model.search(searchQuery);
         },
         
         toggleBottomMenubar: function () {
@@ -196,51 +162,19 @@
 
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
-
-            //  Hide the search message when not searching.
-            var isNotSearching = this.model.get('searchJqXhr') === null;
+            //  Hide the search message when there is no search in progress nor any typing happening.
+            var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
 
             //  Hide the instructions message once user has searched or are searching.
             var hasSearchResults = this.collection.length > 0;
             var hasSearchQuery = this.model.get('searchQuery').length > 0;
+
             this.ui.instructions.toggleClass('hidden', hasSearchResults || hasSearchQuery);
 
             //  Only show no results when all other options are exhausted and user has interacted.
             var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
             this.ui.noResultsMessage.toggleClass('hidden', !hasNoResults);
-
-        },
-
-        //  When the user presses the 'up' key or the 'down' key while there are video search results,
-        //  select the logically next or previous result.
-        selectResultOnUpDown: function (event) {
-
-            var previousElem = this.collection.selected();
-            if (previousElem.length) previousElem = previousElem[0];
-
-            var nextElem;
-            //  TODO: Why is the keyIdentifier capital down but the key listener is lowercase?
-            if (event.keyIdentifier == "Down") {
-                if (!previousElem) nextElem = this.collection.at(0);
-                else nextElem = this.collection.at(this.collection.indexOf(previousElem) + 1);
-            }
-            else {
-                if (!previousElem) nextElem = this.collection.at(0);
-                else nextElem = this.collection.at(this.collection.indexOf(previousElem) - 1);
-            }
-
-            //  TODO: Unfinished code:
-            var videoId = nextElem.get("video").get("id");
-            var videoSearchResult = this.collection.getByVideoId(videoId);
-
-            this.doSetSelected({
-                modelToSelect: nextElem
-            });
-        },
-
-        destroyedHandler: function () {
-            key.unbind("down, up");
         },
 
         showContextMenu: function (event) {
@@ -252,45 +186,34 @@
                 ContextMenuGroups.reset();
             }
 
-            var selectedSearchResults = this.collection.selected();
-
-            var noSearchResultsSelected = selectedSearchResults.length === 0;
+            var selectedVideos = this.collection.getSelectedVideos();
 
             ContextMenuGroups.add({
                 items: [{
-                    text: chrome.i18n.getMessage('playSelected') + ' (' + selectedSearchResults.length + ')',
-                    disabled: noSearchResultsSelected,
+                    text: chrome.i18n.getMessage('playSelected') + ' (' + selectedVideos.length + ')',
+                    disabled: selectedVideos.length === 0,
                     onClick: function () {
-
-                        if (!noSearchResultsSelected) {
-
-                            var videos = _.map(selectedSearchResults, function (videoSearchResult) {
-                                return videoSearchResult.get('video');
-                            });
-
-                            StreamItems.addByVideos(videos, true);
-
-                        }
-
+                        StreamItems.addByVideos(selectedVideos, true);
                     }
                 }, {
-                    text: chrome.i18n.getMessage('enqueueSelected') + ' (' + selectedSearchResults.length + ')',
-                    disabled: noSearchResultsSelected,
+                    text: chrome.i18n.getMessage('enqueueSelected') + ' (' + selectedVideos.length + ')',
+                    disabled: selectedVideos.length === 0,
                     onClick: function () {
-
-                        if (!noSearchResultsSelected) {
-
-                            var videos = _.map(selectedSearchResults, function (videoSearchResult) {
-                                return videoSearchResult.get('video');
-                            });
-
-                            StreamItems.addByVideos(videos, false);
-
-                        }
-
+                        StreamItems.addByVideos(selectedVideos, false);
                     }
                 }]
             });
+        },
+        
+        playSelected: function () {
+            StreamItems.addByVideos(this.collection.getSelectedVideos(), true);
+        },
+
+        showSaveSelectedPrompt: function () {
+            var saveVideosPromptView = new SaveVideosPromptView({
+                videos: this.collection.getSelectedVideos()
+            });
+            saveVideosPromptView.fadeInAndShow();
         }
 
     });

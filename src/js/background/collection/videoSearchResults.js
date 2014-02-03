@@ -53,6 +53,13 @@
             });
 
             return foundVideoSearchResult;
+        },
+        
+        //  Returns the underlying Videos of the selected VideoSearchResults.
+        getSelectedVideos: function() {
+            return _.map(this.selected(), function (searchResult) {
+                return searchResult.get('video');
+            });
         }
         
     });

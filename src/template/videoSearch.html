@@ -1,6 +1,6 @@
 ﻿<div class="left-top-bar">
     <div class="searchBar">
-        <input placeholder="<%= chrome.i18n.getMessage('search') %>..." type="text">
+        <input placeholder="<%= chrome.i18n.getMessage('search') %>..." type="text" value="<%= searchQuery %>">
         <div class="underline"></div>
     </div>
     
@@ -33,5 +33,13 @@
 
 <div class="left-bottom-menubar">
     <div class="playlist-actions">
+        <button id="playSelected" class="button-label" title="<%= chrome.i18n.getMessage('playSelected') %>">
+            <i class="fa fa-play"></i>
+            <%= chrome.i18n.getMessage('playSelected') %>
+        </button>
+        <button id="saveSelected" class="button-label" title="<%= chrome.i18n.getMessage('saveSelected') %>">
+            <i class="fa fa-save"></i>
+            <%= chrome.i18n.getMessage('saveSelected') %>
+        </button>
     </div>
 </div>
