@@ -161,30 +161,31 @@ define([
 
         },
 
-        //  Slide in the VideoSearchView from the left hand side.
-        //  TODO: Why is this throttled?
+        //  Slide in videoSearchView from the left hand side.
         showVideoSearch: _.throttle(function (doSnapAnimation) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPane.currentView)) {
       
+                //  Create model for the view and indicate whether view should appear immediately or display snap animation.
                 var videoSearch = new VideoSearch({
                     playlist: Folders.getActiveFolder().getActivePlaylist(),
                     doSnapAnimation: doSnapAnimation
                 });
 
-                var videoSearchView = new VideoSearchView({
+                //  Show the view using VideoSearchResults collection in which to render its results from.
+                this.leftCoveringPane.show(new VideoSearchView({
                     collection: VideoSearchResults,
                     model: videoSearch
-                });
+                }));
 
-                this.leftCoveringPane.show(videoSearchView);
-
+                //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(videoSearch, 'destroy', function() {
                     this.leftCoveringPane.close();
                 });
 
             } else {
+                //  Highlight the fact that is already visible by shaking it.
                 this.leftCoveringPane.currentView.shake();
             }
 
