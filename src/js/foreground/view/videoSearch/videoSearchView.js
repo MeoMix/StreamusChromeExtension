@@ -11,9 +11,9 @@
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
-        
-        className: 'left-pane',
+
         id: 'videoSearch',
+        className: 'left-pane',
         
         template: _.template(VideoSearchTemplate),
         itemViewContainer: '#videoSearchResults',
@@ -214,6 +214,11 @@
                 videos: this.collection.getSelectedVideos()
             });
             saveVideosPromptView.fadeInAndShow();
+        },
+        
+        //  Shake the view to bring attention to the fact that the view is already visible.
+        shake: function() {
+            this.$el.effect('shake');
         }
 
     });

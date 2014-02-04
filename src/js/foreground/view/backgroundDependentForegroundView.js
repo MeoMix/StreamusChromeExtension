@@ -3,7 +3,7 @@
 //  This means that the foreground module wrappers for background entities will return null on initial load -- causing errors.
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'foreground/view/prompt/genericPromptView',
     'foreground/model/activeFolderArea',
     'foreground/view/activeFolderArea/activeFolderAreaView',
@@ -18,16 +18,17 @@ define([
     'foreground/view/notificationView',
     'foreground/model/player',
     'foreground/model/buttons/videoDisplayButton',
-    'foreground/model/settings'
-], function (GenericForegroundView, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
+    'foreground/model/settings',
+    'foreground/region/leftCoveringPanelRegion'
+], function (ForegroundViewManager, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings, LeftCoveringPanelRegion) {
 
-    var BackgroundDependentForegroundView = GenericForegroundView.extend({
+    //  TODO: Maybe this should be an application and not a layout? I dunno.
+    var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
         //  Same as ForegroundView's element. That is OK.
         el: $('body'),
 
         activeFolderAreaView: null,
         activePlaylistAreaView: null,
-        videoSearchView: null,
         videoDisplayView: null,
         rightPaneView: null,
         
@@ -36,6 +37,14 @@ define([
             'click #activePlaylistArea button.show': 'showActiveFolderArea',
             //  TODO: I really think this event handler should be in activePlaylistAreaView...
             'click #videoSearchLink': 'onClickShowVideoSearch'
+        },
+        
+        regions: {
+            leftCoveringPanel: {
+                //  TODO: Come up with a better name than transitionRightRegion
+                selector: '#left-covering-panel',
+                regionType: LeftCoveringPanelRegion
+            }
         },
 
         initialize: function () {
@@ -86,18 +95,7 @@ define([
 
             });
 
-            //key('s', function() {
-
-            //    console.log("s key pressed");
-            //    if (this.videoSearchView === null) {
-                    
-            //        console.log("show search");
-                    
-
-
-            //    }
-                
-            //}.bind(this));
+            ForegroundViewManager.get('views').push(this);
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
@@ -156,7 +154,7 @@ define([
             this.showVideoSearch(false);
         },
         
-        showVideoDisplay: function(instant) {
+        showVideoDisplay: function (instant) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (this.videoDisplayView === null) {
@@ -169,29 +167,36 @@ define([
         },
 
         //  Slide in the VideoSearchView from the left hand side.
+        //  TODO: Why is this throttled?
         showVideoSearch: _.throttle(function (instant) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (this.videoSearchView === null) {
+            if (_.isUndefined(this.videoSearch.currentView)) {
+                
+
 
                 var videoSearch = new VideoSearch({
                     playlist: Folders.getActiveFolder().getActivePlaylist()
                 });
 
-                this.videoSearchView = new VideoSearchView({
+                var videoSearchView = new VideoSearchView({
                     collection: VideoSearchResults,
                     model: videoSearch
                 });
 
-                this.$el.append(this.videoSearchView.render().el);
-                this.videoSearchView.showAndFocus(instant);
+                //console.log("Calling show:");
+                
+                this.leftCoveringPanel.show(videoSearchView);
 
-                this.listenToOnce(videoSearch, 'destroy', function() {
-                    this.videoSearchView = null;
-                });
+                //  TODO: I want my own custom showAndFocus instead of relying on region.show:
+                //this.videoSearchView.showAndFocus(instant);
+
+                //this.listenToOnce(videoSearch, 'destroy', function() {
+                //    this.videoSearchView = null;
+                //});
 
             } else {
-                this.videoSearchView.$el.effect("shake");
+                this.videoSearch.currentView.shake();
             }
 
         }, 400),
