@@ -224,7 +224,7 @@
         },
         
         initialize: function() {
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
         
         //  TODO: Do this the marionette way.

@@ -18,9 +18,8 @@ define([
     'foreground/view/notificationView',
     'foreground/model/player',
     'foreground/model/buttons/videoDisplayButton',
-    'foreground/model/settings',
-    'foreground/region/leftCoveringPanelRegion'
-], function (ForegroundViewManager, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings, LeftCoveringPanelRegion) {
+    'foreground/model/settings'
+], function (ForegroundViewManager, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
 
     //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
@@ -40,11 +39,7 @@ define([
         },
         
         regions: {
-            leftCoveringPanel: {
-                //  TODO: Come up with a better name than transitionRightRegion
-                selector: '#left-covering-panel',
-                regionType: LeftCoveringPanelRegion
-            }
+            leftCoveringPane: '#left-covering-pane'
         },
 
         initialize: function () {
@@ -54,7 +49,7 @@ define([
             this.showActivePlaylistArea();
             
             if (Settings.get('alwaysOpenToSearch')) {
-                this.showVideoSearch(true);
+                this.showVideoSearch(false);
             }
             
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
@@ -95,7 +90,7 @@ define([
 
             });
 
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.
@@ -151,7 +146,7 @@ define([
         },
 
         onClickShowVideoSearch: function () {
-            this.showVideoSearch(false);
+            this.showVideoSearch(true);
         },
         
         showVideoDisplay: function (instant) {
@@ -168,15 +163,14 @@ define([
 
         //  Slide in the VideoSearchView from the left hand side.
         //  TODO: Why is this throttled?
-        showVideoSearch: _.throttle(function (instant) {
+        showVideoSearch: _.throttle(function (doSnapAnimation) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (_.isUndefined(this.videoSearch.currentView)) {
-                
-
-
+            if (_.isUndefined(this.leftCoveringPane.currentView)) {
+      
                 var videoSearch = new VideoSearch({
-                    playlist: Folders.getActiveFolder().getActivePlaylist()
+                    playlist: Folders.getActiveFolder().getActivePlaylist(),
+                    doSnapAnimation: doSnapAnimation
                 });
 
                 var videoSearchView = new VideoSearchView({
@@ -184,19 +178,14 @@ define([
                     model: videoSearch
                 });
 
-                //console.log("Calling show:");
-                
-                this.leftCoveringPanel.show(videoSearchView);
+                this.leftCoveringPane.show(videoSearchView);
 
-                //  TODO: I want my own custom showAndFocus instead of relying on region.show:
-                //this.videoSearchView.showAndFocus(instant);
-
-                //this.listenToOnce(videoSearch, 'destroy', function() {
-                //    this.videoSearchView = null;
-                //});
+                this.listenToOnce(videoSearch, 'destroy', function() {
+                    this.leftCoveringPane.close();
+                });
 
             } else {
-                this.videoSearch.currentView.shake();
+                this.leftCoveringPane.currentView.shake();
             }
 
         }, 400),

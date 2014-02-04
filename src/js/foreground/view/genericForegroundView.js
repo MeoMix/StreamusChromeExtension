@@ -8,7 +8,7 @@
     //  Enforce memory management between the Foreground and Backbone by making all
     //  foreground views stop listening to the background whenever the foreground is unloaded.
     var GenericForegroundView = function(options) {
-        ForegroundViewManager.get('views').push(this);
+        ForegroundViewManager.subscribe(this);
         Backbone.View.apply(this, [options]);
     };
 

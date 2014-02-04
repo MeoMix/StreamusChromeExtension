@@ -87,7 +87,7 @@
         },
 
         initialize: function () {
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
         
         updatePlaylistDetails: function () {

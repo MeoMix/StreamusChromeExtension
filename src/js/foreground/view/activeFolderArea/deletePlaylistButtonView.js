@@ -37,9 +37,7 @@ define([
         
         initialize: function () {
             this.listenTo(Folders.getActiveFolder().get('playlists'), 'add remove reset', this.render);
-            
-            //  TODO: Don't do memory management like this -- use regions, I think!
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
 
         showDeleteSelectedPlaylistPrompt: function () {

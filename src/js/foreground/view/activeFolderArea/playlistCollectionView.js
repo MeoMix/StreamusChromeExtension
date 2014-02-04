@@ -58,8 +58,7 @@ define([
             //  TODO: This might not be necessary with Marionette.
             //this.listenTo(this.model.get('playlists'), 'add', this.addItem);
             
-            //  TODO: Don't do memory management like this -- use regions, I think!
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
 
         //  TODO: I still think it's possible to improve the clarity of this with better CSS/HTML mark-up.

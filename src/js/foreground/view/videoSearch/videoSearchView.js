@@ -19,7 +19,6 @@
         itemViewContainer: '#videoSearchResults',
         
         itemView: VideoSearchResultView,
-        shown: false,
         searchResultsBeingRemoved: [],
         
         ui: {
@@ -35,7 +34,7 @@
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
-            'click button#hideVideoSearch': 'destroyModel',
+            'click button#hideVideoSearch': 'hide',
             'click button#playSelected': 'playSelected',
             'click button#saveSelected': 'showSaveSelectedPrompt',
             'contextmenu @ui.videoSearchResults': 'showContextMenu'
@@ -47,7 +46,6 @@
         },
         
         modelEvents: {
-            'destroy': 'hide',
             'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
         },
 
@@ -58,7 +56,7 @@
         
         onAfterItemAdded: function (itemView) {
             //  TODO: onAfterItemAdded will fire as the UI is sliding open, which causes lag. It would be better to defer this until after the animation has completed.
-            //if (this.shown) {
+            //if (this.model.get('isFullyVisible')) {
             //    LazyLoader.showOrSubscribe(this.ui.videoSearchResults, itemView.ui.imageThumbnail);
             //}
         },
@@ -92,47 +90,56 @@
         },
         
         initialize: function () {
-
-            $(window).unload(function() {
-                this.model.saveSearchQuery();
-                this.cleanup();
-            }.bind(this));
-            
-            ForegroundViewManager.get('views').push(this);
+            $(window).on('unload.videoSearch', this.onForegroundClosed.bind(this));
+            ForegroundViewManager.subscribe(this);
         },
         
-        showAndFocus: function (instant) {
+        onShow: function () {
+            //  By passing undefined in I opt to use the default duration length.
+            var transitionDuration = this.model.get('doSnapAnimation') ? undefined : 0;
             
             this.$el.transition({
                 x: this.$el.width()
-            }, instant ? 0 : undefined, 'snap', function () {
+            }, transitionDuration, 'snap', function () {
+                
+                //  Reset val after focusing to prevent selecting the text while maintaining focus.
+                this.ui.searchInput.focus().val(this.ui.searchInput.val());
+                chrome.extension.getBackgroundPage().stopClearResultsTimer();
+
                 //var imageThumbnails = this.children.map(function(child) {
                 //    return child.ui.imageThumbnail;
                 //});
 
                 //LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
-                this.shown = true;
+
+                this.model.set('isFullyVisible', true);
+            }.bind(this));
+
+        },
+        
+        //  This is ran whenever the user closes the entire foreground popup.
+        onForegroundClosed: function () {
+            this.model.saveSearchQuery();
+            this.startClearResultsTimeout();
+        },
+
+        //  This is ran whenever the user closes the video search view, but the foreground remains open.
+        onClose: function () {
+            $(window).off('unload.videoSearch');
+            ForegroundViewManager.unsubscribe(this);
+            this.startClearResultsTimeout();
+        },
+        
+        hide: function () {
+            
+            //  Transition the view back out before closing.
+            this.$el.transition({
+                //  Transition -20px off the screen to account for the shadow on the view.
+                x: -20
+            }, function () {
+                this.model.destroy();
             }.bind(this));
             
-            //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            this.ui.searchInput.focus().val(this.ui.searchInput.val());
-
-            chrome.extension.getBackgroundPage().stopClearResultsTimer();
-        },
-        
-        destroyModel: function () {
-            this.model.destroy();
-        },
-        
-        hide: function() {
-            this.$el.transition({
-                x: -20
-            }, this.cleanup.bind(this));
-        },
-        
-        cleanup: function () {
-            this.remove();
-            this.startClearResultsTimeout();
         },
         
         //  Wait a while before forgetting search results because sometimes people just leave for a second and its frustrating to lose the results.

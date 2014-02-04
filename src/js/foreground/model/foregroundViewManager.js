@@ -21,6 +21,30 @@
                 view.stopListening();
             });
 
+        },
+        
+        subscribe: function (view) {
+            
+            var views = this.get('views');
+            var index = views.indexOf(view);
+
+            if (index === -1) {
+                views.push(view);
+            } else {
+                console.error("Already subscribed to view:", view);
+            }
+
+        },
+        
+        unsubscribe: function (view) {
+            var views = this.get('views');
+            var index = views.indexOf(view);
+            
+            if (index > -1) {
+                views.splice(index, 1);
+            } else {
+                console.error("Failed to unsubscribe view:", view);
+            }
         }
 
     });

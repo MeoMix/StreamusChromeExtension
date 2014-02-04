@@ -64,7 +64,7 @@ define([
             this.timeProgressAreaView = new TimeProgressAreaView();
             this.videoDisplayButtonView = new VideoDisplayButtonView();
 
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
 
     });

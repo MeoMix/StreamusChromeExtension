@@ -63,8 +63,7 @@
             //  Maybe PlaylistView should be a CompositeView since it references a collection of Items?
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
 
-            //  TODO: Don't do memory management like this -- use regions, I think!
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
 
         //  TODO: Standardize on active vs selected.

@@ -26,8 +26,7 @@ define([
         },
         
         initialize: function () {
-            //  TODO: I am not certain I need a ViewManager for this if I use Marionette properly. 
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
             GenericForegroundView.prototype.initializeTooltips.call(this);
         }
     });

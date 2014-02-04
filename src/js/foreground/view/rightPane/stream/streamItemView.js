@@ -61,8 +61,7 @@
             
         initialize: function (options) {
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-            
-            ForegroundViewManager.get('views').push(this);
+            ForegroundViewManager.subscribe(this);
         },
 
         select: function () {
