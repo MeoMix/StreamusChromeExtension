@@ -103,9 +103,7 @@
                     title: videoAlreadyExists ? 'Duplicates not allowed' : '',
                     disabled: videoAlreadyExists,
                     onClick: function () {
-                        if (!videoAlreadyExists) {
-                            activePlaylist.addByVideo(self.model.get('video'));
-                        }
+                        activePlaylist.addByVideo(self.model.get('video'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),

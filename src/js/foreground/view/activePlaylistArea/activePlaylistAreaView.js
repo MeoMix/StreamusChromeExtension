@@ -133,22 +133,14 @@
                         disabled: isPlaylistEmpty,
                         title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                         onClick: function () {
-
-                            if (!isPlaylistEmpty) {
-                                StreamItems.addByPlaylistItems(this.model, false);
-                            }
-
+                            StreamItems.addByPlaylistItems(this.model, false);
                         }.bind(this)
                     }, {
                         text: chrome.i18n.getMessage('playPlaylist'),
                         disabled: isPlaylistEmpty,
                         title: isPlaylistEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                         onClick: function () {
-
-                            if (!isPlaylistEmpty) {
-                                StreamItems.addByPlaylistItems(this.model, true);
-                            }
-
+                            StreamItems.addByPlaylistItems(this.model, true);
                         }.bind(this)
                     }]
                 });

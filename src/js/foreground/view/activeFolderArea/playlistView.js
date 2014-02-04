@@ -115,47 +115,37 @@
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
                         
-                        //  TODO: onClick event should not fire if the item is disabled. I shouldn't have to double-check.
-                        if (!isEmpty) {
+                        self.model.getShareCode(function (shareCode) {
 
-                            self.model.getShareCode(function (shareCode) {
+                            var shareCodeShortId = shareCode.get('shortId');
+                            var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
 
-                                var shareCodeShortId = shareCode.get('shortId');
-                                var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
+                            var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
 
-                                var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
-
-                                chrome.extension.sendMessage({
-                                    method: 'copy',
-                                    text: playlistShareUrl
-                                });
-
+                            chrome.extension.sendMessage({
+                                method: 'copy',
+                                text: playlistShareUrl
                             });
-                            
-                        }
 
+                        });
+                            
                     }
                 }, {
                     text: chrome.i18n.getMessage('delete'),
                     disabled: isDeleteDisabled,
                     title: isDeleteDisabled ? chrome.i18n.getMessage('cantDeleteLastPlaylist') : '',
                     onClick: function () {
+                        //  No need to notify if the playlist is empty.
+                        if (self.model.get('items').length === 0) {
+                            self.model.destroy();
+                        } else {
 
-                        if (!isDeleteDisabled) {
+                            var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                                playlist: self.model
+                            });
 
-                            //  No need to notify if the playlist is empty.
-                            if (self.model.get('items').length === 0) {
-                                self.model.destroy();
-                            } else {
-
-                                var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                                    playlist: self.model
-                                });
-
-                                //  TODO: This doesn't convey the fact that it checks a reminder to determine whether to show.
-                                deletePlaylistPromptView.fadeInAndShow();
-                            }
-
+                            //  TODO: This doesn't convey the fact that it checks a reminder to determine whether to show.
+                            deletePlaylistPromptView.fadeInAndShow();
                         }
                     }
                 }, {
@@ -163,11 +153,7 @@
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
-
-                        if (!isEmpty) {
-                            StreamItems.addByPlaylistItems(self.model.get('items'), false);
-                        }
-
+                        StreamItems.addByPlaylistItems(self.model.get('items'), false);
                     }
                 }, {
                     text: chrome.i18n.getMessage('edit'),

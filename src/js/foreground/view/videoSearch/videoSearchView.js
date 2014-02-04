@@ -19,7 +19,7 @@
         itemViewContainer: '#videoSearchResults',
         
         itemView: VideoSearchResultView,
-        searchResultsBeingRemoved: [],
+        //searchResultsBeingRemoved: [],
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
@@ -36,9 +36,17 @@
             'input @ui.searchInput': 'search',
             'click button#hideVideoSearch': 'hide',
             'click button#playSelected': 'playSelected',
-            'click button#saveSelected': 'showSaveSelectedPrompt',
-            'contextmenu @ui.videoSearchResults': 'showContextMenu'
+            'click button#saveSelected': 'showSaveSelectedPrompt'
         }),
+        
+        triggers: {
+            //  TODO: contextmenu vs contextMenu 
+            'contextmenu @ui.videoSearchResults': {
+                event: 'showContextMenu',
+                //  Set preventDefault to true to let foreground know to not reset the context menu.
+                preventDefault: true
+            }
+        },
         
         templateHelpers: {
             //  Mix in chrome to reference internationalize.
@@ -90,7 +98,7 @@
         },
         
         initialize: function () {
-            $(window).on('unload.videoSearch', this.onForegroundClosed.bind(this));
+            $(window).on('unload.videoSearch', this.onClose.bind(this));
             ForegroundViewManager.subscribe(this);
         },
         
@@ -116,17 +124,13 @@
             }.bind(this));
 
         },
-        
-        //  This is ran whenever the user closes the entire foreground popup.
-        onForegroundClosed: function () {
-            this.model.saveSearchQuery();
-            this.startClearResultsTimeout();
-        },
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.
         onClose: function () {
             $(window).off('unload.videoSearch');
             ForegroundViewManager.unsubscribe(this);
+            
+            this.model.saveSearchQuery();
             this.startClearResultsTimeout();
         },
         
@@ -171,6 +175,7 @@
         toggleBigText: function () {
             //  Hide the search message when there is no search in progress nor any typing happening.
             var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
+
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
 
             //  Hide the instructions message once user has searched or are searching.
@@ -185,9 +190,7 @@
         },
 
         showContextMenu: function (event) {
-            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
-            event.preventDefault();
-
+            
             if (event.target === event.currentTarget || $(event.target).hasClass('big-text') || $(event.target).hasClass('i-4x')) {
                 //  Didn't bubble up from a child -- clear groups.
                 ContextMenuGroups.reset();
