@@ -193,8 +193,6 @@
     <Content Include="src\js\foreground\view\rightPane\videoDisplayButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\volumeControlView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\playSelectedButtonView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\saveSelectedButtonView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
     <Content Include="src\js\fullscreen\fullscreen.js" />
@@ -259,13 +257,11 @@
     <Content Include="src\template\playlist.html" />
     <Content Include="src\template\playlistItem.html" />
     <Content Include="src\template\playPauseButton.html" />
-    <Content Include="src\template\playSelectedButton.html" />
     <Content Include="src\template\previousButton.html" />
     <Content Include="src\template\radioButton.html" />
     <Content Include="src\template\reload.html" />
     <Content Include="src\template\repeatButton.html" />
     <Content Include="src\template\rightPane.html" />
-    <Content Include="src\template\saveSelectedButton.html" />
     <Content Include="src\template\saveStreamButton.html" />
     <Content Include="src\template\saveVideos.html" />
     <Content Include="src\template\settings.html" />
