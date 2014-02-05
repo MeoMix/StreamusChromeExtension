@@ -26,6 +26,7 @@
 
             //  VideoSearchResults will be empty if Streamus was restarted, but searchQuery is stored in settings (probably a bad call)
             if (searchQuery !== '' && VideoSearchResults.length === 0) {
+                console.log("searching");
                 this.search(searchQuery);
             }
         },

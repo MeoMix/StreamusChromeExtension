@@ -3,12 +3,10 @@
     'foreground/model/foregroundViewManager',
     'text!template/videoSearchResult.html',
     'foreground/collection/contextMenuGroups',
-    'foreground/collection/videoSearchResults',
     'foreground/collection/streamItems',
-    'foreground/collection/folders',
     'foreground/view/prompt/saveVideosPromptView',
     'enum/listItemType'
-], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, VideoSearchResults, StreamItems, Folders, SaveVideosPromptView, ListItemType) {
+], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, StreamItems, SaveVideosPromptView, ListItemType) {
     'use strict';
 
     var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
@@ -48,6 +46,14 @@
             };
         },
         
+        triggers: {
+            'contextmenu @ui.videoSearchResults': {
+                event: 'showContextMenu',
+                //  Set preventDefault to true to let foreground know to not reset the context menu.
+                preventDefault: true
+            }
+        },
+        
         modelEvents: {
             'change:selected': 'setHighlight',
             'destroy': 'remove'
@@ -55,19 +61,18 @@
         
         onRender: function () {
             this.setHighlight();
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            //GenericForegroundView.prototype.initializeTooltips.call(this);
         },
 
         initialize: function (options) {
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-            ForegroundViewManager.subscribe(this);
+            //ForegroundViewManager.subscribe(this);
         },
         
         setHighlight: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
-        //  TODO: Is there a way to keep these actions DRY across multiple views?
         playInStream: _.debounce(function () {
             var video = this.model.get('video');
             StreamItems.addByVideo(video, true);
@@ -85,7 +90,6 @@
         }, 100, true),
         
         saveToPlaylist: _.debounce(function () {
-           
             var video = this.model.get('video');
 
             var saveVideosPromptView = new SaveVideosPromptView({
@@ -98,13 +102,11 @@
             return false;
         }, 100, true),
         
-        showContextMenu: function (event) {
-
-            var video = this.model.get('video');
+        showContextMenu: function () {
             
-            event.preventDefault();
-
             ContextMenuGroups.reset();
+            
+            var video = this.model.get('video');
             
             ContextMenuGroups.add({
                 items: [{
@@ -128,7 +130,6 @@
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
                     onClick: function () {
-
                         chrome.extension.sendMessage({
                             method: 'copy',
                             text: '"' + video.get('title') + '" - ' + video.get('url')
@@ -137,11 +138,9 @@
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
-
                         chrome.tabs.create({
                             url: video.get('url')
                         });
-
                     }
                 }]
             });

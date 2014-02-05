@@ -61,18 +61,23 @@
             'reset': 'toggleBigText',
             'change:selected': 'toggleBottomMenubar'
         },
-        
-        onAfterItemAdded: function (itemView) {
-            //  TODO: onAfterItemAdded will fire as the UI is sliding open, which causes lag. It would be better to defer this until after the animation has completed.
-            //if (this.model.get('isFullyVisible')) {
-            //    LazyLoader.showOrSubscribe(this.ui.videoSearchResults, itemView.ui.imageThumbnail);
-            //}
+
+        onAfterItemAdded: function (view) {
+            if (this.model.get('isFullyVisible')) {
+                console.log('subscribe');
+                //LazyLoader.showOrSubscribe(this.ui.videoSearchResults, view.ui.imageThumbnail);
+            }
         },
         
         //  This gets called a lot. Queue up items being removed until defer actually runs.
-        onItemRemoved: function (itemView) {
-            //console.log("itemView:", this, this.searchResultsBeingRemoved, this.deferredUnsubscribe);
-            //this.searchResultsBeingRemoved.push(itemView);
+        onItemRemoved: function (view) {
+
+            //this.searchResultsBeingRemoved.push(view);
+            if (this.model.get('isFullyVisible')) {
+                console.log('unsubscribe');
+                //LazyLoader.unsubscribe(this.ui.videoSearchResults, view.ui.imageThumbnail);
+            }
+            
             //this.debouncedUnsubscribe();
         },
         
@@ -90,6 +95,7 @@
         //}, 500),
 
         onRender: function () {
+            console.log('onRender being called');
             this.toggleBigText();
             this.toggleBottomMenubar();
             
@@ -103,26 +109,27 @@
         },
         
         onShow: function () {
+
+            chrome.extension.getBackgroundPage().stopClearResultsTimer();
+            
+            //  Reset val after focusing to prevent selecting the text while maintaining focus.
+            this.ui.searchInput.focus().val(this.ui.searchInput.val());
+
             //  By passing undefined in I opt to use the default duration length.
             var transitionDuration = this.model.get('doSnapAnimation') ? undefined : 0;
             
+            //  Load in youtube image thumbnails for search results that are visible and prep the others.
+            var imageThumbnails = this.children.map(function (child) {
+                return child.ui.imageThumbnail;
+            });
+
+            LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
+
             this.$el.transition({
                 x: this.$el.width()
             }, transitionDuration, 'snap', function () {
-                
-                //  Reset val after focusing to prevent selecting the text while maintaining focus.
-                this.ui.searchInput.focus().val(this.ui.searchInput.val());
-                chrome.extension.getBackgroundPage().stopClearResultsTimer();
-
-                //var imageThumbnails = this.children.map(function(child) {
-                //    return child.ui.imageThumbnail;
-                //});
-
-                //LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
-
                 this.model.set('isFullyVisible', true);
             }.bind(this));
-
         },
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.

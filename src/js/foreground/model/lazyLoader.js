@@ -13,59 +13,80 @@
             };
         },
         
-        //  Iterate over each element in a container and see if it should be shown.
-        update: function (container) {
-            var settings = this.get('settings');
-          
-            var containerDictionary = this.get('containerDictionary');
-            var existingContainer = _.findWhere(containerDictionary, { container: container });
-
-            console.log("Container elements:", existingContainer.elements.length, existingContainer.container.attr('id'));
-
-            var visibleElements = _.filter(existingContainer.elements, function (element) {
-                return this.inviewport(container, element, settings.threshold);
-            }.bind(this));
-
-            this.showElements(visibleElements);
-
-            //  Stop tracking elements which have loaded.
-            this.unsubscribe(container, visibleElements);
-        },
-        
-        showElements: function(elements) {
-            _.each(elements, function (element) {
-                element.attr('src', element.data('original'));
-            });
-        },
-        
         //  If the given element is already visible -- just show it. Otherwise, subscribe.
-        showOrSubscribe: function(container, elements) {
-            if (container.offset() === undefined || container.height() === 0) {
-                console.error('Container isn\'t fully loaded yet!');
-            }
+        showOrSubscribe: function (container, elements) {
+            this.showErrorIfContainerUnready(container);
 
-            //  Convert a singular element into an array for to enforce proper types.
-            if (!_.isArray(elements)) {
-                elements = [elements];
-            }
-            
+            elements = this.enforceArrayType(elements);
             //  Only iterate over valid jQuery selectors.
             elements = this.rejectZeroLength(elements);
 
             var threshold = this.get('settings').threshold;
 
-            var visibleElements = _.filter(elements, function (element) {
-                return this.inviewport(container, element, threshold);
-            }.bind(this));
-            this.showElements(visibleElements);
+            //  Sort all given elements into two piles. Visible elements and invisible elements.
+            var visibleElements = [];
+            var hiddenElements = [];
             
-            var hiddenElements = _.reject(elements, function(element) {
-                return this.inviewport(container, element, threshold);
+            _.each(elements, function (element) {
+                var elementIsInContainer = this.isElementInContainer(container, element, threshold);
+                
+                if (elementIsInContainer) {
+                    visibleElements.push(element);
+                } else {
+                    hiddenElements.push(element);
+                }
             }.bind(this));
-
+            
+            //  Attempt to show visible elements if they aren't already loaded
+            this.showElements(visibleElements);
             this.subscribe(container, hiddenElements);
         },
         
+        getVisibleElements: function (container) {
+            var existingContainer = _.findWhere(this.get('containerDictionary'), { container: container });
+
+            var threshold = this.get('settings').threshold;
+            var visibleElements = _.filter(existingContainer.elements, function (element) {
+                return this.isElementInContainer(container, element, threshold);
+            }.bind(this));
+
+            return visibleElements;
+        },
+        
+        //  Prompt that something has gone wrong if the container isn't loaded yet.
+        //  Most commonly happens when trying to bind to an item that is transitioning in.
+        showErrorIfContainerUnready: function(container) {
+            if (_.isUndefined(container.offset()) || container.height() === 0) {
+                console.error('Container isn\'t fully loaded yet!');
+            }
+        },
+        
+        showElements: function(elements) {
+            _.each(elements, function (element) {
+                
+                if (_.isUndefined(element.data('original')) || element.data('original') === '') {
+                    console.error("Element doesn't have an original property -- can't lazy load it");
+                }
+                else if (element.attr('src') !== element.data('original')) {
+                    element.attr('src', element.data('original'));
+                } else {
+                    console.error("Element already has src loaded:", element);
+                }
+                
+            });
+        },
+        
+        //  Convert a singular element into an array for to enforce proper types.
+        //  It's just nice to not have to worry about whether something is an array or a singular.
+        enforceArrayType: function (elements) {
+            if (!_.isArray(elements)) {
+                elements = [elements];
+            }
+
+            return elements;
+        },
+        
+        //  If the jQuery selector given for an element is no good - notify that element wasn't found.
         rejectZeroLength: function(elements) {
             return _.reject(elements, function (element) {
                 var isZeroLength = element.length === 0;
@@ -79,16 +100,9 @@
         },
 
         subscribe: function (container, elements) {
+            this.showErrorIfContainerUnready(container);
             
-            if (container.offset() === undefined || container.height() === 0) {
-                console.error('Container isn\'t fully loaded yet!');
-            }
-
-            //  Convert a singular element into an array for to enforce proper types.
-            if (!_.isArray(elements)) {
-                elements = [elements];
-            }
-
+            elements = this.enforceArrayType(elements);
             //  Only iterate over valid jQuery selectors.
             elements = this.rejectZeroLength(elements);
 
@@ -100,6 +114,8 @@
             if (existingContainer !== undefined) {
                 //  Merge new elements together with existing elements.
                 existingContainer.elements = _.union(existingContainer.elements, elements);
+
+                console.log("Merged. Elements length:", existingContainer.elements.length);
             } else {
                 //  Otherwise, just add the given container to the dictionary since it is new.
                 containerDictionary.push({
@@ -108,9 +124,13 @@
                 });
 
                 //  Call off because if multiple items have the same parent and want to be lazyloaded, no reason to bind multiple scroll events.
-                //  TODO: I never unbind scroll event from my container, but I don't expect to support 100s of containers, only a few.
                 container.off('scroll.lazyElements').on('scroll.lazyElements', function () {
-                    this.update(container);
+                    
+                    var visibleElements = this.getVisibleElements(container);
+                    this.showElements(visibleElements);
+                    
+                    //  Stop tracking elements which have loaded.
+                    this.unsubscribe(container, visibleElements);
                 }.bind(this));
             }
         },
@@ -118,9 +138,7 @@
         unsubscribe: function (container, elements) {
             console.log("Unsubscribing");
             //  Convert a singular element into an array for to enforce proper types.
-            if (!_.isArray(elements)) {
-                elements = [elements];
-            }
+            elements = this.enforceArrayType(elements);
             
             var containerDictionary = this.get('containerDictionary');
 
@@ -137,30 +155,37 @@
             }
         },
         
-        inviewport: function (container, element, threshold) {
+        isElementInContainer: function (container, element, threshold) {
 
-            var rightoffold = this.rightoffold(container, element, threshold);
-            var leftofbegin = this.leftofbegin(container, element, threshold);
-            var belowthefold = this.belowthefold(container, element, threshold);
-            var abovethetop = this.abovethetop(container, element, threshold);
+            var containerOffset = container.offset();
+            var containerWidth = container.width();
+            var containerHeight = container.height();
+            var elementOffset = element.offset();
+            var elementWidth = element.width();
+            var elementHeight = element.height();
 
-            return !rightoffold && !leftofbegin && !belowthefold && !abovethetop;
+            var isRightOfContainer = this.isElementRightOfContainer(containerOffset, containerWidth, elementOffset, threshold);
+            var isLeftOfContainer = this.isElementLeftOfContainer(containerOffset, elementOffset, elementWidth, threshold);
+            var isBelowContainer = this.isElementBelowContainer(containerOffset, containerHeight, elementOffset, threshold);
+            var isAboveContainer = this.isElementAboveContainer(containerOffset, elementOffset, elementHeight, threshold);
+
+            return !isRightOfContainer && !isLeftOfContainer && !isBelowContainer && !isAboveContainer;
         },
         
-        belowthefold: function (container, element, threshold) {
-            return container.offset().top + container.height() <= element.offset().top - threshold;
+        isElementRightOfContainer: function (containerOffset, containerWidth, elementOffset, threshold) {
+            return containerOffset.left + containerWidth <= elementOffset.left - threshold;
         },
 
-        rightoffold: function (container, element, threshold) {
-            return container.offset().left + container.width() <= element.offset().left - threshold;
+        isElementLeftOfContainer: function (containerOffset, elementOffset, elementWidth, threshold) {
+            return containerOffset.left >= elementOffset.left + threshold + elementWidth;
+        },
+        
+        isElementBelowContainer: function (containerOffset, containerHeight, elementOffset, threshold) {
+            return containerOffset.top + containerHeight <= elementOffset.top - threshold;
         },
 
-        abovethetop: function (container, element, threshold) {
-            return container.offset().top >= element.offset().top + threshold + element.height();
-        },
-
-        leftofbegin: function (container, element, threshold) {
-            return container.offset().left >= element.offset().left + threshold + element.width();
+        isElementAboveContainer: function (containerOffset, elementOffset, elementHeight, threshold) {
+            return containerOffset.top >= elementOffset.top + threshold + elementHeight;
         }
         
     });

@@ -180,7 +180,8 @@ define([
                 }));
 
                 //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
-                this.listenToOnce(videoSearch, 'destroy', function() {
+                this.listenToOnce(videoSearch, 'destroy', function () {
+                    console.log("calling leftCoveringPane close");
                     this.leftCoveringPane.close();
                 });
 
