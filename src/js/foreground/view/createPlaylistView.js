@@ -50,8 +50,8 @@
             this.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
         },
         
-        //  Throttle for typing support
-        processInput: _.throttle(function () {
+        //  Debounce for typing support so I know when typing has finished
+        processInput: _.debounce(function () {
             var self = this;
             
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
@@ -61,7 +61,7 @@
                 self.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
 
                 if (youTubeSource !== '') {
-                    
+
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = new DataSource({
                         urlToParse: youTubeSource,
@@ -71,17 +71,22 @@
                     self.youTubeSourceInput.data('datasource', dataSource);
 
                     dataSource.getTitle({
-                        success: function (title) {
+                        success: function(title) {
                             self.playlistTitleInput.val(title);
                             self.validateTitle();
                             self.youTubeSourceInput.addClass('valid');
                         },
                         error: function () {
-                            self.playlistTitleInput.val(chrome.i18n.getMessage('errorRetrievingTitle'));
+                            var originalValue = self.playlistTitleInput.val();
+                            console.log("original value:", originalValue);
+                            self.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
                             self.youTubeSourceInput.addClass('invalid');
                         }
                     });
 
+                } else {
+                    self.youTubeSourceInput.removeClass('invalid valid');
+                    self.playlistTitleInput.val(self.playlistTitleInput.data('original-value'));
                 }
                 
             });
@@ -100,6 +105,8 @@
 
             var dataSource= this.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.playlistTitleInput.val());
+
+            console.log("Data source and playlistName:", dataSource, playlistName);
 
             //  TODO: It's weird that addPlaylistByDataSource doesn't work with some of the dataSource types.
             if (dataSource.get('type') === DataSourceType.None || dataSource.get('type') === DataSourceType.Unknown) {

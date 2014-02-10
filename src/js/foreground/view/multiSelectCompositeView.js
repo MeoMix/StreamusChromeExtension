@@ -15,14 +15,6 @@
         events: {
             'click .listItem': 'setSelectedOnClick'
         },
-        
-        triggers: {
-            'contextmenu @ui.multiSelectItemContainer': {
-                event: 'showContextMenu',
-                //  Set preventDefault to true to let foreground know to not reset the context menu.
-                preventDefault: true
-            }
-        },
 
         onRender: function () {
             var self = this;

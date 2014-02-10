@@ -5,8 +5,9 @@
     'foreground/view/multiSelectCompositeView',
     'foreground/collection/contextMenuGroups',
     'foreground/view/activePlaylistArea/playlistItemView',
-    'foreground/model/user'
-], function (GenericForegroundView, ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, ContextMenuGroups, PlaylistItemView, User) {
+    'foreground/model/user',
+    'foreground/collection/streamItems'
+], function (GenericForegroundView, ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, ContextMenuGroups, PlaylistItemView, User, StreamItems) {
     'use strict';
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({

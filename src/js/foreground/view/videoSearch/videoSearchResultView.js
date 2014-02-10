@@ -26,7 +26,7 @@
         events: {
             'click button.playInStream': 'playInStream',
             'click button.addToStream': 'addToStream',
-            'click button.save:not(.disabled)': 'saveToPlaylist',
+            'click @ui.saveButton': 'saveToPlaylist',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
@@ -36,7 +36,8 @@
         },
         
         ui: {
-            imageThumbnail: 'img.item-thumb'
+            imageThumbnail: 'img.item-thumb',
+            saveButton: 'button.save'
         },
         
         templateHelpers: function () {
@@ -87,13 +88,16 @@
         }, 100, true),
         
         saveToPlaylist: _.debounce(function () {
-            var video = this.model.get('video');
+            // Return false even on disabled button click so the click event does not bubble up and select the item. 
+            if (!this.ui.saveButton.hasClass('disabled')) {
+                var video = this.model.get('video');
 
-            var saveVideosPromptView = new SaveVideosPromptView({
-                videos: [video]
-            });
-            
-            saveVideosPromptView.fadeInAndShow();
+                var saveVideosPromptView = new SaveVideosPromptView({
+                    videos: [video]
+                });
+
+                saveVideosPromptView.fadeInAndShow();
+            }
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;

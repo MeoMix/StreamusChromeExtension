@@ -6,8 +6,9 @@
     'foreground/view/videoSearch/videoSearchResultView',
     'foreground/collection/contextMenuGroups',
     'foreground/view/prompt/saveVideosPromptView',
-    'foreground/model/user'
-], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, SaveVideosPromptView, User) {
+    'foreground/model/user',
+    'foreground/collection/streamItems'
+], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, SaveVideosPromptView, User, StreamItems) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -37,8 +38,9 @@
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
             'click button#hideVideoSearch': 'hide',
+            'contextmenu @ui.multiSelectItemContainer': 'showContextMenu',
             'click button#playSelected': 'playSelected',
-            'click @ui.saveSelectedButton:not(.disabled)': 'showSaveSelectedPrompt'
+            'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
         }),
  
         templateHelpers: function() {
@@ -186,7 +188,7 @@
             console.log("This.ui.searchingMessage:", this.ui.searchingMessage);
 
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
-
+    
             //  Hide the instructions message once user has searched or are searching.
             var hasSearchResults = this.collection.length > 0;
             var hasSearchQuery = this.model.get('searchQuery').length > 0;
@@ -199,6 +201,8 @@
         },
 
         showContextMenu: function (event) {
+
+            console.log("Showing context menu");
             
             if (event.target === event.currentTarget || $(event.target).hasClass('big-text') || $(event.target).hasClass('i-4x')) {
                 //  Didn't bubble up from a child -- clear groups.
@@ -229,10 +233,17 @@
         },
 
         showSaveSelectedPrompt: function () {
-            var saveVideosPromptView = new SaveVideosPromptView({
-                videos: this.collection.getSelectedVideos()
-            });
-            saveVideosPromptView.fadeInAndShow();
+
+            var disabled = this.ui.saveSelectedButton.hasClass('disabled');
+            
+            if (!disabled) {
+                var saveVideosPromptView = new SaveVideosPromptView({
+                    videos: this.collection.getSelectedVideos()
+                });
+                saveVideosPromptView.fadeInAndShow();
+            }
+            //  Don't close the menu if disabled
+            return !disabled;
         },
         
         //  Shake the view to bring attention to the fact that the view is already visible.
