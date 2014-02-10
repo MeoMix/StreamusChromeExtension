@@ -397,6 +397,24 @@
 		"message": "Watch on YouTube"
 	},
 	
+	"cantSaveNotSignedIn": {
+		"message": "Can't save. Not signed in"
+	},
+	"duplicatesNotAllowed": {
+		"message": "Duplicates not allowed"
+	},
+	"signingIn": {
+		"message": "Signing in"
+	},
+	"signIn": {
+		"message": "Sign in"
+	},
+	"signInFailed": {
+		"message": "Sign in failed"
+	},
+	"pleaseWait": {
+		"message": "Please wait"
+	},
 	"alwaysOpenToSearch": {
 		"message": "Always open to search"
 	}
