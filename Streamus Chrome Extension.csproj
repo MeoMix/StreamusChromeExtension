@@ -85,7 +85,6 @@
     <Content Include="src\img\Yellow 4.png" />
     <Content Include="src\js\background\background.js" />
     <Content Include="src\js\background\collection\multiSelectCollection.js" />
-    <Content Include="src\js\background\collection\folders.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
     <Content Include="src\js\background\collection\playlists.js" />
     <Content Include="src\js\background\collection\streamItems.js" />
@@ -102,7 +101,6 @@
     <Content Include="src\js\background\model\buttons\videoDisplayButton.js" />
     <Content Include="src\js\background\model\contextMenus.js" />
     <Content Include="src\js\background\model\error.js" />
-    <Content Include="src\js\background\model\folder.js" />
     <Content Include="src\js\background\model\iconManager.js" />
     <Content Include="src\js\background\model\omnibox.js" />
     <Content Include="src\js\background\model\player.js" />
@@ -125,6 +123,7 @@
     <Content Include="src\js\common\model\youTubeV2API.js" />
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
+    <Content Include="src\js\foreground\collection\playlists.js" />
     <Content Include="src\js\foreground\mixin\unwrappedRegionMixin.js" />
     <Content Include="src\js\enum\listItemType.js" />
     <Content Include="src\js\common\view\settingsView.js" />
@@ -138,31 +137,26 @@
     <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuGroups.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
-    <Content Include="src\js\foreground\collection\folders.js" />
     <Content Include="src\js\foreground\collection\streamItems.js" />
     <Content Include="src\js\foreground\collection\videoSearchResults.js" />
     <Content Include="src\js\foreground\foreground.js" />
     <Content Include="src\js\foreground\main.js" />
-    <Content Include="src\js\foreground\model\activeFolderArea.js" />
+    <Content Include="src\js\foreground\model\playlistsArea.js" />
     <Content Include="src\js\foreground\model\buttons\playPauseButton.js" />
     <Content Include="src\js\foreground\model\buttons\videoDisplayButton.js" />
     <Content Include="src\js\foreground\model\contextMenuGroup.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\foregroundViewManager.js" />
-    <Content Include="src\js\foreground\model\lazyLoader.js" />
     <Content Include="src\js\foreground\model\player.js" />
     <Content Include="src\js\foreground\model\settings.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
+    <Content Include="src\js\foreground\model\user.js" />
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
-    <Content Include="src\js\foreground\view\activeFolderArea\activeFolderAreaView.js" />
-    <Content Include="src\js\foreground\view\activeFolderArea\playlistCollectionView.js" />
-    <Content Include="src\js\foreground\view\activeFolderArea\deletePlaylistButtonView.js" />
-    <Content Include="src\js\foreground\view\activeFolderArea\playlistView.js" />
+    <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
+    <Content Include="src\js\foreground\view\playlistsArea\deletePlaylistButtonView.js" />
+    <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
-    <Content Include="src\js\foreground\view\activePlaylistArea\addAllButtonView.js" />
-    <Content Include="src\js\foreground\view\activePlaylistArea\searchButtonView.js" />
-    <Content Include="src\js\foreground\view\activePlaylistArea\playAllButtonView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="src\js\foreground\view\backgroundDependentForegroundView.js" />
     <Content Include="src\js\foreground\view\clearStreamView.js" />
@@ -185,7 +179,6 @@
     <Content Include="src\js\foreground\view\rightPane\rightPaneView.js" />
     <Content Include="src\js\foreground\view\rightPane\stream\radioButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\stream\repeatButtonView.js" />
-    <Content Include="src\js\foreground\view\rightPane\stream\saveStreamButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\stream\shuffleButtonView.js" />
     <Content Include="src\js\foreground\view\rightPane\stream\streamItemView.js" />
     <Content Include="src\js\foreground\view\rightPane\stream\streamView.js" />
@@ -220,6 +213,7 @@
     <Content Include="src\js\thirdParty\jasmine.js" />
     <Content Include="src\js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
+    <Content Include="src\js\thirdParty\jquery.lazyload.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery.scrollIntoView.js" />
     <Content Include="src\js\thirdParty\jquery.transit.js" />
@@ -240,12 +234,10 @@
     </Content>
     <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
-    <Content Include="src\template\activeFolderArea.html" />
+    <Content Include="src\template\playlistsArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
-    <Content Include="src\template\addAllButton.html" />
     <Content Include="src\template\clearStream.html" />
     <Content Include="src\template\contextMenu.html" />
-    <Content Include="src\template\searchButton.html" />
     <Content Include="src\template\createPlaylist.html" />
     <Content Include="src\template\deletePlaylist.html" />
     <Content Include="src\template\deletePlaylistButton.html" />
@@ -253,7 +245,6 @@
     <Content Include="src\template\genericPrompt.html" />
     <Content Include="src\template\nextButton.html" />
     <Content Include="src\template\notification.html" />
-    <Content Include="src\template\playAllButton.html" />
     <Content Include="src\template\playlist.html" />
     <Content Include="src\template\playlistItem.html" />
     <Content Include="src\template\playPauseButton.html" />
@@ -262,7 +253,6 @@
     <Content Include="src\template\reload.html" />
     <Content Include="src\template\repeatButton.html" />
     <Content Include="src\template\rightPane.html" />
-    <Content Include="src\template\saveStreamButton.html" />
     <Content Include="src\template\saveVideos.html" />
     <Content Include="src\template\settings.html" />
     <Content Include="src\template\shuffleButton.html" />
