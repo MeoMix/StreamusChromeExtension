@@ -196,22 +196,20 @@ $(function () {
 			sharePanelPlaylistSelect.removeClass('hid');
 		});
 
-		chrome.runtime.sendMessage({ method: "getFolders" }, function (getFoldersResponse) {
+		chrome.runtime.sendMessage({ method: "getPlaylists" }, function (getPlaylistsResponse) {
 
-			var folders = getFoldersResponse.folders;
+			var playlists = getPlaylistsResponse.playlists;
 
-			if (folders.length === 1) {
+			console.log("get playlists response:", getPlaylistsResponse);
 
-				selectPlaylistButton.addClass('yt-uix-button-toggled');
-				sharePanelPlaylistSelect.removeClass('hid');
+			selectPlaylistButton.addClass('yt-uix-button-toggled');
+			sharePanelPlaylistSelect.removeClass('hid');
 
-				for (var i = 0; i < folders[0].playlists.length; i++) {
-					$('<option>', {
-						value: folders[0].playlists[i].id,
-						text: folders[0].playlists[i].title
-					}).appendTo(playlistSelect);
-				}
-
+			for (var i = 0; i < playlists.length; i++) {
+				$('<option>', {
+					value: playlists[i].id,
+					text: playlists[i].title
+				}).appendTo(playlistSelect);
 			}
 
 		});

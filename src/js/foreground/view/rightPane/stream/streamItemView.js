@@ -5,11 +5,12 @@
     'common/model/utility',
     'foreground/collection/streamItems',
     'text!template/streamItem.html',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'foreground/model/buttons/playPauseButton',
     'foreground/model/player',
-    'enum/listItemType'
-], function (ForegroundViewManager, GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Folders, PlayPauseButton, Player, ListItemType) {
+    'enum/listItemType',
+    'foreground/model/user'
+], function (ForegroundViewManager, GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
@@ -29,7 +30,7 @@
         
         events: {
             'click': 'select',
-            'click button.delete': 'doDelete',
+            'click @ui.deleteButton': 'doDelete',
             'click button.playInStream': 'play',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
@@ -38,7 +39,8 @@
         },
         
         ui: {
-            'imageThumbnail': 'img.item-thumb'
+            'imageThumbnail': 'img.item-thumb',
+            'deleteButton': 'button.delete'
         },
         
         templateHelpers: function () {
@@ -73,7 +75,8 @@
         },
         
         doDelete: function () {
-            this.$el.qtip('destroy');
+            //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
+            this.ui.deleteButton.qtip('api').destroy(true);
             this.model.destroy();
 
             //  Don't allow click to bubble up to the list item and cause a selection.
@@ -86,22 +89,36 @@
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
 
-        showContextMenu: function(event) {
-            var self = this;
+        showContextMenu: function (event) {
 
+            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
-
+            var self = this;
+            
             ContextMenuGroups.reset();
             
-            var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
-            var videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(self.model.get('video'));
+            var userLoaded = User.get('loaded');
+
+            var activePlaylist = Playlists.getActivePlaylist();
+            var videoAlreadyExists = false;
+            
+            if (userLoaded) {
+                videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(self.model.get('video'));
+            }
+
+            var saveTitle = '';
+            
+            if (userLoaded && videoAlreadyExists) {
+                saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
+            } else if(!userLoaded) {
+                saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
+            }
 
             ContextMenuGroups.add({
                 items: [{
                     text: chrome.i18n.getMessage('save'),
-                    //  TODO: i18n
-                    title: videoAlreadyExists ? 'Duplicates not allowed' : '',
-                    disabled: videoAlreadyExists,
+                    title: saveTitle,
+                    disabled: !userLoaded || videoAlreadyExists,
                     onClick: function () {
                         activePlaylist.addByVideo(self.model.get('video'));
                     }

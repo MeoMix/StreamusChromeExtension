@@ -10,6 +10,8 @@ define(function() {
 
         initialize: function () {
 
+            console.log('youTubePlayerAPI is initializing');
+
             // Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
             // Benefits include faster loading, less CPU usage, and no crashing
             // Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
@@ -69,5 +71,5 @@ define(function() {
         }
     });
 
-    return new YouTubePlayerAPI();
+    return YouTubePlayerAPI;
 });

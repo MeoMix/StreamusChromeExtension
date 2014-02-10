@@ -2,9 +2,9 @@
 //  Tries to load itself by ID stored in localStorage and then by chrome.storage.sync.
 //  If still unloaded, tells the server to create a new user and assumes that identiy.
 define([
-    'background/collection/folders',
+    'background/collection/playlists',
     'background/model/settings'
-], function (Folders, Settings) {
+], function (Playlists, Settings) {
     'use strict';
 
     var syncUserIdKey = 'UserId';
@@ -17,8 +17,13 @@ define([
                 googlePlusId: '',
                 name: '',
                 dirty: false,
+                signingIn: false,
+                signInFailed: false,
+                signInRetryTimer: 30,
+                signInRetryTimerInterval: null,
+                //  TODO: rename to signedIn
                 loaded: false,
-                folders: null
+                playlists: null
             };
         },
         
@@ -26,33 +31,57 @@ define([
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
-
-            //chrome.storage.sync.set({
-            //    'dirty': false
-            //});
             
-            //var self = this;
-            
-            //  changes: Object mapping each key that changed to its corresponding StorageChange for that item.
-            //  areaName: The name of the storage area (sync or local) the changes are for.
-            //chrome.storage.onChanged.addListener(function (changes, areaName) {
+            chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
-            //    if (areaName === 'sync') {
-            //        if (changes.dirty != null) {
-            //            self.set('dirty', changes.dirty.newValue, { silent: true });
-            //        }
-                    
-            //    }
+                switch (request.method) {
+                    case 'addPlaylistByShareData':
+                        this.addPlaylistByShareData(request.shareCodeShortId, request.urlFriendlyEntityTitle, function (playlist) {
+                            if (playlist) {
+                                sendResponse({
+                                    result: 'success',
+                                    playlistTitle: playlist.get('title')
+                                });
+                            } else {
+                                sendResponse({ result: 'error' });
+                            }
+                        });
+                        break;
+                }
 
-            //});
-            
-            //  TODO: Consider rate limiting this if >1000 saves occur in an hour?
-            //this.on('change:dirty', function (model, dirty) {
+            }.bind(this));
 
-            //    chrome.storage.sync.set({
-            //        'dirty': dirty
-            //    });
-            //});
+            //this.signIn();
+
+            this.on('change:signInFailed', function (model, signInFailed) {
+
+                console.log("sign in failed");
+
+                var signInRetryInterval = this.get('signInRetryInterval');
+                clearInterval(signInRetryInterval);
+
+                if (signInFailed) {
+
+                    signInRetryInterval = window.setInterval(function () {
+
+                        console.log("interval tick", this.get('signInRetryTimer'));
+
+                        var signInRetryTimer = this.get('signInRetryTimer');
+
+                        if (signInRetryTimer === 1) {
+                            clearInterval(this.get('signInRetryTimerInterval'));
+                            this.set('signInRetryTimer', 30);
+                            this.set('signInFailed', false);
+                        }
+
+                        this.set('signInRetryTimer', this.get('signInRetryTimer') - 1);
+                    }.bind(this), 1000);
+
+                    this.set('signInRetryInterval', signInRetryInterval);
+                } else {
+                    this.set('signInRetryTimer', 30);
+                }
+            });
 
             //  Trying to get user's info without signing in, it will work if the
             //  Application was previously authorized by the user.
@@ -61,75 +90,55 @@ define([
 
             //    if (userInfo === null) {
             //        //  There was an issue fetching your information
-            //        this.tryLoginFromStorage();
+            //        this.signIn();
             //    } else {
             //        this.tryLoginWithGooglePlusId();
             //    }
 
             //}.bind(this));
-
-            this.tryLoginFromStorage();
-
-            //  newState is an enum of or "active"or "idle"or "locked"
-            //chrome.idle.onStateChanged.addListener(function(newState) {
-
-            //    if (newState == 'active' && self.get('dirty')) {
-            //        //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-            //        // self.loadFromServer(false);
-            //    }
-
-            //});
-
-            //  Start watching for changes to user or any collection/model underneath it to set dirty flag.
-            //this.on('childSync', function () {
-            //    this.set('dirty', true);
-            //});
-            
-            //this.listenTo(Folders, 'sync', function () {
-            //    this.trigger('childSync');
-            //});
-            
         },
         
-        tryLoginFromStorage: function() {
-
-            var self = this;
+        signIn: function () {
+            
+            this.set('loaded', false);
+            this.set('signingIn', true);
+            this.set('signInFailed', false);
 
             //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
             chrome.storage.sync.get(syncUserIdKey, function (data) {
                 //  Look for a user id in sync, it might be undefined though.
                 var foundUserId = data[syncUserIdKey];
 
-                if (typeof foundUserId === 'undefined') {
+                if (_.isUndefined(foundUserId)) {
 
                     foundUserId = Settings.get('userId');
 
                     if (foundUserId !== null) {
-                        self.set('id', foundUserId);
-                        self.loadFromServer(true);
+                        this.set('id', foundUserId);
+                        this.loadFromServer(true);
                     } else {
 
                         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-                        self.save({}, {
+                        this.save({}, {
                             success: function (model) {
-                                self.onLoaded(model, true);
-                            },
+                                this.onLoaded(model, true);
+                                
+                            }.bind(this),
                             error: function (error) {
                                 console.error(error);
-                            }
+                                this.set('signInFailed', true);
+                            }.bind(this)
                         });
                     }
 
                 } else {
-
                     //  Update the model's id to proper value and call fetch to retrieve all data from server.
-                    self.set('id', foundUserId);
+                    this.set('id', foundUserId);
 
                     //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    self.loadFromServer(false);
+                    this.loadFromServer(false);
                 }
-            });
-
+            }.bind(this));
 
         },
         
@@ -161,9 +170,7 @@ define([
                     }
 
                 } else {
-
                     this.getUserInfoWithAuthToken(authToken, retry, onUserInfoReceived);
-                    
                 }
 
             }.bind(this));
@@ -172,8 +179,6 @@ define([
         
         getUserInfoWithAuthToken: function (authToken, retry, onUserInfoReceived) {
             
-            var self = this;
-
             $.ajax({
                 url: 'https://www.googleapis.com/plus/v1/people/me',
                 headers: {
@@ -188,28 +193,75 @@ define([
                     //  If authorization failure occurs - retry a second time after clearing any cached information which may be expired.
                     if (error.status == 401 && retry) {
                         chrome.identity.removeCachedAuthToken({ token: authToken }, function() {
-                            self.getAuthToken(false, false, onUserInfoReceived);
-                        });
+                            this.getAuthToken(false, false, onUserInfoReceived);
+                        }.bind(this));
                     } else {
                         onUserInfoReceived(null);
                         console.error(error);
                     }
 
-                }
+                }.bind(this)
             });
             
         },
         
-        onLoaded: function (model, setSyncStorage) {
-            //  Set a global Folders with the user's folders for ease of use in getting user's folders later.
-            Folders.reset(this.get('folders'));
+        addPlaylistByShareData: function (shareCodeShortId, urlFriendlyEntityTitle, callback) {
+            
+            $.ajax({
+                url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
+                dataType: 'json',
+                data: {
+                    shareCodeShortId: shareCodeShortId,
+                    urlFriendlyEntityTitle: urlFriendlyEntityTitle,
+                    userId: this.get('id')
+                },
+                success: function (playlistDto) {
+                    //  Add and convert back from JSON to Backbone object.
+                    var playlist = this.get('playlists').add(playlistDto);
+                    callback(playlist);
+                }.bind(this),
+                error: function (error) {
+                    console.error("Error adding playlist by share data", error);
+                    callback();
+                }
+            });
 
-            //  In the future there might need to be logic here for marking an appropriate folder as active, but for now only 1 folder so it is the active one.
-            Folders.at(0).set('active', true);
+        },
+        
+        onLoaded: function (model, setSyncStorage) {
+            //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
+            Playlists.reset(this.get('playlists'));
+            //  TODO: shitty.
+            Playlists.setUserId(this.get('id'));
+            
+            //  TODO: I don't think I initial a playlist as selected appropriatedly now that I changed over to just playlists?
+            if (_.isUndefined(Playlists.getActivePlaylist())) {
+                
+                if (Playlists.length === 0) {
+                    var applicationDetails = typeof chrome === 'undefined' ? '' : chrome.app.getDetails();
+                    var clientVersion = applicationDetails ? applicationDetails.version : 'Unknown';
+
+                    if (clientVersion === '0.114') {
+
+                        chrome.runtime.requestUpdateCheck(function(state) {
+                            if (state === "update_available") {
+                                chrome.runtime.reload();
+                            }
+                        });
+
+                    }
+                } else {
+                    Playlists.at(0).set('active', true);
+                }
+
+            }
 
             //  TODO: Error handling for writing to sync too much.
             //  Write to sync as little as possible because it has restricted read/write limits per hour.
-            if (setSyncStorage) {
+            var settingsUserId = Settings.get('userId');
+
+            //  If settings has changed -- assume need to keep in sync no matter what.
+            if (setSyncStorage || settingsUserId !== this.get('id')) {
 
                 //  Using the bracket access notation here to leverage the variable which stores the key for chrome.storage.sync
                 //  I want to be able to ensure I am getting/setting from the same location, thus the variable.
@@ -220,6 +272,7 @@ define([
             }
 
             //  Announce that user has loaded so managers can use it to fetch data.
+            this.set('signingIn', false);
             this.set('loaded', true);
             Settings.set('userId', this.get('id'));
 
@@ -238,30 +291,14 @@ define([
         //  to client-side storage locations for future loading and then announces
         //  that the user has been loaded fully.
         loadFromServer: function(setSyncStorage) {
-            var self = this;
-
-            this.set('loaded', false);
             this.fetch({
                 success: function (model) {
-                    self.onLoaded(model, setSyncStorage);
-                },
-                error: function (error) {
-                    console.error(error);
-
-                    //  If there's an error fetching the user with localDebug enabled -- probably just swapped between DBs
-                    //  Its OK to reset the user for debugging purposes. It is NOT ok to reset the user in deployment.
-                    if (Settings.get('localDebug')) {
-
-                        self.set('id', null);
-                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-                        self.save({}, {
-                            success: function (model) {
-                                self.onLoaded(model, true);
-                            }
-                        });
-                    }
-
-                }
+                    this.onLoaded(model, setSyncStorage);
+                }.bind(this),
+                error: function () {
+                    this.set('signingIn', false);
+                    this.set('signInFailed', true);
+                }.bind(this)
             });
         },
         

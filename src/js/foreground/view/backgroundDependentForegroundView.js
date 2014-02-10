@@ -5,40 +5,43 @@
 define([
     'foreground/model/foregroundViewManager',
     'foreground/view/prompt/genericPromptView',
-    'foreground/model/activeFolderArea',
-    'foreground/view/activeFolderArea/activeFolderAreaView',
+    'foreground/model/playlistsArea',
+    'foreground/view/playlistsArea/playlistsAreaView',
     'foreground/view/activePlaylistArea/activePlaylistAreaView',
     'foreground/view/videoSearch/videoSearchView',
     'foreground/model/videoSearch',
     'foreground/collection/videoSearchResults',
     'foreground/view/rightPane/rightPaneView',
     'common/view/videoDisplayView',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/player',
     'foreground/model/buttons/videoDisplayButton',
-    'foreground/model/settings'
-], function (ForegroundViewManager, GenericPromptView, ActiveFolderArea, ActiveFolderAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Folders, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings) {
+    'foreground/model/settings',
+    'foreground/model/user'
+], function (ForegroundViewManager, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Playlists, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings, User) {
 
     //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
         //  Same as ForegroundView's element. That is OK.
         el: $('body'),
 
-        activeFolderAreaView: null,
+        playlistsAreaView: null,
         activePlaylistAreaView: null,
         videoDisplayView: null,
         rightPaneView: null,
         
         events: {
+            'click': 'onClickDeselectCollections',
             'click button#showVideoSearch': 'onClickShowVideoSearch',
-            'click #activePlaylistArea button.show': 'showActiveFolderArea',
+            'click #activePlaylistArea button.show': 'showPlaylistsArea',
             //  TODO: I really think this event handler should be in activePlaylistAreaView...
             'click #videoSearchLink': 'onClickShowVideoSearch'
         },
         
         regions: {
+            leftBasePane: '#left-base-pane',
             leftCoveringPane: '#left-covering-pane'
         },
 
@@ -52,93 +55,69 @@ define([
                 this.showVideoSearch(false);
             }
             
-            this.listenTo(Folders.getActiveFolder().get('playlists'), 'change:active', this.showActivePlaylistArea);
-            this.listenTo(Player, 'error', this.showYouTubeError);
-
             //  TODO: It seems REALLY weird to have videoDisplayView be shown here but hidden by itself. Surely both thoughts should be on one or the other.
             if (VideoDisplayButton.get('enabled')) {
                 //  Open instantly on first load.
                 this.showVideoDisplay(true);
             }
-
-            this.listenTo(VideoDisplayButton, 'change:enabled', function(model, enabled) {
-
-                if (enabled) {
-                    //  Show an animation when changing after first load.
-                    this.showVideoDisplay(false);
-                } else {
-                    //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
-                    this.videoDisplayView = null;
-                }
-
-            });
             
-            $(window).unload(function () {
-                Folders.getActiveFolder().get('playlists').getActivePlaylist().get('items').deselectAll();
-                VideoSearchResults.deselectAll();
-            });
-
-            this.$el.click(function (event) {
-
-                var isMultiSelectItem = $(event.target).hasClass('.multiSelectItem');
-                var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
-
-                if (!isMultiSelectItem && !isChildMultiSelectItem) {
-                    Folders.getActiveFolder().get('playlists').getActivePlaylist().get('items').deselectAll();
-                    VideoSearchResults.deselectAll();
-                }
-
-            });
-
+            this.listenTo(Playlists, 'change:active', this.showActivePlaylistArea);
+            this.listenTo(Player, 'error', this.showYouTubeError);
+            this.listenTo(VideoDisplayButton, 'change:enabled', this.toggleVideoDisplay);
+            
+            $(window).unload(this.deselectCollections.bind(this));
             ForegroundViewManager.subscribe(this);
         },
         
-        //  Cleans up any active playlist view and then renders a fresh view.
-        showActivePlaylistArea: function () {
-
-            var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
-
-            //  Build the view if it hasn't been rendered yet or re-build the view if it is outdated.
-            if (this.activePlaylistAreaView === null || this.activePlaylistAreaView.model.get('playlist') !== activePlaylist) {
-
-                //  Cleanup an existing view
-                if (this.activePlaylistAreaView !== null) {
-                    this.activePlaylistAreaView.remove();
-                }
-
-                console.log("activePlaylist:", activePlaylist.get('displayInfo'));
-
-                //  TODO: rename this properly
-                this.activePlaylistAreaView = new ActivePlaylistAreaView({
-                    model: activePlaylist,
-                    collection: activePlaylist.get('items')
-                });
-
-                this.$el.append(this.activePlaylistAreaView.render().el);
+        toggleVideoDisplay: function (model, enabled) {
+            if (enabled) {
+                //  Show an animation when changing after first load.
+                this.showVideoDisplay(false);
+            } else {
+                //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
+                this.videoDisplayView = null;
             }
-
+        },
+        
+        //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
+        onClickDeselectCollections: function (event) {
+            var isMultiSelectItem = $(event.target).hasClass('multiSelectItem');
+            var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
+ 
+            if (!isMultiSelectItem && !isChildMultiSelectItem) {
+                this.deselectCollections();
+            }
+        },
+        
+        deselectCollections: function () {
+            if (User.get('loaded')) {
+                Playlists.getActivePlaylist().get('items').deselectAll();
+            }
+            
+            VideoSearchResults.deselectAll();
         },
 
-        //  Slides in the ActiveFolderAreaView from the left side.
-        showActiveFolderArea: function () {
+        //  Slides in PlaylistsAreaView from the left side.
+        showPlaylistsArea: function () {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (this.activeFolderAreaView === null) {
+            if (this.playlistsAreaView === null) {
 
-                var activeFolderArea = new ActiveFolderArea({
-                    folder: Folders.getActiveFolder()
+                var playlistsArea = new PlaylistsArea({
+                    playlists: Playlists
                 });
 
-                this.activeFolderAreaView = new ActiveFolderAreaView({
-                    model: activeFolderArea
+                this.playlistsAreaView = new PlaylistsAreaView({
+                    model: playlistsArea,
+                    collection: Playlists
                 });
 
-                this.$el.append(this.activeFolderAreaView.render().el);
-                this.activeFolderAreaView.show();
+                this.$el.append(this.playlistsAreaView.render().el);
+                this.playlistsAreaView.show();
 
                 //  Cleanup whenever the model is destroyed.
-                this.listenToOnce(activeFolderArea, 'destroy', function () {
-                    this.activeFolderAreaView = null;
+                this.listenToOnce(playlistsArea, 'destroy', function () {
+                    this.playlistsAreaView = null;
                 });
 
             }
@@ -160,6 +139,17 @@ define([
             }
 
         },
+        
+        //  Cleans up any active playlist view and then renders a fresh view.
+        showActivePlaylistArea: function () {
+            var activePlaylist = Playlists.getActivePlaylist();
+
+            //  Show the view using VideoSearchResults collection in which to render its results from.
+            this.leftBasePane.show(new ActivePlaylistAreaView({
+                model: activePlaylist,
+                collection: activePlaylist ? activePlaylist.get('items') : undefined
+            }));
+        },
 
         //  Slide in videoSearchView from the left hand side.
         showVideoSearch: _.throttle(function (doSnapAnimation) {
@@ -169,7 +159,7 @@ define([
       
                 //  Create model for the view and indicate whether view should appear immediately or display snap animation.
                 var videoSearch = new VideoSearch({
-                    playlist: Folders.getActiveFolder().getActivePlaylist(),
+                    playlist: Playlists.getActivePlaylist(),
                     doSnapAnimation: doSnapAnimation
                 });
 
@@ -181,7 +171,6 @@ define([
 
                 //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(videoSearch, 'destroy', function () {
-                    console.log("calling leftCoveringPane close");
                     this.leftCoveringPane.close();
                 });
 

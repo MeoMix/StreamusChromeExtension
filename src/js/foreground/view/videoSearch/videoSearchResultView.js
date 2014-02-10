@@ -5,8 +5,9 @@
     'foreground/collection/contextMenuGroups',
     'foreground/collection/streamItems',
     'foreground/view/prompt/saveVideosPromptView',
-    'enum/listItemType'
-], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, StreamItems, SaveVideosPromptView, ListItemType) {
+    'enum/listItemType',
+    'foreground/model/user'
+], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, StreamItems, SaveVideosPromptView, ListItemType, User) {
     'use strict';
 
     var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
@@ -25,7 +26,7 @@
         events: {
             'click button.playInStream': 'playInStream',
             'click button.addToStream': 'addToStream',
-            'click button.save': 'saveToPlaylist',
+            'click button.save:not(.disabled)': 'saveToPlaylist',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
@@ -40,20 +41,16 @@
         
         templateHelpers: function () {
             return {
-                //  Mix in chrome to reference internationalize.
-                'chrome.i18n': chrome.i18n,
+                hdMessage: chrome.i18n.getMessage('hd'),
+                playMessage: chrome.i18n.getMessage('play'),
+                enqueueMessage: chrome.i18n.getMessage('enqueue'),
+                saveMessage: chrome.i18n.getMessage('save'),
+                userLoaded: User.get('loaded'),
+                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
                 instant: this.instant
             };
         },
-        
-        triggers: {
-            'contextmenu @ui.videoSearchResults': {
-                event: 'showContextMenu',
-                //  Set preventDefault to true to let foreground know to not reset the context menu.
-                preventDefault: true
-            }
-        },
-        
+      
         modelEvents: {
             'change:selected': 'setHighlight',
             'destroy': 'remove'
@@ -61,7 +58,7 @@
         
         onRender: function () {
             this.setHighlight();
-            //GenericForegroundView.prototype.initializeTooltips.call(this);
+            GenericForegroundView.prototype.initializeTooltips.call(this);
         },
 
         initialize: function (options) {
@@ -102,7 +99,8 @@
             return false;
         }, 100, true),
         
-        showContextMenu: function () {
+        showContextMenu: function (event) {
+            event.preventDefault();
             
             ContextMenuGroups.reset();
             

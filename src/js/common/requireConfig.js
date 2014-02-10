@@ -20,6 +20,7 @@
             'googleAnalytics': 'thirdParty/googleAnalytics',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
+            'jquery.lazyload': 'thirdParty/jquery.lazyload',
             'jquery.qtip': 'thirdParty/jquery.qtip',
             'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
             'jquery.transit': 'thirdParty/jquery.transit',
@@ -49,6 +50,10 @@
             'jquery.hoverIntent': {
                 deps: ['jquery'],
                 exports: '$.fn.hoverIntent'
+            },
+            'jquery.lazyload': {
+                deps: ['jquery'],
+                exports: '$.fn.lazyload'
             },
             'jquery.scrollIntoView': {
                 deps: ['jquery'],

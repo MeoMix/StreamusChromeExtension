@@ -5,9 +5,9 @@
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/videoSearchResultView',
     'foreground/collection/contextMenuGroups',
-    'foreground/model/lazyLoader',
     'foreground/view/prompt/saveVideosPromptView',
-], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, LazyLoader, SaveVideosPromptView) {
+    'foreground/model/user'
+], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, SaveVideosPromptView, User) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -18,8 +18,9 @@
         template: _.template(VideoSearchTemplate),
         itemViewContainer: '#videoSearchResults',
         
+        isFullyVisible: true,
+        
         itemView: VideoSearchResultView,
-        //searchResultsBeingRemoved: [],
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
@@ -29,28 +30,32 @@
             //  TODO: This could be handled by a Marionette.CollectionView's empty html.
             noResultsMessage: 'div.noResults',
             bigTextWrapper: 'div.big-text-wrapper',
-            videoSearchResults: '#videoSearchResults'
+            multiSelectItemContainer: '#videoSearchResults',
+            saveSelectedButton: 'button#saveSelected'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
             'click button#hideVideoSearch': 'hide',
             'click button#playSelected': 'playSelected',
-            'click button#saveSelected': 'showSaveSelectedPrompt'
+            'click @ui.saveSelectedButton:not(.disabled)': 'showSaveSelectedPrompt'
         }),
-        
-        triggers: {
-            //  TODO: contextmenu vs contextMenu 
-            'contextmenu @ui.videoSearchResults': {
-                event: 'showContextMenu',
-                //  Set preventDefault to true to let foreground know to not reset the context menu.
-                preventDefault: true
-            }
-        },
-        
-        templateHelpers: {
-            //  Mix in chrome to reference internationalize.
-            'chrome.i18n': chrome.i18n
+ 
+        templateHelpers: function() {
+            return {
+                saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
+                playSelectedMessage: chrome.i18n.getMessage('playSelected'),
+                searchMessage: chrome.i18n.getMessage('search'),
+                hideVideoSearchMessage: chrome.i18n.getMessage('hideVideoSearch'),
+                startTypingMessage: chrome.i18n.getMessage('startTyping'),
+                resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
+                searchingMessage: chrome.i18n.getMessage('searching'),
+                noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
+                sorryAboutThatMessage: chrome.i18n.getMessage('sorryAboutThat'),
+                trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse'),
+                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
+                
+            };
         },
         
         modelEvents: {
@@ -63,41 +68,19 @@
         },
 
         onAfterItemAdded: function (view) {
-            if (this.model.get('isFullyVisible')) {
-                console.log('subscribe');
-                //LazyLoader.showOrSubscribe(this.ui.videoSearchResults, view.ui.imageThumbnail);
+            if (this.isFullyVisible) {
+                view.ui.imageThumbnail.lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
             }
         },
-        
-        //  This gets called a lot. Queue up items being removed until defer actually runs.
-        onItemRemoved: function (view) {
-
-            //this.searchResultsBeingRemoved.push(view);
-            if (this.model.get('isFullyVisible')) {
-                console.log('unsubscribe');
-                //LazyLoader.unsubscribe(this.ui.videoSearchResults, view.ui.imageThumbnail);
-            }
-            
-            //this.debouncedUnsubscribe();
-        },
-        
-        //  Debounce unsubscribing because it always comes in bulk and would rather unsubscribe 
-        //  from all removed elements at the end rather than each one individually.
-        //debouncedUnsubscribe: _.debounce(function () {
-        //    var thumbnails = this.searchResultsBeingRemoved.map(function(searchResult) {
-        //        return searchResult.ui.imageThumbnail;
-        //    });
-
-        //    LazyLoader.unsubscribe(this.ui.videoSearchResults, thumbnails);
-            
-        //    //  Cleanup searchResultBeingRemoved after unsubscribe has happened.
-        //    this.searchResultsBeingRemoved.length = 0;
-        //}, 500),
-
+ 
         onRender: function () {
             console.log('onRender being called');
             this.toggleBigText();
             this.toggleBottomMenubar();
+            this.toggleSaveSelected();
             
             GenericForegroundView.prototype.initializeTooltips.call(this);
             MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
@@ -106,6 +89,7 @@
         initialize: function () {
             $(window).on('unload.videoSearch', this.onClose.bind(this));
             ForegroundViewManager.subscribe(this);
+            this.listenTo(User, 'change:loaded', this.toggleSaveSelected);
         },
         
         onShow: function () {
@@ -117,19 +101,24 @@
 
             //  By passing undefined in I opt to use the default duration length.
             var transitionDuration = this.model.get('doSnapAnimation') ? undefined : 0;
-            
-            //  Load in youtube image thumbnails for search results that are visible and prep the others.
-            var imageThumbnails = this.children.map(function (child) {
-                return child.ui.imageThumbnail;
-            });
-
-            LazyLoader.showOrSubscribe(this.ui.videoSearchResults, imageThumbnails);
 
             this.$el.transition({
                 x: this.$el.width()
             }, transitionDuration, 'snap', function () {
-                this.model.set('isFullyVisible', true);
+                
+                //  TODO: This is copy/pasted from streamView, FIX!
+                $(this.children.map(function (child) {
+                    return child.ui.imageThumbnail.toArray();
+                })).lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
+
+                this.isFullyVisible = true;
+
             }.bind(this));
+
+            //MultiSelectCompositeView.prototype.onShow.apply(this, arguments);
         },
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.
@@ -166,6 +155,17 @@
             this.model.search(searchQuery);
         },
         
+        toggleSaveSelected: function () {
+            var userLoaded = User.get('loaded');
+
+            this.ui.saveSelectedButton.toggleClass('disabled', !userLoaded);
+
+            var templateHelpers = this.templateHelpers();
+
+            console.log("userLoaded and templateHelpers", userLoaded, templateHelpers);
+            this.ui.saveSelectedButton.attr('title', userLoaded ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
+        },
+        
         toggleBottomMenubar: function () {
             
             if (this.collection.selected().length === 0) {
@@ -182,6 +182,8 @@
         toggleBigText: function () {
             //  Hide the search message when there is no search in progress nor any typing happening.
             var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
+
+            console.log("This.ui.searchingMessage:", this.ui.searchingMessage);
 
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
 

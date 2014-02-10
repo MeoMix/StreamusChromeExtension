@@ -2,9 +2,9 @@ define([
     'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/deletePlaylistButton.html',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'foreground/view/prompt/deletePlaylistPromptView'
-], function (GenericForegroundView, ForegroundViewManager, DeletePlaylistButtonTemplate, Folders, DeletePlaylistPromptView) {
+], function (GenericForegroundView, ForegroundViewManager, DeletePlaylistButtonTemplate, Playlists, DeletePlaylistPromptView) {
     'use strict';
 
     var DeletePlaylistButtonView = Backbone.Marionette.ItemView.extend({
@@ -24,7 +24,7 @@ define([
 
         onRender: function () {
             //  Can't delete the last playlist:
-            var canDelete = Folders.getActiveFolder().get('playlists').canDelete();
+            var canDelete = Playlists.canDelete();
 
             if (canDelete) {
                 this.$el.attr('title', this.enabledTitle).removeClass('disabled');
@@ -36,16 +36,15 @@ define([
         },
         
         initialize: function () {
-            this.listenTo(Folders.getActiveFolder().get('playlists'), 'add remove reset', this.render);
+            this.listenTo(Playlists, 'add remove reset', this.render);
             ForegroundViewManager.subscribe(this);
         },
 
         showDeleteSelectedPlaylistPrompt: function () {
-            var playlists = Folders.getActiveFolder().get('playlists');
-            var canDelete = playlists.canDelete();
+            var canDelete = Playlists.canDelete();
 
             if (canDelete) {
-                var activePlaylist = playlists.getActivePlaylist();
+                var activePlaylist = Playlists.getActivePlaylist();
                 var isEmpty = activePlaylist.get('items').length === 0;
  
                 //  No need to notify if the playlist is empty.

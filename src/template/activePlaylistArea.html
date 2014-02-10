@@ -1,13 +1,13 @@
 ﻿<div class="left-top-bar">
-    <button class="button-icon show" title="<%= chrome.i18n.getMessage('openMenu') %>">
+    <button class="button-icon show" title="<%= openMenu %>">
         <i class="fa fa-reorder"></i>
     </button>
 
-    <div class="playlistTitle" title="<%= title %>">
-        <%= title %>
+    <div class="playlistTitle" title="<%= playlistTitle %>">
+        <%= playlistTitle %>
     </div>
     
-    <button class="button-icon" id="showVideoSearch" title="<%= chrome.i18n.getMessage('showVideoSearch') %>">
+    <button class="button-icon" id="showVideoSearch" title="<%= showVideoSearch %>">
         <i class="fa fa-search"></i>
     </button>
 </div>
@@ -18,9 +18,23 @@
     
     <div class="big-text playlistEmpty">
         <div class="big-text-header">
-            <%= chrome.i18n.getMessage('playlistEmpty') %>
+            <%= playlistEmpty %>
         </div>
-        <%= chrome.i18n.getMessage('wouldYouLikeTo') %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= chrome.i18n.getMessage('searchForVideos') %></span>?
+        <%= wouldYouLikeTo %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= searchForVideos %></span>?
+    </div>
+    
+    <div class="big-text signingIn">
+        <div class="big-text-header"><%= signingIn %>...</div>
+        <div class="spinner spinner-medium"></div>
+    </div>
+    
+    <div class="big-text signIn">
+        <div class="big-text-header searchLink clickable"><%= signInMessage %></div>
+    </div>
+    
+    <div class="big-text signInFailed">
+        <div class="big-text-header"><%= signInFailedMessage %></div>
+        <%= pleaseWaitMessage %> <span id="signInRetryTimer"><%= signInRetryTimer %></span>
     </div>
 
     <div id="activePlaylistItems" class="left-list droppable-list">
@@ -28,12 +42,17 @@
 </div>
 
 <div class="left-bottom-menubar">
-    <div class="playlist-details lowercase">
-        <%= displayInfo %>
+    <div class="playlist-details lowercase" title="<%= playlistDisplayInfo %>">
+        <%= playlistDisplayInfo %>
     </div>
     <div class="playlist-actions">
-        <div id="searchButtonView" class="view-placeholder"></div>
-        <div id="addAllButtonView" class="view-placeholder"></div>
-        <div id="playAllButtonView" class="view-placeholder"></div>
+
+        <button class="button-label addAll" title="<%= enqueueAll %>">
+            <i class="fa fa-plus"></i><%= enqueueAll %>
+        </button>
+        
+        <button class="button-label playAll" title="<%= playAll %>">
+            <i class="fa fa-play"></i><%= playAll %>
+        </button>
     </div>
 </div>

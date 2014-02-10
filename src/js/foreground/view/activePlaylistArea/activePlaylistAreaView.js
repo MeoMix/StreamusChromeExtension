@@ -2,52 +2,59 @@
     'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/activePlaylistArea.html',
-    'foreground/view/activePlaylistArea/playAllButtonView',
-    'foreground/view/activePlaylistArea/addAllButtonView',
-    'foreground/view/activePlaylistArea/searchButtonView',
     'foreground/view/multiSelectCompositeView',
     'foreground/collection/contextMenuGroups',
-    'foreground/view/activePlaylistArea/playlistItemView'
-], function (GenericForegroundView, ForegroundViewManager, ActivePlaylistAreaTemplate, PlayAllButtonView, AddAllButtonView, SearchButtonView, MultiSelectCompositeView, ContextMenuGroups, PlaylistItemView) {
+    'foreground/view/activePlaylistArea/playlistItemView',
+    'foreground/model/user'
+], function (GenericForegroundView, ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, ContextMenuGroups, PlaylistItemView, User) {
     'use strict';
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
 
-        className: 'left-pane',
         id: 'activePlaylistArea',
-        
+        className: 'left-pane',
         template: _.template(ActivePlaylistAreaTemplate),
-        
-        itemViewContainer: '#activePlaylistItems',
-
         itemView: PlaylistItemView,
-        
-        itemViewOptions: function (model, index) {
-            return {
-                //  TODO: I used to have more complex logic for doing this which actually calculated whether the item was visible or not. Is that still needed? If so, why?
-                //  I think it might be needed for dragging an item.
-                //  TODO: This is hardcoded. Need to calculate whether a search result is visible or not.
-                instant: index <= 8
-            };
-        },
+        itemViewContainer: '#activePlaylistItems',
+        isFullyVisible: true,
 
         ui: {
             playlistDetails: '.playlist-details',
             playlistTitle: '.playlistTitle',
             playlistEmptyMessage: 'div.playlistEmpty',
+            signingInMessage: 'div.signingIn',
+            signInPrompt: 'div.signIn',
+            signInFailedMessage: 'div.signInFailed',
             bottomMenubar: '.left-bottom-menubar',
-            activePlaylistItems: '#activePlaylistItems'
+            multiSelectItemContainer: '#activePlaylistItems',
+            signInRetryTimer: '#signInRetryTimer'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'showVideoSuggestions',
             'click button#hideVideoSearch': 'destroyModel',
-            'contextmenu @ui.activePlaylistItems': 'showContextMenu'
+            'click button.addAll': 'addAllToStream',
+            'click button.playAll': 'playAllInStream',
+            'click @ui.signInPrompt': 'signIn'
         }),
 
-        templateHelpers: {
-            //  Mix in chrome to reference internationalize.
-            'chrome.i18n': chrome.i18n
+        templateHelpers: function() {
+            return {
+                openMenu: chrome.i18n.getMessage('openMenu'),
+                showVideoSearch: chrome.i18n.getMessage('showVideoSearch'),
+                searchForVideos: chrome.i18n.getMessage('searchForVideos'),
+                playlistEmpty: chrome.i18n.getMessage('playlistEmpty'),
+                wouldYouLikeTo: chrome.i18n.getMessage('wouldYouLikeTo'),
+                signingIn: chrome.i18n.getMessage('signingIn'),
+                signInMessage: chrome.i18n.getMessage('signIn'),
+                enqueueAll: chrome.i18n.getMessage('enqueueAll'),
+                playAll: chrome.i18n.getMessage('playAll'),
+                signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
+                pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait'),
+                signInRetryTimer: User.get('signInRetryTimer'),
+                playlistTitle: this.model ? this.model.get('title') : '',
+                playlistDisplayInfo: this.model ? this.model.get('displayInfo') : ''
+            };
         },
         
         modelEvents: {
@@ -62,32 +69,49 @@
             }
         },
         
+        onAfterItemAdded: function (view) {
+            if (this.isFullyVisible) {
+                view.ui.imageThumbnail.lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
+            }
+        },
+
+        onShow: function () {
+
+            //  TODO: onShow should guarantee that view is ready, but I think because this is a Chrome extension
+            //  the fact that the extension is still opening up changes things?
+            setTimeout(function () {
+
+                $(this.children.map(function (child) {
+                    return child.ui.imageThumbnail.toArray();
+                })).lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
+
+                this.isFullyVisible = true;
+            }.bind(this));
+        },
+        
         onRender: function () {            
-            var searchButtonView = new SearchButtonView({
-                mode: this.model
-            });
-            this.$el.find('#searchButtonView').replaceWith(searchButtonView.render().el);
-            
-            var playAllButtonView = new PlayAllButtonView({
-                model: this.model
-            });
-            this.$el.find('#playAllButtonView').replaceWith(playAllButtonView.render().el);
-
-            var addAllButtonView = new AddAllButtonView({
-                model: this.model
-            });
-            this.$el.find('#addAllButtonView').replaceWith(addAllButtonView.render().el);
-
             GenericForegroundView.prototype.initializeTooltips.call(this);
+            
             this.toggleBigText();
             this.toggleBottomMenubar();
-            
-            //  TODO: Is there a better way to do this?
+
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
 
         initialize: function () {
             ForegroundViewManager.subscribe(this);
+            this.listenTo(User, 'change:loaded change:signingIn change:signInFailed', this.toggleBigText);
+            this.listenTo(User, 'change:signInRetryTimer', this.updateSignInRetryTimer);
+        },
+        
+        updateSignInRetryTimer: function () {
+            this.ui.signInRetryTimer.text(User.get('signInRetryTimer'));
         },
         
         updatePlaylistDetails: function () {
@@ -101,18 +125,33 @@
         },
         
         //  Set the visibility of any visible text messages.
-        toggleBigText: function() {
-            var isPlaylistEmpty = this.collection.length === 0;
-            this.ui.playlistEmptyMessage.toggleClass('hidden', !isPlaylistEmpty);
+        toggleBigText: function () {
+
+            var userLoaded = User.get('loaded');
+            var userSigningIn = User.get('signingIn');
+            var userSignInFailed = User.get('signInFailed');
+
+            console.log("loaded, signingin, failed", userLoaded, userSigningIn, userSignInFailed);
+
+            this.ui.signInFailedMessage.toggleClass('hidden', !userSignInFailed);
+            this.ui.signingInMessage.toggleClass('hidden', userLoaded && !userSigningIn);
+            this.ui.signInPrompt.toggleClass('hidden', userLoaded || userSigningIn);
+            this.ui.playlistEmptyMessage.toggleClass('hidden', !userLoaded || this.collection.length > 0);
         },
         
-        toggleBottomMenubar: function() {
-            var isPlaylistEmpty = this.collection.length === 0;
+        toggleBottomMenubar: function () {
+            var playlistIsLoaded = !_.isUndefined(this.collection);
             
-            if (isPlaylistEmpty) {
-                this.ui.bottomMenubar.hide();
+            if (playlistIsLoaded) {
+                var isPlaylistEmpty = this.collection.length === 0;
+
+                if (isPlaylistEmpty) {
+                    this.ui.bottomMenubar.hide();
+                } else {
+                    this.ui.bottomMenubar.show();
+                }
             } else {
-                this.ui.bottomMenubar.show();
+                this.ui.bottomMenubar.hide();
             }
         },
         
@@ -125,7 +164,7 @@
                 //  Didn't bubble up from a child -- clear groups.
                 ContextMenuGroups.reset();
 
-                var isPlaylistEmpty = this.collection.length === 0;
+                var isPlaylistEmpty = _.isUndefined(this.collection) || this.collection.length === 0;
 
                 ContextMenuGroups.add({
                     items: [{
@@ -147,6 +186,18 @@
 
             }
 
+        },
+
+        addAllToStream: function () {
+            StreamItems.addByPlaylistItems(this.model.get('items'), false);
+        },
+        
+        playAllInStream: function() {
+            StreamItems.addByPlaylistItems(this.model.get('items'), true);
+        },
+        
+        signIn: function() {
+            User.signIn();
         }
     });
 

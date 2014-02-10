@@ -10,8 +10,18 @@
 
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
 
+        isFullyVisible: false,
+
         events: {
             'click .listItem': 'setSelectedOnClick'
+        },
+        
+        triggers: {
+            'contextmenu @ui.multiSelectItemContainer': {
+                event: 'showContextMenu',
+                //  Set preventDefault to true to let foreground know to not reset the context menu.
+                preventDefault: true
+            }
         },
 
         onRender: function () {
@@ -38,7 +48,6 @@
                     var copyHelperView;
                     var viewOptions = {
                         model: self.collection.get(listItem.data('id')),
-                        //  TODO: IS THIS RELEVANT ANYMORE?!
                         //  Don't lazy-load the view because copy helper is clearly visible
                         instant: true
                     };
@@ -133,6 +142,14 @@
 
                 tolerance: 'pointer',
                 receive: function (event, ui) {
+                    //  Don't allow receiving until collection is given because there shouldn't be anything to drop onto
+                    if (_.isUndefined(self.collection)) {
+                        ui.item.remove();
+                        //  Set copied to true so that the item stays where it is.
+                        ui.sender.data('copied', true);
+                        return;
+                    }
+
                     var listItemType = ui.item.data('type');
 
                     if (listItemType === ListItemType.StreamItem) {

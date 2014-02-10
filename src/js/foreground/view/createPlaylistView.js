@@ -2,10 +2,10 @@
     'foreground/view/genericForegroundView',
     'text!template/createPlaylist.html',
     'foreground/collection/streamItems',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'common/model/dataSource',
     'enum/dataSourceType'
-], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Folders, DataSource, DataSourceType) {
+], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
     'use strict';
 
     var CreatePlaylistView = GenericForegroundView.extend({
@@ -26,7 +26,7 @@
             
             this.$el.html(this.template({
                 'chrome.i18n': chrome.i18n,
-                'playlistCount': Folders.getActiveFolder().get('playlists').length
+                'playlistCount': Playlists.length
             }));
 
             this.playlistTitleInput = this.$el.find('input.playlistTitle');
@@ -64,7 +64,8 @@
                     
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = new DataSource({
-                        urlToParse: youTubeSource
+                        urlToParse: youTubeSource,
+                        parseVideo: false
                     });
 
                     self.youTubeSourceInput.data('datasource', dataSource);
@@ -97,20 +98,18 @@
 
         doOk: function () {
 
-            var activeFolder = Folders.getActiveFolder();
-
             var dataSource= this.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.playlistTitleInput.val());
 
             //  TODO: It's weird that addPlaylistByDataSource doesn't work with some of the dataSource types.
             if (dataSource.get('type') === DataSourceType.None || dataSource.get('type') === DataSourceType.Unknown) {
                 if (!this.model || this.model.length === 0) {
-                    activeFolder.addEmptyPlaylist(playlistName);
+                    Playlists.addEmptyPlaylist(playlistName);
                 } else {
-                    activeFolder.addPlaylistWithVideos(playlistName, this.model);
+                    Playlists.addPlaylistWithVideos(playlistName, this.model);
                 }
             } else {
-                activeFolder.addPlaylistByDataSource(playlistName, dataSource);
+                Playlists.addPlaylistByDataSource(playlistName, dataSource);
             }
             
         }

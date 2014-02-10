@@ -17,22 +17,10 @@
         },
         
         toggleEnabled: function () {
+            var previousItem = StreamItems.getPrevious();
+            var playerTime = Player.get('currentTime');
 
-            var enabled = false;
-            
-            if (StreamItems.length > 0) {
-
-                var selectedStreamItem = StreamItems.getSelectedItem();
-
-                if (StreamItems.indexOf(selectedStreamItem) > 0) {
-                    enabled = true;
-                }
-                else if (Player.get('currentTime') > 0) {
-                    enabled = true;
-                }
-
-            }
-
+            var enabled = previousItem !== null || playerTime > 5;
             this.set('enabled', enabled);
         },
         
@@ -41,8 +29,8 @@
 
             if (this.get('enabled')){
 
-                //  Restart video when clicking 'previous' if too much time has passed or if no other video to go to
-                if (StreamItems.length === 1 || Player.get('currentTime') > 5) {
+                //  Restart video when clicking 'previous' if too much time has passed
+                if (Player.get('currentTime') > 5) {
                     Player.seekTo(0);
                 } else {
                     StreamItems.selectPrevious();

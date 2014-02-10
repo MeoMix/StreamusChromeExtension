@@ -18,9 +18,12 @@
     </div>
     
     <div class="right-group">
+        
+        <button id="saveStream" class="button-icon button-small save <%= userLoaded ? '' : 'disabled' %>" title="<%= userLoaded ? saveStreamMessage : cantSaveNotSignedInMessage %>">
+            <i class="fa fa-save"></i>
+        </button>
 
-        <div id="saveStreamButtonView" class="view-placeholder"></div>
-        <button id="clearStream" class="button-icon button-small clear" title="<%= chrome.i18n.getMessage('clearStream') %>">
+        <button id="clearStream" class="button-icon button-small clear" title="<%= chrome.i18n.getMessage('clearStream') %>" >
             <i class="fa fa-trash-o"></i>
         </button>
     </div>

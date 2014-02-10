@@ -29,13 +29,8 @@
             var index = views.indexOf(view);
 
             if (index === -1) {
-                console.log('views subscribed');
                 views.push(view);
-            } else {
-                console.error("Already subscribed to view:", view);
             }
-
-            console.log("Views length:", views.length);
         },
         
         unsubscribe: function (view) {
@@ -43,13 +38,8 @@
             var index = views.indexOf(view);
             
             if (index > -1) {
-                console.log('view unsubscribed');
                 views.splice(index, 1);
-            } else {
-                console.error("Failed to unsubscribe view:", view);
             }
-
-            console.log("views length:", views.length);
         }
 
     });

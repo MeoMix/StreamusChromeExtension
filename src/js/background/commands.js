@@ -1,7 +1,7 @@
 ﻿//  Holds the logic for handling chrome.commands sent via keyboard shortcuts
 define([
     'background/notifications',
-    'background/collection/folders',
+    'background/collection/playlists',
     'background/collection/streamItems',
     'background/model/player',
     'background/model/buttons/nextButton',
@@ -11,7 +11,7 @@ define([
     'background/model/buttons/repeatButton',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/videoDisplayButton'
-], function (Notifications, Folders, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton, VideoDisplayButton) {
+], function (Notifications, Playlists, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton, VideoDisplayButton) {
     'use strict';
     
     //  Receive keyboard shortcuts from users.
@@ -64,14 +64,10 @@ define([
                 VideoDisplayButton.toggleVideoDisplay();
                 break;
             case 'addVideoToPlaylist':
-                
-                var activePlaylist = Folders.getActiveFolder().getActivePlaylist();
-                activePlaylist.addByVideo(StreamItems.getSelectedItem().get('video'));
-
+                Playlists.getActivePlaylist().addByVideo(StreamItems.getSelectedItem().get('video'));
                 break;
             case 'deleteVideoFromStream':
                 StreamItems.getSelectedItem().destroy();
-                
                 break;
             case 'copyVideoUrl':
 

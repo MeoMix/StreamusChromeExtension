@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/view/genericForegroundView',
     'text!template/saveVideos.html',
-    'foreground/collection/folders'
-], function (GenericForegroundView, SaveVideosTemplate, Folders) {
+    'foreground/collection/playlists'
+], function (GenericForegroundView, SaveVideosTemplate, Playlists) {
     'use strict';
 
     var SaveVideosView = GenericForegroundView.extend({
@@ -21,7 +21,7 @@
                 'chrome.i18n': chrome.i18n
             }));
             
-            var playlistOptions = Folders.getActiveFolder().get('playlists').map(function (playlist) {
+            var playlistOptions = Playlists.map(function (playlist) {
                 return {
                     id: playlist.get('id'),
                     title: playlist.get('title'),
@@ -31,7 +31,7 @@
 
             this.playlistSelect = this.$el.find('select.submittable');
 
-            var activePlaylistId = Folders.getActiveFolder().getActivePlaylist().get('id');
+            var activePlaylistId = Playlists.getActivePlaylist().get('id');
             
             this.playlistSelect.selectize({
                 //  If false, items created by the user will not show up as available options once they are unselected.
@@ -91,9 +91,7 @@
         },
         
         validate: function() {
-
             var selectedPlaylistId = this.playlistSelect.val();
-
             var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
 
             return isValid;
@@ -103,15 +101,11 @@
             var selectedPlaylistId = this.playlistSelect.val();
 
             if (this.creating) {
-
                 var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
-                Folders.getActiveFolder().addPlaylistWithVideos(playlistTitle, this.model);
-
+                Playlists.addPlaylistWithVideos(playlistTitle, this.model);
             } else {
-
-                var selectedPlaylist = Folders.getActiveFolder().get('playlists').get(selectedPlaylistId);
+                var selectedPlaylist = Playlists.get(selectedPlaylistId);
                 selectedPlaylist.addByVideos(this.model);
-
             }
         }
 

@@ -5,10 +5,10 @@
     'foreground/collection/contextMenuGroups',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'foreground/collection/streamItems',
     'enum/listItemType'
-], function (GenericForegroundView, ForegroundViewManager, PlaylistTemplate, ContextMenuGroups, DeletePlaylistPromptView, EditPlaylistPromptView, Folders, StreamItems, ListItemType) {
+], function (GenericForegroundView, ForegroundViewManager, PlaylistTemplate, ContextMenuGroups, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
     'use strict';
 
     //  TODO: Starting to integrate MarionetteJS. Need to support better.
@@ -102,8 +102,8 @@
 
             var isEmpty = this.model.get('items').length === 0;
 
-            //  Don't allow deleting of the last playlist in a folder.
-            var isDeleteDisabled = Folders.get(this.model.get('folderId')).get('playlists').length === 1;
+            //  Don't allow deleting of the last playlist.
+            var isDeleteDisabled = Playlists.length === 1;
 
             //  TODO: I don't have a method of reusing ContextMenuItems even though they're used in lots of places.
             var self = this;

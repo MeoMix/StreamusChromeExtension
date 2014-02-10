@@ -109,15 +109,9 @@ define([
 
             });
 
-            if (YouTubePlayerAPI.get('ready')) {
-                setYouTubePlayer();
-            }
-            else {
-                YouTubePlayerAPI.once('change:ready', setYouTubePlayer);
-            }
+            var youTubePlayerAPI = new YouTubePlayerAPI();
 
-            function setYouTubePlayer() {
-
+            this.listenTo(youTubePlayerAPI, 'change:ready', function () {
                 //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
                 new window.YT.Player('dummyTarget');
                 var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
@@ -128,30 +122,27 @@ define([
                 youTubePlayer = new window.YT.Player('MusicHolder', {
                     events: {
                         'onReady': function () {
-
-                            self.set('muted', youTubePlayer.isMuted());
-                            self.set('volume', youTubePlayer.getVolume());
-                            self.pause();
-
-                            //  Announce that the YouTube Player is ready to go.
-                            self.set('ready', true);
-                        },
+                            this.set('muted', youTubePlayer.isMuted());
+                            this.set('volume', youTubePlayer.getVolume());
+                            this.pause();
+                            this.set('ready', true);
+                        }.bind(this),
                         'onStateChange': function (state) {
-                            self.set('state', state.data);
-                        },
+                            this.set('state', state.data);
+                        }.bind(this),
                         'onError': function (error) {
                             console.error("An error was encountered.", error);
                             //  Push the error to the foreground so it can be displayed to the user.
-                            self.trigger('error', error.data);
-                        }
+                            this.trigger('error', error.data);
+                        }.bind(this)
                     }
                 });
 
                 var url = isHttps ? 'https' : 'http';
                 url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
                 $('#MusicHolder').attr('src', url);
+            });
 
-            }
         },
 
         cueVideoById: function (videoId, startSeconds) {
@@ -246,8 +237,8 @@ define([
             
             if (state === PlayerState.Unstarted || state === PlayerState.VideoCued) {
                 this.cueVideoById(this.get('loadedVideoId'), timeInSeconds);
+                this.set('currentTime', timeInSeconds);
             } else {
-                
                 //  The true paramater allows the youTubePlayer to seek ahead past its buffered video.
                 youTubePlayer.seekTo(timeInSeconds, true);
             }

@@ -5,16 +5,15 @@
     'foreground/view/rightPane/stream/repeatButtonView',
     'foreground/view/rightPane/stream/shuffleButtonView',
     'foreground/view/rightPane/stream/radioButtonView',
-    'foreground/view/rightPane/stream/saveStreamButtonView',
     'foreground/collection/contextMenuGroups',
     'enum/listItemType',
     'foreground/model/streamAction',
     'foreground/view/rightPane/stream/streamItemView',
-    'foreground/collection/folders',
+    'foreground/collection/playlists',
     'foreground/collection/videoSearchResults',
-    'foreground/model/lazyLoader',
-    'foreground/mixin/unwrappedRegionMixin'
-], function (GenericForegroundView, ForegroundViewManager, StreamTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, SaveStreamButtonView, ContextMenuGroups, ListItemType, StreamAction, StreamItemView, Folders, VideoSearchResults, LazyLoader, UnwrappedRegionMixin) {
+    'foreground/mixin/unwrappedRegionMixin',
+    'foreground/model/user'
+], function (GenericForegroundView, ForegroundViewManager, StreamTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, ContextMenuGroups, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, UnwrappedRegionMixin, User) {
     'use strict';
     
     //  TODO: I think this is actually only a CollectionView.
@@ -25,11 +24,21 @@
 
         itemView: StreamItemView,
         
-        shown: false,
+        isFullyVisible: false,
         
         events: {
             'contextmenu @ui.streamItems': 'showContextMenu',
-            'click button#clearStream': 'clear'
+            'click button#clearStream': 'clear',
+            'click button#saveStream:not(.disabled)': 'save',
+            'scroll @ui.streamItems': 'loadVisible'
+        },
+        
+        triggers: {
+            'contextmenu @ui.streamItems': {
+                event: 'showContextMenu',
+                //  Set preventDefault to true to let foreground know to not reset the context menu.
+                preventDefault: true
+            }
         },
         
         ui: {
@@ -38,33 +47,42 @@
             'streamItems': '#streamItems'
         },
         
-        onAfterItemAdded: function (viewInstance) {
-            if (this.shown) {
-                LazyLoader.showOrSubscribe(this.ui.streamItems, viewInstance.ui.imageThumbnail);
+        templateHelpers: function () {
+            return {
+                saveStreamMessage: chrome.i18n.getMessage('saveStream'),
+                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
+                userLoaded: User.get('loaded')
+            };
+        },
+        
+        onAfterItemAdded: function (view) {
+            if (this.isFullyVisible) {
+                view.ui.imageThumbnail.lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
             }
         },
 
-        onItemRemoved: function (viewInstance) {
-            LazyLoader.unsubscribe(this.ui.streamItems, viewInstance.ui.imageThumbnail);
-        },
-        
         onShow: function () {
 
-            var imageThumbnails = this.children.map(function (child) {
-                return child.ui.imageThumbnail;
-            });
+            //  TODO: onShow should guarantee that view is ready, but I think because this is a Chrome extension
+            //  the fact that the extension is still opening up changes things?
+            setTimeout(function () {
 
-            //  TODO: onShow should guarantee that offset/height is defined already, but I think because this is a Chrome extension
-            //  the fact that the extension is still opening up prevents these from being defined?
-            setTimeout(function() {
-                LazyLoader.showOrSubscribe(this.ui.streamItems, imageThumbnails);
-                this.shown = true;
+                $(this.children.map(function (child) {
+                    return child.ui.imageThumbnail.toArray();
+                })).lazyload({
+                    container: this.ui.streamItems,
+                    threshold: 250
+                });
+
+                this.isFullyVisible = true;
             }.bind(this));
         },
         
         onRender: function () {
 
-            this.$el.find('#saveStreamButtonView').replaceWith((new SaveStreamButtonView()).render().el);
             this.$el.find('#shuffleButtonView').replaceWith((new ShuffleButtonView()).render().el);
             this.$el.find('#repeatButtonView').replaceWith((new RepeatButtonView()).render().el);
             this.$el.find('#radioButtonView').replaceWith((new RadioButtonView()).render().el);
@@ -121,14 +139,20 @@
                     $('.hiddenUntilChange').removeClass('hiddenUntilChange');
                 },
                 start: function (event, ui) {
-                    var streamItemId = ui.item.data('id');
+                    
+                    var activePlaylist = Playlists.getActivePlaylist();
+                    
+                    if (!_.isUndefined(activePlaylist)) {
+                        var streamItemId = ui.item.data('id');
 
-                    //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
-                    var draggedStreamItem = self.collection.get(streamItemId);
-                    //  TODO: Standardize getActivePlaylist on either Folder or Playlists.
-                    var videoAlreadyExists = Folders.getActiveFolder().getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
+                        //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
+                        var draggedStreamItem = self.collection.get(streamItemId);
 
-                    ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
+                        var videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(draggedStreamItem.get('video'));
+                        ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
+                    } else {
+                        ui.placeholder.addClass('noPlaylist');
+                    }
 
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
@@ -156,7 +180,7 @@
                     var listItemType = ui.item.data('type');
 
                     if (listItemType === ListItemType.PlaylistItem) {
-                        var activePlaylistItems = Folders.getActiveFolder().getActivePlaylist().get('items');
+                        var activePlaylistItems = Playlists.getActivePlaylist().get('items');
 
                         var draggedPlaylistItems = activePlaylistItems.selected();
                         self.collection.addByDraggedPlaylistItems(draggedPlaylistItems, ui.item.index());
@@ -198,9 +222,6 @@
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }
             });
-
-            console.log("I AM RENDERED");
-
         },
         
         collectionEvents: {
@@ -282,6 +303,10 @@
         
         clear: function() {
             StreamAction.clearStream();
+        },
+        
+        save: function() {
+            StreamAction.saveStream();
         }
 
     });

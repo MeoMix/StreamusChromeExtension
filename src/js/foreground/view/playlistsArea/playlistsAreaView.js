@@ -1,0 +1,262 @@
+﻿define([
+    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
+    'text!template/playlistsArea.html',
+    'common/view/settingsView',
+    'foreground/view/prompt/genericPromptView',
+    'foreground/view/prompt/createPlaylistPromptView',
+    'foreground/view/createPlaylistView',
+    'foreground/view/prompt/editPlaylistPromptView',
+    'foreground/view/playlistsArea/deletePlaylistButtonView',
+    'foreground/collection/playlists',
+    'foreground/view/playlistsArea/playlistView',
+    'enum/listItemType',
+    'foreground/model/user'
+], function (GenericForegroundView, ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, DeletePlaylistButtonView, Playlists, PlaylistView, ListItemType, User) {
+    'use strict';
+
+    var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
+
+        id: 'playlistsArea',
+        template: _.template(PlaylistsAreaTemplate),
+        itemView: PlaylistView,
+        itemViewContainer: '#playlists',
+
+        events: {
+            'click': 'hideIfClickOutsidePanel',
+            'click .hide': 'destroyModel',
+            'click h3': 'togglePlaylistsVisibility',
+            'click .settings': 'showSettingsPrompt',
+            'click .add': 'showCreatePlaylistPrompt',
+            'click .edit': 'showEditSelectedPlaylistPrompt'
+        },
+        
+        ui: {
+            panel: '.panel',
+            playlists: 'ul#playlists',
+            contextButtons: '.context-buttons'
+        },
+        
+        templateHelpers: {
+            closeMenu: chrome.i18n.getMessage('closeMenu'),
+            settings: chrome.i18n.getMessage('settings'),
+            playlists: chrome.i18n.getMessage('playlists'),
+            createPlaylist: chrome.i18n.getMessage('createPlaylist'),
+            editPlaylist: chrome.i18n.getMessage('editPlaylist')
+        },
+        
+        modelEvents: {
+            'destroy': 'hide'
+        },
+        
+        onRender: function () {
+            this.$el.find('.right-group').append((new DeletePlaylistButtonView()).render().el);
+            
+            this.ui.playlists.sortable({
+                axis: 'y',
+                placeholder: 'sortable-placeholder listItem',
+                //  Whenever a playlist is moved visually -- update corresponding model with new information.
+                update: function (event, ui) {
+                    var listItemType = ui.item.data('type');
+
+                    //  Run this code only when reorganizing playlists.
+                    if (listItemType === ListItemType.Playlist) {
+
+                        var playlistId = ui.item.data('id');
+
+                        var index = ui.item.index();
+
+                        var playlist = this.collection.get(playlistId);
+                        var originalIndex = this.collection.indexOf(playlist);
+
+                        //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
+                        //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
+                        if (originalIndex < index) {
+                            index += 1;
+                        }
+
+                        this.collection.moveToIndex(playlistId, index);
+                    }
+
+                }.bind(this)
+            });
+
+            this.toggleContextButtons();
+
+            GenericForegroundView.prototype.initializeTooltips.call(this);
+        },
+
+        initialize: function () {
+            ForegroundViewManager.subscribe(this);
+            
+            //  Don't show playlist actions if User isn't loaded because won't be able to save reliably.
+            this.listenTo(User, 'change:loaded', this.toggleContextButtons);
+        },
+        
+        show: function () {
+            
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
+            }, 'snap');
+            
+            this.ui.panel.transition({
+                x: this.ui.panel.width()
+            }, 300, 'snap');
+        },
+        
+        destroyModel: function () {
+            this.model.destroy();
+        },
+        
+        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
+        hideIfClickOutsidePanel: function(event) {
+
+            if (event.target == event.currentTarget) {
+                this.model.destroy();
+            }
+        },
+        
+        hide: function() {
+
+            this.$el.transition({
+                'background': this.$el.data('background')
+            }, function() {
+                this.remove();
+            }.bind(this));
+
+            this.ui.panel.transition({
+                x: -20
+            }, 300);
+            
+        },
+
+        togglePlaylistsVisibility: function(event) {
+
+            var caretIcon = $(event.currentTarget).find('i');
+            var isExpanded = caretIcon.data('expanded');
+
+            if (isExpanded) {
+                caretIcon.data('expanded', false);
+            }
+
+            caretIcon.transitionStop().transition({
+                rotate: isExpanded ? -90 : 0
+            }, 200);
+
+            if (isExpanded) {
+                this.collapsePlaylistCollection();
+            } else {
+                this.expandPlaylistCollection(function () {
+                    caretIcon.data('expanded', true);
+                });
+            }
+
+        },
+
+        //  TODO: I still think it's possible to improve the clarity of this with better CSS/HTML mark-up.
+        arePlaylistsOverflowing: function () {
+            
+            //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
+            var currentHeight = this.ui.playlists.height();
+
+            if (currentHeight === 0) {
+                currentHeight = this.ui.playlists.data('oldheight');
+            }
+
+            var isOverflowing = false;
+            var playlistCount = this.collection.length;
+
+            if (playlistCount > 0) {
+                var playlistHeight = this.ui.playlists.find('li').height();
+                var maxPlaylistsWithoutOverflow = currentHeight / playlistHeight;
+
+                isOverflowing = playlistCount > maxPlaylistsWithoutOverflow;
+            }
+
+            return isOverflowing;
+        },
+
+        collapsePlaylistCollection: function() {
+            var isOverflowing = this.arePlaylistsOverflowing();
+
+            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
+            if (!isOverflowing) {
+                this.ui.playlists.css('overflow-y', 'hidden');
+            }
+
+            //  Need to set height here because transition doesn't work if height is auto through CSS.
+            var currentHeight = this.ui.playlists.height();
+            var heightStyle = $.trim(this.ui.playlists[0].style.height);
+            if (heightStyle === '' || heightStyle === 'auto') {
+                this.ui.playlists.height(currentHeight);
+            }
+
+            this.ui.playlists.data('oldheight', currentHeight);
+
+            this.ui.playlists.transitionStop().transition({
+                height: 0,
+                opacity: 0
+            }, 200, function () {
+                this.ui.playlists.hide();
+
+                if (!isOverflowing) {
+                    this.ui.playlists.css('overflow-y', 'auto');
+                }
+            }.bind(this));
+        },
+        
+        expandPlaylistCollection: function(onComplete) {
+                        
+            var isOverflowing = this.arePlaylistsOverflowing();
+
+            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
+            if (!isOverflowing) {
+                this.ui.playlists.css('overflow-y', 'hidden');
+            }
+
+            this.ui.playlists.show().transitionStop().transition({
+                height: this.ui.playlists.data('oldheight'),
+                opacity: 1
+            }, 200, function() {
+                if (!isOverflowing) {
+                    this.ui.playlists.css('overflow-y', 'auto');
+                }
+                onComplete();
+            }.bind(this));
+            
+        },
+        
+        showSettingsPrompt: function () {
+            
+            var settingsPromptView = new GenericPromptView({
+                title: chrome.i18n.getMessage('settings'),
+                okButtonText: chrome.i18n.getMessage('save'),
+                model: new SettingsView()
+            });
+
+            settingsPromptView.fadeInAndShow();
+
+        },
+        
+        showCreatePlaylistPrompt: function () {
+            var createPlaylistPromptView = new CreatePlaylistPromptView();
+            createPlaylistPromptView.fadeInAndShow();
+        },
+        
+        showEditSelectedPlaylistPrompt: function () {
+            var editPlaylistPromptView = new EditPlaylistPromptView({
+                playlist: Playlists.getActivePlaylist()
+            });
+            
+            editPlaylistPromptView.fadeInAndShow();
+        },
+        
+        toggleContextButtons: function () {
+            this.ui.contextButtons.toggle(User.get('loaded'));
+        }
+
+    });
+
+    return PlaylistsAreaView;
+});

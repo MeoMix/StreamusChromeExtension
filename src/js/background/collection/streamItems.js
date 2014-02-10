@@ -53,6 +53,8 @@
                     } else {
                         Player.cueVideoById(videoId);
                     }
+                    
+                    this.history.unshift(changedStreamItem);
                 }
 
             });
@@ -97,6 +99,7 @@
             });
 
             this.on('change:playedRecently', function() {
+
 
                 //  When all streamItems have been played recently, reset to not having been played recently.
                 //  Allows for de-prioritization of played streamItems during shuffling.
@@ -381,7 +384,7 @@
                     if (nextItemIndex <= 0) throw "Failed to find nextItemIndex";
                 }
 
-                //  Select the next item by index. Potentially loop around to the front.
+                //  Select the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
 
                     if (repeatButtonState === RepeatButtonState.RepeatStream) {
@@ -398,6 +401,7 @@
                         //  If the selected item was deleted and there's nothing to advance forward to -- select the previous item and pause.
                     else if (removedSelectedItemIndex !== undefined && removedSelectedItemIndex !== null) {
                         this.at(this.length - 1).set('selected', true);
+                        console.log("pausing player");
                         Player.pause();
                     }
                     else if (radioEnabled) {
@@ -433,7 +437,43 @@
             return nextItem;
 
         },
+        
+        //  Return the previous item or null without affecting the history.
+        getPrevious: function() {
 
+            var previousStreamItem = null;
+
+            if (this.history.length > 1) {
+                previousStreamItem = this.history[1];
+            }
+            
+            //  If nothing found by history -- rely on settings
+            if (previousStreamItem == null) {
+
+                var shuffleEnabled = ShuffleButton.get('enabled');
+                var repeatButtonState = RepeatButton.get('state');
+
+                if (repeatButtonState === RepeatButtonState.RepeatVideo) {
+                    previousStreamItem = this.findWhere({ selected: true }) || null;
+                } else if(!shuffleEnabled) {
+                    //  Select the previous item by index. Potentially loop around to the back.
+                    var selectedItemIndex = this.indexOf(this.findWhere({ selected: true }));
+
+                    if (selectedItemIndex === 0) {
+                        if (repeatButtonState === RepeatButtonState.RepeatStream) {
+                            previousStreamItem = this.at(this.length - 1) || null;
+                        }
+                    } else {
+                        previousStreamItem = this.at(selectedItemIndex - 1) || null;
+                    }
+
+                }
+            }
+
+            return previousStreamItem;
+        },
+
+        //  TODO: Maybe this should just call getPrevious?
         selectPrevious: function() {
 
             //  Peel off currentStreamItem from the top of history.

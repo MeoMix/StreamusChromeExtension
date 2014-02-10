@@ -1,7 +1,6 @@
 ﻿//  Background.js is a bit of a dumping ground for code which needs a permanent housing spot.
 define([
     'background/commands',
-    'background/collection/folders',
     'background/model/settings',
     'background/collection/videoSearchResults',
     'background/model/player',
@@ -11,24 +10,9 @@ define([
     'background/model/omnibox',
     'background/model/user',
     'background/view/clipboardView'
-], function (Commands, Folders, Settings, VideoSearchResults) {
+], function (Commands, Settings, VideoSearchResults) {
     'use strict';
-
-    window.onmessage = function(messageEvent) {
-
-        if (messageEvent.origin === 'https://www.youtube.com') {
- 
-            if (messageEvent.ports.length > 0 && messageEvent.data === 'connect') {
-                var port = messageEvent.ports[0];
-                
-                port.onmessage = function (message) {
-                    console.log("background message:", message);
-                };
-            }
-
-        }
-    };
-
+   
     window.clearResultsTimeout = null;
     var twentySeconds = 20000;
     //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
@@ -46,4 +30,5 @@ define([
     window.stopClearResultsTimer = function() {
         clearTimeout(window.clearResultsTimeout);
     };
+   
 });

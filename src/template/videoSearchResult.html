@@ -1,14 +1,15 @@
-﻿<% if( instant ) { %>
+﻿<!-- Render non-lazily if view is set to instant -->
+<!--<% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } else { %>
     <img class="item-thumb" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
-<% } %>
-
+<% } %>-->
+<img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <span class="item-title" title="<%= video.get('title') %>"><%= video.get('title') %></span>
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>
-        <%= chrome.i18n.getMessage('hd') %> · 
+        <%= hdMessage %> · 
     <% } %>
     <span class="item-duration">
         <%= video.get('prettyDuration') %>	
@@ -16,15 +17,15 @@
 </span>
 
 <span class="hover-actions">
-    <button class="button-icon playInStream" title="<%= chrome.i18n.getMessage('play') %>">
+    <button class="button-icon playInStream" title="<%= playMessage %>">
         <i class="fa fa-play"></i>
     </button>
     
-    <button class="button-icon addToStream" title="<%= chrome.i18n.getMessage('enqueue') %>">
+    <button class="button-icon addToStream" title="<%= enqueueMessage %>">
         <i class="fa fa-plus"></i>
     </button>
     
-    <button class="button-icon save" title="<%= chrome.i18n.getMessage('save') %>">
+    <button class="button-icon save <%= userLoaded ? '' : 'disabled' %>" title="<%= userLoaded ? saveMessage : cantSaveNotSignedInMessage %>">
         <i class="fa fa-save"></i>
     </button>
 </span>

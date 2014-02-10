@@ -44,11 +44,8 @@
         deselectAllExcept: function(selectedModelCid) {
 
             var selected = this.selected();
-
-            console.log("selected:", selected);
-
+            
             _.each(selected, function (selectedModel) {
-                console.log("selected and selectedModelCid:", selectedModel.cid, selectedModelCid);
                 if (selectedModel.cid != selectedModelCid) {
                     selectedModel.set('selected', false);
                 }

@@ -1,124 +1,115 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
     'background/collection/streamItems',
-    'background/collection/folders',
+    'background/collection/playlists',
     'background/model/user',
     'background/model/video',
     'enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Folders, User, Video, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (StreamItems, Playlists, User, Video, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
         
         //  Show the Streamus context menu items only when right-clicking on an appropriate target.
-        documentUrlPatterns: ["*://*.youtube.com/watch?*", "*://*.youtu.be/*"],
-        targetUrlPatterns: ["*://*.youtube.com/watch?*", "*://*.youtu.be/*"],
+        documentUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
+        targetUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
         
         initialize: function () {
-
-            if (User.get('loaded')) {
-                this.createContextMenus(["link"], this.targetUrlPatterns, true);
-                this.createContextMenus(["page"], this.documentUrlPatterns, false);
-            } else {
-                this.listenToOnce(User, 'change:loaded', function() {
-                    this.createContextMenus(["link"], this.targetUrlPatterns, true);
-                    this.createContextMenus(["page"], this.documentUrlPatterns, false);
-                });
-            }
-
+            this.createContextMenus(['link'], this.targetUrlPatterns, true);
+            this.createContextMenus(['page'], this.documentUrlPatterns, false);
         },
         
         createContextMenus: function (contexts, urlPattern, isTarget) {
-            var self = this;
 
             var contextMenuOptions = {
-                "contexts": contexts,
-                "targetUrlPatterns": isTarget ? urlPattern : undefined,
-                "documentUrlPatterns": !isTarget ? urlPattern : undefined
+                'contexts': contexts,
+                'targetUrlPatterns': isTarget ? urlPattern : undefined,
+                'documentUrlPatterns': !isTarget ? urlPattern : undefined
             };
 
-            //  Create the top-most parent element which says "Streamus"
+            //  Create the top-most parent element which says 'Streamus'
             var streamusContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": "Streamus"
+                'title': 'Streamus'
             }));
 
             //  Create sub menu items for specific actions:
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": chrome.i18n.getMessage('play'),
-                "parentId": streamusContextMenuId,
-                "onclick": function (onClickData) {
-
+                'title': chrome.i18n.getMessage('play'),
+                'parentId': streamusContextMenuId,
+                'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
       
-                    self.getVideoFromUrl(url, function (video) {
-
+                    this.getVideoFromUrl(url, function (video) {
                         StreamItems.addByVideo(video, true);
-                        
                     });
-        
-                }
+                }.bind(this)
             }));
 
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": chrome.i18n.getMessage('enqueue'),
-                "parentId": streamusContextMenuId,
-                "onclick": function (onClickData) {
-
+                'title': chrome.i18n.getMessage('enqueue'),
+                'parentId': streamusContextMenuId,
+                'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
                     
-                    self.getVideoFromUrl(url, function (video) {
-
-                        StreamItems.add({
-                            video: video,
-                            title: video.get('title')
-                        });
-
+                    this.getVideoFromUrl(url, function (video) {
+                        StreamItems.addByVideo(video, false);
                     });
-
-                }
+                }.bind(this)
             }));
             
+            if (User.get('loaded')) {
+                this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
+            } else {
+
+                this.listenTo(User, 'change:loaded', function(model, loaded) {
+                    if (loaded) {
+                        this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
+                    }
+                });
+
+            }
+
+        },
+        
+        createSaveContextMenu: function(streamusContextMenuId, contextMenuOptions) {
             //  Create a sub menu item to hold all Playlists
             var playlistsContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": chrome.i18n.getMessage('save'),
-                "parentId": streamusContextMenuId
+                'title': chrome.i18n.getMessage('save'),
+                'parentId': streamusContextMenuId
             }));
 
-            var playlists = Folders.getActiveFolder().get('playlists');
-
             //  Create menu items for each playlist
-            playlists.each(function (playlist) {
-                self.createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, playlist);
-            });
-
-            this.listenTo(playlists, 'add', function (addedPlaylist) {
+            Playlists.each(function (playlist) {
+                this.createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, playlist);
+            }.bind(this));
+            
+            this.listenTo(Playlists, 'add', function (addedPlaylist) {
                 this.createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, addedPlaylist);
             });
         },
         
         //  Whenever a playlist context menu is clicked -- add the related video to that playlist.
         createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
-            var self = this;
-            
+
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                "title": playlist.get('title'),
-                "parentId": playlistsContextMenuId,
-                "onclick": function (onClickData) {
+                'title': playlist.get('title'),
+                'parentId': playlistsContextMenuId,
+                'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    self.getVideoFromUrl(url, function (video) {
+                    this.getVideoFromUrl(url, function (video) {
                         playlist.addByVideo(video);
                     });
-                }
+                }.bind(this)
             }));
 
             //  Update context menu items whenever the playlist's data changes (renamed or deleted)
             this.listenTo(playlist, 'change:title', function () {
                 chrome.contextMenus.update(playlistContextMenuId, {
-                    "title": playlist.get('title')
+                    'title': playlist.get('title')
                 });
             });
 
@@ -132,7 +123,7 @@ define([
             var dataSource = new DataSource({ urlToParse: url });
             
             if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
-                throw "Excepected dataSource to be a YouTube video.";
+                throw 'Excepected dataSource to be a YouTube video.';
             }
 
             YouTubeV2API.getVideoInformation({

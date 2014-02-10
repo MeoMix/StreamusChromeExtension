@@ -16,7 +16,7 @@ define([
 
             return {
                 id: null,
-                folderId: null,
+                userId: null,
                 title: chrome.i18n.getMessage('newPlaylist'),
                 //  This is set to a PlaylistItemsCollection once the playlist has an ID.
                 items: null,

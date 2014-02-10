@@ -1,15 +1,13 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuGroups',
     'foreground/collection/streamItems',
     'enum/listItemType'
-], function (GenericForegroundView, PlaylistItemTemplate, ContextMenuGroups, StreamItems, ListItemType) {
+], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuGroups, StreamItems, ListItemType) {
     'use strict';
 
-    var PlaylistItemView = GenericForegroundView.extend({
-        //  TODO: Maybe this should be a li?
-        
+    var PlaylistItemView = Backbone.Marionette.ItemView.extend({
         className: 'listItem playlistItem multiSelectItem',
         
         template: _.template(PlaylistItemTemplate),
@@ -34,8 +32,11 @@
             'dblclick button.playInStream': 'playInStream',
         },
         
+        ui: {
+            imageThumbnail: 'img.item-thumb'
+        },
+        
         triggers: {
-            //  TODO: contextmenu vs contextMenu 
             'contextmenu': {
                 event: 'showContextMenu',
                 //  Set preventDefault to true to let foreground know to not reset the context menu.
@@ -43,26 +44,30 @@
             }
         },
         
-        render: function () {
-            
-            this.$el.html(this.template(
-                _.extend(this.model.toJSON(), {
-                    //  Mix in chrome to reference internationalize.
-                    'chrome.i18n': chrome.i18n,
-                    'instant': this.instant
-                })
-            ));
-            
+        templateHelpers: function() {
+            return {
+                instant: this.instant,
+                hdMessage: chrome.i18n.getMessage('hd'),
+                playMessage: chrome.i18n.getMessage('play'),
+                enqueueMessage: chrome.i18n.getMessage('enqueue'),
+                deleteMessage: chrome.i18n.getMessage('delete')
+            };
+        },
+        
+        onRender: function () {
             this.setHighlight();
-
-            return this;
+        },
+        
+        modelEvents: {
+            'destroy': 'remove',
+            'change:selected': 'setHighlight'
         },
         
         initialize: function (options) {
-            this.instant = options && options.instant || false;
-
-            this.listenTo(this.model, 'destroy', this.remove);
-            this.listenTo(this.model, 'change:selected', this.setHighlight);
+            this.instant = options && options.instant || this.instant;
+            console.log("Instant and options:", this.instant, options);
+            console.trace();
+            ForegroundViewManager.subscribe(this);
         },
         
         setHighlight: function () {
