@@ -234,26 +234,8 @@ define([
             //  TODO: shitty.
             Playlists.setUserId(this.get('id'));
             
-            //  TODO: I don't think I initial a playlist as selected appropriatedly now that I changed over to just playlists?
             if (_.isUndefined(Playlists.getActivePlaylist())) {
-                
-                if (Playlists.length === 0) {
-                    var applicationDetails = typeof chrome === 'undefined' ? '' : chrome.app.getDetails();
-                    var clientVersion = applicationDetails ? applicationDetails.version : 'Unknown';
-
-                    if (clientVersion === '0.114') {
-
-                        chrome.runtime.requestUpdateCheck(function(state) {
-                            if (state === "update_available") {
-                                chrome.runtime.reload();
-                            }
-                        });
-
-                    }
-                } else {
-                    Playlists.at(0).set('active', true);
-                }
-
+                Playlists.at(0).set('active', true);
             }
 
             //  TODO: Error handling for writing to sync too much.
