@@ -146,13 +146,11 @@
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
                 success: function () {
-
                     //  TODO: this sucks. stop having to update collections' id.
                     playlist.get('items').playlistId = playlist.get('id');
-
                     this.push(playlist);
-                }
-            }.bind(this));
+                }.bind(this)
+            });
         },
 
         addEmptyPlaylist: function (playlistTitle) {

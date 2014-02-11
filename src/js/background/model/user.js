@@ -122,7 +122,6 @@ define([
                         this.save({}, {
                             success: function (model) {
                                 this.onLoaded(model, true);
-                                
                             }.bind(this),
                             error: function (error) {
                                 console.error(error);
@@ -217,7 +216,7 @@ define([
                 },
                 success: function (playlistDto) {
                     //  Add and convert back from JSON to Backbone object.
-                    var playlist = this.get('playlists').add(playlistDto);
+                    var playlist = Playlists.add(playlistDto);
                     callback(playlist);
                 }.bind(this),
                 error: function (error) {

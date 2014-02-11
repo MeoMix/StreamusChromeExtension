@@ -44,6 +44,7 @@
         ui: {
             'streamEmptyMessage': '.streamEmpty',
             'contextButtons': '.context-buttons',
+            'saveStreamButton': 'button#saveStream',
             'streamItems': '#streamItems'
         },
         
@@ -89,6 +90,7 @@
            
             this.toggleBigText();
             this.toggleContextButtons();
+            this.updateSaveStreamButton();
             
             if (this.collection.selected().length > 0) {
                 this.$el.find('.listItem.selected').scrollIntoView(false);
@@ -245,7 +247,18 @@
         },
         
         initialize: function() {
+            this.listenTo(User, 'change:loaded', this.updateSaveStreamButton);
             ForegroundViewManager.subscribe(this);
+        },
+        
+        updateSaveStreamButton: function () {
+            var userLoaded = User.get('loaded');
+            
+            var templateHelpers = this.templateHelpers();
+            var newTitle = userLoaded ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
+
+            this.ui.saveStreamButton.toggleClass('disabled', !userLoaded);
+            this.ui.saveStreamButton.attr('title', newTitle).qtip('option', 'content.text', newTitle);
         },
         
         //  TODO: Do this the marionette way.

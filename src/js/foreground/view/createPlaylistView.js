@@ -1,64 +1,63 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/createPlaylist.html',
     'foreground/collection/streamItems',
     'foreground/collection/playlists',
     'common/model/dataSource',
     'enum/dataSourceType'
-], function (GenericForegroundView, CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
+], function (ForegroundViewManager, CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
     'use strict';
 
-    var CreatePlaylistView = GenericForegroundView.extend({
+    var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
 
         className: 'createPlaylist',
 
         template: _.template(CreatePlaylistTemplate),
-
-        playlistTitleInput: null,
-        youTubeSourceInput: null,
-
-        events: {
-            'input input.youTubeSource': 'processInput',
-            'input input.playlistTitle': 'validateTitle'
+        
+        templateHelpers: {
+            'chrome.i18n': chrome.i18n,
+            'playlistCount': Playlists.length
+        },
+        
+        ui: {
+            'playlistTitleInput': 'input.playlistTitle',
+            'youTubeSourceInput': 'input.youTubeSource'
         },
 
-        render: function () {
-            
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n,
-                'playlistCount': Playlists.length
-            }));
+        events: {
+            'input @ui.youTubeSourceInput': 'processInput',
+            'input @ui.playlistTitleInput': 'validateTitle'
+        },
 
-            this.playlistTitleInput = this.$el.find('input.playlistTitle');
-            this.youTubeSourceInput = this.$el.find('input.youTubeSource');
-            
-            this.youTubeSourceInput.data('datasource', new DataSource({
+        onRender: function () {
+            this.ui.youTubeSourceInput.data('datasource', new DataSource({
                 type: DataSourceType.None
             }));
 
             setTimeout(function () {
                 //  Reset the value after focusing to focus without selecting.
-                this.playlistTitleInput.focus().val(this.playlistTitleInput.val());
+                this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
             }.bind(this));
-
-            return this;
+        },
+        
+        initialize: function () {
+            ForegroundViewManager.subscribe(this);
         },
 
         validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = $.trim(this.playlistTitleInput.val());
-            this.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
+            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
+            this.ui.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
         },
         
         //  Debounce for typing support so I know when typing has finished
         processInput: _.debounce(function () {
-            var self = this;
-            
+
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(function() {
 
-                var youTubeSource = $.trim(self.youTubeSourceInput.val());
-                self.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
+                var youTubeSource = $.trim(this.ui.youTubeSourceInput.val());
+                this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
 
                 if (youTubeSource !== '') {
 
@@ -68,43 +67,41 @@
                         parseVideo: false
                     });
 
-                    self.youTubeSourceInput.data('datasource', dataSource);
+                    this.ui.youTubeSourceInput.data('datasource', dataSource);
 
                     dataSource.getTitle({
                         success: function(title) {
-                            self.playlistTitleInput.val(title);
-                            self.validateTitle();
-                            self.youTubeSourceInput.addClass('valid');
-                        },
+                            this.ui.playlistTitleInput.val(title);
+                            this.validateTitle();
+                            this.ui.youTubeSourceInput.addClass('valid');
+                        }.bind(this),
                         error: function () {
-                            var originalValue = self.playlistTitleInput.val();
+                            var originalValue = this.ui.playlistTitleInput.val();
                             console.log("original value:", originalValue);
-                            self.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-                            self.youTubeSourceInput.addClass('invalid');
-                        }
+                            this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
+                            this.ui.youTubeSourceInput.addClass('invalid');
+                        }.bind(this)
                     });
 
                 } else {
-                    self.youTubeSourceInput.removeClass('invalid valid');
-                    self.playlistTitleInput.val(self.playlistTitleInput.data('original-value'));
+                    this.ui.youTubeSourceInput.removeClass('invalid valid');
+                    this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
                 }
                 
-            });
+            }.bind(this));
 
         }, 100),
         
         validate: function () {
-
             //  If all submittable fields indicate themselves as valid -- allow submission.
             var valid = this.$el.find('.submittable.invalid').length === 0;
-
             return valid;
         },
 
         doOk: function () {
 
-            var dataSource= this.youTubeSourceInput.data('datasource');
-            var playlistName = $.trim(this.playlistTitleInput.val());
+            var dataSource = this.ui.youTubeSourceInput.data('datasource');
+            var playlistName = $.trim(this.ui.playlistTitleInput.val());
 
             console.log("Data source and playlistName:", dataSource, playlistName);
 

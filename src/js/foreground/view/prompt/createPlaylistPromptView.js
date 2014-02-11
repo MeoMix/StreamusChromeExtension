@@ -9,7 +9,13 @@
         
         okButtonText: chrome.i18n.getMessage('create'),
         
-        model: new CreatePlaylistView()
+        model: null,
+        
+        initialize: function() {
+            this.model = new CreatePlaylistView();
+            
+            GenericPromptView.prototype.initialize.call(this, arguments);
+        }
     });
 
     return CreatePlaylistPromptView;

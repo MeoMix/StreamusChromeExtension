@@ -26,6 +26,7 @@
             'click button.addToStream': 'addToStream',
             'click button.delete': 'doDelete',
             'click button.playInStream': 'playInStream',
+            'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
             'dblclick button.addToStream': 'addToStream',
@@ -34,14 +35,6 @@
         
         ui: {
             imageThumbnail: 'img.item-thumb'
-        },
-        
-        triggers: {
-            'contextmenu': {
-                event: 'showContextMenu',
-                //  Set preventDefault to true to let foreground know to not reset the context menu.
-                preventDefault: true
-            }
         },
         
         templateHelpers: function() {
@@ -81,7 +74,8 @@
             return false;
         },
 
-        showContextMenu: function () {
+        showContextMenu: function (event) {
+            event.preventDefault();
 
             var self = this;
 
