@@ -6,8 +6,7 @@
 //		*	grunt: Start up a server, run Jasmine test cases, watch for changes.
 //		*	grunt test: Start up a server, run Jasmine test cases.
 //		*	grunt lint: Display linter errors about the project
-//		*	grunt production: Create a dist folder with a .zip containing the extension ready to be uploaded
-//      *   grunt deploy: Test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
+//      *   grunt deploy: Pass a version to creat dist .zip. Otherwise, test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
 //
 //	See here for more information: http://gruntjs.com/sample-gruntfile
 'use strict';
@@ -128,8 +127,8 @@ module.exports = function (grunt) {
 		less: {
 			files: {
 				expand: true,
-				cwd: 'src',
-				src: ['less/*.less'],
+				cwd: 'src/less/',
+				src: '*.less',
 				dest: 'src/css',
 				ext: '.css'
 			}
@@ -187,15 +186,6 @@ module.exports = function (grunt) {
 			}
 		},
 		
-		//  Target src not dist here so CSS references are still present.
-		useminPrepare: {
-			html: ['src/foreground.html', 'src/fullscreen.html', 'src/options.html']
-		},
-
-		usemin: {
-			html: ['dist/foreground.html', 'dist/fullscreen.html', 'dist/options.html']
-		},
-	
 		watch: {
 			files: ['<%= jshint.files %>'],
 			tasks: ['jshint']
@@ -214,7 +204,6 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-usemin');
 	grunt.loadNpmTasks('grunt-contrib-watch');
 	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
@@ -223,24 +212,49 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
-	grunt.registerTask('deploy', 'Useful for testing production. Just for debugging purposes and does not update manifest version', function() {
-		grunt.task.run('requirejs', 'manifest-transform', 'plugins-transform', 'transform-settings', 'concat-uglify-injected-javascript',  'useminPrepare', 'usemin', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+    //	Generate a versioned zip file after transforming relevant files to production-ready versions.
+	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
+
+	    //	Update version number in manifest.json:
+	    if (version === undefined) {
+	        grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: production:0.98');
+	    } else {
+	        grunt.option('version', version);
+	    }
+
+	    if (version !== undefined) {
+	        //  Linting is a bit annoying for test. Just ensure lint validation passes for production.
+	        grunt.task.run('lint');
+	    }
+	    
+	    //  It's necessary to run requireJS first because it will overwrite manifest-transform.
+	    grunt.task.run('requirejs');
+	    
+	    if (version !== undefined) {
+	        //  Leave the debug key in for testing, but it has to be removed for deployment to the web store
+	        grunt.task.run('remove-key-from-manifest');
+	    }
+
+	    grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat', 'concat-cssmin-injected-css', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+	    
+        //  Spit out a zip and update manifest file version if not a test.
+        if (version !== undefined) {
+            grunt.task.run('compress-extension', 'update-manifest-version');
+        }
+
 	});
-
-	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
-	grunt.registerTask('production', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file.', function (version) {
-
-		//	Update version number in manifest.json:
-		if (version === undefined) {
-			grunt.warn('production must be called with a production version. e.g.: production:0.98');
-			return;
-		}
-
-		grunt.option('version', version);
-
-		grunt.task.run('lint', 'update-manifest-version', 'remove-key-from-manifest', 'requirejs', 'manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'useminPrepare', 'usemin', 'concat', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder', 'compress-extension');
+    
+	grunt.registerTask('concat-foreground-css', 'Takes all the relevant CSS files for the foreground and concats them into one file.', function () {
+	    grunt.config.set('concat', {
+	        dist: {
+	            //  Don't want the inject files or fullscreen -- just foreground css files
+	            src: ['src/css/*.css', '!src/css/*Inject.css', '!src/css/fullscreen.css'],
+	            dest: 'dist/css/foreground.css'
+	        }
+	    });
+	    grunt.task.run('concat');
 	});
-
+    
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
 	grunt.registerTask('update-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
 		grunt.config.set('replace', {
@@ -254,6 +268,20 @@ module.exports = function (grunt) {
 			}
 		});
 		grunt.task.run('replace');
+	});
+
+	grunt.registerTask('concat-cssmin-injected-css', 'injected css files load times matter so definitely uglify', function () {
+
+	    grunt.config.set('cssmin', {
+	        inject: {
+	            files: {
+	                'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
+	                'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
+	            }
+	        }
+	    });
+
+	    grunt.task.run('cssmin');
 	});
 
 	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
@@ -332,10 +360,6 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('replace');
-	});
-
-	grunt.registerTask('plugins-transform', 'remove the reference to LESS javascript from foreground', function() {
-
 	});
 
 	//	Remove debugging information from the manifest file
@@ -427,32 +451,25 @@ module.exports = function (grunt) {
 
 	});
 
-	//	Zip up the dist folder
+	//	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
 	grunt.registerTask('compress-extension', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
-	
-		var zipFileName = 'Streamus v' + grunt.option('version') + '.zip';
 
-		//	Remove old version if it exists
-		if (grunt.file.exists(zipFileName)) {
-			grunt.file.delete(zipFileName);
-		}
-
+	    //  There's no need to cleanup any old version because this will overwrite if it exists.
 		grunt.config.set('compress', {
 			dist: {
-
 				options: {
-					archive: zipFileName
+				    archive: 'Streamus v' + grunt.option('version') + '.zip'
 				},
 				files: [{
-					src: ['dist/**'],
-					dest: 'streamus/'
+					src: ['**'],
+					dest: '',
+					cwd: 'dist/',
+					expand: true
 				}]
-
 			}
 		});
 
 		grunt.task.run('compress');
-		
 	});
 
 };
