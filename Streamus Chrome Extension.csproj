@@ -45,16 +45,11 @@
   <ItemGroup>
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
-    <Content Include="src\css\beatportInject.css" />
-    <Content Include="src\css\contextMenu.css" />
     <Content Include="src\css\font-awesome.css" />
-    <Content Include="src\css\fullscreen.css" />
     <Content Include="src\css\jasmine.css" />
     <Content Include="src\css\jquery.qtip.css" />
-    <Content Include="src\css\options.css" />
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
-    <Content Include="src\css\youTubeInject.css" />
     <Content Include="src\font\fontawesome-webfont.svg" />
     <Content Include="src\foreground.html" />
     <Content Include="src\fullscreen.html" />
@@ -226,12 +221,17 @@
     <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
+    <None Include="src\less\beatportInject.less" />
+    <None Include="src\less\contextMenu.less" />
     <Content Include="src\less\foreground.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <Content Include="src\less\foreground.min.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
+    <None Include="src\less\youTubeInject.less" />
+    <None Include="src\less\fullscreen.less" />
+    <None Include="src\less\options.less" />
     <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\playlistsArea.html" />
