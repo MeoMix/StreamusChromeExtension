@@ -1,0 +1,43 @@
+a.streamus {
+    cursor: pointer;
+}
+
+.streamus.btn-play {
+    background-color: #51a351;
+    margin-right: 2px;
+}
+
+.streamus.btn-queue {
+    background-color: #439645;
+    background-image: url("../img/streamus_icon14_0bars.png");
+    background-position: 4px;
+}
+
+.play-queue-large .streamus.btn-queue {
+    background-image: url("../img/streamus_icon16.png");
+    background-position: 9px;
+}
+
+.streamus.btn-play[data-query] {
+    margin-bottom: 1px;
+    margin-right: 0;
+}
+
+.streamus.btn-play:hover {
+    background-color: #5bb75b;
+}
+
+.streamus.btn-queue:hover {
+    background-color: #439645;
+}
+
+/* Reduce top offset to account for streamus injected play button */
+div.top-download-row .playWrapper {
+    top: 3px;
+}
+
+/* This allows tooltip to be seen over Top 10 Rows*/
+.unit-renderer-row, 
+.play-queue{
+    overflow: visible !important;
+}
