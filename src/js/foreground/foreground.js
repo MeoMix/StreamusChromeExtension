@@ -13,7 +13,9 @@ define([
 
         el: $('body'),
         
-        contextMenuView: new ContextMenuView(),
+        contextMenuView: new ContextMenuView({
+            collection: ContextMenuGroups
+        }),
         reloadPromptView: null,
         showReloadPromptTimeout: null,
         

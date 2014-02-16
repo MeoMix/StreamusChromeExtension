@@ -1,29 +1,25 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'foreground/collection/contextMenuGroups',
+    'foreground/view/contextMenuItemView',
     'text!template/contextMenu.html'
-], function (GenericForegroundView, ContextMenuGroups, ContextMenuTemplate) {
+], function (ForegroundViewManager, ContextMenuGroups, ContextMenuItemView, ContextMenuTemplate) {
     'use strict';
 
     //  A singleton view which is either displayed somewhere in body with groups of items or empty and hidden.
-    var ContextMenuView = GenericForegroundView.extend({
+    var ContextMenuView = Backbone.Marionette.CollectionView.extend({
+
+        id: 'contextMenu',
 
         template: _.template(ContextMenuTemplate),
+        
+        itemView: ContextMenuItemView,
 
         events: {
             'click li': 'onItemClick',
         },
-        
-        attributes: {
-            id: 'contextMenu'
-        },
 
-        render: function () {
-            
-            this.$el.html(this.template({
-                contextMenuGroups: ContextMenuGroups
-            }));
-
+        onRender: function () {
             //  Prevent display outside viewport.
             var offsetTop = this.top;
             var needsVerticalFlip = offsetTop + this.$el.height() > this.$el.parent().height();
@@ -45,12 +41,10 @@
                 top: offsetTop,
                 left: offsetLeft
             });
-
-            return this;
         },
         
         initialize: function () {
-            this.listenTo(ContextMenuGroups, 'reset add remove', this.render);
+            ForegroundViewManager.subscribe(this);
         },
         
         //  Displays the context menu at given x,y coordinates.

@@ -143,12 +143,6 @@
     "anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
             "message": "Ein Problem wurde entdeckt während dem hinzufügen der Playlist. URL überprüfen?"
     },
-    "fullScreen": {
-            "message": "Vollbildmodus"
-    },
-    "exitFullScreen": {
-            "message": "Vollbildmodus verlassen"
-    },
     "streamusIsTakingALongTimeToLoadReloadingMayHelp": {
             "message": "Streamus braucht sehr lange zum laden. Aktualisieren könnte helfen."
     },

@@ -225,7 +225,7 @@ a { cursor: pointer }
 }
 
 span.videoTitle {
-    font-size: 1.2em;
+    font-size: 14px;
     white-space: nowrap;
     cursor: default;
     line-height: 1.5em;
@@ -284,7 +284,7 @@ button:not(.disabled):active {
 }
 
 .button-icon {
-    font-size: 1.2em;
+    font-size: 14px;
     height: 45px;
     line-height: 45px;
     width: 40px;
@@ -737,32 +737,7 @@ input:focus  ~ .underline {
     top: 0;
 }
 
-#videoDisplay .top-bar {
-    display: block;
-    height: 50px;
-    left: 10px;
-    position: absolute;
-    right: 10px;
-    top: 0;
-}
-
-#videoDisplay .top-bar .left-side {
-    height: 50px;
-    width: 390px;
-    position: absolute;
-    left: 0;
-    top: 0;
-}
-
-#videoDisplay .top-bar .right-side {
-    height: 50px;
-    width: 235px;
-    position: absolute;
-    right: 0;
-    top: 0;
-}
-
-.top-bar .volumeControl {
+#volume {
     bottom: 0;
     left: 0;
     overflow: hidden;
@@ -830,19 +805,10 @@ input:focus  ~ .underline {
     margin-left: -60px;
     position: absolute;
     width: 120px;
+    font-size: 0px;
 }
 
-.top-bar .right-group{
-    bottom: 0;
-    display: block;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 40px;
-    z-index: 1;
-}
-
-.timeProgressArea .time-slider {
+#time-progress .time-slider {
     background: #f2f2f2;
     height: 3px;
     left: 45px;
@@ -851,7 +817,7 @@ input:focus  ~ .underline {
     top: 8px;
 }
 
-.timeProgressArea .time-slider .progress {
+#time-progress .time-slider .progress {
     background: #4EA6EA;
     bottom: 0;
     display: block;
@@ -861,7 +827,7 @@ input:focus  ~ .underline {
     z-index: 1
 }
 
-.timeProgressArea .time-slider input {
+#time-progress .time-slider input {
     bottom: 0;
     left: 0;
     position: absolute;
@@ -871,12 +837,12 @@ input:focus  ~ .underline {
     z-index: 2
 }
 
-.timeProgressArea .time-elapsed {
+#time-progress .time-elapsed {
     position: absolute;
     left: 0;
 }
 
-.timeProgressArea .duration {
+#time-progress .duration {
     position: absolute;
     right: 0;
 }
@@ -932,7 +898,6 @@ input:focus  ~ .underline {
     z-index: 50;
 }
 
-#videoDisplay,
 #playlistsArea {
     bottom: 0;
     display: block;
@@ -941,24 +906,6 @@ input:focus  ~ .underline {
     right: 0;
     top: 0;
     z-index: 50;
-}
-
-#videoDisplay canvas {
-    position: absolute;
-    bottom: 0;
-}
-
-#videoDisplay .panel {
-
-    left: -640px;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    width: 640px;
-    box-shadow: 0 0 20px #333;
-    display: block;
-    position: absolute;
-    z-index: 51;
 }
 
 #playlistsArea .panel {
@@ -1269,12 +1216,7 @@ button.enabled{
     text-transform: lowercase;
 }
 
-#videoDisplay .timeProgressArea {
-    top: 25px;
-    left: 0;
-}
-
-.timeProgressArea {
+#time-progress {
     top: 45px;
     left: 15px;
     right: 15px;

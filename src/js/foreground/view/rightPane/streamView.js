@@ -1,19 +1,18 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/stream.html',
-    'foreground/view/rightPane/stream/repeatButtonView',
-    'foreground/view/rightPane/stream/shuffleButtonView',
-    'foreground/view/rightPane/stream/radioButtonView',
     'foreground/collection/contextMenuGroups',
     'enum/listItemType',
     'foreground/model/streamAction',
-    'foreground/view/rightPane/stream/streamItemView',
+    'foreground/view/rightPane/streamItemView',
     'foreground/collection/playlists',
     'foreground/collection/videoSearchResults',
-    'foreground/mixin/unwrappedRegionMixin',
-    'foreground/model/user'
-], function (GenericForegroundView, ForegroundViewManager, StreamTemplate, RepeatButtonView, ShuffleButtonView, RadioButtonView, ContextMenuGroups, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, UnwrappedRegionMixin, User) {
+    'foreground/model/user',
+    'foreground/model/shuffleButton',
+    'foreground/model/repeatButton',
+    'foreground/model/radioButton',
+    'enum/repeatButtonState'
+], function (ForegroundViewManager, StreamTemplate, ContextMenuGroups, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     
     //  TODO: I think this is actually only a CollectionView.
@@ -30,7 +29,10 @@
             'contextmenu @ui.streamItems': 'showContextMenu',
             'click button#clearStream': 'clear',
             'click button#saveStream:not(.disabled)': 'save',
-            'scroll @ui.streamItems': 'loadVisible'
+            'scroll @ui.streamItems': 'loadVisible',
+            'click @ui.shuffleButton': 'toggleShuffle',
+            'click @ui.radioButton': 'toggleRadio',
+            'click @ui.repeatButton': 'toggleRepeat'
         },
         
         triggers: {
@@ -45,7 +47,10 @@
             'streamEmptyMessage': '.streamEmpty',
             'contextButtons': '.context-buttons',
             'saveStreamButton': 'button#saveStream',
-            'streamItems': '#streamItems'
+            'streamItems': '#streamItems',
+            'shuffleButton': '#shuffle-button',
+            'radioButton': '#radio-button',
+            'repeatButton': '#repeat-button'
         },
         
         templateHelpers: function () {
@@ -83,14 +88,14 @@
         },
         
         onRender: function () {
-
-            this.$el.find('#shuffleButtonView').replaceWith((new ShuffleButtonView()).render().el);
-            this.$el.find('#repeatButtonView').replaceWith((new RepeatButtonView()).render().el);
-            this.$el.find('#radioButtonView').replaceWith((new RadioButtonView()).render().el);
-           
+            
             this.toggleBigText();
             this.toggleContextButtons();
             this.updateSaveStreamButton();
+            
+            this.setRepeatButtonState();
+            this.setShuffleButtonState();
+            this.setRadioButtonState();
             
             if (this.collection.selected().length > 0) {
                 this.$el.find('.listItem.selected').scrollIntoView(false);
@@ -248,6 +253,11 @@
         
         initialize: function() {
             this.listenTo(User, 'change:loaded', this.updateSaveStreamButton);
+
+            this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
+            this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
+            this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+
             ForegroundViewManager.subscribe(this);
         },
         
@@ -320,11 +330,72 @@
         
         save: function() {
             StreamAction.saveStream();
+        },
+        
+        toggleShuffle: function() {
+            ShuffleButton.toggleEnabled();
+        },
+        
+        toggleRadio: function() {
+            RadioButton.toggleRadio();
+        },
+        
+        toggleRepeat: function() {
+            RepeatButton.toggleRepeat();
+        },
+        
+        setRepeatButtonState: function() {
+            var state = RepeatButton.get('state');
+            
+            //  The button is considered enabled if it is anything but disabled.
+            var enabled = state !== RepeatButtonState.Disabled;
+
+            var title = '';
+            var icon = $('<i>', { 'class': 'fa fa-repeat' });
+            switch (state) {
+                case RepeatButtonState.Disabled:
+                    title = chrome.i18n.getMessage('repeatDisabled');
+                    break;
+                case RepeatButtonState.RepeatVideo:
+                    title = chrome.i18n.getMessage('repeatVideo');
+                    icon = $('<i>', { 'class': 'fa fa-repeat repeatVideo' });
+                    break;
+                case RepeatButtonState.RepeatStream:
+                    title = chrome.i18n.getMessage('repeatStream');
+                    icon = $('<i>', { 'class': 'fa fa-repeat repeatStream' });
+                    break;
+            }
+
+            this.ui.repeatButton.toggleClass('enabled', enabled).attr('title', title).empty().append(icon);
+        },
+        
+        setShuffleButtonState: function() {
+            var enabled = ShuffleButton.get('enabled');
+
+            var title;
+            if (enabled) {
+                title = chrome.i18n.getMessage('shuffleEnabled');
+            } else {
+                title = chrome.i18n.getMessage('shuffleDisabled');
+            }
+
+            this.ui.shuffleButton.toggleClass('enabled', enabled).attr('title', title);
+        },
+        
+        setRadioButtonState: function () {
+            var enabled = RadioButton.get('enabled');
+            
+            var title;
+            if (enabled) {
+                title = chrome.i18n.getMessage('radioEnabled');
+            } else {
+                title = chrome.i18n.getMessage('radioDisabled');
+            }
+            
+            this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
         }
 
     });
-
-    _.extend(StreamView, UnwrappedRegionMixin);
 
     return StreamView;
 });

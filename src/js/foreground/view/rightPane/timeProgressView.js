@@ -1,59 +1,53 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
 define([
-    'foreground/view/genericForegroundView',
-    'text!template/timeProgressArea.html',
+    'foreground/model/foregroundViewManager',
+    'text!template/timeProgress.html',
     'foreground/collection/streamItems',
-    'foreground/model/player',
     'common/model/utility',
     'enum/playerState',
     'foreground/model/settings'
-], function (GenericForegroundView, TimeProgressAreaTemplate, StreamItems, Player, Utility, PlayerState, Settings) {
+], function (ForegroundViewManager, TimeProgressTemplate, StreamItems, Utility, PlayerState, Settings) {
     'use strict';
 
-    var TimeProgressAreaView = GenericForegroundView.extend({
-            
-        template: _.template(TimeProgressAreaTemplate),
-        
-        className: 'timeProgressArea',
+    var TimeProgressView = Backbone.Marionette.ItemView.extend({
+
+        template: _.template(TimeProgressTemplate),
         
         events: {
-            'change input.timeRange:not(.disabled)': 'updateProgress',
-            'mousewheel input.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
-            'mousedown input.timeRange:not(.disabled)': 'startSeeking',
-            'mouseup input.timeRange:not(.disabled)': 'seekToTime',
-            'click .time-elapsed': 'toggleShowTimeRemaining'
+            'change @ui.timeRange:not(.disabled)': 'updateProgress',
+            'mousewheel @ui.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
+            'mousedown @ui.timeRange:not(.disabled)': 'startSeeking',
+            'mouseup @ui.timeRange:not(.disabled)': 'seekToTime',
+            'click @ui.timeElapsedLabel': 'toggleShowTimeRemaining'
         },
         
-        progress: null,
-        timeRange: null,
-        timeElapsedLabel: null,
-        durationLabel: null,
-        
-        autoUpdate: true,
-
-        render: function () {
-
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n
-            }));
-
-            //  Store references to child elements after rendering for ease of use.
+        ui: {
             //  Progress is the shading filler for the volumeRange's value.
-            this.progress = this.$el.find('.time-slider .progress');
-            this.timeRange = this.$el.find('.time-slider input.timeRange');
-            this.timeElapsedLabel = this.$el.find('.time-elapsed');
-            this.durationLabel = this.$el.find('.duration');
-            
-            if (StreamItems.length === 0) {
-                this.timeRange.toggleClass('disabled', true);
-            }
+            progress: '.progress',
+            timeRange: 'input.timeRange',
+            timeElapsedLabel: '.time-elapsed',
+            durationLabel: '.duration'
+        },
+       
+        autoUpdate: true,
+        
+        templateHelpers: {
+            elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
+            totalTimeMessage: chrome.i18n.getMessage('totalTime')
+        },
+
+        onRender: function () {
+            this.ui.timeRange.toggleClass('disabled', StreamItems.length === 0);
                 
             //  If a video is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
             this.setTotalTime(this.getCurrentVideoDuration());
-            this.setCurrentTime(Player.get('currentTime'));
-            
-            return this;
+            this.setCurrentTime(this.model.get('currentTime'));
+        },
+        
+        modelEvents: {
+            'change:currentTime': 'updateCurrentTime',
+            'change:state': 'stopSeeking'
         },
         
         initialize: function () {
@@ -61,51 +55,45 @@ define([
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
-            this.listenTo(Player, 'change:currentTime', this.updateCurrentTime);
-            this.listenTo(Player, 'change:state', this.stopSeeking);
+
+            ForegroundViewManager.subscribe(this);
         },
         
         //  Allow the user to manual time change by click or scroll.
         mousewheelUpdateProgress: function (event) {
 
             var delta = event.originalEvent.wheelDeltaY / 120;
-            var currentTime = parseInt(this.timeRange.val());
+            var currentTime = parseInt(this.ui.timeRange.val());
 
             this.setCurrentTime(currentTime + delta);
 
-            Player.seekTo(currentTime + delta);
+            this.model.seekTo(currentTime + delta);
         },
 
         startSeeking: function (event) {
-
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 this.autoUpdate = false;
             }
-
         },
         
         stopSeeking: function () {
-
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
-            var state = Player.get('state');
+            var state = this.model.get('state');
 
             if (state == PlayerState.Playing || state == PlayerState.Paused) {
                 this.autoUpdate = true;
             }
-
         },
 
         seekToTime: function (event) {
-
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
-                var currentTime = parseInt(this.timeRange.val());
-                Player.seekTo(currentTime);
+                var currentTime = parseInt(this.ui.timeRange.val());
+                this.model.seekTo(currentTime);
             }
-
         },
         
         toggleShowTimeRemaining: function() {
@@ -115,17 +103,17 @@ define([
             Settings.set('showTimeRemaining', !showTimeRemaining);
 
             if (!showTimeRemaining) {
-                this.timeElapsedLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
+                this.ui.timeElapsedLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
             } else {
-                this.timeElapsedLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
+                this.ui.timeElapsedLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
             }
 
-            this.timeElapsedLabel.toggleClass('timeRemaining', !showTimeRemaining);
+            this.ui.timeElapsedLabel.toggleClass('timeRemaining', !showTimeRemaining);
             this.updateProgress();
         },
         
         enable: function () {
-            this.timeRange.toggleClass('disabled', false);
+            this.ui.timeRange.removeClass('disabled');
         },
         
         clearOnEmpty: function () {
@@ -135,10 +123,9 @@ define([
         },
         
         clear: function () {
-
             this.setCurrentTime(0);
             this.setTotalTime(0);
-            this.timeRange.toggleClass('disabled', true);
+            this.ui.timeRange.addClass('disabled');
         },
         
         restart: function () {
@@ -152,21 +139,19 @@ define([
         },
         
         setCurrentTime: function (currentTime) {
-            this.timeRange.val(currentTime);
+            this.ui.timeRange.val(currentTime);
             this.updateProgress();
         },
 
         setTotalTime: function (totalTime) {
-            this.timeRange.prop('max', totalTime);
+            this.ui.timeRange.prop('max', totalTime);
             this.updateProgress();
         },
         
         updateCurrentTime: function () {
-
             if (this.autoUpdate) {
-                this.setCurrentTime(Player.get('currentTime'));
+                this.setCurrentTime(this.model.get('currentTime'));
             }
-            
         },
 
         //  Repaints the progress bar's filled-in amount based on the % of time elapsed for current video.
@@ -175,27 +160,25 @@ define([
         //  values need to be re-rendered.
         updateProgress: function () {
 
-            var currentTime = parseInt(this.timeRange.val());
-            var totalTime = parseInt(this.timeRange.prop('max'));
+            var currentTime = parseInt(this.ui.timeRange.val());
+            var totalTime = parseInt(this.ui.timeRange.prop('max'));
 
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
 
-            if (progressPercent < 0 || progressPercent > 100) throw "Wow this really should not have been " + progressPercent;
-
-            this.progress.width(progressPercent + '%');
+            this.ui.progress.width(progressPercent + '%');
             
             if (Settings.get('showTimeRemaining')) {
                 
                 //  Calculate the time remaining from the current time and show that instead.
                 var timeRemaining = totalTime - currentTime;
 
-                this.timeElapsedLabel.text(Utility.prettyPrintTime(timeRemaining));
+                this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(timeRemaining));
             } else {
-                this.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
+                this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
             }
 
-            this.durationLabel.text(Utility.prettyPrintTime(totalTime));
+            this.ui.durationLabel.text(Utility.prettyPrintTime(totalTime));
  
         },
 
@@ -211,8 +194,7 @@ define([
             return duration;
         }
         
-
     });
 
-    return TimeProgressAreaView;
+    return TimeProgressView;
 });

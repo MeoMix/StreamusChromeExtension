@@ -7,12 +7,12 @@
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/createPlaylistView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/view/playlistsArea/deletePlaylistButtonView',
     'foreground/collection/playlists',
     'foreground/view/playlistsArea/playlistView',
     'enum/listItemType',
-    'foreground/model/user'
-], function (GenericForegroundView, ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, DeletePlaylistButtonView, Playlists, PlaylistView, ListItemType, User) {
+    'foreground/model/user',
+    'foreground/view/prompt/deletePlaylistPromptView'
+], function (GenericForegroundView, ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -28,13 +28,15 @@
             'click h3': 'togglePlaylistsVisibility',
             'click .settings': 'showSettingsPrompt',
             'click .add': 'showCreatePlaylistPrompt',
-            'click .edit': 'showEditSelectedPlaylistPrompt'
+            'click .edit': 'showEditSelectedPlaylistPrompt',
+            'click @ui.deleteButton:not(.disabled)': 'showDeleteSelectedPlaylistPrompt'
         },
         
         ui: {
             panel: '.panel',
             playlists: 'ul#playlists',
-            contextButtons: '.context-buttons'
+            contextButtons: '.context-buttons',
+            deletePlaylistButton: '#delete-playlist-button'
         },
         
         templateHelpers: {
@@ -50,8 +52,7 @@
         },
         
         onRender: function () {
-            this.$el.find('.right-group').append((new DeletePlaylistButtonView()).render().el);
-            
+
             this.ui.playlists.sortable({
                 axis: 'y',
                 placeholder: 'sortable-placeholder listItem',
@@ -82,6 +83,7 @@
             });
 
             this.toggleContextButtons();
+            this.setDeleteButtonState();
 
             GenericForegroundView.prototype.initializeTooltips.call(this);
         },
@@ -91,6 +93,8 @@
             
             //  Don't show playlist actions if User isn't loaded because won't be able to save reliably.
             this.listenTo(User, 'change:loaded', this.toggleContextButtons);
+            
+            this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
         show: function () {
@@ -254,6 +258,39 @@
         
         toggleContextButtons: function () {
             this.ui.contextButtons.toggle(User.get('loaded'));
+        },
+        
+        setDeleteButtonState: function() {
+            //  Can't delete the last playlist:
+            var canDelete = Playlists.canDelete();
+
+            var title;
+            if (canDelete) {
+                title = chrome.i18n.getMessage('deletePlaylist');
+            } else {
+                title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
+            }
+
+            this.ui.deleteButton.toggleClass('disabled', !canDelete).attr('title', title);
+        },
+        
+        showDeleteSelectedPlaylistPrompt: function () {
+
+            var activePlaylist = Playlists.getActivePlaylist();
+            var isEmpty = activePlaylist.get('items').length === 0;
+
+            //  No need to notify if the playlist is empty.
+            if (isEmpty) {
+                activePlaylist.destroy();
+            } else {
+                var deletePlaylistPromptView = new DeletePlaylistPromptView({
+                    playlist: activePlaylist
+                });
+
+                //  TODO: This doesn't highlight the fact that Settings controls whether it shows or not.
+                deletePlaylistPromptView.fadeInAndShow();
+            }
+
         }
 
     });

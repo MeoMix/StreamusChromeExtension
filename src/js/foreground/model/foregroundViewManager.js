@@ -16,15 +16,12 @@
         },
         
         allViewsStopListening: function() {
-
             _.each(this.get('views'), function(view) {
                 view.stopListening();
             });
-
         },
         
         subscribe: function (view) {
-            
             var views = this.get('views');
             var index = views.indexOf(view);
 

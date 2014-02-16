@@ -12,15 +12,13 @@ define([
     'foreground/model/videoSearch',
     'foreground/collection/videoSearchResults',
     'foreground/view/rightPane/rightPaneView',
-    'common/view/videoDisplayView',
     'foreground/collection/playlists',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/player',
-    'foreground/model/buttons/videoDisplayButton',
     'foreground/model/settings',
     'foreground/model/user'
-], function (ForegroundViewManager, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, VideoDisplayView, Playlists, YouTubePlayerError, NotificationView, Player, VideoDisplayButton, Settings, User) {
+], function (ForegroundViewManager, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Player, Settings, User) {
 
     //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
@@ -29,7 +27,6 @@ define([
 
         playlistsAreaView: null,
         activePlaylistAreaView: null,
-        videoDisplayView: null,
         rightPaneView: null,
         
         events: {
@@ -46,37 +43,22 @@ define([
         },
 
         initialize: function () {
-            this.rightPaneView = new RightPaneView();
+            this.rightPaneView = new RightPaneView({
+                model: Player
+            });
             this.$el.append(this.rightPaneView.render().el);
 
             this.showActivePlaylistArea();
             
             if (Settings.get('alwaysOpenToSearch')) {
                 this.showVideoSearch(false);
-            }
-            
-            //  TODO: It seems REALLY weird to have videoDisplayView be shown here but hidden by itself. Surely both thoughts should be on one or the other.
-            if (VideoDisplayButton.get('enabled')) {
-                //  Open instantly on first load.
-                this.showVideoDisplay(true);
-            }
+            } 
             
             this.listenTo(Playlists, 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
-            this.listenTo(VideoDisplayButton, 'change:enabled', this.toggleVideoDisplay);
             
             $(window).unload(this.deselectCollections.bind(this));
             ForegroundViewManager.subscribe(this);
-        },
-        
-        toggleVideoDisplay: function (model, enabled) {
-            if (enabled) {
-                //  Show an animation when changing after first load.
-                this.showVideoDisplay(false);
-            } else {
-                //  Whenever the VideoDisplayButton model indicates it has been disabled -- keep the view's state current.
-                this.videoDisplayView = null;
-            }
         },
         
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
@@ -126,18 +108,6 @@ define([
 
         onClickShowVideoSearch: function () {
             this.showVideoSearch(true);
-        },
-        
-        showVideoDisplay: function (instant) {
-
-            //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (this.videoDisplayView === null) {
-                this.videoDisplayView = new VideoDisplayView();
-                
-                this.$el.append(this.videoDisplayView.render().el);
-                this.videoDisplayView.show(instant);
-            }
-
         },
         
         //  Cleans up any active playlist view and then renders a fresh view.

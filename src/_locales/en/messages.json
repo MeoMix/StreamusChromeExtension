@@ -143,12 +143,6 @@
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "An issue was encountered while adding your playlist. Check the URL?"
 	},
-	"fullScreen": {
-		"message": "Full screen"
-	},
-	"exitFullScreen": {
-		"message": "Exit full screen"
-	},
 	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
 		"message": "Streamus is taking a long time to load. Reloading may help."
 	},

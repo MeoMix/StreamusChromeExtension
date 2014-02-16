@@ -6,7 +6,7 @@
     'foreground/collection/streamItems',
     'text!template/streamItem.html',
     'foreground/collection/playlists',
-    'foreground/model/buttons/playPauseButton',
+    'foreground/model/playPauseButton',
     'foreground/model/player',
     'enum/listItemType',
     'foreground/model/user'

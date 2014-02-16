@@ -143,12 +143,6 @@
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Um erro foi encontrado ao adicionar a playlist. Checar a URL?"
 	},
-	"fullScreen": {
-		"message": "Tela cheia"
-	},
-	"exitFullScreen": {
-		"message": "Sair da tela cheia"
-	},
 	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
 		"message": "Streamus está demorando muito para carregar. Recarregar pode ajudar."
 	},

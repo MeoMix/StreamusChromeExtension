@@ -143,12 +143,6 @@
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Se ha producido un error al añadir tu lista. Comprueba la URL."
 	},
-	"fullScreen": {
-		"message": "Pantalla completa"
-	},
-	"exitFullScreen": {
-		"message": "Salir de Pantalla completa"
-	},
 	"streamusIsTakingALongTimeToLoad": {
 		"message": "A Streamus le está llevando mucho cargar. Recargar la extensión podría ayudar."
 	},

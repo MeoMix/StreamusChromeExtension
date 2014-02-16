@@ -9,9 +9,8 @@ define([
     'background/model/buttons/playPauseButton',
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
-    'background/model/buttons/shuffleButton',
-    'background/model/buttons/videoDisplayButton'
-], function (Notifications, Playlists, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton, VideoDisplayButton) {
+    'background/model/buttons/shuffleButton'
+], function (Notifications, Playlists, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton) {
     'use strict';
     
     //  Receive keyboard shortcuts from users.
@@ -59,9 +58,6 @@ define([
                 break;
             case 'toggleRepeat':
                 RepeatButton.toggleRepeat();
-                break;
-            case 'toggleVideoDisplay':
-                VideoDisplayButton.toggleVideoDisplay();
                 break;
             case 'addVideoToPlaylist':
                 Playlists.getActivePlaylist().addByVideo(StreamItems.getSelectedItem().get('video'));

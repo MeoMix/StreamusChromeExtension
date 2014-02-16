@@ -143,12 +143,6 @@
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "An issue was encountered while adding your playlist. Check the URL?"
 	},
-	"fullScreen": {
-		"message": "Celozaslonski način"
-	},
-	"exitFullScreen": {
-		"message": "Izhod iz celozaslonskega načina"
-	},
 	"streamusIsTakingALongTimeToLoad": {
 		"message": "Streamus potrebuje veliko časa, da se naloži. Ponovna naložitev lahko pomaga."
 	},

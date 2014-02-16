@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/view/genericForegroundView',
     'foreground/view/activePlaylistArea/playlistItemView',
-    'foreground/view/rightPane/stream/streamItemView',
+    'foreground/view/rightPane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
     'enum/listItemType',
     'foreground/collection/streamItems'
