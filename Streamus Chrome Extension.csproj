@@ -147,8 +147,8 @@
     <Content Include="src\js\foreground\model\user.js" />
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
+    <Content Include="src\js\foreground\view\contextMenuItemView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
-    <Content Include="src\js\foreground\view\playlistsArea\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\playlistItemView.js" />
@@ -222,13 +222,13 @@
     <None Include="src\less\options.less" />
     <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
+    <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\playlistsArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\clearStream.html" />
     <Content Include="src\template\contextMenu.html" />
     <Content Include="src\template\createPlaylist.html" />
     <Content Include="src\template\deletePlaylist.html" />
-    <Content Include="src\template\deletePlaylistButton.html" />
     <Content Include="src\template\editPlaylist.html" />
     <Content Include="src\template\genericPrompt.html" />
     <Content Include="src\template\notification.html" />
