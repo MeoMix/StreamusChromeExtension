@@ -166,12 +166,6 @@ module.exports = function (grunt) {
 					}, {
 						name: 'options/options',
 						exclude: ['options/main', 'options/plugins']
-					}, {
-						name: 'fullscreen/main',
-						include: ['fullscreen/plugins']
-					}, {
-						name: 'fullscreen/fullscreen',
-						exclude: ['fullscreen/main', 'fullscreen/plugins']
 					}],
 					optimize: 'uglify2',
 					//  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
@@ -247,8 +241,8 @@ module.exports = function (grunt) {
 	grunt.registerTask('concat-foreground-css', 'Takes all the relevant CSS files for the foreground and concats them into one file.', function () {
 	    grunt.config.set('concat', {
 	        dist: {
-	            //  Don't want the inject files or fullscreen -- just foreground css files
-	            src: ['src/css/*.css', '!src/css/*Inject.css', '!src/css/fullscreen.css'],
+	            //  Don't want the inject files just foreground css files
+	            src: ['src/css/*.css', '!src/css/*Inject.css'],
 	            dest: 'dist/css/foreground.css'
 	        }
 	    });
