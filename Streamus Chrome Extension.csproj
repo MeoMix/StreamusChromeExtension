@@ -125,12 +125,13 @@
     <Content Include="src\js\enum\shareableEntityType.js" />
     <Content Include="src\js\enum\youTubePlayerError.js" />
     <Content Include="src\js\foreground\application.js" />
-    <Content Include="src\js\foreground\collection\contextMenuGroups.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
     <Content Include="src\js\foreground\collection\streamItems.js" />
     <Content Include="src\js\foreground\collection\videoSearchResults.js" />
     <Content Include="src\js\foreground\foreground.js" />
     <Content Include="src\js\foreground\main.js" />
+    <Content Include="src\js\foreground\model\genericPrompt.js" />
+    <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\model\radioButton.js" />
     <Content Include="src\js\foreground\model\repeatButton.js" />
     <Content Include="src\js\foreground\model\shuffleButton.js" />
@@ -138,7 +139,6 @@
     <Content Include="src\js\foreground\model\nextButton.js" />
     <Content Include="src\js\foreground\model\playlistsArea.js" />
     <Content Include="src\js\foreground\model\playPauseButton.js" />
-    <Content Include="src\js\foreground\model\contextMenuGroup.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\foregroundViewManager.js" />
     <Content Include="src\js\foreground\model\player.js" />
@@ -148,6 +148,7 @@
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
+    <Content Include="src\js\foreground\view\backbone.marionette.viewExtensions.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
     <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
@@ -158,7 +159,6 @@
     <Content Include="src\js\foreground\view\createPlaylistView.js" />
     <Content Include="src\js\foreground\view\deletePlaylistView.js" />
     <Content Include="src\js\foreground\view\editPlaylistView.js" />
-    <Content Include="src\js\foreground\view\genericForegroundView.js" />
     <Content Include="src\js\foreground\view\multiSelectCompositeView.js" />
     <Content Include="src\js\foreground\view\prompt\editPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\deletePlaylistPromptView.js" />
@@ -171,8 +171,9 @@
     <Content Include="src\js\foreground\view\rightPane\streamItemView.js" />
     <Content Include="src\js\foreground\view\rightPane\streamView.js" />
     <Content Include="src\js\foreground\view\rightPane\timeProgressView.js" />
-    <Content Include="src\js\foreground\view\rightPane\volumeControlView.js" />
+    <Content Include="src\js\foreground\view\rightPane\volumeView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
+    <Content Include="src\js\foreground\view\streamusCompositeView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
@@ -211,22 +212,26 @@
     <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <None Include="src\less\beatportInject.less" />
-    <None Include="src\less\contextMenu.less" />
+    <None Include="src\less\youTubeInject.less" />
+    <None Include="src\less\options.less" />
     <Content Include="src\less\foreground.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <Content Include="src\less\foreground.min.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
-    <None Include="src\less\youTubeInject.less" />
-    <None Include="src\less\options.less" />
+    <Content Include="src\less\options.css">
+      <DependentUpon>options.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\options.min.css">
+      <DependentUpon>options.less</DependentUpon>
+    </Content>
     <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\playlistsArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\clearStream.html" />
-    <Content Include="src\template\contextMenu.html" />
     <Content Include="src\template\createPlaylist.html" />
     <Content Include="src\template\deletePlaylist.html" />
     <Content Include="src\template\editPlaylist.html" />
@@ -243,7 +248,7 @@
     <Content Include="src\template\timeProgress.html" />
     <Content Include="src\template\videoSearch.html" />
     <Content Include="src\template\videoSearchResult.html" />
-    <Content Include="src\template\volumeControl.html" />
+    <Content Include="src\template\volume.html" />
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\spec\backgroundDependentForegroundViewSpec.js" />
     <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
