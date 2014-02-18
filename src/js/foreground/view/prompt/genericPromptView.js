@@ -1,10 +1,10 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/genericPrompt.html'
-], function (GenericForegroundView, GenericPromptTemplate) {
+], function (ForegroundViewManager, GenericPromptTemplate) {
     'use strict';
 
-    var GenericPromptView = GenericForegroundView.extend({
+    var GenericPromptView = Backbone.Marionette.ItemView.extend({
         
         className: 'modalOverlay prompt',
         
@@ -13,40 +13,24 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click .remove': 'fadeOutAndHide',
-            'click .ok': 'doOk',
+            'click @ui.okButton': 'doOk',
             'keydown .submittable': 'doOkOnEnter'
         },
         
-        panel: null,
- 
-        okButtonText: chrome.i18n.getMessage('ok'),
-
-        okButton: null,
-        showCancelButton: true,
-        
-        render: function () {
-            
-            this.$el.html(this.template({
-                //  Mix in chrome to reference internationalize.
-                'chrome.i18n': chrome.i18n,
-                'promptTitle': this.title,
-                'okButtonText': this.okButtonText
-            }));
-
-            //  Add specific content to the generic dialog's interior
-            this.$el.find('.content').append(this.model.render().el);
-
-            this.panel = this.$el.children('.panel');
-            this.okButton = this.$el.find('button.ok');
-
-            return this;
+        ui: {
+            panel: '.panel',
+            content: '.content',
+            okButton: 'button.ok'
         },
         
-        initialize: function (options) {
-            this.title = options.title || this.title;
-            this.okButtonText = options.okButtonText || this.okButtonText;
-            this.showCancelButton = options.showCancelButton || this.showCancelButton;
-            this.$el.addClass(this.model.className + 'Prompt');
+        onRender: function () {
+            //  Add specific content to the generic dialog's interior
+            this.ui.content.append(this.model.get('view').render().el);
+        },
+        
+        initialize: function () {
+            this.$el.addClass(this.model.get('view').className + 'Prompt');
+            ForegroundViewManager.subscribe(this);
         },
 
         fadeInAndShow: function () {
@@ -59,9 +43,9 @@
             }, 'snap');
 
             //  Calculate center for prompt by finding the average difference between prompts height and its parent
-            var yTranslateCenter = (this.$el.parent().height() - this.panel.height()) / 2;
+            var yTranslateCenter = (this.$el.parent().height() - this.ui.panel.height()) / 2;
             
-            this.panel.transition({
+            this.ui.panel.transition({
                 y: yTranslateCenter,
                 opacity: 1
             }, 'snap');
@@ -76,7 +60,7 @@
                 this.remove();
             }.bind(this));
 
-            this.panel.transition({
+            this.ui.panel.transition({
                 y: 0,
                 opacity: 0
             });
@@ -85,7 +69,6 @@
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
         hideIfClickOutsidePanel: function (event) {
-
             if (event.target == event.currentTarget) {
                 this.fadeOutAndHide();
             }
@@ -93,21 +76,21 @@
         
         //  If the enter key is pressed on a submittable element, treat as if user pressed OK button.
         doOkOnEnter: function(event) {
-            
             if (event.which === 13) {
                 this.doOk();
             }
-
         },
         
         doOk: function () {
             //  Run validation logic if provided else assume valid
-            var isValid = _.isFunction(this.model.validate) ? this.model.validate() : true;
+            var contentView = this.model.get('view');
+
+            var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
             
             if (isValid) {
                 
-                if (_.isFunction(this.model.doOk)) {
-                    this.model.doOk();
+                if (_.isFunction(contentView.doOk)) {
+                    contentView.doOk();
                 }
 
                 this.fadeOutAndHide();

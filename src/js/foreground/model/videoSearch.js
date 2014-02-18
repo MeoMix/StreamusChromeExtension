@@ -14,7 +14,6 @@
             return {
                 searchQuery: Settings.get('searchQuery'),
                 doSnapAnimation: true,
-                isFullyVisible: false,
                 searchJqXhr: null,
                 playlist: null,
                 typing: false

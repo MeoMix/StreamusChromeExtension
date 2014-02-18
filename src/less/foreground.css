@@ -31,9 +31,6 @@ body.loading > .spinner {
 body > .spinner {
   display: none;
 }
-#contextMenu:empty {
-  display: none;
-}
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
@@ -251,7 +248,7 @@ a {
   cursor: default;
 }
 span.videoTitle {
-  font-size: 1.2em;
+  font-size: 14px;
   white-space: nowrap;
   cursor: default;
   line-height: 1.5em;
@@ -302,11 +299,11 @@ button {
   padding: 0;
   transition: color 0.1s, text-shadow 0.1s;
 }
-button:active {
+button:not(.disabled):active {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 .button-icon {
-  font-size: 1.2em;
+  font-size: 14px;
   height: 45px;
   line-height: 45px;
   width: 40px;
@@ -342,7 +339,7 @@ button:active {
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
   color: GrayText;
-  cursor: default;
+  cursor: default !important;
 }
 .button-small {
   height: 30px;
@@ -546,26 +543,20 @@ input[type="range"]::-webkit-slider-thumb {
 .listItem.selected .item-title-wrapper {
   color: #fff;
 }
-#activeFolder .listItem i {
+#playlists .listItem i {
   margin-left: .4em;
   margin-right: .4em;
 }
-#activeFolder .playlist.selected .count {
+#playlists .playlist.selected .count {
   background: #C5E6FF;
   color: #4EA6EA;
 }
-/*.listItem i {
-    margin-right: .5em;
-}*/
 .listItem img {
-  display: block;
   height: 30px;
   position: absolute;
   top: 5px;
   width: 40px;
-  left: 0;
-  padding-left: 5px;
-  padding-right: 10px;
+  left: 5px;
 }
 .playlist .spinner {
   display: none;
@@ -636,9 +627,12 @@ input.valid {
 input:focus ~ .underline {
   background-color: #4EA6EA;
 }
+#left-covering-pane-region {
+  left: -385px;
+  z-index: 1;
+}
 #videoSearch {
   box-shadow: 0 0 10px #333;
-  left: -385px;
 }
 /* Can't sort videoSearch */
 #videoSearch .sortable-placeholder {
@@ -651,6 +645,9 @@ input:focus ~ .underline {
 /* TODO: I18N Clean this up a bit. Need to do i18n for it */
 #activePlaylistItems .sortable-placeholder.noDrop:after {
   content: 'Duplicates not allowed';
+}
+#activePlaylistItems .sortable-placeholder.noPlaylist {
+  display: none;
 }
 .searchBar button#source-select {
   bottom: 11px;
@@ -691,29 +688,7 @@ input:focus ~ .underline {
   right: 10px;
   top: 0;
 }
-#videoDisplay .top-bar {
-  display: block;
-  height: 50px;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-  top: 0;
-}
-#videoDisplay .top-bar .left-side {
-  height: 50px;
-  width: 390px;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-#videoDisplay .top-bar .right-side {
-  height: 50px;
-  width: 235px;
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-.top-bar .volumeControl {
+#volume {
   bottom: 0;
   left: 0;
   overflow: hidden;
@@ -775,17 +750,9 @@ input:focus ~ .underline {
   margin-left: -60px;
   position: absolute;
   width: 120px;
+  font-size: 0px;
 }
-.top-bar .right-group {
-  bottom: 0;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 40px;
-  z-index: 1;
-}
-.timeProgressArea .time-slider {
+#time-progress .time-slider {
   background: #f2f2f2;
   height: 3px;
   left: 45px;
@@ -793,7 +760,7 @@ input:focus ~ .underline {
   right: 45px;
   top: 8px;
 }
-.timeProgressArea .time-slider .progress {
+#time-progress .time-slider .progress {
   background: #4EA6EA;
   bottom: 0;
   display: block;
@@ -802,7 +769,7 @@ input:focus ~ .underline {
   top: 0;
   z-index: 1;
 }
-.timeProgressArea .time-slider input {
+#time-progress .time-slider input {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -811,11 +778,11 @@ input:focus ~ .underline {
   width: 100%;
   z-index: 2;
 }
-.timeProgressArea .time-elapsed {
+#time-progress .time-elapsed {
   position: absolute;
   left: 0;
 }
-.timeProgressArea .duration {
+#time-progress .duration {
   position: absolute;
   right: 0;
 }
@@ -844,7 +811,7 @@ input:focus ~ .underline {
   top: 0;
   width: 84px;
 }
-#activeFolderArea button.hide {
+#playlistsArea button.hide {
   height: 45px;
   left: 10px;
   position: absolute;
@@ -861,8 +828,7 @@ input:focus ~ .underline {
   top: 0;
   z-index: 50;
 }
-#videoDisplay,
-#activeFolderArea {
+#playlistsArea {
   bottom: 0;
   display: block;
   left: 0;
@@ -871,22 +837,7 @@ input:focus ~ .underline {
   top: 0;
   z-index: 50;
 }
-#videoDisplay canvas {
-  position: absolute;
-  bottom: 0;
-}
-#videoDisplay .panel {
-  left: -640px;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 640px;
-  box-shadow: 0 0 20px #333;
-  display: block;
-  position: absolute;
-  z-index: 51;
-}
-#activeFolderArea .panel {
+#playlistsArea .panel {
   bottom: 0;
   box-shadow: 0 0 20px #333;
   display: block;
@@ -896,12 +847,12 @@ input:focus ~ .underline {
   width: 250px;
   z-index: 51;
 }
-#activeFolder {
+#playlists {
   overflow-x: hidden;
   height: auto;
   max-height: 290px;
 }
-#activeFolderArea .header {
+#playlistsArea .header {
   background: #fff;
   display: block;
   height: 45px;
@@ -918,25 +869,25 @@ input:focus ~ .underline {
   background-color: #f2f2f2;
   height: 1px;
 }
-#activeFolderArea .header span {
+#playlistsArea .header span {
   color: #666;
   font-weight: bold;
   letter-spacing: 2px;
   line-height: 45px;
   text-transform: uppercase;
 }
-#activeFolderArea .header span img {
+#playlistsArea .header span img {
   height: 23px;
   margin-top: 10px;
 }
-#activeFolderArea .header .settings {
+#settings-button {
   display: block;
   position: absolute;
   right: 10px;
   top: 0;
   height: 46px;
 }
-#activeFolderArea .list {
+#playlistsArea .list {
   bottom: 30px;
   display: block;
   left: 10px;
@@ -947,7 +898,7 @@ input:focus ~ .underline {
   right: 0;
   top: 45px;
 }
-#activeFolderArea .list h3 {
+#playlistsArea .list h3 {
   cursor: pointer;
   height: 26px;
   line-height: 26px;
@@ -957,24 +908,24 @@ input:focus ~ .underline {
   font-size: 1.1em;
   margin-bottom: .3em;
 }
-#activeFolderArea .list h3 i {
+#playlistsArea .list h3 i {
   margin-left: 0.3em;
 }
-#activeFolder .listItem {
+#playlists .listItem {
   height: 26px;
   line-height: 26px;
   position: relative;
   width: calc(100% - 1px);
   padding: 0;
 }
-#activeFolder .listItem,
-#activeFolder .listItem * {
+#playlists .listItem,
+#playlists .listItem * {
   cursor: default;
 }
-#activeFolder .listItem .title {
+#playlists .listItem .title {
   white-space: nowrap;
 }
-#activeFolder .listItem .count {
+#playlists .listItem .count {
   background: #666;
   border-radius: 1em;
   color: #fff;
@@ -987,7 +938,7 @@ input:focus ~ .underline {
   top: 6px;
   cursor: default;
 }
-#activeFolderArea .context-buttons {
+#playlistsArea .context-buttons {
   border-top: 1px solid #f2f2f2;
   bottom: 0;
   left: 10px;
@@ -995,7 +946,7 @@ input:focus ~ .underline {
   right: 10px;
   height: 30px;
 }
-#activeFolderArea .context-buttons .right-group {
+#playlistsArea .context-buttons .right-group {
   position: absolute;
   top: 0;
   right: 0;
@@ -1087,12 +1038,15 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .big-text.streamEmpty {
   position: absolute;
-  margin-top: 34px;
+  margin-top: 36px;
 }
 .big-text-header {
-  padding-bottom: 15px;
   font-size: 23px;
   color: #333;
+  margin-bottom: 15px;
+}
+.big-text-header.clickable {
+  display: inline;
 }
 .searchLink {
   color: #4EA6EA;
@@ -1149,11 +1103,7 @@ button.enabled {
 .lowercase {
   text-transform: lowercase;
 }
-#videoDisplay .timeProgressArea {
-  top: 25px;
-  left: 0;
-}
-.timeProgressArea {
+#time-progress {
   top: 45px;
   left: 15px;
   right: 15px;
@@ -1193,6 +1143,9 @@ button.enabled {
 .big-text.searching .spinner-medium {
   top: 33%;
 }
+.big-text.signingIn .spinner-medium {
+  top: 22%;
+}
 .spinner-medium {
   width: 24px;
   height: 24px;
@@ -1206,7 +1159,7 @@ button.enabled {
   border-left-color: transparent;
   border-top-color: transparent;
 }
-#activeFolder .spinner-small {
+#playlists .spinner-small {
   position: static;
   margin: 0;
   margin-left: 5px;
@@ -1274,13 +1227,40 @@ button.enabled {
   z-index: 1;
   width: calc(100% - 73px);
 }
-#activeFolder span.title {
+#playlists span.title {
   display: inline-block;
   overflow: hidden;
   vertical-align: top;
   text-overflow: ellipsis;
 }
-#activeFolder span.title,
-#activeFolder input.editableTitle {
+#playlists span.title,
+#playlists input.editableTitle {
   width: 160px;
+}
+#context-menu {
+  -webkit-box-shadow: 4px 7px 3px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  position: absolute;
+  z-index: 100;
+  padding: 5px 0;
+  border: 1px solid #BABABA;
+}
+#context-menu:empty {
+  display: none;
+}
+#context-menu li {
+  overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 15px;
+  color: #333;
+  font: 13px/2.2 'Open Sans';
+  cursor: default;
+}
+#context-menu li:not(.disabled):hover {
+  background: #EBEBEB;
+}
+#context-menu li.disabled {
+  color: GrayText;
 }

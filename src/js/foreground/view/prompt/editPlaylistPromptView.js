@@ -1,26 +1,26 @@
 ﻿define([
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/editPlaylistView',
     'foreground/model/settings'
-], function (GenericPromptView, EditPlaylistView) {
+], function (GenericPrompt, GenericPromptView, EditPlaylistView) {
     'use strict';
     
     var EditPlaylistPromptView = GenericPromptView.extend({
-        title: chrome.i18n.getMessage('editPlaylist'),
-        
-        okButtonText: chrome.i18n.getMessage('update'),
-        
         model: null,
         
         initialize: function (options) {
 
-            this.model = new EditPlaylistView({
-                model: options.playlist
+            this.model = new GenericPrompt({
+                title: chrome.i18n.getMessage('editPlaylist'),
+                okButtonText: chrome.i18n.getMessage('update'),
+                view: new EditPlaylistView({
+                    model: options.playlist
+                })
             });
             
             GenericPromptView.prototype.initialize.call(this, arguments);
         }
-       
     });
 
     return EditPlaylistPromptView;

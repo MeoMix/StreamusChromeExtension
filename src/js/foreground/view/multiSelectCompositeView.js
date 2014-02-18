@@ -1,16 +1,14 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/view/streamusCompositeView',
     'foreground/view/activePlaylistArea/playlistItemView',
     'foreground/view/rightPane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
     'enum/listItemType',
     'foreground/collection/streamItems'
-], function (GenericForegroundView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
+], function (StreamusCompositeView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
     'use strict';
 
-    var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
-
-        isFullyVisible: false,
+    var MultiSelectCompositeView = StreamusCompositeView.extend({
 
         events: {
             'click .listItem': 'setSelectedOnClick'
@@ -236,10 +234,13 @@
                 modelToSelect.set('firstSelected', true);
             } else if (!(isDrag && isSelectedAlready)) {
                 //  All other selections are lost unless dragging a group of items.
-                this.collection.deselectAllExcept(modelToSelect.cid);
+                this.collection.deselectAllExcept(modelToSelect);
             }
         },
         
+        //  TODO: This adds support for a sorted collection, but is slower than using the default implementation which leverages a document fragment.
+        //  https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections
+        //  https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.collectionview.md#collectionviews-appendhtml
         appendHtml: function (collectionView, itemView, index) {
             var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
             var children = childrenContainer.children();

@@ -28,8 +28,7 @@
             data_attribute: "original",
             skip_invisible: true,
             appear: null,
-            load: null,
-            placeholder: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsQAAA7EAZUrDhsAAAANSURBVBhXYzh8+PB/AAffA0nNPuCLAAAAAElFTkSuQmCC"
+            load: null
         };
 
         function update() {
@@ -45,6 +44,7 @@
                     /* Nothing. */
                 } else if (!$.belowthefold(this, settings) &&
                     !$.rightoffold(this, settings)) {
+                    console.log("Triggering appear");
                     $this.trigger("appear");
                     /* if we found an image we'll load, reset the counter */
                     counter = 0;
@@ -77,6 +77,7 @@
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
+            console.log("$container.bind:", $container);
             $container.bind(settings.event, function () {
                 return update();
             });
@@ -87,13 +88,6 @@
             var $self = $(self);
 
             self.loaded = false;
-
-            /* If no src attribute given use data:uri. */
-            if ($self.attr("src") === undefined || $self.attr("src") === false) {
-                if ($self.is("img")) {
-                    $self.attr("src", settings.placeholder);
-                }
-            }
 
             /* When appear is triggered load original image. */
             $self.one("appear", function () {
@@ -146,18 +140,6 @@
         $window.bind("resize", function () {
             update();
         });
-
-        /* With IOS5 force loading images when navigating with back button. */
-        /* Non optimal workaround. */
-        if ((/(?:iphone|ipod|ipad).*os 5/gi).test(navigator.appVersion)) {
-            $window.bind("pageshow", function (event) {
-                if (event.originalEvent && event.originalEvent.persisted) {
-                    elements.each(function () {
-                        $(this).trigger("appear");
-                    });
-                }
-            });
-        }
 
         /* Force initial check if images should appear. */
         $(document).ready(function () {

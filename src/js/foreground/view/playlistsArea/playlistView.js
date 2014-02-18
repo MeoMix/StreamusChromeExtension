@@ -1,14 +1,13 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/playlist.html',
-    'foreground/collection/contextMenuGroups',
+    'foreground/collection/contextMenuItems',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/collection/playlists',
     'foreground/collection/streamItems',
     'enum/listItemType'
-], function (GenericForegroundView, ForegroundViewManager, PlaylistTemplate, ContextMenuGroups, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
+], function (ForegroundViewManager, PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
     'use strict';
 
     //  TODO: Starting to integrate MarionetteJS. Need to support better.
@@ -54,8 +53,7 @@
         onRender: function() {
             this.toggleLoadingClass();
             this.toggleSelectedClass();
-
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
         },
 
         initialize: function () {
@@ -98,8 +96,6 @@
             //  TODO: I don't remember why I need to call event.preventDefault. Comment and move into a trigger.
             event.preventDefault();
             
-            ContextMenuGroups.reset();
-
             var isEmpty = this.model.get('items').length === 0;
 
             //  Don't allow deleting of the last playlist.
@@ -107,8 +103,7 @@
 
             //  TODO: I don't have a method of reusing ContextMenuItems even though they're used in lots of places.
             var self = this;
-            ContextMenuGroups.add({
-                items: [{
+            ContextMenuItems.reset([{
                     //  No point in sharing an empty playlist.
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
@@ -160,14 +155,14 @@
                     onClick: function () {
 
                         var editPlaylistPromptView = new EditPlaylistPromptView({
-                            playlist: this.model
+                            playlist: self.model
                         });
 
                         editPlaylistPromptView.fadeInAndShow();
 
                     }
                 }]
-            });
+            );
 
         },
         

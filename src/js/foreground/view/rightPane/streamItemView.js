@@ -1,7 +1,6 @@
 ﻿define([
     'foreground/model/foregroundViewManager',
-    'foreground/view/genericForegroundView',
-    'foreground/collection/contextMenuGroups',
+    'foreground/collection/contextMenuItems',
     'common/model/utility',
     'foreground/collection/streamItems',
     'text!template/streamItem.html',
@@ -10,7 +9,7 @@
     'foreground/model/player',
     'enum/listItemType',
     'foreground/model/user'
-], function (ForegroundViewManager, GenericForegroundView, ContextMenuGroups, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
+], function (ForegroundViewManager, ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
@@ -45,8 +44,9 @@
         
         templateHelpers: function () {
             return {
-                //  Mix in chrome to reference internationalize.
-                'chrome.i18n': chrome.i18n,
+                hdMessage: chrome.i18n.getMessage('hd'),
+                playMessage: chrome.i18n.getMessage('play'),
+                deleteMessage: chrome.i18n.getMessage('delete'),
                 instant: this.instant             
             };
         },
@@ -58,7 +58,7 @@
 
         onRender: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
         },
             
         initialize: function (options) {
@@ -95,30 +95,27 @@
             event.preventDefault();
             var self = this;
             
-            ContextMenuGroups.reset();
-            
-            var userLoaded = User.get('loaded');
+            var userSignedIn = User.get('signedIn');
 
             var activePlaylist = Playlists.getActivePlaylist();
             var videoAlreadyExists = false;
             
-            if (userLoaded) {
+            if (userSignedIn) {
                 videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(self.model.get('video'));
             }
 
             var saveTitle = '';
             
-            if (userLoaded && videoAlreadyExists) {
+            if (userSignedIn && videoAlreadyExists) {
                 saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
-            } else if(!userLoaded) {
+            } else if (!userSignedIn) {
                 saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
             }
 
-            ContextMenuGroups.add({
-                items: [{
+            ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
-                    disabled: !userLoaded || videoAlreadyExists,
+                    disabled: !userSignedIn || videoAlreadyExists,
                     onClick: function () {
                         activePlaylist.addByVideo(self.model.get('video'));
                     }
@@ -164,7 +161,7 @@
 
                     }
                 }]
-            });
+            );
 
         },
 

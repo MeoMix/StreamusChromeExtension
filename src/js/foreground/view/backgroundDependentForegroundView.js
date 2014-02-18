@@ -4,6 +4,7 @@
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
     'foreground/model/foregroundViewManager',
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/model/playlistsArea',
     'foreground/view/playlistsArea/playlistsAreaView',
@@ -15,10 +16,11 @@ define([
     'foreground/collection/playlists',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
+    'foreground/model/notification',
     'foreground/model/player',
     'foreground/model/settings',
     'foreground/model/user'
-], function (ForegroundViewManager, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Player, Settings, User) {
+], function (ForegroundViewManager, GenericPrompt, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User) {
 
     //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
@@ -26,8 +28,6 @@ define([
         el: $('body'),
 
         playlistsAreaView: null,
-        activePlaylistAreaView: null,
-        rightPaneView: null,
         
         events: {
             'click': 'onClickDeselectCollections',
@@ -38,15 +38,15 @@ define([
         },
         
         regions: {
-            leftBasePane: '#left-base-pane',
-            leftCoveringPane: '#left-covering-pane'
+            leftBasePane: '#left-base-pane-region',
+            rightBasePane: '#right-base-pane-region',
+            leftCoveringPane: '#left-covering-pane-region'
         },
-
+        
         initialize: function () {
-            this.rightPaneView = new RightPaneView({
+            this.rightBasePane.show(new RightPaneView({
                 model: Player
-            });
-            this.$el.append(this.rightPaneView.render().el);
+            }));
 
             this.showActivePlaylistArea();
             
@@ -72,7 +72,7 @@ define([
         },
         
         deselectCollections: function () {
-            if (User.get('loaded')) {
+            if (User.get('signedIn')) {
                 Playlists.getActivePlaylist().get('items').deselectAll();
             }
             
@@ -171,9 +171,13 @@ define([
             }
 
             var youTubePlayerErrorPrompt = new GenericPromptView({
-                title: chrome.i18n.getMessage('errorEncountered'),
-                model: new NotificationView({
-                    text: text
+                model: new GenericPrompt({
+                    title: chrome.i18n.getMessage('errorEncountered'),
+                    view: new NotificationView({
+                        model: new Notification({
+                            text: text
+                        })
+                    })
                 })
             });
 

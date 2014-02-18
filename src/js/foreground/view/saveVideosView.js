@@ -1,11 +1,11 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/saveVideos.html',
     'foreground/collection/playlists'
-], function (GenericForegroundView, SaveVideosTemplate, Playlists) {
+], function (ForegroundViewManager, SaveVideosTemplate, Playlists) {
     'use strict';
 
-    var SaveVideosView = GenericForegroundView.extend({
+    var SaveVideosView = Backbone.Marionette.ItemView.extend({
 
         className: 'saveVideos',
         
@@ -13,14 +13,18 @@
 
         creating: false,
         
-        render: function () {
-            
-            var self = this;
-            
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n
-            }));
-            
+        templateHelpers: {
+            typeToCreateOrFilterPlaylistsMessage: chrome.i18n.getMessage('typeToCreateOrFilterPlaylists')
+        },
+        
+        ui: {
+            playlistSelect: 'select.submittable',
+            selectizeTitle: '.selectize-input span.title'
+        },
+        
+        videos: [],
+        
+        onRender: function () {
             var playlistOptions = Playlists.map(function (playlist) {
                 return {
                     id: playlist.get('id'),
@@ -29,11 +33,9 @@
                 };
             });
 
-            this.playlistSelect = this.$el.find('select.submittable');
-
             var activePlaylistId = Playlists.getActivePlaylist().get('id');
             
-            this.playlistSelect.selectize({
+            this.ui.playlistSelect.selectize({
                 //  If false, items created by the user will not show up as available options once they are unselected.
                 persist: false,
                 maxItems: 1,
@@ -76,39 +78,41 @@
                         };
                     }
 
-                    self.creating = true;
-                    self.trigger('change:creating', self.creating);
+                    this.creating = true;
+                    this.trigger('change:creating', this.creating);
 
                     return createResult;
-                },
+                }.bind(this),
                 onDelete: function() {
-                    self.creating = false;
-                    self.trigger('change:creating', self.creating);
-                }
+                    this.creating = false;
+                    this.trigger('change:creating', this.creating);
+                }.bind(this)
             });
-
-            return this;
+        },
+        
+        initialize: function (options) {
+            this.videos = options.videos || this.videos;
+            ForegroundViewManager.subscribe(this);
         },
         
         validate: function() {
-            var selectedPlaylistId = this.playlistSelect.val();
+            var selectedPlaylistId = this.ui.playlistSelect.val();
             var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
 
             return isValid;
         },
         
         doOk: function () {
-            var selectedPlaylistId = this.playlistSelect.val();
+            var selectedPlaylistId = this.ui.playlistSelect.val();
 
             if (this.creating) {
-                var playlistTitle = this.$el.find('.selectize-input').find('span.title').text();
-                Playlists.addPlaylistWithVideos(playlistTitle, this.model);
+                var playlistTitle = this.ui.selectizeTitle.text();
+                Playlists.addPlaylistWithVideos(playlistTitle, this.videos);
             } else {
                 var selectedPlaylist = Playlists.get(selectedPlaylistId);
-                selectedPlaylist.addByVideos(this.model);
+                selectedPlaylist.addByVideos(this.videos);
             }
         }
-
         
     });
 

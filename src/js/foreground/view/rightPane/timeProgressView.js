@@ -10,20 +10,23 @@ define([
     'use strict';
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
+        
+        id: 'time-progress',
 
         template: _.template(TimeProgressTemplate),
         
         events: {
-            'change @ui.timeRange:not(.disabled)': 'updateProgress',
-            'mousewheel @ui.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
-            'mousedown @ui.timeRange:not(.disabled)': 'startSeeking',
-            'mouseup @ui.timeRange:not(.disabled)': 'seekToTime',
+            'change @ui.enabledTimeRange': 'updateProgress',
+            'mousewheel @ui.enabledTimeRange': 'mousewheelUpdateProgress',
+            'mousedown @ui.enabledTimeRange': 'startSeeking',
+            'mouseup @ui.enabledTimeRange': 'seekToTime',
             'click @ui.timeElapsedLabel': 'toggleShowTimeRemaining'
         },
         
         ui: {
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
+            enabledTimeRange: 'input.timeRange:not(.disabled)',
             timeRange: 'input.timeRange',
             timeElapsedLabel: '.time-elapsed',
             durationLabel: '.duration'
@@ -87,6 +90,9 @@ define([
         },
 
         seekToTime: function (event) {
+
+            console.log("SeekingToTime:", event.which);
+
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.

@@ -1,32 +1,17 @@
 ﻿define([
-   'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/notification.html'
-], function (GenericForegroundView, NotificationTemplate) {
+], function (ForegroundViewManager, NotificationTemplate) {
     'use strict';
 
-    var NotificationView = GenericForegroundView.extend({
+    var NotificationView = Backbone.Marionette.ItemView.extend({
 
         className: 'notification',
 
         template: _.template(NotificationTemplate),
         
-        text: '',
-        
-        render: function () {
-
-            this.$el.html(this.template({
-                text: this.text
-            }));
-
-            return this;
-        },
-        
-        initialize: function(options) {
-            this.text = options.text;
-            
-            if ($.trim(this.text) === '') {
-                throw "NotificationView expects to be initialized with text";
-            }
+        initialize: function() {
+            ForegroundViewManager.subscribe(this);
         }
 
     });

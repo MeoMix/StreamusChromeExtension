@@ -1,13 +1,13 @@
 ﻿<div class="left-top-bar">
-    <button class="button-icon show" title="<%= openMenu %>">
+    <button class="button-icon show" title="<%= openMenuMessage %>">
         <i class="fa fa-reorder"></i>
     </button>
 
-    <div class="playlistTitle" title="<%= playlistTitle %>">
+    <div class="playlistTitle title" title="<%= playlistTitle %>">
         <%= playlistTitle %>
     </div>
     
-    <button class="button-icon" id="showVideoSearch" title="<%= showVideoSearch %>">
+    <button class="button-icon" id="showVideoSearch" title="<%= showVideoSearchMessage %>">
         <i class="fa fa-search"></i>
     </button>
 </div>
@@ -18,13 +18,13 @@
     
     <div class="big-text playlistEmpty">
         <div class="big-text-header">
-            <%= playlistEmpty %>
+            <%= playlistEmptyMessage %>
         </div>
-        <%= wouldYouLikeTo %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= searchForVideos %></span>?
+        <%= wouldYouLikeToMessage %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= searchForVideosMessage %></span>?
     </div>
     
     <div class="big-text signingIn">
-        <div class="big-text-header"><%= signingIn %>...</div>
+        <div class="big-text-header"><%= signingInMessage %>...</div>
         <div class="spinner spinner-medium"></div>
     </div>
     
@@ -47,12 +47,12 @@
     </div>
     <div class="playlist-actions">
 
-        <button class="button-label addAll" title="<%= enqueueAll %>">
-            <i class="fa fa-plus"></i><%= enqueueAll %>
+        <button class="button-label addAll" title="<%= enqueueAllMessage %>">
+            <i class="fa fa-plus"></i><%= enqueueAllMessage %>
         </button>
         
-        <button class="button-label playAll" title="<%= playAll %>">
-            <i class="fa fa-play"></i><%= playAll %>
+        <button class="button-label playAll" title="<%= playAllMessage %>">
+            <i class="fa fa-play"></i><%= playAllMessage %>
         </button>
     </div>
 </div>

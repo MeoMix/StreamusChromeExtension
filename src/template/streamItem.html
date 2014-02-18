@@ -4,13 +4,13 @@
     <img class="item-thumb" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } %>
 
-<span class="item-title" title="<%= title %>">
+<span class="item-title title" title="<%= title %>">
     <%= title %>
 </span>
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>
-        <%= chrome.i18n.getMessage('hd') %> · 
+        <%= hdMessage %> · 
     <% } %>
     <span class="item-duration">
         <%= video.get('prettyDuration') %>
@@ -18,11 +18,11 @@
 </span>
 
 <span class="hover-actions">
-    <button class="button-icon playInStream" title="<%= chrome.i18n.getMessage('play') %>">
+    <button class="button-icon playInStream" title="<%= playMessage %>">
         <i class="fa fa-play"></i>
     </button>
     
-    <button class="button-icon delete" title="<%= chrome.i18n.getMessage('delete') %>">
+    <button class="button-icon delete" title="<%= deleteMessage %>">
         <i class="fa fa-trash-o"></i>
     </button>
 </span>

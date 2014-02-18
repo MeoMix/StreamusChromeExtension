@@ -40,7 +40,7 @@
 
                 //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
                 if (selected) {
-                    this.deselectAllExcept(changedStreamItem.cid);
+                    this.deselectAllExcept(changedStreamItem);
 
                     var videoId = changedStreamItem.get('video').get('id');
 

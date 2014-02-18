@@ -2,11 +2,12 @@
 //  background YouTube player to load entirely before allowing foreground to open.
 define([
     'foreground/model/foregroundViewManager',
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/reloadView',
     'foreground/view/contextMenuView',
-    'foreground/collection/contextMenuGroups'
-], function (ForegroundViewManager, GenericPromptView, ReloadView, ContextMenuView, ContextMenuGroups) {
+    'foreground/collection/contextMenuItems'
+], function (ForegroundViewManager, GenericPrompt, GenericPromptView, ReloadView, ContextMenuView, ContextMenuItems) {
     'use strict';
 
     var ForegroundView = Backbone.Marionette.ItemView.extend({
@@ -14,8 +15,9 @@ define([
         el: $('body'),
         
         contextMenuView: new ContextMenuView({
-            collection: ContextMenuGroups
+            collection: ContextMenuItems
         }),
+        
         reloadPromptView: null,
         showReloadPromptTimeout: null,
         
@@ -32,7 +34,6 @@ define([
             ForegroundViewManager.subscribe(this);
             this.$el.append(this.contextMenuView.render().el);
 
-            //  TODO: Watch VideoSearchResults and Playlists as well.
             //  If the user opens the foreground SUPER FAST after installing then requireJS won't have been able to load everything in the background in time.
             if (this.backgroundPlayer == null) {
 
@@ -42,7 +43,6 @@ define([
                     this.backgroundPlayer = chrome.extension.getBackgroundPage().YouTubePlayer;
 
                     if (this.backgroundPlayer != null) {
-
                         clearInterval(checkBackgroundLoadedInterval);
                         this.waitForBackgroundPlayerReady();
                     }
@@ -61,10 +61,12 @@ define([
             this.showReloadPromptTimeout = setTimeout(function () {
                 
                 this.reloadPromptView = new GenericPromptView({
-                    title: chrome.i18n.getMessage('reloadStreamus'),
-                    okButtonText: chrome.i18n.getMessage('reload'),
-                    showCancelButton: false,
-                    model: new ReloadView()
+                    model: new GenericPrompt({
+                        title: chrome.i18n.getMessage('reloadStreamus'),
+                        okButtonText: chrome.i18n.getMessage('reload'),
+                        showCancelButton: false,
+                        view: new ReloadView()
+                    })
                 });
 
                 this.reloadPromptView.fadeInAndShow();
@@ -85,7 +87,7 @@ define([
 
             } else {
                 //  Clearing the groups of the context menu will cause it to become hidden.
-                ContextMenuGroups.reset();
+                ContextMenuItems.reset();
             }
         },
         

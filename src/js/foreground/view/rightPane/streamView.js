@@ -1,7 +1,7 @@
 ﻿define([
+    'foreground/view/streamusCompositeView',
     'foreground/model/foregroundViewManager',
     'text!template/stream.html',
-    'foreground/collection/contextMenuGroups',
     'enum/listItemType',
     'foreground/model/streamAction',
     'foreground/view/rightPane/streamItemView',
@@ -12,42 +12,33 @@
     'foreground/model/repeatButton',
     'foreground/model/radioButton',
     'enum/repeatButtonState'
-], function (ForegroundViewManager, StreamTemplate, ContextMenuGroups, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
+], function (StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     
-    //  TODO: I think this is actually only a CollectionView.
-    var StreamView = Backbone.Marionette.CompositeView.extend({
+    var StreamView = StreamusCompositeView.extend({
+        
+        id: 'stream',
         
         template: _.template(StreamTemplate),
         itemViewContainer: '#streamItems',
 
         itemView: StreamItemView,
-        
-        isFullyVisible: false,
-        
+
         events: {
-            'contextmenu @ui.streamItems': 'showContextMenu',
             'click button#clearStream': 'clear',
-            'click button#saveStream:not(.disabled)': 'save',
+            'click @ui.enabledSaveStreamButton': 'save',
             'scroll @ui.streamItems': 'loadVisible',
             'click @ui.shuffleButton': 'toggleShuffle',
             'click @ui.radioButton': 'toggleRadio',
             'click @ui.repeatButton': 'toggleRepeat'
         },
         
-        triggers: {
-            'contextmenu @ui.streamItems': {
-                event: 'showContextMenu',
-                //  Set preventDefault to true to let foreground know to not reset the context menu.
-                preventDefault: true
-            }
-        },
-        
         ui: {
             'streamEmptyMessage': '.streamEmpty',
             'contextButtons': '.context-buttons',
             'saveStreamButton': 'button#saveStream',
-            'streamItems': '#streamItems',
+            'enabledSaveStreamButton': 'button#saveStream:not(.disabled)',
+            'itemContainer': '#streamItems',
             'shuffleButton': '#shuffle-button',
             'radioButton': '#radio-button',
             'repeatButton': '#repeat-button'
@@ -55,36 +46,18 @@
         
         templateHelpers: function () {
             return {
+                streamEmptyMessage: chrome.i18n.getMessage('streamEmpty'),
                 saveStreamMessage: chrome.i18n.getMessage('saveStream'),
+                clearStreamMessage: chrome.i18n.getMessage('clearStream'),
+                searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
+                whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr'),
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
-                userLoaded: User.get('loaded')
+                userSignedIn: User.get('signedIn')
             };
-        },
-        
-        onAfterItemAdded: function (view) {
-            if (this.isFullyVisible) {
-                view.ui.imageThumbnail.lazyload({
-                    container: this.ui.streamItems,
-                    threshold: 250
-                });
-            }
         },
 
         onShow: function () {
-
-            //  TODO: onShow should guarantee that view is ready, but I think because this is a Chrome extension
-            //  the fact that the extension is still opening up changes things?
-            setTimeout(function () {
-
-                $(this.children.map(function (child) {
-                    return child.ui.imageThumbnail.toArray();
-                })).lazyload({
-                    container: this.ui.streamItems,
-                    threshold: 250
-                });
-
-                this.isFullyVisible = true;
-            }.bind(this));
+            this.onFullyVisible();
         },
         
         onRender: function () {
@@ -252,7 +225,7 @@
         },
         
         initialize: function() {
-            this.listenTo(User, 'change:loaded', this.updateSaveStreamButton);
+            this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
 
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
@@ -262,12 +235,12 @@
         },
         
         updateSaveStreamButton: function () {
-            var userLoaded = User.get('loaded');
+            var userSignedIn = User.get('signedIn');
             
             var templateHelpers = this.templateHelpers();
-            var newTitle = userLoaded ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
+            var newTitle = userSignedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
 
-            this.ui.saveStreamButton.toggleClass('disabled', !userLoaded);
+            this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
             this.ui.saveStreamButton.attr('title', newTitle).qtip('option', 'content.text', newTitle);
         },
         
@@ -281,39 +254,10 @@
         toggleContextButtons: function () {
             this.ui.contextButtons.toggle(this.collection.length > 0);
         },
-        
-        showContextMenu: function (event) {
 
-            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
-            event.preventDefault();
-
-            if (event.target === event.currentTarget) {
-                //  Didn't bubble up from a child -- clear groups.
-                ContextMenuGroups.reset();
-            }
-
-            var isStreamEmpty = this.collection.length === 0;
-
-            ContextMenuGroups.add({
-                items: [{
-                    text: chrome.i18n.getMessage('clearStream'),
-                    title: isStreamEmpty ? chrome.i18n.getMessage('streamEmpty') : '',
-                    disabled: isStreamEmpty,
-                    onClick: function () {
-                        StreamAction.clearStream();
-                    }
-                }, {
-                    text: chrome.i18n.getMessage('saveStream'),
-                    title: isStreamEmpty ? chrome.i18n.getMessage('streamEmpty') : '',
-                    disabled: isStreamEmpty,
-                    onClick: function () {
-                        StreamAction.saveStream();
-                    }
-                }]
-            });
-
-        },
-
+        //  TODO: This adds support for a sorted collection, but is slower than using the default implementation which leverages a document fragment.
+        //  https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections
+        //  https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.collectionview.md#collectionviews-appendhtml
         appendHtml: function (collectionView, itemView, index) {
             var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
             var children = childrenContainer.children();

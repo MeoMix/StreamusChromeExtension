@@ -1,21 +1,22 @@
 ﻿define([
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/deletePlaylistView',
     'foreground/model/settings'
-], function (GenericPromptView, DeletePlaylistView, Settings) {
+], function (GenericPrompt, GenericPromptView, DeletePlaylistView, Settings) {
     'use strict';
     
     var DeletePlaylistPromptView = GenericPromptView.extend({
-        title: chrome.i18n.getMessage('deletePlaylist'),
-        
-        okButtonText: chrome.i18n.getMessage('delete'),
-        
         model: null,
         
         initialize: function (options) {
 
-            this.model = new DeletePlaylistView({
-                model: options.playlist
+            this.model = new GenericPrompt({
+                title: chrome.i18n.getMessage('deletePlaylist'),
+                okButtonText: chrome.i18n.getMessage('delete'),
+                view: new DeletePlaylistView({
+                    model: options.playlist
+                })
             });
 
             GenericPromptView.prototype.initialize.call(this, arguments);
@@ -28,7 +29,7 @@
             if (remindDeletePlaylist) {
                 return GenericPromptView.prototype.fadeInAndShow.call(this, arguments);
             } else {
-                this.model.model.destroy();
+                this.model.get('view').model.destroy();
             }
             
         }

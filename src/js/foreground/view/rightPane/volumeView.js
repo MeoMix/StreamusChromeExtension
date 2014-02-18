@@ -1,21 +1,23 @@
-//  VolumeControlView represents the mute/unmute button as well as the volume slider.
+//  VolumeView represents the mute/unmute button as well as the volume slider.
 //  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
     'foreground/model/foregroundViewManager',
-    'text!template/volumeControl.html'
-], function (ForegroundViewManager, VolumeControlTemplate) {
+    'text!template/volume.html'
+], function (ForegroundViewManager, VolumeTemplate) {
     'use strict';
 
-    var VolumeControlView = Backbone.Marionette.ItemView.extend({
+    var VolumeView = Backbone.Marionette.ItemView.extend({
+        
+        id: 'volume',
 
-        template: _.template(VolumeControlTemplate),
+        template: _.template(VolumeTemplate),
         
         ui: {
             volumeSlider: '.volume-slider',
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
             volumeRange: 'input.volumeRange',
-            muteButton: 'button.mute'
+            muteButton: '#mute-button'
         },
 
         events: {
@@ -97,7 +99,7 @@ define([
             return volumeIcon;
         },
 
-        //  Adjust volume when user scrolls mousewheel while hovering over volumeControl.
+        //  Adjust volume when user scrolls mousewheel while hovering over volume.
         scrollVolume: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
@@ -120,10 +122,10 @@ define([
 
         toggleMutedClass: function () {
             var isMuted = this.model.get('muted');
-            this.muteButton.toggleClass('muted', isMuted);
+            this.ui.muteButton.toggleClass('muted', isMuted);
         }
 
     });
 
-    return VolumeControlView;
+    return VolumeView;
 });

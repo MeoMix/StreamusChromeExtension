@@ -1,13 +1,12 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/videoSearchResult.html',
-    'foreground/collection/contextMenuGroups',
+    'foreground/collection/contextMenuItems',
     'foreground/collection/streamItems',
     'foreground/view/prompt/saveVideosPromptView',
     'enum/listItemType',
     'foreground/model/user'
-], function (GenericForegroundView, ForegroundViewManager, VideoSearchResultTemplate, ContextMenuGroups, StreamItems, SaveVideosPromptView, ListItemType, User) {
+], function (ForegroundViewManager, VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
     'use strict';
 
     var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
@@ -46,7 +45,7 @@
                 playMessage: chrome.i18n.getMessage('play'),
                 enqueueMessage: chrome.i18n.getMessage('enqueue'),
                 saveMessage: chrome.i18n.getMessage('save'),
-                userLoaded: User.get('loaded'),
+                userSignedIn: User.get('signedIn'),
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
                 instant: this.instant
             };
@@ -59,7 +58,7 @@
         
         onRender: function () {
             this.setHighlight();
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
         },
 
         initialize: function (options) {
@@ -106,12 +105,9 @@
         showContextMenu: function (event) {
             event.preventDefault();
             
-            ContextMenuGroups.reset();
-            
             var video = this.model.get('video');
             
-            ContextMenuGroups.add({
-                items: [{
+            ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('play'),
                     onClick: function () {
                         StreamItems.addByVideo(video, true);
@@ -145,7 +141,7 @@
                         });
                     }
                 }]
-            });
+            );
 
         }
     });

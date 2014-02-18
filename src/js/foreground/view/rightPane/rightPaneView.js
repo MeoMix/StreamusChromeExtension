@@ -1,17 +1,17 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/rightPane.html',
     'foreground/view/rightPane/streamView',
-    'foreground/view/rightPane/volumeControlView',
+    'foreground/view/rightPane/volumeView',
     'foreground/view/rightPane/timeProgressView',
     'foreground/collection/streamItems',
     'foreground/model/player',
     'foreground/model/nextButton',
     'foreground/model/previousButton',
+    'foreground/model/playPauseButton',
     'enum/playerState'
-], function (GenericForegroundView, ForegroundViewManager, RightPaneTemplate, StreamView, VolumeControlView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayerState) {
+], function (ForegroundViewManager, RightPaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
     'use strict';
 
     var RightPaneView = Backbone.Marionette.Layout.extend({
@@ -21,9 +21,9 @@ define([
         template: _.template(RightPaneTemplate),
         
         regions: {
-            stream: '#stream',
-            timeProgress: '#time-progress',
-            volume: '#volume'
+            stream: '#stream-region',
+            timeProgress: '#time-progress-region',
+            volume: '#volume-region'
         },
         
         events: {
@@ -37,9 +37,8 @@ define([
             previousButton: '#previous-button',
             playPauseButton: '#play-pause-button'
         },
-
-        onRender: function () {
-            
+        
+        onShow: function() {
             this.stream.show(new StreamView({
                 collection: StreamItems
             }));
@@ -47,16 +46,18 @@ define([
             this.timeProgress.show(new TimeProgressView({
                 model: this.model
             }));
-            
-            this.volume.show(new VolumeControlView({
+
+            this.volume.show(new VolumeView({
                 model: this.model
             }));
-            
+        },
+
+        onRender: function () {
             this.setPlayPauseButtonState();
             this.setNextButtonDisabled();
             this.setPreviousButtonDisabled();
 
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
         },
         
         modelEvents: {
@@ -68,6 +69,7 @@ define([
 
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
+            this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
         },
         
         trySelectNextVideo: function () {
@@ -79,8 +81,8 @@ define([
             PreviousButton.tryDoTimeBasedPrevious();
         },
         
-        tryTogglePlayerState: function() {
-            this.model.tryTogglePlayerState();
+        tryTogglePlayerState: function () {
+            PlayPauseButton.tryTogglePlayerState();
         },
         
         setNextButtonDisabled: function() {
@@ -109,8 +111,7 @@ define([
 
             this.ui.playPauseButton.empty().append(icon);
             
-            var isEnabled = this.model.get('enabled');
-            this.ui.playPauseButton.toggleClass('disabled', !isEnabled);
+            this.ui.playPauseButton.toggleClass('disabled', !PlayPauseButton.get('enabled'));
         }
 
     });

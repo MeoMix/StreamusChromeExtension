@@ -1,6 +1,7 @@
 ﻿define([
     'backbone',
     'backbone.marionette',
+    'foreground/view/backbone.marionette.viewExtensions',
     'googleAnalytics',
     'jquery.hoverIntent',
     'jquery',

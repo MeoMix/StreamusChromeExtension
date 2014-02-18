@@ -1,11 +1,12 @@
-﻿<!-- Render non-lazily if view is set to instant -->
-<!--<% if( instant ) { %>
+﻿<% if( instant ) { %>
     <img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
 <% } else { %>
     <img class="item-thumb" data-original="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
-<% } %>-->
-<img class="item-thumb" src="http://img.youtube.com/vi/<%= video.get('id') %>/default.jpg" />
-<span class="item-title" title="<%= video.get('title') %>"><%= video.get('title') %></span>
+<% } %>
+
+<span class="item-title title" title="<%= video.get('title') %>">
+    <%= video.get('title') %>
+</span>
 
 <span class="item-details">
     <% if( video.get('highDefinition') ) { %>
@@ -25,7 +26,7 @@
         <i class="fa fa-plus"></i>
     </button>
     
-    <button class="button-icon save <%= userLoaded ? '' : 'disabled' %>" title="<%= userLoaded ? saveMessage : cantSaveNotSignedInMessage %>">
+    <button class="button-icon save <%= userSignedIn ? '' : 'disabled' %>" title="<%= userSignedIn ? saveMessage : cantSaveNotSignedInMessage %>">
         <i class="fa fa-save"></i>
     </button>
 </span>

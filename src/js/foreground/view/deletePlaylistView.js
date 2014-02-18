@@ -1,31 +1,31 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/deletePlaylist.html',
     'foreground/model/settings'
-], function (GenericForegroundView, DeletePlaylistTemplate, Settings) {
+], function (ForegroundViewManager, DeletePlaylistTemplate, Settings) {
     'use strict';
 
-    var DeletePlaylistView = GenericForegroundView.extend({
+    var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
 
         className: 'deletePlaylist',
 
         template: _.template(DeletePlaylistTemplate),
         
-        reminderCheckbox: null,
-        
-        render: function () {
-
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n,
-                'title': this.model.get('title')
-            }));
-
-            return this;
+        ui: {
+            reminderCheckbox: 'input#remindDeletePlaylist'
         },
-
+        
+        templateHelpers: {
+            areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist'),
+            dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
+        },
+        
+        initialize: function () {
+            ForegroundViewManager.subscribe(this);
+        },
+        
         doOk: function () {
-            var remindDeletePlaylist = !this.$el.find('input#remindDeletePlaylist').is(':checked');
-
+            var remindDeletePlaylist = !this.ui.reminderCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
             this.model.destroy();

@@ -1,10 +1,11 @@
 ﻿define([
     'foreground/model/settings',
     'foreground/collection/streamItems',
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/clearStreamView',
-    'foreground/view/saveVideosView'
-], function (Settings, StreamItems, GenericPromptView, ClearStreamView, SaveVideosView) {
+    'foreground/view/prompt/saveVideosPromptView'
+], function (Settings, StreamItems, GenericPrompt, GenericPromptView, ClearStreamView, SaveVideosPromptView) {
 
     var StreamAction = Backbone.Model.extend({
         clearStream: function () {
@@ -15,8 +16,10 @@
                 if (remindClearStream) {
 
                     var clearStreamPromptView = new GenericPromptView({
-                        title: chrome.i18n.getMessage('areYouSure'),
-                        model: new ClearStreamView()
+                        model: new GenericPrompt({
+                            title: chrome.i18n.getMessage('areYouSure'),
+                            view: new ClearStreamView()
+                        })
                     });
 
                     clearStreamPromptView.fadeInAndShow();
@@ -24,36 +27,17 @@
                 } else {
                     StreamItems.clear();
                 }
-
             }
 
         },
         
         saveStream: function() {
             if (StreamItems.length > 0) {
-
-                var videos = StreamItems.pluck('video');
-
-                var saveVideosPromptView = new GenericPromptView({
-                    title: StreamItems.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
-                    okButtonText: chrome.i18n.getMessage('save'),
-                    model: new SaveVideosView({
-                        model: videos
-                    })
-                });
-
-                saveVideosPromptView.listenTo(saveVideosPromptView.model, 'change:creating', function (creating) {
-
-                    if (creating) {
-                        this.okButton.text(chrome.i18n.getMessage('createPlaylist'));
-                    } else {
-                        this.okButton.text(chrome.i18n.getMessage('save'));
-                    }
-
+                var saveVideosPromptView = new SaveVideosPromptView({
+                    videos: StreamItems.pluck('video')
                 });
 
                 saveVideosPromptView.fadeInAndShow();
-
             }
         }
     });

@@ -1,10 +1,10 @@
 ﻿define([
     'foreground/model/foregroundViewManager',
     'text!template/playlistItem.html',
-    'foreground/collection/contextMenuGroups',
+    'foreground/collection/contextMenuItems',
     'foreground/collection/streamItems',
     'enum/listItemType'
-], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuGroups, StreamItems, ListItemType) {
+], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
     'use strict';
 
     var PlaylistItemView = Backbone.Marionette.ItemView.extend({
@@ -58,8 +58,6 @@
         
         initialize: function (options) {
             this.instant = options && options.instant || this.instant;
-            console.log("Instant and options:", this.instant, options);
-            console.trace();
             ForegroundViewManager.subscribe(this);
         },
         
@@ -79,12 +77,9 @@
 
             var self = this;
 
-            ContextMenuGroups.reset();
-        
-            ContextMenuGroups.add({
-                items: [{
+            ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: function () {
+                    onClick: function() {
                         chrome.extension.sendMessage({
                             method: 'copy',
                             text: self.model.get('video').get('url')
@@ -92,7 +87,7 @@
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                    onClick: function () {
+                    onClick: function() {
 
                         chrome.extension.sendMessage({
                             method: 'copy',
@@ -101,12 +96,12 @@
                     }
                 }, {
                     text: chrome.i18n.getMessage('deleteVideo'),
-                    onClick: function () {
+                    onClick: function() {
                         self.model.destroy();
                     }
                 }, {
                     text: chrome.i18n.getMessage('enqueue'),
-                    onClick: function () {
+                    onClick: function() {
 
                         var video = self.model.get('video');
                         StreamItems.addByVideo(video);
@@ -114,7 +109,7 @@
                     }
                 }, {
                     text: chrome.i18n.getMessage('play'),
-                    onClick: function () {
+                    onClick: function() {
 
                         var video = self.model.get('video');
                         StreamItems.addByVideo(video, true);
@@ -122,7 +117,7 @@
                     }
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
-                    onClick: function () {
+                    onClick: function() {
 
                         chrome.tabs.create({
                             url: self.model.get('video').get('url')
@@ -130,8 +125,7 @@
 
                     }
                 }]
-
-            });
+            );
 
         },
         

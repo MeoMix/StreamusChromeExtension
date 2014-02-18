@@ -2,13 +2,11 @@
     'use strict';
 
     var ContextMenuItem = Backbone.Model.extend({
-        defaults: function () {
-            return {
-                text: '',
-                disabled: false,
-                title: '',
-                onClick: null
-            };
+        defaults:  {
+            text: '',
+            disabled: false,
+            title: '',
+            onClick: null
         }
     });
 

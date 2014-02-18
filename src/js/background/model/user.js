@@ -21,8 +21,7 @@ define([
                 signInFailed: false,
                 signInRetryTimer: 30,
                 signInRetryTimerInterval: null,
-                //  TODO: rename to signedIn
-                loaded: false,
+                signedIn: false,
                 playlists: null
             };
         },
@@ -100,7 +99,7 @@ define([
         
         signIn: function () {
             
-            this.set('loaded', false);
+            this.set('signedIn', false);
             this.set('signingIn', true);
             this.set('signInFailed', false);
 
@@ -252,25 +251,20 @@ define([
                 chrome.storage.sync.set(storedKey);
             }
 
-            //  Announce that user has loaded so managers can use it to fetch data.
+            //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
-            this.set('loaded', true);
+            this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
-
-            console.log('onLoaded has fired. Calling getUserInfo', this);
 
             this.getUserInfo(function(userInfo) {
                 if (userInfo !== null && userInfo.id !== this.get('googlePlusId')) {
                     this.updateWithGooglePlusId(userInfo.id);
                 }
             }.bind(this));
-
-            console.log("User has loaded with UserID:", this.get('id'));
         },
 
-        //  Loads user data by ID from the server, writes the ID
-        //  to client-side storage locations for future loading and then announces
-        //  that the user has been loaded fully.
+        //  Loads user data by ID from the server, writes the ID to client-side storage locations
+        //  for future loading and then announces that the user has been signedIn.
         loadFromServer: function(setSyncStorage) {
             this.fetch({
                 success: function (model) {

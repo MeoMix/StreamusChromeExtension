@@ -60,12 +60,12 @@ define([
                 }.bind(this)
             }));
             
-            if (User.get('loaded')) {
+            if (User.get('signedIn')) {
                 this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
             } else {
 
-                this.listenTo(User, 'change:loaded', function(model, loaded) {
-                    if (loaded) {
+                this.listenTo(User, 'change:signedIn', function (model, signedIn) {
+                    if (signedIn) {
                         this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
                     }
                 });

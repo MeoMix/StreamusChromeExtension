@@ -1,8 +1,8 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/playlistsArea.html',
     'common/view/settingsView',
+    'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/createPlaylistView',
@@ -12,7 +12,7 @@
     'enum/listItemType',
     'foreground/model/user',
     'foreground/view/prompt/deletePlaylistPromptView'
-], function (GenericForegroundView, ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
+], function (ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -26,17 +26,19 @@
             'click': 'hideIfClickOutsidePanel',
             'click .hide': 'destroyModel',
             'click h3': 'togglePlaylistsVisibility',
-            'click .settings': 'showSettingsPrompt',
+            'click @ui.settingsButton': 'showSettingsPrompt',
             'click .add': 'showCreatePlaylistPrompt',
             'click .edit': 'showEditSelectedPlaylistPrompt',
-            'click @ui.deleteButton:not(.disabled)': 'showDeleteSelectedPlaylistPrompt'
+            'click @ui.enabledDeleteButton': 'showDeleteSelectedPlaylistPrompt'
         },
         
         ui: {
             panel: '.panel',
             playlists: 'ul#playlists',
             contextButtons: '.context-buttons',
-            deletePlaylistButton: '#delete-playlist-button'
+            deleteButton: '#delete-playlist-button',
+            enabledDeleteButton: '#delete-playlist-button:not(.disabled)',
+            settingsButton: '#settings-button'
         },
         
         templateHelpers: {
@@ -84,16 +86,14 @@
 
             this.toggleContextButtons();
             this.setDeleteButtonState();
-
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
         },
 
         initialize: function () {
             ForegroundViewManager.subscribe(this);
             
-            //  Don't show playlist actions if User isn't loaded because won't be able to save reliably.
-            this.listenTo(User, 'change:loaded', this.toggleContextButtons);
-            
+            //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
+            this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
@@ -234,9 +234,11 @@
         showSettingsPrompt: function () {
             
             var settingsPromptView = new GenericPromptView({
-                title: chrome.i18n.getMessage('settings'),
-                okButtonText: chrome.i18n.getMessage('save'),
-                model: new SettingsView()
+                model: new GenericPrompt({
+                    title: chrome.i18n.getMessage('settings'),
+                    okButtonText: chrome.i18n.getMessage('save'),
+                    view: new SettingsView()
+                })
             });
 
             settingsPromptView.fadeInAndShow();
@@ -257,7 +259,7 @@
         },
         
         toggleContextButtons: function () {
-            this.ui.contextButtons.toggle(User.get('loaded'));
+            this.ui.contextButtons.toggle(User.get('signedIn'));
         },
         
         setDeleteButtonState: function() {

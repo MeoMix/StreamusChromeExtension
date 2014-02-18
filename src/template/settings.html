@@ -1,26 +1,26 @@
 ﻿<div class="topic">
-    <%= chrome.i18n.getMessage('general') %>
+    <%= generalMessage %>
 </div>
 <div class="category">
 
     <ul>
         <li>
             <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
-                <%= chrome.i18n.getMessage('videoQuality') %>
+                <%= videoQualityMessage %>
             </label>
             
             <select id="suggestedQualitySelect" name="suggestedQualitySelect">
             
                 <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
-                    <%= chrome.i18n.getMessage('highest') %>
+                    <%= highestMessage %>
                 </option>
 
                 <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
-                    <%= chrome.i18n.getMessage('auto') %>
+                    <%= autoMessage %>
                 </option>
 
                 <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
-                    <%= chrome.i18n.getMessage('lowest') %>
+                    <%= lowestMessage %>
                 </option>
 
             </select>
@@ -28,13 +28,13 @@
         <li>
             <input type="checkbox" id="showTooltips" <%= showTooltips ? 'checked' : '' %>>
             <label for="showTooltips">
-                <%= chrome.i18n.getMessage('showTooltips') %>
+                <%= showTooltipsMessage %>
             </label>
         </li>
         <li>
             <input type="checkbox" id="alwaysOpenToSearch" <%= alwaysOpenToSearch ? 'checked' : '' %> >
             <label for="alwaysOpenToSearch">
-                <%= chrome.i18n.getMessage('alwaysOpenToSearch') %>
+                <%= alwaysOpenToSearchMessage %>
             </label>
         </li>
     </ul>
@@ -42,20 +42,20 @@
 </div>
 
 <div class="remindersLabel topic">
-    <%= chrome.i18n.getMessage('reminders') %>
+    <%= remindersMessage %>
 </div>
 <div class="category">
     <ul>
         <li>
             <input type="checkbox" id="remindClearStream" <%= remindClearStream ? 'checked' : '' %>>
             <label for="remindClearStream">
-                <%= chrome.i18n.getMessage('remindClearStream') %>
+                <%= remindClearStreamMessage %>
             </label>
         </li>
         <li>
             <input type="checkbox" id="remindDeletePlaylist" <%= remindDeletePlaylist ? 'checked' : '' %>>
             <label for="remindDeletePlaylist">
-                <%= chrome.i18n.getMessage('remindDeletePlaylist') %>
+                <%= remindDeletePlaylistMessage %>
             </label>
         </li>
     </ul>

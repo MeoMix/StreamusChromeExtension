@@ -1,22 +1,21 @@
 ﻿define([
-   'foreground/view/genericForegroundView',
+    'foreground/model/foregroundViewManager',
     'text!template/reload.html'
-], function (GenericForegroundView, ReloadTemplate) {
+], function (ForegroundViewManager, ReloadTemplate) {
     'use strict';
 
-    var ReloadView = GenericForegroundView.extend({
+    var ReloadView = Backbone.Marionette.ItemView.extend({
 
         className: 'reload',
 
         template: _.template(ReloadTemplate),
-       
-        render: function () {
-
-            this.$el.html(this.template({
-                'chrome.i18n': chrome.i18n
-            }));
-
-            return this;
+        
+        templateHelpers: {
+            streamusIsTakingALongTimeToLoadReloadingMayHelpMessage: chrome.i18n.getMessage('streamusIsTakingALongTimeToLoadReloadingMayHelp')
+        },
+        
+        initialize: function () {
+            ForegroundViewManager.subscribe(this);
         },
         
         doOk: function () {

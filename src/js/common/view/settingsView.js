@@ -1,10 +1,9 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/model/foregroundViewManager',
     'text!template/settings.html',
     'foreground/model/player',
     'foreground/model/settings'
-], function (GenericForegroundView, ForegroundViewManager, SettingsTemplate, Player, Settings) {
+], function (ForegroundViewManager, SettingsTemplate, Player, Settings) {
     'use strict';
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
@@ -24,7 +23,16 @@
         },
 
         templateHelpers: {
-            'chrome.i18n': chrome.i18n
+            generalMessage: chrome.i18n.getMessage('general'),
+            videoQualityMessage: chrome.i18n.getMessage('videoQuality'),
+            highestMessage: chrome.i18n.getMessage('highest'),
+            autoMessage: chrome.i18n.getMessage('auto'),
+            lowestMessage: chrome.i18n.getMessage('lowest'),
+            showTooltipsMessage: chrome.i18n.getMessage('showTooltips'),
+            alwaysOpenToSearchMessage: chrome.i18n.getMessage('alwaysOpenToSearch'),
+            remindersMessage: chrome.i18n.getMessage('reminders'),
+            remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
+            remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist')
         },
         
         initialize: function() {

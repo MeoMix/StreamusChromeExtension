@@ -1,14 +1,12 @@
 ﻿define([
-    'foreground/view/genericForegroundView',
     'foreground/view/multiSelectCompositeView',
     'foreground/model/foregroundViewManager',
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/videoSearchResultView',
-    'foreground/collection/contextMenuGroups',
     'foreground/view/prompt/saveVideosPromptView',
     'foreground/model/user',
     'foreground/collection/streamItems'
-], function (GenericForegroundView, MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, ContextMenuGroups, SaveVideosPromptView, User, StreamItems) {
+], function (MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, SaveVideosPromptView, User, StreamItems) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -18,8 +16,6 @@
         
         template: _.template(VideoSearchTemplate),
         itemViewContainer: '#videoSearchResults',
-        
-        isFullyVisible: true,
         
         itemView: VideoSearchResultView,
         
@@ -31,14 +27,14 @@
             //  TODO: This could be handled by a Marionette.CollectionView's empty html.
             noResultsMessage: 'div.noResults',
             bigTextWrapper: 'div.big-text-wrapper',
-            multiSelectItemContainer: '#videoSearchResults',
+            itemContainer: '#videoSearchResults',
             saveSelectedButton: 'button#saveSelected'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
             'click button#hideVideoSearch': 'hide',
-            'contextmenu @ui.multiSelectItemContainer': 'showContextMenu',
+            'contextmenu @ui.itemContainer': 'showContextMenu',
             'click button#playSelected': 'playSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
         }),
@@ -56,7 +52,6 @@
                 sorryAboutThatMessage: chrome.i18n.getMessage('sorryAboutThat'),
                 trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse'),
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
-                
             };
         },
         
@@ -68,34 +63,23 @@
             'reset': 'toggleBigText',
             'change:selected': 'toggleBottomMenubar'
         },
-
-        onAfterItemAdded: function (view) {
-            if (this.isFullyVisible) {
-                view.ui.imageThumbnail.lazyload({
-                    container: this.ui.streamItems,
-                    threshold: 250
-                });
-            }
-        },
  
         onRender: function () {
-            console.log('onRender being called');
             this.toggleBigText();
             this.toggleBottomMenubar();
             this.toggleSaveSelected();
             
-            GenericForegroundView.prototype.initializeTooltips.call(this);
+            this.applyTooltips();
             MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         initialize: function () {
             $(window).on('unload.videoSearch', this.onClose.bind(this));
             ForegroundViewManager.subscribe(this);
-            this.listenTo(User, 'change:loaded', this.toggleSaveSelected);
+            this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
         },
         
         onShow: function () {
-
             chrome.extension.getBackgroundPage().stopClearResultsTimer();
             
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
@@ -106,21 +90,7 @@
 
             this.$el.transition({
                 x: this.$el.width()
-            }, transitionDuration, 'snap', function () {
-                
-                //  TODO: This is copy/pasted from streamView, FIX!
-                $(this.children.map(function (child) {
-                    return child.ui.imageThumbnail.toArray();
-                })).lazyload({
-                    container: this.ui.streamItems,
-                    threshold: 250
-                });
-
-                this.isFullyVisible = true;
-
-            }.bind(this));
-
-            //MultiSelectCompositeView.prototype.onShow.apply(this, arguments);
+            }, transitionDuration, 'snap', this.onFullyVisible.bind(this));
         },
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.
@@ -158,14 +128,12 @@
         },
         
         toggleSaveSelected: function () {
-            var userLoaded = User.get('loaded');
+            var userSignedIn = User.get('signedIn');
 
-            this.ui.saveSelectedButton.toggleClass('disabled', !userLoaded);
+            this.ui.saveSelectedButton.toggleClass('disabled', !userSignedIn);
 
             var templateHelpers = this.templateHelpers();
-
-            console.log("userLoaded and templateHelpers", userLoaded, templateHelpers);
-            this.ui.saveSelectedButton.attr('title', userLoaded ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
+            this.ui.saveSelectedButton.attr('title', userSignedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
         
         toggleBottomMenubar: function () {
@@ -185,8 +153,6 @@
             //  Hide the search message when there is no search in progress nor any typing happening.
             var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
 
-            console.log("This.ui.searchingMessage:", this.ui.searchingMessage);
-
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
     
             //  Hide the instructions message once user has searched or are searching.
@@ -198,34 +164,6 @@
             //  Only show no results when all other options are exhausted and user has interacted.
             var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
             this.ui.noResultsMessage.toggleClass('hidden', !hasNoResults);
-        },
-
-        showContextMenu: function (event) {
-
-            console.log("Showing context menu");
-            
-            if (event.target === event.currentTarget || $(event.target).hasClass('big-text') || $(event.target).hasClass('i-4x')) {
-                //  Didn't bubble up from a child -- clear groups.
-                ContextMenuGroups.reset();
-            }
-
-            var selectedVideos = this.collection.getSelectedVideos();
-
-            ContextMenuGroups.add({
-                items: [{
-                    text: chrome.i18n.getMessage('playSelected') + ' (' + selectedVideos.length + ')',
-                    disabled: selectedVideos.length === 0,
-                    onClick: function () {
-                        StreamItems.addByVideos(selectedVideos, true);
-                    }
-                }, {
-                    text: chrome.i18n.getMessage('enqueueSelected') + ' (' + selectedVideos.length + ')',
-                    disabled: selectedVideos.length === 0,
-                    onClick: function () {
-                        StreamItems.addByVideos(selectedVideos, false);
-                    }
-                }]
-            });
         },
         
         playSelected: function () {

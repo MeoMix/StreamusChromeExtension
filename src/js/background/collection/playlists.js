@@ -91,7 +91,7 @@
             this.on('change:active', function (changedPlaylist, active) {
                 //  Ensure only one playlist is selected at a time by de-selecting all other selected playlists.
                 if (active) {
-                    this.deselectAllExcept(changedPlaylist.get('id'));
+                    this.deselectAllExcept(changedPlaylist);
                     localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
                 }
             });
