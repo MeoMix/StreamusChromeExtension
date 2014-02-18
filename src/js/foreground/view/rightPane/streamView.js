@@ -1,4 +1,5 @@
 ﻿define([
+    'foreground/eventAggregator',
     'foreground/view/streamusCompositeView',
     'foreground/model/foregroundViewManager',
     'text!template/stream.html',
@@ -12,7 +13,7 @@
     'foreground/model/repeatButton',
     'foreground/model/radioButton',
     'enum/repeatButtonState'
-], function (StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
+], function (EventAggregator, StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     
     var StreamView = StreamusCompositeView.extend({
@@ -30,18 +31,23 @@
             'scroll @ui.streamItems': 'loadVisible',
             'click @ui.shuffleButton': 'toggleShuffle',
             'click @ui.radioButton': 'toggleRadio',
-            'click @ui.repeatButton': 'toggleRepeat'
+            'click @ui.repeatButton': 'toggleRepeat',
+            
+            'click @ui.showVideoSearch': function () {
+                EventAggregator.trigger('streamView:showVideoSearch');
+            }
         },
         
         ui: {
-            'streamEmptyMessage': '.streamEmpty',
-            'contextButtons': '.context-buttons',
-            'saveStreamButton': 'button#saveStream',
-            'enabledSaveStreamButton': 'button#saveStream:not(.disabled)',
-            'itemContainer': '#streamItems',
-            'shuffleButton': '#shuffle-button',
-            'radioButton': '#radio-button',
-            'repeatButton': '#repeat-button'
+            streamEmptyMessage: '.streamEmpty',
+            contextButtons: '.context-buttons',
+            saveStreamButton: 'button#saveStream',
+            enabledSaveStreamButton: 'button#saveStream:not(.disabled)',
+            itemContainer: '#streamItems',
+            shuffleButton: '#shuffle-button',
+            radioButton: '#radio-button',
+            repeatButton: '#repeat-button',
+            showVideoSearch: '.showVideoSearch'
         },
         
         templateHelpers: function () {

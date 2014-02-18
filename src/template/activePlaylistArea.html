@@ -1,5 +1,5 @@
 ﻿<div class="left-top-bar">
-    <button class="button-icon show" title="<%= openMenuMessage %>">
+    <button class="button-icon show showPlaylistsArea" title="<%= openMenuMessage %>">
         <i class="fa fa-reorder"></i>
     </button>
 
@@ -7,7 +7,7 @@
         <%= playlistTitle %>
     </div>
     
-    <button class="button-icon" id="showVideoSearch" title="<%= showVideoSearchMessage %>">
+    <button class="button-icon showVideoSearch" title="<%= showVideoSearchMessage %>">
         <i class="fa fa-search"></i>
     </button>
 </div>
@@ -20,7 +20,7 @@
         <div class="big-text-header">
             <%= playlistEmptyMessage %>
         </div>
-        <%= wouldYouLikeToMessage %> <span id="videoSearchLink" class="searchLink clickable lowercase"><%= searchForVideosMessage %></span>?
+        <%= wouldYouLikeToMessage %> <span class="showVideoSearch searchLink clickable lowercase"><%= searchForVideosMessage %></span>?
     </div>
     
     <div class="big-text signingIn">

@@ -1,11 +1,12 @@
 ﻿define([
+    'foreground/eventAggregator',
     'foreground/model/foregroundViewManager',
     'text!template/activePlaylistArea.html',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/activePlaylistArea/playlistItemView',
     'foreground/model/user',
     'foreground/collection/streamItems'
-], function (ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, User, StreamItems) {
+], function (EventAggregator, ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, User, StreamItems) {
     'use strict';
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
@@ -26,7 +27,9 @@
             signInFailedMessage: 'div.signInFailed',
             bottomMenubar: '.left-bottom-menubar',
             itemContainer: '#activePlaylistItems',
-            signInRetryTimer: '#signInRetryTimer'
+            signInRetryTimer: '#signInRetryTimer',
+            showVideoSearch: '.showVideoSearch',
+            showPlaylistsArea: '.showPlaylistsArea'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
@@ -34,7 +37,15 @@
             'click button#hideVideoSearch': 'destroyModel',
             'click button.addAll': 'addAllToStream',
             'click button.playAll': 'playAllInStream',
-            'click @ui.signInLink': 'signIn'
+            'click @ui.signInLink': 'signIn',
+            
+            'click @ui.showVideoSearch': function () {
+                EventAggregator.trigger('activePlaylistAreaView:showVideoSearch');
+            },
+            
+            'click @ui.showPlaylistsArea': function() {
+                EventAggregator.trigger('activePlaylistAreaView:showPlaylistsArea');
+            }
         }),
 
         templateHelpers: function() {

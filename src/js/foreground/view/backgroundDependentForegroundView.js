@@ -3,6 +3,7 @@
 //  This means that the foreground module wrappers for background entities will return null on initial load -- causing errors.
 //  So, poll the background until it has loaded -- then load the views which depend on the background.
 define([
+    'foreground/eventAggregator',
     'foreground/model/foregroundViewManager',
     'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
@@ -19,35 +20,44 @@ define([
     'foreground/model/notification',
     'foreground/model/player',
     'foreground/model/settings',
-    'foreground/model/user'
-], function (ForegroundViewManager, GenericPrompt, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User) {
+    'foreground/model/user',
+    'foreground/view/contextMenuView',
+    'foreground/collection/contextMenuItems'
+], function (EventAggregator, ForegroundViewManager, GenericPrompt, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenuView, ContextMenuItems) {
 
     //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
-        //  Same as ForegroundView's element. That is OK.
         el: $('body'),
 
         playlistsAreaView: null,
         
         events: {
-            'click': 'onClickDeselectCollections',
-            'click button#showVideoSearch': 'onClickShowVideoSearch',
-            'click #activePlaylistArea button.show': 'showPlaylistsArea',
-            //  TODO: I really think this event handler should be in activePlaylistAreaView...
-            'click #videoSearchLink': 'onClickShowVideoSearch'
+            'click': function(event) {
+                this.tryResetContextMenu(event);
+                this.onClickDeselectCollections(event);
+            },
+            'contextmenu': 'tryResetContextMenu'
         },
         
         regions: {
+            dialog: '#dialog-region',
+            contextMenu: "#context-menu-region",
             leftBasePane: '#left-base-pane-region',
             rightBasePane: '#right-base-pane-region',
             leftCoveringPane: '#left-covering-pane-region'
         },
         
         initialize: function () {
+            this.$el.removeClass('loading');
+
             this.rightBasePane.show(new RightPaneView({
                 model: Player
             }));
 
+            this.contextMenu.show(new ContextMenuView({
+                collection: ContextMenuItems
+            }));
+            
             this.showActivePlaylistArea();
             
             if (Settings.get('alwaysOpenToSearch')) {
@@ -59,10 +69,19 @@ define([
             
             $(window).unload(this.deselectCollections.bind(this));
             ForegroundViewManager.subscribe(this);
+
+            EventAggregator.on('activePlaylistAreaView:showVideoSearch, streamView:showVideoSearch', function () {
+                this.showVideoSearch(true);
+            }.bind(this));
+
+            EventAggregator.on('activePlaylistAreaView:showPlaylistsArea', function () {
+                this.showPlaylistsArea();
+            }.bind(this));
         },
         
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
         onClickDeselectCollections: function (event) {
+
             var isMultiSelectItem = $(event.target).hasClass('multiSelectItem');
             var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
  
@@ -182,6 +201,26 @@ define([
             });
 
             youTubePlayerErrorPrompt.fadeInAndShow();
+        },
+        
+        //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
+        //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
+        tryResetContextMenu: function (event) {
+            console.log("resetting context menu items");
+            if (event.isDefaultPrevented()) {
+
+                //  TODO: I don't think this is the proper way to do this. I should be showing a new view with top/left defined?
+                this.contextMenu.currentView.show({
+                    top: event.pageY,
+                    //  Show the element just slightly offset as to not break onHover effects.
+                    left: event.pageX + 1
+                });
+
+            } else {
+                
+                //  Clearing the groups of the context menu will cause it to become hidden.
+                ContextMenuItems.reset();
+            }
         }
 
     });

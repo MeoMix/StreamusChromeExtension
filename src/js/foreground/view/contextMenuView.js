@@ -46,6 +46,8 @@
             this.top = options.top;
             this.left = options.left;
 
+            console.log("Re-rendering contextMenuView", this.top, this.left);
+
             this.render();
         }
     });

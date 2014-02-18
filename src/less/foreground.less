@@ -25,19 +25,21 @@ body {
     -webkit-user-select: none;
     font: 13px/1.2 'Open Sans';
     color: #333;
+
+    & > .spinner {
+        z-index: 1;
+        display: none;
+    }
+
+    &.loading > .spinner {
+        display: block;
+    }
 }
 
-body.loading > *:not(.modalOverlay) {
-    opacity: 0.5;
-}
-
-body.loading > .spinner {
-    display: inline-block;
-    opacity: 1;
-}
-
-body > .spinner {
-    display: none;
+/* TODO: Add some area to prevent clipping */
+#context-menu-region {
+    width: 100%;
+    height: 100%;
 }
 
 /* Custom Webkit Scrollbar */

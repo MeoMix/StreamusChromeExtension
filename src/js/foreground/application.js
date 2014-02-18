@@ -10,8 +10,6 @@
 
     //  Setup modules for initialization. All of these will run when ForegroundApplication.start is called.
     ForegroundApplication.addInitializer(function(options) {
-
-
     });
 
     ForegroundApplication.on('initialize:before', function(options) {
