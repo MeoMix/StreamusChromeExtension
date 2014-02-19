@@ -24,7 +24,7 @@
 
         events: {
             'click': 'hideIfClickOutsidePanel',
-            'click .hide': 'destroyModel',
+            'click .hide': 'hide',
             'click h3': 'togglePlaylistsVisibility',
             'click @ui.settingsButton': 'showSettingsPrompt',
             'click .add': 'showCreatePlaylistPrompt',
@@ -47,10 +47,6 @@
             playlists: chrome.i18n.getMessage('playlists'),
             createPlaylist: chrome.i18n.getMessage('createPlaylist'),
             editPlaylist: chrome.i18n.getMessage('editPlaylist')
-        },
-        
-        modelEvents: {
-            'destroy': 'hide'
         },
         
         onRender: function () {
@@ -97,8 +93,7 @@
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
-        show: function () {
-            
+        onShow: function () {
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
@@ -109,29 +104,25 @@
             }, 300, 'snap');
         },
         
-        destroyModel: function () {
-            this.model.destroy();
-        },
-        
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
         hideIfClickOutsidePanel: function(event) {
 
             if (event.target == event.currentTarget) {
-                this.model.destroy();
+                this.hide();
             }
         },
         
-        hide: function() {
-
+        hide: function () {
+            
             this.$el.transition({
                 'background': this.$el.data('background')
-            }, function() {
-                this.remove();
-            }.bind(this));
+            });
 
             this.ui.panel.transition({
                 x: -20
-            }, 300);
+            }, 300, function() {
+                this.model.destroy();
+            }.bind(this));
             
         },
 

@@ -25,6 +25,8 @@
             var self = this;
 
             this.on('add', function (addedStreamItem) {
+                console.log("streamItems onAdd is firing", addedStreamItem);
+
                 //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
                 if (addedStreamItem.get('selected')) {
                     addedStreamItem.trigger('change:selected', addedStreamItem, true);
@@ -32,12 +34,13 @@
 
                 //  Ensure a stream item is always selected
                 if (this.selected().length === 0) {
+                    console.log("Selecting the added stream item");
                     addedStreamItem.set('selected', true);
                 }
             });
 
             this.on('change:selected', function(changedStreamItem, selected) {
-
+                console.log("onSelected", changedStreamItem, selected);
                 //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
                 if (selected) {
                     this.deselectAllExcept(changedStreamItem);
@@ -272,11 +275,11 @@
             this.add(streamItems);
         },
 
-        deselectAllExcept: function(streamItemCid) {
+        deselectAllExcept: function(changedStreamItem) {
 
             this.each(function(streamItem) {
 
-                if (streamItem.cid != streamItemCid) {
+                if (streamItem != changedStreamItem) {
                     streamItem.set('selected', false);
                 }
 

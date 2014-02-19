@@ -54,7 +54,6 @@ define([
         },
         
         initialize: function () {
-
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
@@ -192,7 +191,7 @@ define([
         getCurrentVideoDuration: function () {
             var duration = 0;
 
-            if (StreamItems.length > 0) {
+            if (StreamItems.selected().length > 0) {
                 var selectedStreamItem = StreamItems.getSelectedItem();
                 duration = selectedStreamItem.get('video').get('duration');
             }

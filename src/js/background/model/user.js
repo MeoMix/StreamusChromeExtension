@@ -50,8 +50,6 @@ define([
 
             }.bind(this));
 
-            //this.signIn();
-
             this.on('change:signInFailed', function (model, signInFailed) {
 
                 console.log("sign in failed");

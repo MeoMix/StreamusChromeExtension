@@ -93,6 +93,7 @@
 
         initialize: function () {
             ForegroundViewManager.subscribe(this);
+            
             this.listenTo(User, 'change:signedIn change:signingIn change:signInFailed', this.toggleBigText);
             this.listenTo(User, 'change:signInRetryTimer', this.updateSignInRetryTimer);
         },
@@ -118,12 +119,10 @@
             var userSigningIn = User.get('signingIn');
             var userSignInFailed = User.get('signInFailed');
 
-            console.log("userSignedIn, signingin, failed", userSignedIn, userSigningIn, userSignInFailed);
-
             this.ui.signInFailedMessage.toggleClass('hidden', !userSignInFailed);
             this.ui.signingInMessage.toggleClass('hidden', userSignedIn && !userSigningIn);
             this.ui.signInPrompt.toggleClass('hidden', userSignedIn || userSigningIn);
-            this.ui.playlistEmptyMessage.toggleClass('hidden', !userSignedIn || this.collection.length > 0);
+            this.ui.playlistEmptyMessage.toggleClass('hidden', !userSignedIn || !_.isUndefined(this.collection) && this.collection.length > 0);
         },
         
         toggleBottomMenubar: function () {

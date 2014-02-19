@@ -5,13 +5,12 @@
 define([
     'foreground/eventAggregator',
     'foreground/model/foregroundViewManager',
-    'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
+    'foreground/view/prompt/notificationPromptView',
     'foreground/model/playlistsArea',
     'foreground/view/playlistsArea/playlistsAreaView',
     'foreground/view/activePlaylistArea/activePlaylistAreaView',
-    'foreground/view/videoSearch/videoSearchView',
     'foreground/model/videoSearch',
+    'foreground/view/videoSearch/videoSearchView',
     'foreground/collection/videoSearchResults',
     'foreground/view/rightPane/rightPaneView',
     'foreground/collection/playlists',
@@ -21,16 +20,14 @@ define([
     'foreground/model/player',
     'foreground/model/settings',
     'foreground/model/user',
+    'foreground/model/contextMenu',
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuItems'
-], function (EventAggregator, ForegroundViewManager, GenericPrompt, GenericPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearchView, VideoSearch, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenuView, ContextMenuItems) {
+], function (EventAggregator, ForegroundViewManager, NotificationPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearch, VideoSearchView, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
 
-    //  TODO: Maybe this should be an application and not a layout? I dunno.
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
 
-        playlistsAreaView: null,
-        
         events: {
             'click': function(event) {
                 this.tryResetContextMenu(event);
@@ -53,10 +50,6 @@ define([
             this.rightBasePane.show(new RightPaneView({
                 model: Player
             }));
-
-            this.contextMenu.show(new ContextMenuView({
-                collection: ContextMenuItems
-            }));
             
             this.showActivePlaylistArea();
             
@@ -70,7 +63,7 @@ define([
             $(window).unload(this.deselectCollections.bind(this));
             ForegroundViewManager.subscribe(this);
 
-            EventAggregator.on('activePlaylistAreaView:showVideoSearch, streamView:showVideoSearch', function () {
+            EventAggregator.on('activePlaylistAreaView:showVideoSearch streamView:showVideoSearch', function () {
                 this.showVideoSearch(true);
             }.bind(this));
 
@@ -81,7 +74,6 @@ define([
         
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
         onClickDeselectCollections: function (event) {
-
             var isMultiSelectItem = $(event.target).hasClass('multiSelectItem');
             var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
  
@@ -99,45 +91,49 @@ define([
         },
 
         //  Slides in PlaylistsAreaView from the left side.
-        showPlaylistsArea: function () {
-
+        showPlaylistsArea: _.throttle(function () {
+            
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (this.playlistsAreaView === null) {
+            if (_.isUndefined(this.leftCoveringPane.currentView)) {
 
                 var playlistsArea = new PlaylistsArea({
                     playlists: Playlists
                 });
 
-                this.playlistsAreaView = new PlaylistsAreaView({
+                //  Show the view using VideoSearchResults collection in which to render its results from.
+                this.leftCoveringPane.show(new PlaylistsAreaView({
                     model: playlistsArea,
                     collection: Playlists
-                });
-
-                this.$el.append(this.playlistsAreaView.render().el);
-                this.playlistsAreaView.show();
-
-                //  Cleanup whenever the model is destroyed.
+                }));
+                
+                //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(playlistsArea, 'destroy', function () {
-                    this.playlistsAreaView = null;
+                    this.leftCoveringPane.close();
                 });
-
             }
 
-        },
-
-        onClickShowVideoSearch: function () {
-            this.showVideoSearch(true);
-        },
+        }, 400),
         
         //  Cleans up any active playlist view and then renders a fresh view.
         showActivePlaylistArea: function () {
             var activePlaylist = Playlists.getActivePlaylist();
 
+            //  TODO: I don't think I should be creating an ActivePlaylistAreaView if the collection is undefined.
             //  Show the view using VideoSearchResults collection in which to render its results from.
             this.leftBasePane.show(new ActivePlaylistAreaView({
                 model: activePlaylist,
                 collection: activePlaylist ? activePlaylist.get('items') : undefined
             }));
+
+            this.listenTo(User, 'change:signedIn', function () {
+
+                var activePlaylist = Playlists.getActivePlaylist();
+
+                console.log("activePlaylist");
+
+                this.leftBasePane.currentView.collection = activePlaylist.get('items');
+                this.leftBasePane.currentView.render();
+            });
         },
 
         //  Slide in videoSearchView from the left hand side.
@@ -189,15 +185,8 @@ define([
                     break;
             }
 
-            var youTubePlayerErrorPrompt = new GenericPromptView({
-                model: new GenericPrompt({
-                    title: chrome.i18n.getMessage('errorEncountered'),
-                    view: new NotificationView({
-                        model: new Notification({
-                            text: text
-                        })
-                    })
-                })
+            var youTubePlayerErrorPrompt = new NotificationPromptView({
+                text: text
             });
 
             youTubePlayerErrorPrompt.fadeInAndShow();
@@ -206,20 +195,19 @@ define([
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         tryResetContextMenu: function (event) {
-            console.log("resetting context menu items");
+
             if (event.isDefaultPrevented()) {
-
-                //  TODO: I don't think this is the proper way to do this. I should be showing a new view with top/left defined?
-                this.contextMenu.currentView.show({
-                    top: event.pageY,
-                    //  Show the element just slightly offset as to not break onHover effects.
-                    left: event.pageX + 1
-                });
-
+                this.contextMenu.show(new ContextMenuView({
+                    collection: ContextMenuItems,
+                    model: new ContextMenu({
+                        top: event.pageY,
+                        //  Show the element just slightly offset as to not break onHover effects.
+                        left: event.pageX + 1
+                    })
+                }));
             } else {
-                
-                //  Clearing the groups of the context menu will cause it to become hidden.
                 ContextMenuItems.reset();
+                this.contextMenu.close();
             }
         }
 
