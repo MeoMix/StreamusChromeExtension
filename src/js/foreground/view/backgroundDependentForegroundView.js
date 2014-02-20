@@ -8,7 +8,7 @@ define([
     'foreground/view/prompt/notificationPromptView',
     'foreground/model/playlistsArea',
     'foreground/view/playlistsArea/playlistsAreaView',
-    'foreground/view/activePlaylistArea/activePlaylistAreaView',
+    'foreground/view/leftBasePane/leftBasePaneView',
     'foreground/model/videoSearch',
     'foreground/view/videoSearch/videoSearchView',
     'foreground/collection/videoSearchResults',
@@ -23,7 +23,7 @@ define([
     'foreground/model/contextMenu',
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuItems'
-], function (EventAggregator, ForegroundViewManager, NotificationPromptView, PlaylistsArea, PlaylistsAreaView, ActivePlaylistAreaView, VideoSearch, VideoSearchView, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
+], function (EventAggregator, ForegroundViewManager, NotificationPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
 
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
@@ -50,8 +50,11 @@ define([
             this.rightBasePane.show(new RightPaneView({
                 model: Player
             }));
-            
-            this.showActivePlaylistArea();
+
+            //  TODO: Any model for this one?
+            this.leftBasePane.show(new LeftBasePaneView({
+                
+            }));
             
             if (Settings.get('alwaysOpenToSearch')) {
                 this.showVideoSearch(false);
@@ -113,28 +116,6 @@ define([
             }
 
         }, 400),
-        
-        //  Cleans up any active playlist view and then renders a fresh view.
-        showActivePlaylistArea: function () {
-            var activePlaylist = Playlists.getActivePlaylist();
-
-            //  TODO: I don't think I should be creating an ActivePlaylistAreaView if the collection is undefined.
-            //  Show the view using VideoSearchResults collection in which to render its results from.
-            this.leftBasePane.show(new ActivePlaylistAreaView({
-                model: activePlaylist,
-                collection: activePlaylist ? activePlaylist.get('items') : undefined
-            }));
-
-            this.listenTo(User, 'change:signedIn', function () {
-
-                var activePlaylist = Playlists.getActivePlaylist();
-
-                console.log("activePlaylist");
-
-                this.leftBasePane.currentView.collection = activePlaylist.get('items');
-                this.leftBasePane.currentView.render();
-            });
-        },
 
         //  Slide in videoSearchView from the left hand side.
         showVideoSearch: _.throttle(function (doSnapAnimation) {

@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/view/streamusCompositeView',
-    'foreground/view/activePlaylistArea/playlistItemView',
+    'foreground/view/leftBasePane/playlistItemView',
     'foreground/view/rightPane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
     'enum/listItemType',

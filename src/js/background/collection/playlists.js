@@ -118,10 +118,10 @@
             return this.findWhere({ active: true });
         },
         
-        deselectAllExcept: function (playlistId) {
+        deselectAllExcept: function (changedPlaylist) {
 
             this.each(function (playlist) {
-                if (playlist.get('id') !== playlistId) {
+                if (playlist !== changedPlaylist) {
                     playlist.set('active', false);
                 }
             });

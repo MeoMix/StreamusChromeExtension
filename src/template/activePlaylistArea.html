@@ -1,20 +1,4 @@
-﻿<div class="left-top-bar">
-    <button class="button-icon show showPlaylistsArea" title="<%= openMenuMessage %>">
-        <i class="fa fa-reorder"></i>
-    </button>
-
-    <div class="playlistTitle title" title="<%= playlistTitle %>">
-        <%= playlistTitle %>
-    </div>
-    
-    <button class="button-icon showVideoSearch" title="<%= showVideoSearchMessage %>">
-        <i class="fa fa-search"></i>
-    </button>
-</div>
-
-<div class="left-top-divider"></div>
-
-<div class="big-text-wrapper">
+﻿<div class="big-text-wrapper">
     
     <div class="big-text playlistEmpty">
         <div class="big-text-header">
@@ -23,27 +7,13 @@
         <%= wouldYouLikeToMessage %> <span class="showVideoSearch searchLink clickable lowercase"><%= searchForVideosMessage %></span>?
     </div>
     
-    <div class="big-text signingIn">
-        <div class="big-text-header"><%= signingInMessage %>...</div>
-        <div class="spinner spinner-medium"></div>
-    </div>
-    
-    <div class="big-text signIn">
-        <div class="big-text-header searchLink clickable"><%= signInMessage %></div>
-    </div>
-    
-    <div class="big-text signInFailed">
-        <div class="big-text-header"><%= signInFailedMessage %></div>
-        <%= pleaseWaitMessage %> <span id="signInRetryTimer"><%= signInRetryTimer %></span>
-    </div>
-
     <div id="activePlaylistItems" class="left-list droppable-list">
     </div>
 </div>
 
 <div class="left-bottom-menubar">
-    <div class="playlist-details lowercase" title="<%= playlistDisplayInfo %>">
-        <%= playlistDisplayInfo %>
+    <div class="playlist-details lowercase" title="<%= displayInfo %>">
+        <%= displayInfo %>
     </div>
     <div class="playlist-actions">
 

@@ -229,7 +229,7 @@ define([
             Playlists.reset(this.get('playlists'));
             //  TODO: shitty.
             Playlists.setUserId(this.get('id'));
-            
+
             if (_.isUndefined(Playlists.getActivePlaylist())) {
                 Playlists.at(0).set('active', true);
             }

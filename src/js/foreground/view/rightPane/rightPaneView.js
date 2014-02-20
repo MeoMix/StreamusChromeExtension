@@ -14,6 +14,7 @@ define([
 ], function (ForegroundViewManager, RightPaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
     'use strict';
 
+    //  TODO: Rename to RightBasePane for clarity.
     var RightPaneView = Backbone.Marionette.Layout.extend({
 
         className: 'right-pane',
