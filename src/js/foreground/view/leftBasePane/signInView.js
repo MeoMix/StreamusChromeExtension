@@ -7,7 +7,6 @@
     var SignInView = Backbone.Marionette.ItemView.extend({
         
         id: 'signIn',
-        className: 'left-pane',
         template: _.template(SignInTemplate),
 
         ui: {

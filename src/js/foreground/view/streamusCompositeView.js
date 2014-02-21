@@ -9,6 +9,8 @@
             if (_.isUndefined(this.ui.itemContainer))
                 throw "itemContainer is undefined";
 
+            console.log("onFullyVisible children:", this.children, this.ui.itemContainer);
+
             $(this.children.map(function (child) {
                 return child.ui.imageThumbnail.toArray();
             })).lazyload({

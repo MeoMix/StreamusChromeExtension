@@ -4,8 +4,9 @@
     'foreground/model/user',
     'foreground/collection/playlists',
     'foreground/view/leftBasePane/activePlaylistAreaView',
+    'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView'
-], function (LeftBasePaneTemplate, EventAggregator, User, Playlists, ActivePlaylistAreaView, SignInView) {
+], function (LeftBasePaneTemplate, EventAggregator, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
     'use strict';
 
     var LeftBasePaneView = Backbone.Marionette.Layout.extend({
@@ -17,13 +18,11 @@
         templateHelpers: function () {
             return {
                 openMenuMessage: chrome.i18n.getMessage('openMenu'),
-                showVideoSearchMessage: chrome.i18n.getMessage('showVideoSearch'),
-                playlistTitle: User.get('signedIn') ? Playlists.getActivePlaylist().get('title') : ''
+                showVideoSearchMessage: chrome.i18n.getMessage('showVideoSearch')
             };
         },
 
         ui: {
-            playlistTitle: '.playlistTitle',
             showVideoSearch: '.showVideoSearch',
             showPlaylistsArea: '.showPlaylistsArea'
         },
@@ -39,44 +38,42 @@
         },
 
         regions: {
+            playlistTitle: '#playlist-title-region',
             content: '#content-region'
         },
         
-        onRender: function () {
-            this.showContent();
+        onShow: function () {
+            this.updateRegions();
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.showContent);
+            this.listenTo(User, 'change:signedIn', this.updateRegions);
+            this.listenTo(Playlists, 'change:active', this.updateRegions);
         },
         
-        showContent: function() {
+        updateRegions: function () {
 
-            var contentView;
             if (User.get('signedIn')) {
-                console.log("A!!!");
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();
 
-                console.log("activePlaylist", activePlaylist);
-
-                contentView = new ActivePlaylistAreaView({
+                this.content.show(new ActivePlaylistAreaView({
                     model: activePlaylist,
                     collection: activePlaylist.get('items')
-                });
+                }));
 
-                console.log("contentView", contentView);
+                this.playlistTitle.show(new PlaylistTitleView({
+                   model: activePlaylist                     
+                }));
             } else {
-                console.log("B!!!");
                 //  Otherwise, allow the user to sign in by showing a sign in prompt.
-                contentView = new SignInView({
+                this.content.show(new SignInView({
                     model: User
-                });
+                }));
+
+                this.playlistTitle.close();
             }
 
-            console.log("Showing:", contentView);
-
-            this.content.show(contentView);
         }
 
     });

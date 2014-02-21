@@ -10,7 +10,6 @@
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
 
         id: 'activePlaylistArea',
-        className: 'left-pane',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {
@@ -31,7 +30,8 @@
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: 'div.playlistEmpty',
             bottomMenubar: '.left-bottom-menubar',
-            itemContainer: '#activePlaylistItems'
+            itemContainer: '#activePlaylistItems',
+            bigTextWrapper: 'div.big-text-wrapper'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
@@ -40,8 +40,7 @@
         }),
         
         modelEvents: {
-            'change:displayInfo': 'updatePlaylistDetails',
-            'change:title': 'updatePlaylistTitle'
+            'change:displayInfo': 'updatePlaylistDetails'
         },
         
         collectionEvents: {
@@ -84,6 +83,7 @@
         
         toggleBottomMenubar: function () {
             this.ui.bottomMenubar.toggle(this.collection.length > 0);
+            this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
         },
 
         addAllToStream: function () {

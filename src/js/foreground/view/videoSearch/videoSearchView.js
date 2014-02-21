@@ -137,15 +137,10 @@
         },
         
         toggleBottomMenubar: function () {
-            
-            if (this.collection.selected().length === 0) {
-                this.ui.bottomMenubar.hide();
-                this.ui.bigTextWrapper.addClass('extended');
-            } else {
-                this.ui.bottomMenubar.show();
-                this.ui.bigTextWrapper.removeClass('extended');
-            }
-            
+            var selectedCount = this.collection.selected().length;
+
+            this.ui.bottomMenubar.toggle(selectedCount > 0);
+            this.ui.bigTextWrapper.toggleClass('extended', selectedCount === 0);
         },
 
         //  Set the visibility of any visible text messages.

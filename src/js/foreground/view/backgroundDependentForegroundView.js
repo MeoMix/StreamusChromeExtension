@@ -60,7 +60,6 @@ define([
                 this.showVideoSearch(false);
             } 
             
-            this.listenTo(Playlists, 'change:active', this.showActivePlaylistArea);
             this.listenTo(Player, 'error', this.showYouTubeError);
             
             $(window).unload(this.deselectCollections.bind(this));
