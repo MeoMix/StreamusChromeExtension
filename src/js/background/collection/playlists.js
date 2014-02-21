@@ -7,6 +7,11 @@
 ], function (SequencedCollectionMixin, Playlist, Video, YouTubeV2API, DataSource) {
     'use strict';
 
+    //  If the foreground requests, don't instantiate -- return existing from the background.
+    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.Playlists)) {
+        return chrome.extension.getBackgroundPage().window.Playlists;
+    }
+
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
         comparator: 'sequence',

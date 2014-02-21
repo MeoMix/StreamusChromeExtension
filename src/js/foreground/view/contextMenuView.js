@@ -1,7 +1,6 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'foreground/view/contextMenuItemView'
-], function (ForegroundViewManager, ContextMenuItemView) {
+], function (ContextMenuItemView) {
     'use strict';
 
     var ContextMenuView = Backbone.Marionette.CompositeView.extend({
@@ -9,6 +8,9 @@
         tagName: 'ul',
 
         itemView: ContextMenuItemView,
+        
+        //  Empty, just render the items.
+        template: _.template(),
 
         onRender: function () {
 
@@ -32,10 +34,6 @@
             });
             
             this.applyTooltips();
-        },
-        
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
         }
     });
 

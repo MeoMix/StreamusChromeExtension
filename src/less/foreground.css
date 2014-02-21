@@ -690,6 +690,31 @@ input:focus ~ .underline {
   right: 10px;
   top: 0;
 }
+.right-pane .context-buttons {
+  border-top: 1px solid #f2f2f2;
+  bottom: 0;
+  display: block;
+  height: 30px;
+  left: 10px;
+  position: absolute;
+  right: 10px;
+}
+.right-pane .context-buttons .left-group {
+  display: block;
+  height: 30px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 128px;
+}
+.right-pane .context-buttons .right-group {
+  display: block;
+  height: 30px;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 84px;
+}
 #volume {
   bottom: 0;
   left: 0;
@@ -782,35 +807,12 @@ input:focus ~ .underline {
 #time-progress .time-elapsed {
   position: absolute;
   left: 0;
+  cursor: pointer;
 }
 #time-progress .duration {
   position: absolute;
   right: 0;
-}
-.right-pane .context-buttons {
-  border-top: 1px solid #f2f2f2;
-  bottom: 0;
-  display: block;
-  height: 30px;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-}
-.right-pane .context-buttons .left-group {
-  display: block;
-  height: 30px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 128px;
-}
-.right-pane .context-buttons .right-group {
-  display: block;
-  height: 30px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 84px;
+  cursor: default;
 }
 #playlistsArea button.hide {
   height: 45px;

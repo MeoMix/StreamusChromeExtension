@@ -1,12 +1,13 @@
 ﻿define([
     'text!template/leftBasePane.html',
     'foreground/eventAggregator',
-    'foreground/model/user',
-    'foreground/collection/playlists',
+    'foreground/model/foregroundViewManager',
+    'background/model/user',
+    'background/collection/playlists',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView'
-], function (LeftBasePaneTemplate, EventAggregator, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
+], function (LeftBasePaneTemplate, EventAggregator, ForegroundViewManager, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
     'use strict';
 
     var LeftBasePaneView = Backbone.Marionette.Layout.extend({
@@ -44,15 +45,18 @@
         
         onShow: function () {
             this.updateRegions();
+            this.applyTooltips();
         },
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.updateRegions);
             this.listenTo(Playlists, 'change:active', this.updateRegions);
+
+            ForegroundViewManager.subscribe(this);
         },
         
         updateRegions: function () {
-
+            
             if (User.get('signedIn')) {
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();

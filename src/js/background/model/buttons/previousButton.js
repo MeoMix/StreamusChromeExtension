@@ -3,6 +3,11 @@
     'background/model/player'
 ], function (StreamItems, Player) {
     'use strict';
+    
+    //  If the foreground requests, don't instantiate -- return existing from the background.
+    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.PreviousButton)) {
+        return chrome.extension.getBackgroundPage().window.PreviousButton;
+    }
 
     var PreviousButton = Backbone.Model.extend({
         defaults: {

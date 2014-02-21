@@ -1,7 +1,6 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/genericPrompt.html'
-], function (ForegroundViewManager, GenericPromptTemplate) {
+], function (GenericPromptTemplate) {
     'use strict';
 
     var GenericPromptView = Backbone.Marionette.ItemView.extend({
@@ -30,7 +29,6 @@
         
         initialize: function () {
             this.$el.addClass(this.model.get('view').className + 'Prompt');
-            ForegroundViewManager.subscribe(this);
         },
 
         fadeInAndShow: function () {

@@ -4,13 +4,12 @@
     'foreground/collection/contextMenuItems',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/collection/playlists',
-    'foreground/collection/streamItems',
+    'background/collection/playlists',
+    'background/collection/streamItems',
     'enum/listItemType'
 ], function (ForegroundViewManager, PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
     'use strict';
 
-    //  TODO: Starting to integrate MarionetteJS. Need to support better.
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
 
@@ -34,10 +33,9 @@
         },
         
         modelEvents: {
-            //  TODO: I don't think I should be calling render from my view anymore.
-            'change:title': 'render',
-            'change:dataSourceLoaded': 'toggleLoadingClass',
-            'change:active': 'stopEditingOnInactive toggleSelectedClass'
+            'change:title': 'updateTitle',
+            'change:dataSourceLoaded': 'setLoadingClass',
+            'change:active': 'stopEditingOnInactive setSelectedClass'
         },
         
         ui: {
@@ -46,22 +44,21 @@
             readonlyTitle: 'span.title'
         },
         
-        //  TODO: instead of passing items into render -- maybe I can just pass in the item count necessary?
-        
-        //  triggers for contextMenu?
-        
         onRender: function() {
-            this.toggleLoadingClass();
-            this.toggleSelectedClass();
+            this.setLoadingClass();
+            this.setSelectedClass();
             this.applyTooltips();
         },
 
         initialize: function () {
-            //  TODO: I think it is OK to listen to this like this... but maybe there's a better way!
-            //  Maybe PlaylistView should be a CompositeView since it references a collection of Items?
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
 
             ForegroundViewManager.subscribe(this);
+        },
+        
+        updateTitle: function () {
+            this.ui.readonlyTitle.text(this.model.get('title'));
+            this.applyTooltips();
         },
 
         //  TODO: Standardize on active vs selected.
@@ -71,13 +68,13 @@
             }
         },
         
-        toggleLoadingClass: function () {
+        setLoadingClass: function () {
             var loading = this.model.has('dataSource') && !this.model.get('dataSourceLoaded');
             this.$el.toggleClass('loading', loading);
         },
         
         //  TODO: Standardize active vs loading.
-        toggleSelectedClass: function () {
+        setSelectedClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('selected', active);
         },
@@ -92,8 +89,11 @@
         },
         
         showContextMenu: function (event) {
+            //  Allow the editableInput to use default contextmenu, feels right.
+            if ($(event.target).is(this.ui.editableTitle)) {
+                return true;
+            }
 
-            //  TODO: I don't remember why I need to call event.preventDefault. Comment and move into a trigger.
             event.preventDefault();
             
             var isEmpty = this.model.get('items').length === 0;
@@ -101,7 +101,6 @@
             //  Don't allow deleting of the last playlist.
             var isDeleteDisabled = Playlists.length === 1;
 
-            //  TODO: I don't have a method of reusing ContextMenuItems even though they're used in lots of places.
             var self = this;
             ContextMenuItems.reset([{
                     //  No point in sharing an empty playlist.

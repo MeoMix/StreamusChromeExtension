@@ -9,21 +9,21 @@ define([
     'foreground/model/playlistsArea',
     'foreground/view/playlistsArea/playlistsAreaView',
     'foreground/view/leftBasePane/leftBasePaneView',
+    'foreground/view/rightBasePane/rightBasePaneView',
     'foreground/model/videoSearch',
     'foreground/view/videoSearch/videoSearchView',
-    'foreground/collection/videoSearchResults',
-    'foreground/view/rightPane/rightPaneView',
-    'foreground/collection/playlists',
+    'background/collection/videoSearchResults',
+    'background/collection/playlists',
     'enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/notification',
-    'foreground/model/player',
-    'foreground/model/settings',
-    'foreground/model/user',
+    'background/model/player',
+    'background/model/settings',
+    'background/model/user',
     'foreground/model/contextMenu',
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuItems'
-], function (EventAggregator, ForegroundViewManager, NotificationPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, RightPaneView, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
+], function (EventAggregator, ForegroundViewManager, NotificationPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
 
     var BackgroundDependentForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
@@ -47,7 +47,7 @@ define([
         initialize: function () {
             this.$el.removeClass('loading');
 
-            this.rightBasePane.show(new RightPaneView({
+            this.rightBasePane.show(new RightBasePaneView({
                 model: Player
             }));
 
@@ -98,9 +98,7 @@ define([
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPane.currentView)) {
 
-                var playlistsArea = new PlaylistsArea({
-                    playlists: Playlists
-                });
+                var playlistsArea = new PlaylistsArea();
 
                 //  Show the view using VideoSearchResults collection in which to render its results from.
                 this.leftCoveringPane.show(new PlaylistsAreaView({
@@ -175,7 +173,6 @@ define([
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         tryResetContextMenu: function (event) {
-
             if (event.isDefaultPrevented()) {
                 this.contextMenu.show(new ContextMenuView({
                     collection: ContextMenuItems,

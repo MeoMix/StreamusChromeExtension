@@ -10,35 +10,22 @@
         className: 'playlistTitle title',
         template: _.template(PlaylistTitleTemplate),
         
-        attributes: function() {
-            return {
-                title: this.model.get('title')
-            };
-        },
-
-        ui: {
-            playlistTitle: ''
-        }, 
-        
         modelEvents: {
             'change:title': 'render'
         },
 
-        onRender: function () {            
+        onRender: function () {
+            this.setTitle();
             this.applyTooltips();
         },
 
         initialize: function () {
             ForegroundViewManager.subscribe(this);
-        }
+        },
         
-        //updatePlaylistTitle: function () {
-        //    var playlistTitle = this.model.get('title');
-        //    this.text(playlistTitle);
-            
-        //    //  TODO: Can I just call applyTooltips here instead? It would be better for checking overflowing of new title right?
-        //    this.ui.playlistTitle.qtip('option', 'content.text', playlistTitle);
-        //}
+        setTitle: function() {
+            this.$el.attr('title', this.model.get('title'));
+        }
         
     });
 

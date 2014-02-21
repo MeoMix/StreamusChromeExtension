@@ -2,7 +2,7 @@
     'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/deletePlaylistView',
-    'foreground/model/settings'
+    'background/model/settings'
 ], function (GenericPrompt, GenericPromptView, DeletePlaylistView, Settings) {
     'use strict';
     

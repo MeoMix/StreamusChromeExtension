@@ -5,13 +5,13 @@
     'text!template/stream.html',
     'enum/listItemType',
     'foreground/model/streamAction',
-    'foreground/view/rightPane/streamItemView',
-    'foreground/collection/playlists',
-    'foreground/collection/videoSearchResults',
-    'foreground/model/user',
-    'foreground/model/shuffleButton',
-    'foreground/model/repeatButton',
-    'foreground/model/radioButton',
+    'foreground/view/rightBasePane/streamItemView',
+    'background/collection/playlists',
+    'background/collection/videoSearchResults',
+    'background/model/user',
+    'background/model/buttons/shuffleButton',
+    'background/model/buttons/repeatButton',
+    'background/model/buttons/radioButton',
     'enum/repeatButtonState'
 ], function (EventAggregator, StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
@@ -217,16 +217,6 @@
                 
                 //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
                 this.$el.trigger('scroll');
-            },
-            'change:selected': function () {
-                //  TODO: Do I need to use a selector here? I don't believe it!
-                var selectedListItemElement = this.$el.find('.listItem.selected');
-
-                if (selectedListItemElement.length === 1) {
-                    selectedListItemElement.scrollIntoView(true);
-                }
-
-                this.$el.trigger('scroll');
             }
         },
         
@@ -250,7 +240,6 @@
             this.ui.saveStreamButton.attr('title', newTitle).qtip('option', 'content.text', newTitle);
         },
         
-        //  TODO: Do this the marionette way.
         //  Hide the empty message if there is anything in the collection
         toggleBigText: function () {
             this.ui.streamEmptyMessage.toggleClass('hidden', this.collection.length > 0);

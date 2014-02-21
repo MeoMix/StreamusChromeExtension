@@ -1,11 +1,10 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/createPlaylist.html',
-    'foreground/collection/streamItems',
-    'foreground/collection/playlists',
+    'background/collection/streamItems',
+    'background/collection/playlists',
     'common/model/dataSource',
     'enum/dataSourceType'
-], function (ForegroundViewManager, CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
+], function (CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
     'use strict';
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
@@ -40,10 +39,6 @@
             }.bind(this));
         },
         
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
-        },
-
         validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var playlistTitle = $.trim(this.ui.playlistTitleInput.val());

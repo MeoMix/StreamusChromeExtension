@@ -7,10 +7,10 @@
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/createPlaylistView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/collection/playlists',
+    'background/collection/playlists',
     'foreground/view/playlistsArea/playlistView',
     'enum/listItemType',
-    'foreground/model/user',
+    'background/model/user',
     'foreground/view/prompt/deletePlaylistPromptView'
 ], function (ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
     'use strict';
@@ -54,6 +54,7 @@
             this.ui.playlists.sortable({
                 axis: 'y',
                 placeholder: 'sortable-placeholder listItem',
+                delay: 100,
                 //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {
                     var listItemType = ui.item.data('type');

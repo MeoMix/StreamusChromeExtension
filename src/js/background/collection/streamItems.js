@@ -12,6 +12,11 @@
     'common/model/youTubeV2API'
 ], function (Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
+    
+    //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
+    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.StreamItems)) {
+        return chrome.extension.getBackgroundPage().window.StreamItems;
+    }
 
     var StreamItems = Backbone.Collection.extend({
         model: StreamItem,

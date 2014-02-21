@@ -2,13 +2,13 @@
     'foreground/model/foregroundViewManager',
     'foreground/collection/contextMenuItems',
     'common/model/utility',
-    'foreground/collection/streamItems',
+    'background/collection/streamItems',
     'text!template/streamItem.html',
-    'foreground/collection/playlists',
-    'foreground/model/playPauseButton',
-    'foreground/model/player',
+    'background/collection/playlists',
+    'background/model/buttons/playPauseButton',
+    'background/model/player',
     'enum/listItemType',
-    'foreground/model/user'
+    'background/model/user'
 ], function (ForegroundViewManager, ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
     'use strict';
 
@@ -52,8 +52,18 @@
         },
         
         modelEvents: {
-            'change:selected': 'toggleSelected',
+            'change:selected': 'setSelectedClass',
             'destroy': 'remove'
+        },
+        
+        onShow: function() {
+            var selected = this.model.get('selected');
+
+            //  If the stream item is selected -- ensure it is instantly visible.
+            if (selected) {
+                //  Pass 0 into scrollIntoView to have no animation/show instantly.
+                this.$el.scrollIntoView(0);
+            }
         },
 
         onRender: function () {
@@ -85,8 +95,13 @@
         
         //  Force the view to reflect the model's selected class. It's important to do this here, and not through render always, because
         //  render will cause the lazy-loaded image to be reset.
-        toggleSelected: function () {
-            this.$el.toggleClass('selected', this.model.get('selected'));
+        setSelectedClass: function () {
+            var selected = this.model.get('selected');
+            this.$el.toggleClass('selected', selected);
+            
+            if (selected) {
+                this.$el.scrollIntoView();
+            }
         },
 
         showContextMenu: function (event) {

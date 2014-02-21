@@ -1,25 +1,24 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
     'foreground/model/foregroundViewManager',
-    'text!template/rightPane.html',
-    'foreground/view/rightPane/streamView',
-    'foreground/view/rightPane/volumeView',
-    'foreground/view/rightPane/timeProgressView',
-    'foreground/collection/streamItems',
-    'foreground/model/player',
-    'foreground/model/nextButton',
-    'foreground/model/previousButton',
-    'foreground/model/playPauseButton',
+    'text!template/rightBasePane.html',
+    'foreground/view/rightBasePane/streamView',
+    'foreground/view/rightBasePane/volumeView',
+    'foreground/view/rightBasePane/timeProgressView',
+    'background/collection/streamItems',
+    'background/model/player',
+    'background/model/buttons/nextButton',
+    'background/model/buttons/previousButton',
+    'background/model/buttons/playPauseButton',
     'enum/playerState'
-], function (ForegroundViewManager, RightPaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
+], function (ForegroundViewManager, RightBasePaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
     'use strict';
 
-    //  TODO: Rename to RightBasePane for clarity.
-    var RightPaneView = Backbone.Marionette.Layout.extend({
+    var RightBasePaneView = Backbone.Marionette.Layout.extend({
 
-        className: 'right-pane',
+        className: 'right-base-pane',
 
-        template: _.template(RightPaneTemplate),
+        template: _.template(RightBasePaneTemplate),
         
         regions: {
             stream: '#stream-region',
@@ -117,5 +116,5 @@ define([
 
     });
 
-    return RightPaneView;
+    return RightBasePaneView;
 });

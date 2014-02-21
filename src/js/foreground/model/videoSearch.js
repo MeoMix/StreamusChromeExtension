@@ -1,6 +1,6 @@
 ﻿define([
-    'foreground/collection/videoSearchResults',
-    'foreground/model/settings',
+    'background/collection/videoSearchResults',
+    'background/model/settings',
     'enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',

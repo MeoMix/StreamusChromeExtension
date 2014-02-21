@@ -6,6 +6,11 @@
     'enum/repeatButtonState'
 ], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
+    
+    //  If the foreground requests, don't instantiate -- return existing from the background.
+    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.NextButton)) {
+        return chrome.extension.getBackgroundPage().window.NextButton;
+    }
 
     var NextButton = Backbone.Model.extend({
         

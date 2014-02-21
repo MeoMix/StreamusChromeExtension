@@ -4,6 +4,11 @@
     'background/model/video'
 ], function (MultiSelectCollection, VideoSearchResult, Video) {
     'use strict';
+    
+    //  If the foreground requests, don't instantiate -- return existing from the background.
+    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.VideoSearchResults)) {
+        return chrome.extension.getBackgroundPage().window.VideoSearchResults;
+    }
 
     var VideoSearchResults = MultiSelectCollection.extend({
         model: VideoSearchResult,

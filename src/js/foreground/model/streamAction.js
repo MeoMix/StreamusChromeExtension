@@ -1,6 +1,6 @@
 ﻿define([
-    'foreground/model/settings',
-    'foreground/collection/streamItems',
+    'background/model/settings',
+    'background/collection/streamItems',
     'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/clearStreamView',

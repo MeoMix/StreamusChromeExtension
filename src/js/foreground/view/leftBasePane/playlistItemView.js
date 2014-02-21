@@ -2,7 +2,7 @@
     'foreground/model/foregroundViewManager',
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuItems',
-    'foreground/collection/streamItems',
+    'background/collection/streamItems',
     'enum/listItemType'
 ], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
     'use strict';
@@ -88,7 +88,6 @@
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
                     onClick: function() {
-
                         chrome.extension.sendMessage({
                             method: 'copy',
                             text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
@@ -102,27 +101,19 @@
                 }, {
                     text: chrome.i18n.getMessage('enqueue'),
                     onClick: function() {
-
-                        var video = self.model.get('video');
-                        StreamItems.addByVideo(video);
-
+                        StreamItems.addByVideo(self.model.get('video'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('play'),
                     onClick: function() {
-
-                        var video = self.model.get('video');
-                        StreamItems.addByVideo(video, true);
-
+                        StreamItems.addByVideo(self.model.get('video'), true);
                     }
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function() {
-
                         chrome.tabs.create({
                             url: self.model.get('video').get('url')
                         });
-
                     }
                 }]
             );

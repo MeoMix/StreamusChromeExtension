@@ -3,7 +3,7 @@
     'text!template/activePlaylistArea.html',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
-    'foreground/collection/streamItems'
+    'background/collection/streamItems'
 ], function (ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, StreamItems) {
     'use strict';
 
@@ -69,13 +69,7 @@
         updatePlaylistDetails: function () {
             this.ui.playlistDetails.text(this.model.get('displayInfo'));
         },
-        
-        updatePlaylistTitle: function () {
-            var playlistTitle = this.model.get('title');
-            this.ui.playlistTitle.text(playlistTitle);
-            this.ui.playlistTitle.qtip('option', 'content.text', playlistTitle);
-        },
-        
+       
         //  Set the visibility of any visible text messages.
         toggleBigText: function () {
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);

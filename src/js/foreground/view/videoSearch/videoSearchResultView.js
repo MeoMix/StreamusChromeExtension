@@ -2,10 +2,10 @@
     'foreground/model/foregroundViewManager',
     'text!template/videoSearchResult.html',
     'foreground/collection/contextMenuItems',
-    'foreground/collection/streamItems',
+    'background/collection/streamItems',
     'foreground/view/prompt/saveVideosPromptView',
     'enum/listItemType',
-    'foreground/model/user'
+    'background/model/user'
 ], function (ForegroundViewManager, VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
     'use strict';
 

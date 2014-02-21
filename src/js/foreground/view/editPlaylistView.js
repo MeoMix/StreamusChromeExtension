@@ -1,7 +1,6 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/editPlaylist.html'
-], function (ForegroundViewManager, EditPlaylistTemplate) {
+], function (EditPlaylistTemplate) {
     'use strict';
 
     var EditPlaylistView = Backbone.Marionette.ItemView.extend({
@@ -26,10 +25,6 @@
         onRender: function () {
             //  Reset val to prevent highlighting and just focus.
             this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
-        },
-        
-        initialize: function() {
-            ForegroundViewManager.subscribe(this);
         },
         
         validateTitle: function () {

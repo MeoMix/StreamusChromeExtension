@@ -4,8 +4,8 @@
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/videoSearchResultView',
     'foreground/view/prompt/saveVideosPromptView',
-    'foreground/model/user',
-    'foreground/collection/streamItems'
+    'background/model/user',
+    'background/collection/streamItems'
 ], function (MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, SaveVideosPromptView, User, StreamItems) {
     'use strict';
     
@@ -24,7 +24,6 @@
             searchInput: '.searchBar input',
             searchingMessage: 'div.searching',
             instructions: 'div.instructions',
-            //  TODO: This could be handled by a Marionette.CollectionView's empty html.
             noResultsMessage: 'div.noResults',
             bigTextWrapper: 'div.big-text-wrapper',
             itemContainer: '#videoSearchResults',

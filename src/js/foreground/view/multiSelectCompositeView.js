@@ -1,10 +1,10 @@
 ﻿define([
     'foreground/view/streamusCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/rightPane/streamItemView',
+    'foreground/view/rightBasePane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
     'enum/listItemType',
-    'foreground/collection/streamItems'
+    'background/collection/streamItems'
 ], function (StreamusCompositeView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
     'use strict';
 

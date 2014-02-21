@@ -2,10 +2,10 @@
 define([
     'foreground/model/foregroundViewManager',
     'text!template/timeProgress.html',
-    'foreground/collection/streamItems',
+    'background/collection/streamItems',
     'common/model/utility',
     'enum/playerState',
-    'foreground/model/settings'
+    'background/model/settings'
 ], function (ForegroundViewManager, TimeProgressTemplate, StreamItems, Utility, PlayerState, Settings) {
     'use strict';
 

@@ -1,8 +1,7 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/saveVideos.html',
-    'foreground/collection/playlists'
-], function (ForegroundViewManager, SaveVideosTemplate, Playlists) {
+    'background/collection/playlists'
+], function (SaveVideosTemplate, Playlists) {
     'use strict';
 
     var SaveVideosView = Backbone.Marionette.ItemView.extend({
@@ -11,8 +10,6 @@
         
         template: _.template(SaveVideosTemplate),
 
-        creating: false,
-        
         templateHelpers: {
             typeToCreateOrFilterPlaylistsMessage: chrome.i18n.getMessage('typeToCreateOrFilterPlaylists')
         },
@@ -21,9 +18,7 @@
             playlistSelect: 'select.submittable',
             selectizeTitle: '.selectize-input span.title'
         },
-        
-        videos: [],
-        
+
         onRender: function () {
             var playlistOptions = Playlists.map(function (playlist) {
                 return {
@@ -78,21 +73,21 @@
                         };
                     }
 
-                    this.creating = true;
-                    this.trigger('change:creating', this.creating);
+                    this.model.set('creating', true);
 
                     return createResult;
                 }.bind(this),
+                onItemAdd: function() {
+                    //  Rebind UI elements after adding an element to selectize control in order to capture the appended DOM elements.
+                    this.bindUIElements();
+                }.bind(this),
                 onDelete: function() {
-                    this.creating = false;
-                    this.trigger('change:creating', this.creating);
+                    this.model.set('creating', false);
                 }.bind(this)
             });
-        },
-        
-        initialize: function (options) {
-            this.videos = options.videos || this.videos;
-            ForegroundViewManager.subscribe(this);
+
+            //  Rebind UI elements after initializing selectize control in order to capture the appended DOM elements.
+            this.bindUIElements();
         },
         
         validate: function() {
@@ -105,12 +100,12 @@
         doOk: function () {
             var selectedPlaylistId = this.ui.playlistSelect.val();
 
-            if (this.creating) {
+            if (this.model.get('creating')) {
                 var playlistTitle = this.ui.selectizeTitle.text();
-                Playlists.addPlaylistWithVideos(playlistTitle, this.videos);
+                Playlists.addPlaylistWithVideos(playlistTitle, this.model.get('videos'));
             } else {
                 var selectedPlaylist = Playlists.get(selectedPlaylistId);
-                selectedPlaylist.addByVideos(this.videos);
+                selectedPlaylist.addByVideos(this.model.get('videos'));
             }
         }
         
