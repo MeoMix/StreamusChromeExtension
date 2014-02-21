@@ -397,7 +397,7 @@ input[type="range"]::-webkit-slider-thumb {
     bottom: 40px;
 }
 
-#videoSearch .big-text-wrapper.extended {
+.big-text-wrapper.extended {
     bottom: 5px;   
 }
 
@@ -462,7 +462,7 @@ input[type="range"]::-webkit-slider-thumb {
     top: 0;
 }
 
-.left-list {
+.list {
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;
@@ -799,8 +799,7 @@ input:focus  ~ .underline {
 }
 
 .top-bar .center-group {
-    left: 50%;
-    margin-left: -60px;
+    margin-left: 58px;
     position: absolute;
     width: 120px;
     font-size: 0px;
@@ -871,10 +870,6 @@ input:focus  ~ .underline {
     right: 0;
     top: 0;
     width: 84px;
-}
-
-#activePlaylistArea button.show{
-
 }
 
 #playlistsArea button.hide {
@@ -1110,19 +1105,11 @@ html .selectize-control.multi .selectize-input.full > input {
     cursor: pointer;
 }
 
-#activePlaylistArea .big-text {
-    margin: 0;
-    margin-top: 60px;
-}
-
 #videoSearch .big-text {
-    margin: 0;
-    padding-bottom: 190px;
-    padding-top: 60px;
     z-index: 1;
 }
 
-#activePlaylistArea .big-text,
+#content-region .big-text,
 #videoSearch .big-text {
     background-color: white;
     position: absolute;
@@ -1130,6 +1117,8 @@ html .selectize-control.multi .selectize-input.full > input {
     top: 0;
     left: 0;
     right: 0;
+    margin: 0;
+    padding-top: 60px;
 }
 
 .big-text.streamEmpty {
@@ -1202,7 +1191,7 @@ button {
     color: #333;
 }
 
-button:not(.disabled):not(.enabled):not(.muted):hover {
+button:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
     color: #000;
 }
 
@@ -1251,12 +1240,8 @@ button.enabled{
   border-width: 4px;  
 }
 
-.big-text.searching .spinner-medium {
+.big-text .spinner-medium {
     top: 33%;
-}
-
-.big-text.signingIn .spinner-medium {
-    top: 22%;
 }
 
 .spinner-medium {
@@ -1271,7 +1256,7 @@ button.enabled{
 .selected .spinner {
     border-color: #fff;
     border-left-color: transparent;
-border-top-color: transparent;
+    border-top-color: transparent;
 }
 
 #playlists .spinner-small {
@@ -1305,23 +1290,26 @@ border-top-color: transparent;
     right: 10px;
 }
 
-#activePlaylistArea .playlistTitle {
+#leftBasePane #playlist-title-region {
     width: calc(~"100% - 106px");
     height: 45px;
     display: inline-block;
+    vertical-align: top;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+#leftBasePane #playlist-title-region #playlistTitle {
     overflow: hidden;
     text-overflow: ellipsis;
     font-size: 1.1em;
     white-space: nowrap;
     line-height: 45px;
     cursor: default;
-    vertical-align: top;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 
 /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
-#activePlaylistArea .fa-search {
+#leftBasePane .fa-search {
     font-size: 18px;
 }
 
@@ -1360,7 +1348,7 @@ border-top-color: transparent;
 
 #playlists span.title,
 #playlists input.editableTitle {
-    width: 160px;
+    width: 150px;
 }
 
 #context-menu {
