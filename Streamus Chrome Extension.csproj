@@ -128,8 +128,10 @@
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
     <Content Include="src\js\foreground\collection\streamItems.js" />
     <Content Include="src\js\foreground\collection\videoSearchResults.js" />
+    <Content Include="src\js\foreground\eventAggregator.js" />
     <Content Include="src\js\foreground\foreground.js" />
     <Content Include="src\js\foreground\main.js" />
+    <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\genericPrompt.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\model\radioButton.js" />
@@ -149,10 +151,12 @@
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
     <Content Include="src\js\foreground\view\backbone.marionette.viewExtensions.js" />
+    <Content Include="src\js\foreground\view\leftBasePane\activePlaylistAreaView.js" />
+    <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneView.js" />
+    <Content Include="src\js\foreground\view\leftBasePane\playlistItemView.js" />
+    <Content Include="src\js\foreground\view\leftBasePane\signInView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
-    <Content Include="src\js\foreground\view\activePlaylistArea\activePlaylistAreaView.js" />
-    <Content Include="src\js\foreground\view\activePlaylistArea\playlistItemView.js" />
     <Content Include="src\js\foreground\view\backgroundDependentForegroundView.js" />
     <Content Include="src\js\foreground\view\clearStreamView.js" />
     <Content Include="src\js\foreground\view\contextMenuView.js" />
@@ -229,6 +233,7 @@
     <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
+    <Content Include="src\template\leftBasePane.html" />
     <Content Include="src\template\playlistsArea.html" />
     <Content Include="src\template\activePlaylistArea.html" />
     <Content Include="src\template\clearStream.html" />
@@ -243,6 +248,7 @@
     <Content Include="src\template\rightPane.html" />
     <Content Include="src\template\saveVideos.html" />
     <Content Include="src\template\settings.html" />
+    <Content Include="src\template\signIn.html" />
     <Content Include="src\template\stream.html" />
     <Content Include="src\template\streamItem.html" />
     <Content Include="src\template\timeProgress.html" />
