@@ -123,7 +123,6 @@
     <Content Include="src\js\common\enum\repeatButtonState.js" />
     <Content Include="src\js\common\enum\shareableEntityType.js" />
     <Content Include="src\js\common\enum\youTubePlayerError.js" />
-    <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
     <Content Include="src\js\foreground\eventAggregator.js" />
     <Content Include="src\js\foreground\foreground.js" />
@@ -146,7 +145,6 @@
     <Content Include="src\js\foreground\view\leftBasePane\signInView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
-    <Content Include="src\js\foreground\view\backgroundDependentForegroundView.js" />
     <Content Include="src\js\foreground\view\clearStreamView.js" />
     <Content Include="src\js\foreground\view\contextMenuView.js" />
     <Content Include="src\js\foreground\view\createPlaylistView.js" />
@@ -248,7 +246,6 @@
     <Content Include="src\template\videoSearchResult.html" />
     <Content Include="src\template\volume.html" />
     <Content Include="src\js\test\main.js" />
-    <Content Include="src\js\test\spec\backgroundDependentForegroundViewSpec.js" />
     <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
     <Content Include="src\js\test\spec\dataSourceSpec.js" />
     <Content Include="src\js\test\spec\errorSpec.js" />
