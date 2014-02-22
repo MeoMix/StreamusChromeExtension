@@ -1,7 +1,6 @@
 ﻿define([
     'foreground/eventAggregator',
     'foreground/view/streamusCompositeView',
-    'foreground/model/foregroundViewManager',
     'text!template/stream.html',
     'common/enum/listItemType',
     'foreground/model/streamAction',
@@ -13,17 +12,27 @@
     'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
     'common/enum/repeatButtonState'
-], function (EventAggregator, StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
+], function (EventAggregator, StreamusCompositeView, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     
     var StreamView = StreamusCompositeView.extend({
         
         id: 'stream',
-        
-        template: _.template(StreamTemplate),
         itemViewContainer: '#streamItems',
-
         itemView: StreamItemView,
+
+        template: _.template(StreamTemplate),
+        templateHelpers: function () {
+            return {
+                streamEmptyMessage: chrome.i18n.getMessage('streamEmpty'),
+                saveStreamMessage: chrome.i18n.getMessage('saveStream'),
+                clearStreamMessage: chrome.i18n.getMessage('clearStream'),
+                searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
+                whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr'),
+                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
+                userSignedIn: User.get('signedIn')
+            };
+        },
 
         events: {
             'click button#clearStream': 'clear',
@@ -38,6 +47,16 @@
             }
         },
         
+        collectionEvents: {
+            'add remove reset': function () {
+                this.toggleBigText();
+                this.toggleContextButtons();
+
+                //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
+                this.$el.trigger('scroll');
+            }
+        },
+        
         ui: {
             streamEmptyMessage: '.streamEmpty',
             contextButtons: '.context-buttons',
@@ -49,21 +68,13 @@
             repeatButton: '#repeat-button',
             showVideoSearch: '.showVideoSearch'
         },
-        
-        templateHelpers: function () {
-            return {
-                streamEmptyMessage: chrome.i18n.getMessage('streamEmpty'),
-                saveStreamMessage: chrome.i18n.getMessage('saveStream'),
-                clearStreamMessage: chrome.i18n.getMessage('clearStream'),
-                searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
-                whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr'),
-                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
-                userSignedIn: User.get('signedIn')
-            };
-        },
 
         onShow: function () {
             this.onFullyVisible();
+        },
+        
+        onClose: function () {
+            chrome.extension.getBackgroundPage().console.log("StreamView closed");
         },
         
         onRender: function () {
@@ -210,24 +221,11 @@
             });
         },
         
-        collectionEvents: {
-            'add remove reset': function() {
-                this.toggleBigText();
-                this.toggleContextButtons();
-                
-                //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
-                this.$el.trigger('scroll');
-            }
-        },
-        
         initialize: function() {
             this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
-
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
-
-            ForegroundViewManager.subscribe(this);
         },
         
         updateSaveStreamButton: function () {

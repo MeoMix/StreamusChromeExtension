@@ -4,7 +4,7 @@
 ], function(Settings) {
     'use strict';
 
-    Backbone.Marionette.View.prototype.applyTooltips = function() {
+    Backbone.Marionette.View.prototype.applyTooltips = function () {
 
         //  Allow for globally disabling tooltips.
         if (Settings.get('showTooltips')) {

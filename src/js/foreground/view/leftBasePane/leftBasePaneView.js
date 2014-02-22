@@ -1,13 +1,12 @@
 ﻿define([
     'text!template/leftBasePane.html',
     'foreground/eventAggregator',
-    'foreground/model/foregroundViewManager',
     'background/model/user',
     'background/collection/playlists',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView'
-], function (LeftBasePaneTemplate, EventAggregator, ForegroundViewManager, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
+], function (LeftBasePaneTemplate, EventAggregator, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
     'use strict';
 
     var LeftBasePaneView = Backbone.Marionette.Layout.extend({
@@ -51,8 +50,6 @@
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.updateRegions);
             this.listenTo(Playlists, 'change:active', this.updateRegions);
-
-            ForegroundViewManager.subscribe(this);
         },
         
         updateRegions: function () {

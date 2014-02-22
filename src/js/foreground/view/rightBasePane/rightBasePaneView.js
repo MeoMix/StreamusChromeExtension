@@ -1,6 +1,5 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
-    'foreground/model/foregroundViewManager',
     'text!template/rightBasePane.html',
     'foreground/view/rightBasePane/streamView',
     'foreground/view/rightBasePane/volumeView',
@@ -11,7 +10,7 @@ define([
     'background/model/buttons/previousButton',
     'background/model/buttons/playPauseButton',
     'common/enum/playerState'
-], function (ForegroundViewManager, RightBasePaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
+], function (RightBasePaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
     'use strict';
 
     var RightBasePaneView = Backbone.Marionette.Layout.extend({
@@ -38,7 +37,7 @@ define([
             playPauseButton: '#play-pause-button'
         },
         
-        onShow: function() {
+        onShow: function () {
             this.stream.show(new StreamView({
                 collection: StreamItems
             }));
@@ -64,9 +63,7 @@ define([
             'change:state': 'setPlayPauseButtonState'
         },
         
-        initialize: function() {
-            ForegroundViewManager.subscribe(this);
-
+        initialize: function () {
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);

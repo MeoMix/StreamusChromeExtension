@@ -1,7 +1,6 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/playlistTitle.html'
-], function (ForegroundViewManager, PlaylistTitleTemplate) {
+], function (PlaylistTitleTemplate) {
     'use strict';
 
     var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
@@ -17,10 +16,6 @@
         onRender: function () {
             this.setTitle();
             this.applyTooltips();
-        },
-
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
         },
         
         setTitle: function() {

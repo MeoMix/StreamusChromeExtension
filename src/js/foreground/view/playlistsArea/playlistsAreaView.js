@@ -1,5 +1,4 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/playlistsArea.html',
     'common/view/settingsView',
     'foreground/model/genericPrompt',
@@ -12,7 +11,7 @@
     'common/enum/listItemType',
     'background/model/user',
     'foreground/view/prompt/deletePlaylistPromptView'
-], function (ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
+], function (PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -87,8 +86,6 @@
         },
 
         initialize: function () {
-            ForegroundViewManager.subscribe(this);
-            
             //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
             this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);

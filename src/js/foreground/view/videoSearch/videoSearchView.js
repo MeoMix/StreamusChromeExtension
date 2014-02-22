@@ -1,12 +1,11 @@
 ﻿define([
     'foreground/view/multiSelectCompositeView',
-    'foreground/model/foregroundViewManager',
     'text!template/videoSearch.html',
     'foreground/view/videoSearch/videoSearchResultView',
     'foreground/view/prompt/saveVideosPromptView',
     'background/model/user',
     'background/collection/streamItems'
-], function (MultiSelectCompositeView, ForegroundViewManager, VideoSearchTemplate, VideoSearchResultView, SaveVideosPromptView, User, StreamItems) {
+], function (MultiSelectCompositeView, VideoSearchTemplate, VideoSearchResultView, SaveVideosPromptView, User, StreamItems) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -73,8 +72,6 @@
         },
         
         initialize: function () {
-            $(window).on('unload.videoSearch', this.onClose.bind(this));
-            ForegroundViewManager.subscribe(this);
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
         },
         
@@ -94,9 +91,6 @@
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.
         onClose: function () {
-            $(window).off('unload.videoSearch');
-            ForegroundViewManager.unsubscribe(this);
-            
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
         },

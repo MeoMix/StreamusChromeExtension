@@ -161,7 +161,7 @@
                         else {
 
                             //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
+                            self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
                             });

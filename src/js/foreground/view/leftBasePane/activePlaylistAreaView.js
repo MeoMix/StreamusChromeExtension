@@ -1,10 +1,9 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/activePlaylistArea.html',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
     'background/collection/streamItems'
-], function (ForegroundViewManager, ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, StreamItems) {
+], function (ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, StreamItems) {
     'use strict';
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
@@ -60,10 +59,6 @@
             
             this.applyTooltips();
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
-        },
-
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
         },
         
         updatePlaylistDetails: function () {

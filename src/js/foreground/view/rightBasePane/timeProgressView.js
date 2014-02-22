@@ -1,12 +1,11 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
 define([
-    'foreground/model/foregroundViewManager',
     'text!template/timeProgress.html',
     'background/collection/streamItems',
     'common/model/utility',
     'common/enum/playerState',
     'background/model/settings'
-], function (ForegroundViewManager, TimeProgressTemplate, StreamItems, Utility, PlayerState, Settings) {
+], function (TimeProgressTemplate, StreamItems, Utility, PlayerState, Settings) {
     'use strict';
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
@@ -57,8 +56,6 @@ define([
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:selected', this.restart);
-
-            ForegroundViewManager.subscribe(this);
         },
         
         //  Allow the user to manual time change by click or scroll.

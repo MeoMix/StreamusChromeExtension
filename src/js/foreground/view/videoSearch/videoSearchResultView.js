@@ -1,12 +1,11 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/videoSearchResult.html',
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
     'foreground/view/prompt/saveVideosPromptView',
     'common/enum/listItemType',
     'background/model/user'
-], function (ForegroundViewManager, VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
+], function (VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
     'use strict';
 
     var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
@@ -63,7 +62,6 @@
 
         initialize: function (options) {
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-            ForegroundViewManager.subscribe(this);
         },
         
         setHighlight: function () {

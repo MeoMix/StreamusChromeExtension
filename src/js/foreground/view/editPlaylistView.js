@@ -23,8 +23,13 @@
         },
         
         onRender: function () {
-            //  Reset val to prevent highlighting and just focus.
-            this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
+
+            //  TODO: When I show prompts inside of a region then I can use onShow without a setTimeout.
+            setTimeout(function() {
+                //  Reset val to prevent highlighting and just focus.
+                this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
+            }.bind(this));
+
         },
         
         validateTitle: function () {

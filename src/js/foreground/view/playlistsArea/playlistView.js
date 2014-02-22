@@ -1,5 +1,4 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/playlist.html',
     'foreground/collection/contextMenuItems',
     'foreground/view/prompt/deletePlaylistPromptView',
@@ -7,7 +6,7 @@
     'background/collection/playlists',
     'background/collection/streamItems',
     'common/enum/listItemType'
-], function (ForegroundViewManager, PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
+], function (PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
     'use strict';
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
@@ -52,8 +51,6 @@
 
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
-
-            ForegroundViewManager.subscribe(this);
         },
         
         updateTitle: function () {

@@ -1,9 +1,8 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/settings.html',
     'background/model/player',
     'background/model/settings'
-], function (ForegroundViewManager, SettingsTemplate, Player, Settings) {
+], function (SettingsTemplate, Player, Settings) {
     'use strict';
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
@@ -33,10 +32,6 @@
             remindersMessage: chrome.i18n.getMessage('reminders'),
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
             remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist')
-        },
-        
-        initialize: function() {
-            ForegroundViewManager.subscribe(this);
         },
 
         doOk: function () {

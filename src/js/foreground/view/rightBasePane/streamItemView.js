@@ -1,5 +1,4 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'foreground/collection/contextMenuItems',
     'common/model/utility',
     'background/collection/streamItems',
@@ -9,7 +8,7 @@
     'background/model/player',
     'common/enum/listItemType',
     'background/model/user'
-], function (ForegroundViewManager, ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
+], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.ItemView.extend({
@@ -73,7 +72,6 @@
             
         initialize: function (options) {
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-            ForegroundViewManager.subscribe(this);
         },
 
         select: function () {

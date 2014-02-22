@@ -24,6 +24,8 @@ define([
             Settings.set('searchQuery', '');
             VideoSearchResults.clear();
         }, twentySeconds);
+
+        console.log("startClearResultsTimer has started");
     };
 
     //  The foreground has to be able to call this whenever a view opens.

@@ -31,6 +31,10 @@ body {
         display: none;
     }
 
+    &.loading > *:not(.spinner):not(.reloadPrompt) {
+        opacity: .2;
+    }
+
     &.loading > .spinner {
         display: block;
     }

@@ -1,10 +1,9 @@
 ﻿define([
-    'foreground/model/foregroundViewManager',
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
     'common/enum/listItemType'
-], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
+], function (PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
     'use strict';
 
     var PlaylistItemView = Backbone.Marionette.ItemView.extend({
@@ -58,7 +57,6 @@
         
         initialize: function (options) {
             this.instant = options && options.instant || this.instant;
-            ForegroundViewManager.subscribe(this);
         },
         
         setHighlight: function () {

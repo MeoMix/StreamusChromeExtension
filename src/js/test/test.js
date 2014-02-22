@@ -2,7 +2,6 @@
       'test/spec/playlistItemsSpec',
     //'test/spec/streamItemsSpec',
     //'test/spec/relatedVideoInformationManagerSpec',
-    //'test/spec/backgroundDependentForegroundViewSpec',
     //'test/spec/dataSourceSpec',
     //'test/spec/errorSpec',
     //'test/spec/googleAPISpec',

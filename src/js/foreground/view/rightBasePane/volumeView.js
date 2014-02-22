@@ -1,9 +1,8 @@
 //  VolumeView represents the mute/unmute button as well as the volume slider.
 //  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
-    'foreground/model/foregroundViewManager',
     'text!template/volume.html'
-], function (ForegroundViewManager, VolumeTemplate) {
+], function (VolumeTemplate) {
     'use strict';
 
     var VolumeView = Backbone.Marionette.ItemView.extend({
@@ -60,10 +59,6 @@ define([
         modelEvents: {
             'change:muted': 'toggleMutedClass',
             'change:volume': 'updateProgressAndVolumeIcon'
-        },
-
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
         },
 
         setVolume: function () {

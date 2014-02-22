@@ -94,15 +94,18 @@
 
             });
 
-            this.on('remove reset', function() {
+            this.on('remove reset', function () {
+                console.log("remove/reset");
                 if (this.length === 0) {
                     Player.stop();
                 }
             });
 
             this.on('remove', function (removedStreamItem, collection, options) {
+                console.log("on remove");
                 if (removedStreamItem.get('selected') && this.length > 0) {
                     this.selectNext(options.index);
+                    console.log("selected next");
                 }
             });
 
@@ -536,6 +539,8 @@
             return this.where({ selected: true });
         }
     });
+
+    console.log("Instantiating StreamItems");
     
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.StreamItems = new StreamItems();

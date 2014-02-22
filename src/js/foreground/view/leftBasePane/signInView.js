@@ -1,7 +1,6 @@
 ﻿define([
-    'text!template/signIn.html',
-    'foreground/model/foregroundViewManager'
-], function(SignInTemplate, ForegroundViewManager) {
+    'text!template/signIn.html'
+], function(SignInTemplate) {
     'use strict';
 
     var SignInView = Backbone.Marionette.ItemView.extend({
@@ -37,10 +36,6 @@
         
         onRender: function () {
             this.toggleBigText();
-        },
-        
-        initialize: function () {
-            ForegroundViewManager.subscribe(this);
         },
         
         updateSignInRetryTimer: function () {
