@@ -158,7 +158,6 @@ module.exports = function (grunt) {
 						include: ['foreground/plugins']
 					}, {
 						name: 'foreground/foreground',
-						include: ['foreground/view/backgroundDependentForegroundView'],
 						exclude: ['foreground/main']
 					}, {
 						name: 'options/main',
