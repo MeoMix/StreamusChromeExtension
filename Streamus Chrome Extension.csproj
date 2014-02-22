@@ -134,7 +134,6 @@
     <Content Include="src\js\foreground\model\saveVideos.js" />
     <Content Include="src\js\foreground\model\playlistsArea.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
-    <Content Include="src\js\foreground\model\foregroundViewManager.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
