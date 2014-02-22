@@ -9,22 +9,9 @@
     
     var PlaylistItems = MultiSelectCollection.extend({
         model: PlaylistItem,
-        
-        playlistId: null,
 
         comparator: 'sequence',
-        
-        initialize: function (models, options) {
-            //  Handle optional parameters
-            if (options === undefined && !_.isArray(models)) {
-                options = models;
-            }
-            
-            this.playlistId = options.playlistId;
- 
-            MultiSelectCollection.prototype.initialize.apply(this, arguments);
-        },
-        
+
         save: function (attributes, options) {
             var self = this;
             
@@ -86,24 +73,6 @@
 
         },
 
-        addByVideoAtIndex: function (video, index, callback) {
-
-            var sequence = this.getSequenceFromIndex(index);
-
-            var playlistItem = new PlaylistItem({
-                playlistId: this.playlistId,
-                video: video,
-                sequence: sequence
-            });
-
-            this.savePlaylistItem(playlistItem, function () {
-                if (callback) {
-                    callback();
-                }
-            });
-
-        },
-
         savePlaylistItem: function (playlistItem, callback) {
 
             if (this.videoAlreadyExists(playlistItem.get('video'))) {
@@ -112,6 +81,12 @@
                 }
             }
             else {
+                //this.add(playlistItem);
+
+                //if (callback) {
+                //    callback(playlistItem);
+                //}
+
                 //  Save the playlistItem, but push after version from server because the ID will have changed.
                 playlistItem.save({}, {
 

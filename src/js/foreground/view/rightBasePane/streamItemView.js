@@ -7,7 +7,7 @@
     'background/collection/playlists',
     'background/model/buttons/playPauseButton',
     'background/model/player',
-    'enum/listItemType',
+    'common/enum/listItemType',
     'background/model/user'
 ], function (ForegroundViewManager, ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
     'use strict';

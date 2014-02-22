@@ -10,7 +10,7 @@ define([
     'background/model/buttons/nextButton',
     'background/model/buttons/previousButton',
     'background/model/buttons/playPauseButton',
-    'enum/playerState'
+    'common/enum/playerState'
 ], function (ForegroundViewManager, RightBasePaneTemplate, StreamView, VolumeView, TimeProgressView, StreamItems, Player, NextButton, PreviousButton, PlayPauseButton, PlayerState) {
     'use strict';
 

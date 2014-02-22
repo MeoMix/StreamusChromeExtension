@@ -3,7 +3,7 @@
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
-    'enum/listItemType'
+    'common/enum/listItemType'
 ], function (ForegroundViewManager, PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
     'use strict';
 
@@ -12,7 +12,7 @@
         
         template: _.template(PlaylistItemTemplate),
         
-        attributes: function() {
+        attributes: function () {
             return {
                 'data-id': this.model.get('id'),
                 'data-type': ListItemType.PlaylistItem

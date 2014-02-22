@@ -3,7 +3,7 @@
     'background/collection/streamItems',
     'background/collection/playlists',
     'common/model/dataSource',
-    'enum/dataSourceType'
+    'common/enum/dataSourceType'
 ], function (CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
     'use strict';
 
@@ -13,9 +13,17 @@
 
         template: _.template(CreatePlaylistTemplate),
         
-        templateHelpers: {
-            'chrome.i18n': chrome.i18n,
-            'playlistCount': Playlists.length
+        templateHelpers: function () {
+            return {
+                'requiredMessage': chrome.i18n.getMessage('required'),
+                'titleLowerCaseMessage': chrome.i18n.getMessage('title').toLowerCase(),
+                'optionalMessage': chrome.i18n.getMessage('optional'),
+                'playlistMessage': chrome.i18n.getMessage('playlist'),
+                'playlistLowerCaseMessage': chrome.i18n.getMessage('playlist').toLowerCase(),
+                'urlMessage': chrome.i18n.getMessage('url'),
+                'channelLowerCaseMessage': chrome.i18n.getMessage('channel').toLowerCase(),
+                'playlistCount': Playlists.length
+            };
         },
         
         ui: {
@@ -29,10 +37,9 @@
         },
 
         onRender: function () {
-            this.ui.youTubeSourceInput.data('datasource', new DataSource({
-                type: DataSourceType.None
-            }));
+            this.setDataSourceAsUserInput();
 
+            //  TODO: Maybe when/if I use onShow to show these views I can remove this setTimeout.
             setTimeout(function () {
                 //  Reset the value after focusing to focus without selecting.
                 this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
@@ -72,7 +79,6 @@
                         }.bind(this),
                         error: function () {
                             var originalValue = this.ui.playlistTitleInput.val();
-                            console.log("original value:", originalValue);
                             this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
                             this.ui.youTubeSourceInput.addClass('invalid');
                         }.bind(this)
@@ -81,11 +87,20 @@
                 } else {
                     this.ui.youTubeSourceInput.removeClass('invalid valid');
                     this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
+
+                    this.setDataSourceAsUserInput();
                 }
                 
             }.bind(this));
 
         }, 100),
+        
+
+        setDataSourceAsUserInput: function() {
+            this.ui.youTubeSourceInput.data('datasource', new DataSource({
+                type: DataSourceType.UserInput
+            }));
+        },
         
         validate: function () {
             //  If all submittable fields indicate themselves as valid -- allow submission.
@@ -94,23 +109,10 @@
         },
 
         doOk: function () {
-
             var dataSource = this.ui.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.ui.playlistTitleInput.val());
 
-            console.log("Data source and playlistName:", dataSource, playlistName);
-
-            //  TODO: It's weird that addPlaylistByDataSource doesn't work with some of the dataSource types.
-            if (dataSource.get('type') === DataSourceType.None || dataSource.get('type') === DataSourceType.Unknown) {
-                if (!this.model || this.model.length === 0) {
-                    Playlists.addEmptyPlaylist(playlistName);
-                } else {
-                    Playlists.addPlaylistWithVideos(playlistName, this.model);
-                }
-            } else {
-                Playlists.addPlaylistByDataSource(playlistName, dataSource);
-            }
-            
+            Playlists.addPlaylistByDataSource(playlistName, dataSource);
         }
 
     });

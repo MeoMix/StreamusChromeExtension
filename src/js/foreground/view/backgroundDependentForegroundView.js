@@ -14,7 +14,7 @@ define([
     'foreground/view/videoSearch/videoSearchView',
     'background/collection/videoSearchResults',
     'background/collection/playlists',
-    'enum/youTubePlayerError',
+    'common/enum/youTubePlayerError',
     'foreground/view/notificationView',
     'foreground/model/notification',
     'background/model/player',
@@ -51,10 +51,7 @@ define([
                 model: Player
             }));
 
-            //  TODO: Any model for this one?
-            this.leftBasePane.show(new LeftBasePaneView({
-                
-            }));
+            this.leftBasePane.show(new LeftBasePaneView());
             
             if (Settings.get('alwaysOpenToSearch')) {
                 this.showVideoSearch(false);

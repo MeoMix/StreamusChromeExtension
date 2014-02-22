@@ -3,7 +3,7 @@
     'background/model/buttons/radioButton',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/repeatButton',
-    'enum/repeatButtonState'
+    'common/enum/repeatButtonState'
 ], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
     

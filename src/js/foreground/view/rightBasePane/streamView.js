@@ -3,7 +3,7 @@
     'foreground/view/streamusCompositeView',
     'foreground/model/foregroundViewManager',
     'text!template/stream.html',
-    'enum/listItemType',
+    'common/enum/listItemType',
     'foreground/model/streamAction',
     'foreground/view/rightBasePane/streamItemView',
     'background/collection/playlists',
@@ -12,7 +12,7 @@
     'background/model/buttons/shuffleButton',
     'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
-    'enum/repeatButtonState'
+    'common/enum/repeatButtonState'
 ], function (EventAggregator, StreamusCompositeView, ForegroundViewManager, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     

@@ -9,9 +9,6 @@ define([
         
         defaults: function () {
             return {
-                //  TODO: This is commented out -- but it sounds necessary. Lets make a test case for it.
-                //  Prevent Backbone collections from dropping duplicate Video entities by uniquely identifying each video.
-                //uniqueId: _.uniqueId('video_'),
                 //  Provided by YouTube's API.
                 id: '',
                 title: '',

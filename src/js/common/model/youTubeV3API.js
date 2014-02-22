@@ -1,6 +1,6 @@
 ﻿define([
     'common/model/utility',
-    'enum/dataSourceType',
+    'common/enum/dataSourceType',
     'common/googleAPI'
 ], function (Utility, DataSourceType, GoogleAPI) {
     'use strict';

@@ -6,8 +6,8 @@
     'background/model/buttons/shuffleButton',
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
-    'enum/repeatButtonState',
-    'enum/playerState',
+    'common/enum/repeatButtonState',
+    'common/enum/playerState',
     'common/model/utility',
     'common/model/youTubeV2API'
 ], function (Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
@@ -107,7 +107,6 @@
             });
 
             this.on('change:playedRecently', function() {
-
 
                 //  When all streamItems have been played recently, reset to not having been played recently.
                 //  Allows for de-prioritization of played streamItems during shuffling.

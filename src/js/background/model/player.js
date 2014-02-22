@@ -1,7 +1,7 @@
 define([
     'background/model/youTubePlayerAPI',
     'background/model/settings',
-    'enum/playerState'
+    'common/enum/playerState'
 ], function (YouTubePlayerAPI, Settings, PlayerState) {
     'use strict';
     

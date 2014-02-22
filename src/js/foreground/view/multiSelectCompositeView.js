@@ -3,7 +3,7 @@
     'foreground/view/leftBasePane/playlistItemView',
     'foreground/view/rightBasePane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
-    'enum/listItemType',
+    'common/enum/listItemType',
     'background/collection/streamItems'
 ], function (StreamusCompositeView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
     'use strict';
@@ -33,6 +33,8 @@
                 placeholder: 'sortable-placeholder listItem hiddenUntilChange',
 
                 helper: function (ui, listItem) {
+
+                    console.log("listItem id:", listItem, listItem.data('id'));
 
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
@@ -158,7 +160,8 @@
                         }
                         else {
 
-                            self.collection.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
+                            //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
+                            self.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
                             });

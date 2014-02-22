@@ -1,7 +1,7 @@
 ﻿define([
     'background/collection/videoSearchResults',
     'background/model/settings',
-    'enum/dataSourceType',
+    'common/enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',
     'common/model/dataSource'

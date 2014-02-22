@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/view/backgroundDependentForegroundView',
-    'enum/youTubePlayerError'
+    'common/enum/youTubePlayerError'
 ], function (BackgroundDependentForegroundView, YouTubePlayerError) {
     'use strict';
 

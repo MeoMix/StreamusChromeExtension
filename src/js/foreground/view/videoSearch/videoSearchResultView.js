@@ -4,7 +4,7 @@
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
     'foreground/view/prompt/saveVideosPromptView',
-    'enum/listItemType',
+    'common/enum/listItemType',
     'background/model/user'
 ], function (ForegroundViewManager, VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
     'use strict';

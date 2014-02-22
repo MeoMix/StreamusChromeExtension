@@ -6,8 +6,8 @@ define([
     'background/model/settings',
     'background/model/video',
     'background/model/shareCode',
-    'enum/repeatButtonState',
-    'enum/shareableEntityType'
+    'common/enum/repeatButtonState',
+    'common/enum/shareableEntityType'
 ], function (PlaylistItems, PlaylistItem, Settings, Video, ShareCode, RepeatButtonState, ShareableEntityType) {
     'use strict';
 
@@ -44,10 +44,7 @@ define([
             
             //  Reset will load the server's response into items as a Backbone.Collection
             this.get('items').reset(playlistDto.items);
-            
-            // TODO: this sucks. Shouldn't have to do it manually.
-            this.get('items').playlistId = this.get('id');
-                
+
             // Remove so parse doesn't set and overwrite instance after parse returns.
             delete playlistDto.items;
 
@@ -131,12 +128,24 @@ define([
             this.set('displayInfo', displayInfo);
         },
         
-        //  TODO: Move these to collection.
         addByVideo: function (video, callback) {
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
                 video: video
+            });
+
+            this.get('items').savePlaylistItem(playlistItem, callback);
+        },
+        
+        addByVideoAtIndex: function (video, index, callback) {
+
+            var sequence = this.get('items').getSequenceFromIndex(index);
+
+            var playlistItem = new PlaylistItem({
+                playlistId: this.get('id'),
+                video: video,
+                sequence: sequence
             });
 
             this.get('items').savePlaylistItem(playlistItem, callback);

@@ -1,5 +1,5 @@
 ﻿define([
-    'enum/repeatButtonState'
+    'common/enum/repeatButtonState'
 ], function (RepeatButtonState) {
     'use strict';
 

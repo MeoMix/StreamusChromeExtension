@@ -9,7 +9,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'background/collection/playlists',
     'foreground/view/playlistsArea/playlistView',
-    'enum/listItemType',
+    'common/enum/listItemType',
     'background/model/user',
     'foreground/view/prompt/deletePlaylistPromptView'
 ], function (ForegroundViewManager, PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {

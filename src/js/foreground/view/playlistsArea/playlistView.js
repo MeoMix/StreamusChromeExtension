@@ -6,7 +6,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'background/collection/playlists',
     'background/collection/streamItems',
-    'enum/listItemType'
+    'common/enum/listItemType'
 ], function (ForegroundViewManager, PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
     'use strict';
 
@@ -73,7 +73,7 @@
             this.$el.toggleClass('loading', loading);
         },
         
-        //  TODO: Standardize active vs loading.
+        //  TODO: Standardize active vs selected.
         setSelectedClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('selected', active);
