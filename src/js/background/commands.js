@@ -18,9 +18,9 @@ define([
 
         switch (command) {
             case 'nextVideo':
-                var selectedNextVideo = NextButton.trySelectNextVideo();
+                var activatedNextVideo = NextButton.tryActivateNextVideo();
 
-                if (!selectedNextVideo) {
+                if (!activatedNextVideo) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantSkipToNextVideo')
@@ -60,25 +60,25 @@ define([
                 RepeatButton.toggleRepeat();
                 break;
             case 'addVideoToPlaylist':
-                Playlists.getActivePlaylist().addByVideo(StreamItems.getSelectedItem().get('video'));
+                Playlists.getActivePlaylist().addByVideo(StreamItems.getActiveItem().get('video'));
                 break;
             case 'deleteVideoFromStream':
-                StreamItems.getSelectedItem().destroy();
+                StreamItems.getActiveItem().destroy();
                 break;
             case 'copyVideoUrl':
 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: StreamItems.getSelectedItem().get('video').get('url')
+                    text: StreamItems.getActiveItem().get('video').get('url')
                 });
 
                 break;
             case 'copyVideoTitleAndUrl':                
-                var selectedStreamItem = StreamItems.getSelectedItem();
+                var activeItem = StreamItems.getActiveItem();
                 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: '"' + selectedStreamItem.get('title') + '" - ' + selectedStreamItem.get('video').get('url')
+                    text: '"' + activeItem.get('title') + '" - ' + activeItem.get('video').get('url')
                 });
 
                 break;

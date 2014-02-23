@@ -8,19 +8,8 @@
     var SettingsView = Backbone.Marionette.ItemView.extend({
 
         className: 'settings',
-
         template: _.template(SettingsTemplate),
         
-        model: Settings,
-        
-        ui: {
-            suggestedQualitySelect: '#suggestedQualitySelect',
-            showTooltipsCheckbox: '#showTooltips',
-            remindClearStreamCheckbox: '#remindClearStream',
-            remindDeletePlaylistCheckbox: '#remindDeletePlaylist',
-            alwaysOpenToSearchCheckbox: '#alwaysOpenToSearch'
-        },
-
         templateHelpers: {
             generalMessage: chrome.i18n.getMessage('general'),
             videoQualityMessage: chrome.i18n.getMessage('videoQuality'),
@@ -32,6 +21,16 @@
             remindersMessage: chrome.i18n.getMessage('reminders'),
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
             remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist')
+        },
+        
+        model: Settings,
+        
+        ui: {
+            suggestedQualitySelect: '#suggestedQualitySelect',
+            showTooltipsCheckbox: '#showTooltips',
+            remindClearStreamCheckbox: '#remindClearStream',
+            remindDeletePlaylistCheckbox: '#remindDeletePlaylist',
+            alwaysOpenToSearchCheckbox: '#alwaysOpenToSearch'
         },
 
         doOk: function () {

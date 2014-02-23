@@ -25,6 +25,9 @@ body > .spinner {
   z-index: 1;
   display: none;
 }
+body.loading > *:not(.spinner):not(.reloadPrompt) {
+  opacity: .2;
+}
 body.loading > .spinner {
   display: block;
 }
@@ -470,18 +473,6 @@ input[type="range"]::-webkit-slider-thumb {
   margin-right: 5px;
   overflow-y: auto;
 }
-/* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
-.listItem.streamItem:hover .item-title {
-  width: calc(100% - 100px);
-}
-.listItem.playlistItem:hover .item-title,
-.listItem.videoSearchResult:hover .item-title {
-  width: calc(100% - 135px);
-}
-.listItem:hover > .hover-actions {
-  display: block;
-  position: absolute;
-}
 .hover-actions {
   display: none;
   right: 0;
@@ -496,6 +487,10 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 14px;
   cursor: pointer;
 }
+.addItemOption.stream:hover,
+.playlist:hover {
+  background: #ebebeb;
+}
 .listItem {
   height: 30px;
   padding: 5px 0;
@@ -503,55 +498,65 @@ input[type="range"]::-webkit-slider-thumb {
   width: calc(100% - 1px);
   overflow: hidden;
   text-overflow: ellipsis;
+  /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+       an item being copied -- it looks weird and doesn't make sense because no move happens */
+
 }
-.addItemOption.stream:hover,
-.listItem:hover,
-.playlist:hover {
+.listItem:hover {
   background: #ebebeb;
+  /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
+
 }
-.listItem:hover > i.hoverable {
+.listItem:hover .item-title {
+  width: calc(100% - 135px);
+}
+.listItem:hover i.hoverable {
   background-color: #ebebeb;
 }
-.listItem.selected,
-.playlist.selected {
-  background: #4EA6EA;
+.listItem:hover .hover-actions {
+  display: block;
+}
+.listItem.active {
+  background: #27ae60;
+}
+.listItem.active .item-details {
+  color: #89e5b0;
+}
+.listItem.active .hover-actions {
+  color: #89e5b0;
+}
+.listItem.selected {
+  background: #4ea6ea;
   transition: background .3s;
+}
+.listItem.selected .item-details {
+  color: #c5e6ff;
+}
+.listItem.selected .hover-actions {
+  color: #c5e6ff;
+}
+.listItem.selected .hover-actions:hover,
+.listItem.active .hover-actions:hover {
+  color: #ffffff;
+}
+.listItem.selected .item-title,
+.listItem.active .item-title,
+.listItem.selected .item-title-wrapper,
+.listItem.active .item-title-wrapper {
+  color: #ffffff;
 }
 .listItem .item-details {
   transition: color .3s;
 }
-.listItem.selected .item-details {
-  color: #C5E6FF;
+.listItem .hover-actions {
+  position: absolute;
+}
+.listItem .hover-actions:hover {
+  color: #000000;
 }
 .listItem .hover-actions,
 .listItem .item-title {
   transition: color .1s;
-}
-.listItem.selected .hover-actions {
-  color: #C5E6FF;
-}
-.spinner {
-  color: #4EA6EA;
-}
-.listItem.selected .hover-actions:hover {
-  color: #fff;
-}
-.listItem .hover-actions:hover {
-  color: #000;
-}
-.playlist.selected .title,
-.playlist.selected i,
-.listItem.selected .item-title,
-.listItem.selected .item-title-wrapper {
-  color: #fff;
-}
-#playlists .listItem i {
-  margin-left: .4em;
-  margin-right: .4em;
-}
-#playlists .playlist.selected .count {
-  background: #C5E6FF;
-  color: #4EA6EA;
 }
 .listItem img {
   height: 30px;
@@ -559,6 +564,24 @@ input[type="range"]::-webkit-slider-thumb {
   top: 5px;
   width: 40px;
   left: 5px;
+}
+.listItem .copyHelper + .sortable-placeholder {
+  display: none;
+}
+.playlist.active {
+  background: #4EA6EA;
+  transition: background .3s;
+}
+.spinner {
+  color: #4EA6EA;
+}
+.playlist.active .title,
+.playlist.active i {
+  color: #fff;
+}
+#playlists .playlist.active .count {
+  background: #C5E6FF;
+  color: #4EA6EA;
 }
 .playlist .spinner {
   display: none;
@@ -850,11 +873,6 @@ input:focus ~ .underline {
   width: 250px;
   z-index: 51;
 }
-#playlists {
-  overflow-x: hidden;
-  height: auto;
-  max-height: 290px;
-}
 #playlistsArea .header {
   background: #fff;
   display: block;
@@ -914,14 +932,23 @@ input:focus ~ .underline {
 #playlistsArea .list h3 i {
   margin-left: 0.3em;
 }
+#playlists {
+  overflow-x: hidden;
+  height: auto;
+  max-height: 290px;
+}
 #playlists .listItem {
   height: 26px;
   line-height: 26px;
   position: relative;
   width: calc(100% - 1px);
   padding: 0;
+  cursor: default;
 }
-#playlists .listItem,
+#playlists .listItem i {
+  margin-left: .4em;
+  margin-right: .4em;
+}
 #playlists .listItem * {
   cursor: default;
 }
@@ -1006,11 +1033,6 @@ html .selectize-control.multi .selectize-input.full > input {
   background-color: #ebebeb;
 }
 .sortable-placeholder.hiddenUntilChange {
-  display: none;
-}
-/* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
-   an item being copied -- it looks weird and doesn't make sense because no move happens */
-.listItem.copyHelper + .sortable-placeholder {
   display: none;
 }
 /* Display: none; on placeholders that get swapped out for actual views. */

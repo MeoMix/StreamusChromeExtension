@@ -87,8 +87,8 @@
             this.setShuffleButtonState();
             this.setRadioButtonState();
             
-            if (this.collection.selected().length > 0) {
-                this.$el.find('.listItem.selected').scrollIntoView(false);
+            if (this.collection.length > 0) {
+                this.$el.find('.listItem.active').scrollIntoView(false);
                 this.$el.trigger('scroll');
             }
 

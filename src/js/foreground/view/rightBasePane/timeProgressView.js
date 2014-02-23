@@ -55,7 +55,7 @@ define([
         initialize: function () {
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
-            this.listenTo(StreamItems, 'change:selected', this.restart);
+            this.listenTo(StreamItems, 'change:active', this.restart);
         },
         
         //  Allow the user to manual time change by click or scroll.
@@ -184,13 +184,13 @@ define([
  
         },
 
-        //  Return 0 or currently selected video's duration.
+        //  Return 0 or active video's duration.
         getCurrentVideoDuration: function () {
             var duration = 0;
 
-            if (StreamItems.selected().length > 0) {
-                var selectedStreamItem = StreamItems.getSelectedItem();
-                duration = selectedStreamItem.get('video').get('duration');
+            if (StreamItems.length > 0) {
+                var activeStreamItem = StreamItems.getActiveItem();
+                duration = activeStreamItem.get('video').get('duration');
             }
 
             return duration;

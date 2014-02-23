@@ -2,18 +2,26 @@
     'text!template/videoSearchResult.html',
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
-    'foreground/view/prompt/saveVideosPromptView',
     'common/enum/listItemType',
-    'background/model/user'
-], function (VideoSearchResultTemplate, ContextMenuItems, StreamItems, SaveVideosPromptView, ListItemType, User) {
+    'foreground/view/playInStreamButtonView',
+    'foreground/view/addToStreamButtonView',
+    'foreground/view/saveToPlaylistButtonView'
+], function (VideoSearchResultTemplate, ContextMenuItems, StreamItems, ListItemType, PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView) {
     'use strict';
 
-    var VideoSearchResultView = Backbone.Marionette.ItemView.extend({
+    var VideoSearchResultView = Backbone.Marionette.Layout.extend({
         
         className: 'listItem videoSearchResult multiSelectItem',
 
         template: _.template(VideoSearchResultTemplate),
         
+        templateHelpers: function () {
+            return {
+                hdMessage: chrome.i18n.getMessage('hd'),
+                instant: this.instant
+            };
+        },
+
         attributes: function () {
             return {
                 'data-id': this.model.get('id'),
@@ -22,44 +30,42 @@
         },
         
         events: {
-            'click button.playInStream': 'playInStream',
-            'click button.addToStream': 'addToStream',
-            'click @ui.saveButton': 'saveToPlaylist',
             'contextmenu': 'showContextMenu',
-            //  Capture double-click events to prevent bubbling up to main dblclick event.
             'dblclick': 'playInStream',
-            'dblclick button.playInStream': 'playInStream',
-            'dblclick button.save': 'saveToPlaylist',
-            'dblclick button.addToStream': 'addToStream'
         },
         
-        ui: {
-            imageThumbnail: 'img.item-thumb',
-            saveButton: 'button.save'
-        },
-        
-        templateHelpers: function () {
-            return {
-                hdMessage: chrome.i18n.getMessage('hd'),
-                playMessage: chrome.i18n.getMessage('play'),
-                enqueueMessage: chrome.i18n.getMessage('enqueue'),
-                saveMessage: chrome.i18n.getMessage('save'),
-                userSignedIn: User.get('signedIn'),
-                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
-                instant: this.instant
-            };
-        },
-      
         modelEvents: {
             'change:selected': 'setHighlight',
             'destroy': 'remove'
         },
         
+        ui: {
+            imageThumbnail: 'img.item-thumb'
+        },
+        
+        regions: {
+            playInStreamRegion: '.play-in-stream-region',
+            addToStreamRegion: '.add-to-stream-region',
+            saveToPlaylistRegion: '.save-to-playlist-region'
+        },
+      
         onRender: function () {
+            this.playInStreamRegion.show(new PlayInStreamButtonView({
+                model: this.model.get('video')
+            }));
+            
+            this.addToStreamRegion.show(new AddToStreamButtonView({
+                model: this.model.get('video')
+            }));
+            
+            this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
+                model: this.model.get('video')
+            }));
+
             this.setHighlight();
             this.applyTooltips();
         },
-
+        
         initialize: function (options) {
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
         },
@@ -68,37 +74,9 @@
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
-        playInStream: _.debounce(function () {
-            var video = this.model.get('video');
-            StreamItems.addByVideo(video, true);
-            
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true),
-        
-        addToStream: _.debounce(function() {
-            var video = this.model.get('video');
-            StreamItems.addByVideo(video, false);
-
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true),
-        
-        saveToPlaylist: _.debounce(function () {
-            // Return false even on disabled button click so the click event does not bubble up and select the item. 
-            if (!this.ui.saveButton.hasClass('disabled')) {
-                var video = this.model.get('video');
-
-                var saveVideosPromptView = new SaveVideosPromptView({
-                    videos: [video]
-                });
-
-                saveVideosPromptView.fadeInAndShow();
-            }
-
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true),
+        playInStream: function() {
+            this.playInStreamRegion.currentView.playInStream();
+        },
         
         showContextMenu: function (event) {
             event.preventDefault();

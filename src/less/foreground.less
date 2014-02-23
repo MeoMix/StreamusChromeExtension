@@ -1,4 +1,12 @@
 ﻿@baseBlue: #4EA6EA;
+@lightBaseBlue: #C5E6FF;
+@lightGray: #ebebeb;
+@white: #fff;
+@black: #000;
+
+//  http://flatuicolors.com/
+@nephritis: #27ae60;
+@lightNephritis: lighten(@nephritis, 30%);
 
 @font-face {
   font-family: 'Open Sans';
@@ -473,21 +481,6 @@ input[type="range"]::-webkit-slider-thumb {
     overflow-y: auto;
 }
 
-/* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
-.listItem.streamItem:hover .item-title {
-    width: calc(~"100% - 100px");
-}
-
-.listItem.playlistItem:hover .item-title,
-.listItem.videoSearchResult:hover .item-title {
-    width: calc(~"100% - 135px");
-}
-
-.listItem:hover > .hover-actions {
-    display: block;
-    position: absolute;
-}
-
 .hover-actions {
     display: none;
     right: 0;
@@ -504,6 +497,11 @@ input[type="range"]::-webkit-slider-thumb {
     cursor: pointer;
 }
 
+.addItemOption.stream:hover,
+.playlist:hover {
+    background: #ebebeb;
+}
+
 .listItem {
     height: 30px;
     padding: 5px 0;
@@ -511,77 +509,112 @@ input[type="range"]::-webkit-slider-thumb {
     width: calc(~"100% - 1px");
     overflow: hidden;
     text-overflow: ellipsis;
+
+    &:hover {
+        background: @lightGray;
+
+        .item-title {
+            width: calc(~"100% - 135px");
+        }
+
+        i.hoverable {
+            background-color: @lightGray;
+        }
+
+        /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
+        .hover-actions {
+            display: block;
+        }
+    }
+
+    &.active {
+        background: @nephritis;
+
+        .item-details {
+            color: @lightNephritis;
+        }
+
+        .hover-actions {
+            color: @lightNephritis;
+        }
+    }
+
+    &.selected {
+        background: @baseBlue;
+        transition: background .3s;
+
+        .item-details {
+            color: @lightBaseBlue;
+        }
+
+        .hover-actions {
+            color: @lightBaseBlue;
+        }
+    }
+
+    &.selected,
+    &.active {
+        .hover-actions {
+            &:hover {
+                color: @white;
+            }
+        }
+
+        .item-title,
+        .item-title-wrapper {
+            color: @white;
+        }
+    }
+
+    .item-details {
+        transition: color .3s;
+    }
+
+    .hover-actions {
+        position: absolute;
+
+        &:hover {
+            color: @black;
+        }
+    }
+
+    .hover-actions,
+    .item-title {
+        transition: color .1s;
+    }
+
+    img {
+        height: 30px;
+        position: absolute;
+        top: 5px;
+        width: 40px;
+        left: 5px;
+    }
+
+    /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+       an item being copied -- it looks weird and doesn't make sense because no move happens */
+    .copyHelper + .sortable-placeholder {
+        display: none;
+    }
 }
 
-.addItemOption.stream:hover,
-.listItem:hover,
-.playlist:hover {
-    background: #ebebeb;
-}
-
-.listItem:hover > i.hoverable {
-    background-color: #ebebeb;
-}
-
-.listItem.selected,
-.playlist.selected {
+.playlist.active {
     background: #4EA6EA;
     transition: background .3s;
-}
-
-.listItem .item-details {
-    transition: color .3s;
-}
-
-.listItem.selected .item-details {
-    color: #C5E6FF;
-}
-
-.listItem .hover-actions,
-.listItem .item-title{
-    transition: color .1s;
-}
-
-
-.listItem.selected .hover-actions {
-    color: #C5E6FF;
 }
 
 .spinner {
     color: #4EA6EA;
 }
 
-.listItem.selected .hover-actions:hover {
+.playlist.active .title,
+.playlist.active i {
     color: #fff;
 }
 
-.listItem .hover-actions:hover {
-    color: #000;
-}
-
-.playlist.selected .title,
-.playlist.selected i,
-.listItem.selected .item-title,
-.listItem.selected .item-title-wrapper {
-    color: #fff;
-}
-
-#playlists .listItem i {
-    margin-left: .4em;
-    margin-right: .4em;
-}
-
-#playlists .playlist.selected .count {
+#playlists .playlist.active .count {
     background: #C5E6FF;
     color: #4EA6EA;
-}
-
-.listItem img {
-    height: 30px;
-    position: absolute;
-    top: 5px;
-    width: 40px;
-    left: 5px;
 }
 
 .playlist .spinner {
@@ -918,12 +951,6 @@ input:focus  ~ .underline {
     z-index: 51;
 }
 
-#playlists {
-    overflow-x: hidden;
-    height: auto;
-    max-height: 290px;
-}
-
 #playlistsArea .header {
     background: #fff;
     display: block;
@@ -989,35 +1016,47 @@ input:focus  ~ .underline {
 
 #playlistsArea .list h3 i { margin-left: .3em }
 
-#playlists .listItem {
-    height: 26px;
-    line-height: 26px;
-    position: relative;
-    width: calc(~"100% - 1px");
-    padding: 0;
-}
+#playlists {
+    overflow-x: hidden;
+    height: auto;
+    max-height: 290px;
 
-#playlists .listItem,
-#playlists .listItem * {
-    cursor: default;
-}
+    .listItem {
+        height: 26px;
+        line-height: 26px;
+        position: relative;
+        width: calc(~"100% - 1px");
+        padding: 0;
+        cursor: default;
 
-#playlists .listItem .title {
-    white-space: nowrap;
-}
+        i {
+            margin-left: .4em;
+            margin-right: .4em;
+        }
 
-#playlists .listItem .count {
-    background: #666;
-    border-radius: 1em;
-    color: #fff;
-    font-size: .85em;
-    font-weight: bold;
-    line-height: 1.3;
-    padding: 0 .6em 0 .5em;
-    position: absolute;
-    right: 10px;
-    top: 6px;
-    cursor: default;
+        * {
+            cursor: default;
+        }
+
+        .title {
+            white-space: nowrap;
+        }
+
+        .count {
+            background: #666;
+            border-radius: 1em;
+            color: #fff;
+            font-size: .85em;
+            font-weight: bold;
+            line-height: 1.3;
+            padding: 0 .6em 0 .5em;
+            position: absolute;
+            right: 10px;
+            top: 6px;
+            cursor: default;
+        }
+    }
+
 }
 
 #playlistsArea .context-buttons {
@@ -1093,12 +1132,6 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 
 .sortable-placeholder.hiddenUntilChange {
-    display: none;
-}
-
-/* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
-   an item being copied -- it looks weird and doesn't make sense because no move happens */
-.listItem.copyHelper + .sortable-placeholder {
     display: none;
 }
 

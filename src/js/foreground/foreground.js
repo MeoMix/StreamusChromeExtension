@@ -81,7 +81,6 @@ define([
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
                 this.deselectCollections();
-
                 //  SUPER IMPORTANT. Close the layout to unbind events from background page. Memory leak if not done.
                 this.close();
             }.bind(this));

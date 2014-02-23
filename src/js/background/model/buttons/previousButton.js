@@ -15,7 +15,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add remove change:selected sort', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add remove change:active sort', this.toggleEnabled);
             this.listenTo(Player, 'change:currentTime', this.toggleEnabled);
 
             this.toggleEnabled();
@@ -38,7 +38,7 @@
                 if (Player.get('currentTime') > 5) {
                     Player.seekTo(0);
                 } else {
-                    StreamItems.selectPrevious();
+                    StreamItems.activatePrevious();
                 }
             }
 

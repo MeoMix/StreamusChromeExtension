@@ -25,7 +25,7 @@
         
         events: {
             'blur @ui.editableTitle': 'saveAndStopEdit',
-            'click': 'select',
+            'click': 'activate',
             'contextmenu': 'showContextMenu',
             'dblclick @ui.readonlyTitle': 'startEdit',
             'keyup @ui.editableTitle': 'saveAndStopEditOnEnter'
@@ -34,7 +34,7 @@
         modelEvents: {
             'change:title': 'updateTitle',
             'change:dataSourceLoaded': 'setLoadingClass',
-            'change:active': 'stopEditingOnInactive setSelectedClass'
+            'change:active': 'stopEditingOnInactive setActiveClass'
         },
         
         ui: {
@@ -45,7 +45,7 @@
         
         onRender: function() {
             this.setLoadingClass();
-            this.setSelectedClass();
+            this.setActiveClass();
             this.applyTooltips();
         },
 
@@ -58,7 +58,6 @@
             this.applyTooltips();
         },
 
-        //  TODO: Standardize on active vs selected.
         stopEditingOnInactive: function(model, active) {
             if (!active) {
                 this.saveAndStopEdit();
@@ -70,10 +69,9 @@
             this.$el.toggleClass('loading', loading);
         },
         
-        //  TODO: Standardize active vs selected.
-        setSelectedClass: function () {
+        setActiveClass: function () {
             var active = this.model.get('active');
-            this.$el.toggleClass('selected', active);
+            this.$el.toggleClass('active', active);
         },
         
         updateItemCount: function () {
@@ -81,7 +79,7 @@
             this.ui.itemCount.text(itemCount);
         },
         
-        select: function () {
+        activate: function () {
             this.model.set('active', true);
         },
         

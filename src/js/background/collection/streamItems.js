@@ -32,23 +32,22 @@
             this.on('add', function (addedStreamItem) {
                 console.log("streamItems onAdd is firing", addedStreamItem);
 
-                //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
-                if (addedStreamItem.get('selected')) {
-                    addedStreamItem.trigger('change:selected', addedStreamItem, true);
+                //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
+                if (addedStreamItem.get('active')) {
+                    addedStreamItem.trigger('change:active', addedStreamItem, true);
                 }
 
-                //  Ensure a stream item is always selected
-                if (this.selected().length === 0) {
-                    console.log("Selecting the added stream item");
-                    addedStreamItem.set('selected', true);
+                //  Ensure a streamItem is always active
+                if (_.isUndefined(this.getActiveItem())) {
+                    addedStreamItem.set('active', true);
                 }
             });
 
-            this.on('change:selected', function(changedStreamItem, selected) {
-                console.log("onSelected", changedStreamItem, selected);
-                //  Ensure only one streamItem is selected at a time by de-selecting all other selected streamItems.
-                if (selected) {
-                    this.deselectAllExcept(changedStreamItem);
+            this.on('change:active', function (changedStreamItem, active) {
+
+                //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
+                if (active) {
+                    this.deactivateAllExcept(changedStreamItem);
 
                     var videoId = changedStreamItem.get('video').get('id');
 
@@ -70,7 +69,7 @@
             this.listenTo(Player, 'change:state', function (model, state) {
                 
                 if (state === PlayerState.Ended) {
-                    this.selectNext();
+                    this.activateNext();
                 }
                 else if (state === PlayerState.Playing) {
 
@@ -80,13 +79,13 @@
                     if (foreground.length === 0) {
 
                         //  If the foreground UI is not open, show a notification to indicate active video.
-                        var selectedItem = this.getSelectedItem();
-                        var activeVideoId = selectedItem.get('video').get('id');
+                        var activeItem = this.getActiveItem();
+                        var activeVideoId = activeItem.get('video').get('id');
 
                         Notifications.showNotification({
                             iconUrl: 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
                             title: 'Now Playing',
-                            message: selectedItem.get('title')
+                            message: activeItem.get('title')
                         });
 
                     }
@@ -95,17 +94,20 @@
             });
 
             this.on('remove reset', function () {
-                console.log("remove/reset");
                 if (this.length === 0) {
                     Player.stop();
                 }
             });
 
             this.on('remove', function (removedStreamItem, collection, options) {
-                console.log("on remove");
-                if (removedStreamItem.get('selected') && this.length > 0) {
-                    this.selectNext(options.index);
-                    console.log("selected next");
+                //  If an item is deleted from the stream -- remove it from history, too, because you can't skip back to it.
+                var historyIndex = this.history.indexOf(removedStreamItem);
+                if (historyIndex > -1) {
+                    this.history.splice(historyIndex, 1);
+                }
+
+                if (removedStreamItem.get('active') && this.length > 0) {
+                    this.activateNext(options.index);
                 }
             });
 
@@ -238,8 +240,8 @@
             this.add({
                 video: playlistItem.get('video'),
                 title: playlistItem.get('title'),
-                //  Select and play the first added item if playOnAdd is set to true
-                selected: playOnAdd
+                //  Activate and play the first added item if playOnAdd is set to true
+                active: playOnAdd
             });
         },
         
@@ -252,8 +254,8 @@
             this.add({
                 video: video,
                 title: video.get('title'),
-                //  Select and play the first added item if playOnAdd is set to true
-                selected: playOnAdd
+                //  Activate and play the first added item if playOnAdd is set to true
+                active: playOnAdd
             });
 
         },
@@ -273,8 +275,8 @@
                 return new StreamItem({
                     video: video,
                     title: video.get('title'),
-                    //  Select and play the first added item if playOnAdd is set to true
-                    selected: playOnAdd && iterator === 0
+                    //  Activate and play the first added item if playOnAdd is set to true
+                    active: playOnAdd && iterator === 0
                 });
                 
             });
@@ -282,20 +284,20 @@
             this.add(streamItems);
         },
 
-        deselectAllExcept: function(changedStreamItem) {
+        deactivateAllExcept: function(changedStreamItem) {
 
             this.each(function(streamItem) {
 
                 if (streamItem != changedStreamItem) {
-                    streamItem.set('selected', false);
+                    streamItem.set('active', false);
                 }
 
             });
 
         },
 
-        getSelectedItem: function () {
-            return this.findWhere({ selected: true }) || null;
+        getActiveItem: function () {
+            return this.findWhere({ active: true });
         },
         
         //  TODO: Change getRelatedVideos into a property so I can watch for relatedVideos existing.
@@ -363,8 +365,8 @@
             return relatedVideo;
         },
         
-        //  If a streamItem which was selected is removed, selectNext will have a removedSelectedItemIndex provided
-        selectNext: function (removedSelectedItemIndex) {
+        //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
+        activateNext: function (removedActiveItemIndex) {
 
             var nextItem = null;
 
@@ -372,46 +374,43 @@
             var radioEnabled = RadioButton.get('enabled');
             var repeatButtonState = RepeatButton.get('state');
 
-            //  If removedSelectedItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
-            if (removedSelectedItemIndex === undefined && repeatButtonState === RepeatButtonState.RepeatVideo) {
-                var selectedItem = this.findWhere({ selected: true });
-                selectedItem.trigger('change:selected', selectedItem, true);
-                nextItem = selectedItem;
+            //  If removedActiveItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
+            if (removedActiveItemIndex === undefined && repeatButtonState === RepeatButtonState.RepeatVideo) {
+                var activeItem = this.findWhere({ active: true });
+                activeItem.trigger('change:active', activeItem, true);
+                nextItem = activeItem;
             } else if (shuffleEnabled) {
-
                 var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                shuffledItems[0].set('selected', true);
+                shuffledItems[0].set('active', true);
                 nextItem = shuffledItems[0];
             } else {
-
                 var nextItemIndex;
 
                 //  TODO: I shouldn't have to check both undefined and null here.
-                if (removedSelectedItemIndex !== undefined && removedSelectedItemIndex !== null) {
-                    nextItemIndex = removedSelectedItemIndex;
+                if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
+                    nextItemIndex = removedActiveItemIndex;
                 } else {
-                    nextItemIndex = this.indexOf(this.findWhere({ selected: true })) + 1;
+                    nextItemIndex = this.indexOf(this.findWhere({ active: true })) + 1;
                     if (nextItemIndex <= 0) throw "Failed to find nextItemIndex";
                 }
 
-                //  Select the next item by index. Potentially go back one if deleting last item.
+                //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
 
                     if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                        this.at(0).set('selected', true);
+                        this.at(0).set('active', true);
 
                         //  TODO: Might be sending an erroneous trigger on delete?
-                        //  Only one item in the playlist and it was already selected, resend selected trigger.
+                        //  Only one item in the playlist and it was already active, resend activated trigger.
                         if (this.length === 1) {
-                            this.at(0).trigger('change:selected', this.at(0), true);
+                            this.at(0).trigger('change:active', this.at(0), true);
                         }
 
                         nextItem = this.at(0);
                     }
-                        //  If the selected item was deleted and there's nothing to advance forward to -- select the previous item and pause.
-                    else if (removedSelectedItemIndex !== undefined && removedSelectedItemIndex !== null) {
-                        this.at(this.length - 1).set('selected', true);
-                        console.log("pausing player");
+                        //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
+                    else if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
+                        this.at(this.length - 1).set('active', true);
                         Player.pause();
                     }
                     else if (radioEnabled) {
@@ -425,27 +424,26 @@
                             nextItem = this.add({
                                 video: randomRelatedVideo,
                                 title: randomRelatedVideo.get('title'),
-                                selected: true
+                                active: true
                             });
                             
                         }
 
                     } else {
 
-                        //  Otherwise, select the first item in the playlist and then pause the player because playlist looping shouldn't continue.
-                        this.at(0).set('selected', true);
+                        //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
+                        this.at(0).set('active', true);
                         Player.pause();
                     }
 
                 } else {
-                    this.at(nextItemIndex).set('selected', true);
+                    this.at(nextItemIndex).set('active', true);
                     nextItem = this.at(nextItemIndex);
                 }
 
             }
 
             return nextItem;
-
         },
         
         //  Return the previous item or null without affecting the history.
@@ -464,17 +462,17 @@
                 var repeatButtonState = RepeatButton.get('state');
 
                 if (repeatButtonState === RepeatButtonState.RepeatVideo) {
-                    previousStreamItem = this.findWhere({ selected: true }) || null;
+                    previousStreamItem = this.findWhere({ active: true }) || null;
                 } else if(!shuffleEnabled) {
-                    //  Select the previous item by index. Potentially loop around to the back.
-                    var selectedItemIndex = this.indexOf(this.findWhere({ selected: true }));
+                    //  Activate the previous item by index. Potentially loop around to the back.
+                    var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
 
-                    if (selectedItemIndex === 0) {
+                    if (activeItemIndex === 0) {
                         if (repeatButtonState === RepeatButtonState.RepeatStream) {
                             previousStreamItem = this.at(this.length - 1) || null;
                         }
                     } else {
-                        previousStreamItem = this.at(selectedItemIndex - 1) || null;
+                        previousStreamItem = this.at(activeItemIndex - 1) || null;
                     }
 
                 }
@@ -484,7 +482,7 @@
         },
 
         //  TODO: Maybe this should just call getPrevious?
-        selectPrevious: function() {
+        activatePrevious: function() {
 
             //  Peel off currentStreamItem from the top of history.
             this.history.shift();
@@ -497,31 +495,26 @@
                 var repeatButtonState = RepeatButton.get('state');
 
                 if (repeatButtonState === RepeatButtonState.RepeatVideo) {
-                    var selectedItem = this.findWhere({ selected: true });
-                    selectedItem.trigger('change:selected', selectedItem, true);
+                    var activeItem = this.findWhere({ active: true });
+                    activeItem.trigger('change:active', activeItem, true);
                 } else if (shuffleEnabled) {
-
                     var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                    shuffledItems[0].set('selected', true);
-
+                    shuffledItems[0].set('active', true);
                 } else {
-                    //  Select the previous item by index. Potentially loop around to the back.
-                    var selectedItemIndex = this.indexOf(this.findWhere({ selected: true }));
+                    //  Activate the previous item by index. Potentially loop around to the back.
+                    var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
 
-                    if (selectedItemIndex === 0) {
-
+                    if (activeItemIndex === 0) {
                         if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                            this.at(this.length - 1).set('selected', true);
+                            this.at(this.length - 1).set('active', true);
                         }
-
                     } else {
-                        this.at(selectedItemIndex - 1).set('selected', true);
+                        this.at(activeItemIndex - 1).set('active', true);
                     }
-
                 }
 
             } else {
-                previousStreamItem.set('selected', true);
+                previousStreamItem.set('active', true);
             }
         },
         
@@ -532,16 +525,10 @@
         clear: function () {
             this.bannedVideoIdList = [];
             this.reset();
-        },
-        
-        //  Return a list of selected models.
-        selected: function () {
-            return this.where({ selected: true });
         }
+
     });
 
-    console.log("Instantiating StreamItems");
-    
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.StreamItems = new StreamItems();
     return window.StreamItems;

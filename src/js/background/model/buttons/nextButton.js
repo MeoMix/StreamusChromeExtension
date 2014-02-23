@@ -22,7 +22,7 @@
 
             console.log("nextButton initializing");
             
-            this.listenTo(StreamItems, 'add remove reset change:selected', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add remove reset change:active', this.toggleEnabled);
             this.listenTo(RadioButton, 'change:enabled', this.toggleEnabled);
             this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);
             this.listenTo(RepeatButton, 'change:state', this.toggleEnabled);
@@ -51,9 +51,9 @@
                     enabled = true;
                 } else {
                     //  Enable only if there are more items to skip to.
-                    var selectedItemIndex = StreamItems.indexOf(StreamItems.findWhere({ selected: true }));
+                    var activeItemIndex = StreamItems.indexOf(StreamItems.getActiveItem());
 
-                    if (selectedItemIndex + 1 !== StreamItems.length) {
+                    if (activeItemIndex + 1 !== StreamItems.length) {
                         enabled = true;
                     }
 
@@ -62,20 +62,19 @@
             }
 
             this.set('enabled', enabled);
-
         },
         
         //  Prevent spamming by only allowing a next click once every 100ms.
-        trySelectNextVideo: _.debounce(function () {
+        tryActivateNextVideo: _.debounce(function () {
 
-            var selectedNextItem = false;
+            var activatedNextItem = false;
 
             if (this.get('enabled')) {
-                var nextItem = StreamItems.selectNext();
-                selectedNextItem = nextItem !== null;
+                var nextItem = StreamItems.activateNext();
+                activatedNextItem = nextItem !== null;
             }
 
-            return selectedNextItem;
+            return activatedNextItem;
 
         }, 100, true)
 

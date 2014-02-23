@@ -11,18 +11,22 @@
         
         //  Empty, just render the items.
         template: _.template(),
+        
+        //  Cache dimensions because they can't change.
+        bodyHeight: $('body').height(),
+        bodyWidth: $('body').width(),
 
-        onRender: function () {
+        onShow: function () {
 
             //  Prevent display outside viewport.
             var offsetTop = this.model.get('top');
-            var needsVerticalFlip = offsetTop + this.$el.height() > this.$el.parent().height();
+            var needsVerticalFlip = offsetTop + this.$el.height() > this.bodyHeight;
             if (needsVerticalFlip) {
                 offsetTop = offsetTop - this.$el.height();
             }
 
             var offsetLeft = this.model.get('left');
-            var needsHorizontalFlip = offsetLeft + this.$el.width() > this.$el.parent().width();
+            var needsHorizontalFlip = offsetLeft + this.$el.width() > this.bodyWidth;
             if (needsHorizontalFlip) {
                 offsetLeft = offsetLeft - this.$el.width();
             }

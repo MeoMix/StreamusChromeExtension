@@ -2,11 +2,14 @@
     'text!template/playlistItem.html',
     'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
-    'common/enum/listItemType'
-], function (PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType) {
+    'common/enum/listItemType',
+    'foreground/view/playInStreamButtonView',
+    'foreground/view/addToStreamButtonView',
+    'foreground/view/deleteButtonView'
+], function (PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType, PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView) {
     'use strict';
 
-    var PlaylistItemView = Backbone.Marionette.ItemView.extend({
+    var PlaylistItemView = Backbone.Marionette.Layout.extend({
         className: 'listItem playlistItem multiSelectItem',
         
         template: _.template(PlaylistItemTemplate),
@@ -22,14 +25,8 @@
         instant: false,
         
         events: {
-            'click button.addToStream': 'addToStream',
-            'click button.delete': 'doDelete',
-            'click button.playInStream': 'playInStream',
             'contextmenu': 'showContextMenu',
-            //  Capture double-click events to prevent bubbling up to main dblclick event.
-            'dblclick': 'playInStream',
-            'dblclick button.addToStream': 'addToStream',
-            'dblclick button.playInStream': 'playInStream',
+            'dblclick': 'playInStream'
         },
         
         ui: {
@@ -39,20 +36,35 @@
         templateHelpers: function() {
             return {
                 instant: this.instant,
-                hdMessage: chrome.i18n.getMessage('hd'),
-                playMessage: chrome.i18n.getMessage('play'),
-                enqueueMessage: chrome.i18n.getMessage('enqueue'),
-                deleteMessage: chrome.i18n.getMessage('delete')
+                hdMessage: chrome.i18n.getMessage('hd')
             };
-        },
-        
-        onRender: function () {
-            this.setHighlight();
         },
         
         modelEvents: {
             'destroy': 'remove',
             'change:selected': 'setHighlight'
+        },
+        
+        regions: {
+            playInStreamRegion: '.play-in-stream-region',
+            addToStreamRegion: '.add-to-stream-region',
+            deleteRegion: '.delete-region'
+        },
+        
+        onRender: function () {
+            this.setHighlight();
+
+            this.playInStreamRegion.show(new PlayInStreamButtonView({
+                model: this.model.get('video')
+            }));
+
+            this.addToStreamRegion.show(new AddToStreamButtonView({
+                model: this.model.get('video')
+            }));
+
+            this.deleteRegion.show(new DeleteButtonView({
+                model: this.model
+            }));
         },
         
         initialize: function (options) {
@@ -63,13 +75,6 @@
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
-        doDelete: function () {
-            this.model.destroy();
-            
-            //  Don't allow click to bubble up to the list item and cause a selection.
-            return false;
-        },
-
         showContextMenu: function (event) {
             event.preventDefault();
 
@@ -116,22 +121,7 @@
                 }]
             );
 
-        },
-        
-        //  TODO: Is there a way to keep these actions DRY across multiple views?
-        playInStream: _.debounce(function () {
-            StreamItems.addByPlaylistItem(this.model, true);
-            
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true),
-        
-        addToStream: _.debounce(function() {
-            StreamItems.addByPlaylistItem(this.model, false);
-
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true)
+        }
 
     });
 

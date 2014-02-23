@@ -1,5 +1,4 @@
-﻿define([
-], function () {
+﻿define(function () {
 
     var GenericPrompt = Backbone.Model.extend({
         

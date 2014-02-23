@@ -13,7 +13,7 @@ define([
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
                 playedRecently: false,
-                selected: false,
+                active: false,
                 relatedVideoInformation: [] 
             };
         },
@@ -30,10 +30,10 @@ define([
                 this.set('video', new Video(video), { silent: true });
             }
             
-            //  Whenever a streamItem is selected it is considered playedRecently.
+            //  Whenever a streamItem is activated it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
-            this.on('change:selected', function(model, selected) {
-                if (selected) {
+            this.on('change:active', function (model, active) {
+                if (active) {
                     this.set('playedRecently', true);
                 }
             });

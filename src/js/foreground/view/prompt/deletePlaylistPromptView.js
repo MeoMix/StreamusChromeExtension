@@ -29,7 +29,7 @@
             if (remindDeletePlaylist) {
                 return GenericPromptView.prototype.fadeInAndShow.call(this, arguments);
             } else {
-                this.model.get('view').model.destroy();
+                this.model.get('view').doOk();
             }
             
         }

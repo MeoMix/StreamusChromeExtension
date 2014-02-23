@@ -15,12 +15,12 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'change:selected remove reset', this.toggleEnabled);
+            this.listenTo(StreamItems, 'change:active remove reset', this.toggleEnabled);
             this.toggleEnabled();
         },
         
         toggleEnabled: function() {
-            this.set('enabled', StreamItems.where({ selected: true }).length > 0);
+            this.set('enabled', StreamItems.length > 0);
         },
         
         //  Only allow changing once every 100ms to preent spamming.

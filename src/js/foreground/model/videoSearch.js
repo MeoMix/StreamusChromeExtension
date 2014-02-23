@@ -23,9 +23,9 @@
         initialize: function () {
             var searchQuery = this.get('searchQuery');
 
+            //  TODO: Should I not store searchQuery in Settings then? I'm not really sure why I would want to store it in localStorage.
             //  VideoSearchResults will be empty if Streamus was restarted, but searchQuery is stored in settings (probably a bad call)
             if (searchQuery !== '' && VideoSearchResults.length === 0) {
-                console.log("searching");
                 this.search(searchQuery);
             }
         },
@@ -74,8 +74,6 @@
             });
 
             var searchJqXhr;
-
-            //  TODO: Support displaying playlists and channel URLs.
             //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
             if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
 
@@ -107,7 +105,7 @@
             //  Typing is false if they've paused for long enough for doSearch to run.
             this.set('typing', false);
 
-            //  TODO: Handle other data sources
+            //  TODO: Support displaying playlists and channel URLs.
             //var playlistIndicator = 'playlist,';
 
             //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);

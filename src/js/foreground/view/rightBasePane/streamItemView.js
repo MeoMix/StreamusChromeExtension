@@ -7,15 +7,25 @@
     'background/model/buttons/playPauseButton',
     'background/model/player',
     'common/enum/listItemType',
-    'background/model/user'
-], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User) {
+    'background/model/user',
+    'foreground/view/deleteButtonView',
+    'foreground/view/saveToPlaylistButtonView'
+], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User, DeleteButtonView, SaveToPlaylistButtonView) {
     'use strict';
 
-    var StreamItemView = Backbone.Marionette.ItemView.extend({
+    var StreamItemView = Backbone.Marionette.Layout.extend({
         
         className: 'listItem streamItem',
 
         template: _.template(StreamItemTemplate),
+        
+        templateHelpers: function () {
+            return {
+                hdMessage: chrome.i18n.getMessage('hd'),
+                playMessage: chrome.i18n.getMessage('play'),
+                instant: this.instant
+            };
+        },
         
         instant: false,
 
@@ -27,8 +37,7 @@
         },
         
         events: {
-            'click': 'select',
-            'click @ui.deleteButton': 'doDelete',
+            'click': 'activate',
             'click button.playInStream': 'play',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
@@ -36,37 +45,41 @@
             'dblclick button.playInStream': 'play'
         },
         
-        ui: {
-            'imageThumbnail': 'img.item-thumb',
-            'deleteButton': 'button.delete'
-        },
-        
-        templateHelpers: function () {
-            return {
-                hdMessage: chrome.i18n.getMessage('hd'),
-                playMessage: chrome.i18n.getMessage('play'),
-                deleteMessage: chrome.i18n.getMessage('delete'),
-                instant: this.instant             
-            };
-        },
-        
         modelEvents: {
-            'change:selected': 'setSelectedClass',
+            'change:active': 'setActiveClass',
             'destroy': 'remove'
         },
         
-        onShow: function() {
-            var selected = this.model.get('selected');
+        ui: {
+            'imageThumbnail': 'img.item-thumb'
+        },
 
-            //  If the stream item is selected -- ensure it is instantly visible.
-            if (selected) {
+        regions: {
+            deleteRegion: '.delete-region',
+            saveToPlaylistRegion: '.save-to-playlist-region'
+        },
+        
+        onShow: function() {
+            var active = this.model.get('active');
+
+            //  If the stream item is active -- ensure it is instantly visible.
+            if (active) {
                 //  Pass 0 into scrollIntoView to have no animation/show instantly.
                 this.$el.scrollIntoView(0);
             }
         },
 
         onRender: function () {
-            this.$el.toggleClass('selected', this.model.get('selected'));
+            this.$el.toggleClass('active', this.model.get('active'));
+
+            this.deleteRegion.show(new DeleteButtonView({
+                model: this.model
+            }));
+            
+            this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
+                model: this.model.get('video')
+            }));
+
             this.applyTooltips();
         },
             
@@ -74,30 +87,21 @@
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
         },
 
-        select: function () {
-            this.model.set('selected', true);
+        activate: function () {
+            this.model.set('active', true);
         },
 
         togglePlayingState: function () {
             PlayPauseButton.tryTogglePlayerState();
         },
-        
-        doDelete: function () {
-            //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
-            this.ui.deleteButton.qtip('api').destroy(true);
-            this.model.destroy();
-
-            //  Don't allow click to bubble up to the list item and cause a selection.
-            return false;
-        },
-        
-        //  Force the view to reflect the model's selected class. It's important to do this here, and not through render always, because
+ 
+        //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
         //  render will cause the lazy-loaded image to be reset.
-        setSelectedClass: function () {
-            var selected = this.model.get('selected');
-            this.$el.toggleClass('selected', selected);
+        setActiveClass: function () {
+            var active = this.model.get('active');
+            this.$el.toggleClass('active', active);
             
-            if (selected) {
+            if (active) {
                 this.$el.scrollIntoView();
             }
         },
@@ -178,13 +182,14 @@
 
         },
 
+        //  TODO: Can I merge this logic with playInStreamButtonView?
         play: _.debounce(function () {
             
-            if (this.model.get('selected')) {
+            if (this.model.get('active')) {
                 Player.play();
             } else {
                 Player.playOnceVideoChanges();
-                this.select();
+                this.activate();
             }
  
             //  Don't allow dblclick to bubble up to the list item and cause a play.

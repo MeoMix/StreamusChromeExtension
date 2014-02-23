@@ -18,15 +18,7 @@
 </span>
 
 <span class="hover-actions">
-    <button class="button-icon playInStream" title="<%= playMessage %>">
-        <i class="fa fa-play"></i>
-    </button>
-    
-    <button class="button-icon addToStream" title="<%= enqueueMessage %>">
-        <i class="fa fa-plus"></i>
-    </button>
-    
-    <button class="button-icon save <%= userSignedIn ? '' : 'disabled' %>" title="<%= userSignedIn ? saveMessage : cantSaveNotSignedInMessage %>">
-        <i class="fa fa-save"></i>
-    </button>
+    <span class="play-in-stream-region"></span>
+    <span class="add-to-stream-region"></span>
+    <span class="save-to-playlist-region"></span>
 </span>

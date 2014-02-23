@@ -26,7 +26,7 @@ define([
         },
         
         events: {
-            'click @ui.nextButton': 'trySelectNextVideo',
+            'click @ui.nextButton': 'tryActivateNextVideo',
             'click @ui.previousButton': 'tryDoTimeBasedPrevious',
             'click @ui.playPauseButton': 'tryTogglePlayerState'
         },
@@ -64,14 +64,16 @@ define([
         },
         
         initialize: function () {
+            console.log("NextButton events:", NextButton._events);
+
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
         },
         
-        trySelectNextVideo: function () {
+        tryActivateNextVideo: function () {
             //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
-            NextButton.trySelectNextVideo();
+            NextButton.tryActivateNextVideo();
         },
         
         tryDoTimeBasedPrevious: function() {
@@ -82,7 +84,8 @@ define([
             PlayPauseButton.tryTogglePlayerState();
         },
         
-        setNextButtonDisabled: function() {
+        setNextButtonDisabled: function () {
+            console.log("setNextButtonDisabled is firing");
             this.ui.nextButton.toggleClass('disabled', !NextButton.get('enabled'));
         },
         
