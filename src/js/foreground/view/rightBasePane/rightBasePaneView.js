@@ -31,6 +31,10 @@ define([
             'click @ui.playPauseButton': 'tryTogglePlayerState'
         },
         
+        modelEvents: {
+            'change:state': 'setPlayPauseButtonState'
+        },
+        
         ui: {
             nextButton: '#next-button',
             previousButton: '#previous-button',
@@ -59,13 +63,15 @@ define([
             this.applyTooltips();
         },
         
-        modelEvents: {
-            'change:state': 'setPlayPauseButtonState'
+        //  TODO: Why do I have to do this manually? I thought Marionette handled this for me?
+        onClose: function () {
+            this.stopListening(NextButton);
+            this.stopListening(PreviousButton);
+            this.stopListening(PlayPauseButton);
+            this.stopListening(this.model);
         },
-        
-        initialize: function () {
-            console.log("NextButton events:", NextButton._events);
 
+        initialize: function () {
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
@@ -85,7 +91,7 @@ define([
         },
         
         setNextButtonDisabled: function () {
-            console.log("setNextButtonDisabled is firing");
+            console.log('setNextButtonDisabled:', this.ui.nextButton, NextButton);
             this.ui.nextButton.toggleClass('disabled', !NextButton.get('enabled'));
         },
         
@@ -94,7 +100,6 @@ define([
         },
         
         setPlayPauseButtonState: function() {
-
             var playerState = this.model.get('state');
             
             var icon;
@@ -110,7 +115,6 @@ define([
             }
 
             this.ui.playPauseButton.empty().append(icon);
-            
             this.ui.playPauseButton.toggleClass('disabled', !PlayPauseButton.get('enabled'));
         }
 

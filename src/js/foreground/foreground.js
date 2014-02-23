@@ -22,8 +22,9 @@ define([
     'background/model/user',
     'foreground/model/contextMenu',
     'foreground/view/contextMenuView',
-    'foreground/collection/contextMenuItems'
-], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems) {
+    'foreground/collection/contextMenuItems',
+    'common/enum/playerState'
+], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState) {
 
     //  TODO: Should this be an 'Application' object? MarionetteJS documentation says that it should start with an Application, but I kind of like a Layout.
     var ForegroundView = Backbone.Marionette.Layout.extend({
@@ -38,11 +39,11 @@ define([
         },
 
         regions: {
-            dialog: '#dialog-region',
-            contextMenu: "#context-menu-region",
-            leftBasePane: '#left-base-pane-region',
-            rightBasePane: '#right-base-pane-region',
-            leftCoveringPane: '#left-covering-pane-region'
+            dialogRegion: '#dialog-region',
+            contextMenuRegion: "#context-menu-region",
+            leftBasePaneRegion: '#left-base-pane-region',
+            rightBasePaneRegion: '#right-base-pane-region',
+            leftCoveringPaneRegion: '#left-covering-pane-region'
         },
 
         reloadPromptView: null,
@@ -66,17 +67,18 @@ define([
                 });
             }
 
-            this.rightBasePane.show(new RightBasePaneView({
+            this.rightBasePaneRegion.show(new RightBasePaneView({
                 model: Player
             }));
 
-            this.leftBasePane.show(new LeftBasePaneView());
+            this.leftBasePaneRegion.show(new LeftBasePaneView());
 
             if (Settings.get('alwaysOpenToSearch')) {
                 this.showVideoSearch(false);
             }
 
             this.listenTo(Player, 'error', this.showYouTubeError);
+            this.listenTo(Player, 'change:state', this.setPlayerStateClass);
 
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
@@ -126,19 +128,19 @@ define([
         showPlaylistsArea: _.throttle(function () {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (_.isUndefined(this.leftCoveringPane.currentView)) {
+            if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
                 var playlistsArea = new PlaylistsArea();
 
                 //  Show the view using VideoSearchResults collection in which to render its results from.
-                this.leftCoveringPane.show(new PlaylistsAreaView({
+                this.leftCoveringPaneRegion.show(new PlaylistsAreaView({
                     model: playlistsArea,
                     collection: Playlists
                 }));
 
                 //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(playlistsArea, 'destroy', function () {
-                    this.leftCoveringPane.close();
+                    this.leftCoveringPaneRegion.close();
                 });
             }
 
@@ -148,7 +150,7 @@ define([
         showVideoSearch: _.throttle(function (doSnapAnimation) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (_.isUndefined(this.leftCoveringPane.currentView)) {
+            if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
                 //  Create model for the view and indicate whether view should appear immediately or display snap animation.
                 var videoSearch = new VideoSearch({
@@ -157,19 +159,19 @@ define([
                 });
 
                 //  Show the view using VideoSearchResults collection in which to render its results from.
-                this.leftCoveringPane.show(new VideoSearchView({
+                this.leftCoveringPaneRegion.show(new VideoSearchView({
                     collection: VideoSearchResults,
                     model: videoSearch
                 }));
 
                 //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(videoSearch, 'destroy', function () {
-                    this.leftCoveringPane.close();
+                    this.leftCoveringPaneRegion.close();
                 });
 
             } else {
                 //  Highlight the fact that is already visible by shaking it.
-                this.leftCoveringPane.currentView.shake();
+                this.leftCoveringPaneRegion.currentView.shake();
             }
 
         }, 400),
@@ -204,7 +206,7 @@ define([
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         tryResetContextMenu: function (event) {
             if (event.isDefaultPrevented()) {
-                this.contextMenu.show(new ContextMenuView({
+                this.contextMenuRegion.show(new ContextMenuView({
                     collection: ContextMenuItems,
                     model: new ContextMenu({
                         top: event.pageY,
@@ -214,8 +216,14 @@ define([
                 }));
             } else {
                 ContextMenuItems.reset();
-                this.contextMenu.close();
+                this.contextMenuRegion.close();
             }
+        },
+        
+        //  Keep the player state represented on the body so CSS can be modified to reflect state.
+        setPlayerStateClass: function () {
+            var playerState = Player.get('state');
+            this.$el.toggleClass('playing', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
         }
 
     });

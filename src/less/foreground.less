@@ -7,6 +7,8 @@
 //  http://flatuicolors.com/
 @nephritis: #27ae60;
 @lightNephritis: lighten(@nephritis, 30%);
+@sunflower: #f1c40f;
+@lightSunflower: lighten(@sunflower, 30%);
 
 @font-face {
   font-family: 'Open Sans';
@@ -528,6 +530,19 @@ input[type="range"]::-webkit-slider-thumb {
     }
 
     &.active {
+        background: @sunflower;
+        transition: background .3s;
+
+        .item-details {
+            color: @lightSunflower;
+        }
+
+        .hover-actions {
+            color: @lightSunflower;
+        }
+    }
+
+    body.playing &.active {
         background: @nephritis;
 
         .item-details {

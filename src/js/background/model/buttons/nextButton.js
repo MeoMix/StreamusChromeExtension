@@ -19,9 +19,6 @@
         },
         
         initialize: function () {
-
-            console.log("nextButton initializing");
-            
             this.listenTo(StreamItems, 'add remove reset change:active', this.toggleEnabled);
             this.listenTo(RadioButton, 'change:enabled', this.toggleEnabled);
             this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);

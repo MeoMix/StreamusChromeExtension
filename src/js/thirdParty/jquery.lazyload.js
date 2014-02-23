@@ -21,64 +21,39 @@
         var $container;
         var settings = {
             threshold: 0,
-            failure_limit: 0,
             event: "scroll",
             effect: "show",
             container: window,
             data_attribute: "original",
-            skip_invisible: true,
             appear: null,
             load: null
         };
 
         function update() {
-            var counter = 0;
-
             elements.each(function () {
                 var $this = $(this);
-                if (settings.skip_invisible && !$this.is(":visible")) {
-                    return;
-                }
-                if ($.abovethetop(this, settings) ||
-                    $.leftofbegin(this, settings)) {
+
+                if ($.abovethetop(this, settings) || $.leftofbegin(this, settings)) {
                     /* Nothing. */
-                } else if (!$.belowthefold(this, settings) &&
-                    !$.rightoffold(this, settings)) {
-                    console.log("Triggering appear");
+                } else if (!$.belowthefold(this, settings) && !$.rightoffold(this, settings)) {
                     $this.trigger("appear");
-                    /* if we found an image we'll load, reset the counter */
-                    counter = 0;
                 } else {
-                    if (++counter > settings.failure_limit) {
-                        return false;
-                    }
+                    return false;
                 }
             });
 
         }
 
         if (options) {
-            /* Maintain BC for a couple of versions. */
-            if (undefined !== options.failurelimit) {
-                options.failure_limit = options.failurelimit;
-                delete options.failurelimit;
-            }
-            if (undefined !== options.effectspeed) {
-                options.effect_speed = options.effectspeed;
-                delete options.effectspeed;
-            }
-
             $.extend(settings, options);
         }
 
         /* Cache container as jQuery as object. */
-        $container = (settings.container === undefined ||
-                      settings.container === window) ? $window : $(settings.container);
+        $container = (settings.container === undefined || settings.container === window) ? $window : $(settings.container);
 
         /* Fire one scroll event per scroll. Not one scroll event per image. */
         if (0 === settings.event.indexOf("scroll")) {
-            console.log("$container.bind:", $container);
-            $container.bind(settings.event, function () {
+            $container.on(settings.event, function () {
                 return update();
             });
         }
@@ -97,7 +72,7 @@
                         settings.appear.call(self, elements_left, settings);
                     }
                     $("<img />")
-                        .bind("load", function () {
+                        .on("load", function () {
 
                             var original = $self.attr("data-" + settings.data_attribute);
                             $self.hide();
@@ -128,7 +103,7 @@
             /* When wanted event is triggered load original image */
             /* by triggering appear.                              */
             if (0 !== settings.event.indexOf("scroll")) {
-                $self.bind(settings.event, function () {
+                $self.on(settings.event, function () {
                     if (!self.loaded) {
                         $self.trigger("appear");
                     }
@@ -136,13 +111,9 @@
             }
         });
 
-        /* Check if something appears when window is resized. */
-        $window.bind("resize", function () {
-            update();
-        });
-
         /* Force initial check if images should appear. */
         $(document).ready(function () {
+            console.log("jquery.lazyload document ready is firing");
             update();
         });
 
