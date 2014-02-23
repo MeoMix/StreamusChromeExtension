@@ -42,9 +42,6 @@
 	"save": {
 		"message": "Save"
 	},
-	"enqueue": {
-		"message": "Enqueue"
-	},
 	"copyUrl": {
 		"message": "Copy URL"
 	},
@@ -321,20 +318,11 @@
 	"streamEmpty": {
 		"message": "Stream empty"
 	},
-	"enqueueSelected": {
-		"message": "Enqueue selected"
-	},
 	"playlistEmpty": {
 		"message": "Playlist empty"
 	},
-	"enqueuePlaylist": {
-		"message": "Enqueue playlist"
-	},
 	"playPlaylist": {
 		"message": "Play playlist"
-	},
-	"enqueueAll": {
-		"message": "Enqueue all"
 	},
 	"create": {
 		"message": "Create"
@@ -411,5 +399,15 @@
 	},
 	"alwaysOpenToSearch": {
 		"message": "Always open to search"
+	},
+
+	"addAll": {
+		"message": "Add all"
+	},
+	"addSelected": {
+		"message": "Add selected"
+	},
+	"addPlaylist": {
+		"message": "Add playlist"
 	}
 }

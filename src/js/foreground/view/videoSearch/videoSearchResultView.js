@@ -89,7 +89,7 @@
                         StreamItems.addByVideo(video, true);
                     }
                 }, {
-                    text: chrome.i18n.getMessage('enqueue'),
+                    text: chrome.i18n.getMessage('add'),
                     onClick: function () {
                         StreamItems.addByVideo(video, false);
                     }

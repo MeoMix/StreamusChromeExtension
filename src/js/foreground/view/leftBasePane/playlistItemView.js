@@ -102,7 +102,7 @@
                         self.model.destroy();
                     }
                 }, {
-                    text: chrome.i18n.getMessage('enqueue'),
+                    text: chrome.i18n.getMessage('add'),
                     onClick: function() {
                         StreamItems.addByVideo(self.model.get('video'));
                     }

@@ -34,12 +34,14 @@
             'click button#hideVideoSearch': 'hide',
             'contextmenu @ui.itemContainer': 'showContextMenu',
             'click button#playSelected': 'playSelected',
+            'click button#addSelected': 'addSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
         }),
  
         templateHelpers: function() {
             return {
                 saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
+                addSelectedMessage: chrome.i18n.getMessage('addSelected'),
                 playSelectedMessage: chrome.i18n.getMessage('playSelected'),
                 searchMessage: chrome.i18n.getMessage('search'),
                 hideVideoSearchMessage: chrome.i18n.getMessage('hideVideoSearch'),
@@ -156,6 +158,10 @@
         
         playSelected: function () {
             StreamItems.addByVideos(this.collection.getSelectedVideos(), true);
+        },
+        
+        addSelected: function() {
+            StreamItems.addByVideos(this.collection.getSelectedVideos(), false);
         },
 
         showSaveSelectedPrompt: function () {

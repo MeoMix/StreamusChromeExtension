@@ -42,9 +42,6 @@
 	"save": {
 		"message": "Shrani"
 	},
-	"enqueue": {
-		"message": "Enqueue"
-	},
 	"copyUrl": {
 		"message": "Kopiraj povezavo"
 	},
@@ -321,20 +318,11 @@
 	"streamEmpty": {
 		"message": "Stream je prazen"
 	},
-	"enqueueSelected": {
-		"message": "Enqueue selected"
-	},
 	"playlistEmpty": {
 		"message": "Seznam predvajanja je prazen"
 	},
-	"enqueuePlaylist": {
-		"message": "Enqueue playlist"
-	},
 	"playPlaylist": {
 		"message": "Predvajaj seznam predvajanja"
-	},
-	"enqueueAll": {
-		"message": "Enqueue all"
 	},
 	"create": {
 		"message": "Ustvari"
@@ -389,5 +377,15 @@
 	},
 	"watchOnYouTube": {
 		"message": "Oglej si na YouTube"
+	},
+
+	"addAll": {
+		"message": "Add all"
+	},
+	"addSelected": {
+		"message": "Add selected"
+	},
+	"addPlaylist": {
+		"message": "Add playlist"
 	}
 }

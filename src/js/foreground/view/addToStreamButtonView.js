@@ -11,7 +11,7 @@
         template: _.template(AddToStreamButtonTemplate),
         
         attributes: {
-            title: chrome.i18n.getMessage('enqueue')
+            title: chrome.i18n.getMessage('add')
         },
         
         events: {

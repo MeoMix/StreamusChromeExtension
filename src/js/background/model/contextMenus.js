@@ -49,7 +49,7 @@ define([
             }));
 
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                'title': chrome.i18n.getMessage('enqueue'),
+                'title': chrome.i18n.getMessage('add'),
                 'parentId': streamusContextMenuId,
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;

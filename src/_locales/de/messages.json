@@ -42,9 +42,6 @@
     "save": {
             "message": "Speichern"
     },
-    "enqueue": {
-            "message": "Hinzufügen"
-    },
     "copyUrl": {
             "message": "Kopiere URL"
     },
@@ -321,20 +318,11 @@
     "streamEmpty": {
             "message": "Stream leer"
     },
-    "enqueueSelected": {
-            "message": "Ausgewählte hinzufügen"
-    },
     "playlistEmpty": {
             "message": "Playlist leer"
     },
-    "enqueuePlaylist": {
-            "message": "Playlist hinzufügen"
-    },
     "playPlaylist": {
             "message": "Playlist wiedergeben"
-    },
-    "enqueueAll": {
-            "message": "Alle hinzufügen"
     },
     "create": {
             "message": "Erstelle"
@@ -389,5 +377,14 @@
     },
     "watchOnYouTube": {
             "message": "Auf YouTube ansehen"
-    }
+    },
+	"addAll": {
+		"message": "Add all"
+	},
+	"addSelected": {
+		"message": "Add selected"
+	},
+	"addPlaylist": {
+		"message": "Add playlist"
+	}
 }

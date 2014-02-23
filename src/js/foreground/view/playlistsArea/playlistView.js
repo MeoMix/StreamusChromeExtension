@@ -138,7 +138,7 @@
                         }
                     }
                 }, {
-                    text: chrome.i18n.getMessage('enqueue'),
+                    text: chrome.i18n.getMessage('add'),
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {

@@ -17,7 +17,7 @@
                 searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
                 playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
                 wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo'),
-                enqueueAllMessage: chrome.i18n.getMessage('enqueueAll'),
+                addAllMessage: chrome.i18n.getMessage('addAll'),
                 playAllMessage: chrome.i18n.getMessage('playAll')
             };
         },
@@ -62,7 +62,11 @@
         },
         
         updatePlaylistDetails: function () {
-            this.ui.playlistDetails.text(this.model.get('displayInfo'));
+            var displayInfo = this.model.get('displayInfo');
+
+            this.ui.playlistDetails.text(displayInfo);
+            //  TODO: Is there a way to use a mutationObserver to monitor text so that content.text will update automatically?
+            this.ui.playlistDetails.qtip('api').set('content.text', displayInfo);
         },
        
         //  Set the visibility of any visible text messages.
