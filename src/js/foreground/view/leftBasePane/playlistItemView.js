@@ -42,7 +42,7 @@
         
         modelEvents: {
             'destroy': 'remove',
-            'change:selected': 'setHighlight'
+            'change:selected': 'setSelectedClass'
         },
         
         regions: {
@@ -52,7 +52,7 @@
         },
         
         onRender: function () {
-            this.setHighlight();
+            this.setSelectedClass();
 
             this.playInStreamRegion.show(new PlayInStreamButtonView({
                 model: this.model.get('video')
@@ -71,7 +71,7 @@
             this.instant = options && options.instant || this.instant;
         },
         
-        setHighlight: function () {
+        setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         

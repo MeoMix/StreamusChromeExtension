@@ -19,6 +19,10 @@
             'dblclick': 'playInStream'
         },
         
+        initialize: function () {
+            this.applyTooltips();
+        },
+        
         playInStream: _.debounce(function () {
             StreamItems.addByVideo(this.model, true);
 

@@ -22,6 +22,7 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedin', this.setTitleAndDisabled);
+            this.applyTooltips();
         },
 
         saveToPlaylist: _.debounce(function () {

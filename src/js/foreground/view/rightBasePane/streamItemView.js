@@ -15,7 +15,7 @@
 
     var StreamItemView = Backbone.Marionette.Layout.extend({
         
-        className: 'listItem streamItem',
+        className: 'listItem streamItem multiSelectItem',
 
         template: _.template(StreamItemTemplate),
         
@@ -37,16 +37,16 @@
         },
         
         events: {
-            'click': 'activate',
             'click button.playInStream': 'play',
             'contextmenu': 'showContextMenu',
             //  Capture double-click events to prevent bubbling up to main dblclick event.
-            'dblclick': 'togglePlayingState',
+            'dblclick': 'activateOrToggleState',
             'dblclick button.playInStream': 'play'
         },
         
         modelEvents: {
             'change:active': 'setActiveClass',
+            'change:selected': 'setSelectedClass',
             'destroy': 'remove'
         },
         
@@ -87,12 +87,12 @@
             this.instant = options && options.instant !== undefined ? options.instant : this.instant;
         },
 
-        activate: function () {
-            this.model.set('active', true);
-        },
-
-        togglePlayingState: function () {
-            PlayPauseButton.tryTogglePlayerState();
+        activateOrToggleState: function () {
+            if (!this.model.get('active')) {
+                this.model.set('active', true);
+            } else {
+                PlayPauseButton.tryTogglePlayerState();
+            }
         },
  
         //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
@@ -104,6 +104,11 @@
             if (active) {
                 this.$el.scrollIntoView();
             }
+        },
+        
+        //  TODO: Maybe keep DRY with video search results and playlist items by introducing a "Selectable" list item view.
+        setSelectedClass: function () {
+            this.$el.toggleClass('selected', this.model.get('selected'));
         },
 
         showContextMenu: function (event) {

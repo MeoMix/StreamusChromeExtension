@@ -12,6 +12,7 @@ define([
     'foreground/view/rightBasePane/rightBasePaneView',
     'foreground/model/videoSearch',
     'foreground/view/videoSearch/videoSearchView',
+    'background/collection/streamItems',
     'background/collection/videoSearchResults',
     'background/collection/playlists',
     'common/enum/youTubePlayerError',
@@ -24,7 +25,7 @@ define([
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuItems',
     'common/enum/playerState'
-], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState) {
+], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, StreamItems, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState) {
 
     //  TODO: Should this be an 'Application' object? MarionetteJS documentation says that it should start with an Application, but I kind of like a Layout.
     var ForegroundView = Backbone.Marionette.Layout.extend({
@@ -79,6 +80,7 @@ define([
 
             this.listenTo(Player, 'error', this.showYouTubeError);
             this.listenTo(Player, 'change:state', this.setPlayerStateClass);
+            this.setPlayerStateClass();
 
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
@@ -109,10 +111,36 @@ define([
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
         onClickDeselectCollections: function (event) {
             var isMultiSelectItem = $(event.target).hasClass('multiSelectItem');
-            var isChildMultiSelectItem = $(event.target).closest('.multiSelectItem').length > 0;
+
+            var parentMultiSelectItem = $(event.target).closest('.multiSelectItem');
+            var isChildMultiSelectItem = parentMultiSelectItem.length > 0;
 
             if (!isMultiSelectItem && !isChildMultiSelectItem) {
                 this.deselectCollections();
+            }
+
+            //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
+            var isPlaylistItem = $(event.target).hasClass('playlistItem') || parentMultiSelectItem.hasClass('playlistItem');
+            if (isPlaylistItem) {
+                VideoSearchResults.deselectAll();
+                StreamItems.deselectAll();
+            }
+            
+            var isStreamItem = $(event.target).hasClass('streamItem') || parentMultiSelectItem.hasClass('streamItem');
+            if (isStreamItem) {
+                VideoSearchResults.deselectAll();
+                
+                if (User.get('signedIn')) {
+                    Playlists.getActivePlaylist().get('items').deselectAll();
+                }
+            }
+            
+            var isVideoSearchResult = $(event.target).hasClass('videoSearchResult') || parentMultiSelectItem.hasClass('videoSearchResult');
+            if (isVideoSearchResult) {
+                StreamItems.deselectAll();
+                if (User.get('signedIn')) {
+                    Playlists.getActivePlaylist().get('items').deselectAll();
+                }
             }
         },
 
@@ -122,6 +150,7 @@ define([
             }
 
             VideoSearchResults.deselectAll();
+            StreamItems.deselectAll();
         },
 
         //  Slides in PlaylistsAreaView from the left side.

@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/eventAggregator',
-    'foreground/view/streamusCompositeView',
+    'foreground/view/multiSelectCompositeView',
     'text!template/stream.html',
     'common/enum/listItemType',
     'foreground/model/streamAction',
@@ -12,10 +12,10 @@
     'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
     'common/enum/repeatButtonState'
-], function (EventAggregator, StreamusCompositeView, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
+], function (EventAggregator, MultiSelectCompositeView, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
     'use strict';
     
-    var StreamView = StreamusCompositeView.extend({
+    var StreamView = MultiSelectCompositeView.extend({
         
         id: 'stream',
         itemViewContainer: '#streamItems',
@@ -33,8 +33,8 @@
                 userSignedIn: User.get('signedIn')
             };
         },
-
-        events: {
+        
+        events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'click button#clearStream': 'clear',
             'click @ui.enabledSaveStreamButton': 'save',
             'scroll @ui.streamItems': 'loadVisible',
@@ -45,7 +45,7 @@
             'click @ui.showVideoSearch': function () {
                 EventAggregator.trigger('streamView:showVideoSearch');
             }
-        },
+        }),
         
         collectionEvents: {
             'add remove reset': function () {
@@ -72,9 +72,8 @@
         onShow: function () {
             this.onFullyVisible();
         },
-
-        onRender: function () {
-            
+        
+        onRender: function () {            
             this.toggleBigText();
             this.toggleContextButtons();
             this.updateSaveStreamButton();
@@ -88,133 +87,7 @@
                 this.$el.trigger('scroll');
             }
 
-            var self = this;
-
-            this.$el.find(this.itemViewContainer).sortable({
-
-                connectWith: '.droppable-list',
-
-                cursorAt: {
-                    right: 35,
-                    bottom: 40
-                },
-
-                placeholder: 'sortable-placeholder listItem hiddenUntilChange',
-
-                helper: function (ui, streamItem) {
-
-                    //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
-                    var copyHelperView = new StreamItemView({
-                        model: self.collection.get(streamItem.data('id')),
-                        //  Don't lazy-load the view because copy helper is clearly visible
-                        instant: true
-                    });
-
-                    this.copyHelper = copyHelperView.render().$el.insertAfter(streamItem);
-                    this.copyHelper.css({
-                        opacity: '.5'
-                    }).addClass('copyHelper');
-
-                    this.backCopyHelper = streamItem.prev();
-                    this.backCopyHelper.addClass('copyHelper');
-
-                    $(this).data('copied', false);
-
-                    return $('<span>', {
-                        'class': 'selectedModelsLength',
-                        'text': '1'
-                    });
-                },
-
-                change: function () {
-                    //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
-                    //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
-                    $('.hiddenUntilChange').removeClass('hiddenUntilChange');
-                },
-                start: function (event, ui) {
-                    
-                    var activePlaylist = Playlists.getActivePlaylist();
-                    
-                    if (!_.isUndefined(activePlaylist)) {
-                        var streamItemId = ui.item.data('id');
-
-                        //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
-                        var draggedStreamItem = self.collection.get(streamItemId);
-
-                        var videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(draggedStreamItem.get('video'));
-                        ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
-                    } else {
-                        ui.placeholder.addClass('noPlaylist');
-                    }
-
-                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
-                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
-                },
-                stop: function () {
-                    this.backCopyHelper.removeClass('copyHelper');
-
-                    var copied = $(this).data('copied');
-                    if (copied) {
-                        this.copyHelper.css({
-                            opacity: 1
-                        }).removeClass('copyHelper');
-                    }
-                    else {
-                        this.copyHelper.remove();
-                    }
-
-                    this.copyHelper = null;
-                    this.backCopyHelper = null;
-
-                },
-                tolerance: 'pointer',
-                receive: function (event, ui) {
-
-                    var listItemType = ui.item.data('type');
-
-                    if (listItemType === ListItemType.PlaylistItem) {
-                        var activePlaylistItems = Playlists.getActivePlaylist().get('items');
-
-                        var draggedPlaylistItems = activePlaylistItems.selected();
-                        self.collection.addByDraggedPlaylistItems(draggedPlaylistItems, ui.item.index());
-
-                        activePlaylistItems.deselectAll();
-                    } else if (listItemType === ListItemType.VideoSearchResult) {
-                        var draggedSearchResults = VideoSearchResults.selected();
-
-                        self.collection.addByDraggedVideoSearchResults(draggedSearchResults, ui.item.index());
-                        VideoSearchResults.deselectAll();
-                    }
-
-                    ui.item.remove();
-                    ui.sender.data('copied', true);
-
-                    return false;
-                },
-                update: function (event, ui) {
-                    var listItemType = ui.item.data('type');
-
-                    //  Don't run this code when handling playlist items -- only when reorganizing stream items.
-                    if (listItemType === ListItemType.StreamItem) {
-
-                        //  It's important to do this to make sure I don't count my helper elements in index.
-                        var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-
-                        var streamItemId = ui.item.data('id');
-                        var currentIndex = self.collection.indexOf(self.collection.get(streamItemId));
-                        self.collection.models.splice(newIndex, 0, self.collection.models.splice(currentIndex, 1)[0]);
-
-                        //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
-                        //  to using the sequencedCollection for client-side collections, too.
-                        self.collection.trigger('sort');
-                    }
-                },
-
-                over: function (event, ui) {
-                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
-                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
-                }
-            });
+            MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
         
         //  TODO: I'm not sure if these stopListenings are needed... but they seem to be for rightBasePane's view. Weird.

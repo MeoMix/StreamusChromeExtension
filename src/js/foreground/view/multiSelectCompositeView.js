@@ -1,24 +1,54 @@
 ﻿define([
-    'foreground/view/streamusCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
     'foreground/view/rightBasePane/streamItemView',
     'foreground/view/videoSearch/videoSearchResultView',
     'common/enum/listItemType',
-    'background/collection/streamItems'
-], function (StreamusCompositeView, PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, StreamItems) {
+    'background/collection/playlists',
+    'background/collection/streamItems',
+    'background/collection/videoSearchResults',
+    'background/model/user'
+], function (PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, Playlists, StreamItems, VideoSearchResults, User) {
     'use strict';
 
-    var MultiSelectCompositeView = StreamusCompositeView.extend({
+    var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
 
         events: {
             'click .listItem': 'setSelectedOnClick'
+        },
+
+        isFullyVisible: false,
+        
+        //  TODO: I might be able to make my life easier by making lazyload only check for either side visible.
+        //  Tell images that they're able to bind lazyLoading functionality only once fully visible because when they're sliding in you're unable to tell if they're visible in one direction.
+        //  But, I guess you know that direction is going to be loaded, so maybe it's fine to only check one direction?
+        onFullyVisible: function () {
+            if (_.isUndefined(this.ui.itemContainer))
+                throw "itemContainer is undefined";
+
+            $(this.children.map(function (child) {
+                return child.ui.imageThumbnail.toArray();
+            })).lazyload({
+                container: this.ui.itemContainer,
+                threshold: 250
+            });
+
+            this.isFullyVisible = true;
+        },
+        
+        onAfterItemAdded: function (view) {
+            if (this.isFullyVisible) {
+                view.ui.imageThumbnail.lazyload({
+                    container: this.ui.itemContainer,
+                    threshold: 250
+                });
+            }
         },
 
         onRender: function () {
             var self = this;
 
             //  Allows for drag-and-drop of videos
-            this.$el.find(this.itemViewContainer).sortable({
+            this.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',
 
@@ -33,8 +63,6 @@
                 placeholder: 'sortable-placeholder listItem hiddenUntilChange',
 
                 helper: function (ui, listItem) {
-
-                    console.log("listItem id:", listItem, listItem.data('id'));
 
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
@@ -79,6 +107,25 @@
                 },
                 start: function (event, ui) {
 
+                    var listItemType = ui.item.data('type');
+                    
+                    //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
+                    //  duplicates in the Stream.
+                    if (listItemType === ListItemType.StreamItem) {
+                        if (User.get('signedIn')) {
+                            var streamItemId = ui.item.data('id');
+
+                            //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
+                            var draggedStreamItem = self.collection.get(streamItemId);
+
+                            var videoAlreadyExists = Playlists.getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
+                            ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
+                        } else {
+                            //  TODO: Maybe mark this as 'notSignedIn'
+                            ui.placeholder.addClass('noPlaylist');
+                        }
+                    }
+
                     var modelToSelect = self.collection.get(ui.item.data('id'));
 
                     self.doSetSelected({
@@ -110,6 +157,7 @@
                     else {
                         this.copyHelper.remove();
                         
+                        //  TODO: I think I need to support StreamItems being reorganized, too?
                         //  Whenever a PlaylistItem row is reorganized -- inform the Player of the new order
                         var listItemType = ui.item.data('type');
                         if (listItemType === ListItemType.PlaylistItem) {
@@ -144,6 +192,8 @@
 
                     var listItemType = ui.item.data('type');
 
+                    console.log("Receive is firing!");
+
                     if (listItemType === ListItemType.StreamItem) {
 
                         var streamItemId = ui.item.data('id');
@@ -174,6 +224,21 @@
                             }
                         }
                     }
+                    else if (listItemType === ListItemType.PlaylistItem) {
+                        var activePlaylistItems = Playlists.getActivePlaylist().get('items');
+
+                        var draggedPlaylistItems = activePlaylistItems.selected();
+                        self.collection.addByDraggedPlaylistItems(draggedPlaylistItems, ui.item.index());
+
+                        activePlaylistItems.deselectAll();
+                        ui.item.remove();
+                    } else if (listItemType === ListItemType.VideoSearchResult) {
+                        var draggedSearchResults = VideoSearchResults.selected();
+                        VideoSearchResults.deselectAll();
+
+                        self.collection.addByDraggedVideoSearchResults(draggedSearchResults, ui.item.index());
+                        ui.item.remove();
+                    }
 
                     ui.sender.data('copied', true);
                 },
@@ -181,7 +246,26 @@
                 over: function (event, ui) {
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
-                }
+                },
+                
+                //update: function (event, ui) {
+                //    var listItemType = ui.item.data('type');
+
+                //    //  Don't run this code when handling playlist items -- only when reorganizing stream items.
+                //    if (listItemType === ListItemType.StreamItem) {
+
+                //        //  It's important to do this to make sure I don't count my helper elements in index.
+                //        var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
+
+                //        var streamItemId = ui.item.data('id');
+                //        var currentIndex = self.collection.indexOf(self.collection.get(streamItemId));
+                //        self.collection.models.splice(newIndex, 0, self.collection.models.splice(currentIndex, 1)[0]);
+
+                //        //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
+                //        //  to using the sequencedCollection for client-side collections, too.
+                //        self.collection.trigger('sort');
+                //    }
+                //}
             });
 
             return this;
@@ -191,6 +275,8 @@
 
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.collection.get(id);
+
+            console.log("modelToSelect:", modelToSelect);
 
             this.doSetSelected({
                 shiftKey: event.shiftKey,

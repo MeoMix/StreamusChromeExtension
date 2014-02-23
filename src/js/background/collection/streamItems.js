@@ -1,4 +1,5 @@
 ﻿define([
+    'background/collection/multiSelectCollection',
     'background/notifications',
     'background/model/streamItem',
     'background/model/video',
@@ -10,7 +11,7 @@
     'common/enum/playerState',
     'common/model/utility',
     'common/model/youTubeV2API'
-], function (Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
+], function (MultiSelectCollection, Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
     
     //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
@@ -18,7 +19,7 @@
         return chrome.extension.getBackgroundPage().window.StreamItems;
     }
 
-    var StreamItems = Backbone.Collection.extend({
+    var StreamItems = MultiSelectCollection.extend({
         model: StreamItem,
 
         initialize: function () {

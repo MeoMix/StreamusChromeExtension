@@ -3,7 +3,7 @@
 ], function (DeleteButtonTemplate) {
     'use strict';
 
-    var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
+    var DeleteButtonView = Backbone.Marionette.ItemView.extend({
         
         tagName: 'button',
         className: 'button-icon',
@@ -17,6 +17,10 @@
             'click': 'doDelete'
         },
         
+        initialize: function () {
+            this.applyTooltips();
+        },
+        
         doDelete: function () {
             //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
             this.$el.qtip('api').destroy(true);
@@ -28,5 +32,5 @@
 
     });
 
-    return AddToStreamButtonView;
+    return DeleteButtonView;
 });

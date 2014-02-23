@@ -19,6 +19,10 @@
             'dblclick': 'addToStream'
         },
         
+        initialize: function () {
+            this.applyTooltips();
+        },
+        
         addToStream: _.debounce(function () {
             StreamItems.addByVideo(this.model, false);
 
