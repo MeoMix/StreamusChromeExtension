@@ -170,7 +170,6 @@
     <Content Include="src\js\foreground\view\rightBasePane\timeProgressView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\volumeView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
-    <Content Include="src\js\foreground\view\streamusCompositeView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchResultView.js" />
     <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
