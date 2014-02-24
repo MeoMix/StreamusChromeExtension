@@ -1,7 +1,7 @@
 ﻿{
 	"extensionName": {
 		"message": "Streamus™ (Beta!)",
-		"description": "The name of the extension"
+		"description": "Ime razširitve"
 	},
 	"extensionDescription" : {
 		"message": "Streamus spremeni YouTube v predvajalnik glasbe, ki ste ga vedno želeli."
@@ -138,7 +138,7 @@
 		"message": "Uspešno dodano"
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
-		"message": "An issue was encountered while adding your playlist. Check the URL?"
+		"message": "Prišlo je do težave pri dodajanju vašega seznama predvajanja. Preverite URL?"
 	},
 	"streamusIsTakingALongTimeToLoad": {
 		"message": "Streamus potrebuje veliko časa, da se naloži. Ponovna naložitev lahko pomaga."
@@ -202,7 +202,7 @@
 		"message": "Ste prepričani, da želite počistiti vaš stream?"
 	},
 	"typeToCreateOrFilterPlaylists": {
-		"message": "Type to create or filter playlists"
+		"message": "Pišite, da ustvarite ali filtrirajte sezname predvajanja"
 	},
 	"saveVideo": {
 		"message": "Shrani posnetek"
@@ -260,11 +260,11 @@
 		"message": "Opomniki"
 	},
 	"remindClearStream": {
-		"message": "Remind clear stream",
+		"message": "Opomni čiščenje streama",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'."
 	},
 	"remindDeletePlaylist": {
-		"message": "Remind delete playlist",
+		"message": "Opomni brisanje seznama predvajanja",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'."
 	},
 	"video": {
@@ -286,19 +286,19 @@
 		"message": "Dni"
 	},
 	"errorRetrievingTitle": {
-		"message": "Error retrieving title"	
+		"message": "Napaka pri pridobivanju naslova"	
 	},
 	"youTubePlayerErrorInvalidParameter": {
-		"message": "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks."
+		"message": "Zahtevek vsebuje neveljaven parameter vrednosti. Na primer, ta napaka se pojavi, če ID posnetka nima 11 znakov ali, če ima ID posnetka neveljaven znak, kot je exclamation points ali asteriks."
 	},
 	"youTubePlayerErrorVideoNotFound": {
-		"message": "Video requested is not found. This occurs when a video has been removed or it has been marked as private."
+		"message": "Zahtevan posnetek ni najden. To se pojavi, če je bil posnetek izbrisan ali označen kot zaseben."
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Video requested does not allow playback in the embedded players."
+		"message": "Zahtevan posnetek ne dovoljuje predvajanja v embedded predvajalnikih."
 	},
 	"keyboardCommandFailure": {
-		"message": "Keyboard command failure"
+		"message": "Spodleteli ukaz tipkovnice"
 	},
 	"cantSkipToNextVideo": {
 		"message": "Ne morem skočiti na naslednji posnetek."
@@ -307,7 +307,7 @@
 		"message": "Ne morem skočiti na prejšnji posnetek."
 	},
 	"cantToggleVideoState": {
-		"message": "Can't toggle video state."
+		"message": "Ne morem toggle stanje posnetka."
 	},
 	"hideVideo": {
 		"message": "Skrij sliko posnetka"
@@ -334,10 +334,10 @@
 		"message": "Pokaži nasvete"
 	},
 	"showVideoSearch": {
-		"message": "Show video search"
+		"message": "Pokaži iskanje posnetkov"
 	},
 	"hideVideoSearch": {
-		"message": "Hide video search"
+		"message": "Skrij iskanje posnetkov"
 	},
 	"closeMenu": {
 		"message": "Zapri menu"
@@ -349,7 +349,7 @@
 		"message": "Želite"
 	},
 	"searchForVideos": {
-		"message": "Search for videos"
+		"message": "Išči posnetke"
 	},
 	"hd": {
 		"message": "HD"
@@ -361,16 +361,16 @@
 		"message": "Kvaliteta videa"
 	},
 	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "Why not add a video from a playlist or"
+		"message": "Zakaj nebi dodali posnetka s seznama predvajanja ali"
 	},
 	"startTyping": {
 		"message": "Začnite pisati"
 	},
 	"resultsWillAppearAsYouSearch": {
-		"message": "Results will appear as you search"
+		"message": "Rezultati se bodo prikazali medtem ko iščete"
 	},
 	"sorryAboutThat": {
-		"message": "Sorry about that"
+		"message": "Oprostite za to"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Poskusite iskati nekaj drugega"
@@ -380,12 +380,12 @@
 	},
 
 	"addAll": {
-		"message": "Add all"
+		"message": "Dodaj vse"
 	},
 	"addSelected": {
-		"message": "Add selected"
+		"message": "Dodaj izbrano"
 	},
 	"addPlaylist": {
-		"message": "Add playlist"
+		"message": "Dodaj seznam predvajanja"
 	}
 }
