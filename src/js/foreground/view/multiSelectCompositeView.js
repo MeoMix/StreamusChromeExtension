@@ -121,13 +121,11 @@
                             var videoAlreadyExists = Playlists.getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
                             ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
                         } else {
-                            //  TODO: Maybe mark this as 'notSignedIn'
-                            ui.placeholder.addClass('noPlaylist');
+                            ui.placeholder.addClass('notSignedIn');
                         }
                     }
 
                     var modelToSelect = self.collection.get(ui.item.data('id'));
-
                     self.doSetSelected({
                         modelToSelect: modelToSelect,
                         drag: true
@@ -157,10 +155,9 @@
                     else {
                         this.copyHelper.remove();
                         
-                        //  TODO: I think I need to support StreamItems being reorganized, too?
-                        //  Whenever a PlaylistItem row is reorganized -- inform the Player of the new order
+                        //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
-                        if (listItemType === ListItemType.PlaylistItem) {
+                        if (listItemType === ListItemType.PlaylistItem || listItemType === ListItemType.StreamItem) {
                             self.collection.moveToIndex(ui.item.data('id'), ui.item.index());
                         }
                     }
@@ -246,26 +243,7 @@
                 over: function (event, ui) {
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
-                },
-                
-                //update: function (event, ui) {
-                //    var listItemType = ui.item.data('type');
-
-                //    //  Don't run this code when handling playlist items -- only when reorganizing stream items.
-                //    if (listItemType === ListItemType.StreamItem) {
-
-                //        //  It's important to do this to make sure I don't count my helper elements in index.
-                //        var newIndex = parseInt(ui.item.parent().children('.listItem').index(ui.item));
-
-                //        var streamItemId = ui.item.data('id');
-                //        var currentIndex = self.collection.indexOf(self.collection.get(streamItemId));
-                //        self.collection.models.splice(newIndex, 0, self.collection.models.splice(currentIndex, 1)[0]);
-
-                //        //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
-                //        //  to using the sequencedCollection for client-side collections, too.
-                //        self.collection.trigger('sort');
-                //    }
-                //}
+                }
             });
 
             return this;
@@ -294,6 +272,7 @@
             var isDrag = options.drag || false;
 
             var isSelectedAlready = modelToSelect.get('selected');
+            console.log("isSelectedAlready:", (ctrlKeyPressed && isSelectedAlready));
 
             modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 

@@ -10,9 +10,17 @@
     'use strict';
 
     var PlaylistItemView = Backbone.Marionette.Layout.extend({
+        
         className: 'listItem playlistItem multiSelectItem',
         
         template: _.template(PlaylistItemTemplate),
+        
+        templateHelpers: function () {
+            return {
+                instant: this.instant,
+                hdMessage: chrome.i18n.getMessage('hd')
+            };
+        },
         
         attributes: function () {
             return {
@@ -31,13 +39,6 @@
         
         ui: {
             imageThumbnail: 'img.item-thumb'
-        },
-        
-        templateHelpers: function() {
-            return {
-                instant: this.instant,
-                hdMessage: chrome.i18n.getMessage('hd')
-            };
         },
         
         modelEvents: {

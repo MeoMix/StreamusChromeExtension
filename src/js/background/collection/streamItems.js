@@ -526,6 +526,15 @@
         clear: function () {
             this.bannedVideoIdList = [];
             this.reset();
+        },
+        
+        moveToIndex: function (streamItemId, index) {
+            var currentIndex = this.indexOf(this.get(streamItemId));
+            this.models.splice(index, 0, this.models.splice(currentIndex, 1)[0]);
+
+            //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
+            //  to using the sequencedCollection for client-side collections, too.
+            this.trigger('sort');
         }
 
     });

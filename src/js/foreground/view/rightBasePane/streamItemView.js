@@ -59,7 +59,8 @@
             saveToPlaylistRegion: '.save-to-playlist-region'
         },
         
-        onShow: function() {
+        onShow: function () {
+            //  TODO: setActiveClass handles this, but is called in onRender which probably doesn't work.
             var active = this.model.get('active');
 
             //  If the stream item is active -- ensure it is instantly visible.
@@ -70,7 +71,8 @@
         },
 
         onRender: function () {
-            this.$el.toggleClass('active', this.model.get('active'));
+            this.setActiveClass();
+            this.setSelectedClass();
 
             this.deleteRegion.show(new DeleteButtonView({
                 model: this.model

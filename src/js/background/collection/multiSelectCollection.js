@@ -45,7 +45,8 @@
             var selected = this.selected();
             
             _.each(selected, function (model) {
-                if (model != selectedModel) {
+                if (model !== selectedModel) {
+                    console.log("Setting selected to false:", model);
                     model.set('selected', false);
                 }
             });

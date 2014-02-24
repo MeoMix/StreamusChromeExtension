@@ -9,6 +9,7 @@
 @lightNephritis: lighten(@nephritis, 30%);
 @sunflower: #f1c40f;
 @lightSunflower: lighten(@sunflower, 30%);
+@alizarin: #e74c3c;
 
 @font-face {
   font-family: 'Open Sans';
@@ -95,7 +96,7 @@ body {
 }
 
 button.mute.muted{
-    color: #E20007;
+    color: @alizarin;
 }
 
 .modalOverlay .panel {
@@ -514,7 +515,7 @@ input[type="range"] {
     width: calc(~"100% - 1px");
     overflow: hidden;
     text-overflow: ellipsis;
-    transition: background .2s;
+    transition: background .1s;
 
     &:hover {
         background: @lightGray;
@@ -584,7 +585,7 @@ input[type="range"] {
     }
 
     .item-details {
-        transition: color .3s;
+        transition: color .1s;
     }
 
     .hover-actions {
@@ -617,7 +618,7 @@ input[type="range"] {
 
 .playlist.active {
     background: @baseBlue;
-    transition: background .3s;
+    transition: background .1s;
 }
 
 .spinner {
@@ -742,7 +743,7 @@ input:focus  ~ .underline {
     content: 'Duplicates not allowed'
 }
 
-#activePlaylistItems .sortable-placeholder.noPlaylist {
+#activePlaylistItems .sortable-placeholder.notSignedIn {
     display: none;
 }
 
