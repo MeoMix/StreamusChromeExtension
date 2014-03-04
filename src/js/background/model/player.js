@@ -117,10 +117,8 @@ define([
             var youTubePlayerAPI = new YouTubePlayerAPI();
 
             this.listenTo(youTubePlayerAPI, 'change:ready', function () {
-                //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
-                new window.YT.Player('dummyTarget');
-                var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
-                $('#dummyTarget').remove();
+                console.log('youTubePlayerAPI ready');
+  
 
                 //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
                 //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
@@ -143,9 +141,20 @@ define([
                     }
                 });
 
-                var url = isHttps ? 'https' : 'http';
-                url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
-                $('#MusicHolder').attr('src', url);
+
+                //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
+                setTimeout(function () {
+                    new window.YT.Player('dummyTarget');
+                    var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
+                    $('#dummyTarget').remove();
+
+                    var url = isHttps ? 'https' : 'http';
+                    url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
+                    $('#MusicHolder').attr('src', url);
+                });
+
+
+                console.log("setting music holder src");
             });
 
         },

@@ -46,6 +46,9 @@
             'add remove reset': function() {
                 this.toggleBigText();
                 this.toggleBottomMenubar();
+
+                //  Trigger a scroll event to inform lazyloader of possible changes.
+                this.ui.itemContainer.trigger('scroll');
             }
         },
 

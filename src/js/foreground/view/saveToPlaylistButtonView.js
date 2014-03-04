@@ -21,7 +21,7 @@
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedin', this.setTitleAndDisabled);
+            this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
             this.applyTooltips();
         },
 
@@ -39,8 +39,10 @@
             return false;
         }, 100, true),
         
-        setTitleAndDisabled: function() {
+        setTitleAndDisabled: function () {
+           
             var signedIn = User.get('signedIn');
+
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
 
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);

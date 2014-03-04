@@ -12,7 +12,7 @@
         modelEvents: {
             'change:title': 'render'
         },
-
+        
         onRender: function () {
             this.setTitle();
             this.applyTooltips();

@@ -15,10 +15,16 @@ define([
    
     window.clearResultsTimeout = null;
     var twentySeconds = 20000;
+    
+    //  The foreground has to be able to call this whenever a view opens.
+    window.stopClearResultsTimer = function () {
+        clearTimeout(window.clearResultsTimeout);
+    };
+
     //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
     window.startClearResultsTimer = function () {
         //  Safe-guard against multiple setTimeouts, just incase.
-        stopClearResultsTimer();
+        window.stopClearResultsTimer();
 
         window.clearResultsTimeout = setTimeout(function () {
             Settings.set('searchQuery', '');
@@ -26,11 +32,6 @@ define([
         }, twentySeconds);
 
         console.log("startClearResultsTimer has started");
-    };
-
-    //  The foreground has to be able to call this whenever a view opens.
-    window.stopClearResultsTimer = function() {
-        clearTimeout(window.clearResultsTimeout);
     };
    
 });

@@ -20,11 +20,16 @@ define([
         },
 
         events: {
-            'change @ui.volumeRange': 'setVolume',
+            'input @ui.volumeRange': 'setVolume',
             'click @ui.muteButton': 'toggleMute',
             'mousewheel': 'scrollVolume'
         },
        
+        modelEvents: {
+            'change:muted': 'toggleMutedClass',
+            'change:volume': 'updateProgressAndVolumeIcon'
+        },
+
         onRender: function () {
 
             var volumeIcon = this.getVolumeIcon(this.model.get('volume'));
@@ -55,13 +60,9 @@ define([
                 interval: 5500,
             });
         },
-        
-        modelEvents: {
-            'change:muted': 'toggleMutedClass',
-            'change:volume': 'updateProgressAndVolumeIcon'
-        },
 
         setVolume: function () {
+            console.log("setVolume is being called");
             var volume = parseInt(this.ui.volumeRange.val());
             this.model.set('volume', volume);
         },

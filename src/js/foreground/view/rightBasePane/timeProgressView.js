@@ -15,7 +15,7 @@ define([
         template: _.template(TimeProgressTemplate),
         
         events: {
-            'change @ui.enabledTimeRange': 'updateProgress',
+            'input @ui.enabledTimeRange': 'updateProgress',
             'mousewheel @ui.enabledTimeRange': 'mousewheelUpdateProgress',
             'mousedown @ui.enabledTimeRange': 'startSeeking',
             'mouseup @ui.enabledTimeRange': 'seekToTime',

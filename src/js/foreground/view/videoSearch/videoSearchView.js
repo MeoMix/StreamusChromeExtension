@@ -78,7 +78,7 @@
         },
         
         onShow: function () {
-            chrome.extension.getBackgroundPage().stopClearResultsTimer();
+            chrome.extension.getBackgroundPage().window.stopClearResultsTimer();
             
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             this.ui.searchInput.focus().val(this.ui.searchInput.val());

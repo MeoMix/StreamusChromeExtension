@@ -22,7 +22,7 @@ define([
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
             
             return {
-                localDebug: false,
+                localDebug: true,
                 testing: false,
                 serverURL: '',
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',
