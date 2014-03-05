@@ -196,7 +196,7 @@
                 Player.play();
             } else {
                 Player.playOnceVideoChanges();
-                this.activate();
+                this.model.set('active', true);
             }
  
             //  Don't allow dblclick to bubble up to the list item and cause a play.
