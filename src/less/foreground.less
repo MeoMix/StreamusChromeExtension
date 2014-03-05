@@ -888,45 +888,48 @@ input:focus  ~ .underline {
     font-size: 0px;
 }
 
-#time-progress .time-slider {
-    background: #f2f2f2;
-    height: 3px;
-    left: 45px;
-    position: absolute;
-    right: 45px;
-    top: 8px;
-}
+#time-progress {
+    .time-slider {
+        background: #f2f2f2;
+        height: 3px;
+        left: 45px;
+        position: absolute;
+        right: 45px;
+        top: 8px;
 
-#time-progress .time-slider .progress {
-    background: #4EA6EA;
-    bottom: 0;
-    display: block;
-    left: 0;
-    position: absolute;
-    top: 0;
-    z-index: 1
-}
+        .progress {
+            background: #4EA6EA;
+            bottom: 0;
+            display: block;
+            left: 0;
+            position: absolute;
+            top: 0;
+            z-index: 1
+        }
 
-#time-progress .time-slider input {
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 100%;    
-    z-index: 2
-}
+        input {
+            bottom: 0;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 100%;    
+            z-index: 2;
+            cursor: pointer;
+        }
+    }
 
-#time-progress .time-elapsed {
-    position: absolute;
-    left: 0;
-    cursor: pointer;
-}
+    .time-elapsed {
+        position: absolute;
+        left: 0;
+        cursor: pointer;
+    }
 
-#time-progress .duration {
-    position: absolute;
-    right: 0;
-    cursor: default;
+    .duration {
+        position: absolute;
+        right: 0;
+        cursor: default;
+    }
 }
 
 #playlistsArea button.hide {

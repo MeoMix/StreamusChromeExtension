@@ -95,7 +95,6 @@ button.mute.muted {
   left: 50%;
   opacity: 0;
   /* Default Panel Size */
-
   width: 500px;
   margin-left: -250px;
   height: 140px;
@@ -503,12 +502,10 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   transition: background .1s;
   /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
-
 }
 .listItem:hover {
   background: #ebebeb;
   /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
-
 }
 .listItem:hover .item-title {
   width: calc(100% - 135px);
@@ -837,6 +834,7 @@ input:focus ~ .underline {
   top: 0;
   width: 100%;
   z-index: 2;
+  cursor: pointer;
 }
 #time-progress .time-elapsed {
   position: absolute;
