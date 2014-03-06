@@ -21,7 +21,7 @@
         },
         
         modelEvents: {
-            'change:signingIn change:signedInFailed': 'toggleBigText',
+            'change:signingIn change:signInFailed': 'toggleBigText',
             'change:signInRetryTimer': 'updateSignInRetryTimer'
         },
         
@@ -52,7 +52,7 @@
 
             var signingIn = this.model.get('signingIn');
             var signInFailed = this.model.get('signInFailed');
-
+            
             this.ui.signInFailedMessage.toggleClass('hidden', !signInFailed);
             this.ui.signingInMessage.toggleClass('hidden', !signingIn);
             this.ui.signInPrompt.toggleClass('hidden', signingIn);
