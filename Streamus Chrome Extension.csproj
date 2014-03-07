@@ -139,7 +139,9 @@
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
     <Content Include="src\js\foreground\view\backbone.marionette.viewExtensions.js" />
     <Content Include="src\js\foreground\view\addToStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\deleteButtonView.js" />
+    <Content Include="src\js\foreground\view\prompt\updateStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\saveToPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\leftBasePane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftBasePane\playlistTitleView.js" />
@@ -226,6 +228,7 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\updateStreamus.html" />
     <Content Include="src\template\deleteButton.html" />
     <Content Include="src\template\saveToPlaylistButton.html" />
     <Content Include="src\template\playInStreamButton.html" />
