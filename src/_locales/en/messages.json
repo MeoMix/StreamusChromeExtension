@@ -409,5 +409,23 @@
 	},
 	"addPlaylist": {
 		"message": "Add playlist"
+	},
+	"anUpdateToStreamusIsAvailable": {
+		"message": "An update to Streamus is available"
+	},
+	"pleaseClickUpdateToRestartAndApplyTheUpdate": {
+		"message": "Please click update to restart and apply the update"
+	},
+	"updateRequired": {
+		"message": "Update required"
+	},
+	"pressEnterToPlay": {
+		"message": "Press enter to play"
+	},
+	"increaseVolumeCommandDescription": {
+		"message": "Increase volume"
+	},
+	"decreaseVolumeCommandDescription": {
+		"message": "Decrease volume"
 	}
 }

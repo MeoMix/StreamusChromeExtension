@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
-    'foreground/view/reloadView'
-], function(GenericPrompt, GenericPromptView, ReloadView) {
+    'foreground/view/reloadStreamusView'
+], function(GenericPrompt, GenericPromptView, ReloadStreamusView) {
     'use strict';
 
     var ReloadStreamusPromptView = GenericPromptView.extend({
@@ -12,7 +12,7 @@
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('reloadStreamus'),
                 okButtonText: chrome.i18n.getMessage('reload'),
-                view: new ReloadView()
+                view: new ReloadStreamusView()
             });
             
             GenericPromptView.prototype.initialize.call(this, arguments);

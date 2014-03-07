@@ -7,10 +7,9 @@ define([
     var Error = Backbone.Model.extend({
         
         defaults: function () {
-            //  TODO: chrome.app.getDetails is deprecated. Use chrome.app.window or chrome.app.runtime.
             //  Support testing and general graceful fallback by checking for existence of applicationDetails.
-            var applicationDetails = typeof chrome === 'undefined' ? '' : chrome.app.getDetails();
-            var clientVersion = applicationDetails ? applicationDetails.version : 'Unknown';
+            var manifest = typeof chrome === 'undefined' ? '' : chrome.runtime.getManifest();
+            var clientVersion = manifest ? manifest.version : 'Unknown';
 
             return {
                 message: '',

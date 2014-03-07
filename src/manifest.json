@@ -47,14 +47,20 @@
 		"copyVideoTitleAndUrl": {
 			"description": "__MSG_copyVideoTitleUrlCommandDescription__"
 		},
-		"toggleRadio":  {
+		"toggleRadio": {
 			"description": "__MSG_toggleRadioCommandDescription__"
 		},
-		"toggleShuffle":  {
+		"toggleShuffle": {
 			"description": "__MSG_toggleShuffleCommandDescription__"
 		},
-		"toggleRepeat":  {
+		"toggleRepeat": {
 			"description": "__MSG_toggleRepeatCommandDescription__"
+		},
+		"increaseVolume": {
+			"description": "__MSG_increaseVolumeCommandDescription__"
+		},
+		"decreaseVolume": {
+			"description": "__MSG_decreaseVolumeCommandDescription__"
 		},
 		"_execute_browser_action": {
 		}

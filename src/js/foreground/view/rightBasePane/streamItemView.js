@@ -5,12 +5,12 @@
     'text!template/streamItem.html',
     'background/collection/playlists',
     'background/model/buttons/playPauseButton',
-    'background/model/player',
     'common/enum/listItemType',
     'background/model/user',
     'foreground/view/deleteButtonView',
-    'foreground/view/saveToPlaylistButtonView'
-], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, Player, ListItemType, User, DeleteButtonView, SaveToPlaylistButtonView) {
+    'foreground/view/saveToPlaylistButtonView',
+    'foreground/view/PlayInStreamButtonView'
+], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, ListItemType, User, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.Layout.extend({
@@ -37,11 +37,8 @@
         },
         
         events: {
-            'click button.playInStream': 'play',
             'contextmenu': 'showContextMenu',
-            //  Capture double-click events to prevent bubbling up to main dblclick event.
-            'dblclick': 'activateOrToggleState',
-            'dblclick button.playInStream': 'play'
+            'dblclick': 'activateOrToggleState'
         },
         
         modelEvents: {
@@ -56,15 +53,13 @@
 
         regions: {
             deleteRegion: '.delete-region',
-            saveToPlaylistRegion: '.save-to-playlist-region'
+            saveToPlaylistRegion: '.save-to-playlist-region',
+            playInStreamRegion: '.play-in-stream-region'
         },
         
         onShow: function () {
-            //  TODO: setActiveClass handles this, but is called in onRender which probably doesn't work.
-            var active = this.model.get('active');
-
             //  If the stream item is active -- ensure it is instantly visible.
-            if (active) {
+            if (this.model.get('active')) {
                 //  Pass 0 into scrollIntoView to have no animation/show instantly.
                 this.$el.scrollIntoView(0);
             }
@@ -73,6 +68,10 @@
         onRender: function () {
             this.setActiveClass();
             this.setSelectedClass();
+            
+            this.playInStreamRegion.show(new PlayInStreamButtonView({
+                model: this.model.get('video')
+            }));
 
             this.deleteRegion.show(new DeleteButtonView({
                 model: this.model
@@ -187,21 +186,7 @@
                 }]
             );
 
-        },
-
-        //  TODO: Can I merge this logic with playInStreamButtonView?
-        play: _.debounce(function () {
-            
-            if (this.model.get('active')) {
-                Player.play();
-            } else {
-                Player.playOnceVideoChanges();
-                this.model.set('active', true);
-            }
- 
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
-        }, 100, true)
+        }
     });
 
     return StreamItemView;

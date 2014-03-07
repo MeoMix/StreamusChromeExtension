@@ -81,11 +81,6 @@
                 }
             }
             else {
-                //this.add(playlistItem);
-
-                //if (callback) {
-                //    callback(playlistItem);
-                //}
 
                 //  Save the playlistItem, but push after version from server because the ID will have changed.
                 playlistItem.save({}, {

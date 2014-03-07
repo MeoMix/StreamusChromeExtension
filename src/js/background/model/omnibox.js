@@ -20,8 +20,7 @@ define([
             var self = this;
             
             chrome.omnibox.setDefaultSuggestion({
-                //  TODO: i18n
-                description: 'Press enter to play.'
+                description: chrome.i18n.getMessage('pressEnterToPlay')
             });
             
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.

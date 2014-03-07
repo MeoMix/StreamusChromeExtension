@@ -24,10 +24,10 @@ define([
     'foreground/model/contextMenu',
     'foreground/view/contextMenuView',
     'foreground/collection/contextMenuItems',
-    'common/enum/playerState'
-], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, StreamItems, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState) {
+    'common/enum/playerState',
+    'foreground/view/prompt/updateStreamusPromptView'
+], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, StreamItems, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState, UpdateStreamusPromptView) {
 
-    //  TODO: Should this be an 'Application' object? MarionetteJS documentation says that it should start with an Application, but I kind of like a Layout.
     var ForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
 
@@ -67,6 +67,25 @@ define([
                     }
                 });
             }
+
+            //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
+            //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
+            chrome.runtime.requestUpdateCheck(function (updateCheckStatus) {
+
+                switch (updateCheckStatus) {
+                    case "update_available":
+                        //  Promtp the user to restart Streamus.
+                        //  TODO: Use a region show to do this:
+                        var updateStreamPromptView = new UpdateStreamusPromptView();
+                        updateStreamPromptView.fadeInAndShow();
+                        break;
+                    case "no_update":
+                    case "throttled":
+                        //  Nothing to do -- just can't ask again for a while if throttled, but that's pretty unlikely to happen, I think!
+                        break;
+                }
+                
+            });
 
             this.rightBasePaneRegion.show(new RightBasePaneView({
                 model: Player

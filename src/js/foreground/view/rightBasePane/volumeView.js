@@ -62,7 +62,6 @@ define([
         },
 
         setVolume: function () {
-            console.log("setVolume is being called");
             var volume = parseInt(this.ui.volumeRange.val());
             this.model.set('volume', volume);
         },

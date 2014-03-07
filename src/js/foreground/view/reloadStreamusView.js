@@ -1,13 +1,13 @@
 ﻿define([
-    'text!template/reload.html'
-], function (ReloadTemplate) {
+    'text!template/reloadStreamus.html'
+], function (ReloadStreamusTemplate) {
     'use strict';
 
-    var ReloadView = Backbone.Marionette.ItemView.extend({
+    var ReloadStreamusView = Backbone.Marionette.ItemView.extend({
 
-        className: 'reload',
+        className: 'reloadStreamus',
 
-        template: _.template(ReloadTemplate),
+        template: _.template(ReloadStreamusTemplate),
         
         templateHelpers: {
             streamusIsTakingALongTimeToLoadReloadingMayHelpMessage: chrome.i18n.getMessage('streamusIsTakingALongTimeToLoadReloadingMayHelp')
@@ -19,5 +19,5 @@
 
     });
 
-    return ReloadView;
+    return ReloadStreamusView;
 });

@@ -82,6 +82,28 @@ define([
                 });
 
                 break;
+            case 'increaseVolume':
+                var maxVolume = 100;
+                var currentVolume = Player.get('volume');
+                var newVolume = currentVolume + 5;
+                
+                if (newVolume > maxVolume) {
+                    Player.set('volume', maxVolume);
+                } else {
+                    Player.set('volume', newVolume);
+                }
+                break;
+            case 'decreaseVolume':
+                var minVolume = 0;
+                var currentVolume = Player.get('volume');
+                var newVolume = currentVolume - 5;
+
+                if (newVolume < minVolume) {
+                    Player.set('volume', minVolume);
+                } else {
+                    Player.set('volume', newVolume);
+                }
+                break;
             default:
                 console.error("Unhandled command:", command);
                 break;

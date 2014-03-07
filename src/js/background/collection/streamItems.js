@@ -301,7 +301,6 @@
             return this.findWhere({ active: true });
         },
         
-        //  TODO: Change getRelatedVideos into a property so I can watch for relatedVideos existing.
         //  Take each streamItem's array of related videos, pluck them all out into a collection of arrays
         //  then flatten the arrays into a collection of videos.
         getRelatedVideos: function() {
@@ -535,6 +534,12 @@
             //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
             //  to using the sequencedCollection for client-side collections, too.
             this.trigger('sort');
+        },
+        
+        getByVideo: function (video) {
+            return this.find(function (streamItem) {
+                return streamItem.get('video').get('id') === video.get('id');
+            });
         }
 
     });
