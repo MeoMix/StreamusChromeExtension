@@ -165,7 +165,7 @@
     <Content Include="src\js\foreground\view\prompt\saveVideosPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\genericPromptView.js" />
     <Content Include="src\js\foreground\view\notificationView.js" />
-    <Content Include="src\js\foreground\view\reloadView.js" />
+    <Content Include="src\js\foreground\view\reloadStreamusView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\streamItemView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\streamView.js" />
@@ -244,7 +244,7 @@
     <Content Include="src\template\notification.html" />
     <Content Include="src\template\playlist.html" />
     <Content Include="src\template\playlistItem.html" />
-    <Content Include="src\template\reload.html" />
+    <Content Include="src\template\reloadStreamus.html" />
     <Content Include="src\template\rightBasePane.html" />
     <Content Include="src\template\saveVideos.html" />
     <Content Include="src\template\settings.html" />
