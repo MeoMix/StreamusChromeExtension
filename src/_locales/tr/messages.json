@@ -1,0 +1,403 @@
+﻿{
+	"extensionName": {
+		"message": "Streamus™ (Beta!)",
+		"description": "The name of the extension"
+	},
+	"extensionDescription" : {
+		"message": "Streamus aranan YouTube müzik çaları.."
+	},
+	"extensionTitle": {
+		"message": "Streamus: Basit müzik akışı.."
+	},
+	"nextVideoCommandDescription": {
+		"message": "Akıştaki bir sonraki video'a git"
+	},
+	"previousVideoCommandDescription": {
+		"message": "Akıştaki bir önceki video'a git"
+	},
+	"toggleVideoCommandDescription": {
+		"message": "Oynatılan video'da (çalma / duraklatma) "
+	},
+	"saveVideoCommandDescription": {
+		"message": "Video'u geçerli oynatma listesine ekle"
+	},
+	"deleteVideoCommandDescription": {
+		"message": "Video'u geçerli oynatma listesine kaldır"
+	},
+	"copyVideoUrlCommandDescription": {
+		"message": "Oynatılan video adresini kopyala"
+	},
+	"copyVideoTitleUrlCommandDescription": {
+		"message": "Oynatılan video'nun başlığını ve adresini kopyala"
+	},
+	"toggleRadioCommandDescription": {
+		"message": "Radyo modunu (çalma / duraklatma) "
+	},
+	"toggleShuffleCommandDescription": {
+		"message": "Rastgele modunu (çalma / duraklatma) "
+	},
+	"toggleRepeatCommandDescription": {
+		"message": "Video (kapatma/tekrar/tekraryürütme)"
+	},
+	"save": {
+		"message": "Kaydet"
+	},
+	"enqueue": {
+		"message": "Aktif listeye ekle"
+	},
+	"copyUrl": {
+		"message": "Adresi kopyala"
+	},
+	"copyTitleAndUrl": {
+		"message": "Başlığı ve Adresi kopyala"
+	},
+	"deleteVideo": {
+		"message": "Video'u sil"
+	},
+	"delete": {
+		"message": "Sil",
+		"description": "Just the singular word, as seen on a button."
+	},
+	"banUntilClear": {
+		"message": "Ban until clear",
+		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
+	},
+	"clearStream": {
+		"message": "Listeyi temizle",
+		"description": "An action -- empty the stream of items"
+	},
+	"saveStream": {
+		"message": "Akışı Kaydet"
+	},
+	"addToStreamus": {
+		"message": "Akışa ekle"
+	},
+	"selectPlaylist": {
+		"message": "Liste seç"
+	},
+	"videoAddSuccess": {
+		"message": "Video başarıyla akışa eklendi"
+	},
+	"errorEncountered": {
+		"message": "Akışa  eklenemedi bir sorun oluştu"
+	},
+	"addVideo": {
+		"message": "Video ekle"
+	},
+	"working": {
+		"message": "Çalışıyor",
+		"description": "An action -- Streamus is working/processing something"
+	},
+	"newPlaylist": {
+		"message": "Yeni Liste"
+	},
+	"installed": {
+		"message": "Yüklendi",
+		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
+	},
+	"repeatDisabled": {
+		"message": "Tekrar kapalı"
+	},
+	"repeatVideo": {
+		"message": "Video tekrar"
+	},
+	"repeatStream": {
+		"message": "Akış tekrar"
+	},
+	"radioEnabled": {
+		"message": "Radyo açık"
+	},
+	"radioDisabled": {
+		"message": "Radyo kapalı"
+	},
+	"shuffleEnabled": {
+		"message": "Rastgele açık"
+	},
+	"shuffleDisabled": {
+		"message": "Rastgele kapalı"
+	},
+	"elapsedTime": {
+		"message": "Geçen süre"
+	},
+	"timeRemaining": {
+		"message": "Kalan süre"
+	},
+	"totalTime": {
+		"message": "Toplam süre"
+	},
+	"highest": {
+		"message": "En Yüksek",
+		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
+	},
+	"auto": {
+		"message": "Otomatik",
+		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
+	},
+	"lowest": {
+		"message": "Düşük",
+		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
+	},
+	"addedSuccessfully": {
+		"message": "Ekleme başarılı.."
+	},
+	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
+		"message": "Çalma listenizi eklerken bir sorun ile karşılaşıldı.URL'yi kontrol edin?"
+	},
+	"fullScreen": {
+		"message": "Tam Ekran"
+	},
+	"exitFullScreen": {
+		"message": "Exit full screen"
+	},
+	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
+		"message": " Streamus yüklenmesi uzun zaman alıyor. Yeniden yükleme yardımcı olabilir."
+	},
+	"reload": {
+		"message": "Yenile"
+	},
+	"playAll": {
+		"message": "Hepsini oynat"
+	},
+	"playSelected": {
+		"message": "Seçilenler oynat"
+	},
+	"saveSelected": {
+		"message": "Seçilenleri Kaydet"
+	},
+	"search": {
+		"message": "Arama"
+	},
+	"searching": {
+		"message": "Aranıyor"
+	},
+	"noResultsFound": {
+		"message": "Sonuç bulunamadı.."
+	},
+	"clearStream": {
+		"message": "Akışı temizle"
+	},
+	"reloadStreamus": {
+		"message": "Streamus'ı yenile"
+	},
+	"createPlaylist": {
+		"message": "Liste oluştur"
+	},
+	"ok": {
+		"message": "Tamam"
+	},
+	"playlist": {
+		"message": "Liste"
+	},
+	"settings": {
+		"message": "Ayarlar"
+	},
+	"edit": {
+		"message": "Düzenle"
+	},
+	"deletePlaylist": {
+		"message": "Listeyi sil"
+	},
+	"cantDeleteLastPlaylist": {
+		"message": "Son çalma listenizi silemezsiniz"
+	},
+	"areYouSure": {
+		"message": "Emin misiniz?"
+	},
+	"areYouSureYouWantToDeletePlaylist": {
+		"message": "Listesinizi silmek istediğinizden emin misiniz?",
+		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
+	},
+	"areYouSureYouWantToClearYourStream": {
+		"message": "Akışı temizlemek istediğinizden emin misiniz?"
+	},
+	"typeToCreateOrFilterPlaylists": {
+		"message": "Çalma listeleri oluşturmak veya filtrelemek için yazın"
+	},
+	"saveVideo": {
+		"message": "Video Kaydet"
+	},
+	"saveVideos": {
+		"message": "Videoları Kaydet"
+	},
+	"play": {
+		"message": "Oynat"
+	},
+	"add": {
+		"message": "Ekle"
+	},
+	"editPlaylist": {
+		"message": "Listeyi Düzenle"
+	},
+	"deletePlaylist": {
+		"message": "Listeyi Sil"
+	},
+	"item": {
+		"message": "Parça"
+	},
+	"items": {
+		"message": "Parçalar"
+	},
+	"to": {
+		"message": "To"
+	},
+	"title": {
+		"message": "Başlık"
+	},
+	"required": {
+		"message": "Gerekli"
+	},
+	"optional": {
+		"message": "İsteğe bağlı"
+	},
+	"channel": {
+		"message": "Kanal",
+		"description": "A noun -- as in a YouTube channel of music"
+	},
+	"url": {
+		"message": "Adres"
+	},
+	"playlists": {
+		"message": "Listeler"
+	},
+	"signIn": {
+		"message": "Oturum Aç"
+	},
+	"dontRemindMeAgain": {
+		"message": "Tekrar hatırlatma"
+	},
+	"reminders": {
+		"message": "Geçmiş"
+	},
+	"remindClearStream": {
+		"message": "Geçmiş akışı hatırla",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'"
+	},
+	"remindDeletePlaylist": {
+		"message": "Geçmiş akışı temizle",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
+	},
+	"video": {
+		"message": "Video"
+	},
+	"videos": {
+		"message": "Videolar"
+	},
+	"minute": {
+		"message": "Dakika"
+	},
+	"minutes": {
+		"message": "Dakikalar"
+	},
+	"hours": {
+		"message": "Saatler"
+	},
+	"days": {
+		"message": "Günler"
+	},
+	"errorRetrievingTitle": {
+		"message": "Başlığı geri alırken hata oldu"	
+	},
+	"youTubePlayerErrorInvalidParameter": {
+		"message": "Isteği geçersiz bir parametre değeri içeriyor. Eğer video kimliği böyle bir ünlem işareti veya yıldız gibi geçersiz karakterler içeriyorsa, 11 karakterler, ya da olmayan bir video kimliği belirtirseniz, bu hata oluşur."
+	},
+	"youTubePlayerErrorVideoNotFound": {
+		"message": "Istenen video bulunamadı. Bir video kaldırılmış ya da özel olarak işaretlenmiş olabilir"
+	},
+	"youTubePlayerErrorNoPlayEmbedded": {
+		"message": "Istenen video harici player'larda oynatmayı izin vermez."
+	},
+	"keyboardCommandFailure": {
+		"message": "Klavye komut hatası"
+	},
+	"cantSkipToNextVideo": {
+		"message": "Sonraki videoya atlama."
+	},
+	"cantGoBackToPreviousVideo": {
+		"message": "Önceki videoya atlama."
+	},
+	"cantToggleVideoState": {
+		"message": "Geçiş yapamazsın"
+	},
+	"hideVideo": {
+		"message": "Video gizle"
+	},
+	"showVideo": {
+		"message": "Video göster"
+	},
+	"streamEmpty": {
+		"message": "Akış boş"
+	},
+	"enqueueSelected": {
+		"message": "Seçilenleri akışa ekle"
+	},
+	"playlistEmpty": {
+		"message": "Liste boş"
+	},
+	"enqueuePlaylist": {
+		"message": "Sıradaki liste"
+	},
+	"playPlaylist": {
+		"message": "Listeyi oynar"
+	},
+	"enqueueAll": {
+		"message": "Sıradakilerin Hepsi"
+	},
+	"create": {
+		"message": "Oluştur"
+	},
+	"update": {
+		"message": "Güncelle"
+	},
+	"showTooltips": {
+		"message": "Açıklamaları göster"
+	},
+	"showVideoSearch": {
+		"message": "Video aramalarını göster"
+	},
+	"hideVideoSearch": {
+		"message": "Video aramalarını gizle"
+	},
+	"closeMenu": {
+		"message": "Menüyü gizle"
+	},
+	"openMenu": {
+		"message": "Menüyü göster"
+	},
+	"wouldYouLikeTo": {
+		"message": "İster misiniz?"
+	},
+	"searchForVideos": {
+		"message": "Videolar içinde ara"
+	},
+	"hd": {
+		"message": "HD"
+	},
+	"general": {
+		"message": "Genel"
+	},
+	"videoQuality": {
+		"message": "Video kalitesi"
+	},
+	"whyNotAddAVideoFromAPlaylistOr": {
+		"message": "Neden Çalma listesinden bir video eklemiyorsun"
+	},
+	"startTyping": {
+		"message": "Yazmaya başla"
+	},
+	"resultsWillAppearAsYouSearch": {
+		"message": "Arama sonuçları görüntülenirs"
+	},
+	"sorryAboutThat": {
+		"message": "Kusura bakma"
+	},
+	"trySearchingForSomethingElse": {
+		"message": "Aramayı tekrar dene"
+	},
+	"watchOnYouTube": {
+		"message": "Youtube'da oynat"
+	},
+	
+	"alwaysOpenToSearch": {
+		"message": "Arama her zaman açık"
+	}
+}
