@@ -26,14 +26,14 @@ module.exports = function (grunt) {
 			}
 		},
 		
-		cssmin: {
-			dist: {
-				files: {
-					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-					'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
-				}
-			}
-		},
+		//cssmin: {
+		//	dist: {
+		//		files: {
+		//			'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
+		//			'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
+		//		}
+		//	}
+		//},
 
 		htmlmin: {
 			dist: {
@@ -166,7 +166,8 @@ module.exports = function (grunt) {
 						name: 'options/options',
 						exclude: ['options/main', 'options/plugins']
 					}],
-					optimize: 'uglify2',
+					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.
+					optimize: 'none',
 					//  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
 					optimizeCss: 'none',
 					preserveLicenseComments: false,
@@ -205,49 +206,49 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
-    //	Generate a versioned zip file after transforming relevant files to production-ready versions.
+	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
 
-	    //	Update version number in manifest.json:
-	    if (version === undefined) {
-	        grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: production:0.98');
-	    } else {
-	        grunt.option('version', version);
-	    }
+		//	Update version number in manifest.json:
+		if (version === undefined) {
+			grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: production:0.98');
+		} else {
+			grunt.option('version', version);
+		}
 
-	    if (version !== undefined) {
-	        //  Linting is a bit annoying for test. Just ensure lint validation passes for production.
-	        grunt.task.run('lint');
-	    }
-	    
-	    //  It's necessary to run requireJS first because it will overwrite manifest-transform.
-	    grunt.task.run('requirejs');
-	    
-	    if (version !== undefined) {
-	        //  Leave the debug key in for testing, but it has to be removed for deployment to the web store
-	        grunt.task.run('remove-key-from-manifest');
-	    }
+		if (version !== undefined) {
+			//  Linting is a bit annoying for test. Just ensure lint validation passes for production.
+			grunt.task.run('lint');
+		}
+		
+		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
+		grunt.task.run('requirejs');
+		
+		if (version !== undefined) {
+			//  Leave the debug key in for testing, but it has to be removed for deployment to the web store
+			grunt.task.run('remove-key-from-manifest');
+		}
 
-	    grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat', 'concat-cssmin-injected-css', 'cssmin', 'htmlmin', 'remove-less-reference', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
-	    
-        //  Spit out a zip and update manifest file version if not a test.
-        if (version !== undefined) {
-            grunt.task.run('compress-extension', 'update-manifest-version');
-        }
+		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+		
+		//  Spit out a zip and update manifest file version if not a test.
+		if (version !== undefined) {
+			grunt.task.run('compress-extension', 'update-manifest-version');
+		}
 
 	});
-    
+	
 	grunt.registerTask('concat-foreground-css', 'Takes all the relevant CSS files for the foreground and concats them into one file.', function () {
-	    grunt.config.set('concat', {
-	        dist: {
-	            //  Don't want the inject files just foreground css files
-	            src: ['src/css/*.css', '!src/css/*Inject.css'],
-	            dest: 'dist/css/foreground.css'
-	        }
-	    });
-	    grunt.task.run('concat');
+		grunt.config.set('concat', {
+			dist: {
+				//  Don't want the inject files just foreground css files
+				src: ['src/css/*.css', '!src/css/*Inject.css'],
+				dest: 'dist/css/foreground.css'
+			}
+		});
+		grunt.task.run('concat');
 	});
-    
+	
 	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
 	grunt.registerTask('update-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
 		grunt.config.set('replace', {
@@ -263,18 +264,19 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-	grunt.registerTask('concat-cssmin-injected-css', 'injected css files load times matter so definitely uglify', function () {
+	grunt.registerTask('concat-cssmin-css', 'minify and concatinate css for efficiency', function () {
 
-	    grunt.config.set('cssmin', {
-	        inject: {
-	            files: {
-	                'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-	                'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
-	            }
-	        }
-	    });
+		grunt.config.set('cssmin', {
+			inject: {
+				files: {
+					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
+					'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css'],
+					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/font-awesome.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
+				}
+			}
+		});
 
-	    grunt.task.run('cssmin');
+		grunt.task.run('cssmin');
 	});
 
 	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
@@ -323,7 +325,7 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-	grunt.registerTask('remove-less-reference', 'remove less reference in foreground', function() {
+	grunt.registerTask('update-css-references', 'replace less reference in foreground with minified deploy ready version and remove other css references since they all get bundled', function() {
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
 				src: ['dist/foreground.html'],
@@ -331,7 +333,19 @@ module.exports = function (grunt) {
 				replacements: [{
 					//  Change all main files paths to requireConfig for to be accurate for deployment.
 					from: '<link href=less/foreground.less rel=stylesheet/less>',
-					to: ''
+					to: '<link href=css/foreground.min.css rel=stylesheet>'
+				}, {
+				    from: '<link href=css/font-awesome.css rel=stylesheet>',
+				    to: ''
+				}, {
+				    from: '<link href=css/jquery.qtip.css rel=stylesheet>',
+				    to: ''
+				}, {
+				    from: '<link href=css/selectize.default.css rel=stylesheet>',
+				    to: ''
+				}, {
+				    from: '<link href=css/selectize.css rel=stylesheet>',
+				    to: ''
 				}]
 			}
 		});
@@ -447,11 +461,11 @@ module.exports = function (grunt) {
 	//	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
 	grunt.registerTask('compress-extension', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
 
-	    //  There's no need to cleanup any old version because this will overwrite if it exists.
+		//  There's no need to cleanup any old version because this will overwrite if it exists.
 		grunt.config.set('compress', {
 			dist: {
 				options: {
-				    archive: 'Streamus v' + grunt.option('version') + '.zip'
+					archive: 'Streamus v' + grunt.option('version') + '.zip'
 				},
 				files: [{
 					src: ['**'],
