@@ -84,24 +84,22 @@ define([
                 break;
             case 'increaseVolume':
                 var maxVolume = 100;
-                var currentVolume = Player.get('volume');
-                var newVolume = currentVolume + 5;
+                var increasedVolume = Player.get('volume') + 5;
                 
-                if (newVolume > maxVolume) {
+                if (increasedVolume > maxVolume) {
                     Player.set('volume', maxVolume);
                 } else {
-                    Player.set('volume', newVolume);
+                    Player.set('volume', increasedVolume);
                 }
                 break;
             case 'decreaseVolume':
                 var minVolume = 0;
-                var currentVolume = Player.get('volume');
-                var newVolume = currentVolume - 5;
+                var decreasedVolume = Player.get('volume') - 5;
 
-                if (newVolume < minVolume) {
+                if (decreasedVolume < minVolume) {
                     Player.set('volume', minVolume);
                 } else {
-                    Player.set('volume', newVolume);
+                    Player.set('volume', decreasedVolume);
                 }
                 break;
             default:

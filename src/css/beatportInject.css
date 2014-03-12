@@ -24,12 +24,10 @@ a.streamus {
 .streamus.btn-queue:hover {
   background-color: #439645;
 }
-
 /* Reduce top offset to account for streamus injected play button */
 div.top-download-row .playWrapper {
   top: 3px;
 }
-
 /* This allows tooltip to be seen over Top 10 Rows*/
 .unit-renderer-row,
 .play-queue {

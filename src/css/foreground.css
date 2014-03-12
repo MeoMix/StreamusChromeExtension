@@ -21,18 +21,20 @@ body {
   font: 13px/1.2 'Open Sans';
   color: #333;
 }
-body.loading > *:not(.modalOverlay) {
-  opacity: 0.5;
+body > .spinner {
+  z-index: 1;
+  display: none;
+}
+body.loading > *:not(.spinner):not(.reloadPrompt) {
+  opacity: .2;
 }
 body.loading > .spinner {
-  display: inline-block;
-  opacity: 1;
+  display: block;
 }
-body > .spinner {
-  display: none;
-}
-#contextMenu:empty {
-  display: none;
+/* TODO: Add some area to prevent clipping */
+#context-menu-region {
+  width: 100%;
+  height: 100%;
 }
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
@@ -67,7 +69,7 @@ body > .spinner {
   }
 }
 button.mute.muted {
-  color: #E20007;
+  color: #e74c3c;
 }
 .modalOverlay .panel {
   box-shadow: 0 0 20px #333;
@@ -250,7 +252,7 @@ a {
   cursor: default;
 }
 span.videoTitle {
-  font-size: 1.2em;
+  font-size: 14px;
   white-space: nowrap;
   cursor: default;
   line-height: 1.5em;
@@ -305,7 +307,7 @@ button:not(.disabled):active {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
 }
 .button-icon {
-  font-size: 1.2em;
+  font-size: 14px;
   height: 45px;
   line-height: 45px;
   width: 40px;
@@ -379,10 +381,12 @@ input[type="range"]::-webkit-slider-thumb {
   -webkit-box-shadow: 0 0 5px #c5c5c5;
   background: #666;
   border-radius: 100%;
-  cursor: pointer;
   height: 10px;
   width: 10px;
   transition: background .1s;
+}
+input[type="range"]:not(.disabled)::-webkit-slider-thumb {
+  cursor: pointer;
 }
 .left-pane {
   background: #fff;
@@ -408,7 +412,7 @@ input[type="range"]::-webkit-slider-thumb {
   top: 0;
   bottom: 40px;
 }
-#videoSearch .big-text-wrapper.extended {
+.big-text-wrapper.extended {
   bottom: 5px;
 }
 .big-text-wrapper {
@@ -464,23 +468,11 @@ input[type="range"]::-webkit-slider-thumb {
   right: 0;
   top: 0;
 }
-.left-list {
+.list {
   height: 100%;
   margin-left: 5px;
   margin-right: 5px;
   overflow-y: auto;
-}
-/* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
-.listItem.streamItem:hover .item-title {
-  width: calc(100% - 100px);
-}
-.listItem.playlistItem:hover .item-title,
-.listItem.videoSearchResult:hover .item-title {
-  width: calc(100% - 135px);
-}
-.listItem:hover > .hover-actions {
-  display: block;
-  position: absolute;
 }
 .hover-actions {
   display: none;
@@ -496,6 +488,10 @@ input[type="range"]::-webkit-slider-thumb {
   font-size: 14px;
   cursor: pointer;
 }
+.addItemOption.stream:hover,
+.playlist:hover {
+  background: #ebebeb;
+}
 .listItem {
   height: 30px;
   padding: 5px 0;
@@ -503,55 +499,72 @@ input[type="range"]::-webkit-slider-thumb {
   width: calc(100% - 1px);
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: background .1s;
+  /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+       an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
-.addItemOption.stream:hover,
-.listItem:hover,
-.playlist:hover {
+.listItem:hover {
   background: #ebebeb;
+  /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 }
-.listItem:hover > i.hoverable {
+.listItem:hover .item-title {
+  width: calc(100% - 135px);
+}
+.listItem:hover i.hoverable {
   background-color: #ebebeb;
 }
-.listItem.selected,
-.playlist.selected {
-  background: #4EA6EA;
-  transition: background .3s;
+.listItem:hover .hover-actions {
+  display: block;
 }
-.listItem .item-details {
-  transition: color .3s;
+.listItem.active.streamItem {
+  background: #f1c40f;
+}
+.listItem.active.streamItem .item-details {
+  color: #f9e8a0;
+}
+.listItem.active.streamItem .hover-actions {
+  color: #f9e8a0;
+}
+body.playing .listItem.active.streamItem {
+  background: #27ae60;
+}
+body.playing .listItem.active.streamItem .item-details {
+  color: #89e5b0;
+}
+body.playing .listItem.active.streamItem .hover-actions {
+  color: #89e5b0;
+}
+.listItem.selected {
+  background: #4ea6ea !important;
 }
 .listItem.selected .item-details {
-  color: #C5E6FF;
+  color: #c5e6ff !important;
+}
+.listItem.selected .hover-actions {
+  color: #c5e6ff !important;
+}
+.listItem.selected .hover-actions:hover,
+.listItem.active .hover-actions:hover {
+  color: #ffffff;
+}
+.listItem.selected .item-title,
+.listItem.active .item-title,
+.listItem.selected .item-title-wrapper,
+.listItem.active .item-title-wrapper {
+  color: #ffffff;
+}
+.listItem .item-details {
+  transition: color .1s;
+}
+.listItem .hover-actions {
+  position: absolute;
+}
+.listItem .hover-actions:hover {
+  color: #000000;
 }
 .listItem .hover-actions,
 .listItem .item-title {
   transition: color .1s;
-}
-.listItem.selected .hover-actions {
-  color: #C5E6FF;
-}
-.spinner {
-  color: #4EA6EA;
-}
-.listItem.selected .hover-actions:hover {
-  color: #fff;
-}
-.listItem .hover-actions:hover {
-  color: #000;
-}
-.playlist.selected .title,
-.playlist.selected i,
-.listItem.selected .item-title,
-.listItem.selected .item-title-wrapper {
-  color: #fff;
-}
-#playlists .listItem i {
-  margin-left: .4em;
-  margin-right: .4em;
-}
-#playlists .playlist.selected .count {
-  background: #C5E6FF;
-  color: #4EA6EA;
 }
 .listItem img {
   height: 30px;
@@ -559,6 +572,24 @@ input[type="range"]::-webkit-slider-thumb {
   top: 5px;
   width: 40px;
   left: 5px;
+}
+.listItem .copyHelper + .sortable-placeholder {
+  display: none;
+}
+.playlist.active {
+  background: #4ea6ea;
+  transition: background .1s;
+}
+.spinner {
+  color: #4EA6EA;
+}
+.playlist.active .title,
+.playlist.active i {
+  color: #fff;
+}
+#playlists .playlist.active .count {
+  background: #C5E6FF;
+  color: #4EA6EA;
 }
 .playlist .spinner {
   display: none;
@@ -629,7 +660,7 @@ input.valid {
 input:focus ~ .underline {
   background-color: #4EA6EA;
 }
-#left-covering-pane {
+#left-covering-pane-region {
   left: -385px;
   z-index: 1;
 }
@@ -648,7 +679,7 @@ input:focus ~ .underline {
 #activePlaylistItems .sortable-placeholder.noDrop:after {
   content: 'Duplicates not allowed';
 }
-#activePlaylistItems .sortable-placeholder.noPlaylist {
+#activePlaylistItems .sortable-placeholder.notSignedIn {
   display: none;
 }
 .searchBar button#source-select {
@@ -690,29 +721,32 @@ input:focus ~ .underline {
   right: 10px;
   top: 0;
 }
-#videoDisplay .top-bar {
+.right-pane .context-buttons {
+  border-top: 1px solid #f2f2f2;
+  bottom: 0;
   display: block;
-  height: 50px;
+  height: 30px;
   left: 10px;
   position: absolute;
   right: 10px;
-  top: 0;
 }
-#videoDisplay .top-bar .left-side {
-  height: 50px;
-  width: 390px;
-  position: absolute;
+.right-pane .context-buttons .left-group {
+  display: block;
+  height: 30px;
   left: 0;
+  position: absolute;
   top: 0;
+  width: 128px;
 }
-#videoDisplay .top-bar .right-side {
-  height: 50px;
-  width: 235px;
+.right-pane .context-buttons .right-group {
+  display: block;
+  height: 30px;
   position: absolute;
   right: 0;
   top: 0;
+  width: 84px;
 }
-.top-bar .volumeControl {
+#volume {
   bottom: 0;
   left: 0;
   overflow: hidden;
@@ -770,21 +804,12 @@ input:focus ~ .underline {
   background: #4EA6EA;
 }
 .top-bar .center-group {
-  left: 50%;
-  margin-left: -60px;
+  margin-left: 58px;
   position: absolute;
   width: 120px;
+  font-size: 0px;
 }
-.top-bar .right-group {
-  bottom: 0;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 40px;
-  z-index: 1;
-}
-.timeProgressArea .time-slider {
+#time-progress .time-slider {
   background: #f2f2f2;
   height: 3px;
   left: 45px;
@@ -792,7 +817,7 @@ input:focus ~ .underline {
   right: 45px;
   top: 8px;
 }
-.timeProgressArea .time-slider .progress {
+#time-progress .time-slider .progress {
   background: #4EA6EA;
   bottom: 0;
   display: block;
@@ -801,7 +826,7 @@ input:focus ~ .underline {
   top: 0;
   z-index: 1;
 }
-.timeProgressArea .time-slider input {
+#time-progress .time-slider input {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -809,39 +834,17 @@ input:focus ~ .underline {
   top: 0;
   width: 100%;
   z-index: 2;
+  cursor: pointer;
 }
-.timeProgressArea .time-elapsed {
+#time-progress .time-elapsed {
   position: absolute;
   left: 0;
+  cursor: pointer;
 }
-.timeProgressArea .duration {
+#time-progress .duration {
   position: absolute;
   right: 0;
-}
-.right-pane .context-buttons {
-  border-top: 1px solid #f2f2f2;
-  bottom: 0;
-  display: block;
-  height: 30px;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-}
-.right-pane .context-buttons .left-group {
-  display: block;
-  height: 30px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 128px;
-}
-.right-pane .context-buttons .right-group {
-  display: block;
-  height: 30px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 84px;
+  cursor: default;
 }
 #playlistsArea button.hide {
   height: 45px;
@@ -860,7 +863,6 @@ input:focus ~ .underline {
   top: 0;
   z-index: 50;
 }
-#videoDisplay,
 #playlistsArea {
   bottom: 0;
   display: block;
@@ -869,21 +871,6 @@ input:focus ~ .underline {
   right: 0;
   top: 0;
   z-index: 50;
-}
-#videoDisplay canvas {
-  position: absolute;
-  bottom: 0;
-}
-#videoDisplay .panel {
-  left: -640px;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  width: 640px;
-  box-shadow: 0 0 20px #333;
-  display: block;
-  position: absolute;
-  z-index: 51;
 }
 #playlistsArea .panel {
   bottom: 0;
@@ -894,11 +881,6 @@ input:focus ~ .underline {
   top: 0;
   width: 250px;
   z-index: 51;
-}
-#playlists {
-  overflow-x: hidden;
-  height: auto;
-  max-height: 290px;
 }
 #playlistsArea .header {
   background: #fff;
@@ -928,7 +910,7 @@ input:focus ~ .underline {
   height: 23px;
   margin-top: 10px;
 }
-#playlistsArea .header .settings {
+#settings-button {
   display: block;
   position: absolute;
   right: 10px;
@@ -959,14 +941,23 @@ input:focus ~ .underline {
 #playlistsArea .list h3 i {
   margin-left: 0.3em;
 }
+#playlists {
+  overflow-x: hidden;
+  height: auto;
+  max-height: 290px;
+}
 #playlists .listItem {
   height: 26px;
   line-height: 26px;
   position: relative;
   width: calc(100% - 1px);
   padding: 0;
+  cursor: default;
 }
-#playlists .listItem,
+#playlists .listItem i {
+  margin-left: .4em;
+  margin-right: .4em;
+}
 #playlists .listItem * {
   cursor: default;
 }
@@ -1053,11 +1044,6 @@ html .selectize-control.multi .selectize-input.full > input {
 .sortable-placeholder.hiddenUntilChange {
   display: none;
 }
-/* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
-   an item being copied -- it looks weird and doesn't make sense because no move happens */
-.listItem.copyHelper + .sortable-placeholder {
-  display: none;
-}
 /* Display: none; on placeholders that get swapped out for actual views. */
 .view-placeholder {
   display: none;
@@ -1065,17 +1051,10 @@ html .selectize-control.multi .selectize-input.full > input {
 .clickable {
   cursor: pointer;
 }
-#activePlaylistArea .big-text {
-  margin: 0;
-  margin-top: 60px;
-}
 #videoSearch .big-text {
-  margin: 0;
-  padding-bottom: 190px;
-  padding-top: 60px;
   z-index: 1;
 }
-#activePlaylistArea .big-text,
+#content-region .big-text,
 #videoSearch .big-text {
   background-color: white;
   position: absolute;
@@ -1083,6 +1062,8 @@ html .selectize-control.multi .selectize-input.full > input {
   top: 0;
   left: 0;
   right: 0;
+  margin: 0;
+  padding-top: 60px;
 }
 .big-text.streamEmpty {
   position: absolute;
@@ -1119,6 +1100,7 @@ input[type=radio] {
 /* qtip overrides: */
 body .qtip {
   min-width: 0;
+  cursor: default;
 }
 body .qtip-light {
   border-color: #F2F2F2;
@@ -1139,10 +1121,16 @@ body .qtip-light {
   padding: 5px 0;
   cursor: default;
 }
+.category li input[type="checkbox"],
+.category li label,
+.category li select,
+.category li option {
+  cursor: pointer;
+}
 button {
   color: #333;
 }
-button:not(.disabled):not(.enabled):not(.muted):hover {
+button:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
   color: #000;
 }
 button.enabled {
@@ -1151,11 +1139,7 @@ button.enabled {
 .lowercase {
   text-transform: lowercase;
 }
-#videoDisplay .timeProgressArea {
-  top: 25px;
-  left: 0;
-}
-.timeProgressArea {
+#time-progress {
   top: 45px;
   left: 15px;
   right: 15px;
@@ -1192,11 +1176,8 @@ button.enabled {
   margin: -16px 0 0 -16px;
   border-width: 4px;
 }
-.big-text.searching .spinner-medium {
+.big-text .spinner-medium {
   top: 33%;
-}
-.big-text.signingIn .spinner-medium {
-  top: 22%;
 }
 .spinner-medium {
   width: 24px;
@@ -1238,22 +1219,24 @@ button.enabled {
   top: 0;
   right: 10px;
 }
-#activePlaylistArea .playlistTitle {
+#leftBasePane #playlist-title-region {
   width: calc(100% - 106px);
   height: 45px;
   display: inline-block;
+  vertical-align: top;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+#leftBasePane #playlist-title-region #playlistTitle {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.1em;
   white-space: nowrap;
   line-height: 45px;
   cursor: default;
-  vertical-align: top;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
-#activePlaylistArea .fa-search {
+#leftBasePane .fa-search {
   font-size: 18px;
 }
 .searchBar {
@@ -1287,5 +1270,31 @@ button.enabled {
 }
 #playlists span.title,
 #playlists input.editableTitle {
-  width: 160px;
+  width: 150px;
+}
+#context-menu {
+  -webkit-box-shadow: 4px 7px 3px rgba(0, 0, 0, 0.3);
+  background: #fff;
+  position: absolute;
+  z-index: 100;
+  padding: 5px 0;
+  border: 1px solid #BABABA;
+}
+#context-menu:empty {
+  display: none;
+}
+#context-menu li {
+  overflow: hidden;
+  max-width: 200px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  padding: 0 15px;
+  color: #333;
+  font: 13px/2.2 'Open Sans';
+}
+#context-menu li:not(.disabled):hover {
+  background: #EBEBEB;
+}
+#context-menu li.disabled {
+  color: GrayText;
 }

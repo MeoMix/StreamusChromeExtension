@@ -206,13 +206,13 @@ define([
             
         },
         
-        addPlaylistByShareData: function (shareCodeShortId, urlFriendlyEntityTitle, callback) {
+        addPlaylistByShareData: function (shortId, urlFriendlyEntityTitle, callback) {
             
             $.ajax({
                 url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
                 dataType: 'json',
                 data: {
-                    shareCodeShortId: shareCodeShortId,
+                    shortId: shortId,
                     urlFriendlyEntityTitle: urlFriendlyEntityTitle,
                     userId: this.get('id')
                 },

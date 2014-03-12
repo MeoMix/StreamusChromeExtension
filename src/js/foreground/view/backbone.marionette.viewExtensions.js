@@ -1,7 +1,7 @@
 ﻿define([
     'background/model/settings',
     'backbone.marionette'
-], function(Settings) {
+], function (Settings) {
     'use strict';
 
     Backbone.Marionette.View.prototype.applyTooltips = function () {
@@ -12,9 +12,9 @@
             var element = this.$el;
 
             //  Views might call this while rendering -- wrap in a setTimeout to allow them to finish rendering first.
-            setTimeout(function() {
+            setTimeout(function () {
                 var elementsNeedingTooltip = element.find('[title]');
-                
+
                 //  The element calling this might have a title, too!
                 if (element.is('[title]')) {
                     if (elementsNeedingTooltip.length > 0) {
@@ -45,4 +45,4 @@
         }
     };
 
-})
+});

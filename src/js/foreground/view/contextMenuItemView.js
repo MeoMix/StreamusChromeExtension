@@ -1,32 +1,32 @@
 ﻿define([
     'text!template/contextMenuItem.html'
-], function(ContextMenuItemTemplate) {
+], function (ContextMenuItemTemplate) {
     'use strict';
 
     var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
-        
+
         tagName: 'li',
         className: 'clickable',
         template: _.template(ContextMenuItemTemplate),
-  
+
         events: {
             'click': 'onClick',
         },
-        
-        attributes: function() {
+
+        attributes: function () {
             return {
                 title: this.model.get('title')
             };
         },
 
-        onRender: function() {
+        onRender: function () {
             this.setState();
         },
-        
-        setState: function() {
+
+        setState: function () {
             this.$el.toggleClass('disabled', this.model.get('disabled'));
         },
-        
+
         onClick: function () {
 
             if (this.$el.hasClass('disabled')) {
@@ -39,4 +39,4 @@
     });
 
     return ContextMenuItemView;
-})
+});

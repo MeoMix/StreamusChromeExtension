@@ -69,12 +69,13 @@ define([
             //  Debounce because I want automatic typing but no reason to spam server with saves.
             this.on('change:title', _.debounce(function (model, title) {
 
+                //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
                 $.ajax({
                     url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
-                    type: 'POST',
+                    type: 'PATCH',
                     dataType: 'json',
                     data: {
-                        playlistId: model.get('id'),
+                        id: model.get('id'),
                         title: title
                     },
                     success: function () {
@@ -197,8 +198,7 @@ define([
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
                 dataType: 'json',
                 data: {
-                    entityType: ShareableEntityType.Playlist,
-                    entityId: self.get('id')
+                    playlistId: self.get('id')
                 },
                 success: function (shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
