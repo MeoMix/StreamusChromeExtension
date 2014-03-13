@@ -104,8 +104,10 @@ define([
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
                 this.deselectCollections();
-                //  SUPER IMPORTANT. Close the layout to unbind events from background page. Memory leak if not done.
-                this.close();
+
+                //  There's a "bug" in how chrome extensions work. Window unload can be shut down early before all events finish executing.
+                //  So it's necessary to invert the dependency of unsubscribing foreground view events from the foreground to the background where code is guaranteed to finish executing.
+                chrome.extension.getBackgroundPage().unbindViewEvents(Backbone.Marionette.ItemView);
             }.bind(this));
 
             EventAggregator.on('activePlaylistAreaView:showVideoSearch streamView:showVideoSearch', function () {

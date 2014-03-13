@@ -90,13 +90,6 @@
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
         
-        //  TODO: I'm not sure if these stopListenings are needed... but they seem to be for rightBasePane's view. Weird.
-        onClose: function () {
-            this.stopListening(ShuffleButton);
-            this.stopListening(RadioButton);
-            this.stopListening(RepeatButton);
-        },
-        
         initialize: function() {
             this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);

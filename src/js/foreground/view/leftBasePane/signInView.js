@@ -33,12 +33,7 @@
                 pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
             };
         },
-
-        //  TODO: Not sure if I need this, but couldn't hurt and I've been seeing toggleBigText fire unattached to a view.
-        onClose: function () {
-            this.stopListening(this.model);
-        },
-
+        
         onRender: function () {
             this.toggleBigText();
         },

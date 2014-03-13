@@ -63,18 +63,12 @@ define([
             this.applyTooltips();
         },
         
-        //  TODO: Why do I have to do this manually? I thought Marionette handled this for me?
-        onClose: function () {
-            this.stopListening(NextButton);
-            this.stopListening(PreviousButton);
-            this.stopListening(PlayPauseButton);
-            this.stopListening(this.model);
-        },
-
         initialize: function () {
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
+
+            console.log("this.model:", this.model._events);
         },
         
         tryActivateNextVideo: function () {

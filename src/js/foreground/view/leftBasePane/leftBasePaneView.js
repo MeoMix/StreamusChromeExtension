@@ -42,12 +42,6 @@
             content: '#content-region'
         },
         
-        //  TODO: I'm not 100% that I need to do this manually, but rightBasePaneView needed it. I thought Marionette handled this for me, though?
-        onClose: function () {
-            this.stopListening(User);
-            this.stopListening(Playlists);
-        },
-        
         onShow: function () {
             this.updateRegions();
             this.applyTooltips();
