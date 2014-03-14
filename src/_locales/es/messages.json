@@ -1,7 +1,7 @@
 ﻿{
 	"extensionName": {
 		"message": "Streamus™ (Beta!)",
-		"description": "The name of the extension"
+		"description": "El nombre de la extensión"
 	},
 	"extensionDescription" : {
 		"message": "Streamus convierte YouTube en el reproductor de música que siempre quisiste."
@@ -380,12 +380,12 @@
 	},
 
 	"addAll": {
-		"message": "Add all"
+		"message": "Agregar todos"
 	},
 	"addSelected": {
-		"message": "Add selected"
+		"message": "Agregar selección"
 	},
 	"addPlaylist": {
-		"message": "Add playlist"
+		"message": "Agregar lista de reproducción"
 	}
 }
