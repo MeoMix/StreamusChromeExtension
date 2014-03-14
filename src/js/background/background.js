@@ -15,7 +15,7 @@ define([
     'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
     'background/model/contextMenus',
-    'background/model/error',
+    'background/model/clientError',
     'background/model/iconManager',
     'background/model/omnibox',
     'background/model/user',

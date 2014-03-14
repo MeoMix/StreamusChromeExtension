@@ -4,7 +4,7 @@ define([
 ], function (Settings) {
     'use strict';
 
-    var Error = Backbone.Model.extend({
+    var ClientError = Backbone.Model.extend({
         
         defaults: function () {
             //  Support testing and general graceful fallback by checking for existence of applicationDetails.
@@ -66,7 +66,7 @@ define([
             //  The first part of the URL is always the same and not very interesting. Drop it off.
             url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
             
-            var error = new Error({
+            var clientError = new ClientError({
                 message: message,
                 url: url,
                 lineNumber: lineNumber,
@@ -74,9 +74,9 @@ define([
                 architecture: platformInfo.arch
             });
 
-            error.save();
+            clientError.save();
         }
     }, 60000);
 
-    return Error;
+    return ClientError;
 });

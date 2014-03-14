@@ -3,7 +3,7 @@
     //'test/spec/streamItemsSpec',
     //'test/spec/relatedVideoInformationManagerSpec',
     //'test/spec/dataSourceSpec',
-    //'test/spec/errorSpec',
+    //'test/spec/clientErrorSpec',
     //'test/spec/googleAPISpec',
     //'test/spec/utilitySpec',
     //'test/spec/youTubeV2APISpec',
