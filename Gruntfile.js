@@ -25,15 +25,6 @@ module.exports = function (grunt) {
 				stripBanners: true
 			}
 		},
-		
-		//cssmin: {
-		//	dist: {
-		//		files: {
-		//			'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-		//			'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css']
-		//		}
-		//	}
-		//},
 
 		htmlmin: {
 			dist: {
@@ -229,7 +220,7 @@ module.exports = function (grunt) {
 			grunt.task.run('remove-key-from-manifest');
 		}
 
-		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (version !== undefined) {
@@ -335,17 +326,17 @@ module.exports = function (grunt) {
 					from: '<link href=less/foreground.less rel=stylesheet/less>',
 					to: '<link href=css/foreground.min.css rel=stylesheet>'
 				}, {
-				    from: '<link href=css/font-awesome.css rel=stylesheet>',
-				    to: ''
+					from: '<link href=css/font-awesome.css rel=stylesheet>',
+					to: ''
 				}, {
-				    from: '<link href=css/jquery.qtip.css rel=stylesheet>',
-				    to: ''
+					from: '<link href=css/jquery.qtip.css rel=stylesheet>',
+					to: ''
 				}, {
-				    from: '<link href=css/selectize.default.css rel=stylesheet>',
-				    to: ''
+					from: '<link href=css/selectize.default.css rel=stylesheet>',
+					to: ''
 				}, {
-				    from: '<link href=css/selectize.css rel=stylesheet>',
-				    to: ''
+					from: '<link href=css/selectize.css rel=stylesheet>',
+					to: ''
 				}]
 			}
 		});
