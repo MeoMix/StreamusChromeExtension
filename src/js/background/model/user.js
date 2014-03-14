@@ -255,7 +255,9 @@ define([
             }
 
             //  Announce that user has signedIn so managers can use it to fetch data.
+            console.log("I am setting signingIn to false");
             this.set('signingIn', false);
+            console.log("I have set signingIn to false");
             this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
 

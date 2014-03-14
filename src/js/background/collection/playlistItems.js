@@ -43,21 +43,23 @@
                     contentType: 'application/json; charset=utf-8',
                     dataType: 'json',
                     data: JSON.stringify(newItems),
-                    success: function(createdItems) {
+                    success: function (createdItems) {
 
                         //  For each of the createdItems, remap properties back to the old items.
                         _.each(createdItems, function (createdItem) {
 
+                            //  Title is unique so just match on that. No need to rely on passing cid to server and back. 
                             var matchingNewItem = self.find(function (newItem) {
-                                return newItem.cid === createdItem.cid;
+                                return newItem.get('title') === createdItem.title;
                             });
+                            
                             //  Call parse to emulate going through the Model's save logic.
                             var parsedNewItem = matchingNewItem.parse(createdItem);
 
                             //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
                             matchingNewItem.set(parsedNewItem);
                         });
-
+                        
                         self.trigger('sync');
 
                         //  TODO: Pass intelligent paramaters back to options.success

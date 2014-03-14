@@ -21,7 +21,8 @@
         },
 
         modelEvents: {
-            'change:signingIn change:signInFailed': 'toggleBigText',
+            'change:signInFailed': 'toggleBigText',
+            'change:signingIn': 'toggleBigText',
             'change:signInRetryTimer': 'updateSignInRetryTimer'
         },
 

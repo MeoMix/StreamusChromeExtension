@@ -16,8 +16,6 @@ define([
                 lineNumber: -1,
                 url: '',
                 clientVersion: clientVersion,
-                //  This should be set by the server, not the client, in order to be standard across all client.
-                timeOccurred: null,
                 operatingSystem: '',
                 architecture: ''
             };
@@ -45,7 +43,6 @@ define([
         
     });
     
-    //  TODO Maybe I should make an error manager.
     var platformInfo = {
         os: '',
         arch: '',

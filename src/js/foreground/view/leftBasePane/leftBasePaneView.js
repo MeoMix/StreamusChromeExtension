@@ -38,8 +38,8 @@
         },
 
         regions: {
-            playlistTitle: '#playlist-title-region',
-            content: '#content-region'
+            playlistTitleRegion: '#playlist-title-region',
+            contentRegion: '#content-region'
         },
         
         onShow: function () {
@@ -53,26 +53,32 @@
         },
         
         updateRegions: function () {
-            
+
             if (User.get('signedIn')) {
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();
 
-                this.content.show(new ActivePlaylistAreaView({
+                this.contentRegion.show(new ActivePlaylistAreaView({
                     model: activePlaylist,
                     collection: activePlaylist.get('items')
                 }));
 
-                this.playlistTitle.show(new PlaylistTitleView({
+                this.playlistTitleRegion.show(new PlaylistTitleView({
                    model: activePlaylist                     
                 }));
             } else {
-                //  Otherwise, allow the user to sign in by showing a sign in prompt.
-                this.content.show(new SignInView({
-                    model: User
-                }));
 
-                this.playlistTitle.close();
+                //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
+                //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
+                if (!(this.contentRegion.currentView instanceof SignInView)) {
+                    //  Otherwise, allow the user to sign in by showing a sign in prompt.
+                    this.contentRegion.show(new SignInView({
+                        model: User
+                    }));
+
+                    this.playlistTitleRegion.close();
+                }
+
             }
 
         }
