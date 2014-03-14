@@ -93,7 +93,7 @@
     <Content Include="src\js\background\model\buttons\repeatButton.js" />
     <Content Include="src\js\background\model\buttons\shuffleButton.js" />
     <Content Include="src\js\background\model\contextMenus.js" />
-    <Content Include="src\js\background\model\error.js" />
+    <Content Include="src\js\background\model\clientError.js" />
     <Content Include="src\js\background\model\iconManager.js" />
     <Content Include="src\js\background\model\omnibox.js" />
     <Content Include="src\js\background\model\player.js" />
@@ -258,7 +258,7 @@
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
     <Content Include="src\js\test\spec\dataSourceSpec.js" />
-    <Content Include="src\js\test\spec\errorSpec.js" />
+    <Content Include="src\js\test\spec\clientErrorSpec.js" />
     <Content Include="src\js\test\spec\googleAPISpec.js" />
     <Content Include="src\js\test\spec\streamItemsSpec.js" />
     <Content Include="src\js\test\spec\utilitySpec.js" />
