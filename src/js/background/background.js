@@ -20,8 +20,6 @@ define([
     'background/model/omnibox',
     'background/model/user',
     'background/view/clipboardView'
-    
-
 ], function (Commands, StreamItems, VideoSearchResults, Playlists, Player, Settings, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton) {
     'use strict';
    
@@ -47,15 +45,24 @@ define([
     };
     
     //  I know this sucks. It's because of a 'bug' in chrome extensions where foreground can't reliably unsubscribe all of its events so the background has to be responsible for it. :(
-    window.unbindViewEvents = function(ForegroundViewType) {
+    window.unbindViewEvents = function (ForegroundViewType) {
 
-        var toUnbind = [StreamItems, VideoSearchResults, Playlists, Player, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton];
+        var collectionsToUnbind = [StreamItems, VideoSearchResults, Playlists];
+        var allToUnbind = [Player, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton];
 
-        _.each(toUnbind, function (modelOrCollection) {
+        _.each(collectionsToUnbind, function(collectionToUnbind) {
+            allToUnbind.push(collectionToUnbind);
+
+            collectionToUnbind.each(function (modelToUnbind) {
+                allToUnbind.push(modelToUnbind);
+            });
+        });
+
+        _.each(allToUnbind, function (toUnbind) {
 
             var viewContexts = [];
 
-            _.each(modelOrCollection._events, function(eventGroup) {
+            _.each(toUnbind._events, function (eventGroup) {
 
                 _.each(_.toArray(eventGroup), function (event) {
 
@@ -70,7 +77,7 @@ define([
             });
 
             _.each(viewContexts, function (viewContext) {
-                modelOrCollection.off(null, null, viewContext);
+                toUnbind.off(null, null, viewContext);
             });
 
             viewContexts.length = 0;

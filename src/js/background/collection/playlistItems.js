@@ -41,7 +41,6 @@
                     url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
                     type: 'POST',
                     contentType: 'application/json; charset=utf-8',
-                    dataType: 'json',
                     data: JSON.stringify(newItems),
                     success: function (createdItems) {
 
@@ -59,8 +58,6 @@
                             //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
                             matchingNewItem.set(parsedNewItem);
                         });
-                        
-                        self.trigger('sync');
 
                         //  TODO: Pass intelligent paramaters back to options.success
                         if (options.success) {

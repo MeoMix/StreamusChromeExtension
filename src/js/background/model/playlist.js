@@ -4,11 +4,8 @@ define([
     'background/collection/playlistItems',
     'background/model/playlistItem',
     'background/model/settings',
-    'background/model/video',
-    'background/model/shareCode',
-    'common/enum/repeatButtonState',
-    'common/enum/shareableEntityType'
-], function (PlaylistItems, PlaylistItem, Settings, Video, ShareCode, RepeatButtonState, ShareableEntityType) {
+    'background/model/shareCode'
+], function (PlaylistItems, PlaylistItem, Settings, ShareCode) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -73,16 +70,15 @@ define([
                 $.ajax({
                     url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
                     type: 'PATCH',
-                    dataType: 'json',
                     data: {
                         id: model.get('id'),
                         title: title
                     },
                     success: function () {
-                        self.trigger('sync');
+                        console.log("Success!");
                     },
                     error: function (error) {
-                        console.error("Error saving title", error);
+                        console.error("Failure!");
                     }
                 });
                 
@@ -90,10 +86,6 @@ define([
 
             this.listenTo(this.get('items'), 'add reset remove', this.setDisplayInfo);
             this.setDisplayInfo();
-
-            this.listenTo(this.get('items'), 'sync', function() {
-                this.trigger('sync');
-            });
         },
         
         setDisplayInfo: function () {
@@ -196,14 +188,12 @@ define([
             
             $.ajax({
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
-                dataType: 'json',
                 data: {
                     playlistId: self.get('id')
                 },
                 success: function (shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
                     callback(shareCode);
-                    self.trigger('sync');
                 },
                 error: function (error) {
                     console.error("Error retrieving share code", error, error.message);

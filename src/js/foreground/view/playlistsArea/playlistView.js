@@ -51,6 +51,8 @@
 
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
+
+            console.log("PlaylistView model events:", this.model._events);
         },
         
         updateTitle: function () {
@@ -58,7 +60,8 @@
             this.applyTooltips();
         },
 
-        stopEditingOnInactive: function(model, active) {
+        stopEditingOnInactive: function (model, active) {
+            console.log("stopEditingOnInactive:", model, active);
             if (!active) {
                 this.saveAndStopEdit();
             }
@@ -70,8 +73,10 @@
         },
         
         setActiveClass: function () {
+            console.log("setActiveClass:");
             var active = this.model.get('active');
             this.$el.toggleClass('active', active);
+            console.log("toggled active class");
         },
         
         updateItemCount: function () {

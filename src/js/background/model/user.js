@@ -100,7 +100,19 @@ define([
             //}.bind(this));
         },
         
+        canSignIn: function () {
+            //  User can only sign in if they're not signed in, not in the process of being signed in and if they're not waiting for signInFailure timer.
+            var canSignIn = !this.get('signedIn') && !this.get('signingIn') && !this.get('signInFailed');
+
+            return canSignIn;
+        },
+        
         signIn: function () {
+            
+            if (!this.canSignIn()) {
+                console.log("User can't sign in right now.");
+                return;
+            }
             
             this.set('signedIn', false);
             this.set('signingIn', true);
@@ -210,7 +222,6 @@ define([
             
             $.ajax({
                 url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
-                dataType: 'json',
                 data: {
                     shortId: shortId,
                     urlFriendlyEntityTitle: urlFriendlyEntityTitle,
@@ -287,8 +298,7 @@ define([
             //  Testing that GooglePlusId logic works before relying on it.
             $.ajax({
                 url: Settings.get('serverURL') + 'User/UpdateGooglePlusId',
-                type: 'POST',
-                dataType: 'json',
+                type: 'PATCH',
                 data: {
                     userId: this.get('id'),
                     googlePlusId: googlePlusId
@@ -302,7 +312,6 @@ define([
             //$.ajax({
             //    url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
             //    contentType: 'application/json; charset=utf-8',
-            //    dataType: 'json',
             //    data: {
             //        googlePlusId: googlePlusId
             //    },

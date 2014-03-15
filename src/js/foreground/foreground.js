@@ -117,6 +117,10 @@ define([
             EventAggregator.on('activePlaylistAreaView:showPlaylistsArea', function () {
                 this.showPlaylistsArea();
             }.bind(this));
+            
+            if (User.canSignIn()) {
+                User.signIn();
+            }
         },
 
         //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
