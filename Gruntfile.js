@@ -220,7 +220,7 @@ module.exports = function (grunt) {
 			grunt.task.run('remove-key-from-manifest');
 		}
 
-		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-dist-folder');
+		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-src-folder', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (version !== undefined) {
@@ -297,6 +297,13 @@ module.exports = function (grunt) {
 		}
 
 		grunt.file.delete('dist/build.txt');
+	});
+    
+	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
+	    grunt.file.delete('src/beatportInject.css');
+	    grunt.file.delete('src/options.css');
+	    grunt.file.delete('src/youTubeInject.css');
+	    grunt.file.delete('src/foreground.css');
 	});
 
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
