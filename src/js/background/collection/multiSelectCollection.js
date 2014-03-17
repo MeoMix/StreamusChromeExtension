@@ -46,7 +46,6 @@
             
             _.each(selected, function (model) {
                 if (model !== selectedModel) {
-                    console.log("Setting selected to false:", model);
                     model.set('selected', false);
                 }
             });

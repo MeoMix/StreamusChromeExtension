@@ -28,9 +28,6 @@
         },
         
         toggleEnabled: function () {
-
-            console.log("nextButton toggling enabled");
-
             var enabled = false;
             
             if (StreamItems.length > 0) {

@@ -5,7 +5,7 @@
 
     var GenericPromptView = Backbone.Marionette.ItemView.extend({
         
-        className: 'modalOverlay prompt',
+        className: 'prompt',
         
         template: _.template(GenericPromptTemplate),
 

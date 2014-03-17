@@ -91,6 +91,10 @@
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
+        onClose: function() {
+            chrome.extension.getBackgroundPage().console.log("playlistsAreaView closing");
+        },
+        
         onShow: function () {
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({

@@ -67,8 +67,6 @@ define([
             this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
             this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
-
-            console.log("this.model:", this.model._events);
         },
         
         tryActivateNextVideo: function () {
@@ -85,7 +83,6 @@ define([
         },
         
         setNextButtonDisabled: function () {
-            console.log('setNextButtonDisabled:', this.ui.nextButton, NextButton);
             this.ui.nextButton.toggleClass('disabled', !NextButton.get('enabled'));
         },
         

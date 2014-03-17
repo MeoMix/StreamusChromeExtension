@@ -105,9 +105,11 @@ define([
             $(window).unload(function () {
                 this.deselectCollections();
 
+                this.close();
+
                 //  There's a "bug" in how chrome extensions work. Window unload can be shut down early before all events finish executing.
                 //  So it's necessary to invert the dependency of unsubscribing foreground view events from the foreground to the background where code is guaranteed to finish executing.
-                chrome.extension.getBackgroundPage().unbindViewEvents(Backbone.View);
+                //chrome.extension.getBackgroundPage().unbindViewEvents(Backbone.View);
             }.bind(this));
 
             EventAggregator.on('activePlaylistAreaView:showVideoSearch streamView:showVideoSearch', function () {

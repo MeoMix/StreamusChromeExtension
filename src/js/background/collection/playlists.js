@@ -163,8 +163,6 @@
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var self = this;
 
-            console.log("user id:", this.userId);
-
             var playlist = new Playlist({
                 title: playlistTitle,
                 userId: this.userId,

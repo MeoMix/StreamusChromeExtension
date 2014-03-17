@@ -56,18 +56,12 @@ define([
             }.bind(this));
 
             this.on('change:signInFailed', function (model, signInFailed) {
-
-                console.log("sign in failed");
-
                 var signInRetryInterval = this.get('signInRetryInterval');
                 clearInterval(signInRetryInterval);
 
                 if (signInFailed) {
 
                     signInRetryInterval = window.setInterval(function () {
-
-                        console.log("interval tick", this.get('signInRetryTimer'));
-
                         var signInRetryTimer = this.get('signInRetryTimer');
 
                         if (signInRetryTimer === 1) {
@@ -110,7 +104,7 @@ define([
         signIn: function () {
             
             if (!this.canSignIn()) {
-                console.log("User can't sign in right now.");
+                console.error("User can't sign in right now.");
                 return;
             }
             
@@ -167,7 +161,6 @@ define([
                 return;
             }
 
-            console.log("I am now calling chrome.identity.getAuthToken with interactive set to: " + interactive + " and retry set to " + retry);
             chrome.identity.getAuthToken({ interactive: interactive }, function (authToken) {
                 
                 if (chrome.runtime.lastError) {
@@ -198,7 +191,6 @@ define([
                     'Authorization': 'Bearer ' + authToken
                 },
                 success: function (response) {
-                    console.log("Received user info");
                     onUserInfoReceived(response);
                 },
                 error: function (error) {
@@ -266,9 +258,7 @@ define([
             }
 
             //  Announce that user has signedIn so managers can use it to fetch data.
-            console.log("I am setting signingIn to false");
             this.set('signingIn', false);
-            console.log("I have set signingIn to false");
             this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
 

@@ -31,8 +31,6 @@
             var self = this;
 
             this.on('add', function (addedStreamItem) {
-                console.log("streamItems onAdd is firing", addedStreamItem);
-
                 //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
                 if (addedStreamItem.get('active')) {
                     addedStreamItem.trigger('change:active', addedStreamItem, true);

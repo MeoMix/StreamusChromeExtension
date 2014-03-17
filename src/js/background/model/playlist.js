@@ -50,7 +50,7 @@ define([
             return playlistDto;
         },
         initialize: function () {
-            var self = this;
+
             var items = this.get('items');
 
             //  Need to convert items array to Backbone.Collection
@@ -63,8 +63,7 @@ define([
                 this.set('items', items, { silent: true });
             }
 
-            //  Debounce because I want automatic typing but no reason to spam server with saves.
-            this.on('change:title', _.debounce(function (model, title) {
+            this.on('change:title', function (model, title) {
 
                 //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
                 $.ajax({
@@ -73,16 +72,10 @@ define([
                     data: {
                         id: model.get('id'),
                         title: title
-                    },
-                    success: function () {
-                        console.log("Success!");
-                    },
-                    error: function (error) {
-                        console.error("Failure!");
                     }
                 });
                 
-            }, 2000));
+            });
 
             this.listenTo(this.get('items'), 'add reset remove', this.setDisplayInfo);
             this.setDisplayInfo();

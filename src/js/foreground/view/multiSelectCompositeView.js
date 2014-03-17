@@ -254,8 +254,6 @@
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.collection.get(id);
 
-            console.log("modelToSelect:", modelToSelect);
-
             this.doSetSelected({
                 shiftKey: event.shiftKey,
                 ctrlKey: event.ctrlKey,
@@ -272,8 +270,6 @@
             var isDrag = options.drag || false;
 
             var isSelectedAlready = modelToSelect.get('selected');
-            console.log("isSelectedAlready:", (ctrlKeyPressed && isSelectedAlready));
-
             modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 
             //  When the shift key is pressed - select a block of search result items

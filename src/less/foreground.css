@@ -1,3 +1,4 @@
+/* TODO: Can I use lighten/darken on these to be more consistent? */
 @font-face {
   font-family: 'Open Sans';
   src: url('../font/OpenSans-Regular.ttf');
@@ -19,7 +20,7 @@ body {
   height: 100%;
   -webkit-user-select: none;
   font: 13px/1.2 'Open Sans';
-  color: #333;
+  /* qtip overrides: */
 }
 body > .spinner {
   z-index: 1;
@@ -30,6 +31,14 @@ body.loading > *:not(.spinner):not(.reloadPrompt) {
 }
 body.loading > .spinner {
   display: block;
+}
+body .qtip {
+  min-width: 0;
+  cursor: default;
+}
+body .qtip-light {
+  border-color: #ebebeb;
+  color: #666666;
 }
 /* TODO: Add some area to prevent clipping */
 #context-menu-region {
@@ -48,16 +57,16 @@ body.loading > .spinner {
   height: 0;
 }
 ::-webkit-scrollbar-track-piece {
-  background-color: #fff;
+  background-color: #ffffff;
   width: 8px;
 }
 ::-webkit-scrollbar-thumb:vertical {
-  background-color: #D7D7D7;
+  background-color: #ebebeb;
   height: 50px;
   transition: background-color 0.1s;
 }
 ::-webkit-scrollbar-thumb:vertical:hover {
-  background-color: #666;
+  background-color: #666666;
 }
 /* Animation keyframes - you need to add prefixes */
 @-webkit-keyframes spin {
@@ -68,14 +77,48 @@ body.loading > .spinner {
     -webkit-transform: rotate(360deg);
   }
 }
-button.mute.muted {
-  color: #e74c3c;
+.prompt {
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 50;
+  /* Reminder checkboxes always go in the bottom right of the prompt */
 }
-.modalOverlay .panel {
-  box-shadow: 0 0 20px #333;
+.prompt span.title {
+  cursor: default;
 }
-.modalOverlay .panel .header {
-  background: #fff;
+.prompt .underline {
+  height: 5px;
+  width: 308px;
+  margin-top: -4px;
+}
+.prompt .options {
+  margin-top: 10px;
+}
+.prompt .options li {
+  margin-bottom: 10px;
+}
+.prompt .options li label {
+  width: 60px;
+  display: inline-block;
+  text-align: right;
+  padding-right: 5px;
+}
+.prompt .panel {
+  box-shadow: 0 0 20px #333333;
+  position: absolute;
+  left: 50%;
+  opacity: 0;
+  /* Default Panel Size */
+  width: 500px;
+  margin-left: -250px;
+  height: 140px;
+}
+.prompt .panel .header {
+  background: #ffffff;
   height: 26px;
   right: 0;
   top: 0;
@@ -84,20 +127,8 @@ button.mute.muted {
   font-size: 1.3em;
   padding: 10px;
 }
-.modalOverlay .panel .content {
+.prompt .panel .content {
   padding: 10px;
-}
-.panel {
-  background: #fff;
-}
-.prompt .panel {
-  position: absolute;
-  left: 50%;
-  opacity: 0;
-  /* Default Panel Size */
-  width: 500px;
-  margin-left: -250px;
-  height: 140px;
 }
 .prompt.settingsPrompt .panel {
   margin-left: -140px;
@@ -125,21 +156,23 @@ button.mute.muted {
   width: 370px;
   margin-left: -185px;
 }
-.prompt button.remove {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
 .prompt .bottom-right {
   position: absolute;
   right: 10px;
   bottom: 10px;
 }
-/* Reminder checkboxes always go in the bottom right of the prompt */
+.prompt button.remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+}
 .prompt .reminder {
   bottom: 10px;
   left: 10px;
   position: absolute;
+}
+.panel {
+  background: #ffffff;
 }
 input:focus,
 button:focus {
@@ -248,9 +281,6 @@ select {
 a {
   cursor: pointer;
 }
-.prompt span.title {
-  cursor: default;
-}
 span.videoTitle {
   font-size: 14px;
   white-space: nowrap;
@@ -258,33 +288,30 @@ span.videoTitle {
   line-height: 1.5em;
 }
 .playlist-details {
-  color: #666;
+  color: #666666;
   line-height: 1.5;
   cursor: default;
 }
 .item-title {
   font-size: 1.1em;
   white-space: nowrap;
-  color: #333;
+  color: #333333;
   cursor: default;
   display: inline-block;
   width: calc(100% - 55px);
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 55px;
-}
-.addItemOption.active .item-title {
-  color: #4EA6EA;
+  margin-left: 50px;
 }
 .item-details {
-  color: #666;
+  color: #666666;
   font-size: .8em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  bottom: 5px;
   display: block;
-  left: 55px;
+  bottom: 0;
+  left: 50px;
   position: absolute;
   right: 10px;
   cursor: default;
@@ -294,14 +321,6 @@ span.videoTitle {
 }
 .item-author {
   margin-right: 0.8em;
-}
-button {
-  background: transparent;
-  border: 0;
-  cursor: pointer;
-  margin: 0;
-  padding: 0;
-  transition: color 0.1s, text-shadow 0.1s;
 }
 button:not(.disabled):active {
   text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
@@ -315,8 +334,8 @@ button:not(.disabled):active {
 .fa.fa-repeat.repeatVideo:after {
   content: '1';
   border-radius: 50%;
-  background-color: #797979;
-  color: #fff;
+  background-color: #666666;
+  color: #ffffff;
   font-size: 10px;
   bottom: -3px;
   position: relative;
@@ -329,8 +348,8 @@ button:not(.disabled):active {
 .fa.fa-repeat.repeatStream:after {
   content: "\221E ";
   border-radius: 50%;
-  background-color: #797979;
-  color: #fff;
+  background-color: #666666;
+  color: #ffffff;
   font-size: 10px;
   bottom: -3px;
   position: relative;
@@ -342,7 +361,7 @@ button:not(.disabled):active {
 }
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
-  color: GrayText;
+  color: #cacaca;
   cursor: default !important;
 }
 .button-small {
@@ -356,17 +375,14 @@ button:not(.disabled):active {
   margin-right: 0.5em;
 }
 .button-color {
-  background: #f2f2f2;
+  background: #ebebeb;
   border: 1px solid #cacaca;
   transition: all .1s;
 }
 .button-color:not(.disabled):hover {
-  border-color: #4EA6EA;
-  background: #4EA6EA;
-  color: white;
-}
-button > i {
-  transition: color .1s;
+  border-color: #4ea6ea;
+  background: #4ea6ea;
+  color: #ffffff;
 }
 input[type="range"] {
   -webkit-appearance: none;
@@ -378,28 +394,24 @@ input[type="range"] {
 }
 input[type="range"]::-webkit-slider-thumb {
   -webkit-appearance: none;
-  -webkit-box-shadow: 0 0 5px #c5c5c5;
-  background: #666;
+  -webkit-box-shadow: 0 0 5px #cacaca;
+  background: #666666;
   border-radius: 100%;
   height: 10px;
   width: 10px;
-  transition: background .1s;
+  transition: background-color 0.1s;
 }
 input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   cursor: pointer;
 }
 .left-pane {
-  background: #fff;
+  background: #ffffff;
   bottom: 0;
   left: 0;
   position: absolute;
   right: 250px;
   top: 0;
   width: 385px;
-}
-/* Hide some messages in video search */
-.big-text.hidden {
-  display: none;
 }
 #stream {
   position: absolute;
@@ -412,8 +424,9 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   top: 0;
   bottom: 40px;
 }
-.big-text-wrapper.extended {
-  bottom: 5px;
+/* Hide some messages in video search */
+.big-text.hidden {
+  display: none;
 }
 .big-text-wrapper {
   top: 55px;
@@ -423,6 +436,9 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   right: 0;
   position: absolute;
 }
+.big-text-wrapper.extended {
+  bottom: 5px;
+}
 .editableTitle {
   border: 0;
 }
@@ -430,7 +446,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   display: none;
 }
 .left-top-divider {
-  background: #f2f2f2;
+  background: #ebebeb;
   display: block;
   height: 1px;
   left: 10px;
@@ -439,7 +455,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   top: 45px;
 }
 .left-bottom-menubar {
-  border-top: 1px solid #f2f2f2;
+  border-top: 1px solid #ebebeb;
   bottom: 0;
   display: block;
   height: 30px;
@@ -474,37 +490,21 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   margin-right: 5px;
   overflow-y: auto;
 }
-.hover-actions {
-  display: none;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  font-size: 0;
-}
-.hover-actions .button-icon {
-  height: 40px;
-  line-height: 40px;
-  width: 25px;
-  font-size: 14px;
-  cursor: pointer;
-}
-.addItemOption.stream:hover,
-.playlist:hover {
-  background: #ebebeb;
-}
 .listItem {
   height: 30px;
-  padding: 5px 0;
+  padding: 0;
+  border: 5px solid #ffffff;
   position: relative;
-  width: calc(100% - 1px);
+  width: calc(100% - 11px);
   overflow: hidden;
   text-overflow: ellipsis;
-  transition: background .1s;
+  transition: background-color 0.1s, border-color 0.1s;
   /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
 .listItem:hover {
   background: #ebebeb;
+  border-color: #ebebeb;
   /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 }
 .listItem:hover .item-title {
@@ -518,30 +518,37 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 }
 .listItem.active.streamItem {
   background: #f1c40f;
+  border-color: #f1c40f;
 }
 .listItem.active.streamItem .item-details {
   color: #f9e8a0;
 }
-.listItem.active.streamItem .hover-actions {
+.listItem.active.streamItem .hover-actions button {
   color: #f9e8a0;
 }
 body.playing .listItem.active.streamItem {
   background: #27ae60;
+  border-color: #27ae60;
 }
 body.playing .listItem.active.streamItem .item-details {
   color: #89e5b0;
 }
-body.playing .listItem.active.streamItem .hover-actions {
+body.playing .listItem.active.streamItem .hover-actions button {
   color: #89e5b0;
 }
 .listItem.selected {
   background: #4ea6ea !important;
+  border-color: #4ea6ea;
 }
 .listItem.selected .item-details {
-  color: #c5e6ff !important;
+  color: #d7ebfa !important;
 }
-.listItem.selected .hover-actions {
-  color: #c5e6ff !important;
+.listItem.selected .hover-actions button {
+  color: #d7ebfa !important;
+}
+.listItem.selected,
+.listItem.active {
+  color: #ffffff;
 }
 .listItem.selected .hover-actions:hover,
 .listItem.active .hover-actions:hover {
@@ -553,87 +560,122 @@ body.playing .listItem.active.streamItem .hover-actions {
 .listItem.active .item-title-wrapper {
   color: #ffffff;
 }
-.listItem .item-details {
-  transition: color .1s;
-}
 .listItem .hover-actions {
   position: absolute;
+  display: none;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  font-size: 0;
 }
-.listItem .hover-actions:hover {
-  color: #000000;
+.listItem .hover-actions .button-icon {
+  height: 30px;
+  line-height: 30px;
+  width: 25px;
+  font-size: 14px;
+  cursor: pointer;
 }
+.listItem .hover-actions button:hover {
+  color: #ffffff !important;
+}
+.listItem .item-details,
 .listItem .hover-actions,
 .listItem .item-title {
   transition: color .1s;
 }
 .listItem img {
   height: 30px;
-  position: absolute;
-  top: 5px;
   width: 40px;
-  left: 5px;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 .listItem .copyHelper + .sortable-placeholder {
   display: none;
 }
-.playlist.active {
+#playlists {
+  overflow-x: hidden;
+  height: auto;
+  max-height: 290px;
+}
+#playlists .listItem {
+  height: 16px;
+  line-height: 16px;
+}
+#playlists .listItem i {
+  margin-right: .4em;
+  vertical-align: text-top;
+}
+#playlists .listItem * {
+  cursor: default;
+}
+#playlists .listItem .title {
+  white-space: nowrap;
+}
+#playlists .listItem .count {
+  background: #666666;
+  border-radius: 1em;
+  color: #ffffff;
+  font-size: .85em;
+  font-weight: bold;
+  line-height: 1.3;
+  padding: 0 .6em 0 .5em;
+  position: absolute;
+  right: 5px;
+  top: 1px;
+  cursor: default;
+}
+#playlists .listItem.active {
   background: #4ea6ea;
-  transition: background .1s;
+  border-color: #4ea6ea;
 }
-.spinner {
-  color: #4EA6EA;
+#playlists .listItem.active .count {
+  background: #d7ebfa;
+  color: #4ea6ea;
 }
-.playlist.active .title,
-.playlist.active i {
-  color: #fff;
-}
-#playlists .playlist.active .count {
-  background: #C5E6FF;
-  color: #4EA6EA;
-}
-.playlist .spinner {
-  display: none;
-}
-.playlist.loading .spinner {
+#playlists .listItem.loading .spinner {
   display: inline-block;
 }
-.playlist.loading .fa-list {
+#playlists .listItem.loading .fa-list {
   display: none;
+}
+#playlists .listItem .spinner {
+  display: none;
+}
+#playlists .spinner-small {
+  position: static;
+  margin-left: 0;
+  margin-right: .6em;
+}
+#playlists span.title {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#playlists span.title,
+#playlists input.editableTitle {
+  width: 150px;
+}
+.spinner {
+  color: #4ea6ea;
 }
 .selectedModelsLength {
   width: 15px !important;
   height: 15px !important;
   padding: 2px;
-  background-color: #333;
+  background-color: #333333;
   font-weight: bold;
-  color: white;
+  color: #ffffff;
   border-radius: 50%;
   text-align: center;
   z-index: 9999 !important;
   position: absolute !important;
 }
-.prompt .underline {
-  height: 5px;
-  width: 308px;
-  margin-top: -4px;
-}
-.prompt .options {
-  margin-top: 10px;
-}
-.prompt .options li {
-  margin-bottom: 10px;
-}
-.prompt .options li label {
-  width: 60px;
-  display: inline-block;
-  text-align: right;
-  padding-right: 5px;
-}
 input.invalid {
   background-color: #ffcccc;
 }
 input.valid {
-  background-color: #B5DEA3;
+  background-color: #b5dea3;
 }
 .createPlaylistPrompt input[type="text"],
 .editPlaylistPrompt input[type="text"] {
@@ -652,35 +694,60 @@ input.valid {
   margin-left: -1px;
 }
 .underline {
-  background-color: #f2f2f2;
+  background-color: #ebebeb;
   transition: background-color 0.3s;
   z-index: 0;
   height: 5px;
 }
 input:focus ~ .underline {
-  background-color: #4EA6EA;
+  background-color: #4ea6ea;
 }
 #left-covering-pane-region {
   left: -385px;
   z-index: 1;
 }
 #videoSearch {
-  box-shadow: 0 0 10px #333;
+  box-shadow: 0 0 10px #333333;
+  /* Can't sort videoSearch */
 }
-/* Can't sort videoSearch */
 #videoSearch .sortable-placeholder {
   display: none;
 }
-/* Don't allow duplicates to be dropped into playlist items */
-#activePlaylistItems .sortable-placeholder.noDrop {
-  background-color: #E20007;
-}
-/* TODO: I18N Clean this up a bit. Need to do i18n for it */
-#activePlaylistItems .sortable-placeholder.noDrop:after {
-  content: 'Duplicates not allowed';
+#activePlaylistItems .sortable-placeholder {
+  /* Don't allow duplicates to be dropped into playlist items */
 }
 #activePlaylistItems .sortable-placeholder.notSignedIn {
   display: none;
+}
+#activePlaylistItems .sortable-placeholder.noDrop {
+  background-color: #ffcccc;
+  /* TODO: I18N Clean this up a bit. Need to do i18n for it */
+}
+#activePlaylistItems .sortable-placeholder.noDrop:after {
+  content: 'Duplicates not allowed';
+}
+.searchBar {
+  height: 45px;
+  width: calc(100% - 43px);
+  display: inline-block;
+  vertical-align: top;
+}
+.searchBar .underline {
+  bottom: 10px;
+  left: 10px;
+  position: absolute;
+  width: calc(100% - 65px);
+}
+.searchBar input {
+  border: 0;
+  bottom: 11px;
+  font-size: 1.1em;
+  left: 11px;
+  padding: 0 .2em;
+  position: absolute;
+  top: 10px;
+  z-index: 1;
+  width: calc(100% - 73px);
 }
 .searchBar button#source-select {
   bottom: 11px;
@@ -698,7 +765,7 @@ input:focus ~ .underline {
 }
 .big-text {
   cursor: default;
-  color: #666;
+  color: #666666;
   margin: 2em 1em;
   text-align: center;
 }
@@ -722,7 +789,7 @@ input:focus ~ .underline {
   top: 0;
 }
 .right-pane .context-buttons {
-  border-top: 1px solid #f2f2f2;
+  border-top: 1px solid #ebebeb;
   bottom: 0;
   display: block;
   height: 30px;
@@ -757,9 +824,15 @@ input:focus ~ .underline {
   width: 42px;
   cursor: pointer;
 }
+.top-bar .center-group {
+  margin-left: 58px;
+  position: absolute;
+  width: 120px;
+  font-size: 0px;
+}
 .top-bar .volume-slider {
-  background: #fff;
-  border: 1px solid #ccc;
+  background: #ffffff;
+  border: 1px solid #cacaca;
   width: 40px;
   height: 80px;
   position: absolute;
@@ -770,19 +843,10 @@ input:focus ~ .underline {
   -webkit-transform: rotate(180deg);
   cursor: default;
 }
-.top-bar .volume-slider:before {
-  display: block;
-  content: ' ';
-  width: 10px;
-  height: 10px;
-  background: #fff;
-  position: absolute;
-  bottom: -6px;
-  left: 50%;
-  margin-left: -5px;
-  -webkit-transform: rotate(45deg);
-  border-bottom: 1px solid #ccc;
-  border-right: 1px solid #ccc;
+.top-bar .volume-slider .progress {
+  margin-left: 19px;
+  width: 2px;
+  background: #4ea6ea;
 }
 .top-bar .volume-slider input {
   -webkit-appearance: none;
@@ -798,19 +862,31 @@ input:focus ~ .underline {
 .top-bar .volume-slider input:focus {
   outline: none;
 }
-.top-bar .volume-slider .progress {
-  margin-left: 19px;
-  width: 2px;
-  background: #4EA6EA;
-}
-.top-bar .center-group {
-  margin-left: 58px;
+.top-bar .volume-slider:before {
+  display: block;
+  content: ' ';
+  width: 10px;
+  height: 10px;
+  background: #ffffff;
   position: absolute;
-  width: 120px;
-  font-size: 0px;
+  bottom: -6px;
+  left: 50%;
+  margin-left: -5px;
+  -webkit-transform: rotate(45deg);
+  border-bottom: 1px solid #cacaca;
+  border-right: 1px solid #cacaca;
+}
+#time-progress {
+  top: 45px;
+  left: 15px;
+  right: 15px;
+  position: absolute;
+  font-size: .9em;
+  height: 20px;
+  line-height: 1.5;
 }
 #time-progress .time-slider {
-  background: #f2f2f2;
+  background: #ebebeb;
   height: 3px;
   left: 45px;
   position: absolute;
@@ -818,7 +894,7 @@ input:focus ~ .underline {
   top: 8px;
 }
 #time-progress .time-slider .progress {
-  background: #4EA6EA;
+  background: #4ea6ea;
   bottom: 0;
   display: block;
   left: 0;
@@ -846,23 +922,6 @@ input:focus ~ .underline {
   right: 0;
   cursor: default;
 }
-#playlistsArea button.hide {
-  height: 45px;
-  left: 10px;
-  position: absolute;
-  top: 0;
-  width: 40px;
-  z-index: 52;
-}
-.modalOverlay {
-  bottom: 0;
-  display: block;
-  left: 0;
-  position: fixed;
-  right: 0;
-  top: 0;
-  z-index: 50;
-}
 #playlistsArea {
   bottom: 0;
   display: block;
@@ -874,7 +933,7 @@ input:focus ~ .underline {
 }
 #playlistsArea .panel {
   bottom: 0;
-  box-shadow: 0 0 20px #333;
+  box-shadow: 0 0 20px #333333;
   display: block;
   left: -250px;
   position: absolute;
@@ -883,7 +942,7 @@ input:focus ~ .underline {
   z-index: 51;
 }
 #playlistsArea .header {
-  background: #fff;
+  background: #ffffff;
   display: block;
   height: 45px;
   left: 0;
@@ -892,15 +951,8 @@ input:focus ~ .underline {
   text-align: center;
   top: 0;
 }
-.panel .divider {
-  margin-bottom: 5px;
-  margin-left: 10px;
-  margin-right: 10px;
-  background-color: #f2f2f2;
-  height: 1px;
-}
 #playlistsArea .header span {
-  color: #666;
+  color: #666666;
   font-weight: bold;
   letter-spacing: 2px;
   line-height: 45px;
@@ -909,13 +961,6 @@ input:focus ~ .underline {
 #playlistsArea .header span img {
   height: 23px;
   margin-top: 10px;
-}
-#settings-button {
-  display: block;
-  position: absolute;
-  right: 10px;
-  top: 0;
-  height: 46px;
 }
 #playlistsArea .list {
   bottom: 30px;
@@ -941,44 +986,8 @@ input:focus ~ .underline {
 #playlistsArea .list h3 i {
   margin-left: 0.3em;
 }
-#playlists {
-  overflow-x: hidden;
-  height: auto;
-  max-height: 290px;
-}
-#playlists .listItem {
-  height: 26px;
-  line-height: 26px;
-  position: relative;
-  width: calc(100% - 1px);
-  padding: 0;
-  cursor: default;
-}
-#playlists .listItem i {
-  margin-left: .4em;
-  margin-right: .4em;
-}
-#playlists .listItem * {
-  cursor: default;
-}
-#playlists .listItem .title {
-  white-space: nowrap;
-}
-#playlists .listItem .count {
-  background: #666;
-  border-radius: 1em;
-  color: #fff;
-  font-size: .85em;
-  font-weight: bold;
-  line-height: 1.3;
-  padding: 0 .6em 0 .5em;
-  position: absolute;
-  right: 10px;
-  top: 6px;
-  cursor: default;
-}
 #playlistsArea .context-buttons {
-  border-top: 1px solid #f2f2f2;
+  border-top: 1px solid #ebebeb;
   bottom: 0;
   left: 10px;
   position: absolute;
@@ -989,6 +998,28 @@ input:focus ~ .underline {
   position: absolute;
   top: 0;
   right: 0;
+}
+#playlistsArea button.hide {
+  height: 45px;
+  left: 10px;
+  position: absolute;
+  top: 0;
+  width: 40px;
+  z-index: 52;
+}
+.panel .divider {
+  margin-bottom: 5px;
+  margin-left: 10px;
+  margin-right: 10px;
+  background-color: #ebebeb;
+  height: 1px;
+}
+#settings-button {
+  display: block;
+  position: absolute;
+  right: 10px;
+  top: 0;
+  height: 46px;
 }
 /* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
 i {
@@ -1015,31 +1046,32 @@ i.i-4x {
 html .selectize-control .selectize-dropdown .caption {
   font-size: 12px;
   display: block;
-  color: #666;
+  color: #666666;
 }
 html .selectize-control.multi .selectize-dropdown .selected .caption {
-  color: #C5E6FF;
+  color: #d7ebfa;
 }
 html .selectize-control.multi .selectize-input > div {
   border: none !important;
   border-radius: 0;
 }
 html .selectize-control.multi .selectize-input [data-value] {
-  background-color: #4EA6EA;
+  background-color: #4ea6ea;
 }
 html .selectize-control.multi .selectize-input [data-value] > .remove {
-  border-color: #4EA6EA;
+  border-color: #4ea6ea;
 }
 html .selectize-control.multi .selectize-input.full > input {
   display: none;
 }
 .selectize-dropdown-content div.selected {
-  background-color: #4EA6EA;
-  color: #fff;
+  background-color: #4ea6ea;
+  color: #ffffff;
 }
 /* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
 .sortable-placeholder {
   background-color: #ebebeb;
+  border-color: #ebebeb;
 }
 .sortable-placeholder.hiddenUntilChange {
   display: none;
@@ -1056,7 +1088,7 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 #content-region .big-text,
 #videoSearch .big-text {
-  background-color: white;
+  background-color: #ffffff;
   position: absolute;
   bottom: 0;
   top: 0;
@@ -1071,14 +1103,14 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .big-text-header {
   font-size: 23px;
-  color: #333;
+  color: #333333;
   margin-bottom: 15px;
 }
 .big-text-header.clickable {
   display: inline;
 }
 .searchLink {
-  color: #4EA6EA;
+  color: #4ea6ea;
 }
 ul,
 li {
@@ -1096,15 +1128,6 @@ input[type=radio] {
 }
 input[type=radio] {
   bottom: 2px;
-}
-/* qtip overrides: */
-body .qtip {
-  min-width: 0;
-  cursor: default;
-}
-body .qtip-light {
-  border-color: #F2F2F2;
-  color: #666666;
 }
 .topic {
   font-size: 1.1em;
@@ -1128,25 +1151,29 @@ body .qtip-light {
   cursor: pointer;
 }
 button {
-  color: #333;
-}
-button:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
-  color: #000;
+  color: #333333;
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+  transition: color 0.1s, text-shadow 0.1s;
+  /* TODO: Maybe this should just go on a volume button */
 }
 button.enabled {
-  color: #4EA6EA;
+  color: #4ea6ea;
+}
+button:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
+  color: #000000;
+}
+button > i {
+  transition: color .1s;
+}
+button.mute.muted {
+  color: #e74c3c;
 }
 .lowercase {
   text-transform: lowercase;
-}
-#time-progress {
-  top: 45px;
-  left: 15px;
-  right: 15px;
-  position: absolute;
-  font-size: .9em;
-  height: 20px;
-  line-height: 1.5;
 }
 @-webkit-keyframes spin {
   from {
@@ -1188,15 +1215,9 @@ button.enabled {
   margin: -12px 0 0 -12px;
 }
 .selected .spinner {
-  border-color: #fff;
+  border-color: #ffffff;
   border-left-color: transparent;
   border-top-color: transparent;
-}
-#playlists .spinner-small {
-  position: static;
-  margin: 0;
-  margin-left: 5px;
-  margin-bottom: -2px;
 }
 .button-icon .spinner-small {
   display: inline-block;
@@ -1219,6 +1240,9 @@ button.enabled {
   top: 0;
   right: 10px;
 }
+#leftBasePane {
+  /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
+}
 #leftBasePane #playlist-title-region {
   width: calc(100% - 106px);
   height: 45px;
@@ -1235,50 +1259,16 @@ button.enabled {
   line-height: 45px;
   cursor: default;
 }
-/* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
 #leftBasePane .fa-search {
   font-size: 18px;
 }
-.searchBar {
-  height: 45px;
-  width: calc(100% - 43px);
-  display: inline-block;
-  vertical-align: top;
-}
-.searchBar .underline {
-  bottom: 10px;
-  left: 10px;
-  position: absolute;
-  width: calc(100% - 65px);
-}
-.searchBar input {
-  border: 0;
-  bottom: 11px;
-  font-size: 1.1em;
-  left: 11px;
-  padding: 0 .2em;
-  position: absolute;
-  top: 10px;
-  z-index: 1;
-  width: calc(100% - 73px);
-}
-#playlists span.title {
-  display: inline-block;
-  overflow: hidden;
-  vertical-align: top;
-  text-overflow: ellipsis;
-}
-#playlists span.title,
-#playlists input.editableTitle {
-  width: 150px;
-}
 #context-menu {
   -webkit-box-shadow: 4px 7px 3px rgba(0, 0, 0, 0.3);
-  background: #fff;
+  background: #ffffff;
   position: absolute;
   z-index: 100;
   padding: 5px 0;
-  border: 1px solid #BABABA;
+  border: 1px solid #cacaca;
 }
 #context-menu:empty {
   display: none;
@@ -1289,12 +1279,9 @@ button.enabled {
   text-overflow: ellipsis;
   white-space: nowrap;
   padding: 0 15px;
-  color: #333;
+  color: #333333;
   font: 13px/2.2 'Open Sans';
 }
 #context-menu li:not(.disabled):hover {
-  background: #EBEBEB;
-}
-#context-menu li.disabled {
-  color: GrayText;
+  background: #ebebeb;
 }

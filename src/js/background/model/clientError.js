@@ -51,7 +51,6 @@ define([
 
     chrome.runtime.getPlatformInfo(function(platformInfoResponse) {
         platformInfo = platformInfoResponse;
-        console.log("PlatformInfo:", platformInfo);
     });
     
     //  Send a log message whenever any client errors occur; for debugging purposes.

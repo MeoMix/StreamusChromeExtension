@@ -95,8 +95,6 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
-
-            console.log("RepeatButton events:", RepeatButton);
         },
         
         updateSaveStreamButton: function () {

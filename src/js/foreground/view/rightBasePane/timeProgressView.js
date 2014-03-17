@@ -86,9 +86,6 @@ define([
         },
 
         seekToTime: function (event) {
-
-            console.log("SeekingToTime:", event.which);
-
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.

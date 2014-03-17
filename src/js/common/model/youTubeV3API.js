@@ -177,7 +177,6 @@
         //  TODO: It seems like I should be able to use chrome-identity, but I guess not.
         //chrome.identity.getAuthToken({ 'interactive': true }, function (authToken) {
 
-        //console.log("authToken:", authToken);
         //GoogleAPI.auth.setToken(authToken);
         // }
 

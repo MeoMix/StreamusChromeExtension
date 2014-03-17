@@ -200,8 +200,6 @@ $(function () {
 
 			var playlists = getPlaylistsResponse.playlists;
 
-			console.log("get playlists response:", getPlaylistsResponse);
-
 			selectPlaylistButton.addClass('yt-uix-button-toggled');
 			sharePanelPlaylistSelect.removeClass('hid');
 
