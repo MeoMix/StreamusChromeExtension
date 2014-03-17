@@ -51,6 +51,7 @@
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
     <Content Include="src\font\fontawesome-webfont.svg" />
+    <Content Include="src\font\LICENSE.txt" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\close.png" />
     <Content Include="src\img\Green 0.png" />
@@ -188,6 +189,8 @@
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
     <Content Include="src\js\thirdParty\backbone.wreqr.js" />
+    <Content Include="src\font\OpenSans-Bold.ttf" />
+    <Content Include="src\font\OpenSans-Regular.ttf" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\backbone.babysitter.js" />
