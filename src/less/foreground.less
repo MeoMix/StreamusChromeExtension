@@ -121,7 +121,7 @@ body {
     top: 0;
     z-index: 50;
 
-    span.title {
+    .title {
         cursor: default;
     }
 
@@ -365,7 +365,7 @@ button:not(.disabled):active {
 
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
-    color: @mediumLightGray;
+    color: @mediumLightGray !important;
     cursor: default !important;
 }
 
@@ -458,13 +458,6 @@ input[type="range"] {
     }
 }
 
-.editableTitle {
-    border: 0;
-
-    &.hidden {
-        display: none;
-    }
-}
 
 .left-top-divider {
     background: @lightGray;
@@ -573,15 +566,15 @@ input[type="range"] {
     }
 
     &.selected {
-        background: @baseBlue !important;
-        border-color: @baseBlue;
+        background: @baseBlue;
+        border-color: @baseBlue !important;
 
         .item-details {
-            color: @lightBaseBlue !important;
+            color: @lightBaseBlue;
         }
 
         .hover-actions button {
-            color: @lightBaseBlue !important;
+            color: @lightBaseBlue;
         }
     }
 
@@ -590,8 +583,8 @@ input[type="range"] {
         color: @white;
 
         .hover-actions {
-            &:hover {
-                color: @white;
+            button:hover {
+                color: @white !important;
             }
         }
 
@@ -618,7 +611,7 @@ input[type="range"] {
         }
 
         button:hover {
-            color: @white !important;
+            color: @black !important;
         }
     }
 
@@ -649,12 +642,14 @@ input[type="range"] {
     max-height: 290px;
 
     .listItem {
-        height: 16px;
-        line-height: 16px;
+        height: 18px;
+        line-height: 18px;
 
         i {
             margin-right: .4em;
-            vertical-align: text-top;
+            display: inline-block;
+            line-height: 18px;
+            vertical-align: top;
         }
 
         * {
@@ -680,27 +675,27 @@ input[type="range"] {
         }
 
         &.active {
-	        background: @baseBlue;
-	        border-color: @baseBlue;
+            background: @baseBlue;
+            border-color: @baseBlue;
 
-	        .count {
-		        background: @lightBaseBlue;
-		        color: @baseBlue;
-	        }
+            .count {
+                background: @lightBaseBlue;
+                color: @baseBlue;
+            }
         }
 
         &.loading {
-	        .spinner {
-		        display: inline-block;
-	        }
+            .spinner {
+                display: inline-block;
+            }
 
-	        .fa-list {
-		        display: none;
-	        }
+            .fa-list {
+                display: none;
+            }
         }
 
         .spinner {
-	        display: none;
+            display: none;
         }
     }
 
@@ -710,15 +705,22 @@ input[type="range"] {
         margin-right: .6em;
     }
 
-    span.title {
+    .title {
         display: inline-block;
         overflow: hidden;
         text-overflow: ellipsis;
+        width: 150px;
+        line-height: 16px;
     }
 
-    span.title,
     input.editableTitle {
+        border: 0;
         width: 150px;
+        line-height: 16px;
+
+        &.hidden {
+            display: none;
+        }
     }
 }
 

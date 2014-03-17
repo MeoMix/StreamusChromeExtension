@@ -16,7 +16,7 @@
         
         ui: {
             playlistSelect: 'select.submittable',
-            selectizeTitle: '.selectize-input span.title'
+            selectizeTitle: '.selectize-input .title'
         },
 
         onRender: function () {

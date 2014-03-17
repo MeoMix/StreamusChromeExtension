@@ -40,7 +40,7 @@
         ui: {
             itemCount: '.count',
             editableTitle: 'input.editableTitle',
-            readonlyTitle: 'span.title'
+            readonlyTitle: '.title'
         },
         
         onRender: function() {
@@ -165,8 +165,8 @@
         
         startEdit: function () {
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            this.ui.editableTitle.show().focus().val(this.ui.editableTitle.val());
             this.ui.readonlyTitle.hide();
+            this.ui.editableTitle.show().focus().val(this.ui.editableTitle.val());
         },
         
         saveAndStopEditOnEnter: function(event) {
