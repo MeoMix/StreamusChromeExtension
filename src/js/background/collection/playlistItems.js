@@ -118,8 +118,10 @@
             return playlistItem.get('video').get('id') === playlistItemToAdd.get('video').get('id');
         });
 
-        if (duplicatePlaylistItem !== undefined) {
+        var duplicateFound = !_.isUndefined(duplicatePlaylistItem);
 
+        if (duplicateFound) {
+            console.log("I found a duplicate!");
             if (duplicatePlaylistItem.has('id')) {
                 playlistItemToAdd.set('id', duplicatePlaylistItem.get('id'));
             } else {
@@ -133,6 +135,9 @@
     PlaylistItems.prototype.add = function (playlistItemToAdd, options) {
         
         if (_.isArray(playlistItemToAdd)) {
+
+            console.log("Array found in playlistItems add");
+
             _.each(playlistItemToAdd, function(itemToAdd) {
                 trySetDuplicateVideoId.call(this, itemToAdd);
             }.bind(this));

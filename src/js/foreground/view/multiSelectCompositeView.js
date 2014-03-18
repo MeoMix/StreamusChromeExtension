@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/view/leftBasePane/playlistItemView',
     'foreground/view/rightBasePane/streamItemView',
-    'foreground/view/videoSearch/videoSearchResultView',
+    'foreground/view/leftCoveringPane/videoSearchResultView',
     'common/enum/listItemType',
     'background/collection/playlists',
     'background/collection/streamItems',
@@ -179,8 +179,11 @@
 
                 tolerance: 'pointer',
                 receive: function (event, ui) {
+                    
+                    //  TODO: I don't get when this would be used.
                     //  Don't allow receiving until collection is given because there shouldn't be anything to drop onto
                     if (_.isUndefined(self.collection)) {
+                        console.log("collection is undefined, wow!");
                         ui.item.remove();
                         //  Set copied to true so that the item stays where it is.
                         ui.sender.data('copied', true);
@@ -192,23 +195,32 @@
                     console.log("Receive is firing!");
 
                     if (listItemType === ListItemType.StreamItem) {
+                        
+                        var draggedStreamItems = StreamItems.selected();
+                        StreamItems.deselectAll();
 
-                        var streamItemId = ui.item.data('id');
-                        var draggedStreamItem = StreamItems.get(streamItemId);
+                        var videos = _.map(draggedStreamItems, function(streamItem) {
+                            return streamItem.get('video');
+                        });
 
-                        //  Remove blue coloring if visible before waiting for addVideo to finish to give a more seamless swap to the new item.
-                        ui.item.removeClass('selected');
 
-                        //  Don't allow duplicates
-                        var videoAlreadyExists = self.collection.videoAlreadyExists(draggedStreamItem.get('video'));
 
-                        if (videoAlreadyExists) {
-                            ui.item.remove();
-                        }
-                        else {
+                        //var streamItemId = ui.item.data('id');
+                        //var draggedStreamItem = StreamItems.get(streamItemId);
 
-                            //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addByVideoAtIndex(draggedStreamItem.get('video'), ui.item.index(), function () {
+                        ////  Remove blue coloring if visible before waiting for addVideo to finish to give a more seamless swap to the new item.
+                        //ui.item.removeClass('selected');
+
+                        ////  Don't allow duplicates
+                        //var videoAlreadyExists = self.collection.videoAlreadyExists(draggedStreamItem.get('video'));
+
+                        //if (videoAlreadyExists) {
+                        //    ui.item.remove();
+                        //}
+                        //else {
+
+                        //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
+                            self.model.addByVideosStartingAtIndex(videos, ui.item.index(), function () {
                                 //  Remove item because it's a stream item and I've just added a playlist item at that index.
                                 ui.item.remove();
                             });
@@ -219,7 +231,7 @@
                             if (emptyPlaylistMessage.length > 0) {
                                 emptyPlaylistMessage.addClass('hidden');
                             }
-                        }
+                        //}
                     }
                     else if (listItemType === ListItemType.PlaylistItem) {
                         var activePlaylistItems = Playlists.getActivePlaylist().get('items');
@@ -272,6 +284,8 @@
             var isSelectedAlready = modelToSelect.get('selected');
             modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 
+            console.log("I have set modelToSelect to selected:", modelToSelect, modelToSelect.get('selected'));
+
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
 
@@ -280,9 +294,13 @@
 
                 //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
                 if (this.collection.selected().length > 1) {
+                    var firstSelected = this.collection.firstSelected();
+
                     //  Get the search result which was selected first and go from its index.
-                    firstSelectedIndex = this.collection.indexOf(this.collection.firstSelected());
+                    firstSelectedIndex = this.collection.indexOf(firstSelected);
                 }
+
+                console.log("firstSelectedIndex:", firstSelectedIndex);
 
                 //  Select all items between the selected item and the firstSelected item.
                 this.collection.each(function (model, index) {
@@ -291,7 +309,10 @@
 
                     model.set('selected', isBetweenBelow || isBetweenAbove);
                 });
-
+                
+                //  Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
+                this.collection.at(firstSelectedIndex).set('firstSelected', true);
+                
             } else if (ctrlKeyPressed) {
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.

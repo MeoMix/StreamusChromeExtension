@@ -155,6 +155,8 @@
                 }
 
             });
+            
+            MultiSelectCollection.prototype.initialize.call(this, arguments);
 
         },
         

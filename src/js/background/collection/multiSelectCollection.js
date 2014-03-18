@@ -8,6 +8,7 @@
 
                 //  Whenever only one model is selected -- it becomes the first one to be selected.
                 var selectedModels = this.selected();
+                
                 if (selectedModels.length === 1) {
                     selectedModels[0].set('firstSelected', true);
                 }
@@ -24,7 +25,7 @@
 
                 if (firstSelected) {
                     this.each(function(model) {
-                        if (model !== changedModel) {
+                        if (model !== changedModel && model.get('firstSelected')) {
                             model.set('firstSelected', false);
                         }
                     });

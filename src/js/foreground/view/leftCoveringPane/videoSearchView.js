@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/view/multiSelectCompositeView',
     'text!template/videoSearch.html',
-    'foreground/view/videoSearch/videoSearchResultView',
+    'foreground/view/leftCoveringPane/videoSearchResultView',
     'foreground/view/prompt/saveVideosPromptView',
     'background/model/user',
     'background/collection/streamItems'

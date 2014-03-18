@@ -136,6 +136,47 @@ define([
 
             this.get('items').savePlaylistItem(playlistItem, callback);
         },
+        
+        //  TODO: DRY
+        addByVideosStartingAtIndex: function (videos, index, callback) {
+            console.log("im here");
+            var itemsToSave = new PlaylistItems([], {
+                playlistId: this.get('id')
+            });
+            
+            var initialSequence = this.get('items').getSequenceFromIndex(index);
+
+            var self = this;
+            _.each(videos, function (video) {
+
+                //  TODO: Sequence is incorrect here after the first item since I'm not adding models until after saving. FIX!
+                var sequence = initialSequence;
+
+                console.log("index and sequence", index, sequence);
+
+                var playlistItem = new PlaylistItem({
+                    playlistId: self.get('id'),
+                    video: video,
+                    sequence: sequence
+                });
+                
+                itemsToSave.push(playlistItem);
+                index++;
+            });
+
+            itemsToSave.save({}, {
+                success: function () {
+
+                    //  TODO: Why is this .models and not just itemsToSave?
+                    self.get('items').add(itemsToSave.models);
+
+                    if (callback) {
+                        callback();
+                    }
+
+                }
+            });
+        },
             
         addByVideos: function (videos, callback) {
 

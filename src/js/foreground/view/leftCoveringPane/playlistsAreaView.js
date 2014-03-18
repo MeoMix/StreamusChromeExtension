@@ -7,7 +7,7 @@
     'foreground/view/createPlaylistView',
     'foreground/view/prompt/editPlaylistPromptView',
     'background/collection/playlists',
-    'foreground/view/playlistsArea/playlistView',
+    'foreground/view/leftCoveringPane/playlistView',
     'common/enum/listItemType',
     'background/model/user',
     'foreground/view/prompt/deletePlaylistPromptView'
