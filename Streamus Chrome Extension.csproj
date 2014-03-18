@@ -150,8 +150,8 @@
     <Content Include="src\js\foreground\view\leftBasePane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftBasePane\signInView.js" />
     <Content Include="src\js\foreground\view\playInStreamButtonView.js" />
-    <Content Include="src\js\foreground\view\playlistsArea\playlistsAreaView.js" />
-    <Content Include="src\js\foreground\view\playlistsArea\playlistView.js" />
+    <Content Include="src\js\foreground\view\leftCoveringPane\playlistsAreaView.js" />
+    <Content Include="src\js\foreground\view\leftCoveringPane\playlistView.js" />
     <Content Include="src\js\foreground\view\clearStreamView.js" />
     <Content Include="src\js\foreground\view\contextMenuView.js" />
     <Content Include="src\js\foreground\view\createPlaylistView.js" />
@@ -173,8 +173,8 @@
     <Content Include="src\js\foreground\view\rightBasePane\timeProgressView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\volumeView.js" />
     <Content Include="src\js\foreground\view\saveVideosView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\videoSearchResultView.js" />
-    <Content Include="src\js\foreground\view\videoSearch\videoSearchView.js" />
+    <Content Include="src\js\foreground\view\leftCoveringPane\videoSearchResultView.js" />
+    <Content Include="src\js\foreground\view\leftCoveringPane\videoSearchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
     <Content Include="src\js\inject\streamusInject.js" />
     <Content Include="src\js\inject\streamusShareInject.js" />
