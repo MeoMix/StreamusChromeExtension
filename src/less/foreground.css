@@ -87,7 +87,7 @@ body .qtip-light {
   z-index: 50;
   /* Reminder checkboxes always go in the bottom right of the prompt */
 }
-.prompt span.title {
+.prompt .title {
   cursor: default;
 }
 .prompt .underline {
@@ -361,7 +361,7 @@ button:not(.disabled):active {
 }
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
-  color: #cacaca;
+  color: #cacaca !important;
   cursor: default !important;
 }
 .button-small {
@@ -438,12 +438,6 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 }
 .big-text-wrapper.extended {
   bottom: 5px;
-}
-.editableTitle {
-  border: 0;
-}
-.editableTitle.hidden {
-  display: none;
 }
 .left-top-divider {
   background: #ebebeb;
@@ -537,22 +531,22 @@ body.playing .listItem.active.streamItem .hover-actions button {
   color: #89e5b0;
 }
 .listItem.selected {
-  background: #4ea6ea !important;
-  border-color: #4ea6ea;
+  background: #4ea6ea;
+  border-color: #4ea6ea !important;
 }
 .listItem.selected .item-details {
-  color: #d7ebfa !important;
+  color: #d7ebfa;
 }
 .listItem.selected .hover-actions button {
-  color: #d7ebfa !important;
+  color: #d7ebfa;
 }
 .listItem.selected,
 .listItem.active {
   color: #ffffff;
 }
-.listItem.selected .hover-actions:hover,
-.listItem.active .hover-actions:hover {
-  color: #ffffff;
+.listItem.selected .hover-actions button:hover,
+.listItem.active .hover-actions button:hover {
+  color: #ffffff !important;
 }
 .listItem.selected .item-title,
 .listItem.active .item-title,
@@ -576,7 +570,7 @@ body.playing .listItem.active.streamItem .hover-actions button {
   cursor: pointer;
 }
 .listItem .hover-actions button:hover {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 .listItem .item-details,
 .listItem .hover-actions,
@@ -599,12 +593,14 @@ body.playing .listItem.active.streamItem .hover-actions button {
   max-height: 290px;
 }
 #playlists .listItem {
-  height: 16px;
-  line-height: 16px;
+  height: 18px;
+  line-height: 18px;
 }
 #playlists .listItem i {
   margin-right: .4em;
-  vertical-align: text-top;
+  display: inline-block;
+  line-height: 18px;
+  vertical-align: top;
 }
 #playlists .listItem * {
   cursor: default;
@@ -622,7 +618,7 @@ body.playing .listItem.active.streamItem .hover-actions button {
   padding: 0 .6em 0 .5em;
   position: absolute;
   right: 5px;
-  top: 1px;
+  top: 2px;
   cursor: default;
 }
 #playlists .listItem.active {
@@ -647,14 +643,20 @@ body.playing .listItem.active.streamItem .hover-actions button {
   margin-left: 0;
   margin-right: .6em;
 }
-#playlists span.title {
+#playlists .title {
   display: inline-block;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-#playlists span.title,
-#playlists input.editableTitle {
   width: 150px;
+  line-height: 16px;
+}
+#playlists input.editableTitle {
+  border: 0;
+  width: 150px;
+  line-height: 16px;
+}
+#playlists input.editableTitle.hidden {
+  display: none;
 }
 .spinner {
   color: #4ea6ea;
