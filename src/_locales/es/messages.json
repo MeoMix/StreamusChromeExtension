@@ -56,15 +56,15 @@
 		"description": "Just the singular word, as seen on a button."
 	},
 	"banUntilClear": {
-		"message": "No mostrar hasta que la cola esté vacía",
+		"message": "No mostrar hasta que la lista de reproducción esté vacía",
 		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
 	},
 	"clearStream": {
-		"message": "Vaciar la cola",
+		"message": "Vaciar lista",
 		"description": "An action -- empty the stream of items"
 	},
 	"saveStream": {
-		"message": "Guardar cola"
+		"message": "Guardar lista"
 	},
 	"addToStreamus": {
 		"message": "Añadir a Streamus"
@@ -99,7 +99,7 @@
 		"message": "Repetir video"
 	},
 	"repeatStream": {
-		"message": "Repetir cola"
+		"message": "Repetir lista"
 	},
 	"radioEnabled": {
 		"message": "Radio activada"
@@ -165,7 +165,7 @@
 		"message": "No se han encontrado resultados"
 	},
 	"clearStream": {
-		"message": "Limpiar cola"
+		"message": "Limpiar lista"
 	},
 	"reloadStreamus": {
 		"message": "Recargar Streamus"
@@ -316,7 +316,7 @@
 		"message": "Mostrar video"
 	},
 	"streamEmpty": {
-		"message": "Cola vacia"
+		"message": "Lista vacia"
 	},
 	"playlistEmpty": {
 		"message": "Lista vacía"
