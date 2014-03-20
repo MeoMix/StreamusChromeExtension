@@ -16,10 +16,6 @@
         events: {
             'click': 'doDelete'
         },
-
-        onShow: function () {
-            this.applyTooltips();
-        },
         
         doDelete: function () {
             //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.

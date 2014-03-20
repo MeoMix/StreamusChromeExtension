@@ -68,8 +68,14 @@
             var displayInfo = this.model.get('displayInfo');
 
             this.ui.playlistDetails.text(displayInfo);
+            
             //  TODO: Is there a way to use a mutationObserver to monitor text so that content.text will update automatically?
-            this.ui.playlistDetails.qtip('api').set('content.text', displayInfo);
+            //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
+            var qtipApi = this.ui.playlistDetails.qtip('api');
+
+            //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
+            qtipApi.render();
+            qtipApi.set('content.text', displayInfo);
         },
        
         //  Set the visibility of any visible text messages.

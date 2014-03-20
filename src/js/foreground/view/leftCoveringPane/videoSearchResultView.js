@@ -63,7 +63,6 @@
             }));
 
             this.setHighlight();
-            this.applyTooltips();
         },
         
         initialize: function (options) {
@@ -75,7 +74,6 @@
         },
         
         playInStream: function () {
-            console.log("playInStream");
             this.playInStreamRegion.currentView.playInStream();
         },
         

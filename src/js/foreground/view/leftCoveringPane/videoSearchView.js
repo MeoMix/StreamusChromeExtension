@@ -60,11 +60,13 @@
         },
 
         collectionEvents: {
-            'reset': 'toggleBigText',
+            'reset': 'toggleBigText delayedApplyTooltips',
             'change:selected': 'toggleBottomMenubar'
         },
  
         onRender: function () {
+            console.log("videoSearchView onRender is firing", new Date().getTime());
+
             this.toggleBigText();
             this.toggleBottomMenubar();
             this.toggleSaveSelected();
@@ -183,6 +185,13 @@
         //  Shake the view to bring attention to the fact that the view is already visible.
         shake: function() {
             this.$el.effect('shake');
+        },
+        
+        delayedApplyTooltips: function () {
+            console.log("delayedApplyTooltips is now running.", new Date().getTime());
+            setTimeout(function() {
+                this.applyTooltips();
+            }.bind(this));
         }
 
     });

@@ -22,6 +22,8 @@
         setResults: function(results) {
             //  Destroy all existing models before resetting in order to cause the views to clean-up and prevent memory leaks.
             _.invoke(this.toArray(), 'destroy');
+
+            console.log("VideoSearchResults collection is calling reset", new Date().getTime());
             this.reset(results);
         },
         

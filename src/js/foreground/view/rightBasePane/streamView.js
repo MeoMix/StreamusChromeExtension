@@ -78,7 +78,6 @@
         },
         
         onRender: function () {
-            
             this.toggleBigText();
             this.toggleContextButtons();
 
@@ -107,10 +106,15 @@
             var templateHelpers = this.templateHelpers();
             var newTitle = userSignedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
 
-            console.log("new title:", newTitle);
-
             this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
-            this.ui.saveStreamButton.attr('title', newTitle).qtip('api').set('content.text', newTitle);
+            this.ui.saveStreamButton.attr('title', newTitle);
+            
+            //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
+            var qtipApi = this.ui.saveStreamButton.qtip('api');
+
+            //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
+            qtipApi.render();
+            qtipApi.set('content.text', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection

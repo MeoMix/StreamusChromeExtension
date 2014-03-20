@@ -16,11 +16,6 @@
             'dblclick': 'saveToPlaylist'
         },
         
-        onShow: function () {
-            //  Apply tooltips only in onShow to ensure that the element is fully constructed and visible, else qtip might act up.
-            this.applyTooltips();
-        },
-        
         onRender: function() {
             this.setTitleAndDisabled();
         },
