@@ -82,7 +82,6 @@
 
             this.toggleContextButtons();
             this.setDeleteButtonState();
-            this.applyTooltips();
         },
 
         initialize: function () {
@@ -103,7 +102,9 @@
             
             this.ui.panel.transition({
                 x: this.ui.panel.width()
-            }, 300, 'snap');
+            }, 300, 'snap', function() {
+                this.applyTooltips();
+            }.bind(this));
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.

@@ -11,24 +11,26 @@
 
             var element = this.$el;
 
-            //  Views might call this while rendering -- wrap in a setTimeout to allow them to finish rendering first.
-            setTimeout(function () {
-                var elementsNeedingTooltip = element.find('[title]');
+            var elementsNeedingTooltip = element.find('[title]');
+            console.log("needing tooltip:", elementsNeedingTooltip);
 
-                //  The element calling this might have a title, too!
-                if (element.is('[title]')) {
-                    if (elementsNeedingTooltip.length > 0) {
-                        elementsNeedingTooltip.add(element);
-                    } else {
-                        elementsNeedingTooltip = element;
-                    }
+            //  The element calling this might have a title, too!
+            if (element.is('[title]')) {
+                if (elementsNeedingTooltip.length > 0) {
+                    elementsNeedingTooltip.add(element);
+                } else {
+                    elementsNeedingTooltip = element;
                 }
+            }
 
-                //  Only show tooltips over title elements if the title is overflowing / can't be fully seen. Otherwise, remove the title so old tooltip style doesn't show.
-                elementsNeedingTooltip.filter(function () {
-                    var needsTooltip = $(this).hasClass('title') && this.offsetWidth === this.scrollWidth;
-                    return needsTooltip;
-                }).attr('title', '');
+            //  TODO: hasClass title?? Seems like a bug.
+            //  Only show tooltips over title elements if the title is overflowing / can't be fully seen. Otherwise, remove the title so old tooltip style doesn't show.
+            elementsNeedingTooltip.filter(function () {
+                var needsTooltip = $(this).hasClass('title') && this.offsetWidth === this.scrollWidth;
+                return needsTooltip;
+            }).attr('title', '');
+
+            if (elementsNeedingTooltip.length > 0) {
 
                 elementsNeedingTooltip.qtip({
                     position: {
@@ -40,8 +42,8 @@
                         classes: 'qtip-light qtip-shadow'
                     }
                 });
-
-            });
+                    
+            }
         }
     };
 

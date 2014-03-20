@@ -77,16 +77,7 @@
 
                     if (foreground.length === 0) {
 
-                        //  If the foreground UI is not open, show a notification to indicate active video.
-                        var activeItem = this.getActiveItem();
-                        var activeVideoId = activeItem.get('video').get('id');
-
-                        Notifications.showNotification({
-                            iconUrl: 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg',
-                            title: 'Now Playing',
-                            message: activeItem.get('title')
-                        });
-
+                        this.showActiveNotification();
                     }
                 }
 
@@ -184,6 +175,27 @@
                         callback();
                     }
                 }
+            });
+        },
+        
+        showActiveNotification: function() {
+            var activeItem = this.getActiveItem();
+
+            var iconUrl = '';
+            var title = 'No active song';
+            var message = '';
+
+            if (!_.isUndefined(activeItem)) {
+                var activeVideoId = activeItem.get('video').get('id');
+                iconUrl = 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg';
+                title = 'Now Playing';
+                message = activeItem.get('title');
+            }
+
+            Notifications.showNotification({
+                iconUrl: iconUrl,
+                title: title,
+                message: message
             });
         },
         
@@ -375,7 +387,7 @@
             var repeatButtonState = RepeatButton.get('state');
 
             //  If removedActiveItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
-            if (removedActiveItemIndex === undefined && repeatButtonState === RepeatButtonState.RepeatVideo) {
+            if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatVideo) {
                 var activeItem = this.findWhere({ active: true });
                 activeItem.trigger('change:active', activeItem, true);
                 nextItem = activeItem;
@@ -386,14 +398,13 @@
             } else {
                 var nextItemIndex;
 
-                //  TODO: I shouldn't have to check both undefined and null here.
-                if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
+                if (!_.isUndefined(removedActiveItemIndex)) {
                     nextItemIndex = removedActiveItemIndex;
                 } else {
                     nextItemIndex = this.indexOf(this.findWhere({ active: true })) + 1;
                     if (nextItemIndex <= 0) throw "Failed to find nextItemIndex";
                 }
-
+                
                 //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
 
@@ -408,12 +419,9 @@
 
                         nextItem = this.at(0);
                     }
-                        //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
-                    else if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
-                        this.at(this.length - 1).set('active', true);
-                        Player.pause();
-                    }
                     else if (radioEnabled) {
+
+                        console.log("radio enabled");
 
                         var randomRelatedVideo = this.getRandomRelatedVideo();
 
@@ -429,7 +437,14 @@
                             
                         }
 
-                    } else {
+                    }
+                    //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
+                    //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
+                    else if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
+                        this.at(this.length - 1).set('active', true);
+                        Player.pause();
+                    }
+                    else {
 
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         this.at(0).set('active', true);

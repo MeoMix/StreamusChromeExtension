@@ -71,13 +71,17 @@
 
         onShow: function () {
             this.onFullyVisible();
+            
+            //  Gotta do this in onShow to ensure tooltips can initialize properly.
+            this.applyTooltips();
+            this.updateSaveStreamButton();
         },
         
-        onRender: function () {            
+        onRender: function () {
+            
             this.toggleBigText();
             this.toggleContextButtons();
-            this.updateSaveStreamButton();
-            
+
             this.setRepeatButtonState();
             this.setShuffleButtonState();
             this.setRadioButtonState();
@@ -103,8 +107,10 @@
             var templateHelpers = this.templateHelpers();
             var newTitle = userSignedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
 
+            console.log("new title:", newTitle);
+
             this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
-            this.ui.saveStreamButton.attr('title', newTitle).qtip('option', 'content.text', newTitle);
+            this.ui.saveStreamButton.attr('title', newTitle).qtip('api').set('content.text', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection

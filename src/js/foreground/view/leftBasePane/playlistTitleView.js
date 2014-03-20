@@ -13,9 +13,12 @@
             'change:title': 'render'
         },
         
+        onShow: function() {
+            this.applyTooltips();
+        },
+        
         onRender: function () {
             this.setTitle();
-            this.applyTooltips();
         },
         
         setTitle: function() {

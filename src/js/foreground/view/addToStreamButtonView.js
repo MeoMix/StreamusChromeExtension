@@ -7,7 +7,7 @@
     var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
         
         tagName: 'button',
-        className: 'button-icon',
+        className: 'button-icon colored',
         template: _.template(AddToStreamButtonTemplate),
         
         attributes: {
@@ -19,7 +19,7 @@
             'dblclick': 'addToStream'
         },
         
-        initialize: function () {
+        onShow: function () {
             this.applyTooltips();
         },
         

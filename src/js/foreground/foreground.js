@@ -62,8 +62,8 @@ define([
                     this.$el.removeClass('loading');
                     clearTimeout(this.showReloadPromptTimeout);
 
-                    if (this.reloadPromptView !== null) {
-                        this.reloadPromptView.remove();
+                    if (this.reloadStreamusPromptView !== null) {
+                        this.reloadStreamusPromptView.remove();
                     }
                 });
             }
@@ -104,10 +104,15 @@ define([
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
                 this.deselectCollections();
-
+                
                 //  There's a "bug" in how chrome extensions work. Window unload can be shut down early before all events finish executing.
                 //  So it's necessary to invert the dependency of unsubscribing foreground view events from the foreground to the background where code is guaranteed to finish executing.
                 chrome.extension.getBackgroundPage().unbindViewEvents(Backbone.View);
+                
+                //  The VideoSearchView needs to run its close logic. I can't rely on actually closing it, though, apparently.
+                if (this.leftCoveringPaneRegion.currentView instanceof VideoSearchView) {
+                    this.leftCoveringPaneRegion.currentView.onClose();
+                }
             }.bind(this));
 
             EventAggregator.on('activePlaylistAreaView:showVideoSearch streamView:showVideoSearch', function () {
@@ -128,8 +133,8 @@ define([
         startShowReloadPromptTimer: function () {
             this.showReloadPromptTimeout = setTimeout(function () {
                 //  TODO: Use a region show to do this:
-                this.reloadPromptView = new ReloadStreamusPromptView();
-                this.reloadPromptView.fadeInAndShow();
+                this.reloadStreamusPromptView = new ReloadStreamusPromptView();
+                this.reloadStreamusPromptView.fadeInAndShow();
             }.bind(this), 5000);
         },
 
@@ -277,7 +282,7 @@ define([
         //  Keep the player state represented on the body so CSS can be modified to reflect state.
         setPlayerStateClass: function () {
             var playerState = Player.get('state');
-            this.$el.toggleClass('playing', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
+            this.$el.toggleClass('playing', playerState === PlayerState.Playing);
         }
 
     });

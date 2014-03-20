@@ -63,6 +63,8 @@
                 //  Pass 0 into scrollIntoView to have no animation/show instantly.
                 this.$el.scrollIntoView(0);
             }
+
+            this.applyTooltips();
         },
 
         onRender: function () {
@@ -80,8 +82,6 @@
             this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
                 model: this.model.get('video')
             }));
-
-            this.applyTooltips();
         },
             
         initialize: function (options) {

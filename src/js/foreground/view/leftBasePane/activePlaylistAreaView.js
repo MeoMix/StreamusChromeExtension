@@ -54,13 +54,13 @@
 
         onShow: function () {
             this.onFullyVisible();
+            this.applyTooltips();
         },
 
         onRender: function () {            
             this.toggleBigText();
             this.toggleBottomMenubar();
-            
-            this.applyTooltips();
+
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
         

@@ -24,7 +24,7 @@ define([
     'use strict';
    
     window.clearResultsTimeout = null;
-    var twentySeconds = 20000;
+    var tenSeconds = 10000;
     
     //  The foreground has to be able to call this whenever a view opens.
     window.stopClearResultsTimer = function () {
@@ -39,7 +39,7 @@ define([
         window.clearResultsTimeout = setTimeout(function () {
             Settings.set('searchQuery', '');
             VideoSearchResults.clear();
-        }, twentySeconds);
+        }, tenSeconds);
     };
     
     //  I know this sucks. It's because of a 'bug' in chrome extensions where foreground can't reliably unsubscribe all of its events so the background has to be responsible for it. :(

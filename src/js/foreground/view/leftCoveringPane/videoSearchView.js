@@ -68,8 +68,7 @@
             this.toggleBigText();
             this.toggleBottomMenubar();
             this.toggleSaveSelected();
-            
-            this.applyTooltips();
+
             MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
@@ -88,7 +87,10 @@
 
             this.$el.transition({
                 x: this.$el.width()
-            }, transitionDuration, 'snap', this.onFullyVisible.bind(this));
+            }, transitionDuration, 'snap', function() {
+                this.onFullyVisible();
+                this.applyTooltips();
+            }.bind(this));
         },
 
         //  This is ran whenever the user closes the video search view, but the foreground remains open.

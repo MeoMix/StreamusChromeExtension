@@ -26,7 +26,7 @@ body > .spinner {
   z-index: 1;
   display: none;
 }
-body.loading > *:not(.spinner):not(.reloadPrompt) {
+body.loading > *:not(.spinner):not(.reloadStreamusPrompt) {
   opacity: .2;
 }
 body.loading > .spinner {
@@ -546,7 +546,7 @@ body.playing .listItem.active.streamItem .hover-actions button {
 }
 .listItem.selected .hover-actions button:hover,
 .listItem.active .hover-actions button:hover {
-  color: #ffffff !important;
+  color: #ffffff;
 }
 .listItem.selected .item-title,
 .listItem.active .item-title,
@@ -570,7 +570,7 @@ body.playing .listItem.active.streamItem .hover-actions button {
   cursor: pointer;
 }
 .listItem .hover-actions button:hover {
-  color: #000000 !important;
+  color: #000000;
 }
 .listItem .item-details,
 .listItem .hover-actions,
@@ -706,7 +706,7 @@ input:focus ~ .underline {
 }
 #left-covering-pane-region {
   left: -385px;
-  z-index: 1;
+  z-index: 10;
 }
 #videoSearch {
   box-shadow: 0 0 10px #333333;
@@ -1162,11 +1162,11 @@ button {
   transition: color 0.1s, text-shadow 0.1s;
   /* TODO: Maybe this should just go on a volume button */
 }
+button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {
+  color: #000000;
+}
 button.enabled {
   color: #4ea6ea;
-}
-button:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
-  color: #000000;
 }
 button > i {
   transition: color .1s;

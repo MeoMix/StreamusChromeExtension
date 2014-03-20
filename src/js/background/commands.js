@@ -102,6 +102,9 @@ define([
                     Player.set('volume', decreasedVolume);
                 }
                 break;
+            case 'showActiveSong':                
+                StreamItems.showActiveNotification();
+                break;
             default:
                 console.error("Unhandled command:", command);
                 break;

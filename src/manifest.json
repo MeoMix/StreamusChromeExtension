@@ -62,6 +62,9 @@
 		"decreaseVolume": {
 			"description": "__MSG_decreaseVolumeCommandDescription__"
 		},
+		"showActiveSong": {
+			"description": "__MSG_showActiveSongCommandDescription__"
+		},
 		"_execute_browser_action": {
 		}
 	},

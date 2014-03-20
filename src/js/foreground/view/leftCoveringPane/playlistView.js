@@ -47,8 +47,6 @@
             this.setLoadingClass();
             this.setActiveClass();
             this.applyTooltips();
-            
-
             console.log("Events:", this.model._events);
         },
 

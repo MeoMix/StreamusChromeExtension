@@ -8,12 +8,17 @@
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
         
         tagName: 'button',
-        className: 'button-icon',
+        className: 'button-icon colored',
         template: _.template(SaveToPlaylistButtonTemplate),
 
         events: {
             'click': 'saveToPlaylist',
             'dblclick': 'saveToPlaylist'
+        },
+        
+        onShow: function () {
+            //  Apply tooltips only in onShow to ensure that the element is fully constructed and visible, else qtip might act up.
+            this.applyTooltips();
         },
         
         onRender: function() {
@@ -22,7 +27,6 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
-            this.applyTooltips();
         },
 
         saveToPlaylist: _.debounce(function () {

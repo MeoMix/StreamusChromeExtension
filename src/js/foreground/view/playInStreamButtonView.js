@@ -8,7 +8,7 @@
     var PlayInStreamButtonView = Backbone.Marionette.ItemView.extend({
         
         tagName: 'button',
-        className: 'button-icon',
+        className: 'button-icon colored',
         template: _.template(PlayInStreamButtonTemplate),
         
         attributes: {
@@ -20,7 +20,7 @@
             'dblclick': 'playInStream'
         },
         
-        initialize: function () {
+        onShow: function() {
             this.applyTooltips();
         },
         

@@ -53,14 +53,14 @@ define([
             this.volume.show(new VolumeView({
                 model: this.model
             }));
+            
+            this.applyTooltips();
         },
 
         onRender: function () {
             this.setPlayPauseButtonState();
             this.setNextButtonDisabled();
             this.setPreviousButtonDisabled();
-
-            this.applyTooltips();
         },
         
         initialize: function () {

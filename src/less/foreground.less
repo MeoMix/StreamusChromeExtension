@@ -49,7 +49,7 @@ body {
         display: none;
     }
 
-    &.loading > *:not(.spinner):not(.reloadPrompt) {
+    &.loading > *:not(.spinner):not(.reloadStreamusPrompt) {
         opacity: .2;
     }
 
@@ -584,7 +584,7 @@ input[type="range"] {
 
         .hover-actions {
             button:hover {
-                color: @white !important;
+                color: @white;
             }
         }
 
@@ -611,7 +611,7 @@ input[type="range"] {
         }
 
         button:hover {
-            color: @black !important;
+            color: @black;
         }
     }
 
@@ -783,7 +783,7 @@ input:focus  ~ .underline {
 
 #left-covering-pane-region {
     left: -385px;
-    z-index: 1;
+    z-index: 10;
 }
 
 #videoSearch {
@@ -1306,12 +1306,16 @@ button {
     padding: 0;
     transition: color .1s, text-shadow .1s;
 
-    &.enabled {
-        color: @baseBlue;
+    &:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored){
+
+        &:hover {
+            color: @black;
+        }
+
     }
 
-    &:not(.disabled):not(.enabled):not(.muted):not(.button-color):hover {
-        color: @black;
+    &.enabled {
+        color: @baseBlue;
     }
 
     > i {

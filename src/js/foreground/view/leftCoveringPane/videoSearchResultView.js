@@ -74,7 +74,8 @@
             this.$el.toggleClass('selected', this.model.get('selected'));
         },
         
-        playInStream: function() {
+        playInStream: function () {
+            console.log("playInStream");
             this.playInStreamRegion.currentView.playInStream();
         },
         

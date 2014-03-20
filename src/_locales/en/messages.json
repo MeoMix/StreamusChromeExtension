@@ -427,5 +427,8 @@
 	},
 	"decreaseVolumeCommandDescription": {
 		"message": "Decrease volume"
+	},
+	"showActiveSongCommandDescription": {
+		"message": "Show active song"
 	}
 }
