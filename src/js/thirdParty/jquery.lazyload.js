@@ -113,7 +113,6 @@
 
         /* Force initial check if images should appear. */
         $(document).ready(function () {
-            console.log("jquery.lazyload document ready is firing");
             update();
         });
 

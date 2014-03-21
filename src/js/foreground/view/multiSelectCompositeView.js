@@ -45,8 +45,6 @@
         },
 
         onRender: function () {
-            console.log("multiSelectCompositeView onRender is running");
-
             var self = this;
 
             //  Allows for drag-and-drop of videos
