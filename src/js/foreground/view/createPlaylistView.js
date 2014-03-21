@@ -27,7 +27,7 @@
         },
         
         ui: {
-            'playlistTitleInput': 'input.playlistTitle',
+            'playlistTitleInput': 'input.playlist-title',
             'youTubeSourceInput': 'input.youTubeSource'
         },
 

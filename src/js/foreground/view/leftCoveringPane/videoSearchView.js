@@ -10,23 +10,23 @@
     
     var VideoSearchView = MultiSelectCompositeView.extend({
 
-        id: 'videoSearch',
+        id: 'video-search',
         className: 'left-pane',
         
         template: _.template(VideoSearchTemplate),
-        itemViewContainer: '#videoSearchResults',
+        itemViewContainer: '#video-search-results',
         
         itemView: VideoSearchResultView,
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
-            searchInput: '.searchBar input',
-            searchingMessage: 'div.searching',
-            instructions: 'div.instructions',
-            noResultsMessage: 'div.noResults',
-            bigTextWrapper: 'div.big-text-wrapper',
-            itemContainer: '#videoSearchResults',
-            saveSelectedButton: 'button#saveSelected'
+            searchInput: '.search-bar input',
+            searchingMessage: '.searching',
+            instructions: '.instructions',
+            noResultsMessage: '.noResults',
+            bigTextWrapper: '.big-text-wrapper',
+            itemContainer: '#video-search-results',
+            saveSelectedButton: 'button#save-selected'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {

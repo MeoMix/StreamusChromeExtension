@@ -13,7 +13,7 @@
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
 
         events: {
-            'click .listItem': 'setSelectedOnClick'
+            'click .list-item': 'setSelectedOnClick'
         },
 
         isFullyVisible: false,
@@ -227,7 +227,7 @@
 
                             //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
                             //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
-                            var emptyPlaylistMessage = $('.playlistEmpty');
+                            var emptyPlaylistMessage = $('.playlist-empty');
                             if (emptyPlaylistMessage.length > 0) {
                                 emptyPlaylistMessage.addClass('hidden');
                             }

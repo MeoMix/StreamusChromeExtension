@@ -1,13 +1,13 @@
 ﻿<div class="big-text-wrapper">
     
-    <div class="big-text playlistEmpty">
+    <div class="big-text playlist-empty">
         <div class="big-text-header">
             <%= playlistEmptyMessage %>
         </div>
-        <%= wouldYouLikeToMessage %> <span class="showVideoSearch searchLink clickable lowercase"><%= searchForVideosMessage %></span>?
+        <%= wouldYouLikeToMessage %> <span class="show-video-search search-link clickable lowercase"><%= searchForVideosMessage %></span>?
     </div>
     
-    <div id="activePlaylistItems" class="list droppable-list">
+    <div id="active-playlist-items" class="list droppable-list">
     </div>
 </div>
 
@@ -16,11 +16,11 @@
         <%= displayInfo %>
     </div>
     <div class="playlist-actions">
-        <button class="button-label playAll" title="<%= playAllMessage %>">
+        <button class="button-label play-all" title="<%= playAllMessage %>">
             <i class="fa fa-play"></i><%= playAllMessage %>
         </button>
 
-        <button class="button-label addAll" title="<%= addAllMessage %>">
+        <button class="button-label add-all" title="<%= addAllMessage %>">
             <i class="fa fa-plus"></i><%= addAllMessage %>
         </button>
     </div>

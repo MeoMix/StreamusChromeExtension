@@ -1,37 +1,34 @@
-﻿//  Encapsulates the loading of views which are dependent on models which are instantiated through the background page.
-//  This is necessary because it is possible to open the foreground before RequireJS has fully instantiated the background
-//  This means that the foreground module wrappers for background entities will return null on initial load -- causing errors.
-//  So, poll the background until it has loaded -- then load the views which depend on the background.
-define([
-    'foreground/eventAggregator',
-    'foreground/view/prompt/notificationPromptView',
-    'foreground/view/prompt/reloadStreamusPromptView',
-    'foreground/model/playlistsArea',
-    'foreground/view/leftCoveringPane/playlistsAreaView',
-    'foreground/view/leftBasePane/leftBasePaneView',
-    'foreground/view/rightBasePane/rightBasePaneView',
-    'foreground/model/videoSearch',
-    'foreground/view/leftCoveringPane/videoSearchView',
+﻿define([
+    'background/collection/playlists',
     'background/collection/streamItems',
     'background/collection/videoSearchResults',
-    'background/collection/playlists',
-    'common/enum/youTubePlayerError',
-    'foreground/view/notificationView',
-    'foreground/model/notification',
     'background/model/player',
     'background/model/settings',
     'background/model/user',
-    'foreground/model/contextMenu',
-    'foreground/view/contextMenuView',
-    'foreground/collection/contextMenuItems',
     'common/enum/playerState',
-    'foreground/view/prompt/updateStreamusPromptView'
-], function (EventAggregator, NotificationPromptView, ReloadStreamusPromptView, PlaylistsArea, PlaylistsAreaView, LeftBasePaneView, RightBasePaneView, VideoSearch, VideoSearchView, StreamItems, VideoSearchResults, Playlists, YouTubePlayerError, NotificationView, Notification, Player, Settings, User, ContextMenu, ContextMenuView, ContextMenuItems, PlayerState, UpdateStreamusPromptView) {
+    'common/enum/youTubePlayerError',
+    'foreground/eventAggregator',
+    'foreground/collection/contextMenuItems',
+    'foreground/model/contextMenu',
+    'foreground/model/playlistsArea',
+    'foreground/model/notification',
+    'foreground/model/videoSearch',
+    'foreground/view/contextMenuView',
+    'foreground/view/notificationView',
+    'foreground/view/leftBasePane/leftBasePaneView',
+    'foreground/view/leftCoveringPane/playlistsAreaView',
+    'foreground/view/leftCoveringPane/videoSearchView',
+    'foreground/view/prompt/notificationPromptView',
+    'foreground/view/prompt/reloadStreamusPromptView',
+    'foreground/view/prompt/updateStreamusPromptView',
+    'foreground/view/rightBasePane/rightBasePaneView'
+], function (Playlists, StreamItems, VideoSearchResults, Player, Settings, User, PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, VideoSearch, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, VideoSearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
 
     var ForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
 
         events: {
+            //  TODO: is there no way to inline these event calls? Seems kinda silly to be so verbose.
             'click': function (event) {
                 this.tryResetContextMenu(event);
                 this.onClickDeselectCollections(event);
@@ -40,13 +37,14 @@ define([
         },
 
         regions: {
-            dialogRegion: '#dialog-region',
             contextMenuRegion: "#context-menu-region",
+            dialogRegion: '#dialog-region',
             leftBasePaneRegion: '#left-base-pane-region',
-            rightBasePaneRegion: '#right-base-pane-region',
-            leftCoveringPaneRegion: '#left-covering-pane-region'
+            leftCoveringPaneRegion: '#left-covering-pane-region',
+            rightBasePaneRegion: '#right-base-pane-region'
         },
 
+        //  TODO: Should I be using a Region to show my prompts? What if I ever wanted multi-level prompts? Hum.
         reloadPromptView: null,
         showReloadPromptTimeout: null,
 
@@ -73,14 +71,12 @@ define([
             chrome.runtime.requestUpdateCheck(function (updateCheckStatus) {
 
                 switch (updateCheckStatus) {
-                    case "update_available":
-                        //  Promtp the user to restart Streamus.
-                        //  TODO: Use a region show to do this:
+                    case 'update_available':
                         var updateStreamPromptView = new UpdateStreamusPromptView();
                         updateStreamPromptView.fadeInAndShow();
                         break;
-                    case "no_update":
-                    case "throttled":
+                    case 'no_update':
+                    case 'throttled':
                         //  Nothing to do -- just can't ask again for a while if throttled, but that's pretty unlikely to happen, I think!
                         break;
                 }
@@ -123,6 +119,8 @@ define([
                 this.showPlaylistsArea();
             }.bind(this));
             
+            //  Automatically sign the user in once they've actually interacted with Streamus.
+            //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
             if (User.canSignIn()) {
                 User.signIn();
             }
@@ -132,7 +130,6 @@ define([
         //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
         startShowReloadPromptTimer: function () {
             this.showReloadPromptTimeout = setTimeout(function () {
-                //  TODO: Use a region show to do this:
                 this.reloadStreamusPromptView = new ReloadStreamusPromptView();
                 this.reloadStreamusPromptView.fadeInAndShow();
             }.bind(this), 5000);
@@ -140,40 +137,44 @@ define([
 
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
         onClickDeselectCollections: function (event) {
-            var isMultiSelectItem = $(event.target).hasClass('multiSelectItem');
+            var isMultiSelectItem = $(event.target).hasClass('multi-select-item');
 
-            var parentMultiSelectItem = $(event.target).closest('.multiSelectItem');
+            //  Might've clicked inside of a multi-select item in which case you the de-select should not occur.
+            var parentMultiSelectItem = $(event.target).closest('.multi-select-item');
             var isChildMultiSelectItem = parentMultiSelectItem.length > 0;
 
             if (!isMultiSelectItem && !isChildMultiSelectItem) {
                 this.deselectCollections();
             }
 
+            //  When clicking inside of a given multi-select, other multi-selects should be de-selected from.
             //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
-            var isPlaylistItem = $(event.target).hasClass('playlistItem') || parentMultiSelectItem.hasClass('playlistItem');
+            var isPlaylistItem = $(event.target).hasClass('playlist-item') || parentMultiSelectItem.hasClass('playlist-item');
             if (isPlaylistItem) {
                 VideoSearchResults.deselectAll();
                 StreamItems.deselectAll();
             }
             
-            var isStreamItem = $(event.target).hasClass('streamItem') || parentMultiSelectItem.hasClass('streamItem');
+            var isStreamItem = $(event.target).hasClass('stream-item') || parentMultiSelectItem.hasClass('stream-item');
             if (isStreamItem) {
                 VideoSearchResults.deselectAll();
                 
+                //  There's only an active playlist once the user has signed in.
                 if (User.get('signedIn')) {
                     Playlists.getActivePlaylist().get('items').deselectAll();
                 }
             }
             
-            var isVideoSearchResult = $(event.target).hasClass('videoSearchResult') || parentMultiSelectItem.hasClass('videoSearchResult');
+            var isVideoSearchResult = $(event.target).hasClass('video-search-result') || parentMultiSelectItem.hasClass('video-search-result');
             if (isVideoSearchResult) {
                 StreamItems.deselectAll();
+                
                 if (User.get('signedIn')) {
                     Playlists.getActivePlaylist().get('items').deselectAll();
                 }
             }
         },
-
+        
         deselectCollections: function () {
             if (User.get('signedIn')) {
                 Playlists.getActivePlaylist().get('items').deselectAll();
@@ -205,7 +206,7 @@ define([
 
         }, 400),
 
-        //  Slide in videoSearchView from the left hand side.
+        //  Slide in VideoSearchView from the left hand side.
         showVideoSearch: _.throttle(function (doSnapAnimation) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
@@ -271,7 +272,9 @@ define([
                         top: event.pageY,
                         //  Show the element just slightly offset as to not break onHover effects.
                         left: event.pageX + 1
-                    })
+                    }),
+                    containerHeight: this.$el.height(),
+                    containerWidth: this.$el.width()
                 }));
             } else {
                 ContextMenuItems.reset();

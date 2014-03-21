@@ -1,17 +1,17 @@
 ﻿define([
-    'text!template/leftBasePane.html',
-    'foreground/eventAggregator',
-    'background/model/user',
     'background/collection/playlists',
+    'background/model/user',
+    'foreground/eventAggregator',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
-    'foreground/view/leftBasePane/signInView'
-], function (LeftBasePaneTemplate, EventAggregator, User, Playlists, ActivePlaylistAreaView, PlaylistTitleView, SignInView) {
+    'foreground/view/leftBasePane/signInView',
+    'text!template/leftBasePane.html'
+], function (Playlists, User, EventAggregator, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
     'use strict';
 
     var LeftBasePaneView = Backbone.Marionette.Layout.extend({
         
-        id: 'leftBasePane',
+        id: 'left-base-pane',
         className: 'left-pane',
         template: _.template(LeftBasePaneTemplate),
         
@@ -23,8 +23,8 @@
         },
 
         ui: {
-            showVideoSearch: '.showVideoSearch',
-            showPlaylistsArea: '.showPlaylistsArea'
+            showVideoSearch: '.show-video-search',
+            showPlaylistsArea: '.show-playlists-area'
         },
         
         events: {

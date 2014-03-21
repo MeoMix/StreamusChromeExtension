@@ -16,7 +16,7 @@
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
 
-        id: 'playlistsArea',
+        id: 'playlists-area',
         template: _.template(PlaylistsAreaTemplate),
         itemView: PlaylistView,
         itemViewContainer: '#playlists',
@@ -33,7 +33,7 @@
         
         ui: {
             panel: '.panel',
-            playlists: 'ul#playlists',
+            playlists: '#playlists',
             contextButtons: '.context-buttons',
             deleteButton: '#delete-playlist-button',
             enabledDeleteButton: '#delete-playlist-button:not(.disabled)',
@@ -52,7 +52,7 @@
 
             this.ui.playlists.sortable({
                 axis: 'y',
-                placeholder: 'sortable-placeholder listItem',
+                placeholder: 'sortable-placeholder list-item',
                 delay: 100,
                 //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {

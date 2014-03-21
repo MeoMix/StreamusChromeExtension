@@ -28,7 +28,7 @@
         ui: {
             suggestedQualitySelect: '#suggestedQualitySelect',
             showTooltipsCheckbox: '#showTooltips',
-            remindClearStreamCheckbox: '#remindClearStream',
+            remindClearStreamCheckbox: '#remind-clear-stream',
             remindDeletePlaylistCheckbox: '#remindDeletePlaylist',
             alwaysOpenToSearchCheckbox: '#alwaysOpenToSearch'
         },

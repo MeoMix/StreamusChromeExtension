@@ -9,24 +9,28 @@
 
         itemView: ContextMenuItemView,
         
-        //  Empty, just render the items.
+        //  TODO: Is no template a code smell?
         template: _.template(),
         
-        //  Cache dimensions because they can't change.
-        bodyHeight: $('body').height(),
-        bodyWidth: $('body').width(),
+        containerHeight: 0,
+        containerWidth: 0,
+        
+        initialize: function(options) {
+            this.containerHeight = options.containerHeight;
+            this.containerWidth = options.containerWidth;
+        },
 
         onShow: function () {
 
             //  Prevent display outside viewport.
             var offsetTop = this.model.get('top');
-            var needsVerticalFlip = offsetTop + this.$el.height() > this.bodyHeight;
+            var needsVerticalFlip = offsetTop + this.$el.height() > this.containerHeight;
             if (needsVerticalFlip) {
                 offsetTop = offsetTop - this.$el.height();
             }
 
             var offsetLeft = this.model.get('left');
-            var needsHorizontalFlip = offsetLeft + this.$el.width() > this.bodyWidth;
+            var needsHorizontalFlip = offsetLeft + this.$el.width() > this.containerWidth;
             if (needsHorizontalFlip) {
                 offsetLeft = offsetLeft - this.$el.width();
             }

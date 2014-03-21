@@ -12,7 +12,7 @@
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
 
-        className: 'listItem playlist',
+        className: 'list-item playlist',
 
         template: _.template(PlaylistTemplate),
 
@@ -39,7 +39,7 @@
         
         ui: {
             itemCount: '.count',
-            editableTitle: 'input.editableTitle',
+            editableTitle: 'input.editable-title',
             readonlyTitle: '.title'
         },
         

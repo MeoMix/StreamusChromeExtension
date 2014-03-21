@@ -15,7 +15,7 @@
 
     var StreamItemView = Backbone.Marionette.Layout.extend({
         
-        className: 'listItem streamItem multiSelectItem',
+        className: 'list-item stream-item multi-select-item',
 
         template: _.template(StreamItemTemplate),
         
@@ -48,7 +48,7 @@
         },
         
         ui: {
-            'imageThumbnail': 'img.item-thumb'
+            imageThumbnail: 'img.item-thumb'
         },
 
         regions: {

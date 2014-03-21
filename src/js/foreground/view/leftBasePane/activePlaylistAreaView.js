@@ -1,14 +1,13 @@
 ﻿define([
-    'text!template/activePlaylistArea.html',
+    'background/collection/streamItems',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
-    'background/collection/streamItems'
-], function (ActivePlaylistAreaTemplate, MultiSelectCompositeView, PlaylistItemView, StreamItems) {
+    'text!template/activePlaylistArea.html'
+], function (StreamItems, MultiSelectCompositeView, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
 
-        id: 'activePlaylistArea',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {
@@ -23,19 +22,20 @@
         },
 
         itemView: PlaylistItemView,
-        itemViewContainer: '#activePlaylistItems',
+        //  TODO: Why isn't it possible to reference itemViewContainer from UI?
+        itemViewContainer: '#active-playlist-items',
 
         ui: {
             playlistDetails: '.playlist-details',
-            playlistEmptyMessage: 'div.playlistEmpty',
+            playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
-            itemContainer: '#activePlaylistItems',
-            bigTextWrapper: 'div.big-text-wrapper'
+            itemContainer: '#active-playlist-items',
+            bigTextWrapper: '.big-text-wrapper'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
-            'click button.addAll': 'addAllToStream',
-            'click button.playAll': 'playAllInStream'
+            'click button.add-all': 'addAllToStream',
+            'click button.play-all': 'playAllInStream'
         }),
         
         modelEvents: {

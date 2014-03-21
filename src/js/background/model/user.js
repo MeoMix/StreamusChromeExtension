@@ -271,7 +271,8 @@ define([
 
         //  Loads user data by ID from the server, writes the ID to client-side storage locations
         //  for future loading and then announces that the user has been signedIn.
-        loadFromServer: function(setSyncStorage) {
+        loadFromServer: function (setSyncStorage) {
+            console.log("I am now trying to load user with id:", this.get('id'));
             this.fetch({
                 success: function (model) {
                     this.onLoaded(model, setSyncStorage);

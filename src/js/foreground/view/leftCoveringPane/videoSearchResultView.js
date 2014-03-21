@@ -11,7 +11,7 @@
 
     var VideoSearchResultView = Backbone.Marionette.Layout.extend({
         
-        className: 'listItem videoSearchResult multiSelectItem',
+        className: 'list-item video-search-result multi-select-item',
 
         template: _.template(VideoSearchResultTemplate),
         

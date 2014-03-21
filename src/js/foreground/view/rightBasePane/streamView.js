@@ -18,7 +18,7 @@
     var StreamView = MultiSelectCompositeView.extend({
         
         id: 'stream',
-        itemViewContainer: '#streamItems',
+        itemViewContainer: '#stream-items',
         itemView: StreamItemView,
 
         template: _.template(StreamTemplate),
@@ -35,9 +35,9 @@
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
-            'click button#clearStream': 'clear',
+            'click @ui.clearStreamButton': 'clear',
             'click @ui.enabledSaveStreamButton': 'save',
-            'scroll @ui.streamItems': 'loadVisible',
+            'scroll @ui.stream-items': 'loadVisible',
             'click @ui.shuffleButton': 'toggleShuffle',
             'click @ui.radioButton': 'toggleRadio',
             'click @ui.repeatButton': 'toggleRepeat',
@@ -58,15 +58,17 @@
         },
         
         ui: {
-            streamEmptyMessage: '.streamEmpty',
+            streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
-            saveStreamButton: 'button#saveStream',
-            enabledSaveStreamButton: 'button#saveStream:not(.disabled)',
-            itemContainer: '#streamItems',
+            saveStreamButton: 'button#save-stream',
+            //  TODO: This seems wrong.
+            enabledSaveStreamButton: 'button#save-stream:not(.disabled)',
+            itemContainer: '#stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
             repeatButton: '#repeat-button',
-            showVideoSearch: '.showVideoSearch'
+            clearStreamButton: 'button.clear',
+            showVideoSearch: '.show-video-search'
         },
 
         onShow: function () {
@@ -86,7 +88,7 @@
             this.setRadioButtonState();
             
             if (this.collection.length > 0) {
-                this.$el.find('.listItem.active').scrollIntoView(false);
+                this.$el.find('.list-item.active').scrollIntoView(false);
                 this.$el.trigger('scroll');
             }
 
@@ -174,11 +176,11 @@
                     break;
                 case RepeatButtonState.RepeatVideo:
                     title = chrome.i18n.getMessage('repeatVideo');
-                    icon = $('<i>', { 'class': 'fa fa-repeat repeatVideo' });
+                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-video' });
                     break;
                 case RepeatButtonState.RepeatStream:
                     title = chrome.i18n.getMessage('repeatStream');
-                    icon = $('<i>', { 'class': 'fa fa-repeat repeatStream' });
+                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-stream' });
                     break;
             }
 

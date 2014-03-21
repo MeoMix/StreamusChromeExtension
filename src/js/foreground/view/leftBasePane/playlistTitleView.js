@@ -5,8 +5,8 @@
 
     var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
 
-        id: 'playlistTitle',
-        className: 'playlistTitle title',
+        id: 'playlist-title',
+        className: 'playlist-title title',
         template: _.template(PlaylistTitleTemplate),
         
         modelEvents: {

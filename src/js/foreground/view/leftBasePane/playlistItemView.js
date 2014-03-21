@@ -1,17 +1,17 @@
 ﻿define([
-    'text!template/playlistItem.html',
-    'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
     'common/enum/listItemType',
-    'foreground/view/playInStreamButtonView',
+    'foreground/collection/contextMenuItems',
     'foreground/view/addToStreamButtonView',
-    'foreground/view/deleteButtonView'
-], function (PlaylistItemTemplate, ContextMenuItems, StreamItems, ListItemType, PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView) {
+    'foreground/view/deleteButtonView',
+    'foreground/view/playInStreamButtonView',
+    'text!template/playlistItem.html'
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, PlayInStreamButtonView, PlaylistItemTemplate) {
     'use strict';
 
     var PlaylistItemView = Backbone.Marionette.Layout.extend({
         
-        className: 'listItem playlistItem multiSelectItem',
+        className: 'list-item playlist-item multi-select-item',
         
         template: _.template(PlaylistItemTemplate),
         
@@ -37,13 +37,13 @@
             'dblclick': 'playInStream'
         },
         
-        ui: {
-            imageThumbnail: 'img.item-thumb'
-        },
-        
         modelEvents: {
             'destroy': 'remove',
             'change:selected': 'setSelectedClass'
+        },
+        
+        ui: {
+            imageThumbnail: 'img.item-thumb'
         },
         
         regions: {

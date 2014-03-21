@@ -333,7 +333,7 @@ button:not(.disabled):active {
     width: 40px;
 }
 
-.fa.fa-repeat.repeatVideo:after {
+.fa.fa-repeat.repeat-video:after {
     content: '1';
     border-radius: 50%;
     background-color: @mediumDarkGray;
@@ -348,7 +348,7 @@ button:not(.disabled):active {
     font-family: sans-serif;
 }
 
-.fa.fa-repeat.repeatStream:after {
+.fa.fa-repeat.repeat-stream:after {
     content: "\221E ";
     border-radius: 50%;
     background-color: @mediumDarkGray;
@@ -511,7 +511,7 @@ input[type="range"] {
 }
 
 
-.listItem {
+.list-item {
     height: 30px;
     padding: 0;
     border: 5px solid @white;
@@ -539,7 +539,7 @@ input[type="range"] {
         }
     }
 
-    &.active.streamItem  {
+    &.active.stream-item  {
         background: @sunflower;
         border-color: @sunflower;
 
@@ -552,7 +552,7 @@ input[type="range"] {
         }
     }
 
-    body.playing &.active.streamItem {
+    body.playing &.active.stream-item  {
         background: @nephritis;
         border-color: @nephritis;
 
@@ -641,7 +641,7 @@ input[type="range"] {
     height: auto;
     max-height: 290px;
 
-    .listItem {
+    .list-item {
         height: 18px;
         line-height: 18px;
 
@@ -713,7 +713,7 @@ input[type="range"] {
         line-height: 16px;
     }
 
-    input.editableTitle {
+    input.editable-title {
         border: 0;
         width: 150px;
         line-height: 16px;
@@ -786,16 +786,16 @@ input:focus  ~ .underline {
     z-index: 10;
 }
 
-#videoSearch {
+#video-search {
     box-shadow: 0 0 10px @darkGray;
 
-    /* Can't sort videoSearch */
+    /* Can't sort video-search */
     .sortable-placeholder {
         display: none;
     }
 }
 
-#activePlaylistItems {
+#active-playlist-items {
 
     .sortable-placeholder {
         &.notSignedIn {
@@ -814,7 +814,7 @@ input:focus  ~ .underline {
 }
 
 
-.searchBar {
+.search-bar {
     height: 45px;
     width: calc(~"100% - 43px");
     display: inline-block;
@@ -1037,7 +1037,7 @@ input:focus  ~ .underline {
     }
 }
 
-#playlistsArea {
+#playlists-area {
     bottom: 0;
     display: block;
     left: 0;
@@ -1220,12 +1220,12 @@ html .selectize-control.multi .selectize-input.full > input {
     cursor: pointer;
 }
 
-#videoSearch .big-text {
+#video-search .big-text {
     z-index: 1;
 }
 
 #content-region .big-text,
-#videoSearch .big-text {
+#video-search .big-text {
     background-color: @white;
     position: absolute;
     bottom: 0;
@@ -1236,7 +1236,7 @@ html .selectize-control.multi .selectize-input.full > input {
     padding-top: 60px;
 }
 
-.big-text.streamEmpty {
+.big-text.stream-empty {
     position: absolute;
     margin-top: 36px;
 }
@@ -1251,7 +1251,7 @@ html .selectize-control.multi .selectize-input.full > input {
     display: inline;
 }
  
-.searchLink {
+.search-link {
     color: @baseBlue;
 }
 
@@ -1402,7 +1402,7 @@ button {
     right: 10px;
 }
 
-#leftBasePane {
+#left-base-pane {
     #playlist-title-region {
         width: calc(~"100% - 106px");
         height: 45px;
@@ -1411,7 +1411,7 @@ button {
         margin-left: 10px;
         margin-right: 10px;
 
-        #playlistTitle {
+        #playlist-title {
             overflow: hidden;
             text-overflow: ellipsis;
             font-size: 1.1em;

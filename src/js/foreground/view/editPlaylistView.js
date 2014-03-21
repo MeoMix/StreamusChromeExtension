@@ -12,9 +12,9 @@
         ui: {
             playlistTitle: 'input[type="text"]'
         },
-        
+
         events: {
-            'input input.playlistTitle': 'validateTitle'
+            'input.playlist-title': 'validateTitle'
         },
         
         templateHelpers: {

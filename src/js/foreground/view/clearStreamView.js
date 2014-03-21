@@ -10,7 +10,7 @@
         className: 'clearStream',
         
         ui: {
-            remindClearStreamCheckbox: 'input#remindClearStream'
+            remindClearStreamCheckbox: 'input#remind-clear-stream'
         },
 
         template: _.template(ClearStreamTemplate),

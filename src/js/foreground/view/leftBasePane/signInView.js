@@ -5,15 +5,15 @@
 
     var SignInView = Backbone.Marionette.ItemView.extend({
 
-        id: 'signIn',
+        id: 'sign-in',
         template: _.template(SignInTemplate),
 
         ui: {
-            signingInMessage: 'div.signingIn',
-            signInPrompt: 'div.signIn',
-            signInLink: 'div.signIn .clickable',
-            signInFailedMessage: 'div.signInFailed',
-            signInRetryTimer: '#signInRetryTimer'
+            signingInMessage: '.signing-in',
+            signInPrompt: '.sign-in',
+            signInLink: '.sign-in .clickable',
+            signInFailedMessage: '.sign-in-failed',
+            signInRetryTimer: '#sign-in-retry-timer'
         },
 
         events: {

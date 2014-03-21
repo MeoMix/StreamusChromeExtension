@@ -15,7 +15,7 @@ define([
             volumeSlider: '.volume-slider',
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
-            volumeRange: 'input.volumeRange',
+            volumeRange: 'input.volume-range',
             muteButton: '#mute-button'
         },
 

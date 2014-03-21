@@ -47,8 +47,9 @@
 <div class="category">
     <ul>
         <li>
-            <input type="checkbox" id="remindClearStream" <%= remindClearStream ? 'checked' : '' %>>
-            <label for="remindClearStream">
+<!--            TODO: This is sharing an ID with another element!!!! -->
+            <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
+            <label for="remind-clear-stream">
                 <%= remindClearStreamMessage %>
             </label>
         </li>

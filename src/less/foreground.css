@@ -331,7 +331,7 @@ button:not(.disabled):active {
   line-height: 45px;
   width: 40px;
 }
-.fa.fa-repeat.repeatVideo:after {
+.fa.fa-repeat.repeat-video:after {
   content: '1';
   border-radius: 50%;
   background-color: #666666;
@@ -345,7 +345,7 @@ button:not(.disabled):active {
   margin-right: -10px;
   font-family: sans-serif;
 }
-.fa.fa-repeat.repeatStream:after {
+.fa.fa-repeat.repeat-stream:after {
   content: "\221E ";
   border-radius: 50%;
   background-color: #666666;
@@ -484,7 +484,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   margin-right: 5px;
   overflow-y: auto;
 }
-.listItem {
+.list-item {
   height: 30px;
   padding: 0;
   border: 5px solid #ffffff;
@@ -496,65 +496,65 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
-.listItem:hover {
+.list-item:hover {
   background: #ebebeb;
   border-color: #ebebeb;
   /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 }
-.listItem:hover .item-title {
+.list-item:hover .item-title {
   width: calc(100% - 135px);
 }
-.listItem:hover i.hoverable {
+.list-item:hover i.hoverable {
   background-color: #ebebeb;
 }
-.listItem:hover .hover-actions {
+.list-item:hover .hover-actions {
   display: block;
 }
-.listItem.active.streamItem {
+.list-item.active.stream-item {
   background: #f1c40f;
   border-color: #f1c40f;
 }
-.listItem.active.streamItem .item-details {
+.list-item.active.stream-item .item-details {
   color: #f9e8a0;
 }
-.listItem.active.streamItem .hover-actions button {
+.list-item.active.stream-item .hover-actions button {
   color: #f9e8a0;
 }
-body.playing .listItem.active.streamItem {
+body.playing .list-item.active.stream-item {
   background: #27ae60;
   border-color: #27ae60;
 }
-body.playing .listItem.active.streamItem .item-details {
+body.playing .list-item.active.stream-item .item-details {
   color: #89e5b0;
 }
-body.playing .listItem.active.streamItem .hover-actions button {
+body.playing .list-item.active.stream-item .hover-actions button {
   color: #89e5b0;
 }
-.listItem.selected {
+.list-item.selected {
   background: #4ea6ea;
   border-color: #4ea6ea !important;
 }
-.listItem.selected .item-details {
+.list-item.selected .item-details {
   color: #d7ebfa;
 }
-.listItem.selected .hover-actions button {
+.list-item.selected .hover-actions button {
   color: #d7ebfa;
 }
-.listItem.selected,
-.listItem.active {
+.list-item.selected,
+.list-item.active {
   color: #ffffff;
 }
-.listItem.selected .hover-actions button:hover,
-.listItem.active .hover-actions button:hover {
+.list-item.selected .hover-actions button:hover,
+.list-item.active .hover-actions button:hover {
   color: #ffffff;
 }
-.listItem.selected .item-title,
-.listItem.active .item-title,
-.listItem.selected .item-title-wrapper,
-.listItem.active .item-title-wrapper {
+.list-item.selected .item-title,
+.list-item.active .item-title,
+.list-item.selected .item-title-wrapper,
+.list-item.active .item-title-wrapper {
   color: #ffffff;
 }
-.listItem .hover-actions {
+.list-item .hover-actions {
   position: absolute;
   display: none;
   right: 0;
@@ -562,29 +562,29 @@ body.playing .listItem.active.streamItem .hover-actions button {
   bottom: 0;
   font-size: 0;
 }
-.listItem .hover-actions .button-icon {
+.list-item .hover-actions .button-icon {
   height: 30px;
   line-height: 30px;
   width: 25px;
   font-size: 14px;
   cursor: pointer;
 }
-.listItem .hover-actions button:hover {
+.list-item .hover-actions button:hover {
   color: #000000;
 }
-.listItem .item-details,
-.listItem .hover-actions,
-.listItem .item-title {
+.list-item .item-details,
+.list-item .hover-actions,
+.list-item .item-title {
   transition: color .1s;
 }
-.listItem img {
+.list-item img {
   height: 30px;
   width: 40px;
   position: absolute;
   top: 0;
   left: 0;
 }
-.listItem .copyHelper + .sortable-placeholder {
+.list-item .copyHelper + .sortable-placeholder {
   display: none;
 }
 #playlists {
@@ -592,23 +592,23 @@ body.playing .listItem.active.streamItem .hover-actions button {
   height: auto;
   max-height: 290px;
 }
-#playlists .listItem {
+#playlists .list-item {
   height: 18px;
   line-height: 18px;
 }
-#playlists .listItem i {
+#playlists .list-item i {
   margin-right: .4em;
   display: inline-block;
   line-height: 18px;
   vertical-align: top;
 }
-#playlists .listItem * {
+#playlists .list-item * {
   cursor: default;
 }
-#playlists .listItem .title {
+#playlists .list-item .title {
   white-space: nowrap;
 }
-#playlists .listItem .count {
+#playlists .list-item .count {
   background: #666666;
   border-radius: 1em;
   color: #ffffff;
@@ -621,21 +621,21 @@ body.playing .listItem.active.streamItem .hover-actions button {
   top: 2px;
   cursor: default;
 }
-#playlists .listItem.active {
+#playlists .list-item.active {
   background: #4ea6ea;
   border-color: #4ea6ea;
 }
-#playlists .listItem.active .count {
+#playlists .list-item.active .count {
   background: #d7ebfa;
   color: #4ea6ea;
 }
-#playlists .listItem.loading .spinner {
+#playlists .list-item.loading .spinner {
   display: inline-block;
 }
-#playlists .listItem.loading .fa-list {
+#playlists .list-item.loading .fa-list {
   display: none;
 }
-#playlists .listItem .spinner {
+#playlists .list-item .spinner {
   display: none;
 }
 #playlists .spinner-small {
@@ -650,12 +650,12 @@ body.playing .listItem.active.streamItem .hover-actions button {
   width: 150px;
   line-height: 16px;
 }
-#playlists input.editableTitle {
+#playlists input.editable-title {
   border: 0;
   width: 150px;
   line-height: 16px;
 }
-#playlists input.editableTitle.hidden {
+#playlists input.editable-title.hidden {
   display: none;
 }
 .spinner {
@@ -708,39 +708,39 @@ input:focus ~ .underline {
   left: -385px;
   z-index: 10;
 }
-#videoSearch {
+#video-search {
   box-shadow: 0 0 10px #333333;
-  /* Can't sort videoSearch */
+  /* Can't sort video-search */
 }
-#videoSearch .sortable-placeholder {
+#video-search .sortable-placeholder {
   display: none;
 }
-#activePlaylistItems .sortable-placeholder {
+#active-playlist-items .sortable-placeholder {
   /* Don't allow duplicates to be dropped into playlist items */
 }
-#activePlaylistItems .sortable-placeholder.notSignedIn {
+#active-playlist-items .sortable-placeholder.notSignedIn {
   display: none;
 }
-#activePlaylistItems .sortable-placeholder.noDrop {
+#active-playlist-items .sortable-placeholder.noDrop {
   background-color: #ffcccc;
   /* TODO: I18N Clean this up a bit. Need to do i18n for it */
 }
-#activePlaylistItems .sortable-placeholder.noDrop:after {
+#active-playlist-items .sortable-placeholder.noDrop:after {
   content: 'Duplicates not allowed';
 }
-.searchBar {
+.search-bar {
   height: 45px;
   width: calc(100% - 43px);
   display: inline-block;
   vertical-align: top;
 }
-.searchBar .underline {
+.search-bar .underline {
   bottom: 10px;
   left: 10px;
   position: absolute;
   width: calc(100% - 65px);
 }
-.searchBar input {
+.search-bar input {
   border: 0;
   bottom: 11px;
   font-size: 1.1em;
@@ -751,7 +751,7 @@ input:focus ~ .underline {
   z-index: 1;
   width: calc(100% - 73px);
 }
-.searchBar button#source-select {
+.search-bar button#source-select {
   bottom: 11px;
   display: block;
   font-weight: bold;
@@ -762,7 +762,7 @@ input:focus ~ .underline {
   top: 10px;
   width: 140px;
 }
-.searchBar button#source-select .label {
+.search-bar button#source-select .label {
   margin: 0 0.7em 0 0.5em;
 }
 .big-text {
@@ -924,7 +924,7 @@ input:focus ~ .underline {
   right: 0;
   cursor: default;
 }
-#playlistsArea {
+#playlists-area {
   bottom: 0;
   display: block;
   left: 0;
@@ -933,7 +933,7 @@ input:focus ~ .underline {
   top: 0;
   z-index: 50;
 }
-#playlistsArea .panel {
+#playlists-area .panel {
   bottom: 0;
   box-shadow: 0 0 20px #333333;
   display: block;
@@ -943,7 +943,7 @@ input:focus ~ .underline {
   width: 250px;
   z-index: 51;
 }
-#playlistsArea .header {
+#playlists-area .header {
   background: #ffffff;
   display: block;
   height: 45px;
@@ -953,18 +953,18 @@ input:focus ~ .underline {
   text-align: center;
   top: 0;
 }
-#playlistsArea .header span {
+#playlists-area .header span {
   color: #666666;
   font-weight: bold;
   letter-spacing: 2px;
   line-height: 45px;
   text-transform: uppercase;
 }
-#playlistsArea .header span img {
+#playlists-area .header span img {
   height: 23px;
   margin-top: 10px;
 }
-#playlistsArea .list {
+#playlists-area .list {
   bottom: 30px;
   display: block;
   left: 10px;
@@ -975,7 +975,7 @@ input:focus ~ .underline {
   right: 0;
   top: 45px;
 }
-#playlistsArea .list h3 {
+#playlists-area .list h3 {
   cursor: pointer;
   height: 26px;
   line-height: 26px;
@@ -985,10 +985,10 @@ input:focus ~ .underline {
   font-size: 1.1em;
   margin-bottom: .3em;
 }
-#playlistsArea .list h3 i {
+#playlists-area .list h3 i {
   margin-left: 0.3em;
 }
-#playlistsArea .context-buttons {
+#playlists-area .context-buttons {
   border-top: 1px solid #ebebeb;
   bottom: 0;
   left: 10px;
@@ -996,12 +996,12 @@ input:focus ~ .underline {
   right: 10px;
   height: 30px;
 }
-#playlistsArea .context-buttons .right-group {
+#playlists-area .context-buttons .right-group {
   position: absolute;
   top: 0;
   right: 0;
 }
-#playlistsArea button.hide {
+#playlists-area button.hide {
   height: 45px;
   left: 10px;
   position: absolute;
@@ -1085,11 +1085,11 @@ html .selectize-control.multi .selectize-input.full > input {
 .clickable {
   cursor: pointer;
 }
-#videoSearch .big-text {
+#video-search .big-text {
   z-index: 1;
 }
 #content-region .big-text,
-#videoSearch .big-text {
+#video-search .big-text {
   background-color: #ffffff;
   position: absolute;
   bottom: 0;
@@ -1099,7 +1099,7 @@ html .selectize-control.multi .selectize-input.full > input {
   margin: 0;
   padding-top: 60px;
 }
-.big-text.streamEmpty {
+.big-text.stream-empty {
   position: absolute;
   margin-top: 36px;
 }
@@ -1111,7 +1111,7 @@ html .selectize-control.multi .selectize-input.full > input {
 .big-text-header.clickable {
   display: inline;
 }
-.searchLink {
+.search-link {
   color: #4ea6ea;
 }
 ul,
@@ -1242,10 +1242,10 @@ button.mute.muted {
   top: 0;
   right: 10px;
 }
-#leftBasePane {
+#left-base-pane {
   /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
 }
-#leftBasePane #playlist-title-region {
+#left-base-pane #playlist-title-region {
   width: calc(100% - 106px);
   height: 45px;
   display: inline-block;
@@ -1253,7 +1253,7 @@ button.mute.muted {
   margin-left: 10px;
   margin-right: 10px;
 }
-#leftBasePane #playlist-title-region #playlistTitle {
+#left-base-pane #playlist-title-region #playlist-title {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.1em;
@@ -1261,7 +1261,7 @@ button.mute.muted {
   line-height: 45px;
   cursor: default;
 }
-#leftBasePane .fa-search {
+#left-base-pane .fa-search {
   font-size: 18px;
 }
 #context-menu {
