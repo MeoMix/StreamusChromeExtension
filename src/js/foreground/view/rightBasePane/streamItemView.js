@@ -10,8 +10,9 @@
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
     'text!template/streamItem.html',
-    'background/model/player'
-], function (Playlists, StreamItems, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate, Player) {
+    'background/model/player',
+    'common/enum/playerState',
+], function (Playlists, StreamItems, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate, Player, PlayerState) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.Layout.extend({
@@ -178,7 +179,7 @@
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
-                        if( Player.get('state') === 1 )
+                        if( Player.get('state') === PlayerState.Playing )
                         {
                             Player.pause();
                         }
