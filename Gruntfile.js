@@ -438,7 +438,7 @@ module.exports = function (grunt) {
 
 		grunt.config.set('replace', {
 			transformSettings: {
-				src: ['dist/js/background/model/settings.js'],
+				src: ['dist/js/background/background.js'],
 				overwrite: true,
 				replacements: [{
 					//	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
