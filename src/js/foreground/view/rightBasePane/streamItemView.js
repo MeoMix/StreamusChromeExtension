@@ -183,9 +183,13 @@
                         {
                             Player.pause();
                         }
-
+                        var url = self.model.get('video').get('url');
+                        if ( Player.get('loadedVideoId') ===  self.model.get('video').get('id') )
+                        {
+                            url += '?t=' + Player.get('currentTime') + 's';
+                        }
                         chrome.tabs.create({
-                            url: self.model.get('video').get('url') + '?t=' + Player.get('currentTime') + 's'
+                            url:  url
                         });
                       }
                   }]
