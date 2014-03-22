@@ -193,7 +193,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
-	grunt.registerTask('default', ['connect jasmine watch']);
+	grunt.registerTask('default', ['connect', 'jasmine', 'watch']);
 	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
