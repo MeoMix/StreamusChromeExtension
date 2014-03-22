@@ -21,8 +21,9 @@ build
 
 node_modules
 
-# Webstorm project file
+# Webstorm (and IDEA) project file
 .idea/
+*.iml
 
 #################
 ## Eclipse
