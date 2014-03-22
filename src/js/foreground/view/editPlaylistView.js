@@ -5,7 +5,7 @@
 
     var EditPlaylistView = Backbone.Marionette.ItemView.extend({
 
-        className: 'editPlaylist',
+        className: 'edit-playlist',
 
         template: _.template(EditPlaylistTemplate),
         

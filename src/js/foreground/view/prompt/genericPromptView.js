@@ -28,7 +28,7 @@
         },
         
         initialize: function () {
-            this.$el.addClass(this.model.get('view').className + 'Prompt');
+            this.$el.addClass(this.model.get('view').className + '-prompt');
         },
 
         fadeInAndShow: function () {

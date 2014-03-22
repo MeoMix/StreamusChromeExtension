@@ -1,9 +1,9 @@
 ﻿define([
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
     'foreground/model/saveVideos',
-    'foreground/view/saveVideosView'
-], function (GenericPrompt, GenericPromptView, SaveVideos, SaveVideosView) {
+    'foreground/view/saveVideosView',
+    'foreground/view/prompt/genericPromptView'
+], function (GenericPrompt, SaveVideos, SaveVideosView, GenericPromptView) {
     'use strict';
     
     var SaveVideosPromptView = GenericPromptView.extend({

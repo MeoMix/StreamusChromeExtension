@@ -5,7 +5,7 @@
 
     var ReloadStreamusView = Backbone.Marionette.ItemView.extend({
 
-        className: 'reloadStreamus',
+        className: 'reload-streamus',
 
         template: _.template(ReloadStreamusTemplate),
         

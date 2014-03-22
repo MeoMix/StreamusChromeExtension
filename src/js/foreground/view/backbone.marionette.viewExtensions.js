@@ -1,5 +1,6 @@
 ﻿define([
     'background/model/settings',
+    //  TODO: It sucks I have to request Backbone.Marionette here. Use Behaviors?
     'backbone.marionette'
 ], function (Settings) {
     'use strict';

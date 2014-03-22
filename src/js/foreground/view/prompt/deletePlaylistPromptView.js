@@ -1,9 +1,9 @@
 ﻿define([
+    'background/model/settings',
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
     'foreground/view/deletePlaylistView',
-    'background/model/settings'
-], function (GenericPrompt, GenericPromptView, DeletePlaylistView, Settings) {
+    'foreground/view/prompt/genericPromptView'
+], function (Settings, GenericPrompt, DeletePlaylistView, GenericPromptView) {
     'use strict';
     
     var DeletePlaylistPromptView = GenericPromptView.extend({

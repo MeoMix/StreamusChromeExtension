@@ -1,8 +1,8 @@
 ﻿define([
-    'text!template/saveToPlaylistButton.html',
+    'background/model/user',
     'foreground/view/prompt/saveVideosPromptView',
-    'background/model/user'
-], function (SaveToPlaylistButtonTemplate, SaveVideosPromptView, User) {
+    'text!template/saveToPlaylistButton.html'
+], function (User, SaveVideosPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({

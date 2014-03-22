@@ -1,12 +1,12 @@
 ﻿define([
-    'text!template/videoSearchResult.html',
-    'foreground/collection/contextMenuItems',
     'background/collection/streamItems',
     'common/enum/listItemType',
-    'foreground/view/playInStreamButtonView',
+    'foreground/collection/contextMenuItems',
     'foreground/view/addToStreamButtonView',
-    'foreground/view/saveToPlaylistButtonView'
-], function (VideoSearchResultTemplate, ContextMenuItems, StreamItems, ListItemType, PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView) {
+    'foreground/view/playInStreamButtonView',
+    'foreground/view/saveToPlaylistButtonView',
+    'text!template/videoSearchResult.html'
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, PlayInStreamButtonView, SaveToPlaylistButtonView, VideoSearchResultTemplate) {
     'use strict';
 
     var VideoSearchResultView = Backbone.Marionette.Layout.extend({

@@ -1,12 +1,12 @@
 ﻿define([
-    'text!template/playlist.html',
+    'background/collection/playlists',
+    'background/collection/streamItems',
+    'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'background/collection/playlists',
-    'background/collection/streamItems',
-    'common/enum/listItemType'
-], function (PlaylistTemplate, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, Playlists, StreamItems, ListItemType) {
+    'text!template/playlist.html'
+], function (Playlists, StreamItems, ListItemType, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({

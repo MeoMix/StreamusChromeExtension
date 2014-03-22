@@ -1,17 +1,17 @@
 ﻿define([
-    'text!template/playlistsArea.html',
+    'background/collection/playlists',
+    'background/model/user',
+    'common/enum/listItemType',
     'common/view/settingsView',
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
-    'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/createPlaylistView',
-    'foreground/view/prompt/editPlaylistPromptView',
-    'background/collection/playlists',
     'foreground/view/leftCoveringPane/playlistView',
-    'common/enum/listItemType',
-    'background/model/user',
-    'foreground/view/prompt/deletePlaylistPromptView'
-], function (PlaylistsAreaTemplate, SettingsView, GenericPrompt, GenericPromptView, CreatePlaylistPromptView, CreatePlaylistView, EditPlaylistPromptView, Playlists, PlaylistView, ListItemType, User, DeletePlaylistPromptView) {
+    'foreground/view/prompt/createPlaylistPromptView',
+    'foreground/view/prompt/deletePlaylistPromptView',
+    'foreground/view/prompt/editPlaylistPromptView',
+    'foreground/view/prompt/genericPromptView',
+    'text!template/playlistsArea.html'
+], function (Playlists, User, ListItemType, SettingsView, GenericPrompt, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, GenericPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({

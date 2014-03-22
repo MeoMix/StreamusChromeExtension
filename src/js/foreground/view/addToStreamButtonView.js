@@ -1,7 +1,7 @@
 ﻿define([
-    'text!template/addToStreamButton.html',
-    'background/collection/streamItems'
-], function (AddToStreamButtonTemplate, StreamItems) {
+    'background/collection/streamItems',
+    'text!template/addToStreamButton.html'
+], function (StreamItems, AddToStreamButtonTemplate) {
     'use strict';
 
     var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({

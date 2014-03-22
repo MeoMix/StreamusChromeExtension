@@ -1,9 +1,8 @@
 ﻿define([
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
     'foreground/view/editPlaylistView',
-    'background/model/settings'
-], function (GenericPrompt, GenericPromptView, EditPlaylistView) {
+    'foreground/view/prompt/genericPromptView'
+], function (GenericPrompt, EditPlaylistView, GenericPromptView) {
     'use strict';
     
     var EditPlaylistPromptView = GenericPromptView.extend({

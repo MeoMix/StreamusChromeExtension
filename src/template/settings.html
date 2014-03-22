@@ -5,11 +5,11 @@
 
     <ul>
         <li>
-            <label id="suggestedQualitySelectLabel" for="suggestedQualitySelect">
+            <label for="suggested-quality">
                 <%= videoQualityMessage %>
             </label>
             
-            <select id="suggestedQualitySelect" name="suggestedQualitySelect">
+            <select id="suggested-quality">
             
                 <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
                     <%= highestMessage %>
@@ -26,14 +26,14 @@
             </select>
         </li>
         <li>
-            <input type="checkbox" id="showTooltips" <%= showTooltips ? 'checked' : '' %>>
-            <label for="showTooltips">
+            <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
+            <label for="show-tooltips">
                 <%= showTooltipsMessage %>
             </label>
         </li>
         <li>
-            <input type="checkbox" id="alwaysOpenToSearch" <%= alwaysOpenToSearch ? 'checked' : '' %> >
-            <label for="alwaysOpenToSearch">
+            <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
+            <label for="always-open-to-search">
                 <%= alwaysOpenToSearchMessage %>
             </label>
         </li>
@@ -41,7 +41,7 @@
 
 </div>
 
-<div class="remindersLabel topic">
+<div class="topic">
     <%= remindersMessage %>
 </div>
 <div class="category">
@@ -54,8 +54,8 @@
             </label>
         </li>
         <li>
-            <input type="checkbox" id="remindDeletePlaylist" <%= remindDeletePlaylist ? 'checked' : '' %>>
-            <label for="remindDeletePlaylist">
+            <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
+            <label for="remind-delete-playlist">
                 <%= remindDeletePlaylistMessage %>
             </label>
         </li>

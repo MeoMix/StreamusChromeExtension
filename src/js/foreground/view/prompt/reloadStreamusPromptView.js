@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
-    'foreground/view/reloadStreamusView'
-], function(GenericPrompt, GenericPromptView, ReloadStreamusView) {
+    'foreground/view/reloadStreamusView',
+    'foreground/view/prompt/genericPromptView'
+], function (GenericPrompt, ReloadStreamusView, GenericPromptView) {
     'use strict';
 
     var ReloadStreamusPromptView = GenericPromptView.extend({

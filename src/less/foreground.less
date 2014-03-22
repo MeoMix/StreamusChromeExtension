@@ -49,7 +49,7 @@ body {
         display: none;
     }
 
-    &.loading > *:not(.spinner):not(.reloadStreamusPrompt) {
+    &.loading > *:not(.spinner):not(.reload-streamus-prompt) {
         opacity: .2;
     }
 
@@ -112,6 +112,7 @@ body {
         -webkit-transform: rotate(360deg);
        }
 }
+
 .prompt {
     bottom: 0;
     display: block;
@@ -172,34 +173,34 @@ body {
         }
     }
 
-    &.settingsPrompt .panel {
+    &.settings-prompt .panel {
         margin-left: -140px;
         width: 280px;
         height: 250px;
     }
 
-    &.createPlaylistPrompt .panel {
+    &.create-playlist-prompt .panel {
         height: 180px;
         width: 330px;
         margin-left: -165px;
     }
 
-    &.clearStreamPrompt .panel {
+    &.clear-stream-prompt .panel {
         width: 300px;
         margin-left: -150px;
     }
 
-    &.editPlaylistPrompt .panel {
+    &.edit-playlist-prompt .panel {
         width: 330px;
         margin-left: -165px;
     }
 
-    &.deletePlaylistPrompt .panel {
+    &.delete-playlist-prompt .panel {
         width: 400px;
         margin-left: -200px;
     }
 
-    &.saveSelectedPrompt .panel {
+    &.save-selected-prompt .panel {
         width: 370px;
         margin-left: -185px;
     }
@@ -228,6 +229,7 @@ body {
     background: @white;
 }
 
+/* TODO: Move the clear code into a separate import */
 input:focus, button:focus { outline: none }
 
 body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
@@ -277,15 +279,15 @@ input, button, textarea, select { font-size: 100% }
 
 a { cursor: pointer }
 
+/*** End clear code ***/
 
 
-
-span.videoTitle {
+/*span.videoTitle {
     font-size: 14px;
     white-space: nowrap;
     cursor: default;
     line-height: 1.5em;
-}
+}*/
 
 .playlist-details {
     color: @mediumDarkGray;
@@ -458,7 +460,6 @@ input[type="range"] {
     }
 }
 
-
 .left-top-divider {
     background: @lightGray;
     display: block;
@@ -509,7 +510,6 @@ input[type="range"] {
     margin-right: 5px;
     overflow-y: auto;
 }
-
 
 .list-item {
     height: 30px;
@@ -629,9 +629,9 @@ input[type="range"] {
         left: 0;
     }
 
-    /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+    /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
-    .copyHelper + .sortable-placeholder {
+    .copy-helper + .sortable-placeholder {
         display: none;
     }
 }
@@ -728,7 +728,7 @@ input[type="range"] {
     color: @baseBlue;
 }
 
-.selectedModelsLength {
+.selected-models-length {
     width: 15px !important;
     height: 15px !important;
     padding: 2px;
@@ -751,8 +751,8 @@ input {
     }
 }
 
-.createPlaylistPrompt input[type="text"],
-.editPlaylistPrompt input[type="text"] {
+.create-playlist-prompt input[type="text"],
+.edit-playlist-prompt input[type="text"] {
     z-index: 1;
     -webkit-appearance: none;
     border: 0;
@@ -762,7 +762,7 @@ input {
     width: 300px;
 }
 
-.inputUnderlineWrapper {
+.input-underline-wrapper {
     display: inline-block;
 
     .underline {
@@ -798,11 +798,11 @@ input:focus  ~ .underline {
 #active-playlist-items {
 
     .sortable-placeholder {
-        &.notSignedIn {
+        &.not-signed-in {
             display: none;
         }
         /* Don't allow duplicates to be dropped into playlist items */
-        &.noDrop {
+        &.no-drop {
             background-color: @invalidRed;
 
             /* TODO: I18N Clean this up a bit. Need to do i18n for it */
@@ -1206,14 +1206,9 @@ html .selectize-control.multi .selectize-input.full > input {
     background-color: @lightGray;
     border-color: @lightGray;
 
-    &.hiddenUntilChange {
+    &.hidden-until-change {
         display: none;
     }
-}
-
-/* Display: none; on placeholders that get swapped out for actual views. */
-.view-placeholder {
-    display: none;
 }
 
 .clickable {

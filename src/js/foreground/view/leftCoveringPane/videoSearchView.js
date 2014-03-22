@@ -1,11 +1,11 @@
 ﻿define([
+    'background/collection/streamItems',
+    'background/model/user',
     'foreground/view/multiSelectCompositeView',
-    'text!template/videoSearch.html',
     'foreground/view/leftCoveringPane/videoSearchResultView',
     'foreground/view/prompt/saveVideosPromptView',
-    'background/model/user',
-    'background/collection/streamItems'
-], function (MultiSelectCompositeView, VideoSearchTemplate, VideoSearchResultView, SaveVideosPromptView, User, StreamItems) {
+    'text!template/videoSearch.html'
+], function (StreamItems, User, MultiSelectCompositeView, VideoSearchResultView, SaveVideosPromptView, VideoSearchTemplate) {
     'use strict';
     
     var VideoSearchView = MultiSelectCompositeView.extend({
@@ -23,18 +23,21 @@
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
             instructions: '.instructions',
-            noResultsMessage: '.noResults',
+            noResultsMessage: '.no-results',
             bigTextWrapper: '.big-text-wrapper',
             itemContainer: '#video-search-results',
-            saveSelectedButton: 'button#save-selected'
+            saveSelectedButton: '#save-selected',
+            hideVideoSearchButton: '#hide-video-search',
+            playSelectedButton: '#play-selected',
+            addSelectedButton: '#add-selected'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
-            'click button#hideVideoSearch': 'hide',
+            'click @ui.hideVideoSearchButton': 'hide',
             'contextmenu @ui.itemContainer': 'showContextMenu',
-            'click button#playSelected': 'playSelected',
-            'click button#addSelected': 'addSelected',
+            'click @ui.playSelectedButton': 'playSelected',
+            'click @ui.addSelectedButton': 'addSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
         }),
  

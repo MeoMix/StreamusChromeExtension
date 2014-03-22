@@ -1,11 +1,11 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
 define([
-    'text!template/timeProgress.html',
     'background/collection/streamItems',
-    'common/model/utility',
+    'background/model/settings',
     'common/enum/playerState',
-    'background/model/settings'
-], function (TimeProgressTemplate, StreamItems, Utility, PlayerState, Settings) {
+    'common/model/utility',
+    'text!template/timeProgress.html'
+], function (StreamItems, Settings, PlayerState, Utility, TimeProgressTemplate) {
     'use strict';
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
@@ -25,8 +25,8 @@ define([
         ui: {
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
-            enabledTimeRange: 'input.timeRange:not(.disabled)',
-            timeRange: 'input.timeRange',
+            enabledTimeRange: 'input.time-range:not(.disabled)',
+            timeRange: 'input.time-range',
             timeElapsedLabel: '.time-elapsed',
             durationLabel: '.duration'
         },

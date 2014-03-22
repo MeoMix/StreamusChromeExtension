@@ -5,7 +5,7 @@
 
     var UpdateStreamusView = Backbone.Marionette.ItemView.extend({
 
-        className: 'updateStreamus',
+        className: 'update-streamus',
 
         template: _.template(UpdateStreamusTemplate),
         

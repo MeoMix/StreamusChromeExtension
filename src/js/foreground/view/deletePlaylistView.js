@@ -1,17 +1,17 @@
 ﻿define([
-    'text!template/deletePlaylist.html',
-    'background/model/settings'
-], function (DeletePlaylistTemplate, Settings) {
+    'background/model/settings',
+    'text!template/deletePlaylist.html'
+], function (Settings, DeletePlaylistTemplate) {
     'use strict';
 
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
 
-        className: 'deletePlaylist',
+        className: 'delete-playlist',
 
         template: _.template(DeletePlaylistTemplate),
         
         ui: {
-            reminderCheckbox: 'input#remindDeletePlaylist'
+            reminderCheckbox: '#remind-delete-playlist'
         },
         
         templateHelpers: {

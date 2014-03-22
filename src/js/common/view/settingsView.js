@@ -26,11 +26,11 @@
         model: Settings,
         
         ui: {
-            suggestedQualitySelect: '#suggestedQualitySelect',
-            showTooltipsCheckbox: '#showTooltips',
+            suggestedQualitySelect: '#suggested-quality',
+            showTooltipsCheckbox: '#show-tooltips',
             remindClearStreamCheckbox: '#remind-clear-stream',
-            remindDeletePlaylistCheckbox: '#remindDeletePlaylist',
-            alwaysOpenToSearchCheckbox: '#alwaysOpenToSearch'
+            remindDeletePlaylistCheckbox: '#remind-delete-playlist',
+            alwaysOpenToSearchCheckbox: '#always-open-to-search'
         },
 
         doOk: function () {

@@ -1,16 +1,16 @@
 ﻿define([
-    'foreground/collection/contextMenuItems',
-    'common/model/utility',
-    'background/collection/streamItems',
-    'text!template/streamItem.html',
     'background/collection/playlists',
+    'background/collection/streamItems',
+    'background/model/user',
     'background/model/buttons/playPauseButton',
     'common/enum/listItemType',
-    'background/model/user',
+    'common/model/utility',
+    'foreground/collection/contextMenuItems',
     'foreground/view/deleteButtonView',
     'foreground/view/saveToPlaylistButtonView',
-    'foreground/view/PlayInStreamButtonView'
-], function (ContextMenuItems, Utility, StreamItems, StreamItemTemplate, Playlists, PlayPauseButton, ListItemType, User, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView) {
+    'foreground/view/playInStreamButtonView',
+    'text!template/streamItem.html'
+], function (Playlists, StreamItems, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate) {
     'use strict';
 
     var StreamItemView = Backbone.Marionette.Layout.extend({

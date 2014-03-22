@@ -1,12 +1,12 @@
 ﻿define([
-    'text!template/saveVideos.html',
-    'background/collection/playlists'
-], function (SaveVideosTemplate, Playlists) {
+    'background/collection/playlists',
+    'text!template/saveVideos.html'
+], function (Playlists, SaveVideosTemplate) {
     'use strict';
 
     var SaveVideosView = Backbone.Marionette.ItemView.extend({
 
-        className: 'saveVideos',
+        className: 'save-videos',
         
         template: _.template(SaveVideosTemplate),
 

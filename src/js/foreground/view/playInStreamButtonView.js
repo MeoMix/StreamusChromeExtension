@@ -1,8 +1,8 @@
 ﻿define([
-    'text!template/playInStreamButton.html',
     'background/collection/streamItems',
-    'background/model/player'
-], function (PlayInStreamButtonTemplate, StreamItems, Player) {
+    'background/model/player',
+    'text!template/playInStreamButton.html'
+], function (StreamItems, Player, PlayInStreamButtonTemplate) {
     'use strict';
 
     var PlayInStreamButtonView = Backbone.Marionette.ItemView.extend({

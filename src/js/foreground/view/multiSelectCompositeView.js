@@ -1,13 +1,13 @@
 ﻿define([
-    'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/rightBasePane/streamItemView',
-    'foreground/view/leftCoveringPane/videoSearchResultView',
-    'common/enum/listItemType',
     'background/collection/playlists',
     'background/collection/streamItems',
     'background/collection/videoSearchResults',
-    'background/model/user'
-], function (PlaylistItemView, StreamItemView, VideoSearchResultView, ListItemType, Playlists, StreamItems, VideoSearchResults, User) {
+    'background/model/user',
+    'common/enum/listItemType',
+    'foreground/view/leftBasePane/playlistItemView',
+    'foreground/view/leftCoveringPane/videoSearchResultView',
+    'foreground/view/rightBasePane/streamItemView'
+], function (Playlists, StreamItems, VideoSearchResults, User, ListItemType, PlaylistItemView, VideoSearchResultView, StreamItemView) {
     'use strict';
 
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
@@ -60,7 +60,7 @@
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
 
-                placeholder: 'sortable-placeholder listItem hiddenUntilChange',
+                placeholder: 'sortable-placeholder list-item hidden-until-change',
 
                 helper: function (ui, listItem) {
 
@@ -89,21 +89,21 @@
                     }
 
                     this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
-                    this.copyHelper.addClass('copyHelper');
+                    this.copyHelper.addClass('copy-helper');
 
                     this.backCopyHelper = listItem.prev();
-                    this.backCopyHelper.addClass('copyHelper');
+                    this.backCopyHelper.addClass('copy-helper');
 
                     $(this).data('copied', false);
 
                     return $('<span>', {
-                        'class': 'selectedModelsLength'
+                        'class': 'selected-models-length'
                     });
                 },
                 change: function () {
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
-                    $('.hiddenUntilChange').removeClass('hiddenUntilChange');
+                    $('.hidden-until-change').removeClass('hidden-until-change');
                 },
                 start: function (event, ui) {
 
@@ -119,9 +119,9 @@
                             var draggedStreamItem = self.collection.get(streamItemId);
 
                             var videoAlreadyExists = Playlists.getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
-                            ui.placeholder.toggleClass('noDrop', videoAlreadyExists);
+                            ui.placeholder.toggleClass('no-drop', videoAlreadyExists);
                         } else {
-                            ui.placeholder.addClass('notSignedIn');
+                            ui.placeholder.addClass('not-signed-in');
                         }
                     }
 
@@ -140,17 +140,18 @@
                     //  Set it here not in helper because dragStart may select a search result.
                     ui.helper.text(self.collection.selected().length);
 
+                    //  TODO sortableItem vs sortable-item??
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 },
 
                 stop: function (event, ui) {
 
-                    this.backCopyHelper.removeClass('copyHelper');
+                    this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
                     if (copied) {
-                        this.copyHelper.removeClass('copyHelper');
+                        this.copyHelper.removeClass('copy-helper');
                     }
                     else {
                         this.copyHelper.remove();

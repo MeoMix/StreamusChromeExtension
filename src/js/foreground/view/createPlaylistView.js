@@ -1,15 +1,15 @@
 ﻿define([
-    'text!template/createPlaylist.html',
-    'background/collection/streamItems',
     'background/collection/playlists',
+    'background/collection/streamItems',
+    'common/enum/dataSourceType',
     'common/model/dataSource',
-    'common/enum/dataSourceType'
-], function (CreatePlaylistTemplate, StreamItems, Playlists, DataSource, DataSourceType) {
+    'text!template/createPlaylist.html'
+], function (Playlists, StreamItems, DataSourceType, DataSource, CreatePlaylistTemplate) {
     'use strict';
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
 
-        className: 'createPlaylist',
+        className: 'create-playlist',
 
         template: _.template(CreatePlaylistTemplate),
         
@@ -28,7 +28,7 @@
         
         ui: {
             'playlistTitleInput': 'input.playlist-title',
-            'youTubeSourceInput': 'input.youTubeSource'
+            'youTubeSourceInput': 'input.youtube-source'
         },
 
         events: {

@@ -1,23 +1,24 @@
 ﻿define([
-    'foreground/eventAggregator',
-    'foreground/view/multiSelectCompositeView',
-    'text!template/stream.html',
-    'common/enum/listItemType',
-    'foreground/model/streamAction',
-    'foreground/view/rightBasePane/streamItemView',
     'background/collection/playlists',
     'background/collection/videoSearchResults',
     'background/model/user',
-    'background/model/buttons/shuffleButton',
-    'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
-    'common/enum/repeatButtonState'
-], function (EventAggregator, MultiSelectCompositeView, StreamTemplate, ListItemType, StreamAction, StreamItemView, Playlists, VideoSearchResults, User, ShuffleButton, RepeatButton, RadioButton, RepeatButtonState) {
+    'background/model/buttons/repeatButton',
+    'background/model/buttons/shuffleButton',
+    'common/enum/listItemType',
+    'common/enum/repeatButtonState',
+    'foreground/eventAggregator',
+    'foreground/model/streamAction',
+    'foreground/view/multiSelectCompositeView',
+    'foreground/view/rightBasePane/streamItemView',
+    'text!template/stream.html'
+], function (Playlists, VideoSearchResults, User, RadioButton, RepeatButton, ShuffleButton, ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
     'use strict';
     
     var StreamView = MultiSelectCompositeView.extend({
         
         id: 'stream',
+        //  TODO: Marionette 2.0 will support referencing through @ui: https://github.com/marionettejs/backbone.marionette/issues/1033
         itemViewContainer: '#stream-items',
         itemView: StreamItemView,
 
@@ -60,9 +61,9 @@
         ui: {
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
-            saveStreamButton: 'button#save-stream',
+            saveStreamButton: '#save-stream',
             //  TODO: This seems wrong.
-            enabledSaveStreamButton: 'button#save-stream:not(.disabled)',
+            enabledSaveStreamButton: '#save-stream:not(.disabled)',
             itemContainer: '#stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
@@ -73,7 +74,8 @@
 
         onShow: function () {
             this.onFullyVisible();
-            
+
+            console.log("onShow is running. calling applyTooltips");
             //  Gotta do this in onShow to ensure tooltips can initialize properly.
             this.applyTooltips();
             this.updateSaveStreamButton();
@@ -110,6 +112,8 @@
 
             this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
             this.ui.saveStreamButton.attr('title', newTitle);
+
+            console.log("This.ui.saveStreamButton:", this.ui.saveStreamButton);
             
             //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
             var qtipApi = this.ui.saveStreamButton.qtip('api');

@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
-    'foreground/view/notificationView'
-], function (GenericPrompt, GenericPromptView, NotificationView) {
+    'foreground/view/notificationView',
+    'foreground/view/prompt/genericPromptView'
+], function (GenericPrompt, NotificationView, GenericPromptView) {
     'use strict';
     
     var NotificationPromptView = GenericPromptView.extend({

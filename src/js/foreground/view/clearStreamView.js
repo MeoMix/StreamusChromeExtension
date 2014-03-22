@@ -1,13 +1,13 @@
 ﻿define([
-    'text!template/clearStream.html',
+    'background/collection/streamItems',
     'background/model/settings',
-    'background/collection/streamItems'
-], function (ClearStreamTemplate, Settings, StreamItems) {
+    'text!template/clearStream.html'
+], function (StreamItems, Settings, ClearStreamTemplate) {
     'use strict';
 
     var ClearStreamView = Backbone.Marionette.ItemView.extend({
 
-        className: 'clearStream',
+        className: 'clear-stream',
         
         ui: {
             remindClearStreamCheckbox: 'input#remind-clear-stream'
