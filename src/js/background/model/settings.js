@@ -5,14 +5,14 @@ define([
     'lodash'
 ], function () {
     'use strict';
-    
+
     //  If the foreground requests, don't instantiate -- return existing from the background.
     if (!_.isUndefined(chrome.extension.getBackgroundPage().window.Settings)) {
         return chrome.extension.getBackgroundPage().window.Settings;
     }
 
     var Settings = Backbone.Model.extend({
-        
+
         defaults: function () {
 
             var remindClearStream = this.getItem('remindClearStream');
@@ -20,7 +20,7 @@ define([
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
-            
+
             return {
                 localDebug: true,
                 testing: false,
@@ -35,11 +35,11 @@ define([
                 alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
             };
         },
-        
+
         initialize: function () {
             //  BaseURL is needed for ajax requests to the server.
             if (this.get('localDebug')) {
-                this.set('serverURL', 'http://localhost:28029/');
+                this.set('serverURL', false);
                 //this.set('serverURL', 'http://localhost:61975/');
             }
             else {
@@ -49,11 +49,11 @@ define([
             this.on('change:suggestedQuality', function(model, suggestedQuality) {
                 localStorage.setItem('suggestedQuality', suggestedQuality);
             });
-            
+
             this.on('change:userId', function (model, userId) {
                 localStorage.setItem('userId', JSON.stringify(userId));
             });
-            
+
             this.on('change:alwaysOpenToSearch', function (model, alwaysOpenToSearch) {
                 localStorage.setItem('alwaysOpenToSearch', JSON.stringify(alwaysOpenToSearch));
             });
@@ -79,11 +79,11 @@ define([
             });
 
         },
-        
+
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
         //  If not, just allow the string type because its assumed to be correct.
         getItem: function (key) {
-            
+
             var item = localStorage.getItem(key);
 
             if (item !== null) {
@@ -97,9 +97,9 @@ define([
 
             return item;
         }
-  
+
     });
-    
+
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.Settings = new Settings();
     return window.Settings;
