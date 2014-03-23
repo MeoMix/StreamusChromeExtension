@@ -78,7 +78,7 @@ module.exports = function (grunt) {
 				host: 'http://localhost:8000/',
 				template: require('grunt-template-jasmine-requirejs'),
 				templateOptions: {
-					requireConfigFile: 'test/js/main.js',
+					requireConfigFile: ['src/js/common/requireConfig.js', 'src/js/test/main.js'],
 					requireConfig: {
 						//	Override the base URL with one relative to the gruntfile.
 						baseUrl: 'src/js/',

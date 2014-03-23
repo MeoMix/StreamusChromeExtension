@@ -190,3 +190,4 @@ pip-log.txt
 
 # Grunt/Jasmine
 .grunt
+_SpecRunner.html
