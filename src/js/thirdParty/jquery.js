@@ -5468,7 +5468,11 @@
     var rnumnonpx = new RegExp("^(" + pnum + ")(?!px)[a-z%]+$", "i");
 
     var getStyles = function (elem) {
-        return elem.ownerDocument.defaultView.getComputedStyle(elem, null);
+        try {
+            return elem.ownerDocument.defaultView.getComputedStyle(elem, null);
+        } catch(exception) {
+            console.error("Handled exception in getStyles:", exception, elem);
+        }
     };
 
 

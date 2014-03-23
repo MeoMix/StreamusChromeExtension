@@ -1300,14 +1300,19 @@ function repositionMethod(event) {
 }
 
 // Store mouse coordinates
-PROTOTYPE._storeMouse = function(event) {
-	this.mouse = {
-		pageX: event.pageX,
-		pageY: event.pageY,
-		type: 'mousemove',
-		scrollX: window.pageXOffset || document.documentElement.scrollLeft,
-		scrollY: window.pageYOffset || document.documentElement.scrollTop
-	};
+PROTOTYPE._storeMouse = function (event) {
+    try {
+        this.mouse = {
+            pageX: event.pageX,
+            pageY: event.pageY,
+            type: 'mousemove',
+            scrollX: window.pageXOffset || document.documentElement.scrollLeft,
+            scrollY: window.pageYOffset || document.documentElement.scrollTop
+        };
+    } catch(exception) {
+        console.error("I just caught an exception in PROTOTYPE._storeMouse", event);
+    }
+
 };
 
 // Bind events
@@ -1729,9 +1734,15 @@ QTIP.bind = function(opts, event)
 		 *
 		 * Also set onTarget when triggered to keep mouse tracking working
 		 */
-		targets.show.bind('mousemove'+namespace, function(event) {
-			api._storeMouse(event);
-			api.cache.onTarget = TRUE;
+		targets.show.bind('mousemove' + namespace, function (event) {
+		    
+            try {
+                api._storeMouse(event);
+                api.cache.onTarget = TRUE;
+            } catch(exception) {
+                console.error("I just caught an exception in targets.show.bind.mousemove", exception);
+            }
+
 		});
 
 		// Define hoverIntent function
@@ -1745,7 +1756,11 @@ QTIP.bind = function(opts, event)
 			}
 
 			// Only continue if tooltip isn't disabled
-			if(api.disabled) { return FALSE; }
+			if (api.disabled) { return FALSE; }
+		    
+			if (_.isUndefined(api.cache)) {
+			    return FALSE;
+			}
 
 			// Cache the event data
 			api.cache.event = $.extend({}, event);

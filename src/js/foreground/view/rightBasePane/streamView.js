@@ -71,7 +71,7 @@
             clearStreamButton: 'button.clear',
             showVideoSearch: '.show-video-search'
         },
-
+        
         onShow: function () {
             this.onFullyVisible();
 
@@ -115,12 +115,18 @@
 
             console.log("This.ui.saveStreamButton:", this.ui.saveStreamButton);
             
-            //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
-            var qtipApi = this.ui.saveStreamButton.qtip('api');
+            try {
+                //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
+                var qtipApi = this.ui.saveStreamButton.qtip('api');
 
-            //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
-            qtipApi.render();
-            qtipApi.set('content.text', newTitle);
+                //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
+                qtipApi.render();
+                qtipApi.set('content.text', newTitle);
+            } catch (exception) {
+                console.error("Just caught qtip exception", exception);
+            }
+
+
         },
         
         //  Hide the empty message if there is anything in the collection

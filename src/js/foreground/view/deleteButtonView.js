@@ -19,7 +19,12 @@
         
         doDelete: function () {
             //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
-            this.$el.qtip('api').destroy(true);
+            try {
+                this.$el.qtip('api').destroy(true);
+            } catch(exception) {
+                console.error("I just caught a qtip API exception:", this.$el.qtip);
+            }
+            
             this.model.destroy();
 
             //  Don't allow click to bubble up to the list item and cause a selection.

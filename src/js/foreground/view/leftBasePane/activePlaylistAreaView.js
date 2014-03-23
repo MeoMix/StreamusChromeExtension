@@ -43,7 +43,7 @@
         },
         
         collectionEvents: {
-            'add remove reset': function() {
+            'add remove reset': function () {
                 this.toggleBigText();
                 this.toggleBottomMenubar();
 
@@ -69,13 +69,17 @@
 
             this.ui.playlistDetails.text(displayInfo);
             
-            //  TODO: Is there a way to use a mutationObserver to monitor text so that content.text will update automatically?
-            //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
-            var qtipApi = this.ui.playlistDetails.qtip('api');
+            try {
+                //  TODO: Is there a way to use a mutationObserver to monitor text so that content.text will update automatically?
+                //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
+                var qtipApi = this.ui.playlistDetails.qtip('api');
 
-            //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
-            qtipApi.render();
-            qtipApi.set('content.text', displayInfo);
+                //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
+                qtipApi.render();
+                qtipApi.set('content.text', displayInfo);
+            } catch(exception) {
+                console.error("Just caught qtip exception", exception);
+            }
         },
        
         //  Set the visibility of any visible text messages.

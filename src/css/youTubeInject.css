@@ -1,0 +1,66 @@
+#streamus-panel-buttons .yt-uix-button:hover {
+  border-bottom-color: #000;
+  opacity: 1;
+  filter: none;
+}
+#streamus-panel-buttons .yt-uix-button {
+  height: 24px;
+  margin-right: 30px;
+  margin-bottom: 10px;
+  padding: 0 4px;
+  color: #333;
+  border: 2px solid transparent;
+  border-width: 2px 0;
+  background: none;
+  font-size: 13px;
+  -moz-box-shadow: none;
+  -ms-box-shadow: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-bottom-color: #000;
+  opacity: 0.5;
+  filter: alpha(opacity=50);
+}
+#streamus-panel-buttons .yt-uix-button-toggled {
+  border-bottom-color: #000;
+  opacity: 1;
+  filter: none;
+}
+.action-panel-streamus {
+  display: none;
+  padding: 18px 20px;
+  width: 600px;
+}
+#playlistSelect {
+  font-size: 1.4em !important;
+}
+#streamusVideoAddButton {
+  height: 24px;
+  border: 1px solid #ccc;
+  font-size: 11px;
+  background-image: linear-gradient(to bottom, #ffffff 0, #e0e0e0 100%);
+  -webkit-border-radius: 2px;
+  border-radius: 2px;
+  margin-top: 2px !important;
+}
+.eventNotification {
+  font-weight: bold;
+  padding: 4px;
+  margin-top: 2px;
+  display: inline-block;
+  border-radius: 2px;
+}
+#successEventNotification {
+  background: #E1F2DA;
+  border: 1px solid #590;
+  color: black;
+  margin-left: 9%;
+  display: none;
+}
+#errorEventNotification {
+  background: #FCC;
+  border: 1px solid red;
+  color: darkred;
+  margin-left: 18%;
+  display: none;
+}

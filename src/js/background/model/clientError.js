@@ -21,7 +21,7 @@ define([
             };
         },
         
-        urlRoot: Settings.get('serverURL') + 'Error/',
+        urlRoot: Settings.get('serverURL') + 'ClientError/',
         
         initialize: function (attributes) {
 

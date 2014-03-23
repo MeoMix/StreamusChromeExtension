@@ -41,6 +41,8 @@
                     container: this.ui.itemContainer,
                     threshold: 250
                 });
+
+                view.applyTooltips();
             }
         },
 
