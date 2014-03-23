@@ -46,13 +46,6 @@ module.exports = function (grunt) {
 			}
 		},
 
-		//	Connect spins up tiny, quick servers for testing on
-		connect: {
-			test: {
-				port: 8000
-			}
-		},
-
 		//  Compress image sizes and move to dist folder
 		imagemin: {
 
@@ -65,34 +58,6 @@ module.exports = function (grunt) {
 				}]
 			}
 
-		},
-
-		//	Jasmine is for running our test cases. This runs in a headless web browser using phantom-js which is pretty sweet.
-		jasmine: {
-			//	Here's all the JavaScript I want to consider when running test cases
-			src: 'src/js/*.js',
-			options: {
-				//	Specs are all the cases I want to run
-				specs: 'test/js/spec/*Spec.js',
-				//	Don't run under file:// because some APIs don't respond well to that
-				host: 'http://localhost:8000/',
-				template: require('grunt-template-jasmine-requirejs'),
-				templateOptions: {
-					requireConfigFile: ['src/js/common/requireConfig.js', 'src/js/test/main.js'],
-					requireConfig: {
-						//	Override the base URL with one relative to the gruntfile.
-						baseUrl: 'src/js/',
-						//	Emulate main.js' initialization logic.
-						deps: ['settings', 'backbone', 'jquery','lodash'],
-						callback: function (Settings, Backbone, $, _) {
-							//	Enable testing in Settings so configuration values can be set accordingly (API keys, etc. testing runs on localhost)
-							Settings.set('testing', true);
-							//	Testing should hit a local server and not be ran against the production database.
-							Settings.set('localDebug', true);
-						}
-					}
-				}
-			}
 		},
 
 		//	Improve code quality by applying a code-quality check with jshint
@@ -181,20 +146,15 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
-	grunt.registerTask('default', ['connect', 'jasmine', 'watch']);
-	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
@@ -300,10 +260,10 @@ module.exports = function (grunt) {
 	});
     
 	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
-	    grunt.file.delete('src/beatportInject.css');
-	    grunt.file.delete('src/options.css');
-	    grunt.file.delete('src/youTubeInject.css');
-	    grunt.file.delete('src/foreground.css');
+		grunt.file.delete('src/beatportInject.css');
+		grunt.file.delete('src/options.css');
+		grunt.file.delete('src/youTubeInject.css');
+		grunt.file.delete('src/foreground.css');
 	});
 
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
