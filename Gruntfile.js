@@ -200,14 +200,17 @@ module.exports = function (grunt) {
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
 
+		var isDebugDeploy = version === undefined;
+		grunt.config.set('isDebugDeploy', isDebugDeploy);
+
 		//	Update version number in manifest.json:
-		if (version === undefined) {
-			grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: production:0.98');
+		if (isDebugDeploy) {
+			grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
 		} else {
 			grunt.option('version', version);
 		}
 
-		if (version !== undefined) {
+		if (!isDebugDeploy) {
 			//  Linting is a bit annoying for test. Just ensure lint validation passes for production.
 			grunt.task.run('lint');
 		}
@@ -215,7 +218,7 @@ module.exports = function (grunt) {
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
 		grunt.task.run('requirejs');
 		
-		if (version !== undefined) {
+		if (!isDebugDeploy) {
 			//  Leave the debug key in for testing, but it has to be removed for deployment to the web store
 			grunt.task.run('remove-key-from-manifest');
 		}
@@ -223,7 +226,7 @@ module.exports = function (grunt) {
 		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-src-folder', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
-		if (version !== undefined) {
+		if (!isDebugDeploy) {
 			grunt.task.run('compress-extension', 'update-manifest-version');
 		}
 
@@ -298,12 +301,12 @@ module.exports = function (grunt) {
 
 		grunt.file.delete('dist/build.txt');
 	});
-    
+	
 	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
-	    grunt.file.delete('src/beatportInject.css');
-	    grunt.file.delete('src/options.css');
-	    grunt.file.delete('src/youTubeInject.css');
-	    grunt.file.delete('src/foreground.css');
+		grunt.file.delete('src/beatportInject.css');
+		grunt.file.delete('src/options.css');
+		grunt.file.delete('src/youTubeInject.css');
+		grunt.file.delete('src/foreground.css');
 	});
 
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
@@ -370,15 +373,25 @@ module.exports = function (grunt) {
 	//	Remove debugging information from the manifest file
 	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
 
+		var isDebugDeploy = grunt.config.get('isDebugDeploy');
+		console.log("isDebugDeploy:", isDebugDeploy);
+
+		var replacements = [];
+
+		//  Don't remove this when testing debug deploy because server will throw CORS error
+		if (!isDebugDeploy) {
+			replacements.push({
+				//	Remove permissions that're only needed for debugging.
+				from: '"http://localhost:61975/Streamus/",',
+				to: ''
+			});
+		}
+
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
 				src: ['dist/manifest.json'],
 				overwrite: true,
-				replacements: [{
-					//	Remove permissions that're only needed for debugging.
-					from: '"http://localhost:61975/Streamus/",',
-					to: ''
-				}, {
+				replacements: replacements.concat([{
 					//  Transform inject javascript to reference uglified/concat versions for deployment.
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
 					to: '"js": ["js/inject/youTubeIFrameInject.js"]'
@@ -405,7 +418,7 @@ module.exports = function (grunt) {
 					//  Remove jquery.qtip.css because it has been combined into beatportInject.min.css for deployment.
 					from: '"css/jquery.qtip.css",',
 					to: ''
-				}]
+				}])
 			}
 		});
 
