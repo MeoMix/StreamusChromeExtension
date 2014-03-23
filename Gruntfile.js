@@ -260,10 +260,10 @@ module.exports = function (grunt) {
 	});
     
 	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
-		grunt.file.delete('src/beatportInject.css');
-		grunt.file.delete('src/options.css');
-		grunt.file.delete('src/youTubeInject.css');
-		grunt.file.delete('src/foreground.css');
+		grunt.file.delete('src/css/beatportInject.css');
+		grunt.file.delete('src/css/options.css');
+		grunt.file.delete('src/css/youTubeInject.css');
+		grunt.file.delete('src/css/foreground.css');
 	});
 
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
