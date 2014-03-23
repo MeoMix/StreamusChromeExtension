@@ -191,3 +191,9 @@ pip-log.txt
 # Grunt/Jasmine
 .grunt
 _SpecRunner.html
+
+# build output
+src/css/beatportInject.css
+src/css/foreground.css
+src/css/options.css
+src/css/youTubeInject.css
