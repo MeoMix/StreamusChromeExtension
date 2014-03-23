@@ -29,7 +29,7 @@ Installation
 1. Navigate to the page: chrome://extensions
 2. Check the checkbox 'Developer mode.' This will introduce several new buttons to the chrome://extensions page
 3. Click the button 'Load unpacked extension...'
-4. Select the StreamusChromeExtension directory, click OK.
+4. Select the src/ directory inside your StreamusChromeExtension clone, click OK.
 5. The extension should now be loaded and ready to be interacted upon.
 
 * NOTE: StreamusChromeExtension is dependent on a server. If you wish to debug without a local server instance you will need to set the property 'localDebug' to false. To do so, navigate to: 'StreamusChromeExtension/js/background/model/settings.js"

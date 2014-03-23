@@ -30,8 +30,10 @@
             'lodash': 'thirdParty/lodash',
             'microplugin': 'thirdParty/microplugin',
             'selectize': 'thirdParty/selectize',
+            'settings': 'background/model/settings',
             'sifter': 'thirdParty/sifter',
             'text': 'thirdParty/text'
+
         },
 
         shim: {
