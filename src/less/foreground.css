@@ -26,15 +26,19 @@ body > .spinner {
   z-index: 1;
   display: none;
 }
-body.loading > *:not(.spinner):not(.reloadStreamusPrompt) {
+body.loading > *:not(.spinner):not(.reload-streamus-prompt) {
   opacity: .2;
 }
 body.loading > .spinner {
   display: block;
 }
+body.showTooltips .qtip {
+  display: block;
+}
 body .qtip {
   min-width: 0;
   cursor: default;
+  display: none;
 }
 body .qtip-light {
   border-color: #ebebeb;
@@ -130,29 +134,29 @@ body .qtip-light {
 .prompt .panel .content {
   padding: 10px;
 }
-.prompt.settingsPrompt .panel {
+.prompt.settings-prompt .panel {
   margin-left: -140px;
   width: 280px;
   height: 250px;
 }
-.prompt.createPlaylistPrompt .panel {
+.prompt.create-playlist-prompt .panel {
   height: 180px;
   width: 330px;
   margin-left: -165px;
 }
-.prompt.clearStreamPrompt .panel {
+.prompt.clear-stream-prompt .panel {
   width: 300px;
   margin-left: -150px;
 }
-.prompt.editPlaylistPrompt .panel {
+.prompt.edit-playlist-prompt .panel {
   width: 330px;
   margin-left: -165px;
 }
-.prompt.deletePlaylistPrompt .panel {
+.prompt.delete-playlist-prompt .panel {
   width: 400px;
   margin-left: -200px;
 }
-.prompt.saveSelectedPrompt .panel {
+.prompt.save-selected-prompt .panel {
   width: 370px;
   margin-left: -185px;
 }
@@ -174,6 +178,7 @@ body .qtip-light {
 .panel {
   background: #ffffff;
 }
+/* TODO: Move the clear code into a separate import */
 input:focus,
 button:focus {
   outline: none;
@@ -281,12 +286,13 @@ select {
 a {
   cursor: pointer;
 }
-span.videoTitle {
-  font-size: 14px;
-  white-space: nowrap;
-  cursor: default;
-  line-height: 1.5em;
-}
+/*** End clear code ***/
+/*span.videoTitle {
+    font-size: 14px;
+    white-space: nowrap;
+    cursor: default;
+    line-height: 1.5em;
+}*/
 .playlist-details {
   color: #666666;
   line-height: 1.5;
@@ -493,7 +499,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   overflow: hidden;
   text-overflow: ellipsis;
   transition: background-color 0.1s, border-color 0.1s;
-  /* Hide the placeholder when it is adjacent to a copyHelper because the placeholder shouldn't be able to be right next to
+  /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
 .list-item:hover {
@@ -584,7 +590,7 @@ body.playing .list-item.active.stream-item .hover-actions button {
   top: 0;
   left: 0;
 }
-.list-item .copyHelper + .sortable-placeholder {
+.list-item .copy-helper + .sortable-placeholder {
   display: none;
 }
 #playlists {
@@ -661,7 +667,7 @@ body.playing .list-item.active.stream-item .hover-actions button {
 .spinner {
   color: #4ea6ea;
 }
-.selectedModelsLength {
+.selected-models-length {
   width: 15px !important;
   height: 15px !important;
   padding: 2px;
@@ -679,8 +685,8 @@ input.invalid {
 input.valid {
   background-color: #b5dea3;
 }
-.createPlaylistPrompt input[type="text"],
-.editPlaylistPrompt input[type="text"] {
+.create-playlist-prompt input[type="text"],
+.edit-playlist-prompt input[type="text"] {
   z-index: 1;
   -webkit-appearance: none;
   border: 0;
@@ -689,10 +695,10 @@ input.valid {
   height: 24px;
   width: 300px;
 }
-.inputUnderlineWrapper {
+.input-underline-wrapper {
   display: inline-block;
 }
-.inputUnderlineWrapper .underline {
+.input-underline-wrapper .underline {
   margin-left: -1px;
 }
 .underline {
@@ -718,14 +724,14 @@ input:focus ~ .underline {
 #active-playlist-items .sortable-placeholder {
   /* Don't allow duplicates to be dropped into playlist items */
 }
-#active-playlist-items .sortable-placeholder.notSignedIn {
+#active-playlist-items .sortable-placeholder.not-signed-in {
   display: none;
 }
-#active-playlist-items .sortable-placeholder.noDrop {
+#active-playlist-items .sortable-placeholder.no-drop {
   background-color: #ffcccc;
   /* TODO: I18N Clean this up a bit. Need to do i18n for it */
 }
-#active-playlist-items .sortable-placeholder.noDrop:after {
+#active-playlist-items .sortable-placeholder.no-drop:after {
   content: 'Duplicates not allowed';
 }
 .search-bar {
@@ -1075,11 +1081,7 @@ html .selectize-control.multi .selectize-input.full > input {
   background-color: #ebebeb;
   border-color: #ebebeb;
 }
-.sortable-placeholder.hiddenUntilChange {
-  display: none;
-}
-/* Display: none; on placeholders that get swapped out for actual views. */
-.view-placeholder {
+.sortable-placeholder.hidden-until-change {
   display: none;
 }
 .clickable {

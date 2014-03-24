@@ -42,7 +42,7 @@
                     threshold: 250
                 });
 
-                view.applyTooltips();
+                view.setTitleTooltip(view.ui.title);
             }
         },
 

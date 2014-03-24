@@ -57,10 +57,17 @@ body {
         display: block;
     }
 
+    &.showTooltips {
+        .qtip {
+            display: block;
+        }
+    }
+
     /* qtip overrides: */
     .qtip {
         min-width: 0;
         cursor: default;
+        display: none;
     }
 
     .qtip-light {

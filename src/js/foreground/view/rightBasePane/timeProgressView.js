@@ -25,8 +25,9 @@ define([
         ui: {
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
-            enabledTimeRange: 'input.time-range:not(.disabled)',
-            timeRange: 'input.time-range',
+            //  TODO: This seems weird.
+            enabledTimeRange: '.time-range:not(.disabled)',
+            timeRange: '.time-range',
             timeElapsedLabel: '.time-elapsed',
             durationLabel: '.duration'
         },
@@ -36,6 +37,11 @@ define([
         templateHelpers: {
             elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
             totalTimeMessage: chrome.i18n.getMessage('totalTime')
+        },
+        
+        onShow: function() {
+            this.ui.timeElapsedLabel.qtip();
+            this.ui.durationLabel.qtip();
         },
 
         onRender: function () {

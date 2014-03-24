@@ -49,7 +49,17 @@
         showReloadPromptTimeout: null,
 
         initialize: function () {
+            
+            $.extend($.fn.qtip.defaults.position, {
+                viewport: $(window),
+                my: 'top center',
+                at: 'bottom center'
+            });
 
+            $.extend($.fn.qtip.defaults.style, {
+                classes: 'qtip-light qtip-shadow'
+            });
+            
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');
@@ -93,6 +103,9 @@
                 this.showVideoSearch(false);
             }
 
+            this.listenTo(Settings, 'change:showTooltips', this.setShowTooltipsClass);
+            this.setShowTooltipsClass();
+
             this.listenTo(Player, 'error', this.showYouTubeError);
             this.listenTo(Player, 'change:state', this.setPlayerStateClass);
             this.setPlayerStateClass();
@@ -124,6 +137,10 @@
             if (User.canSignIn()) {
                 User.signIn();
             }
+        },
+        
+        setShowTooltipsClass: function() {
+            this.$el.toggleClass('show-tooltips', Settings.get('showTooltips'));
         },
 
         //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
@@ -191,6 +208,8 @@
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
                 var playlistsArea = new PlaylistsArea();
+
+                console.log("PlaylistsAreaView is being created", playlistsArea);
 
                 //  Show the view using VideoSearchResults collection in which to render its results from.
                 this.leftCoveringPaneRegion.show(new PlaylistsAreaView({

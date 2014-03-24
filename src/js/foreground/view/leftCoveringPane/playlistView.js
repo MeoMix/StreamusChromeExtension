@@ -3,13 +3,14 @@
     'background/collection/streamItems',
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
+    'foreground/view/mixin/titleTooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (Playlists, StreamItems, ListItemType, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (Playlists, StreamItems, ListItemType, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
-    var PlaylistView = Backbone.Marionette.ItemView.extend({
+    var PlaylistView = Backbone.Marionette.ItemView.extend(_.extend({}, TitleTooltip, {
         tagName: 'li',
 
         className: 'list-item playlist',
@@ -39,15 +40,13 @@
         
         ui: {
             itemCount: '.count',
-            editableTitle: 'input.editable-title',
+            editableTitle: '.editable-title',
             readonlyTitle: '.title'
         },
-        
-        onRender: function() {
+
+        onRender: function () {
             this.setLoadingClass();
             this.setActiveClass();
-            this.applyTooltips();
-            console.log("Events:", this.model._events);
         },
 
         initialize: function () {
@@ -56,7 +55,6 @@
         
         updateTitle: function () {
             this.ui.readonlyTitle.text(this.model.get('title'));
-            this.applyTooltips();
         },
 
         stopEditingOnInactive: function (model, active) {
@@ -184,7 +182,7 @@
             this.ui.readonlyTitle.show();
         }
 
-    });
+    }));
 
     return PlaylistView;
 });

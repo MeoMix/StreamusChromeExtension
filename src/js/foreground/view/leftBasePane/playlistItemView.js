@@ -5,11 +5,12 @@
     'foreground/view/addToStreamButtonView',
     'foreground/view/deleteButtonView',
     'foreground/view/playInStreamButtonView',
+    'foreground/view/mixin/titleTooltip',
     'text!template/playlistItem.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, PlayInStreamButtonView, PlaylistItemTemplate) {
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, PlayInStreamButtonView, TitleTooltip, PlaylistItemTemplate) {
     'use strict';
 
-    var PlaylistItemView = Backbone.Marionette.Layout.extend({
+    var PlaylistItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
         
         className: 'list-item playlist-item multi-select-item',
         
@@ -43,7 +44,8 @@
         },
         
         ui: {
-            imageThumbnail: 'img.item-thumb'
+            imageThumbnail: 'img.item-thumb',
+            title: '.item-title'
         },
         
         regions: {
@@ -124,7 +126,7 @@
 
         }
 
-    });
+    }));
 
     return PlaylistItemView;
 });

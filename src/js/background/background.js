@@ -46,7 +46,7 @@ define([
     window.unbindViewEvents = function (foregroundViewType) {
 
         var collectionsToUnbind = [StreamItems, VideoSearchResults, Playlists];
-        var allToUnbind = [Player, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton];
+        var allToUnbind = [Player, User, Settings, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton];
 
         _.each(collectionsToUnbind, function(collectionToUnbind) {
             allToUnbind.push(collectionToUnbind);

@@ -21,6 +21,7 @@
 
         onRender: function () {
             this.setState();
+            this.$el.qtip();
         },
 
         setState: function () {

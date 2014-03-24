@@ -1,9 +1,4 @@
-﻿//  TODO: This file kind of feels like an anti-pattern.
-//  TODO: I need to ask for backbone/lodash because viewExtensions loads Settings.
-define([
-    'backbone',
-    'lodash'
-], function () {
+﻿define(function () {
     'use strict';
     
     //  If the foreground requests, don't instantiate -- return existing from the background.

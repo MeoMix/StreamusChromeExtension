@@ -5,11 +5,12 @@
     'foreground/view/addToStreamButtonView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
+    'foreground/view/mixin/titleTooltip',
     'text!template/videoSearchResult.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, PlayInStreamButtonView, SaveToPlaylistButtonView, VideoSearchResultTemplate) {
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, PlayInStreamButtonView, SaveToPlaylistButtonView, TitleTooltip, VideoSearchResultTemplate) {
     'use strict';
 
-    var VideoSearchResultView = Backbone.Marionette.Layout.extend({
+    var VideoSearchResultView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
         
         className: 'list-item video-search-result multi-select-item',
 
@@ -40,7 +41,8 @@
         },
         
         ui: {
-            imageThumbnail: 'img.item-thumb'
+            imageThumbnail: 'img.item-thumb',
+            title: '.item-title'
         },
         
         regions: {
@@ -48,7 +50,7 @@
             addToStreamRegion: '.add-to-stream-region',
             saveToPlaylistRegion: '.save-to-playlist-region'
         },
-      
+        
         onRender: function () {
             this.playInStreamRegion.show(new PlayInStreamButtonView({
                 model: this.model.get('video')
@@ -119,7 +121,7 @@
             );
 
         }
-    });
+    }));
 
     return VideoSearchResultView;
 });

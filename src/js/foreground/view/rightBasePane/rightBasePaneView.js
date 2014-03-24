@@ -53,8 +53,6 @@ define([
             this.volume.show(new VolumeView({
                 model: this.model
             }));
-            
-            this.applyTooltips();
         },
 
         onRender: function () {

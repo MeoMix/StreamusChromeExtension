@@ -40,8 +40,6 @@
                 top: offsetTop,
                 left: offsetLeft
             });
-            
-            this.applyTooltips();
         }
     });
 

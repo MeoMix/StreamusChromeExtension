@@ -20,14 +20,17 @@
         template: _.template(PlaylistsAreaTemplate),
         itemView: PlaylistView,
         itemViewContainer: '#playlists',
+        
+        //  TODO: This isn't DRY with MultiSelectCompositeView, but you can't select multiple Playlists, sooo..
+        isFullyVisible: false,
 
         events: {
             'click': 'hideIfClickOutsidePanel',
-            'click .hide': 'hide',
+            'click @ui.hideButton': 'hide',
             'click h3': 'togglePlaylistsVisibility',
             'click @ui.settingsButton': 'showSettingsPrompt',
-            'click .add': 'showCreatePlaylistPrompt',
-            'click .edit': 'showEditSelectedPlaylistPrompt',
+            'click @ui.addButton': 'showCreatePlaylistPrompt',
+            'click @ui.editButton': 'showEditSelectedPlaylistPrompt',
             'click @ui.enabledDeleteButton': 'showDeleteSelectedPlaylistPrompt'
         },
         
@@ -36,6 +39,10 @@
             playlists: '#playlists',
             contextButtons: '.context-buttons',
             deleteButton: '#delete-playlist-button',
+            addButton: '.add',
+            hideButton: '.hide',
+            editButton: '.edit',
+            //  TODO: This seems weird.
             enabledDeleteButton: '#delete-playlist-button:not(.disabled)',
             settingsButton: '#settings-button'
         },
@@ -94,7 +101,15 @@
             chrome.extension.getBackgroundPage().console.log("playlistsAreaView closing");
         },
         
+        onAfterItemAdded: function (view) {
+            if (this.isFullyVisible) {
+                view.setTitleTooltip(view.ui.readonlyTitle);
+            }
+        },
+        
         onShow: function () {
+            console.log("PlaylistsAreaView onShow is firing");
+
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
@@ -102,8 +117,21 @@
             
             this.ui.panel.transition({
                 x: this.ui.panel.width()
-            }, 300, 'snap', function() {
-                this.applyTooltips();
+            }, 300, 'snap', function () {
+
+                //  TODO: Way too explicit.
+                this.ui.hideButton.qtip();
+                this.ui.settingsButton.qtip();
+                this.ui.deleteButton.qtip();
+                this.ui.addButton.qtip();
+                this.ui.editButton.qtip();
+                
+                this.children.each(function (child) {
+                    child.setTitleTooltip(child.ui.readonlyTitle);
+                });
+                
+                this.isFullyVisible = true;
+
             }.bind(this));
         },
         

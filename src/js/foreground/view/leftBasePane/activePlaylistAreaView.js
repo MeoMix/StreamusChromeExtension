@@ -30,12 +30,14 @@
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
             itemContainer: '#active-playlist-items',
-            bigTextWrapper: '.big-text-wrapper'
+            bigTextWrapper: '.big-text-wrapper',
+            playAll: '.play-all',
+            addAll: '.add-all'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
-            'click button.add-all': 'addAllToStream',
-            'click button.play-all': 'playAllInStream'
+            'click @ui.addAll': 'addAllToStream',
+            'click @ui.playAll': 'playAllInStream'
         }),
         
         modelEvents: {
@@ -54,7 +56,14 @@
 
         onShow: function () {
             this.onFullyVisible();
-            this.applyTooltips();
+            
+            this.ui.playlistDetails.qtip();
+            this.ui.addAll.qtip();
+            this.ui.playAll.qtip();
+            
+            this.children.each(function (child) {
+                child.setTitleTooltip(child.ui.title);
+            });
         },
 
         onRender: function () {            
@@ -69,17 +78,9 @@
 
             this.ui.playlistDetails.text(displayInfo);
             
-            try {
-                //  TODO: Is there a way to use a mutationObserver to monitor text so that content.text will update automatically?
-                //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
-                var qtipApi = this.ui.playlistDetails.qtip('api');
-
-                //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
-                qtipApi.render();
-                qtipApi.set('content.text', displayInfo);
-            } catch(exception) {
-                console.error("Just caught qtip exception", exception);
-            }
+            //  Be sure to call render first or else setting content.text won't actually update it.
+            this.ui.playlistDetails.qtip('render');
+            this.ui.playlistDetails.qtip('option', 'content.text', displayInfo);
         },
        
         //  Set the visibility of any visible text messages.

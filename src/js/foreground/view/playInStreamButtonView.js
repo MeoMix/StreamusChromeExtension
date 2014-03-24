@@ -20,6 +20,10 @@
             'dblclick': 'playInStream'
         },
         
+        initialize: function() {
+            this.$el.qtip();
+        },
+        
         playInStream: _.debounce(function () {
 
             var streamItem = StreamItems.getByVideo(this.model);

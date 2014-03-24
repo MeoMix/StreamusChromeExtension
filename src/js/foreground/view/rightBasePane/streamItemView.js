@@ -1,6 +1,7 @@
 ﻿define([
     'background/collection/playlists',
     'background/collection/streamItems',
+    'background/model/player',
     'background/model/user',
     'background/model/buttons/playPauseButton',
     'common/enum/listItemType',
@@ -9,13 +10,12 @@
     'foreground/view/deleteButtonView',
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
-    'text!template/streamItem.html',
-    'background/model/player',
-    'common/enum/playerState',
-], function (Playlists, StreamItems, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate, Player, PlayerState) {
+    'foreground/view/mixin/titleTooltip',
+    'text!template/streamItem.html'
+], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, TitleTooltip, StreamItemTemplate) {
     'use strict';
 
-    var StreamItemView = Backbone.Marionette.Layout.extend({
+    var StreamItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
 
         className: 'list-item stream-item multi-select-item',
 
@@ -48,9 +48,11 @@
             'change:selected': 'setSelectedClass',
             'destroy': 'remove'
         },
-
+        
+        //  TODO: Make a ListItem view
         ui: {
-            imageThumbnail: 'img.item-thumb'
+            imageThumbnail: 'img.item-thumb',
+            title: '.item-title'
         },
 
         regions: {
@@ -65,8 +67,6 @@
                 //  Pass 0 into scrollIntoView to have no animation/show instantly.
                 this.$el.scrollIntoView(0);
             }
-
-            this.applyTooltips();
         },
 
         onRender: function () {
@@ -179,24 +179,23 @@
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
-                        if( Player.get('state') === PlayerState.Playing )
-                        {
-                            Player.pause();
-                        }
+     
                         var url = self.model.get('video').get('url');
-                        if ( Player.get('loadedVideoId') ===  self.model.get('video').get('id') )
-                        {
+                        if (Player.get('loadedVideoId') ===  self.model.get('video').get('id') ){
                             url += '?t=' + Player.get('currentTime') + 's';
                         }
+                        
                         chrome.tabs.create({
                             url:  url
                         });
+
+                        Player.pause();
                       }
                   }]
             );
 
         }
-    });
+    }));
 
     return StreamItemView;
 });

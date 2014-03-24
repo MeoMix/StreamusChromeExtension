@@ -79,7 +79,9 @@
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
 
             this.on('composite:collection:rendered', function () {
-                this.applyTooltips();
+                this.children.each(function (child) {
+                    child.setTitleTooltip(child.ui.title);
+                });
             });
         },
         
@@ -96,7 +98,15 @@
                 x: this.$el.width()
             }, transitionDuration, 'snap', function() {
                 this.onFullyVisible();
-                this.applyTooltips();
+                
+                this.children.each(function (child) {
+                    child.setTitleTooltip(child.ui.title);
+                });
+
+                this.ui.hideVideoSearchButton.qtip();
+                this.ui.playSelectedButton.qtip();
+                this.ui.addSelectedButton.qtip();
+                this.ui.saveSelectedButton.qtip();
             }.bind(this));
         },
 

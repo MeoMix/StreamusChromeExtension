@@ -44,7 +44,9 @@
         
         onShow: function () {
             this.updateRegions();
-            this.applyTooltips();
+
+            this.ui.showVideoSearch.qtip();
+            this.ui.showPlaylistsArea.qtip();
         },
         
         initialize: function () {
@@ -57,7 +59,7 @@
             if (User.get('signedIn')) {
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();
-
+                
                 this.contentRegion.show(new ActivePlaylistAreaView({
                     model: activePlaylist,
                     collection: activePlaylist.get('items')

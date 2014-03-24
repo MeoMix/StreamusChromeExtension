@@ -10,10 +10,20 @@
         tagName: 'button',
         className: 'button-icon colored',
         template: _.template(SaveToPlaylistButtonTemplate),
+        
+        attributes: {
+            title: chrome.i18n.getMessage('cantSaveNotSignedIn')
+        },
 
         events: {
             'click': 'saveToPlaylist',
             'dblclick': 'saveToPlaylist'
+        },
+        
+        onShow: function () {
+            //  Be sure to call render first or else setting content.text won't actually update it.
+            this.$el.qtip('render');
+            this.$el.qtip('option', 'content.text', this.$el.attr('title'));
         },
         
         onRender: function() {
@@ -22,6 +32,7 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
+            this.$el.qtip();
         },
 
         saveToPlaylist: _.debounce(function () {
@@ -43,7 +54,6 @@
             var signedIn = User.get('signedIn');
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
-
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
         }
 

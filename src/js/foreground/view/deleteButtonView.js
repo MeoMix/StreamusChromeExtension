@@ -17,13 +17,13 @@
             'click': 'doDelete'
         },
         
+        initialize: function () {
+            this.$el.qtip();
+        },
+        
         doDelete: function () {
             //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
-            try {
-                this.$el.qtip('api').destroy(true);
-            } catch(exception) {
-                console.error("I just caught a qtip API exception:", this.$el.qtip);
-            }
+            this.$el.qtip('api').destroy(true);
             
             this.model.destroy();
 

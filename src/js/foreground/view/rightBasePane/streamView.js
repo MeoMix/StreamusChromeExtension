@@ -74,11 +74,17 @@
         
         onShow: function () {
             this.onFullyVisible();
+            
+            //  TODO: Kinda too explicit
+            this.ui.saveStreamButton.qtip();
+            this.ui.shuffleButton.qtip();
+            this.ui.radioButton.qtip();
+            this.ui.repeatButton.qtip();
+            this.ui.clearStreamButton.qtip();
 
-            console.log("onShow is running. calling applyTooltips");
-            //  Gotta do this in onShow to ensure tooltips can initialize properly.
-            this.applyTooltips();
-            this.updateSaveStreamButton();
+            this.children.each(function(child) {
+                child.setTitleTooltip(child.ui.title);
+            });
         },
         
         onRender: function () {
@@ -88,6 +94,7 @@
             this.setRepeatButtonState();
             this.setShuffleButtonState();
             this.setRadioButtonState();
+            this.updateSaveStreamButton();
             
             if (this.collection.length > 0) {
                 this.$el.find('.list-item.active').scrollIntoView(false);
@@ -112,21 +119,10 @@
 
             this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
             this.ui.saveStreamButton.attr('title', newTitle);
-
-            console.log("This.ui.saveStreamButton:", this.ui.saveStreamButton);
             
-            try {
-                //  Ensure that the qtip element is rendered before attempting to change its title else its title won't update.
-                var qtipApi = this.ui.saveStreamButton.qtip('api');
-
-                //  TODO: I pinged the qtip developer indicating I thought this was a bug. Hopefully can get it patched.
-                qtipApi.render();
-                qtipApi.set('content.text', newTitle);
-            } catch (exception) {
-                console.error("Just caught qtip exception", exception);
-            }
-
-
+            //  Be sure to call render first or else setting content.text won't actually update it.
+            this.ui.saveStreamButton.qtip('render');
+            this.ui.saveStreamButton.qtip('option', 'content.text', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection

@@ -18,6 +18,10 @@
             'click': 'addToStream',
             'dblclick': 'addToStream'
         },
+
+        initialize: function () {
+            this.$el.qtip();
+        },
         
         addToStream: _.debounce(function () {
             StreamItems.addByVideo(this.model, false);
