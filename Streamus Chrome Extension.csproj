@@ -138,8 +138,8 @@
     <Content Include="src\js\foreground\model\videoSearch.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
-    <Content Include="src\js\foreground\view\backbone.marionette.viewExtensions.js" />
     <Content Include="src\js\foreground\view\addToStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\mixin\titleTooltip.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\deleteButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\updateStreamusPromptView.js" />
