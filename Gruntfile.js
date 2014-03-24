@@ -212,7 +212,7 @@ module.exports = function (grunt) {
 
 		if (!isDebugDeploy) {
 			//  Linting is a bit annoying for test. Just ensure lint validation passes for production.
-			grunt.task.run('lint');
+			grunt.task.run('lint', 'update-dist-manifest-version');
 		}
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
@@ -227,7 +227,7 @@ module.exports = function (grunt) {
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
-			grunt.task.run('compress-extension', 'update-manifest-version');
+			grunt.task.run('compress-extension', 'update-src-manifest-version');
 		}
 
 	});
@@ -243,8 +243,23 @@ module.exports = function (grunt) {
 		grunt.task.run('concat');
 	});
 	
-	//	Update the manifest file's version number first -- new version is being distributed and it is good to keep files all in sync.
-	grunt.registerTask('update-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
+	//	Update the manifest file's version number -- new version is being distributed and it is good to keep files all in sync.
+	grunt.registerTask('update-dist-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
+		grunt.config.set('replace', {
+			updateManifestVersion: {
+				src: ['dist/manifest.json'],
+				overwrite: true,
+				replacements: [{
+					from: /"version": "\d{0,3}.\d{0,3}"/,
+					to: '"version": "' + grunt.option('version') + '"'
+				}]
+			}
+		});
+		grunt.task.run('replace');
+	});
+	
+	//	Update the manifest file's version number -- new version is being distributed and it is good to keep files all in sync.
+	grunt.registerTask('update-src-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
 		grunt.config.set('replace', {
 			updateManifestVersion: {
 				src: ['src/manifest.json'],
