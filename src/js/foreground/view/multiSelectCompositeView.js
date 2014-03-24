@@ -66,6 +66,8 @@
 
                 helper: function (ui, listItem) {
 
+                    console.log("listItem:", listItem);
+
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
@@ -169,6 +171,8 @@
                         opacity: '1'
                     });
 
+                    console.log("Setting copy helper to null", this, this.copyHelper);
+
                     this.copyHelper = null;
                     this.backCopyHelper = null;
                     this.selectedItems = null;
@@ -182,11 +186,10 @@
 
                 tolerance: 'pointer',
                 receive: function (event, ui) {
-                    
-                    //  TODO: I don't get when this would be used.
-                    //  Don't allow receiving until collection is given because there shouldn't be anything to drop onto
+
+                    //  Don't allow receiving until collection is given because there shouldn't be anything to drop onto.
+                    //  Useful when dragging from Stream to Playlist before user has signed in.
                     if (_.isUndefined(self.collection)) {
-                        console.log("collection is undefined, wow!");
                         ui.item.remove();
                         //  Set copied to true so that the item stays where it is.
                         ui.sender.data('copied', true);
@@ -194,8 +197,6 @@
                     }
 
                     var listItemType = ui.item.data('type');
-
-                    console.log("Receive is firing!");
 
                     if (listItemType === ListItemType.StreamItem) {
                         
@@ -206,7 +207,8 @@
                             return streamItem.get('video');
                         });
 
-
+                        //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
+                        ui.sender[0].copyHelper.replaceWith(ui.item);
 
                         //var streamItemId = ui.item.data('id');
                         //var draggedStreamItem = StreamItems.get(streamItemId);
@@ -223,10 +225,7 @@
                         //else {
 
                         //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addByVideosStartingAtIndex(videos, ui.item.index(), function () {
-                                //  Remove item because it's a stream item and I've just added a playlist item at that index.
-                                ui.item.remove();
-                            });
+                            self.model.addByVideosStartingAtIndex(videos, ui.item.index());
 
                             //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
                             //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
