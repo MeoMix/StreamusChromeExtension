@@ -8,28 +8,18 @@
     'common/model/utility',
     'foreground/collection/contextMenuItems',
     'foreground/view/deleteButtonView',
+    'foreground/view/multiSelectListItemView',
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
-    'foreground/view/mixin/titleTooltip',
     'text!template/streamItem.html'
-], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, SaveToPlaylistButtonView, PlayInStreamButtonView, TitleTooltip, StreamItemTemplate) {
+], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate) {
     'use strict';
 
-    var StreamItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
+    var StreamItemView = MultiSelectListItemView.extend({
 
-        className: 'list-item stream-item multi-select-item',
+        className: MultiSelectListItemView.prototype.className + ' stream-item',
 
         template: _.template(StreamItemTemplate),
-
-        templateHelpers: function () {
-            return {
-                hdMessage: chrome.i18n.getMessage('hd'),
-                playMessage: chrome.i18n.getMessage('play'),
-                instant: this.instant
-            };
-        },
-
-        instant: false,
 
         attributes: function () {
             return {
@@ -37,23 +27,14 @@
                 'data-type': ListItemType.StreamItem
             };
         },
-
-        events: {
-            'contextmenu': 'showContextMenu',
-            'dblclick': 'activateOrToggleState'
-        },
-
-        modelEvents: {
-            'change:active': 'setActiveClass',
-            'change:selected': 'setSelectedClass',
-            'destroy': 'remove'
-        },
         
-        //  TODO: Make a ListItem view
-        ui: {
-            imageThumbnail: 'img.item-thumb',
-            title: '.item-title'
-        },
+        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+            'dblclick': 'activateOrToggleState'
+        }),
+        
+        modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
+            'change:active': 'setActiveClass'
+        }),
 
         regions: {
             deleteRegion: '.delete-region',
@@ -86,10 +67,6 @@
             }));
         },
 
-        initialize: function (options) {
-            this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-        },
-
         activateOrToggleState: function () {
             if (!this.model.get('active')) {
                 this.model.set('active', true);
@@ -107,11 +84,6 @@
             if (active) {
                 this.$el.scrollIntoView();
             }
-        },
-
-        //  TODO: Maybe keep DRY with video search results and playlist items by introducing a "Selectable" list item view.
-        setSelectedClass: function () {
-            this.$el.toggleClass('selected', this.model.get('selected'));
         },
 
         showContextMenu: function (event) {
@@ -195,7 +167,7 @@
             );
 
         }
-    }));
+    });
 
     return StreamItemView;
 });

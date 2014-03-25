@@ -3,25 +3,18 @@
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/view/addToStreamButtonView',
+    'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
-    'foreground/view/mixin/titleTooltip',
     'text!template/videoSearchResult.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, PlayInStreamButtonView, SaveToPlaylistButtonView, TitleTooltip, VideoSearchResultTemplate) {
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, VideoSearchResultTemplate) {
     'use strict';
 
-    var VideoSearchResultView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
+    var VideoSearchResultView = MultiSelectListItemView.extend({
         
-        className: 'list-item video-search-result multi-select-item',
+        className: MultiSelectListItemView.prototype.className + ' video-search-result',
 
         template: _.template(VideoSearchResultTemplate),
-        
-        templateHelpers: function () {
-            return {
-                hdMessage: chrome.i18n.getMessage('hd'),
-                instant: this.instant
-            };
-        },
 
         attributes: function () {
             return {
@@ -30,21 +23,10 @@
             };
         },
         
-        events: {
-            'contextmenu': 'showContextMenu',
-            'dblclick': 'playInStream',
-        },
-        
-        modelEvents: {
-            'change:selected': 'setHighlight',
-            'destroy': 'remove'
-        },
-        
-        ui: {
-            imageThumbnail: 'img.item-thumb',
-            title: '.item-title'
-        },
-        
+        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+            'dblclick': 'playInStream'
+        }),
+
         regions: {
             playInStreamRegion: '.play-in-stream-region',
             addToStreamRegion: '.add-to-stream-region',
@@ -64,15 +46,7 @@
                 model: this.model.get('video')
             }));
 
-            this.setHighlight();
-        },
-        
-        initialize: function (options) {
-            this.instant = options && options.instant !== undefined ? options.instant : this.instant;
-        },
-        
-        setHighlight: function () {
-            this.$el.toggleClass('selected', this.model.get('selected'));
+            this.setSelectedClass();
         },
         
         playInStream: function () {
@@ -121,7 +95,7 @@
             );
 
         }
-    }));
+    });
 
     return VideoSearchResultView;
 });
