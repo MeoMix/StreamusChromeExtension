@@ -5,21 +5,21 @@
 
     var MultiSelectListItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
         className: 'list-item multi-select-item',
-        
+
         ui: {
             imageThumbnail: '.item-thumb',
             title: '.item-title'
         },
-        
+
         events: {
             'contextmenu': 'showContextMenu'
         },
-        
+
         modelEvents: {
             'change:selected': 'setSelectedClass',
             'destroy': 'remove'
         },
-        
+
         //  Usually lazy-load images, but if a option is given -- allow for instant loading.
         instant: false,
 
@@ -31,12 +31,12 @@
                 instant: this.instant
             };
         },
-        
+
         initialize: function (options) {
             this.instant = options && !_.isUndefined(options.instant) ? options.instant : this.instant;
             console.log("This.instant:", this.instant);
         },
-        
+
         setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
         }
@@ -44,4 +44,4 @@
     }));
 
     return MultiSelectListItemView;
-})
+});

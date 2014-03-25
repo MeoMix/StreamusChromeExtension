@@ -24,7 +24,7 @@
         
         onRender: function () {
             //  Add specific content to the generic dialog's interior
-            this.ui.content.append(this.model.get('view').render().el);;
+            this.ui.content.append(this.model.get('view').render().el);
         },
         
         initialize: function () {
