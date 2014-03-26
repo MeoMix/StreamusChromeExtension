@@ -95,7 +95,7 @@
 	"repeatDisabled": {
 		"message": "Ponavljanje onemogočeno"
 	},
-	"repeatVideo": {
+	"repeatSong": {
 		"message": "Ponovi posnetek"
 	},
 	"repeatStream": {
@@ -333,10 +333,10 @@
 	"showTooltips": {
 		"message": "Pokaži nasvete"
 	},
-	"showVideoSearch": {
+	"showSearch": {
 		"message": "Pokaži iskanje posnetkov"
 	},
-	"hideVideoSearch": {
+	"hideSearch": {
 		"message": "Skrij iskanje posnetkov"
 	},
 	"closeMenu": {

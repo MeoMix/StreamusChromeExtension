@@ -48,8 +48,8 @@
             return secondsDuration;
         },
 
-        //  Cleanse method inspired by the Chrome Last.fm Scrobbler extensionby David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
-        cleanseVideoTitle: function (title) {
+        //  Inspired by the Chrome Last.fm Scrobbler extension by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
+        cleanTitle: function (title) {
 
             title = $.trim(title);
             title = title.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**

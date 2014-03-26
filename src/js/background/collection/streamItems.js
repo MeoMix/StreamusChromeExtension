@@ -2,7 +2,7 @@
     'background/collection/multiSelectCollection',
     'background/notifications',
     'background/model/streamItem',
-    'background/model/video',
+    'background/model/source',
     'background/model/player',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/radioButton',
@@ -11,7 +11,7 @@
     'common/enum/playerState',
     'common/model/utility',
     'common/model/youTubeV2API'
-], function (MultiSelectCollection, Notifications, StreamItem, Video, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
+], function (MultiSelectCollection, Notifications, StreamItem, Source, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
     
     //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
@@ -26,7 +26,7 @@
             //  TODO: Probably make a stream model instead of extending streamItems
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
             _.extend(this, { history: [] });
-            _.extend(this, { bannedVideoIdList: [] });
+            _.extend(this, { bannedSourceIdList: [] });
 
             var self = this;
 
@@ -48,16 +48,16 @@
                 if (active) {
                     this.deactivateAllExcept(changedStreamItem);
 
-                    var videoId = changedStreamItem.get('video').get('id');
+                    var sourceId = changedStreamItem.get('source').get('id');
 
                     //  Maintain the state of the player by playing or cueuing based on current player state.
                     var playerState = Player.get('state');
 
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
                     if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                        Player.loadVideoById(videoId);
+                        Player.loadVideoById(sourceId);
                     } else {
-                        Player.cueVideoById(videoId);
+                        Player.cueVideoById(sourceId);
                     }
                     
                     this.history.unshift(changedStreamItem);
@@ -118,7 +118,7 @@
                 
                 switch (request.method) {
                     case 'searchAndStreamByQuery':
-                        self.searchAndAddByName(request.query, true);
+                        self.searchAndAddByTitle(request.query, true);
                     break;
 
                     case 'searchAndStreamByQueries':
@@ -128,17 +128,17 @@
                             
                             var query = queries.shift();
 
-                            var recursiveShiftVideoTitleAndAdd = function () {
+                            var recursiveShiftTitleAndAdd = function () {
                                 
                                 if (queries.length > 0) {
                                     query = queries.shift();
-                                    self.searchAndAddByName(query, false, recursiveShiftVideoTitleAndAdd);
+                                    self.searchAndAddByTitle(query, false, recursiveShiftTitleAndAdd);
                                 }
                                 
                             };
 
-                            self.searchAndAddByName(query, true, function () {
-                                recursiveShiftVideoTitleAndAdd();
+                            self.searchAndAddByTitle(query, true, function () {
+                                recursiveShiftTitleAndAdd();
                             });
                             
                         }
@@ -151,24 +151,22 @@
 
         },
         
-        searchAndAddByName: function(videoTitle, playOnAdd, callback) {
+        searchAndAddByTitle: function(title, playOnAdd, callback) {
             var self = this;
             
             YouTubeV2API.search({
-                text: videoTitle,
+                text: title,
                 maxResults: 10,
                 success: function (videoInformationList) {
 
                     if (videoInformationList.length === 0) {
-                        console.error("Failed to find any videos for:", videoTitle);
+                        console.error("Failed to find any videos for:", title);
                     } else {
 
-                        var video = new Video({
-                            videoInformation: videoInformationList[0]
-                        });
-                        
-                        self.addByVideo(video, !!playOnAdd);
+                        var source = new Source();
+                        source.setFromVideoInformation(videoInformationList[0]);
 
+                        self.addBySource(source, !!playOnAdd);
                     }
 
                     if (callback) {
@@ -186,8 +184,8 @@
             var message = '';
 
             if (!_.isUndefined(activeItem)) {
-                var activeVideoId = activeItem.get('video').get('id');
-                iconUrl = 'http://img.youtube.com/vi/' + activeVideoId + '/default.jpg';
+                var activeSourceId = activeItem.get('source').get('id');
+                iconUrl = 'http://img.youtube.com/vi/' + activeSourceId + '/default.jpg';
                 title = 'Now Playing';
                 message = activeItem.get('title');
             }
@@ -199,102 +197,33 @@
             });
         },
         
-        addByPlaylistItems: function (playlistItems, playOnAdd) {
+        addSources: function (sources, options) {
 
-            var videos = playlistItems.pluck('video');
+            if (!_.isArray(sources)) {
+                sources = [sources];
+            }
+
+            var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             
-            if (videos.length === 1) {
-                this.addByVideo(videos[0], playOnAdd);
-            } else {
-                this.addByVideos(videos, playOnAdd);
+            if (playOnAdd) {
+                Player.playOnceVideoChanges();
             }
             
-        },
-        
-        //  TODO: DRY!
-        addByDraggedVideoSearchResults: function(videoSearchResults, index) {
-
-            if (!_.isArray(videoSearchResults)) throw "Error";
-
             //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
-            var streamItems = _.map(videoSearchResults, function (videoSearchResult) {
+            var streamItems = _.map(sources, function (source, iterator) {
                 return {
-                    video: videoSearchResult.get('video'),
-                    title: videoSearchResult.get('video').get('title')
-                };
-            });
-
-            this.add(streamItems, {
-                at: index
-            });
-        },
-        
-        addByDraggedPlaylistItems: function(playlistItems, index) {
-            //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
-            if (!_.isArray(playlistItems)) throw "Error";
-
-            var streamItems = _.map(playlistItems, function (playlistItem) {
-                return {
-                    video: playlistItem.get('video'),
-                    title: playlistItem.get('title')
-                };
-            });
-
-            this.add(streamItems, {
-                at: index
-            });
-        },
-        
-        addByPlaylistItem: function(playlistItem, playOnAdd) {
-            if (playOnAdd) {
-                Player.playOnceVideoChanges();
-            }
-            
-            this.add({
-                video: playlistItem.get('video'),
-                title: playlistItem.get('title'),
-                //  Activate and play the first added item if playOnAdd is set to true
-                active: playOnAdd
-            });
-        },
-        
-        addByVideo: function (video, playOnAdd) {
-            
-            if (playOnAdd) {
-                Player.playOnceVideoChanges();
-            }
-            
-            this.add({
-                video: video,
-                title: video.get('title'),
-                //  Activate and play the first added item if playOnAdd is set to true
-                active: playOnAdd
-            });
-
-        },
-        
-        addByVideos: function (videos, playOnAdd) {
-            
-            if (!_.isArray(videos)) {
-                return this.addByVideo(videos, playOnAdd);
-            }
-
-            if (playOnAdd) {
-                Player.playOnceVideoChanges();
-            }
-            
-            var streamItems = _.map(videos, function (video, iterator) {
-
-                return new StreamItem({
-                    video: video,
-                    title: video.get('title'),
+                    source: source,
+                    title: source.get('title'),
+                    
                     //  Activate and play the first added item if playOnAdd is set to true
                     active: playOnAdd && iterator === 0
-                });
-                
+                };
             });
 
-            this.add(streamItems);
+            this.add(streamItems, {
+                //  TODO: I think this is the proper way of expressing this. Test!
+                at: _.isUndefined(options) ? undefined : options.index
+            });
         },
 
         deactivateAllExcept: function(changedStreamItem) {
@@ -313,10 +242,11 @@
             return this.findWhere({ active: true });
         },
         
-        //  Take each streamItem's array of related videos, pluck them all out into a collection of arrays
-        //  then flatten the arrays into a collection of videos.
-        getRelatedVideos: function() {
+        //  Take each streamItem's array of related sources, pluck them all out into a collection of arrays
+        //  then flatten the arrays into a single array of sources.
+        getRelatedSources: function() {
 
+            //  TODO: Does SoundCloud have related information? I hope so!
             //  Find all streamItem entities which have related video information.
             //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
             var streamItemsWithInfo = this.filter(function (streamItem) {
@@ -324,57 +254,57 @@
             });
 
             //  Create a list of all the related videos from all of the information of stream items.
-            var relatedVideos = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
+            var relatedSources = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
 
                 return _.map(streamItem.get('relatedVideoInformation'), function (relatedVideoInformation) {
 
-                    return new Video({
-                        videoInformation: relatedVideoInformation
-                    });
+                    var source = new Source();
+                    source.setYouTubeVideoInformation(relatedVideoInformation);
 
+                    return source;
                 });
 
             }));
 
-            //  Don't add any videos that are already in the stream.
+            //  Don't add any sources that are already in the stream.
             var self = this;
 
-            relatedVideos = _.filter(relatedVideos, function (relatedVideo) {
+            relatedSources = _.filter(relatedSources, function (relatedSource) {
                 var alreadyExistingItem = self.find(function (streamItem) {
 
-                    var sameVideoId = streamItem.get('video').get('id') === relatedVideo.get('id');
-                    var sameCleanTitle = streamItem.get('video').get('cleanTitle') === relatedVideo.get('cleanTitle');
+                    var sameSourceId = streamItem.get('source').get('id') === relatedSource.get('id');
+                    var sameCleanTitle = streamItem.get('source').get('cleanTitle') === relatedSource.get('cleanTitle');
 
-                    var inBanList = _.contains(self.bannedVideoIdList, relatedVideo.get('id'));
+                    var inBanList = _.contains(self.bannedSourceIdList, relatedSource.get('id'));
 
-                    return sameVideoId || sameCleanTitle || inBanList;
+                    return sameSourceId || sameCleanTitle || inBanList;
                 });
 
                 return alreadyExistingItem == null;
             });
 
             // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.
-            var tempFilteredRelatedVideos = _.filter(relatedVideos, function (relatedVideo) {
+            var tempFilteredRelatedSources = _.filter(relatedSources, function (relatedSource) {
                 //  assuming things >8m are playlists.
-                var isJustOneSong = relatedVideo.get('duration') < 480;
-                var isNotLive = relatedVideo.get('title').toLowerCase().indexOf('live') === -1;
+                var isJustOneSong = relatedSource.get('duration') < 480;
+                var isNotLive = relatedSource.get('title').toLowerCase().indexOf('live') === -1;
 
                 return isJustOneSong && isNotLive;
             });
 
-            if (tempFilteredRelatedVideos.length !== 0) {
-                relatedVideos = tempFilteredRelatedVideos;
+            if (tempFilteredRelatedSources.length !== 0) {
+                relatedSources = tempFilteredRelatedSources;
             }
 
-            return relatedVideos;
+            return relatedSources;
         },
 
-        getRandomRelatedVideo: function() {
+        getRandomRelatedSource: function() {
 
-            var relatedVideos = this.getRelatedVideos();
-            var relatedVideo = relatedVideos[_.random(relatedVideos.length - 1)] || null;
+            var relatedSources = this.getRelatedSources();
+            var relatedSource = relatedSources[_.random(relatedSources.length - 1)] || null;
             
-            return relatedVideo;
+            return relatedSource;
         },
         
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
@@ -386,8 +316,8 @@
             var radioEnabled = RadioButton.get('enabled');
             var repeatButtonState = RepeatButton.get('state');
 
-            //  If removedActiveItemIndex is provided, RepeatButtonState -> Video doesn't matter because the video was just deleted.
-            if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatVideo) {
+            //  If removedActiveItemIndex is provided, RepeatButtonState.RepeatSong doesn't matter because the StreamItem was just deleted.
+            if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatSong) {
                 var activeItem = this.findWhere({ active: true });
                 activeItem.trigger('change:active', activeItem, true);
                 nextItem = activeItem;
@@ -423,15 +353,15 @@
 
                         console.log("radio enabled");
 
-                        var randomRelatedVideo = this.getRandomRelatedVideo();
+                        var randomRelatedSource = this.getRandomRelatedSource();
 
-                        if (randomRelatedVideo === null) {
-                            console.error("No related video found.");
+                        if (randomRelatedSource === null) {
+                            console.error("No related source found.");
                         } else {
 
                             nextItem = this.add({
-                                video: randomRelatedVideo,
-                                title: randomRelatedVideo.get('title'),
+                                source: randomRelatedSource,
+                                title: randomRelatedSource.get('title'),
                                 active: true
                             });
                             
@@ -476,7 +406,7 @@
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
 
-                if (repeatButtonState === RepeatButtonState.RepeatVideo) {
+                if (repeatButtonState === RepeatButtonState.RepeatSong) {
                     previousStreamItem = this.findWhere({ active: true }) || null;
                 } else if(!shuffleEnabled) {
                     //  Activate the previous item by index. Potentially loop around to the back.
@@ -509,7 +439,7 @@
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
 
-                if (repeatButtonState === RepeatButtonState.RepeatVideo) {
+                if (repeatButtonState === RepeatButtonState.RepeatSong) {
                     var activeItem = this.findWhere({ active: true });
                     activeItem.trigger('change:active', activeItem, true);
                 } else if (shuffleEnabled) {
@@ -534,11 +464,11 @@
         },
         
         ban: function (streamItem) {
-            this.bannedVideoIdList.push(streamItem.get('video').get('id'));
+            this.bannedSourceIdList.push(streamItem.get('source').get('id'));
         },
         
         clear: function () {
-            this.bannedVideoIdList = [];
+            this.bannedSourceIdList = [];
             this.reset();
         },
         
@@ -551,9 +481,9 @@
             this.trigger('sort');
         },
         
-        getByVideo: function (video) {
+        getBySource: function (source) {
             return this.find(function (streamItem) {
-                return streamItem.get('video').get('id') === video.get('id');
+                return streamItem.get('source').get('id') === source.get('id');
             });
         }
 

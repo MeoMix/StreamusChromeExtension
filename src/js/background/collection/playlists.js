@@ -1,10 +1,10 @@
 ﻿define([
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlist',
-    'background/model/video',
+    'background/model/source',
     'common/model/youTubeV2API',
     'common/model/dataSource'
-], function (SequencedCollectionMixin, Playlist, Video, YouTubeV2API, DataSource) {
+], function (SequencedCollectionMixin, Playlist, Source, YouTubeV2API, DataSource) {
     'use strict';
 
     //  If the foreground requests, don't instantiate -- return existing from the background.
@@ -34,16 +34,17 @@
                     case 'getPlaylists':
                         sendResponse({ playlists: this });
                         break;
+                    //  TODO: Update name to indicate from YouTube more clearly.
                     case 'addVideoByIdToPlaylist':
 
                         YouTubeV2API.getVideoInformation({
                             videoId: request.videoId,
-                            success: function (videoInformation) {
-                                var video = new Video({
-                                    videoInformation: videoInformation
-                                });
+                            success: function (youTubeVideoInformation) {
+
+                                var source = new Source();
+                                source.setYouTubeVideoInformation(youTubeVideoInformation);
                                 
-                                this.get(request.playlistId).addByVideo(video);
+                                this.get(request.playlistId).addBySource(source);
 
                                 sendResponse({ result: 'success' });
                             }.bind(this),
@@ -133,13 +134,13 @@
             
         },
         
-        addPlaylistWithVideos: function (playlistTitle, videos) {
+        addPlaylistWithSources: function (playlistTitle, sources) {
             var playlistItems = [];
 
-            if (_.isArray(videos)) {
-                playlistItems = _.map(videos, function (video) { return { video: video }; });
+            if (_.isArray(sources)) {
+                playlistItems = _.map(sources, function (source) { return { source: source }; });
             } else {
-                playlistItems.push({ video: videos });
+                playlistItems.push({ source: sources });
             }
 
             var playlist = new Playlist({
@@ -191,13 +192,15 @@
                                     playlist.set('dataSourceLoaded', true);
                                 } else {
 
-                                    //  Turn videoInformation responses into a Video collection.
-                                    var videos = _.map(response.results, function (videoInformation) {
-                                        return new Video({ videoInformation: videoInformation });
+                                    var sources = _.map(response.results, function (youTubeVideoInformation) {
+                                        var source = new Source();
+                                        source.setYouTubeVideoInformation(youTubeVideoInformation);
+
+                                        return source;
                                     });
 
                                     //  Periodicially send bursts of packets to the server and trigger visual update.
-                                    playlist.addByVideos(videos, function () {
+                                    playlist.addBySources(sources, function () {
                                         //  Request next batch of data by iteration once addItems has succeeded.
                                         YouTubeV2API.getDataSourceResults(dataSource, ++response.iteration, onGetV2DataSourceData);
                                     });

@@ -37,7 +37,7 @@
 		"message": "Toggle (off/on) shuffling"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Toggle (off/repeatVideo/repeatStream) repeating"
+		"message": "Toggle (off/repeatSong/repeatStream) repeating"
 	},
 	"save": {
 		"message": "Save"
@@ -95,7 +95,7 @@
 	"repeatDisabled": {
 		"message": "Repeat disabled"
 	},
-	"repeatVideo": {
+	"repeatSong": {
 		"message": "Repeat video"
 	},
 	"repeatStream": {
@@ -333,10 +333,10 @@
 	"showTooltips": {
 		"message": "Show tooltips"
 	},
-	"showVideoSearch": {
+	"showSearch": {
 		"message": "Show video search"
 	},
-	"hideVideoSearch": {
+	"hideSearch": {
 		"message": "Hide video search"
 	},
 	"closeMenu": {

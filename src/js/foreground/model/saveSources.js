@@ -1,16 +1,16 @@
 ﻿define(function () {
     'use strict';
 
-    var SaveVideos = Backbone.Model.extend({
+    var SaveSources = Backbone.Model.extend({
 
         defaults: function () {
             return {
                 creating: false,
-                videos: []
+                sources: []
             };
         }
 
     });
 
-    return SaveVideos;
+    return SaveSources;
 });

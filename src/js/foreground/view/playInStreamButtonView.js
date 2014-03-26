@@ -26,10 +26,12 @@
         
         playInStream: _.debounce(function () {
 
-            var streamItem = StreamItems.getByVideo(this.model);
+            var streamItem = StreamItems.getBySource(this.model);
 
             if (_.isUndefined(streamItem)) {
-                StreamItems.addByVideo(this.model, true);
+                StreamItems.addSources(this.model, {
+                    playOnAdd: true
+                });
             } else {
                 if (streamItem.get('active')) {
                     Player.play();

@@ -95,7 +95,7 @@
 	"repeatDisabled": {
 		"message": "Repetir desactivado"
 	},
-	"repeatVideo": {
+	"repeatSong": {
 		"message": "Repetir video"
 	},
 	"repeatStream": {
@@ -333,10 +333,10 @@
 	"showTooltips": {
 		"message": "Mostrar tooltips"
 	},
-	"showVideoSearch": {
+	"showSearch": {
 		"message": "Mostrar búsqueda de videos"
 	},
-	"hideVideoSearch": {
+	"hideSearch": {
 		"message": "Ocultar búsqueda de videos"
 	},
 	"closeMenu": {

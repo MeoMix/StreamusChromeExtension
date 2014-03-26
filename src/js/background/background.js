@@ -1,8 +1,8 @@
 ﻿//  Background.js is a bit of a dumping ground for code which needs a permanent housing spot.
 define([
     'background/commands',
+    'background/collection/searchResults',
     'background/collection/streamItems',
-    'background/collection/videoSearchResults',
     'background/collection/playlists',
     'background/model/player',
     'background/model/settings',
@@ -20,7 +20,7 @@ define([
     'background/model/omnibox',
     'background/model/user',
     'background/view/clipboardView'
-], function (Commands, StreamItems, VideoSearchResults, Playlists, Player, Settings, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton) {
+], function (Commands, SearchResults, StreamItems, Playlists, Player, Settings, User, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton) {
     'use strict';
    
     window.clearResultsTimeout = null;
@@ -38,14 +38,14 @@ define([
 
         window.clearResultsTimeout = setTimeout(function () {
             Settings.set('searchQuery', '');
-            VideoSearchResults.clear();
+            SearchResults.clear();
         }, tenSeconds);
     };
     
     //  I know this sucks. It's because of a 'bug' in chrome extensions where foreground can't reliably unsubscribe all of its events so the background has to be responsible for it. :(
     window.unbindViewEvents = function (foregroundViewType) {
 
-        var collectionsToUnbind = [StreamItems, VideoSearchResults, Playlists];
+        var collectionsToUnbind = [StreamItems, SearchResults, Playlists];
         var allToUnbind = [Player, User, Settings, NextButton, PreviousButton, PlayPauseButton, ShuffleButton, RepeatButton, RadioButton];
 
         _.each(collectionsToUnbind, function(collectionToUnbind) {

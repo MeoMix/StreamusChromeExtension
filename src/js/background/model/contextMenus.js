@@ -3,12 +3,12 @@ define([
     'background/collection/streamItems',
     'background/collection/playlists',
     'background/model/user',
-    'background/model/video',
+    'background/model/source',
     'common/enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, User, Video, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (StreamItems, Playlists, User, Source, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -42,8 +42,10 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
       
-                    this.getVideoFromUrl(url, function (video) {
-                        StreamItems.addByVideo(video, true);
+                    this.getSourceFromUrl(url, function (source) {
+                        StreamItems.addSources(source, {
+                            playOnAdd: true
+                        });
                     });
                 }.bind(this)
             }));
@@ -54,8 +56,8 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
                     
-                    this.getVideoFromUrl(url, function (video) {
-                        StreamItems.addByVideo(video, false);
+                    this.getSourceFromUrl(url, function (source) {
+                        StreamItems.addSources(source);
                     });
                 }.bind(this)
             }));
@@ -91,7 +93,7 @@ define([
             });
         },
         
-        //  Whenever a playlist context menu is clicked -- add the related video to that playlist.
+        //  Whenever a playlist context menu is clicked -- add the related source to that playlist.
         createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
 
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
@@ -100,8 +102,8 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    this.getVideoFromUrl(url, function (video) {
-                        playlist.addByVideo(video);
+                    this.getSourceFromUrl(url, function (source) {
+                        playlist.addBySource(source);
                     });
                 }.bind(this)
             }));
@@ -119,7 +121,7 @@ define([
             
         },
         
-        getVideoFromUrl: function(url, callback) {
+        getSourceFromUrl: function(url, callback) {
             var dataSource = new DataSource({ urlToParse: url });
             
             if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
@@ -130,14 +132,10 @@ define([
                 videoId: dataSource.get('sourceId'),
                 success: function (videoInformation) {
 
-                    var video = new Video({
-                        videoInformation: videoInformation
-                    });
+                    var source = new Source();
+                    source.setYouTubeVideoInformation(videoInformation);
 
-                    callback(video);
-                },
-                error: function (error) {
-                    console.error(error);
+                    callback(source);
                 }
             });
 

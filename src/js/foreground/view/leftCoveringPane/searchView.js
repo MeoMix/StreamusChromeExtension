@@ -2,21 +2,21 @@
     'background/collection/streamItems',
     'background/model/user',
     'foreground/view/multiSelectCompositeView',
-    'foreground/view/leftCoveringPane/videoSearchResultView',
-    'foreground/view/prompt/saveVideosPromptView',
-    'text!template/videoSearch.html'
-], function (StreamItems, User, MultiSelectCompositeView, VideoSearchResultView, SaveVideosPromptView, VideoSearchTemplate) {
+    'foreground/view/leftCoveringPane/searchResultView',
+    'foreground/view/prompt/saveSourcesPromptView',
+    'text!template/search.html'
+], function (StreamItems, User, MultiSelectCompositeView, SearchResultView, SaveSourcesPromptView, SearchTemplate) {
     'use strict';
     
-    var VideoSearchView = MultiSelectCompositeView.extend({
+    var SearchView = MultiSelectCompositeView.extend({
 
-        id: 'video-search',
+        id: 'search',
         className: 'left-pane',
         
-        template: _.template(VideoSearchTemplate),
-        itemViewContainer: '#video-search-results',
+        template: _.template(SearchTemplate),
+        itemViewContainer: '#search-results',
         
-        itemView: VideoSearchResultView,
+        itemView: SearchResultView,
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
@@ -25,16 +25,16 @@
             instructions: '.instructions',
             noResultsMessage: '.no-results',
             bigTextWrapper: '.big-text-wrapper',
-            itemContainer: '#video-search-results',
+            itemContainer: '#search-results',
             saveSelectedButton: '#save-selected',
-            hideVideoSearchButton: '#hide-video-search',
+            hideSearchButton: '#hide-search',
             playSelectedButton: '#play-selected',
             addSelectedButton: '#add-selected'
         },
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',
-            'click @ui.hideVideoSearchButton': 'hide',
+            'click @ui.hideSearchButton': 'hide',
             'contextmenu @ui.itemContainer': 'showContextMenu',
             'click @ui.playSelectedButton': 'playSelected',
             'click @ui.addSelectedButton': 'addSelected',
@@ -47,7 +47,7 @@
                 addSelectedMessage: chrome.i18n.getMessage('addSelected'),
                 playSelectedMessage: chrome.i18n.getMessage('playSelected'),
                 searchMessage: chrome.i18n.getMessage('search'),
-                hideVideoSearchMessage: chrome.i18n.getMessage('hideVideoSearch'),
+                hideSearchMessage: chrome.i18n.getMessage('hideSearch'),
                 startTypingMessage: chrome.i18n.getMessage('startTyping'),
                 resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
                 searchingMessage: chrome.i18n.getMessage('searching'),
@@ -103,7 +103,7 @@
                     child.setTitleTooltip(child.ui.title);
                 });
 
-                this.ui.hideVideoSearchButton.qtip();
+                this.ui.hideSearchButton.qtip();
                 this.ui.playSelectedButton.qtip();
                 this.ui.addSelectedButton.qtip();
                 this.ui.saveSelectedButton.qtip();
@@ -176,11 +176,13 @@
         },
         
         playSelected: function () {
-            StreamItems.addByVideos(this.collection.getSelectedVideos(), true);
+            StreamItems.addSources(this.collection.getSelectedSources(), {
+                playOnAdd: true
+            });
         },
         
         addSelected: function() {
-            StreamItems.addByVideos(this.collection.getSelectedVideos(), false);
+            StreamItems.addSources(this.collection.getSelectedSources());
         },
 
         showSaveSelectedPrompt: function () {
@@ -188,10 +190,10 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                var saveVideosPromptView = new SaveVideosPromptView({
-                    videos: this.collection.getSelectedVideos()
+                var saveSourcesPromptView = new SaveSourcesPromptView({
+                    sources: this.collection.getSelectedSources()
                 });
-                saveVideosPromptView.fadeInAndShow();
+                saveSourcesPromptView.fadeInAndShow();
             }
             //  Don't close the menu if disabled
             return !disabled;
@@ -204,5 +206,5 @@
 
     });
 
-    return VideoSearchView;
+    return SearchView;
 });

@@ -32,13 +32,13 @@
 
         //  TODO: Finish testing this one. It can cleanse more than just this.
         it('Should be able to cleanse a YouTube video title', function() {
-            expect(Utility.cleanseVideoTitle(' ')).toEqual('');
-            expect(Utility.cleanseVideoTitle('**NEW**')).toEqual('');
-            expect(Utility.cleanseVideoTitle('[1999]')).toEqual('');
-            expect(Utility.cleanseVideoTitle('(1999)')).toEqual('');
-            expect(Utility.cleanseVideoTitle('(best version)')).toEqual('');
-            expect(Utility.cleanseVideoTitle('official music video')).toEqual('');
-            expect(Utility.cleanseVideoTitle('ALBUM TRACK')).toEqual('');
+            expect(Utility.cleanTitle(' ')).toEqual('');
+            expect(Utility.cleanTitle('**NEW**')).toEqual('');
+            expect(Utility.cleanTitle('[1999]')).toEqual('');
+            expect(Utility.cleanTitle('(1999)')).toEqual('');
+            expect(Utility.cleanTitle('(best version)')).toEqual('');
+            expect(Utility.cleanTitle('official music video')).toEqual('');
+            expect(Utility.cleanTitle('ALBUM TRACK')).toEqual('');
         });
 
         it('Should be able to get the Levenshtein Distance between two strings', function() {

@@ -18,22 +18,23 @@
         templateHelpers: function () {
             return {
                 openMenuMessage: chrome.i18n.getMessage('openMenu'),
-                showVideoSearchMessage: chrome.i18n.getMessage('showVideoSearch')
+                //  TODO: Update showSearch message
+                showSearchMessage: chrome.i18n.getMessage('showSearch')
             };
         },
 
         ui: {
-            showVideoSearch: '.show-video-search',
+            showSearch: '.show-search',
             showPlaylistsArea: '.show-playlists-area'
         },
         
         events: {
-            'click @ui.showVideoSearch': function () {
-                EventAggregator.trigger('activePlaylistAreaView:showVideoSearch');
+            'click @ui.showSearch': function () {
+                EventAggregator.trigger('showSearch');
             },
 
             'click @ui.showPlaylistsArea': function () {
-                EventAggregator.trigger('activePlaylistAreaView:showPlaylistsArea');
+                EventAggregator.trigger('showPlaylistsArea');
             }
         },
 
@@ -45,7 +46,7 @@
         onShow: function () {
             this.updateRegions();
 
-            this.ui.showVideoSearch.qtip();
+            this.ui.showSearch.qtip();
             this.ui.showPlaylistsArea.qtip();
         },
         

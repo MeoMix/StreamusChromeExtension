@@ -20,7 +20,7 @@ define([
                 dataSource: null,
                 dataSourceLoaded: false,
                 active: false,
-                //  This is videos length and total duration of all videos
+                //  This is count and total duration of all playlistItem sources.
                 displayInfo: '',
                 sequence: -1
             };
@@ -82,72 +82,74 @@ define([
         },
         
         setDisplayInfo: function () {
-            var videos = this.get('items').pluck('video');
-            var videoDurations = _.invoke(videos, 'get', 'duration');
+            var sources = this.get('items').pluck('source');
+            var sourceDurations = _.invoke(sources, 'get', 'duration');
 
-            var sumVideoDurations = _.reduce(videoDurations, function (memo, duration) {
+            var sumDurations = _.reduce(sourceDurations, function (memo, duration) {
                 return memo + duration;
             }, 0);
 
-            var videoString = videos.length === 1 ? chrome.i18n.getMessage('video') : chrome.i18n.getMessage('videos');
+            //  TODO: i18n video vs song
+            var videoString = sources.length === 1 ? chrome.i18n.getMessage('video') : chrome.i18n.getMessage('videos');
 
-            var prettyVideoTime;
-            var videoTimeInMinutes = Math.floor(sumVideoDurations / 60);
+            var prettyTime;
+            var timeInMinutes = Math.floor(sumDurations / 60);
             
             //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
-            if (videoTimeInMinutes === 1) {
-                prettyVideoTime = videoTimeInMinutes + ' ' + chrome.i18n.getMessage('minute');
+            if (timeInMinutes === 1) {
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
             }
             //  3 days
-            else if (videoTimeInMinutes > 4320) {
-                prettyVideoTime = Math.floor(videoTimeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
+            else if (timeInMinutes > 4320) {
+                prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
             }
             //  3 hours
-            else if (videoTimeInMinutes > 180) {
-                prettyVideoTime = Math.floor(videoTimeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
+            else if (timeInMinutes > 180) {
+                prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
             } else {
-                prettyVideoTime = videoTimeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
             }
 
-            var displayInfo = videos.length + ' ' + videoString + ', ' + prettyVideoTime;
+            var displayInfo = sources.length + ' ' + videoString + ', ' + prettyTime;
 
             this.set('displayInfo', displayInfo);
         },
         
-        addByVideo: function (video, callback) {
+        addBySource: function (source, callback) {
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
-                video: video
+                source: source
             });
 
             this.get('items').savePlaylistItem(playlistItem, callback);
         },
         
-        addByVideoAtIndex: function (video, index, callback) {
+        addBySourceAtIndex: function (source, index, callback) {
 
             var sequence = this.get('items').getSequenceFromIndex(index);
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
-                video: video,
+                source: source,
                 sequence: sequence
             });
 
             this.get('items').savePlaylistItem(playlistItem, callback);
         },
         
-        //  TODO: DRY
-        addByVideosStartingAtIndex: function (videos, index, callback) {
+        //  TODO: This needs to be kept DRY with the other methods in this object.
+        addBySourcesStartingAtIndex: function (sources, index, callback) {
             console.log("im here");
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
             });
-            
-            var initialSequence = this.get('items').getSequenceFromIndex(index);
 
-            var self = this;
-            _.each(videos, function (video) {
+            var playlistItems = this.get('items');
+            
+            var initialSequence = playlistItems.getSequenceFromIndex(index);
+
+            _.each(sources, function (source) {
 
                 //  TODO: Sequence is incorrect here after the first item since I'm not adding models until after saving. FIX!
                 var sequence = initialSequence;
@@ -155,8 +157,8 @@ define([
                 console.log("index and sequence", index, sequence);
 
                 var playlistItem = new PlaylistItem({
-                    playlistId: self.get('id'),
-                    video: video,
+                    playlistId: itemsToSave.get('playlistId'),
+                    source: source,
                     sequence: sequence
                 });
                 
@@ -168,7 +170,7 @@ define([
                 success: function () {
 
                     //  TODO: Why is this .models and not just itemsToSave?
-                    self.get('items').add(itemsToSave.models);
+                    playlistItems.add(itemsToSave.models);
 
                     if (callback) {
                         callback();
@@ -178,41 +180,38 @@ define([
             });
         },
             
-        addByVideos: function (videos, callback) {
+        addBySources: function (sources, callback) {
 
-            //  If this method is lazily/erroneously called with a single item in the array -- call addItem instead of addItems.
-            if (videos.length === 1) {
-                return this.addByVideo(videos[0], callback);
+            //  Defer to appropriate method if called with a single source.
+            if (sources.length === 1) {
+                return this.addBySource(sources[0], callback);
             }
             
-            var self = this;
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
             });
+
+            var playlistItems = this.get('items');
             
-            _.each(videos, function (video) {
-                
-                if (!self.get('items').videoAlreadyExists(video)) {
+            _.each(sources, function (source) {
+                if (!playlistItems.sourceAlreadyExists(source)) {
                     var playlistItem = new PlaylistItem({
-                        playlistId: self.get('id'),
-                        video: video
+                        playlistId: itemsToSave.get('playlistId'),
+                        source: source
                     });
 
                     itemsToSave.push(playlistItem);
                 }
-                
             });
 
             itemsToSave.save({}, {
                 success: function () {
-                    
                     //  TODO: Why is this .models and not just itemsToSave?
-                    self.get('items').add(itemsToSave.models);
+                    playlistItems.add(itemsToSave.models);
 
                     if (callback) {
                         callback();
                     }
-
                 }
             });
         },

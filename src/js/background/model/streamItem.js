@@ -1,15 +1,15 @@
-﻿//  When clicked -- goes to the next video. Can potentially go from the end of the list to the front if repeat playlist is toggled on
+﻿//  When clicked -- goes to the next StreamItem. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
-    'background/model/video',
+    'background/model/source',
     'common/model/relatedVideoInformationManager'
-], function (Video, RelatedVideoInformationManager) {
+], function (Source, RelatedVideoInformationManager) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
         defaults: function () {
             return {
                 id: _.uniqueId('streamItem_'),
-                video: null,
+                source: null,
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
                 playedRecently: false,
@@ -23,13 +23,14 @@ define([
         // New instances of this model will have a 'dud' sync function
         sync: function () { return false; },
         
-        initialize: function() {
-            var video = this.get('video');
+        initialize: function () {
+            //  TODO: NECESSARY?!
+            var source = this.get('source');
 
             //  Need to convert to video object to Backbone.Model
-            if (!(video instanceof Backbone.Model)) {
+            if (!(source instanceof Backbone.Model)) {
                 //  Silent because Video is just being properly set.
-                this.set('video', new Video(video), { silent: true });
+                this.set('source', new Source(source), { silent: true });
             }
             
             //  Whenever a streamItem is activated it is considered playedRecently.
@@ -41,13 +42,8 @@ define([
             });
             
             RelatedVideoInformationManager.getRelatedVideoInformation({
-                videoId: this.get('video').get('id'),
+                videoId: this.get('source').get('id'),
                 success: function (relatedVideoInformation) {
-
-                    if (relatedVideoInformation == null) {
-                        throw "Related video information not found." + videoId;
-                    }
-                    
                     this.set('relatedVideoInformation', relatedVideoInformation);
                 }.bind(this)
             });

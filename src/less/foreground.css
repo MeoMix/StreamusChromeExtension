@@ -287,12 +287,6 @@ a {
   cursor: pointer;
 }
 /*** End clear code ***/
-/*span.videoTitle {
-    font-size: 14px;
-    white-space: nowrap;
-    cursor: default;
-    line-height: 1.5em;
-}*/
 .playlist-details {
   color: #666666;
   line-height: 1.5;
@@ -337,7 +331,7 @@ button:not(.disabled):active {
   line-height: 45px;
   width: 40px;
 }
-.fa.fa-repeat.repeat-video:after {
+.fa.fa-repeat.repeat-song:after {
   content: '1';
   border-radius: 50%;
   background-color: #666666;
@@ -430,7 +424,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   top: 0;
   bottom: 40px;
 }
-/* Hide some messages in video search */
+/* Hide some messages in search */
 .big-text.hidden {
   display: none;
 }
@@ -714,11 +708,11 @@ input:focus ~ .underline {
   left: -385px;
   z-index: 10;
 }
-#video-search {
+#search {
   box-shadow: 0 0 10px #333333;
-  /* Can't sort video-search */
+  /* Can't sort search */
 }
-#video-search .sortable-placeholder {
+#search .sortable-placeholder {
   display: none;
 }
 #active-playlist-items .sortable-placeholder {
@@ -1087,11 +1081,11 @@ html .selectize-control.multi .selectize-input.full > input {
 .clickable {
   cursor: pointer;
 }
-#video-search .big-text {
+#search .big-text {
   z-index: 1;
 }
 #content-region .big-text,
-#video-search .big-text {
+#search .big-text {
   background-color: #ffffff;
   position: absolute;
   bottom: 0;

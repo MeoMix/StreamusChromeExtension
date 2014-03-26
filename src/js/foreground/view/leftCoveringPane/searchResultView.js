@@ -6,20 +6,20 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
-    'text!template/videoSearchResult.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, VideoSearchResultTemplate) {
+    'text!template/searchResult.html'
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, SearchResultTemplate) {
     'use strict';
 
-    var VideoSearchResultView = MultiSelectListItemView.extend({
+    var SearchResultView = MultiSelectListItemView.extend({
         
-        className: MultiSelectListItemView.prototype.className + ' video-search-result',
+        className: MultiSelectListItemView.prototype.className + ' search-result',
 
-        template: _.template(VideoSearchResultTemplate),
+        template: _.template(SearchResultTemplate),
 
         attributes: function () {
             return {
                 'data-id': this.model.get('id'),
-                'data-type': ListItemType.VideoSearchResult
+                'data-type': ListItemType.SearchResult
             };
         },
         
@@ -35,15 +35,15 @@
         
         onRender: function () {
             this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('video')
+                model: this.model.get('source')
             }));
             
             this.addToStreamRegion.show(new AddToStreamButtonView({
-                model: this.model.get('video')
+                model: this.model.get('source')
             }));
             
             this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
-                model: this.model.get('video')
+                model: this.model.get('source')
             }));
 
             this.setSelectedClass();
@@ -56,24 +56,26 @@
         showContextMenu: function (event) {
             event.preventDefault();
             
-            var video = this.model.get('video');
+            var source = this.model.get('source');
             
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('play'),
                     onClick: function () {
-                        StreamItems.addByVideo(video, true);
+                        StreamItems.addSources(source, {
+                            playOnAdd: true
+                        });
                     }
                 }, {
                     text: chrome.i18n.getMessage('add'),
                     onClick: function () {
-                        StreamItems.addByVideo(video, false);
+                        StreamItems.addSources(source);
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: video.get('url')
+                            text: source.get('url')
                         });
                     }
                 }, {
@@ -81,14 +83,14 @@
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + video.get('title') + '" - ' + video.get('url')
+                            text: '"' + source.get('title') + '" - ' + source.get('url')
                         });
                     }
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
                         chrome.tabs.create({
-                            url: video.get('url')
+                            url: source.get('url')
                         });
                     }
                 }]
@@ -97,5 +99,5 @@
         }
     });
 
-    return VideoSearchResultView;
+    return SearchResultView;
 });

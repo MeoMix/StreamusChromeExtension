@@ -1,7 +1,7 @@
 ﻿define([
     'background/collection/playlists',
+    'background/collection/searchResults',
     'background/collection/streamItems',
-    'background/collection/videoSearchResults',
     'background/model/player',
     'background/model/settings',
     'background/model/user',
@@ -12,17 +12,17 @@
     'foreground/model/contextMenu',
     'foreground/model/playlistsArea',
     'foreground/model/notification',
-    'foreground/model/videoSearch',
+    'foreground/model/search',
     'foreground/view/contextMenuView',
     'foreground/view/notificationView',
     'foreground/view/leftBasePane/leftBasePaneView',
     'foreground/view/leftCoveringPane/playlistsAreaView',
-    'foreground/view/leftCoveringPane/videoSearchView',
+    'foreground/view/leftCoveringPane/searchView',
     'foreground/view/prompt/notificationPromptView',
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
-], function (Playlists, StreamItems, VideoSearchResults, Player, Settings, User, PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, VideoSearch, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, VideoSearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+], function (Playlists, SearchResults, StreamItems, Player, Settings, User, PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
 
     var ForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),
@@ -100,7 +100,7 @@
             this.leftBasePaneRegion.show(new LeftBasePaneView());
 
             if (Settings.get('alwaysOpenToSearch')) {
-                this.showVideoSearch(false);
+                this.showSearch(false);
             }
 
             this.listenTo(Settings, 'change:showTooltips', this.setShowTooltipsClass);
@@ -118,17 +118,17 @@
                 //  So it's necessary to invert the dependency of unsubscribing foreground view events from the foreground to the background where code is guaranteed to finish executing.
                 chrome.extension.getBackgroundPage().unbindViewEvents(Backbone.View);
                 
-                //  The VideoSearchView needs to run its close logic. I can't rely on actually closing it, though, apparently.
-                if (this.leftCoveringPaneRegion.currentView instanceof VideoSearchView) {
+                //  The SearchView needs to run its close logic. I can't rely on actually closing it, though, apparently.
+                if (this.leftCoveringPaneRegion.currentView instanceof SearchView) {
                     this.leftCoveringPaneRegion.currentView.onClose();
                 }
             }.bind(this));
 
-            EventAggregator.on('activePlaylistAreaView:showVideoSearch streamView:showVideoSearch', function () {
-                this.showVideoSearch(true);
+            EventAggregator.on('showSearch', function () {
+                this.showSearch(true);
             }.bind(this));
 
-            EventAggregator.on('activePlaylistAreaView:showPlaylistsArea', function () {
+            EventAggregator.on('showPlaylistsArea', function () {
                 this.showPlaylistsArea();
             }.bind(this));
             
@@ -168,13 +168,13 @@
             //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
             var isPlaylistItem = $(event.target).hasClass('playlist-item') || parentMultiSelectItem.hasClass('playlist-item');
             if (isPlaylistItem) {
-                VideoSearchResults.deselectAll();
+                SearchResults.deselectAll();
                 StreamItems.deselectAll();
             }
             
             var isStreamItem = $(event.target).hasClass('stream-item') || parentMultiSelectItem.hasClass('stream-item');
             if (isStreamItem) {
-                VideoSearchResults.deselectAll();
+                SearchResults.deselectAll();
                 
                 //  There's only an active playlist once the user has signed in.
                 if (User.get('signedIn')) {
@@ -182,8 +182,8 @@
                 }
             }
             
-            var isVideoSearchResult = $(event.target).hasClass('video-search-result') || parentMultiSelectItem.hasClass('video-search-result');
-            if (isVideoSearchResult) {
+            var isSearchResult = $(event.target).hasClass('search-result') || parentMultiSelectItem.hasClass('search-result');
+            if (isSearchResult) {
                 StreamItems.deselectAll();
                 
                 if (User.get('signedIn')) {
@@ -197,7 +197,7 @@
                 Playlists.getActivePlaylist().get('items').deselectAll();
             }
 
-            VideoSearchResults.deselectAll();
+            SearchResults.deselectAll();
             StreamItems.deselectAll();
         },
 
@@ -211,7 +211,7 @@
 
                 console.log("PlaylistsAreaView is being created", playlistsArea);
 
-                //  Show the view using VideoSearchResults collection in which to render its results from.
+                //  Show the view using SearchResults collection in which to render its results from.
                 this.leftCoveringPaneRegion.show(new PlaylistsAreaView({
                     model: playlistsArea,
                     collection: Playlists
@@ -225,26 +225,26 @@
 
         }, 400),
 
-        //  Slide in VideoSearchView from the left hand side.
-        showVideoSearch: _.throttle(function (doSnapAnimation) {
+        //  Slide in SearchView from the left hand side.
+        showSearch: _.throttle(function (doSnapAnimation) {
 
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
                 //  Create model for the view and indicate whether view should appear immediately or display snap animation.
-                var videoSearch = new VideoSearch({
+                var search = new Search({
                     playlist: Playlists.getActivePlaylist(),
                     doSnapAnimation: doSnapAnimation
                 });
 
-                //  Show the view using VideoSearchResults collection in which to render its results from.
-                this.leftCoveringPaneRegion.show(new VideoSearchView({
-                    collection: VideoSearchResults,
-                    model: videoSearch
+                //  Show the view using SearchResults collection in which to render its results from.
+                this.leftCoveringPaneRegion.show(new SearchView({
+                    collection: SearchResults,
+                    model: search
                 }));
 
                 //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
-                this.listenToOnce(videoSearch, 'destroy', function () {
+                this.listenToOnce(search, 'destroy', function () {
                     this.leftCoveringPaneRegion.close();
                 });
 

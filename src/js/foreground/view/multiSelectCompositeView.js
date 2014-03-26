@@ -1,13 +1,13 @@
 ﻿define([
     'background/collection/playlists',
+    'background/collection/searchResults',
     'background/collection/streamItems',
-    'background/collection/videoSearchResults',
     'background/model/user',
     'common/enum/listItemType',
     'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/leftCoveringPane/videoSearchResultView',
+    'foreground/view/leftCoveringPane/SearchResultView',
     'foreground/view/rightBasePane/streamItemView'
-], function (Playlists, StreamItems, VideoSearchResults, User, ListItemType, PlaylistItemView, VideoSearchResultView, StreamItemView) {
+], function (Playlists, SearchResults, StreamItems, User, ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
     'use strict';
 
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
@@ -49,7 +49,6 @@
         onRender: function () {
             var self = this;
 
-            //  Allows for drag-and-drop of videos
             this.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',
@@ -85,8 +84,8 @@
                         case ListItemType.StreamItem:
                             copyHelperView = new StreamItemView(viewOptions);
                             break;
-                        case ListItemType.VideoSearchResult:
-                            copyHelperView = new VideoSearchResultView(viewOptions);
+                        case ListItemType.SearchResult:
+                            copyHelperView = new SearchResultView(viewOptions);
                             break;
                         default:
                             throw 'Unhandled ListItemType: ' + listItemType;
@@ -122,8 +121,8 @@
                             //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
                             var draggedStreamItem = self.collection.get(streamItemId);
 
-                            var videoAlreadyExists = Playlists.getActivePlaylist().get('items').videoAlreadyExists(draggedStreamItem.get('video'));
-                            ui.placeholder.toggleClass('no-drop', videoAlreadyExists);
+                            var alreadyExists = Playlists.getActivePlaylist().get('items').sourceAlreadyExists(draggedStreamItem.get('source'));
+                            ui.placeholder.toggleClass('no-drop', alreadyExists);
                         } else {
                             ui.placeholder.addClass('not-signed-in');
                         }
@@ -177,11 +176,11 @@
                     this.backCopyHelper = null;
                     this.selectedItems = null;
 
-                    //  Don't allow VideoSearchResults to be sorted -- copied is true when it moves to StreamItems.
+                    //  Don't allow SearchResults to be sorted -- copied is true when it moves to StreamItems.
                     //  Returning false cancels the sort.
-                    var isVideoSearchResult = ui.item.data('type') === ListItemType.VideoSearchResult;
+                    var isSearchResult = ui.item.data('type') === ListItemType.SearchResult;
 
-                    return copied || !isVideoSearchResult;
+                    return copied || !isSearchResult;
                 },
 
                 tolerance: 'pointer',
@@ -203,8 +202,8 @@
                         var draggedStreamItems = StreamItems.selected();
                         StreamItems.deselectAll();
 
-                        var videos = _.map(draggedStreamItems, function(streamItem) {
-                            return streamItem.get('video');
+                        var sources = _.map(draggedStreamItems, function(streamItem) {
+                            return streamItem.get('source');
                         });
 
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
@@ -213,19 +212,19 @@
                         //var streamItemId = ui.item.data('id');
                         //var draggedStreamItem = StreamItems.get(streamItemId);
 
-                        ////  Remove blue coloring if visible before waiting for addVideo to finish to give a more seamless swap to the new item.
+                        ////  Remove blue coloring if visible before waiting for addSource to finish to give a more seamless swap to the new item.
                         //ui.item.removeClass('selected');
 
                         ////  Don't allow duplicates
-                        //var videoAlreadyExists = self.collection.videoAlreadyExists(draggedStreamItem.get('video'));
+                        //var alreadyExists = self.collection.sourceAlreadyExists(draggedStreamItem.get('source'));
 
-                        //if (videoAlreadyExists) {
+                        //if (alreadyExists) {
                         //    ui.item.remove();
                         //}
                         //else {
 
                         //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addByVideosStartingAtIndex(videos, ui.item.index());
+                            self.model.addBySourcesStartingAtIndex(sources, ui.item.index());
 
                             //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
                             //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
@@ -239,15 +238,26 @@
                         var activePlaylistItems = Playlists.getActivePlaylist().get('items');
 
                         var draggedPlaylistItems = activePlaylistItems.selected();
-                        self.collection.addByDraggedPlaylistItems(draggedPlaylistItems, ui.item.index());
+                        
+                        //  TODO: Can I just pluck here instead?
+                        var sources = _.map(draggedPlaylistItems, function (playlistItem) {
+                            return playlistItem.get('source');
+                        });
+
+                        self.collection.addSources(sources, { index: ui.item.index() });
 
                         activePlaylistItems.deselectAll();
                         ui.item.remove();
-                    } else if (listItemType === ListItemType.VideoSearchResult) {
-                        var draggedSearchResults = VideoSearchResults.selected();
-                        VideoSearchResults.deselectAll();
+                    } else if (listItemType === ListItemType.SearchResult) {
+                        var draggedSearchResults = SearchResults.selected();
+                        SearchResults.deselectAll();
 
-                        self.collection.addByDraggedVideoSearchResults(draggedSearchResults, ui.item.index());
+                        //  TODO: Can I just pluck here instead?
+                        var sources = _.map(draggedSearchResults, function(searchResult) {
+                            return searchResult.get('source');
+                        });
+
+                        self.collection.addSources(sources, { index: ui.item.index() });
                         ui.item.remove();
                     }
 

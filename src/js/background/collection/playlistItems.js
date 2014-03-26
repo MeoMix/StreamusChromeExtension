@@ -74,13 +74,15 @@
 
         savePlaylistItem: function (playlistItem, callback) {
 
-            if (this.videoAlreadyExists(playlistItem.get('video'))) {
+            if (this.sourceAlreadyExists(playlistItem.get('source'))) {
+                //  TODO: No real indication of failure due to non-uniqueness.
                 if (callback) {
                     callback(playlistItem);
                 }
             }
             else {
 
+                //  TODO: I think it would be nice to support adding immediately and fixing if it fails to save.
                 //  Save the playlistItem, but push after version from server because the ID will have changed.
                 playlistItem.save({}, {
 
@@ -92,36 +94,32 @@
                             callback(playlistItem);
                         }
 
-                    }.bind(this),
-
-                    error: function (error) {
-                        console.error(error);
-                    }
-
+                    }.bind(this)
                 });
             }
 
         },
         
-        //  Figure out if an item is already in the collection by videoId
-        //  Can take a playlistItem or a streamItem.
-        videoAlreadyExists: function(videoToLookFor) {
+        //  Figure out if an item is already in the collection by sourceId to allow for preventing duplicates.
+        sourceAlreadyExists: function(source) {
             return this.some(function (playlistItem) {
-                return playlistItem.get('video').get('id') === videoToLookFor.get('id');
+                return playlistItem.get('source').get('id') === source.get('id');
             });
         }
         
     });
     
-    function trySetDuplicateVideoId(playlistItemToAdd) {
+    function trySetDuplicateSourceId(playlistItemToAdd) {
         var duplicatePlaylistItem = this.find(function (playlistItem) {
-            return playlistItem.get('video').get('id') === playlistItemToAdd.get('video').get('id');
+            return playlistItem.get('source').get('id') === playlistItemToAdd.get('source').get('id');
         });
 
         var duplicateFound = !_.isUndefined(duplicatePlaylistItem);
 
         if (duplicateFound) {
             console.log("I found a duplicate!");
+            //  Make their IDs match to prevent adding to the collection.
+            //  TODO: Is there a more clear way to do this?
             if (duplicatePlaylistItem.has('id')) {
                 playlistItemToAdd.set('id', duplicatePlaylistItem.get('id'));
             } else {
@@ -131,7 +129,8 @@
         }
     }
     
-    //  Don't allow duplicate PlaylistItems by videoID. 
+    //  TODO: Do I have to extend prototype or can I just define add: inside PlaylistItem?
+    //  Don't allow duplicate PlaylistItems by sourceId. 
     PlaylistItems.prototype.add = function (playlistItemToAdd, options) {
         
         if (_.isArray(playlistItemToAdd)) {
@@ -139,10 +138,10 @@
             console.log("Array found in playlistItems add");
 
             _.each(playlistItemToAdd, function(itemToAdd) {
-                trySetDuplicateVideoId.call(this, itemToAdd);
+                trySetDuplicateSourceId.call(this, itemToAdd);
             }.bind(this));
         } else {
-            trySetDuplicateVideoId.call(this, playlistItemToAdd);
+            trySetDuplicateSourceId.call(this, playlistItemToAdd);
         }
 
         return MultiSelectCollection.prototype.add.call(this, playlistItemToAdd, options);

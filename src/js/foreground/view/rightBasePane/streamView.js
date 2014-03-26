@@ -1,6 +1,6 @@
 ﻿define([
     'background/collection/playlists',
-    'background/collection/videoSearchResults',
+    'background/collection/searchResults',
     'background/model/user',
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
@@ -12,7 +12,7 @@
     'foreground/view/multiSelectCompositeView',
     'foreground/view/rightBasePane/streamItemView',
     'text!template/stream.html'
-], function (Playlists, VideoSearchResults, User, RadioButton, RepeatButton, ShuffleButton, ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
+], function (Playlists, SearchResults, User, RadioButton, RepeatButton, ShuffleButton, ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
     'use strict';
     
     var StreamView = MultiSelectCompositeView.extend({
@@ -43,8 +43,8 @@
             'click @ui.radioButton': 'toggleRadio',
             'click @ui.repeatButton': 'toggleRepeat',
             
-            'click @ui.showVideoSearch': function () {
-                EventAggregator.trigger('streamView:showVideoSearch');
+            'click @ui.showSearch': function () {
+                EventAggregator.trigger('showSearch');
             }
         }),
         
@@ -69,7 +69,7 @@
             radioButton: '#radio-button',
             repeatButton: '#repeat-button',
             clearStreamButton: 'button.clear',
-            showVideoSearch: '.show-video-search'
+            showSearch: '.show-search'
         },
         
         onShow: function () {
@@ -180,9 +180,9 @@
                 case RepeatButtonState.Disabled:
                     title = chrome.i18n.getMessage('repeatDisabled');
                     break;
-                case RepeatButtonState.RepeatVideo:
-                    title = chrome.i18n.getMessage('repeatVideo');
-                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-video' });
+                case RepeatButtonState.RepeatSong:
+                    title = chrome.i18n.getMessage('repeatSong');
+                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-song' });
                     break;
                 case RepeatButtonState.RepeatStream:
                     title = chrome.i18n.getMessage('repeatStream');

@@ -77,12 +77,14 @@
                     }, {
                         text: chrome.i18n.getMessage('add'),
                         onClick: function() {
-                            StreamItems.addByVideo(self.model.get('video'));
+                            StreamItems.addSources(self.model.get('source'));
                         }
                     }, {
                         text: chrome.i18n.getMessage('play'),
                         onClick: function() {
-                            StreamItems.addByVideo(self.model.get('video'), true);
+                            StreamItems.addSources(self.model.get('source'), {
+                                playOnAdd: true
+                            });
                         }
                     }, {
                         text: chrome.i18n.getMessage('watchOnYouTube'),

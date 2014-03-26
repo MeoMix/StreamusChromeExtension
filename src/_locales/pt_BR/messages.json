@@ -37,7 +37,7 @@
 		"message": "Alternar (desligado/ligado) o shuffle"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Alternar (desligado/repeatVideo/repeatStream) repetir"
+		"message": "Alternar (desligado/repeatSong/repeatStream) repetir"
 	},
 	"save": {
 		"message": "Salvar"
@@ -95,7 +95,7 @@
 	"repeatDisabled": {
 		"message": "Repeat desativado"
 	},
-	"repeatVideo": {
+	"repeatSong": {
 		"message": "Repetir vídeo"
 	},
 	"repeatStream": {
@@ -333,10 +333,10 @@
 	"showTooltips": {
 		"message": "Mostrar dicas"
 	},
-	"showVideoSearch": {
+	"showSearch": {
 		"message": "Mostrar busca de vídeos"
 	},
-	"hideVideoSearch": {
+	"hideSearch": {
 		"message": "Esconder busca de vídeos"
 	},
 	"closeMenu": {

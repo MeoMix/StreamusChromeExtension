@@ -333,10 +333,10 @@
     "showTooltips": {
             "message": "Zeige Tooltips"
     },
-    "showVideoSearch": {
+    "showSearch": {
             "message": "Zeige Videosuche"
     },
-    "hideVideoSearch": {
+    "hideSearch": {
             "message": "Verstecke Videosuche"
     },
     "closeMenu": {

@@ -24,7 +24,7 @@
         },
         
         addToStream: _.debounce(function () {
-            StreamItems.addByVideo(this.model, false);
+            StreamItems.addSources(this.model, false);
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;

@@ -1,8 +1,7 @@
-﻿//  PlaylistItems have a one-to-one relationship with a Video object via the videoId property.
-define([
+﻿define([
     'background/model/settings',
-    'background/model/video'
-], function (Settings, Video) {
+    'background/model/source'
+], function (Settings, Source) {
     'use strict';
     
     var PlaylistItem = Backbone.Model.extend({
@@ -11,15 +10,16 @@ define([
                 id: null,
                 playlistId: null,
                 sequence: -1,
-                video: null,
+                source: null,
                 title: '',
-                
-                //  TODO: Not stored on the server... not sure if that's a big deal just yet.
                 selected: false,
                 firstSelected: false
             };
         },
+        
+        //  TODO: Move this to PlaylistItems
         urlRoot: Settings.get('serverURL') + 'PlaylistItem/',
+        
         parse: function (playlistItemDto) {
             
             //  Convert C# Guid.Empty into BackboneJS null
@@ -28,27 +28,56 @@ define([
                     playlistItemDto[key] = null;
                 }
             }
-
-            // Take json of video and set into model. Delete to prevent overriding on return of data object.
-            this.get('video').set(playlistItemDto.video);
-            delete playlistItemDto.video;
+            console.log("playlistItem parse being called");
+            //  TODO: Is it actually a Source object already here?
+            //  Map the DTO's flattened Source properties into an actual Source object.
+            this.get('source').set({
+                id: playlistItemDto.sourceId,
+                title: playlistItemDto.sourceTitle,
+                author: playlistItemDto.author,
+                duration: playlistItemDto.duration,
+                highDefinition: playlistItemDto.highDefinition,
+                type: playlistItemDto.sourceType
+            });
+            
+            //  Delete to prevent overriding on return of data object.
+            delete playlistItemDto.sourceId;
+            delete playlistItemDto.sourceTitle;
+            delete playlistItemDto.author;
+            delete playlistItemDto.duration;
+            delete playlistItemDto.highDefinition;
+            delete playlistItemDto.sourceType;
 
             return playlistItemDto;
         },
+        
         toJSON: function () {
-            //  Backbone Model's toJSON doesn't automatically send cid across, but I want it for re-mapping collections after server saves.
+            
+            //  Flatten the JSON being sent back to the server because only want to save a PlaylistItem and not a Source.
             var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
-            json.cid = this.cid;
+
+            var source = this.get('source');
+
+            json.sourceId = source.get('id');
+            json.sourceTitle = source.get('title');
+            json.sourceType = source.get('type');
+            json.author = source.get('author');
+            json.duration = source.get('duration');
+            json.highDefinition = source.get('highDefinition');
+
             return json;
         },
+        
         initialize: function () {
-            var video = this.get('video');
+            //  TODO: Can this just be combined into parse with a simple new Source?
+            console.log("playlistItem initialize being called");
+            var source = this.get('source');
 
-            //  Need to convert video object to Backbone.Model
-            if (!(video instanceof Backbone.Model)) {
-                video = new Video(video);
-                //  Silent because video is just being properly set.
-                this.set('video', video, { silent: true });
+            //  Need to convert source object to Backbone.Model
+            if (!(source instanceof Backbone.Model)) {
+                source = new Source(source);
+                //  Silent because source is just being properly set.
+                this.set('source', source, { silent: true });
             }
 
         }
@@ -58,13 +87,13 @@ define([
     //  Public exposure of a constructor for building new PlaylistItem objects.
     return function (config) {
 
-        //  Default the PlaylistItem's title to the Video's title, but allow overriding.
+        //  Default the PlaylistItem's title to the Source's title, but allow overriding.
         if (config && config.title === undefined || config.title === '') {
             //  Support data coming straight from the server and being used to initialize
-            //  TODO: I can't use instanceof Backbone.Model here because if the Video came from the foreground and this is evaluated in the background
-            //  instanceof Backbone.Model returns false even if the Video really is a Backbone.Model.
-            //config.title = config.video instanceof Backbone.Model ? config.video.get('title') : config.title;
-            config.title = config.video.get ? config.video.get('title') : config.video.title;
+            //  TODO: I can't use instanceof Backbone.Model here because if the Source came from the foreground and this is evaluated in the background
+            //  instanceof Backbone.Model returns false even if the Source really is a Backbone.Model.
+            //config.title = config.source instanceof Backbone.Model ? config.source.get('title') : config.title;
+            config.title = config.source.get ? config.source.get('title') : config.source.title;
         }
 
         var playlistItem = new PlaylistItem(config);

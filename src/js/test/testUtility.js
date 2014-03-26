@@ -1,13 +1,13 @@
 ﻿define([
-    'background/model/video',
+    'background/model/source',
     'background/model/playlistItem'
-], function(Video, PlaylistItem) {
+], function(Source, PlaylistItem) {
     'use strict';
 
     return {
-        //  Construct a basic Video object fit for general testing.
-        buildVideo: function() {
-            return new Video({
+        //  Construct a basic Source object fit for general testing.
+        buildSource: function() {
+            return new Source({
                 id: 'M7lc1UVf-VE',
                 title: 'YouTube Developers Live: Embedded Web Player Customization',
                 author: 'Google Developers',
@@ -17,11 +17,11 @@
 
         //  Construct a basic PlaylistItem object fit for general testing.
         buildPlaylistItem: function() {
-            var video = this.buildVideo();
+            var source = this.buildSource();
 
             return new PlaylistItem({
-                video: video,
-                title: video.get('title')
+                source: source,
+                title: source.get('title')
             });
         }
     };

@@ -4,8 +4,8 @@
     <img class="item-thumb" data-original="http://img.youtube.com/vi/<%= source.get('id') %>/default.jpg" />
 <% } %>
 
-<span class="item-title" title="<%= title %>">
-    <%= title %>
+<span class="item-title" title="<%= source.get('title') %>">
+    <%= source.get('title') %>
 </span>
 
 <span class="item-details">
@@ -20,5 +20,5 @@
 <span class="hover-actions">
     <span class="play-in-stream-region"></span>
     <span class="add-to-stream-region"></span>
-    <span class="delete-region"></span>
+    <span class="save-to-playlist-region"></span>
 </span>

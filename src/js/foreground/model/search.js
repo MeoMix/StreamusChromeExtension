@@ -1,14 +1,14 @@
 ﻿define([
-    'background/collection/videoSearchResults',
+    'background/collection/searchResults',
     'background/model/settings',
     'common/enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',
     'common/model/dataSource'
-], function (VideoSearchResults, Settings, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (SearchResults, Settings, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
-    var VideoSearch = Backbone.Model.extend({
+    var Search = Backbone.Model.extend({
         
         defaults: function () {
             return {
@@ -24,8 +24,8 @@
             var searchQuery = this.get('searchQuery');
 
             //  TODO: Should I not store searchQuery in Settings then? I'm not really sure why I would want to store it in localStorage.
-            //  VideoSearchResults will be empty if Streamus was restarted, but searchQuery is stored in settings (probably a bad call)
-            if (searchQuery !== '' && VideoSearchResults.length === 0) {
+            //  SearchResults will be empty if Streamus was restarted, but searchQuery is stored in settings (probably a bad call)
+            if (searchQuery !== '' && SearchResults.length === 0) {
                 this.search(searchQuery);
             }
         },
@@ -48,7 +48,7 @@
 
             //  If the user provided no text to search on -- clear the search and do nothing.
             if ($.trim(searchQuery) === '') {
-                VideoSearchResults.setFromVideoInformationList([]);
+                SearchResults.clear();
                 return;
             }
             
@@ -80,7 +80,7 @@
                 searchJqXhr = YouTubeV2API.getVideoInformation({
                     videoId: dataSource.get('sourceId'),
                     success: function (videoInformation) {
-                        VideoSearchResults.setFromVideoInformation(videoInformation);
+                        SearchResults.setFromVideoInformation(videoInformation);
                     },
                     complete: this.onSearchComplete.bind(this)
                 });
@@ -92,7 +92,7 @@
                     success: function (videoInformationList) {
                         //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                         if (searchQuery === self.get('searchQuery')) {
-                            VideoSearchResults.setFromVideoInformationList(videoInformationList);
+                            SearchResults.setFromVideoInformationList(videoInformationList);
                         }
                     },
                     complete: this.onSearchComplete.bind(this)
@@ -117,7 +117,7 @@
             //        success: function (playlistInformationList) {
 
             //            self.set('searchJqXhr', null);
-            //            videoSearchResults.setFromPlaylistInformationList(playlistInformationList);
+            //            sarchResults.setFromPlaylistInformationList(playlistInformationList);
             //        },
             //        error: function () {
             //            self.set('searchJqXhr', null);
@@ -129,5 +129,5 @@
 
     });
 
-    return VideoSearch;
+    return Search;
 });
