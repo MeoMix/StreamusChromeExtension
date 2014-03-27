@@ -143,7 +143,7 @@
                     }
                 }, {
                     text: chrome.i18n.getMessage('banUntilClear'),
-                    disabled: StreamItems.getRelatedVideos().length < 5,
+                    disabled: StreamItems.getRelatedSongs().length < 5,
                     onClick: function () {
                         StreamItems.ban(self.model);
                         self.model.destroy();

@@ -97,10 +97,6 @@
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
-        onClose: function() {
-            chrome.extension.getBackgroundPage().console.log("playlistsAreaView closing");
-        },
-        
         onAfterItemAdded: function (view) {
             if (this.isFullyVisible) {
                 view.setTitleTooltip(view.ui.readonlyTitle);
@@ -108,8 +104,6 @@
         },
         
         onShow: function () {
-            console.log("PlaylistsAreaView onShow is firing");
-
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'

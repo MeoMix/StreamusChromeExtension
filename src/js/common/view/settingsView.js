@@ -46,7 +46,6 @@
 
             var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
             Settings.set('showTooltips', showTooltips);
-            $('[title]').qtip('disable', !showTooltips);
 
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
             Settings.set('alwaysOpenToSearch', alwaysOpenToSearch);

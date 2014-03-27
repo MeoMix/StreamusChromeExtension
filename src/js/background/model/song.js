@@ -41,12 +41,11 @@ define([
             //  Whenever Song is updated via setYouTubeInformation (or other ways), re-calculate values.
             this.on('change:duration', this.setPrettyDuration);
             this.on('change:title', this.setCleanTitle);
-            this.on('change:url', this.setURL);
+            this.on('change:id', this.setURL);
         },
         
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
         setPrettyDuration: function () {
-            console.log("Duration:", this.get('duration'));
             this.set('prettyDuration', Utility.prettyPrintTime(this.get('duration')));
         },
         
@@ -55,7 +54,7 @@ define([
             this.set('cleanTitle', Utility.cleanTitle(this.get('title')));
         },
         
-        setURL: function() {
+        setURL: function () {
             this.set('url', 'https://youtu.be/' + this.get('id'));
         },
         
@@ -66,8 +65,11 @@ define([
             //  v3 API songInformation will have the id stored directly in the information object.
             //  TODO: Need a better v3 detector than this.
             if (songInformation.id && songInformation.id.length === 11) {
+                console.log("Setting v3:", songInformation);
                 this.set(config.songInformation);
             } else {
+                console.log("Setting from other stuff");
+
                 this.set({
                     id: songInformation.media$group.yt$videoid.$t,
                     title: songInformation.title.$t,
@@ -75,6 +77,8 @@ define([
                     author: songInformation.author[0].name.$t,
                     highDefinition: songInformation.yt$hd != null
                 });
+
+                console.log("Id:", this.get('id'));
             }
 
         }

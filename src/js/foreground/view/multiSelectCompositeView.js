@@ -64,9 +64,6 @@
                 placeholder: 'sortable-placeholder list-item hidden-until-change',
 
                 helper: function (ui, listItem) {
-
-                    console.log("listItem:", listItem);
-
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
@@ -169,8 +166,6 @@
                     this.selectedItems.css({
                         opacity: '1'
                     });
-
-                    console.log("Setting copy helper to null", this, this.copyHelper);
 
                     this.copyHelper = null;
                     this.backCopyHelper = null;
@@ -296,8 +291,6 @@
             var isSelectedAlready = modelToSelect.get('selected');
             modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 
-            console.log("I have set modelToSelect to selected:", modelToSelect, modelToSelect.get('selected'));
-
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
 
@@ -311,8 +304,6 @@
                     //  Get the search result which was selected first and go from its index.
                     firstSelectedIndex = this.collection.indexOf(firstSelected);
                 }
-
-                console.log("firstSelectedIndex:", firstSelectedIndex);
 
                 //  Select all items between the selected item and the firstSelected item.
                 this.collection.each(function (model, index) {

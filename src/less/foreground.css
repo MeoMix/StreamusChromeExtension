@@ -32,13 +32,12 @@ body.loading > *:not(.spinner):not(.reload-streamus-prompt) {
 body.loading > .spinner {
   display: block;
 }
-body.showTooltips .qtip {
-  display: block;
+body.hide-tooltips .qtip {
+  display: none !important;
 }
 body .qtip {
   min-width: 0;
   cursor: default;
-  display: none;
 }
 body .qtip-light {
   border-color: #ebebeb;
@@ -750,20 +749,6 @@ input:focus ~ .underline {
   top: 10px;
   z-index: 1;
   width: calc(100% - 73px);
-}
-.search-bar button#source-select {
-  bottom: 11px;
-  display: block;
-  font-weight: bold;
-  position: absolute;
-  right: 0;
-  text-align: left;
-  text-indent: .3em;
-  top: 10px;
-  width: 140px;
-}
-.search-bar button#source-select .label {
-  margin: 0 0.7em 0 0.5em;
 }
 .big-text {
   cursor: default;

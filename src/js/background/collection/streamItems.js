@@ -166,7 +166,9 @@
                         var song = new Song();
                         song.setFromSongInformation(songInformationList[0]);
 
-                        self.addSongs(song, !!playOnAdd);
+                        self.addSongs(song, {
+                            playOnAdd: !!playOnAdd
+                        });
                     }
 
                     if (callback) {
@@ -350,8 +352,6 @@
                         nextItem = this.at(0);
                     }
                     else if (radioEnabled) {
-
-                        console.log("radio enabled");
 
                         var randomRelatedSong = this.getRandomRelatedSong();
 

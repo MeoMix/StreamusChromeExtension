@@ -24,9 +24,6 @@
         instant: false,
 
         templateHelpers: function () {
-
-            console.log("Template helpers for ListItem:", this.model.get('songId'), this.model.get('song'));
-
             return {
                 hdMessage: chrome.i18n.getMessage('hd'),
                 instant: this.instant

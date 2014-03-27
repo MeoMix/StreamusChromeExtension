@@ -144,7 +144,7 @@
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
-                        StreamItems.addSongs(self.model.get('items').pluck('song'), false);
+                        StreamItems.addSongs(self.model.get('items').pluck('song'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('edit'),

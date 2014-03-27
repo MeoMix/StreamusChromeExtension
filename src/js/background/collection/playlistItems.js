@@ -124,7 +124,7 @@
         var duplicateFound = !_.isUndefined(duplicatePlaylistItem);
 
         if (duplicateFound) {
-            console.log("I found a duplicate!");
+
             //  Make their IDs match to prevent adding to the collection.
             //  TODO: Is there a more clear way to do this?
             if (duplicatePlaylistItem.has('id')) {

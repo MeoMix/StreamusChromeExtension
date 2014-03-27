@@ -82,8 +82,6 @@ define([
             //  Trying to get user's info without signing in, it will work if the
             //  Application was previously authorized by the user.
             //this.getUserInfo(function (userInfo) {
-            //    console.log("User Info:", userInfo);
-
             //    if (userInfo === null) {
             //        //  There was an issue fetching your information
             //        this.signIn();
@@ -259,8 +257,6 @@ define([
                 chrome.storage.sync.set(storedKey);
             }
 
-            console.log("Song:", Playlists.at(0).get('items').at(0).get('song'));
-
             //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
             this.set('signedIn', true);
@@ -276,7 +272,6 @@ define([
         //  Loads user data by ID from the server, writes the ID to client-side storage locations
         //  for future loading and then announces that the user has been signedIn.
         loadFromServer: function (setSyncStorage) {
-            console.log("I am now trying to load user with id:", this.get('id'));
             this.fetch({
                 success: function (model) {
                     this.onLoaded(model, setSyncStorage);

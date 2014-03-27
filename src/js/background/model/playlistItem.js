@@ -29,70 +29,23 @@
                     playlistItemDto[key] = null;
                 }
             }
-            console.log("playlistItem parse being called", playlistItemDto);
 
-            //  Map the DTO's flattened Song properties into an actual Song object.
-            this.set('song', new Song({
-                id: playlistItemDto.songId,
-                title: playlistItemDto.songTitle,
-                type: playlistItemDto.songType,
-                author: playlistItemDto.author,
-                duration: playlistItemDto.duration,
-                highDefinition: playlistItemDto.highDefinition
-            }));
-            
-            //  Delete to prevent overriding on return of data object.
-            delete playlistItemDto.songId;
-            delete playlistItemDto.songTitle;
-            delete playlistItemDto.songType;
-            delete playlistItemDto.author;
-            delete playlistItemDto.duration;
-            delete playlistItemDto.highDefinition;
+            // Take json of song and set into model. Delete to prevent overriding on return of data object.
+            this.get('song').set(playlistItemDto.song);
+            delete playlistItemDto.song;
 
             return playlistItemDto;
         },
-        
-        toJSON: function () {
-            
-            //  Flatten the JSON being sent back to the server because only want to save a PlaylistItem and not a Song.
-            var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
-
-            var song = this.get('song');
-
-            //  TODO: I don't want to send song across to the server, but I do want to use it in my templating -- how to do that?
-            //  Maybe my server's DTO should have a Song but be responsible for flattening?
-            //delete json.song;
-            json.songId = song.get('id');
-            json.songTitle = song.get('title');
-            json.songType = song.get('type');
-            json.author = song.get('author');
-            json.duration = song.get('duration');
-            json.highDefinition = song.get('highDefinition');
-
-            return json;
-        },
-        
 
         initialize: function () {
-            //  TODO: Parse isn't called when User is loaded. need to fix!!!
-
-            if (!this.has('song')) {
-                console.log("Detected no song, parsing");
-                this.set(this.parse(this.attributes));
-
-                console.log("This:", this);
-            }
-
-            //  TODO: Can this just be combined into parse with a simple new Song?
-            console.log("playlistItem initialize being called", this);
-            //var song = this.get('song');
+            var song = this.get('song');
 
             //  Need to convert song object to Backbone.Model
-            //if (!(song instanceof Backbone.Model)) {
-            //    song = new Song(song);
-            //    //  Silent because song is just being properly set.
-            //    this.set('song', song, { silent: true });
-            //}
+            if (!(song instanceof Backbone.Model)) {
+                song = new Song(song);
+                //  Silent because song is just being properly set.
+                this.set('song', song, { silent: true });
+            }
 
         }
     });

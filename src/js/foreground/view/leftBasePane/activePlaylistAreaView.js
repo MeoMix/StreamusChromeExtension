@@ -94,11 +94,13 @@
         },
 
         addAllToStream: function () {
-            StreamItems.addSongs(this.model.get('items').pluck('song'), false);
+            StreamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
         playAllInStream: function() {
-            StreamItems.addSongs(this.model.get('items').pluck('song'), true);
+            StreamItems.addSongs(this.model.get('items').pluck('song'), {
+                playOnAdd: true
+            });
         }
     });
 

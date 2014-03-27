@@ -103,8 +103,8 @@
                 this.showSearch(false);
             }
 
-            this.listenTo(Settings, 'change:showTooltips', this.setShowTooltipsClass);
-            this.setShowTooltipsClass();
+            this.listenTo(Settings, 'change:showTooltips', this.setHideTooltipsClass);
+            this.setHideTooltipsClass();
 
             this.listenTo(Player, 'error', this.showYouTubeError);
             this.listenTo(Player, 'change:state', this.setPlayerStateClass);
@@ -139,8 +139,8 @@
             }
         },
         
-        setShowTooltipsClass: function() {
-            this.$el.toggleClass('show-tooltips', Settings.get('showTooltips'));
+        setHideTooltipsClass: function() {
+            this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
         },
 
         //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
@@ -208,8 +208,6 @@
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
                 var playlistsArea = new PlaylistsArea();
-
-                console.log("PlaylistsAreaView is being created", playlistsArea);
 
                 //  Show the view using SearchResults collection in which to render its results from.
                 this.leftCoveringPaneRegion.show(new PlaylistsAreaView({
