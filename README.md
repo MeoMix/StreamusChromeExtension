@@ -1,7 +1,7 @@
 Streamus™
 =========
 
-A Google Chrome extension which allows users to add YouTube videos to playlists, share playlists and discover new YouTube videos.
+A Google Chrome extension which allows users to add YouTube songs to playlists, share playlists and discover new YouTube songs.
 
 Overview
 ========
