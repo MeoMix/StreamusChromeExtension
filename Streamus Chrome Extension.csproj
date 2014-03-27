@@ -104,16 +104,16 @@
     <Content Include="src\js\background\model\shareCode.js" />
     <Content Include="src\js\background\model\streamItem.js" />
     <Content Include="src\js\background\model\user.js" />
-    <Content Include="src\js\background\model\source.js" />
+    <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
     <Content Include="src\js\background\model\youTubePlayerAPI.js" />
     <Content Include="src\js\background\notifications.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
-    <Content Include="src\js\common\enum\sourceType.js" />
+    <Content Include="src\js\common\enum\songType.js" />
     <Content Include="src\js\common\googleAPI.js" />
     <Content Include="src\js\common\model\dataSource.js" />
-    <Content Include="src\js\common\model\relatedVideoInformationManager.js" />
+    <Content Include="src\js\common\model\relatedSongInformationManager.js" />
     <Content Include="src\js\common\model\utility.js" />
     <Content Include="src\js\common\model\youTubeV2API.js" />
     <Content Include="src\js\common\model\youTubeV3API.js" />
@@ -132,9 +132,9 @@
     <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\genericPrompt.js" />
     <Content Include="src\js\foreground\model\notification.js" />
-    <Content Include="src\js\foreground\model\saveVideos.js" />
     <Content Include="src\js\foreground\model\playlistsArea.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
+    <Content Include="src\js\foreground\model\saveSongs.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
     <Content Include="src\js\foreground\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
@@ -142,6 +142,8 @@
     <Content Include="src\js\foreground\view\addToStreamButtonView.js" />
     <Content Include="src\js\foreground\view\mixin\titleTooltip.js" />
     <Content Include="src\js\foreground\view\multiSelectListItemView.js" />
+    <Content Include="src\js\foreground\view\prompt\saveSongsPromptView.js" />
+    <Content Include="src\js\foreground\view\saveSongsView.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\deleteButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\updateStreamusPromptView.js" />
@@ -165,7 +167,6 @@
     <Content Include="src\js\foreground\view\prompt\createPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\notificationPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\reloadStreamusPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\saveVideosPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\genericPromptView.js" />
     <Content Include="src\js\foreground\view\notificationView.js" />
     <Content Include="src\js\foreground\view\reloadStreamusView.js" />
@@ -174,7 +175,6 @@
     <Content Include="src\js\foreground\view\rightBasePane\streamView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\timeProgressView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\volumeView.js" />
-    <Content Include="src\js\foreground\view\saveVideosView.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\searchResultView.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\searchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
@@ -233,6 +233,7 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\saveSongs.html" />
     <Content Include="src\template\updateStreamus.html" />
     <Content Include="src\template\deleteButton.html" />
     <Content Include="src\template\saveToPlaylistButton.html" />
@@ -251,7 +252,6 @@
     <Content Include="src\template\playlistItem.html" />
     <Content Include="src\template\reloadStreamus.html" />
     <Content Include="src\template\rightBasePane.html" />
-    <Content Include="src\template\saveVideos.html" />
     <Content Include="src\template\settings.html" />
     <Content Include="src\template\signIn.html" />
     <Content Include="src\template\stream.html" />
