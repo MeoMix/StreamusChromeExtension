@@ -9,27 +9,6 @@
     "extensionTitle": {
             "message": "Streamus: Musik streamen, auf einfache Art."
     },
-    "nextVideoCommandDescription": {
-            "message": "Zum nächsten Video im Stream springen"
-    },
-    "previousVideoCommandDescription": {
-            "message": "Zum vorherigen Video im Stream springen"
-    },
-    "toggleVideoCommandDescription": {
-            "message": "Wiedergabe umschalten zwischen (Wiedergabe/Pause)"
-    },
-    "saveVideoCommandDescription": {
-            "message": "Video zur momentanen Playlist hinzufügen"
-    },
-    "deleteVideoCommandDescription": {
-            "message": "Das derzeitige Video aus dem Stream entfernen"
-    },
-    "copyVideoUrlCommandDescription": {
-            "message": "Die URL des derzeitigen Videos kopieren"
-    },
-    "copyVideoTitleUrlCommandDescription": {
-            "message": "Die URL und Titel des derzeitigen Videos kopieren"
-    },
     "toggleRadioCommandDescription": {
             "message": "Das Radio (Aus/An) schalten"
     },
@@ -37,7 +16,7 @@
             "message": "Zufallswiedergabe (Aus/An) schalten"
     },
     "toggleRepeatCommandDescription": {
-            "message": "Zwischen (Aus/Video/Stream) wiederholen umschalten"
+            "message": "Zwischen wiederholen umschalten"
     },
     "save": {
             "message": "Speichern"
@@ -47,9 +26,6 @@
     },
     "copyTitleAndUrl": {
             "message": "Kopiere Titel - URL"
-    },
-    "deleteVideo": {
-            "message": "Lösche Video"
     },
     "delete": {
             "message": "Lösche",
@@ -72,14 +48,8 @@
     "selectPlaylist": {
             "message": "Wähle Playlist"
     },
-    "videoAddSuccess": {
-            "message": "Video wurde erfolgreich zu Streamus hinzugefügt."
-    },
     "errorEncountered": {
             "message": "Ein Fehler wurde festgestellt."
-    },
-    "addVideo": {
-            "message": "Hinzufügen eines Videos"
     },
     "working": {
             "message": "Arbeite",
@@ -94,9 +64,6 @@
     },
     "repeatDisabled": {
             "message": "Wiederholen deaktiviert"
-    },
-    "repeatVideo": {
-            "message": "Wiederhole Video"
     },
     "repeatStream": {
             "message": "Wiederhole Stream"
@@ -204,12 +171,6 @@
     "typeToCreateOrFilterPlaylists": {
             "message": "Tippen zum Erstellen oder Filtern von Playlists"
     },
-    "saveVideo": {
-            "message": "Speichere Video"
-    },
-    "saveVideos": {
-            "message": "Speichere Videos"
-    },
     "play": {
             "message": "Abspielen"
     },
@@ -267,12 +228,6 @@
             "message": "Playlist löschen",
             "description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
     },
-    "video": {
-            "message": "Video"
-    },
-    "videos": {
-            "message": "Videos"
-    },
     "minute": {
             "message": "Minute"
     },
@@ -288,32 +243,8 @@
     "errorRetrievingTitle": {
             "message": "Fehler beim holen des Titels"        
     },
-    "youTubePlayerErrorInvalidParameter": {
-            "message": "Die Anfrage enthält einen ungültigen Wert. Zum Bespiel, dieser Fehler passiert wenn eine Video ID keine 11 Buchstaben beinhaltet, oder falls die Video ID ungültige Buchstaben beinhaltet wie Ausrufezeichen oder Sternchen."
-    },
-    "youTubePlayerErrorVideoNotFound": {
-            "message": "Video wurde nicht gefunden. Das kann passieren wenn ein Video entfernt oder als privat markiert wurde."
-    },
-    "youTubePlayerErrorNoPlayEmbedded": {
-            "message": "Video wurde nicht für die Wiedergabe in eingebetteten Playern authorisiert."
-    },
     "keyboardCommandFailure": {
             "message": "Eingabe fehlerhaft"
-    },
-    "cantSkipToNextVideo": {
-            "message": "Kann nicht zum nächsten Video springen."
-    },
-    "cantGoBackToPreviousVideo": {
-            "message": "Kann nicht zum vorherigen Video springen."
-    },
-    "cantToggleVideoState": {
-            "message": "Kann Videostatus nicht umschalten."
-    },
-    "hideVideo": {
-            "message": "Verstecke Video"
-    },
-    "showVideo": {
-            "message": "Zeige Video"
     },
     "streamEmpty": {
             "message": "Stream leer"
@@ -333,12 +264,6 @@
     "showTooltips": {
             "message": "Zeige Tooltips"
     },
-    "showSearch": {
-            "message": "Zeige Videosuche"
-    },
-    "hideSearch": {
-            "message": "Verstecke Videosuche"
-    },
     "closeMenu": {
             "message": "Schliesse Menü"
     },
@@ -348,20 +273,11 @@
     "wouldYouLikeTo": {
             "message": "Möchtest du"
     },
-    "searchForVideos": {
-            "message": "nach Videos suchen"
-    },
     "hd": {
             "message": "HD"
     },
     "general": {
             "message": "Allgemein"
-    },
-    "videoQuality": {
-            "message": "Videoqualität"
-    },
-    "whyNotAddAVideoFromAPlaylistOr": {
-            "message": "Warum nicht das Video einer Playlist hinzufügen oder"
     },
     "startTyping": {
             "message": "Etwas eingeben"

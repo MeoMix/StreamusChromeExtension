@@ -35,15 +35,15 @@
         
         onRender: function () {
             this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('source')
+                model: this.model.get('song')
             }));
             
             this.addToStreamRegion.show(new AddToStreamButtonView({
-                model: this.model.get('source')
+                model: this.model.get('song')
             }));
             
             this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
-                model: this.model.get('source')
+                model: this.model.get('song')
             }));
 
             this.setSelectedClass();
@@ -56,26 +56,26 @@
         showContextMenu: function (event) {
             event.preventDefault();
             
-            var source = this.model.get('source');
+            var song = this.model.get('song');
             
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('play'),
                     onClick: function () {
-                        StreamItems.addSources(source, {
+                        StreamItems.addSongs(song, {
                             playOnAdd: true
                         });
                     }
                 }, {
                     text: chrome.i18n.getMessage('add'),
                     onClick: function () {
-                        StreamItems.addSources(source);
+                        StreamItems.addSongs(song);
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: source.get('url')
+                            text: song.get('url')
                         });
                     }
                 }, {
@@ -83,14 +83,14 @@
                     onClick: function () {
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + source.get('title') + '" - ' + source.get('url')
+                            text: '"' + song.get('title') + '" - ' + song.get('url')
                         });
                     }
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
                         chrome.tabs.create({
-                            url: source.get('url')
+                            url: song.get('url')
                         });
                     }
                 }]

@@ -31,7 +31,7 @@
         });
 
         //  TODO: Finish testing this one. It can cleanse more than just this.
-        it('Should be able to cleanse a YouTube video title', function() {
+        it('Should be able to cleanse a YouTube song title', function() {
             expect(Utility.cleanTitle(' ')).toEqual('');
             expect(Utility.cleanTitle('**NEW**')).toEqual('');
             expect(Utility.cleanTitle('[1999]')).toEqual('');

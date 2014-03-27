@@ -1,8 +1,8 @@
 ﻿define([
     'background/collection/multiSelectCollection',
     'background/model/searchResult',
-    'background/model/source'
-], function (MultiSelectCollection, SearchResult, Source) {
+    'background/model/song'
+], function (MultiSelectCollection, SearchResult, Song) {
     'use strict';
     
     //  If the foreground requests, don't instantiate -- return existing from the background.
@@ -27,28 +27,27 @@
             this.reset(results);
         },
         
-        setFromVideoInformation: function (videoInformation) {
+        setFromSongInformation: function (songInformation) {
 
-            var source = new Source();
-            source.setYouTubeVideoInformation(videoInformation);
+            var song = new Song();
+            song.setYouTubeInformation(songInformation);
 
-            //  Convert video information into search results which contain a reference to the full data incase needed later.
             var searchResult = new SearchResult({
-                source: source
+                song: song
             });
 
             this.setResults(searchResult);
         },
 
-        setFromVideoInformationList: function (videoInformationList) {
-            //  Convert video information into search results which contain a reference to the full data incase needed later.
-            var searchResults = _.map(videoInformationList, function (videoInformation) {
+        setFromSongInformationList: function (songInformationList) {
 
-                var source = new Source();
-                source.setYouTubeVideoInformation(videoInformation);
+            var searchResults = _.map(songInformationList, function (songInformation) {
+
+                var song = new Song();
+                song.setYouTubeInformation(songInformation);
 
                 var searchResult = new SearchResult({
-                    source: source
+                    song: song
                 });
 
                 return searchResult;
@@ -57,18 +56,18 @@
             this.setResults(searchResults);
         },
         
-        getBySourceId: function (sourceId) {
+        getBySongId: function (songId) {
             var foundSearchResult = this.find(function(searchResult) {
-                return searchResult.get('source').get('id') === sourceId;
+                return searchResult.get('song').get('id') === songId;
             });
 
             return foundSearchResult;
         },
         
-        //  Returns the underlying Sources of the selected SearchResults.
-        getSelectedSources: function() {
+        //  Returns the underlying Songs of the selected SearchResults.
+        getSelectedSongs: function() {
             return _.map(this.selected(), function (searchResult) {
-                return searchResult.get('source');
+                return searchResult.get('song');
             });
         }
         

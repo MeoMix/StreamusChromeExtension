@@ -1,8 +1,8 @@
 ﻿define([
     'background/model/user',
-    'foreground/view/prompt/saveSourcesPromptView',
+    'foreground/view/prompt/saveSongsPromptView',
     'text!template/saveToPlaylistButton.html'
-], function (User, SaveSourcesPromptView, SaveToPlaylistButtonTemplate) {
+], function (User, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
@@ -38,11 +38,11 @@
         saveToPlaylist: _.debounce(function () {
             // Return false even on disabled button click so the click event does not bubble up and select the item. 
             if (!this.$el.hasClass('disabled')) {  
-                var saveSourcesPromptView = new SaveSourcesPromptView({
-                    videos: [this.model]
+                var saveSongsPromptView = new SaveSongsPromptView({
+                    songs: [this.model]
                 });
 
-                saveSourcesPromptView.fadeInAndShow();
+                saveSongsPromptView.fadeInAndShow();
             }
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.

@@ -24,7 +24,8 @@
         instant: false,
 
         templateHelpers: function () {
-            console.log("Template helpers is running", this.instant);
+
+            console.log("Template helpers for ListItem:", this.model.get('songId'), this.model.get('song'));
 
             return {
                 hdMessage: chrome.i18n.getMessage('hd'),
@@ -34,7 +35,6 @@
 
         initialize: function (options) {
             this.instant = options && !_.isUndefined(options.instant) ? options.instant : this.instant;
-            console.log("This.instant:", this.instant);
         },
 
         setSelectedClass: function () {

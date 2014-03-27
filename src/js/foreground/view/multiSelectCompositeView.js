@@ -121,7 +121,7 @@
                             //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
                             var draggedStreamItem = self.collection.get(streamItemId);
 
-                            var alreadyExists = Playlists.getActivePlaylist().get('items').sourceAlreadyExists(draggedStreamItem.get('source'));
+                            var alreadyExists = Playlists.getActivePlaylist().get('items').songAlreadyExists(draggedStreamItem.get('song'));
                             ui.placeholder.toggleClass('no-drop', alreadyExists);
                         } else {
                             ui.placeholder.addClass('not-signed-in');
@@ -202,8 +202,8 @@
                         var draggedStreamItems = StreamItems.selected();
                         StreamItems.deselectAll();
 
-                        var sources = _.map(draggedStreamItems, function(streamItem) {
-                            return streamItem.get('source');
+                        var songs = _.map(draggedStreamItems, function(streamItem) {
+                            return streamItem.get('song');
                         });
 
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
@@ -216,7 +216,7 @@
                         //ui.item.removeClass('selected');
 
                         ////  Don't allow duplicates
-                        //var alreadyExists = self.collection.sourceAlreadyExists(draggedStreamItem.get('source'));
+                        //var alreadyExists = self.collection.songAlreadyExists(draggedStreamItem.get('song'));
 
                         //if (alreadyExists) {
                         //    ui.item.remove();
@@ -224,7 +224,7 @@
                         //else {
 
                         //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addBySourcesStartingAtIndex(sources, ui.item.index());
+                            self.model.addSongsStartingAtIndex(songs, ui.item.index());
 
                             //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
                             //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
@@ -240,11 +240,11 @@
                         var draggedPlaylistItems = activePlaylistItems.selected();
                         
                         //  TODO: Can I just pluck here instead?
-                        var sources = _.map(draggedPlaylistItems, function (playlistItem) {
-                            return playlistItem.get('source');
+                        var songs = _.map(draggedPlaylistItems, function (playlistItem) {
+                            return playlistItem.get('song');
                         });
 
-                        self.collection.addSources(sources, { index: ui.item.index() });
+                        self.collection.addSongs(songs, { index: ui.item.index() });
 
                         activePlaylistItems.deselectAll();
                         ui.item.remove();
@@ -253,11 +253,11 @@
                         SearchResults.deselectAll();
 
                         //  TODO: Can I just pluck here instead?
-                        var sources = _.map(draggedSearchResults, function(searchResult) {
-                            return searchResult.get('source');
+                        var songs = _.map(draggedSearchResults, function (searchResult) {
+                            return searchResult.get('song');
                         });
 
-                        self.collection.addSources(sources, { index: ui.item.index() });
+                        self.collection.addSongs(songs, { index: ui.item.index() });
                         ui.item.remove();
                     }
 

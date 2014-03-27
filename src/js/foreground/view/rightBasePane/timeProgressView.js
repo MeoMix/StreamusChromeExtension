@@ -1,4 +1,4 @@
-﻿//  A progress bar which shows the elapsed time as compared to the total time of the current video.
+﻿//  A progress bar which shows the elapsed time as compared to the total time of the current song.
 define([
     'background/collection/streamItems',
     'background/model/settings',
@@ -47,9 +47,9 @@ define([
         onRender: function () {
             this.ui.timeRange.toggleClass('disabled', StreamItems.length === 0);
                 
-            //  If a video is currently playing when the GUI opens then initialize with those values.
+            //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
-            this.setTotalTime(this.getCurrentVideoDuration());
+            this.setTotalTime(this.getCurrentSongDuration());
             this.setCurrentTime(this.model.get('currentTime'));
         },
         
@@ -134,11 +134,11 @@ define([
         },
         
         restart: function () {
-            //  Disable auto-updates here because there's a split second while changing videos that a timer tick makes things flicker weirdly.
+            //  Disable auto-updates here because there's a split second while changing songs that a timer tick makes things flicker weirdly.
             this.autoUpdate = false;
 
             this.setCurrentTime(0);
-            this.setTotalTime(this.getCurrentVideoDuration());
+            this.setTotalTime(this.getCurrentSongDuration());
 
             this.autoUpdate = true;
         },
@@ -159,7 +159,7 @@ define([
             }
         },
 
-        //  Repaints the progress bar's filled-in amount based on the % of time elapsed for current video.
+        //  Repaints the progress bar's filled-in amount based on the % of time elapsed for current song.
         //  Keep separate from render because render is based on the player's values and updateProgress is based on the progress bar's values.
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
@@ -187,13 +187,13 @@ define([
  
         },
 
-        //  Return 0 or active video's duration.
-        getCurrentVideoDuration: function () {
+        //  Return 0 or active song's duration.
+        getCurrentSongDuration: function () {
             var duration = 0;
 
             if (StreamItems.length > 0) {
                 var activeStreamItem = StreamItems.getActiveItem();
-                duration = activeStreamItem.get('video').get('duration');
+                duration = activeStreamItem.get('song').get('duration');
             }
 
             return duration;

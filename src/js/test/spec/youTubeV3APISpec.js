@@ -5,31 +5,28 @@
 
     describe('YouTubeV3API', function () {
 
-        it('Should be able to get related video information', function() {
-            var relatedVideoInformation = null;
+        it('Should be able to get related song information', function() {
+            var relatedSongInformation = null;
 
             runs(function() {
-                YouTubeV3API.getRelatedVideoInformation({
-                    videoId: 'CxHFnVCZDRo',
+                YouTubeV3API.getRelatedSongInformation({
+                    songId: 'CxHFnVCZDRo',
                     success: function (response) {
-                        relatedVideoInformation = response;
+                        relatedSongInformation = response;
                         
-                        var videos = _.map(relatedVideoInformation.items, function (info) {
+                        var songs = _.map(relatedSongInformation.items, function (info) {
                             return {
                                 id: info.id.videoId,
                                 title: info.snippet.title
                             };
                         });
-
-                        //console.table(videos);
-
                     }
                 });
             });
 
             waitsFor(function () {
-                return relatedVideoInformation !== null;
-            }, "RelatedVideoInformation should be set", 2000);
+                return relatedSongInformation !== null;
+            }, "RelatedSongInformation should be set", 2000);
 
         });
 

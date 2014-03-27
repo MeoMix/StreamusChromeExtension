@@ -3,9 +3,9 @@
     'background/model/user',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftCoveringPane/searchResultView',
-    'foreground/view/prompt/saveSourcesPromptView',
+    'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (StreamItems, User, MultiSelectCompositeView, SearchResultView, SaveSourcesPromptView, SearchTemplate) {
+], function (StreamItems, User, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
     
     var SearchView = MultiSelectCompositeView.extend({
@@ -110,7 +110,7 @@
             }.bind(this));
         },
 
-        //  This is ran whenever the user closes the video search view, but the foreground remains open.
+        //  This is ran whenever the user closes the search view, but the foreground remains open.
         onClose: function () {
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
@@ -135,7 +135,7 @@
             chrome.extension.getBackgroundPage().startClearResultsTimer();
         },
         
-        //  Searches youtube for video results based on the given text.
+        //  Searches youtube for song results based on the given text.
         search: function () {
             var searchQuery = $.trim(this.ui.searchInput.val());
             this.model.search(searchQuery);
@@ -176,13 +176,13 @@
         },
         
         playSelected: function () {
-            StreamItems.addSources(this.collection.getSelectedSources(), {
+            StreamItems.addSongs(this.collection.getSelectedSongs(), {
                 playOnAdd: true
             });
         },
         
         addSelected: function() {
-            StreamItems.addSources(this.collection.getSelectedSources());
+            StreamItems.addSongs(this.collection.getSelectedSongs());
         },
 
         showSaveSelectedPrompt: function () {
@@ -190,10 +190,10 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                var saveSourcesPromptView = new SaveSourcesPromptView({
-                    sources: this.collection.getSelectedSources()
+                var saveSongsPromptView = new SaveSongsPromptView({
+                    songs: this.collection.getSelectedSongs()
                 });
-                saveSourcesPromptView.fadeInAndShow();
+                saveSongsPromptView.fadeInAndShow();
             }
             //  Don't close the menu if disabled
             return !disabled;

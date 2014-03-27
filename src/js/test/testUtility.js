@@ -1,13 +1,13 @@
 ﻿define([
-    'background/model/source',
+    'background/model/song',
     'background/model/playlistItem'
-], function(Source, PlaylistItem) {
+], function(Song, PlaylistItem) {
     'use strict';
 
     return {
-        //  Construct a basic Source object fit for general testing.
-        buildSource: function() {
-            return new Source({
+        //  Construct a basic Song object fit for general testing.
+        buildSong: function() {
+            return new Song({
                 id: 'M7lc1UVf-VE',
                 title: 'YouTube Developers Live: Embedded Web Player Customization',
                 author: 'Google Developers',
@@ -17,11 +17,11 @@
 
         //  Construct a basic PlaylistItem object fit for general testing.
         buildPlaylistItem: function() {
-            var source = this.buildSource();
+            var song = this.buildSong();
 
             return new PlaylistItem({
-                source: source,
-                title: source.get('title')
+                song: song,
+                title: song.get('title')
             });
         }
     };

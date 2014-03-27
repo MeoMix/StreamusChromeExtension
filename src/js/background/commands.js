@@ -17,35 +17,35 @@ define([
     chrome.commands.onCommand.addListener(function (command) {
 
         switch (command) {
-            case 'nextVideo':
-                var activatedNextVideo = NextButton.tryActivateNextVideo();
+            case 'nextSong':
+                var activatedStreamItem = NextButton.tryActivateNextStreamItem();
 
-                if (!activatedNextVideo) {
+                if (!activatedStreamItem) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('cantSkipToNextVideo')
+                        message: chrome.i18n.getMessage('cantSkipToNextSong')
                     });
                 }
                 
                 break;
-            case 'previousVideo':
+            case 'previousSong':
                 var didPrevious = PreviousButton.tryDoTimeBasedPrevious();
                 
                 if (!didPrevious) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('cantGoBackToPreviousVideo')
+                        message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
                     });
                 }
                 
                 break;
-            case 'toggleVideo':                
+            case 'toggleSong':
                 var didTogglePlayerState = PlayPauseButton.tryTogglePlayerState();
 
                 if (!didTogglePlayerState) {
                     Notifications.showNotification({
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
-                        message: chrome.i18n.getMessage('cantToggleVideoState')
+                        message: chrome.i18n.getMessage('cantToggleSong')
                     });
                 }
                 
@@ -59,26 +59,26 @@ define([
             case 'toggleRepeat':
                 RepeatButton.toggleRepeat();
                 break;
-            case 'addVideoToPlaylist':
-                Playlists.getActivePlaylist().addByVideo(StreamItems.getActiveItem().get('video'));
+            case 'saveActiveSong':
+                Playlists.getActivePlaylist().addSongs(StreamItems.getActiveItem().get('song'));
                 break;
-            case 'deleteVideoFromStream':
+            case 'deleteSongFromStream':
                 StreamItems.getActiveItem().destroy();
                 break;
-            case 'copyVideoUrl':
+            case 'copySongUrl':
 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: StreamItems.getActiveItem().get('video').get('url')
+                    text: StreamItems.getActiveItem().get('song').get('url')
                 });
 
                 break;
-            case 'copyVideoTitleAndUrl':                
+            case 'copySongTitleAndUrl':                
                 var activeItem = StreamItems.getActiveItem();
                 
                 chrome.extension.sendMessage({
                     method: 'copy',
-                    text: '"' + activeItem.get('title') + '" - ' + activeItem.get('video').get('url')
+                    text: '"' + activeItem.get('title') + '" - ' + activeItem.get('song').get('url')
                 });
 
                 break;

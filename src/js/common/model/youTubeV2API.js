@@ -9,13 +9,13 @@ define([
         
         defaults: function () {
 
-            var videoInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl,yt:hd';
+            var songInformationFields = 'author,title,media:group(yt:videoid,yt:duration),yt:accessControl,yt:hd';
 
             return {
                 //  These fields tell the YouTube API what fields to respond with to limit the amount of data going over the wire. 
-                videoInformationFields: videoInformationFields,
-                //  This is what to return for a list of videos instead of just a single entry.
-                videoListInformationFields: 'entry(' + videoInformationFields + ')'
+                songInformationFields: songInformationFields,
+                //  This is what to return for a list of songs instead of just a single entry.
+                songListInformationFields: 'entry(' + songInformationFields + ')'
             };
         },
 
@@ -75,11 +75,11 @@ define([
             });
         },
 
-        //  Performs a search of YouTube with the provided text and returns a list of playable videos (<= max-results)
+        //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function (options) {
 
-            //  TODO: When chrome.location API is stable - filter out videos and suggestions which are restricted by the users geographic location.
+            //  TODO: When chrome.location API is stable - filter out songs and suggestions which are restricted by the users geographic location.
             return this.sendV2ApiRequest({
                 url: 'https://gdata.youtube.com/feeds/api/videos',
                 data: {
@@ -87,10 +87,10 @@ define([
                     time: 'all_time',
                     'max-results': options.maxResults || 50,
                     'start-index': 1,
-                    //  Developers commonly add &format=5 to their queries to restrict results to videos that can be embedded on their sites.
+                    //  Developers commonly add &format=5 to their queries to restrict results to songs that can be embedded on their sites.
                     format: 5,
                     q: options.text,
-                    fields: this.get('videoListInformationFields')
+                    fields: this.get('songListInformationFields')
                 },
                 success: function (result) {
                     options.success(result.feed.entry || []);
@@ -114,14 +114,14 @@ define([
 
             return this.search({
                 text: title,
-                success: function (videoInformationList) {
+                success: function (songInformationList) {
 
-                    videoInformationList.sort(function (a, b) {
+                    songInformationList.sort(function (a, b) {
                         return Utility.getLevenshteinDistance(a.title.$t, title) - Utility.getLevenshteinDistance(b.title.$t, title);
                     });
 
-                    var videoInformation = videoInformationList.length > 0 ? videoInformationList[0] : null;
-                    options.success(videoInformation);
+                    var songInformation = songInformationList.length > 0 ? songInformationList[0] : null;
+                    options.success(songInformation);
                 },
                 error: options.error
             });
@@ -169,14 +169,14 @@ define([
             });
         },
 
-        getVideoInformation: function (options) {
+        getSongInformation: function (options) {
 
             return this.sendV2ApiRequest({
-                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.videoId,
+                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.songId,
                 data: {
-                    //  Developers commonly add &format=5 to their queries to restrict results to videos that can be embedded on their sites.
+                    //  Developers commonly add &format=5 to their queries to restrict results to songs that can be embedded on their sites.
                     format: 5,
-                    fields: this.get('videoInformationFields')
+                    fields: this.get('songInformationFields')
                 },
                 success: function (result) {
                     var isValid = this.validateEntry(result.entry);
@@ -195,7 +195,7 @@ define([
                 error: function () {
                     //  If the caller knew the video's title along with id -- find a replacement for the banned video
                     this.findPlayableByTitle({
-                        title: options.videoTitle,
+                        title: options.title,
                         success: options.success,
                         error: options.error
                     });
@@ -204,8 +204,8 @@ define([
             });
         },
 
-        //  Returns the results of a request for a segment of a channel, playlist, or other data source.
-        //  CurrentIteration is an indexer to be able to grab deeper pages of a data source
+        //  Returns the results of a request for a segment of a channel, playlist, or other dataSource.
+        //  CurrentIteration is an indexer to be able to grab deeper pages of a dataSource
         getDataSourceResults: function (dataSource, currentIteration, callback) {
 
             if (dataSource.isV3()) throw "YouTubeV2 API getDataSourceResults cannot handle a V3 dataSource";
@@ -220,7 +220,7 @@ define([
                     'start-index': startIndex
                 },
                 success: function (result) {
-                    //  If the video duration has not been provided, video was deleted - skip.
+                    //  If the song duration has not been provided, song was deleted - skip.
                     var validResults = _.filter(result.feed.entry, function (resultEntry) {
                         return resultEntry.media$group.yt$duration !== undefined;
                     });
@@ -246,8 +246,8 @@ define([
         },
 
         //  TODO: I only call this in one spot, but I feel like it could be useful elsewhere?
-        //  Some videos aren't allowed to be played in Streamus, but it is possible to find a replacement
-        //  after detecting that the video would not be allowed.
+        //  Some songs aren't allowed to be played in Streamus, but it is possible to find a replacement
+        //  after detecting that the song would not be allowed.
         validateEntry: function (entry) {
             var ytAccessControlList = entry.yt$accessControl;
 

@@ -59,7 +59,7 @@
         },
         
         //  Prevent spamming by only allowing a next click once every 100ms.
-        tryActivateNextVideo: _.debounce(function () {
+        tryActivateNextStreamItem: _.debounce(function () {
 
             var activatedNextItem = false;
 

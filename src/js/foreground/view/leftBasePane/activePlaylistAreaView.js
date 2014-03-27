@@ -13,7 +13,7 @@
         templateHelpers: function () {
             return {
                 showSearchMessage: chrome.i18n.getMessage('showSearch'),
-                searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
+                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
                 playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
                 wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo'),
                 addAllMessage: chrome.i18n.getMessage('addAll'),
@@ -94,11 +94,11 @@
         },
 
         addAllToStream: function () {
-            StreamItems.addBySources(this.model.get('items').pluck('source'), false);
+            StreamItems.addSongs(this.model.get('items').pluck('song'), false);
         },
         
         playAllInStream: function() {
-            StreamItems.addBySources(this.model.get('items').pluck('source'), true);
+            StreamItems.addSongs(this.model.get('items').pluck('song'), true);
         }
     });
 

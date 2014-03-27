@@ -9,27 +9,6 @@
 	"extensionTitle": {
 		"message": "Streamus: Streaming de música simples."
 	},
-	"nextVideoCommandDescription": {
-		"message": "Vá para o próximo vídeo no stream"
-	},
-	"previousVideoCommandDescription": {
-		"message": "Vá para o vídeo anterior no stream"
-	},
-	"toggleVideoCommandDescription": {
-		"message": "Alternar (play/pausar) o vídeo atual"
-	},
-	"saveVideoCommandDescription": {
-		"message": "Adicionar o vídeo atual em uma playlist"
-	},
-	"deleteVideoCommandDescription": {
-		"message": "Remover o vídeo atual do stream"
-	},
-	"copyVideoUrlCommandDescription": {
-		"message": "Copiar a URL do vídeo atual"
-	},
-	"copyVideoTitleUrlCommandDescription": {
-		"message": "Copiar a URL e o título do vídeo atual"
-	},
 	"toggleRadioCommandDescription": {
 		"message": "Alternar (desligado/ligado) o rádio"
 	},
@@ -37,7 +16,7 @@
 		"message": "Alternar (desligado/ligado) o shuffle"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Alternar (desligado/repeatSong/repeatStream) repetir"
+		"message": "Alternar repetir"
 	},
 	"save": {
 		"message": "Salvar"
@@ -47,9 +26,6 @@
 	},
 	"copyTitleAndUrl": {
 		"message": "Copiar título - URL"
-	},
-	"deleteVideo": {
-		"message": "Deletar vídeo"
 	},
 	"delete": {
 		"message": "Deletar",
@@ -72,14 +48,8 @@
 	"selectPlaylist": {
 		"message": "Selecionar playlist"
 	},
-	"videoAddSuccess": {
-		"message": "Vídeo adicionado com sucesso ao Streamus."
-	},
 	"errorEncountered": {
 		"message": "Um erro foi encontrado."
-	},
-	"addVideo": {
-		"message": "Adicionar video"
 	},
 	"working": {
 		"message": "Processando",
@@ -204,12 +174,6 @@
 	"typeToCreateOrFilterPlaylists": {
 		"message": "Digite para criar ou filtrar playlists"
 	},
-	"saveVideo": {
-		"message": "Salvar video"
-	},
-	"saveVideos": {
-		"message": "Salvar vídeos"
-	},
 	"play": {
 		"message": "Play"
 	},
@@ -267,12 +231,6 @@
 		"message": "Lembre-se de deletar a playlist",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
 	},
-	"video": {
-		"message": "Vídeo"
-	},
-	"videos": {
-		"message": "Vídeos"
-	},
 	"minute": {
 		"message": "Minuto"
 	},
@@ -288,32 +246,8 @@
 	"errorRetrievingTitle": {
 		"message": "Erro ao recuperar o título"	
 	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "A solicitação possui um parâmetro inválido. Por exemplo, este erro acontece se você específicar o ID de um vídeo que não possui 11 caracteres, ou se o ID do vídeo possui caracteres inválidos, como pontos de exclamação e asteriscos."
-	},
-	"youTubePlayerErrorVideoNotFound": {
-		"message": "O vídeo não foi encontrado. Isso acontece quando um vídeo foi deletado ou marcado como privado."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "O vídeo solicitado não permite playback em player incorporado."
-	},
 	"keyboardCommandFailure": {
 		"message": "Falha de comando de teclado"
-	},
-	"cantSkipToNextVideo": {
-		"message": "Não foi possível pular o próximo vídeo."
-	},
-	"cantGoBackToPreviousVideo": {
-		"message": "Não foi possível retornar ao vídeo anterior."
-	},
-	"cantToggleVideoState": {
-		"message": "Não foi possível alterar o estado do vídeo."
-	},
-	"hideVideo": {
-		"message": "Esconder vídeo"
-	},
-	"showVideo": {
-		"message": "Mostrar vídeo"
 	},
 	"streamEmpty": {
 		"message": "Stream vazio"
@@ -333,12 +267,6 @@
 	"showTooltips": {
 		"message": "Mostrar dicas"
 	},
-	"showSearch": {
-		"message": "Mostrar busca de vídeos"
-	},
-	"hideSearch": {
-		"message": "Esconder busca de vídeos"
-	},
 	"closeMenu": {
 		"message": "Fechar menu"
 	},
@@ -348,20 +276,11 @@
 	"wouldYouLikeTo": {
 		"message": "Você gostaria de"
 	},
-	"searchForVideos": {
-		"message": "Procurar por vídeos"
-	},
 	"hd": {
 		"message": "HD"
 	},
 	"general": {
 		"message": "Geral"
-	},
-	"videoQuality": {
-		"message": "Qualidade do vídeo"
-	},
-	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "Porque não adicionar um vídeo de uma playlist ou"
 	},
 	"startTyping": {
 		"message": "Comece a digitar"

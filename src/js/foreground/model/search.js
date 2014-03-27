@@ -77,10 +77,10 @@
             //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
             if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
 
-                searchJqXhr = YouTubeV2API.getVideoInformation({
-                    videoId: dataSource.get('sourceId'),
-                    success: function (videoInformation) {
-                        SearchResults.setFromVideoInformation(videoInformation);
+                searchJqXhr = YouTubeV2API.getSongInformation({
+                    songId: dataSource.get('songId'),
+                    success: function (songInformation) {
+                        SearchResults.setFromSongInformation(songInformation);
                     },
                     complete: this.onSearchComplete.bind(this)
                 });
@@ -89,10 +89,10 @@
 
                 searchJqXhr = YouTubeV2API.search({
                     text: searchQuery,
-                    success: function (videoInformationList) {
+                    success: function (songInformationList) {
                         //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                         if (searchQuery === self.get('searchQuery')) {
-                            SearchResults.setFromVideoInformationList(videoInformationList);
+                            SearchResults.setFromSongInformationList(songInformationList);
                         }
                     },
                     complete: this.onSearchComplete.bind(this)

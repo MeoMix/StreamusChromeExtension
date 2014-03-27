@@ -12,7 +12,7 @@
             
         //    for (var i = 0; i < 5; i++) {
         //        streamItems.push({
-        //            video: TestUtility.buildVideo(),
+        //            song: TestUtility.buildSong(),
         //            title: ''
         //        });
         //    }

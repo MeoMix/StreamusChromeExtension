@@ -11,7 +11,7 @@
                 //  Important for proper shift+click functionality.
                 firstSelected: false,
                 
-                source: null
+                song: null
             };
         },
         

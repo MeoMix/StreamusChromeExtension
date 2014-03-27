@@ -11,6 +11,13 @@
         model: PlaylistItem,
 
         comparator: 'sequence',
+        
+        initialize: function (models, options) {
+            //  TODO: Kinda weird. Maybe collections shouldn't know their parent ID.
+            this.playlistId = options.playlistId;
+            
+            MultiSelectCollection.prototype.initialize.call(this, arguments);
+        },
 
         save: function (attributes, options) {
             var self = this;
@@ -74,7 +81,7 @@
 
         savePlaylistItem: function (playlistItem, callback) {
 
-            if (this.sourceAlreadyExists(playlistItem.get('source'))) {
+            if (this.songAlreadyExists(playlistItem.get('song'))) {
                 //  TODO: No real indication of failure due to non-uniqueness.
                 if (callback) {
                     callback(playlistItem);
@@ -100,18 +107,18 @@
 
         },
         
-        //  Figure out if an item is already in the collection by sourceId to allow for preventing duplicates.
-        sourceAlreadyExists: function(source) {
+        //  Figure out if an item is already in the collection by songId to allow for preventing duplicates.
+        songAlreadyExists: function(song) {
             return this.some(function (playlistItem) {
-                return playlistItem.get('source').get('id') === source.get('id');
+                return playlistItem.get('song').get('id') === song.get('id');
             });
         }
         
     });
     
-    function trySetDuplicateSourceId(playlistItemToAdd) {
+    function trySetDuplicateSongId(playlistItemToAdd) {
         var duplicatePlaylistItem = this.find(function (playlistItem) {
-            return playlistItem.get('source').get('id') === playlistItemToAdd.get('source').get('id');
+            return playlistItem.get('song').get('id') === playlistItemToAdd.get('song').get('id');
         });
 
         var duplicateFound = !_.isUndefined(duplicatePlaylistItem);
@@ -130,18 +137,15 @@
     }
     
     //  TODO: Do I have to extend prototype or can I just define add: inside PlaylistItem?
-    //  Don't allow duplicate PlaylistItems by sourceId. 
+    //  Don't allow duplicate PlaylistItems by songId. 
     PlaylistItems.prototype.add = function (playlistItemToAdd, options) {
         
         if (_.isArray(playlistItemToAdd)) {
-
-            console.log("Array found in playlistItems add");
-
             _.each(playlistItemToAdd, function(itemToAdd) {
-                trySetDuplicateSourceId.call(this, itemToAdd);
+                trySetDuplicateSongId.call(this, itemToAdd);
             }.bind(this));
         } else {
-            trySetDuplicateSourceId.call(this, playlistItemToAdd);
+            trySetDuplicateSongId.call(this, playlistItemToAdd);
         }
 
         return MultiSelectCollection.prototype.add.call(this, playlistItemToAdd, options);

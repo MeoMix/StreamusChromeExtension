@@ -15,7 +15,7 @@ define([
 
     var YouTubePlayer = Backbone.Model.extend({
         defaults: {
-            //  Returns the elapsed time of the currently loaded video. Returns 0 if no video is playing
+            //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
             currentTime: 0,
             //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
             ready: false,
@@ -25,7 +25,7 @@ define([
             volume: 50,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
-            loadedVideoId: ''
+            loadedSongId: ''
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -51,21 +51,20 @@ define([
 
             });
 
-            var refreshPausedVideoInterval = null;
+            var refreshPausedSongInterval = null;
             this.on('change:state', function (model, state) {
 
-                clearInterval(refreshPausedVideoInterval);
+                clearInterval(refreshPausedSongInterval);
        
                 if (state === PlayerState.Paused) {
 
-                    //  Start a long running timer when the player becomes paused. This is because a YouTube video
+                    //  Start a long running timer when the player becomes paused. This is because YouTube
                     //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
-                    //  Refresh videos after every 8 hours.
                     var eightHoursInMilliseconds = 28800000;
 
-                    refreshPausedVideoInterval = setInterval(function () {
+                    refreshPausedSongInterval = setInterval(function () {
                         
-                        self.cueVideoById(self.get('loadedVideoId'), self.get('currentTime'));
+                        self.cueSongById(self.get('loadedSongId'), self.get('currentTime'));
 
                     }, eightHoursInMilliseconds);
 
@@ -89,7 +88,7 @@ define([
                         }
                         
                         //  YouTube's API for seeking/buffering doesn't fire events reliably.
-                        //  Listen directly to the video element for better results.
+                        //  Listen directly to the element for more responsive results.
                         if (message.seeking !== undefined) {
                             
                             if (message.seeking) {
@@ -153,41 +152,41 @@ define([
 
         },
 
-        cueVideoById: function (videoId, startSeconds) {
-            //  Helps for keeping things in sync when the same video reloads.
-            if (this.get('loadedVideoId') === videoId) {
-                this.trigger('change:loadedVideoId');
+        cueSongById: function (songId, startSeconds) {
+            //  Helps for keeping things in sync when the same song reloads.
+            if (this.get('loadedSongId') === songId) {
+                this.trigger('change:loadedSongId');
             }
 
-            this.set('loadedVideoId', videoId);
+            this.set('loadedSongId', songId);
             
             if (youTubePlayer === null) {
                 console.error('youTubePlayer not instantiated');
             } else {
                 youTubePlayer.cueVideoById({
-                    videoId: videoId,
+                    videoId: songId,
                     startSeconds: startSeconds || 0,
                     suggestedQuality: Settings.get('suggestedQuality')
                 });
             }
 
             //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
-            //  but until the video actually loads -- current time isn't set.
+            //  but until the song actually loads -- current time isn't set.
             this.set('currentTime', startSeconds || 0);
 
         },
             
-        loadVideoById: function (videoId, startSeconds) {
-            //  Helps for keeping things in sync when the same video reloads.
-            if (this.get('loadedVideoId') === videoId) {
-                this.trigger('change:loadedVideoId');
+        loadSongById: function (songId, startSeconds) {
+            //  Helps for keeping things in sync when the same song reloads.
+            if (this.get('loadedSongId') === songId) {
+                this.trigger('change:loadedSongId');
             }
             
             this.set('state', PlayerState.Buffering);
-            this.set('loadedVideoId', videoId);
+            this.set('loadedSongId', songId);
 
             youTubePlayer.loadVideoById({
-                videoId: videoId,
+                videoId: songId,
                 startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
@@ -211,7 +210,7 @@ define([
         stop: function () {
             this.set('state', PlayerState.Unstarted);
             youTubePlayer.stopVideo();
-            this.set('loadedVideoId', '');
+            this.set('loadedSongId', '');
         },
 
         pause: function () {
@@ -226,13 +225,13 @@ define([
             }
         },
         
-        //  Once the Player indicates its loadedVideo has changed (to the video just selected in the stream) 
-        //  Call play to change from cueing the video to playing, but let the stack clear first because loadedVideoId
-        //  is set just before cueVideoById has finished.
-        playOnceVideoChanges: function() {
+        //  Once the Player indicates is loadedSongId has changed (to the song just selected in the stream) 
+        //  Call play to change from cueing the song to playing, but let the stack clear first because loadedSongId
+        //  is set just before cueSongById has finished.
+        playOnceSongChanges: function() {
             var self = this;
 
-            this.once('change:loadedVideoId', function () {
+            this.once('change:loadedSongId', function () {
                 setTimeout(function () {
                     self.play();
                 });
@@ -243,11 +242,11 @@ define([
 
             var state = this.get('state');
             
-            if (state === PlayerState.Unstarted || state === PlayerState.VideoCued) {
-                this.cueVideoById(this.get('loadedVideoId'), timeInSeconds);
+            if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
+                this.cueSongById(this.get('loadedSongId'), timeInSeconds);
                 this.set('currentTime', timeInSeconds);
             } else {
-                //  The true paramater allows the youTubePlayer to seek ahead past its buffered video.
+                //  The true paramater allows the youTubePlayer to seek ahead past what is buffered.
                 youTubePlayer.seekTo(timeInSeconds, true);
             }
             

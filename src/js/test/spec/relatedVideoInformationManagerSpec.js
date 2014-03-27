@@ -1,88 +1,87 @@
 ﻿define([
-    'common/model/relatedVideoInformationManager'
-], function (RelatedVideoInformationManager) {
+    'common/model/relatedSongInformationManager'
+], function (RelatedSongInformationManager) {
     'use strict';
     
-    //  TODO: Learn how to use Spys properly and monitor how many times RelatedVideoManager issues requests.
-    describe('RelatedVideoInformationManager', function () {
+    describe('RelatedSongInformationManager', function () {
 
-        it('Should be able to get a queue requests for related video information', function() {
+        it('Should be able to get a queue requests for related song information', function() {
 
             var requests = [{
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function(){}
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }, {
-                videoId: 'btDPtzCGNTE',
+                songId: 'btDPtzCGNTE',
                 success: function () { }
             }];
 
             runs(function () {
                 _.each(requests, function (request) {
-                    RelatedVideoInformationManager.getRelatedVideoInformation(request);
+                    RelatedSongInformationManager.getRelatedSongInformation(request);
                 });
             });
 
             waitsFor(function () {
-                return RelatedVideoInformationManager.get('concurrentRequestCount') > 0;
+                return RelatedSongInformationManager.get('concurrentRequestCount') > 0;
             }, "concurrentRequestCount should have been incremented", 2000);
 
             runs(function() {
-                expect(RelatedVideoInformationManager.get('requestQueue').length).toBeGreaterThan(0);
+                expect(RelatedSongInformationManager.get('requestQueue').length).toBeGreaterThan(0);
             });
 
         });
 
-        it('Should be able to get a video\'s related video information', function () {
-            var relatedVideoInformation = null;
+        it('Should be able to get a song\'s related information', function () {
+            var relatedSongInformation = null;
             runs(function () {
-                RelatedVideoInformationManager.getRelatedVideoInformation({
-                    videoId: 'btDPtzCGNTE',
+                RelatedSongInformationManager.getRelatedSongInformation({
+                    songId: 'btDPtzCGNTE',
                     success: function(response) {
-                        relatedVideoInformation = response;
+                        relatedSongInformation = response;
                     }
                 });
             }, 500);
             
             waitsFor(function () {
-                return relatedVideoInformation !== null;
-            }, "RelatedVideoInformation should be set", 2000);
+                return relatedSongInformation !== null;
+            }, "RelatedSongInformation should be set", 2000);
 
             runs(function () {
 
-                var videos = _.map(relatedVideoInformation, function (info) {
+                var songs = _.map(relatedSongInformation, function (info) {
                     return {
                         id: info.media$group.yt$videoid.$t,
                         title: info.title.$t
                     };
                 });
                     
-                //console.table(videos);
-                expect(relatedVideoInformation.length).toBeGreaterThan(0);
-                expect(relatedVideoInformation.length).toBe(10);
+                //console.table(songs);
+                expect(relatedSongInformation.length).toBeGreaterThan(0);
+                expect(relatedSongInformation.length).toBe(10);
             });
 
         });

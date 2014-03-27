@@ -3,9 +3,8 @@
 ], function(YouTubeV2API) {
     'use strict';
 
-    //  Ensures that I don't flood the network with requests for related
-    //  video information whenever creating a large amount of stream items.
-    var RelatedVideoInformationManager = Backbone.Model.extend({
+    //  Ensures that I don't flood the network with requests for related information whenever creating a large amount of stream items.
+    var RelatedSongInformationManager = Backbone.Model.extend({
         defaults: function() {
             return {
                 concurrentRequestCount: 0,
@@ -16,9 +15,9 @@
             };
         },
 
-        //  When a video comes from the server it won't have its related videos, so need to fetch and populate.
-        //  Expects options: { videoId: string, success: function, error: function }
-        getRelatedVideoInformation: function(options) {
+        //  When a song comes from the server it won't have its related songs, so need to fetch and populate.
+        //  Expects options: { songId: string, success: function, error: function }
+        getRelatedSongInformation: function(options) {
 
             if (!this.canRequest()) {
                 this.get('requestQueue').push(options);
@@ -28,11 +27,11 @@
             this.set('concurrentRequestCount', this.get('concurrentRequestCount') + 1);
 
             YouTubeV2API.sendV2ApiRequest({
-                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.videoId + '/related',
+                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.songId + '/related',
                 data: {
                     category: 'Music',
-                    fields: YouTubeV2API.get('videoListInformationField'),
-                    //  Don't really need that many suggested videos, take 10.
+                    fields: YouTubeV2API.get('songListInformationField'),
+                    //  Don't really need that many suggested songs, take 10.
                     //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
                     'max-results': 10
                 },
@@ -41,7 +40,7 @@
                     var playableEntryList = [];
                     var unplayableEntryList = [];
 
-                    //  Sort all of the related videos returned into two piles - playable and unplayable.
+                    //  Sort all of the related songs returned into two piles - playable and unplayable.
                     _.each(result.feed.entry, function(entry) {
 
                         var isValid = YouTubeV2API.validateEntry(entry);
@@ -54,13 +53,13 @@
 
                     });
 
-                    //  Search YouTube by title and replace unplayable videos.
+                    //  Search YouTube by title and replace unplayable songs.
                     //  Since this is an asynchronous action -- need to wait for all of the events to finish before we have a fully complete list.
                     var deferredEvents = _.map(unplayableEntryList, function(entry) {
                         return YouTubeV2API.findPlayableByTitle({
                             title: entry.title.$t,
                             success: function(playableEntry) {
-                                //  Successfully found a replacement playable video
+                                //  Successfully found a replacement
                                 playableEntryList.push(playableEntry);
                             },
                             error: function(error) {
@@ -79,7 +78,7 @@
                         //  If more requests are queued up when this request finishes -- run another.
                         if (requestQueue.length > 0) {
                             var request = requestQueue.shift();
-                            this.getRelatedVideoInformation(request);
+                            this.getRelatedSongInformation(request);
                         }
                     }.bind(this));
 
@@ -94,5 +93,5 @@
         }
     });
 
-    return new RelatedVideoInformationManager();
+    return new RelatedSongInformationManager();
 });

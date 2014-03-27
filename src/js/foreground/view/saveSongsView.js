@@ -1,14 +1,14 @@
 ﻿define([
     'background/collection/playlists',
-    'text!template/saveSources.html'
-], function (Playlists, SaveSourcesTemplate) {
+    'text!template/saveSongs.html'
+], function (Playlists, SaveSongsTemplate) {
     'use strict';
 
-    var SaveSourcesView = Backbone.Marionette.ItemView.extend({
+    var SaveSongsView = Backbone.Marionette.ItemView.extend({
 
-        className: 'save-sources',
+        className: 'save-songs',
         
-        template: _.template(SaveSourcesTemplate),
+        template: _.template(SaveSongsTemplate),
 
         templateHelpers: {
             typeToCreateOrFilterPlaylistsMessage: chrome.i18n.getMessage('typeToCreateOrFilterPlaylists')
@@ -102,14 +102,14 @@
 
             if (this.model.get('creating')) {
                 var playlistTitle = this.ui.selectizeTitle.text();
-                Playlists.addPlaylistWithSources(playlistTitle, this.model.get('sources'));
+                Playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
             } else {
                 var selectedPlaylist = Playlists.get(selectedPlaylistId);
-                selectedPlaylist.addBySources(this.model.get('sources'));
+                selectedPlaylist.addSongs(this.model.get('songs'));
             }
         }
         
     });
 
-    return SaveSourcesView;
+    return SaveSongsView;
 });

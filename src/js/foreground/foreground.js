@@ -243,7 +243,7 @@
                     model: search
                 }));
 
-                //  When the user has clicked 'close video search' button the view will slide out and destroy its model. Cleanup events.
+                //  When the user has clicked 'close search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(search, 'destroy', function () {
                     this.leftCoveringPaneRegion.close();
                 });
@@ -266,7 +266,7 @@
                     text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
                     break;
                 case YouTubePlayerError.VideoNotFound:
-                    text = chrome.i18n.getMessage('youTubePlayerErrorVideoNotFound');
+                    text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
                     break;
                 case YouTubePlayerError.NoPlayEmbedded:
                 case YouTubePlayerError.NoPlayEmbedded2:

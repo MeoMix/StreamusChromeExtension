@@ -26,7 +26,7 @@ define([
         },
         
         events: {
-            'click @ui.nextButton': 'tryActivateNextVideo',
+            'click @ui.nextButton': 'tryActivateNextStreamItem',
             'click @ui.previousButton': 'tryDoTimeBasedPrevious',
             'click @ui.playPauseButton': 'tryTogglePlayerState'
         },
@@ -67,9 +67,9 @@ define([
             this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
         },
         
-        tryActivateNextVideo: function () {
+        tryActivateNextStreamItem: function () {
             //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
-            NextButton.tryActivateNextVideo();
+            NextButton.tryActivateNextStreamItem();
         },
         
         tryDoTimeBasedPrevious: function() {

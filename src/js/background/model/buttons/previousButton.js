@@ -34,7 +34,7 @@
 
             if (this.get('enabled')){
 
-                //  Restart video when clicking 'previous' if too much time has passed
+                //  Restart when clicking 'previous' if too much time has passed
                 if (Player.get('currentTime') > 5) {
                     Player.seekTo(0);
                 } else {

@@ -36,11 +36,11 @@
             this.setSelectedClass();
 
             this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('video')
+                model: this.model.get('song')
             }));
 
             this.addToStreamRegion.show(new AddToStreamButtonView({
-                model: this.model.get('video')
+                model: this.model.get('song')
             }));
 
             this.deleteRegion.show(new DeleteButtonView({
@@ -58,7 +58,7 @@
                         onClick: function() {
                             chrome.extension.sendMessage({
                                 method: 'copy',
-                                text: self.model.get('video').get('url')
+                                text: self.model.get('song').get('url')
                             });
                         }
                     }, {
@@ -66,23 +66,23 @@
                         onClick: function() {
                             chrome.extension.sendMessage({
                                 method: 'copy',
-                                text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
+                                text: '"' + self.model.get('title') + '" - ' + self.model.get('song').get('url')
                             });
                         }
                     }, {
-                        text: chrome.i18n.getMessage('deleteVideo'),
+                        text: chrome.i18n.getMessage('deleteSong'),
                         onClick: function() {
                             self.model.destroy();
                         }
                     }, {
                         text: chrome.i18n.getMessage('add'),
                         onClick: function() {
-                            StreamItems.addSources(self.model.get('source'));
+                            StreamItems.addSongs(self.model.get('song'));
                         }
                     }, {
                         text: chrome.i18n.getMessage('play'),
                         onClick: function() {
-                            StreamItems.addSources(self.model.get('source'), {
+                            StreamItems.addSongs(self.model.get('song'), {
                                 playOnAdd: true
                             });
                         }
@@ -90,7 +90,7 @@
                         text: chrome.i18n.getMessage('watchOnYouTube'),
                         onClick: function() {
                             chrome.tabs.create({
-                                url: self.model.get('video').get('url')
+                                url: self.model.get('song').get('url')
                             });
                         }
                     }]

@@ -4,5 +4,5 @@
     Playing: 1,
     Paused: 2,
     Buffering: 3,
-    VideoCued: 5
+    SongCued: 5
 });

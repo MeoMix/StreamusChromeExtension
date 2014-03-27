@@ -1,30 +1,30 @@
 ﻿define([
     'foreground/model/genericPrompt',
-    'foreground/model/saveSources',
-    'foreground/view/saveSourcesView',
+    'foreground/model/saveSongs',
+    'foreground/view/saveSongsView',
     'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, SaveSources, SaveSourcesView, GenericPromptView) {
+], function (GenericPrompt, SaveSongs, SaveSongsView, GenericPromptView) {
     'use strict';
     
-    var SaveSourcesPromptView = GenericPromptView.extend({
+    var SaveSongsPromptView = GenericPromptView.extend({
         
         model: null,
         
         initialize: function (options) {
 
-            var saveSources = new SaveSources({
-                sources: options.sources
+            var saveSongs = new SaveSongs({
+                songs: options.songs
             });
 
             this.model = new GenericPrompt({
-                title: options.videos.length === 1 ? chrome.i18n.getMessage('saveVideo') : chrome.i18n.getMessage('saveVideos'),
+                title: options.songs.length === 1 ? chrome.i18n.getMessage('saveSong') : chrome.i18n.getMessage('saveSongs'),
                 okButtonText: chrome.i18n.getMessage('save'),
-                view: new SaveSourcesView({
-                    model: saveSources
+                view: new SaveSongsView({
+                    model: saveSongs
                 })
             });
 
-            this.listenTo(saveSources, 'change:creating', function (creating) {
+            this.listenTo(saveSongs, 'change:creating', function (creating) {
                 if (creating) {
                     this.ui.okButton.text(chrome.i18n.getMessage('createPlaylist'));
                 } else {
@@ -36,5 +36,5 @@
         }
     });
 
-    return SaveSourcesPromptView;
+    return SaveSongsPromptView;
 });

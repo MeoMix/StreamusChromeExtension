@@ -4,8 +4,8 @@
     'foreground/model/genericPrompt',
     'foreground/view/prompt/genericPromptView',
     'foreground/view/clearStreamView',
-    'foreground/view/prompt/saveSourcesPromptView'
-], function (Settings, StreamItems, GenericPrompt, GenericPromptView, ClearStreamView, SaveSourcesPromptView) {
+    'foreground/view/prompt/saveSongsPromptView'
+], function (Settings, StreamItems, GenericPrompt, GenericPromptView, ClearStreamView, SaveSongsPromptView) {
 
     var StreamAction = Backbone.Model.extend({
         clearStream: function () {
@@ -33,11 +33,11 @@
         
         saveStream: function() {
             if (StreamItems.length > 0) {
-                var saveSourcesPromptView = new SaveSourcesPromptView({
-                    videos: StreamItems.pluck('video')
+                var saveSongsPromptView = new SaveSongsPromptView({
+                    songs: StreamItems.pluck('song')
                 });
 
-                saveSourcesPromptView.fadeInAndShow();
+                saveSongsPromptView.fadeInAndShow();
             }
         }
     });

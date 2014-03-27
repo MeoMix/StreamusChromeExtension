@@ -55,7 +55,7 @@
             this.setSelectedClass();
 
             this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('video')
+                model: this.model.get('song')
             }));
 
             this.deleteRegion.show(new DeleteButtonView({
@@ -63,7 +63,7 @@
             }));
 
             this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
-                model: this.model.get('video')
+                model: this.model.get('song')
             }));
         },
 
@@ -95,15 +95,15 @@
             var userSignedIn = User.get('signedIn');
 
             var activePlaylist = Playlists.getActivePlaylist();
-            var videoAlreadyExists = false;
+            var areadyExists = false;
 
             if (userSignedIn) {
-                videoAlreadyExists = activePlaylist.get('items').videoAlreadyExists(self.model.get('video'));
+                areadyExists = activePlaylist.get('items').songAlreadyExists(self.model.get('song'));
             }
 
             var saveTitle = '';
 
-            if (userSignedIn && videoAlreadyExists) {
+            if (userSignedIn && areadyExists) {
                 saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
             } else if (!userSignedIn) {
                 saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
@@ -112,9 +112,9 @@
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
-                    disabled: !userSignedIn || videoAlreadyExists,
+                    disabled: !userSignedIn || areadyExists,
                     onClick: function () {
-                        activePlaylist.addByVideo(self.model.get('video'));
+                        activePlaylist.addSongs(self.model.get('song'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
@@ -122,7 +122,7 @@
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: self.model.get('video').get('url')
+                            text: self.model.get('song').get('url')
                         });
 
                     }
@@ -132,7 +132,7 @@
 
                         chrome.extension.sendMessage({
                             method: 'copy',
-                            text: '"' + self.model.get('title') + '" - ' + self.model.get('video').get('url')
+                            text: '"' + self.model.get('title') + '" - ' + self.model.get('song').get('url')
                         });
 
                     }
@@ -152,8 +152,8 @@
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
      
-                        var url = self.model.get('video').get('url');
-                        if (Player.get('loadedVideoId') ===  self.model.get('video').get('id') ){
+                        var url = self.model.get('song').get('url');
+                        if (Player.get('loadedSongId') === self.model.get('song').get('id')) {
                             url += '?t=' + Player.get('currentTime') + 's';
                         }
                         

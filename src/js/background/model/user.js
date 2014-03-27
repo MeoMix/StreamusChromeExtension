@@ -234,7 +234,9 @@ define([
         
         onLoaded: function (model, setSyncStorage) {
             //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
+            //  TODO: Using a custom reset method is terrible. Should break the tie between User and Playlists and just load Playlists from server.
             Playlists.reset(this.get('playlists'));
+
             //  TODO: shitty.
             Playlists.setUserId(this.get('id'));
 
@@ -256,6 +258,8 @@ define([
 
                 chrome.storage.sync.set(storedKey);
             }
+
+            console.log("Song:", Playlists.at(0).get('items').at(0).get('song'));
 
             //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);

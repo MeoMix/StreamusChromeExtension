@@ -1,7 +1,7 @@
 ﻿define([
       'test/spec/playlistItemsSpec',
     //'test/spec/streamItemsSpec',
-    //'test/spec/relatedVideoInformationManagerSpec',
+    //'test/spec/relatedSongInformationManagerSpec',
     //'test/spec/dataSourceSpec',
     //'test/spec/clientErrorSpec',
     //'test/spec/googleAPISpec',

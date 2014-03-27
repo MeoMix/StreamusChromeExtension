@@ -12,7 +12,7 @@
         
         templateHelpers: {
             generalMessage: chrome.i18n.getMessage('general'),
-            videoQualityMessage: chrome.i18n.getMessage('videoQuality'),
+            songQualityMessage: chrome.i18n.getMessage('songQuality'),
             highestMessage: chrome.i18n.getMessage('highest'),
             autoMessage: chrome.i18n.getMessage('auto'),
             lowestMessage: chrome.i18n.getMessage('lowest'),

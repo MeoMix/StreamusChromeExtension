@@ -1,10 +1,10 @@
 ﻿define([
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlist',
-    'background/model/source',
+    'background/model/song',
     'common/model/youTubeV2API',
     'common/model/dataSource'
-], function (SequencedCollectionMixin, Playlist, Source, YouTubeV2API, DataSource) {
+], function (SequencedCollectionMixin, Playlist, Song, YouTubeV2API, DataSource) {
     'use strict';
 
     //  If the foreground requests, don't instantiate -- return existing from the background.
@@ -16,7 +16,16 @@
         model: Playlist,
         comparator: 'sequence',
         userId: null,
+        
+        reset: function(models, options) {
+            if(options && options.parse) {
+                delete options.parse;
 
+                models = this.parse();
+            }
+            return Backbone.Collection.prototype.reset.call(this, models, options);
+        },
+        
         initialize: function () {
 
             //  Ensure there is an always active playlist by trying to load from localstorage
@@ -35,16 +44,16 @@
                         sendResponse({ playlists: this });
                         break;
                     //  TODO: Update name to indicate from YouTube more clearly.
-                    case 'addVideoByIdToPlaylist':
+                    case 'addSongByIdToPlaylist':
 
-                        YouTubeV2API.getVideoInformation({
-                            videoId: request.videoId,
-                            success: function (youTubeVideoInformation) {
+                        YouTubeV2API.getSongInformation({
+                            songId: request.songId,
+                            success: function (youTubeSongInformation) {
 
-                                var source = new Source();
-                                source.setYouTubeVideoInformation(youTubeVideoInformation);
+                                var song = new Song();
+                                song.setYouTubeInformation(youTubeSongInformation);
                                 
-                                this.get(request.playlistId).addBySource(source);
+                                this.get(request.playlistId).addSongs(song);
 
                                 sendResponse({ result: 'success' });
                             }.bind(this),
@@ -134,13 +143,13 @@
             
         },
         
-        addPlaylistWithSources: function (playlistTitle, sources) {
+        addPlaylistWithSongs: function (playlistTitle, songs) {
             var playlistItems = [];
 
-            if (_.isArray(sources)) {
-                playlistItems = _.map(sources, function (source) { return { source: source }; });
+            if (_.isArray(songs)) {
+                playlistItems = _.map(songs, function (song) { return { song: song }; });
             } else {
-                playlistItems.push({ source: sources });
+                playlistItems.push({ song: songs });
             }
 
             var playlist = new Playlist({
@@ -192,15 +201,15 @@
                                     playlist.set('dataSourceLoaded', true);
                                 } else {
 
-                                    var sources = _.map(response.results, function (youTubeVideoInformation) {
-                                        var source = new Source();
-                                        source.setYouTubeVideoInformation(youTubeVideoInformation);
+                                    var songs = _.map(response.results, function (youTubeSongInformation) {
+                                        var song = new Song();
+                                        song.setYouTubeInformation(youTubeSongInformation);
 
-                                        return source;
+                                        return song;
                                     });
 
                                     //  Periodicially send bursts of packets to the server and trigger visual update.
-                                    playlist.addBySources(sources, function () {
+                                    playlist.addSongs(songs, function () {
                                         //  Request next batch of data by iteration once addItems has succeeded.
                                         YouTubeV2API.getDataSourceResults(dataSource, ++response.iteration, onGetV2DataSourceData);
                                     });

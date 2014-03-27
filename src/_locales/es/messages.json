@@ -9,27 +9,6 @@
 	"extensionTitle": {
 		"message": "Streamus: Simple, reproducir música."
 	},
-	"nextVideoCommandDescription": {
-		"message": "Saltar a la próxima pista de la cola."
-	},
-	"previousVideoCommandDescription": {
-		"message": "Volver a la pista anterior de la cola."
-	},
-	"toggleVideoCommandDescription": {
-		"message": "Alternar (Reproducir o Pausar) la pista actual."
-	},
-	"saveVideoCommandDescription": {
-		"message": "Añadir este video a la lista actual"
-	},
-	"deleteVideoCommandDescription": {
-		"message": "Eliminar este video de la lista"
-	},
-	"copyVideoUrlCommandDescription": {
-		"message": "Copiar la URL de este video"
-	},
-	"copyVideoTitleUrlCommandDescription": {
-		"message": "Copiar el título y la URL de este video"
-	},
 	"toggleRadioCommandDescription": {
 		"message": "Conmutar (off/on) la radio"
 	},
@@ -37,7 +16,7 @@
 		"message": "Conmutar (off/on) el mezclador"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Conmutar (off/repetir Video/repetir Lista) repetición"
+		"message": "Conmutar repetición"
 	},
 	"save": {
 		"message": "Guardar"
@@ -47,9 +26,6 @@
 	},
 	"copyTitleAndUrl": {
 		"message": "Copiar titulo - URL"
-	},
-	"deleteVideo": {
-		"message": "Eliminar video"
 	},
 	"delete": {
 		"message": "Eliminar",
@@ -72,14 +48,8 @@
 	"selectPlaylist": {
 		"message": "Seleccionar lista"
 	},
-	"videoAddSuccess": {
-		"message": "Video añadido a Streamus."
-	},
 	"errorEncountered": {
 		"message": "Se ha producido un error."
-	},
-	"addVideo": {
-		"message": "Añadir video"
 	},
 	"working": {
 		"message": "Procesando",
@@ -94,9 +64,6 @@
 	},
 	"repeatDisabled": {
 		"message": "Repetir desactivado"
-	},
-	"repeatSong": {
-		"message": "Repetir video"
 	},
 	"repeatStream": {
 		"message": "Repetir lista"
@@ -204,12 +171,6 @@
 	"typeToCreateOrFilterPlaylists": {
 		"message": "Escribe para crear o filtrar listas"
 	},
-	"saveVideo": {
-		"message": "Guardar video"
-	},
-	"saveVideos": {
-		"message": "Guardar videos"
-	},
 	"play": {
 		"message": "Reproducir"
 	},
@@ -267,12 +228,6 @@
 		"message": "Recordar eliminación de listas",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'."
 	},
-	"video": {
-		"message": "Video"
-	},
-	"videos": {
-		"message": "Videos"
-	},
 	"minute": {
 		"message": "Minuto"
 	},
@@ -288,32 +243,8 @@
 	"errorRetrievingTitle": {
 		"message": "Error localizando el título"	
 	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "La petición contiene un valor de parámetro incorrecto. Por ejemplo, este error se produce si especificas un ID de video que no tiene 11 caracteres, o si el ID de video contiene caracteres no válidos, como exclamaciones o asteriscos."
-	},
-	"youTubePlayerErrorVideoNotFound": {
-		"message": "Petición de video no encontrada. Esto ocurre cuando un video ha sido eliminado o ha sido marcado como privado."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "El Video solicitado no se puede reproducir en reproductores embebidos."
-	},
 	"keyboardCommandFailure": {
 		"message": "Fallo de comando de teclado"
-	},
-	"cantSkipToNextVideo": {
-		"message": "No se puede pasar al siguiente video."
-	},
-	"cantGoBackToPreviousVideo": {
-		"message": "No se puede pasar al video anterior."
-	},
-	"cantToggleVideoState": {
-		"message": "No se puede cambiar el estado del video."
-	},
-	"hideVideo": {
-		"message": "Ocultar video"
-	},
-	"showVideo": {
-		"message": "Mostrar video"
 	},
 	"streamEmpty": {
 		"message": "Lista vacia"
@@ -333,12 +264,6 @@
 	"showTooltips": {
 		"message": "Mostrar tooltips"
 	},
-	"showSearch": {
-		"message": "Mostrar búsqueda de videos"
-	},
-	"hideSearch": {
-		"message": "Ocultar búsqueda de videos"
-	},
 	"closeMenu": {
 		"message": "Cerrar menú"
 	},
@@ -348,20 +273,11 @@
 	"wouldYouLikeTo": {
 		"message": "Te gustaría"
 	},
-	"searchForVideos": {
-		"message": "Buscar videos"
-	},
 	"hd": {
 		"message": "HD"
 	},
 	"general": {
 		"message": "General"
-	},
-	"videoQuality": {
-		"message": "Calidad de video"
-	},
-	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "¿Por qué no añadir un video de una lista o"
 	},
 	"startTyping": {
 		"message": "Empieza a escribir"

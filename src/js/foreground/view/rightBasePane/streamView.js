@@ -28,8 +28,8 @@
                 streamEmptyMessage: chrome.i18n.getMessage('streamEmpty'),
                 saveStreamMessage: chrome.i18n.getMessage('saveStream'),
                 clearStreamMessage: chrome.i18n.getMessage('clearStream'),
-                searchForVideosMessage: chrome.i18n.getMessage('searchForVideos'),
-                whyNotAddAVideoFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddAVideoFromAPlaylistOr'),
+                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr'),
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
                 userSignedIn: User.get('signedIn')
             };

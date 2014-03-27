@@ -26,26 +26,26 @@
 		"page": "background.html"
 	},
     "commands": {
-		"nextVideo": {
-			"description": "__MSG_nextVideoCommandDescription__"
+		"nextSong": {
+			"description": "__MSG_nextSongCommandDescription__"
 		},
-		"previousVideo": {
-			"description": "__MSG_previousVideoCommandDescription__"
+		"previousSong": {
+			"description": "__MSG_previousSongCommandDescription__"
 		},
-		"toggleVideo": {
-			"description": "__MSG_toggleVideoCommandDescription__"
+		"toggleSong": {
+			"description": "__MSG_toggleSongCommandDescription__"
 		},
-		"addVideoToPlaylist": {
-			"description": "__MSG_saveVideoCommandDescription__"
+		"saveActiveSong": {
+			"description": "__MSG_saveSongCommandDescription__"
 		},
-		"deleteVideoFromStream": {
-			"description": "__MSG_deleteVideoCommandDescription__"
+		"deleteSongFromStream": {
+			"description": "__MSG_deleteSongCommandDescription__"
 		},
-		"copyVideoUrl": {
-			"description": "__MSG_copyVideoUrlCommandDescription__"
+		"copySongUrl": {
+			"description": "__MSG_copySongUrlCommandDescription__"
 		},
-		"copyVideoTitleAndUrl": {
-			"description": "__MSG_copyVideoTitleUrlCommandDescription__"
+		"copySongTitleAndUrl": {
+			"description": "__MSG_copySongTitleUrlCommandDescription__"
 		},
 		"toggleRadio": {
 			"description": "__MSG_toggleRadioCommandDescription__"

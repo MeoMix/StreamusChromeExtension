@@ -31,7 +31,7 @@ define(function() {
                     refererRequestHeader.value = refererUrl;
                 }   
 
-                //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if the video has an ad.
+                //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if YouTube has an ad.
                 var userAgentRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                     return requestHeader.name === 'User-Agent';
                 });
@@ -48,7 +48,7 @@ define(function() {
                 //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
                 return { requestHeaders: info.requestHeaders };
             }, {
-                //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other embedded youtube videos.
+                //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
                 urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd']
             },
                 ['blocking', 'requestHeaders']

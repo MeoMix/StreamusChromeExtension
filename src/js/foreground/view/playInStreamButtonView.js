@@ -26,17 +26,17 @@
         
         playInStream: _.debounce(function () {
 
-            var streamItem = StreamItems.getBySource(this.model);
+            var streamItem = StreamItems.getBySong(this.model);
 
             if (_.isUndefined(streamItem)) {
-                StreamItems.addSources(this.model, {
+                StreamItems.addSongs(this.model, {
                     playOnAdd: true
                 });
             } else {
                 if (streamItem.get('active')) {
                     Player.play();
                 } else {
-                    Player.playOnceVideoChanges();
+                    Player.playOnceSongChanges();
                     streamItem.set('active', true);
                 }
             }

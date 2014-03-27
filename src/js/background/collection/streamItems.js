@@ -2,7 +2,7 @@
     'background/collection/multiSelectCollection',
     'background/notifications',
     'background/model/streamItem',
-    'background/model/source',
+    'background/model/song',
     'background/model/player',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/radioButton',
@@ -11,7 +11,7 @@
     'common/enum/playerState',
     'common/model/utility',
     'common/model/youTubeV2API'
-], function (MultiSelectCollection, Notifications, StreamItem, Source, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
+], function (MultiSelectCollection, Notifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
     'use strict';
     
     //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
@@ -26,7 +26,7 @@
             //  TODO: Probably make a stream model instead of extending streamItems
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
             _.extend(this, { history: [] });
-            _.extend(this, { bannedSourceIdList: [] });
+            _.extend(this, { bannedSongIdList: [] });
 
             var self = this;
 
@@ -48,16 +48,16 @@
                 if (active) {
                     this.deactivateAllExcept(changedStreamItem);
 
-                    var sourceId = changedStreamItem.get('source').get('id');
+                    var songId = changedStreamItem.get('song').get('id');
 
                     //  Maintain the state of the player by playing or cueuing based on current player state.
                     var playerState = Player.get('state');
 
                     //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
                     if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                        Player.loadVideoById(sourceId);
+                        Player.loadSongById(songId);
                     } else {
-                        Player.cueVideoById(sourceId);
+                        Player.cueSongById(songId);
                     }
                     
                     this.history.unshift(changedStreamItem);
@@ -157,16 +157,16 @@
             YouTubeV2API.search({
                 text: title,
                 maxResults: 10,
-                success: function (videoInformationList) {
+                success: function (songInformationList) {
 
-                    if (videoInformationList.length === 0) {
-                        console.error("Failed to find any videos for:", title);
+                    if (songInformationList.length === 0) {
+                        console.error("Failed to find any songs for:", title);
                     } else {
 
-                        var source = new Source();
-                        source.setFromVideoInformation(videoInformationList[0]);
+                        var song = new Song();
+                        song.setFromSongInformation(songInformationList[0]);
 
-                        self.addBySource(source, !!playOnAdd);
+                        self.addSongs(song, !!playOnAdd);
                     }
 
                     if (callback) {
@@ -184,8 +184,8 @@
             var message = '';
 
             if (!_.isUndefined(activeItem)) {
-                var activeSourceId = activeItem.get('source').get('id');
-                iconUrl = 'http://img.youtube.com/vi/' + activeSourceId + '/default.jpg';
+                var activeSongId = activeItem.get('song').get('id');
+                iconUrl = 'http://img.youtube.com/vi/' + activeSongId + '/default.jpg';
                 title = 'Now Playing';
                 message = activeItem.get('title');
             }
@@ -197,23 +197,23 @@
             });
         },
         
-        addSources: function (sources, options) {
+        addSongs: function (songs, options) {
 
-            if (!_.isArray(sources)) {
-                sources = [sources];
+            if (!_.isArray(songs)) {
+                songs = [songs];
             }
 
-            var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
+            var playOnAdd = _.isUndefined(options) || _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             
             if (playOnAdd) {
-                Player.playOnceVideoChanges();
+                Player.playOnceSongChanges();
             }
             
             //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
-            var streamItems = _.map(sources, function (source, iterator) {
+            var streamItems = _.map(songs, function (song, iterator) {
                 return {
-                    source: source,
-                    title: source.get('title'),
+                    song: song,
+                    title: song.get('title'),
                     
                     //  Activate and play the first added item if playOnAdd is set to true
                     active: playOnAdd && iterator === 0
@@ -242,69 +242,69 @@
             return this.findWhere({ active: true });
         },
         
-        //  Take each streamItem's array of related sources, pluck them all out into a collection of arrays
-        //  then flatten the arrays into a single array of sources.
-        getRelatedSources: function() {
+        //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
+        //  then flatten the arrays into a single array of songs.
+        getRelatedSongs: function() {
 
             //  TODO: Does SoundCloud have related information? I hope so!
-            //  Find all streamItem entities which have related video information.
+            //  Find all streamItem entities which have related song information.
             //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
             var streamItemsWithInfo = this.filter(function (streamItem) {
-                return streamItem.get('relatedVideoInformation') != null;
+                return streamItem.get('relatedSongInformation') != null;
             });
 
-            //  Create a list of all the related videos from all of the information of stream items.
-            var relatedSources = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
+            //  Create a list of all the related songs from all of the information of stream items.
+            var relatedSongs = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
 
-                return _.map(streamItem.get('relatedVideoInformation'), function (relatedVideoInformation) {
+                return _.map(streamItem.get('relatedSongInformation'), function (relatedSongInformation) {
 
-                    var source = new Source();
-                    source.setYouTubeVideoInformation(relatedVideoInformation);
+                    var song = new Song();
+                    song.setYouTubeInformation(relatedSongInformation);
 
-                    return source;
+                    return song;
                 });
 
             }));
 
-            //  Don't add any sources that are already in the stream.
+            //  Don't add any songs that are already in the stream.
             var self = this;
 
-            relatedSources = _.filter(relatedSources, function (relatedSource) {
+            relatedSongs = _.filter(relatedSongs, function (relatedSong) {
                 var alreadyExistingItem = self.find(function (streamItem) {
 
-                    var sameSourceId = streamItem.get('source').get('id') === relatedSource.get('id');
-                    var sameCleanTitle = streamItem.get('source').get('cleanTitle') === relatedSource.get('cleanTitle');
+                    var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
+                    var sameCleanTitle = streamItem.get('song').get('cleanTitle') === relatedSong.get('cleanTitle');
 
-                    var inBanList = _.contains(self.bannedSourceIdList, relatedSource.get('id'));
+                    var inBanList = _.contains(self.bannedSongIdList, relatedSong.get('id'));
 
-                    return sameSourceId || sameCleanTitle || inBanList;
+                    return sameSongId || sameCleanTitle || inBanList;
                 });
 
                 return alreadyExistingItem == null;
             });
 
             // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.
-            var tempFilteredRelatedSources = _.filter(relatedSources, function (relatedSource) {
+            var tempFilteredRelatedSongs = _.filter(relatedSongs, function (relatedSong) {
                 //  assuming things >8m are playlists.
-                var isJustOneSong = relatedSource.get('duration') < 480;
-                var isNotLive = relatedSource.get('title').toLowerCase().indexOf('live') === -1;
+                var isJustOneSong = relatedSong.get('duration') < 480;
+                var isNotLive = relatedSong.get('title').toLowerCase().indexOf('live') === -1;
 
                 return isJustOneSong && isNotLive;
             });
 
-            if (tempFilteredRelatedSources.length !== 0) {
-                relatedSources = tempFilteredRelatedSources;
+            if (tempFilteredRelatedSongs.length !== 0) {
+                relatedSongs = tempFilteredRelatedSongs;
             }
 
-            return relatedSources;
+            return relatedSongs;
         },
 
-        getRandomRelatedSource: function() {
+        getRandomRelatedSong: function() {
 
-            var relatedSources = this.getRelatedSources();
-            var relatedSource = relatedSources[_.random(relatedSources.length - 1)] || null;
+            var relatedSongs = this.getRelatedSongs();
+            var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
             
-            return relatedSource;
+            return relatedSong;
         },
         
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
@@ -353,15 +353,15 @@
 
                         console.log("radio enabled");
 
-                        var randomRelatedSource = this.getRandomRelatedSource();
+                        var randomRelatedSong = this.getRandomRelatedSong();
 
-                        if (randomRelatedSource === null) {
-                            console.error("No related source found.");
+                        if (randomRelatedSong === null) {
+                            console.error("No related song found.");
                         } else {
 
                             nextItem = this.add({
-                                source: randomRelatedSource,
-                                title: randomRelatedSource.get('title'),
+                                song: randomRelatedSong,
+                                title: randomRelatedSong.get('title'),
                                 active: true
                             });
                             
@@ -464,11 +464,11 @@
         },
         
         ban: function (streamItem) {
-            this.bannedSourceIdList.push(streamItem.get('source').get('id'));
+            this.bannedSongIdList.push(streamItem.get('song').get('id'));
         },
         
         clear: function () {
-            this.bannedSourceIdList = [];
+            this.bannedSongIdList = [];
             this.reset();
         },
         
@@ -481,9 +481,9 @@
             this.trigger('sort');
         },
         
-        getBySource: function (source) {
+        getBySong: function (song) {
             return this.find(function (streamItem) {
-                return streamItem.get('source').get('id') === source.get('id');
+                return streamItem.get('song').get('id') === song.get('id');
             });
         }
 

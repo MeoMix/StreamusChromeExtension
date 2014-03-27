@@ -9,27 +9,6 @@
 	"extensionTitle": {
 		"message": "Streamus: Simple, streaming music."
 	},
-	"nextVideoCommandDescription": {
-		"message": "Go to the next video in the stream"
-	},
-	"previousVideoCommandDescription": {
-		"message": "Go to the previous video in the stream"
-	},
-	"toggleVideoCommandDescription": {
-		"message": "Toggle (play/pause) the current video"
-	},
-	"saveVideoCommandDescription": {
-		"message": "Add the current video to the current playlist"
-	},
-	"deleteVideoCommandDescription": {
-		"message": "Remove the current video from the stream"
-	},
-	"copyVideoUrlCommandDescription": {
-		"message": "Copy the current video's URL"
-	},
-	"copyVideoTitleUrlCommandDescription": {
-		"message": "Copy the current video's title and URL"
-	},
 	"toggleRadioCommandDescription": {
 		"message": "Toggle (off/on) the radio"
 	},
@@ -37,7 +16,7 @@
 		"message": "Toggle (off/on) shuffling"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Toggle (off/repeatSong/repeatStream) repeating"
+		"message": "Toggle repeating"
 	},
 	"save": {
 		"message": "Save"
@@ -47,9 +26,6 @@
 	},
 	"copyTitleAndUrl": {
 		"message": "Copy title - URL"
-	},
-	"deleteVideo": {
-		"message": "Delete video"
 	},
 	"delete": {
 		"message": "Delete",
@@ -72,14 +48,9 @@
 	"selectPlaylist": {
 		"message": "Select playlist"
 	},
-	"videoAddSuccess": {
-		"message": "Video successfully added to Streamus."
-	},
+
 	"errorEncountered": {
 		"message": "An error was encountered."
-	},
-	"addVideo": {
-		"message": "Add video"
 	},
 	"working": {
 		"message": "Working",
@@ -96,7 +67,7 @@
 		"message": "Repeat disabled"
 	},
 	"repeatSong": {
-		"message": "Repeat video"
+		"message": "Repeat song"
 	},
 	"repeatStream": {
 		"message": "Repeat stream"
@@ -204,12 +175,6 @@
 	"typeToCreateOrFilterPlaylists": {
 		"message": "Type to create or filter playlists"
 	},
-	"saveVideo": {
-		"message": "Save video"
-	},
-	"saveVideos": {
-		"message": "Save videos"
-	},
 	"play": {
 		"message": "Play"
 	},
@@ -267,12 +232,6 @@
 		"message": "Remind delete playlist",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
 	},
-	"video": {
-		"message": "Video"
-	},
-	"videos": {
-		"message": "Videos"
-	},
 	"minute": {
 		"message": "Minute"
 	},
@@ -288,32 +247,8 @@
 	"errorRetrievingTitle": {
 		"message": "Error retrieving title"	
 	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "The request contains an invalid parameter value. For example, this error occurs if you specify a video ID that does not have 11 characters, or if the video ID contains invalid characters, such as exclamation points or asterisks."
-	},
-	"youTubePlayerErrorVideoNotFound": {
-		"message": "Video requested is not found. This occurs when a video has been removed or it has been marked as private."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Video requested does not allow playback in the embedded players."
-	},
 	"keyboardCommandFailure": {
 		"message": "Keyboard command failure"
-	},
-	"cantSkipToNextVideo": {
-		"message": "Can't skip to next video."
-	},
-	"cantGoBackToPreviousVideo": {
-		"message": "Can't go back to previous video."
-	},
-	"cantToggleVideoState": {
-		"message": "Can't toggle video state."
-	},
-	"hideVideo": {
-		"message": "Hide video"
-	},
-	"showVideo": {
-		"message": "Show video"
 	},
 	"streamEmpty": {
 		"message": "Stream empty"
@@ -333,12 +268,6 @@
 	"showTooltips": {
 		"message": "Show tooltips"
 	},
-	"showSearch": {
-		"message": "Show video search"
-	},
-	"hideSearch": {
-		"message": "Hide video search"
-	},
 	"closeMenu": {
 		"message": "Close menu"
 	},
@@ -348,20 +277,11 @@
 	"wouldYouLikeTo": {
 		"message": "Would you like to"
 	},
-	"searchForVideos": {
-		"message": "Search for videos"
-	},
 	"hd": {
 		"message": "HD"
 	},
 	"general": {
 		"message": "General"
-	},
-	"videoQuality": {
-		"message": "Video quality"
-	},
-	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "Why not add a video from a playlist or"
 	},
 	"startTyping": {
 		"message": "Start typing"
@@ -430,5 +350,73 @@
 	},
 	"showActiveSongCommandDescription": {
 		"message": "Show active song"
+	},
+
+
+    "saveSong": {
+		"message": "Save song"
+	},
+	"saveSongs": {
+		"message": "Save songs"
+	},
+	"saveSongCommandDescription": {
+		"message": "Save the active song to the active playlist"
+	},
+	"nextSongCommandDescription": {
+		"message": "Go to the next song in the stream"
+	},
+	"previousSongCommandDescription": {
+		"message": "Go to the previous song in the stream"
+	},
+	"toggleSongCommandDescription": {
+		"message": "Toggle (play/pause) the current song"
+	},
+	"deleteSongCommandDescription": {
+		"message": "Remove the current song from the stream"
+	},
+	"copySongUrlCommandDescription": {
+		"message": "Copy the current song's URL"
+	},
+	"copySongTitleUrlCommandDescription": {
+		"message": "Copy the current song's title and URL"
+	},
+	"deleteSong": {
+		"message": "Delete song"
+	},
+	"songAddSuccess": {
+		"message": "Song successfully added to Streamus."
+	},
+	"addSong": {
+		"message": "Add song"
+	},
+	"song": {
+		"message": "Song"
+	},
+	"songs": {
+		"message": "Songs"
+	},
+	"cantSkipToNextSong": {
+		"message": "Can't skip to next song"
+	},
+	"cantGoBackToPreviousSong": {
+		"message": "Can't go back to previous song"
+	},
+	"cantToggleSong": {
+		"message": "Can't toggle song"
+	},
+	"showSearch": {
+		"message": "Show search"
+	},
+	"hideSearch": {
+		"message": "Hide search"
+	},
+	"searchForSongs": {
+		"message": "Search for songs"
+	},
+	"songQuality": {
+		"message": "Song quality"
+	},
+	"whyNotAddASongFromAPlaylistOr": {
+		"message": "Why not add a song from a playlist or"
 	}
 }

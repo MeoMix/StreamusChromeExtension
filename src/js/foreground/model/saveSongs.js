@@ -1,16 +1,16 @@
 ﻿define(function () {
     'use strict';
 
-    var SaveSources = Backbone.Model.extend({
+    var SaveSongs = Backbone.Model.extend({
 
         defaults: function () {
             return {
                 creating: false,
-                sources: []
+                songs: []
             };
         }
 
     });
 
-    return SaveSources;
+    return SaveSongs;
 });

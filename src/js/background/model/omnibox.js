@@ -1,17 +1,17 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
     'background/collection/streamItems',
-    'background/model/source',
+    'background/model/song',
     'common/model/youTubeV2API',
     'common/model/utility'
-], function (StreamItems, Source, YouTubeV2API, Utility) {
+], function (StreamItems, Song, YouTubeV2API, Utility) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
             
         defaults: function () {
             return {
-                suggestedSources: [],
+                suggestedSongs: [],
                 searchJqXhr: null
             };
         },
@@ -26,8 +26,8 @@ define([
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
             chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
 
-                //  Clear suggestedSources
-                self.get('suggestedSources').length = 0;
+                //  Clear suggestedSongs
+                self.get('suggestedSongs').length = 0;
 
                 var trimmedSearchText = $.trim(text);
 
@@ -48,10 +48,10 @@ define([
                         text: trimmedSearchText,
                         //  Omnibox can only show 6 results
                         maxResults: 6,
-                        success: function(videoInformationList) {
+                        success: function(songInformationList) {
                             self.set('searchJqXhr', null);
 
-                            var suggestions = self.buildSuggestions(videoInformationList, trimmedSearchText);
+                            var suggestions = self.buildSuggestions(songInformationList, trimmedSearchText);
 
                             suggest(suggestions);
 
@@ -65,43 +65,43 @@ define([
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
 
-                //  Find the cached source data by url
-                var pickedSource = _.find(self.get('suggestedSources'), function (source) {
-                    return source.get('url') === text;
+                //  Find the cached song data by url
+                var pickedSong = _.find(self.get('suggestedSongs'), function (song) {
+                    return song.get('url') === text;
                 });
                 
                 //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
                 //  take the best suggestion related to their text.
-                if (_.isUndefined(pickedSource)) {
-                    pickedSource = self.get('suggestedSources')[0];
+                if (_.isUndefined(pickedSong)) {
+                    pickedSong = self.get('suggestedSongs')[0];
                 }
 
                 //  TODO: Support both playOnAdd true and false
-                StreamItems.addSources(pickedSource, {
+                StreamItems.addSongs(pickedSong, {
                     playOnAdd: true
                 });
             });
             
         },
         
-        buildSuggestions: function(videoInformationList, text) {
+        buildSuggestions: function(songInformationList, text) {
             var self = this;
             
-            var suggestions = _.map(videoInformationList, function (videoInformation) {
+            var suggestions = _.map(songInformationList, function (songInformation) {
 
-                var source = new Source();
-                source.setYouTubeVideoInformation(videoInformation);
+                var song = new Song();
+                song.setYouTubeInformation(songInformation);
                 
-                self.get('suggestedSources').push(source);
+                self.get('suggestedSongs').push(song);
 
-                var safeTitle = _.escape(source.get('title'));
+                var safeTitle = _.escape(song.get('title'));
                 var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), "i");
                 var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
 
-                var description = '<dim>' + source.get('prettyDuration') + "</dim>  " + styledTitle;
+                var description = '<dim>' + song.get('prettyDuration') + "</dim>  " + styledTitle;
 
                 return {
-                    content: source.get('url'),
+                    content: song.get('url'),
                     description: description
                 };
             });

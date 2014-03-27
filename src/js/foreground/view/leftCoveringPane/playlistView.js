@@ -54,7 +54,10 @@
         },
         
         updateTitle: function () {
-            this.ui.readonlyTitle.text(this.model.get('title'));
+            var title = this.model.get('title');
+
+            this.ui.readonlyTitle.text(title).attr('title', title);
+            this.setTitleTooltip(this.ui.readonlyTitle);
         },
 
         stopEditingOnInactive: function (model, active) {
@@ -141,7 +144,7 @@
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: function () {
-                        StreamItems.addBySources(self.model.get('items').pluck('source'), false);
+                        StreamItems.addSongs(self.model.get('items').pluck('song'), false);
                     }
                 }, {
                     text: chrome.i18n.getMessage('edit'),
@@ -172,14 +175,18 @@
         },
         
         saveAndStopEdit: function () {
+            
+            this.ui.editableTitle.hide();
+            
+            //  Be sure to show the title before changing it's text so the tooltip can know whether it is overflowing or not.
+            this.ui.readonlyTitle.show();
+            
             //  TODO: This fails silently if an invalid title is provided and it does not enforce a max length.
             var newTitle = $.trim(this.ui.editableTitle.val());
             if (newTitle !== '') {
                 this.model.set('title', newTitle);
             }
-
-            this.ui.editableTitle.hide();
-            this.ui.readonlyTitle.show();
+            
         }
 
     }));

@@ -20,7 +20,7 @@ define([
                 dataSource: null,
                 dataSourceLoaded: false,
                 active: false,
-                //  This is count and total duration of all playlistItem sources.
+                //  This is count and total duration of all playlistItem songs.
                 displayInfo: '',
                 sequence: -1
             };
@@ -82,15 +82,13 @@ define([
         },
         
         setDisplayInfo: function () {
-            var sources = this.get('items').pluck('source');
-            var sourceDurations = _.invoke(sources, 'get', 'duration');
+            var songs = this.get('items').pluck('song');
+            var songDurations = _.invoke(songs, 'get', 'duration');
 
-            var sumDurations = _.reduce(sourceDurations, function (memo, duration) {
+            var sumDurations = _.reduce(songDurations, function (memo, duration) {
                 return memo + duration;
             }, 0);
 
-            //  TODO: i18n video vs song
-            var videoString = sources.length === 1 ? chrome.i18n.getMessage('video') : chrome.i18n.getMessage('videos');
 
             var prettyTime;
             var timeInMinutes = Math.floor(sumDurations / 60);
@@ -109,29 +107,21 @@ define([
             } else {
                 prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
             }
-
-            var displayInfo = sources.length + ' ' + videoString + ', ' + prettyTime;
+            
+            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
+            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTime;
 
             this.set('displayInfo', displayInfo);
         },
         
-        addBySource: function (source, callback) {
 
-            var playlistItem = new PlaylistItem({
-                playlistId: this.get('id'),
-                source: source
-            });
-
-            this.get('items').savePlaylistItem(playlistItem, callback);
-        },
-        
-        addBySourceAtIndex: function (source, index, callback) {
+        addSongsAtIndex: function (song, index, callback) {
 
             var sequence = this.get('items').getSequenceFromIndex(index);
 
             var playlistItem = new PlaylistItem({
                 playlistId: this.get('id'),
-                source: source,
+                song: song,
                 sequence: sequence
             });
 
@@ -139,7 +129,7 @@ define([
         },
         
         //  TODO: This needs to be kept DRY with the other methods in this object.
-        addBySourcesStartingAtIndex: function (sources, index, callback) {
+        addSongsStartingAtIndex: function (songs, index, callback) {
             console.log("im here");
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
@@ -149,16 +139,16 @@ define([
             
             var initialSequence = playlistItems.getSequenceFromIndex(index);
 
-            _.each(sources, function (source) {
+            _.each(songs, function (song) {
 
                 //  TODO: Sequence is incorrect here after the first item since I'm not adding models until after saving. FIX!
                 var sequence = initialSequence;
 
-                console.log("index and sequence", index, sequence);
+                console.log("index and sequence and itemsToSave", index, sequence, itemsToSave);
 
                 var playlistItem = new PlaylistItem({
-                    playlistId: itemsToSave.get('playlistId'),
-                    source: source,
+                    playlistId: itemsToSave.playlistId,
+                    song: song,
                     sequence: sequence
                 });
                 
@@ -180,24 +170,28 @@ define([
             });
         },
             
-        addBySources: function (sources, callback) {
+        addSongs: function (songs, callback) {
 
-            //  Defer to appropriate method if called with a single source.
-            if (sources.length === 1) {
-                return this.addBySource(sources[0], callback);
+            //  Convert songs to an array when given a single song
+            if (!_.isArray(songs)) {
+                songs = [songs];
             }
+
+            console.log("PlaylistId:", this.get('id'));
             
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
             });
 
             var playlistItems = this.get('items');
+
+            console.log("ItemsToSave:", itemsToSave);
             
-            _.each(sources, function (source) {
-                if (!playlistItems.sourceAlreadyExists(source)) {
+            _.each(songs, function (song) {
+                if (!playlistItems.songAlreadyExists(song)) {
                     var playlistItem = new PlaylistItem({
-                        playlistId: itemsToSave.get('playlistId'),
-                        source: source
+                        playlistId: itemsToSave.playlistId,
+                        song: song
                     });
 
                     itemsToSave.push(playlistItem);

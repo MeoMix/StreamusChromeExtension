@@ -1,24 +1,24 @@
 ﻿//  Holds information relevant to a song, either from YouTube or SoundCloud.
 define([
     'background/model/settings',
-    'common/enum/sourceType',
+    'common/enum/songType',
     'common/model/utility'
-], function (Settings, SourceType, Utility) {
+], function (Settings, SongType, Utility) {
     'use strict';
 
-    var Source = Backbone.Model.extend({
+    var Song = Backbone.Model.extend({
         
         defaults: function () {
             return {
                 //  ID is either a YouTube Video ID or a SoundCloud Song ID.
                 id: '',
-                //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Source.
+                //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
                 title: '',
                 author: '',
                 //  Duration in seconds for the length of the given song.
                 duration: -1,
                 highDefinition: false,
-                type: SourceType.None,
+                type: SongType.None,
                 
                 //  These are calculated:
                 prettyDuration: '',
@@ -28,7 +28,7 @@ define([
             
         },
         
-        //  Source is never saved to the server -- it gets flattened into a PlaylistItem
+        //  Song is never saved to the server -- it gets flattened into a PlaylistItem
         sync: function() {
             return false;
         },
@@ -38,7 +38,10 @@ define([
             this.setCleanTitle();
             this.setURL();
 
+            //  Whenever Song is updated via setYouTubeInformation (or other ways), re-calculate values.
             this.on('change:duration', this.setPrettyDuration);
+            this.on('change:title', this.setCleanTitle);
+            this.on('change:url', this.setURL);
         },
         
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
@@ -56,21 +59,21 @@ define([
             this.set('url', 'https://youtu.be/' + this.get('id'));
         },
         
-        setYouTubeVideoInformation: function (videoInformation) {
+        setYouTubeInformation: function (songInformation) {
 
-            this.set('type', SourceType.YouTube);
+            this.set('type', SongType.YouTube);
             
-            //  v3 API videoInformation will have the id stored directly in the information object.
+            //  v3 API songInformation will have the id stored directly in the information object.
             //  TODO: Need a better v3 detector than this.
-            if (videoInformation.id && videoInformation.id.length === 11) {
-                this.set(config.videoInformation);
+            if (songInformation.id && songInformation.id.length === 11) {
+                this.set(config.songInformation);
             } else {
                 this.set({
-                    id: videoInformation.media$group.yt$videoid.$t,
-                    title: videoInformation.title.$t,
-                    duration: parseInt(videoInformation.media$group.yt$duration.seconds, 10),
-                    author: videoInformation.author[0].name.$t,
-                    highDefinition: videoInformation.yt$hd != null
+                    id: songInformation.media$group.yt$videoid.$t,
+                    title: songInformation.title.$t,
+                    duration: parseInt(songInformation.media$group.yt$duration.seconds, 10),
+                    author: songInformation.author[0].name.$t,
+                    highDefinition: songInformation.yt$hd != null
                 });
             }
 
@@ -78,5 +81,5 @@ define([
         
     });
 
-    return Source;
+    return Song;
 });

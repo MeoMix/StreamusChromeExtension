@@ -3,12 +3,12 @@ define([
     'background/collection/streamItems',
     'background/collection/playlists',
     'background/model/user',
-    'background/model/source',
+    'background/model/song',
     'common/enum/dataSourceType',
     'common/model/youTubeV2API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, User, Source, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (StreamItems, Playlists, User, Song, DataSourceType, YouTubeV2API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -42,8 +42,8 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
       
-                    this.getSourceFromUrl(url, function (source) {
-                        StreamItems.addSources(source, {
+                    this.getSongFromUrl(url, function (song) {
+                        StreamItems.addSongs(song, {
                             playOnAdd: true
                         });
                     });
@@ -56,8 +56,8 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
                     
-                    this.getSourceFromUrl(url, function (source) {
-                        StreamItems.addSources(source);
+                    this.getSongFromUrl(url, function (song) {
+                        StreamItems.addSongs(song);
                     });
                 }.bind(this)
             }));
@@ -93,7 +93,7 @@ define([
             });
         },
         
-        //  Whenever a playlist context menu is clicked -- add the related source to that playlist.
+        //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
         createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
 
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
@@ -102,8 +102,8 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    this.getSourceFromUrl(url, function (source) {
-                        playlist.addBySource(source);
+                    this.getSongFromUrl(url, function (song) {
+                        playlist.addSongs(song);
                     });
                 }.bind(this)
             }));
@@ -121,21 +121,21 @@ define([
             
         },
         
-        getSourceFromUrl: function(url, callback) {
+        getSongFromUrl: function(url, callback) {
             var dataSource = new DataSource({ urlToParse: url });
             
             if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
                 throw 'Excepected dataSource to be a YouTube video.';
             }
 
-            YouTubeV2API.getVideoInformation({
-                videoId: dataSource.get('sourceId'),
-                success: function (videoInformation) {
+            YouTubeV2API.getSongInformation({
+                songId: dataSource.get('songId'),
+                success: function (songInformation) {
 
-                    var source = new Source();
-                    source.setYouTubeVideoInformation(videoInformation);
+                    var song = new Song();
+                    song.setYouTubeInformation(songInformation);
 
-                    callback(source);
+                    callback(song);
                 }
             });
 

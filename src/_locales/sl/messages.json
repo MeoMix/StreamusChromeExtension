@@ -9,27 +9,6 @@
 	"extensionTitle": {
 		"message": "Streamus: Preprosto, predvajanje glasbe."
 	},
-	"nextVideoCommandDescription": {
-		"message": "Pojdi na naslednji posnetek v streamu"
-	},
-	"previousVideoCommandDescription": {
-		"message": " Pojdi na prejšnji posnetek v streamu"
-	},
-	"toggleVideoCommandDescription": {
-		"message": "Stikalo (predvajaj/pavziraj) trenuten posnetek"
-	},
-	"saveVideoCommandDescription": {
-		"message": "Dodaj trenutni posnetek na trenutni seznam predvajanja"
-	},
-	"deleteVideoCommandDescription": {
-		"message": "Odstrani trenutni posnetek s streama"
-	},
-	"copyVideoUrlCommandDescription": {
-		"message": "Kopiraj povezavo trenutnega posnetka"
-	},
-	"copyVideoTitleUrlCommandDescription": {
-		"message": "Kopiraj trenutni naslov in povezavo posnetka"
-	},
 	"toggleRadioCommandDescription": {
 		"message": "Stikalo (izključeno/vključeno) radio"
 	},
@@ -37,7 +16,7 @@
 		"message": "Stikalo (izključeno/vključeno) naključno predvajanje"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Stikalo (izključeno/ponoviPosnetek/ponoviStream) ponavljanja"
+		"message": "Stikalo ponavljanja"
 	},
 	"save": {
 		"message": "Shrani"
@@ -47,9 +26,6 @@
 	},
 	"copyTitleAndUrl": {
 		"message": "Kopiraj naslov - povezavo"
-	},
-	"deleteVideo": {
-		"message": "Odstrani posnetek"
 	},
 	"delete": {
 		"message": "Odstrani",
@@ -72,14 +48,8 @@
 	"selectPlaylist": {
 		"message": "Izberi seznam predvajanja"
 	},
-	"videoAddSuccess": {
-		"message": "Posnetek uspešno dodan na Streamus."
-	},
 	"errorEncountered": {
 		"message": "Prišlo je do napake."
-	},
-	"addVideo": {
-		"message": "Dodaj posnetek"
 	},
 	"working": {
 		"message": "Delam…",
@@ -204,12 +174,6 @@
 	"typeToCreateOrFilterPlaylists": {
 		"message": "Pišite, da ustvarite ali filtrirajte sezname predvajanja"
 	},
-	"saveVideo": {
-		"message": "Shrani posnetek"
-	},
-	"saveVideos": {
-		"message": "Shrani posnetke"
-	},
 	"play": {
 		"message": "Predvajaj"
 	},
@@ -267,12 +231,6 @@
 		"message": "Opomni brisanje seznama predvajanja",
 		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'."
 	},
-	"video": {
-		"message": "Posnetek"
-	},
-	"videos": {
-		"message": "Posnetki"
-	},
 	"minute": {
 		"message": "Minuta"
 	},
@@ -288,32 +246,8 @@
 	"errorRetrievingTitle": {
 		"message": "Napaka pri pridobivanju naslova"	
 	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "Zahtevek vsebuje neveljaven parameter vrednosti. Na primer, ta napaka se pojavi, če ID posnetka nima 11 znakov ali, če ima ID posnetka neveljaven znak, kot je exclamation points ali asteriks."
-	},
-	"youTubePlayerErrorVideoNotFound": {
-		"message": "Zahtevan posnetek ni najden. To se pojavi, če je bil posnetek izbrisan ali označen kot zaseben."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Zahtevan posnetek ne dovoljuje predvajanja v embedded predvajalnikih."
-	},
 	"keyboardCommandFailure": {
 		"message": "Spodleteli ukaz tipkovnice"
-	},
-	"cantSkipToNextVideo": {
-		"message": "Ne morem skočiti na naslednji posnetek."
-	},
-	"cantGoBackToPreviousVideo": {
-		"message": "Ne morem skočiti na prejšnji posnetek."
-	},
-	"cantToggleVideoState": {
-		"message": "Ne morem toggle stanje posnetka."
-	},
-	"hideVideo": {
-		"message": "Skrij sliko posnetka"
-	},
-	"showVideo": {
-		"message": "Pokaži sliko posnetka"
 	},
 	"streamEmpty": {
 		"message": "Stream je prazen"
@@ -333,12 +267,6 @@
 	"showTooltips": {
 		"message": "Pokaži nasvete"
 	},
-	"showSearch": {
-		"message": "Pokaži iskanje posnetkov"
-	},
-	"hideSearch": {
-		"message": "Skrij iskanje posnetkov"
-	},
 	"closeMenu": {
 		"message": "Zapri menu"
 	},
@@ -348,20 +276,11 @@
 	"wouldYouLikeTo": {
 		"message": "Želite"
 	},
-	"searchForVideos": {
-		"message": "Išči posnetke"
-	},
 	"hd": {
 		"message": "HD"
 	},
 	"general": {
 		"message": "General"
-	},
-	"videoQuality": {
-		"message": "Kvaliteta videa"
-	},
-	"whyNotAddAVideoFromAPlaylistOr": {
-		"message": "Zakaj nebi dodali posnetka s seznama predvajanja ali"
 	},
 	"startTyping": {
 		"message": "Začnite pisati"

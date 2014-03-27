@@ -127,7 +127,7 @@ $(function () {
 
 		var successEventNotification = $('<div>', {
 			id: 'successEventNotification',
-			text: chrome.i18n.getMessage('videoAddSuccess'),
+			text: chrome.i18n.getMessage('songAddSuccess'),
 			'class': 'eventNotification'
 		});
 		successEventNotification.appendTo(sharePanelMainButtons);
@@ -146,11 +146,11 @@ $(function () {
 
 		playlistSelect.appendTo(sharePanelPlaylistSelect);
 
-		var videoAddButton = $('<input>', {
+		var addButton = $('<input>', {
 			type: 'button',
-			value: chrome.i18n.getMessage('addVideo'),
-			title: chrome.i18n.getMessage('addVideo'),
-			id: 'streamusVideoAddButton',
+			value: chrome.i18n.getMessage('addSong'),
+			title: chrome.i18n.getMessage('addSong'),
+			id: 'streamusAddButton',
 			'class': 'yt-uix-button yt-uix-tooltip',
 			click: function () {
 
@@ -158,20 +158,20 @@ $(function () {
 				$(this).attr('disabled', true);
 
 				var match = document.URL.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
-				var videoId = (match && match[2].length === 11) ? match[2] : null;
+				var songId = (match && match[2].length === 11) ? match[2] : null;
 
 				var playlistId = playlistSelect.val();
 
 				var self = this;
 				chrome.runtime.sendMessage({
-					method: "addVideoByIdToPlaylist",
+					method: "addSongByIdToPlaylist",
 					playlistId: playlistId,
-					videoId: videoId
+					songId: songId
 				}, function (response) {
 
 					if (response.result === 'success') {
 						$(self).removeAttr('disabled');
-						$(self).val(chrome.i18n.getMessage('addVideo'));
+						$(self).val(chrome.i18n.getMessage('addSong'));
 						successEventNotification.fadeIn().css("display", "inline-block");
 
 						setTimeout(function () {
@@ -179,7 +179,7 @@ $(function () {
 						}, 3000);
 					} else {
 						$(self).removeAttr('disabled');
-						$(self).val(chrome.i18n.getMessage('addVideo'));
+						$(self).val(chrome.i18n.getMessage('addSong'));
 						errorEventNotification.fadeIn().css("display", "inline-block");
 						setTimeout(function () {
 							errorEventNotification.fadeOut();
@@ -190,7 +190,7 @@ $(function () {
 				});
 			}
 		});
-		videoAddButton.appendTo(sharePanelPlaylistSelect);
+		addButton.appendTo(sharePanelPlaylistSelect);
 
 		selectPlaylistButton.click(function () {
 			sharePanelPlaylistSelect.removeClass('hid');

@@ -1,22 +1,22 @@
 ﻿//  When clicked -- goes to the next StreamItem. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
-    'background/model/source',
-    'common/model/relatedVideoInformationManager'
-], function (Source, RelatedVideoInformationManager) {
+    'background/model/song',
+    'common/model/relatedSongInformationManager'
+], function (Song, RelatedSongInformationManager) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
         defaults: function () {
             return {
                 id: _.uniqueId('streamItem_'),
-                source: null,
+                song: null,
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
                 playedRecently: false,
                 active: false,
                 selected: false,
                 firstSelected: false,
-                relatedVideoInformation: [] 
+                relatedSongInformation: [] 
             };
         },
 
@@ -25,12 +25,12 @@ define([
         
         initialize: function () {
             //  TODO: NECESSARY?!
-            var source = this.get('source');
+            var song = this.get('song');
 
-            //  Need to convert to video object to Backbone.Model
-            if (!(source instanceof Backbone.Model)) {
+            //  Need to convert to song object to Backbone.Model
+            if (!(song instanceof Backbone.Model)) {
                 //  Silent because Video is just being properly set.
-                this.set('source', new Source(source), { silent: true });
+                this.set('song', new Song(song), { silent: true });
             }
             
             //  Whenever a streamItem is activated it is considered playedRecently.
@@ -41,10 +41,10 @@ define([
                 }
             });
             
-            RelatedVideoInformationManager.getRelatedVideoInformation({
-                videoId: this.get('source').get('id'),
-                success: function (relatedVideoInformation) {
-                    this.set('relatedVideoInformation', relatedVideoInformation);
+            RelatedSongInformationManager.getRelatedSongInformation({
+                songId: this.get('song').get('id'),
+                success: function (relatedSongInformation) {
+                    this.set('relatedSongInformation', relatedSongInformation);
                 }.bind(this)
             });
 
