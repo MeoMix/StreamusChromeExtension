@@ -1,5 +1,6 @@
 ﻿define([
       'test/spec/playlistItemsSpec',
+      'test/spec/playlistItemSpec'
     //'test/spec/streamItemsSpec',
     //'test/spec/relatedSongInformationManagerSpec',
     //'test/spec/dataSourceSpec',

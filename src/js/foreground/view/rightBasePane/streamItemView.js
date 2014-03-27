@@ -98,7 +98,7 @@
             var areadyExists = false;
 
             if (userSignedIn) {
-                areadyExists = activePlaylist.get('items').songAlreadyExists(self.model.get('song'));
+                areadyExists = activePlaylist.get('items').hasSong(self.model.get('song'));
             }
 
             var saveTitle = '';

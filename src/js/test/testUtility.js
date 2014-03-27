@@ -5,14 +5,19 @@
     'use strict';
 
     return {
-        //  Construct a basic Song object fit for general testing.
-        buildSong: function() {
-            return new Song({
+        
+        getRawSong: function() {
+            return {
                 id: 'M7lc1UVf-VE',
                 title: 'YouTube Developers Live: Embedded Web Player Customization',
                 author: 'Google Developers',
                 duration: '1344'
-            });
+            };
+        },
+
+        //  Construct a basic Song object fit for general testing.
+        buildSong: function() {
+            return new Song(this.getRawSong());
         },
 
         //  Construct a basic PlaylistItem object fit for general testing.

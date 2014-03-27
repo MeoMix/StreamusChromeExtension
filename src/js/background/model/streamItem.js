@@ -24,15 +24,6 @@ define([
         sync: function () { return false; },
         
         initialize: function () {
-            //  TODO: NECESSARY?!
-            var song = this.get('song');
-
-            //  Need to convert to song object to Backbone.Model
-            if (!(song instanceof Backbone.Model)) {
-                //  Silent because Video is just being properly set.
-                this.set('song', new Song(song), { silent: true });
-            }
-            
             //  Whenever a streamItem is activated it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
             this.on('change:active', function (model, active) {
@@ -47,8 +38,6 @@ define([
                     this.set('relatedSongInformation', relatedSongInformation);
                 }.bind(this)
             });
-
-
         }
     });
 

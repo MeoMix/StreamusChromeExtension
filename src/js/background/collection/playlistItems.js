@@ -4,10 +4,9 @@
     'background/model/playlistItem',
     'background/model/settings'
 ], function (MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings) {
-    //  TODO: Fix this.
-    //'use strict';
+    'use strict';
     
-    var PlaylistItems = MultiSelectCollection.extend({
+    var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
         model: PlaylistItem,
 
         comparator: 'sequence',
@@ -78,81 +77,53 @@
             }
 
         },
-
-        savePlaylistItem: function (playlistItem, callback) {
-
-            if (this.songAlreadyExists(playlistItem.get('song'))) {
-                //  TODO: No real indication of failure due to non-uniqueness.
-                if (callback) {
-                    callback(playlistItem);
-                }
-            }
-            else {
-
-                //  TODO: I think it would be nice to support adding immediately and fixing if it fails to save.
-                //  Save the playlistItem, but push after version from server because the ID will have changed.
-                playlistItem.save({}, {
-
-                    success: function () {
-                        
-                        this.add(playlistItem);
-
-                        if (callback) {
-                            callback(playlistItem);
-                        }
-
-                    }.bind(this)
-                });
-            }
-
+        
+        //  Figure out if a Song would be unique to the collection or if it already referenced by a PlaylistItem.
+        hasSong: function (song) {
+            return !_.isUndefined(this.getBySongId(song.get('id')));
         },
         
-        //  Figure out if an item is already in the collection by songId to allow for preventing duplicates.
-        songAlreadyExists: function(song) {
-            return this.some(function (playlistItem) {
-                return playlistItem.get('song').get('id') === song.get('id');
+        getBySongId: function(songId) {
+            return this.find(function(playlistItem) {
+                return playlistItem.get('song').get('id') === songId;
             });
-        }
+        },
         
-    });
-    
-    function trySetDuplicateSongId(playlistItemToAdd) {
-        var duplicatePlaylistItem = this.find(function (playlistItem) {
-            return playlistItem.get('song').get('id') === playlistItemToAdd.get('song').get('id');
-        });
-
-        var duplicateFound = !_.isUndefined(duplicatePlaylistItem);
-
-        if (duplicateFound) {
-
-            //  Make their IDs match to prevent adding to the collection.
-            //  TODO: Is there a more clear way to do this?
-            if (duplicatePlaylistItem.has('id')) {
-                playlistItemToAdd.set('id', duplicatePlaylistItem.get('id'));
+        //  Don't allow duplicate PlaylistItems by songId. 
+        add: function (items, options) {
+        
+            if (items instanceof Backbone.Collection) {
+                items.each(function (item) {
+                    this.trySetDuplicateSongId.call(item);
+                }.bind(this));
+            }
+            else if (_.isArray(items)) {
+                _.each(items, function (item) {
+                    this.trySetDuplicateSongId.call(item);
+                }.bind(this));
             } else {
-                playlistItemToAdd.cid = duplicatePlaylistItem.cid;
+                this.trySetDuplicateSongId(items);
             }
 
-        }
-    }
-    
-    //  TODO: Do I have to extend prototype or can I just define add: inside PlaylistItem?
-    //  Don't allow duplicate PlaylistItems by songId. 
-    PlaylistItems.prototype.add = function (playlistItemToAdd, options) {
+            return MultiSelectCollection.prototype.add.call(this, items, options);
+        },
         
-        if (_.isArray(playlistItemToAdd)) {
-            _.each(playlistItemToAdd, function(itemToAdd) {
-                trySetDuplicateSongId.call(this, itemToAdd);
-            }.bind(this));
-        } else {
-            trySetDuplicateSongId.call(this, playlistItemToAdd);
+        trySetDuplicateSongId: function (playlistItemToAdd) {
+            var duplicateItem = this.getBySongId(playlistItemToAdd.get('song').get('id'));
+
+            if (!_.isUndefined(duplicateItem)) {
+
+                //  Make their IDs match to prevent adding to the collection.
+                if (duplicateItem.has('id')) {
+                    playlistItemToAdd.set('id', duplicateItem.get('id'));
+                } else {
+                    playlistItemToAdd.cid = duplicateItem.cid;
+                }
+
+            }
         }
-
-        return MultiSelectCollection.prototype.add.call(this, playlistItemToAdd, options);
-    };
-
-    //  Mixin methods needed for sequenced collections
-    _.extend(PlaylistItems.prototype, SequencedCollectionMixin);
+        
+    }));
 
     return PlaylistItems;
 });

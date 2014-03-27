@@ -118,7 +118,7 @@
                             //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
                             var draggedStreamItem = self.collection.get(streamItemId);
 
-                            var alreadyExists = Playlists.getActivePlaylist().get('items').songAlreadyExists(draggedStreamItem.get('song'));
+                            var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
                             ui.placeholder.toggleClass('no-drop', alreadyExists);
                         } else {
                             ui.placeholder.addClass('not-signed-in');
@@ -211,7 +211,7 @@
                         //ui.item.removeClass('selected');
 
                         ////  Don't allow duplicates
-                        //var alreadyExists = self.collection.songAlreadyExists(draggedStreamItem.get('song'));
+                        //var alreadyExists = self.collection.hasSong(draggedStreamItem.get('song'));
 
                         //if (alreadyExists) {
                         //    ui.item.remove();

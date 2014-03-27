@@ -45,8 +45,6 @@ define([
             // Remove so parse doesn't set and overwrite instance after parse returns.
             delete playlistDto.items;
 
-            this.setDisplayInfo();
-
             return playlistDto;
         },
         initialize: function () {
@@ -113,21 +111,7 @@ define([
 
             this.set('displayInfo', displayInfo);
         },
-        
 
-        addSongsAtIndex: function (song, index, callback) {
-
-            var sequence = this.get('items').getSequenceFromIndex(index);
-
-            var playlistItem = new PlaylistItem({
-                playlistId: this.get('id'),
-                song: song,
-                sequence: sequence
-            });
-
-            this.get('items').savePlaylistItem(playlistItem, callback);
-        },
-        
         //  TODO: This needs to be kept DRY with the other methods in this object.
         addSongsStartingAtIndex: function (songs, index, callback) {
 
@@ -182,7 +166,7 @@ define([
             var playlistItems = this.get('items');
 
             _.each(songs, function (song) {
-                if (!playlistItems.songAlreadyExists(song)) {
+                if (!playlistItems.hasSong(song)) {
                     var playlistItem = new PlaylistItem({
                         playlistId: itemsToSave.playlistId,
                         song: song
