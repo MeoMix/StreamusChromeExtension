@@ -389,7 +389,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
 
 		var isDebugDeploy = grunt.config.get('isDebugDeploy');
-		console.log("isDebugDeploy:", isDebugDeploy);
 
 		var replacements = [];
 
