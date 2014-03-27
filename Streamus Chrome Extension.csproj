@@ -186,6 +186,7 @@
     <Content Include="src\js\options\options.js" />
     <Content Include="src\js\options\plugins.js" />
     <Content Include="src\js\test\plugins.js" />
+    <Content Include="src\js\test\spec\playlistItemSpec.js" />
     <Content Include="src\js\test\spec\playlistItemsSpec.js" />
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
