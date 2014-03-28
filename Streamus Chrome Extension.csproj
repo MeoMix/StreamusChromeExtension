@@ -140,6 +140,7 @@
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
     <Content Include="src\js\foreground\view\addToStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\listItemButtonsView.js" />
     <Content Include="src\js\foreground\view\mixin\titleTooltip.js" />
     <Content Include="src\js\foreground\view\multiSelectListItemView.js" />
     <Content Include="src\js\foreground\view\prompt\saveSongsPromptView.js" />
@@ -250,16 +251,14 @@
     <Content Include="src\template\genericPrompt.html" />
     <Content Include="src\template\notification.html" />
     <Content Include="src\template\playlist.html" />
-    <Content Include="src\template\playlistItem.html" />
+    <Content Include="src\template\listItem.html" />
     <Content Include="src\template\reloadStreamus.html" />
     <Content Include="src\template\rightBasePane.html" />
     <Content Include="src\template\settings.html" />
     <Content Include="src\template\signIn.html" />
     <Content Include="src\template\stream.html" />
-    <Content Include="src\template\streamItem.html" />
     <Content Include="src\template\timeProgress.html" />
     <Content Include="src\template\search.html" />
-    <Content Include="src\template\searchResult.html" />
     <Content Include="src\template\volume.html" />
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
