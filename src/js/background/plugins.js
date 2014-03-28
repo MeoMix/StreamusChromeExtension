@@ -4,7 +4,9 @@
     'backbone',
     'googleAnalytics'
 ], function () {
-
-    //  Finally, load the background:
-    require(['background/background']);
+    //  TODO: Testing if this helps. I really doubt it..
+    $(function () {
+        //  Finally, load the background:
+        require(['background/background']);;
+    });
 });

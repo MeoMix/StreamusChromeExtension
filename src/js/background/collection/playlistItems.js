@@ -83,7 +83,7 @@
             return !_.isUndefined(this.getBySongId(song.get('id')));
         },
         
-        getBySongId: function(songId) {
+        getBySongId: function (songId) {
             return this.find(function(playlistItem) {
                 return playlistItem.get('song').get('id') === songId;
             });
@@ -94,12 +94,12 @@
         
             if (items instanceof Backbone.Collection) {
                 items.each(function (item) {
-                    this.trySetDuplicateSongId.call(item);
+                    this.trySetDuplicateSongId(item);
                 }.bind(this));
             }
             else if (_.isArray(items)) {
                 _.each(items, function (item) {
-                    this.trySetDuplicateSongId.call(item);
+                    this.trySetDuplicateSongId(item);
                 }.bind(this));
             } else {
                 this.trySetDuplicateSongId(items);
@@ -108,16 +108,31 @@
             return MultiSelectCollection.prototype.add.call(this, items, options);
         },
         
-        trySetDuplicateSongId: function (playlistItemToAdd) {
-            var duplicateItem = this.getBySongId(playlistItemToAdd.get('song').get('id'));
+        trySetDuplicateSongId: function (playlistItem) {
+
+            //  You can pass an object into .add so gotta support both types. Maybe rethink this?
+            var songId;
+            if (playlistItem instanceof Backbone.Model) {
+                songId = playlistItem.get('song').get('id');
+            } else {
+                songId = playlistItem.song.id;
+            }
+            
+            var duplicateItem = this.getBySongId(songId);
 
             if (!_.isUndefined(duplicateItem)) {
 
                 //  Make their IDs match to prevent adding to the collection.
                 if (duplicateItem.has('id')) {
-                    playlistItemToAdd.set('id', duplicateItem.get('id'));
+                    
+                    if (playlistItem instanceof Backbone.Model) {
+                        playlistItem.set('id', duplicateItem.get('id'));
+                    } else {
+                        playlistItem.id = duplicateItem.get('id');
+                    }
+                    
                 } else {
-                    playlistItemToAdd.cid = duplicateItem.cid;
+                    playlistItem.cid = duplicateItem.cid;
                 }
 
             }

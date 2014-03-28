@@ -6,15 +6,15 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
-    'text!template/searchResult.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, SearchResultTemplate) {
+    'text!template/listItem.html'
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
     'use strict';
 
     var SearchResultView = MultiSelectListItemView.extend({
         
         className: MultiSelectListItemView.prototype.className + ' search-result',
 
-        template: _.template(SearchResultTemplate),
+        template: _.template(ListItemTemplate),
 
         attributes: function () {
             return {
@@ -26,28 +26,8 @@
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
             'dblclick': 'playInStream'
         }),
-
-        regions: {
-            playInStreamRegion: '.play-in-stream-region',
-            addToStreamRegion: '.add-to-stream-region',
-            saveToPlaylistRegion: '.save-to-playlist-region'
-        },
         
-        onRender: function () {
-            this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('song')
-            }));
-            
-            this.addToStreamRegion.show(new AddToStreamButtonView({
-                model: this.model.get('song')
-            }));
-            
-            this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
-                model: this.model.get('song')
-            }));
-
-            this.setSelectedClass();
-        },
+        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView],
         
         playInStream: function () {
             this.playInStreamRegion.currentView.playInStream();

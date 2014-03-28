@@ -48,6 +48,7 @@ define(function() {
                 //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
                 return { requestHeaders: info.requestHeaders };
             }, {
+                //urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd']
                 //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
                 urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd']
             },

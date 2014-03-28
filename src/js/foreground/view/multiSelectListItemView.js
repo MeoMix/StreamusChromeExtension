@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/listItemButtonsView',
     'foreground/view/mixin/titleTooltip'
-], function (TitleTooltip) {
+], function (ListItemButtonsView, TitleTooltip) {
     'use strict';
 
     var MultiSelectListItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
@@ -19,6 +20,10 @@
             'change:selected': 'setSelectedClass',
             'destroy': 'remove'
         },
+        
+        regions: {
+            buttonsRegion: '.buttons-region'
+        },
 
         //  Usually lazy-load images, but if a option is given -- allow for instant loading.
         instant: false,
@@ -32,6 +37,16 @@
 
         initialize: function (options) {
             this.instant = options && !_.isUndefined(options.instant) ? options.instant : this.instant;
+        },
+        
+        onRender: function () {
+            this.setSelectedClass();
+
+            this.buttonsRegion.show(new ListItemButtonsView({
+                model: this.model,
+                buttonViews: this.buttonViews
+            }));
+
         },
 
         setSelectedClass: function () {

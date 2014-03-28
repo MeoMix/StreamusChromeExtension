@@ -11,15 +11,15 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
-    'text!template/streamItem.html'
-], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, StreamItemTemplate) {
+    'text!template/listItem.html'
+], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
 
     var StreamItemView = MultiSelectListItemView.extend({
 
         className: MultiSelectListItemView.prototype.className + ' stream-item',
 
-        template: _.template(StreamItemTemplate),
+        template: _.template(ListItemTemplate),
 
         attributes: function () {
             return {
@@ -35,12 +35,8 @@
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
             'change:active': 'setActiveClass'
         }),
-
-        regions: {
-            deleteRegion: '.delete-region',
-            saveToPlaylistRegion: '.save-to-playlist-region',
-            playInStreamRegion: '.play-in-stream-region'
-        },
+        
+        buttonViews: [PlayInStreamButtonView, SaveToPlaylistButtonView, DeleteButtonView],
 
         onShow: function () {
             //  If the stream item is active -- ensure it is instantly visible.
@@ -52,19 +48,8 @@
 
         onRender: function () {
             this.setActiveClass();
-            this.setSelectedClass();
-
-            this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('song')
-            }));
-
-            this.deleteRegion.show(new DeleteButtonView({
-                model: this.model
-            }));
-
-            this.saveToPlaylistRegion.show(new SaveToPlaylistButtonView({
-                model: this.model.get('song')
-            }));
+     
+            MultiSelectListItemView.prototype.onRender.call(this, arguments);
         },
 
         activateOrToggleState: function () {

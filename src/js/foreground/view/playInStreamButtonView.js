@@ -25,11 +25,11 @@
         },
         
         playInStream: _.debounce(function () {
-
-            var streamItem = StreamItems.getBySong(this.model);
+            var song = this.model.get('song');
+            var streamItem = StreamItems.getBySong(song);
 
             if (_.isUndefined(streamItem)) {
-                StreamItems.addSongs(this.model, {
+                StreamItems.addSongs(song, {
                     playOnAdd: true
                 });
             } else {

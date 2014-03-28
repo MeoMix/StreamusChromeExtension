@@ -58,14 +58,14 @@
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(function() {
 
-                var youTubeSource = $.trim(this.ui.youTubeSourceInput.val());
+                var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
                 this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
 
-                if (youTubeSource !== '') {
+                if (youTubeUrl !== '') {
 
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = new DataSource({
-                        urlToParse: youTubeSong,
+                        urlToParse: youTubeUrl,
                         parseVideo: false
                     });
 

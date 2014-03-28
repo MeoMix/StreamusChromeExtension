@@ -1,9 +1,9 @@
 ﻿//  This is mostly disabled until I fix: https://code.google.com/p/chromium/issues/detail?id=161471
-//  This code runs inside of the MusicHolder iframe in the Streamus background -- hax!
+//  This code runs inside of the youtube-player iframe in the Streamus background -- hax!
 $(function() {
 
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
-    if (window.name === 'MusicHolder') {
+    if (window.name === 'youtube-player') {
         
         var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'

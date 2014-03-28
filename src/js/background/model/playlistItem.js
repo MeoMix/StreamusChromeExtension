@@ -52,7 +52,6 @@
             if (this.get('title') === '') {
                 this.set('title', song.get('title'));
             }
-
         }
     });
 

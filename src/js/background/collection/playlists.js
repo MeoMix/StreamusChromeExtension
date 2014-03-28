@@ -17,15 +17,6 @@
         comparator: 'sequence',
         userId: null,
         
-        reset: function(models, options) {
-            if(options && options.parse) {
-                delete options.parse;
-
-                models = this.parse();
-            }
-            return Backbone.Collection.prototype.reset.call(this, models, options);
-        },
-        
         initialize: function () {
 
             //  Ensure there is an always active playlist by trying to load from localstorage
@@ -221,9 +212,6 @@
 
                     }
 
-                },
-                error: function (error) {
-                    console.error(error);
                 }
             });
 

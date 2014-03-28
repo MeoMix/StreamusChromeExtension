@@ -6,14 +6,14 @@
     'foreground/view/deleteButtonView',
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
-    'text!template/playlistItem.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, PlaylistItemTemplate) {
+    'text!template/listItem.html'
+], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
 
     var PlaylistItemView = MultiSelectListItemView.extend({
         className: MultiSelectListItemView.prototype.className + ' playlist-item',
 
-        template: _.template(PlaylistItemTemplate),
+        template: _.template(ListItemTemplate),
 
         attributes: function() {
             return {
@@ -25,29 +25,9 @@
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
             'dblclick': 'playInStream'
         }),
-
-        regions: {
-            playInStreamRegion: '.play-in-stream-region',
-            addToStreamRegion: '.add-to-stream-region',
-            deleteRegion: '.delete-region'
-        },
-
-        onRender: function() {
-            this.setSelectedClass();
-
-            this.playInStreamRegion.show(new PlayInStreamButtonView({
-                model: this.model.get('song')
-            }));
-
-            this.addToStreamRegion.show(new AddToStreamButtonView({
-                model: this.model.get('song')
-            }));
-
-            this.deleteRegion.show(new DeleteButtonView({
-                model: this.model
-            }));
-        },
-
+        
+        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
+        
         showContextMenu: function(event) {
             event.preventDefault();
 

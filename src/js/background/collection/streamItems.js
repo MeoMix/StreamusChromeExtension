@@ -164,7 +164,7 @@
                     } else {
 
                         var song = new Song();
-                        song.setFromSongInformation(songInformationList[0]);
+                        song.setYouTubeInformation(songInformationList[0]);
 
                         self.addSongs(song, {
                             playOnAdd: !!playOnAdd

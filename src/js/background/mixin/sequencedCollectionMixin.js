@@ -7,7 +7,16 @@ define({
         var sequence = this.getSequenceFromIndex(index);
 
         model.set('sequence', sequence);
-        model.save();
+
+        //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
+        $.ajax({
+            url: model.urlRoot + 'UpdateSequence',
+            type: 'PATCH',
+            data: {
+                id: model.get('id'),
+                sequence: sequence
+            }
+        });
 
         this.sort();
     },

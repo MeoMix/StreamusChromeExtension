@@ -1757,10 +1757,6 @@ QTIP.bind = function(opts, event)
 
 			// Only continue if tooltip isn't disabled
 			if (api.disabled) { return FALSE; }
-		    
-			if (_.isUndefined(api.cache)) {
-			    return FALSE;
-			}
 
 			// Cache the event data
 			api.cache.event = $.extend({}, event);

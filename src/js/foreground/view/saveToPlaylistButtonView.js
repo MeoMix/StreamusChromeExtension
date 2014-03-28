@@ -39,7 +39,7 @@
             // Return false even on disabled button click so the click event does not bubble up and select the item. 
             if (!this.$el.hasClass('disabled')) {  
                 var saveSongsPromptView = new SaveSongsPromptView({
-                    songs: [this.model]
+                    songs: [this.model.get('song')]
                 });
 
                 saveSongsPromptView.fadeInAndShow();

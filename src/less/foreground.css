@@ -506,7 +506,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 .list-item:hover i.hoverable {
   background-color: #ebebeb;
 }
-.list-item:hover .hover-actions {
+.list-item:hover .buttons-region {
   display: block;
 }
 .list-item.active.stream-item {
@@ -516,7 +516,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 .list-item.active.stream-item .item-details {
   color: #f9e8a0;
 }
-.list-item.active.stream-item .hover-actions button {
+.list-item.active.stream-item .buttons-region button {
   color: #f9e8a0;
 }
 body.playing .list-item.active.stream-item {
@@ -526,7 +526,7 @@ body.playing .list-item.active.stream-item {
 body.playing .list-item.active.stream-item .item-details {
   color: #89e5b0;
 }
-body.playing .list-item.active.stream-item .hover-actions button {
+body.playing .list-item.active.stream-item .buttons-region button {
   color: #89e5b0;
 }
 .list-item.selected {
@@ -536,15 +536,15 @@ body.playing .list-item.active.stream-item .hover-actions button {
 .list-item.selected .item-details {
   color: #d7ebfa;
 }
-.list-item.selected .hover-actions button {
+.list-item.selected .buttons-region button {
   color: #d7ebfa;
 }
 .list-item.selected,
 .list-item.active {
   color: #ffffff;
 }
-.list-item.selected .hover-actions button:hover,
-.list-item.active .hover-actions button:hover {
+.list-item.selected .buttons-region button:hover,
+.list-item.active .buttons-region button:hover {
   color: #ffffff;
 }
 .list-item.selected .item-title,
@@ -553,7 +553,7 @@ body.playing .list-item.active.stream-item .hover-actions button {
 .list-item.active .item-title-wrapper {
   color: #ffffff;
 }
-.list-item .hover-actions {
+.list-item .buttons-region {
   position: absolute;
   display: none;
   right: 0;
@@ -561,18 +561,18 @@ body.playing .list-item.active.stream-item .hover-actions button {
   bottom: 0;
   font-size: 0;
 }
-.list-item .hover-actions .button-icon {
+.list-item .buttons-region .button-icon {
   height: 30px;
   line-height: 30px;
   width: 25px;
   font-size: 14px;
   cursor: pointer;
 }
-.list-item .hover-actions button:hover {
+.list-item .buttons-region button:hover {
   color: #000000;
 }
 .list-item .item-details,
-.list-item .hover-actions,
+.list-item .buttons-region,
 .list-item .item-title {
   transition: color .1s;
 }
