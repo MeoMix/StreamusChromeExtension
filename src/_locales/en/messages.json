@@ -48,7 +48,15 @@
 	"selectPlaylist": {
 		"message": "Select playlist"
 	},
-
+	"youTubePlayerErrorInvalidParameter": {
+		"message": "The request contains an invalid parameter value."
+	},
+	"youTubePlayerErrorSongNotFound": {
+		"message": "Song requested is not found. This occurs when a song has been removed or it has been marked as private."
+	},
+	"youTubePlayerErrorNoPlayEmbedded": {
+		"message": "Song requested does not allow playback in the embedded players."
+	},
 	"errorEncountered": {
 		"message": "An error was encountered."
 	},
