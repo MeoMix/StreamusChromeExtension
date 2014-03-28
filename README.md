@@ -13,13 +13,13 @@ Client
 
 The Streamus extension utilizes many third-party libraries. Here's a list of those most prominent: 
 
-* [jQuery (v2.0.3)](http://jquery.com/)
-* [jQuery UI (v1.10.3)](http://jqueryui.com/)
+* [jQuery (v2.1.0)](http://jquery.com/)
+* [jQuery UI (v1.10.4)](http://jqueryui.com/)
 * [jQuery Transit (v0.9.9)](http://ricostacruz.com/jquery.transit/)
 * [jQuery qTip (v2.2.0)](http://qtip2.com/)
-* [BackboneJS (v1.1.0)](http://backbonejs.org/)
-* [RequireJS (v2.1.9)](http://requirejs.org/)
-* [Lo-Dash (v2.2.1)](http://lodash.com/)
+* [BackboneJS (v1.1.2)](http://backbonejs.org/)
+* [RequireJS (v2.1.11)](http://requirejs.org/)
+* [Lo-Dash (v2.4.1)](http://lodash.com/)
 * [Jasmine (v1.3.1)](http://pivotal.github.io/jasmine/)
 * [Selectize (v0.8.1)](http://brianreavis.github.io/selectize.js/)
 
