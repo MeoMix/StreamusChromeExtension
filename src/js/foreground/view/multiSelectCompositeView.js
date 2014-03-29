@@ -197,7 +197,7 @@
                         var draggedStreamItems = StreamItems.selected();
                         StreamItems.deselectAll();
 
-                        var songs = _.map(draggedStreamItems, function(streamItem) {
+                        var streamItemSongs = _.map(draggedStreamItems, function(streamItem) {
                             return streamItem.get('song');
                         });
 
@@ -219,7 +219,7 @@
                         //else {
 
                         //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addSongsStartingAtIndex(songs, ui.item.index());
+                            self.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
 
                             //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
                             //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
@@ -235,11 +235,11 @@
                         var draggedPlaylistItems = activePlaylistItems.selected();
                         
                         //  TODO: Can I just pluck here instead?
-                        var songs = _.map(draggedPlaylistItems, function (playlistItem) {
+                        var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
                             return playlistItem.get('song');
                         });
 
-                        self.collection.addSongs(songs, { index: ui.item.index() });
+                        self.collection.addSongs(playlistItemSongs, { index: ui.item.index() });
 
                         activePlaylistItems.deselectAll();
                         ui.item.remove();
@@ -248,11 +248,11 @@
                         SearchResults.deselectAll();
 
                         //  TODO: Can I just pluck here instead?
-                        var songs = _.map(draggedSearchResults, function (searchResult) {
+                        var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
                             return searchResult.get('song');
                         });
 
-                        self.collection.addSongs(songs, { index: ui.item.index() });
+                        self.collection.addSongs(searchResultSongs, { index: ui.item.index() });
                         ui.item.remove();
                     }
 

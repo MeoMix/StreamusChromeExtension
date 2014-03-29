@@ -146,7 +146,7 @@ $(function () {
 
 		playlistSelect.appendTo(sharePanelPlaylistSelect);
 
-		var addButton = $('<input>', {
+		var streamusAddButton = $('<input>', {
 			type: 'button',
 			value: chrome.i18n.getMessage('addSong'),
 			title: chrome.i18n.getMessage('addSong'),
@@ -190,7 +190,7 @@ $(function () {
 				});
 			}
 		});
-		addButton.appendTo(sharePanelPlaylistSelect);
+		streamusAddButton.appendTo(sharePanelPlaylistSelect);
 
 		selectPlaylistButton.click(function () {
 			sharePanelPlaylistSelect.removeClass('hid');

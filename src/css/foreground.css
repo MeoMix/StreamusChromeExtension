@@ -32,6 +32,9 @@ body.loading > *:not(.spinner):not(.reload-streamus-prompt) {
 body.loading > .spinner {
   display: block;
 }
+body.hide-tooltips .qtip {
+  display: none !important;
+}
 body .qtip {
   min-width: 0;
   cursor: default;
@@ -283,12 +286,6 @@ a {
   cursor: pointer;
 }
 /*** End clear code ***/
-/*span.videoTitle {
-    font-size: 14px;
-    white-space: nowrap;
-    cursor: default;
-    line-height: 1.5em;
-}*/
 .playlist-details {
   color: #666666;
   line-height: 1.5;
@@ -333,7 +330,7 @@ button:not(.disabled):active {
   line-height: 45px;
   width: 40px;
 }
-.fa.fa-repeat.repeat-video:after {
+.fa.fa-repeat.repeat-song:after {
   content: '1';
   border-radius: 50%;
   background-color: #666666;
@@ -426,7 +423,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   top: 0;
   bottom: 40px;
 }
-/* Hide some messages in video search */
+/* Hide some messages in search */
 .big-text.hidden {
   display: none;
 }
@@ -509,7 +506,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 .list-item:hover i.hoverable {
   background-color: #ebebeb;
 }
-.list-item:hover .hover-actions {
+.list-item:hover .buttons-region {
   display: block;
 }
 .list-item.active.stream-item {
@@ -519,7 +516,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 .list-item.active.stream-item .item-details {
   color: #f9e8a0;
 }
-.list-item.active.stream-item .hover-actions button {
+.list-item.active.stream-item .buttons-region button {
   color: #f9e8a0;
 }
 body.playing .list-item.active.stream-item {
@@ -529,7 +526,7 @@ body.playing .list-item.active.stream-item {
 body.playing .list-item.active.stream-item .item-details {
   color: #89e5b0;
 }
-body.playing .list-item.active.stream-item .hover-actions button {
+body.playing .list-item.active.stream-item .buttons-region button {
   color: #89e5b0;
 }
 .list-item.selected {
@@ -539,15 +536,15 @@ body.playing .list-item.active.stream-item .hover-actions button {
 .list-item.selected .item-details {
   color: #d7ebfa;
 }
-.list-item.selected .hover-actions button {
+.list-item.selected .buttons-region button {
   color: #d7ebfa;
 }
 .list-item.selected,
 .list-item.active {
   color: #ffffff;
 }
-.list-item.selected .hover-actions button:hover,
-.list-item.active .hover-actions button:hover {
+.list-item.selected .buttons-region button:hover,
+.list-item.active .buttons-region button:hover {
   color: #ffffff;
 }
 .list-item.selected .item-title,
@@ -556,7 +553,7 @@ body.playing .list-item.active.stream-item .hover-actions button {
 .list-item.active .item-title-wrapper {
   color: #ffffff;
 }
-.list-item .hover-actions {
+.list-item .buttons-region {
   position: absolute;
   display: none;
   right: 0;
@@ -564,18 +561,18 @@ body.playing .list-item.active.stream-item .hover-actions button {
   bottom: 0;
   font-size: 0;
 }
-.list-item .hover-actions .button-icon {
+.list-item .buttons-region .button-icon {
   height: 30px;
   line-height: 30px;
   width: 25px;
   font-size: 14px;
   cursor: pointer;
 }
-.list-item .hover-actions button:hover {
+.list-item .buttons-region button:hover {
   color: #000000;
 }
 .list-item .item-details,
-.list-item .hover-actions,
+.list-item .buttons-region,
 .list-item .item-title {
   transition: color .1s;
 }
@@ -710,11 +707,11 @@ input:focus ~ .underline {
   left: -385px;
   z-index: 10;
 }
-#video-search {
+#search {
   box-shadow: 0 0 10px #333333;
-  /* Can't sort video-search */
+  /* Can't sort search */
 }
-#video-search .sortable-placeholder {
+#search .sortable-placeholder {
   display: none;
 }
 #active-playlist-items .sortable-placeholder {
@@ -752,20 +749,6 @@ input:focus ~ .underline {
   top: 10px;
   z-index: 1;
   width: calc(100% - 73px);
-}
-.search-bar button#source-select {
-  bottom: 11px;
-  display: block;
-  font-weight: bold;
-  position: absolute;
-  right: 0;
-  text-align: left;
-  text-indent: .3em;
-  top: 10px;
-  width: 140px;
-}
-.search-bar button#source-select .label {
-  margin: 0 0.7em 0 0.5em;
 }
 .big-text {
   cursor: default;
@@ -1083,11 +1066,11 @@ html .selectize-control.multi .selectize-input.full > input {
 .clickable {
   cursor: pointer;
 }
-#video-search .big-text {
+#search .big-text {
   z-index: 1;
 }
 #content-region .big-text,
-#video-search .big-text {
+#search .big-text {
   background-color: #ffffff;
   position: absolute;
   bottom: 0;
