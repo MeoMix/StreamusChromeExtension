@@ -49,13 +49,12 @@
                     contentType: 'application/json; charset=utf-8',
                     data: JSON.stringify(newItems),
                     success: function (createdItems) {
-
                         //  For each of the createdItems, remap properties back to the old items.
                         _.each(createdItems, function (createdItem) {
 
                             //  Title is unique so just match on that. No need to rely on passing cid to server and back. 
                             var matchingNewItem = self.find(function (newItem) {
-                                return newItem.get('title') === createdItem.title;
+                                return newItem.cid === createdItem.cid;
                             });
                             
                             //  Call parse to emulate going through the Model's save logic.

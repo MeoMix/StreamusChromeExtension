@@ -36,6 +36,13 @@
 
             return playlistItemDto;
         },
+        
+        toJSON: function () {
+            //  Backbone Model's toJSON doesn't automatically send cid across, but I want it for re-mapping collections after server saves.
+            var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
+            json.cid = this.cid;
+            return json;
+        },
 
         initialize: function () {
             var song = this.get('song');

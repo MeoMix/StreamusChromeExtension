@@ -137,16 +137,15 @@ define([
                     }
                 });
 
+                console.log("Setting up iframe API");
                 //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
-                setTimeout(function () {
-                    new window.YT.Player('dummyTarget');
-                    var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
-                    $('#dummyTarget').remove();
+                new window.YT.Player('dummyTarget');
+                var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
+                $('#dummyTarget').remove();
 
-                    var url = isHttps ? 'https' : 'http';
-                    url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
-                    $('#youtube-player').attr('src', url);
-                });
+                var url = isHttps ? 'https' : 'http';
+                url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
+                $('#youtube-player').attr('src', url);
             });
 
         },
