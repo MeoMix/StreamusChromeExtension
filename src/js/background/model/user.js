@@ -210,23 +210,37 @@ define([
         
         addPlaylistByShareData: function (shortId, urlFriendlyEntityTitle, callback) {
             
-            $.ajax({
-                url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
-                data: {
-                    shortId: shortId,
-                    urlFriendlyEntityTitle: urlFriendlyEntityTitle,
-                    userId: this.get('id')
-                },
-                success: function (playlistDto) {
-                    //  Add and convert back from JSON to Backbone object.
-                    var playlist = Playlists.add(playlistDto);
-                    callback(playlist);
-                }.bind(this),
-                error: function (error) {
-                    console.error("Error adding playlist by share data", error);
-                    callback();
-                }
-            });
+            if (this.canSignIn()) {
+
+                this.listenToOnce(this, 'change:signedIn', function() {
+                    this.addPlaylistByShareData(shortId, urlFriendlyEntityTitle, callback);
+                });
+
+                this.signIn();
+
+            } else {
+                $.ajax({
+                    type: 'POST',
+                    url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
+                    data: {
+                        shortId: shortId,
+                        urlFriendlyEntityTitle: urlFriendlyEntityTitle,
+                        userId: this.get('id')
+                    },
+                    success: function (playlistDto) {
+                        //  Add and convert back from JSON to Backbone object.
+                        var playlist = Playlists.add(playlistDto);
+                        callback(playlist);
+                    }.bind(this),
+                    error: function (error) {
+                        console.error("Error adding playlist by share data", error);
+                        callback();
+                    }
+                });
+            }
+
+            
+
 
         },
         
