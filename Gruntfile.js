@@ -212,7 +212,7 @@ module.exports = function (grunt) {
 
 		if (!isDebugDeploy) {
 			//  Linting is a bit annoying for test. Just ensure lint validation passes for production.
-			grunt.task.run('lint', 'update-dist-manifest-version');
+			grunt.task.run('lint');
 		}
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
@@ -227,7 +227,7 @@ module.exports = function (grunt) {
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
-			grunt.task.run('compress-extension', 'update-src-manifest-version');
+		    grunt.task.run('update-dist-manifest-version', 'compress-extension', 'update-src-manifest-version');
 		}
 
 	});
