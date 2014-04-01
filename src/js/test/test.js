@@ -1,6 +1,6 @@
 ﻿define([
-      'test/spec/playlistItemsSpec',
-      'test/spec/playlistItemSpec'
+      //'test/spec/playlistItemsSpec',
+      //'test/spec/playlistItemSpec'
     //'test/spec/streamItemsSpec',
     //'test/spec/relatedSongInformationManagerSpec',
     //'test/spec/dataSourceSpec',
@@ -8,7 +8,7 @@
     //'test/spec/googleAPISpec',
     //'test/spec/utilitySpec',
     //'test/spec/youTubeV2APISpec',
-    //'test/spec/youTubeV3APISpec'
+    'test/spec/youTubeV3APISpec'
 ], function () {
     'use strict';
 

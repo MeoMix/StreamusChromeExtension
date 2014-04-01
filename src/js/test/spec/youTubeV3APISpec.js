@@ -1,6 +1,7 @@
 ﻿define([
-    'common/model/youTubeV3API'
-], function (YouTubeV3API) {
+    'common/model/youTubeV3API',
+    'common/model/dataSource'
+], function (YouTubeV3API, DataSource) {
     'use strict';
 
     describe('YouTubeV3API', function () {
@@ -27,6 +28,30 @@
             waitsFor(function () {
                 return relatedSongInformation !== null;
             }, "RelatedSongInformation should be set", 2000);
+
+        });
+        
+        it('Should be able to getPlaylistItems', function () {
+            var validResults = null;
+
+            runs(function () {
+
+                var playlistDataSource = new DataSource({
+                    urlToParse: 'https://www.youtube.com/watch?list=PLCyVVJA8G-6CPwZ1Gzj_oYody7x_p5ipR'
+                });
+
+                YouTubeV3API.getPlaylistItems({
+                    playlistId: playlistDataSource.get('id'),
+                    success: function (response) {
+                        console.log("DAT RESPONSE:", response);
+                        validResults = response.validResults;
+                    }
+                });
+            });
+
+            waitsFor(function () {
+                return validResults !== null;
+            }, "validResults should be set", 2000);
 
         });
 

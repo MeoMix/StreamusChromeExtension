@@ -20,7 +20,6 @@ define([
             return {
                 id: null,
                 googlePlusId: '',
-                name: '',
                 dirty: false,
                 signingIn: false,
                 signInFailed: false,

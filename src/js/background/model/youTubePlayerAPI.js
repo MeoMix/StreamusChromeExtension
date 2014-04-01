@@ -15,7 +15,7 @@ define(function() {
             // Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
             // Without a Referer - YouTube will reject most of the requests to play music.
             chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
-                console.log("onBeforeSendHeaders")
+                console.log("onBeforeSendHeaders");
                 //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
                 var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                     return requestHeader.name === 'Referer';
