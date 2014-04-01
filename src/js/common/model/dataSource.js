@@ -14,7 +14,8 @@
             //  The songId, playlistId, channelId etc..
             id: '',
             url: '',
-            title: ''
+            title: '',
+            rawUrl: ''
         },
 
         initialize: function (options) {
@@ -71,6 +72,8 @@
 
         parseUrlForDataSourceInformation: function (urlToParse) {
 
+            this.set('rawUrl', urlToParse);
+
             var dataSourceType = DataSourceType.None;
             var dataSourceId = '';
             
@@ -125,6 +128,9 @@
                         else if (identifier === 'list=RD' || identifier === 'p=RD') {
                             parsedDataSourceId = 'RD' + parsedDataSourceId;
                         }
+                        else if (identifier === 'list=FL' || identifier === 'p=FL') {
+                            parsedDataSourceId = 'FL' + parsedDataSourceId;
+                        }
                     }
 
                     return parsedDataSourceId;
@@ -146,8 +152,6 @@
                 });
                 
             }
-
-
 
             return {
                 dataSourceType: dataSourceType,
@@ -230,6 +234,11 @@
 
                     options.error();
             }
+        },
+        
+        idIsUsername: function() {
+            var indexOfUser = this.get('rawUrl').indexOf('/user/');
+            return indexOfUser != -1;
         }
 
     });

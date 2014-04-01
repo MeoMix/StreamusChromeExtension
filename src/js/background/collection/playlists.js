@@ -177,38 +177,31 @@
                     self.push(playlist);
      
                     if (dataSource.needsLoading()) {
+                        
+                        //  TODO: Probably make a distinction between Playlists and Channels at some point in the future.
 
-                        if (dataSource.isV3()) {
-                            //  TODO: Finish implementing this.
-                            //YouTubeV3API.getDataSourceResults(dataSource, function onGetV3DataSourceData(response) {
+                        //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
+                        YouTubeV2API.getDataSourceResults(dataSource, 0, function onGetV2DataSourceData(response) {
 
-                            //});
-                        } else {
+                            if (response.results.length === 0) {
+                                playlist.set('dataSourceLoaded', true);
+                            } else {
 
-                            //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-                            YouTubeV2API.getDataSourceResults(dataSource, 0, function onGetV2DataSourceData(response) {
+                                var songs = _.map(response.results, function (youTubeSongInformation) {
+                                    var song = new Song();
+                                    song.setYouTubeInformation(youTubeSongInformation);
 
-                                if (response.results.length === 0) {
-                                    playlist.set('dataSourceLoaded', true);
-                                } else {
+                                    return song;
+                                });
 
-                                    var songs = _.map(response.results, function (youTubeSongInformation) {
-                                        var song = new Song();
-                                        song.setYouTubeInformation(youTubeSongInformation);
+                                //  Periodicially send bursts of packets to the server and trigger visual update.
+                                playlist.addSongs(songs, function () {
+                                    //  Request next batch of data by iteration once addItems has succeeded.
+                                    YouTubeV2API.getDataSourceResults(dataSource, ++response.iteration, onGetV2DataSourceData);
+                                });
 
-                                        return song;
-                                    });
-
-                                    //  Periodicially send bursts of packets to the server and trigger visual update.
-                                    playlist.addSongs(songs, function () {
-                                        //  Request next batch of data by iteration once addItems has succeeded.
-                                        YouTubeV2API.getDataSourceResults(dataSource, ++response.iteration, onGetV2DataSourceData);
-                                    });
-
-                                }
-                            });
-
-                        }
+                            }
+                        });
 
                     }
 
