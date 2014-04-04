@@ -7,6 +7,29 @@
 
     describe('YouTubeV3API', function () {
 
+        it('Should be able to search for music', function() {
+
+            var searchResults = null;
+
+            runs(function () {
+                YouTubeV3API.search({
+                    text: 'Gramatik',
+                    success: function (response) {
+                        searchResults = response;
+                    }
+                });
+            });
+
+            waitsFor(function () {
+                return searchResults !== null;
+            }, "searchResults should be set", 2000);
+
+            runs(function () {
+                expect(searchResults.length).toEqual(50);
+            });
+
+        });
+
         xit('Should be able to get related song information', function() {
             var relatedSongInformation = null;
 

@@ -27,6 +27,47 @@
 
         },
         
+        //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
+        //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
+        search: function (options) {
+            //  If the API is still in the process of loading - defer calling this event until ready.
+            if (this.get('loading')) {
+                this.once('change:loaded', function () {
+                    this.search(options);
+                });
+                return;
+            }
+
+            var searchListRequest = GoogleAPI.client.youtube.search.list({
+                part: 'id',
+                //  Probably set this to its default of video/playlist/channel at some point.
+                type: 'video',
+                maxResults: options.maxResults || 50,
+                q: options.text,
+                //topicId: '/music',
+                //  I don't think it's a good idea to filter out results based on safeSearch for music.
+                safeSearch: 'none'
+            });
+
+            searchListRequest.execute(function (response) {
+                if (response.error) {
+                    if (options.error) {
+                        options.error({
+                            error: response.error
+                        });
+                    }
+                } else {
+                    var songIds = _.map(response.items, function (item) {
+                        return item.id.videoId;
+                    });
+
+                    this._getSongInformationList(songIds, options.success);
+                }
+
+            }.bind(this));
+
+        },
+        
         //  The API Key is set through here: https://code.google.com/apis/console/b/0/?noredirect#project:346456917689:access 
         //  It can expire from time to time. You need to generate a new Simple API Access token with the 'Browser key' with a Referer of 'http://localhost' for testing
         //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
@@ -41,11 +82,7 @@
             //}
         },
         
-        _getSongInformationList: function(items, callback) {
-            var songIds = _.map(items, function (item) {
-                return item.contentDetails.videoId;
-            });
-
+        _getSongInformationList: function(songIds, callback) {
             //  Now I need to take these songIds and get their information.
             var songsListRequest = GoogleAPI.client.youtube.videos.list({
                 part: 'contentDetails,snippet',
@@ -173,7 +210,11 @@
                     }
                 } else {
 
-                    this._getSongInformationList(response.items, function(songInformationList) {
+                    var songIds = _.map(response.items, function (item) {
+                        return item.contentDetails.videoId;
+                    });
+
+                    this._getSongInformationList(songIds, function (songInformationList) {
 
                         options.success({
                             nextPageToken: response.nextPageToken,
