@@ -27,6 +27,33 @@
 
         },
         
+        //  Performs a search and then grabs the first item most related to the search title by calculating
+        //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
+        //  Expects options: { title: string, success: function, error: function }
+        findPlayableByTitle: function (options) {
+
+            var title = $.trim(options.title || '');
+
+            if (title === '') {
+                if (options.error) options.error('No title provided');
+                return null;
+            }
+
+            return this.search({
+                text: title,
+                success: function (songInformationList) {
+
+                    songInformationList.sort(function (a, b) {
+                        return Utility.getLevenshteinDistance(a.title, title) - Utility.getLevenshteinDistance(b.title, title);
+                    });
+
+                    var songInformation = songInformationList.length > 0 ? songInformationList[0] : null;
+                    options.success(songInformation);
+                },
+                error: options.error
+            });
+        },
+        
         //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function (options) {
@@ -56,12 +83,22 @@
                             error: response.error
                         });
                     }
+                    
+                    if (options.complete) {
+                        options.complete();
+                    }
                 } else {
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
 
-                    this._getSongInformationList(songIds, options.success);
+                    this._getSongInformationList(songIds, function (songInformationList) {
+                        options.success(songInformationList);
+
+                        if (options.complete) {
+                            options.complete();
+                        }
+                    });
                 }
 
             }.bind(this));
@@ -81,6 +118,8 @@
             GoogleAPI.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
             //}
         },
+        
+        //  TODO: getSongInformation
         
         _getSongInformationList: function(songIds, callback) {
             //  Now I need to take these songIds and get their information.
@@ -194,7 +233,7 @@
             }
 
             var playlistListRequest = GoogleAPI.client.youtube.playlistItems.list({
-                part: 'contentDetails',
+                part: 'id',
                 maxResults: 50,
                 playlistId: options.playlistId,
                 pageToken: options.pageToken || ''
@@ -211,7 +250,7 @@
                 } else {
 
                     var songIds = _.map(response.items, function (item) {
-                        return item.contentDetails.videoId;
+                        return item.id.videoId;
                     });
 
                     this._getSongInformationList(songIds, function (songInformationList) {
@@ -242,16 +281,35 @@
             if (!this.get('loaded')) throw 'gapi youtube v3 must be loaded before calling';
 
             var relatedSongInformationRequest = GoogleAPI.client.youtube.search.list({
-                part: 'snippet',
+                part: 'id',
                 relatedToVideoId: options.songId,
-                maxResults: 10,
+                //  Don't really need that many suggested songs, take 10.
+                //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
+                maxResults: options.maxResults || 10,
                 //  If the relatedToVideoId parameter has been supplied, type must be video.
                 type: 'video'
             });
 
-            relatedSongInformationRequest.execute(function (relatedSongInformationResponse) {
-                options.success(relatedSongInformationResponse);
-            });
+            relatedSongInformationRequest.execute(function (response) {
+
+                if (response.error) {
+                    if (options.error) {
+                        options.error({
+                            error: response.error
+                        });
+                    }
+                } else {
+
+                    var songIds = _.map(response.items, function(item) {
+                        return item.id.videoId;
+                    });
+
+                    this._getSongInformationList(songIds, function(songInformationList) {
+                        options.success(songInformationList);
+                    });
+                }
+
+            }.bind(this));
 
         }
 

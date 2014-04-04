@@ -7,6 +7,23 @@
 
     describe('YouTubeV3API', function () {
 
+        it('Should be able to find a playable song by title', function() {
+            var playableResult = null;
+
+            runs(function () {
+                YouTubeV3API.findPlayableByTitle({
+                    title: 'Gramatik',
+                    success: function (response) {
+                        playableResult = response;
+                    }
+                });
+            });
+
+            waitsFor(function () {
+                return playableResult !== null;
+            }, "playableResult should be set", 2000);
+        });
+
         it('Should be able to search for music', function() {
 
             var searchResults = null;
@@ -30,7 +47,7 @@
 
         });
 
-        xit('Should be able to get related song information', function() {
+        it('Should be able to get related song information', function() {
             var relatedSongInformation = null;
 
             runs(function() {
@@ -38,13 +55,8 @@
                     songId: 'CxHFnVCZDRo',
                     success: function (response) {
                         relatedSongInformation = response;
-                        
-                        var songs = _.map(relatedSongInformation.items, function (info) {
-                            return {
-                                id: info.id.videoId,
-                                title: info.snippet.title
-                            };
-                        });
+
+                        console.log("Related info:", relatedSongInformation);
                     }
                 });
             });

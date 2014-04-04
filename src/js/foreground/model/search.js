@@ -2,10 +2,10 @@
     'background/collection/searchResults',
     'background/model/settings',
     'common/enum/dataSourceType',
-    'common/model/youTubeV2API',
+    'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (SearchResults, Settings, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (SearchResults, Settings, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var Search = Backbone.Model.extend({
@@ -56,7 +56,7 @@
             this.set('typing', true);
             
             //  Debounce a search request so that when the user stops typing the last request will run.
-            this.doDebounceSearch(searchQuery);
+            this._doDebounceSearch(searchQuery);
         },
         
         onSearchComplete: function () {
@@ -65,7 +65,7 @@
         
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
-        doDebounceSearch: _.debounce(function (searchQuery) {
+        _doDebounceSearch: _.debounce(function (searchQuery) {
             var self = this;
 
             //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
@@ -77,7 +77,7 @@
             //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
             if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
 
-                searchJqXhr = YouTubeV2API.getSongInformation({
+                searchJqXhr = YouTubeV3API.getSongInformation({
                     songId: dataSource.get('songId'),
                     success: function (songInformation) {
                         SearchResults.setFromSongInformation(songInformation);
@@ -87,7 +87,7 @@
 
             } else {
 
-                searchJqXhr = YouTubeV2API.search({
+                searchJqXhr = YouTubeV3API.search({
                     text: searchQuery,
                     success: function (songInformationList) {
                         //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.

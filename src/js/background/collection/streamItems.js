@@ -9,9 +9,8 @@
     'background/model/buttons/repeatButton',
     'common/enum/repeatButtonState',
     'common/enum/playerState',
-    'common/model/utility',
-    'common/model/youTubeV2API'
-], function (MultiSelectCollection, Notifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, Utility, YouTubeV2API) {
+    'common/model/youTubeV3API'
+], function (MultiSelectCollection, Notifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
@@ -154,7 +153,7 @@
         searchAndAddByTitle: function(title, playOnAdd, callback) {
             var self = this;
             
-            YouTubeV2API.search({
+            YouTubeV3API.search({
                 text: title,
                 maxResults: 10,
                 success: function (songInformationList) {

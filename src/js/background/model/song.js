@@ -65,7 +65,8 @@ define([
             //  v3 API songInformation will have the id stored directly in the information object.
             //  TODO: Need a better v3 detector than this.
             if (songInformation.id && songInformation.id.length === 11) {
-                this.set(config.songInformation);
+                console.log("Setting: ", songInformation);
+                this.set(songInformation);
             } else {
                 this.set({
                     id: songInformation.media$group.yt$videoid.$t,

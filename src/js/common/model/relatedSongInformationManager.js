@@ -1,6 +1,6 @@
 ﻿define([
-    'common/model/youTubeV2API'
-], function(YouTubeV2API) {
+    'common/model/youTubeV3API'
+], function (YouTubeV3API) {
     'use strict';
 
     //  Ensures that I don't flood the network with requests for related information whenever creating a large amount of stream items.
@@ -26,7 +26,7 @@
 
             this.set('concurrentRequestCount', this.get('concurrentRequestCount') + 1);
 
-            YouTubeV2API.sendV2ApiRequest({
+            YouTubeV3API.getRelatedSongInformation({
                 url: 'https://gdata.youtube.com/feeds/api/videos/' + options.songId + '/related',
                 data: {
                     category: 'Music',
@@ -56,7 +56,7 @@
                     //  Search YouTube by title and replace unplayable songs.
                     //  Since this is an asynchronous action -- need to wait for all of the events to finish before we have a fully complete list.
                     var deferredEvents = _.map(unplayableEntryList, function(entry) {
-                        return YouTubeV2API.findPlayableByTitle({
+                        return YouTubeV3API.findPlayableByTitle({
                             title: entry.title.$t,
                             success: function(playableEntry) {
                                 //  Successfully found a replacement

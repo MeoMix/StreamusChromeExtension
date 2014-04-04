@@ -2,9 +2,9 @@
 define([
     'background/collection/streamItems',
     'background/model/song',
-    'common/model/youTubeV2API',
+    'common/model/youTubeV3API',
     'common/model/utility'
-], function (StreamItems, Song, YouTubeV2API, Utility) {
+], function (StreamItems, Song, YouTubeV3API, Utility) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
@@ -44,7 +44,7 @@ define([
                         self.set('searchJqXhr', null);
                     }
 
-                    var searchJqXhr = YouTubeV2API.search({
+                    var searchJqXhr = YouTubeV3API.search({
                         text: trimmedSearchText,
                         //  Omnibox can only show 6 results
                         maxResults: 6,

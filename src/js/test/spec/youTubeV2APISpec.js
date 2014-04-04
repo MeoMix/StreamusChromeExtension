@@ -10,7 +10,7 @@
         it('Should be able to get a song\'s information', function () {
             var songInformation = null;
             runs(function () {
-                YouTubeV2API.getSongInformation({
+                YouTubeV3API.getSongInformation({
                     songId: 'btDPtzCGNTE',
                     success: function (response) {
                         songInformation = response;
