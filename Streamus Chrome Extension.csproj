@@ -198,6 +198,7 @@
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\backbone.babysitter.js" />
+    <Content Include="src\js\thirdParty\boot.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jasmine-html.js" />
     <Content Include="src\js\thirdParty\jasmine.js" />

@@ -20,7 +20,7 @@ The Streamus extension utilizes many third-party libraries. Here's a list of tho
 * [BackboneJS (v1.1.2)](http://backbonejs.org/)
 * [RequireJS (v2.1.11)](http://requirejs.org/)
 * [Lo-Dash (v2.4.1)](http://lodash.com/)
-* [Jasmine (v1.3.1)](http://pivotal.github.io/jasmine/)
+* [Jasmine (v2.0.0)](http://jasmine.github.io/)
 * [Selectize (v0.8.1)](http://brianreavis.github.io/selectize.js/)
 
 Installation

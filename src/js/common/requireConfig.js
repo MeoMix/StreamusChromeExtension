@@ -13,11 +13,14 @@
 
             //  Third Party:
             'async': 'thirdParty/async',
+            'boot': 'thirdParty/boot',
             'backbone.babysitter': 'thirdParty/backbone.babysitter',
             'backbone': 'thirdParty/backbone',
             'backbone.marionette': 'thirdParty/backbone.marionette',
             'backbone.wreqr': 'thirdParty/backbone.wreqr',
             'googleAnalytics': 'thirdParty/googleAnalytics',
+            'jasmine': 'thirdParty/jasmine',
+            'jasmine-html': 'thirdParty/jasmine-html',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
             'jquery.lazyload': 'thirdParty/jquery.lazyload',
@@ -42,10 +45,20 @@
                 //  Once loaded, use the global 'Backbone' as the module value.
                 exports: 'Backbone'
             },
-
+            'boot': {
+                deps: ['jasmine', 'jasmine-html'],
+                exports: 'window.jasmineRequire'
+            },
             'googleAnalytics': {
                 deps: ['jquery'],
                 exports: '_gaq'
+            },
+            'jasmine': {
+                exports: 'window.jasmineRequire'
+            },
+            'jasmine-html': {
+                deps: ['jasmine'],
+                exports: 'window.jasmineRequire'
             },
             'jquery.hoverIntent': {
                 deps: ['jquery'],

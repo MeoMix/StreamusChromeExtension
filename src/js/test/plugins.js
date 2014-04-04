@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'boot',
     'jquery.hoverIntent',
     'jquery',
     'jquery.qtip',
