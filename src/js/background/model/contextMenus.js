@@ -5,10 +5,10 @@ define([
     'background/model/user',
     'background/model/song',
     'common/enum/dataSourceType',
-    'common/model/youTubeV2API',
+    'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, User, Song, DataSourceType, YouTubeV2API, Utility, DataSource) {
+], function (StreamItems, Playlists, User, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -128,7 +128,7 @@ define([
                 throw 'Excepected dataSource to be a YouTube video.';
             }
 
-            YouTubeV2API.getSongInformation({
+            YouTubeV3API.getSongInformation({
                 songId: dataSource.get('songId'),
                 success: function (songInformation) {
 

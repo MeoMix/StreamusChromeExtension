@@ -7,7 +7,6 @@
     //'test/spec/clientErrorSpec',
     //'test/spec/googleAPISpec',
     //'test/spec/utilitySpec',
-    //'test/spec/youTubeV2APISpec',
     'test/spec/youTubeV3APISpec'
 ], function () {
     'use strict';

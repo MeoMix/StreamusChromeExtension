@@ -2,9 +2,9 @@
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlist',
     'background/model/song',
-    'common/model/youTubeV2API',
+    'common/model/youTubeV3API',
     'common/model/dataSource'
-], function (SequencedCollectionMixin, Playlist, Song, YouTubeV2API, DataSource) {
+], function (SequencedCollectionMixin, Playlist, Song, YouTubeV3API, DataSource) {
     'use strict';
 
     //  If the foreground requests, don't instantiate -- return existing from the background.
@@ -37,7 +37,7 @@
                     //  TODO: Update name to indicate from YouTube more clearly.
                     case 'addSongByIdToPlaylist':
 
-                        YouTubeV2API.getSongInformation({
+                        YouTubeV3API.getSongInformation({
                             songId: request.songId,
                             success: function (youTubeSongInformation) {
 
@@ -178,27 +178,30 @@
      
                     if (dataSource.needsLoading()) {
                         
-                        //  TODO: Probably make a distinction between Playlists and Channels at some point in the future.
-
+                        //  TODO: FIX loading channel information once a distinction is made between Playlists and Channels at some point in the future.
                         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-                        YouTubeV2API.getDataSourceResults(dataSource, 0, function onGetV2DataSourceData(response) {
+                        YouTubeV3API.getPlaylistSongInformationList({
+                            playlistId: dataSource.get('id'),
+                            success: function onResponse(response) {
+                                //  TODO: Not sure if this happens now... maybe an argument for not throwing an error on no results.
+                                if (response.songInformationList.length === 0) {
+                                    playlist.set('dataSourceLoaded', true);
+                                } else {
 
-                            if (response.results.length === 0) {
-                                playlist.set('dataSourceLoaded', true);
-                            } else {
+                                    var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
+                                        var song = new Song();
+                                        song.setYouTubeInformation(youTubeSongInformation);
 
-                                var songs = _.map(response.results, function (youTubeSongInformation) {
-                                    var song = new Song();
-                                    song.setYouTubeInformation(youTubeSongInformation);
+                                        return song;
+                                    });
 
-                                    return song;
-                                });
+                                    //  Periodicially send bursts of packets to the server and trigger visual update.
+                                    playlist.addSongs(songs, function () {
+                                        //  Request next batch of data by iteration once addItems has succeeded.
+                                        YouTubeV3API.getPlaylistSongInformationList(dataSource, response.nextPageToken, onResponse);
+                                    });
 
-                                //  Periodicially send bursts of packets to the server and trigger visual update.
-                                playlist.addSongs(songs, function () {
-                                    //  Request next batch of data by iteration once addItems has succeeded.
-                                    YouTubeV2API.getDataSourceResults(dataSource, ++response.iteration, onGetV2DataSourceData);
-                                });
+                                }
 
                             }
                         });

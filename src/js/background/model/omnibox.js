@@ -48,10 +48,10 @@ define([
                         text: trimmedSearchText,
                         //  Omnibox can only show 6 results
                         maxResults: 6,
-                        success: function(songInformationList) {
+                        success: function(searchResponse) {
                             self.set('searchJqXhr', null);
-
-                            var suggestions = self.buildSuggestions(songInformationList, trimmedSearchText);
+                            //  TODO: Handle missing song IDs
+                            var suggestions = self.buildSuggestions(searchResponse.songInformationList, trimmedSearchText);
 
                             suggest(suggestions);
 

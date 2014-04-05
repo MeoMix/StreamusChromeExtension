@@ -153,17 +153,19 @@
         searchAndAddByTitle: function(title, playOnAdd, callback) {
             var self = this;
             
+            //  TODO: I think I should just call getPlayableByTitle instead of search here.
+            //  TODO: Handle missing song IDs
             YouTubeV3API.search({
                 text: title,
                 maxResults: 10,
-                success: function (songInformationList) {
+                success: function (searchResponse) {
 
-                    if (songInformationList.length === 0) {
+                    if (searchResponse.songInformationList.length === 0) {
                         console.error("Failed to find any songs for:", title);
                     } else {
 
                         var song = new Song();
-                        song.setYouTubeInformation(songInformationList[0]);
+                        song.setYouTubeInformation(searchResponse.songInformationList[0]);
 
                         self.addSongs(song, {
                             playOnAdd: !!playOnAdd

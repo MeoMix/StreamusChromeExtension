@@ -57,26 +57,10 @@ define([
         setURL: function () {
             this.set('url', 'https://youtu.be/' + this.get('id'));
         },
-        
+        //  TODO: Not necessary now.
         setYouTubeInformation: function (songInformation) {
-
             this.set('type', SongType.YouTube);
-            
-            //  v3 API songInformation will have the id stored directly in the information object.
-            //  TODO: Need a better v3 detector than this.
-            if (songInformation.id && songInformation.id.length === 11) {
-                console.log("Setting: ", songInformation);
-                this.set(songInformation);
-            } else {
-                this.set({
-                    id: songInformation.media$group.yt$videoid.$t,
-                    title: songInformation.title.$t,
-                    duration: parseInt(songInformation.media$group.yt$duration.seconds, 10),
-                    author: songInformation.author[0].name.$t,
-                    highDefinition: songInformation.yt$hd != null
-                });
-            }
-
+            this.set(songInformation);
         }
         
     });

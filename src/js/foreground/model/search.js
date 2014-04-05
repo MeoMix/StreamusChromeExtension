@@ -86,13 +86,13 @@
                 });
 
             } else {
-
+                //  TODO: Handle missing song IDs
                 searchJqXhr = YouTubeV3API.search({
                     text: searchQuery,
-                    success: function (songInformationList) {
+                    success: function (searchResponse) {
                         //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                         if (searchQuery === self.get('searchQuery')) {
-                            SearchResults.setFromSongInformationList(songInformationList);
+                            SearchResults.setFromSongInformationList(searchResponse.songInformationList);
                         }
                     },
                     complete: this.onSearchComplete.bind(this)
@@ -104,27 +104,6 @@
 
             //  Typing is false if they've paused for long enough for doSearch to run.
             this.set('typing', false);
-
-            //  TODO: Support displaying playlists and channel URLs.
-            //var playlistIndicator = 'playlist,';
-
-            //var searchQueryPrefix = searchQuery.substring(0, playlistIndicator.length);
-
-            //if (searchQueryPrefix === playlistIndicator) {
-
-            //    searchJqXhr = YouTubeV2API.searchPlaylist({
-            //        text: searchQuery.substring(playlistIndicator.length + 1),
-            //        success: function (playlistInformationList) {
-
-            //            self.set('searchJqXhr', null);
-            //            sarchResults.setFromPlaylistInformationList(playlistInformationList);
-            //        },
-            //        error: function () {
-            //            self.set('searchJqXhr', null);
-            //        }
-            //    });
-
-            //} else {
         }, 350)
 
     });

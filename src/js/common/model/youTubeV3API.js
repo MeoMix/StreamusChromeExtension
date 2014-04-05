@@ -25,14 +25,17 @@
         findPlayableByTitle: function (options) {
             return this.search({
                 text: options.title,
-                success: function (songInformationList) {
-
-                    songInformationList.sort(function (a, b) {
-                        return Utility.getLevenshteinDistance(a.title, options.title) - Utility.getLevenshteinDistance(b.title, options.title);
-                    });
-
-                    var songInformation = songInformationList.length > 0 ? songInformationList[0] : null;
-                    options.success(songInformation);
+                success: function (searchResponse) {
+                    
+                    if (searchResponse.songInformationList.length === 0) {
+                        if (options.error) options.error('No playable song found after searching with title ' + options.title);
+                    } else {
+                        searchResponse.songInformationList.sort(function (a, b) {
+                            return Utility.getLevenshteinDistance(a.title, options.title) - Utility.getLevenshteinDistance(b.title, options.title);
+                        });
+                        
+                        options.success(searchResponse.songInformationList[0]);
+                    }
                 },
                 error: options.error,
                 complete: options.complete
@@ -50,7 +53,7 @@
                 return;
             }
 
-            var searchListRequest = GoogleAPI.client.youtube.search.list({
+            var request = GoogleAPI.client.youtube.search.list({
                 part: 'id',
                 //  Probably set this to its default of video/playlist/channel at some point.
                 type: 'video',
@@ -61,109 +64,24 @@
                 safeSearch: 'none'
             });
 
-            searchListRequest.execute(function (response) {
-                if (response.error) {
-                    if (options.error) {
-                        options.error({
-                            error: response.error
-                        });
-                    }
-                    
-                    if (options.complete) {
-                        options.complete();
-                    }
-                } else {
-                    var songIds = _.map(response.items, function (item) {
+            this._executeRequest({
+                request: request,
+                success: function(response) {
+                    var songIds = _.map(response.items, function(item) {
                         return item.id.videoId;
                     });
 
-                    this._getSongInformationList(songIds, function (songInformationList) {
-                        options.success(songInformationList);
-
-                        if (options.complete) {
-                            options.complete();
-                        }
+                    this.getSongInformationList({
+                        songIds: songIds,
+                        //  TODO: Update this for getSongInformationlist
+                        success: options.success,
+                        error: options.error,
+                        complete: options.complete
                     });
-                }
-
-            }.bind(this));
-
-        },
-        
-        //  The API Key is set through here: https://code.google.com/apis/console/b/0/?noredirect#project:346456917689:access 
-        //  It can expire from time to time. You need to generate a new Simple API Access token with the 'Browser key' with a Referer of 'http://localhost' for testing
-        //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
-        setApiKey: function () {
-
-            //if (Settings.get('testing')) {
-            //  This key corresponds to: http://localhost
-            //GoogleAPI.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
-            //} else {
-            //  This key corresponds to: 71.93.45.93
-            GoogleAPI.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
-            //}
-        },
-        
-        //  TODO: getSongInformation
-        //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
-        _getSongInformationList: function(songIds, callback) {
-            //  Now I need to take these songIds and get their information.
-            var songsListRequest = GoogleAPI.client.youtube.videos.list({
-                part: 'contentDetails,snippet',
-                maxResults: 50,
-                id: songIds.join(',')
-            });
-
-            songsListRequest.execute(function (response) {
-
-                var songInformationList = _.map(response.items, function (item) {
-
-                    return {
-                        id: item.id,
-                        duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
-                        title: item.snippet.title,
-                        author: item.snippet.channelTitle
-                    };
-
-                });
-
-                callback(songInformationList);
-            });
-        },
-
-        getAutoGeneratedPlaylistTitle: function (options) {
-
-            //  If the API has not loaded yet  - defer calling this event until ready.
-            if (!this.get('loaded')) {
-                this.once('change:loaded', function () {
-                    this.getAutoGeneratedPlaylistTitle(options);
-                });
-                return;
-            }
-
-            var playlistListRequest = GoogleAPI.client.youtube.playlists.list({
-                part: 'snippet',
-                id: options.playlistId,
-            });
-
-            playlistListRequest.execute(function (response) {
-                
-                if (response.error) {
-                    if (options.error) {
-                        options.error();
-                    }
-                } else {
-                    var playlistTitle = '';
-
-                    if (response.items && response.items.length > 0) {
-                        playlistTitle = response.items[0].snippet.title;
-                    }
-
-                    options.success(playlistTitle);
-                }
-                
-                if (options.complete) {
-                    options.complete();
+                }.bind(this),
+                error: function(error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
                 }
             });
 
@@ -194,27 +112,134 @@
                 });
             }
 
-            var channelListRequest = GoogleAPI.client.youtube.channels.list(listOptions);
-            
-            channelListRequest.execute(function (response) {
+            var request = GoogleAPI.client.youtube.channels.list(listOptions);
 
-                if (response.error) {
-                    if (options.error) {
-                        options.error({
-                            error: response.error
-                        });
-                    }
-                } else {
-
+            this._executeRequest({
+                request: request,
+                success: function(response) {
                     options.success({
                         uploadsPlaylistId: response.result.items[0].contentDetails.relatedPlaylists.uploads
                     });
+                    
+                    if (options.complete) options.complete();
+                },
+                error: function(error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
                 }
+            });
+        },
+        
+        //  TODO: Make DRYer with getSongInformationList
+        getSongInformation: function (options) {
 
+            //  If the API has not loaded yet  - defer calling this event until ready.
+            if (!this.get('loaded')) {
+                this.once('change:loaded', function () {
+                    this.getSongInformation(options);
+                });
+                return;
+            }
+            
+            this.getSongInformationList({
+                songIds: [options.songId],
+                success: function (response) {
+                    options.success(response.songInformationList[0]);
+                },
+                error: options.error,
+                complete: options.complete
             });
         },
 
         //  Returns the results of a request for a segment of a channel, playlist, or other dataSource.
+        getPlaylistSongInformationList: function (options) {
+            
+            //  If the API has not loaded yet  - defer calling this event until ready.
+            if (!this.get('loaded')) {
+                this.once('change:loaded', function () {
+                    this.getPlaylistSongInformationList(options);
+                });
+                return;
+            }
+
+            var request = GoogleAPI.client.youtube.playlistItems.list({
+                part: 'contentDetails',
+                maxResults: 50,
+                playlistId: options.playlistId,
+                pageToken: options.pageToken || ''
+            });
+
+            this._executeRequest({
+                request: request,
+                success: function(response) {
+                    var songIds = _.map(response.items, function (item) {
+                        return item.contentDetails.videoId;
+                    });
+
+                    this.getSongInformationList({
+                        songIds: songIds,
+                        success: function (songInformationListResponse) {
+                            options.success(_.extend({
+                                nextPageToken: response.nextPageToken,
+                            }, songInformationListResponse));
+                        },
+                        error: options.error,
+                        complete: options.complete
+                    });
+                }.bind(this),
+                error: function(error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
+                }
+            });
+ 
+        },
+
+        getRelatedSongInformationList: function (options) {
+
+            //  If the API has not loaded yet  - defer calling this event until ready.
+            if (!this.get('loaded')) {
+                this.once('change:loaded', function () {
+                    this.getRelatedSongInformationList(options);
+                });
+                return;
+            }
+
+            var request = GoogleAPI.client.youtube.search.list({
+                part: 'id',
+                relatedToVideoId: options.songId,
+                //  Don't really need that many suggested songs, take 10.
+                //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
+                maxResults: options.maxResults || 10,
+                //  If the relatedToVideoId parameter has been supplied, type must be video.
+                type: 'video'
+            });
+
+            this._executeRequest({
+                request: request,
+                success: function(response) {
+                    var songIds = _.map(response.items, function (item) {
+                        return item.id.videoId;
+                    });
+
+                    this.getSongInformationList({
+                        songIds: songIds,
+                        success: function (songInformationListResponse) {
+                            //  OK to drop missingSongIds; not expecting any because YouTube determines related song ids.
+                            options.success(songInformationListResponse.songInformationList);
+                        },
+                        error: options.error,
+                        complete: options.complete
+                    });
+                }.bind(this),
+                error: function(error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
+                }
+            });
+        },
+        
+        //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
         getSongInformationList: function (options) {
             
             //  If the API has not loaded yet  - defer calling this event until ready.
@@ -225,84 +250,135 @@
                 return;
             }
 
-            var playlistListRequest = GoogleAPI.client.youtube.playlistItems.list({
-                part: 'contentDetails',
+            //  Now I need to take these songIds and get their information.
+            var request = GoogleAPI.client.youtube.videos.list({
+                part: 'contentDetails,snippet',
                 maxResults: 50,
-                playlistId: options.playlistId,
-                pageToken: options.pageToken || ''
+                id: options.songIds.join(',')
             });
-            
-            playlistListRequest.execute(function (response) {
-                if (response.error) {
-                    if (options.error) {
-                        options.error({
-                            error: response.error
+
+            this._executeRequest({
+                request: request,
+                success: function (response) {
+
+                    //  TODO: Not sure how I feel about calling error here instead of success with all missing song IDs provided.
+                    if (_.isUndefined(response.items)) {
+                        if (options.error) options.error('The response\'s item list was undefined. Song(s) may have been banned.');
+                    } else {
+                        var songInformationList = _.map(response.items, function (item) {
+
+                            return {
+                                id: item.id,
+                                duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
+                                title: item.snippet.title,
+                                author: item.snippet.channelTitle
+                            };
+
+                        });
+
+                        var missingSongIds = _.difference(options.songIds, _.pluck(songInformationList, 'id'));
+
+                        options.success({
+                            songInformationList: songInformationList,
+                            missingSongIds: missingSongIds
                         });
                     }
-                } else {
 
-                    var songIds = _.map(response.items, function (item) {
-                        return item.contentDetails.videoId;
-                    });
-
-                    this._getSongInformationList(songIds, function (songInformationList) {
-                        options.success({
-                            nextPageToken: response.nextPageToken,
-                            songInformationList: songInformationList
-                        });
-
-                    });
-
+                    if (options.complete) options.complete();
+                },
+                error: function(error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
                 }
-
-            }.bind(this));
-
+            });
         },
-
-        getRelatedSongInformation: function (options) {
-
+        
+        //  Expects options: { channelId: string, success: function, error: function };
+        getChannelTitle: function (options) {
+            
             //  If the API has not loaded yet  - defer calling this event until ready.
             if (!this.get('loaded')) {
                 this.once('change:loaded', function () {
-                    this.getRelatedSongInformation(options);
+                    this.getChannelTitle(options);
                 });
                 return;
             }
 
-            if (!this.get('loaded')) throw 'gapi youtube v3 must be loaded before calling';
-
-            var relatedSongInformationRequest = GoogleAPI.client.youtube.search.list({
-                part: 'id',
-                relatedToVideoId: options.songId,
-                //  Don't really need that many suggested songs, take 10.
-                //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
-                maxResults: options.maxResults || 10,
-                //  If the relatedToVideoId parameter has been supplied, type must be video.
-                type: 'video'
+            //  Now I need to take these songIds and get their information.
+            var request = GoogleAPI.client.youtube.channels.list({
+                part: 'snippet',
+                id: options.channelId,
+                fields: 'items/snippet/title'
             });
 
-            relatedSongInformationRequest.execute(function (response) {
-
-                if (response.error) {
-                    if (options.error) {
-                        options.error({
-                            error: response.error
-                        });
-                    }
-                } else {
-
-                    var songIds = _.map(response.items, function(item) {
-                        return item.id.videoId;
-                    });
-
-                    this._getSongInformationList(songIds, function(songInformationList) {
-                        options.success(songInformationList);
-                    });
+            this._executeRequest({
+                request: request,
+                success: function (response) {
+                    console.log("response:", response);
+                    options.success(response.items[0].snippet.title);
+                    if (options.complete) options.complete();
+                },
+                error: function (error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
                 }
+            });
+        },
+        
+        //  Expects options: { playlistId: string, success: function, error: function };
+        getPlaylistTitle: function (options) {
+            
+            //  If the API has not loaded yet  - defer calling this event until ready.
+            if (!this.get('loaded')) {
+                this.once('change:loaded', function () {
+                    this.getPlaylistTitle(options);
+                });
+                return;
+            }
 
-            }.bind(this));
+            var request = GoogleAPI.client.youtube.playlists.list({
+                part: 'snippet',
+                id: options.playlistId,
+                fields: 'items/snippet/title'
+            });
 
-        }
+            this._executeRequest({
+                request: request,
+                success: function (response) {
+                    options.success(response.items[0].snippet.title);
+                    if (options.complete) options.complete();
+                },
+                error: function (error) {
+                    if (options.error) options.error(error);
+                    if (options.complete) options.complete();
+                }
+            });
+        },
+        
+        //  TODO: I'd like to use this to keep things more DRY, but not sure how to make error/success/complete interactions work properly.
+        _executeRequest: function (options) {
+            options.request.execute(function (response) {
+                if (response.error) {
+                    options.error(response.error);
+                } else {
+                    options.success(response);
+                }
+            });
+        },
+
+        //  The API Key is set through here: https://code.google.com/apis/console/b/0/?noredirect#project:346456917689:access 
+        //  It can expire from time to time. You need to generate a new Simple API Access token with the 'Browser key' with a Referer of 'http://localhost' for testing
+        //  You need to generate a browser key with your PCs IP address for chrome extension testing. Not sure how this will work for deployment though!
+        setApiKey: function () {
+
+            //if (Settings.get('testing')) {
+            //  This key corresponds to: http://localhost
+            //GoogleAPI.client.setApiKey('AIzaSyD3_3QdKsYIQl13Jo-mBMDHr6yc2ScFBF0');
+            //} else {
+            //  This key corresponds to: 71.93.45.93
+                GoogleAPI.client.setApiKey('AIzaSyCTeTdPhakrauzhWfMK9rC7Su47qdbaAGU');
+            //}
+         }
 
         //doYouTubeLogin: function () {
 

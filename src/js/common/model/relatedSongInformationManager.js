@@ -26,52 +26,46 @@
 
             this.set('concurrentRequestCount', this.get('concurrentRequestCount') + 1);
 
-            YouTubeV3API.getRelatedSongInformation({
-                url: 'https://gdata.youtube.com/feeds/api/videos/' + options.songId + '/related',
-                data: {
-                    category: 'Music',
-                    fields: YouTubeV2API.get('songListInformationField'),
-                    //  Don't really need that many suggested songs, take 10.
-                    //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
-                    'max-results': 10
-                },
-                success: function(result) {
+            YouTubeV3API.getRelatedSongInformationList({
+                songId: options.songId,
+                success: function(songInformationList) {
 
-                    var playableEntryList = [];
-                    var unplayableEntryList = [];
+                    //var playableEntryList = [];
+                    //var unplayableEntryList = [];
 
                     //  Sort all of the related songs returned into two piles - playable and unplayable.
-                    _.each(result.feed.entry, function(entry) {
+                    //_.each(result.feed.entry, function(entry) {
 
-                        var isValid = YouTubeV2API.validateEntry(entry);
+                    //    var isValid = YouTubeV2API.validateEntry(entry);
 
-                        if (isValid) {
-                            playableEntryList.push(entry);
-                        } else {
-                            unplayableEntryList.push(entry);
-                        }
+                    //    if (isValid) {
+                    //        playableEntryList.push(entry);
+                    //    } else {
+                    //        unplayableEntryList.push(entry);
+                    //    }
 
-                    });
+                    //});
 
                     //  Search YouTube by title and replace unplayable songs.
                     //  Since this is an asynchronous action -- need to wait for all of the events to finish before we have a fully complete list.
-                    var deferredEvents = _.map(unplayableEntryList, function(entry) {
-                        return YouTubeV3API.findPlayableByTitle({
-                            title: entry.title.$t,
-                            success: function(playableEntry) {
-                                //  Successfully found a replacement
-                                playableEntryList.push(playableEntry);
-                            },
-                            error: function(error) {
-                                console.error("There was an error find a playable entry for:" + entry.title.$t, error);
-                            }
-                        });
-                    });
+                    //var deferredEvents = _.map(unplayableEntryList, function(entry) {
+                    //    return YouTubeV3API.findPlayableByTitle({
+                    //        title: entry.title.$t,
+                    //        success: function(playableEntry) {
+                    //            //  Successfully found a replacement
+                    //            playableEntryList.push(playableEntry);
+                    //        },
+                    //        error: function(error) {
+                    //            console.error("There was an error find a playable entry for:" + entry.title.$t, error);
+                    //        }
+                    //    });
+                    //});
 
                     //  Wait for all of the findPlayableByTitle AJAX requests to complete.
-                    $.when.apply($, deferredEvents).done(function() {
+                    //$.when.apply($, deferredEvents).done(function() {
                         this.set('concurrentRequestCount', this.get('concurrentRequestCount') - 1);
-                        options.success(playableEntryList);
+                        //options.success(playableEntryList);
+                        options.success(songInformationList);
 
                         var requestQueue = this.get('requestQueue');
 
@@ -80,7 +74,7 @@
                             var request = requestQueue.shift();
                             this.getRelatedSongInformation(request);
                         }
-                    }.bind(this));
+                    //}.bind(this));
 
                 }.bind(this),
                 error: options.error

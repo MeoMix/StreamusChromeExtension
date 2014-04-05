@@ -115,7 +115,6 @@
     <Content Include="src\js\common\model\dataSource.js" />
     <Content Include="src\js\common\model\relatedSongInformationManager.js" />
     <Content Include="src\js\common\model\utility.js" />
-    <Content Include="src\js\common\model\youTubeV2API.js" />
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
@@ -268,7 +267,6 @@
     <Content Include="src\js\test\spec\googleAPISpec.js" />
     <Content Include="src\js\test\spec\streamItemsSpec.js" />
     <Content Include="src\js\test\spec\utilitySpec.js" />
-    <Content Include="src\js\test\spec\youTubeV2APISpec.js" />
     <Content Include="src\js\test\spec\youTubeV3APISpec.js" />
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
