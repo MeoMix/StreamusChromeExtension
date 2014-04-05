@@ -1,15 +1,13 @@
 ﻿define([
-    'common/model/youTubeV3API',
-    'common/model/dataSource',
-    'common/enum/dataSourceType'
-], function (YouTubeV3API, DataSource, DataSourceType) {
+    'common/model/youTubeV3API'
+], function (YouTubeV3API) {
     'use strict';
 
     describe('YouTubeV3API', function () {
 
         describe('when asked to find a playable song by title', function () {
+            
             beforeEach(function (done) {
-
                 this.result = null;
 
                 YouTubeV3API.findPlayableByTitle({
@@ -30,7 +28,6 @@
         describe('when asked to search for songs', function () {
             
             beforeEach(function (done) {
-
                 this.result = null;
 
                 YouTubeV3API.search({
@@ -48,188 +45,168 @@
             
         });
 
-        xit('Should be able to get related song information', function() {
-            var relatedSongInformation = null;
+        describe('when asked to get related song information', function () {
+            
+            beforeEach(function (done) {
+                this.result = null;
 
-            runs(function() {
                 YouTubeV3API.getRelatedSongInformation({
                     songId: 'CxHFnVCZDRo',
                     success: function (response) {
-                        relatedSongInformation = response;
-
-                        console.log("Related info:", relatedSongInformation);
-                    }
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
             });
 
-            waitsFor(function () {
-                return relatedSongInformation !== null;
-            }, "RelatedSongInformation should be set", 2000);
-
+            it('should return related song information', function () {
+                expect(this.result).not.toEqual(null);
+            });
+            
         });
         
         //  TODO: Test iterative fetching of data maybe?
-        xit('Should be able to get YouTube favorites', function() {
+        describe('when asked to get playlist items from a YouTube favorites playlist', function() {
 
-            var validResults = null;
+            beforeEach(function (done) {
+                this.result = null;
 
-            runs(function () {
-
-                var favoritesDataSource = new DataSource({
-                    urlToParse: 'https://www.youtube.com/watch?list=FL_Gkp1Oa7e2a8NNaf5-KCpA'
-                });
-
-                expect(favoritesDataSource.get('type')).toEqual(DataSourceType.YouTubeFavorites);
-
-                YouTubeV3API.getPlaylistItems({
-                    playlistId: favoritesDataSource.get('id'),
+                YouTubeV3API.getSongInformationList({
+                    playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
-                        validResults = response.validResults;
-                    }
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
             });
 
-            waitsFor(function () {
-                return validResults !== null;
-            }, "validResults should be set", 2000);
-
+            it('should return a list of playlist items', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result.songInformationList.length).toBeGreaterThan(0);
+            });
+            
         });
 
-        xit('Should be able to get channelUploadsPlaylistId by channel name', function() {
-            var channelUploadsPlaylistId = null;
-
-            runs(function () {
-
-                var channelDataSource = new DataSource({
-                    urlToParse: 'https://www.youtube.com/user/goodguygarry'
-                });
-
-                expect(channelDataSource.get('type')).toEqual(DataSourceType.YouTubeChannel);
-                expect(channelDataSource.idIsUsername()).toBe(true);
+        describe('when asked to get a channel\'s upload\'s playlist by channel name', function () {
+            
+            beforeEach(function (done) {
+                this.result = null;
 
                 YouTubeV3API.getChannelUploadsPlaylistId({
-                    username: channelDataSource.get('id'),
+                    username: 'goodguygarry',
                     success: function (response) {
-                        channelUploadsPlaylistId = response.uploadsPlaylistId;
-                    }
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
             });
 
-            waitsFor(function () {
-                return channelUploadsPlaylistId !== null;
-            }, "channelUploadsPlaylistId should be set", 2000);
-
+            it('should return an uploads playlist', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result).not.toEqual('');
+            });
+            
         });
         
-        xit('Should be able to get channelUploadsPlaylistId by channel id', function () {
-            var channelUploadsPlaylistId = null;
+        describe('when asked to get a channel\'s upload\'s playlist id by channel id', function () {
+            
+            beforeEach(function (done) {
+                this.result = null;
 
-            runs(function () {
-
-                var channelDataSource = new DataSource({
-                    urlToParse: 'https://www.youtube.com/channel/UC_Gkp1Oa7e2a8NNaf5-KCpA'
+                YouTubeV3API.getChannelUploadsPlaylistId({
+                    channelId: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
+                    success: function (response) {
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
+            });
 
-                expect(channelDataSource.get('type')).toEqual(DataSourceType.YouTubeChannel);
-                expect(channelDataSource.idIsUsername()).toBe(false);
+            it('should return an uploads playlist id', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result).not.toEqual('');
+            });
+            
+        });
+
+        describe('when asked to get a channel\'s latest uploaded videos by uploads playlist id', function () {
+            
+            beforeEach(function (done) {
+                this.result = null;
+
+                YouTubeV3API.getSongInformationList({
+                    playlistId: 'UU_Gkp1Oa7e2a8NNaf5-KCpA',
+                    success: function (response) {
+                        this.result = response;
+                        done();
+                    }.bind(this)
+                });
+            });
+            
+            it('should return a list of playlist items', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result.songInformationList.length).toBeGreaterThan(0);
+            });
+            
+        });
+        
+        describe('when asked to get a regular playlist\'s playlist items by id', function () {
+
+            beforeEach(function (done) {
+                this.result = null;
                 
-                YouTubeV3API.getChannelUploadsPlaylistId({
-                    channelId: channelDataSource.get('id'),
+                YouTubeV3API.getSongInformationList({
+                    playlistId: 'PLCyVVJA8G-6CPwZ1Gzj_oYody7x_p5ipR',
                     success: function (response) {
-                        channelUploadsPlaylistId = response.uploadsPlaylistId;
-                    }
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
             });
 
-            waitsFor(function () {
-                return channelUploadsPlaylistId !== null;
-            }, "channelUploadsPlaylistId should be set", 2000);
-
-        });
-
-        xit('Should be able to get a channels latest batch of uploaded videos', function() {
-            var validResults = null;
-            var channelUploadsPlaylistId = 'UU_Gkp1Oa7e2a8NNaf5-KCpA';
-            
-            YouTubeV3API.getPlaylistItems({
-                playlistId: channelUploadsPlaylistId,
-                success: function (response) {
-                    validResults = response.validResults;
-                }
+            it('should return a list of playlist items', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result.songInformationList.length).toBeGreaterThan(0);
             });
             
-            waitsFor(function () {
-                return validResults !== null;
-            }, "validResults should be set", 2000);
-
-        });
-        
-        xit('Should be able to getPlaylistItems', function () {
-            var validResults = null;
-
-            runs(function () {
-
-                var playlistDataSource = new DataSource({
-                    urlToParse: 'https://www.youtube.com/watch?list=PLCyVVJA8G-6CPwZ1Gzj_oYody7x_p5ipR'
-                });
-
-                expect(playlistDataSource.get('type')).toEqual(DataSourceType.YouTubePlaylist);
-
-                YouTubeV3API.getPlaylistItems({
-                    playlistId: playlistDataSource.get('id'),
-                    success: function (response) {
-                        validResults = response.validResults;
-                    }
-                });
-            });
-
-            waitsFor(function () {
-                return validResults !== null;
-            }, "validResults should be set", 2000);
-
         });
 
-        xit('Should be able to get auto-generated playlist data', function () {
+        describe('when asked to get an auto-generated playlist\'s items', function () {
             
-            var validResults = null;
+            beforeEach(function (done) {
+                this.result = null;
 
-            runs(function () {
-
-                var autoGeneratedPlaylistDataSource = new DataSource({
-                    urlToParse: 'https://www.youtube.com/watch?list=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH'
-                });
-
-                expect(autoGeneratedPlaylistDataSource.get('type')).toEqual(DataSourceType.YouTubeAutoGenerated);
-
-                YouTubeV3API.getPlaylistItems({
-                    playlistId: autoGeneratedPlaylistDataSource.get('id'),
+                YouTubeV3API.getSongInformationList({
+                    playlistId: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                     success: function (response) {
-                        validResults = response.validResults;
-                    }
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
             });
+            
+            it('should return a list of playlist items', function () {
+                expect(this.result).not.toEqual(null);
+                expect(this.result.songInformationList.length).toBeGreaterThan(0);
+            });
 
-            waitsFor(function () {
-                return validResults !== null;
-            }, "validResults should be set", 2000);
         });
 
-        xit('Should be able to get an auto-generated playlist\'s title', function () {
+        describe('when asked to get an auto-generated playlist\'s title', function () {
+            beforeEach(function (done) {
+                this.result = null;
 
-            var autoGeneratedPlaylistTitle = null;
-            runs(function () {
-                YouTubeV3API.getAutoGeneratedPlaylistTitle('ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH', function (response) {
-                    autoGeneratedPlaylistTitle = response;
+                YouTubeV3API.getAutoGeneratedPlaylistTitle({
+                    playlistId: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
+                    success: function (response) {
+                        this.result = response;
+                        done();
+                    }.bind(this)
                 });
-            }, 500);
-
-            waitsFor(function () {
-                return autoGeneratedPlaylistTitle !== null;
-            }, "The autoGeneratedPlaylistTitle should be set", 2000);
-
-            runs(function () {
-                expect(autoGeneratedPlaylistTitle).not.toEqual('');
-                expect(autoGeneratedPlaylistTitle).toEqual('Top Tracks for Kendrick Lamar');
+            });
+            
+            it('should return the title of the playlist', function () {
+                expect(this.result).toEqual('Top Tracks for Kendrick Lamar');
             });
 
         });
