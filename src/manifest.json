@@ -105,6 +105,7 @@
 	"oauth2": {
 		"client_id": "346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com",
 		"scopes": [
+			"https://www.googleapis.com/youtube/v3/playlists",
 			"https://www.googleapis.com/auth/youtube",
 			"https://www.googleapis.com/auth/youtube.readonly",
 			"https://www.googleapis.com/auth/youtube.upload",
@@ -122,6 +123,7 @@
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*",
+		"*://*.googleapis.com/*,
 		"http://localhost:61975/Streamus/",
 		"http://streamus.apphb.com/"
 	],

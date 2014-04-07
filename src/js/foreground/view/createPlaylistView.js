@@ -65,7 +65,7 @@
 
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = new DataSource({
-                        urlToParse: youTubeUrl,
+                        url: youTubeUrl,
                         parseVideo: false
                     });
 

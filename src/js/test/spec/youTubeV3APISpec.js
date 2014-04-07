@@ -1,8 +1,9 @@
 ﻿define([
+    'common/enum/youTubeServiceType',
     'common/model/youTubeV3API'
-], function (YouTubeV3API) {
+], function (YouTubeServiceType, YouTubeV3API) {
     'use strict';
-
+    
     describe('YouTubeV3API', function () {
 
         describe('when asked to find a playable song by title', function () {
@@ -203,8 +204,9 @@
             beforeEach(function (done) {
                 this.result = null;
 
-                YouTubeV3API.getPlaylistTitle({
-                    playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
+                YouTubeV3API.getTitle({
+                    serviceType: YouTubeServiceType.Playlists,
+                    id: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
                         console.log("Response:", response);
                         this.result = response;
@@ -223,8 +225,9 @@
             beforeEach(function (done) {
                 this.result = null;
 
-                YouTubeV3API.getChannelTitle({
-                    channelId: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
+                YouTubeV3API.getTitle({
+                    serviceType: YouTubeServiceType.Channels,
+                    id: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
                         this.result = response;
                         done();
@@ -310,6 +313,7 @@
                 YouTubeV3API.getPlaylistSongInformationList({
                     songId: ['mNGpPqxsTmQ', 'JMPYmNINxrE'],
                     error: function (error) {
+                        console.log("Error:", error);
                         this.error = error;
                         done();
                     }.bind(this)

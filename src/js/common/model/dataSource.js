@@ -1,7 +1,8 @@
 ﻿define([
     'common/enum/dataSourceType',
+    'common/enum/youTubeServiceType',
     'common/model/youTubeV3API'
-], function (DataSourceType, YouTubeV3API) {
+], function (DataSourceType, YouTubeServiceType, YouTubeV3API) {
     'use strict';
 
     var DataSource = Backbone.Model.extend({
@@ -13,119 +14,65 @@
             //  The songId, playlistId, channelId etc..
             id: '',
             title: '',
-            rawUrl: ''
+            url: ''
         },
 
-        initialize: function (options) {
+        initialize: function () {
+            //  Set id and type based off of url if provided
+            var url = this.get('url');
 
-            if (options && options.urlToParse) {
-                var parsedDataSourceInformation = this.parseUrlForDataSourceInformation(options.urlToParse);
-                this.set('type', parsedDataSourceInformation.dataSourceType);
-                this.set('id', parsedDataSourceInformation.dataSourceId);
-
-                delete options.urlToParse;
+            if (url !== '') {
+                this._setDefaultsFromUrl(url);
             }
-
         },
 
         //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
         needsLoading: function () {
             var type = this.get('type');
-
             return type === DataSourceType.YouTubeChannel || type === DataSourceType.YouTubePlaylist;
         },
 
-        parseUrlForDataSourceInformation: function (urlToParse) {
-
-            this.set('rawUrl', urlToParse);
-
+        _setDefaultsFromUrl: function (url) {
             var dataSourceType = DataSourceType.None;
             var dataSourceId = '';
             
+            //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
             if (this.get('parseVideo')) {
-                //  Start by trying to parse by id because it should take priority over a playlist ID.
-                var songId = this.parseYouTubeSongIdFromUrl(urlToParse);
+                dataSourceId = this.parseYouTubeSongIdFromUrl(url);
 
-                if (songId) {
-                    dataSourceId = songId;
+                if (dataSourceId !== '') {
                     dataSourceType = DataSourceType.YouTubeVideo;
                 }
             }
             
-            //  If a song wasn't successfully parsed -- try lots of other combinations.
-            //  Eventually give up if nothing found and assume raw text.
+            //  Try to find a playlist id if no video id was found.
             if (dataSourceType === DataSourceType.None) {
+                dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
 
-                var dataSourceOptions = [{
-                    identifiers: ['list=PL', 'p=PL', 'list=RD', 'p=RD', 'list=FL', 'p=FL', 'list=AL', 'p=AL'],
-                    dataSourceType: DataSourceType.YouTubePlaylist
-                }, { //  TODO: list=uu being a channel seems weird.. its probably user uploads? i guess that's kind of a channel.. but really its a Playlist I think.
-                    identifiers: ['/user/', '/channel/', 'list=UU', 'p=UU'],
-                    dataSourceType: DataSourceType.YouTubeChannel
-                }, {
-                    identifiers: ['streamus:'],
-                    dataSourceType: DataSourceType.SharedPlaylist
-                }];
-
-                var tryGetIdFromUrl = function (url, identifier) {
-                    var urlTokens = url.split(identifier);
-
-                    var parsedDataSourceId = '';
-
-                    if (urlTokens.length > 1) {
-                        parsedDataSourceId = url.split(identifier)[1];
-
-                        var ampersandPosition = parsedDataSourceId.indexOf('&');
-                        if (ampersandPosition !== -1) {
-                            parsedDataSourceId = parsedDataSourceId.substring(0, ampersandPosition);
-                        }
-                        
-                        //  TODO: How could I express this logic more simply? Also, is it messing up on UU?
-                        switch(identifier) {
-                            case 'list=AL':
-                            case 'p=AL':
-                                parsedDataSourceId = 'AL' + parsedDataSourceId;
-                                break;
-                            case 'list=RD':
-                            case 'p=RD':
-                                parsedDataSourceId = 'RD' + parsedDataSourceId;
-                                break;
-                            case 'list=FL':
-                            case 'p=FL':
-                                parsedDataSourceId = 'FL' + parsedDataSourceId;
-                                break;
-                        }
-                    }
-
-                    return parsedDataSourceId;
-                };
-
-                //  Find whichever option works.
-                _.each(dataSourceOptions, function (dataSourceOption) {
-
-                    var validIdentifier = _.find(dataSourceOption.identifiers, function (identifier) {
-                        var parsedDataSourceId = tryGetIdFromUrl(urlToParse, identifier);
-                        return parsedDataSourceId !== '';
-                    });
-
-                    if (validIdentifier !== undefined) {
-                        dataSourceId = tryGetIdFromUrl(urlToParse, validIdentifier);
-                        dataSourceType = dataSourceOption.dataSourceType;
-                    }
-
-                });
+                if (dataSourceId !== '') {
+                    dataSourceType = DataSourceType.YouTubePlaylist;
+                }
+            }
+            
+            //  Try to find channel id if still nothing found.
+            if (dataSourceType === DataSourceType.None) {
+                dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
                 
+                if (dataSourceId !== '') {
+                    dataSourceType = DataSourceType.YouTubeChannel;
+                }
             }
 
-            return {
-                dataSourceType: dataSourceType,
-                dataSourceId: dataSourceId
-            };
+            this.set({
+                type: dataSourceType,
+                id: dataSourceId
+            });
         },
-
+        
+        //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
         //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
         parseYouTubeSongIdFromUrl: function (url) {
-            var songId = null;
+            var songId = '';
 
             var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
             if (match && match[2].length === 11) {
@@ -134,16 +81,29 @@
 
             return songId;
         },
+        
+        //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
+        parseIdFromUrlWithIdentifiers: function (url, identifiers) {
+            var id = '';
+            
+            _.each(identifiers, function (identifier) {
+                var urlTokens = url.split(identifier);
+
+                if (urlTokens.length > 1) {
+                    id = url.split(identifier)[1];
+
+                    var indexOfAmpersand = id.indexOf('&');
+                    if (indexOfAmpersand !== -1) {
+                        id = id.substring(0, indexOfAmpersand);
+                    }
+                }
+            });
+
+            return id;
+        },
 
         //  Expects options: { success: function, error: function }
         getTitle: function (options) {
-            //  Support calling without paramaters just in case.
-            options = $.extend({}, {
-                success: function () { },
-                error: function () { },
-                //  Allow for console.error stifling
-                notifyOnError: true
-            }, options);
 
             //  If the title has already been fetched from the URL -- return the cached one.
             if (this.get('title') !== '') {
@@ -151,47 +111,40 @@
                 return;
             }
 
-            var self = this;
             switch (this.get('type')) {
                 case DataSourceType.YouTubePlaylist:
 
-                    YouTubeV3API.getPlaylistTitle({
-                        playlistId: this.get('id'),
+                    YouTubeV3API.getTitle({
+                        serviceType: YouTubeServiceType.Playlists,
+                        id: this.get('id'),
                         success: function (title) {
-                            self.set('title', title);
+                            this.set('title', title);
                             options.success(title);
-                        },
+                        }.bind(this),
                         error: options.error
                     });
 
                     break;
                 case DataSourceType.YouTubeChannel:
 
-                    YouTubeV3API.getChannelTitle({
-                        channelId: this.get('id'),
+                    YouTubeV3API.getTitle({
+                        serviceType: YouTubeServiceType.Channels,
+                        id: this.get('id'),
                         success: function (title) {
-                            self.set('title', title);
+                            this.set('title', title);
                             options.success(title);
-                        },
+                        }.bind(this),
                         error: options.error
                     });
 
                     break;
-                    //  TODO: Need to support getting shared playlist information.
-                    //case DataSource.SHARED_PLAYLIST:
-                    //    self.model.addPlaylistByDataSource('', dataSource);
-                    //    break;
                 default:
-                    if (options.notifyOnError) {
-                        console.error("Unhandled dataSource type:", this.get('type'));
-                    }
-
-                    options.error();
+                    if(options.error) options.error("Unhandled dataSource type:", this.get('type'));
             }
         },
         
         idIsUsername: function() {
-            var indexOfUser = this.get('rawUrl').indexOf('/user/');
+            var indexOfUser = this.get('url').indexOf('/user/');
             return indexOfUser != -1;
         }
 

@@ -122,7 +122,7 @@ define([
         },
         
         getSongFromUrl: function(url, callback) {
-            var dataSource = new DataSource({ urlToParse: url });
+            var dataSource = new DataSource({ url: url });
             
             if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
                 throw 'Excepected dataSource to be a YouTube video.';

@@ -70,7 +70,7 @@
 
             //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
             var dataSource = new DataSource({
-                urlToParse: searchQuery
+                url: searchQuery
             });
 
             var searchJqXhr;
