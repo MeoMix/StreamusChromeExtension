@@ -210,7 +210,11 @@
         getTitle: function (options) {
             return this._doRequest(options.serviceType, {
                 success: function (response) {
-                    options.success(response.items[0].snippet.title);
+                    if (response.items.length === 0) {
+                        options.error('No title found');
+                    } else {
+                        options.success(response.items[0].snippet.title);
+                    }
                 },
                 error: options.error,
                 complete: options.complete

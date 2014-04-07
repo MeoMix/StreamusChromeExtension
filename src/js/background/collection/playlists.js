@@ -177,35 +177,7 @@
                     self.push(playlist);
      
                     if (dataSource.needsLoading()) {
-                        
-                        //  TODO: FIX loading channel information once a distinction is made between Playlists and Channels at some point in the future.
-                        //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-                        YouTubeV3API.getPlaylistSongInformationList({
-                            playlistId: dataSource.get('id'),
-                            success: function onResponse(response) {
-                                //  TODO: Not sure if this happens now... maybe an argument for not throwing an error on no results.
-                                if (response.songInformationList.length === 0) {
-                                    playlist.set('dataSourceLoaded', true);
-                                } else {
-
-                                    var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
-                                        var song = new Song();
-                                        song.setYouTubeInformation(youTubeSongInformation);
-
-                                        return song;
-                                    });
-
-                                    //  Periodicially send bursts of packets to the server and trigger visual update.
-                                    playlist.addSongs(songs, function () {
-                                        //  Request next batch of data by iteration once addItems has succeeded.
-                                        YouTubeV3API.getPlaylistSongInformationList(dataSource, response.nextPageToken, onResponse);
-                                    });
-
-                                }
-
-                            }
-                        });
-
+                        playlist.loadDataSource();
                     }
 
                 }

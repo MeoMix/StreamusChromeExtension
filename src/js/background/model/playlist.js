@@ -4,8 +4,10 @@ define([
     'background/collection/playlistItems',
     'background/model/playlistItem',
     'background/model/settings',
-    'background/model/shareCode'
-], function (PlaylistItems, PlaylistItem, Settings, ShareCode) {
+    'background/model/shareCode',
+    'background/model/song',
+    'common/model/youTubeV3API'
+], function (PlaylistItems, PlaylistItem, Settings, ShareCode, Song, YouTubeV3API) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -209,6 +211,44 @@ define([
 
         getPlaylistItemById: function (playlistItemId) {
             return this.get('items').findWhere({ id: playlistItemId });
+        },
+        
+        //  TODO: Handle errors and also I need to test this somehow.
+        //  TODO: FIX loading channel information once a distinction is made between Playlists and Channels at some point in the future.
+        //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
+        loadDataSource: function() {
+
+            YouTubeV3API.getPlaylistSongInformationList({
+                playlistId: dataSource.get('id'),
+                success: function onResponse(response) {
+
+                    var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
+                        var song = new Song();
+                        song.setYouTubeInformation(youTubeSongInformation);
+
+                        return song;
+                    });
+
+                    //  Periodicially send bursts of packets to the server and trigger visual update.
+                    playlist.addSongs(songs, function () {
+
+                        if (_.isUndefined(response.nextPageToken)) {
+                            playlist.set('dataSourceLoaded', true);
+                        }
+                        else {
+
+                            //  Request next batch of data by iteration once addItems has succeeded.
+                            YouTubeV3API.getPlaylistSongInformationList({
+                                playlistId: dataSource.get('id'),
+                                pageToken: response.nextPageToken,
+                                success: onResponse
+                            });
+                        }
+
+                    });
+
+                }
+            });
         }
     });
 

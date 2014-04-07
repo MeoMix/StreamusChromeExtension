@@ -20,7 +20,7 @@
         },
 
         initialize: function () {
-            this.$el.qtip();
+            //this.$el.qtip();
         },
         
         addToStream: _.debounce(function () {

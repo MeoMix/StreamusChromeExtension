@@ -53,7 +53,10 @@
             $.extend($.fn.qtip.defaults.position, {
                 viewport: $(window),
                 my: 'top center',
-                at: 'bottom center'
+                at: 'bottom center',
+                hide: {
+                    leave: false
+                }
             });
 
             $.extend($.fn.qtip.defaults.style, {

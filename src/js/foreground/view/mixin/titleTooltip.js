@@ -1,5 +1,6 @@
 ﻿define({
-    setTitleTooltip: function(title) {
+    setTitleTooltip: function (title) {
+
         //  Only show the tooltip if the title is overflowing.
         var textOverflows = title[0].offsetWidth < title[0].scrollWidth;
 

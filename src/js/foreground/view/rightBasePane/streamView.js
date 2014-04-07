@@ -134,19 +134,6 @@
         toggleContextButtons: function () {
             this.ui.contextButtons.toggle(this.collection.length > 0);
         },
-
-        //  TODO: This adds support for a sorted collection, but is slower than using the default implementation which leverages a document fragment.
-        //  https://github.com/marionettejs/backbone.marionette/wiki/Adding-support-for-sorted-collections
-        //  https://github.com/marionettejs/backbone.marionette/blob/master/docs/marionette.collectionview.md#collectionviews-appendhtml
-        appendHtml: function (collectionView, itemView, index) {
-            var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
-            var children = childrenContainer.children();
-            if (children.size() <= index) {
-                childrenContainer.append(itemView.el);
-            } else {
-                children.eq(index).before(itemView.el);
-            }
-        },
         
         clear: function() {
             StreamAction.clearStream();

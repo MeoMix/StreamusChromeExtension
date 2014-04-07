@@ -241,6 +241,26 @@
 
         });
         
+        describe('when asked to get the title of an invalid URL', function () {
+            beforeEach(function (done) {
+                this.result = null;
+
+                YouTubeV3API.getTitle({
+                    serviceType: YouTubeServiceType.Playlists,
+                    id: 'Sharthstone/playlists',
+                    error: function (error) {
+                        this.result = error;
+                        done();
+                    }.bind(this)
+                });
+            });
+
+            it('should return an error of \'No title found\'', function () {
+                expect(this.result).toEqual('No title found');
+            });
+
+        });
+        
         describe('when asked to get a playable song\'s information', function () {
 
             beforeEach(function (done) {
