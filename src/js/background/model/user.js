@@ -180,6 +180,7 @@ define([
             
         },
         
+        //  TODO: Revisit manifest permissions.. Not sure if people/me is even requested as OK.
         getUserInfoWithAuthToken: function (authToken, retry, onUserInfoReceived) {
             
             $.ajax({

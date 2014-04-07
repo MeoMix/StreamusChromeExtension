@@ -111,7 +111,7 @@
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\common\enum\songType.js" />
-    <Content Include="src\js\common\googleAPI.js" />
+    <Content Include="src\js\common\enum\youTubeServiceType.js" />
     <Content Include="src\js\common\model\dataSource.js" />
     <Content Include="src\js\common\model\relatedSongInformationManager.js" />
     <Content Include="src\js\common\model\utility.js" />
@@ -264,7 +264,6 @@
     <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
     <Content Include="src\js\test\spec\dataSourceSpec.js" />
     <Content Include="src\js\test\spec\clientErrorSpec.js" />
-    <Content Include="src\js\test\spec\googleAPISpec.js" />
     <Content Include="src\js\test\spec\streamItemsSpec.js" />
     <Content Include="src\js\test\spec\utilitySpec.js" />
     <Content Include="src\js\test\spec\youTubeV3APISpec.js" />
