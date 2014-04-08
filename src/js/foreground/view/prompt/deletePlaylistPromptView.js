@@ -22,7 +22,6 @@
             GenericPromptView.prototype.initialize.call(this, arguments);
         },
         
-        //  TODO: The name of this function doesn't indicate that it won't show if reminder is disabled.
         fadeInAndShow: function () {
             
             var remindDeletePlaylist = Settings.get('remindDeletePlaylist');

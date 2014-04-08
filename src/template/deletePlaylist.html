@@ -1,7 +1,8 @@
 ﻿<%= areYouSureYouWantToDeletePlaylistMessage %> <strong><%= title %></strong>?
         
 <div class="reminder">
-    <!-- TODO: This is sharing an ID with another control, whoops.-->
-    <input type="checkbox" id="remind-delete-playlist">
-    <label for="remind-delete-playlist"><%= dontRemindMeAgainMessage %></label>
+    <label>
+        <input type="checkbox">
+        <%= dontRemindMeAgainMessage %>
+    </label>
 </div>

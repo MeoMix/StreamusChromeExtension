@@ -18,7 +18,6 @@
 
         isFullyVisible: false,
         
-        //  TODO: I might be able to make my life easier by making lazyload only check for either side visible.
         //  Tell images that they're able to bind lazyLoading functionality only once fully visible because when they're sliding in you're unable to tell if they're visible in one direction.
         //  But, I guess you know that direction is going to be loaded, so maybe it's fine to only check one direction?
         onFullyVisible: function () {
@@ -140,7 +139,8 @@
                     //  Set it here not in helper because dragStart may select a search result.
                     ui.helper.text(self.collection.selected().length);
 
-                    //  TODO sortableItem vs sortable-item??
+                    //  Override sortableItem here to ensure that dragging still works inside the normal parent collection.
+                    //  http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 },
@@ -192,6 +192,7 @@
 
                     var listItemType = ui.item.data('type');
 
+                    //  TODO: Can these three options be made more DRY?
                     if (listItemType === ListItemType.StreamItem) {
                         
                         var draggedStreamItems = StreamItems.selected();
@@ -204,37 +205,21 @@
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
                         ui.sender[0].copyHelper.replaceWith(ui.item);
 
-                        //var streamItemId = ui.item.data('id');
-                        //var draggedStreamItem = StreamItems.get(streamItemId);
+                        //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
+                        self.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
 
-                        ////  Remove blue coloring if visible before waiting for addSource to finish to give a more seamless swap to the new item.
-                        //ui.item.removeClass('selected');
-
-                        ////  Don't allow duplicates
-                        //var alreadyExists = self.collection.hasSong(draggedStreamItem.get('song'));
-
-                        //if (alreadyExists) {
-                        //    ui.item.remove();
-                        //}
-                        //else {
-
-                        //    //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
-                            self.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
-
-                            //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
-                            //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
-                            var emptyPlaylistMessage = $('.playlist-empty');
-                            if (emptyPlaylistMessage.length > 0) {
-                                emptyPlaylistMessage.addClass('hidden');
-                            }
-                        //}
+                        //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
+                        //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
+                        var emptyPlaylistMessage = $('.playlist-empty');
+                        if (emptyPlaylistMessage.length > 0) {
+                            emptyPlaylistMessage.addClass('hidden');
+                        }
                     }
                     else if (listItemType === ListItemType.PlaylistItem) {
                         var activePlaylistItems = Playlists.getActivePlaylist().get('items');
 
                         var draggedPlaylistItems = activePlaylistItems.selected();
                         
-                        //  TODO: Can I just pluck here instead?
                         var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
                             return playlistItem.get('song');
                         });
@@ -247,7 +232,6 @@
                         var draggedSearchResults = SearchResults.selected();
                         SearchResults.deselectAll();
 
-                        //  TODO: Can I just pluck here instead?
                         var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
                             return searchResult.get('song');
                         });
@@ -260,6 +244,8 @@
                 },
 
                 over: function (event, ui) {
+                    //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
+                    // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
                     ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }

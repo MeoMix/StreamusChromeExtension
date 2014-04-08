@@ -15,18 +15,16 @@ define([
         template: _.template(TimeProgressTemplate),
         
         events: {
-            'input @ui.enabledTimeRange': 'updateProgress',
-            'mousewheel @ui.enabledTimeRange': 'mousewheelUpdateProgress',
-            'mousedown @ui.enabledTimeRange': 'startSeeking',
-            'mouseup @ui.enabledTimeRange': 'seekToTime',
+            'input @ui.timeRange:not(.disabled)': 'updateProgress',
+            'mousewheel @ui.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
+            'mousedown @ui.timeRange:not(.disabled)': 'startSeeking',
+            'mouseup @ui.timeRange:not(.disabled)': 'seekToTime',
             'click @ui.timeElapsedLabel': 'toggleShowTimeRemaining'
         },
         
         ui: {
             //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
-            //  TODO: This seems weird.
-            enabledTimeRange: '.time-range:not(.disabled)',
             timeRange: '.time-range',
             timeElapsedLabel: '.time-elapsed',
             durationLabel: '.duration'
@@ -46,7 +44,7 @@ define([
 
         onRender: function () {
             this.ui.timeRange.toggleClass('disabled', StreamItems.length === 0);
-                
+            
             //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
             this.setTotalTime(this.getCurrentSongDuration());
@@ -59,6 +57,7 @@ define([
         },
         
         initialize: function () {
+
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:active', this.restart);
@@ -66,6 +65,7 @@ define([
         
         //  Allow the user to manual time change by click or scroll.
         mousewheelUpdateProgress: function (event) {
+            console.log("mousewheelUpdateProgress");
 
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());

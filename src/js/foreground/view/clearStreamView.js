@@ -10,7 +10,7 @@
         className: 'clear-stream',
         
         ui: {
-            remindClearStreamCheckbox: 'input#remind-clear-stream'
+            reminderCheckbox: '.reminder input[type="checkbox"]'
         },
 
         template: _.template(ClearStreamTemplate),
@@ -21,7 +21,7 @@
         },
 
         doOk: function () {           
-            var remindClearStream = !this.ui.remindClearStreamCheckbox.is(':checked');
+            var remindClearStream = !this.ui.reminderCheckbox.is(':checked');
             Settings.set('remindClearStream', remindClearStream);
 
             StreamItems.clear();

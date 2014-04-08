@@ -5,35 +5,35 @@
 
     <ul>
         <li>
-            <label for="suggested-quality">
+            <label>
                 <%= songQualityMessage %>
+                
+                <select id="suggested-quality">
+            
+                    <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
+                        <%= highestMessage %>
+                    </option>
+
+                    <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
+                        <%= autoMessage %>
+                    </option>
+
+                    <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
+                        <%= lowestMessage %>
+                    </option>
+
+                </select>
             </label>
-            
-            <select id="suggested-quality">
-            
-                <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
-                    <%= highestMessage %>
-                </option>
-
-                <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
-                    <%= autoMessage %>
-                </option>
-
-                <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
-                    <%= lowestMessage %>
-                </option>
-
-            </select>
         </li>
         <li>
-            <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
-            <label for="show-tooltips">
+            <label>
+                <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
                 <%= showTooltipsMessage %>
             </label>
         </li>
         <li>
-            <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
-            <label for="always-open-to-search">
+            <label>
+                <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
                 <%= alwaysOpenToSearchMessage %>
             </label>
         </li>
@@ -47,15 +47,14 @@
 <div class="category">
     <ul>
         <li>
-<!--            TODO: This is sharing an ID with another element!!!! -->
-            <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
-            <label for="remind-clear-stream">
+            <label>
+                <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
                 <%= remindClearStreamMessage %>
             </label>
         </li>
         <li>
-            <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
-            <label for="remind-delete-playlist">
+            <label>
+                <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
                 <%= remindDeletePlaylistMessage %>
             </label>
         </li>

@@ -21,7 +21,7 @@
         itemView: PlaylistView,
         itemViewContainer: '#playlists',
         
-        //  TODO: This isn't DRY with MultiSelectCompositeView, but you can't select multiple Playlists, sooo..
+        //  TODO: Use Marionette.Behaviors for isFullyVisible instead of non-DRY code.
         isFullyVisible: false,
 
         events: {
@@ -31,10 +31,11 @@
             'click @ui.settingsButton': 'showSettingsPrompt',
             'click @ui.addButton': 'showCreatePlaylistPrompt',
             'click @ui.editButton': 'showEditSelectedPlaylistPrompt',
-            'click @ui.enabledDeleteButton': 'showDeleteSelectedPlaylistPrompt'
+            'click @ui.deleteButton:not(.disabled)': 'showDeleteSelectedPlaylistPrompt'
         },
         
         ui: {
+            buttons: '.button-icon',
             panel: '.panel',
             playlists: '#playlists',
             contextButtons: '.context-buttons',
@@ -42,8 +43,6 @@
             addButton: '.add',
             hideButton: '.hide',
             editButton: '.edit',
-            //  TODO: This seems weird.
-            enabledDeleteButton: '#delete-playlist-button:not(.disabled)',
             settingsButton: '#settings-button'
         },
         
@@ -113,12 +112,7 @@
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
 
-                //  TODO: Way too explicit.
-                this.ui.hideButton.qtip();
-                this.ui.settingsButton.qtip();
-                this.ui.deleteButton.qtip();
-                this.ui.addButton.qtip();
-                this.ui.editButton.qtip();
+                this.ui.buttons.qtip();
                 
                 this.children.each(function (child) {
                     child.setTitleTooltip(child.ui.readonlyTitle);
@@ -174,7 +168,6 @@
 
         },
 
-        //  TODO: I still think it's possible to improve the clarity of this with better CSS/HTML mark-up.
         arePlaylistsOverflowing: function () {
             
             //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
@@ -305,7 +298,6 @@
                     playlist: activePlaylist
                 });
 
-                //  TODO: This doesn't highlight the fact that Settings controls whether it shows or not.
                 deletePlaylistPromptView.fadeInAndShow();
             }
 

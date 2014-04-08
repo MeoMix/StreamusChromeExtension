@@ -11,7 +11,7 @@
         template: _.template(DeletePlaylistTemplate),
         
         ui: {
-            reminderCheckbox: '#remind-delete-playlist'
+            reminderCheckbox: '.reminder input[type="checkbox"]'
         },
         
         templateHelpers: {

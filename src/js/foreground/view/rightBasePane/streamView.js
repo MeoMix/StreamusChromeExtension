@@ -37,7 +37,7 @@
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'click @ui.clearStreamButton': 'clear',
-            'click @ui.enabledSaveStreamButton': 'save',
+            'click @ui.saveStreamButton:not(.disabled)': 'save',
             'scroll @ui.stream-items': 'loadVisible',
             'click @ui.shuffleButton': 'toggleShuffle',
             'click @ui.radioButton': 'toggleRadio',
@@ -59,11 +59,10 @@
         },
         
         ui: {
+            buttons: '.button-icon',
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
             saveStreamButton: '#save-stream',
-            //  TODO: This seems wrong.
-            enabledSaveStreamButton: '#save-stream:not(.disabled)',
             itemContainer: '#stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
@@ -74,14 +73,9 @@
         
         onShow: function () {
             this.onFullyVisible();
-            
-            //  TODO: Kinda too explicit
-            this.ui.saveStreamButton.qtip();
-            this.ui.shuffleButton.qtip();
-            this.ui.radioButton.qtip();
-            this.ui.repeatButton.qtip();
-            this.ui.clearStreamButton.qtip();
 
+            this.ui.buttons.qtip();
+            
             this.children.each(function(child) {
                 child.setTitleTooltip(child.ui.title);
             });
