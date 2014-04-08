@@ -38,7 +38,7 @@ define([
 
         window.clearResultsTimeout = setTimeout(function () {
             Settings.set('searchQuery', '');
-            SearchResults.clear();
+            SearchResults.reset();
         }, tenSeconds);
     };
     

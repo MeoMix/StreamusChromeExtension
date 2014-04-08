@@ -22,7 +22,6 @@
         },
 
         itemView: PlaylistItemView,
-        //  TODO: Why isn't it possible to reference itemViewContainer from UI?
         itemViewContainer: '#active-playlist-items',
 
         ui: {

@@ -9,7 +9,6 @@
 
         itemView: ContextMenuItemView,
         
-        //  TODO: Is no template a code smell?
         template: _.template(),
         
         containerHeight: 0,

@@ -48,7 +48,7 @@
 
             //  If the user provided no text to search on -- clear the search and do nothing.
             if ($.trim(searchQuery) === '') {
-                SearchResults.clear();
+                SearchResults.reset();
                 return;
             }
             

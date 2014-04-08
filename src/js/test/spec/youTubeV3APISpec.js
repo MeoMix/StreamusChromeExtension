@@ -11,7 +11,7 @@
             beforeEach(function (done) {
                 this.result = null;
 
-                YouTubeV3API.findPlayableByTitle({
+                YouTubeV3API.getSongInformationByTitle({
                     title: 'Gramatik',
                     success: function (response) {
                         this.result = response;

@@ -37,15 +37,13 @@
         },
 
         regions: {
+            promptRegion: '#prompt-region',
             contextMenuRegion: "#context-menu-region",
-            dialogRegion: '#dialog-region',
             leftBasePaneRegion: '#left-base-pane-region',
             leftCoveringPaneRegion: '#left-covering-pane-region',
             rightBasePaneRegion: '#right-base-pane-region'
         },
 
-        //  TODO: Should I be using a Region to show my prompts? What if I ever wanted multi-level prompts? Hum.
-        reloadStreamusPromptView: null,
         showReloadPromptTimeout: null,
 
         initialize: function () {
@@ -73,8 +71,8 @@
                     this.$el.removeClass('loading');
                     clearTimeout(this.showReloadPromptTimeout);
 
-                    if (this.reloadStreamusPromptView !== null) {
-                        this.reloadStreamusPromptView.remove();
+                    if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
+                        this.promptRegion.close();
                     }
                 });
             }
@@ -85,8 +83,7 @@
 
                 switch (updateCheckStatus) {
                     case 'update_available':
-                        var updateStreamPromptView = new UpdateStreamusPromptView();
-                        updateStreamPromptView.fadeInAndShow();
+                        this.showPrompt(new UpdateStreamusPromptView());
                         break;
                     case 'no_update':
                     case 'throttled':
@@ -134,6 +131,10 @@
             EventAggregator.on('showPlaylistsArea', function () {
                 this.showPlaylistsArea();
             }.bind(this));
+
+            EventAggregator.on('showPrompt', function(promptView) {
+                this.showPrompt(promptView);
+            }.bind(this));
             
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
@@ -150,9 +151,23 @@
         //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
         startShowReloadPromptTimer: function () {
             this.showReloadPromptTimeout = setTimeout(function () {
-                this.reloadStreamusPromptView = new ReloadStreamusPromptView();
-                this.reloadStreamusPromptView.fadeInAndShow();
+                this.showPrompt(new ReloadStreamusPromptView());
             }.bind(this), 5000);
+        },
+        
+        showPrompt: function (view) {
+            //  TODO: This got messy. Should probably create a PromptRegion which encapsulates the hide/show logic.
+            this.listenToOnce(view, 'hide', function () {
+
+                this.listenToOnce(view, 'close', function() {
+                    $(this.promptRegion.el).addClass('hidden');
+                });
+
+                this.promptRegion.close();
+            });
+
+            $(this.promptRegion.el).removeClass('hidden');
+            this.promptRegion.show(view);
         },
 
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
@@ -275,11 +290,9 @@
                     break;
             }
 
-            var youTubePlayerErrorPrompt = new NotificationPromptView({
+            this.showPrompt(new NotificationPromptView({
                 text: text
-            });
-
-            youTubePlayerErrorPrompt.fadeInAndShow();
+            }));
         },
 
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.

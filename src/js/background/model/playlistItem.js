@@ -18,7 +18,6 @@
             };
         },
         
-        //  TODO: Move this to PlaylistItems
         urlRoot: Settings.get('serverURL') + 'PlaylistItem/',
         
         parse: function (playlistItemDto) {

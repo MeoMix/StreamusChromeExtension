@@ -9,9 +9,11 @@
         //  Performs a search and then grabs the first item most related to the search title by calculating
         //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
         //  Expects options: { title: string, success: function, error: function }
-        findPlayableByTitle: function (options) {
+        getSongInformationByTitle: function (options) {
             return this.search({
                 text: options.title,
+                //  Expect to find a playable song within the first 10 -- don't need the default 50 items
+                maxResults: 10,
                 success: function (response) {
                     if (response.songInformationList.length === 0) {
                         if (options.error) options.error('No playable song found after searching with title ' + options.title);

@@ -13,20 +13,6 @@
     var SearchResults = MultiSelectCollection.extend({
         model: SearchResult,
         
-        //  Call setResults with nothing to clear it, more clear public method.
-        clear: function () {
-            this.setResults();
-        },
-        
-        //  Ensure resetting always calls destroy.
-        setResults: function (results) {
-            //  TODO: Is this still necessary with Marionette? Double-check!
-            //  Destroy all existing models before resetting in order to cause the views to clean-up and prevent memory leaks.
-            _.invoke(this.toArray(), 'destroy');
-
-            this.reset(results);
-        },
-        
         setFromSongInformation: function (songInformation) {
 
             var song = new Song();
@@ -35,8 +21,8 @@
             var searchResult = new SearchResult({
                 song: song
             });
-
-            this.setResults(searchResult);
+            
+            this.reset(searchResult);
         },
 
         setFromSongInformationList: function (songInformationList) {
@@ -53,7 +39,7 @@
                 return searchResult;
             });
 
-            this.setResults(searchResults);
+            this.reset(searchResults);
         },
         
         getBySongId: function (songId) {

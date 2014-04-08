@@ -142,6 +142,8 @@
     <Content Include="src\js\foreground\view\listItemButtonsView.js" />
     <Content Include="src\js\foreground\view\mixin\titleTooltip.js" />
     <Content Include="src\js\foreground\view\multiSelectListItemView.js" />
+    <Content Include="src\js\foreground\view\prompt\clearStreamPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\settingsPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\saveSongsPromptView.js" />
     <Content Include="src\js\foreground\view\saveSongsView.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />

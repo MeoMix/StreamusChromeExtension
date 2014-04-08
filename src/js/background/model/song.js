@@ -57,6 +57,7 @@ define([
         setURL: function () {
             this.set('url', 'https://youtu.be/' + this.get('id'));
         },
+        
         //  TODO: Not necessary now.
         setYouTubeInformation: function (songInformation) {
             this.set('type', SongType.YouTube);

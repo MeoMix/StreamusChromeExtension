@@ -1,13 +1,15 @@
 ﻿define([
     'background/collection/playlists',
     'background/collection/streamItems',
+    'background/model/settings',
     'common/enum/listItemType',
+    'foreground/eventAggregator',
     'foreground/collection/contextMenuItems',
     'foreground/view/mixin/titleTooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (Playlists, StreamItems, ListItemType, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (Playlists, StreamItems, Settings, ListItemType, EventAggregator, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var PlaylistView = Backbone.Marionette.ItemView.extend(_.extend({}, TitleTooltip, {
@@ -130,13 +132,16 @@
                         if (self.model.get('items').length === 0) {
                             self.model.destroy();
                         } else {
+                            //  TODO: Checking Settings isn't DRY with PlaylistsAreaView delete playlist prompt.
+                            var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
 
-                            var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                                playlist: self.model
-                            });
-
-                            //  TODO: This doesn't convey the fact that it checks a reminder to determine whether to show.
-                            deletePlaylistPromptView.fadeInAndShow();
+                            if (remindDeletePlaylist) {
+                                EventAggregator.trigger('showPrompt', new DeletePlaylistPromptView({
+                                    playlist: self.model
+                                }));
+                            } else {
+                                self.model.destroy();
+                            }
                         }
                     }
                 }, {
@@ -149,13 +154,9 @@
                 }, {
                     text: chrome.i18n.getMessage('edit'),
                     onClick: function () {
-
-                        var editPlaylistPromptView = new EditPlaylistPromptView({
+                        EventAggregator.trigger('showPrompt', new EditPlaylistPromptView({
                             playlist: self.model
-                        });
-
-                        editPlaylistPromptView.fadeInAndShow();
-
+                        }));
                     }
                 }]
             );

@@ -35,15 +35,15 @@
             'input @ui.youTubeSourceInput': 'processInput',
             'input @ui.playlistTitleInput': 'validateTitle'
         },
+        
+        //  TODO: Make sure this works --  When I show prompts inside of a region then I can use onShow without a setTimeout.
+        onShow: function() {
+            //  Reset the value after focusing to focus without selecting.
+            this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
+        },
 
         onRender: function () {
             this.setDataSourceAsUserInput();
-
-            //  TODO: Maybe when/if I use onShow to show these views I can remove this setTimeout.
-            setTimeout(function () {
-                //  Reset the value after focusing to focus without selecting.
-                this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
-            }.bind(this));
         },
         
         validateTitle: function() {

@@ -1,29 +1,21 @@
 ﻿define([
     'background/model/settings',
     'background/collection/streamItems',
-    'foreground/model/genericPrompt',
-    'foreground/view/prompt/genericPromptView',
+    'foreground/eventAggregator',
+    'foreground/view/prompt/clearStreamPromptView',
     'foreground/view/clearStreamView',
     'foreground/view/prompt/saveSongsPromptView'
-], function (Settings, StreamItems, GenericPrompt, GenericPromptView, ClearStreamView, SaveSongsPromptView) {
+], function (Settings, StreamItems, EventAggregator, ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
 
     var StreamAction = Backbone.Model.extend({
         clearStream: function () {
 
             if (StreamItems.length > 0) {
+                //  TODO: Maybe the prompt itself should know this.
                 var remindClearStream = Settings.get('remindClearStream');
 
                 if (remindClearStream) {
-
-                    var clearStreamPromptView = new GenericPromptView({
-                        model: new GenericPrompt({
-                            title: chrome.i18n.getMessage('areYouSure'),
-                            view: new ClearStreamView()
-                        })
-                    });
-
-                    clearStreamPromptView.fadeInAndShow();
-
+                    EventAggregator.trigger('showPrompt', new ClearStreamPromptView());
                 } else {
                     StreamItems.clear();
                 }
@@ -33,11 +25,9 @@
         
         saveStream: function() {
             if (StreamItems.length > 0) {
-                var saveSongsPromptView = new SaveSongsPromptView({
+                EventAggregator.trigger('showPrompt', new SaveSongsPromptView({
                     songs: StreamItems.pluck('song')
-                });
-
-                saveSongsPromptView.fadeInAndShow();
+                }));
             }
         }
     });

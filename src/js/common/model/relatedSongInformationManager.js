@@ -49,7 +49,7 @@
                     //  Search YouTube by title and replace unplayable songs.
                     //  Since this is an asynchronous action -- need to wait for all of the events to finish before we have a fully complete list.
                     //var deferredEvents = _.map(unplayableEntryList, function(entry) {
-                    //    return YouTubeV3API.findPlayableByTitle({
+                    //    return YouTubeV3API.getSongInformationByTitle({
                     //        title: entry.title.$t,
                     //        success: function(playableEntry) {
                     //            //  Successfully found a replacement
@@ -61,7 +61,7 @@
                     //    });
                     //});
 
-                    //  Wait for all of the findPlayableByTitle AJAX requests to complete.
+                    //  Wait for all of the getSongInformationByTitle AJAX requests to complete.
                     //$.when.apply($, deferredEvents).done(function() {
                         this.set('concurrentRequestCount', this.get('concurrentRequestCount') - 1);
                         //options.success(playableEntryList);

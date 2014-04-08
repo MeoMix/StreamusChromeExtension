@@ -75,7 +75,21 @@ body {
     }
 }
 
-/* TODO: Add some area to prevent clipping */
+#prompt-region {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    &.hidden {
+        display: none;
+    }
+}
+
+/* TODO: Add some area to prevent clipping of context menu */
 #context-menu-region {
     width: 100%;
     height: 100%;

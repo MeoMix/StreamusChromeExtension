@@ -1,17 +1,18 @@
 ﻿define([
     'background/collection/playlists',
+    'background/model/settings',
     'background/model/user',
     'common/enum/listItemType',
     'common/view/settingsView',
-    'foreground/model/genericPrompt',
+    'foreground/eventAggregator',
     'foreground/view/createPlaylistView',
     'foreground/view/leftCoveringPane/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/view/prompt/genericPromptView',
+    'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (Playlists, User, ListItemType, SettingsView, GenericPrompt, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, GenericPromptView, PlaylistsAreaTemplate) {
+], function (Playlists, Settings, User, ListItemType, SettingsView, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -241,30 +242,17 @@
         },
         
         showSettingsPrompt: function () {
-            
-            var settingsPromptView = new GenericPromptView({
-                model: new GenericPrompt({
-                    title: chrome.i18n.getMessage('settings'),
-                    okButtonText: chrome.i18n.getMessage('save'),
-                    view: new SettingsView()
-                })
-            });
-
-            settingsPromptView.fadeInAndShow();
-
+            EventAggregator.trigger('showPrompt', new SettingsPromptView());
         },
         
         showCreatePlaylistPrompt: function () {
-            var createPlaylistPromptView = new CreatePlaylistPromptView();
-            createPlaylistPromptView.fadeInAndShow();
+            EventAggregator.trigger('showPrompt', new CreatePlaylistPromptView());
         },
         
         showEditSelectedPlaylistPrompt: function () {
-            var editPlaylistPromptView = new EditPlaylistPromptView({
+            EventAggregator.trigger('showPrompt', new EditPlaylistPromptView({
                 playlist: Playlists.getActivePlaylist()
-            });
-            
-            editPlaylistPromptView.fadeInAndShow();
+            }));
         },
         
         toggleContextButtons: function () {
@@ -294,11 +282,17 @@
             if (isEmpty) {
                 activePlaylist.destroy();
             } else {
-                var deletePlaylistPromptView = new DeletePlaylistPromptView({
-                    playlist: activePlaylist
-                });
+                //  TODO: Checking Settings isn't DRY with PlaylistView delete playlist prompt.
+                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
+                
+                if (remindDeletePlaylist) {
+                    EventAggregator.trigger('showPrompt', new DeletePlaylistPromptView({
+                        playlist: activePlaylist
+                    }));
+                } else {
+                    playlist.destroy();
+                }
 
-                deletePlaylistPromptView.fadeInAndShow();
             }
 
         }

@@ -11,9 +11,12 @@
 
         events: {
             'click': 'hideIfClickOutsidePanel',
-            'click .remove': 'fadeOutAndHide',
             'click @ui.okButton': 'doOk',
             'keydown .submittable': 'doOkOnEnter'
+        },
+        
+        triggers: {
+            'click .remove': 'hide'
         },
         
         ui: {
@@ -31,10 +34,8 @@
             this.$el.addClass(this.model.get('view').className + '-prompt');
         },
 
-        fadeInAndShow: function () {
-
-            $('body').append(this.render().el);
-
+        onShow: function () {
+            
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
@@ -50,12 +51,12 @@
             
         },
         
-        fadeOutAndHide: function () {
-
+        close: function () {
+            
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
-                this.remove();
+                Backbone.Marionette.ItemView.prototype.close.apply(this, arguments);
             }.bind(this));
 
             this.ui.panel.transition({
@@ -68,7 +69,7 @@
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
         hideIfClickOutsidePanel: function (event) {
             if (event.target == event.currentTarget) {
-                this.fadeOutAndHide();
+                this.triggerMethod('hide');
             }
         },
         
@@ -91,7 +92,7 @@
                     contentView.doOk();
                 }
 
-                this.fadeOutAndHide();
+                this.triggerMethod('hide');
             }
             
         }

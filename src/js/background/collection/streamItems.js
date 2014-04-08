@@ -117,7 +117,13 @@
                 
                 switch (request.method) {
                     case 'searchAndStreamByQuery':
-                        self.searchAndAddByTitle(request.query, true);
+                        self.searchAndAddByTitle({
+                            title: request.query,
+                            playOnAdd: true,
+                            error: function(error) {
+                                console.error("Failed to add song by title: " + request.query, error);
+                            }
+                        });
                     break;
 
                     case 'searchAndStreamByQueries':
@@ -125,19 +131,32 @@
 
                         if (queries.length > 0) {
                             
+                            //  Queue up all of the queries.
                             var query = queries.shift();
 
                             var recursiveShiftTitleAndAdd = function () {
                                 
                                 if (queries.length > 0) {
                                     query = queries.shift();
-                                    self.searchAndAddByTitle(query, false, recursiveShiftTitleAndAdd);
+                                    self.searchAndAddByTitle({
+                                        title: query,
+                                        error: function(error) {
+                                            console.error("Failed to add song by title: " + query, error);
+                                        },
+                                        complete: recursiveShiftTitleAndAdd
+                                    });
                                 }
                                 
                             };
 
-                            self.searchAndAddByTitle(query, true, function () {
-                                recursiveShiftTitleAndAdd();
+                            //  Start playing the first song queued up
+                            self.searchAndAddByTitle({
+                                title: query,
+                                playOnAdd: true,
+                                error: function (error) {
+                                    console.error("Failed to add song by title: " + query, error);
+                                },
+                                complete: recursiveShiftTitleAndAdd
                             });
                             
                         }
@@ -150,33 +169,26 @@
 
         },
         
-        searchAndAddByTitle: function(title, playOnAdd, callback) {
-            var self = this;
+        searchAndAddByTitle: function (options) {
             
-            //  TODO: I think I should just call getPlayableByTitle instead of search here.
-            //  TODO: Handle missing song IDs
-            YouTubeV3API.search({
-                text: title,
-                maxResults: 10,
-                success: function (searchResponse) {
-
-                    if (searchResponse.songInformationList.length === 0) {
-                        console.error("Failed to find any songs for:", title);
-                    } else {
-
-                        var song = new Song();
-                        song.setYouTubeInformation(searchResponse.songInformationList[0]);
-
-                        self.addSongs(song, {
-                            playOnAdd: !!playOnAdd
-                        });
+            YouTubeV3API.getSongInformationByTitle({
+                title: options.title,
+                success: function (songInformation) {
+                    
+                    var song = new Song();
+                    song.setYouTubeInformation(songInformation);
+                    
+                    self.addSongs(song, {
+                        playOnAdd: !!options.playOnAdd
+                    });
+                    
+                    if (options.success) {
+                        options.success();
                     }
-
-                    if (callback) {
-                        callback();
-                    }
-                }
-            });
+                },
+                error: options.error,
+                complete: options.complete
+            }.bind(this));
         },
         
         showActiveNotification: function() {
@@ -212,7 +224,6 @@
                 Player.playOnceSongChanges();
             }
             
-            //  TODO: It would be nice if this was a bulk-insert, but I don't expect people to drag too many.
             var streamItems = _.map(songs, function (song, iterator) {
                 return {
                     song: song,
@@ -224,7 +235,6 @@
             });
 
             this.add(streamItems, {
-                //  TODO: I think this is the proper way of expressing this. Test!
                 at: _.isUndefined(options) ? undefined : options.index
             });
         },

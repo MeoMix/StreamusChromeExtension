@@ -1,11 +1,12 @@
 ﻿define([
     'background/collection/streamItems',
     'background/model/user',
+    'foreground/eventAggregator',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (StreamItems, User, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (StreamItems, User, EventAggregator, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
     
     var SearchView = MultiSelectCompositeView.extend({
@@ -190,10 +191,11 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                var saveSongsPromptView = new SaveSongsPromptView({
+
+                EventAggregator.trigger('showPrompt', new SaveSongsPromptView({
                     songs: this.collection.getSelectedSongs()
-                });
-                saveSongsPromptView.fadeInAndShow();
+                }));
+                
             }
             //  Don't close the menu if disabled
             return !disabled;
