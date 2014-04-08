@@ -15,7 +15,7 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'add remove change:active sort', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add remove reset change:active sort', this.toggleEnabled);
             this.listenTo(Player, 'change:currentTime', this.toggleEnabled);
 
             this.toggleEnabled();

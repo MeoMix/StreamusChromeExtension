@@ -79,7 +79,6 @@
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
 
             this.on('composite:collection:rendered', function () {
-                console.log("Running set tooltip now that the collection has rendered");
                 this.children.each(function (child) {
                     child.setTitleTooltip(child.ui.title);
                 });

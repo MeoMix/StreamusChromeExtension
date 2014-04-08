@@ -45,7 +45,7 @@
         },
 
         //  TODO: Should I be using a Region to show my prompts? What if I ever wanted multi-level prompts? Hum.
-        reloadPromptView: null,
+        reloadStreamusPromptView: null,
         showReloadPromptTimeout: null,
 
         initialize: function () {

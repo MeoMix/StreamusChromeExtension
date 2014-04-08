@@ -46,7 +46,6 @@
                 model: this.model,
                 buttonViews: this.buttonViews
             }));
-
         },
 
         setSelectedClass: function () {

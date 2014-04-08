@@ -142,10 +142,12 @@ define([
                 new window.YT.Player('dummyTarget');
                 var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
                 $('#dummyTarget').remove();
+                console.log("Removed dummy target");
 
                 var url = isHttps ? 'https' : 'http';
                 url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
                 $('#youtube-player').attr('src', url);
+                console.log("Finished setting full iframe");
             });
 
         },

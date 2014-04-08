@@ -469,7 +469,8 @@
         },
         
         clear: function () {
-            this.bannedSongIdList = [];
+            this.bannedSongIdList.length = 0;
+            this.history.length = 0;
             this.reset();
         },
         

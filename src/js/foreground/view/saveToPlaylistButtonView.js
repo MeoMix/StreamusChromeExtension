@@ -19,15 +19,13 @@
             'click': 'saveToPlaylist',
             'dblclick': 'saveToPlaylist'
         },
-        
-        onShow: function () {
+
+        onRender: function() {
+            this.setTitleAndDisabled();
+            
             //  Be sure to call render first or else setting content.text won't actually update it.
             this.$el.qtip('render');
             this.$el.qtip('option', 'content.text', this.$el.attr('title'));
-        },
-        
-        onRender: function() {
-            this.setTitleAndDisabled();
         },
         
         initialize: function () {
