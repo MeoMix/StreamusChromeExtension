@@ -22,7 +22,6 @@
             titleMessage: chrome.i18n.getMessage('title').toLowerCase()
         },
         
-        //  TODO: Make sure this works --  When I show prompts inside of a region then I can use onShow without a setTimeout.
         onShow: function () {
             //  Reset val to prevent highlighting and just focus.
             this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());

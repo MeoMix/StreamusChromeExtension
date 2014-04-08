@@ -48,7 +48,9 @@
                 y: yTranslateCenter,
                 opacity: 1
             }, 'snap');
-            
+
+            //  Be sure to tell the child view it has been shown!
+            this.model.get('view').triggerMethod('show');
         },
         
         close: function () {
