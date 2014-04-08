@@ -15,7 +15,7 @@
                 });
 
                 documentFragment.appendChild(buttonView.render().el);
-                //buttonView.triggerMethod('show');
+                buttonView.triggerMethod('show');
             }.bind(this));
 
             this.$el.append(documentFragment);

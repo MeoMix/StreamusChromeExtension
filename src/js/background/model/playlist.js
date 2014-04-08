@@ -216,10 +216,12 @@ define([
         //  TODO: Handle errors and also I need to test this somehow.
         //  TODO: FIX loading channel information once a distinction is made between Playlists and Channels at some point in the future.
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-        loadDataSource: function() {
+        loadDataSource: function () {
+
+            var self = this;
 
             YouTubeV3API.getPlaylistSongInformationList({
-                playlistId: dataSource.get('id'),
+                playlistId: this.get('dataSource').get('id'),
                 success: function onResponse(response) {
 
                     var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
@@ -230,16 +232,16 @@ define([
                     });
 
                     //  Periodicially send bursts of packets to the server and trigger visual update.
-                    playlist.addSongs(songs, function () {
+                    self.addSongs(songs, function () {
 
                         if (_.isUndefined(response.nextPageToken)) {
-                            playlist.set('dataSourceLoaded', true);
+                            self.set('dataSourceLoaded', true);
                         }
                         else {
 
                             //  Request next batch of data by iteration once addItems has succeeded.
                             YouTubeV3API.getPlaylistSongInformationList({
-                                playlistId: dataSource.get('id'),
+                                playlistId: self.get('dataSource').get('id'),
                                 pageToken: response.nextPageToken,
                                 success: onResponse
                             });
