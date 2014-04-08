@@ -161,9 +161,7 @@
             }, {
                 part: 'id',
                 relatedToVideoId: options.songId,
-                //  Don't really need that many suggested songs, take 10.
-                //  TODO: I think I actually only want 5, maybe 4, but need to play with it...
-                maxResults: options.maxResults || 10,
+                maxResults: options.maxResults || 5,
                 //  If the relatedToVideoId parameter has been supplied, type must be video.
                 type: 'video',
                 fields: 'items/id/videoId'
@@ -175,7 +173,6 @@
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function (response) {
 
-                    //  TODO: Not sure how I feel about calling error here instead of success with all missing song IDs provided.
                     if (_.isUndefined(response.items)) {
                         if (options.error) options.error('The response\'s item list was undefined. Song(s) may have been banned.');
                     } else {

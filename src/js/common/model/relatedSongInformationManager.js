@@ -8,7 +8,6 @@
         defaults: function() {
             return {
                 concurrentRequestCount: 0,
-                //  TODO: 5 is a magic number. It seems OK, but maybe I could make an estimate based on client information.
                 maxConcurrentRequests: 5,
                 //  If currentRequests would exceed maxConcurrentRequests, queue the request instead.
                 requestQueue: []
