@@ -78,9 +78,13 @@
             if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
 
                 searchJqXhr = YouTubeV3API.getSongInformation({
-                    songId: dataSource.get('songId'),
+                    songId: dataSource.get('id'),
                     success: function (songInformation) {
                         SearchResults.setFromSongInformation(songInformation);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                        //  TODO: Handle error.
                     },
                     complete: this.onSearchComplete.bind(this)
                 });

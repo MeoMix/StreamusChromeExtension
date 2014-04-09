@@ -32,21 +32,37 @@
             remindDeletePlaylistCheckbox: '#remind-delete-playlist',
             alwaysOpenToSearchCheckbox: '#always-open-to-search'
         },
-
-        doOk: function () {
+        
+        events: {
+            'change @ui.suggestedQualitySelect': 'setSuggestedQuality',
+            'change @ui.remindClearStreamCheckbox': 'setRemindClearStream',
+            'change @ui.remindDeletePlaylistCheckbox': 'setRemindDeletePlaylist',
+            'change @ui.showTooltipsCheckbox': 'setShowTooltips',
+            'change @ui.alwaysOpenToSearchCheckbox': 'setAlwaysOpenToSearch'
+        },
+        
+        setSuggestedQuality: function () {
             var suggestedQuality = this.ui.suggestedQualitySelect.val();
             Settings.set('suggestedQuality', suggestedQuality);
             Player.setSuggestedQuality(suggestedQuality);
-
+        },
+        
+        setRemindClearStream: function() {
             var remindClearStream = this.ui.remindClearStreamCheckbox.is(':checked');
             Settings.set('remindClearStream', remindClearStream);
-
+        },
+        
+        setRemindDeletePlaylist: function() {
             var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
-
+        },
+        
+        setShowTooltips: function() {
             var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
             Settings.set('showTooltips', showTooltips);
-
+        },
+        
+        setAlwaysOpenToSearch: function() {
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
             Settings.set('alwaysOpenToSearch', alwaysOpenToSearch);
         }

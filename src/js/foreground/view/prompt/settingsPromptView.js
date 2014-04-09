@@ -12,8 +12,8 @@
 
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('settings'),
-                okButtonText: chrome.i18n.getMessage('save'),
-                view: new SettingsView()
+                view: new SettingsView(),
+                showOkButton: false
             });
             
             GenericPromptView.prototype.initialize.call(this, arguments);
