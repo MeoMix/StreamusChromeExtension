@@ -1,8 +1,9 @@
 ﻿define([
-    'background/model/settings',
     'text!template/deletePlaylist.html'
-], function (Settings, DeletePlaylistTemplate) {
+], function (DeletePlaylistTemplate) {
     'use strict';
+
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
 

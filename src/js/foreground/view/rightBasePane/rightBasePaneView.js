@@ -1,17 +1,17 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
-    'background/collection/streamItems',
-    'background/model/player',
-    'background/model/buttons/nextButton',
-    'background/model/buttons/playPauseButton',
-    'background/model/buttons/previousButton',
     'common/enum/playerState',
     'foreground/view/rightBasePane/streamView',
     'foreground/view/rightBasePane/timeProgressView',
     'foreground/view/rightBasePane/volumeView',
     'text!template/rightBasePane.html'
-], function (StreamItems, Player, NextButton, PlayPauseButton, PreviousButton, PlayerState, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
+], function (PlayerState, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var NextButton = chrome.extension.getBackgroundPage().NextButton;
+    var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
+    var PreviousButton = chrome.extension.getBackgroundPage().PreviousButton;
 
     var RightBasePaneView = Backbone.Marionette.Layout.extend({
 

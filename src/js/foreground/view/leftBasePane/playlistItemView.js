@@ -1,5 +1,4 @@
 ﻿define([
-    'background/collection/streamItems',
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/view/addToStreamButtonView',
@@ -7,8 +6,10 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'text!template/listItem.html'
-], function (StreamItems, ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
+], function (ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var PlaylistItemView = MultiSelectListItemView.extend({
         className: MultiSelectListItemView.prototype.className + ' playlist-item',

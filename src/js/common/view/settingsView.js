@@ -1,9 +1,10 @@
 ﻿define([
-    'text!template/settings.html',
-    'background/model/player',
-    'background/model/settings'
-], function (SettingsTemplate, Player, Settings) {
+    'text!template/settings.html'
+], function (SettingsTemplate) {
     'use strict';
+
+    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
 

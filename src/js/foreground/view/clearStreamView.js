@@ -1,9 +1,10 @@
 ﻿define([
-    'background/collection/streamItems',
-    'background/model/settings',
     'text!template/clearStream.html'
-], function (StreamItems, Settings, ClearStreamTemplate) {
+], function (ClearStreamTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var ClearStreamView = Backbone.Marionette.ItemView.extend({
 

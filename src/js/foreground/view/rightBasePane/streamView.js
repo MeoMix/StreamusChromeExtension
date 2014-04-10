@@ -1,10 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/searchResults',
-    'background/model/user',
-    'background/model/buttons/radioButton',
-    'background/model/buttons/repeatButton',
-    'background/model/buttons/shuffleButton',
     'common/enum/listItemType',
     'common/enum/repeatButtonState',
     'foreground/eventAggregator',
@@ -12,8 +6,13 @@
     'foreground/view/multiSelectCompositeView',
     'foreground/view/rightBasePane/streamItemView',
     'text!template/stream.html'
-], function (Playlists, SearchResults, User, RadioButton, RepeatButton, ShuffleButton, ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
+], function (ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
     'use strict';
+
+    var User = chrome.extension.getBackgroundPage().User;
+    var RadioButton = chrome.extension.getBackgroundPage().RadioButton;
+    var RepeatButton = chrome.extension.getBackgroundPage().RepeatButton;
+    var ShuffleButton = chrome.extension.getBackgroundPage().ShuffleButton;
     
     var StreamView = MultiSelectCompositeView.extend({
         

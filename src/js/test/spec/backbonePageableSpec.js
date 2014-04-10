@@ -8,7 +8,10 @@ define([
     var PageablePlaylistItems = Backbone.PageableCollection.extend({
         model: PlaylistItem,
         mode: 'client',
-        comparator: 'sequence'
+        state: {
+            firstPage: 0,
+            sortKey: 'sequence'
+        }
     });
     
     var pageablePlaylistItems = new PageablePlaylistItems();
@@ -19,10 +22,8 @@ define([
         });
     }
 
-    //pageablePlaylistItems.setSorting('sequence');
-    pageablePlaylistItems.sort();
-
-    console.log("Pageable:", pageablePlaylistItems.at(0).get('sequence'));
+    pageablePlaylistItems.fullCollection.sort();
+    console.log("Pageable:", pageablePlaylistItems);
 
     pageablePlaylistItems.getNextPage();
     console.log("Pageable 2nd page:", pageablePlaylistItems.at(0).get('sequence'));

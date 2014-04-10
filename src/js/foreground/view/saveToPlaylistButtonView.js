@@ -1,10 +1,11 @@
 ﻿define([
-    'background/model/user',
     'foreground/eventAggregator',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/saveToPlaylistButton.html'
-], function (User, EventAggregator, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
+], function (EventAggregator, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
+
+    var User = chrome.extension.getBackgroundPage().User;
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
         

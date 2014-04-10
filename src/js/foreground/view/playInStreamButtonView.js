@@ -1,9 +1,10 @@
 ﻿define([
-    'background/collection/streamItems',
-    'background/model/player',
     'text!template/playInStreamButton.html'
-], function (StreamItems, Player, PlayInStreamButtonTemplate) {
+], function (PlayInStreamButtonTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
 
     var PlayInStreamButtonView = Backbone.Marionette.ItemView.extend({
         

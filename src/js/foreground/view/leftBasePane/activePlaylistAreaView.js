@@ -1,10 +1,11 @@
 ﻿define([
-    'background/collection/streamItems',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
     'text!template/activePlaylistArea.html'
-], function (StreamItems, MultiSelectCompositeView, PlaylistItemView, ActivePlaylistAreaTemplate) {
+], function (MultiSelectCompositeView, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
 

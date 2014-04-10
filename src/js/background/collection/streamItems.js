@@ -15,6 +15,7 @@
     
     //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
     if (!_.isUndefined(chrome.extension.getBackgroundPage().window.StreamItems)) {
+        console.log("Returning bg streamItems");
         return chrome.extension.getBackgroundPage().window.StreamItems;
     }
 

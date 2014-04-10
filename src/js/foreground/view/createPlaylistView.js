@@ -1,11 +1,11 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/streamItems',
     'common/enum/dataSourceType',
     'common/model/dataSource',
     'text!template/createPlaylist.html'
-], function (Playlists, StreamItems, DataSourceType, DataSource, CreatePlaylistTemplate) {
+], function (DataSourceType, DataSource, CreatePlaylistTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
 

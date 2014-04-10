@@ -1,7 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/model/settings',
-    'background/model/user',
     'common/enum/listItemType',
     'common/view/settingsView',
     'foreground/eventAggregator',
@@ -12,8 +9,12 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (Playlists, Settings, User, ListItemType, SettingsView, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, SettingsView, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var User = chrome.extension.getBackgroundPage().User;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
 

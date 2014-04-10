@@ -1,11 +1,12 @@
 ﻿define([
-    'background/model/settings',
-    'background/collection/streamItems',
     'foreground/eventAggregator',
     'foreground/view/prompt/clearStreamPromptView',
     'foreground/view/clearStreamView',
     'foreground/view/prompt/saveSongsPromptView'
-], function (Settings, StreamItems, EventAggregator, ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
+], function (EventAggregator, ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
+
+    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var StreamAction = Backbone.Model.extend({
         clearStream: function () {

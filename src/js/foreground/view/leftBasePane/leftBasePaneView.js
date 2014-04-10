@@ -1,13 +1,14 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/model/user',
     'foreground/eventAggregator',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView',
     'text!template/leftBasePane.html'
-], function (Playlists, User, EventAggregator, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
+], function (EventAggregator, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var User = chrome.extension.getBackgroundPage().User;
 
     var LeftBasePaneView = Backbone.Marionette.Layout.extend({
         

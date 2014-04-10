@@ -1,9 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/streamItems',
-    'background/model/player',
-    'background/model/user',
-    'background/model/buttons/playPauseButton',
     'common/enum/listItemType',
     'common/model/utility',
     'foreground/collection/contextMenuItems',
@@ -12,8 +7,14 @@
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
     'text!template/listItem.html'
-], function (Playlists, StreamItems, Player, User, PlayPauseButton, ListItemType, Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
+], function (ListItemType, Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Player = chrome.extension.getBackgroundPage().playedRecently;
+    var User = chrome.extension.getBackgroundPage().User;
+    var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
 
     var StreamItemView = MultiSelectListItemView.extend({
 

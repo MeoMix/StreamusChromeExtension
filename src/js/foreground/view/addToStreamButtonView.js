@@ -1,8 +1,9 @@
 ﻿define([
-    'background/collection/streamItems',
     'text!template/addToStreamButton.html'
-], function (StreamItems, AddToStreamButtonTemplate) {
+], function (AddToStreamButtonTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
         

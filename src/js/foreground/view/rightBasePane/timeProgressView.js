@@ -1,12 +1,13 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current song.
 define([
-    'background/collection/streamItems',
-    'background/model/settings',
     'common/enum/playerState',
     'common/model/utility',
     'text!template/timeProgress.html'
-], function (StreamItems, Settings, PlayerState, Utility, TimeProgressTemplate) {
+], function (PlayerState, Utility, TimeProgressTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
         

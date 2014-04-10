@@ -1,10 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/searchResults',
-    'background/collection/streamItems',
-    'background/model/player',
-    'background/model/settings',
-    'background/model/user',
     'common/enum/playerState',
     'common/enum/youTubePlayerError',
     'foreground/eventAggregator',
@@ -22,7 +16,14 @@
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
-], function (Playlists, SearchResults, StreamItems, Player, Settings, User, PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+], function (PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+    //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var User = chrome.extension.getBackgroundPage().User;
 
     var ForegroundView = Backbone.Marionette.Layout.extend({
         el: $('body'),

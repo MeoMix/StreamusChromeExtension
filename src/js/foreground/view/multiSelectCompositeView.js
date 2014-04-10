@@ -1,14 +1,15 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/searchResults',
-    'background/collection/streamItems',
-    'background/model/user',
     'common/enum/listItemType',
     'foreground/view/leftBasePane/playlistItemView',
     'foreground/view/leftCoveringPane/SearchResultView',
     'foreground/view/rightBasePane/streamItemView'
-], function (Playlists, SearchResults, StreamItems, User, ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
+], function (ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var User = chrome.extension.getBackgroundPage().User;
 
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
 

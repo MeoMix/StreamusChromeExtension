@@ -2,6 +2,13 @@
     'use strict';
 
     var MultiSelectCollection = Backbone.Collection.extend({
+        
+        //mode: 'client',
+        //state: {
+        //    firstPage: 0,
+        //    sortKey: 'sequence'
+        //},
+
         initialize: function() {
 
             this.on('change:selected', function(changedModel, selected) {

@@ -1,13 +1,14 @@
 ﻿define([
-    'background/collection/streamItems',
-    'background/model/user',
     'foreground/eventAggregator',
     'foreground/view/multiSelectCompositeView',
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (StreamItems, User, EventAggregator, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (EventAggregator, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
+
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var User = chrome.extension.getBackgroundPage().User;
     
     var SearchView = MultiSelectCompositeView.extend({
 

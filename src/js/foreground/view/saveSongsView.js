@@ -1,8 +1,9 @@
 ﻿define([
-    'background/collection/playlists',
     'text!template/saveSongs.html'
-], function (Playlists, SaveSongsTemplate) {
+], function (SaveSongsTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
 
     var SaveSongsView = Backbone.Marionette.ItemView.extend({
 

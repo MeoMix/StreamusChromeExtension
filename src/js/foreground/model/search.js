@@ -1,12 +1,13 @@
 ﻿define([
-    'background/collection/searchResults',
-    'background/model/settings',
     'common/enum/dataSourceType',
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (SearchResults, Settings, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
+
+    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var Search = Backbone.Model.extend({
         

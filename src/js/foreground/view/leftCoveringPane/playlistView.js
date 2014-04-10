@@ -1,7 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/collection/streamItems',
-    'background/model/settings',
     'common/enum/listItemType',
     'foreground/eventAggregator',
     'foreground/collection/contextMenuItems',
@@ -9,8 +6,12 @@
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (Playlists, StreamItems, Settings, ListItemType, EventAggregator, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, EventAggregator, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
+
+    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var PlaylistView = Backbone.Marionette.ItemView.extend(_.extend({}, TitleTooltip, {
         tagName: 'li',
