@@ -1,11 +1,6 @@
 ﻿define(function () {
     'use strict';
     
-    //  If the foreground requests, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.ShuffleButton)) {
-        return chrome.extension.getBackgroundPage().window.ShuffleButton;
-    }
-
     var ShuffleButton = Backbone.Model.extend({
 
         defaults: {

@@ -4,11 +4,6 @@ define([
     'common/enum/playerState'
 ], function (YouTubePlayerAPI, Settings, PlayerState) {
     'use strict';
-    
-    //  If the foreground requests, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.YouTubePlayer)) {
-        return chrome.extension.getBackgroundPage().window.YouTubePlayer;
-    }
 
     //  This is the actual YouTube Player API object housed within the iframe.
     var youTubePlayer = null;

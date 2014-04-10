@@ -5,12 +5,6 @@
 ], function (MultiSelectCollection, SearchResult, Song) {
     'use strict';
     
-    //  If the foreground requests, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.SearchResults)) {
-        console.log("Returning bg searchResults");
-        return chrome.extension.getBackgroundPage().window.SearchResults;
-    }
-
     var SearchResults = MultiSelectCollection.extend({
         //state: {
         //    firstPage: 0,

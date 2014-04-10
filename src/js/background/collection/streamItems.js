@@ -13,12 +13,6 @@
 ], function (MultiSelectCollection, Notifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
-    //  If the foreground requests streamItems, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.StreamItems)) {
-        console.log("Returning bg streamItems");
-        return chrome.extension.getBackgroundPage().window.StreamItems;
-    }
-
     var StreamItems = MultiSelectCollection.extend({
         model: StreamItem,
 

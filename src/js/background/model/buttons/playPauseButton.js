@@ -4,11 +4,6 @@
 ], function (StreamItems, Player) {
     'use strict';
     
-    //  If the foreground requests, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.PlayPauseButton)) {
-        return chrome.extension.getBackgroundPage().window.PlayPauseButton;
-    }
-    
     var PlayPauseButton = Backbone.Model.extend({
         defaults: {
             enabled: false

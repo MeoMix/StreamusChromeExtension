@@ -1,10 +1,5 @@
 ﻿define(function () {
     'use strict';
-    
-    //  If the foreground requests, don't instantiate -- return existing from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.Settings)) {
-        return chrome.extension.getBackgroundPage().window.Settings;
-    }
 
     var Settings = Backbone.Model.extend({
         

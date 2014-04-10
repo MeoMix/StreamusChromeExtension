@@ -7,11 +7,6 @@ define([
 ], function (Playlists, Settings) {
     'use strict';
 
-    //  If the foreground requests the user, don't instantiate a new one -- return the existing one from the background.
-    if (!_.isUndefined(chrome.extension.getBackgroundPage().window.User)) {
-        return chrome.extension.getBackgroundPage().window.User;
-    }
-
     var syncUserIdKey = 'UserId';
 
     //  User data will be loaded either from cache or server.
