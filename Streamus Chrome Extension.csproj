@@ -188,11 +188,13 @@
     <Content Include="src\js\options\options.js" />
     <Content Include="src\js\options\plugins.js" />
     <Content Include="src\js\test\plugins.js" />
+    <Content Include="src\js\test\spec\backbonePageableSpec.js" />
     <Content Include="src\js\test\spec\playlistItemSpec.js" />
     <Content Include="src\js\test\spec\playlistItemsSpec.js" />
     <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
+    <Content Include="src\js\thirdParty\backbone.pageable.js" />
     <Content Include="src\js\thirdParty\backbone.wreqr.js" />
     <Content Include="src\font\OpenSans-Bold.ttf" />
     <Content Include="src\font\OpenSans-Regular.ttf" />

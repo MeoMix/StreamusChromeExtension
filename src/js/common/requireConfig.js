@@ -17,6 +17,7 @@
             'backbone.babysitter': 'thirdParty/backbone.babysitter',
             'backbone': 'thirdParty/backbone',
             'backbone.marionette': 'thirdParty/backbone.marionette',
+            'backbone.pageable': 'thirdParty/backbone.pageable',
             'backbone.wreqr': 'thirdParty/backbone.wreqr',
             'googleAnalytics': 'thirdParty/googleAnalytics',
             'jasmine': 'thirdParty/jasmine',

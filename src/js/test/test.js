@@ -6,7 +6,8 @@
     //'test/spec/dataSourceSpec',
     //'test/spec/clientErrorSpec',
     //'test/spec/utilitySpec',
-    'test/spec/youTubeV3APISpec'
+    //'test/spec/youTubeV3APISpec',
+      'test/spec/backbonePageableSpec'
 ], function () {
     'use strict';
     
