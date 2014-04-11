@@ -12,7 +12,7 @@
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var Player = chrome.extension.getBackgroundPage().playedRecently;
+    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
     var User = chrome.extension.getBackgroundPage().User;
     var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
 
