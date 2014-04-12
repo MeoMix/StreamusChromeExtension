@@ -2,7 +2,6 @@
     'jquery',
     'lodash',
     'backbone',
-    'backbone.pageable',
     'googleAnalytics'
 ], function () {
 

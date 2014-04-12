@@ -1,6 +1,5 @@
 ﻿define([
     'backbone',
-    'backbone.pageable',
     'boot',
     'jquery.hoverIntent',
     'jquery',

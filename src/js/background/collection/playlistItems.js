@@ -10,10 +10,14 @@
         model: PlaylistItem,
 
         comparator: 'sequence',
+        //  TODO: Kinda weird. Maybe collections shouldn't know their parent ID.
+        playlistId: -1,
         
         initialize: function (models, options) {
-            //  TODO: Kinda weird. Maybe collections shouldn't know their parent ID.
-            this.playlistId = options.playlistId;
+            
+            if (!_.isUndefined(options)) {
+                this.playlistId = options.playlistId;
+            }
             
             MultiSelectCollection.prototype.initialize.call(this, arguments);
         },
