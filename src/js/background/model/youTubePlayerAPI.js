@@ -17,20 +17,20 @@ define(function() {
             chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
                 console.log("onBeforeSendHeaders", info);
                 //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
-                var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
-                    return requestHeader.name === 'Referer';
-                });
+                //var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
+                //    return requestHeader.name === 'Referer';
+                //});
 
-                var refererUrl = info.url.substring(0, info.url.indexOf('/embed/'));
+                //var refererUrl = info.url.substring(0, info.url.indexOf('/embed/'));
 
-                if (refererRequestHeader === undefined) {
-                    info.requestHeaders.push({
-                        name: 'Referer',
-                        value: refererUrl
-                    });
-                } else {
-                    refererRequestHeader.value = refererUrl;
-                }   
+                //if (refererRequestHeader === undefined) {
+                //    info.requestHeaders.push({
+                //        name: 'Referer',
+                //        value: refererUrl
+                //    });
+                //} else {
+                //    refererRequestHeader.value = refererUrl;
+                //}   
 
                 //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if YouTube has an ad.
                 var userAgentRequestHeader = _.find(info.requestHeaders, function (requestHeader) {

@@ -120,16 +120,12 @@ define([
                         'onReady': function () {
                             this.set('muted', youTubePlayer.isMuted());
                             this.set('volume', youTubePlayer.getVolume());
-                            console.log("Loaded, volume is set to:", youTubePlayer.getVolume());
 
                             this.pause();
                             this.set('ready', true);
                         }.bind(this),
                         'onStateChange': function (state) {
                             this.set('state', state.data);
-
-                            console.log("YouTube volume is:", youTubePlayer.getVolume());
-                            console.log("But I am:", this.get('volume'));
 
                             //  TODO: There's a bug in YouTube's API which is causing the volume to change erratically every time I skip a song?
                             youTubePlayer.setVolume(this.get('volume'));

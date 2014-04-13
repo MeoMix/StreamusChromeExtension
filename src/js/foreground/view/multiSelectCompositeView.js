@@ -182,20 +182,13 @@
                 tolerance: 'pointer',
                 receive: function (event, ui) {
 
-                    //  Don't allow receiving until collection is given because there shouldn't be anything to drop onto.
-                    //  Useful when dragging from Stream to Playlist before user has signed in.
-                    if (_.isUndefined(self.collection)) {
-                        ui.item.remove();
-                        //  Set copied to true so that the item stays where it is.
-                        ui.sender.data('copied', true);
-                        return;
-                    }
+                    //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
+                    ui.sender[0].copyHelper.replaceWith(ui.item);
 
                     var listItemType = ui.item.data('type');
-
+                    
                     //  TODO: Can these three options be made more DRY?
                     if (listItemType === ListItemType.StreamItem) {
-                        
                         var draggedStreamItems = StreamItems.selected();
                         StreamItems.deselectAll();
 
@@ -203,32 +196,18 @@
                             return streamItem.get('song');
                         });
 
-                        //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
-                        ui.sender[0].copyHelper.replaceWith(ui.item);
-
-                        //  TODO: I need to indicate that an item is being saved to the server w/ a spinner + loading message.
                         self.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
-
-                        //  TODO: There's a bit of lag which happens while waiting for the add event to propagate to the parent.
-                        //  This makes Streamus seem unresponsive but this is clearly an encapsulation break... need to fix!
-                        var emptyPlaylistMessage = $('.playlist-empty');
-                        if (emptyPlaylistMessage.length > 0) {
-                            emptyPlaylistMessage.addClass('hidden');
-                        }
                     }
                     else if (listItemType === ListItemType.PlaylistItem) {
                         var activePlaylistItems = Playlists.getActivePlaylist().get('items');
-
                         var draggedPlaylistItems = activePlaylistItems.selected();
+                        activePlaylistItems.deselectAll();
                         
                         var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
                             return playlistItem.get('song');
                         });
 
                         self.collection.addSongs(playlistItemSongs, { index: ui.item.index() });
-
-                        activePlaylistItems.deselectAll();
-                        ui.item.remove();
                     } else if (listItemType === ListItemType.SearchResult) {
                         var draggedSearchResults = SearchResults.selected();
                         SearchResults.deselectAll();
@@ -238,7 +217,6 @@
                         });
 
                         self.collection.addSongs(searchResultSongs, { index: ui.item.index() });
-                        ui.item.remove();
                     }
 
                     ui.sender.data('copied', true);

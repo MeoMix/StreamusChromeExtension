@@ -12,7 +12,7 @@
         template: _.template(AddToStreamButtonTemplate),
         
         attributes: {
-            title: chrome.i18n.getMessage('add')
+            //title: chrome.i18n.getMessage('add')
         },
         
         events: {
@@ -21,7 +21,7 @@
         },
 
         initialize: function () {
-            this.$el.qtip();
+            //this.$el.qtip();
         },
         
         addToStream: _.debounce(function () {

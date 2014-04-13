@@ -21,6 +21,8 @@
             var searchResult = new SearchResult({
                 song: song
             });
+
+            console.log("Resetting with:", searchResult);
             
             this.reset(searchResult);
         },
