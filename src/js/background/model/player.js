@@ -29,6 +29,8 @@ define([
    
             //  Update the volume whenever the UI modifies the volume property.
             this.on('change:volume', function (model, volume) {
+                console.log("Volume is being changed to:", volume);
+                console.log("but it currently is:", youTubePlayer.getVolume());
                 self.set('muted', false);
                 //  We want to update the youtube player's volume no matter what because it persists between browser sessions
                 //  thanks to YouTube saving it -- so should keep it always sync'ed.
@@ -118,11 +120,20 @@ define([
                         'onReady': function () {
                             this.set('muted', youTubePlayer.isMuted());
                             this.set('volume', youTubePlayer.getVolume());
+                            console.log("Loaded, volume is set to:", youTubePlayer.getVolume());
+
                             this.pause();
                             this.set('ready', true);
                         }.bind(this),
                         'onStateChange': function (state) {
                             this.set('state', state.data);
+
+                            console.log("YouTube volume is:", youTubePlayer.getVolume());
+                            console.log("But I am:", this.get('volume'));
+
+                            //  TODO: There's a bug in YouTube's API which is causing the volume to change erratically every time I skip a song?
+                            youTubePlayer.setVolume(this.get('volume'));
+
                         }.bind(this),
                         'onError': function (error) {
                             console.error("An error was encountered.", error);
@@ -168,7 +179,6 @@ define([
             //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
             //  but until the song actually loads -- current time isn't set.
             this.set('currentTime', startSeconds || 0);
-
         },
             
         loadSongById: function (songId, startSeconds) {
