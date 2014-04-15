@@ -23,8 +23,9 @@
         minRenderedIndex: 0,
         maxRenderedIndex: 25,
 
-        addItemView: function(item, ItemView, index) {
-            if (index >= this.minRenderedIndex || index < this.maxRenderedIndex) {
+        addItemView: function (item, ItemView, index) {
+            
+            if (index >= this.minRenderedIndex && index < this.maxRenderedIndex) {
                 Backbone.Marionette.CompositeView.prototype.addItemView.apply(this, arguments);
             }
         },

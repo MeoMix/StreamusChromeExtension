@@ -26,6 +26,7 @@
         itemViewContainer: '#active-playlist-items',
 
         ui: {
+            list: '.list',
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
@@ -67,38 +68,39 @@
 
             var self = this;
             
-            this.ui.itemContainer.scroll(function () {
+            //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
+            this.ui.list.scroll(_.throttle(function () {
+                var scrollTop = this.scrollTop;
+                var currentMaxRenderedIndex = self.maxRenderedIndex;
 
-                var scrollTop = $(this).scrollTop();
-                
-                if (scrollTop >= 500) {
+                //  TODO: 40 is the height of 1 item in the list, load when half way scrolled. would be nice to derive it.
+                if (scrollTop >= currentMaxRenderedIndex * 20) {
+                    //  TODO: Read page size from something
+                    var nextBatch = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + 10);
 
-                    var nextBatch = self.collection.slice(self.maxRenderedIndex, self.maxRenderedIndex + 25);
-                    console.log("nextBatch", nextBatch, nextBatch.length);
-                    
-                    self.initRenderBuffer();
+                    if (nextBatch.length > 0) {
+                        self.maxRenderedIndex += nextBatch.length;
 
-                    self.startBuffering();
+                        //  Leverage Marionette's style of rendering for performance.
+                        self.initRenderBuffer();
+                        self.startBuffering();
 
-                    var ItemView;
-                    _.each(nextBatch, function (item, index) {
-                        ItemView = this.getItemView(item);
-                        this.addItemView(item, ItemView, index);
-                    }, self);
+                        var ItemView;
+                        _.each(nextBatch, function (item, index) {
+                            ItemView = this.getItemView(item);
+                            this.addItemView(item, ItemView, index);
+                        }, self);
 
-                    self.endBuffering();
-
-                    self.maxRenderedIndex += 25;
-
+                        self.endBuffering();
+                    }
                 }
-
-                console.log("Scroll top:", $(this).scrollTop());
-            });
+            }, 100));
         },
 
         onRender: function () {            
             this.toggleBigText();
             this.toggleBottomMenubar();
+            this._setHeight();
 
             MultiSelectCompositeView.prototype.onRender.call(this, arguments);
         },
@@ -131,6 +133,13 @@
             StreamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });
+        },
+        
+        //  Set the elements height calculated from the number of potential items rendered into it.
+        //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
+        _setHeight: function () {
+            //  TODO: 40 is hardcoded
+            this.ui.itemContainer.height(this.collection.length * 40);
         }
     });
 
