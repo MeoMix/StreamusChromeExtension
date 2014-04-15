@@ -22,6 +22,16 @@
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
         minRenderedIndex: 0,
         maxRenderedIndex: 25,
+        //  Load when half way through the initial.
+        initialLoadScrollAllowance: 25 * 20,
+        initialLoad: true,
+        pageSize: 10,
+        
+        itemViewOptions: function (model, index) {
+            return {
+                index: index
+            };
+        },
 
         addItemView: function (item, ItemView, index) {
             

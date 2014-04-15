@@ -521,13 +521,18 @@ input[type="range"] {
     margin-left: 5px;
     margin-right: 5px;
     overflow-y: auto;
+
+    >div {
+        position: relative;
+    }
 }
 
 .list-item {
     height: 30px;
     padding: 0;
     border: 5px solid @white;
-    position: relative;
+    /* Be sure to calculate top programmatically - don't use relative positioning because doesn't work with sliding-view rendering. */
+    position: absolute;
     width: calc(~"100% - 11px");
     overflow: hidden;
     text-overflow: ellipsis;

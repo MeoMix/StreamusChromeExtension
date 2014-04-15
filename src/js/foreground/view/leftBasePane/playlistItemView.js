@@ -16,7 +16,7 @@
 
         template: _.template(ListItemTemplate),
 
-        attributes: function() {
+        attributes: function () {
             return {
                 'data-id': this.model.get('id'),
                 'data-type': ListItemType.PlaylistItem

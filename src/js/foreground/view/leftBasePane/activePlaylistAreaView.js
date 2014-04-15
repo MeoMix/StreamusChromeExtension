@@ -67,33 +67,66 @@
             });
 
             var self = this;
+            var lastScrollTop = 0;
             
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
                 var scrollTop = this.scrollTop;
                 var currentMaxRenderedIndex = self.maxRenderedIndex;
 
-                //  TODO: 40 is the height of 1 item in the list, load when half way scrolled. would be nice to derive it.
-                if (scrollTop >= currentMaxRenderedIndex * 20) {
-                    //  TODO: Read page size from something
-                    var nextBatch = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + 10);
+                var direction = scrollTop > lastScrollTop ? 'down' : 'up';
+                
+                //  When the user scrolls down, append new items to the end of the list and remove from the start.
+                if (direction === 'down') {
 
-                    if (nextBatch.length > 0) {
-                        self.maxRenderedIndex += nextBatch.length;
+                    //  Start appending when half way through the currently rendered amount.
+                    var exceededInitialLoad = self.initialLoad && scrollTop >= self.initialLoadScrollAllowance;
+                    var secondaryScroll = (currentMaxRenderedIndex * 40) - self.initialLoadScrollAllowance;
+                    var exceededSecondaryLoad = !self.initialLoad && scrollTop > secondaryScroll;
 
-                        //  Leverage Marionette's style of rendering for performance.
-                        self.initRenderBuffer();
-                        self.startBuffering();
+                    if (exceededInitialLoad || exceededSecondaryLoad) {
+                        self.initialLoad = false;
+                        //  Grab the next page of information.
+                        var nextBatch = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + self.pageSize);
 
-                        var ItemView;
-                        _.each(nextBatch, function (item, index) {
-                            ItemView = this.getItemView(item);
-                            this.addItemView(item, ItemView, index);
-                        }, self);
+                        if (nextBatch.length > 0) {
+                            self.maxRenderedIndex += nextBatch.length;
 
-                        self.endBuffering();
+                            var lastChildIndex = self.children.last().index;
+  
+                            //  Leverage Marionette's style of rendering for performance.
+                            self.initRenderBuffer();
+                            self.startBuffering();
+
+                            var ItemView;
+                            _.each(nextBatch, function (item, index) {
+                                ItemView = this.getItemView(item);
+                                this.addItemView(item, ItemView, (index + lastChildIndex + 1));
+                            }, self);
+
+                            self.endBuffering();
+                        }
+                        
+                        if (exceededSecondaryLoad) {
+                            //  Cleanup N items where N is the amounts of items being added to the front.
+                            var previousBatch = self.children.toArray().slice(0, nextBatch.length);
+
+                            if (previousBatch.length > 0) {
+                                //  TODO: Actually use minRenderedIndex, I'm sure it's useful for simplification...
+                                self.minRenderedIndex += previousBatch.length;
+
+                                _.each(previousBatch, function(child) {
+                                    this.removeChildView(child);
+                                }, self);
+                            }
+                        }
+
                     }
+                } else {
+                    //  TODO: Support scrolling up as well as down.
                 }
+
+                lastScrollTop = scrollTop;
             }, 100));
         },
 

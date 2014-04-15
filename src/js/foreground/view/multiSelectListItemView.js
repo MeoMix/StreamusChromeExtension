@@ -27,6 +27,8 @@
 
         //  Usually lazy-load images, but if a option is given -- allow for instant loading.
         instant: false,
+        //  Keep track of itemView index to calculate height offset.
+        index: 0,
 
         templateHelpers: function () {
             return {
@@ -36,11 +38,13 @@
         },
 
         initialize: function (options) {
+            this.index = options && !_.isUndefined(options.index) ? options.index : this.index;
             this.instant = options && !_.isUndefined(options.instant) ? options.instant : this.instant;
         },
         
         onRender: function () {
             this.setSelectedClass();
+            this.setTopOffset();
 
             this.buttonsRegion.show(new ListItemButtonsView({
                 model: this.model,
@@ -50,6 +54,11 @@
 
         setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
+        },
+        
+        setTopOffset: function () {
+            //  TODO: hardcoded element size
+            this.$el.css('top', this.index * 40);
         }
 
     }));
