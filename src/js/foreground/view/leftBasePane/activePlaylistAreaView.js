@@ -64,6 +64,36 @@
             this.children.each(function (child) {
                 child.setTitleTooltip(child.ui.title);
             });
+
+            var self = this;
+            
+            this.ui.itemContainer.scroll(function () {
+
+                var scrollTop = $(this).scrollTop();
+                
+                if (scrollTop >= 500) {
+
+                    var nextBatch = self.collection.slice(self.maxRenderedIndex, self.maxRenderedIndex + 25);
+                    console.log("nextBatch", nextBatch, nextBatch.length);
+                    
+                    self.initRenderBuffer();
+
+                    self.startBuffering();
+
+                    var ItemView;
+                    _.each(nextBatch, function (item, index) {
+                        ItemView = this.getItemView(item);
+                        this.addItemView(item, ItemView, index);
+                    }, self);
+
+                    self.endBuffering();
+
+                    self.maxRenderedIndex += 25;
+
+                }
+
+                console.log("Scroll top:", $(this).scrollTop());
+            });
         },
 
         onRender: function () {            

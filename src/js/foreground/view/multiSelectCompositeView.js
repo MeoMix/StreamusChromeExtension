@@ -19,6 +19,16 @@
 
         isFullyVisible: false,
         
+        //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
+        minRenderedIndex: 0,
+        maxRenderedIndex: 25,
+
+        addItemView: function(item, ItemView, index) {
+            if (index >= this.minRenderedIndex || index < this.maxRenderedIndex) {
+                Backbone.Marionette.CompositeView.prototype.addItemView.apply(this, arguments);
+            }
+        },
+        
         //  Tell images that they're able to bind lazyLoading functionality only once fully visible because when they're sliding in you're unable to tell if they're visible in one direction.
         //  But, I guess you know that direction is going to be loaded, so maybe it's fine to only check one direction?
         onFullyVisible: function () {
