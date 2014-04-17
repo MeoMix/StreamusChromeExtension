@@ -49,9 +49,6 @@
             'add remove reset': function () {
                 this.toggleBigText();
                 this.toggleBottomMenubar();
-
-                //  Trigger a scroll event to inform lazyloader of possible changes.
-                this.ui.itemContainer.trigger('scroll');
             }
         },
 
@@ -78,22 +75,24 @@
                 
                 //  When the user scrolls down, append new items to the end of the list and remove from the start.
                 if (direction === 'down') {
+                    //  Start appending when the initial scroll allowance has been exceeded.
+                    var initialScrollAllowance = self._getInitialScrollAllowance();
+                    var exceededInitial = self.initialLoad && scrollTop >= initialScrollAllowance;
 
-                    //  Start appending when half way through the currently rendered amount.
-                    var exceededInitialLoad = self.initialLoad && scrollTop >= self.initialLoadScrollAllowance;
-                    var secondaryScroll = (currentMaxRenderedIndex * 40) - self.initialLoadScrollAllowance;
-                    var exceededSecondaryLoad = !self.initialLoad && scrollTop > secondaryScroll;
-
-                    if (exceededInitialLoad || exceededSecondaryLoad) {
+                    //  Only append again after scrolling a full page's worth. This will keep the buffer the same size for each append. 
+                    var secondaryScrollAllowance = currentMaxRenderedIndex * self.itemViewHeight - initialScrollAllowance;
+                    var exceededSecondary = !self.initialLoad && scrollTop >= secondaryScrollAllowance;
+                    
+                    //  Whenever a scroll amount is exceeded -- need to append, but only remove items after the initial append.
+                    if (exceededInitial || exceededSecondary) {
                         self.initialLoad = false;
+
                         //  Grab the next page of information.
                         var nextBatch = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + self.pageSize);
 
                         if (nextBatch.length > 0) {
                             self.maxRenderedIndex += nextBatch.length;
-
-                            var lastChildIndex = self.children.last().index;
-  
+      
                             //  Leverage Marionette's style of rendering for performance.
                             self.initRenderBuffer();
                             self.startBuffering();
@@ -101,33 +100,37 @@
                             var ItemView;
                             _.each(nextBatch, function (item, index) {
                                 ItemView = this.getItemView(item);
-                                this.addItemView(item, ItemView, (index + lastChildIndex + 1));
+
+                                //  Adjust the items index to account for where it is actually being added in the list
+                                this.addItemView(item, ItemView, index + currentMaxRenderedIndex);
                             }, self);
 
                             self.endBuffering();
                         }
                         
-                        if (exceededSecondaryLoad) {
-                            //  Cleanup N items where N is the amounts of items being added to the front.
-                            var previousBatch = self.children.toArray().slice(0, nextBatch.length);
+                        //  Cleanup N items where N is the amounts of items being added to the front.
+                        var previousBatch = self.children.toArray().slice(0, nextBatch.length);
 
-                            if (previousBatch.length > 0) {
-                                //  TODO: Actually use minRenderedIndex, I'm sure it's useful for simplification...
-                                self.minRenderedIndex += previousBatch.length;
+                        if (previousBatch.length > 0) {
+                            //  TODO: Actually use minRenderedIndex, I'm sure it's useful for simplification...
+                            self.minRenderedIndex += previousBatch.length;
 
-                                _.each(previousBatch, function(child) {
-                                    this.removeChildView(child);
-                                }, self);
-                            }
+                            _.each(previousBatch, function(child) {
+                                this.removeChildView(child);
+                            }, self);
                         }
 
+                        self.ui.itemContainer.css('padding-top', self.minRenderedIndex * self.itemViewHeight);
+                        self._setHeight();
                     }
                 } else {
                     //  TODO: Support scrolling up as well as down.
+                    
+
                 }
 
                 lastScrollTop = scrollTop;
-            }, 100));
+            }, 50));
         },
 
         onRender: function () {            
@@ -172,7 +175,7 @@
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
             //  TODO: 40 is hardcoded
-            this.ui.itemContainer.height(this.collection.length * 40);
+            this.ui.itemContainer.height(this.collection.length * 40 - (this.minRenderedIndex * this.itemViewHeight));
         }
     });
 

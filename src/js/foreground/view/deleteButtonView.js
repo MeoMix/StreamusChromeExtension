@@ -10,7 +10,7 @@
         template: _.template(DeleteButtonTemplate),
         
         attributes: {
-            //title: chrome.i18n.getMessage('delete')
+            title: chrome.i18n.getMessage('delete')
         },
         
         events: {
@@ -18,12 +18,12 @@
         },
         
         initialize: function () {
-            //this.$el.qtip();
+            this.$el.qtip();
         },
         
         doDelete: function () {
             //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
-            //this.$el.qtip('api').destroy(true);
+            this.$el.qtip('api').destroy(true);
             
             this.model.destroy();
 

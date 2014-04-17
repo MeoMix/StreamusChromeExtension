@@ -173,17 +173,17 @@
                     var song = new Song();
                     song.setYouTubeInformation(songInformation);
                     
-                    self.addSongs(song, {
+                    this.addSongs(song, {
                         playOnAdd: !!options.playOnAdd
                     });
                     
                     if (options.success) {
                         options.success();
                     }
-                },
+                }.bind(this),
                 error: options.error,
                 complete: options.complete
-            }.bind(this));
+            });
         },
         
         showActiveNotification: function() {

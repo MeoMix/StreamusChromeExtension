@@ -43,7 +43,19 @@ body .qtip-light {
   border-color: #ebebeb;
   color: #666666;
 }
-/* TODO: Add some area to prevent clipping */
+#prompt-region {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+#prompt-region.hidden {
+  display: none;
+}
+/* TODO: Add some area to prevent clipping of context menu */
 #context-menu-region {
   width: 100%;
   height: 100%;
@@ -134,9 +146,9 @@ body .qtip-light {
   padding: 10px;
 }
 .prompt.settings-prompt .panel {
-  margin-left: -140px;
-  width: 280px;
-  height: 250px;
+  margin-left: -105px;
+  width: 210px;
+  height: 255px;
 }
 .prompt.create-playlist-prompt .panel {
   height: 180px;
@@ -483,6 +495,9 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   margin-right: 5px;
   overflow-y: auto;
 }
+.list > div {
+  position: relative;
+}
 .list-item {
   height: 30px;
   padding: 0;
@@ -494,6 +509,9 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   transition: background-color 0.1s, border-color 0.1s;
   /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
+}
+.list-item.sliding-view-item {
+  /* Be sure to calculate top programmatically - don't use relative positioning because doesn't work with sliding-view rendering. */
 }
 .list-item:hover {
   background: #ebebeb;

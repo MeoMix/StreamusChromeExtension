@@ -21,18 +21,20 @@
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
         minRenderedIndex: 0,
-        maxRenderedIndex: 25,
-        //  Load when half way through the initial.
-        initialLoadScrollAllowance: 25 * 20,
+        //  TODO: This is hardcoded as this.pageSize * (1 + this.surroundingPages) to start...
+        maxRenderedIndex: 20,
+        //  The height of a rendered itemView in px. Including padding/margin.
+        itemViewHeight: 40,
+        surroundingPages: 1,
         initialLoad: true,
         pageSize: 10,
         
-        itemViewOptions: function (model, index) {
-            return {
-                index: index
-            };
+        //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
+        _getInitialScrollAllowance: function () {
+            var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight / 2);
+            return scrollAllowance;
         },
-
+        
         addItemView: function (item, ItemView, index) {
             
             if (index >= this.minRenderedIndex && index < this.maxRenderedIndex) {
@@ -40,29 +42,12 @@
             }
         },
         
-        //  Tell images that they're able to bind lazyLoading functionality only once fully visible because when they're sliding in you're unable to tell if they're visible in one direction.
-        //  But, I guess you know that direction is going to be loaded, so maybe it's fine to only check one direction?
         onFullyVisible: function () {
-            if (_.isUndefined(this.ui.itemContainer))
-                throw "itemContainer is undefined";
-
-            $(this.children.map(function (child) {
-                return child.ui.imageThumbnail.toArray();
-            })).lazyload({
-                container: this.ui.itemContainer,
-                threshold: 250
-            });
-
             this.isFullyVisible = true;
         },
         
         onAfterItemAdded: function (view) {
             if (this.isFullyVisible) {
-                view.ui.imageThumbnail.lazyload({
-                    container: this.ui.itemContainer,
-                    threshold: 250
-                });
-
                 view.setTitleTooltip(view.ui.title);
             }
         },
@@ -88,9 +73,7 @@
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
-                        model: self.collection.get(listItem.data('id')),
-                        //  Don't lazy-load the view because copy helper is clearly visible
-                        instant: true
+                        model: self.collection.get(listItem.data('id'))
                     };
 
                     var listItemType = listItem.data('type');

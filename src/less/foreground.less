@@ -531,12 +531,16 @@ input[type="range"] {
     height: 30px;
     padding: 0;
     border: 5px solid @white;
-    /* Be sure to calculate top programmatically - don't use relative positioning because doesn't work with sliding-view rendering. */
-    position: absolute;
+    position: relative;
     width: calc(~"100% - 11px");
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
+
+    &.sliding-view-item {
+        /* Be sure to calculate top programmatically - don't use relative positioning because doesn't work with sliding-view rendering. */
+        //position: absolute;
+    }
 
     &:hover {
         background: @lightGray;

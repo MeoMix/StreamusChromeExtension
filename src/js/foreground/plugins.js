@@ -4,7 +4,6 @@
     'googleAnalytics',
     'jquery.hoverIntent',
     'jquery',
-    'jquery.lazyload',
     'jquery.qtip',
     'jquery.scrollIntoView',
     'jquery.transit',

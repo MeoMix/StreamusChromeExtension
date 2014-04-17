@@ -5,7 +5,7 @@
     'use strict';
 
     var MultiSelectListItemView = Backbone.Marionette.Layout.extend(_.extend({}, TitleTooltip, {
-        className: 'list-item multi-select-item',
+        className: 'list-item multi-select-item sliding-view-item',
 
         ui: {
             imageThumbnail: '.item-thumb',
@@ -25,26 +25,14 @@
             buttonsRegion: '.buttons-region'
         },
 
-        //  Usually lazy-load images, but if a option is given -- allow for instant loading.
-        instant: false,
-        //  Keep track of itemView index to calculate height offset.
-        index: 0,
-
         templateHelpers: function () {
             return {
-                hdMessage: chrome.i18n.getMessage('hd'),
-                instant: this.instant
+                hdMessage: chrome.i18n.getMessage('hd')
             };
-        },
-
-        initialize: function (options) {
-            this.index = options && !_.isUndefined(options.index) ? options.index : this.index;
-            this.instant = options && !_.isUndefined(options.instant) ? options.instant : this.instant;
         },
         
         onRender: function () {
             this.setSelectedClass();
-            this.setTopOffset();
 
             this.buttonsRegion.show(new ListItemButtonsView({
                 model: this.model,
@@ -54,13 +42,7 @@
 
         setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
-        },
-        
-        setTopOffset: function () {
-            //  TODO: hardcoded element size
-            this.$el.css('top', this.index * 40);
         }
-
     }));
 
     return MultiSelectListItemView;
