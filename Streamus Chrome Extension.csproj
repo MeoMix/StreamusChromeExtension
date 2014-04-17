@@ -207,7 +207,6 @@
     <Content Include="src\js\thirdParty\jasmine.js" />
     <Content Include="src\js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
-    <Content Include="src\js\thirdParty\jquery.lazyload.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery.scrollIntoView.js" />
     <Content Include="src\js\thirdParty\jquery.transit.js" />
