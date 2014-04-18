@@ -69,23 +69,21 @@
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
                 var scrollTop = this.scrollTop;
+                console.log("scrollTop:", scrollTop);
                 var currentMaxRenderedIndex = self.maxRenderedIndex;
+                var currentMinRenderedIndex = self.minRenderedIndex;
 
                 var direction = scrollTop > lastScrollTop ? 'down' : 'up';
                 
+                //  Only append again after scrolling a full page's worth. This will keep the buffer the same size for each append. 
+                var scrollAllowance = self.getScrollAllowance();
+                console.log("scrollAllowance:", scrollAllowance);
+                
                 //  When the user scrolls down, append new items to the end of the list and remove from the start.
                 if (direction === 'down') {
-                    //  Start appending when the initial scroll allowance has been exceeded.
-                    var initialScrollAllowance = self._getInitialScrollAllowance();
-                    var exceededInitial = self.initialLoad && scrollTop >= initialScrollAllowance;
-
-                    //  Only append again after scrolling a full page's worth. This will keep the buffer the same size for each append. 
-                    var secondaryScrollAllowance = currentMaxRenderedIndex * self.itemViewHeight - initialScrollAllowance;
-                    var exceededSecondary = !self.initialLoad && scrollTop >= secondaryScrollAllowance;
                     
-                    //  Whenever a scroll amount is exceeded -- need to append, but only remove items after the initial append.
-                    if (exceededInitial || exceededSecondary) {
-                        self.initialLoad = false;
+                    //  Whenever a scroll amount is exceeded -- need to append next page and potentially clean-up previous page.
+                    if (scrollTop >= scrollAllowance) {
 
                         //  Grab the next page of information.
                         var nextBatch = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + self.pageSize);
@@ -112,7 +110,6 @@
                         var previousBatch = self.children.toArray().slice(0, nextBatch.length);
 
                         if (previousBatch.length > 0) {
-                            //  TODO: Actually use minRenderedIndex, I'm sure it's useful for simplification...
                             self.minRenderedIndex += previousBatch.length;
 
                             _.each(previousBatch, function(child) {
@@ -120,13 +117,52 @@
                             }, self);
                         }
 
+                        //  Adjust padding and height to properly position relative items inside of list since not all items are rendered.
                         self.ui.itemContainer.css('padding-top', self.minRenderedIndex * self.itemViewHeight);
                         self._setHeight();
                     }
                 } else {
                     //  TODO: Support scrolling up as well as down.
                     
+                    if (scrollTop <= scrollAllowance) {
+                        //  Grab the next page of information.
+                        var nextBatch = self.collection.slice(currentMinRenderedIndex - self.pageSize, currentMinRenderedIndex);
 
+                        if (nextBatch.length > 0) {
+                            self.minRenderedIndex -= nextBatch.length;
+
+                            //  Leverage Marionette's style of rendering for performance.
+                            self.initRenderBuffer();
+                            self.startBuffering();
+
+                            var ItemView;
+                            _.each(nextBatch, function (item, index) {
+                                ItemView = this.getItemView(item);
+
+                                console.log("tacking on a previous item at index", index + currentMinRenderedIndex);
+
+                                //  Adjust the items index to account for where it is actually being added in the list
+                                this.addItemView(item, ItemView, index + currentMinRenderedIndex);
+                            }, self);
+
+                            self.endBuffering();
+                        }
+
+                        //  Cleanup N items where N is the amounts of items being added to the front.
+                        //var previousBatch = self.children.toArray().slice(0, nextBatch.length);
+
+                        //if (previousBatch.length > 0) {
+                        //    self.minRenderedIndex += previousBatch.length;
+
+                        //    _.each(previousBatch, function (child) {
+                        //        this.removeChildView(child);
+                        //    }, self);
+                        //}
+
+                        //  Adjust padding and height to properly position relative items inside of list since not all items are rendered.
+                        self.ui.itemContainer.css('padding-top', self.minRenderedIndex * self.itemViewHeight);
+                        self._setHeight();
+                    }
                 }
 
                 lastScrollTop = scrollTop;

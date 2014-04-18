@@ -26,8 +26,11 @@
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
         surroundingPages: 1,
-        initialLoad: true,
         pageSize: 10,
+        
+        getScrollAllowance: function () {
+            return this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
+        },
         
         //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
         _getInitialScrollAllowance: function () {
