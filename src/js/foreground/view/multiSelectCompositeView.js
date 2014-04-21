@@ -16,20 +16,38 @@
         events: {
             'click .list-item': 'setSelectedOnClick'
         },
+        
+        ui: {
+            list: '.list'
+        },
 
         isFullyVisible: false,
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
         minRenderedIndex: 0,
-        //  TODO: This is hardcoded as this.pageSize * (1 + this.surroundingPages) to start...
-        maxRenderedIndex: 20,
+        maxRenderedIndex: 0,
+        
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
         surroundingPages: 1,
         pageSize: 10,
         
-        getScrollAllowance: function () {
-            return this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
+        getScrollAllowance: function (direction) {
+
+            var scrollAllowance;
+            
+            switch(direction) {
+                case 'down':
+                    scrollAllowance = this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
+                    break;
+                case 'up':
+                    scrollAllowance = this.minRenderedIndex * this.itemViewHeight;
+                    break;
+                default:
+                    console.error('unhandled direction', direction);
+            }
+
+            return scrollAllowance;
         },
         
         //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
@@ -39,14 +57,119 @@
         },
         
         addItemView: function (item, ItemView, index) {
-            
             if (index >= this.minRenderedIndex && index < this.maxRenderedIndex) {
                 Backbone.Marionette.CompositeView.prototype.addItemView.apply(this, arguments);
             }
         },
         
+        appendHtml: function(collectionView, itemView, index){
+            var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
+            var children = childrenContainer.children();
+            if (children.size() <= index) {
+                childrenContainer.append(itemView.el);
+            } else {
+                children.eq(index).before(itemView.el);
+            }
+        },
+        
+        _addItemViewList: function (itemViewList, indexOffset) {
+            //  Leverage Marionette's style of rendering for performance.
+            this.initRenderBuffer();
+            this.startBuffering();
+
+            var ItemView;
+            _.each(itemViewList, function (item, index) {
+                ItemView = this.getItemView(item);
+
+                //  Adjust the items index to account for where it is actually being added in the list
+                this.addItemView(item, ItemView, index + indexOffset);
+            }, this);
+
+            this.endBuffering();
+        },
+        
+        _removeItems: function(itemViewList) {
+            _.each(itemViewList, function (child) {
+                var childView = this.children.findByModel(child);
+
+                this.removeChildView(childView);
+            }, this);
+        },
+        
         onFullyVisible: function () {
             this.isFullyVisible = true;
+            
+            var self = this;
+            var lastScrollTop = 0;
+
+            //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
+            this.ui.list.scroll(_.throttle(function () {
+                var scrollTop = this.scrollTop;
+
+                var currentMaxRenderedIndex = self.maxRenderedIndex;
+                var currentMinRenderedIndex = self.minRenderedIndex;
+                var nextItems;
+                var previousItems;
+
+                var direction = scrollTop > lastScrollTop ? 'down' : 'up';
+                var scrollAllowance = self.getScrollAllowance(direction);
+
+                var updateDimensions = false;
+
+                //  When the user scrolls down, append new items to the end of the list and remove from the start.
+                if (direction === 'down') {
+
+                    //  Whenever a scroll amount is exceeded -- need to append next page and potentially clean-up previous page.
+                    if (scrollTop >= scrollAllowance) {
+                        //  Grab the next page of information.
+                        nextItems = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + self.pageSize);
+
+                        if (nextItems.length > 0) {
+                            self.maxRenderedIndex += nextItems.length;
+                            self._addItemViewList(nextItems, currentMaxRenderedIndex);
+
+                            updateDimensions = true;
+                        }
+
+                        //  Cleanup N items where N is the amount of items being added to the front.
+                        previousItems = self.collection.slice(0, nextItems.length);
+
+                        if (previousItems.length > 0) {
+                            self.minRenderedIndex += previousItems.length;
+                            self._removeItems(previousItems);
+                        }
+                    }
+                } else {
+
+                    if (scrollTop <= scrollAllowance) {
+                        //  Grab the next page of information.
+                        nextItems = self.collection.slice(currentMinRenderedIndex - self.pageSize, currentMinRenderedIndex);
+
+                        if (nextItems.length > 0) {
+                            self.minRenderedIndex -= nextItems.length;
+                            self._addItemViewList(nextItems, self.minRenderedIndex);
+
+                            updateDimensions = true;
+                        }
+
+                        //  Cleanup N items where N is the amounts of items being added to the back.
+                        previousItems = self.collection.slice(self.collection.length - nextItems.length, self.collection.length);
+
+                        if (previousItems.length > 0) {
+                            self.maxRenderedIndex -= previousItems.length;
+                            self._removeItems(previousItems);
+                        }
+                    }
+                }
+                
+                if (updateDimensions) {
+                    //  Adjust padding and height to properly position relative items inside of list since not all items are rendered.
+                    self.ui.itemContainer.css('padding-top', self.minRenderedIndex * self.itemViewHeight);
+                    self._setHeight();
+                }
+
+                lastScrollTop = scrollTop;
+            }, 50));
         },
         
         onAfterItemAdded: function (view) {
@@ -55,9 +178,15 @@
             }
         },
 
+        initialize: function () {
+            this._setMaxRenderedIndex();
+        },
+
         onRender: function () {
             var self = this;
 
+            this._setHeight();
+            
             this.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',
@@ -238,6 +367,23 @@
             });
 
             return this;
+        },
+        
+        //  Set the elements height calculated from the number of potential items rendered into it.
+        //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
+        _setHeight: function () {
+            this.ui.itemContainer.height((this.collection.length - this.minRenderedIndex) * this.itemViewHeight);
+        },
+        
+        _setMaxRenderedIndex: function () {
+            //  Figure out how many pages of items could potentially have been rendered.
+            var maxRenderedIndex = this.pageSize * (1 + this.surroundingPages);
+            
+            //if (this.collection.length < maxRenderedIndex) {
+            //    maxRenderedIndex = this.collection.length;
+            //}
+
+            this.maxRenderedIndex = maxRenderedIndex;
         },
 
         setSelectedOnClick: function (event) {

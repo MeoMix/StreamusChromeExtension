@@ -20,7 +20,7 @@
         
         itemView: SearchResultView,
         
-        ui: {
+        ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
             bottomMenubar: '.left-bottom-menubar',
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
@@ -32,7 +32,7 @@
             hideSearchButton: '#hide-search',
             playSelectedButton: '#play-selected',
             addSelectedButton: '#add-selected'
-        },
+        }),
         
         events: _.extend({}, MultiSelectCompositeView.prototype.events, {
             'input @ui.searchInput': 'search',

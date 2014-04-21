@@ -57,7 +57,7 @@
             }
         },
         
-        ui: {
+        ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
             buttons: '.button-icon',
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
@@ -68,7 +68,7 @@
             repeatButton: '#repeat-button',
             clearStreamButton: 'button.clear',
             showSearch: '.show-search'
-        },
+        }),
         
         onShow: function () {
             this.onFullyVisible();
