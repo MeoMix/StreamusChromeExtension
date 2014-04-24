@@ -67,7 +67,7 @@
             this.toggleBigText();
             this.toggleBottomMenubar();
 
-            MultiSelectCompositeView.prototype.onRender.call(this, arguments);
+            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         updatePlaylistDetails: function () {

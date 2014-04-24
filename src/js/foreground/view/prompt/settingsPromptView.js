@@ -16,7 +16,7 @@
                 showOkButton: false
             });
             
-            GenericPromptView.prototype.initialize.call(this, arguments);
+            GenericPromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

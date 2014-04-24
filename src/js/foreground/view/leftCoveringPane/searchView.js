@@ -42,6 +42,16 @@
             'click @ui.addSelectedButton': 'addSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
         }),
+        
+        modelEvents: {
+            'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
+        },
+
+        //  TODO: Extend collectionEvents on playlist and stream.
+        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
+            'reset': 'toggleBigText',
+            'change:selected': 'toggleBottomMenubar'
+        }),
  
         templateHelpers: function() {
             return {
@@ -59,15 +69,6 @@
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
             };
         },
-        
-        modelEvents: {
-            'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
-        },
-
-        collectionEvents: {
-            'reset': 'toggleBigText',
-            'change:selected': 'toggleBottomMenubar'
-        },
  
         onRender: function () {
             this.toggleBigText();
@@ -80,11 +81,14 @@
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
 
+            //  TODO: Push this back down onto the child I think since I render fewer.
             this.on('composite:collection:rendered', function () {
                 this.children.each(function (child) {
                     child.setTitleTooltip(child.ui.title);
                 });
             });
+
+            MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
         
         onShow: function () {

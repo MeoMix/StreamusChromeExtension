@@ -160,7 +160,7 @@
 
             });
             
-            MultiSelectCollection.prototype.initialize.call(this, arguments);
+            MultiSelectCollection.prototype.initialize.apply(this, arguments);
 
         },
         

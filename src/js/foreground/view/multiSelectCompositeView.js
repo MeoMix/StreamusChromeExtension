@@ -17,6 +17,10 @@
             'click .list-item': 'setSelectedOnClick'
         },
         
+        collectionEvents: {
+            'add remove reset': '_setHeight'
+        },
+        
         ui: {
             list: '.list'
         },
@@ -91,7 +95,7 @@
         _removeItems: function(itemViewList) {
             _.each(itemViewList, function (child) {
                 var childView = this.children.findByModel(child);
-
+                
                 this.removeChildView(childView);
             }, this);
         },
@@ -132,7 +136,7 @@
                         }
 
                         //  Cleanup N items where N is the amount of items being added to the front.
-                        previousItems = self.collection.slice(0, nextItems.length);
+                        previousItems = self.collection.slice(currentMinRenderedIndex, currentMinRenderedIndex + nextItems.length);
 
                         if (previousItems.length > 0) {
                             self.minRenderedIndex += previousItems.length;
@@ -153,7 +157,7 @@
                         }
 
                         //  Cleanup N items where N is the amounts of items being added to the back.
-                        previousItems = self.collection.slice(self.collection.length - nextItems.length, self.collection.length);
+                        previousItems = self.collection.slice(currentMaxRenderedIndex - nextItems.length, currentMaxRenderedIndex);
 
                         if (previousItems.length > 0) {
                             self.maxRenderedIndex -= previousItems.length;
@@ -278,8 +282,12 @@
 
                     //  Override sortableItem here to ensure that dragging still works inside the normal parent collection.
                     //  http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
-                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
+
+                    //  Using parent's parent here works -- but I have bad feels about it since parent's parent isn't a sortable element.
+                    var placeholderParent = ui.placeholder.parent().parent();
+
+                    ui.item.data('sortableItem').scrollParent = placeholderParent;
+                    ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
                 },
 
                 stop: function (event, ui) {
@@ -365,23 +373,20 @@
                     ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
                 }
             });
-
-            return this;
         },
         
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
-            this.ui.itemContainer.height((this.collection.length - this.minRenderedIndex) * this.itemViewHeight);
+            //  Subtracting minRenderedIndex is important because of how CSS renders the element. If you don't subtract minRenderedIndex
+            //  then the rendered items will push up the height of the element by minRenderedIndex * itemViewHeight.
+            var height = (this.collection.length - this.minRenderedIndex) * this.itemViewHeight;
+            this.ui.itemContainer.height(height);
         },
         
         _setMaxRenderedIndex: function () {
             //  Figure out how many pages of items could potentially have been rendered.
             var maxRenderedIndex = this.pageSize * (1 + this.surroundingPages);
-            
-            //if (this.collection.length < maxRenderedIndex) {
-            //    maxRenderedIndex = this.collection.length;
-            //}
 
             this.maxRenderedIndex = maxRenderedIndex;
         },

@@ -94,7 +94,7 @@
                 this.$el.trigger('scroll');
             }
 
-            MultiSelectCompositeView.prototype.onRender.call(this, arguments);
+            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         initialize: function() {
@@ -102,6 +102,8 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+
+            MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
         
         updateSaveStreamButton: function () {

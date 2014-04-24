@@ -521,10 +521,6 @@ input[type="range"] {
     margin-left: 5px;
     margin-right: 5px;
     overflow-y: auto;
-
-    >div {
-        position: relative;
-    }
 }
 
 .list-item {
@@ -536,11 +532,6 @@ input[type="range"] {
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
-
-    &.sliding-view-item {
-        /* Be sure to calculate top programmatically - don't use relative positioning because doesn't work with sliding-view rendering. */
-        //position: absolute;
-    }
 
     &:hover {
         background: @lightGray;

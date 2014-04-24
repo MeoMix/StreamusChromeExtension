@@ -50,7 +50,7 @@
         onRender: function () {
             this.setActiveClass();
      
-            MultiSelectListItemView.prototype.onRender.call(this, arguments);
+            MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
 
         activateOrToggleState: function () {

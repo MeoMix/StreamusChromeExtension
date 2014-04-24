@@ -19,7 +19,7 @@
                 this.playlistId = options.playlistId;
             }
             
-            MultiSelectCollection.prototype.initialize.call(this, arguments);
+            MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
 
         save: function (attributes, options) {
@@ -93,7 +93,7 @@
         },
         
         //  Don't allow duplicate PlaylistItems by songId. 
-        add: function (items, options) {
+        add: function (items) {
         
             if (items instanceof Backbone.Collection) {
                 items.each(function (item) {
@@ -108,7 +108,7 @@
                 this.trySetDuplicateSongId(items);
             }
 
-            return MultiSelectCollection.prototype.add.call(this, items, options);
+            return MultiSelectCollection.prototype.add.apply(this, arguments);
         },
         
         trySetDuplicateSongId: function (playlistItem) {
