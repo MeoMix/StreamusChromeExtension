@@ -33,32 +33,8 @@
         
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
-        surroundingPages: 1,
-        pageSize: 10,
-        
-        getScrollAllowance: function (direction) {
-
-            var scrollAllowance;
-            
-            switch(direction) {
-                case 'down':
-                    scrollAllowance = this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
-                    break;
-                case 'up':
-                    scrollAllowance = this.minRenderedIndex * this.itemViewHeight;
-                    break;
-                default:
-                    console.error('unhandled direction', direction);
-            }
-
-            return scrollAllowance;
-        },
-        
-        //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
-        _getInitialScrollAllowance: function () {
-            var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight / 2);
-            return scrollAllowance;
-        },
+        surroundingPages: 5,
+        pageSize: 2,
         
         addItemView: function (item, ItemView, index) {
             if (index >= this.minRenderedIndex && index < this.maxRenderedIndex) {
@@ -74,30 +50,6 @@
             } else {
                 children.eq(index).before(itemView.el);
             }
-        },
-        
-        _addItemViewList: function (itemViewList, indexOffset) {
-            //  Leverage Marionette's style of rendering for performance.
-            this.initRenderBuffer();
-            this.startBuffering();
-
-            var ItemView;
-            _.each(itemViewList, function (item, index) {
-                ItemView = this.getItemView(item);
-
-                //  Adjust the items index to account for where it is actually being added in the list
-                this.addItemView(item, ItemView, index + indexOffset);
-            }, this);
-
-            this.endBuffering();
-        },
-        
-        _removeItems: function(itemViewList) {
-            _.each(itemViewList, function (child) {
-                var childView = this.children.findByModel(child);
-                
-                this.removeChildView(childView);
-            }, this);
         },
         
         onFullyVisible: function () {
@@ -116,7 +68,10 @@
                 var previousItems;
 
                 var direction = scrollTop > lastScrollTop ? 'down' : 'up';
-                var scrollAllowance = self.getScrollAllowance(direction);
+                var scrollAllowance = self._getScrollAllowance(direction);
+
+                console.log("scroll top/allowance:", scrollTop, scrollAllowance);
+                console.log("scrolled amount/maxRendered:", scrollTop - scrollAllowance, currentMaxRenderedIndex);
 
                 var updateDimensions = false;
 
@@ -134,14 +89,18 @@
 
                             updateDimensions = true;
                         }
+                        
+                        //  Don't run previous item cleanup on the initial append because haven't scrolled past the visible items just yet.
+                        if (scrollTop >= (nextItems.length * self.itemViewHeight)) {
+                            //  Cleanup N items where N is the amount of items being added to the front.
+                            previousItems = self.collection.slice(currentMinRenderedIndex, currentMinRenderedIndex + nextItems.length);
 
-                        //  Cleanup N items where N is the amount of items being added to the front.
-                        previousItems = self.collection.slice(currentMinRenderedIndex, currentMinRenderedIndex + nextItems.length);
-
-                        if (previousItems.length > 0) {
-                            self.minRenderedIndex += previousItems.length;
-                            self._removeItems(previousItems);
+                            if (previousItems.length > 0) {
+                                self.minRenderedIndex += previousItems.length;
+                                self._removeItems(previousItems);
+                            }
                         }
+
                     }
                 } else {
 
@@ -375,22 +334,6 @@
             });
         },
         
-        //  Set the elements height calculated from the number of potential items rendered into it.
-        //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
-        _setHeight: function () {
-            //  Subtracting minRenderedIndex is important because of how CSS renders the element. If you don't subtract minRenderedIndex
-            //  then the rendered items will push up the height of the element by minRenderedIndex * itemViewHeight.
-            var height = (this.collection.length - this.minRenderedIndex) * this.itemViewHeight;
-            this.ui.itemContainer.height(height);
-        },
-        
-        _setMaxRenderedIndex: function () {
-            //  Figure out how many pages of items could potentially have been rendered.
-            var maxRenderedIndex = this.pageSize * (1 + this.surroundingPages);
-
-            this.maxRenderedIndex = maxRenderedIndex;
-        },
-
         setSelectedOnClick: function (event) {
 
             var id = $(event.currentTarget).data('id');
@@ -447,6 +390,72 @@
                 //  All other selections are lost unless dragging a group of items.
                 this.collection.deselectAllExcept(modelToSelect);
             }
+        },
+        
+        //  Set the elements height calculated from the number of potential items rendered into it.
+        //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
+        _setHeight: function () {
+            //  Subtracting minRenderedIndex is important because of how CSS renders the element. If you don't subtract minRenderedIndex
+            //  then the rendered items will push up the height of the element by minRenderedIndex * itemViewHeight.
+            var height = (this.collection.length - this.minRenderedIndex) * this.itemViewHeight;
+            this.ui.itemContainer.height(height);
+        },
+
+        _setMaxRenderedIndex: function () {
+            //  Figure out how many pages of items could potentially have been rendered.
+            var maxRenderedIndex = this.pageSize * (1 + this.surroundingPages);
+
+            this.maxRenderedIndex = maxRenderedIndex;
+        },
+
+        
+        _addItemViewList: function (itemViewList, indexOffset) {
+            //  Leverage Marionette's style of rendering for performance.
+            this.initRenderBuffer();
+            this.startBuffering();
+
+            var ItemView;
+            _.each(itemViewList, function (item, index) {
+                ItemView = this.getItemView(item);
+
+                //  Adjust the items index to account for where it is actually being added in the list
+                this.addItemView(item, ItemView, index + indexOffset);
+            }, this);
+
+            this.endBuffering();
+        },
+
+        _removeItems: function (itemViewList) {
+            _.each(itemViewList, function (child) {
+                var childView = this.children.findByModel(child);
+
+                this.removeChildView(childView);
+            }, this);
+        },
+        
+        _getScrollAllowance: function (direction) {
+            var scrollAllowance = 0;
+
+            switch (direction) {
+                case 'down':
+                    scrollAllowance = this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
+                    console.log("max rendered and initial:", this.maxRenderedIndex, this._getInitialScrollAllowance());
+                    break;
+                case 'up':
+                    scrollAllowance = this.minRenderedIndex * this.itemViewHeight;
+                    break;
+                default:
+                    console.error('unhandled direction', direction);
+            }
+
+            return scrollAllowance;
+        },
+
+        //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
+        _getInitialScrollAllowance: function () {
+            //var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight / 2);
+            var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight);
+            return scrollAllowance;
         }
     });
 

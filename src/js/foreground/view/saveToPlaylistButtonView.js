@@ -14,7 +14,7 @@
         template: _.template(SaveToPlaylistButtonTemplate),
         
         attributes: {
-            title: chrome.i18n.getMessage('cantSaveNotSignedIn')
+            //title: chrome.i18n.getMessage('cantSaveNotSignedIn')
         },
 
         events: {
@@ -26,13 +26,13 @@
             this.setTitleAndDisabled();
             
             //  Be sure to call render first or else setting content.text won't actually update it.
-            this.$el.qtip('render');
-            this.$el.qtip('option', 'content.text', this.$el.attr('title'));
+            //this.$el.qtip('render');
+            //this.$el.qtip('option', 'content.text', this.$el.attr('title'));
         },
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
-            this.$el.qtip();
+            //this.$el.qtip();
         },
 
         saveToPlaylist: _.debounce(function () {

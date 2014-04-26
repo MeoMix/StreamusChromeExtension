@@ -13,7 +13,7 @@
         template: _.template(PlayInStreamButtonTemplate),
         
         attributes: {
-            title: chrome.i18n.getMessage('play')
+            //title: chrome.i18n.getMessage('play')
         },
         
         events: {
@@ -22,7 +22,7 @@
         },
         
         initialize: function() {
-            this.$el.qtip();
+            //this.$el.qtip();
         },
         
         playInStream: _.debounce(function () {
