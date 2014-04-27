@@ -20,6 +20,9 @@
         //  TODO: Marionette 2.0 will support referencing through @ui: https://github.com/marionettejs/backbone.marionette/issues/1033
         itemViewContainer: '#stream-items',
         itemView: StreamItemView,
+        
+        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+        viewportHeight: 291,
 
         template: _.template(StreamTemplate),
         templateHelpers: function () {
@@ -78,6 +81,7 @@
             this.children.each(function(child) {
                 child.setTitleTooltip(child.ui.title);
             });
+           
         },
         
         onRender: function () {

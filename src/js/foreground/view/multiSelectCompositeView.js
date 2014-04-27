@@ -28,16 +28,23 @@
         isFullyVisible: false,
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
-        minRenderedIndex: 0,
-        maxRenderedIndex: 0,
+        minRenderIndex: 0,
+        maxRenderIndex: 0,
         
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
-        surroundingPages: 5,
-        pageSize: 2,
+        viewportHeight: -1,
         
-        addItemView: function (item, ItemView, index) {
-            if (index >= this.minRenderedIndex && index < this.maxRenderedIndex) {
+        addItemView: function (item, ItemView, index, indexOverride) {
+            //  indexOverride is necessary because the 'actual' index of an item is different from its rendered position's index.
+            var shouldAdd;
+            if (_.isUndefined(indexOverride)) {
+                shouldAdd = index >= this.minRenderIndex && index < this.maxRenderIndex;
+            } else {
+                shouldAdd = indexOverride >= this.minRenderIndex && indexOverride < this.maxRenderIndex;
+            }
+
+            if (shouldAdd) {
                 Backbone.Marionette.CompositeView.prototype.addItemView.apply(this, arguments);
             }
         },
@@ -52,6 +59,16 @@
             }
         },
         
+        _getMinRenderIndex: function(scrollTop) {
+            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight);
+            return minRenderIndex;
+        },
+        
+        _getMaxRenderIndex: function (scrollTop) {
+            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight));
+            return maxRenderIndex;
+        },
+        
         onFullyVisible: function () {
             this.isFullyVisible = true;
             
@@ -62,77 +79,61 @@
             this.ui.list.scroll(_.throttle(function () {
                 var scrollTop = this.scrollTop;
 
-                var currentMaxRenderedIndex = self.maxRenderedIndex;
-                var currentMinRenderedIndex = self.minRenderedIndex;
-                var nextItems;
-                var previousItems;
+                //  Figure out the range of items currently rendered:
+                var oldMinRenderIndex = self._getMinRenderIndex(lastScrollTop);
+                var oldMaxRenderIndex = self._getMaxRenderIndex(lastScrollTop);
 
+                //  Figure out the range of items which need to be rendered:
+                var minRenderIndex = self._getMinRenderIndex(scrollTop);
+                var maxRenderIndex = self._getMaxRenderIndex(scrollTop);
+
+                var itemsToAdd = [];
+                var itemsToRemove = [];
+                
+                //  Append items in the direction being scrolled and remove items being scrolled away from.
                 var direction = scrollTop > lastScrollTop ? 'down' : 'up';
-                var scrollAllowance = self._getScrollAllowance(direction);
-
-                console.log("scroll top/allowance:", scrollTop, scrollAllowance);
-                console.log("scrolled amount/maxRendered:", scrollTop - scrollAllowance, currentMaxRenderedIndex);
-
-                var updateDimensions = false;
-
-                //  When the user scrolls down, append new items to the end of the list and remove from the start.
+                
                 if (direction === 'down') {
-
-                    //  Whenever a scroll amount is exceeded -- need to append next page and potentially clean-up previous page.
-                    if (scrollTop >= scrollAllowance) {
-                        //  Grab the next page of information.
-                        nextItems = self.collection.slice(currentMaxRenderedIndex, currentMaxRenderedIndex + self.pageSize);
-
-                        if (nextItems.length > 0) {
-                            self.maxRenderedIndex += nextItems.length;
-                            self._addItemViewList(nextItems, currentMaxRenderedIndex);
-
-                            updateDimensions = true;
-                        }
-                        
-                        //  Don't run previous item cleanup on the initial append because haven't scrolled past the visible items just yet.
-                        if (scrollTop >= (nextItems.length * self.itemViewHeight)) {
-                            //  Cleanup N items where N is the amount of items being added to the front.
-                            previousItems = self.collection.slice(currentMinRenderedIndex, currentMinRenderedIndex + nextItems.length);
-
-                            if (previousItems.length > 0) {
-                                self.minRenderedIndex += previousItems.length;
-                                self._removeItems(previousItems);
-                            }
-                        }
-
+                    //  Need to remove items which are less than the new minRenderIndex
+                    if (minRenderIndex > oldMinRenderIndex) {
+                        itemsToRemove = self.collection.slice(oldMinRenderIndex, minRenderIndex);
+                    }
+                    
+                    //  Need to add items which are greater than oldMaxRenderIndex and ltoe maxRenderIndex
+                    if (maxRenderIndex > oldMaxRenderIndex) {
+                        itemsToAdd = self.collection.slice(oldMaxRenderIndex, maxRenderIndex);
                     }
                 } else {
-
-                    if (scrollTop <= scrollAllowance) {
-                        //  Grab the next page of information.
-                        nextItems = self.collection.slice(currentMinRenderedIndex - self.pageSize, currentMinRenderedIndex);
-
-                        if (nextItems.length > 0) {
-                            self.minRenderedIndex -= nextItems.length;
-                            self._addItemViewList(nextItems, self.minRenderedIndex);
-
-                            updateDimensions = true;
-                        }
-
-                        //  Cleanup N items where N is the amounts of items being added to the back.
-                        previousItems = self.collection.slice(currentMaxRenderedIndex - nextItems.length, currentMaxRenderedIndex);
-
-                        if (previousItems.length > 0) {
-                            self.maxRenderedIndex -= previousItems.length;
-                            self._removeItems(previousItems);
-                        }
+                    //  Need to add items which are greater than oldMinRenderIndex and ltoe minRenderIndex
+                    if (minRenderIndex < oldMinRenderIndex) {
+                        itemsToAdd = self.collection.slice(minRenderIndex, oldMinRenderIndex);
+                    }
+                    
+                    //  Need to remove items which are greater than the new maxRenderIndex
+                    if (maxRenderIndex < oldMaxRenderIndex) {
+                        itemsToRemove = self.collection.slice(maxRenderIndex, oldMaxRenderIndex);
                     }
                 }
-                
-                if (updateDimensions) {
-                    //  Adjust padding and height to properly position relative items inside of list since not all items are rendered.
-                    self.ui.itemContainer.css('padding-top', self.minRenderedIndex * self.itemViewHeight);
+
+                if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
+                    self.minRenderIndex = minRenderIndex;
+                    self.maxRenderIndex = maxRenderIndex;
+                    
+                    if (direction === 'down') {
+                        //  Items will be appended from oldMaxRenderIndex forward. 
+                        self._addItems(itemsToAdd, oldMaxRenderIndex, true);
+                    } else {
+                        self._addItems(itemsToAdd, minRenderIndex, false);
+                    }
+                    
+                    self._removeItems(itemsToRemove);
+
+                    self._setPaddingTop();
                     self._setHeight();
                 }
 
                 lastScrollTop = scrollTop;
-            }, 50));
+            }, 20));
         },
         
         onAfterItemAdded: function (view) {
@@ -142,7 +143,9 @@
         },
 
         initialize: function () {
-            this._setMaxRenderedIndex();
+            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this.maxRenderIndex = this._getMaxRenderIndex(0);
         },
 
         onRender: function () {
@@ -392,70 +395,48 @@
             }
         },
         
+        //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
+        _setPaddingTop: function() {
+            this.ui.itemContainer.css('padding-top', this.minRenderIndex * this.itemViewHeight);
+        },
+        
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
-            //  Subtracting minRenderedIndex is important because of how CSS renders the element. If you don't subtract minRenderedIndex
-            //  then the rendered items will push up the height of the element by minRenderedIndex * itemViewHeight.
-            var height = (this.collection.length - this.minRenderedIndex) * this.itemViewHeight;
+            //  Subtracting minRenderIndex is important because of how CSS renders the element. If you don't subtract minRenderIndex
+            //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
+            var height = (this.collection.length - this.minRenderIndex) * this.itemViewHeight;
             this.ui.itemContainer.height(height);
         },
-
-        _setMaxRenderedIndex: function () {
-            //  Figure out how many pages of items could potentially have been rendered.
-            var maxRenderedIndex = this.pageSize * (1 + this.surroundingPages);
-
-            this.maxRenderedIndex = maxRenderedIndex;
-        },
-
         
-        _addItemViewList: function (itemViewList, indexOffset) {
+        _addItems: function (models, indexOffset, isAddingToEnd) {
             //  Leverage Marionette's style of rendering for performance.
             this.initRenderBuffer();
             this.startBuffering();
 
             var ItemView;
-            _.each(itemViewList, function (item, index) {
-                ItemView = this.getItemView(item);
-
-                //  Adjust the items index to account for where it is actually being added in the list
-                this.addItemView(item, ItemView, index + indexOffset);
+            _.each(models, function (model, index) {
+                ItemView = this.getItemView(model);
+                
+                if (isAddingToEnd) {
+                    //  Adjust the itemView's index to account for where it is actually being added in the list
+                    this.addItemView(model, ItemView, index + indexOffset);
+                } else {
+                    //  Adjust the itemView's index to account for where it is actually being added in the list, but
+                    //  also provide the unmodified index because this is the location in the rendered itemViewList in which it will be added.
+                    this.addItemView(model, ItemView, index, index + indexOffset);
+                }
             }, this);
 
             this.endBuffering();
         },
 
-        _removeItems: function (itemViewList) {
-            _.each(itemViewList, function (child) {
-                var childView = this.children.findByModel(child);
+        _removeItems: function (models) {
+            _.each(models, function (model) {
+                var childView = this.children.findByModel(model);
 
                 this.removeChildView(childView);
             }, this);
-        },
-        
-        _getScrollAllowance: function (direction) {
-            var scrollAllowance = 0;
-
-            switch (direction) {
-                case 'down':
-                    scrollAllowance = this.maxRenderedIndex * this.itemViewHeight - this._getInitialScrollAllowance();
-                    console.log("max rendered and initial:", this.maxRenderedIndex, this._getInitialScrollAllowance());
-                    break;
-                case 'up':
-                    scrollAllowance = this.minRenderedIndex * this.itemViewHeight;
-                    break;
-                default:
-                    console.error('unhandled direction', direction);
-            }
-
-            return scrollAllowance;
-        },
-
-        //  By default, load 2 pages of items, but start appending new pages of items when you're half way through the initial pages.
-        _getInitialScrollAllowance: function () {
-            //var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight / 2);
-            var scrollAllowance = this.pageSize * (1 + this.surroundingPages) * (this.itemViewHeight);
-            return scrollAllowance;
         }
     });
 

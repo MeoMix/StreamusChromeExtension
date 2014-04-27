@@ -20,6 +20,9 @@
         
         itemView: SearchResultView,
         
+        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+        viewportHeight: 350,
+        
         ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
             bottomMenubar: '.left-bottom-menubar',
             searchInput: '.search-bar input',
@@ -114,6 +117,7 @@
                 this.ui.addSelectedButton.qtip();
                 this.ui.saveSelectedButton.qtip();
             }.bind(this));
+           
         },
 
         //  This is ran whenever the user closes the search view, but the foreground remains open.
@@ -145,6 +149,15 @@
         search: function () {
             var searchQuery = $.trim(this.ui.searchInput.val());
             this.model.search(searchQuery);
+
+            //  Reset the list's scroll position to the top.
+            this.ui.list[0].scrollTop = 0;
+            
+            //  TODO: Waaay too manual.
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this.maxRenderIndex = this._getMaxRenderIndex(0);
+
+            this._setPaddingTop();
         },
         
         toggleSaveSelected: function () {
