@@ -6,11 +6,6 @@
     'use strict';
     
     var SearchResults = MultiSelectCollection.extend({
-        //state: {
-        //    firstPage: 0,
-        //    sortKey: 'index'
-        //},
-
         model: SearchResult,
         
         setFromSongInformation: function (songInformation) {
@@ -22,8 +17,6 @@
                 song: song
             });
 
-            console.log("Resetting with:", searchResult);
-            
             this.reset(searchResult);
         },
 

@@ -232,6 +232,8 @@
             this.add(streamItems, {
                 at: _.isUndefined(options) ? undefined : options.index
             });
+
+            console.log("Length:", this.length);
         },
 
         deactivateAllExcept: function(changedStreamItem) {
@@ -370,7 +372,8 @@
                                 title: randomRelatedSong.get('title'),
                                 active: true
                             });
-                            
+
+                            console.log("Added item with active:true");
                         }
 
                     }

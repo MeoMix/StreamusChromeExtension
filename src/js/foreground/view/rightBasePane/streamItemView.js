@@ -39,14 +39,6 @@
         
         buttonViews: [PlayInStreamButtonView, SaveToPlaylistButtonView, DeleteButtonView],
 
-        onShow: function () {
-            //  If the stream item is active -- ensure it is instantly visible.
-            if (this.model.get('active')) {
-                //  Pass 0 into scrollIntoView to have no animation/show instantly.
-                this.$el.scrollIntoView(0);
-            }
-        },
-
         onRender: function () {
             this.setActiveClass();
      
@@ -66,10 +58,6 @@
         setActiveClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('active', active);
-
-            if (active) {
-                this.$el.scrollIntoView();
-            }
         },
 
         showContextMenu: function (event) {

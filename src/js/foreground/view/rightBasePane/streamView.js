@@ -50,15 +50,21 @@
             }
         }),
         
-        collectionEvents: {
+        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
+            'change:active': function(item, active) {
+                if (active) {
+                    this.scrollToItem(item);
+                }
+            },
             'add remove reset': function () {
+                //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
-
-                //  Trigger a scroll event because an item could slide into view and lazy loading would need to happen.
-                this.$el.trigger('scroll');
+                
+                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
+                this._setHeight();
             }
-        },
+        }),
         
         ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
             buttons: '.button-icon',
@@ -81,7 +87,8 @@
             this.children.each(function(child) {
                 child.setTitleTooltip(child.ui.title);
             });
-           
+
+            this.scrollToItem(this.collection.getActiveItem());
         },
         
         onRender: function () {
@@ -92,11 +99,6 @@
             this.setShuffleButtonState();
             this.setRadioButtonState();
             this.updateSaveStreamButton();
-            
-            if (this.collection.length > 0) {
-                this.$el.find('.list-item.active').scrollIntoView(false);
-                this.$el.trigger('scroll');
-            }
 
             MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
@@ -106,6 +108,8 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+
+            console.log("Stream view active item:", this.collection.getActiveItem());
 
             MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
@@ -203,6 +207,16 @@
             }
             
             this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
+        },
+        
+        //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
+        scrollToItem: function (item) {
+            if (this.collection.length > 0) {
+                var activeItemTop = this.collection.indexOf(item) * this.itemViewHeight;
+                console.log("activeItemTop:", activeItemTop);
+                //  TODO: Play with this... it's moving items when it shouldn't.
+                this.ui.list[0].scrollTop = activeItemTop;
+            }
         }
 
     });

@@ -68,6 +68,7 @@ define([
         },
         
         tryActivateNextStreamItem: function () {
+            console.log("tryActivateNextStreamItem");
             //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
             NextButton.tryActivateNextStreamItem();
         },

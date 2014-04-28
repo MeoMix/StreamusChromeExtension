@@ -47,12 +47,16 @@
             'change:displayInfo': 'updatePlaylistDetails'
         },
         
-        collectionEvents: {
+        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
             'add remove reset': function () {
+                //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleBottomMenubar();
+                
+                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
+                this._setHeight();
             }
-        },
+        }),
 
         onShow: function () {
             this.onFullyVisible();

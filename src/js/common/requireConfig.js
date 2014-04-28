@@ -24,7 +24,6 @@
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
             'jquery.qtip': 'thirdParty/jquery.qtip',
-            'jquery.scrollIntoView': 'thirdParty/jquery.scrollIntoView',
             'jquery.transit': 'thirdParty/jquery.transit',
             'jqueryUi': 'thirdParty/jqueryUi',
             'keymaster': 'thirdParty/keymaster',
@@ -62,10 +61,6 @@
             'jquery.hoverIntent': {
                 deps: ['jquery'],
                 exports: '$.fn.hoverIntent'
-            },
-            'jquery.scrollIntoView': {
-                deps: ['jquery'],
-                exports: '$.fn.scrollIntoView'
             },
             'jquery.transit': {
                 deps: ['jquery'],

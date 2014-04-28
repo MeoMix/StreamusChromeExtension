@@ -29,8 +29,6 @@ define([
    
             //  Update the volume whenever the UI modifies the volume property.
             this.on('change:volume', function (model, volume) {
-                console.log("Volume is being changed to:", volume);
-                console.log("but it currently is:", youTubePlayer.getVolume());
                 self.set('muted', false);
                 //  We want to update the youtube player's volume no matter what because it persists between browser sessions
                 //  thanks to YouTube saving it -- so should keep it always sync'ed.

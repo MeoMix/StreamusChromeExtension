@@ -5,7 +5,6 @@
     'jquery.hoverIntent',
     'jquery',
     'jquery.qtip',
-    'jquery.scrollIntoView',
     'jquery.transit',
     'jqueryUi',
     'keymaster',

@@ -77,6 +77,7 @@
 
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
+                console.log("Scrolling");
                 var scrollTop = this.scrollTop;
 
                 //  Figure out the range of items currently rendered:
@@ -152,7 +153,7 @@
             var self = this;
 
             this._setHeight();
-            
+
             this.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',
@@ -202,13 +203,13 @@
                         'class': 'selected-models-length'
                     });
                 },
+                //  TODO: Change fires a lot and I only want to run this once -- reconsider!
                 change: function () {
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
                     $('.hidden-until-change').removeClass('hidden-until-change');
                 },
                 start: function (event, ui) {
-
                     var listItemType = ui.item.data('type');
                     
                     //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
@@ -244,8 +245,6 @@
 
                     //  Override sortableItem here to ensure that dragging still works inside the normal parent collection.
                     //  http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-
-                    //  Using parent's parent here works -- but I have bad feels about it since parent's parent isn't a sortable element.
                     var placeholderParent = ui.placeholder.parent().parent();
 
                     ui.item.data('sortableItem').scrollParent = placeholderParent;
@@ -253,7 +252,6 @@
                 },
 
                 stop: function (event, ui) {
-
                     this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
@@ -287,10 +285,6 @@
 
                 tolerance: 'pointer',
                 receive: function (event, ui) {
-
-                    //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
-                    ui.sender[0].copyHelper.replaceWith(ui.item);
-
                     var listItemType = ui.item.data('type');
                     
                     //  TODO: Can these three options be made more DRY?
@@ -318,12 +312,18 @@
                         var draggedSearchResults = SearchResults.selected();
                         SearchResults.deselectAll();
 
+                        console.log("Dragged search reuslts lnegth:", draggedSearchResults.length);
+
                         var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
                             return searchResult.get('song');
                         });
 
                         self.collection.addSongs(searchResultSongs, { index: ui.item.index() });
                     }
+                    
+                    //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
+                    //  Don't swap it out until done using its dropped-position index.
+                    ui.sender[0].copyHelper.replaceWith(ui.item);
 
                     ui.sender.data('copied', true);
                 },
@@ -331,8 +331,10 @@
                 over: function (event, ui) {
                     //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
                     // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-                    ui.item.data('sortableItem').scrollParent = ui.placeholder.parent();
-                    ui.item.data('sortableItem').overflowOffset = ui.placeholder.parent().offset();
+                    var placeholderParent = ui.placeholder.parent().parent();
+
+                    ui.item.data('sortableItem').scrollParent = placeholderParent;
+                    ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
                 }
             });
         },
@@ -406,6 +408,12 @@
             //  Subtracting minRenderIndex is important because of how CSS renders the element. If you don't subtract minRenderIndex
             //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
             var height = (this.collection.length - this.minRenderIndex) * this.itemViewHeight;
+
+            //  Keep height set to at least the viewport height to allow for proper drag-and-drop target.
+            if (height < this.viewportHeight) {
+                height = this.viewportHeight - height;
+            }
+            
             this.ui.itemContainer.height(height);
         },
         
