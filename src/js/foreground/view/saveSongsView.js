@@ -87,6 +87,9 @@
                 }.bind(this)
             });
 
+            //  Default the control to the active playlist since this is the most common need.
+            this.ui.playlistSelect[0].selectize.setValue(Playlists.getActivePlaylist().get('id'));
+
             //  Rebind UI elements after initializing selectize control in order to capture the appended DOM elements.
             this.bindUIElements();
         },

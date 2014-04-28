@@ -57,13 +57,10 @@
                 }
             },
             'add remove reset': function () {
-                console.log("item added");
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
 
-                console.log("Setting height");
-                
                 //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
                 this._setPaddingTop();
                 this._setHeight();
@@ -114,8 +111,6 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
-
-            console.log("Stream view active item:", this.collection.getActiveItem());
 
             MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
@@ -219,16 +214,22 @@
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         scrollToItem: function (item) {
             var itemIndex = this.collection.indexOf(item);
-            var isVisible = this._indexFullyVisibleInViewport(itemIndex);
+            
+            var overflowsTop = this._indexOverflowsTop(itemIndex);
+            var overflowsBottom = this._indexOverflowsBottom(itemIndex);
  
             //  Only scroll to the item if it isn't in the viewport.
-            if (!isVisible) {
+            if (overflowsTop || overflowsBottom) {
 
-                var scrollTop;
-                if (itemIndex <= this.minRenderIndex) {
+                var scrollTop = 0;
+
+                //  If the item needs to be made visible from the bottom, offset the viewport's height:
+                if (overflowsBottom) {
+                    //  Add 1 to index because want the bottom of the element and not the top.
+                    scrollTop = (itemIndex + 1) * this.itemViewHeight - this.viewportHeight;
+                }
+                else if (overflowsTop) {
                     scrollTop = itemIndex * this.itemViewHeight;
-                } else {
-                    scrollTop = (itemIndex + 1) * this.itemViewHeight;
                 }
 
                 this.ui.list[0].scrollTop = scrollTop;

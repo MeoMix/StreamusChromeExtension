@@ -7,7 +7,6 @@
     'jquery.qtip',
     'jquery.transit',
     'jqueryUi',
-    'keymaster',
     'less',
     'lodash',
     'selectize'

@@ -208,7 +208,6 @@
                     serviceType: YouTubeServiceType.Playlists,
                     id: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
-                        console.log("Response:", response);
                         this.result = response;
                         done();
                     }.bind(this)
@@ -333,7 +332,6 @@
                 YouTubeV3API.getPlaylistSongInformationList({
                     songId: ['mNGpPqxsTmQ', 'JMPYmNINxrE'],
                     error: function (error) {
-                        console.log("Error:", error);
                         this.error = error;
                         done();
                     }.bind(this)
@@ -373,12 +371,10 @@
 
             beforeEach(function (done) {
                 this.response = null;
-                console.log("goin for it");
                 YouTubeV3API.getSongInformation({
                     songId: '1poQE-mItpc',
                     success: function (response) {
                         this.response = response;
-                        console.log("Response:", response);
                         done();
                     }.bind(this)
                 });

@@ -11,6 +11,7 @@
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var User = chrome.extension.getBackgroundPage().User;
 
+    //  TODO: Split this off into a Behavior for the multi-select stuff, I think.
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
 
         events: {
@@ -19,13 +20,7 @@
         
         collectionEvents: {
             
-            'reset': function () {
-                this.minRenderIndex = this._getMinRenderIndex(0);
-                this.maxRenderIndex = this._getMaxRenderIndex(0);
-
-                this._setPaddingTop();
-                this._setHeight();
-            },
+            'reset': '_reset',
 
             //  TODO: Logic for min/max render adjustment when adding/removing? Necessary???? I think so?
             //'add': function(a, e) {
@@ -35,10 +30,11 @@
             //    console.log('a/e', a, e);
             //},
 
-            'add remove': function() {
+            //  When adding/removing lots of items -- no need to run this continously. Just need the end result to be right.
+            'add remove': _.throttle(function() {
                 this._setPaddingTop();
                 this._setHeight();
-            }
+            }, 100)
         },
         
         ui: {
@@ -87,7 +83,6 @@
 
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
-                console.log("Scrolling");
                 var scrollTop = this.scrollTop;
 
                 //  Figure out the range of items currently rendered:
@@ -213,13 +208,17 @@
                         'class': 'selected-models-length'
                     });
                 },
-                //  TODO: Change fires a lot and I only want to run this once -- reconsider!
                 change: function () {
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
-                    $('.hidden-until-change').removeClass('hidden-until-change');
+                    if (this.needFixCssRedraw) {
+                        $('.hidden-until-change').removeClass('hidden-until-change');
+                        this.needFixCssRedraw = false;
+                    }
                 },
                 start: function (event, ui) {
+                    this.needFixCssRedraw = true;
+                    
                     var listItemType = ui.item.data('type');
                     
                     //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
@@ -322,8 +321,6 @@
                         var draggedSearchResults = SearchResults.selected();
                         SearchResults.deselectAll();
 
-                        console.log("Dragged search reuslts lnegth:", draggedSearchResults.length);
-
                         var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
                             return searchResult.get('song');
                         });
@@ -407,6 +404,15 @@
             }
         },
         
+        //  Reset min/max, paddingTop and height to their default values.
+        _reset: function() {
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this.maxRenderIndex = this._getMaxRenderIndex(0);
+
+            this._setPaddingTop();
+            this._setHeight();
+        },
+        
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
         _setPaddingTop: function () {
             this.ui.itemContainer.css('padding-top', this.minRenderIndex * this.itemViewHeight);
@@ -424,8 +430,6 @@
                 height = this.viewportHeight - height;
             }
 
-            console.log("Height:", height);
-            
             this.ui.itemContainer.height(height);
         },
         
@@ -469,17 +473,31 @@
             return maxRenderIndex;
         },
         
+        //  Returns true if an itemView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
+        _indexOverflowsTop: function(index) {
+            var position = index * this.itemViewHeight;
+            var scrollPosition = this.ui.list.scrollTop();
+
+            var overflowsTop = position < scrollPosition;
+
+            return overflowsTop;
+        },
+        
+        _indexOverflowsBottom: function (index) {
+            //  Add one to index because want to get the bottom of the element and not the top.
+            var position = (index + 1) * this.itemViewHeight;
+            var scrollPosition = this.ui.list.scrollTop() + this.viewportHeight;
+
+            var overflowsBottom = position > scrollPosition;
+
+            return overflowsBottom;
+        },
+
         _indexFullyVisibleInViewport: function (index) {
-            var bottomPosition = index * this.itemViewHeight;
-            var topPosition = (index + 1) * this.itemViewHeight;
+            var overflowsTop = this._indexOverflowsTop(index);
+            var overflowsBottom = this._indexOverflowsBottom(index);
 
-            var scrollTopBottomPosition = this.ui.list.scrollTop();
-            var scrollTopTopPosition = scrollTopBottomPosition + this.viewportHeight;
-            
-            var indexFullyVisible = bottomPosition >= scrollTopBottomPosition && topPosition <= scrollTopTopPosition
-
-            console.log("indexFullyVisible:", indexFullyVisible);
-            return indexFullyVisible;
+            return !overflowsTop && !overflowsBottom;
         }
     });
 

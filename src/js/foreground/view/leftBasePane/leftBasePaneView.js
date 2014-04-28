@@ -65,7 +65,7 @@
             if (User.get('signedIn')) {
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();
-                console.log("Update regions is being called", activePlaylist.get('title'));
+
                 this.contentRegion.show(new ActivePlaylistAreaView({
                     model: activePlaylist,
                     collection: activePlaylist.get('items')

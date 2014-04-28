@@ -650,7 +650,7 @@ input[type="range"] {
 
     /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
-    .copy-helper + .sortable-placeholder {
+    &.copy-helper + .sortable-placeholder {
         display: none;
     }
 }

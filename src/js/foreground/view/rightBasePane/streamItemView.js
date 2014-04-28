@@ -30,7 +30,7 @@
         },
         
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
-            'dblclick': 'activateOrToggleState'
+            'dblclick': 'activateAndPlayOrToggleState'
         }),
         
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
@@ -45,8 +45,10 @@
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
 
-        activateOrToggleState: function () {
+        activateAndPlayOrToggleState: function () {
             if (!this.model.get('active')) {
+                Player.playOnceSongChanges();
+
                 this.model.set('active', true);
             } else {
                 PlayPauseButton.tryTogglePlayerState();

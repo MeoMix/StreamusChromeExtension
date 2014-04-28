@@ -66,8 +66,6 @@ define([
         
         //  Allow the user to manual time change by click or scroll.
         mousewheelUpdateProgress: function (event) {
-            console.log("mousewheelUpdateProgress");
-
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());
 

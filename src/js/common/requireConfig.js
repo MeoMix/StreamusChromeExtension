@@ -26,7 +26,6 @@
             'jquery.qtip': 'thirdParty/jquery.qtip',
             'jquery.transit': 'thirdParty/jquery.transit',
             'jqueryUi': 'thirdParty/jqueryUi',
-            'keymaster': 'thirdParty/keymaster',
             'less': 'thirdParty/less',
             'lodash': 'thirdParty/lodash',
             'microplugin': 'thirdParty/microplugin',
@@ -69,9 +68,6 @@
             'jqueryUi': {
                 deps: ['jquery'],
                 exports: '$.ui'
-            },
-            'keymaster': {
-                exports: 'window.key'
             },
             'less': {
                 exports: 'window.less'

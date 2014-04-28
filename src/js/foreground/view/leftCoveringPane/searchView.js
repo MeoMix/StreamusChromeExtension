@@ -52,7 +52,10 @@
 
         //  TODO: Extend collectionEvents on playlist and stream.
         collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
-            'reset': 'toggleBigText',
+            'reset': function () {
+                this.toggleBigText();
+                this._reset();
+            },
             'change:selected': 'toggleBottomMenubar'
         }),
  
