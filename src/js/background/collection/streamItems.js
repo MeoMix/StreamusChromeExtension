@@ -25,11 +25,6 @@
             var self = this;
 
             this.on('add', function (addedStreamItem) {
-                //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
-                if (addedStreamItem.get('active')) {
-                    addedStreamItem.trigger('change:active', addedStreamItem, true);
-                }
-
                 //  Ensure a streamItem is always active
                 if (_.isUndefined(this.getActiveItem())) {
                     addedStreamItem.set('active', true);
@@ -216,24 +211,24 @@
             var playOnAdd = _.isUndefined(options) || _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             
             if (playOnAdd) {
+                console.log("playing one song changes");
                 Player.playOnceSongChanges();
             }
             
-            var streamItems = _.map(songs, function (song, iterator) {
+            var streamItems = _.map(songs, function (song) {
                 return {
                     song: song,
-                    title: song.get('title'),
-                    
-                    //  Activate and play the first added item if playOnAdd is set to true
-                    active: playOnAdd && iterator === 0
+                    title: song.get('title')
                 };
             });
-
+            
             this.add(streamItems, {
                 at: _.isUndefined(options) ? undefined : options.index
             });
-
-            console.log("Length:", this.length);
+            
+            if (playOnAdd) {
+                streamItems.at(0).set('active', true);
+            }
         },
 
         deactivateAllExcept: function(changedStreamItem) {
@@ -369,11 +364,11 @@
 
                             nextItem = this.add({
                                 song: randomRelatedSong,
-                                title: randomRelatedSong.get('title'),
-                                active: true
+                                title: randomRelatedSong.get('title')
                             });
 
-                            console.log("Added item with active:true");
+                            //  Mark as active after adding it to deselect other active items and ensure it is visible visually.
+                            nextItem.set('active', true);
                         }
 
                     }

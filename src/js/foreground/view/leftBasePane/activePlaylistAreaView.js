@@ -54,6 +54,7 @@
                 this.toggleBottomMenubar();
                 
                 //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
+                this._setPaddingTop();
                 this._setHeight();
             }
         }),

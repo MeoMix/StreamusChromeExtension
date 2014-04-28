@@ -57,11 +57,15 @@
                 }
             },
             'add remove reset': function () {
+                console.log("item added");
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
+
+                console.log("Setting height");
                 
                 //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
+                this._setPaddingTop();
                 this._setHeight();
             }
         }),
@@ -87,8 +91,10 @@
             this.children.each(function(child) {
                 child.setTitleTooltip(child.ui.title);
             });
-
-            this.scrollToItem(this.collection.getActiveItem());
+            
+            if (this.collection.length > 0) {
+                this.scrollToItem(this.collection.getActiveItem());
+            }
         },
         
         onRender: function () {
@@ -209,13 +215,23 @@
             this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
         },
         
+        //  TODO: Animation?
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         scrollToItem: function (item) {
-            if (this.collection.length > 0) {
-                var activeItemTop = this.collection.indexOf(item) * this.itemViewHeight;
-                console.log("activeItemTop:", activeItemTop);
-                //  TODO: Play with this... it's moving items when it shouldn't.
-                this.ui.list[0].scrollTop = activeItemTop;
+            var itemIndex = this.collection.indexOf(item);
+            var isVisible = this._indexFullyVisibleInViewport(itemIndex);
+ 
+            //  Only scroll to the item if it isn't in the viewport.
+            if (!isVisible) {
+
+                var scrollTop;
+                if (itemIndex <= this.minRenderIndex) {
+                    scrollTop = itemIndex * this.itemViewHeight;
+                } else {
+                    scrollTop = (itemIndex + 1) * this.itemViewHeight;
+                }
+
+                this.ui.list[0].scrollTop = scrollTop;
             }
         }
 

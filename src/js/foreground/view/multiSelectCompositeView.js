@@ -18,7 +18,27 @@
         },
         
         collectionEvents: {
-            'add remove reset': '_setHeight'
+            
+            'reset': function () {
+                this.minRenderIndex = this._getMinRenderIndex(0);
+                this.maxRenderIndex = this._getMaxRenderIndex(0);
+
+                this._setPaddingTop();
+                this._setHeight();
+            },
+
+            //  TODO: Logic for min/max render adjustment when adding/removing? Necessary???? I think so?
+            //'add': function(a, e) {
+            //    console.log('a/e', a, e);
+            //},
+            //'remove:': function (a, e) {
+            //    console.log('a/e', a, e);
+            //},
+
+            'add remove': function() {
+                this._setPaddingTop();
+                this._setHeight();
+            }
         },
         
         ui: {
@@ -57,16 +77,6 @@
             } else {
                 children.eq(index).before(itemView.el);
             }
-        },
-        
-        _getMinRenderIndex: function(scrollTop) {
-            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight);
-            return minRenderIndex;
-        },
-        
-        _getMaxRenderIndex: function (scrollTop) {
-            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight));
-            return maxRenderIndex;
         },
         
         onFullyVisible: function () {
@@ -398,7 +408,7 @@
         },
         
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
-        _setPaddingTop: function() {
+        _setPaddingTop: function () {
             this.ui.itemContainer.css('padding-top', this.minRenderIndex * this.itemViewHeight);
         },
         
@@ -413,6 +423,8 @@
             if (height < this.viewportHeight) {
                 height = this.viewportHeight - height;
             }
+
+            console.log("Height:", height);
             
             this.ui.itemContainer.height(height);
         },
@@ -445,6 +457,29 @@
 
                 this.removeChildView(childView);
             }, this);
+        },
+        
+        _getMinRenderIndex: function (scrollTop) {
+            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight);
+            return minRenderIndex;
+        },
+
+        _getMaxRenderIndex: function (scrollTop) {
+            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight));
+            return maxRenderIndex;
+        },
+        
+        _indexFullyVisibleInViewport: function (index) {
+            var bottomPosition = index * this.itemViewHeight;
+            var topPosition = (index + 1) * this.itemViewHeight;
+
+            var scrollTopBottomPosition = this.ui.list.scrollTop();
+            var scrollTopTopPosition = scrollTopBottomPosition + this.viewportHeight;
+            
+            var indexFullyVisible = bottomPosition >= scrollTopBottomPosition && topPosition <= scrollTopTopPosition
+
+            console.log("indexFullyVisible:", indexFullyVisible);
+            return indexFullyVisible;
         }
     });
 
