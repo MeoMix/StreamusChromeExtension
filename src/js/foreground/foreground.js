@@ -73,7 +73,10 @@
                     clearTimeout(this.showReloadPromptTimeout);
 
                     if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                        this.promptRegion.close();
+                        console.log("Closing region");
+                        //this.promptRegion.close();
+                        //  TODO: Shitty - I should be able to just close the region, but need to fix dependency.
+                        this.promptRegion.currentView.triggerMethod('hide');
                     }
                 });
             }
@@ -160,7 +163,7 @@
             //  TODO: This got messy. Should probably create a PromptRegion which encapsulates the hide/show logic.
             this.listenToOnce(view, 'hide', function () {
 
-                this.listenToOnce(view, 'close', function() {
+                this.listenToOnce(view, 'close', function () {
                     $(this.promptRegion.el).addClass('hidden');
                 });
 

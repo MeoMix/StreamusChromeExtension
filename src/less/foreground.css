@@ -21,12 +21,13 @@ body {
   -webkit-user-select: none;
   font: 13px/1.2 'Open Sans';
   /* qtip overrides: */
+
 }
 body > .spinner {
   z-index: 1;
   display: none;
 }
-body.loading > *:not(.spinner):not(.reload-streamus-prompt) {
+body.loading > *:not(.spinner):not(#prompt-region) {
   opacity: .2;
 }
 body.loading > .spinner {
@@ -101,6 +102,7 @@ body .qtip-light {
   top: 0;
   z-index: 50;
   /* Reminder checkboxes always go in the bottom right of the prompt */
+
 }
 .prompt .title {
   cursor: default;
@@ -128,6 +130,7 @@ body .qtip-light {
   left: 50%;
   opacity: 0;
   /* Default Panel Size */
+
   width: 500px;
   margin-left: -250px;
   height: 140px;
@@ -506,11 +509,13 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   transition: background-color 0.1s, border-color 0.1s;
   /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
+
 }
 .list-item:hover {
   background: #ebebeb;
   border-color: #ebebeb;
   /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
+
 }
 .list-item:hover .item-title {
   width: calc(100% - 135px);
@@ -602,7 +607,7 @@ body.playing .list-item.active.stream-item .buttons-region button {
   top: 0;
   left: 0;
 }
-.list-item .copy-helper + .sortable-placeholder {
+.list-item.copy-helper + .sortable-placeholder {
   display: none;
 }
 #playlists {
@@ -729,12 +734,14 @@ input:focus ~ .underline {
 #search {
   box-shadow: 0 0 10px #333333;
   /* Can't sort search */
+
 }
 #search .sortable-placeholder {
   display: none;
 }
 #active-playlist-items .sortable-placeholder {
   /* Don't allow duplicates to be dropped into playlist items */
+
 }
 #active-playlist-items .sortable-placeholder.not-signed-in {
   display: none;
@@ -742,6 +749,7 @@ input:focus ~ .underline {
 #active-playlist-items .sortable-placeholder.no-drop {
   background-color: #ffcccc;
   /* TODO: I18N Clean this up a bit. Need to do i18n for it */
+
 }
 #active-playlist-items .sortable-placeholder.no-drop:after {
   content: 'Duplicates not allowed';
@@ -1161,6 +1169,7 @@ button {
   padding: 0;
   transition: color 0.1s, text-shadow 0.1s;
   /* TODO: Maybe this should just go on a volume button */
+
 }
 button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {
   color: #000000;
@@ -1244,6 +1253,7 @@ button.mute.muted {
 }
 #left-base-pane {
   /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
+
 }
 #left-base-pane #playlist-title-region {
   width: calc(100% - 106px);
