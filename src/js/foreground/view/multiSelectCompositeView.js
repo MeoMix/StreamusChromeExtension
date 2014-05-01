@@ -31,7 +31,7 @@
             //},
 
             //  When adding/removing lots of items -- no need to run this continously. Just need the end result to be right.
-            'add remove': _.throttle(function() {
+            'add remove': _.throttle(function () {
                 this._setPaddingTop();
                 this._setHeight();
             }, 100)
@@ -50,6 +50,9 @@
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
         viewportHeight: -1,
+        
+        //  Keep track of where user is scrolling from to determine direction and amount changed.
+        lastScrollTop: 0,
         
         addItemView: function (item, ItemView, index, indexOverride) {
             //  indexOverride is necessary because the 'actual' index of an item is different from its rendered position's index.
@@ -79,66 +82,9 @@
             this.isFullyVisible = true;
             
             var self = this;
-            var lastScrollTop = 0;
-
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
-                var scrollTop = this.scrollTop;
-
-                //  Figure out the range of items currently rendered:
-                var oldMinRenderIndex = self._getMinRenderIndex(lastScrollTop);
-                var oldMaxRenderIndex = self._getMaxRenderIndex(lastScrollTop);
-
-                //  Figure out the range of items which need to be rendered:
-                var minRenderIndex = self._getMinRenderIndex(scrollTop);
-                var maxRenderIndex = self._getMaxRenderIndex(scrollTop);
-
-                var itemsToAdd = [];
-                var itemsToRemove = [];
-                
-                //  Append items in the direction being scrolled and remove items being scrolled away from.
-                var direction = scrollTop > lastScrollTop ? 'down' : 'up';
-                
-                if (direction === 'down') {
-                    //  Need to remove items which are less than the new minRenderIndex
-                    if (minRenderIndex > oldMinRenderIndex) {
-                        itemsToRemove = self.collection.slice(oldMinRenderIndex, minRenderIndex);
-                    }
-                    
-                    //  Need to add items which are greater than oldMaxRenderIndex and ltoe maxRenderIndex
-                    if (maxRenderIndex > oldMaxRenderIndex) {
-                        itemsToAdd = self.collection.slice(oldMaxRenderIndex, maxRenderIndex);
-                    }
-                } else {
-                    //  Need to add items which are greater than oldMinRenderIndex and ltoe minRenderIndex
-                    if (minRenderIndex < oldMinRenderIndex) {
-                        itemsToAdd = self.collection.slice(minRenderIndex, oldMinRenderIndex);
-                    }
-                    
-                    //  Need to remove items which are greater than the new maxRenderIndex
-                    if (maxRenderIndex < oldMaxRenderIndex) {
-                        itemsToRemove = self.collection.slice(maxRenderIndex, oldMaxRenderIndex);
-                    }
-                }
-
-                if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
-                    self.minRenderIndex = minRenderIndex;
-                    self.maxRenderIndex = maxRenderIndex;
-                    
-                    if (direction === 'down') {
-                        //  Items will be appended from oldMaxRenderIndex forward. 
-                        self._addItems(itemsToAdd, oldMaxRenderIndex, true);
-                    } else {
-                        self._addItems(itemsToAdd, minRenderIndex, false);
-                    }
-                    
-                    self._removeItems(itemsToRemove);
-
-                    self._setPaddingTop();
-                    self._setHeight();
-                }
-
-                lastScrollTop = scrollTop;
+                self._setRenderedElements(this.scrollTop);
             }, 20));
         },
         
@@ -404,6 +350,63 @@
             }
         },
         
+        _setRenderedElements: function(scrollTop) {
+            //  Figure out the range of items currently rendered:
+            var oldMinRenderIndex = this._getMinRenderIndex(this.lastScrollTop);
+            var oldMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
+
+            //  Figure out the range of items which need to be rendered:
+            var minRenderIndex = this._getMinRenderIndex(scrollTop);
+            var maxRenderIndex = this._getMaxRenderIndex(scrollTop);
+
+            var itemsToAdd = [];
+            var itemsToRemove = [];
+
+            //  Append items in the direction being scrolled and remove items being scrolled away from.
+            var direction = scrollTop > this.lastScrollTop ? 'down' : 'up';
+
+            if (direction === 'down') {
+                //  Need to remove items which are less than the new minRenderIndex
+                if (minRenderIndex > oldMinRenderIndex) {
+                    itemsToRemove = this.collection.slice(oldMinRenderIndex, minRenderIndex);
+                }
+
+                //  Need to add items which are greater than oldMaxRenderIndex and ltoe maxRenderIndex
+                if (maxRenderIndex > oldMaxRenderIndex) {
+                    itemsToAdd = this.collection.slice(oldMaxRenderIndex, maxRenderIndex);
+                }
+            } else {
+                //  Need to add items which are greater than oldMinRenderIndex and ltoe minRenderIndex
+                if (minRenderIndex < oldMinRenderIndex) {
+                    itemsToAdd = this.collection.slice(minRenderIndex, oldMinRenderIndex);
+                }
+
+                //  Need to remove items which are greater than the new maxRenderIndex
+                if (maxRenderIndex < oldMaxRenderIndex) {
+                    itemsToRemove = this.collection.slice(maxRenderIndex, oldMaxRenderIndex);
+                }
+            }
+
+            if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
+                this.minRenderIndex = minRenderIndex;
+                this.maxRenderIndex = maxRenderIndex;
+
+                if (direction === 'down') {
+                    //  Items will be appended from oldMaxRenderIndex forward. 
+                    this._addItems(itemsToAdd, oldMaxRenderIndex, true);
+                } else {
+                    this._addItems(itemsToAdd, minRenderIndex, false);
+                }
+
+                this._removeItems(itemsToRemove);
+
+                this._setPaddingTop();
+                this._setHeight();
+            }
+
+            this.lastScrollTop = scrollTop;
+        },
+        
         //  Reset min/max, paddingTop and height to their default values.
         _reset: function() {
             this.minRenderIndex = this._getMinRenderIndex(0);
@@ -415,7 +418,11 @@
         
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
         _setPaddingTop: function () {
-            this.ui.itemContainer.css('padding-top', this.minRenderIndex * this.itemViewHeight);
+            this.ui.itemContainer.css('padding-top', this._getPaddingTop());
+        },
+        
+        _getPaddingTop: function () {
+            return this.minRenderIndex * this.itemViewHeight;
         },
         
         //  Set the elements height calculated from the number of potential items rendered into it.
@@ -425,9 +432,15 @@
             //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
             var height = (this.collection.length - this.minRenderIndex) * this.itemViewHeight;
 
-            //  Keep height set to at least the viewport height to allow for proper drag-and-drop target.
+            console.log("Height:", height);
+
+            var paddingTop = this._getPaddingTop();
+            console.log("padding top:", paddingTop);
+
+            //  Keep height set to at least the viewport height to allow for proper drag-and-drop target - can't drop if height is too small.
             if (height < this.viewportHeight) {
                 height = this.viewportHeight - height;
+                console.log("Adjusted height:", height);
             }
 
             this.ui.itemContainer.height(height);
