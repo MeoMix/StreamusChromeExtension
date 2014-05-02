@@ -222,12 +222,13 @@
                 };
             });
             
-            this.add(streamItems, {
+            //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
+            var addedStreamItems = this.add(streamItems, {
                 at: _.isUndefined(options) ? undefined : options.index
             });
             
             if (playOnAdd) {
-                streamItems.at(0).set('active', true);
+                addedStreamItems[0].set('active', true);
             }
         },
 
