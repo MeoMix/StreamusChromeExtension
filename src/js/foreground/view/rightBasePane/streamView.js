@@ -56,6 +56,21 @@
                     this.scrollToItem(item);
                 }
             },
+            
+            'remove': function(item, collection, options) {
+                //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
+                this.toggleBigText();
+                this.toggleContextButtons();
+
+                if (this._indexWithinRenderRange(options.index)) {
+                    this._renderNextElement();
+                }
+
+                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
+                this._setPaddingTop();
+                this._setHeight();
+            },
+
             'add remove reset': function () {
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
@@ -79,6 +94,15 @@
             clearStreamButton: 'button.clear',
             showSearch: '.show-search'
         }),
+        
+        behaviors: {
+            MultiSelect: {
+                
+            },
+            Sortable: {
+                
+            }
+        },
         
         onShow: function () {
             this.onFullyVisible();

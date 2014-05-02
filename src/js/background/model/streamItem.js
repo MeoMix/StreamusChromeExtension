@@ -16,7 +16,7 @@ define([
                 active: false,
                 selected: false,
                 firstSelected: false,
-                relatedSongInformation: [] 
+                relatedSongInformation: []
             };
         },
 

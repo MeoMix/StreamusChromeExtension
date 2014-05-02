@@ -61,7 +61,7 @@
             $.extend($.fn.qtip.defaults.style, {
                 classes: 'qtip-light qtip-shadow'
             });
-            
+
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');

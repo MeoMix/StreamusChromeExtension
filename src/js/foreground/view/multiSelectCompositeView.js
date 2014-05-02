@@ -1,46 +1,36 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/leftCoveringPane/SearchResultView',
-    'foreground/view/rightBasePane/streamItemView'
-], function (ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
+﻿define(function () {
     'use strict';
-
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var User = chrome.extension.getBackgroundPage().User;
 
     //  TODO: Split this off into a Behavior for the multi-select stuff, I think.
     var MultiSelectCompositeView = Backbone.Marionette.CompositeView.extend({
-
-        events: {
-            'click .list-item': 'setSelectedOnClick'
-        },
         
         collectionEvents: {
             
             'reset': '_reset',
 
             //  TODO: Logic for min/max render adjustment when adding/removing? Necessary???? I think so?
-            //'add': function(a, e) {
+            //'add': function (a, e) {
+
             //    console.log('a/e', a, e);
             //},
             //'remove:': function (a, e) {
-            //    console.log('a/e', a, e);
+            //    console.log('Item has been removed.', a, e);
+                
             //},
 
             //  When adding/removing lots of items -- no need to run this continously. Just need the end result to be right.
-            'add remove': _.throttle(function () {
-                this._setPaddingTop();
-                this._setHeight();
-            }, 100)
+            //'add remove': _.throttle(function () {
+            //    this._setPaddingTop();
+            //    this._setHeight();
+            //}, 100)
         },
         
         ui: {
-            list: '.list'
+            list: '.list',
+            listItem: '.list-item'
         },
 
+        //  TODO: Refactor into a behavior, too.
         isFullyVisible: false,
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
@@ -58,9 +48,9 @@
             //  indexOverride is necessary because the 'actual' index of an item is different from its rendered position's index.
             var shouldAdd;
             if (_.isUndefined(indexOverride)) {
-                shouldAdd = index >= this.minRenderIndex && index < this.maxRenderIndex;
+                shouldAdd = this._indexWithinRenderRange(index);
             } else {
-                shouldAdd = indexOverride >= this.minRenderIndex && indexOverride < this.maxRenderIndex;
+                shouldAdd = this._indexWithinRenderRange(indexOverride);
             }
 
             if (shouldAdd) {
@@ -101,256 +91,29 @@
         },
 
         onRender: function () {
-            var self = this;
-
             this._setHeight();
-
-            this.ui.itemContainer.sortable({
-
-                connectWith: '.droppable-list',
-
-                cursorAt: {
-                    right: 35,
-                    bottom: 40
-                },
-                
-                //  Adding a delay helps preventing unwanted drags when clicking on an element.
-                delay: 100,
-
-                placeholder: 'sortable-placeholder list-item hidden-until-change',
-
-                helper: function (ui, listItem) {
-                    //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
-                    var copyHelperView;
-                    var viewOptions = {
-                        model: self.collection.get(listItem.data('id'))
-                    };
-
-                    var listItemType = listItem.data('type');
-
-                    switch (listItemType) {
-                        case ListItemType.PlaylistItem:
-                            copyHelperView = new PlaylistItemView(viewOptions);
-                            break;
-                        case ListItemType.StreamItem:
-                            copyHelperView = new StreamItemView(viewOptions);
-                            break;
-                        case ListItemType.SearchResult:
-                            copyHelperView = new SearchResultView(viewOptions);
-                            break;
-                        default:
-                            throw 'Unhandled ListItemType: ' + listItemType;
-                    }
-
-                    this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
-                    this.copyHelper.addClass('copy-helper');
-
-                    this.backCopyHelper = listItem.prev();
-                    this.backCopyHelper.addClass('copy-helper');
-
-                    $(this).data('copied', false);
-
-                    return $('<span>', {
-                        'class': 'selected-models-length'
-                    });
-                },
-                change: function () {
-                    //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
-                    //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
-                    if (this.needFixCssRedraw) {
-                        $('.hidden-until-change').removeClass('hidden-until-change');
-                        this.needFixCssRedraw = false;
-                    }
-                },
-                start: function (event, ui) {
-                    this.needFixCssRedraw = true;
-                    
-                    var listItemType = ui.item.data('type');
-                    
-                    //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
-                    //  duplicates in the Stream.
-                    if (listItemType === ListItemType.StreamItem) {
-                        if (User.get('signedIn')) {
-                            var streamItemId = ui.item.data('id');
-
-                            //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
-                            var draggedStreamItem = self.collection.get(streamItemId);
-
-                            var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
-                            ui.placeholder.toggleClass('no-drop', alreadyExists);
-                        } else {
-                            ui.placeholder.addClass('not-signed-in');
-                        }
-                    }
-
-                    var modelToSelect = self.collection.get(ui.item.data('id'));
-                    self.doSetSelected({
-                        modelToSelect: modelToSelect,
-                        drag: true
-                    });
-
-                    this.selectedItems = self.$el.find('.selected');
-
-                    this.selectedItems.css({
-                        opacity: '.5'
-                    });
-
-                    //  Set it here not in helper because dragStart may select a search result.
-                    ui.helper.text(self.collection.selected().length);
-
-                    //  Override sortableItem here to ensure that dragging still works inside the normal parent collection.
-                    //  http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-                    var placeholderParent = ui.placeholder.parent().parent();
-
-                    ui.item.data('sortableItem').scrollParent = placeholderParent;
-                    ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
-                },
-
-                stop: function (event, ui) {
-                    this.backCopyHelper.removeClass('copy-helper');
-
-                    var copied = $(this).data('copied');
-                    if (copied) {
-                        this.copyHelper.removeClass('copy-helper');
-                    }
-                    else {
-                        this.copyHelper.remove();
-                        
-                        //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
-                        var listItemType = ui.item.data('type');
-                        if (listItemType === ListItemType.PlaylistItem || listItemType === ListItemType.StreamItem) {
-                            self.collection.moveToIndex(ui.item.data('id'), ui.item.index());
-                        }
-                    }
-
-                    this.selectedItems.css({
-                        opacity: '1'
-                    });
-
-                    this.copyHelper = null;
-                    this.backCopyHelper = null;
-                    this.selectedItems = null;
-
-                    //  Don't allow SearchResults to be sorted -- copied is true when it moves to StreamItems.
-                    //  Returning false cancels the sort.
-                    var isSearchResult = ui.item.data('type') === ListItemType.SearchResult;
-
-                    return copied || !isSearchResult;
-                },
-
-                tolerance: 'pointer',
-                receive: function (event, ui) {
-                    var listItemType = ui.item.data('type');
-                    
-                    //  TODO: Can these three options be made more DRY?
-                    if (listItemType === ListItemType.StreamItem) {
-                        var draggedStreamItems = StreamItems.selected();
-                        StreamItems.deselectAll();
-
-                        var streamItemSongs = _.map(draggedStreamItems, function(streamItem) {
-                            return streamItem.get('song');
-                        });
-
-                        self.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
-                    }
-                    else if (listItemType === ListItemType.PlaylistItem) {
-                        var activePlaylistItems = Playlists.getActivePlaylist().get('items');
-                        var draggedPlaylistItems = activePlaylistItems.selected();
-                        activePlaylistItems.deselectAll();
-                        
-                        var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
-                            return playlistItem.get('song');
-                        });
-
-                        self.collection.addSongs(playlistItemSongs, { index: ui.item.index() });
-                    } else if (listItemType === ListItemType.SearchResult) {
-                        var draggedSearchResults = SearchResults.selected();
-                        SearchResults.deselectAll();
-
-                        var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
-                            return searchResult.get('song');
-                        });
-
-                        self.collection.addSongs(searchResultSongs, { index: ui.item.index() });
-                    }
-                    
-                    //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
-                    //  Don't swap it out until done using its dropped-position index.
-                    ui.sender[0].copyHelper.replaceWith(ui.item);
-
-                    ui.sender.data('copied', true);
-                },
-
-                over: function (event, ui) {
-                    //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
-                    // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-                    var placeholderParent = ui.placeholder.parent().parent();
-
-                    ui.item.data('sortableItem').scrollParent = placeholderParent;
-                    ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
-                }
-            });
         },
         
-        setSelectedOnClick: function (event) {
+        //  When deleting an element from a list it's important to render the next element (if any) since
+        //  usually this only happens during scroll, but positions change when removing.
+        _renderNextElement: function() {
 
-            var id = $(event.currentTarget).data('id');
-            var modelToSelect = this.collection.get(id);
-
-            this.doSetSelected({
-                shiftKey: event.shiftKey,
-                ctrlKey: event.ctrlKey,
-                modelToSelect: modelToSelect
-            });
-
-        },
-
-        doSetSelected: function (options) {
-            var modelToSelect = options.modelToSelect;
-
-            var shiftKeyPressed = options.shiftKey || false;
-            var ctrlKeyPressed = options.ctrlKey || false;
-            var isDrag = options.drag || false;
-
-            var isSelectedAlready = modelToSelect.get('selected');
-            modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
-
-            //  When the shift key is pressed - select a block of search result items
-            if (shiftKeyPressed) {
-
-                var firstSelectedIndex = 0;
-                var selectedIndex = this.collection.indexOf(modelToSelect);
-
-                //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
-                if (this.collection.selected().length > 1) {
-                    var firstSelected = this.collection.firstSelected();
-
-                    //  Get the search result which was selected first and go from its index.
-                    firstSelectedIndex = this.collection.indexOf(firstSelected);
-                }
-
-                //  Select all items between the selected item and the firstSelected item.
-                this.collection.each(function (model, index) {
-                    var isBetweenAbove = index <= selectedIndex && index >= firstSelectedIndex;
-                    var isBetweenBelow = index >= selectedIndex && index <= firstSelectedIndex;
-
-                    model.set('selected', isBetweenBelow || isBetweenAbove);
-                });
+            console.log("Collection length:", this.collection.length);
+            
+            if (this.collection.length >= this.maxRenderIndex) {
                 
-                //  Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
-                this.collection.at(firstSelectedIndex).set('firstSelected', true);
-                
-            } else if (ctrlKeyPressed) {
-                //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
-                //  but doesn't lose the other selected items.
-                modelToSelect.set('firstSelected', true);
-            } else if (!(isDrag && isSelectedAlready)) {
-                //  All other selections are lost unless dragging a group of items.
-                this.collection.deselectAllExcept(modelToSelect);
+                var item = this.collection.at(this.maxRenderIndex - 1);
+
+                var ItemView = this.getItemView(item);
+
+                //  Adjust the itemView's index to account for where it is actually being added in the list
+                this.addItemView(item, ItemView, this.maxRenderIndex - 1);
             }
+
         },
         
-        _setRenderedElements: function(scrollTop) {
+        _setRenderedElements: function (scrollTop) {
+            //  TODO: Probably better to use .min/.max instead of calculate here:
             //  Figure out the range of items currently rendered:
             var oldMinRenderIndex = this._getMinRenderIndex(this.lastScrollTop);
             var oldMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
@@ -390,6 +153,8 @@
             if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
                 this.minRenderIndex = minRenderIndex;
                 this.maxRenderIndex = maxRenderIndex;
+
+                console.log("min/max render index:", this.minRenderIndex, this.maxRenderIndex);
 
                 if (direction === 'down') {
                     //  Items will be appended from oldMaxRenderIndex forward. 
@@ -505,12 +270,9 @@
 
             return overflowsBottom;
         },
-
-        _indexFullyVisibleInViewport: function (index) {
-            var overflowsTop = this._indexOverflowsTop(index);
-            var overflowsBottom = this._indexOverflowsBottom(index);
-
-            return !overflowsTop && !overflowsBottom;
+        
+        _indexWithinRenderRange: function(index) {
+            return index >= this.minRenderIndex && index < this.maxRenderIndex;
         }
     });
 

@@ -58,6 +58,15 @@
                 this._setHeight();
             }
         }),
+        
+        behaviors: {
+            MultiSelect: {
+
+            },
+            Sortable: {
+
+            }
+        },
 
         onShow: function () {
             this.onFullyVisible();

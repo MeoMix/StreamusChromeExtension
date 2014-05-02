@@ -75,6 +75,15 @@
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
             };
         },
+        
+        behaviors: {
+            MultiSelect: {
+                
+            },
+            Sortable: {
+                
+            }
+        },
  
         onRender: function () {
             this.toggleBigText();

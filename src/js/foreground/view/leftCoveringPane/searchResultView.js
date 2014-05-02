@@ -23,16 +23,8 @@
                 'data-type': ListItemType.SearchResult
             };
         },
-        
-        events: _.extend({}, MultiSelectListItemView.prototype.events, {
-            'dblclick': 'playInStream'
-        }),
-        
+
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView],
-        
-        playInStream: function () {
-            this.playInStreamRegion.currentView.playInStream();
-        },
         
         showContextMenu: function (event) {
             event.preventDefault();
