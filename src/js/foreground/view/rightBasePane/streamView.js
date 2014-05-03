@@ -101,21 +101,20 @@
             },
             Sortable: {
                 
+            },
+            TooltipOnFullyVisible: {
+
             }
         },
         
         onShow: function () {
-            this.onFullyVisible();
-
             this.ui.buttons.qtip();
-            
-            this.children.each(function(child) {
-                child.setTitleTooltip(child.ui.title);
-            });
             
             if (this.collection.length > 0) {
                 this.scrollToItem(this.collection.getActiveItem());
             }
+            
+            this.triggerMethod('FullyVisible');
         },
         
         onRender: function () {

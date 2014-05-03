@@ -15,7 +15,6 @@
     //  TODO: FIX by introducing an Application object for another level of granularity!
     require(['foreground/view/behavior/behaviors'], function (Behaviors) {
         Backbone.Marionette.Behaviors.behaviorsLookup = function () {
-            console.log("Returning Behaviors:", Behaviors, Behaviors.MultiSelect);
             return Behaviors;
         };
         

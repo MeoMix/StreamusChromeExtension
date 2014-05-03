@@ -30,9 +30,6 @@
             listItem: '.list-item'
         },
 
-        //  TODO: Refactor into a behavior, too.
-        isFullyVisible: false,
-        
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
         minRenderIndex: 0,
         maxRenderIndex: 0,
@@ -69,19 +66,11 @@
         },
         
         onFullyVisible: function () {
-            this.isFullyVisible = true;
-            
             var self = this;
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
                 self._setRenderedElements(this.scrollTop);
             }, 20));
-        },
-        
-        onAfterItemAdded: function (view) {
-            if (this.isFullyVisible) {
-                view.setTitleTooltip(view.ui.title);
-            }
         },
 
         initialize: function () {
@@ -193,6 +182,7 @@
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
+            console.trace();
             //  Subtracting minRenderIndex is important because of how CSS renders the element. If you don't subtract minRenderIndex
             //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
             var height = (this.collection.length - this.minRenderIndex) * this.itemViewHeight;

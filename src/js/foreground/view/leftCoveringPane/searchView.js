@@ -82,6 +82,9 @@
             },
             Sortable: {
                 
+            },
+            TooltipOnFullyVisible: {
+
             }
         },
  
@@ -96,7 +99,6 @@
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
 
-            //  TODO: Push this back down onto the child I think since I render fewer.
             this.on('composite:collection:rendered', function () {
                 this.children.each(function (child) {
                     child.setTitleTooltip(child.ui.title);
@@ -118,16 +120,12 @@
             this.$el.transition({
                 x: this.$el.width()
             }, transitionDuration, 'snap', function() {
-                this.onFullyVisible();
-                
-                this.children.each(function (child) {
-                    child.setTitleTooltip(child.ui.title);
-                });
-
                 this.ui.hideSearchButton.qtip();
                 this.ui.playSelectedButton.qtip();
                 this.ui.addSelectedButton.qtip();
                 this.ui.saveSelectedButton.qtip();
+                
+                this.triggerMethod('FullyVisible');
             }.bind(this));
            
         },

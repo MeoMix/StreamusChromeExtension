@@ -65,19 +65,18 @@
             },
             Sortable: {
 
+            },
+            TooltipOnFullyVisible: {
+                
             }
         },
 
         onShow: function () {
-            this.onFullyVisible();
-            
             this.ui.playlistDetails.qtip();
             this.ui.addAll.qtip();
             this.ui.playAll.qtip();
-            
-            this.children.each(function (child) {
-                child.setTitleTooltip(child.ui.title);
-            });
+
+            this.triggerMethod('FullyVisible');
         },
 
         onRender: function () {            

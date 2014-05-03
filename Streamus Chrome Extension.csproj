@@ -138,6 +138,8 @@
     <Content Include="src\js\foreground\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\behavior\behaviors.js" />
+    <Content Include="src\js\foreground\view\behavior\slidingRender.js" />
+    <Content Include="src\js\foreground\view\behavior\tooltipOnFullyVisible.js" />
     <Content Include="src\js\foreground\view\behavior\sortable.js" />
     <Content Include="src\js\foreground\view\behavior\multiSelect.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />

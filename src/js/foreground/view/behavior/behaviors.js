@@ -1,12 +1,14 @@
 ﻿define([
     'foreground/view/behavior/multiSelect',
-    'foreground/view/behavior/sortable'
-], function(MultiSelect, Sortable) {
+    'foreground/view/behavior/sortable',
+    'foreground/view/behavior/tooltipOnFullyVisible'
+], function(MultiSelect, Sortable, TooltipOnFullyVisible) {
     'use strict';
 
     var behaviors = {
+        MultiSelect: MultiSelect,
         Sortable: Sortable,
-        MultiSelect: MultiSelect
+        TooltipOnFullyVisible: TooltipOnFullyVisible
     };
 
     return behaviors;

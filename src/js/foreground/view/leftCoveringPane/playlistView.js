@@ -31,7 +31,7 @@
             'blur @ui.editableTitle': 'saveAndStopEdit',
             'click': 'activate',
             'contextmenu': 'showContextMenu',
-            'dblclick @ui.readonlyTitle': 'startEdit',
+            'dblclick @ui.title': 'startEdit',
             'keyup @ui.editableTitle': 'saveAndStopEditOnEnter'
         },
         
@@ -44,7 +44,7 @@
         ui: {
             itemCount: '.count',
             editableTitle: '.editable-title',
-            readonlyTitle: '.title'
+            title: '.title'
         },
 
         onRender: function () {
@@ -59,8 +59,8 @@
         updateTitle: function () {
             var title = this.model.get('title');
 
-            this.ui.readonlyTitle.text(title).attr('title', title);
-            this.setTitleTooltip(this.ui.readonlyTitle);
+            this.ui.title.text(title).attr('title', title);
+            this.setTitleTooltip(this.ui.title);
         },
 
         stopEditingOnInactive: function (model, active) {
@@ -166,7 +166,7 @@
         
         startEdit: function () {
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            this.ui.readonlyTitle.hide();
+            this.ui.title.hide();
             this.ui.editableTitle.show().focus().val(this.ui.editableTitle.val());
         },
         
@@ -181,7 +181,7 @@
             this.ui.editableTitle.hide();
             
             //  Be sure to show the title before changing it's text so the tooltip can know whether it is overflowing or not.
-            this.ui.readonlyTitle.show();
+            this.ui.title.show();
             
             //  TODO: This fails silently if an invalid title is provided and it does not enforce a max length.
             var newTitle = $.trim(this.ui.editableTitle.val());

@@ -22,9 +22,6 @@
         template: _.template(PlaylistsAreaTemplate),
         itemView: PlaylistView,
         itemViewContainer: '#playlists',
-        
-        //  TODO: Use Marionette.Behaviors for isFullyVisible instead of non-DRY code.
-        isFullyVisible: false,
 
         events: {
             'click': 'hideIfClickOutsidePanel',
@@ -54,6 +51,12 @@
             playlists: chrome.i18n.getMessage('playlists'),
             createPlaylist: chrome.i18n.getMessage('createPlaylist'),
             editPlaylist: chrome.i18n.getMessage('editPlaylist')
+        },
+        
+        behaviors: {
+            TooltipOnFullyVisible: {
+                
+            }
         },
         
         onRender: function () {
@@ -98,12 +101,6 @@
             this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
-        onAfterItemAdded: function (view) {
-            if (this.isFullyVisible) {
-                view.setTitleTooltip(view.ui.readonlyTitle);
-            }
-        },
-        
         onShow: function () {
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
@@ -113,15 +110,9 @@
             this.ui.panel.transition({
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
-
+                
                 this.ui.buttons.qtip();
-                
-                this.children.each(function (child) {
-                    child.setTitleTooltip(child.ui.readonlyTitle);
-                });
-                
-                this.isFullyVisible = true;
-
+                this.triggerMethod('FullyVisible');
             }.bind(this));
         },
         
