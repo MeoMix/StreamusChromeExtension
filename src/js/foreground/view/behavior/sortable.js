@@ -16,10 +16,7 @@
         onRender: function () {
             var self = this;
 
-            console.log("This:", this);
-
             //  TODO: Don't go through view.
-
             this.view.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',

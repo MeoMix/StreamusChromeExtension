@@ -1,13 +1,12 @@
 ﻿define([
-    'foreground/view/multiSelectCompositeView',
     'foreground/view/leftBasePane/playlistItemView',
     'text!template/activePlaylistArea.html'
-], function (MultiSelectCompositeView, PlaylistItemView, ActivePlaylistAreaTemplate) {
+], function (PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
-    var ActivePlaylistAreaView = MultiSelectCompositeView.extend({
+    var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
 
         template: _.template(ActivePlaylistAreaTemplate),
         
@@ -24,11 +23,8 @@
 
         itemView: PlaylistItemView,
         itemViewContainer: '#active-playlist-items',
-        
-        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-        viewportHeight: 350,
 
-        ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
+        ui: {
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
@@ -36,28 +32,24 @@
             bigTextWrapper: '.big-text-wrapper',
             playAll: '.play-all',
             addAll: '.add-all'
-        }),
+        },
         
-        events: _.extend({}, MultiSelectCompositeView.prototype.events, {
+        events: {
             'click @ui.addAll': 'addAllToStream',
             'click @ui.playAll': 'playAllInStream'
-        }),
+        },
         
         modelEvents: {
             'change:displayInfo': 'updatePlaylistDetails'
         },
         
-        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
+        collectionEvents: {
             'add remove reset': function () {
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleBottomMenubar();
-                
-                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
-                this._setPaddingTop();
-                this._setHeight();
             }
-        }),
+        },
         
         behaviors: {
             MultiSelect: {
@@ -68,6 +60,11 @@
             },
             TooltipOnFullyVisible: {
                 
+            },
+            
+            SlidingRender: {
+                //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+                viewportHeight: 350
             }
         },
 
@@ -82,8 +79,6 @@
         onRender: function () {            
             this.toggleBigText();
             this.toggleBottomMenubar();
-
-            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         updatePlaylistDetails: function () {

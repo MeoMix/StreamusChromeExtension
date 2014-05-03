@@ -1,16 +1,15 @@
 ﻿define([
     'foreground/eventAggregator',
-    'foreground/view/multiSelectCompositeView',
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (EventAggregator, MultiSelectCompositeView, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (EventAggregator, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var User = chrome.extension.getBackgroundPage().User;
     
-    var SearchView = MultiSelectCompositeView.extend({
+    var SearchView = Backbone.Marionette.CompositeView.extend({
 
         id: 'search',
         className: 'left-pane',
@@ -20,10 +19,7 @@
         
         itemView: SearchResultView,
         
-        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-        viewportHeight: 350,
-        
-        ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
+        ui: {
             bottomMenubar: '.left-bottom-menubar',
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
@@ -35,29 +31,25 @@
             hideSearchButton: '#hide-search',
             playSelectedButton: '#play-selected',
             addSelectedButton: '#add-selected'
-        }),
+        },
         
-        events: _.extend({}, MultiSelectCompositeView.prototype.events, {
+        events: {
             'input @ui.searchInput': 'search',
             'click @ui.hideSearchButton': 'hide',
             'contextmenu @ui.itemContainer': 'showContextMenu',
             'click @ui.playSelectedButton': 'playSelected',
             'click @ui.addSelectedButton': 'addSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
-        }),
+        },
         
         modelEvents: {
             'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
         },
 
-        //  TODO: Extend collectionEvents on playlist and stream.
-        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
-            'reset': function () {
-                this.toggleBigText();
-                this._reset();
-            },
+        collectionEvents: {
+            'reset': 'toggleBigText',
             'change:selected': 'toggleBottomMenubar'
-        }),
+        },
  
         templateHelpers: function() {
             return {
@@ -85,6 +77,10 @@
             },
             TooltipOnFullyVisible: {
 
+            },
+            SlidingRender: {
+                //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+                viewportHeight: 350
             }
         },
  
@@ -92,8 +88,6 @@
             this.toggleBigText();
             this.toggleBottomMenubar();
             this.toggleSaveSelected();
-
-            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         initialize: function () {
@@ -104,8 +98,6 @@
                     child.setTitleTooltip(child.ui.title);
                 });
             });
-
-            MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
         
         onShow: function () {
@@ -159,15 +151,6 @@
         search: function () {
             var searchQuery = $.trim(this.ui.searchInput.val());
             this.model.search(searchQuery);
-
-            //  Reset the list's scroll position to the top.
-            this.ui.list[0].scrollTop = 0;
-            
-            //  TODO: Waaay too manual.
-            this.minRenderIndex = this._getMinRenderIndex(0);
-            this.maxRenderIndex = this._getMaxRenderIndex(0);
-
-            this._setPaddingTop();
         },
         
         toggleSaveSelected: function () {

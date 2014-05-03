@@ -3,10 +3,9 @@
     'common/enum/repeatButtonState',
     'foreground/eventAggregator',
     'foreground/model/streamAction',
-    'foreground/view/multiSelectCompositeView',
     'foreground/view/rightBasePane/streamItemView',
     'text!template/stream.html'
-], function (ListItemType, RepeatButtonState, EventAggregator, StreamAction, MultiSelectCompositeView, StreamItemView, StreamTemplate) {
+], function (ListItemType, RepeatButtonState, EventAggregator, StreamAction, StreamItemView, StreamTemplate) {
     'use strict';
 
     var User = chrome.extension.getBackgroundPage().User;
@@ -14,15 +13,12 @@
     var RepeatButton = chrome.extension.getBackgroundPage().RepeatButton;
     var ShuffleButton = chrome.extension.getBackgroundPage().ShuffleButton;
     
-    var StreamView = MultiSelectCompositeView.extend({
+    var StreamView = Backbone.Marionette.CompositeView.extend({
         
         id: 'stream',
         //  TODO: Marionette 2.0 will support referencing through @ui: https://github.com/marionettejs/backbone.marionette/issues/1033
         itemViewContainer: '#stream-items',
         itemView: StreamItemView,
-        
-        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-        viewportHeight: 291,
 
         template: _.template(StreamTemplate),
         templateHelpers: function () {
@@ -37,7 +33,7 @@
             };
         },
         
-        events: _.extend({}, MultiSelectCompositeView.prototype.events, {
+        events: {
             'click @ui.clearStreamButton': 'clear',
             'click @ui.saveStreamButton:not(.disabled)': 'save',
             'scroll @ui.stream-items': 'loadVisible',
@@ -48,41 +44,23 @@
             'click @ui.showSearch': function () {
                 EventAggregator.trigger('showSearch');
             }
-        }),
+        },
         
-        collectionEvents: _.extend({}, MultiSelectCompositeView.prototype.collectionEvents, {
-            'change:active': function(item, active) {
-                if (active) {
-                    this.scrollToItem(item);
-                }
-            },
-            
-            'remove': function(item, collection, options) {
+        collectionEvents: {            
+            'remove': function() {
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
-
-                if (this._indexWithinRenderRange(options.index)) {
-                    this._renderNextElement();
-                }
-
-                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
-                this._setPaddingTop();
-                this._setHeight();
             },
 
             'add remove reset': function () {
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
-
-                //  TODO: This isn't being called even though I expect collectionEvents -- how to fix?
-                this._setPaddingTop();
-                this._setHeight();
             }
-        }),
+        },
         
-        ui: _.extend({}, MultiSelectCompositeView.prototype.ui, {
+        ui: {
             buttons: '.button-icon',
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
@@ -93,7 +71,7 @@
             repeatButton: '#repeat-button',
             clearStreamButton: 'button.clear',
             showSearch: '.show-search'
-        }),
+        },
         
         behaviors: {
             MultiSelect: {
@@ -104,15 +82,15 @@
             },
             TooltipOnFullyVisible: {
 
+            },
+            ActiveSlidingRender: {
+                //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+                viewportHeight: 291
             }
         },
         
         onShow: function () {
             this.ui.buttons.qtip();
-            
-            if (this.collection.length > 0) {
-                this.scrollToItem(this.collection.getActiveItem());
-            }
             
             this.triggerMethod('FullyVisible');
         },
@@ -125,8 +103,6 @@
             this.setShuffleButtonState();
             this.setRadioButtonState();
             this.updateSaveStreamButton();
-
-            MultiSelectCompositeView.prototype.onRender.apply(this, arguments);
         },
         
         initialize: function() {
@@ -134,8 +110,6 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
-
-            MultiSelectCompositeView.prototype.initialize.apply(this, arguments);
         },
         
         updateSaveStreamButton: function () {
@@ -231,32 +205,6 @@
             }
             
             this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
-        },
-        
-        //  TODO: Animation?
-        //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
-        scrollToItem: function (item) {
-            var itemIndex = this.collection.indexOf(item);
-            
-            var overflowsTop = this._indexOverflowsTop(itemIndex);
-            var overflowsBottom = this._indexOverflowsBottom(itemIndex);
- 
-            //  Only scroll to the item if it isn't in the viewport.
-            if (overflowsTop || overflowsBottom) {
-
-                var scrollTop = 0;
-
-                //  If the item needs to be made visible from the bottom, offset the viewport's height:
-                if (overflowsBottom) {
-                    //  Add 1 to index because want the bottom of the element and not the top.
-                    scrollTop = (itemIndex + 1) * this.itemViewHeight - this.viewportHeight;
-                }
-                else if (overflowsTop) {
-                    scrollTop = itemIndex * this.itemViewHeight;
-                }
-
-                this.ui.list[0].scrollTop = scrollTop;
-            }
         }
 
     });

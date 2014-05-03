@@ -137,6 +137,7 @@
     <Content Include="src\js\foreground\model\streamAction.js" />
     <Content Include="src\js\foreground\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
+    <Content Include="src\js\foreground\view\behavior\activeSlidingRender.js" />
     <Content Include="src\js\foreground\view\behavior\behaviors.js" />
     <Content Include="src\js\foreground\view\behavior\slidingRender.js" />
     <Content Include="src\js\foreground\view\behavior\tooltipOnFullyVisible.js" />
@@ -168,7 +169,6 @@
     <Content Include="src\js\foreground\view\createPlaylistView.js" />
     <Content Include="src\js\foreground\view\deletePlaylistView.js" />
     <Content Include="src\js\foreground\view\editPlaylistView.js" />
-    <Content Include="src\js\foreground\view\multiSelectCompositeView.js" />
     <Content Include="src\js\foreground\view\prompt\editPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\deletePlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\createPlaylistPromptView.js" />

@@ -2,6 +2,10 @@
     'use strict';
 
     var MultiSelect = Backbone.Marionette.Behavior.extend({
+        ui: {
+            listItem: '.list-item'
+        },
+
         events: {
             'click @ui.listItem': 'setSelectedOnClick',
         },

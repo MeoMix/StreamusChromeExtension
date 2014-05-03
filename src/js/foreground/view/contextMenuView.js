@@ -20,7 +20,6 @@
         },
 
         onShow: function () {
-
             //  Prevent display outside viewport.
             var offsetTop = this.model.get('top');
             var needsVerticalFlip = offsetTop + this.$el.height() > this.containerHeight;
