@@ -221,7 +221,7 @@
                     title: song.get('title')
                 };
             });
-            
+
             //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
             var addedStreamItems = this.add(streamItems, {
                 at: _.isUndefined(options) ? undefined : options.index

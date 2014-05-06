@@ -46,13 +46,7 @@
             }
         },
         
-        collectionEvents: {            
-            'remove': function() {
-                //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
-                this.toggleBigText();
-                this.toggleContextButtons();
-            },
-
+        collectionEvents: {
             'add remove reset': function () {
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
@@ -83,7 +77,7 @@
             TooltipOnFullyVisible: {
 
             },
-            ActiveSlidingRender: {
+            SlidingRender: {
                 //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
                 viewportHeight: 291
             }

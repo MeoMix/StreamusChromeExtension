@@ -20,6 +20,25 @@ define([
         initialize: function () {
             this.createContextMenus(['link'], this.targetUrlPatterns, true);
             this.createContextMenus(['page'], this.documentUrlPatterns, false);
+            
+            var streamusContextMenuId = chrome.contextMenus.create({
+                'contexts': ['selection'],
+                'title': 'Streamus'
+            });
+            
+            chrome.contextMenus.create({
+                'contexts': ['selection'],
+                'title': 'Play',
+                'parentId': streamusContextMenuId,
+                'onclick': function (onClickData) {
+                    
+                    this.getSongFromText(onClickData.selectionText, function (song) {
+                        StreamItems.addSongs(song, {
+                            playOnAdd: true
+                        });
+                    });
+                }.bind(this)
+            });
         },
         
         createContextMenus: function (contexts, urlPattern, isTarget) {
@@ -119,6 +138,20 @@ define([
                 chrome.contextMenus.remove(playlistContextMenuId);
             });
             
+        },
+        
+        getSongFromText: function(text, callback) {
+
+            YouTubeV3API.getSongInformationByTitle({
+                title: text,
+                success: function(songInformation) {
+                    var song = new Song();
+                    song.setYouTubeInformation(songInformation);
+
+                    callback(song);
+                }
+            });
+
         },
         
         getSongFromUrl: function(url, callback) {

@@ -7,7 +7,8 @@
         collectionEvents: {
             'reset': '_reset',
             
-            'remove': function(item, collection, options) {
+            'remove': function (item, collection, options) {
+                //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
                     this._renderNextElement();
                 }
@@ -15,9 +16,24 @@
                 this._setHeightPaddingTop();
             },
 
-            'add': function () {
-                //  TODO: Remove an element if found outside of render index?
+            'add': function (item, collection) {
+                var index = collection.indexOf(item);
+                var indexWithinRenderRange = this._indexWithinRenderRange(index);
+                var viewportFull = collection.length > this.maxRenderIndex;
+
+                if (indexWithinRenderRange && viewportFull) {
+                    var lastRenderedItem = collection.at(this.maxRenderIndex);
+                    var childView = this.view.children.findByModel(lastRenderedItem);
+                    this.view.removeChildView(childView);
+                }
+
                 this._setHeightPaddingTop();
+            },
+            
+            'change:active': function (item, active) {
+                if (active) {
+                    this._scrollToItem(item);
+                }
             }
         },
         
@@ -35,17 +51,15 @@
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
-
-        //  TODO: This might need to be moved back onto the CompositeView's if necessary?
-        //appendHtml: function (collectionView, itemView, index) {
-        //    var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
-        //    var children = childrenContainer.children();
-        //    if (children.size() <= index) {
-        //        childrenContainer.append(itemView.el);
-        //    } else {
-        //        children.eq(index).before(itemView.el);
-        //    }
-        //},
+        
+        onShow: function () {
+            //  If the collection implements getActiveItem - scroll to the active item.
+            if (this.view.collection.getActiveItem) {
+                if (this.view.collection.length > 0) {
+                    this._scrollToItem(this.view.collection.getActiveItem());
+                }
+            }
+        },
 
         onFullyVisible: function () {
             var self = this;
@@ -62,10 +76,14 @@
             //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
             this.minRenderIndex = this._getMinRenderIndex(0);
             this.maxRenderIndex = this._getMaxRenderIndex(0);
+            
+            //  IMPORTANT: Stub out the view's implementation of addItemView with the slidingRender version.
+            this.view.addItemView = this._addItemView.bind(this);
+            //  Since slidingRender appends before/after depending on scrollDirection it is important to use the indexed version of appendHtml.
+            this.view.appendHtml = this._appendHtml;
         },
 
         onRender: function () {
-            console.log("Rendering! Setting height and paddingTop");
             this._setHeightPaddingTop();
         },
 
@@ -74,7 +92,7 @@
         _renderNextElement: function () {
             if (this.view.collection.length >= this.maxRenderIndex) {
                 var item = this.view.collection.at(this.maxRenderIndex - 1);
-                var ItemView = this.getItemView(item);
+                var ItemView = this.view.getItemView(item);
 
                 //  Adjust the itemView's index to account for where it is actually being added in the list
                 this._addItemView(item, ItemView, this.maxRenderIndex - 1);
@@ -161,7 +179,6 @@
             return this.minRenderIndex * this.itemViewHeight;
         },
 
-        //  TODO: Pretty sure I still need to fix this so that it correctly sets it.
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
@@ -169,15 +186,9 @@
             //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
             var height = (this.view.collection.length - this.minRenderIndex) * this.itemViewHeight;
 
-            console.log("Height:", height);
-
-            var paddingTop = this._getPaddingTop();
-            console.log("padding top:", paddingTop);
-
             //  Keep height set to at least the viewport height to allow for proper drag-and-drop target - can't drop if height is too small.
             if (height < this.viewportHeight) {
-                height = this.viewportHeight - height;
-                console.log("Adjusted height:", height);
+                height = this.viewportHeight;
             }
 
             this.view.ui.itemContainer.height(height);
@@ -209,7 +220,7 @@
             _.each(models, function (model) {
                 var childView = this.view.children.findByModel(model);
 
-                this.removeChildView(childView);
+                this.view.removeChildView(childView);
             }, this);
         },
         
@@ -223,7 +234,17 @@
             }
 
             if (shouldAdd) {
-                this.view.addItemView.apply(this.view, arguments);
+                Backbone.Marionette.CompositeView.prototype.addItemView.apply(this.view, arguments);
+            }
+        },
+        
+        _appendHtml: function (collectionView, itemView, index) {
+            var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
+            var children = childrenContainer.children();
+            if (children.size() <= index) {
+                childrenContainer.append(itemView.el);
+            } else {
+                children.eq(index).before(itemView.el);
             }
         },
 
@@ -259,6 +280,31 @@
 
         _indexWithinRenderRange: function (index) {
             return index >= this.minRenderIndex && index < this.maxRenderIndex;
+        },
+        
+        //  TODO: Animation?
+        //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
+        _scrollToItem: function (item) {
+            var itemIndex = this.view.collection.indexOf(item);
+
+            var overflowsTop = this._indexOverflowsTop(itemIndex);
+            var overflowsBottom = this._indexOverflowsBottom(itemIndex);
+
+            //  Only scroll to the item if it isn't in the viewport.
+            if (overflowsTop || overflowsBottom) {
+                var scrollTop = 0;
+
+                //  If the item needs to be made visible from the bottom, offset the viewport's height:
+                if (overflowsBottom) {
+                    //  Add 1 to index because want the bottom of the element and not the top.
+                    scrollTop = (itemIndex + 1) * this.itemViewHeight - this.viewportHeight;
+                }
+                else if (overflowsTop) {
+                    scrollTop = itemIndex * this.itemViewHeight;
+                }
+
+                this.ui.list.scrollTop(scrollTop);
+            }
         }
     });
 
