@@ -137,7 +137,6 @@
     <Content Include="src\js\foreground\model\streamAction.js" />
     <Content Include="src\js\foreground\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
-    <Content Include="src\js\foreground\view\behavior\activeSlidingRender.js" />
     <Content Include="src\js\foreground\view\behavior\behaviors.js" />
     <Content Include="src\js\foreground\view\behavior\slidingRender.js" />
     <Content Include="src\js\foreground\view\behavior\tooltipOnFullyVisible.js" />
