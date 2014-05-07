@@ -16,7 +16,6 @@
         onRender: function () {
             var self = this;
 
-            //  TODO: Don't go through view.
             this.view.ui.itemContainer.sortable({
 
                 connectWith: '.droppable-list',
@@ -115,6 +114,7 @@
                 },
 
                 stop: function (event, ui) {
+
                     this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
@@ -127,7 +127,16 @@
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
                         if (listItemType === ListItemType.PlaylistItem || listItemType === ListItemType.StreamItem) {
-                            self.view.collection.moveToIndex(ui.item.data('id'), ui.item.index());
+                            console.log("Stop is running");
+                            //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
+                            //  Need to pad the index with the # of missing items.
+                            self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
+                                var index = ui.item.index() + response.minRenderIndex;
+
+                                self.view.collection.moveToIndex(ui.item.data('id'), index);
+                            });
+
+                            self.view.triggerMethod('GetMinRenderIndex');
                         }
                     }
 
@@ -148,45 +157,54 @@
 
                 tolerance: 'pointer',
                 receive: function (event, ui) {
-                    var listItemType = ui.item.data('type');
+                    //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
+                    //  Need to pad the index with the # of missing items.
+                    self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
+                        var index = ui.item.index() + response.minRenderIndex;
 
-                    //  TODO: Can these three options be made more DRY?
-                    if (listItemType === ListItemType.StreamItem) {
-                        var draggedStreamItems = StreamItems.selected();
-                        StreamItems.deselectAll();
+                        var listItemType = ui.item.data('type');
 
-                        var streamItemSongs = _.map(draggedStreamItems, function (streamItem) {
-                            return streamItem.get('song');
-                        });
+                        //  TODO: Can these three options be made more DRY?
+                        if (listItemType === ListItemType.StreamItem) {
+                            var draggedStreamItems = StreamItems.selected();
+                            StreamItems.deselectAll();
 
-                        self.view.model.addSongsStartingAtIndex(streamItemSongs, ui.item.index());
-                    }
-                    else if (listItemType === ListItemType.PlaylistItem) {
-                        var activePlaylistItems = Playlists.getActivePlaylist().get('items');
-                        var draggedPlaylistItems = activePlaylistItems.selected();
-                        activePlaylistItems.deselectAll();
+                            var streamItemSongs = _.map(draggedStreamItems, function (streamItem) {
+                                return streamItem.get('song');
+                            });
 
-                        var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
-                            return playlistItem.get('song');
-                        });
+                            self.view.model.addSongsStartingAtIndex(streamItemSongs, index);
+                        }
+                        else if (listItemType === ListItemType.PlaylistItem) {
+                            var activePlaylistItems = Playlists.getActivePlaylist().get('items');
+                            var draggedPlaylistItems = activePlaylistItems.selected();
+                            activePlaylistItems.deselectAll();
 
-                        self.view.collection.addSongs(playlistItemSongs, { index: ui.item.index() });
-                    } else if (listItemType === ListItemType.SearchResult) {
-                        var draggedSearchResults = SearchResults.selected();
-                        SearchResults.deselectAll();
+                            var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
+                                return playlistItem.get('song');
+                            });
 
-                        var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
-                            return searchResult.get('song');
-                        });
+                            self.view.collection.addSongs(playlistItemSongs, { index: index });
+                        } else if (listItemType === ListItemType.SearchResult) {
+                            var draggedSearchResults = SearchResults.selected();
+                            SearchResults.deselectAll();
 
-                        self.view.collection.addSongs(searchResultSongs, { index: ui.item.index() });
-                    }
+                            var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
+                                return searchResult.get('song');
+                            });
 
-                    //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
-                    //  Don't swap it out until done using its dropped-position index.
-                    ui.sender[0].copyHelper.replaceWith(ui.item);
+                            self.view.collection.addSongs(searchResultSongs, { index: index });
+                        }
 
-                    ui.sender.data('copied', true);
+                        //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
+                        //  Don't swap it out until done using its dropped-position index.
+                        ui.sender[0].copyHelper.replaceWith(ui.item);
+
+                        ui.sender.data('copied', true);
+
+                    });
+
+                    self.view.triggerMethod('GetMinRenderIndex');
                 },
 
                 over: function (event, ui) {

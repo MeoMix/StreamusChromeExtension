@@ -86,10 +86,25 @@
         onRender: function () {
             this._setHeightPaddingTop();
         },
+        
+        //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
+        //  event requests the min render index -- return it!
+        onGetMinRenderIndex: function() {
+            this.view.triggerMethod('GetMinRenderIndexReponse', {
+                minRenderIndex: this.minRenderIndex
+            });
+        },
+        
+        onSetViewportHeight: function (request) {
+            //  TODO: I probably need to do more here like re-render the view.
+            this.viewportHeight = request.viewportHeight;
+            this._setHeightPaddingTop();
+        },
 
         //  When deleting an element from a list it's important to render the next element (if any) since
         //  usually this only happens during scroll, but positions change when removing.
         _renderNextElement: function () {
+            console.log("Rendering next element");
             if (this.view.collection.length >= this.maxRenderIndex) {
                 var item = this.view.collection.at(this.maxRenderIndex - 1);
                 var ItemView = this.view.getItemView(item);
@@ -100,14 +115,19 @@
         },
 
         _setRenderedElements: function (scrollTop) {
+            console.log("Setting rendered elements:", scrollTop);
             //  TODO: Probably better to use .min/.max instead of calculate here:
             //  Figure out the range of items currently rendered:
             var oldMinRenderIndex = this._getMinRenderIndex(this.lastScrollTop);
             var oldMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
 
+            console.log("oldMin and oldMax:", oldMinRenderIndex, oldMaxRenderIndex);
+
             //  Figure out the range of items which need to be rendered:
             var minRenderIndex = this._getMinRenderIndex(scrollTop);
             var maxRenderIndex = this._getMaxRenderIndex(scrollTop);
+
+            console.log("min/max:", minRenderIndex, maxRenderIndex);
 
             var itemsToAdd = [];
             var itemsToRemove = [];
@@ -157,7 +177,9 @@
 
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
         _reset: function () {
+            console.log("SlidingRender _reset has ran");
             this.ui.list.scrollTop(0);
+            this.lastScrollTop = 0;
 
             this.minRenderIndex = this._getMinRenderIndex(0);
             this.maxRenderIndex = this._getMaxRenderIndex(0);
