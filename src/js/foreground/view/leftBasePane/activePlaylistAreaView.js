@@ -97,14 +97,20 @@
         },
         
         toggleBottomMenubar: function () {
-            this.ui.bottomMenubar.toggle(this.collection.length > 0);
-            this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
+            //  TODO: I could keep extended on a model to keep track instead of hitting DOM, but should be OK to fudge a bit.
+            var extended = this.ui.bigTextWrapper.hasClass('extended');
+            var doToggle = (extended && this.collection.length > 0) || (!extended && this.collection.length === 0);
+
+            if (doToggle) {
+                this.ui.bottomMenubar.toggle(this.collection.length > 0);
+                this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
             
-            //  Need to update viewportHeight in slidingRender behavior:
-            //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
-            this.triggerMethod('SetViewportHeight', {
-                viewportHeight: this.collection.length === 0 ? 350 : 315
-            });
+                //  Need to update viewportHeight in slidingRender behavior:
+                //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
+                this.triggerMethod('SetViewportHeight', {
+                    viewportHeight: this.collection.length === 0 ? 350 : 315
+                });
+            }
         },
 
         addAllToStream: function () {

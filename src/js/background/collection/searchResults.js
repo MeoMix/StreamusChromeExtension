@@ -34,6 +34,13 @@
                 return searchResult;
             });
 
+            console.table(_.map(searchResults, function (result) {
+                console.log("Result:", result);
+                return {
+                    title: result.get('title')
+                };
+            }));
+
             this.reset(searchResults);
         },
         

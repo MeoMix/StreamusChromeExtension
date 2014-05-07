@@ -48,6 +48,8 @@
                 var firstSelectedIndex = 0;
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
 
+                console.log("Selected index:", selectedIndex);
+
                 //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
                 if (this.view.collection.selected().length > 1) {
                     var firstSelected = this.view.collection.firstSelected();

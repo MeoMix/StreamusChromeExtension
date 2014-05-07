@@ -1,5 +1,4 @@
-﻿define([
-], function () {
+﻿define(function () {
     'use strict';
 
     var SlidingRender = Backbone.Marionette.Behavior.extend({
@@ -10,7 +9,7 @@
             'remove': function (item, collection, options) {
                 //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
-                    this._renderNextElement();
+                    this._renderElementAtIndex(this.maxRenderIndex);
                 }
                 
                 this._setHeightPaddingTop();
@@ -22,9 +21,7 @@
                 var viewportFull = collection.length > this.maxRenderIndex;
 
                 if (indexWithinRenderRange && viewportFull) {
-                    var lastRenderedItem = collection.at(this.maxRenderIndex);
-                    var childView = this.view.children.findByModel(lastRenderedItem);
-                    this.view.removeChildView(childView);
+                    this._removeItemsByIndex(this.maxRenderIndex, 1);
                 }
 
                 this._setHeightPaddingTop();
@@ -95,39 +92,54 @@
             });
         },
         
+        //  Whenever the viewport height is changed -- adjust the items which are currently rendered to match
         onSetViewportHeight: function (request) {
-            //  TODO: I probably need to do more here like re-render the view.
             this.viewportHeight = request.viewportHeight;
+
+            //  Unload or load N items where N is the difference in viewport height.
+            var currentMaxRenderIndex = this.maxRenderIndex;
+            var newMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
+
+            var indexDifference = currentMaxRenderIndex - newMaxRenderIndex;
+            
+            //  Be sure to update before potentially adding items or else they won't render.
+            this.maxRenderIndex = newMaxRenderIndex;
+
+            if (indexDifference > 0) {
+                //  Unload N items, subtract 1 because maxRenderIndex is exclusive (TODO: rework math so maxRenderIndex is inclusive))
+                this._removeItemsByIndex(currentMaxRenderIndex - 1, indexDifference);
+            }
+            else if (indexDifference < 0) {
+                //  Load N items
+                for (var count = 0; count < Math.abs(indexDifference); count++) {
+                    this._renderElementAtIndex(currentMaxRenderIndex + 1 + count);
+                }
+            }
+            
             this._setHeightPaddingTop();
         },
 
         //  When deleting an element from a list it's important to render the next element (if any) since
         //  usually this only happens during scroll, but positions change when removing.
-        _renderNextElement: function () {
-            console.log("Rendering next element");
-            if (this.view.collection.length >= this.maxRenderIndex) {
-                var item = this.view.collection.at(this.maxRenderIndex - 1);
+        _renderElementAtIndex: function (index) {
+            if (this.view.collection.length >= index) {
+                var item = this.view.collection.at(index - 1);
                 var ItemView = this.view.getItemView(item);
 
                 //  Adjust the itemView's index to account for where it is actually being added in the list
-                this._addItemView(item, ItemView, this.maxRenderIndex - 1);
+                this._addItemView(item, ItemView, index - 1);
             }
         },
 
         _setRenderedElements: function (scrollTop) {
-            console.log("Setting rendered elements:", scrollTop);
             //  TODO: Probably better to use .min/.max instead of calculate here:
             //  Figure out the range of items currently rendered:
             var oldMinRenderIndex = this._getMinRenderIndex(this.lastScrollTop);
             var oldMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
 
-            console.log("oldMin and oldMax:", oldMinRenderIndex, oldMaxRenderIndex);
-
             //  Figure out the range of items which need to be rendered:
             var minRenderIndex = this._getMinRenderIndex(scrollTop);
             var maxRenderIndex = this._getMaxRenderIndex(scrollTop);
-
-            console.log("min/max:", minRenderIndex, maxRenderIndex);
 
             var itemsToAdd = [];
             var itemsToRemove = [];
@@ -177,7 +189,6 @@
 
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
         _reset: function () {
-            console.log("SlidingRender _reset has ran");
             this.ui.list.scrollTop(0);
             this.lastScrollTop = 0;
 
@@ -236,6 +247,15 @@
             }, this);
 
             this.view.endBuffering();
+        },
+        
+        //  Remove N items from the end of the render item list.
+        _removeItemsByIndex: function (startIndex, countToRemove) {
+            for (var index = 0; index < countToRemove; index++) {
+                var item = this.view.collection.at(startIndex - index);
+                var childView = this.view.children.findByModel(item);
+                this.view.removeChildView(childView);
+            }
         },
 
         _removeItems: function (models) {

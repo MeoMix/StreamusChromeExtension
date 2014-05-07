@@ -161,18 +161,22 @@
             var templateHelpers = this.templateHelpers();
             this.ui.saveSelectedButton.attr('title', userSignedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
-        
         toggleBottomMenubar: function () {
             var selectedCount = this.collection.selected().length;
-
-            this.ui.bottomMenubar.toggle(selectedCount > 0);
-            this.ui.bigTextWrapper.toggleClass('extended', selectedCount === 0);
             
-            //  Need to update viewportHeight in slidingRender behavior:
-            //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
-            this.triggerMethod('SetViewportHeight', {
-                viewportHeight: selectedCount === 0 ? 350 : 315
-            });
+            var extended = this.ui.bigTextWrapper.hasClass('extended');
+            var doToggle = (extended && selectedCount > 0) || (!extended && selectedCount === 0);
+            
+            if (doToggle) {
+                this.ui.bottomMenubar.toggle(selectedCount > 0);
+                this.ui.bigTextWrapper.toggleClass('extended', selectedCount === 0);
+
+                //  Need to update viewportHeight in slidingRender behavior:
+                //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
+                this.triggerMethod('SetViewportHeight', {
+                    viewportHeight: selectedCount === 0 ? 350 : 315
+                });
+            }
         },
 
         //  Set the visibility of any visible text messages.
