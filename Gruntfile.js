@@ -227,7 +227,7 @@ module.exports = function (grunt) {
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
-		    grunt.task.run('update-dist-manifest-version', 'compress-extension', 'update-src-manifest-version');
+			grunt.task.run('update-dist-manifest-version', 'compress-extension', 'update-src-manifest-version');
 		}
 
 	});
