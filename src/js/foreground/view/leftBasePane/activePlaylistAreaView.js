@@ -45,27 +45,31 @@
         
         collectionEvents: {
             'add remove reset': function () {
+                console.log("toggling big text");
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
+
+                console.log("toggling bottom menu bar");
                 this.toggleBottomMenubar();
             }
         },
         
-        behaviors: {
-            MultiSelect: {
+        behaviors: function () {
+            return {
+                MultiSelect: {
+                    
+                },
+                Sortable: {
+                    
+                },
+                TooltipOnFullyVisible: {
+                    
+                },
 
-            },
-            Sortable: {
-
-            },
-            TooltipOnFullyVisible: {
-                
-            },
-            
-            SlidingRender: {
-                //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-                viewportHeight: 350
-            }
+                SlidingRender: {
+                    viewportHeight: this._getViewportHeight()
+                }
+            };
         },
 
         onShow: function () {
@@ -104,13 +108,23 @@
             if (doToggle) {
                 this.ui.bottomMenubar.toggle(this.collection.length > 0);
                 this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
-            
+
+                console.log("HELLO I AM NOW CHANGING VIEWPORT HEIGHT");
+
+                console.log("Viewport height:", this._getViewportHeight());
+
                 //  Need to update viewportHeight in slidingRender behavior:
-                //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
                 this.triggerMethod('SetViewportHeight', {
-                    viewportHeight: this.collection.length === 0 ? 350 : 315
+                    viewportHeight: this._getViewportHeight()
                 });
             }
+        },
+        
+        //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
+        _getViewportHeight: function () {
+            //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+            //  NOTE: Need to access through this.options because this.collection isn't defined when initializing behavior.
+            return this.options.collection.length === 0 ? 350 : 315;
         },
 
         addAllToStream: function () {

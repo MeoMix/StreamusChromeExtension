@@ -115,8 +115,7 @@ define([
         },
 
         //  TODO: This needs to be kept DRY with the other methods in this object.
-        addSongsStartingAtIndex: function (songs, index, callback) {
-
+        addSongsStartingAtIndex: function (songs, index) {
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
             });
@@ -135,21 +134,15 @@ define([
                     song: song,
                     sequence: sequence
                 });
-                
+
                 itemsToSave.push(playlistItem);
                 index++;
             });
 
             itemsToSave.save({}, {
                 success: function () {
-
                     //  TODO: Why is this .models and not just itemsToSave?
                     playlistItems.add(itemsToSave.models);
-
-                    if (callback) {
-                        callback();
-                    }
-
                 }
             });
         },

@@ -173,6 +173,7 @@
                                 return streamItem.get('song');
                             });
 
+                            console.log("Adding streamItemSongs starting at index:", index);
                             self.view.model.addSongsStartingAtIndex(streamItemSongs, index);
                         }
                         else if (listItemType === ListItemType.PlaylistItem) {

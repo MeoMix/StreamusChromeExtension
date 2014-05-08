@@ -9,7 +9,12 @@
             'remove': function (item, collection, options) {
                 //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
-                    this._renderElementAtIndex(this.maxRenderIndex);
+                    var rendered = this._renderElementAtIndex(this.maxRenderIndex);
+
+                    //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
+                    if (!rendered && this.minRenderIndex > 0) {
+                        this.ui.list.scrollTop(this.lastScrollTop - this.itemViewHeight);
+                    }
                 }
                 
                 this._setHeightPaddingTop();
@@ -98,18 +103,23 @@
 
             //  Unload or load N items where N is the difference in viewport height.
             var currentMaxRenderIndex = this.maxRenderIndex;
-            var newMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
 
+            var newMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
             var indexDifference = currentMaxRenderIndex - newMaxRenderIndex;
             
             //  Be sure to update before potentially adding items or else they won't render.
             this.maxRenderIndex = newMaxRenderIndex;
-
             if (indexDifference > 0) {
                 //  Unload N items, subtract 1 because maxRenderIndex is exclusive (TODO: rework math so maxRenderIndex is inclusive))
-                this._removeItemsByIndex(currentMaxRenderIndex - 1, indexDifference);
+                var startIndex = currentMaxRenderIndex - 1;
+                
+                //  Only remove items if need be -- collection's length might be so small that the viewport's height isn't affecting rendered count.
+                if (this.view.collection.length > startIndex) {
+                    this._removeItemsByIndex(startIndex, indexDifference);
+                }
             }
             else if (indexDifference < 0) {
+                //  TODO: removing items had a bug in it -- does this have the same one (what if the collection's length is small and no items need appending?)
                 //  Load N items
                 for (var count = 0; count < Math.abs(indexDifference); count++) {
                     this._renderElementAtIndex(currentMaxRenderIndex + 1 + count);
@@ -122,13 +132,18 @@
         //  When deleting an element from a list it's important to render the next element (if any) since
         //  usually this only happens during scroll, but positions change when removing.
         _renderElementAtIndex: function (index) {
+            var rendered = false;
+
             if (this.view.collection.length >= index) {
                 var item = this.view.collection.at(index - 1);
                 var ItemView = this.view.getItemView(item);
 
                 //  Adjust the itemView's index to account for where it is actually being added in the list
                 this._addItemView(item, ItemView, index - 1);
+                rendered = true;
             }
+
+            return rendered;
         },
 
         _setRenderedElements: function (scrollTop) {

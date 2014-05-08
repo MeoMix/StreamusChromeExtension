@@ -94,7 +94,7 @@
         
         //  Don't allow duplicate PlaylistItems by songId. 
         add: function (items) {
-        
+
             if (items instanceof Backbone.Collection) {
                 items.each(function (item) {
                     this.trySetDuplicateSongId(item);
@@ -107,7 +107,7 @@
             } else {
                 this.trySetDuplicateSongId(items);
             }
-
+            
             return MultiSelectCollection.prototype.add.apply(this, arguments);
         },
         

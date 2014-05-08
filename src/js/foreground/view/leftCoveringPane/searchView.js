@@ -68,20 +68,21 @@
             };
         },
         
-        behaviors: {
-            MultiSelect: {
-                
-            },
-            Sortable: {
-                
-            },
-            TooltipOnFullyVisible: {
+        behaviors: function() {
+            return {
+                MultiSelect: {
 
-            },
-            SlidingRender: {
-                //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-                viewportHeight: 350
-            }
+                },
+                Sortable: {
+
+                },
+                TooltipOnFullyVisible: {
+
+                },
+                SlidingRender: {
+                    viewportHeight: this._getViewportHeight()
+                }
+            };
         },
  
         onRender: function () {
@@ -174,7 +175,7 @@
                 //  Need to update viewportHeight in slidingRender behavior:
                 //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
                 this.triggerMethod('SetViewportHeight', {
-                    viewportHeight: selectedCount === 0 ? 350 : 315
+                    viewportHeight: this._getViewportHeight()
                 });
             }
         },
@@ -225,6 +226,12 @@
         //  Shake the view to bring attention to the fact that the view is already visible.
         shake: function() {
             this.$el.effect('shake');
+        },
+        
+        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
+        _getViewportHeight: function () {
+            var selectedCount = this.options.collection.selected().length;
+            return selectedCount === 0 ? 350 : 315;
         }
 
     });
