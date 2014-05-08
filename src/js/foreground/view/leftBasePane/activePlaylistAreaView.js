@@ -45,11 +45,8 @@
         
         collectionEvents: {
             'add remove reset': function () {
-                console.log("toggling big text");
                 //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
-
-                console.log("toggling bottom menu bar");
                 this.toggleBottomMenubar();
             }
         },
@@ -108,10 +105,6 @@
             if (doToggle) {
                 this.ui.bottomMenubar.toggle(this.collection.length > 0);
                 this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
-
-                console.log("HELLO I AM NOW CHANGING VIEWPORT HEIGHT");
-
-                console.log("Viewport height:", this._getViewportHeight());
 
                 //  Need to update viewportHeight in slidingRender behavior:
                 this.triggerMethod('SetViewportHeight', {

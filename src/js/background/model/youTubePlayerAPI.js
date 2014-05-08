@@ -9,13 +9,11 @@ define(function() {
         },
 
         initialize: function () {
-            console.log("YouTube Player API is initialized");
             // Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
             // Benefits include faster loading, less CPU usage, and no crashing
             // Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
             // Without a Referer - YouTube will reject most of the requests to play music.
             chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
-                console.log("onBeforeSendHeaders", info);
                 //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
                 var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                     return requestHeader.name === 'Referer';
@@ -46,7 +44,6 @@ define(function() {
                 } else {
                     userAgentRequestHeader.value = iPhoneUserAgent;
                 }
-                console.log('Sending header');
                 //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
                 return { requestHeaders: info.requestHeaders };
             }, {
@@ -56,9 +53,8 @@ define(function() {
             },
                 ['blocking', 'requestHeaders']
             );
-            
-                        chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
-                console.log("onBeforeSendHeaders", info);
+
+            chrome.webRequest.onBeforeSendHeaders.addListener(function (info) {
                 //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
                 var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                     return requestHeader.name === 'Referer';
@@ -89,7 +85,6 @@ define(function() {
                 } else {
                     userAgentRequestHeader.value = iPhoneUserAgent;
                 }
-                console.log('Sending header');
                 //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
                 return { requestHeaders: info.requestHeaders };
             }, {
@@ -102,11 +97,9 @@ define(function() {
             
             //  This function will be called when the API is fully loaded. Needs to be exposed globally so YouTube can call it.
             window.onYouTubePlayerAPIReady = function () {
-                console.log("API ready");
                 this.set('ready', true);
             }.bind(this);
 
-            console.log("Injecting IFrame API");
             $('<script>', {
                 src: 'https://www.youtube.com/iframe_api',
                 async: true

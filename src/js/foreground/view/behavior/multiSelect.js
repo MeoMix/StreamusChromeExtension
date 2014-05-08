@@ -17,10 +17,7 @@
             });
         },
         
-        //  TODO: Find a way to pass in collection instead of referencing through view.
         setSelectedOnClick: function (event) {
-            console.log("Set selected on click running");
-
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.view.collection.get(id);
 
@@ -47,8 +44,6 @@
 
                 var firstSelectedIndex = 0;
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
-
-                console.log("Selected index:", selectedIndex);
 
                 //  If the first item is being selected with shift held -- firstSelectedIndex isn't used and selection goes from the top.
                 if (this.view.collection.selected().length > 1) {

@@ -51,12 +51,7 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    console.log("url:", url);
-      
                     this.getSongFromUrl(url, function (song) {
-
-                        console.log("Song:", song);
-
                         StreamItems.addSongs(song, {
                             playOnAdd: true
                         });

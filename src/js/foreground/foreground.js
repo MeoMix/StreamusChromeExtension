@@ -73,7 +73,6 @@
                     clearTimeout(this.showReloadPromptTimeout);
 
                     if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                        console.log("Closing region");
                         //this.promptRegion.close();
                         //  TODO: Shitty - I should be able to just close the region, but need to fix dependency.
                         this.promptRegion.currentView.triggerMethod('hide');

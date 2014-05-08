@@ -60,7 +60,6 @@
 
             if (this.get('enabled')) {
                 var nextItem = StreamItems.activateNext();
-                console.log("activated next item");
                 activatedNextItem = nextItem !== null;
             }
 

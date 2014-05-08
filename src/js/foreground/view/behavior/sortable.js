@@ -5,7 +5,7 @@
     'foreground/view/rightBasePane/streamItemView'
 ], function (ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
     'use strict';
-    
+
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -127,7 +127,6 @@
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
                         if (listItemType === ListItemType.PlaylistItem || listItemType === ListItemType.StreamItem) {
-                            console.log("Stop is running");
                             //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
                             //  Need to pad the index with the # of missing items.
                             self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
@@ -173,7 +172,6 @@
                                 return streamItem.get('song');
                             });
 
-                            console.log("Adding streamItemSongs starting at index:", index);
                             self.view.model.addSongsStartingAtIndex(streamItemSongs, index);
                         }
                         else if (listItemType === ListItemType.PlaylistItem) {
@@ -222,4 +220,4 @@
     });
 
     return Sortable;
-})
+});

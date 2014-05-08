@@ -211,7 +211,6 @@
             var playOnAdd = _.isUndefined(options) || _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             
             if (playOnAdd) {
-                console.log("playing one song changes");
                 Player.playOnceSongChanges();
             }
             
