@@ -1,5 +1,6 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
+    'background/notifications',
     'background/collection/streamItems',
     'background/collection/playlists',
     'background/model/user',
@@ -8,7 +9,7 @@ define([
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, User, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (Notifications, StreamItems, Playlists, User, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -21,17 +22,12 @@ define([
             this.createContextMenus(['link'], this.targetUrlPatterns, true);
             this.createContextMenus(['page'], this.documentUrlPatterns, false);
             
-            var streamusContextMenuId = chrome.contextMenus.create({
-                'contexts': ['selection'],
-                'title': 'Streamus'
-            });
-            
             chrome.contextMenus.create({
                 'contexts': ['selection'],
-                'title': 'Play',
-                'parentId': streamusContextMenuId,
+                //  TODO: i18n
+                'title': 'Search for and Play \'%s\'',
                 'onclick': function (onClickData) {
-                    
+
                     this.getSongFromText(onClickData.selectionText, function (song) {
                         StreamItems.addSongs(song, {
                             playOnAdd: true
@@ -49,19 +45,18 @@ define([
                 'documentUrlPatterns': !isTarget ? urlPattern : undefined
             };
 
-            //  Create the top-most parent element which says 'Streamus'
-            var streamusContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                'title': 'Streamus'
-            }));
-
-            //  Create sub menu items for specific actions:
+            //  Create menu items for specific actions:
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('play'),
-                'parentId': streamusContextMenuId,
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
+
+                    console.log("url:", url);
       
                     this.getSongFromUrl(url, function (song) {
+
+                        console.log("Song:", song);
+
                         StreamItems.addSongs(song, {
                             playOnAdd: true
                         });
@@ -71,7 +66,6 @@ define([
 
             chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('add'),
-                'parentId': streamusContextMenuId,
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
                     
@@ -82,12 +76,12 @@ define([
             }));
             
             if (User.get('signedIn')) {
-                this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
+                this.createSaveContextMenu(contextMenuOptions);
             } else {
 
                 this.listenTo(User, 'change:signedIn', function (model, signedIn) {
                     if (signedIn) {
-                        this.createSaveContextMenu(streamusContextMenuId, contextMenuOptions);
+                        this.createSaveContextMenu(contextMenuOptions);
                     }
                 });
 
@@ -95,11 +89,10 @@ define([
 
         },
         
-        createSaveContextMenu: function(streamusContextMenuId, contextMenuOptions) {
+        createSaveContextMenu: function(contextMenuOptions) {
             //  Create a sub menu item to hold all Playlists
             var playlistsContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
-                'title': chrome.i18n.getMessage('save'),
-                'parentId': streamusContextMenuId
+                'title': chrome.i18n.getMessage('save')
             }));
 
             //  Create menu items for each playlist
@@ -156,19 +149,21 @@ define([
         
         getSongFromUrl: function(url, callback) {
             var dataSource = new DataSource({ url: url });
-            
-            if (dataSource.get('type') !== DataSourceType.YouTubeVideo) {
-                throw 'Excepected dataSource to be a YouTube video.';
-            }
 
             YouTubeV3API.getSongInformation({
-                songId: dataSource.get('songId'),
+                songId: dataSource.get('id'),
                 success: function (songInformation) {
 
                     var song = new Song();
                     song.setYouTubeInformation(songInformation);
 
                     callback(song);
+                },
+                error: function() {
+                    Notifications.showNotification({
+                        title: 'Failed to find song',
+                        message: 'An issue was encountered while attempting to find song with URL: ' + url
+                    });
                 }
             });
 

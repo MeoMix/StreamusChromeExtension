@@ -210,6 +210,10 @@ define([
             this.set('state', PlayerState.Unstarted);
             youTubePlayer.stopVideo();
             this.set('loadedSongId', '');
+
+            //  Stop is only called when there's no other items to queue up - set time back to 0 since
+            //  a new song won't queue up and set its time.
+            this.set('currentTime', 0);
         },
 
         pause: function () {

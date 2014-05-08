@@ -20,7 +20,10 @@
             var previousItem = StreamItems.getPrevious();
             var playerTime = Player.get('currentTime');
 
-            var enabled = previousItem !== null || playerTime > 5;
+            console.log("previousItem:", previousItem);
+            console.log("playerTime:", playerTime);
+
+            var enabled = previousItem !== null || playerTime > 3;
             this.set('enabled', enabled);
         },
         
