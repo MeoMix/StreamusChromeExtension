@@ -1,6 +1,6 @@
 ﻿//  This is mostly disabled until I fix: https://code.google.com/p/chromium/issues/detail?id=161471
 //  This code runs inside of the youtube-player iframe in the Streamus background -- hax!
-$(function() {
+$(function () {
 
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'youtube-player') {
@@ -19,7 +19,7 @@ $(function() {
 
         //  TimeUpdate has awesome resolution, but we only display to the nearest second.
         //  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
-        videoStream.on('timeupdate', function() {
+        videoStream.on('timeupdate', function () {
 
             var currentTime = Math.ceil(this.currentTime);
 

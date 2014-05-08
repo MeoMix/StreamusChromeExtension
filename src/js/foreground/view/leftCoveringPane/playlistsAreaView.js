@@ -65,6 +65,7 @@
                 axis: 'y',
                 placeholder: 'sortable-placeholder list-item',
                 delay: 100,
+                containment: "parent",
                 //  Whenever a playlist is moved visually -- update corresponding model with new information.
                 update: function (event, ui) {
                     var listItemType = ui.item.data('type');

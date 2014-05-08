@@ -507,6 +507,10 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
+.list-item.ui-sortable-helper {
+  background: #ebebeb;
+  border-color: #ebebeb;
+}
 .list-item:hover {
   background: #ebebeb;
   border-color: #ebebeb;

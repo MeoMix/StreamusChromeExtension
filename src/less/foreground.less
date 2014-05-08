@@ -533,6 +533,11 @@ input[type="range"] {
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
 
+    &.ui-sortable-helper {
+        background: @lightGray;
+        border-color: @lightGray;
+    }
+
     &:hover {
         background: @lightGray;
         border-color: @lightGray;
