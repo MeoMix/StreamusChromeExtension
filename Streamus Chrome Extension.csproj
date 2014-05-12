@@ -124,6 +124,7 @@
     <Content Include="src\js\common\enum\repeatButtonState.js" />
     <Content Include="src\js\common\enum\shareableEntityType.js" />
     <Content Include="src\js\common\enum\youTubePlayerError.js" />
+    <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
     <Content Include="src\js\foreground\eventAggregator.js" />
     <Content Include="src\js\foreground\foreground.js" />
