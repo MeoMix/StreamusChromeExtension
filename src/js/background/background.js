@@ -44,6 +44,7 @@ define([
     
     //  I know this sucks. It's because of a 'bug' in chrome extensions where foreground can't reliably unsubscribe all of its events so the background has to be responsible for it. :(
     window.unbindViewEvents = function (foregroundViewType, foregroundBehaviorType) {
+
         var collectionsToUnbind = [Playlists, SearchResults, StreamItems];
         var allToUnbind = [Player, User, Settings, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton];
 
@@ -61,23 +62,21 @@ define([
                 }
             });
         });
-        
+
         var viewContexts = [];
 
         _.each(allToUnbind, function (toUnbind) {
-            _.each(toUnbind._events, function(eventGroup) {
+            _.each(toUnbind._events, function (eventGroup) {
                 _.each(_.toArray(eventGroup), function (event) {
                     if (event.ctx instanceof foregroundViewType || event.ctx instanceof foregroundBehaviorType) {
-                        if (viewContexts.indexOf(event.ctx) === -1) {
-                            viewContexts.push(event.ctx);
-                        }
+                        viewContexts.push(event.ctx);
                     }
                 });
             });
         });
 
         _.each(viewContexts, function (viewContext) {
-            viewContext.stopListening();
+            viewContext.close();
         });
 
         viewContexts.length = 0;
