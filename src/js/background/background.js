@@ -58,7 +58,10 @@ define([
 
                 //  Be sure to add every PlaylistItem in every Playlist.
                 if (modelToUnbind.has('items')) {
-                    modelToUnbind.get('items').each(function (playlistItem) {
+                    var playlistItems = modelToUnbind.get('items');
+                    allToUnbind.push(playlistItems);
+
+                    playlistItems.each(function (playlistItem) {
                         allToUnbind.push(playlistItem);
                     });
                 }
