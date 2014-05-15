@@ -151,12 +151,6 @@ module.exports = function (grunt) {
 						name: 'foreground/application',
 						include: ['foreground/foreground'],
 						exclude: ['foreground/main']
-					}, {
-						name: 'options/main',
-						include: ['options/plugins']
-					}, {
-						name: 'options/options',
-						exclude: ['options/main', 'options/plugins']
 					}],
 					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.
 					optimize: 'none',
@@ -322,7 +316,6 @@ module.exports = function (grunt) {
 	
 	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
 		grunt.file.delete('src/css/beatportInject.css');
-		grunt.file.delete('src/css/options.css');
 		grunt.file.delete('src/css/youTubeInject.css');
 		grunt.file.delete('src/css/foreground.css');
 	});
