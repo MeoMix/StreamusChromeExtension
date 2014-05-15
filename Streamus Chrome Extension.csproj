@@ -113,12 +113,12 @@
     <Content Include="src\js\common\enum\songType.js" />
     <Content Include="src\js\common\enum\youTubeServiceType.js" />
     <Content Include="src\js\common\model\dataSource.js" />
-    <Content Include="src\js\common\model\relatedSongInformationManager.js" />
+    <Content Include="src\js\background\model\relatedSongInformationManager.js" />
     <Content Include="src\js\common\model\utility.js" />
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
-    <Content Include="src\js\common\view\settingsView.js" />
+    <Content Include="src\js\foreground\view\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
     <Content Include="src\js\common\enum\playerState.js" />
     <Content Include="src\js\common\enum\repeatButtonState.js" />
@@ -188,9 +188,6 @@
     <Content Include="src\js\inject\streamusShareInject.js" />
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
-    <Content Include="src\js\options\main.js" />
-    <Content Include="src\js\options\options.js" />
-    <Content Include="src\js\options\plugins.js" />
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\spec\playlistItemSpec.js" />
     <Content Include="src\js\test\spec\playlistItemsSpec.js" />
@@ -221,20 +218,12 @@
     <Content Include="src\js\thirdParty\text.js" />
     <None Include="src\less\beatportInject.less" />
     <None Include="src\less\youTubeInject.less" />
-    <None Include="src\less\options.less" />
     <Content Include="src\less\foreground.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <Content Include="src\less\foreground.min.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
-    <Content Include="src\less\options.css">
-      <DependentUpon>options.less</DependentUpon>
-    </Content>
-    <Content Include="src\less\options.min.css">
-      <DependentUpon>options.less</DependentUpon>
-    </Content>
-    <Content Include="src\options.html" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
