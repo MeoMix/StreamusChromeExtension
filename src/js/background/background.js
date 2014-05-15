@@ -10,7 +10,6 @@ define([
     'background/model/buttons/nextButton',
     'background/model/buttons/previousButton',
     'background/model/buttons/playPauseButton',
-    'background/model/buttons/playPauseButton',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/repeatButton',
     'background/model/buttons/radioButton',
