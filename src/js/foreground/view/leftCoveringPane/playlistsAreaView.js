@@ -11,7 +11,6 @@
 ], function (ListItemType, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
 
@@ -30,6 +29,10 @@
             'click @ui.addButton': 'showCreatePlaylistPrompt',
             'click @ui.editButton': 'showEditSelectedPlaylistPrompt',
             'click @ui.deleteButton:not(.disabled)': 'showDeleteSelectedPlaylistPrompt'
+        },
+        
+        collectionEvents: {
+            'add remove reset': 'setDeleteButtonState'
         },
         
         ui: {
@@ -98,7 +101,6 @@
         initialize: function () {
             //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
             this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
-            this.listenTo(Playlists, 'add remove reset', this.setDeleteButtonState);
         },
         
         onShow: function () {
@@ -243,7 +245,7 @@
         
         showEditSelectedPlaylistPrompt: function () {
             EventAggregator.trigger('showPrompt', new EditPlaylistPromptView({
-                playlist: Playlists.getActivePlaylist()
+                playlist: this.collection.getActivePlaylist()
             }));
         },
         
@@ -253,7 +255,7 @@
         
         setDeleteButtonState: function() {
             //  Can't delete the last playlist:
-            var canDelete = Playlists.canDelete();
+            var canDelete = this.collection.canDelete();
 
             var title;
             if (canDelete) {
@@ -267,7 +269,7 @@
         
         showDeleteSelectedPlaylistPrompt: function () {
 
-            var activePlaylist = Playlists.getActivePlaylist();
+            var activePlaylist = this.collection.getActivePlaylist();
             var isEmpty = activePlaylist.get('items').length === 0;
 
             //  No need to notify if the playlist is empty.

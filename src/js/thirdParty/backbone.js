@@ -1036,6 +1036,7 @@
         remove: function () {
             this.$el.remove();
             this.stopListening();
+            this.undelegateEvents();
             return this;
         },
 
