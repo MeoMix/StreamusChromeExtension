@@ -1,7 +1,7 @@
 ﻿//  When clicked -- goes to the next StreamItem. Can potentially go from the end of the list to the front if repeat playlist is toggled on
 define([
     'background/model/song',
-    'common/model/relatedSongInformationManager'
+    'background/model/relatedSongInformationManager'
 ], function (Song, RelatedSongInformationManager) {
     'use strict';
    

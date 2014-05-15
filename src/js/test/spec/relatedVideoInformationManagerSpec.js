@@ -1,5 +1,5 @@
 ﻿define([
-    'common/model/relatedSongInformationManager'
+    'background/model/relatedSongInformationManager'
 ], function (RelatedSongInformationManager) {
     'use strict';
     

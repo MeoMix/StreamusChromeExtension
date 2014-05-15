@@ -1,6 +1,5 @@
 ﻿define([
     'common/enum/listItemType',
-    'common/view/settingsView',
     'foreground/eventAggregator',
     'foreground/view/createPlaylistView',
     'foreground/view/leftCoveringPane/playlistView',
@@ -9,7 +8,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (ListItemType, SettingsView, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;

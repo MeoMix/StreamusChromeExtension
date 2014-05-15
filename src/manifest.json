@@ -101,7 +101,6 @@
 	"minimum_chrome_version": "29.0.1547.76",
 	"offline_enabled": false,
 	"omnibox": { "keyword" : "streamus" }, 
-	"options_page": "options.html",
 	"oauth2": {
 		"client_id": "346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com",
 		"scopes": [

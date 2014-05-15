@@ -1,8 +1,8 @@
 ﻿define([
-    'common/view/settingsView',
     'foreground/model/genericPrompt',
+    'foreground/view/settingsView',
     'foreground/view/prompt/genericPromptView'
-], function (SettingsView, GenericPrompt, GenericPromptView) {
+], function (GenericPrompt, SettingsView, GenericPromptView) {
     'use strict';
     
     var SettingsPromptView = GenericPromptView.extend({
