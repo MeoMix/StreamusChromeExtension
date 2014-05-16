@@ -7,6 +7,7 @@
 
             var remindClearStream = this.getItem('remindClearStream');
             var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
+            var remindVoteStreamus = this.getItem('remindVoteStreamus');
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
@@ -20,6 +21,7 @@
                 showTooltips: showTooltips === null ? true : showTooltips,
                 remindClearStream: remindClearStream === null ? true : remindClearStream,
                 remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
+                remindVoteStreamus: remindVoteStreamus === null ? true : remindVoteStreamus,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
                 searchQuery: this.getItem('searchQuery') || '',
                 alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
@@ -58,6 +60,10 @@
 
             this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
                 localStorage.setItem('remindDeletePlaylist', JSON.stringify(remindDeletePlaylist));
+            });
+
+            this.on('change:remindVoteStreamus', function (model, remindVoteStreamus) {
+                localStorage.setItem('remindVoteStreamus', JSON.stringify(remindVoteStreamus));
             });
 
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
