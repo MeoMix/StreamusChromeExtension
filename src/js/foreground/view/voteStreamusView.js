@@ -28,7 +28,7 @@
         },
         
         openVoteWindow: function() {
-            chrome.windows.create({
+            chrome.tabs.create({
                 'url': 'http://competition.coshx.com/ideas/streamus-simple-streaming-music'
             });
         }
