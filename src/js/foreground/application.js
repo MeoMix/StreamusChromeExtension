@@ -17,4 +17,7 @@
     });
 
     Application.start();
+
+    //  Expose Application globally for referencing EventAggregator, etc. without incurring circular reference in requireJS.
+    window.Application = Application;
 });

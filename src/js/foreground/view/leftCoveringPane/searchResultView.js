@@ -26,6 +26,10 @@
 
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView],
         
+        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+            'dblclick': 'playInStream'
+        }),
+        
         showContextMenu: function (event) {
             event.preventDefault();
             
@@ -69,6 +73,12 @@
                 }]
             );
 
+        },
+
+        playInStream: function () {
+            StreamItems.addSongs(this.model.get('song'), {
+                playOnAdd: true
+            });
         }
     });
 

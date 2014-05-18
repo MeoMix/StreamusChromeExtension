@@ -1,8 +1,7 @@
 ﻿define([
-    'foreground/eventAggregator',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/saveToPlaylistButton.html'
-], function (EventAggregator, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
+], function (SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
     var User = chrome.extension.getBackgroundPage().User;
@@ -38,7 +37,7 @@
         saveToPlaylist: _.debounce(function () {
             // Return false even on disabled button click so the click event does not bubble up and select the item. 
             if (!this.$el.hasClass('disabled')) {  
-                EventAggregator.trigger('showPrompt', new SaveSongsPromptView({
+                window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
                     songs: [this.model.get('song')]
                 }));
             }

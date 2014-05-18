@@ -1,6 +1,5 @@
 ﻿define([
     'common/enum/listItemType',
-    'foreground/eventAggregator',
     'foreground/view/createPlaylistView',
     'foreground/view/leftCoveringPane/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
@@ -8,7 +7,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (ListItemType, EventAggregator, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var Settings = chrome.extension.getBackgroundPage().Settings;
@@ -236,15 +235,15 @@
         },
         
         showSettingsPrompt: function () {
-            EventAggregator.trigger('showPrompt', new SettingsPromptView());
+            window.Application.vent.trigger('showPrompt', new SettingsPromptView());
         },
         
         showCreatePlaylistPrompt: function () {
-            EventAggregator.trigger('showPrompt', new CreatePlaylistPromptView());
+            window.Application.vent.trigger('showPrompt', new CreatePlaylistPromptView());
         },
         
         showEditSelectedPlaylistPrompt: function () {
-            EventAggregator.trigger('showPrompt', new EditPlaylistPromptView({
+            window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
                 playlist: this.collection.getActivePlaylist()
             }));
         },
@@ -280,7 +279,7 @@
                 var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
                 
                 if (remindDeletePlaylist) {
-                    EventAggregator.trigger('showPrompt', new DeletePlaylistPromptView({
+                    window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
                         playlist: activePlaylist
                     }));
                 } else {

@@ -1,10 +1,9 @@
 ﻿define([
-    'foreground/eventAggregator',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView',
     'text!template/leftBasePane.html'
-], function (EventAggregator, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
+], function (ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -30,11 +29,11 @@
         
         events: {
             'click @ui.showSearch': function () {
-                EventAggregator.trigger('showSearch');
+                window.Application.vent.trigger('showSearch');
             },
 
             'click @ui.showPlaylistsArea': function () {
-                EventAggregator.trigger('showPlaylistsArea');
+                window.Application.vent.trigger('showPlaylistsArea');
             }
         },
 

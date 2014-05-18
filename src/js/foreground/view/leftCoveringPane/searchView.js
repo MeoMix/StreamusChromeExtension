@@ -1,9 +1,8 @@
 ﻿define([
-    'foreground/eventAggregator',
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (EventAggregator, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -214,7 +213,7 @@
             
             if (!disabled) {
 
-                EventAggregator.trigger('showPrompt', new SaveSongsPromptView({
+                window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
                     songs: this.collection.getSelectedSongs()
                 }));
                 

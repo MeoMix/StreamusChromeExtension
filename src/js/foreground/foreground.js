@@ -1,7 +1,6 @@
 ﻿define([
     'common/enum/playerState',
     'common/enum/youTubePlayerError',
-    'foreground/eventAggregator',
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenu',
     'foreground/model/playlistsArea',
@@ -17,7 +16,7 @@
     'foreground/view/prompt/updateStreamusPromptView',
     'foreground/view/prompt/voteStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
-], function (PlayerState, YouTubePlayerError, EventAggregator, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, VoteStreamusPromptView, RightBasePaneView) {
+], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, VoteStreamusPromptView, RightBasePaneView) {
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
@@ -134,15 +133,15 @@
                 }
             }.bind(this));
 
-            EventAggregator.on('showSearch', function () {
+            window.Application.vent.on('showSearch', function () {
                 this.showSearch(true);
             }.bind(this));
 
-            EventAggregator.on('showPlaylistsArea', function () {
+            window.Application.vent.on('showPlaylistsArea', function () {
                 this.showPlaylistsArea();
             }.bind(this));
 
-            EventAggregator.on('showPrompt', function(promptView) {
+            window.Application.vent.on('showPrompt', function (promptView) {
                 this.showPrompt(promptView);
             }.bind(this));
             

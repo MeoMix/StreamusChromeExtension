@@ -1,12 +1,11 @@
 ﻿define([
     'common/enum/listItemType',
-    'foreground/eventAggregator',
     'foreground/collection/contextMenuItems',
     'foreground/view/mixin/titleTooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, EventAggregator, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -137,7 +136,7 @@
                             var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
 
                             if (remindDeletePlaylist) {
-                                EventAggregator.trigger('showPrompt', new DeletePlaylistPromptView({
+                                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
                                     playlist: self.model
                                 }));
                             } else {
@@ -155,7 +154,7 @@
                 }, {
                     text: chrome.i18n.getMessage('edit'),
                     onClick: function () {
-                        EventAggregator.trigger('showPrompt', new EditPlaylistPromptView({
+                        window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
                             playlist: self.model
                         }));
                     }

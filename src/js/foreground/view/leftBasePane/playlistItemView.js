@@ -77,6 +77,12 @@
                     }]
             );
 
+        },
+        
+        playInStream: function () {
+            StreamItems.addSongs(this.model.get('song'), {
+                playOnAdd: true
+            });
         }
     });
 

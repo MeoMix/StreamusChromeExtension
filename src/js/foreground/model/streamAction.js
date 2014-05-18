@@ -1,9 +1,8 @@
 ﻿define([
-    'foreground/eventAggregator',
     'foreground/view/prompt/clearStreamPromptView',
     'foreground/view/clearStreamView',
     'foreground/view/prompt/saveSongsPromptView'
-], function (EventAggregator, ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
+], function (ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
 
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -16,7 +15,7 @@
                 var remindClearStream = Settings.get('remindClearStream');
 
                 if (remindClearStream) {
-                    EventAggregator.trigger('showPrompt', new ClearStreamPromptView());
+                    window.Application.vent.trigger('showPrompt', new ClearStreamPromptView());
                 } else {
                     StreamItems.clear();
                 }
@@ -26,7 +25,7 @@
         
         saveStream: function() {
             if (StreamItems.length > 0) {
-                EventAggregator.trigger('showPrompt', new SaveSongsPromptView({
+                window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
                     songs: StreamItems.pluck('song')
                 }));
             }

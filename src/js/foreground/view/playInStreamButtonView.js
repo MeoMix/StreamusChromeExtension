@@ -26,6 +26,7 @@
         },
         
         playInStream: _.debounce(function () {
+
             var song = this.model.get('song');
             var streamItem = StreamItems.getBySong(song);
 

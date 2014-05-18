@@ -1,11 +1,10 @@
 ﻿define([
     'common/enum/listItemType',
     'common/enum/repeatButtonState',
-    'foreground/eventAggregator',
     'foreground/model/streamAction',
     'foreground/view/rightBasePane/streamItemView',
     'text!template/stream.html'
-], function (ListItemType, RepeatButtonState, EventAggregator, StreamAction, StreamItemView, StreamTemplate) {
+], function (ListItemType, RepeatButtonState, StreamAction, StreamItemView, StreamTemplate) {
     'use strict';
 
     var User = chrome.extension.getBackgroundPage().User;
@@ -42,7 +41,7 @@
             'click @ui.repeatButton': 'toggleRepeat',
             
             'click @ui.showSearch': function () {
-                EventAggregator.trigger('showSearch');
+                window.Application.vent.trigger('showSearch');
             }
         },
         
