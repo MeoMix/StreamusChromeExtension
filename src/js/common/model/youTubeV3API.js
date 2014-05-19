@@ -207,6 +207,20 @@
         
         //  Expects options: { channelId: string, success: function, error: function };
         getTitle: function (options) {
+            var ajaxDataOptions = {
+                part: 'snippet',
+                fields: 'items/snippet/title'
+            };
+            
+            if (!_.isUndefined(options.id)) {
+                ajaxDataOptions.id = options.id;
+            }
+            else if (!_.isUndefined(options.forUsername)) {
+                ajaxDataOptions.forUsername = options.forUsername;
+            } else {
+                throw "Expected id or forUsername";
+            }
+
             return this._doRequest(options.serviceType, {
                 success: function (response) {
                     if (response.items.length === 0) {
@@ -217,11 +231,7 @@
                 },
                 error: options.error,
                 complete: options.complete
-            }, {
-                id: options.id,
-                part: 'snippet',
-                fields: 'items/snippet/title'
-            });
+            }, ajaxDataOptions);
         },
 
         _doRequest: function (serviceType, ajaxOptions, ajaxDataOptions) {

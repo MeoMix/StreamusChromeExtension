@@ -67,48 +67,55 @@
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
         _doDebounceSearch: _.debounce(function (searchQuery) {
-            var self = this;
-
             //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
             var dataSource = new DataSource({
                 url: searchQuery
             });
 
-            var searchJqXhr;
-            //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
-            if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
+            dataSource.parseUrl({
+                success: function () {
 
-                searchJqXhr = YouTubeV3API.getSongInformation({
-                    songId: dataSource.get('id'),
-                    success: function (songInformation) {
-                        SearchResults.setFromSongInformation(songInformation);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                        //  TODO: Handle error.
-                    },
-                    complete: this.onSearchComplete.bind(this)
-                });
+                    console.log('success', dataSource.get('type'));
 
-            } else {
-                //  TODO: Handle missing song IDs
-                searchJqXhr = YouTubeV3API.search({
-                    text: searchQuery,
-                    success: function (searchResponse) {
-                        //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
-                        if (searchQuery === self.get('searchQuery')) {
-                            SearchResults.setFromSongInformationList(searchResponse.songInformationList);
-                        }
-                    },
-                    complete: this.onSearchComplete.bind(this)
-                });
+                    var searchJqXhr;
+                    //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
+                    if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
 
-            }
+                        searchJqXhr = YouTubeV3API.getSongInformation({
+                            songId: dataSource.get('id'),
+                            success: function (songInformation) {
+                                SearchResults.setFromSongInformation(songInformation);
+                            },
+                            error: function (error) {
+                                console.log(error);
+                                //  TODO: Handle error.
+                            },
+                            complete: this.onSearchComplete.bind(this)
+                        });
 
-            this.set('searchJqXhr', searchJqXhr);
+                    } else {
+                        //  TODO: Handle missing song IDs
+                        searchJqXhr = YouTubeV3API.search({
+                            text: searchQuery,
+                            success: function (searchResponse) {
+                                //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
+                                if (searchQuery === this.get('searchQuery')) {
+                                    SearchResults.setFromSongInformationList(searchResponse.songInformationList);
+                                }
+                            }.bind(this),
+                            complete: this.onSearchComplete.bind(this)
+                        });
 
-            //  Typing is false if they've paused for long enough for doSearch to run.
-            this.set('typing', false);
+                    }
+
+                    this.set('searchJqXhr', searchJqXhr);
+
+                    //  Typing is false if they've paused for long enough for doSearch to run.
+                    this.set('typing', false);
+                }.bind(this)
+            });
+
+
         }, 350)
 
     });

@@ -68,20 +68,27 @@
                         parseVideo: false
                     });
 
-                    this.ui.youTubeSourceInput.data('datasource', dataSource);
+                    dataSource.parseUrl({
+                        success: function() {
 
-                    dataSource.getTitle({
-                        success: function(title) {
-                            this.ui.playlistTitleInput.val(title);
-                            this.validateTitle();
-                            this.ui.youTubeSourceInput.addClass('valid');
-                        }.bind(this),
-                        error: function () {
-                            var originalValue = this.ui.playlistTitleInput.val();
-                            this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-                            this.ui.youTubeSourceInput.addClass('invalid');
+                            this.ui.youTubeSourceInput.data('datasource', dataSource);
+
+                            dataSource.getTitle({
+                                success: function (title) {
+                                    this.ui.playlistTitleInput.val(title);
+                                    this.validateTitle();
+                                    this.ui.youTubeSourceInput.addClass('valid');
+                                }.bind(this),
+                                error: function () {
+                                    var originalValue = this.ui.playlistTitleInput.val();
+                                    this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
+                                    this.ui.youTubeSourceInput.addClass('invalid');
+                                }.bind(this)
+                            });
+                            
                         }.bind(this)
                     });
+
 
                 } else {
                     this.ui.youTubeSourceInput.removeClass('invalid valid');

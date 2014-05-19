@@ -145,19 +145,23 @@ define([
         getSongFromUrl: function(url, callback) {
             var dataSource = new DataSource({ url: url });
 
-            YouTubeV3API.getSongInformation({
-                songId: dataSource.get('id'),
-                success: function (songInformation) {
+            dataSource.parseUrl({
+                success: function() {
+                    YouTubeV3API.getSongInformation({
+                        songId: dataSource.get('id'),
+                        success: function (songInformation) {
 
-                    var song = new Song();
-                    song.setYouTubeInformation(songInformation);
+                            var song = new Song();
+                            song.setYouTubeInformation(songInformation);
 
-                    callback(song);
-                },
-                error: function() {
-                    Notifications.showNotification({
-                        title: 'Failed to find song',
-                        message: 'An issue was encountered while attempting to find song with URL: ' + url
+                            callback(song);
+                        },
+                        error: function () {
+                            Notifications.showNotification({
+                                title: 'Failed to find song',
+                                message: 'An issue was encountered while attempting to find song with URL: ' + url
+                            });
+                        }
                     });
                 }
             });

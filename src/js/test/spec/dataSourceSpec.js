@@ -4,6 +4,7 @@
 ], function (DataSource, DataSourceType) {
     'use strict';
 
+    //  TODO: needs updating since I changed DataSource stuff.
     describe('DataSource', function () {
 
         var expectDataSource = function (dataSource, expectations) {
@@ -82,14 +83,14 @@
             dataSource = new DataSource({ url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA' });
             expectDataSource(dataSource, {
                 id: 'UCXIyz409s7bNWVcM-vjfdVA',
-                type: DataSourceType.YouTubeChannel,
+                type: DataSourceType.YouTubePlaylist,
                 url: 'https://gdata.youtube.com/feeds/api/users/UCXIyz409s7bNWVcM-vjfdVA/uploads'
             });
 
             dataSource = new DataSource({ url: 'http://www.youtube.com/user/majesticcasual' });
             expectDataSource(dataSource, {
                 id: 'majesticcasual',
-                type: DataSourceType.YouTubeChannel,
+                type: DataSourceType.YouTubePlaylist,
                 url: 'https://gdata.youtube.com/feeds/api/users/majesticcasual/uploads'
             });
  
@@ -150,9 +151,6 @@
         
         it('Should be able to successfully indicate whether it needsLoading', function () {
             var dataSource;
-
-            dataSource = new DataSource({ type: DataSourceType.YouTubeChannel });
-            expect(dataSource.needsLoading()).toEqual(true);
             
             dataSource = new DataSource({ type: DataSourceType.YouTubePlaylist });
             expect(dataSource.needsLoading()).toEqual(true);

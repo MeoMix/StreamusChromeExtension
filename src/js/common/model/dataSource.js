@@ -16,57 +16,78 @@
             title: '',
             url: ''
         },
-
-        initialize: function () {
-            //  Set id and type based off of url if provided
+        
+        //  Take the URL given to the dataSource and parse it for relevant information.
+        //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
+        //  need to fetch the Channel's Uploads playlist first.
+        parseUrl: function (options) {
             var url = this.get('url');
-
-            if (url !== '') {
-                this._setDefaultsFromUrl(url);
-            }
-        },
-
-        //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
-        needsLoading: function () {
-            var type = this.get('type');
-            return type === DataSourceType.YouTubeChannel || type === DataSourceType.YouTubePlaylist;
-        },
-
-        _setDefaultsFromUrl: function (url) {
-            var dataSourceType = DataSourceType.None;
-            var dataSourceId = '';
+            if (url === '') throw "URL expected to be set";
             
+            var dataSourceId;
+
             //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
             if (this.get('parseVideo')) {
                 dataSourceId = this.parseYouTubeSongIdFromUrl(url);
 
                 if (dataSourceId !== '') {
-                    dataSourceType = DataSourceType.YouTubeVideo;
+                    this.set({
+                        type: DataSourceType.YouTubeVideo,
+                        id: dataSourceId
+                    });
+
+                    options.success();
+                    return;
                 }
             }
-            
+
             //  Try to find a playlist id if no video id was found.
-            if (dataSourceType === DataSourceType.None) {
-                dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
+            dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
 
-                if (dataSourceId !== '') {
-                    dataSourceType = DataSourceType.YouTubePlaylist;
-                }
+            if (dataSourceId !== '') {
+                this.set({
+                    type: DataSourceType.YouTubePlaylist,
+                    id: dataSourceId
+                });
+
+                options.success();
+                return;
             }
-            
+
             //  Try to find channel id if still nothing found.
-            if (dataSourceType === DataSourceType.None) {
-                dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
-                
-                if (dataSourceId !== '') {
-                    dataSourceType = DataSourceType.YouTubeChannel;
+            dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
+
+            if (dataSourceId !== '') {
+                var channelUploadOptions = {
+                    success: function(response) {
+
+                        this.set({
+                            type: DataSourceType.YouTubePlaylist,
+                            id: response.uploadsPlaylistId
+                        });
+
+                        options.success();
+                        return;
+                    }.bind(this)
+                };
+
+                if (this.idIsUsername()) {
+                    channelUploadOptions.username = dataSourceId;
+                } else {
+                    channelUploadOptions.channelId = dataSourceId;
                 }
+
+                YouTubeV3API.getChannelUploadsPlaylistId(channelUploadOptions);
+            } else {
+                //  Callback with nothing set.
+                options.success();
             }
 
-            this.set({
-                type: dataSourceType,
-                id: dataSourceId
-            });
+        },
+
+        //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
+        needsLoading: function () {
+            return this.get('type') === DataSourceType.YouTubePlaylist;
         },
         
         //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
@@ -111,36 +132,15 @@
                 return;
             }
 
-            switch (this.get('type')) {
-                case DataSourceType.YouTubePlaylist:
-
-                    YouTubeV3API.getTitle({
-                        serviceType: YouTubeServiceType.Playlists,
-                        id: this.get('id'),
-                        success: function (title) {
-                            this.set('title', title);
-                            options.success(title);
-                        }.bind(this),
-                        error: options.error
-                    });
-
-                    break;
-                case DataSourceType.YouTubeChannel:
-
-                    YouTubeV3API.getTitle({
-                        serviceType: YouTubeServiceType.Channels,
-                        id: this.get('id'),
-                        success: function (title) {
-                            this.set('title', title);
-                            options.success(title);
-                        }.bind(this),
-                        error: options.error
-                    });
-
-                    break;
-                default:
-                    if(options.error) options.error("Unhandled dataSource type:", this.get('type'));
-            }
+            YouTubeV3API.getTitle({
+                serviceType: YouTubeServiceType.Playlists,
+                id: this.get('id'),
+                success: function (title) {
+                    this.set('title', title);
+                    options.success(title);
+                }.bind(this),
+                error: options.error
+            });
         },
         
         idIsUsername: function() {
