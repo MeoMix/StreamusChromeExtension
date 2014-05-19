@@ -1,15 +1,15 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
-    'background/notifications',
     'background/collection/streamItems',
     'background/collection/playlists',
-    'background/model/user',
+    'background/model/notificationsManager',
     'background/model/song',
+    'background/model/user',
     'common/enum/dataSourceType',
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (Notifications, StreamItems, Playlists, User, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (StreamItems, Playlists, NotificationsManager, Song, User, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -157,7 +157,7 @@ define([
                             callback(song);
                         },
                         error: function () {
-                            Notifications.showNotification({
+                            NotificationsManager.showNotification({
                                 title: 'Failed to find song',
                                 message: 'An issue was encountered while attempting to find song with URL: ' + url
                             });

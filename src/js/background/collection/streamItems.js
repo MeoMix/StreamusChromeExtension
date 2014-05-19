@@ -1,6 +1,6 @@
 ﻿define([
     'background/collection/multiSelectCollection',
-    'background/notifications',
+    'background/model/notificationsManager',
     'background/model/streamItem',
     'background/model/song',
     'background/model/player',
@@ -10,7 +10,7 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (MultiSelectCollection, Notifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (MultiSelectCollection, NotificationsManager, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     var StreamItems = MultiSelectCollection.extend({
@@ -195,7 +195,7 @@
                 message = activeItem.get('title');
             }
 
-            Notifications.showNotification({
+            NotificationsManager.showNotification({
                 iconUrl: iconUrl,
                 title: title,
                 message: message
