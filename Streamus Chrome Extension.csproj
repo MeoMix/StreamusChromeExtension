@@ -107,7 +107,7 @@
     <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
     <Content Include="src\js\background\model\youTubePlayerAPI.js" />
-    <Content Include="src\js\background\notifications.js" />
+    <Content Include="src\js\background\model\notificationsManager.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\common\enum\songType.js" />
@@ -127,7 +127,6 @@
     <Content Include="src\js\common\enum\youTubePlayerError.js" />
     <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
-    <Content Include="src\js\foreground\eventAggregator.js" />
     <Content Include="src\js\foreground\foreground.js" />
     <Content Include="src\js\foreground\main.js" />
     <Content Include="src\js\foreground\model\contextMenu.js" />
