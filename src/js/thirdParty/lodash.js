@@ -8,7 +8,6 @@
  * Available under MIT license <http://lodash.com/license>
  */
 ; (function () {
-
     /** Used as a safe reference for `undefined` in pre ES5 environments */
     var undefined;
 
@@ -6764,7 +6763,11 @@
         // define as an anonymous module so, through path mapping, it can be
         // referenced as the "underscore" module
         define(function () {
-            return _;
+            if (chrome.extension.getBackgroundPage().window === window) {
+                return _;
+            } else {
+                return chrome.extension.getBackgroundPage().window._;
+            }
         });
     }
         // check for `exports` after `define` in case a build optimizer adds an `exports` object
