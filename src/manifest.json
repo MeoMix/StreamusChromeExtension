@@ -101,17 +101,6 @@
 	"minimum_chrome_version": "29.0.1547.76",
 	"offline_enabled": false,
 	"omnibox": { "keyword" : "streamus" }, 
-	"oauth2": {
-		"client_id": "346456917689-dtfdla6c18cn78u3j5subjab1kiq3jls.apps.googleusercontent.com",
-		"scopes": [
-			"https://www.googleapis.com/auth/youtube",
-			"https://www.googleapis.com/auth/youtube.readonly",
-			"https://www.googleapis.com/auth/youtube.upload",
-			"https://www.googleapis.com/auth/youtubepartner",
-			"https://www.googleapis.com/auth/plus.login",
-			"https://www.googleapis.com/auth/plus.me"
-		]
-    },
 	"permissions": [
 	    "contextMenus",
 		"notifications",
@@ -129,7 +118,6 @@
 		"css/beatportInject.css",
 		"css/jquery.qtip.css",
 		"img/streamus_icon14_0bars.png",
-		"img/streamus_icon16.png",
-		"img/close.png"
+		"img/streamus_icon16.png"
 	]
 }

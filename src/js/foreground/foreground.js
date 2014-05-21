@@ -121,16 +121,8 @@
 
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
-                //  There's a "bug" in how chrome extensions work. Window unload can be shut down early before all events finish executing.
-                //  So it's necessary to invert the dependency of unsubscribing foreground view events from the foreground to the background where code is guaranteed to finish executing.
-                chrome.extension.getBackgroundPage().unbindViewEvents(this);
-
+                this.close();
                 this.deselectCollections();
-
-                //  The SearchView needs to run its close logic. I can't rely on actually closing it, though, apparently.
-                if (this.leftCoveringPaneRegion.currentView instanceof SearchView) {
-                    this.leftCoveringPaneRegion.currentView.onClose();
-                }
             }.bind(this));
 
             window.Application.vent.on('showSearch', function () {

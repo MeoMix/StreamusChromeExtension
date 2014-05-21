@@ -31,18 +31,18 @@ define([
             var volume = Player.get('volume');
 
             if (isMuted) {
-                iconColor = 'Red';
+                iconColor = 'red';
             }
             else if (playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
-                iconColor = 'Green';
+                iconColor = 'green';
             } else {
-                iconColor = 'Yellow';
+                iconColor = 'yellow';
             }
 
             var barCount = Math.ceil((volume / 25));
 
             chrome.browserAction.setIcon({
-                path: '../../img/' + iconColor + ' ' + barCount + '.png'
+                path: '../../img/' + iconColor + '_' + barCount + '.png'
             });
         }, 100)
         
