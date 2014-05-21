@@ -53,6 +53,7 @@
                             throw 'Unhandled ListItemType: ' + listItemType;
                     }
 
+                    this.copyHelperView = copyHelperView;
                     this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
                     this.copyHelper.addClass('copy-helper');
 
@@ -114,7 +115,6 @@
                 },
 
                 stop: function (event, ui) {
-
                     this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
@@ -122,7 +122,7 @@
                         this.copyHelper.removeClass('copy-helper');
                     }
                     else {
-                        this.copyHelper.remove();
+                        this.copyHelperView.close();
 
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
@@ -194,10 +194,11 @@
 
                             self.view.collection.addSongs(searchResultSongs, { index: index });
                         }
-
+                        
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
                         //  Don't swap it out until done using its dropped-position index.
                         ui.sender[0].copyHelper.replaceWith(ui.item);
+                        ui.sender[0].copyHelperView.close();
 
                         ui.sender.data('copied', true);
 

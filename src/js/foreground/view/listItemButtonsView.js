@@ -9,6 +9,8 @@
         onRender: function () {
             var documentFragment = document.createDocumentFragment();
 
+            this.shownButtonViews = [];
+
             _.each(this.options.buttonViews, function(ButtonView) {
                 var buttonView = new ButtonView({
                     model: this.model
@@ -16,9 +18,18 @@
 
                 documentFragment.appendChild(buttonView.render().el);
                 buttonView.triggerMethod('show');
-            }.bind(this));
+                this.shownButtonViews.push(buttonView);
+
+            }, this);
 
             this.$el.append(documentFragment);
+        },
+        
+        onClose: function() {
+            _.each(this.shownButtonViews, function (shownButtonView) {
+                shownButtonView.close();
+            });
+            this.shownButtonViews.length = 0;
         }
 
     });
