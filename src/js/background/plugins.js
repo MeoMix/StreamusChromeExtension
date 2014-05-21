@@ -1,6 +1,4 @@
 ﻿define([
-    'jquery',
-    'lodash',
     'backbone',
     'googleAnalytics'
 ], function () {

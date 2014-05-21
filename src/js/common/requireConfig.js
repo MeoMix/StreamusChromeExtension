@@ -1,13 +1,11 @@
 ﻿define(function () {
 
     require.config({
-
         baseUrl: 'js/',
 
         enforceDefine: true,
 
         paths: {
-
             //  Paths:
             'template': '../template',
 
@@ -35,13 +33,6 @@
         },
 
         shim: {
-
-            'backbone': {
-                //  These script dependencies should be loaded before loading backbone.js
-                deps: ['lodash', 'jquery'],
-                //  Once loaded, use the global 'Backbone' as the module value.
-                exports: 'Backbone'
-            },
             'boot': {
                 deps: ['jasmine', 'jasmine-html'],
                 exports: 'window.jasmineRequire'
@@ -72,8 +63,6 @@
             'less': {
                 exports: 'window.less'
             }
-
         }
-
     });
 });

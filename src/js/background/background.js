@@ -46,36 +46,36 @@ define([
 
         foregroundLayout.close();
 
-        var collectionsToUnbind = [Playlists, SearchResults, StreamItems];
-        var allToUnbind = [Player, User, Settings, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton];
+        //var collectionsToUnbind = [Playlists, SearchResults, StreamItems];
+        //var allToUnbind = [Player, User, Settings, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton];
 
-        _.each(collectionsToUnbind, function (collectionToUnbind) {
-            allToUnbind.push(collectionToUnbind);
+        //_.each(collectionsToUnbind, function (collectionToUnbind) {
+        //    allToUnbind.push(collectionToUnbind);
 
-            collectionToUnbind.each(function (modelToUnbind) {
-                allToUnbind.push(modelToUnbind);
+        //    collectionToUnbind.each(function (modelToUnbind) {
+        //        allToUnbind.push(modelToUnbind);
 
-                //  Be sure to add every PlaylistItem in every Playlist.
-                if (modelToUnbind.has('items')) {
-                    var playlistItems = modelToUnbind.get('items');
-                    allToUnbind.push(playlistItems);
+        //        //  Be sure to add every PlaylistItem in every Playlist.
+        //        if (modelToUnbind.has('items')) {
+        //            var playlistItems = modelToUnbind.get('items');
+        //            allToUnbind.push(playlistItems);
 
-                    playlistItems.each(function (playlistItem) {
-                        allToUnbind.push(playlistItem);
-                    });
-                }
-            });
-        });
+        //            playlistItems.each(function (playlistItem) {
+        //                allToUnbind.push(playlistItem);
+        //            });
+        //        }
+        //    });
+        //});
 
-        _.each(allToUnbind, function (toUnbind) {
-            _.each(toUnbind._events, function (eventGroup, key) {
-                var filteredEvents = _.filter(eventGroup, function (event) {
-                    return !event.ctx.isClosed;
-                });
+        //_.each(allToUnbind, function (toUnbind) {
+        //    _.each(toUnbind._events, function (eventGroup, key) {
+        //        var filteredEvents = _.filter(eventGroup, function (event) {
+        //            return !event.ctx.isClosed;
+        //        });
 
-                toUnbind._events[key] = filteredEvents;
-            });
-        });
+        //        toUnbind._events[key] = filteredEvents;
+        //    });
+        //});
     };
 
 });

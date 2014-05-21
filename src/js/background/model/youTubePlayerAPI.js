@@ -60,13 +60,10 @@ define(function() {
             }.bind(this);
 
             //  Give this as much time as possible to load:
-            setTimeout(function() {
-                $('<script>', {
-                    src: 'https://www.youtube.com/iframe_api',
-                    defer: true
-                }).insertBefore($('script:last'));
-            });
-
+            $('<script>', {
+                src: 'https://www.youtube.com/iframe_api',
+                async: true
+            }).insertBefore($('script:first'));
         }
     });
 

@@ -24,7 +24,7 @@ define(function () {
             //  This API is currently available on ChromeOS, Windows, and Mac.
             if (!_.isUndefined(chrome.notifications)) {
                 //  Future version of Google Chrome will support permission levels on notifications.
-                if (!_.isUndefine(chrome.notifications.getPermissionLevel)) {
+                if (!_.isUndefined(chrome.notifications.getPermissionLevel)) {
                     chrome.notifications.getPermissionLevel(function (permissionLevel) {
                         if (permissionLevel === 'granted') {
                             this._showNotification(options);
@@ -55,7 +55,7 @@ define(function () {
                         this.set('shownNotificationId', '');
                     }.bind(this));
                 }
-            }, 3000);
+            }.bind(this), 3000);
 
             this.set('closeNotificationTimeout', closeNotificationTimeout);
         }
