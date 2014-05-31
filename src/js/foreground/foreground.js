@@ -14,9 +14,8 @@
     'foreground/view/prompt/notificationPromptView',
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView',
-    'foreground/view/prompt/voteStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
-], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, VoteStreamusPromptView, RightBasePaneView) {
+], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
@@ -78,12 +77,6 @@
                         this.promptRegion.currentView.triggerMethod('hide');
                     }
                 });
-            } else {
-                var remindVoteStreamus = Settings.get('remindVoteStreamus');
-                
-                if (remindVoteStreamus) {
-                    this.showPrompt(new VoteStreamusPromptView());
-                }
             }
 
             //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.

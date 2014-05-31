@@ -26,6 +26,7 @@
 
         ui: {
             playlistDetails: '.playlist-details',
+            tooltipable: '.tooltipable',
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
             itemContainer: '#active-playlist-items',
@@ -70,11 +71,13 @@
         },
 
         onShow: function () {
-            this.ui.playlistDetails.qtip();
-            this.ui.addAll.qtip();
-            this.ui.playAll.qtip();
+            this.ui.tooltipable.qtip();
 
             this.triggerMethod('FullyVisible');
+        },
+        
+        onClose: function () {
+            this.ui.tooltipable.qtip('api').destroy(true);
         },
 
         onRender: function () {            

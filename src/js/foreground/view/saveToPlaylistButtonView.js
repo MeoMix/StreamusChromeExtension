@@ -20,18 +20,21 @@
             'click': 'saveToPlaylist',
             'dblclick': 'saveToPlaylist'
         },
+        
+        behaviors: {
+            Tooltip: {}
+        },
 
         onRender: function() {
             this.setTitleAndDisabled();
-            
-            //  Be sure to call render first or else setting content.text won't actually update it.
+
+            //  Be sure to call render first or else setting content.text won't actually update it. This is a bug in qtip -- fixed in next version.
             this.$el.qtip('render');
             this.$el.qtip('option', 'content.text', this.$el.attr('title'));
         },
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
-            this.$el.qtip();
         },
 
         saveToPlaylist: _.debounce(function () {

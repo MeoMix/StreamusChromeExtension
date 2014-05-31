@@ -2,7 +2,7 @@
 
     <div class="header">
 
-        <button class="button-icon hide enabled" title="<%= closeMenu %>">
+        <button class="button-icon hide enabled tooltipable" title="<%= closeMenu %>">
             <i class="fa fa-reorder"></i>
         </button>
 
@@ -10,7 +10,7 @@
             <img src="http://streamus.com/img/logo.png" alt="Streamus Logo">
         </span>
         
-        <button id="settings-button" class="button-icon" title="<%= settings %>">
+        <button id="settings-button" class="button-icon tooltipable" title="<%= settings %>">
             <i class="fa fa-cogs"></i>
         </button>
 
@@ -30,16 +30,16 @@
 
         <div class="right-group">
 
-            <button class="button-icon button-small add" title="<%= createPlaylist %>">
+            <button class="button-icon button-small add tooltipable" title="<%= createPlaylist %>">
                 <i class="fa fa-plus"></i>
             </button>
 
-            <button class="button-icon button-small edit" title="<%= editPlaylist %>">
+            <button class="button-icon button-small edit tooltipable" title="<%= editPlaylist %>">
                 <i class="fa fa-pencil"></i>
             </button>
             
             <!--title is set in view because icon can be disabled-->
-            <button id="delete-playlist-button" class="button-icon button-small delete" title="">
+            <button id="delete-playlist-button" class="button-icon button-small delete tooltipable" title="">
                 <i class="fa fa-trash-o"></i>
             </button>
 

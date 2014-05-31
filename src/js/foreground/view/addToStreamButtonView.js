@@ -6,7 +6,6 @@
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
-        
         tagName: 'button',
         className: 'button-icon colored',
         template: _.template(AddToStreamButtonTemplate),
@@ -19,9 +18,9 @@
             'click': 'addToStream',
             'dblclick': 'addToStream'
         },
-
-        initialize: function () {
-            this.$el.qtip();
+        
+        behaviors: {
+            Tooltip: {}
         },
         
         addToStream: _.debounce(function () {
@@ -30,7 +29,6 @@
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
         }, 100, true)
-
     });
 
     return AddToStreamButtonView;

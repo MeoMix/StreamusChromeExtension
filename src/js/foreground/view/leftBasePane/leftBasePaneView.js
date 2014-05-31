@@ -24,7 +24,8 @@
 
         ui: {
             showSearch: '.show-search',
-            showPlaylistsArea: '.show-playlists-area'
+            showPlaylistsArea: '.show-playlists-area',
+            tooltipable: '.tooltipable'
         },
         
         events: {
@@ -45,8 +46,11 @@
         onShow: function () {
             this.updateRegions();
 
-            this.ui.showSearch.qtip();
-            this.ui.showPlaylistsArea.qtip();
+            this.ui.tooltipable.qtip();
+        },
+        
+        onClose: function () {
+            this.ui.tooltipable.qtip('api').destroy(true);
         },
         
         initialize: function () {

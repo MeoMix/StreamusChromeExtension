@@ -1,6 +1,6 @@
 ﻿// MarionetteJS (Backbone.Marionette)
 // ----------------------------------
-// v1.8.3
+// v1.8.6
 //
 // Copyright (c)2014 Derick Bailey, Muted Solutions, LLC.
 // Distributed under MIT license
@@ -112,7 +112,7 @@
             return hash;
         };
 
-        // Mix in methods from lodash, for iteration, and other
+        // Mix in methods from Underscore, for iteration, and other
         // collection related features.
         // Borrowing this code from Backbone.Collection:
         // http://backbonejs.org/docs/backbone.html#section-106
@@ -520,7 +520,12 @@
 
                 view.render();
                 Marionette.triggerMethod.call(this, "before:show", view);
-                Marionette.triggerMethod.call(view, "before:show");
+
+                if (_.isFunction(view.triggerMethod)) {
+                    view.triggerMethod("before:show");
+                } else {
+                    Marionette.triggerMethod.call(view, "before:show");
+                }
 
                 if (isDifferentView || isViewClosed) {
                     this.open(view);
@@ -529,7 +534,14 @@
                 this.currentView = view;
 
                 Marionette.triggerMethod.call(this, "show", view);
-                Marionette.triggerMethod.call(view, "show");
+
+                if (_.isFunction(view.triggerMethod)) {
+                    view.triggerMethod("show");
+                } else {
+                    Marionette.triggerMethod.call(view, "show");
+                }
+
+                return this;
             },
 
             ensureEl: function () {
@@ -1828,7 +1840,6 @@
                 Behaviors.wrap(view, this.behaviors, [
                   'bindUIElements', 'unbindUIElements',
                   'delegateEvents', 'undelegateEvents',
-                  'onShow', 'onClose',
                   'behaviorEvents', 'triggerMethod',
                   'setElement', 'close'
                 ]);
@@ -1855,30 +1866,6 @@
                     // This unbinds event listeners
                     // that behaviors have registerd for.
                     _.invoke(behaviors, 'close', args);
-                },
-
-                onShow: function (onShow, behaviors) {
-                    var args = _.tail(arguments, 2);
-
-                    _.each(behaviors, function (b) {
-                        Marionette.triggerMethod.apply(b, ["show"].concat(args));
-                    });
-
-                    if (_.isFunction(onShow)) {
-                        onShow.apply(this, args);
-                    }
-                },
-
-                onClose: function (onClose, behaviors) {
-                    var args = _.tail(arguments, 2);
-
-                    _.each(behaviors, function (b) {
-                        Marionette.triggerMethod.apply(b, ["close"].concat(args));
-                    });
-
-                    if (_.isFunction(onClose)) {
-                        onClose.apply(this, args);
-                    }
                 },
 
                 bindUIElements: function (bindUIElements, behaviors) {

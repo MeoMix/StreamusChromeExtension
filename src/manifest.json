@@ -111,6 +111,7 @@
 		"webRequestBlocking",
 		"*://*.youtube.com/*",
 		"http://localhost:61975/Streamus/",
+		"http://74.217.74.164/Streamus/",
 		"http://streamus.apphb.com/"
 	],
 	"web_accessible_resources": [

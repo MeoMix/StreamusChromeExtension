@@ -7,7 +7,6 @@
 
             var remindClearStream = this.getItem('remindClearStream');
             var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
-            var remindVoteStreamus = this.getItem('remindVoteStreamus');
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
@@ -21,7 +20,6 @@
                 showTooltips: showTooltips === null ? true : showTooltips,
                 remindClearStream: remindClearStream === null ? true : remindClearStream,
                 remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
-                remindVoteStreamus: remindVoteStreamus === null ? true : remindVoteStreamus,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
                 searchQuery: this.getItem('searchQuery') || '',
                 alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
@@ -31,8 +29,8 @@
         initialize: function () {
             //  BaseURL is needed for ajax requests to the server.
             if (this.get('localDebug')) {
+                //this.set('serverURL', 'http://74.217.74.164/Streamus/');
                 this.set('serverURL', 'http://localhost:28029/');
-                //this.set('serverURL', 'http://localhost:61975/');
             }
             else {
                 this.set('serverURL', 'http://streamus.apphb.com/');
@@ -60,10 +58,6 @@
 
             this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
                 localStorage.setItem('remindDeletePlaylist', JSON.stringify(remindDeletePlaylist));
-            });
-
-            this.on('change:remindVoteStreamus', function (model, remindVoteStreamus) {
-                localStorage.setItem('remindVoteStreamus', JSON.stringify(remindVoteStreamus));
             });
 
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {

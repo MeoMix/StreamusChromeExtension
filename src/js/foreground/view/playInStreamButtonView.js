@@ -21,8 +21,8 @@
             'dblclick': 'playInStream'
         },
         
-        initialize: function() {
-            this.$el.qtip();
+        behaviors: {
+            Tooltip: {}
         },
         
         playInStream: _.debounce(function () {
@@ -46,7 +46,6 @@
             //  Don't allow dblclick to bubble up to the list item because that'll select it
             return false;
         }, 100, true)
-
     });
 
     return PlayInStreamButtonView;

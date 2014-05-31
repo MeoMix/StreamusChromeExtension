@@ -20,6 +20,7 @@
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
+            tooltipable: '.tooltipable',
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
             instructions: '.instructions',
@@ -112,24 +113,20 @@
             this.$el.transition({
                 x: this.$el.width()
             }, transitionDuration, 'snap', function() {
-                this.ui.hideSearchButton.qtip();
-                this.ui.playSelectedButton.qtip();
-                this.ui.addSelectedButton.qtip();
-                this.ui.saveSelectedButton.qtip();
+                this.ui.tooltipable.qtip();
                 
                 this.triggerMethod('FullyVisible');
             }.bind(this));
-           
         },
 
         //  This is ran whenever the user closes the search view, but the foreground remains open.
         onClose: function () {
             this.model.saveSearchQuery();
+            this.ui.tooltipable.qtip('api').destroy(true);
             this.startClearResultsTimeout();
         },
         
         hide: function () {
-            
             //  Transition the view back out before closing.
             this.$el.transition({
                 //  Transition -20px off the screen to account for the shadow on the view.
@@ -137,7 +134,6 @@
             }, function () {
                 this.model.destroy();
             }.bind(this));
-            
         },
         
         //  Wait a while before forgetting search results because sometimes people just leave for a second and its frustrating to lose the results.

@@ -31,7 +31,6 @@
             showTooltipsCheckbox: '#show-tooltips',
             remindClearStreamCheckbox: '#remind-clear-stream',
             remindDeletePlaylistCheckbox: '#remind-delete-playlist',
-            remindVoteStreamusCheckbox: '#remind-vote-streamus',
             alwaysOpenToSearchCheckbox: '#always-open-to-search'
         },
         
@@ -39,7 +38,6 @@
             'change @ui.suggestedQualitySelect': 'setSuggestedQuality',
             'change @ui.remindClearStreamCheckbox': 'setRemindClearStream',
             'change @ui.remindDeletePlaylistCheckbox': 'setRemindDeletePlaylist',
-            'change @ui.remindVoteStreamusCheckbox': 'setRemindVoteStreamus',
             'change @ui.showTooltipsCheckbox': 'setShowTooltips',
             'change @ui.alwaysOpenToSearchCheckbox': 'setAlwaysOpenToSearch'
         },
@@ -59,12 +57,7 @@
             var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
         },
-        
-        setRemindVoteStreamus: function () {
-            var remindVoteStreamus = this.ui.remindVoteStreamusCheckbox.is(':checked');
-            Settings.set('remindVoteStreamus', remindVoteStreamus);
-        },
-        
+
         setShowTooltips: function() {
             var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
             Settings.set('showTooltips', showTooltips);

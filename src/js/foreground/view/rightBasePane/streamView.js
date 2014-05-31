@@ -55,6 +55,7 @@
         
         ui: {
             buttons: '.button-icon',
+            tooltipable: '.tooltipable',
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
             saveStreamButton: '#save-stream',
@@ -83,9 +84,13 @@
         },
         
         onShow: function () {
-            this.ui.buttons.qtip();
+            this.ui.tooltipable.qtip();
             
             this.triggerMethod('FullyVisible');
+        },
+        
+        onClose: function () {
+            this.ui.tooltipable.qtip('api').destroy(true);
         },
         
         onRender: function () {

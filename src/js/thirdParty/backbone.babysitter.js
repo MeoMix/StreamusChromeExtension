@@ -1,30 +1,33 @@
 ﻿// Backbone.BabySitter
 // -------------------
-// v0.0.6
+// v0.1.4
 //
-// Copyright (c)2013 Derick Bailey, Muted Solutions, LLC.
+// Copyright (c)2014 Derick Bailey, Muted Solutions, LLC.
 // Distributed under MIT license
 //
-// http://github.com/babysitterjs/backbone.babysitter
+// http://github.com/marionettejs/backbone.babysitter
 
 (function (root, factory) {
-    if (typeof exports === 'object') {
 
-        var lodash = require('lodash');
-        var backbone = require('backbone');
-
-        module.exports = factory(lodash, backbone);
-
-    } else if (typeof define === 'function' && define.amd) {
-
-        define(['lodash', 'backbone'], factory);
-
+    if (typeof define === 'function' && define.amd) {
+        define(['backbone', 'lodash'], function (Backbone, _) {
+            return factory(Backbone, _);
+        });
+    } else if (typeof exports !== 'undefined') {
+        var Backbone = require('backbone');
+        var _ = require('lodash');
+        module.exports = factory(Backbone, _);
+    } else {
+        factory(root.Backbone, root._);
     }
-}(this, function (_, Backbone) {
-    "option strict";
 
-    // Backbone.ChildViewContainer
-    // ---------------------------
+}(this, function (Backbone, _) {
+    'use strict';
+
+    var previousChildViewContainer = Backbone.ChildViewContainer;
+
+    // BabySitter.ChildViewContainer
+    // -----------------------------
     //
     // Provide a container to store, retrieve and
     // shut down child views.
@@ -69,6 +72,7 @@
                 }
 
                 this._updateLength();
+                return this;
             },
 
             // Find a view by the model that was attached to
@@ -97,7 +101,7 @@
                 return _.values(this._views)[index];
             },
 
-            // retrieve a view by it's `cid` directly
+            // retrieve a view by its `cid` directly
             findByCid: function (cid) {
                 return this._views[cid];
             },
@@ -124,6 +128,7 @@
 
                 // update the length
                 this._updateLength();
+                return this;
             },
 
             // Call a method on every view in the container,
@@ -153,7 +158,7 @@
         // Borrowing this code from Backbone.Collection:
         // http://backbonejs.org/docs/backbone.html#section-106
         //
-        // Mix in methods from Lo-dash, for iteration, and other
+        // Mix in methods from Underscore, for iteration, and other
         // collection related features.
         var methods = ['forEach', 'each', 'map', 'find', 'detect', 'filter',
           'select', 'reject', 'every', 'all', 'some', 'any', 'include',
@@ -171,6 +176,14 @@
         // return the public API
         return Container;
     })(Backbone, _);
+
+
+    Backbone.ChildViewContainer.VERSION = '0.1.4';
+
+    Backbone.ChildViewContainer.noConflict = function () {
+        Backbone.ChildViewContainer = previousChildViewContainer;
+        return this;
+    };
 
     return Backbone.ChildViewContainer;
 

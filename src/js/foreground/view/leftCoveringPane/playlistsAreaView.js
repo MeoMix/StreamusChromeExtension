@@ -36,6 +36,7 @@
         
         ui: {
             buttons: '.button-icon',
+            tooltipable: '.tooltipable',
             panel: '.panel',
             playlists: '#playlists',
             contextButtons: '.context-buttons',
@@ -111,22 +112,23 @@
             this.ui.panel.transition({
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
-                
-                this.ui.buttons.qtip();
+                this.ui.tooltipable.qtip();
                 this.triggerMethod('FullyVisible');
             }.bind(this));
         },
         
+        onClose: function() {
+            this.ui.tooltipable.qtip('api').destroy(true);
+        },
+        
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
         hideIfClickOutsidePanel: function(event) {
-
             if (event.target == event.currentTarget) {
                 this.hide();
             }
         },
         
         hide: function () {
-            
             this.$el.transition({
                 'background': this.$el.data('background')
             });
@@ -263,7 +265,10 @@
                 title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
             }
 
+            //  Be sure to call render first or else setting content.text won't actually update it. This is a bug in qtip -- fixed in next version.
+            this.ui.deleteButton.qtip('render');
             this.ui.deleteButton.toggleClass('disabled', !canDelete).attr('title', title);
+            this.ui.deleteButton.qtip('option', 'content.text', title);
         },
         
         showDeleteSelectedPlaylistPrompt: function () {

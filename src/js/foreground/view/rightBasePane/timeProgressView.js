@@ -28,7 +28,8 @@ define([
             progress: '.progress',
             timeRange: '.time-range',
             timeElapsedLabel: '.time-elapsed',
-            durationLabel: '.duration'
+            durationLabel: '.duration',
+            tooltipable: '.tooltipable'
         },
        
         autoUpdate: true,
@@ -39,8 +40,11 @@ define([
         },
         
         onShow: function() {
-            this.ui.timeElapsedLabel.qtip();
-            this.ui.durationLabel.qtip();
+            this.ui.tooltipable.qtip();
+        },
+        
+        onClose: function () {
+            this.ui.tooltipable.qtip('api').destroy(true);
         },
 
         onRender: function () {

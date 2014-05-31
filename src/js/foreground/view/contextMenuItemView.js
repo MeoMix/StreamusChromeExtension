@@ -18,10 +18,13 @@
                 title: this.model.get('title')
             };
         },
+        
+        behaviors: {
+            Tooltip: {}
+        },
 
         onRender: function () {
             this.setState();
-            this.$el.qtip();
         },
 
         setState: function () {
@@ -29,7 +32,6 @@
         },
 
         onClick: function () {
-
             if (this.$el.hasClass('disabled')) {
                 return false;
             }

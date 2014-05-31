@@ -17,8 +17,8 @@
             'click': 'doDelete'
         },
         
-        initialize: function () {
-            this.$el.qtip();
+        behaviors: {
+            Tooltip: {}
         },
         
         doDelete: function () {
