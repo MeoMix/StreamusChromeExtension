@@ -118,8 +118,8 @@
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
+    <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
-    <Content Include="src\js\foreground\view\prompt\voteStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
     <Content Include="src\js\common\enum\playerState.js" />
@@ -152,7 +152,6 @@
     <Content Include="src\js\foreground\view\prompt\settingsPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\saveSongsPromptView.js" />
     <Content Include="src\js\foreground\view\saveSongsView.js" />
-    <Content Include="src\js\foreground\view\voteStreamusView.js" />
     <Content Include="src\js\foreground\view\deleteButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\updateStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\saveToPlaylistButtonView.js" />
@@ -192,7 +191,6 @@
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\spec\playlistItemSpec.js" />
     <Content Include="src\js\test\spec\playlistItemsSpec.js" />
-    <Content Include="src\js\thirdParty\async.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
     <Content Include="src\js\thirdParty\backbone.wreqr.js" />
@@ -228,7 +226,6 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
-    <Content Include="src\template\voteStreamus.html" />
     <Content Include="src\template\saveSongs.html" />
     <Content Include="src\template\updateStreamus.html" />
     <Content Include="src\template\deleteButton.html" />
