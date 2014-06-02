@@ -111,6 +111,8 @@ define([
             var youTubePlayerAPI = new YouTubePlayerAPI();
 
             this.listenTo(youTubePlayerAPI, 'change:ready', function () {
+                console.log('rdy');
+
                 //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
                 //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
                 youTubePlayer = new window.YT.Player('youtube-player', {
@@ -137,15 +139,19 @@ define([
                     }
                 });
 
+                console.log("injecting dummy");
                 //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
                 new window.YT.Player('dummyTarget');
                 var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
                 $('#dummyTarget').remove();
+                console.log("dummy removed, injecting real", isHttps);
 
                 var url = isHttps ? 'https' : 'http';
                 url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
                 $('#youtube-player').attr('src', url);
             });
+
+            youTubePlayerAPI.load();
 
         },
 
