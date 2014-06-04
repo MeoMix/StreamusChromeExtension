@@ -129,7 +129,6 @@ define([
         },
         
         getSongFromText: function(text, callback) {
-
             YouTubeV3API.getSongInformationByTitle({
                 title: text,
                 success: function(songInformation) {
@@ -139,7 +138,6 @@ define([
                     callback(song);
                 }
             });
-
         },
         
         getSongFromUrl: function(url, callback) {
@@ -165,7 +163,6 @@ define([
                     });
                 }
             });
-
         },
 
     });

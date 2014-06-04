@@ -4,7 +4,6 @@
     'use strict';
     
     describe('Utility', function () {
-
         it('Should be able to convert ISO8061 Duration to Seconds', function () {
             expect(Utility.iso8061DurationToSeconds('PT0H0M0S')).toEqual(0);
             expect(Utility.iso8061DurationToSeconds('PT0H0M1S')).toEqual(1);
@@ -40,18 +39,6 @@
             expect(Utility.cleanTitle('official music video')).toEqual('');
             expect(Utility.cleanTitle('ALBUM TRACK')).toEqual('');
         });
-
-        it('Should be able to get the Levenshtein Distance between two strings', function() {
-            expect(Utility.getLevenshteinDistance('', '')).toEqual(0);
-            expect(Utility.getLevenshteinDistance('a', 'a')).toEqual(0);
-            expect(Utility.getLevenshteinDistance('a', '')).toEqual(1);
-            expect(Utility.getLevenshteinDistance('', 'a')).toEqual(1);
-            expect(Utility.getLevenshteinDistance('b', 'a')).toEqual(1);
-            expect(Utility.getLevenshteinDistance('a', 'b')).toEqual(1);
-            expect(Utility.getLevenshteinDistance('aa', 'b')).toEqual(2);
-            expect(Utility.getLevenshteinDistance('bb', 'b')).toEqual(1);
-        });
-
     });
     
 });

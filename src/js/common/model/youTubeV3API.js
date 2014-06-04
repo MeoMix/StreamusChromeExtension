@@ -18,10 +18,6 @@
                     if (response.songInformationList.length === 0) {
                         if (options.error) options.error('No playable song found after searching with title ' + options.title);
                     } else {
-                        response.songInformationList.sort(function (a, b) {
-                            return Utility.getLevenshteinDistance(a.title, options.title) - Utility.getLevenshteinDistance(b.title, options.title);
-                        });
-                        
                         options.success(response.songInformationList[0]);
                     }
                 },
