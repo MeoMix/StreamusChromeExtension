@@ -47,20 +47,6 @@
         showReloadPromptTimeout: null,
 
         initialize: function () {
-            
-            $.extend($.fn.qtip.defaults.position, {
-                viewport: $(window),
-                my: 'top center',
-                at: 'bottom center',
-                hide: {
-                    leave: false
-                }
-            });
-
-            $.extend($.fn.qtip.defaults.style, {
-                classes: 'qtip-light qtip-shadow'
-            });
-
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');
@@ -79,22 +65,6 @@
                 });
             }
 
-            //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
-            //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
-            chrome.runtime.requestUpdateCheck(function (updateCheckStatus) {
-
-                switch (updateCheckStatus) {
-                    case 'update_available':
-                        this.showPrompt(new UpdateStreamusPromptView());
-                        break;
-                    case 'no_update':
-                    case 'throttled':
-                        //  Nothing to do -- just can't ask again for a while if throttled, but that's pretty unlikely to happen, I think!
-                        break;
-                }
-                
-            });
-
             this.rightBasePaneRegion.show(new RightBasePaneView({
                 model: Player
             }));
@@ -112,29 +82,21 @@
             this.listenTo(Player, 'change:state', this.setPlayerStateClass);
             this.setPlayerStateClass();
 
-            //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
-            $(window).unload(function () {
-                this.close();
-                this.deselectCollections();
-            }.bind(this));
+            this.listenTo(window.Application.vent, 'showSearch', this.showSearch);
+            this.listenTo(window.Application.vent, 'showPlaylistsArea', this.showPlaylistsArea);
+            this.listenTo(window.Application.vent, 'showPrompt', this.showPrompt);
 
-            window.Application.vent.on('showSearch', function () {
-                this.showSearch(true);
-            }.bind(this));
-
-            window.Application.vent.on('showPlaylistsArea', function () {
-                this.showPlaylistsArea();
-            }.bind(this));
-
-            window.Application.vent.on('showPrompt', function (promptView) {
-                this.showPrompt(promptView);
-            }.bind(this));
-            
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
             if (User.canSignIn()) {
                 User.signIn();
             }
+
+            //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
+            $(window).unload(function () {
+                this.close();
+                this.deselectCollections();
+            }.bind(this));
         },
         
         setHideTooltipsClass: function() {
@@ -215,7 +177,6 @@
 
         //  Slides in PlaylistsAreaView from the left side.
         showPlaylistsArea: _.throttle(function () {
-
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
@@ -232,12 +193,10 @@
                     this.leftCoveringPaneRegion.close();
                 });
             }
-
         }, 400),
 
         //  Slide in SearchView from the left hand side.
         showSearch: _.throttle(function (doSnapAnimation) {
-
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
 
@@ -262,13 +221,11 @@
                 //  Highlight the fact that is already visible by shaking it.
                 this.leftCoveringPaneRegion.currentView.shake();
             }
-
         }, 400),
 
         //  Whenever the YouTube API throws an error in the background, communicate
         //  that information to the user in the foreground via prompt.
         showYouTubeError: function (youTubeError) {
-
             var text = chrome.i18n.getMessage('errorEncountered');
 
             switch (youTubeError) {
@@ -313,8 +270,23 @@
         setPlayerStateClass: function () {
             var playerState = Player.get('state');
             this.$el.toggleClass('playing', playerState === PlayerState.Playing);
+        },
+        
+        //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
+        //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
+        _promptIfUpdateAvailable: function() {
+            chrome.runtime.requestUpdateCheck(function (updateCheckStatus) {
+                switch (updateCheckStatus) {
+                    case 'update_available':
+                        this.showPrompt(new UpdateStreamusPromptView());
+                        break;
+                    case 'no_update':
+                    case 'throttled':
+                        //  Nothing to do -- just can't ask again for a while if throttled, but that's pretty unlikely to happen, I think!
+                        break;
+                }
+            }.bind(this));
         }
-
     });
 
     //  Only could ever possibly want 1 of these views... there's only 1 foreground.

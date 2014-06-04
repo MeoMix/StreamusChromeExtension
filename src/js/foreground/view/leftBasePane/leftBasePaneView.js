@@ -29,7 +29,7 @@
         
         events: {
             'click @ui.showSearch': function () {
-                window.Application.vent.trigger('showSearch');
+                window.Application.vent.trigger('showSearch', true);
             },
 
             'click @ui.showPlaylistsArea': function () {

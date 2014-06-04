@@ -41,7 +41,7 @@
             'click @ui.repeatButton': 'toggleRepeat',
             
             'click @ui.showSearch': function () {
-                window.Application.vent.trigger('showSearch');
+                window.Application.vent.trigger('showSearch', true);
             }
         },
         

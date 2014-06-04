@@ -11,6 +11,22 @@
         };
     });
     
+    //  Configure qTip2's default behavior.
+    Application.addInitializer(function () {
+        $.extend($.fn.qtip.defaults.position, {
+            viewport: $(window),
+            my: 'top center',
+            at: 'bottom center',
+            hide: {
+                leave: false
+            }
+        });
+
+        $.extend($.fn.qtip.defaults.style, {
+            classes: 'qtip-light qtip-shadow'
+        });
+    });
+    
     Application.on('initialize:after', function () {
         //  Fire up the foreground:
         require(['foreground/foreground']);

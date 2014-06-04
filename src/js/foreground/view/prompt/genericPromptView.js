@@ -35,7 +35,6 @@
         },
 
         onShow: function () {
-            
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
@@ -54,7 +53,6 @@
         },
         
         close: function () {
-            
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
@@ -65,7 +63,6 @@
                 y: 0,
                 opacity: 0
             });
-
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
@@ -96,7 +93,6 @@
 
                 this.triggerMethod('hide');
             }
-            
         }
     });
 
