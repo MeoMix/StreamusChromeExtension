@@ -26,7 +26,6 @@
 
         ui: {
             playlistDetails: '.playlist-details',
-            tooltipable: '.tooltipable',
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
             itemContainer: '#active-playlist-items',
@@ -60,6 +59,11 @@
                 Sortable: {
                     
                 },
+                
+                Tooltip: {
+                    
+                },
+                //  TODO: Consolidate into Tooltip
                 TooltipOnFullyVisible: {
                     
                 },
@@ -71,13 +75,7 @@
         },
 
         onShow: function () {
-            this.ui.tooltipable.qtip();
-
             this.triggerMethod('FullyVisible');
-        },
-        
-        onClose: function () {
-            this.ui.tooltipable.qtip('api').destroy(true);
         },
 
         onRender: function () {            
@@ -87,12 +85,7 @@
         
         updatePlaylistDetails: function () {
             var displayInfo = this.model.get('displayInfo');
-
             this.ui.playlistDetails.text(displayInfo);
-            
-            //  Be sure to call render first or else setting content.text won't actually update it.
-            this.ui.playlistDetails.qtip('render');
-            this.ui.playlistDetails.qtip('option', 'content.text', displayInfo);
         },
        
         //  Set the visibility of any visible text messages.

@@ -19,10 +19,6 @@
     },
     
     _destroyTooltip: function (title) {
-        var qtipApi = title.qtip('api');
-
-        if (!_.isUndefined(qtipApi)) {
-            qtipApi.destroy(true);
-        }
+        title.qtip('destroy', true);
     }
 });

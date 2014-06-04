@@ -22,11 +22,11 @@
         },
         
         doDelete: function () {
-            //  qtip does this odd "fly out" when the view is removed -- destroy the active tooltip before the view to prevent.
-            this.$el.qtip('api').destroy(true);
-            
+            //  qTip will hang around when the view is removed because it can't find the element to remove itself.
+            //  TODO: Marionette v2.0 should have an 'onBeforeDestroy' even which could be useful here. Not entirely sure yet.
+            this.$el.qtip('destroy', true);
             this.model.destroy();
-
+            
             //  Don't allow click to bubble up to the list item and cause a selection.
             return false;
         }

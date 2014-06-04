@@ -55,7 +55,6 @@
         
         ui: {
             buttons: '.button-icon',
-            tooltipable: '.tooltipable',
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
             saveStreamButton: '#save-stream',
@@ -74,6 +73,10 @@
             Sortable: {
                 
             },
+            Tooltip: {
+                
+            },
+            //  TODO: Consolidate into Tooltip
             TooltipOnFullyVisible: {
 
             },
@@ -84,13 +87,7 @@
         },
         
         onShow: function () {
-            this.ui.tooltipable.qtip();
-            
             this.triggerMethod('FullyVisible');
-        },
-        
-        onClose: function () {
-            this.ui.tooltipable.qtip('api').destroy(true);
         },
         
         onRender: function () {
@@ -118,10 +115,6 @@
 
             this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
             this.ui.saveStreamButton.attr('title', newTitle);
-            
-            //  Be sure to call render first or else setting content.text won't actually update it.
-            this.ui.saveStreamButton.qtip('render');
-            this.ui.saveStreamButton.qtip('option', 'content.text', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection

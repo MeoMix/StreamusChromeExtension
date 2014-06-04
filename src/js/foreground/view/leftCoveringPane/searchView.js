@@ -20,7 +20,6 @@
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
-            tooltipable: '.tooltipable',
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
             instructions: '.instructions',
@@ -76,6 +75,10 @@
                 Sortable: {
 
                 },
+                Tooltip: {
+                    
+                },
+                //  TODO: Consolidate into Tooltip
                 TooltipOnFullyVisible: {
 
                 },
@@ -113,8 +116,6 @@
             this.$el.transition({
                 x: this.$el.width()
             }, transitionDuration, 'snap', function() {
-                this.ui.tooltipable.qtip();
-                
                 this.triggerMethod('FullyVisible');
             }.bind(this));
         },
@@ -122,7 +123,6 @@
         //  This is ran whenever the user closes the search view, but the foreground remains open.
         onClose: function () {
             this.model.saveSearchQuery();
-            this.ui.tooltipable.qtip('api').destroy(true);
             this.startClearResultsTimeout();
         },
         

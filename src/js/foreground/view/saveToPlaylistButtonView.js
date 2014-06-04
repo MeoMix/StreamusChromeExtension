@@ -27,10 +27,6 @@
 
         onRender: function() {
             this.setTitleAndDisabled();
-
-            //  Be sure to call render first or else setting content.text won't actually update it. This is a bug in qtip -- fixed in next version.
-            this.$el.qtip('render');
-            this.$el.qtip('option', 'content.text', this.$el.attr('title'));
         },
         
         initialize: function () {

@@ -28,8 +28,13 @@ define([
             progress: '.progress',
             timeRange: '.time-range',
             timeElapsedLabel: '.time-elapsed',
-            durationLabel: '.duration',
-            tooltipable: '.tooltipable'
+            durationLabel: '.duration'
+        },
+        
+        behaviors: {
+            Tooltip: {
+                
+            }
         },
        
         autoUpdate: true,
@@ -37,14 +42,6 @@ define([
         templateHelpers: {
             elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
             totalTimeMessage: chrome.i18n.getMessage('totalTime')
-        },
-        
-        onShow: function() {
-            this.ui.tooltipable.qtip();
-        },
-        
-        onClose: function () {
-            this.ui.tooltipable.qtip('api').destroy(true);
         },
 
         onRender: function () {
@@ -62,7 +59,6 @@ define([
         },
         
         initialize: function () {
-
             this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
             this.listenTo(StreamItems, 'add', this.enable);
             this.listenTo(StreamItems, 'change:active', this.restart);

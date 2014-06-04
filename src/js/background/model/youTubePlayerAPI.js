@@ -879,6 +879,7 @@ define(function () {
                             c = k;
                             b.a && 0 == c.indexOf("http:") && (c = c.replace("http:", "https:"));
 
+                            //  TODO: Apparently this still isn't enough? WTF?
                             if (self.get('headersReceived')) {
                                 this.a.contentWindow.postMessage(a, c);
                             } else {
