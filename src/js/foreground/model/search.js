@@ -74,9 +74,6 @@
 
             dataSource.parseUrl({
                 success: function () {
-
-                    console.log('success', dataSource.get('type'));
-
                     var searchJqXhr;
                     //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                     if (dataSource.get('type') === DataSourceType.YouTubeVideo) {

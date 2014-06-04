@@ -29,11 +29,11 @@
         initialize: function () {
             //  BaseURL is needed for ajax requests to the server.
             if (this.get('localDebug')) {
-                //this.set('serverURL', 'http://74.217.74.164/Streamus/');
-                this.set('serverURL', 'http://localhost:28029/');
+                this.set('serverURL', 'http://server.streamus.com/Streamus/');
+                //this.set('serverURL', 'http://localhost:28029/');
             }
             else {
-                this.set('serverURL', 'http://streamus.apphb.com/');
+                this.set('serverURL', 'http://server.streamus.com/');
             }
 
             this.on('change:suggestedQuality', function(model, suggestedQuality) {
