@@ -55,13 +55,7 @@
         },
         
         behaviors: {
-            Tooltip: {
-                
-            },
-            //  TODO: Consolidate into Tooltip
-            TooltipOnFullyVisible: {
-                
-            }
+            Tooltip: {},
         },
         
         onRender: function () {

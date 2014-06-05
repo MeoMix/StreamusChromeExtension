@@ -53,21 +53,9 @@
         
         behaviors: function () {
             return {
-                MultiSelect: {
-                    
-                },
-                Sortable: {
-                    
-                },
-                
-                Tooltip: {
-                    
-                },
-                //  TODO: Consolidate into Tooltip
-                TooltipOnFullyVisible: {
-                    
-                },
-
+                MultiSelect: {},
+                Sortable: {},
+                Tooltip: {},
                 SlidingRender: {
                     viewportHeight: this._getViewportHeight()
                 }

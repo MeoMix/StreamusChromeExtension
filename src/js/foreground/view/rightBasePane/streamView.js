@@ -67,19 +67,9 @@
         },
         
         behaviors: {
-            MultiSelect: {
-                
-            },
-            Sortable: {
-                
-            },
-            Tooltip: {
-                
-            },
-            //  TODO: Consolidate into Tooltip
-            TooltipOnFullyVisible: {
-
-            },
+            MultiSelect: {},
+            Sortable: {},
+            Tooltip: {},
             SlidingRender: {
                 //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
                 viewportHeight: 291

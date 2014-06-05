@@ -6,18 +6,16 @@ define(function () {
     var YouTubePlayerAPI = Backbone.Model.extend({
         defaults: {
             ready: false,
-            headersReceived: false
+            completed: false
         },
 
         load: function () {
             var self = this;
-            chrome.webRequest.onHeadersReceived.addListener(function () {
-                this.set('headersReceived', true);
+            chrome.webRequest.onCompleted.addListener(function () {
+                this.set('completed', true);
             }.bind(this), {
                 urls: ['*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd']
-            },
-                ['responseHeaders']
-            );
+            });
 
             // Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
             // Benefits include faster loading, less CPU usage, and no crashing
@@ -879,11 +877,10 @@ define(function () {
                             c = k;
                             b.a && 0 == c.indexOf("http:") && (c = c.replace("http:", "https:"));
 
-                            //  TODO: Apparently this still isn't enough? WTF?
-                            if (self.get('headersReceived')) {
+                            if (self.get('completed')) {
                                 this.a.contentWindow.postMessage(a, c);
                             } else {
-                                self.listenToOnce(self, 'change:headersReceived', function () {
+                                self.listenToOnce(self, 'change:completed', function () {
                                     this.a.contentWindow.postMessage(a, c);
                                 }.bind(this));
                             }

@@ -1,18 +1,17 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
-    'foreground/view/mixin/titleTooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, TitleTooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
-    var PlaylistView = Backbone.Marionette.ItemView.extend(_.extend({}, TitleTooltip, {
+    var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
 
         className: 'list-item playlist',
@@ -45,6 +44,10 @@
             editableTitle: '.editable-title',
             title: '.title'
         },
+        
+        behaviors: {
+            Tooltip: {}
+        },
 
         onRender: function () {
             this.setLoadingClass();
@@ -58,7 +61,6 @@
         updateTitle: function () {
             var title = this.model.get('title');
             this.ui.title.text(title).attr('title', title);
-            this.setTitleTooltip(this.ui.title);
         },
 
         stopEditingOnInactive: function (model, active) {
@@ -189,7 +191,7 @@
             
         }
 
-    }));
+    });
 
     return PlaylistView;
 });

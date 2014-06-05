@@ -3,6 +3,8 @@
 
     var Tooltip = Backbone.Marionette.Behavior.extend({
         titleMutationObserver: null,
+        //  Views which have transition effects for being made visible need to rely on an event past onShow.
+        fullyVisible: false,
 
         ui: {
             //  Children which need tooltips are decorated with the tooltipable class.
@@ -10,23 +12,50 @@
             //  Children which need tooltips, but also need to take into account their text overflowing out of their container, are decorated with the text-tooltipable class.
             textTooltipable: '.text-tooltipable'
         },
-
+        
+        //  Call during onShow/onFullyVisible for tooltipable elements because they need to be able to inspect the DOM and see if the element is overflowing.
         onShow: function () {
             var isTextTooltipableElement = this._isTextTooltipableElement(this.$el);
-            
+
             if (isTextTooltipableElement) {
-                this._setTitleTooltip(this.$el);
-                this._setTitleMutationObserver(this.$el);
+                this._decorateTextTooltipableElement(this.$el);
             } else {
                 this.$el.qtip();
             }
-            
+
             this.ui.tooltipable.qtip();
-            
+
             if (this.ui.textTooltipable.length > 0) {
-                console.log("Length:", this.ui.textTooltipable.length);
-                this._setTitleTooltip(this.ui.textTooltipable);
-                this._setTitleMutationObserver(this.ui.textTooltipable);
+                this._decorateTextTooltipableElement(this.ui.textTooltipable);
+            }
+        },
+        
+        onFullyVisible: function () {
+            this.fullyVisible = true;
+
+            //  TODO: Why does this not work without a setTimeout - I don't understand what would've changed if fullyVisible has already triggered.
+            setTimeout(function() {
+                this.ui.tooltipable.qtip();
+            }.bind(this));
+            
+            this.view.children.each(function (childView) {
+                //  TODO: I shouldn't be looking at title here like this. I should be looking directly at a text-tooltipable.
+                var isTextTooltipableElement = this._isTextTooltipableElement(childView.ui.title);
+
+                if (isTextTooltipableElement) {
+                    this._decorateTextTooltipableElement(childView.ui.title);
+                }
+            }.bind(this));
+        },
+
+        onAfterItemAdded: function (childView) {
+            if (this.fullyVisible) {
+                //  TODO: Don't look at title class -- look at a text-tooltipable class.
+                var isTextTooltipableElement = this._isTextTooltipableElement(childView.ui.title);
+
+                if (isTextTooltipableElement) {
+                    this._decorateTextTooltipableElement(childView.ui.title);
+                }
             }
         },
         
@@ -36,6 +65,11 @@
             }
             
             this._destroy(this.$el);
+        },
+        
+        _decorateTextTooltipableElement: function(textTooltipableElement) {
+            this._setTitleTooltip(textTooltipableElement);
+            this._setTitleMutationObserver(textTooltipableElement);
         },
         
         //  Elements decorated with the class 'text-tooltipable' should display a tooltip if their text is overflowing and truncated.
@@ -86,6 +120,8 @@
         //  Memory leak will happen if this is not called.
         _destroy: function (element) {
             element.qtip('destroy', true);
+            //  TODO: This is throwing an error when playlistsArea closes??
+            console.log('destroying', this.ui.tooltipable);
             this.ui.tooltipable.qtip('destroy', true);
         }
     });
