@@ -57,7 +57,6 @@
         
         updateTitle: function () {
             var title = this.model.get('title');
-
             this.ui.title.text(title).attr('title', title);
             this.setTitleTooltip(this.ui.title);
         },

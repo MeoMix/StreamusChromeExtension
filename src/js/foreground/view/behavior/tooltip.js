@@ -6,7 +6,9 @@
 
         ui: {
             //  Children which need tooltips are decorated with the tooltipable class.
-            tooltipable: '.tooltipable'
+            tooltipable: '.tooltipable',
+            //  Children which need tooltips, but also need to take into account their text overflowing out of their container, are decorated with the text-tooltipable class.
+            textTooltipable: '.text-tooltipable'
         },
 
         onShow: function () {
@@ -14,12 +16,18 @@
             
             if (isTextTooltipableElement) {
                 this._setTitleTooltip(this.$el);
-                this._setTitleMutationObserver();
+                this._setTitleMutationObserver(this.$el);
             } else {
                 this.$el.qtip();
             }
             
             this.ui.tooltipable.qtip();
+            
+            if (this.ui.textTooltipable.length > 0) {
+                console.log("Length:", this.ui.textTooltipable.length);
+                this._setTitleTooltip(this.ui.textTooltipable);
+                this._setTitleMutationObserver(this.ui.textTooltipable);
+            }
         },
         
         onClose: function () {
@@ -36,20 +44,20 @@
         },
         
         //  Whenever an element's title changes -- need to re-check to see if it is overflowing and apply/remove the tooltip accordingly.
-        _setTitleMutationObserver: function () {
+        _setTitleMutationObserver: function (element) {
             this.titleMutationObserver = new window.MutationObserver(function (mutations) {
                 mutations.forEach(function (mutation) {
                     var attributeName = mutation.attributeName;
                     
                     //  Once qtip has been applied to the element -- oldtitle will mutate instead of title
                     if (attributeName === 'title' || attributeName === 'oldtitle') {
-                        this._setTitleTooltip(this.$el);
+                        this._setTitleTooltip(element);
                     }
                 }.bind(this));
             }.bind(this));
             
             //  TODO: Use this.el instead of de-referencing the jQuery object once Marionette supports it.
-            this.titleMutationObserver.observe(this.$el[0], {
+            this.titleMutationObserver.observe(element[0], {
                 attributes: true,
                 subtree: false
             });

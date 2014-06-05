@@ -39,6 +39,10 @@
                 buttonViews: this.buttonViews
             }));
         },
+        
+        onShow: function() {
+            this.setTitleTooltip(this.ui.title);
+        },
 
         setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));

@@ -1,10 +1,9 @@
 ﻿define([
-    'foreground/view/mixin/titleTooltip',
     'text!template/playlistTitle.html'
-], function (TitleTooltip, PlaylistTitleTemplate) {
+], function (PlaylistTitleTemplate) {
     'use strict';
 
-    var PlaylistTitleView = Backbone.Marionette.ItemView.extend(_.extend({}, TitleTooltip, {
+    var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
         id: 'playlist-title',
         className: 'text-tooltipable playlist-title',
         template: _.template(PlaylistTitleTemplate),
@@ -25,7 +24,7 @@
         setTitle: function() {
             this.$el.attr('title', this.model.get('title'));
         }
-    }));
+    });
 
     return PlaylistTitleView;
 });

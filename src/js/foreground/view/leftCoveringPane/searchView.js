@@ -96,12 +96,6 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
-
-            this.on('composite:collection:rendered', function () {
-                this.children.each(function (child) {
-                    child.setTitleTooltip(child.ui.title);
-                });
-            });
         },
         
         onShow: function () {

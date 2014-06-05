@@ -56,7 +56,7 @@
                         //  For each of the createdItems, remap properties back to the old items.
                         _.each(createdItems, function (createdItem) {
 
-                            //  Title is unique so just match on that. No need to rely on passing cid to server and back. 
+                            //  Remap items based on their client id.
                             var matchingNewItem = self.find(function (newItem) {
                                 return newItem.cid === createdItem.cid;
                             });
