@@ -50,17 +50,15 @@
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');
-
                 this.startShowReloadPromptTimer();
 
                 this.listenToOnce(Player, 'change:ready', function() {
                     this.$el.removeClass('loading');
                     clearTimeout(this.showReloadPromptTimeout);
 
+                    //  Make sure another prompt didn't open (which would've closed the reload prompt)
                     if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                        //this.promptRegion.close();
-                        //  TODO: Shitty - I should be able to just close the region, but need to fix dependency.
-                        this.promptRegion.currentView.triggerMethod('hide');
+                        this.promptRegion.close();
                     }
                 });
             }
@@ -112,17 +110,10 @@
         },
         
         showPrompt: function (view) {
-            //  TODO: This got messy. Should probably create a PromptRegion which encapsulates the hide/show logic.
             this.listenToOnce(view, 'hide', function () {
-
-                this.listenToOnce(view, 'close', function () {
-                    $(this.promptRegion.el).addClass('hidden');
-                });
-
                 this.promptRegion.close();
             });
-
-            $(this.promptRegion.el).removeClass('hidden');
+            
             this.promptRegion.show(view);
         },
 
@@ -179,7 +170,6 @@
         showPlaylistsArea: _.throttle(function () {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
-
                 var playlistsArea = new PlaylistsArea();
 
                 //  Show the view using SearchResults collection in which to render its results from.
@@ -199,7 +189,6 @@
         showSearch: _.throttle(function (doSnapAnimation) {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
-
                 //  Create model for the view and indicate whether view should appear immediately or display snap animation.
                 var search = new Search({
                     playlist: Playlists.getActivePlaylist(),
@@ -216,7 +205,6 @@
                 this.listenToOnce(search, 'destroy', function () {
                     this.leftCoveringPaneRegion.close();
                 });
-
             } else {
                 //  Highlight the fact that is already visible by shaking it.
                 this.leftCoveringPaneRegion.currentView.shake();

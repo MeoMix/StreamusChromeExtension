@@ -40,8 +40,10 @@
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            //  Calculate center for prompt by finding the average difference between prompts height and its parent
-            var yTranslateCenter = (this.$el.parent().height() - this.ui.panel.height()) / 2;
+            //  TODO: It's bad practice to access $('body') like this. I should consider depending on just CSS3 animations.
+            //  I don't remember why I am using jQuery transit in favor of CSS3 animations. Perhaps for stopping the animation.
+            //  Calculate center for prompt by finding the average difference between prompts height and the body
+            var yTranslateCenter = ($('body').height() - this.ui.panel.height()) / 2;
             
             this.ui.panel.transition({
                 y: yTranslateCenter,
