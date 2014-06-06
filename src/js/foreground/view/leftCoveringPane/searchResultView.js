@@ -30,6 +30,10 @@
             'dblclick': 'playInStream'
         }),
         
+        behaviors: {
+            Tooltip: {}
+        },
+        
         showContextMenu: function (event) {
             event.preventDefault();
             

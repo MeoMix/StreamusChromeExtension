@@ -53,7 +53,7 @@
             this.setLoadingClass();
             this.setActiveClass();
         },
-
+        
         initialize: function () {
             this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
         },

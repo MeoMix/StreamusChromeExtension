@@ -43,7 +43,8 @@
             addButton: '.add',
             hideButton: '.hide',
             editButton: '.edit',
-            settingsButton: '#settings-button'
+            settingsButton: '#settings-button',
+            textTooltipable: '.text-tooltipable'
         },
         
         templateHelpers: {
@@ -107,7 +108,12 @@
             this.ui.panel.transition({
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
+                console.log("Hi?", this.ui.textTooltipable);
                 this.triggerMethod('FullyVisible');
+
+                this.children.each(function (childView) {
+                    childView.triggerMethod('FullyVisible');
+                });
             }.bind(this));
         },
         

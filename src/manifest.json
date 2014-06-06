@@ -110,8 +110,7 @@
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*",
-		"http://localhost:61975/Streamus/",
-		"http://server.streamus.com/"
+		"http://localhost:61975/Streamus/"
 	],
 	"web_accessible_resources": [
 		"css/youTubeInject.css",

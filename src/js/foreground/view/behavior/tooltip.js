@@ -15,60 +15,24 @@
         
         //  Call during onShow/onFullyVisible for tooltipable elements because they need to be able to inspect the DOM and see if the element is overflowing.
         onShow: function () {
-            var isTextTooltipableElement = this._isTextTooltipableElement(this.$el);
-
-            if (isTextTooltipableElement) {
-                this._decorateTextTooltipableElement(this.$el);
-            } else {
-                this.$el.qtip();
-            }
-
-            this.ui.tooltipable.qtip();
-
-            if (this.ui.textTooltipable.length > 0) {
-                this._decorateTextTooltipableElement(this.ui.textTooltipable);
-            }
+            this._setTooltips();
         },
         
         onFullyVisible: function () {
             this.fullyVisible = true;
-
-            _.each(this.ui.tooltipable, function (tooltipable) {
-                debugger;
-                $(tooltipable).qtip();
-            });
-
-            //debugger;
-            //this.ui.tooltipable.qtip();
-
-
-            ////  TODO: Why does this not work without a setTimeout - I don't understand what would've changed if fullyVisible has already triggered.
-            //setTimeout(function () {
-            //    debugger;
-            //    this.ui.tooltipable.qtip();
-            //}.bind(this));
-
-            console.log('onFullyVisible yo');
-            this.view.children.each(function (childView) {
-                //  TODO: I shouldn't be looking at title here like this. I should be looking directly at a text-tooltipable.
-                var isTextTooltipableElement = this._isTextTooltipableElement(childView.ui.title);
-
-                if (isTextTooltipableElement) {
-                    console.log("decorating that shit");
-                    this._decorateTextTooltipableElement(childView.ui.title);
-                }
-            }.bind(this));
+            this._setTooltips();
         },
-
+        
         onAfterItemAdded: function (childView) {
             if (this.fullyVisible) {
-                //  TODO: Don't look at title class -- look at a text-tooltipable class.
-                var isTextTooltipableElement = this._isTextTooltipableElement(childView.ui.title);
-
-                if (isTextTooltipableElement) {
-                    this._decorateTextTooltipableElement(childView.ui.title);
-                }
+                childView.triggerMethod('AddedToFullyVisibleCollectionView');
             }
+        },
+
+        //  Child-view event corresponding to onAfterItemAdded but only ran after the collection has been made fully visible
+        //  i.e. transition effects have completed
+        onAddedToFullyVisibleCollectionView: function () {
+            this._setTooltips();
         },
         
         onClose: function () {
@@ -78,9 +42,26 @@
             this.titleMutationObservers.length = 0;
 
             this._destroy(this.$el);
+            this._destroy(this.ui.tooltipable);
+            this._destroy(this.ui.textTooltipable);
         },
         
-        _decorateTextTooltipableElement: function(textTooltipableElement) {
+        _setTooltips: function () {
+            var isTextTooltipableElement = this._isTextTooltipableElement(this.$el);
+
+            if (isTextTooltipableElement) {
+                this._decorateTextTooltipable(this.$el);
+            } else {
+                this.$el.qtip();
+            }
+
+            this.ui.tooltipable.qtip();
+            if (this.ui.textTooltipable.length > 0) {
+                this._decorateTextTooltipable(this.ui.textTooltipable);
+            }
+        },
+        
+        _decorateTextTooltipable: function(textTooltipableElement) {
             this._setTitleTooltip(textTooltipableElement);
             this._setTitleMutationObserver(textTooltipableElement);
         },
@@ -103,7 +84,6 @@
                 }.bind(this));
             }.bind(this));
             
-            //  TODO: Use this.el instead of de-referencing the jQuery object once Marionette supports it.
             titleMutationObserver.observe(element[0], {
                 attributes: true,
                 subtree: false
@@ -134,7 +114,6 @@
         //  Memory leak will happen if this is not called.
         _destroy: function (element) {
             element.qtip('destroy', true);
-            this.ui.tooltipable.qtip('destroy', true);
         }
     });
 
