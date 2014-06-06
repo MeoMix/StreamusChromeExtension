@@ -2,7 +2,7 @@
     'use strict';
 
     var Tooltip = Backbone.Marionette.Behavior.extend({
-        titleMutationObserver: null,
+        titleMutationObservers: [],
         //  Views which have transition effects for being made visible need to rely on an event past onShow.
         fullyVisible: false,
 
@@ -33,16 +33,28 @@
         onFullyVisible: function () {
             this.fullyVisible = true;
 
-            //  TODO: Why does this not work without a setTimeout - I don't understand what would've changed if fullyVisible has already triggered.
-            setTimeout(function() {
-                this.ui.tooltipable.qtip();
-            }.bind(this));
-            
+            _.each(this.ui.tooltipable, function (tooltipable) {
+                debugger;
+                $(tooltipable).qtip();
+            });
+
+            //debugger;
+            //this.ui.tooltipable.qtip();
+
+
+            ////  TODO: Why does this not work without a setTimeout - I don't understand what would've changed if fullyVisible has already triggered.
+            //setTimeout(function () {
+            //    debugger;
+            //    this.ui.tooltipable.qtip();
+            //}.bind(this));
+
+            console.log('onFullyVisible yo');
             this.view.children.each(function (childView) {
                 //  TODO: I shouldn't be looking at title here like this. I should be looking directly at a text-tooltipable.
                 var isTextTooltipableElement = this._isTextTooltipableElement(childView.ui.title);
 
                 if (isTextTooltipableElement) {
+                    console.log("decorating that shit");
                     this._decorateTextTooltipableElement(childView.ui.title);
                 }
             }.bind(this));
@@ -60,10 +72,11 @@
         },
         
         onClose: function () {
-            if (this.titleMutationObserver !== null) {
-                this.titleMutationObserver.disconnect();
-            }
-            
+            _.each(this.titleMutationObservers, function (titleMutationObserver) {
+                titleMutationObserver.disconnect();
+            });
+            this.titleMutationObservers.length = 0;
+
             this._destroy(this.$el);
         },
         
@@ -79,7 +92,7 @@
         
         //  Whenever an element's title changes -- need to re-check to see if it is overflowing and apply/remove the tooltip accordingly.
         _setTitleMutationObserver: function (element) {
-            this.titleMutationObserver = new window.MutationObserver(function (mutations) {
+            var titleMutationObserver = new window.MutationObserver(function (mutations) {
                 mutations.forEach(function (mutation) {
                     var attributeName = mutation.attributeName;
                     
@@ -91,10 +104,12 @@
             }.bind(this));
             
             //  TODO: Use this.el instead of de-referencing the jQuery object once Marionette supports it.
-            this.titleMutationObserver.observe(element[0], {
+            titleMutationObserver.observe(element[0], {
                 attributes: true,
                 subtree: false
             });
+
+            this.titleMutationObservers.push(titleMutationObserver);
         },
         
         _setTitleTooltip: function (element) {
@@ -109,8 +124,7 @@
                     //  Clear the title so that it doesn't show using the native tooltip.
                     element.attr('title', '');
                 }
-
-                //  TODO: is this necessary after updating qtip2?
+                
                 //  If tooltip has already been applied to the element - remove it.
                 this._destroy(element);
             }
@@ -120,8 +134,6 @@
         //  Memory leak will happen if this is not called.
         _destroy: function (element) {
             element.qtip('destroy', true);
-            //  TODO: This is throwing an error when playlistsArea closes??
-            console.log('destroying', this.ui.tooltipable);
             this.ui.tooltipable.qtip('destroy', true);
         }
     });

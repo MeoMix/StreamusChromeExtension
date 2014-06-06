@@ -59,7 +59,6 @@
         },
         
         onRender: function () {
-
             this.ui.playlists.sortable({
                 axis: 'y',
                 placeholder: 'sortable-placeholder list-item',
@@ -87,7 +86,6 @@
 
                         this.collection.moveToIndex(playlistId, index);
                     }
-
                 }.bind(this)
             });
 
@@ -130,7 +128,6 @@
             }, 300, function() {
                 this.model.destroy();
             }.bind(this));
-            
         },
 
         togglePlaylistsVisibility: function(event) {
