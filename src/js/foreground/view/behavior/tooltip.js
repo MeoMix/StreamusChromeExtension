@@ -1,19 +1,25 @@
-﻿define(function () {
+﻿//  This behavior decorates a view with a qTip2 Tooltip. It will apply a tooltip to the view's root element
+//  if it has a title. It will also apply tooltips to child elements if they have the tooltipable or
+//  text-tooltipale class. The text-tooltipable class assumes that the element's text is to be conditionally
+//  shown as a tooltip. The text tooltip will only be shown if the text is overflows the element.
+define(function () {
     'use strict';
 
     var Tooltip = Backbone.Marionette.Behavior.extend({
+        //  Mutation observers are used to track changes to text-tooltipable elements. If the text
+        //  is modified then its overflowing state needs to be re-evaluated. 
         titleMutationObservers: [],
-        //  Views which have transition effects for being made visible need to rely on an event past onShow.
+        //  Views which have transition effects for being made visible need to rely on an event past onShow
+        //  Otherwise, offsetWidth and scrollWidth will return incorrect values.
         fullyVisible: false,
 
         ui: {
             //  Children which need tooltips are decorated with the tooltipable class.
             tooltipable: '.tooltipable',
-            //  Children which need tooltips, but also need to take into account their text overflowing out of their container, are decorated with the text-tooltipable class.
+            //  Children which need tooltips, but also need to take into account overflowing, are decorated with the text-tooltipable class.
             textTooltipable: '.text-tooltipable'
         },
         
-        //  Call during onShow/onFullyVisible for tooltipable elements because they need to be able to inspect the DOM and see if the element is overflowing.
         onShow: function () {
             this._setTooltips();
         },
@@ -21,10 +27,17 @@
         onFullyVisible: function () {
             this.fullyVisible = true;
             this._setTooltips();
+
+            //  If children are already part of a collection which wasn't fully visible during onShow -- they need to be told to update tooltips.
+            this.view.children.each(function (childView) {
+                childView.triggerMethod('AddedToFullyVisibleCollectionView');
+            });
         },
         
         onAfterItemAdded: function (childView) {
             if (this.fullyVisible) {
+                //  Trigger the child because I do not want the parent responsible for decoration.
+                //  It gets too hard to properly clean-up during onClose. So children implement the behavior and clean-up themselves.
                 childView.triggerMethod('AddedToFullyVisibleCollectionView');
             }
         },
@@ -47,6 +60,7 @@
         },
         
         _setTooltips: function () {
+            //  Decorate the view itself
             var isTextTooltipableElement = this._isTextTooltipableElement(this.$el);
 
             if (isTextTooltipableElement) {
@@ -55,6 +69,7 @@
                 this.$el.qtip();
             }
 
+            //  Decorate child views
             this.ui.tooltipable.qtip();
             if (this.ui.textTooltipable.length > 0) {
                 this._decorateTextTooltipable(this.ui.textTooltipable);
