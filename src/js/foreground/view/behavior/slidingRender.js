@@ -23,10 +23,12 @@
             'add': function (item, collection) {
                 var index = collection.indexOf(item);
                 var indexWithinRenderRange = this._indexWithinRenderRange(index);
-                var viewportFull = collection.length > this.maxRenderIndex;
+                var viewportFull = collection.length >= this.maxRenderIndex;
 
+                //  If a view has been rendered and it pushes another view outside of maxRenderIndex, remove that view.
                 if (indexWithinRenderRange && viewportFull) {
-                    this._removeItemsByIndex(this.maxRenderIndex, 1);
+                    //  Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
+                    this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
                 }
 
                 this._setHeightPaddingTop();
@@ -110,18 +112,15 @@
             //  Be sure to update before potentially adding items or else they won't render.
             this.maxRenderIndex = newMaxRenderIndex;
             if (indexDifference > 0) {
-                //  Unload N items, subtract 1 because maxRenderIndex is exclusive (TODO: rework math so maxRenderIndex is inclusive))
-                var startIndex = currentMaxRenderIndex - 1;
-                
+                //  Unload N Items.
                 //  Only remove items if need be -- collection's length might be so small that the viewport's height isn't affecting rendered count.
-                if (this.view.collection.length > startIndex) {
-                    this._removeItemsByIndex(startIndex, indexDifference);
+                if (this.view.collection.length > currentMaxRenderIndex) {
+                    this._removeItemsByIndex(currentMaxRenderIndex, indexDifference);
                 }
             }
             else if (indexDifference < 0) {
-                //  TODO: removing items had a bug in it -- does this have the same one (what if the collection's length is small and no items need appending?)
                 //  Load N items
-                for (var count = 0; count < Math.abs(indexDifference); count++) {
+                for (var count = 0; count < Math.abs(indexDifference) ; count++) {
                     this._renderElementAtIndex(currentMaxRenderIndex + 1 + count);
                 }
             }
@@ -135,11 +134,11 @@
             var rendered = false;
 
             if (this.view.collection.length >= index) {
-                var item = this.view.collection.at(index - 1);
+                var item = this.view.collection.at(index);
                 var ItemView = this.view.getItemView(item);
 
                 //  Adjust the itemView's index to account for where it is actually being added in the list
-                this._addItemView(item, ItemView, index - 1);
+                this._addItemView(item, ItemView, index);
                 rendered = true;
             }
 
@@ -147,10 +146,9 @@
         },
 
         _setRenderedElements: function (scrollTop) {
-            //  TODO: Probably better to use .min/.max instead of calculate here:
             //  Figure out the range of items currently rendered:
-            var oldMinRenderIndex = this._getMinRenderIndex(this.lastScrollTop);
-            var oldMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
+            var currentMinRenderIndex = this.minRenderIndex;
+            var currentMaxRenderIndex = this.maxRenderIndex;
 
             //  Figure out the range of items which need to be rendered:
             var minRenderIndex = this._getMinRenderIndex(scrollTop);
@@ -164,23 +162,23 @@
 
             if (direction === 'down') {
                 //  Need to remove items which are less than the new minRenderIndex
-                if (minRenderIndex > oldMinRenderIndex) {
-                    itemsToRemove = this.view.collection.slice(oldMinRenderIndex, minRenderIndex);
+                if (minRenderIndex > currentMinRenderIndex) {
+                    itemsToRemove = this.view.collection.slice(currentMinRenderIndex, minRenderIndex);
                 }
 
                 //  Need to add items which are greater than oldMaxRenderIndex and ltoe maxRenderIndex
-                if (maxRenderIndex > oldMaxRenderIndex) {
-                    itemsToAdd = this.view.collection.slice(oldMaxRenderIndex, maxRenderIndex);
+                if (maxRenderIndex > currentMaxRenderIndex) {
+                    itemsToAdd = this.view.collection.slice(currentMaxRenderIndex + 1, maxRenderIndex + 1);
                 }
             } else {
-                //  Need to add items which are greater than oldMinRenderIndex and ltoe minRenderIndex
-                if (minRenderIndex < oldMinRenderIndex) {
-                    itemsToAdd = this.view.collection.slice(minRenderIndex, oldMinRenderIndex);
+                //  Need to add items which are greater than currentMinRenderIndex and ltoe minRenderIndex
+                if (minRenderIndex < currentMinRenderIndex) {
+                    itemsToAdd = this.view.collection.slice(minRenderIndex, currentMinRenderIndex);
                 }
 
                 //  Need to remove items which are greater than the new maxRenderIndex
-                if (maxRenderIndex < oldMaxRenderIndex) {
-                    itemsToRemove = this.view.collection.slice(maxRenderIndex, oldMaxRenderIndex);
+                if (maxRenderIndex < currentMaxRenderIndex) {
+                    itemsToRemove = this.view.collection.slice(maxRenderIndex + 1, currentMaxRenderIndex + 1);
                 }
             }
 
@@ -189,8 +187,8 @@
                 this.maxRenderIndex = maxRenderIndex;
 
                 if (direction === 'down') {
-                    //  Items will be appended from oldMaxRenderIndex forward. 
-                    this._addItems(itemsToAdd, oldMaxRenderIndex, true);
+                    //  Items will be appended after oldMaxRenderIndex. 
+                    this._addItems(itemsToAdd, currentMaxRenderIndex + 1, true);
                 } else {
                     this._addItems(itemsToAdd, minRenderIndex, false);
                 }
@@ -311,7 +309,7 @@
         },
 
         _getMaxRenderIndex: function (scrollTop) {
-            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight));
+            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight)) - 1;
             return maxRenderIndex;
         },
 
@@ -336,10 +334,9 @@
         },
 
         _indexWithinRenderRange: function (index) {
-            return index >= this.minRenderIndex && index < this.maxRenderIndex;
+            return index >= this.minRenderIndex && index <= this.maxRenderIndex;
         },
         
-        //  TODO: Animation?
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         _scrollToItem: function (item) {
             var itemIndex = this.view.collection.indexOf(item);
