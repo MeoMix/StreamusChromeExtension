@@ -52,6 +52,10 @@
         //  The height of a rendered itemView in px. Including padding/margin.
         itemViewHeight: 40,
         viewportHeight: -1,
+        
+        //  The number of items to render outside of the viewport. Helps with flickering because if
+        //  only views which would be visible are rendered then they'd be visible while loading.
+        threshold: 10,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -304,12 +308,19 @@
         },
 
         _getMinRenderIndex: function (scrollTop) {
-            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight);
+            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight) - this.threshold;
+            
+            if (minRenderIndex < 0) {
+                minRenderIndex = 0;
+            }
+
             return minRenderIndex;
         },
 
         _getMaxRenderIndex: function (scrollTop) {
-            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight)) - 1;
+            //  Subtract 1 to make math 'inclusive' instead of 'exclusive'
+            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight)) - 1 + this.threshold;
+
             return maxRenderIndex;
         },
 
