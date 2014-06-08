@@ -147,7 +147,6 @@ define([
         },
             
         addSongs: function (songs, callback) {
-
             //  Convert songs to an array when given a single song
             if (!_.isArray(songs)) {
                 songs = [songs];

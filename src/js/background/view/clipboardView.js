@@ -6,7 +6,6 @@
         
         initialize: function() {
             chrome.runtime.onMessage.addListener(function (request) {
-
                 //  http://stackoverflow.com/questions/5235719/how-to-copy-text-to-clipboard-from-a-google-chrome-extension
                 //  Copies text to the clipboard. Has to happen on background page due to elevated privileges.
                 if (request.method === 'copy') {
