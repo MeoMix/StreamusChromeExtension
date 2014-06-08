@@ -14,9 +14,7 @@ define([
     var PreviousButton = chrome.extension.getBackgroundPage().PreviousButton;
 
     var RightBasePaneView = Backbone.Marionette.Layout.extend({
-
         className: 'right-base-pane',
-
         template: _.template(RightBasePaneTemplate),
         
         regions: {
@@ -106,7 +104,6 @@ define([
             this.ui.playPauseButton.empty().append(icon);
             this.ui.playPauseButton.toggleClass('disabled', !PlayPauseButton.get('enabled'));
         }
-
     });
 
     return RightBasePaneView;

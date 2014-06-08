@@ -3,7 +3,8 @@
     'foreground/view/clearStreamView',
     'foreground/view/prompt/saveSongsPromptView'
 ], function (ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
-
+    'use strict';
+    
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 

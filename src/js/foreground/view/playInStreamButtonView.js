@@ -8,7 +8,6 @@
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
 
     var PlayInStreamButtonView = Backbone.Marionette.ItemView.extend({
-        
         tagName: 'button',
         className: 'button-icon colored',
         template: _.template(PlayInStreamButtonTemplate),
@@ -29,7 +28,6 @@
         },
         
         playInStream: _.debounce(function () {
-
             var song = this.model.get('song');
             var streamItem = StreamItems.getBySong(song);
 

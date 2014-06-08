@@ -4,9 +4,7 @@
     'use strict';
 
     var GenericPromptView = Backbone.Marionette.ItemView.extend({
-        
         className: 'prompt',
-        
         template: _.template(GenericPromptTemplate),
 
         events: {
@@ -84,11 +82,9 @@
         doOk: function () {
             //  Run validation logic if provided else assume valid
             var contentView = this.model.get('view');
-
             var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
             
             if (isValid) {
-                
                 if (_.isFunction(contentView.doOk)) {
                     contentView.doOk();
                 }

@@ -6,7 +6,6 @@ define([
     'use strict';
 
     var IconManager = Backbone.Model.extend({
-
         initialize: function () {
             //  Initialize the visual state of the icon once the player is ready and able to provide information.
             if (Player.get('ready')) {
@@ -45,7 +44,6 @@ define([
                 path: '../../img/' + iconColor + '_' + barCount + '.png'
             });
         }, 100)
-        
     });
     
     return new IconManager();

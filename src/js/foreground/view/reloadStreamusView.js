@@ -4,9 +4,7 @@
     'use strict';
 
     var ReloadStreamusView = Backbone.Marionette.ItemView.extend({
-
         className: 'reload-streamus',
-
         template: _.template(ReloadStreamusTemplate),
         
         templateHelpers: {
@@ -16,7 +14,6 @@
         doOk: function () {
             chrome.runtime.reload();
         }
-
     });
 
     return ReloadStreamusView;

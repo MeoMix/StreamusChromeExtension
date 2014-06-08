@@ -5,7 +5,6 @@
     'use strict';
 
     var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
-
         tagName: 'li',
         className: 'clickable',
         template: _.template(ContextMenuItemTemplate),
@@ -41,7 +40,6 @@
 
             this.model.get('onClick')();
         }
-
     });
 
     return ContextMenuItemView;

@@ -7,7 +7,6 @@ define([
     'use strict';
 
     var Song = Backbone.Model.extend({
-        
         defaults: function () {
             return {
                 //  ID is either a YouTube Video ID or a SoundCloud Song ID.
@@ -63,7 +62,6 @@ define([
             this.set('type', SongType.YouTube);
             this.set(songInformation);
         }
-        
     });
 
     return Song;

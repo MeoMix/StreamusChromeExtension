@@ -8,7 +8,6 @@
     var User = chrome.extension.getBackgroundPage().User;
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
-        
         tagName: 'button',
         className: 'button-icon colored',
         template: _.template(SaveToPlaylistButtonTemplate),
@@ -54,7 +53,6 @@
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
         }
-
     });
 
     return SaveToPlaylistButtonView;

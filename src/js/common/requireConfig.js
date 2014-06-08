@@ -1,8 +1,8 @@
 ﻿define(function () {
-
+    'use strict';
+    
     require.config({
         baseUrl: 'js/',
-
         enforceDefine: true,
 
         paths: {

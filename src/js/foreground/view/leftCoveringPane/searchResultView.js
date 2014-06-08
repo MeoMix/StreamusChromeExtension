@@ -13,9 +13,7 @@
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var SearchResultView = MultiSelectListItemView.extend({
-        
         className: MultiSelectListItemView.prototype.className + ' search-result',
-
         template: _.template(ListItemTemplate),
 
         attributes: function () {
@@ -39,7 +37,6 @@
         
         showContextMenu: function (event) {
             event.preventDefault();
-            
             var song = this.model.get('song');
             
             ContextMenuItems.reset([{
@@ -79,7 +76,6 @@
                     }
                 }]
             );
-
         },
 
         playInStream: function () {

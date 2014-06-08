@@ -7,10 +7,7 @@
     'use strict';
     
     var NotificationPromptView = GenericPromptView.extend({
-        model: null,
-        
         initialize: function (options) {
-
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('errorEncountered'),
                 view: new NotificationView({

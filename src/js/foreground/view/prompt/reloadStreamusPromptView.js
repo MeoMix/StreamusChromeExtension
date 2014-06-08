@@ -6,8 +6,6 @@
     'use strict';
 
     var ReloadStreamusPromptView = GenericPromptView.extend({
-        model: null,
-
         initialize: function () {
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('reloadStreamus'),

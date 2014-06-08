@@ -11,6 +11,7 @@
     'lodash',
     'selectize'
 ], function () {
+    'use strict';
     
     //  Finally, load the application which will initialize the foreground:
     require(['foreground/application']);

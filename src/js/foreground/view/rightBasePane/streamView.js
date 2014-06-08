@@ -17,7 +17,6 @@
     var ShuffleButton = chrome.extension.getBackgroundPage().ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
-        
         id: 'stream',
         //  TODO: Marionette 2.0 will support referencing through @ui: https://github.com/marionettejs/backbone.marionette/issues/1033
         itemViewContainer: '#stream-items',
@@ -43,7 +42,6 @@
             'click @ui.shuffleButton': 'toggleShuffle',
             'click @ui.radioButton': 'toggleRadio',
             'click @ui.repeatButton': 'toggleRepeat',
-            
             'click @ui.showSearch': function () {
                 window.Application.vent.trigger('showSearch', true);
             }
@@ -94,7 +92,6 @@
         onRender: function () {
             this.toggleBigText();
             this.toggleContextButtons();
-
             this.setRepeatButtonState();
             this.setShuffleButtonState();
             this.setRadioButtonState();
@@ -150,7 +147,6 @@
         
         setRepeatButtonState: function() {
             var state = RepeatButton.get('state');
-            
             //  The button is considered enabled if it is anything but disabled.
             var enabled = state !== RepeatButtonState.Disabled;
 
@@ -198,7 +194,6 @@
             
             this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
         }
-
     });
 
     return StreamView;

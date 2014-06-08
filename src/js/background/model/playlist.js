@@ -12,7 +12,6 @@ define([
 
     var Playlist = Backbone.Model.extend({
         defaults: function () {
-
             return {
                 id: null,
                 userId: null,
@@ -49,6 +48,7 @@ define([
 
             return playlistDto;
         },
+        
         initialize: function () {
 
             var items = this.get('items');
@@ -88,7 +88,6 @@ define([
             var sumDurations = _.reduce(songDurations, function (memo, duration) {
                 return memo + duration;
             }, 0);
-
 
             var prettyTime;
             var timeInMinutes = Math.floor(sumDurations / 60);

@@ -15,7 +15,6 @@
     var User = chrome.extension.getBackgroundPage().User;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
-
         id: 'playlists-area',
         template: _.template(PlaylistsAreaTemplate),
         itemView: PlaylistView,
@@ -74,9 +73,7 @@
 
                     //  Run this code only when reorganizing playlists.
                     if (listItemType === ListItemType.Playlist) {
-
                         var playlistId = ui.item.data('id');
-
                         var index = ui.item.index();
 
                         var playlist = this.collection.get(playlistId);
@@ -139,7 +136,6 @@
         },
 
         togglePlaylistsVisibility: function(event) {
-
             var caretIcon = $(event.currentTarget).find('i');
             var isExpanded = caretIcon.data('expanded');
 
@@ -158,11 +154,9 @@
                     caretIcon.data('expanded', true);
                 });
             }
-
         },
 
         arePlaylistsOverflowing: function () {
-            
             //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
             var currentHeight = this.ui.playlists.height();
 
@@ -212,8 +206,7 @@
             }.bind(this));
         },
         
-        expandPlaylistCollection: function(onComplete) {
-                        
+        expandPlaylistCollection: function(onComplete) {        
             var isOverflowing = this.arePlaylistsOverflowing();
 
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
@@ -230,7 +223,6 @@
                 }
                 onComplete();
             }.bind(this));
-            
         },
         
         showSettingsPrompt: function () {
@@ -266,7 +258,6 @@
         },
         
         showDeleteSelectedPlaylistPrompt: function () {
-
             var activePlaylist = this.collection.getActivePlaylist();
             var isEmpty = activePlaylist.get('items').length === 0;
 
@@ -284,11 +275,8 @@
                 } else {
                     playlist.destroy();
                 }
-
             }
-
         }
-
     });
 
     return PlaylistsAreaView;

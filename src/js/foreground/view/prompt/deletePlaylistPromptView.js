@@ -6,10 +6,7 @@
     'use strict';
     
     var DeletePlaylistPromptView = GenericPromptView.extend({
-        model: null,
-        
         initialize: function (options) {
-
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('deletePlaylist'),
                 okButtonText: chrome.i18n.getMessage('delete'),

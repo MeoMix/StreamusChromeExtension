@@ -10,9 +10,9 @@
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var User = chrome.extension.getBackgroundPage().User;
-
+    
+    //  TODO: Needs some refactoring.
     var Sortable = Backbone.Marionette.Behavior.extend({
-
         onRender: function () {
             var self = this;
 

@@ -2,11 +2,8 @@
     'use strict';
 
     var MultiSelectCollection = Backbone.Collection.extend({
-
         initialize: function() {
-
             this.on('change:selected', function(changedModel, selected) {
-
                 //  Whenever only one model is selected -- it becomes the first one to be selected.
                 var selectedModels = this.selected();
                 
@@ -18,12 +15,10 @@
                 if (!selected) {
                     changedModel.set('firstSelected', false);
                 }
-
             });
 
             //  Ensure that only 1 item is ever first selected.
             this.on('change:firstSelected', function(changedModel, firstSelected) {
-
                 if (firstSelected) {
                     this.each(function(model) {
                         if (model !== changedModel && model.get('firstSelected')) {
@@ -31,9 +26,7 @@
                         }
                     });
                 }
-
             });
-
         },
 
         //  Just a nicer naming for deselectAll
@@ -43,7 +36,6 @@
 
         //  This takes cid not id because it works for models which aren't persisted to the server.
         deselectAllExcept: function(selectedModel) {
-
             var selected = this.selected();
             
             _.each(selected, function (model) {

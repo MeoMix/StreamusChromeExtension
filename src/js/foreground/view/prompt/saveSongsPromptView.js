@@ -7,11 +7,7 @@
     'use strict';
     
     var SaveSongsPromptView = GenericPromptView.extend({
-        
-        model: null,
-        
         initialize: function (options) {
-
             var saveSongs = new SaveSongs({
                 songs: options.songs
             });

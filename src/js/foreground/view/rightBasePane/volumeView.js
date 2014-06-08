@@ -6,9 +6,7 @@ define([
     'use strict';
 
     var VolumeView = Backbone.Marionette.ItemView.extend({
-        
         id: 'volume',
-
         template: _.template(VolumeTemplate),
         
         ui: {
@@ -31,12 +29,10 @@ define([
         },
 
         onRender: function () {
-
             var volumeIcon = this.getVolumeIcon(this.model.get('volume'));
             this.ui.muteButton.html(volumeIcon);
             
             this.$el.hoverIntent(function () {
-
                 this.$el.data('oldheight', this.$el.height()).transition({
                     height: 150
                 }, 250, 'snap');
@@ -44,9 +40,7 @@ define([
                 this.ui.volumeSlider.transition({
                     opacity: 1
                 }, 250, 'snap');
-
             }.bind(this), function () {
-
                 this.$el.transition({
                     height: this.$el.data('oldheight')
                 }, 250);
@@ -54,7 +48,6 @@ define([
                 this.ui.volumeSlider.transition({
                     opacity: 0
                 }, 250);
-
             }.bind(this), {
                 sensitivity: 2,
                 interval: 5500,
@@ -119,7 +112,6 @@ define([
             var isMuted = this.model.get('muted');
             this.ui.muteButton.toggleClass('muted', isMuted);
         }
-
     });
 
     return VolumeView;

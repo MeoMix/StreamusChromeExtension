@@ -5,7 +5,6 @@
     'use strict';
 
     var YouTubeV3API = Backbone.Model.extend({
-
         //  Performs a search and then grabs the first item most related to the search title by calculating
         //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
         //  Expects options: { title: string, success: function, error: function }
@@ -242,7 +241,6 @@
                 }, ajaxDataOptions)
             }));
         }
-
     });
 
     return new YouTubeV3API();

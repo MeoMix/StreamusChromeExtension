@@ -7,7 +7,6 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var ClearStreamView = Backbone.Marionette.ItemView.extend({
-
         className: 'clear-stream',
         
         ui: {

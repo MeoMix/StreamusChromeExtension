@@ -5,7 +5,6 @@
     'use strict';
 
     var DeleteButtonView = Backbone.Marionette.ItemView.extend({
-        
         tagName: 'button',
         className: 'button-icon colored',
         template: _.template(DeleteButtonTemplate),
@@ -33,7 +32,6 @@
             //  Don't allow click to bubble up to the list item and cause a selection.
             return false;
         }
-
     });
 
     return DeleteButtonView;

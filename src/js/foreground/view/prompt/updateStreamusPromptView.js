@@ -6,8 +6,6 @@
     'use strict';
 
     var UpdateStreamusPromptView = GenericPromptView.extend({
-        model: null,
-
         initialize: function () {
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('updateRequired'),

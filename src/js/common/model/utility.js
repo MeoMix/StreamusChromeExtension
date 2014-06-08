@@ -2,7 +2,6 @@
     'use strict';
 
     var Utility = Backbone.Model.extend({
-
         //  Takes a time in seconds and converts it to something human-readable in the format of H:mm:ss or mm:ss.
         prettyPrintTime: function (timeInSeconds) {
             if (isNaN(timeInSeconds)) {
@@ -50,7 +49,6 @@
 
         //  Inspired by the Chrome Last.fm Scrobbler extension by David Sabata (https://github.com/david-sabata/Chrome-Last.fm-Scrobbler)
         cleanTitle: function (title) {
-
             title = $.trim(title);
             title = title.replace(/\s*\*+\s?\S+\s?\*+$/, ''); // **NEW**
             title = title.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]

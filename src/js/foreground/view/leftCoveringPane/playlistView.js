@@ -14,9 +14,7 @@
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
-
         className: 'list-item playlist',
-
         template: _.template(PlaylistTemplate),
 
         attributes: function () {
@@ -111,21 +109,16 @@
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
-                        
                         self.model.getShareCode(function (shareCode) {
-
                             var shareCodeShortId = shareCode.get('shortId');
                             var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
-
                             var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
 
                             chrome.extension.sendMessage({
                                 method: 'copy',
                                 text: playlistShareUrl
                             });
-
-                        });
-                            
+                        }); 
                     }
                 }, {
                     text: chrome.i18n.getMessage('delete'),
@@ -180,9 +173,7 @@
         },
         
         saveAndStopEdit: function () {
-            
             this.ui.editableTitle.hide();
-            
             //  Be sure to show the title before changing it's text so the tooltip can know whether it is overflowing or not.
             this.ui.title.show();
             
@@ -191,9 +182,7 @@
             if (newTitle !== '') {
                 this.model.set('title', newTitle);
             }
-            
         }
-
     });
 
     return PlaylistView;

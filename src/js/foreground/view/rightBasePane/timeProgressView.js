@@ -11,9 +11,7 @@ define([
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
-        
         id: 'time-progress',
-
         template: _.template(TimeProgressTemplate),
         
         events: {
@@ -102,7 +100,6 @@ define([
         },
         
         toggleShowTimeRemaining: function() {
-
             var showTimeRemaining = Settings.get('showTimeRemaining');
             //  Toggle showTimeRemaining and then read the new state and apply it.
             Settings.set('showTimeRemaining', !showTimeRemaining);
@@ -164,27 +161,22 @@ define([
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
         updateProgress: function () {
-
             var currentTime = parseInt(this.ui.timeRange.val());
             var totalTime = parseInt(this.ui.timeRange.prop('max'));
 
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
-
             this.ui.progress.width(progressPercent + '%');
             
             if (Settings.get('showTimeRemaining')) {
-                
                 //  Calculate the time remaining from the current time and show that instead.
                 var timeRemaining = totalTime - currentTime;
-
                 this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(timeRemaining));
             } else {
                 this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
             }
 
             this.ui.durationLabel.text(Utility.prettyPrintTime(totalTime));
- 
         },
 
         //  Return 0 or active song's duration.
@@ -198,7 +190,6 @@ define([
 
             return duration;
         }
-        
     });
 
     return TimeProgressView;

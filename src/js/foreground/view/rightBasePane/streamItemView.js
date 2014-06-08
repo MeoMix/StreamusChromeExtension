@@ -17,9 +17,7 @@
     var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
 
     var StreamItemView = MultiSelectListItemView.extend({
-
         className: MultiSelectListItemView.prototype.className + ' stream-item',
-
         template: _.template(ListItemTemplate),
 
         attributes: function () {
@@ -41,7 +39,6 @@
 
         onRender: function () {
             this.setActiveClass();
-     
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
 
@@ -63,23 +60,20 @@
         },
 
         showContextMenu: function (event) {
-
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
             var self = this;
 
-            var userSignedIn = User.get('signedIn');
-
             var activePlaylist = Playlists.getActivePlaylist();
-            var areadyExists = false;
-
+            var alreadyExists = false;
+            
+            var userSignedIn = User.get('signedIn');
             if (userSignedIn) {
-                areadyExists = activePlaylist.get('items').hasSong(self.model.get('song'));
+                alreadyExists = activePlaylist.get('items').hasSong(self.model.get('song'));
             }
 
             var saveTitle = '';
-
-            if (userSignedIn && areadyExists) {
+            if (userSignedIn && alreadyExists) {
                 saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
             } else if (!userSignedIn) {
                 saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
@@ -88,29 +82,25 @@
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
-                    disabled: !userSignedIn || areadyExists,
+                    disabled: !userSignedIn || alreadyExists,
                     onClick: function () {
                         activePlaylist.addSongs(self.model.get('song'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: function () {
-
                         chrome.extension.sendMessage({
                             method: 'copy',
                             text: self.model.get('song').get('url')
                         });
-
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
                     onClick: function() {
-
                         chrome.extension.sendMessage({
                             method: 'copy',
                             text: '"' + self.model.get('title') + '" - ' + self.model.get('song').get('url')
                         });
-
                     }
                 }, {
                     text: chrome.i18n.getMessage('delete'),
@@ -127,7 +117,6 @@
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
-     
                         var url = self.model.get('song').get('url');
                         if (Player.get('loadedSongId') === self.model.get('song').get('id')) {
                             url += '?t=' + Player.get('currentTime') + 's';
@@ -141,7 +130,6 @@
                       }
                   }]
             );
-
         }
     });
 

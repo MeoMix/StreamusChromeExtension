@@ -4,9 +4,7 @@
     'use strict';
 
     var EditPlaylistView = Backbone.Marionette.ItemView.extend({
-
         className: 'edit-playlist',
-
         template: _.template(EditPlaylistTemplate),
         
         ui: {
@@ -42,7 +40,6 @@
             var playlistTitle = $.trim(this.ui.playlistTitle.val());
             this.model.set('title', playlistTitle);
         }
-
     });
 
     return EditPlaylistView;

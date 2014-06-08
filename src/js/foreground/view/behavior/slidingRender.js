@@ -2,7 +2,6 @@
     'use strict';
 
     var SlidingRender = Backbone.Marionette.Behavior.extend({
-        
         collectionEvents: {
             'reset': '_reset',
             

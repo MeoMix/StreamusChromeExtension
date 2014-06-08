@@ -8,9 +8,7 @@
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
-
         className: 'create-playlist',
-
         template: _.template(CreatePlaylistTemplate),
         
         templateHelpers: function () {
@@ -53,15 +51,12 @@
         
         //  Debounce for typing support so I know when typing has finished
         processInput: _.debounce(function () {
-
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(function() {
-
                 var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
                 this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
 
                 if (youTubeUrl !== '') {
-
                     //  Check validity of URL and represent validity via invalid class.
                     var dataSource = new DataSource({
                         url: youTubeUrl,
@@ -70,7 +65,6 @@
 
                     dataSource.parseUrl({
                         success: function() {
-
                             this.ui.youTubeSourceInput.data('datasource', dataSource);
 
                             dataSource.getTitle({
@@ -85,22 +79,16 @@
                                     this.ui.youTubeSourceInput.addClass('invalid');
                                 }.bind(this)
                             });
-                            
                         }.bind(this)
                     });
-
-
                 } else {
                     this.ui.youTubeSourceInput.removeClass('invalid valid');
                     this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
 
                     this.setDataSourceAsUserInput();
                 }
-                
             }.bind(this));
-
         }, 100),
-        
 
         setDataSourceAsUserInput: function() {
             this.ui.youTubeSourceInput.data('datasource', new DataSource({
@@ -120,7 +108,6 @@
 
             Playlists.addPlaylistByDataSource(playlistName, dataSource);
         }
-
     });
 
     return CreatePlaylistView;

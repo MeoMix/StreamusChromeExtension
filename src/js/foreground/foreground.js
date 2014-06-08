@@ -16,6 +16,8 @@
     'foreground/view/prompt/updateStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
 ], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+    'use strict';
+
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;

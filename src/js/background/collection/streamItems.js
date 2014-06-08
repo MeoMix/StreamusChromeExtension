@@ -32,13 +32,10 @@
             });
 
             this.on('change:active', function (changedStreamItem, active) {
-
                 //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
                 if (active) {
                     this.deactivateAllExcept(changedStreamItem);
-
                     var songId = changedStreamItem.get('song').get('id');
-
                     //  Maintain the state of the player by playing or cueuing based on current player state.
                     var playerState = Player.get('state');
 
@@ -51,25 +48,20 @@
                     
                     this.history.unshift(changedStreamItem);
                 }
-
             });
 
             this.listenTo(Player, 'change:state', function (model, state) {
-                
                 if (state === PlayerState.Ended) {
                     this.activateNext();
                 }
                 else if (state === PlayerState.Playing) {
-
                     //  Only display notifications if the foreground isn't open.
                     var foreground = chrome.extension.getViews({ type: "popup" });
 
                     if (foreground.length === 0) {
-
                         this.showActiveNotification();
                     }
                 }
-
             });
 
             this.on('remove reset', function () {
@@ -91,7 +83,6 @@
             });
 
             this.on('change:playedRecently', function() {
-
                 //  When all streamItems have been played recently, reset to not having been played recently.
                 //  Allows for de-prioritization of played streamItems during shuffling.
                 if (this.where({ playedRecently: true }).length === this.length) {
@@ -99,12 +90,10 @@
                         streamItem.set('playedRecently', false);
                     });
                 }
-
             });
             
             //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
             chrome.runtime.onMessage.addListener(function (request) {
-                
                 switch (request.method) {
                     case 'searchAndStreamByQuery':
                         self.searchAndAddByTitle({
@@ -115,17 +104,14 @@
                             }
                         });
                     break;
-
                     case 'searchAndStreamByQueries':
                         var queries = request.queries;
 
                         if (queries.length > 0) {
-                            
                             //  Queue up all of the queries.
                             var query = queries.shift();
 
                             var recursiveShiftTitleAndAdd = function () {
-                                
                                 if (queries.length > 0) {
                                     query = queries.shift();
                                     self.searchAndAddByTitle({
@@ -136,7 +122,6 @@
                                         complete: recursiveShiftTitleAndAdd
                                     });
                                 }
-                                
                             };
 
                             //  Start playing the first song queued up
@@ -148,23 +133,18 @@
                                 },
                                 complete: recursiveShiftTitleAndAdd
                             });
-                            
                         }
                     break;
                 }
-
             });
             
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
-
         },
         
         searchAndAddByTitle: function (options) {
-            
             YouTubeV3API.getSongInformationByTitle({
                 title: options.title,
                 success: function (songInformation) {
-                    
                     var song = new Song();
                     song.setYouTubeInformation(songInformation);
                     
@@ -203,13 +183,11 @@
         },
         
         addSongs: function (songs, options) {
-
             if (!_.isArray(songs)) {
                 songs = [songs];
             }
 
             var playOnAdd = _.isUndefined(options) || _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
-            
             if (playOnAdd) {
                 Player.playOnceSongChanges();
             }
@@ -232,15 +210,11 @@
         },
 
         deactivateAllExcept: function(changedStreamItem) {
-
             this.each(function(streamItem) {
-
                 if (streamItem != changedStreamItem) {
                     streamItem.set('active', false);
                 }
-
             });
-
         },
 
         getActiveItem: function () {
@@ -250,7 +224,6 @@
         //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
         //  then flatten the arrays into a single array of songs.
         getRelatedSongs: function() {
-
             //  TODO: Does SoundCloud have related information? I hope so!
             //  Find all streamItem entities which have related song information.
             //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
@@ -260,26 +233,20 @@
 
             //  Create a list of all the related songs from all of the information of stream items.
             var relatedSongs = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
-
                 return _.map(streamItem.get('relatedSongInformation'), function (relatedSongInformation) {
-
                     var song = new Song();
                     song.setYouTubeInformation(relatedSongInformation);
-
                     return song;
                 });
-
             }));
 
             //  Don't add any songs that are already in the stream.
             var self = this;
-
+            
             relatedSongs = _.filter(relatedSongs, function (relatedSong) {
                 var alreadyExistingItem = self.find(function (streamItem) {
-
                     var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
                     var sameCleanTitle = streamItem.get('song').get('cleanTitle') === relatedSong.get('cleanTitle');
-
                     var inBanList = _.contains(self.bannedSongIdList, relatedSong.get('id'));
 
                     return sameSongId || sameCleanTitle || inBanList;
@@ -305,7 +272,6 @@
         },
 
         getRandomRelatedSong: function() {
-
             var relatedSongs = this.getRelatedSongs();
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
             
@@ -314,7 +280,6 @@
         
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
         activateNext: function (removedActiveItemIndex) {
-
             var nextItem = null;
 
             var shuffleEnabled = ShuffleButton.get('enabled');
@@ -342,7 +307,6 @@
                 
                 //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
-
                     if (repeatButtonState === RepeatButtonState.RepeatStream) {
                         this.at(0).set('active', true);
 
@@ -355,13 +319,11 @@
                         nextItem = this.at(0);
                     }
                     else if (radioEnabled) {
-
                         var randomRelatedSong = this.getRandomRelatedSong();
 
                         if (randomRelatedSong === null) {
                             console.error("No related song found.");
                         } else {
-
                             nextItem = this.add({
                                 song: randomRelatedSong,
                                 title: randomRelatedSong.get('title')
@@ -379,7 +341,6 @@
                         Player.pause();
                     }
                     else {
-
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         this.at(0).set('active', true);
                         Player.pause();
@@ -389,7 +350,6 @@
                     this.at(nextItemIndex).set('active', true);
                     nextItem = this.at(nextItemIndex);
                 }
-
             }
 
             return nextItem;
@@ -397,7 +357,6 @@
         
         //  Return the previous item or null without affecting the history.
         getPrevious: function() {
-
             var previousStreamItem = null;
 
             if (this.history.length > 1) {
@@ -406,7 +365,6 @@
             
             //  If nothing found by history -- rely on settings
             if (previousStreamItem == null) {
-
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
 
@@ -423,7 +381,6 @@
                     } else {
                         previousStreamItem = this.at(activeItemIndex - 1) || null;
                     }
-
                 }
             }
 
@@ -432,14 +389,12 @@
 
         //  TODO: Maybe this should just call getPrevious?
         activatePrevious: function() {
-
             //  Peel off currentStreamItem from the top of history.
             this.history.shift();
             var previousStreamItem = this.history.shift();
 
             //  If no previous item was found in the history, then just go back one item
             if (previousStreamItem == null) {
-
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
 
@@ -461,7 +416,6 @@
                         this.at(activeItemIndex - 1).set('active', true);
                     }
                 }
-
             } else {
                 previousStreamItem.set('active', true);
             }
@@ -491,7 +445,6 @@
                 return streamItem.get('song').get('id') === song.get('id');
             });
         }
-
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

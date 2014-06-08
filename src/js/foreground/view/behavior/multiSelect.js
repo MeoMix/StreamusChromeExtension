@@ -26,7 +26,6 @@
                 ctrlKey: event.ctrlKey,
                 modelToSelect: modelToSelect
             });
-
         },
         
         doSetSelected: function (options) {
@@ -41,7 +40,6 @@
 
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
-
                 var firstSelectedIndex = 0;
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
 
@@ -63,7 +61,6 @@
 
                 //  Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
                 this.view.collection.at(firstSelectedIndex).set('firstSelected', true);
-
             } else if (ctrlKeyPressed) {
                 //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
                 //  but doesn't lose the other selected items.

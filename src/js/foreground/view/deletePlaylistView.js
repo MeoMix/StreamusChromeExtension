@@ -6,9 +6,7 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
-
         className: 'delete-playlist',
-
         template: _.template(DeletePlaylistTemplate),
         
         ui: {
@@ -26,7 +24,6 @@
 
             this.model.destroy();
         }
-
     });
 
     return DeletePlaylistView;

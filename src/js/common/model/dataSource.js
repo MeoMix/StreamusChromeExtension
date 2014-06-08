@@ -6,7 +6,6 @@
     'use strict';
 
     var DataSource = Backbone.Model.extend({
-
         defaults: {
             type: DataSourceType.None,
             //  Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
@@ -147,7 +146,6 @@
             var indexOfUser = this.get('url').indexOf('/user/');
             return indexOfUser != -1;
         }
-
     });
 
     return DataSource;

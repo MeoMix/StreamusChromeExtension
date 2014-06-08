@@ -8,7 +8,6 @@ define([
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
-            
         defaults: function () {
             return {
                 suggestedSongs: [],

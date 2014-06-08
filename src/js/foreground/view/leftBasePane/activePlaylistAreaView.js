@@ -11,7 +11,8 @@
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
-
+        itemView: PlaylistItemView,
+        itemViewContainer: '#active-playlist-items',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {
@@ -24,9 +25,6 @@
                 playAllMessage: chrome.i18n.getMessage('playAll')
             };
         },
-
-        itemView: PlaylistItemView,
-        itemViewContainer: '#active-playlist-items',
 
         ui: {
             playlistDetails: '.playlist-details',

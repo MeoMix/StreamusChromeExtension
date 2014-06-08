@@ -6,10 +6,7 @@
     'use strict';
     
     var EditPlaylistPromptView = GenericPromptView.extend({
-        model: null,
-        
         initialize: function (options) {
-
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('editPlaylist'),
                 okButtonText: chrome.i18n.getMessage('update'),

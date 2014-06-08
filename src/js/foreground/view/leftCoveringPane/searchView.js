@@ -13,13 +13,10 @@
     var User = chrome.extension.getBackgroundPage().User;
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
-
         id: 'search',
         className: 'left-pane',
-        
         template: _.template(SearchTemplate),
         itemViewContainer: '#search-results',
-        
         itemView: SearchResultView,
         
         ui: {
@@ -146,7 +143,6 @@
         
         toggleSaveSelected: function () {
             var userSignedIn = User.get('signedIn');
-
             this.ui.saveSelectedButton.toggleClass('disabled', !userSignedIn);
 
             var templateHelpers = this.templateHelpers();
@@ -174,13 +170,11 @@
         toggleBigText: function () {
             //  Hide the search message when there is no search in progress nor any typing happening.
             var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
-
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
     
             //  Hide the instructions message once user has searched or are searching.
             var hasSearchResults = this.collection.length > 0;
             var hasSearchQuery = this.model.get('searchQuery').length > 0;
-
             this.ui.instructions.toggleClass('hidden', hasSearchResults || hasSearchQuery);
 
             //  Only show no results when all other options are exhausted and user has interacted.
@@ -199,15 +193,12 @@
         },
 
         showSaveSelectedPrompt: function () {
-
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-
                 window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
                     songs: this.collection.getSelectedSongs()
                 }));
-                
             }
             //  Don't close the menu if disabled
             return !disabled;
@@ -223,7 +214,6 @@
             var selectedCount = this.options.collection.selected().length;
             return selectedCount === 0 ? 350 : 315;
         }
-
     });
 
     return SearchView;

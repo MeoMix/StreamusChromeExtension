@@ -7,7 +7,6 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
-
         className: 'settings',
         template: _.template(SettingsTemplate),
         

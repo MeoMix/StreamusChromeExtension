@@ -1,5 +1,6 @@
 ﻿define(function () {
     'use strict';
+    
     var Application = new Backbone.Marionette.Application();
     
     //  Configure qTip2's default behavior.

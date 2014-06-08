@@ -3,9 +3,7 @@
 define({
     moveToIndex: function(modelId, index) {
         var model = this.get(modelId);
-
         var sequence = this.getSequenceFromIndex(index);
-
         model.set('sequence', sequence);
 
         //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
@@ -23,7 +21,6 @@ define({
 
     //  Return what sequence number would be necessary to be at the given index     
     getSequenceFromIndex: function(index) {
-
         var sequence;
         var sequenceIncrement = 10000;
 

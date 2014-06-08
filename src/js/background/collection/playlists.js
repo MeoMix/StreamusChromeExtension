@@ -13,7 +13,6 @@
         userId: null,
         
         initialize: function () {
-
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
                 var activePlaylistId = localStorage.getItem('activePlaylistId');
@@ -24,14 +23,12 @@
             }
 
             chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-
                 switch (request.method) {
                     case 'getPlaylists':
                         sendResponse({ playlists: this });
                         break;
                     //  TODO: Update name to indicate from YouTube more clearly.
                     case 'addSongByIdToPlaylist':
-
                         YouTubeV3API.getSongInformation({
                             songId: request.songId,
                             success: function (youTubeSongInformation) {
@@ -52,7 +49,6 @@
             }.bind(this));
 
             this.on('add', function (addedPlaylist) {
-                
                 //  TODO: This could potentially be costly if not debounced.
                 //  Notify all open YouTube tabs that a playlist has been added.
                 sendEventToOpenYouTubeTabs('add', 'playlist', {
@@ -63,7 +59,6 @@
 
             //  Whenever a playlist is removed, if it was selected, select the next playlist.
             this.on('remove', function (removedPlaylist, collection, options) {
-
                 if (removedPlaylist.get('active')) {
                     //  Clear local storage of the active playlist if it gets removed.
                     localStorage.setItem('activePlaylistId', null);
@@ -120,13 +115,11 @@
         },
         
         deselectAllExcept: function (changedPlaylist) {
-
             this.each(function (playlist) {
                 if (playlist !== changedPlaylist) {
                     playlist.set('active', false);
                 }
             });
-            
         },
         
         addPlaylistWithSongs: function (playlistTitle, songs) {
@@ -174,21 +167,16 @@
                     if (dataSource.needsLoading()) {
                         playlist.loadDataSource();
                     }
-
                 }
             });
-
         }
-        
     });
     
     //  Mixin methods needed for sequenced collections
     _.extend(Playlists.prototype, SequencedCollectionMixin);
 
     function sendEventToOpenYouTubeTabs(event, type, data) {
-
         chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
-
             _.each(tabs, function (tab) {
                 chrome.tabs.sendMessage(tab.id, {
                     event: event,
@@ -196,9 +184,7 @@
                     data: data
                 });
             });
-
         });
-
     }
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

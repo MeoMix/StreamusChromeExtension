@@ -1297,30 +1297,8 @@ define(function () {
                         var Fb = l("onYouTubePlayerAPIReady");
                         Fb && Fb();
                     })();
-                    
-                    //$('<script>', {
-                    //    id: 'www-widgetapi-script',
-                    //    src: 'https://s.ytimg.com/yts/jsbin/www-widgetapi-vflHmEgKs.js',
-                    //    async: false,
-                    //    defer: true
-                    //}).insertAfter($('script:last'));
-
-                    //var a = document.createElement('script');
-                    //a.id = 'www-widgetapi-script';
-                    //a.src = 'https:' + '//s.ytimg.com/yts/jsbin/www-widgetapi-vflHmEgKs.js';
-                    //a.async = false;
-                    //a.defer = true;
-
-                    //var b = document.getElementsByTagName('script')[0];
-                    //b.parentNode.insertBefore(a, b);
                 })();
             }
-
-            //  Give this as much time as possible to load:
-            //$('<script>', {
-            //    src: 'https://www.youtube.com/iframe_api',
-            //    async: true
-            //}).insertBefore($('script:first'));
         }
     });
 

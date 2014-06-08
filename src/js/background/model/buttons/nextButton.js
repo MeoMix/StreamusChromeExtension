@@ -8,7 +8,6 @@
     'use strict';
     
     var NextButton = Backbone.Model.extend({
-        
         defaults: {
             enabled: false
         },
@@ -26,7 +25,6 @@
             var enabled = false;
             
             if (StreamItems.length > 0) {
-
                 var radioEnabled = RadioButton.get('enabled');
                 var shuffleEnabled = ShuffleButton.get('enabled');
                 var repeatButtonState = RepeatButton.get('state');
@@ -45,9 +43,7 @@
                     if (activeItemIndex + 1 !== StreamItems.length) {
                         enabled = true;
                     }
-
                 }
-
             }
 
             this.set('enabled', enabled);
@@ -55,7 +51,6 @@
         
         //  Prevent spamming by only allowing a next click once every 100ms.
         tryActivateNextStreamItem: _.debounce(function () {
-
             var activatedNextItem = false;
 
             if (this.get('enabled')) {
@@ -64,9 +59,7 @@
             }
 
             return activatedNextItem;
-
         }, 100, true)
-
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

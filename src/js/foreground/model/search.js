@@ -10,7 +10,6 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var Search = Backbone.Model.extend({
-        
         defaults: function () {
             return {
                 searchQuery: Settings.get('searchQuery'),
@@ -36,7 +35,6 @@
         },
 
         search: function (searchQuery) {
-
             this.set('searchQuery', searchQuery);
 
             //  Do not display results if searchText was modified while searching, abort old request.
@@ -111,10 +109,7 @@
                     this.set('typing', false);
                 }.bind(this)
             });
-
-
         }, 350)
-
     });
 
     return Search;

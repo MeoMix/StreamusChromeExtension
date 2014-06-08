@@ -14,7 +14,6 @@
         playlistId: -1,
         
         initialize: function (models, options) {
-            
             if (!_.isUndefined(options)) {
                 this.playlistId = options.playlistId;
             }
@@ -37,7 +36,6 @@
             });
 
             if (newItems.length === 1) {
-                
                 //  Default to Backbone if Collection is creating only 1 item.
                 newItems[0].save({}, {
                     success: options ? options.success : null,
@@ -45,7 +43,6 @@
                 });
             }
             else if (newItems.length > 1) {
-
                 //  Otherwise revert to a CreateMultiple
                 $.ajax({
                     url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
@@ -55,7 +52,6 @@
                     success: function (createdItems) {
                         //  For each of the createdItems, remap properties back to the old items.
                         _.each(createdItems, function (createdItem) {
-
                             //  Remap items based on their client id.
                             var matchingNewItem = self.find(function (newItem) {
                                 return newItem.cid === createdItem.cid;
@@ -72,13 +68,10 @@
                         if (options.success) {
                             options.success();
                         }
-                        
                     },
                     error: options ? options.error : null
                 });
-                
             }
-
         },
         
         //  Figure out if a Song would be unique to the collection or if it already referenced by a PlaylistItem.
@@ -94,7 +87,6 @@
         
         //  Don't allow duplicate PlaylistItems by songId. 
         add: function (items) {
-
             if (items instanceof Backbone.Collection) {
                 items.each(function (item) {
                     this.trySetDuplicateSongId(item);
@@ -112,7 +104,6 @@
         },
         
         trySetDuplicateSongId: function (playlistItem) {
-
             //  You can pass an object into .add so gotta support both types. Maybe rethink this?
             var songId;
             if (playlistItem instanceof Backbone.Model) {
@@ -122,25 +113,20 @@
             }
             
             var duplicateItem = this.getBySongId(songId);
-
+            
             if (!_.isUndefined(duplicateItem)) {
-
                 //  Make their IDs match to prevent adding to the collection.
                 if (duplicateItem.has('id')) {
-                    
                     if (playlistItem instanceof Backbone.Model) {
                         playlistItem.set('id', duplicateItem.get('id'));
                     } else {
                         playlistItem.id = duplicateItem.get('id');
                     }
-                    
                 } else {
                     playlistItem.cid = duplicateItem.cid;
                 }
-
             }
         }
-        
     }));
 
     return PlaylistItems;

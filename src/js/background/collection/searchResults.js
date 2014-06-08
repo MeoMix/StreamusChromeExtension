@@ -9,7 +9,6 @@
         model: SearchResult,
         
         setFromSongInformation: function (songInformation) {
-
             var song = new Song();
             song.setYouTubeInformation(songInformation);
 
@@ -21,9 +20,7 @@
         },
 
         setFromSongInformationList: function (songInformationList) {
-
             var searchResults = _.map(songInformationList, function (songInformation) {
-
                 var song = new Song();
                 song.setYouTubeInformation(songInformation);
 
@@ -51,7 +48,6 @@
                 return searchResult.get('song');
             });
         }
-        
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

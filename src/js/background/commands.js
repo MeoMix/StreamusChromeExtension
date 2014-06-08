@@ -15,7 +15,6 @@ define([
     
     //  Receive keyboard shortcuts from users.
     chrome.commands.onCommand.addListener(function (command) {
-
         switch (command) {
             case 'nextSong':
                 var activatedStreamItem = NextButton.tryActivateNextStreamItem();
@@ -103,7 +102,5 @@ define([
                 console.error("Unhandled command:", command);
                 break;
         }
-
     });
-
 });

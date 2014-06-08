@@ -2,9 +2,7 @@
     'use strict';
 
     var Settings = Backbone.Model.extend({
-        
         defaults: function () {
-
             var remindClearStream = this.getItem('remindClearStream');
             var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
             var showTimeRemaining = this.getItem('showTimeRemaining');
@@ -87,7 +85,6 @@
 
             return item;
         }
-  
     });
     
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
