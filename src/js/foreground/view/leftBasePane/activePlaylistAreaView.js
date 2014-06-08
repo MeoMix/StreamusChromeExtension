@@ -91,7 +91,6 @@
         },
         
         toggleBottomMenubar: function () {
-            //  TODO: I could keep extended on a model to keep track instead of hitting DOM, but should be OK to fudge a bit.
             var extended = this.ui.bigTextWrapper.hasClass('extended');
             var doToggle = (extended && this.collection.length > 0) || (!extended && this.collection.length === 0);
 

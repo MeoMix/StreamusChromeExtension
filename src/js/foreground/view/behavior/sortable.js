@@ -201,7 +201,6 @@
                         ui.sender[0].copyHelperView.close();
 
                         ui.sender.data('copied', true);
-
                     });
 
                     self.view.triggerMethod('GetMinRenderIndex');

@@ -271,11 +271,11 @@ define([
             this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
 
-            this.getUserInfo(function(userInfo) {
-                if (userInfo !== null && userInfo.id !== this.get('googlePlusId')) {
-                    this.updateWithGooglePlusId(userInfo.id);
-                }
-            }.bind(this));
+            //this.getUserInfo(function(userInfo) {
+            //    if (userInfo !== null && userInfo.id !== this.get('googlePlusId')) {
+            //        this.updateWithGooglePlusId(userInfo.id);
+            //    }
+            //}.bind(this));
         },
 
         //  Loads user data by ID from the server, writes the ID to client-side storage locations

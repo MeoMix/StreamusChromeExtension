@@ -27,8 +27,7 @@
         initialize: function () {
             //  BaseURL is needed for ajax requests to the server.
             if (this.get('localDebug')) {
-                this.set('serverURL', 'https://server.streamus.com/Streamus/');
-                //this.set('serverURL', 'http://localhost:28029/');
+                this.set('serverURL', 'http://localhost:28029/');
             }
             else {
                 this.set('serverURL', 'https://server.streamus.com/');

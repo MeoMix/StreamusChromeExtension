@@ -50,7 +50,6 @@ define([
         },
         
         initialize: function () {
-
             var items = this.get('items');
 
             //  Need to convert items array to Backbone.Collection
@@ -64,7 +63,6 @@ define([
             }
 
             this.on('change:title', function (model, title) {
-
                 //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
                 $.ajax({
                     url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
@@ -140,7 +138,6 @@ define([
 
             itemsToSave.save({}, {
                 success: function () {
-                    //  TODO: Why is this .models and not just itemsToSave?
                     playlistItems.add(itemsToSave.models);
                 }
             });
@@ -171,7 +168,6 @@ define([
 
             itemsToSave.save({}, {
                 success: function () {
-                    //  TODO: Why is this .models and not just itemsToSave?
                     playlistItems.add(itemsToSave.models);
 
                     if (callback) {
