@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'text!template/playInStreamButton.html'
-], function (PlayInStreamButtonTemplate) {
+], function (Tooltip, PlayInStreamButtonTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -22,7 +23,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         playInStream: _.debounce(function () {

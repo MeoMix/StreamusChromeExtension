@@ -2,8 +2,9 @@
 define([
     'common/enum/playerState',
     'common/model/utility',
+    'foreground/view/behavior/tooltip',
     'text!template/timeProgress.html'
-], function (PlayerState, Utility, TimeProgressTemplate) {
+], function (PlayerState, Utility, Tooltip, TimeProgressTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -33,7 +34,7 @@ define([
         
         behaviors: {
             Tooltip: {
-                
+                behaviorClass: Tooltip
             }
         },
        

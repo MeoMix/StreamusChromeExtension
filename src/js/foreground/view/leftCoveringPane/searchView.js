@@ -1,8 +1,12 @@
 ﻿define([
+    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/slidingRender',
+    'foreground/view/behavior/sortable',
+    'foreground/view/behavior/tooltip',
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (MultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -69,11 +73,18 @@
         
         behaviors: function() {
             return {
-                MultiSelect: {},
-                Sortable: {},
-                Tooltip: {},
+                MultiSelect: {
+                    behaviorClass: MultiSelect
+                },
                 SlidingRender: {
+                    behaviorClass: SlidingRender,
                     viewportHeight: this._getViewportHeight()
+                },
+                Sortable: {
+                    behaviorClass: Sortable
+                },
+                Tooltip: {
+                    behaviorClass: Tooltip
                 }
             };
         },

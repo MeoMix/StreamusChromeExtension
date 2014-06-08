@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'text!template/contextMenuItem.html'
-], function (ContextMenuItemTemplate) {
+], function (Tooltip, ContextMenuItemTemplate) {
     'use strict';
 
     var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
@@ -20,7 +21,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
 
         onRender: function () {

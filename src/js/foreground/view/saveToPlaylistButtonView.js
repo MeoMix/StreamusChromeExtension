@@ -1,7 +1,8 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/saveToPlaylistButton.html'
-], function (SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
+], function (Tooltip, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
     var User = chrome.extension.getBackgroundPage().User;
@@ -22,7 +23,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
 
         onRender: function() {

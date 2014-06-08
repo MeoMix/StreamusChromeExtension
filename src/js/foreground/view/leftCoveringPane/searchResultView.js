@@ -5,8 +5,9 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
+    'foreground/view/behavior/tooltip',
     'text!template/listItem.html'
-], function (ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
+], function (ListItemType, ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, Tooltip, ListItemTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -31,7 +32,9 @@
         }),
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         showContextMenu: function (event) {

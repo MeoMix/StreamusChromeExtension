@@ -1,7 +1,11 @@
 ﻿define([
+    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/slidingRender',
+    'foreground/view/behavior/sortable',
+    'foreground/view/behavior/tooltip',
     'foreground/view/leftBasePane/playlistItemView',
     'text!template/activePlaylistArea.html'
-], function (PlaylistItemView, ActivePlaylistAreaTemplate) {
+], function (MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -53,11 +57,18 @@
         
         behaviors: function () {
             return {
-                MultiSelect: {},
-                Sortable: {},
-                Tooltip: {},
+                MultiSelect: {
+                    behaviorClass: MultiSelect,
+                },
                 SlidingRender: {
+                    behaviorClass: SlidingRender,
                     viewportHeight: this._getViewportHeight()
+                },
+                Sortable: {
+                    behaviorClass: Sortable
+                },
+                Tooltip: {
+                    behaviorClass: Tooltip
                 }
             };
         },

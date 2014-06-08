@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'text!template/playlistTitle.html'
-], function (PlaylistTitleTemplate) {
+], function (Tooltip, PlaylistTitleTemplate) {
     'use strict';
 
     var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
@@ -14,6 +15,7 @@
         
         behaviors: {
             Tooltip: {
+                behaviorClass: Tooltip
             }
         },
         

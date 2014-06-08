@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'text!template/deleteButton.html'
-], function (DeleteButtonTemplate) {
+], function (Tooltip, DeleteButtonTemplate) {
     'use strict';
 
     var DeleteButtonView = Backbone.Marionette.ItemView.extend({
@@ -18,7 +19,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         doDelete: function () {

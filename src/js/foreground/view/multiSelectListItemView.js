@@ -1,6 +1,7 @@
 ﻿define([
-    'foreground/view/listItemButtonsView'
-], function (ListItemButtonsView) {
+    'foreground/view/listItemButtonsView',
+    'foreground/view/behavior/tooltip'
+], function (ListItemButtonsView, Tooltip) {
     'use strict';
 
     var MultiSelectListItemView = Backbone.Marionette.Layout.extend({
@@ -26,7 +27,7 @@
         
         behaviors: {
             Tooltip: {
-                
+                behaviorClass: Tooltip
             }
         },
 

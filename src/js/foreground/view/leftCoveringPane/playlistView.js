@@ -1,10 +1,11 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
+    'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -46,7 +47,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
 
         onRender: function () {

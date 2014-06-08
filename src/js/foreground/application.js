@@ -1,15 +1,6 @@
-﻿define([
-    'foreground/view/behavior/behaviors'
-], function (Behaviors) {
+﻿define(function () {
     'use strict';
-    
     var Application = new Backbone.Marionette.Application();
-
-    Application.addInitializer(function() {
-        Backbone.Marionette.Behaviors.behaviorsLookup = function () {
-            return Behaviors;
-        };
-    });
     
     //  Configure qTip2's default behavior.
     Application.addInitializer(function () {

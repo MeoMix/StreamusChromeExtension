@@ -1,9 +1,10 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'foreground/view/leftBasePane/activePlaylistAreaView',
     'foreground/view/leftBasePane/playlistTitleView',
     'foreground/view/leftBasePane/signInView',
     'text!template/leftBasePane.html'
-], function (ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
+], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -44,7 +45,7 @@
         
         behaviors: {
             Tooltip: {
-                
+                behaviorClass: Tooltip
             }
         },
         

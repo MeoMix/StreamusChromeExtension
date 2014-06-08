@@ -1,6 +1,7 @@
 ﻿define([
+    'foreground/view/behavior/tooltip',
     'text!template/addToStreamButton.html'
-], function (AddToStreamButtonTemplate) {
+], function (Tooltip, AddToStreamButtonTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -20,7 +21,9 @@
         },
         
         behaviors: {
-            Tooltip: {}
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         addToStream: _.debounce(function () {

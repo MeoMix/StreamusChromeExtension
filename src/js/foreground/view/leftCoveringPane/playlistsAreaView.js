@@ -1,13 +1,14 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/view/createPlaylistView',
+    'foreground/view/behavior/tooltip',
     'foreground/view/leftCoveringPane/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (ListItemType, CreatePlaylistView, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var Settings = chrome.extension.getBackgroundPage().Settings;
@@ -56,7 +57,9 @@
         },
         
         behaviors: {
-            Tooltip: {},
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         onRender: function () {
@@ -108,7 +111,6 @@
             this.ui.panel.transition({
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
-                console.log("Hi?", this.ui.textTooltipable);
                 this.triggerMethod('FullyVisible');
 
                 this.children.each(function (childView) {

@@ -2,9 +2,13 @@
     'common/enum/listItemType',
     'common/enum/repeatButtonState',
     'foreground/model/streamAction',
+    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/slidingRender',
+    'foreground/view/behavior/sortable',
+    'foreground/view/behavior/tooltip',
     'foreground/view/rightBasePane/streamItemView',
     'text!template/stream.html'
-], function (ListItemType, RepeatButtonState, StreamAction, StreamItemView, StreamTemplate) {
+], function (ListItemType, RepeatButtonState, StreamAction, MultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
     'use strict';
 
     var User = chrome.extension.getBackgroundPage().User;
@@ -67,12 +71,19 @@
         },
         
         behaviors: {
-            MultiSelect: {},
-            Sortable: {},
-            Tooltip: {},
+            MultiSelect: {
+                behaviorClass: MultiSelect
+            },
             SlidingRender: {
+                behaviorClass: SlidingRender,
                 //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
                 viewportHeight: 291
+            },
+            Sortable: {
+                behaviorClass: Sortable
+            },
+            Tooltip: {
+                behaviorClass: Tooltip
             }
         },
         
