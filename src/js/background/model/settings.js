@@ -30,7 +30,7 @@
                 this.set('serverURL', 'http://localhost:28029/');
             }
             else {
-                this.set('serverURL', 'https://server.streamus.com/');
+                this.set('serverURL', 'https://server.streamus.com/Streamus/');
             }
 
             this.on('change:suggestedQuality', function(model, suggestedQuality) {

@@ -122,7 +122,6 @@ define([
             var initialSequence = playlistItems.getSequenceFromIndex(index);
 
             _.each(songs, function (song) {
-
                 //  TODO: Sequence is incorrect here after the first item since I'm not adding models until after saving. FIX!
                 var sequence = initialSequence;
 

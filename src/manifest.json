@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.136",
+	"version": "0.138",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -102,6 +102,7 @@
 	"offline_enabled": false,
 	"omnibox": { "keyword" : "streamus" }, 
 	"permissions": [
+	    "http://localhost:61975/Streamus/",
 	    "contextMenus",
 		"notifications",
 		"storage",
@@ -109,8 +110,7 @@
 		"idle",
 		"webRequest",
 		"webRequestBlocking",
-		"*://*.youtube.com/*",
-		"http://localhost:61975/Streamus/"
+		"*://*.youtube.com/*"
 	],
 	"web_accessible_resources": [
 		"css/youTubeInject.css",
