@@ -387,7 +387,7 @@ module.exports = function (grunt) {
 		var isDebugDeploy = grunt.config.get('isDebugDeploy');
 
 		var replacements = [];
-
+		
 		//  Don't remove this when testing debug deploy because server will throw CORS error
 		if (!isDebugDeploy) {
 			replacements.push({
