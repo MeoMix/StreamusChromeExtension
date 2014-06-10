@@ -84,7 +84,7 @@
                     title: saveTitle,
                     disabled: !userSignedIn || alreadyExists,
                     onClick: function () {
-                        activePlaylist.addSongs(self.model.get('song'));
+                        activePlaylist.get('items').addSongs(self.model.get('song'));
                     }
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),

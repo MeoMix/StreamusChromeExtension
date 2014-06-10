@@ -17,7 +17,6 @@
             var self = this;
 
             this.view.ui.itemContainer.sortable({
-
                 connectWith: '.droppable-list',
 
                 cursorAt: {
@@ -163,37 +162,27 @@
 
                         var listItemType = ui.item.data('type');
 
-                        //  TODO: Can these three options be made more DRY?
+                        var draggedModels = [];
                         if (listItemType === ListItemType.StreamItem) {
-                            var draggedStreamItems = StreamItems.selected();
+                            draggedModels = StreamItems.selected();
                             StreamItems.deselectAll();
-
-                            var streamItemSongs = _.map(draggedStreamItems, function (streamItem) {
-                                return streamItem.get('song');
-                            });
-
-                            self.view.model.addSongsStartingAtIndex(streamItemSongs, index);
                         }
                         else if (listItemType === ListItemType.PlaylistItem) {
                             var activePlaylistItems = Playlists.getActivePlaylist().get('items');
-                            var draggedPlaylistItems = activePlaylistItems.selected();
+                            draggedModels = activePlaylistItems.selected();
                             activePlaylistItems.deselectAll();
-
-                            var playlistItemSongs = _.map(draggedPlaylistItems, function (playlistItem) {
-                                return playlistItem.get('song');
-                            });
-
-                            self.view.collection.addSongs(playlistItemSongs, { index: index });
                         } else if (listItemType === ListItemType.SearchResult) {
-                            var draggedSearchResults = SearchResults.selected();
+                            draggedModels = SearchResults.selected();
                             SearchResults.deselectAll();
-
-                            var searchResultSongs = _.map(draggedSearchResults, function (searchResult) {
-                                return searchResult.get('song');
-                            });
-
-                            self.view.collection.addSongs(searchResultSongs, { index: index });
                         }
+                        
+                        var songs = _.map(draggedModels, function (model) {
+                            return model.get('song');
+                        });
+                        
+                        self.view.collection.addSongs(songs, {
+                            index: index
+                        });
                         
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
                         //  Don't swap it out until done using its dropped-position index.
@@ -216,7 +205,6 @@
                 }
             });
         }
-
     });
 
     return Sortable;

@@ -65,7 +65,7 @@
                         });
 
                         //  TODO: Pass intelligent paramaters back to options.success
-                        if (options.success) {
+                        if (options && options.success) {
                             options.success();
                         }
                     },
@@ -126,7 +126,41 @@
                     playlistItem.cid = duplicateItem.cid;
                 }
             }
-        }
+        },
+        
+        addSongs: function (songs, options) {
+            //  Convert songs to an array when given a single song
+            if (!_.isArray(songs)) {
+                songs = [songs];
+            }
+
+            var itemsToSave = new PlaylistItems([], {
+                playlistId: this.playlistId
+            });
+
+            var index = options && !_.isUndefined(options.index) ? options.index : this.length;
+
+            _.each(songs, function (song) {
+                if (!this.hasSong(song)) {
+                    var sequence = this.getSequenceFromIndex(index);
+
+                    var playlistItem = new PlaylistItem({
+                        playlistId: this.playlistId,
+                        song: song,
+                        sequence: sequence
+                    });
+
+                    itemsToSave.push(playlistItem);
+                    this.add(playlistItem);
+                    index++;
+                }
+            }, this);
+
+            itemsToSave.save({}, {
+                success: options.success,
+                error: options.error
+            });
+        },
     }));
 
     return PlaylistItems;

@@ -32,7 +32,6 @@ define([
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function (playlistDto) {
-
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in playlistDto) {
                 if (playlistDto.hasOwnProperty(key) && playlistDto[key] === '00000000-0000-0000-0000-000000000000') {
@@ -110,76 +109,12 @@ define([
 
             this.set('displayInfo', displayInfo);
         },
-
-        //  TODO: This needs to be kept DRY with the other methods in this object.
-        addSongsStartingAtIndex: function (songs, index) {
-            console.log("Add songs starting at index");
-            var itemsToSave = new PlaylistItems([], {
-                playlistId: this.get('id')
-            });
-
-            var playlistItems = this.get('items');
-
-            _.each(songs, function (song) {
-                var sequence = playlistItems.getSequenceFromIndex(index);
-                console.log('sequence:', sequence);
-
-                var playlistItem = new PlaylistItem({
-                    playlistId: itemsToSave.playlistId,
-                    song: song,
-                    sequence: sequence
-                });
-
-                itemsToSave.push(playlistItem);
-                playlistItems.add(playlistItem);
-                index++;
-            });
-
-            console.log("Saving items");
-            itemsToSave.save();
-        },
-            
-        addSongs: function (songs, callback) {
-            //  Convert songs to an array when given a single song
-            if (!_.isArray(songs)) {
-                songs = [songs];
-            }
-
-            var itemsToSave = new PlaylistItems([], {
-                playlistId: this.get('id')
-            });
-
-            var playlistItems = this.get('items');
-
-            _.each(songs, function (song) {
-                if (!playlistItems.hasSong(song)) {
-                    var playlistItem = new PlaylistItem({
-                        playlistId: itemsToSave.playlistId,
-                        song: song
-                    });
-
-                    itemsToSave.push(playlistItem);
-                }
-            });
-
-            itemsToSave.save({}, {
-                success: function () {
-                    playlistItems.add(itemsToSave.models);
-
-                    if (callback) {
-                        callback();
-                    }
-                }
-            });
-        },
             
         getShareCode: function(callback) {
-            var self = this;
-            
             $.ajax({
                 url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
                 data: {
-                    playlistId: self.get('id')
+                    playlistId: this.get('id')
                 },
                 success: function (shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
@@ -189,24 +124,13 @@ define([
                     console.error("Error retrieving share code", error, error.message);
                 }
             });
-
-        },
-
-        getPlaylistItemById: function (playlistItemId) {
-            return this.get('items').findWhere({ id: playlistItemId });
         },
         
-        //  TODO: Handle errors and also I need to test this somehow.
-        //  TODO: FIX loading channel information once a distinction is made between Playlists and Channels at some point in the future.
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function () {
-
-            var self = this;
-
             YouTubeV3API.getPlaylistSongInformationList({
                 playlistId: this.get('dataSource').get('id'),
                 success: function onResponse(response) {
-
                     var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
                         var song = new Song();
                         song.setYouTubeInformation(youTubeSongInformation);
@@ -215,24 +139,22 @@ define([
                     });
 
                     //  Periodicially send bursts of packets to the server and trigger visual update.
-                    self.addSongs(songs, function () {
-
-                        if (_.isUndefined(response.nextPageToken)) {
-                            self.set('dataSourceLoaded', true);
-                        }
-                        else {
-
-                            //  Request next batch of data by iteration once addItems has succeeded.
-                            YouTubeV3API.getPlaylistSongInformationList({
-                                playlistId: self.get('dataSource').get('id'),
-                                pageToken: response.nextPageToken,
-                                success: onResponse
-                            });
-                        }
-
+                    this.get('items').addSongs(songs, {
+                        success: function () {
+                            if (_.isUndefined(response.nextPageToken)) {
+                                this.set('dataSourceLoaded', true);
+                            }
+                            else {
+                                //  Request next batch of data by iteration once addItems has succeeded.
+                                YouTubeV3API.getPlaylistSongInformationList({
+                                    playlistId: this.get('dataSource').get('id'),
+                                    pageToken: response.nextPageToken,
+                                    success: onResponse
+                                });
+                            }
+                        }.bind(this)
                     });
-
-                }
+                }.bind(this)
             });
         }
     });

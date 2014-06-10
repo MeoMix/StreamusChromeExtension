@@ -107,7 +107,7 @@
                 Playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
             } else {
                 var selectedPlaylist = Playlists.get(selectedPlaylistId);
-                selectedPlaylist.addSongs(this.model.get('songs'));
+                selectedPlaylist.get('items').addSongs(this.model.get('songs'));
             }
         }
     });

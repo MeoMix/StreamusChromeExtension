@@ -56,7 +56,7 @@ define([
                 RepeatButton.toggleRepeat();
                 break;
             case 'saveActiveSong':
-                Playlists.getActivePlaylist().addSongs(StreamItems.getActiveItem().get('song'));
+                Playlists.getActivePlaylist().get('items').addSongs(StreamItems.getActiveItem().get('song'));
                 break;
             case 'deleteSongFromStream':
                 StreamItems.getActiveItem().destroy();

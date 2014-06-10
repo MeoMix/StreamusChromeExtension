@@ -28,10 +28,12 @@ define(function () {
             this.fullyVisible = true;
             this._setTooltips();
 
-            //  If children are already part of a collection which wasn't fully visible during onShow -- they need to be told to update tooltips.
-            this.view.children.each(function (childView) {
-                childView.triggerMethod('AddedToFullyVisibleCollectionView');
-            });
+            if (this.view.children) {
+                //  If children are already part of a collection which wasn't fully visible during onShow -- they need to be told to update tooltips.
+                this.view.children.each(function (childView) {
+                    childView.triggerMethod('AddedToFullyVisibleCollectionView');
+                });
+            }
         },
         
         onAfterItemAdded: function (childView) {

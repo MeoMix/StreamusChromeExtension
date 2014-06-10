@@ -32,11 +32,10 @@
                         YouTubeV3API.getSongInformation({
                             songId: request.songId,
                             success: function (youTubeSongInformation) {
-
                                 var song = new Song();
                                 song.setYouTubeInformation(youTubeSongInformation);
                                 
-                                this.get(request.playlistId).addSongs(song);
+                                this.get(request.playlistId).get('items').addSongs(song);
 
                                 sendResponse({ result: 'success' });
                             }.bind(this),
