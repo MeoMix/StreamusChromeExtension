@@ -275,7 +275,7 @@ module.exports = function (grunt) {
 				files: {
 					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
 					'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css'],
-					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/font-awesome.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
+					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/font-awesome.css', 'src/css/fontello.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
 				}
 			}
 		});
@@ -349,6 +349,9 @@ module.exports = function (grunt) {
 				}, {
 					from: '<link href=css/font-awesome.css rel=stylesheet>',
 					to: ''
+				}, {
+				    from: '<link href=css/fontello.css rel=stylesheet>',
+				    to: ''
 				}, {
 					from: '<link href=css/jquery.qtip.css rel=stylesheet>',
 					to: ''
