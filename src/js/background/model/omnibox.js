@@ -31,7 +31,7 @@ define([
 
                 //  Clear suggestions if there is no text.
                 if (trimmedSearchText === '') {
-                    suggest();
+                    suggest([]);
                 } else {
                     //  Do not display results if searchText was modified while searching, abort old request.
                     var previousSearchJqXhr = self.get('searchJqXhr');
@@ -56,7 +56,6 @@ define([
 
                     self.set('searchJqXhr', searchJqXhr);
                 }
-
             });
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
