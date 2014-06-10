@@ -40,6 +40,7 @@
                 });
             }
             else if (newItems.length > 1) {
+                
                 //  Otherwise revert to a CreateMultiple
                 $.ajax({
                     url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',

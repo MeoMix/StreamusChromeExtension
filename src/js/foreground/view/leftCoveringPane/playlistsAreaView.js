@@ -26,8 +26,8 @@
             'click h3': 'togglePlaylistsVisibility',
             'click @ui.settingsButton': 'showSettingsPrompt',
             'click @ui.addButton': 'showCreatePlaylistPrompt',
-            'click @ui.editButton': 'showEditSelectedPlaylistPrompt',
-            'click @ui.deleteButton:not(.disabled)': 'showDeleteSelectedPlaylistPrompt'
+            'click @ui.editButton': 'showEditActivePlaylistPrompt',
+            'click @ui.deleteButton:not(.disabled)': 'showDeleteActivePlaylistPrompt'
         },
         
         collectionEvents: {
@@ -233,7 +233,7 @@
             window.Application.vent.trigger('showPrompt', new CreatePlaylistPromptView());
         },
         
-        showEditSelectedPlaylistPrompt: function () {
+        showEditActivePlaylistPrompt: function () {
             window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
                 playlist: this.collection.getActivePlaylist()
             }));
@@ -257,7 +257,7 @@
             this.ui.deleteButton.toggleClass('disabled', !canDelete).attr('title', title);
         },
         
-        showDeleteSelectedPlaylistPrompt: function () {
+        showDeleteActivePlaylistPrompt: function () {
             var activePlaylist = this.collection.getActivePlaylist();
             var isEmpty = activePlaylist.get('items').length === 0;
 
@@ -273,7 +273,7 @@
                         playlist: activePlaylist
                     }));
                 } else {
-                    playlist.destroy();
+                    activePlaylist.destroy();
                 }
             }
         }

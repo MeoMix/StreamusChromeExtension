@@ -65,6 +65,8 @@
                 });
             }
 
+            this._promptIfUpdateAvailable();
+
             this.rightBasePaneRegion.show(new RightBasePaneView({
                 model: Player
             }));
@@ -209,7 +211,10 @@
                 });
             } else {
                 //  Highlight the fact that is already visible by shaking it.
-                this.leftCoveringPaneRegion.currentView.shake();
+                this.leftCoveringPaneRegion.currentView.$el.effect('shake', {
+                    distance: 3,
+                    times: 3
+                });
             }
         }, 400),
 

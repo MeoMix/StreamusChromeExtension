@@ -109,7 +109,7 @@ define([
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
                     this.getSongFromUrl(url, function (song) {
-                        playlist.addSongs(song);
+                        playlist.get('items').addSongs(song);
                     });
                 }.bind(this)
             }));

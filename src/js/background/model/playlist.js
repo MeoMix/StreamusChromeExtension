@@ -41,6 +41,7 @@ define([
             
             //  Reset will load the server's response into items as a Backbone.Collection
             this.get('items').reset(playlistDto.items);
+            this.get('items').playlistId = playlistDto.id;
 
             // Remove so parse doesn't set and overwrite instance after parse returns.
             delete playlistDto.items;
@@ -149,7 +150,7 @@ define([
                                 YouTubeV3API.getPlaylistSongInformationList({
                                     playlistId: this.get('dataSource').get('id'),
                                     pageToken: response.nextPageToken,
-                                    success: onResponse
+                                    success: onResponse.bind(this)
                                 });
                             }
                         }.bind(this)

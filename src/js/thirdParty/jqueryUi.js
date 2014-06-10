@@ -7400,6 +7400,8 @@ $.effects.effect.size = function( o, done ) {
 
 $.effects.effect.shake = function( o, done ) {
 
+    console.log('o', o, done);
+
 	var el = $( this ),
 		props = [ "position", "top", "bottom", "left", "right", "height", "width" ],
 		mode = $.effects.setMode( el, o.mode || "effect" ),

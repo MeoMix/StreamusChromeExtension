@@ -161,7 +161,7 @@
             playlist.save({}, {
                 success: function () {
                     self.push(playlist);
-     
+
                     if (dataSource.needsLoading()) {
                         playlist.loadDataSource();
                     }
