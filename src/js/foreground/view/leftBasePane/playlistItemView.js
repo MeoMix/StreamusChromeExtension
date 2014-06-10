@@ -34,7 +34,6 @@
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
         
         onRender: function () {
-            console.log("Rendering:", this, this.model);
             this.setSavingClass();
 
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
