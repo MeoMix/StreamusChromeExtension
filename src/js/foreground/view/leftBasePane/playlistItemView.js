@@ -27,7 +27,22 @@
             'dblclick': 'playInStream'
         }),
         
+        modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
+            'change:id': 'setSavingClass'
+        }),
+        
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
+        
+        onRender: function () {
+            this.setSavingClass();
+
+            MultiSelectListItemView.prototype.onRender.apply(this, arguments);
+        },
+        
+        //  If the playlistItem hasn't been successfully saved to the server -- show a saving spinner over the UI.
+        setSavingClass: function () {
+            this.$el.toggleClass('saving', this.model.isNew());
+        },
         
         showContextMenu: function(event) {
             event.preventDefault();

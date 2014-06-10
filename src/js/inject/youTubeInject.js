@@ -1,7 +1,7 @@
 //  This code runs on YouTube pages.
 $(function () {
 	'use strict';
-	
+
 	//  Inject CSS here to give it priority over all other CSS loaded on the page.
 	var style = document.createElement('link');
 	style.rel = 'stylesheet';
@@ -13,13 +13,11 @@ $(function () {
 	var waitingForLoad = false;
 
 	var observer = new window.WebKitMutationObserver(function (mutations) {
-
 		if (isFirstLoad) {
 			isFirstLoad = false;
 			injectStreamusButtons();
 		}
 		else {
-
 			var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
 	
 			if (!waitingForLoad && !isPageLoaded) {
@@ -30,7 +28,6 @@ $(function () {
 				waitingForLoad = false;
 			}
 		}
-
 	});
 
 	observer.observe(document.querySelector("body"), {
@@ -153,7 +150,6 @@ $(function () {
 			id: 'streamusAddButton',
 			'class': 'yt-uix-button yt-uix-tooltip',
 			click: function () {
-
 				$(this).val(chrome.i18n.getMessage('working') + '...');
 				$(this).attr('disabled', true);
 
@@ -168,7 +164,6 @@ $(function () {
 					playlistId: playlistId,
 					songId: songId
 				}, function (response) {
-
 					if (response.result === 'success') {
 						$(self).removeAttr('disabled');
 						$(self).val(chrome.i18n.getMessage('addSong'));
@@ -185,8 +180,6 @@ $(function () {
 							errorEventNotification.fadeOut();
 						}, 3000);
 					}
-
-
 				});
 			}
 		});
@@ -195,22 +188,22 @@ $(function () {
 		selectPlaylistButton.click(function () {
 			sharePanelPlaylistSelect.removeClass('hid');
 		});
+	    
+        function getPlaylistsAndSetSelectOptions() {
+            chrome.runtime.sendMessage({ method: "getPlaylists" }, function (getPlaylistsResponse) {
+                var playlists = getPlaylistsResponse.playlists;
 
-		chrome.runtime.sendMessage({ method: "getPlaylists" }, function (getPlaylistsResponse) {
+                selectPlaylistButton.addClass('yt-uix-button-toggled');
+                sharePanelPlaylistSelect.removeClass('hid');
 
-			var playlists = getPlaylistsResponse.playlists;
-
-			selectPlaylistButton.addClass('yt-uix-button-toggled');
-			sharePanelPlaylistSelect.removeClass('hid');
-
-			for (var i = 0; i < playlists.length; i++) {
-				$('<option>', {
-					value: playlists[i].id,
-					text: playlists[i].title
-				}).appendTo(playlistSelect);
-			}
-
-		});
+                for (var i = 0; i < playlists.length; i++) {
+                    $('<option>', {
+                        value: playlists[i].id,
+                        text: playlists[i].title
+                    }).appendTo(playlistSelect);
+                }
+            });
+        }
 
 		chrome.runtime.onMessage.addListener(function (request) {
 			switch (request.event) {
@@ -228,6 +221,9 @@ $(function () {
 				case 'rename':
 					playlistSelect.find('option[value="' + request.data.id + '"]').text(request.data.title);
 					break;
+			    case 'sign-in':
+			        getPlaylistsAndSetSelectOptions();
+			        break;
 				default:
 					console.error("Unhandled request", request);
 					break;

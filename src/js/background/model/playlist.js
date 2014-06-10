@@ -113,17 +113,16 @@ define([
 
         //  TODO: This needs to be kept DRY with the other methods in this object.
         addSongsStartingAtIndex: function (songs, index) {
+            console.log("Add songs starting at index");
             var itemsToSave = new PlaylistItems([], {
                 playlistId: this.get('id')
             });
 
             var playlistItems = this.get('items');
-            
-            var initialSequence = playlistItems.getSequenceFromIndex(index);
 
             _.each(songs, function (song) {
-                //  TODO: Sequence is incorrect here after the first item since I'm not adding models until after saving. FIX!
-                var sequence = initialSequence;
+                var sequence = playlistItems.getSequenceFromIndex(index);
+                console.log('sequence:', sequence);
 
                 var playlistItem = new PlaylistItem({
                     playlistId: itemsToSave.playlistId,
@@ -132,14 +131,12 @@ define([
                 });
 
                 itemsToSave.push(playlistItem);
+                playlistItems.add(playlistItem);
                 index++;
             });
 
-            itemsToSave.save({}, {
-                success: function () {
-                    playlistItems.add(itemsToSave.models);
-                }
-            });
+            console.log("Saving items");
+            itemsToSave.save();
         },
             
         addSongs: function (songs, callback) {

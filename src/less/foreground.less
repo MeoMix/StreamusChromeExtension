@@ -519,6 +519,18 @@ input[type="range"] {
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
 
+    &.saving {
+        &> *:not(.spinner):not(.buttons-region) {
+            opacity: .2;
+        }
+
+        .spinner {
+            display: block;
+            /* TODO: This is overriding spinner-small -- doesn't really make sense. */
+            top: 50%; 
+        }
+    }
+
     &.ui-sortable-helper {
         background: @lightGray;
         border-color: @lightGray;
@@ -535,14 +547,13 @@ input[type="range"] {
         i.hoverable {
             background-color: @lightGray;
         }
-
         /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
         .buttons-region {
             display: block;
         }
     }
 
-    &.active.stream-item  {
+    &.active.stream-item {
         background: @sunflower;
         border-color: @sunflower;
 
@@ -555,7 +566,7 @@ input[type="range"] {
         }
     }
 
-    body.playing &.active.stream-item  {
+    body.playing &.active.stream-item {
         background: @nephritis;
         border-color: @nephritis;
 
@@ -604,6 +615,10 @@ input[type="range"] {
         }
     }
 
+    .spinner {
+        display: none;
+    }
+
     .buttons-region {
         position: absolute;
         display: none;
@@ -638,7 +653,6 @@ input[type="range"] {
         top: 0;
         left: 0;
     }
-
     /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
     &.copy-helper + .sortable-placeholder {
