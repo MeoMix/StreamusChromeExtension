@@ -27,8 +27,7 @@
                     case 'getPlaylists':
                         sendResponse({ playlists: this });
                         break;
-                    //  TODO: Update name to indicate from YouTube more clearly.
-                    case 'addSongByIdToPlaylist':
+                    case 'addYouTubeSongByIdToPlaylist':
                         YouTubeV3API.getSongInformation({
                             songId: request.songId,
                             success: function (youTubeSongInformation) {

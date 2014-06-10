@@ -49,7 +49,6 @@
         
         collectionEvents: {
             'add remove reset': function () {
-                //  TODO: Is it costly to be calling these every time add/remove happens? Seems like it might be.
                 this.toggleBigText();
                 this.toggleContextButtons();
             }

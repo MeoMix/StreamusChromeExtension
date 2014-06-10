@@ -8,9 +8,7 @@
     
     var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
         model: PlaylistItem,
-
         comparator: 'sequence',
-        //  TODO: Kinda weird. Maybe collections shouldn't know their parent ID.
         playlistId: -1,
         
         initialize: function (models, options) {
@@ -24,7 +22,6 @@
         save: function (attributes, options) {
             var self = this;
             
-            //  TODO: This doesn't support saving old items yet -- only a bunch of brand new ones.
             if (this.filter(function(item) {
                 return !item.isNew();
             }).length > 0) {
@@ -64,7 +61,6 @@
                             matchingNewItem.set(parsedNewItem);
                         });
 
-                        //  TODO: Pass intelligent paramaters back to options.success
                         if (options && options.success) {
                             options.success();
                         }

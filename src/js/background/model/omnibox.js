@@ -24,7 +24,6 @@ define([
             
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
             chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
-
                 //  Clear suggestedSongs
                 self.get('suggestedSongs').length = 0;
 
@@ -34,7 +33,6 @@ define([
                 if (trimmedSearchText === '') {
                     suggest();
                 } else {
-                    
                     //  Do not display results if searchText was modified while searching, abort old request.
                     var previousSearchJqXhr = self.get('searchJqXhr');
 
@@ -53,7 +51,6 @@ define([
                             var suggestions = self.buildSuggestions(searchResponse.songInformationList, trimmedSearchText);
 
                             suggest(suggestions);
-
                         }
                     });
 
@@ -63,7 +60,6 @@ define([
             });
 
             chrome.omnibox.onInputEntered.addListener(function (text) {
-
                 //  Find the cached song data by url
                 var pickedSong = _.find(self.get('suggestedSongs'), function (song) {
                     return song.get('url') === text;
@@ -80,7 +76,6 @@ define([
                     playOnAdd: true
                 });
             });
-            
         },
         
         buildSuggestions: function(songInformationList, text) {

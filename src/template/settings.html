@@ -1,62 +1,62 @@
-﻿<div class="topic">
-    <%= generalMessage %>
-</div>
-<div class="category">
+﻿<div class="general settings-group">
+    <div class="topic">
+        <%= generalMessage %>
+    </div>
 
-    <ul>
-        <li>
-            <label>
-                <%= songQualityMessage %>
+    <div class="category">
+        <ul>
+            <li>
+                <label>
+                    <%= songQualityMessage %>
                 
-                <select id="suggested-quality">
-            
-                    <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
+                    <select id="suggested-quality">
+                        <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
                         <%= highestMessage %>
                     </option>
-
-                    <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
+                        <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
                         <%= autoMessage %>
                     </option>
-
-                    <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
+                        <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
                         <%= lowestMessage %>
                     </option>
-
-                </select>
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
-                <%= showTooltipsMessage %>
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
-                <%= alwaysOpenToSearchMessage %>
-            </label>
-        </li>
-    </ul>
-
+                    </select>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
+                    <%= showTooltipsMessage %>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
+                    <%= alwaysOpenToSearchMessage %>
+                </label>
+            </li>
+        </ul>
+    </div>
 </div>
 
-<div class="topic">
-    <%= remindersMessage %>
+<div class="reminders settings-group">
+    <div class="topic">
+        <%= remindersMessage %>
+    </div>
+    <div class="category">
+        <ul>
+            <li>
+                <label>
+                    <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
+                    <%= remindClearStreamMessage %>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
+                    <%= remindDeletePlaylistMessage %>
+                </label>
+            </li>
+        </ul>
+    </div>
 </div>
-<div class="category">
-    <ul>
-        <li>
-            <label>
-                <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
-                <%= remindClearStreamMessage %>
-            </label>
-        </li>
-        <li>
-            <label>
-                <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
-                <%= remindDeletePlaylistMessage %>
-            </label>
-        </li>
-    </ul>
-</div>
+

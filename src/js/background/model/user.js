@@ -204,15 +204,12 @@ define([
         },
         
         addPlaylistByShareData: function (shortId, urlFriendlyEntityTitle, callback) {
-            
             if (this.canSignIn()) {
-
                 this.listenToOnce(this, 'change:signedIn', function() {
                     this.addPlaylistByShareData(shortId, urlFriendlyEntityTitle, callback);
                 });
 
                 this.signIn();
-
             } else {
                 $.ajax({
                     type: 'POST',
@@ -233,31 +230,23 @@ define([
                     }
                 });
             }
-
-            
-
-
         },
         
         onLoaded: function (model, setSyncStorage) {
+            //  TODO: Go through User instead of Playlists.
             //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
-            //  TODO: Using a custom reset method is terrible. Should break the tie between User and Playlists and just load Playlists from server.
             Playlists.reset(this.get('playlists'));
-
-            //  TODO: shitty.
             Playlists.setUserId(this.get('id'));
 
             if (_.isUndefined(Playlists.getActivePlaylist())) {
                 Playlists.at(0).set('active', true);
             }
-
-            //  TODO: Error handling for writing to sync too much.
+            
             //  Write to sync as little as possible because it has restricted read/write limits per hour.
             var settingsUserId = Settings.get('userId');
 
             //  If settings has changed -- assume need to keep in sync no matter what.
             if (setSyncStorage || settingsUserId !== this.get('id')) {
-
                 //  Using the bracket access notation here to leverage the variable which stores the key for chrome.storage.sync
                 //  I want to be able to ensure I am getting/setting from the same location, thus the variable.
                 var storedKey = {};

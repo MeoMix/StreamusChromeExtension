@@ -160,7 +160,7 @@ $(function () {
 
 				var self = this;
 				chrome.runtime.sendMessage({
-					method: "addSongByIdToPlaylist",
+					method: "addYouTubeSongByIdToPlaylist",
 					playlistId: playlistId,
 					songId: songId
 				}, function (response) {

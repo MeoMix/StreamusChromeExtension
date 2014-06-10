@@ -108,13 +108,6 @@
                         self.model.destroy();
                     }
                 }, {
-                    text: chrome.i18n.getMessage('banUntilClear'),
-                    disabled: StreamItems.getRelatedSongs().length < 5,
-                    onClick: function () {
-                        StreamItems.ban(self.model);
-                        self.model.destroy();
-                    }
-                }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: function () {
                         var url = self.model.get('song').get('url');

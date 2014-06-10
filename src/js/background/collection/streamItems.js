@@ -20,7 +20,6 @@
             //  TODO: Probably make a stream model instead of extending streamItems
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
             _.extend(this, { history: [] });
-            _.extend(this, { bannedSongIdList: [] });
 
             var self = this;
 
@@ -224,7 +223,6 @@
         //  Take each streamItem's array of related songs, pluck them all out into a collection of arrays
         //  then flatten the arrays into a single array of songs.
         getRelatedSongs: function() {
-            //  TODO: Does SoundCloud have related information? I hope so!
             //  Find all streamItem entities which have related song information.
             //  Some might not have information. This is OK. Either YouTube hasn't responded yet or responded with no information. Skip these.
             var streamItemsWithInfo = this.filter(function (streamItem) {
@@ -247,9 +245,8 @@
                 var alreadyExistingItem = self.find(function (streamItem) {
                     var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
                     var sameCleanTitle = streamItem.get('song').get('cleanTitle') === relatedSong.get('cleanTitle');
-                    var inBanList = _.contains(self.bannedSongIdList, relatedSong.get('id'));
 
-                    return sameSongId || sameCleanTitle || inBanList;
+                    return sameSongId || sameCleanTitle;
                 });
 
                 return alreadyExistingItem == null;
@@ -421,12 +418,7 @@
             }
         },
         
-        ban: function (streamItem) {
-            this.bannedSongIdList.push(streamItem.get('song').get('id'));
-        },
-        
         clear: function () {
-            this.bannedSongIdList.length = 0;
             this.history.length = 0;
             this.reset();
         },
