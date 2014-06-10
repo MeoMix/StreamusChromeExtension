@@ -28,12 +28,13 @@
         }),
         
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
-            'change:id': 'setSavingClass'
+            'change:id': 'setDataId setSavingClass'
         }),
         
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
         
         onRender: function () {
+            console.log("Rendering:", this, this.model);
             this.setSavingClass();
 
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
@@ -42,6 +43,10 @@
         //  If the playlistItem hasn't been successfully saved to the server -- show a saving spinner over the UI.
         setSavingClass: function () {
             this.$el.toggleClass('saving', this.model.isNew());
+        },
+        
+        setDataId: function () {
+            this.$el.data('id', this.model.get('id'));
         },
         
         showContextMenu: function(event) {

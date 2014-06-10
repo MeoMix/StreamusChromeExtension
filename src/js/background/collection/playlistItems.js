@@ -125,6 +125,9 @@
         },
         
         addSongs: function (songs, options) {
+            //  Support optional options.
+            options = _.isUndefined(options) ? {} : options;
+
             //  Convert songs to an array when given a single song
             if (!_.isArray(songs)) {
                 songs = [songs];
@@ -134,7 +137,7 @@
                 playlistId: this.playlistId
             });
 
-            var index = options && !_.isUndefined(options.index) ? options.index : this.length;
+            var index = !_.isUndefined(options.index) ? options.index : this.length;
 
             _.each(songs, function (song) {
                 if (!this.hasSong(song)) {

@@ -52,19 +52,15 @@ define([
                 clearInterval(refreshPausedSongInterval);
        
                 if (state === PlayerState.Paused) {
-
+                    //  TODO: Maybe I need to restart the whole API after 8 hours because HTTPS times out?
                     //  Start a long running timer when the player becomes paused. This is because YouTube
                     //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
                     var eightHoursInMilliseconds = 28800000;
 
                     refreshPausedSongInterval = setInterval(function () {
-                        
                         self.cueSongById(self.get('loadedSongId'), self.get('currentTime'));
-
                     }, eightHoursInMilliseconds);
-
                 }
-
             });
             
             chrome.runtime.onConnect.addListener(function(port) {
@@ -138,13 +134,13 @@ define([
                 });
 
                 //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
-                new window.YT.Player('dummyTarget');
-                var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
-                $('#dummyTarget').remove();
+                //new window.YT.Player('dummyTarget');
+                //var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
+                //$('#dummyTarget').remove();
 
-                var url = isHttps ? 'https' : 'http';
-                url += '://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd';
-                $('#youtube-player').attr('src', url);
+                //var url = isHttps ? 'https' : 'http';
+                //url += ;
+                $('#youtube-player').attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
             });
 
             youTubePlayerAPI.load();

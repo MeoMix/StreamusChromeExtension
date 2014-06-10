@@ -73,7 +73,7 @@ define(function () {
 
             if (!window['YTConfig']) {
                 window.YTConfig = {
-                    'host': 'http://www.youtube.com'
+                    'host': 'https://www.youtube.com'
                 };
             }
 
@@ -998,7 +998,7 @@ define(function () {
                         function X(a) {
                             this.b = a || {};
                             this.defaults = {};
-                            this.defaults.host = "http://www.youtube.com";
+                            this.defaults.host = "https://www.youtube.com";
                             this.defaults.title = "";
                             this.a = !1;
                             a = document.getElementById("www-widgetapi-script");
