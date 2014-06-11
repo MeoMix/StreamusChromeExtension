@@ -8,7 +8,8 @@ define([
     var StreamItem = Backbone.Model.extend({
         defaults: function () {
             return {
-                id: _.uniqueId('streamItem_'),
+                id: null,
+                //id: _.uniqueId('streamItem_'),
                 song: null,
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
@@ -21,16 +22,31 @@ define([
         },
 
         // New instances of this model will have a 'dud' sync function
-        sync: function () { return false; },
+        //sync: function () { return false; },
         
         initialize: function () {
+            console.log("Taahis:", this);
+            
+            var song = this.get('song');
+
+            //  Need to convert song object to Backbone.Model
+            if (!(song instanceof Backbone.Model)) {
+                song = new Song(song);
+                //  Silent because song is just being properly set.
+                this.set('song', song, { silent: true });
+            }
+
             //  Whenever a streamItem is activated it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
             this.on('change:active', function (model, active) {
+                this.save({ active: active });
+
                 if (active) {
                     this.set('playedRecently', true);
                 }
             });
+            
+
             
             RelatedSongInformationManager.getRelatedSongInformation({
                 songId: this.get('song').get('id'),

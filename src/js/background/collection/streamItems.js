@@ -30,6 +30,8 @@
                     addedStreamItem.set('active', true);
                 }
             });
+            
+            this.on('change:index',)
 
             this.on('change:active', function (changedStreamItem, active) {
                 //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
@@ -186,11 +188,14 @@
         },
         
         addSongs: function (songs, options) {
+            //  Support not passing in options
+            options = options || {};
+
             if (!_.isArray(songs)) {
                 songs = [songs];
             }
 
-            var playOnAdd = _.isUndefined(options) || _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
+            var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             if (playOnAdd) {
                 Player.playOnceSongChanges();
             }
@@ -202,13 +207,26 @@
                 };
             });
 
+            var index = _.isUndefined(options.index) ? this.length : options.index;
+
+            console.log("index:", index);
+
             //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
-            var addedStreamItems = this.add(streamItems, {
-                at: _.isUndefined(options) ? undefined : options.index
-            });
+            var createdStreamItems = [];
+            _.each(streamItems, function (streamItem) {
+                console.log('creating', streamItem);
+                var createdStreamItem = this.create(streamItem, {
+                    at: index
+                });
+
+                createdStreamItems.push(createdStreamItem);
+                index++;
+            }, this);
+
+            console.log("createdStreamItems:", createdStreamItems);
             
             if (playOnAdd) {
-                addedStreamItems[0].set('active', true);
+                createdStreamItems[0].set('active', true);
             }
         },
 
