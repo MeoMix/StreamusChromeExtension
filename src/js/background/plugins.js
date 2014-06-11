@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'backbone.localStorage',
     'googleAnalytics'
 ], function () {
     'use strict';

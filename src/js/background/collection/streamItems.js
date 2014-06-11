@@ -15,6 +15,7 @@
     
     var StreamItems = MultiSelectCollection.extend({
         model: StreamItem,
+        localStorage: new Backbone.LocalStorage('StreamItems'),
 
         initialize: function () {
             //  TODO: Probably make a stream model instead of extending streamItems
@@ -136,6 +137,9 @@
                     break;
                 }
             });
+
+            //  Load any existing StreamItems from local storage
+            this.fetch();
             
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },

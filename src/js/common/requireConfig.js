@@ -14,6 +14,7 @@
             'boot': 'thirdParty/boot',
             'backbone.babysitter': 'thirdParty/backbone.babysitter',
             'backbone': 'thirdParty/backbone',
+            'backbone.localStorage': 'thirdParty/backbone.localStorage',
             'backbone.marionette': 'thirdParty/backbone.marionette',
             'backbone.wreqr': 'thirdParty/backbone.wreqr',
             'googleAnalytics': 'thirdParty/googleAnalytics',
