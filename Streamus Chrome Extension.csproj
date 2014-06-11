@@ -46,11 +46,13 @@
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
     <Content Include="src\css\font-awesome.css" />
+    <Content Include="src\css\fontello.css" />
     <Content Include="src\css\jasmine.css" />
     <Content Include="src\css\jquery.qtip.css" />
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
     <Content Include="src\font\fontawesome-webfont.svg" />
+    <Content Include="src\font\fontello.svg" />
     <Content Include="src\font\LICENSE.txt" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\close.png" />
@@ -193,6 +195,9 @@
     <Content Include="src\js\thirdParty\backbone.wreqr.js" />
     <Content Include="src\font\OpenSans-Bold.ttf" />
     <Content Include="src\font\OpenSans-Regular.ttf" />
+    <Content Include="src\font\fontello.eot" />
+    <Content Include="src\font\fontello.ttf" />
+    <Content Include="src\font\fontello.woff" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\backbone.babysitter.js" />
