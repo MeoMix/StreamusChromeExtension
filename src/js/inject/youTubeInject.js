@@ -204,6 +204,19 @@ $(function () {
                 }
             });
         }
+	    
+        function getLoggedInState() {
+            chrome.runtime.sendMessage({ method: 'getLoggedInState' }, function(getLoggedInStateResponse) {
+
+                if (getLoggedInStateResponse.loggedIn) {
+                    console.log("Logged in");
+                } else {
+                    console.log("Not logged in");
+                    
+                }
+
+            });
+        }
 
 		chrome.runtime.onMessage.addListener(function (request) {
 			switch (request.event) {
