@@ -269,18 +269,13 @@
         
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
-        _promptIfUpdateAvailable: function() {
-            chrome.runtime.requestUpdateCheck(function (updateCheckStatus) {
-                switch (updateCheckStatus) {
-                    case 'update_available':
-                        this.showPrompt(new UpdateStreamusPromptView());
-                        break;
-                    case 'no_update':
-                    case 'throttled':
-                        //  Nothing to do -- just can't ask again for a while if throttled, but that's pretty unlikely to happen, I think!
-                        break;
-                }
+        _promptIfUpdateAvailable: function () {
+            chrome.runtime.onUpdateAvailable.addListener(function() {
+                this.showPrompt(new UpdateStreamusPromptView());
             }.bind(this));
+            
+            //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
+            chrome.runtime.requestUpdateCheck(function (){});
         }
     });
 

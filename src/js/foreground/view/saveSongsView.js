@@ -14,7 +14,7 @@
         },
         
         ui: {
-            playlistSelect: 'select.submittable',
+            playlistSelect: '.submittable',
             selectizeTitle: '.selectize-input .title'
         },
 
@@ -61,7 +61,6 @@
                     }
                 },
                 create: function (input) {
-
                     var createResult = false;
                     var trimmedInput = $.trim(input);
 
