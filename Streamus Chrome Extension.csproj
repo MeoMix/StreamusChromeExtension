@@ -51,6 +51,7 @@
     <Content Include="src\css\jquery.qtip.css" />
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
+    <Content Include="src\css\youTubeInject.css" />
     <Content Include="src\font\fontawesome-webfont.svg" />
     <Content Include="src\font\fontello.svg" />
     <Content Include="src\font\LICENSE.txt" />
@@ -213,10 +214,8 @@
     <Content Include="src\js\thirdParty\jqueryUi.js" />
     <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
-    <Content Include="src\js\thirdParty\microplugin.js" />
     <Content Include="src\js\thirdParty\require.js" />
     <Content Include="src\js\thirdParty\selectize.js" />
-    <Content Include="src\js\thirdParty\sifter.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <None Include="src\less\beatportInject.less" />
     <None Include="src\less\youTubeInject.less" />
@@ -227,6 +226,12 @@
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <None Include="src\less\foreground.less" />
+    <Content Include="src\less\youTubeInject.css">
+      <DependentUpon>youTubeInject.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\youTubeInject.min.css">
+      <DependentUpon>youTubeInject.less</DependentUpon>
+    </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
     <Content Include="src\template\saveSongs.html" />
