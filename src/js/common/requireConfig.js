@@ -27,9 +27,7 @@
             'jqueryUi': 'thirdParty/jqueryUi',
             'less': 'thirdParty/less',
             'lodash': 'thirdParty/lodash',
-            'microplugin': 'thirdParty/microplugin',
             'selectize': 'thirdParty/selectize',
-            'sifter': 'thirdParty/sifter',
             'text': 'thirdParty/text'
         },
 
