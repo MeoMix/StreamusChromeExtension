@@ -33,6 +33,11 @@ define([
             chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
                 switch (request.method) {
+                    case 'getSignedInState':
+                        sendResponse({
+                            signedIn: this.get('signedIn')
+                        });
+                        break;
                     case 'addPlaylistByShareData':
                         this.addPlaylistByShareData(request.shareCodeShortId, request.urlFriendlyEntityTitle, function (playlist) {
                             if (playlist) {

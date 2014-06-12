@@ -15,7 +15,7 @@ $(function () {
 	var observer = new window.WebKitMutationObserver(function (mutations) {
 		if (isFirstLoad) {
 			isFirstLoad = false;
-			injectStreamusButtons();
+			setHtml();
 		}
 		else {
 			var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
@@ -24,7 +24,7 @@ $(function () {
 				waitingForLoad = true;
 			}
 			else if (waitingForLoad && isPageLoaded) {
-				injectStreamusButtons();
+			    setHtml();
 				waitingForLoad = false;
 			}
 		}
@@ -34,6 +34,35 @@ $(function () {
 		attributes: true,
 		attributeFilter: ["class"]
 	});
+    
+	function getSignedInState(callback) {
+	    chrome.runtime.sendMessage({ method: 'getSignedInState' }, callback);
+	}
+    
+    //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
+    function setHtml() {
+        getSignedInState(function(state) {
+            if (state.signedIn) {
+                removeSignIn();
+                injectStreamusButtons();
+            } else {
+                removeStreamusButtons();
+                injectSignIn();
+            }
+        });
+    }
+    
+    function removeSignIn() {
+        
+    }
+    
+    function injectSignIn() {
+        
+    }
+    
+    function removeStreamusButtons() {
+        
+    }
 
 	function injectStreamusButtons() {
 		var addButtonWrapper = $('<span>');
@@ -204,19 +233,7 @@ $(function () {
                 }
             });
         }
-	    
-        function getLoggedInState() {
-            chrome.runtime.sendMessage({ method: 'getLoggedInState' }, function(getLoggedInStateResponse) {
-
-                if (getLoggedInStateResponse.loggedIn) {
-                    console.log("Logged in");
-                } else {
-                    console.log("Not logged in");
-                    
-                }
-
-            });
-        }
+	   
 
 		chrome.runtime.onMessage.addListener(function (request) {
 			switch (request.event) {
@@ -237,6 +254,8 @@ $(function () {
 			    case 'sign-in':
 			        getPlaylistsAndSetSelectOptions();
 			        break;
+			    case 'sign-out':
+			        console.log("need to clear signed in state");
 				default:
 					console.error("Unhandled request", request);
 					break;
