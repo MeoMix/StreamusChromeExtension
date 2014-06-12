@@ -8,7 +8,6 @@
     
     var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
         model: PlaylistItem,
-        comparator: 'sequence',
         playlistId: -1,
         
         initialize: function (models, options) {

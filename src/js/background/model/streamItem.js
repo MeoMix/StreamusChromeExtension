@@ -17,7 +17,8 @@ define([
                 active: false,
                 selected: false,
                 firstSelected: false,
-                relatedSongInformation: []
+                relatedSongInformation: [],
+                sequence: -1
             };
         },
 
@@ -45,9 +46,11 @@ define([
                     this.set('playedRecently', true);
                 }
             });
-            
 
-            
+            this.on('change:sequence', function (model, sequence) {
+                this.save({ sequence: sequence });
+            });
+
             RelatedSongInformationManager.getRelatedSongInformation({
                 songId: this.get('song').get('id'),
                 success: function (relatedSongInformation) {

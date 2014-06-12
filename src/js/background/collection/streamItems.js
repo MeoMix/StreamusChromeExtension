@@ -1,5 +1,6 @@
 ﻿define([
     'background/collection/multiSelectCollection',
+    'background/mixin/sequencedCollectionMixin',
     'background/model/notificationsManager',
     'background/model/streamItem',
     'background/model/song',
@@ -10,10 +11,11 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (MultiSelectCollection, NotificationsManager, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (MultiSelectCollection, SequencedCollectionMixin, NotificationsManager, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
-    var StreamItems = MultiSelectCollection.extend({
+    var StreamItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
+            
         model: StreamItem,
         localStorage: new Backbone.LocalStorage('StreamItems'),
 
@@ -30,8 +32,14 @@
                     addedStreamItem.set('active', true);
                 }
             });
-            
-            this.on('change:index',)
+
+            this.on('sort', function () {
+                console.log('sort?');
+                this.each(function (streamItem) {
+                    console.log("saving streamItem");
+                    streamItem.save();
+                });
+            });
 
             this.on('change:active', function (changedStreamItem, active) {
                 //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
@@ -200,25 +208,23 @@
                 Player.playOnceSongChanges();
             }
             
-            var streamItems = _.map(songs, function (song) {
-                return {
-                    song: song,
-                    title: song.get('title')
-                };
-            });
-
             var index = _.isUndefined(options.index) ? this.length : options.index;
 
             console.log("index:", index);
 
             //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
             var createdStreamItems = [];
-            _.each(streamItems, function (streamItem) {
-                console.log('creating', streamItem);
-                var createdStreamItem = this.create(streamItem, {
-                    at: index
+            _.each(songs, function (song) {
+                //  TODO: Make each item unique / no duplicates allowed.
+                var sequence = this.getSequenceFromIndex(index);
+                
+                var streamItem = new StreamItem({
+                    song: song,
+                    title: song.get('title'),
+                    sequence: sequence
                 });
 
+                var createdStreamItem = this.create(streamItem);
                 createdStreamItems.push(createdStreamItem);
                 index++;
             }, this);
@@ -445,21 +451,21 @@
             this.reset();
         },
         
-        moveToIndex: function (streamItemId, index) {
-            var currentIndex = this.indexOf(this.get(streamItemId));
-            this.models.splice(index, 0, this.models.splice(currentIndex, 1)[0]);
+        //moveToIndex: function (streamItemId, index) {
+        //    var currentIndex = this.indexOf(this.get(streamItemId));
+        //    this.models.splice(index, 0, this.models.splice(currentIndex, 1)[0]);
 
-            //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
-            //  to using the sequencedCollection for client-side collections, too.
-            this.trigger('sort');
-        },
+        //    //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
+        //    //  to using the sequencedCollection for client-side collections, too.
+        //    this.trigger('sort');
+        //},
         
         getBySong: function (song) {
             return this.find(function (streamItem) {
                 return streamItem.get('song').get('id') === song.get('id');
             });
         }
-    });
+    }));
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.StreamItems = new StreamItems();

@@ -1,6 +1,8 @@
 ﻿//  Entities which need to keep track of their sequence in order to be ordered properly
 //  while also maintaing efficiency with CRUD operations.
 define({
+    comparator: 'sequence',
+
     moveToIndex: function(modelId, index) {
         var model = this.get(modelId);
         var sequence = this.getSequenceFromIndex(index);

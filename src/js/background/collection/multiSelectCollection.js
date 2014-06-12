@@ -1,6 +1,7 @@
 ﻿define(function() {
     'use strict';
 
+    //  TODO: Make this a MixIn instead of extending Backbone.Collection
     var MultiSelectCollection = Backbone.Collection.extend({
         initialize: function() {
             this.on('change:selected', function(changedModel, selected) {
