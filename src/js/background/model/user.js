@@ -29,6 +29,8 @@ define([
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
+
+            this.on('change:signedIn', this._onSignedInChanged);
             
             chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
 
@@ -37,6 +39,9 @@ define([
                         sendResponse({
                             signedIn: this.get('signedIn')
                         });
+                        break;
+                    case 'signIn':
+                        this.signIn();
                         break;
                     case 'addPlaylistByShareData':
                         this.addPlaylistByShareData(request.shareCodeShortId, request.urlFriendlyEntityTitle, function (playlist) {
@@ -89,6 +94,30 @@ define([
             //    }
 
             //}.bind(this));
+        },
+        
+        _onSignedInChanged: function(model, signedIn) {
+            this.notifyYouTubeTabsSignedIn(signedIn);
+        },
+        
+        //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
+        notifyYouTubeTabsSignedIn: function (signedIn) {
+            //  TODO: Is tabs sufficient here? Do I need to do windows, as well? 
+            chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
+                _.each(tabs, function (tab) {
+
+                    var event;
+                    if (signedIn) {
+                        event = 'signed-in';
+                    } else {
+                        event = 'signed-out';
+                    }
+
+                    chrome.tabs.sendMessage(tab.id, {
+                        event: event
+                    });
+                });
+            });
         },
         
         canSignIn: function () {

@@ -34,6 +34,14 @@
 #playlistSelect {
   font-size: 1.4em !important;
 }
+
+#sign-in-notification {
+    vertical-align: sub;
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#sign-in-button,
 #streamusAddButton {
   height: 24px;
   border: 1px solid #ccc;
