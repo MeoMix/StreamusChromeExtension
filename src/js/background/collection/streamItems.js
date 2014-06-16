@@ -32,11 +32,14 @@
                     addedStreamItem.set('active', true);
                 }
             });
+            
+            this.on('remove', function (model) {
+                //  Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
+                model.destroy();
+            });
 
             this.on('sort', function () {
-                console.log('sort?');
                 this.each(function (streamItem) {
-                    console.log("saving streamItem");
                     streamItem.save();
                 });
             });
@@ -210,8 +213,6 @@
             
             var index = _.isUndefined(options.index) ? this.length : options.index;
 
-            console.log("index:", index);
-
             //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
             var createdStreamItems = [];
             _.each(songs, function (song) {
@@ -229,8 +230,6 @@
                 index++;
             }, this);
 
-            console.log("createdStreamItems:", createdStreamItems);
-            
             if (playOnAdd) {
                 createdStreamItems[0].set('active', true);
             }
@@ -448,17 +447,8 @@
         
         clear: function () {
             this.history.length = 0;
-            this.reset();
+            this.set();
         },
-        
-        //moveToIndex: function (streamItemId, index) {
-        //    var currentIndex = this.indexOf(this.get(streamItemId));
-        //    this.models.splice(index, 0, this.models.splice(currentIndex, 1)[0]);
-
-        //    //  TODO: Something better than this... would be nice to actually be sorting.. again lends itself
-        //    //  to using the sequencedCollection for client-side collections, too.
-        //    this.trigger('sort');
-        //},
         
         getBySong: function (song) {
             return this.find(function (streamItem) {

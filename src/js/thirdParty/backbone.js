@@ -444,7 +444,6 @@
         // If the server returns an attributes hash that differs, the model's
         // state will be `set` again.
         save: function (key, val, options) {
-            console.log("Saving this:", this);
             var attrs, method, xhr, attributes = this.attributes;
 
             // Handle both `"key", value` and `{key: value}` -style arguments.
@@ -489,10 +488,7 @@
             };
             wrapError(this, options);
 
-            console.log("This:", this);
-
             method = this.isNew() ? 'create' : (options.patch ? 'patch' : 'update');
-            console.log('meth:', method);
 
             if (method === 'patch') options.attrs = attrs;
             xhr = this.sync(method, this, options);
@@ -879,7 +875,6 @@
         // collection immediately, unless `wait: true` is passed, in which case we
         // wait for the server to agree.
         create: function (model, options) {
-            console.log('hi?', model);
             options = options ? _.clone(options) : {};
             if (!(model = this._prepareModel(model, options))) return false;
             if (!options.wait) this.add(model, options);
@@ -889,7 +884,6 @@
                 if (options.wait) collection.add(model, options);
                 if (success) success(model, resp, options);
             };
-            console.log("Model xx:", model);
             model.save(null, options);
             return model;
         },

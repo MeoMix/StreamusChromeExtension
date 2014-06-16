@@ -49,7 +49,6 @@
     // with a meaningful name, like the name you'd give a table.
     // window.Store is deprectated, use Backbone.LocalStorage instead
     Backbone.LocalStorage = window.Store = function (name, serializer) {
-        console.log('making it');
         if (!this.localStorage) {
             throw "Backbone.localStorage: Environment does not support localStorage."
         }
@@ -77,14 +76,11 @@
         // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
         // have an id of it's own.
         create: function (model) {
-            console.log("Hi:", model);
-
             if (!model.id) {
                 model.id = guid();
                 model.set(model.idAttribute, model.id);
             }
 
-            console.log('creating item');
             this.localStorage().setItem(this.name + "-" + model.id, this.serializer.serialize(model));
             this.records.push(model.id.toString());
             this.save();
@@ -166,7 +162,6 @@
     // *localStorage* property, which should be an instance of `Store`.
     // window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
     Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function (method, model, options) {
-        console.log('hi', method);
         var store = model.localStorage || model.collection.localStorage;
 
         var resp, errorMessage;
@@ -182,7 +177,6 @@
                     resp = model.id != undefined ? store.find(model) : store.findAll();
                     break;
                 case "create":
-                    console.log('yep');
                     resp = store.create(model);
                     break;
                 case "update":

@@ -139,13 +139,13 @@ define([
             this.set('signInFailed', false);
 
             //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
-            chrome.storage.sync.get(syncUserIdKey, function (data) {
-                //  Look for a user id in sync, it might be undefined though.
-                var foundUserId = data[syncUserIdKey];
+            //chrome.storage.sync.get(syncUserIdKey, function (data) {
+            //    //  Look for a user id in sync, it might be undefined though.
+            //    var foundUserId = data[syncUserIdKey];
 
-                if (_.isUndefined(foundUserId)) {
+            //    if (_.isUndefined(foundUserId)) {
 
-                    foundUserId = Settings.get('userId');
+                    var foundUserId = Settings.get('userId');
 
                     if (foundUserId !== null) {
                         this.set('id', foundUserId);
@@ -164,14 +164,14 @@ define([
                         });
                     }
 
-                } else {
-                    //  Update the model's id to proper value and call fetch to retrieve all data from server.
-                    this.set('id', foundUserId);
+            //    } else {
+            //        //  Update the model's id to proper value and call fetch to retrieve all data from server.
+            //        this.set('id', foundUserId);
 
-                    //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-                    this.loadFromServer(false);
-                }
-            }.bind(this));
+            //        //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
+            //        this.loadFromServer(false);
+            //    }
+            //}.bind(this));
 
         },
         

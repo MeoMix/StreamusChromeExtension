@@ -9,7 +9,6 @@ define([
         defaults: function () {
             return {
                 id: null,
-                //id: _.uniqueId('streamItem_'),
                 song: null,
                 title: '',
                 //  Used to weight randomness in shuffle. Resets to false when all in collection are set to true.
@@ -21,13 +20,8 @@ define([
                 sequence: -1
             };
         },
-
-        // New instances of this model will have a 'dud' sync function
-        //sync: function () { return false; },
         
         initialize: function () {
-            console.log("Taahis:", this);
-            
             var song = this.get('song');
 
             //  Need to convert song object to Backbone.Model

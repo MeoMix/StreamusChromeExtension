@@ -11,7 +11,6 @@
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
     var User = chrome.extension.getBackgroundPage().User;
     var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
@@ -32,6 +31,7 @@
         }),
         
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
+            'change:id': 'setDataId',
             'change:active': 'setActiveClass'
         }),
         
@@ -50,6 +50,10 @@
             } else {
                 PlayPauseButton.tryTogglePlayerState();
             }
+        },
+        
+        setDataId: function () {
+            this.$el.data('id', this.model.get('id'));
         },
 
         //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because

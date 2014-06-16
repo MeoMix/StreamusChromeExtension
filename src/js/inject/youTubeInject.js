@@ -235,7 +235,6 @@ $(function () {
 		sharePanel.appendTo(streamusActionPanel);
 	    
 	    //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
-		console.log("Setting HTML");
 		getSignedInState(function (state) {
 		    sharePanel.empty();
 		    
@@ -265,8 +264,6 @@ $(function () {
 			    case 'signed-in':
 			        var sharePanel = $('#streamus-share-panel');
 			        sharePanel.empty();
-
-			        console.log("Signed in, clearing share panel, injecting stuff");
 
 			        injectAddPlaylistContent(sharePanel);
 			        getPlaylistsAndSetSelectOptions();
