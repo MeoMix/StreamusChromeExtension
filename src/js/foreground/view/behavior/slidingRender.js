@@ -21,11 +21,16 @@
 
             'add': function (item, collection) {
                 var index = collection.indexOf(item);
+
                 var indexWithinRenderRange = this._indexWithinRenderRange(index);
-                var viewportFull = collection.length >= this.maxRenderIndex;
+
+                //  Subtract 1 from collection.length because, for instance, if our collection has 8 items in it
+                //  and min-max is 0-7, the 8th item in the collection has an index of 7.
+                //  Use a > comparator not >= because we only want to run this logic when the viewport is overfilled and not just enough to be filled.
+                var viewportOverfull = collection.length - 1 > this.maxRenderIndex;
 
                 //  If a view has been rendered and it pushes another view outside of maxRenderIndex, remove that view.
-                if (indexWithinRenderRange && viewportFull) {
+                if (indexWithinRenderRange && viewportOverfull) {
                     //  Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
                     this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
                 }
