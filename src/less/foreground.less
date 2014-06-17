@@ -1410,12 +1410,13 @@ button {
 
 #left-base-pane {
     #playlist-title-region {
-        width: calc(~"100% - 106px");
+        width: 100%;
+        padding-left: 50px;
+        padding-right: 50px;
+        box-sizing: border-box;
         height: 45px;
         display: inline-block;
         vertical-align: top;
-        margin-left: 10px;
-        margin-right: 10px;
 
         #playlist-title {
             overflow: hidden;
@@ -1472,4 +1473,14 @@ button {
 #suggested-quality {
     margin-top: -5px;
     margin-bottom: -5px;
+}
+
+button.show-playlists-area,
+button.show-search {
+    position: absolute;
+    top: 0;
+}
+
+button.show-search {
+    right: 0;
 }
