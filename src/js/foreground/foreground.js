@@ -11,11 +11,12 @@
     'foreground/view/leftBasePane/leftBasePaneView',
     'foreground/view/leftCoveringPane/playlistsAreaView',
     'foreground/view/leftCoveringPane/searchView',
+    'foreground/view/prompt/noPlayEmbeddedPromptView',
     'foreground/view/prompt/notificationPromptView',
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView',
     'foreground/view/rightBasePane/rightBasePaneView'
-], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NoPlayEmbeddedPromptView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -221,24 +222,25 @@
         //  Whenever the YouTube API throws an error in the background, communicate
         //  that information to the user in the foreground via prompt.
         showYouTubeError: function (youTubeError) {
-            var text = chrome.i18n.getMessage('errorEncountered');
+            
+            if (youTubeError === YouTubePlayerError.NoPlayEmbedded || youTubeError === YouTubePlayerError.NoPlayEmbedded2) {
+                this.showPrompt(new NoPlayEmbeddedPromptView());
+            } else {
+                var text = chrome.i18n.getMessage('errorEncountered');
 
-            switch (youTubeError) {
-                case YouTubePlayerError.InvalidParameter:
-                    text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
-                    break;
-                case YouTubePlayerError.VideoNotFound:
-                    text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
-                    break;
-                case YouTubePlayerError.NoPlayEmbedded:
-                case YouTubePlayerError.NoPlayEmbedded2:
-                    text = chrome.i18n.getMessage('youTubePlayerErrorNoPlayEmbedded');
-                    break;
+                switch (youTubeError) {
+                    case YouTubePlayerError.InvalidParameter:
+                        text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
+                        break;
+                    case YouTubePlayerError.VideoNotFound:
+                        text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
+                        break;
+                }
+
+                this.showPrompt(new NotificationPromptView({
+                    text: text
+                }));
             }
-
-            this.showPrompt(new NotificationPromptView({
-                text: text
-            }));
         },
 
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.

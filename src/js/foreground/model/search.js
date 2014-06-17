@@ -82,7 +82,7 @@
                                 SearchResults.setFromSongInformation(songInformation);
                             },
                             error: function (error) {
-                                console.log(error);
+                                console.error(error);
                                 //  TODO: Handle error.
                             },
                             complete: this.onSearchComplete.bind(this)

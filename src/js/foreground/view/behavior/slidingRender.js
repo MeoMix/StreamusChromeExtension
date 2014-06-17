@@ -59,7 +59,7 @@
         
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
-        threshold: 10,
+        threshold: 0,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -141,7 +141,7 @@
         _renderElementAtIndex: function (index) {
             var rendered = false;
 
-            if (this.view.collection.length >= index) {
+            if (this.view.collection.length > index) {
                 var item = this.view.collection.at(index);
                 var ItemView = this.view.getItemView(item);
 

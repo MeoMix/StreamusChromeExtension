@@ -34,7 +34,6 @@ define([
             //  Whenever a streamItem is activated it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
             this.on('change:active', function (model, active) {
-                console.log('active changed');
                 if (active) {
                     this.save({ playedRecently : true });
                 }

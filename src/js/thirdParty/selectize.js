@@ -2556,7 +2556,6 @@
 		 * @returns {boolean}
 		 */
         isFull: function () {
-            console.trace();
             return this.settings.maxItems !== null && this.items.length >= this.settings.maxItems;
         },
 
