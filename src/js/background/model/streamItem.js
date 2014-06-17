@@ -34,13 +34,13 @@ define([
             //  Whenever a streamItem is activated it is considered playedRecently.
             //  This will reset when all streamItems in the stream have been played recently.
             this.on('change:active', function (model, active) {
-                this.save({ active: active });
-
+                console.log('active changed');
                 if (active) {
-                    this.set('playedRecently', true);
+                    this.save({ playedRecently : true });
                 }
             });
 
+            //  TODO: This is needed because sequencedCollectionMixin doesn't call save yet -- just set. :(
             this.on('change:sequence', function (model, sequence) {
                 this.save({ sequence: sequence });
             });

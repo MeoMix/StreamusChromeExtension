@@ -46,7 +46,7 @@
             if (!this.model.get('active')) {
                 Player.playOnceSongChanges();
 
-                this.model.set('active', true);
+                this.model.save({ active: true });
             } else {
                 PlayPauseButton.tryTogglePlayerState();
             }

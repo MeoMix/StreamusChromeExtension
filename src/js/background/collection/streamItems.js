@@ -19,6 +19,7 @@
         localStorage: new Backbone.LocalStorage('StreamItems'),
 
         initialize: function () {
+            //  TODO: History is lost when Streamus is restarted. Not a HUGE deal since it just affects shuffling, but would be nice to save it.
             //  TODO: Probably make a stream model instead of extending streamItems
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
             _.extend(this, { history: [] });
@@ -28,7 +29,7 @@
             this.on('add', function (addedStreamItem) {
                 //  Ensure a streamItem is always active
                 if (_.isUndefined(this.getActiveItem())) {
-                    addedStreamItem.set('active', true);
+                    addedStreamItem.save({ active: true });
                 }
             });
             
@@ -81,7 +82,7 @@
                 //  Allows for de-prioritization of played streamItems during shuffling.
                 if (this.where({ playedRecently: true }).length === this.length) {
                     this.each(function(streamItem) {
-                        streamItem.set('playedRecently', false);
+                        streamItem.save({ playedRecently: false });
                     });
                 }
             });
@@ -237,14 +238,14 @@
             }, this);
 
             if (playOnAdd || options.markFirstActive) {
-                createdStreamItems[0].set('active', true);
+                createdStreamItems[0].save({ active: true });
             }
         },
 
         deactivateAllExcept: function(changedStreamItem) {
             this.each(function(streamItem) {
                 if (streamItem != changedStreamItem) {
-                    streamItem.set('active', false);
+                    streamItem.save({ active: false });
                 }
             });
         },
@@ -327,7 +328,7 @@
                 nextItem = activeItem;
             } else if (shuffleEnabled) {
                 var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                shuffledItems[0].set('active', true);
+                shuffledItems[0].save({ active: true });
                 nextItem = shuffledItems[0];
             } else {
                 var nextItemIndex;
@@ -342,7 +343,7 @@
                 //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
                     if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                        this.at(0).set('active', true);
+                        this.at(0).save({ active: true });
 
                         //  TODO: Might be sending an erroneous trigger on delete?
                         //  Only one item in the playlist and it was already active, resend activated trigger.
@@ -363,16 +364,16 @@
                     //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
                     //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
                     else if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
-                        this.at(this.length - 1).set('active', true);
+                        this.at(this.length - 1).save({ active: true });
                         Player.pause();
                     }
                     else {
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
-                        this.at(0).set('active', true);
+                        this.at(0).save({ active: true });
                         Player.pause();
                     }
                 } else {
-                    this.at(nextItemIndex).set('active', true);
+                    this.at(nextItemIndex).save({ active: true });
                     nextItem = this.at(nextItemIndex);
                 }
             }
@@ -428,21 +429,21 @@
                     activeItem.trigger('change:active', activeItem, true);
                 } else if (shuffleEnabled) {
                     var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                    shuffledItems[0].set('active', true);
+                    shuffledItems[0].save({ active: true });
                 } else {
                     //  Activate the previous item by index. Potentially loop around to the back.
                     var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
 
                     if (activeItemIndex === 0) {
                         if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                            this.at(this.length - 1).set('active', true);
+                            this.at(this.length - 1).save({ active: true });
                         }
                     } else {
-                        this.at(activeItemIndex - 1).set('active', true);
+                        this.at(activeItemIndex - 1).save({ active: true });
                     }
                 }
             } else {
-                previousStreamItem.set('active', true);
+                previousStreamItem.save({ active: true });
             }
         },
         

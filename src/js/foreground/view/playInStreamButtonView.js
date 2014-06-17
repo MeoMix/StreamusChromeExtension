@@ -40,7 +40,7 @@
                     Player.play();
                 } else {
                     Player.playOnceSongChanges();
-                    streamItem.set('active', true);
+                    streamItem.save({ active: true });
                 }
             }
 
