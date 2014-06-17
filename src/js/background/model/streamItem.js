@@ -51,7 +51,6 @@ define([
                     this.set('relatedSongInformation', relatedSongInformation);
                 }.bind(this)
             });
-
         }
     });
 

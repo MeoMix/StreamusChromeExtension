@@ -104,6 +104,7 @@
 	"permissions": [
 	    "http://localhost:61975/Streamus/",
 	    "contextMenus",
+		"background",
 		"notifications",
 		"storage",
 		"identity",

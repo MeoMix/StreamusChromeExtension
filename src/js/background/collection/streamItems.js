@@ -15,7 +15,6 @@
     'use strict';
     
     var StreamItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
-            
         model: StreamItem,
         localStorage: new Backbone.LocalStorage('StreamItems'),
 
@@ -38,28 +37,10 @@
                 model.destroy();
             });
 
-            this.on('sort', function () {
-                this.each(function (streamItem) {
-                    streamItem.save();
-                });
-            });
-
             this.on('change:active', function (changedStreamItem, active) {
                 //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
                 if (active) {
-                    this.deactivateAllExcept(changedStreamItem);
-                    var songId = changedStreamItem.get('song').get('id');
-                    //  Maintain the state of the player by playing or cueuing based on current player state.
-                    var playerState = Player.get('state');
-
-                    //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
-                    if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                        Player.loadSongById(songId);
-                    } else {
-                        Player.cueSongById(songId);
-                    }
-                    
-                    this.history.unshift(changedStreamItem);
+                    this._activateItem(changedStreamItem);
                 }
             });
 
@@ -153,8 +134,30 @@
 
             //  Load any existing StreamItems from local storage
             this.fetch();
+
+            //  If there's any stream items -- one must be active once fetched from localStorage, make sure the YouTube player loads it.
+            var activeItem = this.getActiveItem();
+            if (!_.isUndefined(activeItem)) {
+                this._activateItem(activeItem);
+            }
             
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
+        },
+        
+        _activateItem: function(streamItem) {
+            this.deactivateAllExcept(streamItem);
+            var songId = streamItem.get('song').get('id');
+            //  Maintain the state of the player by playing or cueuing based on current player state.
+            var playerState = Player.get('state');
+
+            //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
+            if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
+                Player.loadSongById(songId);
+            } else {
+                Player.cueSongById(songId);
+            }
+
+            this.history.unshift(streamItem);
         },
         
         searchAndAddByTitle: function (options) {

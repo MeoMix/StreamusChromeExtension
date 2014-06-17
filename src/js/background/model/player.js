@@ -146,36 +146,58 @@ define([
             youTubePlayerAPI.load();
 
         },
-
+        
+        //  Public method which is able to be called before the YouTube Player API is fully ready.
+        //  cue's a song (pauses it when it is ready)
         cueSongById: function (songId, startSeconds) {
+            if (this.get('ready')) {
+                this._cueSongById(songId, startSeconds);
+            } else {
+                this.once('change:ready', function () {
+                    this._cueSongById(songId, startSeconds);
+                });
+            }
+        },
+        
+        _cueSongById: function (songId, startSeconds) {
             //  Helps for keeping things in sync when the same song reloads.
             if (this.get('loadedSongId') === songId) {
                 this.trigger('change:loadedSongId');
             }
 
             this.set('loadedSongId', songId);
-            
-            if (youTubePlayer === null) {
-                console.error('youTubePlayer not instantiated');
-            } else {
-                youTubePlayer.cueVideoById({
-                    videoId: songId,
-                    startSeconds: startSeconds || 0,
-                    suggestedQuality: Settings.get('suggestedQuality')
-                });
-            }
+
+            console.log('youTubePlayer:', youTubePlayer);
+
+            youTubePlayer.cueVideoById({
+                videoId: songId,
+                startSeconds: startSeconds || 0,
+                suggestedQuality: Settings.get('suggestedQuality')
+            });
 
             //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
             //  but until the song actually loads -- current time isn't set.
             this.set('currentTime', startSeconds || 0);
         },
-            
+           
+        //  Public method which is able to be called before the YouTube Player API is fully ready.
+        //  Loads a song (plays it when it is ready)
         loadSongById: function (songId, startSeconds) {
+            if (this.get('ready')) {
+                this._loadSongById(songId, startSeconds);
+            } else {
+                this.once('change:ready', function() {
+                    this._loadSongById(songId, startSeconds);
+                });
+            }
+        },
+        
+        _loadSongById: function (songId, startSeconds) {
             //  Helps for keeping things in sync when the same song reloads.
             if (this.get('loadedSongId') === songId) {
                 this.trigger('change:loadedSongId');
             }
-            
+
             this.set('state', PlayerState.Buffering);
             this.set('loadedSongId', songId);
 
