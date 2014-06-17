@@ -167,8 +167,6 @@ define([
 
             this.set('loadedSongId', songId);
 
-            console.log('youTubePlayer:', youTubePlayer);
-
             youTubePlayer.cueVideoById({
                 videoId: songId,
                 startSeconds: startSeconds || 0,

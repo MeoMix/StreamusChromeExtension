@@ -4,13 +4,20 @@
     'use strict';
 
     var RepeatButton = Backbone.Model.extend({
-
+        localStorage: new Backbone.LocalStorage('RepeatButton'),
+        
         defaults: {
+            //  Need to set the ID for Backbone.LocalStorage
+            id: 'RepeatButton',
             state: RepeatButtonState.Disabled
         },
         
+        initialize: function () {
+            //  Load from Backbone.LocalStorage
+            this.fetch();
+        },
+        
         toggleRepeat: function () {
-
             var nextState = null;
 
             switch (this.get('state')) {
@@ -28,9 +35,10 @@
                     break;
             }
 
-            this.set('state', nextState);
+            this.save({
+                state: nextState
+            });
         }
-
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

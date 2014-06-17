@@ -1,6 +1,7 @@
 ﻿define(function () {
     'use strict';
 
+    //  TODO: It would be a good idea to move some of this functionality out of here and onto the models using the settings while persisting w/ Backbone.LocalStorage.
     var Settings = Backbone.Model.extend({
         defaults: function () {
             var remindClearStream = this.getItem('remindClearStream');
@@ -13,6 +14,7 @@
                 localDebug: false,
                 testing: false,
                 serverURL: '',
+                
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',
                 userId: this.getItem('userId') || null,
                 showTooltips: showTooltips === null ? true : showTooltips,
@@ -64,7 +66,6 @@
             this.on('change:searchQuery', function(model, searchQuery) {
                 localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
             });
-
         },
         
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.

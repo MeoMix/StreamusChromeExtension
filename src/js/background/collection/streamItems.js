@@ -141,6 +141,9 @@
                 this._activateItem(activeItem);
             }
             
+            //  Don't want to persist selections after restarts -- doesn't really make sense to.
+            this.deselectAllExcept();
+            
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
@@ -233,7 +236,7 @@
                 index++;
             }, this);
 
-            if (playOnAdd) {
+            if (playOnAdd || options.markFirstActive) {
                 createdStreamItems[0].set('active', true);
             }
         },
@@ -302,6 +305,10 @@
             var relatedSongs = this.getRelatedSongs();
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
             
+            if (relatedSong === null) {
+                console.error("No related song found.");
+            }
+            
             return relatedSong;
         },
         
@@ -348,18 +355,10 @@
                     else if (radioEnabled) {
                         var randomRelatedSong = this.getRandomRelatedSong();
 
-                        if (randomRelatedSong === null) {
-                            console.error("No related song found.");
-                        } else {
-                            nextItem = this.add({
-                                song: randomRelatedSong,
-                                title: randomRelatedSong.get('title')
-                            });
-
+                        this.addSongs(randomRelatedSong, {
                             //  Mark as active after adding it to deselect other active items and ensure it is visible visually.
-                            nextItem.set('active', true);
-                        }
-
+                            markFirstActive: true
+                        });
                     }
                     //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
                     //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
@@ -372,7 +371,6 @@
                         this.at(0).set('active', true);
                         Player.pause();
                     }
-
                 } else {
                     this.at(nextItemIndex).set('active', true);
                     nextItem = this.at(nextItemIndex);

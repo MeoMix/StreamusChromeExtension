@@ -87,7 +87,6 @@
                             },
                             complete: this.onSearchComplete.bind(this)
                         });
-
                     } else {
                         //  TODO: Handle missing song IDs
                         searchJqXhr = YouTubeV3API.search({
