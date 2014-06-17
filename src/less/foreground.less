@@ -302,10 +302,11 @@ a { cursor: pointer }
     color: @darkGray;
     cursor: default;
     display: inline-block;
-    width: calc(~"100% - 55px");
+    width: 100%;
+    box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
-    margin-left: 50px;
+    padding-left: 50px;
 }
 
 .item-details {
@@ -513,11 +514,12 @@ input[type="range"] {
 }
 
 .list-item {
-    height: 30px;
+    height: 40px;
     padding: 0;
     border: 5px solid @white;
     position: relative;
-    width: calc(~"100% - 11px");
+    width: 100%;
+    box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
@@ -544,7 +546,9 @@ input[type="range"] {
         border-color: @lightGray;
 
         .item-title {
-            width: calc(~"100% - 135px");
+            width: 100%;
+            box-sizing: border-box;
+            padding-right: 135px;
         }
 
         i.hoverable {
@@ -669,7 +673,7 @@ input[type="range"] {
     max-height: 290px;
 
     .list-item {
-        height: 18px;
+        height: 28px;
         line-height: 18px;
 
         i {
@@ -843,7 +847,9 @@ input:focus  ~ .underline {
 
 .search-bar {
     height: 45px;
-    width: calc(~"100% - 43px");
+    width: 100%;
+    box-sizing: border-box;
+    padding-right: 43px;
     display: inline-block;
     vertical-align: top;
 
@@ -1475,12 +1481,14 @@ button {
     margin-bottom: -5px;
 }
 
+button#hide-search,
 button.show-playlists-area,
 button.show-search {
     position: absolute;
     top: 0;
 }
 
+button#hide-search,
 button.show-search {
     right: 0;
 }
