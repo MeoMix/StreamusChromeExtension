@@ -240,6 +240,8 @@
             if (playOnAdd || options.markFirstActive) {
                 createdStreamItems[0].save({ active: true });
             }
+
+            return createdStreamItems;
         },
 
         deactivateAllExcept: function(changedStreamItem) {
@@ -356,10 +358,12 @@
                     else if (radioEnabled) {
                         var randomRelatedSong = this.getRandomRelatedSong();
 
-                        this.addSongs(randomRelatedSong, {
+                        var addedSongs = this.addSongs(randomRelatedSong, {
                             //  Mark as active after adding it to deselect other active items and ensure it is visible visually.
                             markFirstActive: true
                         });
+
+                        nextItem = addedSongs[0];
                     }
                     //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
                     //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
