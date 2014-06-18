@@ -122,6 +122,8 @@
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
+    <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
+    <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
@@ -234,6 +236,7 @@
     </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\noPlayEmbedded.html" />
     <Content Include="src\template\saveSongs.html" />
     <Content Include="src\template\updateStreamus.html" />
     <Content Include="src\template\deleteButton.html" />
