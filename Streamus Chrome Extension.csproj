@@ -196,7 +196,6 @@
     <Content Include="src\js\thirdParty\backbone.js" />
     <Content Include="README.md" />
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
-    <Content Include="src\js\thirdParty\backbone.wreqr.js" />
     <Content Include="src\font\OpenSans-Bold.ttf" />
     <Content Include="src\font\OpenSans-Regular.ttf" />
     <Content Include="src\font\fontello.eot" />
@@ -204,7 +203,6 @@
     <Content Include="src\font\fontello.woff" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
-    <Content Include="src\js\thirdParty\backbone.babysitter.js" />
     <Content Include="src\js\thirdParty\boot.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jasmine-html.js" />
@@ -213,7 +211,7 @@
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery.transit.js" />
-    <Content Include="src\js\thirdParty\jqueryUi.js" />
+    <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\require.js" />
