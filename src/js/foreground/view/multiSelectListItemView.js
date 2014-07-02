@@ -4,7 +4,7 @@
 ], function (ListItemButtonsView, Tooltip) {
     'use strict';
 
-    var MultiSelectListItemView = Backbone.Marionette.Layout.extend({
+    var MultiSelectListItemView = Backbone.Marionette.LayoutView.extend({
         className: 'list-item multi-select-item sliding-view-item',
 
         ui: {

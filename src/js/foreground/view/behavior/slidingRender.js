@@ -12,7 +12,7 @@
 
                     //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
                     if (!rendered && this.minRenderIndex > 0) {
-                        this.ui.list.scrollTop(this.lastScrollTop - this.itemViewHeight);
+                        this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
                     }
                 }
                 
@@ -53,13 +53,13 @@
         minRenderIndex: 0,
         maxRenderIndex: 0,
 
-        //  The height of a rendered itemView in px. Including padding/margin.
-        itemViewHeight: 40,
+        //  The height of a rendered childView in px. Including padding/margin.
+        childViewHeight: 40,
         viewportHeight: -1,
         
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
-        threshold: 0,
+        threshold: 10,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -145,7 +145,7 @@
                 var item = this.view.collection.at(index);
                 var ItemView = this.view.getItemView(item);
 
-                //  Adjust the itemView's index to account for where it is actually being added in the list
+                //  Adjust the childView's index to account for where it is actually being added in the list
                 this._addItemView(item, ItemView, index);
                 rendered = true;
             }
@@ -230,15 +230,15 @@
         },
 
         _getPaddingTop: function () {
-            return this.minRenderIndex * this.itemViewHeight;
+            return this.minRenderIndex * this.childViewHeight;
         },
 
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
         _setHeight: function () {
             //  Subtracting minRenderIndex is important because of how CSS renders the element. If you don't subtract minRenderIndex
-            //  then the rendered items will push up the height of the element by minRenderIndex * itemViewHeight.
-            var height = (this.view.collection.length - this.minRenderIndex) * this.itemViewHeight;
+            //  then the rendered items will push up the height of the element by minRenderIndex * childViewHeight.
+            var height = (this.view.collection.length - this.minRenderIndex) * this.childViewHeight;
 
             //  Keep height set to at least the viewport height to allow for proper drag-and-drop target - can't drop if height is too small.
             if (height < this.viewportHeight) {
@@ -258,11 +258,11 @@
                 ItemView = this.view.getItemView(model);
 
                 if (isAddingToEnd) {
-                    //  Adjust the itemView's index to account for where it is actually being added in the list
+                    //  Adjust the childView's index to account for where it is actually being added in the list
                     this._addItemView(model, ItemView, index + indexOffset);
                 } else {
-                    //  Adjust the itemView's index to account for where it is actually being added in the list, but
-                    //  also provide the unmodified index because this is the location in the rendered itemViewList in which it will be added.
+                    //  Adjust the childView's index to account for where it is actually being added in the list, but
+                    //  also provide the unmodified index because this is the location in the rendered childViewList in which it will be added.
                     this._addItemView(model, ItemView, index, index + indexOffset);
                 }
             }, this);
@@ -301,18 +301,18 @@
             }
         },
         
-        _appendHtml: function (collectionView, itemView, index) {
-            var childrenContainer = collectionView.itemViewContainer ? collectionView.$(collectionView.itemViewContainer) : collectionView.$el;
+        _appendHtml: function (collectionView, childView, index) {
+            var childrenContainer = collectionView.childViewContainer ? collectionView.$(collectionView.childViewContainer) : collectionView.$el;
             var children = childrenContainer.children();
             if (children.size() <= index) {
-                childrenContainer.append(itemView.el);
+                childrenContainer.append(childView.el);
             } else {
-                children.eq(index).before(itemView.el);
+                children.eq(index).before(childView.el);
             }
         },
 
         _getMinRenderIndex: function (scrollTop) {
-            var minRenderIndex = Math.floor(scrollTop / this.itemViewHeight) - this.threshold;
+            var minRenderIndex = Math.floor(scrollTop / this.childViewHeight) - this.threshold;
             
             if (minRenderIndex < 0) {
                 minRenderIndex = 0;
@@ -323,14 +323,14 @@
 
         _getMaxRenderIndex: function (scrollTop) {
             //  Subtract 1 to make math 'inclusive' instead of 'exclusive'
-            var maxRenderIndex = Math.ceil((scrollTop / this.itemViewHeight) + (this.viewportHeight / this.itemViewHeight)) - 1 + this.threshold;
+            var maxRenderIndex = Math.ceil((scrollTop / this.childViewHeight) + (this.viewportHeight / this.childViewHeight)) - 1 + this.threshold;
 
             return maxRenderIndex;
         },
 
-        //  Returns true if an itemView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
+        //  Returns true if an childView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
         _indexOverflowsTop: function (index) {
-            var position = index * this.itemViewHeight;
+            var position = index * this.childViewHeight;
             var scrollPosition = this.ui.list.scrollTop();
 
             var overflowsTop = position < scrollPosition;
@@ -340,7 +340,7 @@
 
         _indexOverflowsBottom: function (index) {
             //  Add one to index because want to get the bottom of the element and not the top.
-            var position = (index + 1) * this.itemViewHeight;
+            var position = (index + 1) * this.childViewHeight;
             var scrollPosition = this.ui.list.scrollTop() + this.viewportHeight;
 
             var overflowsBottom = position > scrollPosition;
@@ -366,10 +366,10 @@
                 //  If the item needs to be made visible from the bottom, offset the viewport's height:
                 if (overflowsBottom) {
                     //  Add 1 to index because want the bottom of the element and not the top.
-                    scrollTop = (itemIndex + 1) * this.itemViewHeight - this.viewportHeight;
+                    scrollTop = (itemIndex + 1) * this.childViewHeight - this.viewportHeight;
                 }
                 else if (overflowsTop) {
-                    scrollTop = itemIndex * this.itemViewHeight;
+                    scrollTop = itemIndex * this.childViewHeight;
                 }
 
                 this.ui.list.scrollTop(scrollTop);

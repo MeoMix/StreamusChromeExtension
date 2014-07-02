@@ -13,7 +13,7 @@ define([
     var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
     var PreviousButton = chrome.extension.getBackgroundPage().PreviousButton;
 
-    var RightBasePaneView = Backbone.Marionette.Layout.extend({
+    var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
         className: 'right-base-pane',
         template: _.template(RightBasePaneTemplate),
         

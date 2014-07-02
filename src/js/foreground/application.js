@@ -19,7 +19,7 @@
         });
     });
     
-    Application.on('initialize:after', function () {
+    Application.on('start', function () {
         //  Fire up the foreground:
         require(['foreground/foreground']);
     });

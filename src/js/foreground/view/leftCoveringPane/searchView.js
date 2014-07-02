@@ -16,8 +16,8 @@
         id: 'search',
         className: 'left-pane',
         template: _.template(SearchTemplate),
-        itemViewContainer: '#search-results',
-        itemView: SearchResultView,
+        childViewContainer: '#search-results',
+        childView: SearchResultView,
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',

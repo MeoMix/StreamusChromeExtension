@@ -6,7 +6,7 @@
     'jquery.qtip',
     'jquery.scrollIntoView',
     'jquery.transit',
-    'jqueryUi',
+    'jquery-ui',
     'lodash',
     'selectize'
 ], function () {

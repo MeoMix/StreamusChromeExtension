@@ -11,8 +11,8 @@
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
-        itemView: PlaylistItemView,
-        itemViewContainer: '#active-playlist-items',
+        childView: PlaylistItemView,
+        childViewContainer: '#active-playlist-items',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {

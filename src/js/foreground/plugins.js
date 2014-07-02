@@ -6,7 +6,7 @@
     'jquery',
     'jquery.qtip',
     'jquery.transit',
-    'jqueryUi',
+    'jquery-ui',
     'less',
     'lodash',
     'selectize'

@@ -27,7 +27,9 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
 
-    var ForegroundView = Backbone.Marionette.Layout.extend({
+    console.log('hi');
+
+    var ForegroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),
 
         events: {
@@ -50,6 +52,8 @@
         showReloadPromptTimeout: null,
 
         initialize: function () {
+            console.log("Initializing");
+
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');
@@ -61,7 +65,7 @@
 
                     //  Make sure another prompt didn't open (which would've closed the reload prompt)
                     if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                        this.promptRegion.close();
+                        this.promptRegion.empty();
                     }
                 });
             }
@@ -116,7 +120,7 @@
         
         showPrompt: function (view) {
             this.listenToOnce(view, 'hide', function () {
-                this.promptRegion.close();
+                this.promptRegion.empty();
             });
             
             this.promptRegion.show(view);
@@ -185,7 +189,7 @@
 
                 //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(playlistsArea, 'destroy', function () {
-                    this.leftCoveringPaneRegion.close();
+                    this.leftCoveringPaneRegion.empty();
                 });
             }
         }, 400),
@@ -208,7 +212,7 @@
 
                 //  When the user has clicked 'close search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(search, 'destroy', function () {
-                    this.leftCoveringPaneRegion.close();
+                    this.leftCoveringPaneRegion.empty();
                 });
             } else {
                 //  Highlight the fact that is already visible by shaking it.
@@ -259,7 +263,7 @@
                 }));
             } else {
                 ContextMenuItems.reset();
-                this.contextMenuRegion.close();
+                this.contextMenuRegion.empty();
             }
         },
         

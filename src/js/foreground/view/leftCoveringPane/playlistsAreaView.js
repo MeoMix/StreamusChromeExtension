@@ -17,8 +17,8 @@
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlists-area',
         template: _.template(PlaylistsAreaTemplate),
-        itemView: PlaylistView,
-        itemViewContainer: '#playlists',
+        childView: PlaylistView,
+        childViewContainer: '#playlists',
 
         events: {
             'click': 'hideIfClickOutsidePanel',

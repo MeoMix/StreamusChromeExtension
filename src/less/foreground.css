@@ -159,6 +159,9 @@ body .qtip-light {
   width: 370px;
   margin-left: -185px;
 }
+.prompt.no-play-embedded-prompt .panel {
+  height: 160px;
+}
 .prompt .bottom-right {
   position: absolute;
   right: 10px;
@@ -297,10 +300,11 @@ a {
   color: #333333;
   cursor: default;
   display: inline-block;
-  width: calc(100% - 55px);
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-left: 50px;
+  padding-left: 50px;
 }
 .item-details {
   color: #666666;
@@ -484,11 +488,12 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   overflow-y: auto;
 }
 .list-item {
-  height: 30px;
+  height: 40px;
   padding: 0;
   border: 5px solid #ffffff;
   position: relative;
-  width: calc(100% - 11px);
+  width: 100%;
+  box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: background-color 0.1s, border-color 0.1s;
@@ -513,7 +518,9 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 }
 .list-item:hover .item-title {
-  width: calc(100% - 135px);
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 80px;
 }
 .list-item:hover i.hoverable {
   background-color: #ebebeb;
@@ -614,7 +621,7 @@ body.playing .list-item.active.stream-item .buttons-region button {
   max-height: 290px;
 }
 #playlists .list-item {
-  height: 18px;
+  height: 28px;
   line-height: 18px;
 }
 #playlists .list-item i {
@@ -751,7 +758,9 @@ input:focus ~ .underline {
 }
 .search-bar {
   height: 45px;
-  width: calc(100% - 43px);
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 43px;
   display: inline-block;
   vertical-align: top;
 }
@@ -1249,12 +1258,13 @@ button.mute.muted {
   /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
 }
 #left-base-pane #playlist-title-region {
-  width: calc(100% - 106px);
+  width: 100%;
+  padding-left: 50px;
+  padding-right: 50px;
+  box-sizing: border-box;
   height: 45px;
   display: inline-block;
   vertical-align: top;
-  margin-left: 10px;
-  margin-right: 10px;
 }
 #left-base-pane #playlist-title-region #playlist-title {
   overflow: hidden;
@@ -1300,4 +1310,14 @@ button.mute.muted {
 #suggested-quality {
   margin-top: -5px;
   margin-bottom: -5px;
+}
+button#hide-search,
+button.show-playlists-area,
+button.show-search {
+  position: absolute;
+  top: 0;
+}
+button#hide-search,
+button.show-search {
+  right: 0;
 }

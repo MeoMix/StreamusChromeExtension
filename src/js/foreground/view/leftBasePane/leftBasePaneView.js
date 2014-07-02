@@ -10,7 +10,7 @@
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var User = chrome.extension.getBackgroundPage().User;
 
-    var LeftBasePaneView = Backbone.Marionette.Layout.extend({
+    var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
         
         id: 'left-base-pane',
         className: 'left-pane',
@@ -87,7 +87,7 @@
                         model: User
                     }));
 
-                    this.playlistTitleRegion.close();
+                    this.playlistTitleRegion.empty();
                 }
 
             }

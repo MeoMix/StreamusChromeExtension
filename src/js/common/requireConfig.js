@@ -12,11 +12,9 @@
             //  Third Party:
             'async': 'thirdParty/async',
             'boot': 'thirdParty/boot',
-            'backbone.babysitter': 'thirdParty/backbone.babysitter',
             'backbone': 'thirdParty/backbone',
             'backbone.localStorage': 'thirdParty/backbone.localStorage',
             'backbone.marionette': 'thirdParty/backbone.marionette',
-            'backbone.wreqr': 'thirdParty/backbone.wreqr',
             'googleAnalytics': 'thirdParty/googleAnalytics',
             'jasmine': 'thirdParty/jasmine',
             'jasmine-html': 'thirdParty/jasmine-html',
@@ -24,7 +22,7 @@
             'jquery': 'thirdParty/jquery',
             'jquery.qtip': 'thirdParty/jquery.qtip',
             'jquery.transit': 'thirdParty/jquery.transit',
-            'jqueryUi': 'thirdParty/jqueryUi',
+            'jquery-ui': 'thirdParty/jquery-ui',
             'less': 'thirdParty/less',
             'lodash': 'thirdParty/lodash',
             'selectize': 'thirdParty/selectize',
@@ -54,10 +52,6 @@
             'jquery.transit': {
                 deps: ['jquery'],
                 exports: '$.transit'
-            },
-            'jqueryUi': {
-                deps: ['jquery'],
-                exports: '$.ui'
             },
             'less': {
                 exports: 'window.less'
