@@ -27,8 +27,6 @@
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
 
-    console.log('hi');
-
     var ForegroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),
 
@@ -52,8 +50,6 @@
         showReloadPromptTimeout: null,
 
         initialize: function () {
-            console.log("Initializing");
-
             //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
             if (!Player.get('ready')) {
                 this.$el.addClass('loading');
@@ -101,8 +97,13 @@
 
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
-                this.close();
+                chrome.extension.getBackgroundPage().window.console.log('Foreground is beginning to destroy.');
+                this.destroy();
+                
+                chrome.extension.getBackgroundPage().window.console.log('Deselecting collections.');
                 this.deselectCollections();
+
+                chrome.extension.getBackgroundPage().window.console.log('Foreground has destroyed completely');
             }.bind(this));
         },
         

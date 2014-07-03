@@ -21,10 +21,12 @@ define(function () {
         },
         
         onShow: function () {
+            console.log("onShow is firing", this.view.el.id);
             this._setTooltips();
         },
         
         onFullyVisible: function () {
+            console.log("onFullyVisible is firing", this.view.el.id);
             this.fullyVisible = true;
             this._setTooltips();
 
@@ -37,9 +39,10 @@ define(function () {
         },
         
         onAfterItemAdded: function (childView) {
+            console.log("onAfterItemAdded is firing", this.view.el.id);
             if (this.fullyVisible) {
                 //  Trigger the child because I do not want the parent responsible for decoration.
-                //  It gets too hard to properly clean-up during onClose. So children implement the behavior and clean-up themselves.
+                //  It gets too hard to properly clean-up during onDestroy. So children implement the behavior and clean-up themselves.
                 childView.triggerMethod('AddedToFullyVisibleCollectionView');
             }
         },
@@ -50,7 +53,7 @@ define(function () {
             this._setTooltips();
         },
         
-        onClose: function () {
+        onDestroy: function () {
             _.each(this.titleMutationObservers, function (titleMutationObserver) {
                 titleMutationObserver.disconnect();
             });

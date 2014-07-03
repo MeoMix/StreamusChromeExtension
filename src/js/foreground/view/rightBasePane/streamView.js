@@ -18,8 +18,7 @@
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
         id: 'stream',
-        //  TODO: Marionette 2.0 will support referencing through @ui: https://github.com/marionettejs/backbone.marionette/issues/1033
-        childViewContainer: '#stream-items',
+        childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
 
         template: _.template(StreamTemplate),
@@ -59,7 +58,7 @@
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
             saveStreamButton: '#save-stream',
-            itemContainer: '#stream-items',
+            childContainer: '#stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
             repeatButton: '#repeat-button',

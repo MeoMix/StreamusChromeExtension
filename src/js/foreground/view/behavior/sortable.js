@@ -16,7 +16,7 @@
         onRender: function () {
             var self = this;
 
-            this.view.ui.itemContainer.sortable({
+            this.view.ui.childContainer.sortable({
                 connectWith: '.droppable-list',
 
                 cursorAt: {
@@ -121,7 +121,7 @@
                         this.copyHelper.removeClass('copy-helper');
                     }
                     else {
-                        this.copyHelperView.close();
+                        this.copyHelperView.destroy();
 
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
@@ -187,7 +187,7 @@
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
                         //  Don't swap it out until done using its dropped-position index.
                         ui.sender[0].copyHelper.replaceWith(ui.item);
-                        ui.sender[0].copyHelperView.close();
+                        ui.sender[0].copyHelperView.destroy();
 
                         ui.sender.data('copied', true);
                     });

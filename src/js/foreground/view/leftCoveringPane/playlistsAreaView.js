@@ -18,7 +18,7 @@
         id: 'playlists-area',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
-        childViewContainer: '#playlists',
+        childViewContainer: '@ui.childContainer',
 
         events: {
             'click': 'hideIfClickOutsidePanel',
@@ -37,7 +37,7 @@
         ui: {
             buttons: '.button-icon',
             panel: '.panel',
-            playlists: '#playlists',
+            childContainer: '#playlists',
             contextButtons: '.context-buttons',
             deleteButton: '#delete-playlist-button',
             addButton: '.add',
@@ -62,7 +62,7 @@
         },
         
         onRender: function () {
-            this.ui.playlists.sortable({
+            this.ui.childContainer.sortable({
                 axis: 'y',
                 placeholder: 'sortable-placeholder list-item',
                 delay: 100,
@@ -109,10 +109,6 @@
                 x: this.ui.panel.width()
             }, 300, 'snap', function () {
                 this.triggerMethod('FullyVisible');
-
-                this.children.each(function (childView) {
-                    childView.triggerMethod('FullyVisible');
-                });
             }.bind(this));
         },
         
@@ -158,17 +154,17 @@
 
         arePlaylistsOverflowing: function () {
             //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
-            var currentHeight = this.ui.playlists.height();
+            var currentHeight = this.ui.childContainer.height();
 
             if (currentHeight === 0) {
-                currentHeight = this.ui.playlists.data('oldheight');
+                currentHeight = this.ui.childContainer.data('oldheight');
             }
 
             var isOverflowing = false;
             var playlistCount = this.collection.length;
 
             if (playlistCount > 0) {
-                var playlistHeight = this.ui.playlists.find('li').height();
+                var playlistHeight = this.ui.childContainer.find('li').height();
                 var maxPlaylistsWithoutOverflow = currentHeight / playlistHeight;
 
                 isOverflowing = playlistCount > maxPlaylistsWithoutOverflow;
@@ -182,26 +178,26 @@
 
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
             if (!isOverflowing) {
-                this.ui.playlists.css('overflow-y', 'hidden');
+                this.ui.childContainer.css('overflow-y', 'hidden');
             }
 
             //  Need to set height here because transition doesn't work if height is auto through CSS.
-            var currentHeight = this.ui.playlists.height();
-            var heightStyle = $.trim(this.ui.playlists[0].style.height);
+            var currentHeight = this.ui.childContainer.height();
+            var heightStyle = $.trim(this.ui.childContainer[0].style.height);
             if (heightStyle === '' || heightStyle === 'auto') {
-                this.ui.playlists.height(currentHeight);
+                this.ui.childContainer.height(currentHeight);
             }
 
-            this.ui.playlists.data('oldheight', currentHeight);
+            this.ui.childContainer.data('oldheight', currentHeight);
 
-            this.ui.playlists.transitionStop().transition({
+            this.ui.childContainer.transitionStop().transition({
                 height: 0,
                 opacity: 0
             }, 200, function () {
-                this.ui.playlists.hide();
+                this.ui.childContainer.hide();
 
                 if (!isOverflowing) {
-                    this.ui.playlists.css('overflow-y', 'auto');
+                    this.ui.childContainer.css('overflow-y', 'auto');
                 }
             }.bind(this));
         },
@@ -211,15 +207,15 @@
 
             //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
             if (!isOverflowing) {
-                this.ui.playlists.css('overflow-y', 'hidden');
+                this.ui.childContainer.css('overflow-y', 'hidden');
             }
 
-            this.ui.playlists.show().transitionStop().transition({
-                height: this.ui.playlists.data('oldheight'),
+            this.ui.childContainer.show().transitionStop().transition({
+                height: this.ui.childContainer.data('oldheight'),
                 opacity: 1
             }, 200, function() {
                 if (!isOverflowing) {
-                    this.ui.playlists.css('overflow-y', 'auto');
+                    this.ui.childContainer.css('overflow-y', 'auto');
                 }
                 onComplete();
             }.bind(this));

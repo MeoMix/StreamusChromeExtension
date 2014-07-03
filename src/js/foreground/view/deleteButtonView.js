@@ -23,6 +23,7 @@
             }
         },
         
+        //  TODO: onBeforeDestroy fires too late because the parent element has already been removed. Ask Marionette team about this.
         doDelete: function () {
             //  qTip will hang around when the view is removed because it can't find the element to remove itself.
             //  TODO: Marionette v2.0 should have an 'onBeforeDestroy' even which could be useful here. Not entirely sure yet.

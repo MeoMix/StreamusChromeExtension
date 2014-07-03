@@ -71,9 +71,7 @@
                     this._scrollToItem(this.view.collection.getActiveItem());
                 }
             }
-        },
-
-        onFullyVisible: function () {
+            
             var self = this;
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
@@ -89,10 +87,8 @@
             this.minRenderIndex = this._getMinRenderIndex(0);
             this.maxRenderIndex = this._getMaxRenderIndex(0);
             
-            //  IMPORTANT: Stub out the view's implementation of addItemView with the slidingRender version.
-            this.view.addItemView = this._addItemView.bind(this);
-            //  Since slidingRender appends before/after depending on scrollDirection it is important to use the indexed version of appendHtml.
-            this.view.appendHtml = this._appendHtml;
+            //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
+            this.view.addChild = this._addChild.bind(this);
         },
 
         onRender: function () {
@@ -143,10 +139,10 @@
 
             if (this.view.collection.length > index) {
                 var item = this.view.collection.at(index);
-                var ItemView = this.view.getItemView(item);
+                var ChildView = this.view.getChildView(item);
 
                 //  Adjust the childView's index to account for where it is actually being added in the list
-                this._addItemView(item, ItemView, index);
+                this._addChild(item, ChildView, index);
                 rendered = true;
             }
 
@@ -226,7 +222,7 @@
 
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
         _setPaddingTop: function () {
-            this.view.ui.itemContainer.css('padding-top', this._getPaddingTop());
+            this.view.ui.childContainer.css('padding-top', this._getPaddingTop());
         },
 
         _getPaddingTop: function () {
@@ -245,29 +241,23 @@
                 height = this.viewportHeight;
             }
 
-            this.view.ui.itemContainer.height(height);
+            this.view.ui.childContainer.height(height);
         },
 
         _addItems: function (models, indexOffset, isAddingToEnd) {
-            //  Leverage Marionette's style of rendering for performance.
-            this.view.initRenderBuffer();
-            this.view.startBuffering();
-
-            var ItemView;
+            var ChildView;
             _.each(models, function (model, index) {
-                ItemView = this.view.getItemView(model);
+                ChildView = this.view.getChildView(model);
 
                 if (isAddingToEnd) {
                     //  Adjust the childView's index to account for where it is actually being added in the list
-                    this._addItemView(model, ItemView, index + indexOffset);
+                    this._addChild(model, ChildView, index + indexOffset);
                 } else {
                     //  Adjust the childView's index to account for where it is actually being added in the list, but
                     //  also provide the unmodified index because this is the location in the rendered childViewList in which it will be added.
-                    this._addItemView(model, ItemView, index, index + indexOffset);
+                    this._addChild(model, ChildView, index, index + indexOffset);
                 }
             }, this);
-
-            this.view.endBuffering();
         },
         
         //  Remove N items from the end of the render item list.
@@ -287,7 +277,7 @@
             }, this);
         },
         
-        _addItemView: function (item, ItemView, index, indexOverride) {
+        _addChild: function (item, ChildView, index, indexOverride) {
             //  indexOverride is necessary because the 'actual' index of an item is different from its rendered position's index.
             var shouldAdd;
             if (_.isUndefined(indexOverride)) {
@@ -297,17 +287,7 @@
             }
 
             if (shouldAdd) {
-                Backbone.Marionette.CompositeView.prototype.addItemView.apply(this.view, arguments);
-            }
-        },
-        
-        _appendHtml: function (collectionView, childView, index) {
-            var childrenContainer = collectionView.childViewContainer ? collectionView.$(collectionView.childViewContainer) : collectionView.$el;
-            var children = childrenContainer.children();
-            if (children.size() <= index) {
-                childrenContainer.append(childView.el);
-            } else {
-                children.eq(index).before(childView.el);
+                Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
         },
 

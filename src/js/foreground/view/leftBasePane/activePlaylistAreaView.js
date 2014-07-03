@@ -12,7 +12,7 @@
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
         childView: PlaylistItemView,
-        childViewContainer: '#active-playlist-items',
+        childViewContainer: '@ui.childContainer',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {
@@ -30,7 +30,7 @@
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
             bottomMenubar: '.left-bottom-menubar',
-            itemContainer: '#active-playlist-items',
+            childContainer: '#active-playlist-items',
             bigTextWrapper: '.big-text-wrapper',
             playAll: '.play-all',
             addAll: '.add-all'

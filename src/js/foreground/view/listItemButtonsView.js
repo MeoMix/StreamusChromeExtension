@@ -24,7 +24,7 @@
         
         onClose: function() {
             _.each(this.shownButtonViews, function (shownButtonView) {
-                shownButtonView.close();
+                shownButtonView.destroy();
             });
             this.shownButtonViews.length = 0;
         }

@@ -52,11 +52,12 @@
             this.model.get('view').triggerMethod('show');
         },
         
-        close: function () {
+        //  TODO: I don't like intercepting destroy like this.
+        destroy: function () {
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
-                Backbone.Marionette.ItemView.prototype.close.apply(this, arguments);
+                Backbone.Marionette.ItemView.prototype.destroy.apply(this, arguments);
             }.bind(this));
 
             this.ui.panel.transition({

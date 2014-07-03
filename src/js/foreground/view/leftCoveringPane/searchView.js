@@ -16,7 +16,7 @@
         id: 'search',
         className: 'left-pane',
         template: _.template(SearchTemplate),
-        childViewContainer: '#search-results',
+        childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
         
         ui: {
@@ -26,7 +26,7 @@
             instructions: '.instructions',
             noResultsMessage: '.no-results',
             bigTextWrapper: '.big-text-wrapper',
-            itemContainer: '#search-results',
+            childContainer: '#search-results',
             saveSelectedButton: '#save-selected',
             hideSearchButton: '#hide-search',
             playSelectedButton: '#play-selected',
@@ -36,7 +36,7 @@
         events: {
             'input @ui.searchInput': 'search',
             'click @ui.hideSearchButton': 'hide',
-            'contextmenu @ui.itemContainer': 'showContextMenu',
+            'contextmenu @ui.childContainer': 'showContextMenu',
             'click @ui.playSelectedButton': 'playSelected',
             'click @ui.addSelectedButton': 'addSelected',
             'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
@@ -113,7 +113,7 @@
         },
 
         //  This is ran whenever the user closes the search view, but the foreground remains open.
-        onClose: function () {
+        onDestroy: function () {
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
         },

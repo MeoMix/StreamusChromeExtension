@@ -145,10 +145,6 @@
             //  Don't want to persist selections after restarts -- doesn't really make sense to.
             this.deselectAllExcept();
 
-            console.log(this.map(function(item) {
-                return item.get('song').get('id');
-            }));
-
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
