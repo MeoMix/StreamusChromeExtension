@@ -107,9 +107,7 @@
 
             this.$el.transition({
                 x: this.$el.width()
-            }, transitionDuration, 'snap', function() {
-                this.triggerMethod('FullyVisible');
-            }.bind(this));
+            }, transitionDuration, 'snap');
         },
 
         //  This is ran whenever the user closes the search view, but the foreground remains open.

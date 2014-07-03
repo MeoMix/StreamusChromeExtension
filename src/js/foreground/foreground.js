@@ -97,13 +97,8 @@
 
             //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
             $(window).unload(function () {
-                chrome.extension.getBackgroundPage().window.console.log('Foreground is beginning to destroy.');
                 this.destroy();
-                
-                chrome.extension.getBackgroundPage().window.console.log('Deselecting collections.');
                 this.deselectCollections();
-
-                chrome.extension.getBackgroundPage().window.console.log('Foreground has destroyed completely');
             }.bind(this));
         },
         

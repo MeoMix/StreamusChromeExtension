@@ -104,12 +104,10 @@
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
-            
+
             this.ui.panel.transition({
                 x: this.ui.panel.width()
-            }, 300, 'snap', function () {
-                this.triggerMethod('FullyVisible');
-            }.bind(this));
+            }, 300, 'snap');
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.

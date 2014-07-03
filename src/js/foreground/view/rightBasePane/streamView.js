@@ -83,10 +83,6 @@
             }
         },
         
-        onShow: function () {
-            this.triggerMethod('FullyVisible');
-        },
-        
         onRender: function () {
             this.toggleBigText();
             this.toggleContextButtons();

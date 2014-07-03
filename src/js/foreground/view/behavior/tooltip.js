@@ -6,13 +6,6 @@ define(function () {
     'use strict';
 
     var Tooltip = Backbone.Marionette.Behavior.extend({
-        //  Mutation observers are used to track changes to text-tooltipable elements. If the text
-        //  is modified then its overflowing state needs to be re-evaluated. 
-        titleMutationObservers: [],
-        //  Views which have transition effects for being made visible need to rely on an event past onShow
-        //  Otherwise, offsetWidth and scrollWidth will return incorrect values.
-        fullyVisible: false,
-
         ui: {
             //  Children which need tooltips are decorated with the tooltipable class.
             tooltipable: '.tooltipable',
@@ -20,36 +13,16 @@ define(function () {
             textTooltipable: '.text-tooltipable'
         },
         
+        initialize: function () {
+            //  Give Tooltip an array property of titleMutationObservers: https://github.com/jashkenas/backbone/issues/1442
+            //  Mutation observers are used to track changes to text-tooltipable elements. If the text
+            //  is modified then its overflowing state needs to be re-evaluated. 
+            _.extend(this, {
+                 titleMutationObservers: []
+            });
+        },
+        
         onShow: function () {
-            console.log("onShow is firing", this.view.el.id);
-            this._setTooltips();
-        },
-        
-        onFullyVisible: function () {
-            console.log("onFullyVisible is firing", this.view.el.id);
-            this.fullyVisible = true;
-            this._setTooltips();
-
-            if (this.view.children) {
-                //  If children are already part of a collection which wasn't fully visible during onShow -- they need to be told to update tooltips.
-                this.view.children.each(function (childView) {
-                    childView.triggerMethod('AddedToFullyVisibleCollectionView');
-                });
-            }
-        },
-        
-        onAfterItemAdded: function (childView) {
-            console.log("onAfterItemAdded is firing", this.view.el.id);
-            if (this.fullyVisible) {
-                //  Trigger the child because I do not want the parent responsible for decoration.
-                //  It gets too hard to properly clean-up during onDestroy. So children implement the behavior and clean-up themselves.
-                childView.triggerMethod('AddedToFullyVisibleCollectionView');
-            }
-        },
-
-        //  Child-view event corresponding to onAfterItemAdded but only ran after the collection has been made fully visible
-        //  i.e. transition effects have completed
-        onAddedToFullyVisibleCollectionView: function () {
             this._setTooltips();
         },
         
@@ -96,14 +69,14 @@ define(function () {
             var titleMutationObserver = new window.MutationObserver(function (mutations) {
                 mutations.forEach(function (mutation) {
                     var attributeName = mutation.attributeName;
-                    
+
                     //  Once qtip has been applied to the element -- oldtitle will mutate instead of title
                     if (attributeName === 'title' || attributeName === 'oldtitle') {
                         this._setTitleTooltip(element);
                     }
                 }.bind(this));
             }.bind(this));
-            
+
             titleMutationObserver.observe(element[0], {
                 attributes: true,
                 subtree: false
