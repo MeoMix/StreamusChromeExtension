@@ -240,6 +240,7 @@ $(function () {
 		    
 		    if (state.signedIn) {
 		        injectAddPlaylistContent(sharePanel);
+		        getPlaylistsAndSetSelectOptions();
 		    } else {
 		        injectSignIn(sharePanel);
 		    }
