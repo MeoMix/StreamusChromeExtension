@@ -8,9 +8,15 @@
     var ContextMenuRegion = Backbone.Marionette.Region.extend({
         el: '#context-menu-region',
         
-        //  TODO: How can I pass these values in from Foreground?
-        containerHeight: $('body').height(),
-        containerWidth: $('body').width(),
+        containerHeight: 0,
+        containerWidth: 0,
+        
+        initialize: function (options) {
+            this.containerHeight = options && options.containerHeight ? options.containerHeight : this.containerHeight;
+            this.containerWidth = options && options.containerWidth ? options.containerWidth : this.containerWidth;
+
+            if (this.containerHeight <= 0 || this.containerWidth <= 0) throw new Error('ContextMenuRegion expects containerHeight and containerWidth to be set');
+        },
         
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.

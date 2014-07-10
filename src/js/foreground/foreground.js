@@ -28,7 +28,8 @@
 
         regions: {
             promptRegion: PromptRegion,
-            contextMenuRegion: ContextMenuRegion,
+            //  Depends on the view, set during initialize.
+            //contextMenuRegion: null,
             leftBasePaneRegion: LeftBasePaneRegion,
             leftCoveringPaneRegion: LeftCoveringPaneRegion,
             rightBasePaneRegion: RightBasePaneRegion
@@ -37,6 +38,7 @@
         initialize: function () {
             this.checkPlayerReady();
             this.promptRegion.promptIfUpdateAvailable();
+            this.setContextMenuRegion();
 
             this.listenTo(Settings, 'change:showTooltips', this.setHideTooltipsClass);
             this.setHideTooltipsClass();
@@ -52,6 +54,13 @@
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
+        },
+        
+        setContextMenuRegion: function () {
+            this.contextMenuRegion = new ContextMenuRegion({
+                containerHeight: this.$el.height(),
+                containerWidth: this.$el.width()
+            });
         },
 
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, fire events to deselect multi-select items.
