@@ -1,27 +1,14 @@
 ﻿define([
     'common/enum/playerState',
-    'common/enum/youTubePlayerError',
-    'foreground/collection/contextMenuItems',
-    'foreground/model/contextMenu',
-    'foreground/model/playlistsArea',
-    'foreground/model/notification',
-    'foreground/model/search',
-    'foreground/view/contextMenuView',
-    'foreground/view/notificationView',
-    'foreground/view/leftBasePane/leftBasePaneView',
-    'foreground/view/leftCoveringPane/playlistsAreaView',
-    'foreground/view/leftCoveringPane/searchView',
-    'foreground/view/prompt/noPlayEmbeddedPromptView',
-    'foreground/view/prompt/notificationPromptView',
-    'foreground/view/prompt/reloadStreamusPromptView',
-    'foreground/view/prompt/updateStreamusPromptView',
-    'foreground/view/rightBasePane/rightBasePaneView'
-], function (PlayerState, YouTubePlayerError, ContextMenuItems, ContextMenu, PlaylistsArea, Notification, Search, ContextMenuView, NotificationView, LeftBasePaneView, PlaylistsAreaView, SearchView, NoPlayEmbeddedPromptView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView, RightBasePaneView) {
+    'foreground/view/contextMenuRegion',
+    'foreground/view/leftBasePane/leftBasePaneRegion',
+    'foreground/view/leftCoveringPane/leftCoveringPaneRegion',
+    'foreground/view/prompt/promptRegion',
+    'foreground/view/rightBasePane/rightBasePaneRegion'
+], function (PlayerState, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, PromptRegion, RightBasePaneRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
@@ -31,37 +18,31 @@
 
         events: {
             'click': function (event) {
-                this.tryResetContextMenu(event);
-                this.onClickDeselectCollections(event);
+                this.contextMenuRegion.handleClickEvent(event);
+                this.notifyMultiSelectCollections(event);
             },
-            'contextmenu': 'tryResetContextMenu'
+            'contextmenu': function(event) {
+                this.contextMenuRegion.handleClickEvent(event);
+            }
         },
 
         regions: {
-            promptRegion: '#prompt-region',
-            contextMenuRegion: "#context-menu-region",
-            leftBasePaneRegion: '#left-base-pane-region',
-            leftCoveringPaneRegion: '#left-covering-pane-region',
-            rightBasePaneRegion: '#right-base-pane-region'
+            promptRegion: PromptRegion,
+            contextMenuRegion: ContextMenuRegion,
+            leftBasePaneRegion: LeftBasePaneRegion,
+            leftCoveringPaneRegion: LeftCoveringPaneRegion,
+            rightBasePaneRegion: RightBasePaneRegion
         },
-
-        showReloadPromptTimeout: null,
 
         initialize: function () {
             this.checkPlayerReady();
-            this.promptIfUpdateAvailable();
-            this.showCoreInterface();
+            this.promptRegion.promptIfUpdateAvailable();
 
             this.listenTo(Settings, 'change:showTooltips', this.setHideTooltipsClass);
             this.setHideTooltipsClass();
 
-            this.listenTo(Player, 'error', this.showYouTubeError);
             this.listenTo(Player, 'change:state', this.setPlayerStateClass);
             this.setPlayerStateClass();
-
-            this.listenTo(window.Application.vent, 'showSearch', this.showSearch);
-            this.listenTo(window.Application.vent, 'showPlaylistsArea', this.showPlaylistsArea);
-            this.listenTo(window.Application.vent, 'showPrompt', this.showPrompt);
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
@@ -73,28 +54,8 @@
             $(window).unload(this.destroy.bind(this));
         },
 
-        showCoreInterface: function() {
-            this.rightBasePaneRegion.show(new RightBasePaneView({
-                model: Player
-            }));
-
-            this.leftBasePaneRegion.show(new LeftBasePaneView());
-
-            if (Settings.get('alwaysOpenToSearch')) {
-                this.showSearch(false);
-            }
-        },
-        
-        showPrompt: function (view) {
-            this.listenToOnce(view, 'hide', function () {
-                this.promptRegion.empty();
-            });
-
-            this.promptRegion.show(view);
-        },
-
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, fire events to deselect multi-select items.
-        onClickDeselectCollections: function (event) {
+        notifyMultiSelectCollections: function (event) {
             var clickedItem = $(event.target).closest('.multi-select-item');
             var isMultiSelectItem = clickedItem.length > 0;
             
@@ -110,93 +71,6 @@
                 window.Application.vent.trigger('clickedNonSearchResult');
             }
         },
-
-        showPlaylistsArea: function () {
-            //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
-                var playlistsArea = new PlaylistsArea();
-
-                //  Show the view using SearchResults collection in which to render its results from.
-                this.leftCoveringPaneRegion.show(new PlaylistsAreaView({
-                    model: playlistsArea,
-                    collection: Playlists
-                }));
-
-                //  TODO: Why is this necessary?
-                //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
-                this.listenToOnce(playlistsArea, 'destroy', function () {
-                    this.leftCoveringPaneRegion.empty();
-                });
-            }
-        },
-
-        showSearch: function (doSnapAnimation) {
-            //  Defend against spam clicking by checking to make sure we're not instantiating currently
-            if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
-                //  Create model for the view and indicate whether view should appear immediately or display snap animation.
-                var search = new Search({
-                    playlist: Playlists.getActivePlaylist(),
-                    doSnapAnimation: doSnapAnimation
-                });
-
-                //  Show the view using SearchResults collection in which to render its results from.
-                this.leftCoveringPaneRegion.show(new SearchView({
-                    collection: SearchResults,
-                    model: search
-                }));
-
-                //  TODO: Why is this necessary?
-                //  When the user has clicked 'close search' button the view will slide out and destroy its model. Cleanup events.
-                this.listenToOnce(search, 'destroy', function () {
-                    this.leftCoveringPaneRegion.empty();
-                });
-            } else {
-                this.leftCoveringPaneRegion.currentView.shake();
-            }
-        },
-
-        //  Whenever the YouTube API throws an error in the background, communicate
-        //  that information to the user in the foreground via prompt.
-        showYouTubeError: function (youTubeError) {
-            if (youTubeError === YouTubePlayerError.NoPlayEmbedded || youTubeError === YouTubePlayerError.NoPlayEmbedded2) {
-                this.showPrompt(new NoPlayEmbeddedPromptView());
-            } else {
-                var text = chrome.i18n.getMessage('errorEncountered');
-
-                switch (youTubeError) {
-                    case YouTubePlayerError.InvalidParameter:
-                        text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
-                        break;
-                    case YouTubePlayerError.VideoNotFound:
-                        text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
-                        break;
-                }
-
-                this.showPrompt(new NotificationPromptView({
-                    text: text
-                }));
-            }
-        },
-
-        //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
-        //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
-        tryResetContextMenu: function (event) {
-            if (event.isDefaultPrevented()) {
-                this.contextMenuRegion.show(new ContextMenuView({
-                    collection: ContextMenuItems,
-                    model: new ContextMenu({
-                        top: event.pageY,
-                        //  Show the element just slightly offset as to not break onHover effects.
-                        left: event.pageX + 1
-                    }),
-                    containerHeight: this.$el.height(),
-                    containerWidth: this.$el.width()
-                }));
-            } else {
-                ContextMenuItems.reset();
-                this.contextMenuRegion.empty();
-            }
-        },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
         setPlayerStateClass: function () {
@@ -209,27 +83,6 @@
             this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
         },
         
-        hideReloadStreamusPrompt: function() {
-            //  Ensure that the PromptRegion is currently displaying the ReloadStreamusPrompt. If so, hide it!
-            if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                this.promptRegion.empty();
-            }
-        },
-        
-        //  Display a prompt to the user indicating that they should restart Streamus because an update has been downloaded.
-        showUpdateStreamusPrompt: function() {
-            this.showPrompt(new UpdateStreamusPromptView());
-        },
-        
-        //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
-        //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
-        promptIfUpdateAvailable: function () {
-            chrome.runtime.onUpdateAvailable.addListener(this.showUpdateStreamusPrompt.bind(this));
-            
-            //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
-            chrome.runtime.requestUpdateCheck(function (){});
-        },
-        
         //  Check if the YouTube player is loaded. If it isn't, place the UI into a loading state.
         checkPlayerReady: function() {
             if (!Player.get('ready')) {
@@ -240,24 +93,14 @@
         //  Give the program a few seconds before prompting the user to try restarting Streamus.
         startLoading: function() {
             this.$el.addClass('loading');
-            this.startShowReloadPromptTimer();
-
+            this.promptRegion.startShowReloadPromptTimer();
             this.listenToOnce(Player, 'change:ready', this.stopLoading);
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         stopLoading: function() {
             this.$el.removeClass('loading');
-            clearTimeout(this.showReloadPromptTimeout);
-            this.hideReloadStreamusPrompt();
-        },
-
-        //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
-        //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
-        startShowReloadPromptTimer: function () {
-            this.showReloadPromptTimeout = setTimeout(function () {
-                this.showPrompt(new ReloadStreamusPromptView());
-            }.bind(this), 5000);
+            this.promptRegion.hideReloadStreamusPrompt();
         }
     });
 
