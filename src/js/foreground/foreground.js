@@ -111,8 +111,7 @@
             }
         },
 
-        //  Slides in PlaylistsAreaView from the left side.
-        showPlaylistsArea: _.throttle(function () {
+        showPlaylistsArea: function () {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
                 var playlistsArea = new PlaylistsArea();
@@ -123,15 +122,15 @@
                     collection: Playlists
                 }));
 
+                //  TODO: Why is this necessary?
                 //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(playlistsArea, 'destroy', function () {
                     this.leftCoveringPaneRegion.empty();
                 });
             }
-        }, 400),
+        },
 
-        //  Slide in SearchView from the left hand side.
-        showSearch: _.throttle(function (doSnapAnimation) {
+        showSearch: function (doSnapAnimation) {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
             if (_.isUndefined(this.leftCoveringPaneRegion.currentView)) {
                 //  Create model for the view and indicate whether view should appear immediately or display snap animation.
@@ -146,18 +145,15 @@
                     model: search
                 }));
 
+                //  TODO: Why is this necessary?
                 //  When the user has clicked 'close search' button the view will slide out and destroy its model. Cleanup events.
                 this.listenToOnce(search, 'destroy', function () {
                     this.leftCoveringPaneRegion.empty();
                 });
             } else {
-                //  Highlight the fact that is already visible by shaking it.
-                this.leftCoveringPaneRegion.currentView.$el.effect('shake', {
-                    distance: 3,
-                    times: 3
-                });
+                this.leftCoveringPaneRegion.currentView.shake();
             }
-        }, 400),
+        },
 
         //  Whenever the YouTube API throws an error in the background, communicate
         //  that information to the user in the foreground via prompt.
@@ -208,6 +204,7 @@
             this.$el.toggleClass('playing', playerState === PlayerState.Playing);
         },
         
+        //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
         setHideTooltipsClass: function () {
             this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
         },

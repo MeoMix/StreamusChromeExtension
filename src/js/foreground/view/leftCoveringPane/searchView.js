@@ -212,9 +212,13 @@
         },
         
         //  Shake the view to bring attention to the fact that the view is already visible.
-        shake: function() {
-            this.$el.effect('shake');
-        },
+        //  Throttled so that the animations can't stack up if shake is spammed.
+        shake: _.throttle(function() {
+            this.$el.effect('shake', {
+                distance: 3,
+                times: 3
+            });
+        }, 500),
         
         //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
         _getViewportHeight: function () {
