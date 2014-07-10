@@ -88,6 +88,8 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+            
+            this.listenTo(window.Application.vent, 'clickedNonStreamItem', this.deselectCollection);
         },
         
         onRender: function () {
@@ -101,6 +103,10 @@
         
         onDestroy: function () {
             //  Forget selected items when the view is destroyed.
+            this.deselectCollection();
+        },
+        
+        deselectCollection: function () {
             this.collection.deselectAll();
         },
         

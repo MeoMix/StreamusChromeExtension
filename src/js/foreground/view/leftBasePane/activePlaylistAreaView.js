@@ -69,6 +69,10 @@
                 }
             };
         },
+        
+        initialize: function () {
+            this.listenTo(window.Application.vent, 'clickedNonPlaylistItem', this.deselectCollection);
+        },
 
         onRender: function () {            
             this.toggleBigText();
@@ -77,6 +81,10 @@
         
         onDestroy: function () {
             //  Forget selected items when the view is destroyed.
+            this.deselectCollection();
+        },
+        
+        deselectCollection: function () {
             this.collection.deselectAll();
         },
         

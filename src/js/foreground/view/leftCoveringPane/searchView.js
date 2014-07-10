@@ -85,15 +85,16 @@
                 }
             };
         },
+        
+        initialize: function () {
+            this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
+            this.listenTo(window.Application.vent, 'clickedNonSearchResult', this.deselectCollection);
+        },
  
         onRender: function () {
             this.toggleBigText();
             this.toggleBottomMenubar();
             this.toggleSaveSelected();
-        },
-        
-        initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
         },
         
         onShow: function () {
@@ -110,11 +111,17 @@
             }, transitionDuration, 'snap');
         },
 
-        //  This is ran whenever the user closes the search view, but the foreground remains open.
         onDestroy: function () {
-            this.collection.deselectAll();
+            //  Forget selected items when the view is destroyed.
+            this.deselectCollection();
+            
+            //  Remember search results for a bit just in case they close/re-open quickly, no need to re-search.
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
+        },
+        
+        deselectCollection: function() {
+            this.collection.deselectAll();
         },
         
         hide: function () {
@@ -123,6 +130,7 @@
                 //  Transition -20px off the screen to account for the shadow on the view.
                 x: -20
             }, function () {
+                console.log("model is now being destroyed");
                 this.model.destroy();
             }.bind(this));
         },

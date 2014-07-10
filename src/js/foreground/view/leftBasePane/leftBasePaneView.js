@@ -11,7 +11,6 @@
     var User = chrome.extension.getBackgroundPage().User;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
-        
         id: 'left-base-pane',
         className: 'left-pane',
         template: _.template(LeftBasePaneTemplate),
@@ -49,10 +48,6 @@
             }
         },
         
-        onShow: function () {
-            this.updateRegions();
-        },
-        
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.updateRegions);
             this.listenTo(Playlists, 'change:active', function (playlist, active) {
@@ -61,6 +56,10 @@
                     this.updateRegions();
                 }
             });
+        },
+        
+        onShow: function () {
+            this.updateRegions();
         },
         
         updateRegions: function () {

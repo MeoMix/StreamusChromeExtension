@@ -22,7 +22,6 @@
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
@@ -86,10 +85,6 @@
             }
         },
         
-        setHideTooltipsClass: function() {
-            this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
-        },
-        
         showPrompt: function (view) {
             this.listenToOnce(view, 'hide', function () {
                 this.promptRegion.empty();
@@ -98,45 +93,24 @@
             this.promptRegion.show(view);
         },
 
-        //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
+        //  Whenever the user clicks on any part of the UI that isn't a multi-select item, fire events to deselect multi-select items.
         onClickDeselectCollections: function (event) {
             var clickedItem = $(event.target).closest('.multi-select-item');
             var isMultiSelectItem = clickedItem.length > 0;
-
-            if (isMultiSelectItem) {
-                //  When clicking inside of a given multi-select, other multi-selects should be de-selected.
-                //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
-                if (clickedItem.hasClass('playlist-item')) {
-                    SearchResults.deselectAll();
-                    StreamItems.deselectAll();
-                }
-
-                if (clickedItem.hasClass('stream-item')) {
-                    SearchResults.deselectAll();
-
-                    //  There's only an active playlist once the user has signed in.
-                    if (User.get('signedIn')) {
-                        Playlists.getActivePlaylist().get('items').deselectAll();
-                    }
-                }
-
-                if (clickedItem.hasClass('search-result')) {
-                    StreamItems.deselectAll();
-
-                    if (User.get('signedIn')) {
-                        Playlists.getActivePlaylist().get('items').deselectAll();
-                    }
-                }
-            } else {
-                if (User.get('signedIn')) {
-                    Playlists.getActivePlaylist().get('items').deselectAll();
-                }
-
-                SearchResults.deselectAll();
-                StreamItems.deselectAll();
+            
+            if (!isMultiSelectItem || !clickedItem.hasClass('playlist-item')) {
+                window.Application.vent.trigger('clickedNonPlaylistItem');
+            }
+            
+            if (!isMultiSelectItem || !clickedItem.hasClass('stream-item')) {
+                window.Application.vent.trigger('clickedNonStreamItem');
+            }
+            
+            if (!isMultiSelectItem || !clickedItem.hasClass('search-result')) {
+                window.Application.vent.trigger('clickedNonSearchResult');
             }
         },
-        
+
         //  Slides in PlaylistsAreaView from the left side.
         showPlaylistsArea: _.throttle(function () {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
@@ -232,6 +206,10 @@
         setPlayerStateClass: function () {
             var playerState = Player.get('state');
             this.$el.toggleClass('playing', playerState === PlayerState.Playing);
+        },
+        
+        setHideTooltipsClass: function () {
+            this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
         },
         
         hideReloadStreamusPrompt: function() {

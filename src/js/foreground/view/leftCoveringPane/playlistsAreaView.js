@@ -64,8 +64,6 @@
         initialize: function () {
             //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
             this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
-            
-
         },
 
         onRender: function () {
