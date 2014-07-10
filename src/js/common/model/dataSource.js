@@ -21,7 +21,7 @@
         //  need to fetch the Channel's Uploads playlist first.
         parseUrl: function (options) {
             var url = this.get('url');
-            if (url === '') throw "URL expected to be set";
+            if (url === '') throw new Error('URL expected to be set');
             
             var dataSourceId;
 

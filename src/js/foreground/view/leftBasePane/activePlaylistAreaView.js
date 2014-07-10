@@ -75,6 +75,11 @@
             this.toggleBottomMenubar();
         },
         
+        onDestroy: function () {
+            //  Forget selected items when the view is destroyed.
+            this.collection.deselectAll();
+        },
+        
         updatePlaylistDetails: function () {
             var displayInfo = this.model.get('displayInfo');
             this.ui.playlistDetails.text(displayInfo);

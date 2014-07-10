@@ -24,6 +24,7 @@
         toggleEnabled: function () {
             var enabled = false;
             
+            //  TODO: Make this call a getNext() to keep parity with previousButton
             if (StreamItems.length > 0) {
                 var radioEnabled = RadioButton.get('enabled');
                 var shuffleEnabled = ShuffleButton.get('enabled');

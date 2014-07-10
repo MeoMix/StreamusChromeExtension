@@ -49,7 +49,7 @@
                             copyHelperView = new SearchResultView(viewOptions);
                             break;
                         default:
-                            throw 'Unhandled ListItemType: ' + listItemType;
+                            throw new Error('Unhandled ListItemType: ' + listItemType);
                     }
 
                     this.copyHelperView = copyHelperView;

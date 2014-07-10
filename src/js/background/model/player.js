@@ -133,18 +133,10 @@ define([
                     }
                 });
 
-                //  Call this once to get the appropriate http or https. Can't do this all in one call due to a bug in YouTube's API:https://code.google.com/p/gdata-issues/issues/detail?id=5670&q=onReady&colspec=API%20ID%20Type%20Status%20Priority%20Stars%20Summary
-                //new window.YT.Player('dummyTarget');
-                //var isHttps = $('#dummyTarget').attr('src').indexOf('https') !== -1;
-                //$('#dummyTarget').remove();
-
-                //var url = isHttps ? 'https' : 'http';
-                //url += ;
                 $('#youtube-player').attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
             });
 
             youTubePlayerAPI.load();
-
         },
         
         //  Public method which is able to be called before the YouTube Player API is fully ready.
@@ -236,7 +228,6 @@ define([
         },
             
         play: function () {
-  
             if (!this.isPlaying()) {
                 this.set('state', PlayerState.Buffering);
                 youTubePlayer.playVideo();
@@ -257,7 +248,6 @@ define([
         },
 
         seekTo: _.debounce(function (timeInSeconds) {
-
             var state = this.get('state');
             
             if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
@@ -267,7 +257,6 @@ define([
                 //  The true paramater allows the youTubePlayer to seek ahead past what is buffered.
                 youTubePlayer.seekTo(timeInSeconds, true);
             }
-            
         }, 100),
         
         //  Attempt to set playback quality to suggestedQuality or highest possible.

@@ -958,7 +958,7 @@ define(function () {
                                 d = c.key(b++);
                                 if (a) return d;
                                 d = c.getItem(d);
-                                if (!n(d)) throw "Storage mechanism: Invalid value was encountered";
+                                if (!n(d)) throw new Error('Storage mechanism: Invalid value was encountered');
                                 return d
                             };
                             return d

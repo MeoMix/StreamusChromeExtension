@@ -16,7 +16,8 @@ define([
                 url: '',
                 clientVersion: clientVersion,
                 operatingSystem: '',
-                architecture: ''
+                architecture: '',
+                stack: ''
             };
         },
         
@@ -27,11 +28,20 @@ define([
             if (message && message.length > 255) {
                 this.set('message', message.substring(0, 252) + '...');
             }
+            
+            var stack = attributes.stack;
+            if (stack && stack.length > 2000) {
+                this.set('stack', stack.substring(0, 1997) + '...');
+            }
         },
         
         validate: function (attributes) {
             if (attributes.message.length > 255) {
                 return 'Message length must be no longer than 255 characters';
+            }
+            
+            if (attributes.stack.length > 2000) {
+                return 'Stack length must be no longer than 2000 characters';
             }
 
             return undefined;
@@ -49,18 +59,29 @@ define([
     });
     
     //  Send a log message whenever any client errors occur; for debugging purposes.
-    window.onerror = _.throttle(function (message, url, lineNumber) {
+    window.onerror = _.throttle(function (message, url, lineNumber, columnNumber, errorObject) {
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
         if (!Settings.get('localDebug')) {
             //  The first part of the URL is always the same and not very interesting. Drop it off.
             url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
-            
+
+            var stack = '';
+            if (!_.isUndefined(errorObject)) {
+                //  If just throw is called without creating an Error object then errorObject.stack will be undefined and just the text should be relied upon.
+                if (_.isUndefined(errorObject.stack)) {
+                    stack = errorObject;
+                } else {
+                    stack = errorObject.stack;
+                }
+            }
+
             var clientError = new ClientError({
                 message: message,
                 url: url,
                 lineNumber: lineNumber,
                 operatingSystem: platformInfo.os,
-                architecture: platformInfo.arch
+                architecture: platformInfo.arch,
+                stack: stack
             });
 
             clientError.save();

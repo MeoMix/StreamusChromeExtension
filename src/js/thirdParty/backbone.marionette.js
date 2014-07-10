@@ -2218,6 +2218,27 @@
             });
 
         },
+        
+        // Internal method. This checks for any changes in the order of the collection.
+        // If the index of any view doesn't match, it will render.
+        _sortViews: function () {
+            // check for any changes in sort order of views
+            var orderChanged = this.collection.find(function (item, index) {
+                var view = this.children.findByModel(item);
+                return view && view._index !== index;
+            }, this);
+
+            if (orderChanged) {
+                var childViewContainer = Marionette.getOption(this, 'childViewContainer');
+                
+                //  If a childViewContainer is defined then do not re-render the HTML surrounding the container.
+                if (_.isUndefined(childViewContainer)) {
+                    this.render();
+                } else {
+                    this._renderChildren();
+                }
+            }
+        },
 
         // Retrieve the `childView` to be used when rendering each of
         // the items in the collection. The default is to return

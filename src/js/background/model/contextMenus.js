@@ -23,10 +23,8 @@ define([
             
             chrome.contextMenus.create({
                 'contexts': ['selection'],
-                //  TODO: i18n
-                'title': 'Search for and Play \'%s\'',
+                'title': chrome.i18n.getMessage('searchForAndPlay') + ' \'%s\'',
                 'onclick': function (onClickData) {
-
                     this.getSongFromText(onClickData.selectionText, function (song) {
                         StreamItems.addSongs(song, {
                             playOnAdd: true
@@ -37,7 +35,6 @@ define([
         },
         
         createContextMenus: function (contexts, urlPattern, isTarget) {
-
             var contextMenuOptions = {
                 'contexts': contexts,
                 'targetUrlPatterns': isTarget ? urlPattern : undefined,
@@ -80,7 +77,6 @@ define([
                 });
 
             }
-
         },
         
         createSaveContextMenu: function(contextMenuOptions) {
@@ -101,7 +97,6 @@ define([
         
         //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
         createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
-
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': playlist.get('title'),
                 'parentId': playlistsContextMenuId,
@@ -124,7 +119,6 @@ define([
             this.listenTo(playlist, 'destroy', function () {
                 chrome.contextMenus.remove(playlistContextMenuId);
             });
-            
         },
         
         getSongFromText: function(text, callback) {
@@ -154,6 +148,7 @@ define([
                             callback(song);
                         },
                         error: function () {
+                            //  TODO: i18n
                             NotificationsManager.showNotification({
                                 title: 'Failed to find song',
                                 message: 'An issue was encountered while attempting to find song with URL: ' + url
@@ -163,7 +158,6 @@ define([
                 }
             });
         },
-
     });
 
     return new ContextMenu();

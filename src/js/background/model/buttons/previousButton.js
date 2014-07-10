@@ -1,7 +1,8 @@
 ﻿define([
     'background/collection/streamItems',
-    'background/model/player'
-], function (StreamItems, Player) {
+    'background/model/player',
+    'background/model/buttons/shuffleButton'
+], function (StreamItems, Player, ShuffleButton) {
     'use strict';
     
     var PreviousButton = Backbone.Model.extend({
@@ -12,6 +13,7 @@
         initialize: function () {
             this.listenTo(StreamItems, 'add remove reset change:active sort', this.toggleEnabled);
             this.listenTo(Player, 'change:currentTime', this.toggleEnabled);
+            this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);
 
             this.toggleEnabled();
         },
@@ -26,7 +28,6 @@
         
         //  Prevent spamming by only allowing a previous click once every 100ms.
         tryDoTimeBasedPrevious: _.debounce(function () {
-
             if (this.get('enabled')){
 
                 //  Restart when clicking 'previous' if too much time has passed
@@ -38,7 +39,6 @@
             }
 
             return this.get('enabled');
-
         }, 100, true)
     });
     

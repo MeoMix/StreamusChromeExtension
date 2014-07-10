@@ -426,5 +426,8 @@
 	},
 	"whyNotAddASongFromAPlaylistOr": {
 		"message": "Why not add a song from a playlist or"
+	},
+	"searchForAndPlay": {
+		"message": "Search for and Play"
 	}
 }

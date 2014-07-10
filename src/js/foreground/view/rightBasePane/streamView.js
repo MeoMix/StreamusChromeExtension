@@ -83,6 +83,13 @@
             }
         },
         
+        initialize: function () {
+            this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
+            this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
+            this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
+            this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+        },
+        
         onRender: function () {
             this.toggleBigText();
             this.toggleContextButtons();
@@ -92,11 +99,9 @@
             this.updateSaveStreamButton();
         },
         
-        initialize: function() {
-            this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
-            this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
-            this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
-            this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+        onDestroy: function () {
+            //  Forget selected items when the view is destroyed.
+            this.collection.deselectAll();
         },
         
         updateSaveStreamButton: function () {

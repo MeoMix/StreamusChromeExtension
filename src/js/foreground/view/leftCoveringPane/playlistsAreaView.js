@@ -60,7 +60,14 @@
                 behaviorClass: Tooltip
             }
         },
-        
+
+        initialize: function () {
+            //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
+            this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
+            
+
+        },
+
         onRender: function () {
             this.ui.childContainer.sortable({
                 axis: 'y',
@@ -92,11 +99,6 @@
 
             this.toggleContextButtons();
             this.setDeleteButtonState();
-        },
-
-        initialize: function () {
-            //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
-            this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
         },
         
         onShow: function () {

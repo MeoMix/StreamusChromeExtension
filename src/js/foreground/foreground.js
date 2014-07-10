@@ -31,7 +31,6 @@
         el: $('body'),
 
         events: {
-            //  TODO: is there no way to inline these event calls? Seems kinda silly to be so verbose.
             'click': function (event) {
                 this.tryResetContextMenu(event);
                 this.onClickDeselectCollections(event);
@@ -50,33 +49,9 @@
         showReloadPromptTimeout: null,
 
         initialize: function () {
-            //  Check if the YouTube player is loaded. If it isn't, give it a few seconds before allowing the user to restart.
-            if (!Player.get('ready')) {
-                this.$el.addClass('loading');
-                this.startShowReloadPromptTimer();
-
-                this.listenToOnce(Player, 'change:ready', function() {
-                    this.$el.removeClass('loading');
-                    clearTimeout(this.showReloadPromptTimeout);
-
-                    //  Make sure another prompt didn't open (which would've closed the reload prompt)
-                    if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                        this.promptRegion.empty();
-                    }
-                });
-            }
-
-            this._promptIfUpdateAvailable();
-
-            this.rightBasePaneRegion.show(new RightBasePaneView({
-                model: Player
-            }));
-           
-            this.leftBasePaneRegion.show(new LeftBasePaneView());
-
-            if (Settings.get('alwaysOpenToSearch')) {
-                this.showSearch(false);
-            }
+            this.checkPlayerReady();
+            this.promptIfUpdateAvailable();
+            this.showCoreInterface();
 
             this.listenTo(Settings, 'change:showTooltips', this.setHideTooltipsClass);
             this.setHideTooltipsClass();
@@ -95,82 +70,73 @@
                 User.signIn();
             }
 
-            //  Only bind to unload in one spot -- the foreground closes unstoppably and not all unload events will fire reliably.
-            $(window).unload(function () {
-                this.destroy();
-                this.deselectCollections();
-            }.bind(this));
+            //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
+            $(window).unload(this.destroy.bind(this));
+        },
+
+        showCoreInterface: function() {
+            this.rightBasePaneRegion.show(new RightBasePaneView({
+                model: Player
+            }));
+
+            this.leftBasePaneRegion.show(new LeftBasePaneView());
+
+            if (Settings.get('alwaysOpenToSearch')) {
+                this.showSearch(false);
+            }
         },
         
         setHideTooltipsClass: function() {
             this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
-        },
-
-        //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
-        //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
-        startShowReloadPromptTimer: function () {
-            this.showReloadPromptTimeout = setTimeout(function () {
-                this.showPrompt(new ReloadStreamusPromptView());
-            }.bind(this), 5000);
         },
         
         showPrompt: function (view) {
             this.listenToOnce(view, 'hide', function () {
                 this.promptRegion.empty();
             });
-            
+
             this.promptRegion.show(view);
         },
 
         //  Whenever the user clicks on any part of the UI that isn't a multi-select item, deselect the multi-select items.
         onClickDeselectCollections: function (event) {
-            var isMultiSelectItem = $(event.target).hasClass('multi-select-item');
+            var clickedItem = $(event.target).closest('.multi-select-item');
+            var isMultiSelectItem = clickedItem.length > 0;
 
-            //  Might've clicked inside of a multi-select item in which case you the de-select should not occur.
-            var parentMultiSelectItem = $(event.target).closest('.multi-select-item');
-            var isChildMultiSelectItem = parentMultiSelectItem.length > 0;
+            if (isMultiSelectItem) {
+                //  When clicking inside of a given multi-select, other multi-selects should be de-selected.
+                //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
+                if (clickedItem.hasClass('playlist-item')) {
+                    SearchResults.deselectAll();
+                    StreamItems.deselectAll();
+                }
 
-            if (!isMultiSelectItem && !isChildMultiSelectItem) {
-                this.deselectCollections();
-            }
+                if (clickedItem.hasClass('stream-item')) {
+                    SearchResults.deselectAll();
 
-            //  When clicking inside of a given multi-select, other multi-selects should be de-selected from.
-            //  TODO: This is WAAAY too manual. Not sure how to clean it up just yet.
-            var isPlaylistItem = $(event.target).hasClass('playlist-item') || parentMultiSelectItem.hasClass('playlist-item');
-            if (isPlaylistItem) {
-                SearchResults.deselectAll();
-                StreamItems.deselectAll();
-            }
-            
-            var isStreamItem = $(event.target).hasClass('stream-item') || parentMultiSelectItem.hasClass('stream-item');
-            if (isStreamItem) {
-                SearchResults.deselectAll();
-                
-                //  There's only an active playlist once the user has signed in.
+                    //  There's only an active playlist once the user has signed in.
+                    if (User.get('signedIn')) {
+                        Playlists.getActivePlaylist().get('items').deselectAll();
+                    }
+                }
+
+                if (clickedItem.hasClass('search-result')) {
+                    StreamItems.deselectAll();
+
+                    if (User.get('signedIn')) {
+                        Playlists.getActivePlaylist().get('items').deselectAll();
+                    }
+                }
+            } else {
                 if (User.get('signedIn')) {
                     Playlists.getActivePlaylist().get('items').deselectAll();
                 }
-            }
-            
-            var isSearchResult = $(event.target).hasClass('search-result') || parentMultiSelectItem.hasClass('search-result');
-            if (isSearchResult) {
+
+                SearchResults.deselectAll();
                 StreamItems.deselectAll();
-                
-                if (User.get('signedIn')) {
-                    Playlists.getActivePlaylist().get('items').deselectAll();
-                }
             }
         },
         
-        deselectCollections: function () {
-            if (User.get('signedIn')) {
-                Playlists.getActivePlaylist().get('items').deselectAll();
-            }
-
-            SearchResults.deselectAll();
-            StreamItems.deselectAll();
-        },
-
         //  Slides in PlaylistsAreaView from the left side.
         showPlaylistsArea: _.throttle(function () {
             //  Defend against spam clicking by checking to make sure we're not instantiating currently
@@ -222,7 +188,6 @@
         //  Whenever the YouTube API throws an error in the background, communicate
         //  that information to the user in the foreground via prompt.
         showYouTubeError: function (youTubeError) {
-            
             if (youTubeError === YouTubePlayerError.NoPlayEmbedded || youTubeError === YouTubePlayerError.NoPlayEmbedded2) {
                 this.showPrompt(new NoPlayEmbeddedPromptView());
             } else {
@@ -263,21 +228,61 @@
             }
         },
         
-        //  Keep the player state represented on the body so CSS can be modified to reflect state.
+        //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
         setPlayerStateClass: function () {
             var playerState = Player.get('state');
             this.$el.toggleClass('playing', playerState === PlayerState.Playing);
         },
         
+        hideReloadStreamusPrompt: function() {
+            //  Ensure that the PromptRegion is currently displaying the ReloadStreamusPrompt. If so, hide it!
+            if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
+                this.promptRegion.empty();
+            }
+        },
+        
+        //  Display a prompt to the user indicating that they should restart Streamus because an update has been downloaded.
+        showUpdateStreamusPrompt: function() {
+            this.showPrompt(new UpdateStreamusPromptView());
+        },
+        
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
-        _promptIfUpdateAvailable: function () {
-            chrome.runtime.onUpdateAvailable.addListener(function() {
-                this.showPrompt(new UpdateStreamusPromptView());
-            }.bind(this));
+        promptIfUpdateAvailable: function () {
+            chrome.runtime.onUpdateAvailable.addListener(this.showUpdateStreamusPrompt.bind(this));
             
             //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
             chrome.runtime.requestUpdateCheck(function (){});
+        },
+        
+        //  Check if the YouTube player is loaded. If it isn't, place the UI into a loading state.
+        checkPlayerReady: function() {
+            if (!Player.get('ready')) {
+                this.startLoading();
+            }
+        },
+
+        //  Give the program a few seconds before prompting the user to try restarting Streamus.
+        startLoading: function() {
+            this.$el.addClass('loading');
+            this.startShowReloadPromptTimer();
+
+            this.listenToOnce(Player, 'change:ready', this.stopLoading);
+        },
+        
+        //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
+        stopLoading: function() {
+            this.$el.removeClass('loading');
+            clearTimeout(this.showReloadPromptTimeout);
+            this.hideReloadStreamusPrompt();
+        },
+
+        //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
+        //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
+        startShowReloadPromptTimer: function () {
+            this.showReloadPromptTimeout = setTimeout(function () {
+                this.showPrompt(new ReloadStreamusPromptView());
+            }.bind(this), 5000);
         }
     });
 

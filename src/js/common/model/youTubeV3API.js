@@ -213,7 +213,7 @@
             else if (!_.isUndefined(options.forUsername)) {
                 ajaxDataOptions.forUsername = options.forUsername;
             } else {
-                throw "Expected id or forUsername";
+                throw new Error('Expected id or forUsername');
             }
 
             return this._doRequest(options.serviceType, {

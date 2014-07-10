@@ -24,7 +24,7 @@
             if (this.filter(function(item) {
                 return !item.isNew();
             }).length > 0) {
-                throw "Not Supported Yet";
+                throw new Error('Not Supported Yet');
             }
 
             var newItems = this.filter(function (item) {

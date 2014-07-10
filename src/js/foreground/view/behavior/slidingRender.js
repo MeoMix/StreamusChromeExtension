@@ -80,7 +80,7 @@
         },
 
         initialize: function (options) {
-            if (_.isUndefined(options) || _.isUndefined(options.viewportHeight)) throw "SlidingRender expects to be initialized with a viewportHeight";
+            if (_.isUndefined(options) || _.isUndefined(options.viewportHeight)) throw new Error('SlidingRender expects to be initialized with a viewportHeight');
             this.viewportHeight = options.viewportHeight;
 
             //  Allow N items to be rendered initially where N is how many items need to cover the viewport.

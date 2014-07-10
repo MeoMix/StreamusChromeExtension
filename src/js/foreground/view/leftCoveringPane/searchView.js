@@ -112,6 +112,7 @@
 
         //  This is ran whenever the user closes the search view, but the foreground remains open.
         onDestroy: function () {
+            this.collection.deselectAll();
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
         },

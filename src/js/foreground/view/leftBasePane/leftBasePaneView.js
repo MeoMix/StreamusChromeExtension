@@ -64,7 +64,6 @@
         },
         
         updateRegions: function () {
-
             if (User.get('signedIn')) {
                 //  If the user is signed in -- show the user's active playlist items / information.
                 var activePlaylist = Playlists.getActivePlaylist();
@@ -91,9 +90,7 @@
                 }
 
             }
-
         }
-
     });
 
     return LeftBasePaneView;

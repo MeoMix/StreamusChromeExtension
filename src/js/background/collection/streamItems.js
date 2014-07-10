@@ -339,7 +339,7 @@
                     nextItemIndex = removedActiveItemIndex;
                 } else {
                     nextItemIndex = this.indexOf(this.findWhere({ active: true })) + 1;
-                    if (nextItemIndex <= 0) throw "Failed to find nextItemIndex";
+                    if (nextItemIndex <= 0) throw new Error('Failed to find nextItemIndex');
                 }
                 
                 //  Activate the next item by index. Potentially go back one if deleting last item.
@@ -389,6 +389,7 @@
         getPrevious: function() {
             var previousStreamItem = null;
 
+            //  Top item of history is active item, second item in history is the last played.
             if (this.history.length > 1) {
                 previousStreamItem = this.history[1];
             }
@@ -399,8 +400,12 @@
                 var repeatButtonState = RepeatButton.get('state');
 
                 if (repeatButtonState === RepeatButtonState.RepeatSong) {
+                    //  If repeating a single song just return whichever song is already currently active.
                     previousStreamItem = this.findWhere({ active: true }) || null;
-                } else if(!shuffleEnabled) {
+                } else if (shuffleEnabled) {
+                    //  If shuffle is enabled and there's nothing in history -- grab a random song which hasn't been played recently.
+                    previousStreamItem = _.shuffle(this.where({ playedRecently: false }))[0];
+                } else {
                     //  Activate the previous item by index. Potentially loop around to the back.
                     var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
 
@@ -417,35 +422,18 @@
             return previousStreamItem;
         },
 
-        //  TODO: Maybe this should just call getPrevious?
-        activatePrevious: function() {
-            //  Peel off currentStreamItem from the top of history.
+        activatePrevious: function () {
+            var previousStreamItem = this.getPrevious();
+            
+            //  TODO: It doesn't make a ton of sense that the current item is in history (I mean, it sort of does logically... but not when reading this code.)
+            //  Peel the currentStreamItem from the top of history.
             this.history.shift();
-            var previousStreamItem = this.history.shift();
-
-            //  If no previous item was found in the history, then just go back one item
-            if (previousStreamItem == null) {
-                var shuffleEnabled = ShuffleButton.get('enabled');
-                var repeatButtonState = RepeatButton.get('state');
-
-                if (repeatButtonState === RepeatButtonState.RepeatSong) {
-                    var activeItem = this.findWhere({ active: true });
-                    activeItem.trigger('change:active', activeItem, true);
-                } else if (shuffleEnabled) {
-                    var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                    shuffledItems[0].save({ active: true });
-                } else {
-                    //  Activate the previous item by index. Potentially loop around to the back.
-                    var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
-
-                    if (activeItemIndex === 0) {
-                        if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                            this.at(this.length - 1).save({ active: true });
-                        }
-                    } else {
-                        this.at(activeItemIndex - 1).save({ active: true });
-                    }
-                }
+            //  Peel the previous streamItem from the top of history, as well.
+            this.history.shift();
+            
+            //  When repeating a song -- it'll already be active, but still need to trigger a change:active event so program will respond.
+            if (previousStreamItem.get('active')) {
+                previousStreamItem.trigger('change:active', previousStreamItem, true);
             } else {
                 previousStreamItem.save({ active: true });
             }
