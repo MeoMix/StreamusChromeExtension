@@ -128,12 +128,8 @@ define([
         },
         
         signIn: function () {
-            
-            if (!this.canSignIn()) {
-                console.error("User can't sign in right now.");
-                return;
-            }
-            
+            if (!this.canSignIn()) return;
+
             this.set('signedIn', false);
             this.set('signingIn', true);
             this.set('signInFailed', false);

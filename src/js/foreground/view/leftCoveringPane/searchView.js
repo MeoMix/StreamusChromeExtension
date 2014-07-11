@@ -1,4 +1,5 @@
 ﻿define([
+    'common/enum/listItemType',
     'foreground/view/behavior/multiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
@@ -6,7 +7,7 @@
     'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/search.html'
-], function (MultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -18,6 +19,10 @@
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
+        
+        childViewOptions: {
+            type: ListItemType.SearchResult
+        },
         
         ui: {
             bottomMenubar: '.left-bottom-menubar',
@@ -88,7 +93,7 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
-            this.listenTo(window.Application.vent, 'clickedNonSearchResult', this.deselectCollection);
+            this.listenTo(window.Application.vent, 'clickedElement', this._onClickedElement);
         },
  
         onRender: function () {
@@ -118,6 +123,12 @@
             //  Remember search results for a bit just in case they close/re-open quickly, no need to re-search.
             this.model.saveSearchQuery();
             this.startClearResultsTimeout();
+        },
+        
+        _onClickedElement: function (listItemType) {
+            if (listItemType !== this.childViewOptions.type) {
+                this.deselectCollection();
+            }
         },
         
         deselectCollection: function() {

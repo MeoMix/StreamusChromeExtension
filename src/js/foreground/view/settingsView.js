@@ -66,7 +66,6 @@
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
             Settings.set('alwaysOpenToSearch', alwaysOpenToSearch);
         }
-
     });
 
     return SettingsView;

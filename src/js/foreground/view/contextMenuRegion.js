@@ -7,7 +7,6 @@
 
     var ContextMenuRegion = Backbone.Marionette.Region.extend({
         el: '#context-menu-region',
-        
         containerHeight: 0,
         containerWidth: 0,
         
@@ -21,10 +20,10 @@
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         handleClickEvent: function (event) {
-            event.isDefaultPrevented() ? this.showContextMenu() : this.hideContextMenu();
+            event.isDefaultPrevented() ? this._showContextMenu() : this._hideContextMenu();
         },
         
-        showContextMenu: function() {
+        _showContextMenu: function() {
             this.show(new ContextMenuView({
                 collection: ContextMenuItems,
                 model: new ContextMenu({
@@ -37,7 +36,7 @@
             }));
         },
         
-        hideContextMenu: function() {
+        _hideContextMenu: function() {
             ContextMenuItems.reset();
             this.empty();
         }

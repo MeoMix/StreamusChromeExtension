@@ -34,6 +34,10 @@
             };
         },
         
+        childViewOptions: {
+            type: ListItemType.StreamItem
+        },
+        
         events: {
             'click @ui.clearStreamButton': 'clear',
             'click @ui.saveStreamButton:not(.disabled)': 'save',
@@ -89,7 +93,7 @@
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
             
-            this.listenTo(window.Application.vent, 'clickedNonStreamItem', this.deselectCollection);
+            this.listenTo(window.Application.vent, 'clickedElement', this._onClickedElement);
         },
         
         onRender: function () {
@@ -104,6 +108,12 @@
         onDestroy: function () {
             //  Forget selected items when the view is destroyed.
             this.deselectCollection();
+        },
+        
+        _onClickedElement: function (listItemType) {
+            if (listItemType !== this.childViewOptions.type) {
+                this.deselectCollection();
+            }
         },
         
         deselectCollection: function () {

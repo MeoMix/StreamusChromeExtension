@@ -1,11 +1,11 @@
 ﻿define([
-    'common/enum/playerState',
+    'common/enum/listItemType',
     'foreground/view/contextMenuRegion',
     'foreground/view/leftBasePane/leftBasePaneRegion',
     'foreground/view/leftCoveringPane/leftCoveringPaneRegion',
     'foreground/view/prompt/promptRegion',
     'foreground/view/rightBasePane/rightBasePaneRegion'
-], function (PlayerState, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, PromptRegion, RightBasePaneRegion) {
+], function (ListItemType, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, PromptRegion, RightBasePaneRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -19,7 +19,7 @@
         events: {
             'click': function (event) {
                 this.contextMenuRegion.handleClickEvent(event);
-                this.notifyMultiSelectCollections(event);
+                this.announceClickedElement(event);
             },
             'contextmenu': function(event) {
                 this.contextMenuRegion.handleClickEvent(event);
@@ -48,9 +48,7 @@
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            if (User.canSignIn()) {
-                User.signIn();
-            }
+            User.signIn();
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
@@ -63,28 +61,16 @@
             });
         },
 
-        //  Whenever the user clicks on any part of the UI that isn't a multi-select item, fire events to deselect multi-select items.
-        notifyMultiSelectCollections: function (event) {
+        //  Announce the type of element clicked so multi-select collections can decide if they should de-select their child views.
+        announceClickedElement: function (event) {
             var clickedItem = $(event.target).closest('.multi-select-item');
-            var isMultiSelectItem = clickedItem.length > 0;
-            
-            if (!isMultiSelectItem || !clickedItem.hasClass('playlist-item')) {
-                window.Application.vent.trigger('clickedNonPlaylistItem');
-            }
-            
-            if (!isMultiSelectItem || !clickedItem.hasClass('stream-item')) {
-                window.Application.vent.trigger('clickedNonStreamItem');
-            }
-            
-            if (!isMultiSelectItem || !clickedItem.hasClass('search-result')) {
-                window.Application.vent.trigger('clickedNonSearchResult');
-            }
+            var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
+            window.Application.vent.trigger('clickedElement', listItemType);
         },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
         setPlayerStateClass: function () {
-            var playerState = Player.get('state');
-            this.$el.toggleClass('playing', playerState === PlayerState.Playing);
+            this.$el.toggleClass('playing', Player.isPlaying());
         },
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.

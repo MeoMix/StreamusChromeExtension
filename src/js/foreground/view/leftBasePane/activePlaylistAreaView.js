@@ -1,11 +1,12 @@
 ﻿define([
+    'common/enum/listItemType',
     'foreground/view/behavior/multiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/leftBasePane/playlistItemView',
     'text!template/activePlaylistArea.html'
-], function (MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
+], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -24,6 +25,10 @@
                 addAllMessage: chrome.i18n.getMessage('addAll'),
                 playAllMessage: chrome.i18n.getMessage('playAll')
             };
+        },
+        
+        childViewOptions: {
+            type: ListItemType.PlaylistItem
         },
 
         ui: {
@@ -71,7 +76,7 @@
         },
         
         initialize: function () {
-            this.listenTo(window.Application.vent, 'clickedNonPlaylistItem', this.deselectCollection);
+            this.listenTo(window.Application.vent, 'clickedElement', this._onClickedElement);
         },
 
         onRender: function () {            
@@ -82,6 +87,12 @@
         onDestroy: function () {
             //  Forget selected items when the view is destroyed.
             this.deselectCollection();
+        },
+        
+        _onClickedElement: function (listItemType) {
+            if (listItemType !== this.childViewOptions.type) {
+                this.deselectCollection();
+            }
         },
         
         deselectCollection: function () {

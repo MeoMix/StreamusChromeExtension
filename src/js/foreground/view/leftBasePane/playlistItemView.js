@@ -1,12 +1,11 @@
 ﻿define([
-    'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/view/addToStreamButtonView',
     'foreground/view/deleteButtonView',
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'text!template/listItem.html'
-], function (ListItemType, ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
+], function (ContextMenuItems, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -19,7 +18,7 @@
         attributes: function () {
             return {
                 'data-id': this.model.get('id'),
-                'data-type': ListItemType.PlaylistItem
+                'data-type': this.options.type
             };
         },
 
