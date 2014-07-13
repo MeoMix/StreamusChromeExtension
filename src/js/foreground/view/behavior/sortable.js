@@ -7,7 +7,7 @@
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
+    var Search = chrome.extension.getBackgroundPage().Search;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
     var User = chrome.extension.getBackgroundPage().User;
     
@@ -172,8 +172,9 @@
                             draggedModels = activePlaylistItems.selected();
                             activePlaylistItems.deselectAll();
                         } else if (listItemType === ListItemType.SearchResult) {
-                            draggedModels = SearchResults.selected();
-                            SearchResults.deselectAll();
+                            var searchResults = Search.get('results');
+                            draggedModels = searchResults.selected();
+                            searchResults.deselectAll();
                         }
                         
                         var songs = _.map(draggedModels, function (model) {

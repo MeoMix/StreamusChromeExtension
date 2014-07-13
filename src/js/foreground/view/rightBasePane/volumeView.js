@@ -32,26 +32,30 @@ define([
             var volumeIcon = this.getVolumeIcon(this.model.get('volume'));
             this.ui.muteButton.html(volumeIcon);
             
-            this.$el.hoverIntent(function () {
-                this.$el.data('oldheight', this.$el.height()).transition({
-                    height: 150
-                }, 250, 'snap');
-
-                this.ui.volumeSlider.transition({
-                    opacity: 1
-                }, 250, 'snap');
-            }.bind(this), function () {
-                this.$el.transition({
-                    height: this.$el.data('oldheight')
-                }, 250);
-
-                this.ui.volumeSlider.transition({
-                    opacity: 0
-                }, 250);
-            }.bind(this), {
+            this.$el.hoverIntent(this._expand.bind(this), this._collapse.bind(this), {
                 sensitivity: 2,
                 interval: 5500,
             });
+        },
+        
+        _expand: function() {
+            this.$el.data('oldheight', this.$el.height()).transition({
+                height: 150
+            }, 250, 'snap');
+
+            this.ui.volumeSlider.transition({
+                opacity: 1
+            }, 250, 'snap');
+        },
+        
+        _collapse: function() {
+            this.$el.transition({
+                height: this.$el.data('oldheight')
+            }, 250);
+
+            this.ui.volumeSlider.transition({
+                opacity: 0
+            }, 250);
         },
 
         setVolume: function () {

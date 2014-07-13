@@ -17,8 +17,8 @@
         },
 
         events: {
-            'click': 'saveToPlaylist',
-            'dblclick': 'saveToPlaylist'
+            'click': '_saveToPlaylist',
+            'dblclick': '_saveToPlaylist'
         },
         
         behaviors: {
@@ -28,30 +28,34 @@
         },
 
         onRender: function() {
-            this.setTitleAndDisabled();
+            this._setTitleAndDisabled();
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.setTitleAndDisabled);
+            this.listenTo(User, 'change:signedIn', this._setTitleAndDisabled);
         },
 
-        saveToPlaylist: _.debounce(function () {
+        _saveToPlaylist: _.debounce(function () {
             // Return false even on disabled button click so the click event does not bubble up and select the item. 
-            if (!this.$el.hasClass('disabled')) {  
-                window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
-                    songs: [this.model.get('song')]
-                }));
+            if (!this.$el.hasClass('disabled')) {
+                this._showSaveSongsPrompt();
             }
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
         }, 100, true),
         
-        setTitleAndDisabled: function () {
+        _setTitleAndDisabled: function () {
             var signedIn = User.get('signedIn');
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
+        },
+        
+        _showSaveSongsPrompt: function() {
+            window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
+                songs: [this.model.get('song')]
+            }));
         }
     });
 

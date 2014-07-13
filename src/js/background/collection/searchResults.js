@@ -50,7 +50,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.SearchResults = new SearchResults();
-    return window.SearchResults;
+    return SearchResults;
 });

@@ -1,37 +1,21 @@
 ﻿define([
+    'background/collection/searchResults',
     'common/enum/dataSourceType',
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (SearchResults, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
-
-    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var Search = Backbone.Model.extend({
         defaults: function () {
             return {
-                searchQuery: Settings.get('searchQuery'),
-                doSnapAnimation: true,
+                results: new SearchResults(),
+                searchQuery: '',
                 searchJqXhr: null,
-                playlist: null,
-                typing: false
+                typing: false,
+                clearResultsTimeout: null
             };
-        },
-        
-        initialize: function () {
-            var searchQuery = this.get('searchQuery');
-
-            //  TODO: Should I not store searchQuery in Settings then? I'm not really sure why I would want to store it in localStorage.
-            //  SearchResults will be empty if Streamus was restarted, but searchQuery is stored in settings (probably a bad call)
-            if (searchQuery !== '' && SearchResults.length === 0) {
-                this.search(searchQuery);
-            }
-        },
-        
-        saveSearchQuery: function () {
-            Settings.set('searchQuery', this.get('searchQuery'));
         },
 
         search: function (searchQuery) {
@@ -47,7 +31,7 @@
 
             //  If the user provided no text to search on -- clear the search and do nothing.
             if ($.trim(searchQuery) === '') {
-                SearchResults.reset();
+                this.get('results').reset();
                 return;
             }
             
@@ -79,8 +63,8 @@
                         searchJqXhr = YouTubeV3API.getSongInformation({
                             songId: dataSource.get('id'),
                             success: function (songInformation) {
-                                SearchResults.setFromSongInformation(songInformation);
-                            },
+                                this.get('results').setFromSongInformation(songInformation);
+                            }.bind(this),
                             error: function (error) {
                                 console.error(error);
                                 //  TODO: Handle error.
@@ -94,7 +78,7 @@
                             success: function (searchResponse) {
                                 //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                                 if (searchQuery === this.get('searchQuery')) {
-                                    SearchResults.setFromSongInformationList(searchResponse.songInformationList);
+                                    this.get('results').setFromSongInformationList(searchResponse.songInformationList);
                                 }
                             }.bind(this),
                             complete: this.onSearchComplete.bind(this)
@@ -108,8 +92,25 @@
                     this.set('typing', false);
                 }.bind(this)
             });
-        }, 350)
+        }, 350),
+        
+        //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
+        startClearResultsTimer: function () {
+            //  Safe-guard against multiple setTimeouts, just incase.
+            this.stopClearResultsTimer();
+
+            var searchResults = this.get('results');
+            this.set('clearResultsTimeout', setTimeout(searchResults.reset.bind(searchResults), 10000));
+        },
+        
+        //  The foreground has to be able to call this whenever a view opens.
+        stopClearResultsTimer: function() {
+            window.clearTimeout(this.get('clearResultsTimeout'));
+            this.set('clearResultsTimeout', null);
+        }
     });
 
-    return Search;
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.Search = new Search();
+    return window.Search;
 });

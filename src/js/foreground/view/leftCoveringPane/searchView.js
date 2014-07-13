@@ -103,13 +103,13 @@
         },
         
         onShow: function () {
-            chrome.extension.getBackgroundPage().window.stopClearResultsTimer();
+            this.model.stopClearResultsTimer();
             
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
 
             //  By passing undefined in I opt to use the default duration length.
-            var transitionDuration = this.model.get('doSnapAnimation') ? undefined : 0;
+            var transitionDuration = this.options.doSnapAnimation ? undefined : 0;
 
             this.$el.transition({
                 x: this.$el.width()
@@ -121,8 +121,7 @@
             this.deselectCollection();
             
             //  Remember search results for a bit just in case they close/re-open quickly, no need to re-search.
-            this.model.saveSearchQuery();
-            this.startClearResultsTimeout();
+            this.model.startClearResultsTimer();
         },
         
         _onClickedElement: function (listItemType) {
@@ -141,16 +140,8 @@
                 //  Transition -20px off the screen to account for the shadow on the view.
                 x: -20
             }, function () {
-                console.log("model is now being destroyed");
-                this.model.destroy();
+                this.triggerMethod('hidden');
             }.bind(this));
-        },
-        
-        //  Wait a while before forgetting search results because sometimes people just leave for a second and its frustrating to lose the results.
-        //  But, if you've been gone away a while you don't want to have to clear your old stuff.
-        startClearResultsTimeout: function () {
-            //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
-            chrome.extension.getBackgroundPage().startClearResultsTimer();
         },
         
         //  Searches youtube for song results based on the given text.

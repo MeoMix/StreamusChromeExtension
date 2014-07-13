@@ -3,7 +3,7 @@
 ], function (NoPlayEmbeddedTemplate) {
     'use strict';
 
-    var ReloadStreamusView = Backbone.Marionette.ItemView.extend({
+    var NoPlayEmbeddedView = Backbone.Marionette.ItemView.extend({
         className: 'no-play-embedded',
         template: _.template(NoPlayEmbeddedTemplate),
 
@@ -16,5 +16,5 @@
         }
     });
 
-    return ReloadStreamusView;
+    return NoPlayEmbeddedView;
 });

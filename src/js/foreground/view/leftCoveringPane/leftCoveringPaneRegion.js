@@ -1,12 +1,10 @@
 ﻿define([
-    'foreground/model/playlistsArea',
-    'foreground/model/search',
     'foreground/view/leftCoveringPane/playlistsAreaView',
     'foreground/view/leftCoveringPane/searchView'
-], function (PlaylistsArea, Search, PlaylistsAreaView, SearchView) {
+], function (PlaylistsAreaView, SearchView) {
     'use strict';
     
-    var SearchResults = chrome.extension.getBackgroundPage().SearchResults;
+    var Search = chrome.extension.getBackgroundPage().Search;
     var Settings = chrome.extension.getBackgroundPage().Settings;
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
 
@@ -43,19 +41,17 @@
         },
         
         _createSearchView: function (doSnapAnimation) {
-            //  Create model for the view and indicate whether view should appear immediately or display snap animation.
-            var search = new Search({
-                playlist: Playlists.getActivePlaylist(),
+            var searchView = new SearchView({
+                collection: Search.get('results'),
+                model: Search,
+                //  Indicate whether view should appear immediately or animate.
                 doSnapAnimation: doSnapAnimation
             });
 
-            this.show(new SearchView({
-                collection: SearchResults,
-                model: search
-            }));
+            this.show(searchView);
 
-            //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
-            this.listenToOnce(search, 'destroy', this.empty);
+            //  When the user has clicked 'close' button the view will slide out and become hidden. Cleanup the view at this point.
+            this.listenToOnce(searchView, 'hidden', this.empty);
         },
         
         //  Returns true if PlaylistsAreaView is currently shown
@@ -64,7 +60,7 @@
         },
         
         _createPlaylistsAreaView: function() {
-            var playlistsArea = new PlaylistsArea();
+            var playlistsArea = new Backbone.Model();
             
             this.show(new PlaylistsAreaView({
                 model: playlistsArea,

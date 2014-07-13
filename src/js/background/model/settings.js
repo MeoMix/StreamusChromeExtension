@@ -21,7 +21,6 @@
                 remindClearStream: remindClearStream === null ? true : remindClearStream,
                 remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
-                searchQuery: this.getItem('searchQuery') || '',
                 alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
             };
         },
@@ -61,10 +60,6 @@
 
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
                 localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
-            });
-
-            this.on('change:searchQuery', function(model, searchQuery) {
-                localStorage.setItem('searchQuery', JSON.stringify(searchQuery));
             });
         },
         

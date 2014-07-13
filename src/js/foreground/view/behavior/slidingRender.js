@@ -64,6 +64,22 @@
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
         
+        initialize: function (options) {
+            if (_.isUndefined(options) || _.isUndefined(options.viewportHeight)) throw new Error('SlidingRender expects to be initialized with a viewportHeight');
+            this.viewportHeight = options.viewportHeight;
+
+            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this.maxRenderIndex = this._getMaxRenderIndex(0);
+
+            //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
+            this.view.addChild = this._addChild.bind(this);
+        },
+        
+        onRender: function () {
+            this._setHeightPaddingTop();
+        },
+        
         onShow: function () {
             //  If the collection implements getActiveItem - scroll to the active item.
             if (this.view.collection.getActiveItem) {
@@ -77,22 +93,6 @@
             this.ui.list.scroll(_.throttle(function () {
                 self._setRenderedElements(this.scrollTop);
             }, 20));
-        },
-
-        initialize: function (options) {
-            if (_.isUndefined(options) || _.isUndefined(options.viewportHeight)) throw new Error('SlidingRender expects to be initialized with a viewportHeight');
-            this.viewportHeight = options.viewportHeight;
-
-            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
-            this.minRenderIndex = this._getMinRenderIndex(0);
-            this.maxRenderIndex = this._getMaxRenderIndex(0);
-            
-            //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
-            this.view.addChild = this._addChild.bind(this);
-        },
-
-        onRender: function () {
-            this._setHeightPaddingTop();
         },
         
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
