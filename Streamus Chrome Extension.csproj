@@ -122,8 +122,13 @@
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
+    <Content Include="src\js\foreground\view\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
+    <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
+    <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
@@ -137,7 +142,6 @@
     <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\genericPrompt.js" />
     <Content Include="src\js\foreground\model\notification.js" />
-    <Content Include="src\js\foreground\model\playlistsArea.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\saveSongs.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
