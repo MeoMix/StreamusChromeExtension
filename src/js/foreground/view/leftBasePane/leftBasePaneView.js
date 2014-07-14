@@ -50,12 +50,7 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.updateRegions);
-            this.listenTo(Playlists, 'change:active', function (playlist, active) {
-                //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
-                if (active) {
-                    this.updateRegions();
-                }
-            });
+            this.listenTo(Playlists, 'change:active', this._onActivePlaylistChange);
         },
         
         onShow: function () {
@@ -64,30 +59,43 @@
         
         updateRegions: function () {
             if (User.get('signedIn')) {
-                //  If the user is signed in -- show the user's active playlist items / information.
-                var activePlaylist = Playlists.getActivePlaylist();
-
-                this.contentRegion.show(new ActivePlaylistAreaView({
-                    model: activePlaylist,
-                    collection: activePlaylist.get('items')
-                }));
-
-                this.playlistTitleRegion.show(new PlaylistTitleView({
-                   model: activePlaylist                     
-                }));
+                this._showActivePlaylistContent();
             } else {
+                this._showSignInContent();
+            }
+        },
+        
+        //  If the user is signed in -- show the user's active playlist items / information.
+        _showActivePlaylistContent: function() {
+            var activePlaylist = Playlists.getActivePlaylist();
 
-                //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
-                //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
-                if (!(this.contentRegion.currentView instanceof SignInView)) {
-                    //  Otherwise, allow the user to sign in by showing a sign in prompt.
-                    this.contentRegion.show(new SignInView({
-                        model: User
-                    }));
+            this.contentRegion.show(new ActivePlaylistAreaView({
+                model: activePlaylist,
+                collection: activePlaylist.get('items')
+            }));
 
-                    this.playlistTitleRegion.empty();
-                }
+            this.playlistTitleRegion.show(new PlaylistTitleView({
+                model: activePlaylist
+            }));
+        },
+        
+        _showSignInContent: function() {
+            //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
+            //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
+            if (!(this.contentRegion.currentView instanceof SignInView)) {
+                //  Otherwise, allow the user to sign in by showing a sign in prompt.
+                this.contentRegion.show(new SignInView({
+                    model: User
+                }));
 
+                this.playlistTitleRegion.empty();
+            }
+        },
+        
+        _onActivePlaylistChange: function(playlist, active) {
+            //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
+            if (active) {
+                this.updateRegions();
             }
         }
     });

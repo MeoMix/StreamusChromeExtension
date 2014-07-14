@@ -79,8 +79,7 @@
                     behaviorClass: MultiSelect
                 },
                 SlidingRender: {
-                    behaviorClass: SlidingRender,
-                    viewportHeight: this._getViewportHeight()
+                    behaviorClass: SlidingRender
                 },
                 Sortable: {
                     behaviorClass: Sortable
@@ -168,10 +167,7 @@
                 this.ui.bigTextWrapper.toggleClass('extended', selectedCount === 0);
 
                 //  Need to update viewportHeight in slidingRender behavior:
-                //  TODO: This is hardcoded and should be fixed. Difference between extended and regular is 35px.
-                this.triggerMethod('SetViewportHeight', {
-                    viewportHeight: this._getViewportHeight()
-                });
+                this.triggerMethod('ListHeightUpdated');
             }
         },
 
@@ -220,13 +216,7 @@
                 distance: 3,
                 times: 3
             });
-        }, 500),
-        
-        //  TODO: Fix hardcoding this.. tricky because items are added before onShow and onShow is when the viewportHeight is able to be determined.
-        _getViewportHeight: function () {
-            var selectedCount = this.options.collection.selected().length;
-            return selectedCount === 0 ? 350 : 315;
-        }
+        }, 500)
     });
 
     return SearchView;

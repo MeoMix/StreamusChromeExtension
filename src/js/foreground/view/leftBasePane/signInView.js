@@ -4,7 +4,6 @@
     'use strict';
 
     var SignInView = Backbone.Marionette.ItemView.extend({
-
         id: 'sign-in',
         template: _.template(SignInTemplate),
 
@@ -57,7 +56,6 @@
         signIn: function () {
             this.model.signIn();
         }
-
     });
 
     return SignInView;

@@ -67,18 +67,15 @@ define(function () {
         //  Whenever an element's title changes -- need to re-check to see if it is overflowing and apply/remove the tooltip accordingly.
         _setTitleMutationObserver: function (element) {
             var titleMutationObserver = new window.MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
-                    var attributeName = mutation.attributeName;
-
-                    //  Once qtip has been applied to the element -- oldtitle will mutate instead of title
-                    if (attributeName === 'title' || attributeName === 'oldtitle') {
-                        this._setTitleTooltip(element);
-                    }
+                mutations.forEach(function() {
+                    this._setTitleTooltip(element);
                 }.bind(this));
             }.bind(this));
 
             titleMutationObserver.observe(element[0], {
                 attributes: true,
+                //  Once qtip has been applied to the element -- oldtitle will mutate instead of title
+                attributeFilter: ['title', 'oldtitle'],
                 subtree: false
             });
 

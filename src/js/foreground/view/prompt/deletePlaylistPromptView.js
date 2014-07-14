@@ -5,6 +5,8 @@
 ], function (GenericPrompt, DeletePlaylistView, GenericPromptView) {
     'use strict';
     
+    var Settings = chrome.extension.getBackgroundPage().Settings;
+    
     var DeletePlaylistPromptView = GenericPromptView.extend({
         initialize: function (options) {
             this.model = new GenericPrompt({
@@ -16,6 +18,10 @@
             });
 
             GenericPromptView.prototype.initialize.apply(this, arguments);
+        },
+        
+        reminderDisabled: function() {
+            return !Settings.get('remindDeletePlaylist');
         }
     });
 

@@ -49,6 +49,7 @@
             this.ui.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
         },
         
+        //  TODO: Refactor this so it's not so nested.
         //  Debounce for typing support so I know when typing has finished
         processInput: _.debounce(function () {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
@@ -102,7 +103,7 @@
             return valid;
         },
 
-        doOk: function () {
+        doRenderedOk: function () {
             var dataSource = this.ui.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.ui.playlistTitleInput.val());
 

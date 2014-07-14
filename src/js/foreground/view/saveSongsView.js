@@ -29,6 +29,7 @@
 
             var activePlaylistId = Playlists.getActivePlaylist().get('id');
             
+            //  TODO: Refactor this so it's not so nested.
             this.ui.playlistSelect.selectize({
                 //  If false, items created by the user will not show up as available options once they are unselected.
                 persist: false,
@@ -48,7 +49,6 @@
                         return '<div>' + '<span class="title">' + escape(item.title) + '</span>' + '</div>';
                     },
                     option: function (item, escape) {
-
                         var className = item.id === activePlaylistId ? 'selected' : '';
                         var option = '<div class="' + className + '">';
 
@@ -98,7 +98,7 @@
             return isValid;
         },
         
-        doOk: function () {
+        doRenderedOk: function () {
             var selectedPlaylistId = this.ui.playlistSelect.val();
 
             if (this.model.get('creating')) {

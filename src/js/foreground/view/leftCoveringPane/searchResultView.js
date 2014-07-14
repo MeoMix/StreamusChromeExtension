@@ -1,15 +1,14 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
+    'foreground/model/contextMenuActions',
     'foreground/view/addToStreamButtonView',
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/behavior/tooltip',
     'text!template/listItem.html'
-], function (ContextMenuItems, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, Tooltip, ListItemTemplate) {
+], function (ContextMenuItems, ContextMenuActions, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, Tooltip, ListItemTemplate) {
     'use strict';
-
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var SearchResultView = MultiSelectListItemView.extend({
         className: MultiSelectListItemView.prototype.className + ' search-result',
@@ -25,7 +24,7 @@
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView],
         
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
-            'dblclick': 'playInStream'
+            'dblclick': '_playInStream'
         }),
         
         behaviors: {
@@ -36,51 +35,48 @@
         
         showContextMenu: function (event) {
             event.preventDefault();
-            var song = this.model.get('song');
-            
+
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('play'),
-                    onClick: function () {
-                        StreamItems.addSongs(song, {
-                            playOnAdd: true
-                        });
-                    }
+                    onClick: this._playInStream.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('add'),
-                    onClick: function () {
-                        StreamItems.addSongs(song);
-                    }
+                    onClick: this._addToStream.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: function () {
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: song.get('url')
-                        });
-                    }
+                    onClick: this._copyUrl.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                    onClick: function () {
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: '"' + song.get('title') + '" - ' + song.get('url')
-                        });
-                    }
+                    onClick: this._copyTitleAndUrl.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
-                    onClick: function () {
-                        chrome.tabs.create({
-                            url: song.get('url')
-                        });
-                    }
+                    onClick: this._watchOnYouTube.bind(this)
                 }]
             );
         },
+        
+        _addToStream: function() {
+            ContextMenuActions.addSongsToStream(this.model.get('song'));
+        },
 
-        playInStream: function () {
-            StreamItems.addSongs(this.model.get('song'), {
-                playOnAdd: true
-            });
+        _playInStream: function () {
+            ContextMenuActions.playSongsInStream(this.model.get('song'));
+        },
+        
+        _copyUrl: function () {
+            var songUrl = this.model.get('song').get('url');
+            ContextMenuActions.copyUrl(songUrl);
+        },
+
+        _copyTitleAndUrl: function () {
+            var songTitle = this.model.get('title');
+            var songUrl = this.model.get('song').get('url');
+            ContextMenuActions.copyTitleAndUrl(songTitle, songUrl);
+        },
+
+        _watchOnYouTube: function () {
+            var song = this.model.get('song');
+            ContextMenuActions.watchOnYouTube(song.get('id'), song.get('url'));
         }
     });
 

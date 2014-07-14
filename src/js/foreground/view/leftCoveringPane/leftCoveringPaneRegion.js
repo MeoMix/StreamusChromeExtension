@@ -49,7 +49,6 @@
             });
 
             this.show(searchView);
-
             //  When the user has clicked 'close' button the view will slide out and become hidden. Cleanup the view at this point.
             this.listenToOnce(searchView, 'hidden', this.empty);
         },
@@ -60,15 +59,13 @@
         },
         
         _createPlaylistsAreaView: function() {
-            var playlistsArea = new Backbone.Model();
-            
-            this.show(new PlaylistsAreaView({
-                model: playlistsArea,
+            var playlistsAreaView = new PlaylistsAreaView({
                 collection: Playlists
-            }));
-
-            //  When the user has clicked 'close' button the view will slide out and destroy its model. Cleanup events.
-            this.listenToOnce(playlistsArea, 'destroy', this.empty);
+            });
+            
+            this.show(playlistsAreaView);
+            //  When the user has clicked 'close' button the view will slide out and become hidden. Cleanup the view at this point.
+            this.listenToOnce(playlistsAreaView, 'hidden', this.empty);
         }
     });
 

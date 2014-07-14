@@ -1,12 +1,13 @@
 ﻿define([
     'common/model/utility',
     'foreground/collection/contextMenuItems',
+    'foreground/model/contextMenuActions',
     'foreground/view/deleteButtonView',
     'foreground/view/multiSelectListItemView',
     'foreground/view/saveToPlaylistButtonView',
     'foreground/view/playInStreamButtonView',
     'text!template/listItem.html'
-], function (Utility, ContextMenuItems, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
+], function (Utility, ContextMenuItems, ContextMenuActions, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -26,22 +27,22 @@
         },
         
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
-            'dblclick': 'activateAndPlayOrToggleState'
+            'dblclick': '_activateAndPlayOrToggleState'
         }),
         
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
-            'change:id': 'setDataId',
-            'change:active': 'setActiveClass'
+            'change:id': '_setDataId',
+            'change:active': '_setActiveClass'
         }),
         
         buttonViews: [PlayInStreamButtonView, SaveToPlaylistButtonView, DeleteButtonView],
 
         onRender: function () {
-            this.setActiveClass();
+            this._setActiveClass();
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
 
-        activateAndPlayOrToggleState: function () {
+        _activateAndPlayOrToggleState: function () {
             if (!this.model.get('active')) {
                 Player.playOnceSongChanges();
 
@@ -51,13 +52,13 @@
             }
         },
         
-        setDataId: function () {
+        _setDataId: function () {
             this.$el.data('id', this.model.get('id'));
         },
 
         //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
         //  render will cause the lazy-loaded image to be reset.
-        setActiveClass: function () {
+        _setActiveClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('active', active);
         },
@@ -65,14 +66,13 @@
         showContextMenu: function (event) {
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
-            var self = this;
 
             var activePlaylist = Playlists.getActivePlaylist();
             var alreadyExists = false;
             
             var userSignedIn = User.get('signedIn');
             if (userSignedIn) {
-                alreadyExists = activePlaylist.get('items').hasSong(self.model.get('song'));
+                alreadyExists = activePlaylist.get('items').hasSong(this.model.get('song'));
             }
 
             var saveTitle = '';
@@ -86,46 +86,46 @@
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
                     disabled: !userSignedIn || alreadyExists,
-                    onClick: function () {
-                        activePlaylist.get('items').addSongs(self.model.get('song'));
-                    }
+                    onClick: this._addToActivePlaylistItems.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: function () {
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: self.model.get('song').get('url')
-                        });
-                    }
+                    onClick: this._copyUrl.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                    onClick: function() {
-                        chrome.extension.sendMessage({
-                            method: 'copy',
-                            text: '"' + self.model.get('title') + '" - ' + self.model.get('song').get('url')
-                        });
-                    }
+                    onClick: this._copyTitleAndUrl.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('delete'),
-                    onClick: function () {
-                        self.model.destroy();
-                    }
+                    onClick: this._destroyModel.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
-                    onClick: function () {
-                        var url = self.model.get('song').get('url');
-                        if (Player.get('loadedSongId') === self.model.get('song').get('id')) {
-                            url += '?t=' + Player.get('currentTime') + 's';
-                        }
-                        
-                        chrome.tabs.create({
-                            url:  url
-                        });
-
-                        Player.pause();
-                      }
-                  }]
+                    onClick: this._watchOnYouTube.bind(this)
+                }]
             );
+        },
+        
+        _addToActivePlaylistItems: function () {
+            var activePlaylist = Playlists.getActivePlaylist();
+            activePlaylist.get('items').addSongs(this.model.get('song'));
+        },
+        
+        _copyUrl: function () {
+            var songUrl = this.model.get('song').get('url');
+            ContextMenuActions.copyUrl(songUrl);
+        },
+
+        _copyTitleAndUrl: function () {
+            var songTitle = this.model.get('title');
+            var songUrl = this.model.get('song').get('url');
+            ContextMenuActions.copyTitleAndUrl(songTitle, songUrl);
+        },
+        
+        _destroyModel: function () {
+            this.model.destroy();
+        },
+
+        _watchOnYouTube: function () {
+            var song = this.model.get('song');
+            ContextMenuActions.watchOnYouTube(song.get('id'), song.get('url'));
         }
     });
 

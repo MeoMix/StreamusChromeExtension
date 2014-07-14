@@ -20,10 +20,14 @@
             dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
         },
 
-        doOk: function () {           
+        doRenderedOk: function () {           
             var remindClearStream = !this.ui.reminderCheckbox.is(':checked');
             Settings.set('remindClearStream', remindClearStream);
 
+            this.doOk();
+        },
+        
+        doOk: function() {
             StreamItems.clear();
         }
     });

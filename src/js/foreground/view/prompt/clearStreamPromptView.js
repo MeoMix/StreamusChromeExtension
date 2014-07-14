@@ -5,6 +5,8 @@
 ], function (GenericPrompt, ClearStreamView, GenericPromptView) {
     'use strict';
     
+    var Settings = chrome.extension.getBackgroundPage().Settings;
+
     var ClearStreamPromptView = GenericPromptView.extend({
         initialize: function () {
             this.model = new GenericPrompt({
@@ -13,6 +15,10 @@
             });
             
             GenericPromptView.prototype.initialize.apply(this, arguments);
+        },
+
+        reminderDisabled: function () {
+            return !Settings.get('remindClearStream');
         }
     });
 

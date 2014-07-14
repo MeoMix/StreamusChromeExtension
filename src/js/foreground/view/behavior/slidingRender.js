@@ -4,7 +4,6 @@
     var SlidingRender = Backbone.Marionette.Behavior.extend({
         collectionEvents: {
             'reset': '_reset',
-            
             'remove': function (item, collection, options) {
                 //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
@@ -18,7 +17,6 @@
                 
                 this._setHeightPaddingTop();
             },
-
             'add': function (item, collection) {
                 var index = collection.indexOf(item);
 
@@ -37,7 +35,6 @@
 
                 this._setHeightPaddingTop();
             },
-            
             'change:active': function (item, active) {
                 if (active) {
                     this._scrollToItem(item);
@@ -50,8 +47,8 @@
         },
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.
-        minRenderIndex: 0,
-        maxRenderIndex: 0,
+        minRenderIndex: -1,
+        maxRenderIndex: -1,
 
         //  The height of a rendered childView in px. Including padding/margin.
         childViewHeight: 40,
@@ -64,23 +61,16 @@
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
         
-        initialize: function (options) {
-            if (_.isUndefined(options) || _.isUndefined(options.viewportHeight)) throw new Error('SlidingRender expects to be initialized with a viewportHeight');
-            this.viewportHeight = options.viewportHeight;
-
-            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
-            this.minRenderIndex = this._getMinRenderIndex(0);
-            this.maxRenderIndex = this._getMaxRenderIndex(0);
-
+        initialize: function () {
             //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
             this.view.addChild = this._addChild.bind(this);
         },
         
-        onRender: function () {
-            this._setHeightPaddingTop();
-        },
-        
         onShow: function () {
+            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this._setViewportHeight();
+
             //  If the collection implements getActiveItem - scroll to the active item.
             if (this.view.collection.getActiveItem) {
                 if (this.view.collection.length > 0) {
@@ -103,9 +93,13 @@
             });
         },
         
+        onListHeightUpdated: function() {
+            this._setViewportHeight();
+        },
+        
         //  Whenever the viewport height is changed -- adjust the items which are currently rendered to match
-        onSetViewportHeight: function (request) {
-            this.viewportHeight = request.viewportHeight;
+        _setViewportHeight: function () {
+            this.viewportHeight = this.ui.list.height();
 
             //  Unload or load N items where N is the difference in viewport height.
             var currentMaxRenderIndex = this.maxRenderIndex;

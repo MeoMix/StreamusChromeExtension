@@ -9,8 +9,8 @@
 
         events: {
             'click': 'hideIfClickOutsidePanel',
-            'click @ui.okButton': 'doOk',
-            'keydown .submittable': 'doOkOnEnter'
+            'click @ui.okButton': 'doRenderedOk',
+            'keydown .submittable': 'doRenderedOkOnEnter'
         },
         
         triggers: {
@@ -74,24 +74,29 @@
         },
         
         //  If the enter key is pressed on a submittable element, treat as if user pressed OK button.
-        doOkOnEnter: function(event) {
+        doRenderedOkOnEnter: function(event) {
             if (event.which === 13) {
-                this.doOk();
+                this.doRenderedOk();
             }
         },
         
-        doOk: function () {
+        doRenderedOk: function () {
             //  Run validation logic if provided else assume valid
             var contentView = this.model.get('view');
             var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
             
             if (isValid) {
-                if (_.isFunction(contentView.doOk)) {
-                    contentView.doOk();
+                if (_.isFunction(contentView.doRenderedOk)) {
+                    contentView.doRenderedOk();
                 }
 
                 this.triggerMethod('hide');
             }
+        },
+        
+        //  Unless a prompt specifically implements a reminder it is assumed that the reminder is not disabled and the prompt should always be shown when asked.
+        reminderDisabled: function() {
+            return false;
         }
     });
 

@@ -1,16 +1,15 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
+    'foreground/model/contextMenuActions',
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, ContextMenuActions, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -35,7 +34,7 @@
         modelEvents: {
             'change:title': 'updateTitle',
             'change:dataSourceLoaded': 'setLoadingClass',
-            'change:active': 'stopEditingOnInactive setActiveClass'
+            'change:active': 'stopEditingOnInactive _setActiveClass'
         },
         
         ui: {
@@ -52,7 +51,7 @@
 
         onRender: function () {
             this.setLoadingClass();
-            this.setActiveClass();
+            this._setActiveClass();
         },
         
         initialize: function () {
@@ -75,7 +74,7 @@
             this.$el.toggleClass('loading', loading);
         },
         
-        setActiveClass: function () {
+        _setActiveClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('active', active);
         },
@@ -102,62 +101,62 @@
             //  Don't allow deleting of the last playlist.
             var isDeleteDisabled = Playlists.length === 1;
 
-            var self = this;
             ContextMenuItems.reset([{
                     //  No point in sharing an empty playlist.
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: function () {
-                        self.model.getShareCode(function (shareCode) {
-                            var shareCodeShortId = shareCode.get('shortId');
-                            var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
-                            var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
-
-                            chrome.extension.sendMessage({
-                                method: 'copy',
-                                text: playlistShareUrl
-                            });
-                        }); 
-                    }
+                    onClick: this._copyPlaylistUrl.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('delete'),
                     disabled: isDeleteDisabled,
                     title: isDeleteDisabled ? chrome.i18n.getMessage('cantDeleteLastPlaylist') : '',
-                    onClick: function () {
-                        //  No need to notify if the playlist is empty.
-                        if (self.model.get('items').length === 0) {
-                            self.model.destroy();
-                        } else {
-                            //  TODO: Checking Settings isn't DRY with PlaylistsAreaView delete playlist prompt.
-                            var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
-
-                            if (remindDeletePlaylist) {
-                                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
-                                    playlist: self.model
-                                }));
-                            } else {
-                                self.model.destroy();
-                            }
-                        }
-                    }
+                    onClick: this._showDeletePlaylistPrompt.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('add'),
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
-                    onClick: function () {
-                        StreamItems.addSongs(self.model.get('items').pluck('song'));
-                    }
+                    onClick: this._addSongsToStream.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('edit'),
-                    onClick: function () {
-                        window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
-                            playlist: self.model
-                        }));
-                    }
+                    onClick: this._showEditPlaylistPrompt.bind(this)
                 }]
             );
 
+        },
+        
+        _copyPlaylistUrl: function() {
+            this.model.getShareCode(function (shareCode) {
+                var shareCodeShortId = shareCode.get('shortId');
+                var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
+                var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
+
+                chrome.extension.sendMessage({
+                    method: 'copy',
+                    text: playlistShareUrl
+                });
+            });
+        },
+        
+        _showEditPlaylistPrompt: function() {
+            window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
+                playlist: this.model
+            }));
+        },
+        
+        _showDeletePlaylistPrompt: function() {
+            //  No need to notify if the playlist is empty.
+            if (this.model.get('items').length === 0) {
+                this.model.destroy();
+            } else {
+                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
+                    playlist: this.model
+                }));
+            }
+        },
+        
+        _addSongsToStream: function () {
+            ContextMenuActions.addSongsToStream(this.model.get('items').pluck('song'));
         },
         
         startEdit: function () {

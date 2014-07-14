@@ -51,8 +51,15 @@
         },
         
         _showPrompt: function (view) {
-            this.listenToOnce(view, 'hide', this.empty);
-            this.show(view);
+            //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
+            var reminderDisabled = view.reminderDisabled();
+            
+            if (reminderDisabled) {
+                view.model.get('view').doOk();
+            } else {
+                this.listenToOnce(view, 'hide', this.empty);
+                this.show(view);
+            }
         },
         
         //  Whenever the YouTube API throws an error in the background, communicate

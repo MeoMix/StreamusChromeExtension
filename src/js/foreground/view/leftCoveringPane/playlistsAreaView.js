@@ -11,7 +11,6 @@
 ], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var Settings = chrome.extension.getBackgroundPage().Settings;
     var User = chrome.extension.getBackgroundPage().User;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -23,7 +22,6 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click @ui.hideButton': 'hide',
-            'click h3': 'togglePlaylistsVisibility',
             'click @ui.settingsButton': 'showSettingsPrompt',
             'click @ui.addButton': 'showCreatePlaylistPrompt',
             'click @ui.editButton': 'showEditActivePlaylistPrompt',
@@ -67,36 +65,44 @@
         },
 
         onRender: function () {
-            this.ui.childContainer.sortable({
-                axis: 'y',
-                placeholder: 'sortable-placeholder list-item',
-                delay: 100,
-                containment: "parent",
-                //  Whenever a playlist is moved visually -- update corresponding model with new information.
-                update: function (event, ui) {
-                    var listItemType = ui.item.data('type');
-
-                    //  Run this code only when reorganizing playlists.
-                    if (listItemType === ListItemType.Playlist) {
-                        var playlistId = ui.item.data('id');
-                        var index = ui.item.index();
-
-                        var playlist = this.collection.get(playlistId);
-                        var originalIndex = this.collection.indexOf(playlist);
-
-                        //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
-                        //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
-                        if (originalIndex < index) {
-                            index += 1;
-                        }
-
-                        this.collection.moveToIndex(playlistId, index);
-                    }
-                }.bind(this)
-            });
+            this.ui.childContainer.sortable(this._getSortableOptions());
 
             this.toggleContextButtons();
             this.setDeleteButtonState();
+        },
+        
+        _getSortableOptions: function () {
+            var sortableOptions = {
+                axis: 'y',
+                placeholder: 'sortable-placeholder list-item',
+                delay: 100,
+                containment: 'parent',
+                update: this._onSortableUpdate.bind(this)
+            };
+
+            return sortableOptions;
+        },
+        
+        //  Whenever a playlist is moved visually -- update corresponding model with new information.
+        _onSortableUpdate: function(event, ui) {
+            var listItemType = ui.item.data('type');
+
+            //  Run this code only when reorganizing playlists.
+            if (listItemType === ListItemType.Playlist) {
+                var playlistId = ui.item.data('id');
+                var index = ui.item.index();
+
+                var playlist = this.collection.get(playlistId);
+                var originalIndex = this.collection.indexOf(playlist);
+
+                //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
+                //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
+                if (originalIndex < index) {
+                    index += 1;
+                }
+
+                this.collection.moveToIndex(playlistId, index);
+            }
         },
         
         onShow: function () {
@@ -125,97 +131,7 @@
             this.ui.panel.transition({
                 x: -20
             }, 300, function() {
-                this.model.destroy();
-            }.bind(this));
-        },
-
-        togglePlaylistsVisibility: function(event) {
-            var caretIcon = $(event.currentTarget).find('i');
-            var isExpanded = caretIcon.data('expanded');
-
-            if (isExpanded) {
-                caretIcon.data('expanded', false);
-            }
-
-            caretIcon.transitionStop().transition({
-                rotate: isExpanded ? -90 : 0
-            }, 200);
-
-            if (isExpanded) {
-                this.collapsePlaylistCollection();
-            } else {
-                this.expandPlaylistCollection(function () {
-                    caretIcon.data('expanded', true);
-                });
-            }
-        },
-
-        arePlaylistsOverflowing: function () {
-            //  Only rely on currentHeight if the view is expanded, otherwise rely on oldheight.
-            var currentHeight = this.ui.childContainer.height();
-
-            if (currentHeight === 0) {
-                currentHeight = this.ui.childContainer.data('oldheight');
-            }
-
-            var isOverflowing = false;
-            var playlistCount = this.collection.length;
-
-            if (playlistCount > 0) {
-                var playlistHeight = this.ui.childContainer.find('li').height();
-                var maxPlaylistsWithoutOverflow = currentHeight / playlistHeight;
-
-                isOverflowing = playlistCount > maxPlaylistsWithoutOverflow;
-            }
-
-            return isOverflowing;
-        },
-
-        collapsePlaylistCollection: function() {
-            var isOverflowing = this.arePlaylistsOverflowing();
-
-            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            if (!isOverflowing) {
-                this.ui.childContainer.css('overflow-y', 'hidden');
-            }
-
-            //  Need to set height here because transition doesn't work if height is auto through CSS.
-            var currentHeight = this.ui.childContainer.height();
-            var heightStyle = $.trim(this.ui.childContainer[0].style.height);
-            if (heightStyle === '' || heightStyle === 'auto') {
-                this.ui.childContainer.height(currentHeight);
-            }
-
-            this.ui.childContainer.data('oldheight', currentHeight);
-
-            this.ui.childContainer.transitionStop().transition({
-                height: 0,
-                opacity: 0
-            }, 200, function () {
-                this.ui.childContainer.hide();
-
-                if (!isOverflowing) {
-                    this.ui.childContainer.css('overflow-y', 'auto');
-                }
-            }.bind(this));
-        },
-        
-        expandPlaylistCollection: function(onComplete) {        
-            var isOverflowing = this.arePlaylistsOverflowing();
-
-            //  If the view isn't overflowing -- add overflow-y hidden so that as it collapses/expands it maintains its overflow state.
-            if (!isOverflowing) {
-                this.ui.childContainer.css('overflow-y', 'hidden');
-            }
-
-            this.ui.childContainer.show().transitionStop().transition({
-                height: this.ui.childContainer.data('oldheight'),
-                opacity: 1
-            }, 200, function() {
-                if (!isOverflowing) {
-                    this.ui.childContainer.css('overflow-y', 'auto');
-                }
-                onComplete();
+                this.triggerMethod('hidden');
             }.bind(this));
         },
         
@@ -259,16 +175,9 @@
             if (isEmpty) {
                 activePlaylist.destroy();
             } else {
-                //  TODO: Checking Settings isn't DRY with PlaylistView delete playlist prompt.
-                var remindDeletePlaylist = Settings.get('remindDeletePlaylist');
-                
-                if (remindDeletePlaylist) {
-                    window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
-                        playlist: activePlaylist
-                    }));
-                } else {
-                    activePlaylist.destroy();
-                }
+                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
+                    playlist: activePlaylist
+                }));
             }
         }
     });
