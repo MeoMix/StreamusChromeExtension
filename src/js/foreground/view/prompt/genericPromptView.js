@@ -9,12 +9,9 @@
 
         events: {
             'click': 'hideIfClickOutsidePanel',
+            'click .remove': 'hide',
             'click @ui.okButton': 'doRenderedOk',
             'keydown .submittable': 'doRenderedOkOnEnter'
-        },
-        
-        triggers: {
-            'click .remove': 'hide'
         },
         
         ui: {
@@ -23,13 +20,15 @@
             okButton: 'button.ok'
         },
         
+        initialize: function (options) {
+            if (_.isUndefined(options) || _.isUndefined(options.containerHeight)) throw new Error('GenericPromptView expects to be initialized with a containerHeight');
+
+            this.$el.addClass(this.model.get('view').className + '-prompt');
+        },
+        
         onRender: function () {
             //  Add specific content to the generic dialog's interior
             this.ui.content.append(this.model.get('view').render().el);
-        },
-        
-        initialize: function () {
-            this.$el.addClass(this.model.get('view').className + '-prompt');
         },
 
         onShow: function () {
@@ -38,10 +37,8 @@
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            //  TODO: It's bad practice to access $('body') like this. I should consider depending on just CSS3 animations.
-            //  I don't remember why I am using jQuery transit in favor of CSS3 animations. Perhaps for stopping the animation.
-            //  Calculate center for prompt by finding the average difference between prompts height and the body
-            var yTranslateCenter = ($('body').height() - this.ui.panel.height()) / 2;
+            //  Calculate center for prompt by finding the average difference between prompts height and its container
+            var yTranslateCenter = (this.options.containerHeight - this.ui.panel.height()) / 2;
             
             this.ui.panel.transition({
                 y: yTranslateCenter,
@@ -52,12 +49,11 @@
             this.model.get('view').triggerMethod('show');
         },
         
-        //  TODO: I don't like intercepting destroy like this.
-        destroy: function () {
+        hide: function() {
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
-                Backbone.Marionette.ItemView.prototype.destroy.apply(this, arguments);
+                this.triggerMethod('hidden');
             }.bind(this));
 
             this.ui.panel.transition({
@@ -69,7 +65,7 @@
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
         hideIfClickOutsidePanel: function (event) {
             if (event.target == event.currentTarget) {
-                this.triggerMethod('hide');
+                this.hide();
             }
         },
         
@@ -90,7 +86,7 @@
                     contentView.doRenderedOk();
                 }
 
-                this.triggerMethod('hide');
+                this.hide();
             }
         },
         

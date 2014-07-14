@@ -44,9 +44,11 @@ body .qtip-light {
   color: #666666;
 }
 /* TODO: Add some area to prevent clipping of context menu */
-#context-menu-region {
+#context-menu-region,
+#prompt-region {
   width: 100%;
   height: 100%;
+  position: absolute;
 }
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
@@ -791,6 +793,9 @@ input:focus ~ .underline {
   margin-bottom: 10px;
   display: block;
 }
+#right-base-pane-region {
+  z-index: 1;
+}
 .right-pane {
   bottom: 0;
   position: absolute;
@@ -1254,10 +1259,13 @@ button.mute.muted {
   top: 0;
   right: 10px;
 }
-#left-base-pane {
+#left-base-pane-region {
+  z-index: 1;
+}
+#left-base-pane-region #left-base-pane {
   /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
 }
-#left-base-pane #playlist-title-region {
+#left-base-pane-region #left-base-pane #playlist-title-region {
   width: 100%;
   padding-left: 50px;
   padding-right: 50px;
@@ -1266,7 +1274,7 @@ button.mute.muted {
   display: inline-block;
   vertical-align: top;
 }
-#left-base-pane #playlist-title-region #playlist-title {
+#left-base-pane-region #left-base-pane #playlist-title-region #playlist-title {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.1em;
@@ -1274,7 +1282,7 @@ button.mute.muted {
   line-height: 45px;
   cursor: default;
 }
-#left-base-pane .fa-search {
+#left-base-pane-region #left-base-pane .fa-search {
   font-size: 18px;
 }
 #context-menu {

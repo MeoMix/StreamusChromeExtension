@@ -139,9 +139,9 @@
         },
         
         _showEditPlaylistPrompt: function() {
-            window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
+            window.Application.vent.trigger('showPrompt', EditPlaylistPromptView, {
                 playlist: this.model
-            }));
+            });
         },
         
         _showDeletePlaylistPrompt: function() {
@@ -149,9 +149,9 @@
             if (this.model.get('items').length === 0) {
                 this.model.destroy();
             } else {
-                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
+                window.Application.vent.trigger('showPrompt', DeletePlaylistPromptView, {
                     playlist: this.model
-                }));
+                });
             }
         },
         

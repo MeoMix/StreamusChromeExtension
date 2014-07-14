@@ -35,30 +35,33 @@
         hideReloadStreamusPrompt: function () {
             clearTimeout(this.showReloadPromptTimeout);
 
-            //  Ensure that the PromptRegion is currently displaying the ReloadStreamusPrompt. If so, hide it!
-            if (this.promptRegion.currentView instanceof ReloadStreamusPromptView) {
-                this.promptRegion.empty();
+            if (this.currentView instanceof ReloadStreamusPromptView) {
+                this.currentView.hide();
             }
         },
         
         //  Display a prompt to the user indicating that they should restart Streamus because an update has been downloaded.
         _showUpdateStreamusPrompt: function () {
-            this.showPrompt(new UpdateStreamusPromptView());
+            this._showPrompt(UpdateStreamusPromptView);
         },
         
         _showReloadStreamusPrompt: function() {
-            this.showPrompt(new ReloadStreamusPromptView());
+            this._showPrompt(ReloadStreamusPromptView);
         },
         
-        _showPrompt: function (view) {
+        _showPrompt: function (PromptView, options) {
+            var promptView = new PromptView(_.extend({
+                containerHeight: this.$el.height()
+            }, options));
+
             //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
-            var reminderDisabled = view.reminderDisabled();
+            var reminderDisabled = promptView.reminderDisabled();
             
             if (reminderDisabled) {
-                view.model.get('view').doOk();
+                promptView.model.get('view').doOk();
             } else {
-                this.listenToOnce(view, 'hide', this.empty);
-                this.show(view);
+                this.listenToOnce(promptView, 'hidden', this.empty);
+                this.show(promptView);
             }
         },
         
@@ -66,7 +69,7 @@
         //  that information to the user in the foreground via prompt.
         _showYouTubeErrorPrompt: function (youTubeError) {
             if (youTubeError === YouTubePlayerError.NoPlayEmbedded || youTubeError === YouTubePlayerError.NoPlayEmbedded2) {
-                this.showPrompt(new NoPlayEmbeddedPromptView());
+                this._showPrompt(NoPlayEmbeddedPromptView);
             } else {
                 var text = chrome.i18n.getMessage('errorEncountered');
 
@@ -79,9 +82,9 @@
                         break;
                 }
 
-                this.showPrompt(new NotificationPromptView({
+                this._showPrompt(NotificationPromptView, {
                     text: text
-                }));
+                });
             }
         }
     });

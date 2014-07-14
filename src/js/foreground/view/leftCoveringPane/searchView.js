@@ -201,9 +201,9 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
+                window.Application.vent.trigger('showPrompt', SaveSongsPromptView, {
                     songs: this.collection.getSelectedSongs()
-                }));
+                });
             }
             //  Don't close the menu if disabled
             return !disabled;

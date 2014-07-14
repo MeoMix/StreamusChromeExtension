@@ -21,13 +21,13 @@
         },
         
         _showClearStreamPrompt: function() {
-            window.Application.vent.trigger('showPrompt', new ClearStreamPromptView());
+            window.Application.vent.trigger('showPrompt', ClearStreamPromptView);
         },
         
         _showSaveSongsPrompt: function() {
-            window.Application.vent.trigger('showPrompt', new SaveSongsPromptView({
+            window.Application.vent.trigger('showPrompt', SaveSongsPromptView, {
                 songs: StreamItems.pluck('song')
-            }));
+            });
         }
     });
 

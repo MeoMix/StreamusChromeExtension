@@ -136,17 +136,17 @@
         },
         
         showSettingsPrompt: function () {
-            window.Application.vent.trigger('showPrompt', new SettingsPromptView());
+            window.Application.vent.trigger('showPrompt', SettingsPromptView);
         },
         
         showCreatePlaylistPrompt: function () {
-            window.Application.vent.trigger('showPrompt', new CreatePlaylistPromptView());
+            window.Application.vent.trigger('showPrompt', CreatePlaylistPromptView);
         },
         
         showEditActivePlaylistPrompt: function () {
-            window.Application.vent.trigger('showPrompt', new EditPlaylistPromptView({
+            window.Application.vent.trigger('showPrompt', EditPlaylistPromptView, {
                 playlist: this.collection.getActivePlaylist()
-            }));
+            });
         },
         
         toggleContextButtons: function () {
@@ -175,9 +175,9 @@
             if (isEmpty) {
                 activePlaylist.destroy();
             } else {
-                window.Application.vent.trigger('showPrompt', new DeletePlaylistPromptView({
+                window.Application.vent.trigger('showPrompt', DeletePlaylistPromptView, {
                     playlist: activePlaylist
-                }));
+                });
             }
         }
     });
