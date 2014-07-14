@@ -17,8 +17,7 @@
         },
 
         modelEvents: {
-            'change:selected': 'setSelectedClass',
-            'destroy': 'remove'
+            'change:selected': 'setSelectedClass'
         },
         
         regions: {
