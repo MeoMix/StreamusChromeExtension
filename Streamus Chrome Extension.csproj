@@ -121,6 +121,7 @@
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
+    <Content Include="src\js\foreground\model\contextMenuActions.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
@@ -145,7 +146,7 @@
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\saveSongs.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
-    <Content Include="src\js\foreground\model\search.js" />
+    <Content Include="src\js\background\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\behavior\slidingRender.js" />
     <Content Include="src\js\foreground\view\behavior\sortable.js" />
