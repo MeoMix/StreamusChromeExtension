@@ -98,15 +98,18 @@
         startClearResultsTimer: function () {
             //  Safe-guard against multiple setTimeouts, just incase.
             this.stopClearResultsTimer();
-
-            var searchResults = this.get('results');
-            this.set('clearResultsTimeout', setTimeout(searchResults.reset.bind(searchResults), 10000));
+            this.set('clearResultsTimeout', setTimeout(this.clearResults.bind(this), 10000));
         },
         
         //  The foreground has to be able to call this whenever a view opens.
         stopClearResultsTimer: function() {
             window.clearTimeout(this.get('clearResultsTimeout'));
             this.set('clearResultsTimeout', null);
+        },
+        
+        clearResults: function() {
+            this.get('results').reset();
+            this.set('searchQuery', '');
         }
     });
 
