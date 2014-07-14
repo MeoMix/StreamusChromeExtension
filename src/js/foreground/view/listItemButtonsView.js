@@ -22,7 +22,7 @@
             this.$el.append(documentFragment);
         },
         
-        onClose: function() {
+        onBeforeDestroy: function () {
             _.each(this.shownButtonViews, function (shownButtonView) {
                 shownButtonView.destroy();
             });
