@@ -10,7 +10,7 @@
         events: {
             'click': 'hideIfClickOutsidePanel',
             'click .remove': 'hide',
-            'click @ui.okButton': 'doRenderedOk',
+            'click @ui.okButton': '_doRenderedOk',
             'keydown .submittable': 'doRenderedOkOnEnter'
         },
         
@@ -72,18 +72,18 @@
         //  If the enter key is pressed on a submittable element, treat as if user pressed OK button.
         doRenderedOkOnEnter: function(event) {
             if (event.which === 13) {
-                this.doRenderedOk();
+                this._doRenderedOk();
             }
         },
         
-        doRenderedOk: function () {
+        _doRenderedOk: function () {
             //  Run validation logic if provided else assume valid
             var contentView = this.model.get('view');
             var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
             
             if (isValid) {
-                if (_.isFunction(contentView.doRenderedOk)) {
-                    contentView.doRenderedOk();
+                if (_.isFunction(contentView._doRenderedOk)) {
+                    contentView._doRenderedOk();
                 }
 
                 this.hide();

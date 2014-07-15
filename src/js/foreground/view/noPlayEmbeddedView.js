@@ -11,7 +11,7 @@
             youTubePlayerErrorNoPlayEmbeddedMessage: chrome.i18n.getMessage('youTubePlayerErrorNoPlayEmbedded')
         },
 
-        doRenderedOk: function () {
+        _doRenderedOk: function () {
             chrome.runtime.reload();
         }
     });

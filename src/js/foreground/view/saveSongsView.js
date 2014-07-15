@@ -113,7 +113,7 @@
             return isValid;
         },
         
-        doRenderedOk: function () {
+        _doRenderedOk: function () {
             var selectedPlaylistId = this.ui.playlistSelect.val();
 
             if (this.model.get('creating')) {

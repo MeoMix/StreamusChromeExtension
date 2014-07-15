@@ -21,7 +21,7 @@
     
     Application.on('start', function () {
         //  Fire up the foreground:
-        require(['foreground/foreground']);
+        require(['foreground/view/foregroundView']);
     });
 
     Application.start();

@@ -18,24 +18,25 @@
         },
 
         onShow: function () {
-            //  Prevent display outside viewport.
-            var offsetTop = this.model.get('top');
-            var needsVerticalFlip = offsetTop + this.$el.height() > this.containerHeight;
-            if (needsVerticalFlip) {
-                offsetTop = offsetTop - this.$el.height();
-            }
+            var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.height(), this.containerHeight);
+            var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.width(), this.containerWidth);
 
-            var offsetLeft = this.model.get('left');
-            var needsHorizontalFlip = offsetLeft + this.$el.width() > this.containerWidth;
-            if (needsHorizontalFlip) {
-                offsetLeft = offsetLeft - this.$el.width();
-            }
-            
-            //  Show the element before setting offset to ensure correct positioning.
             this.$el.offset({
                 top: offsetTop,
                 left: offsetLeft
             });
+        },
+        
+        //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
+        _ensureOffset: function(offset, elementSize, containerSize) {
+            var ensuredOffset = offset;
+            var needsFlip = offset + elementSize > containerSize;
+            
+            if (needsFlip) {
+                ensuredOffset -= elementSize;
+            }
+
+            return ensuredOffset;
         }
     });
 

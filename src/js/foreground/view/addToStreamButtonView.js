@@ -16,8 +16,8 @@
         },
         
         events: {
-            'click': 'addToStream',
-            'dblclick': 'addToStream'
+            'click': '_addToStream',
+            'dblclick': '_addToStream'
         },
         
         behaviors: {
@@ -26,7 +26,7 @@
             }
         },
         
-        addToStream: _.debounce(function () {
+        _addToStream: _.debounce(function () {
             StreamItems.addSongs(this.model.get('song'));
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.

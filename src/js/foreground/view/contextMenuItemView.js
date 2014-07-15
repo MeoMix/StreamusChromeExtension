@@ -10,7 +10,7 @@
         template: _.template(ContextMenuItemTemplate),
 
         events: {
-            'click': 'onClick',
+            'click': '_onClick',
         },
 
         attributes: function () {
@@ -26,14 +26,14 @@
         },
 
         onRender: function () {
-            this.setState();
+            this._setState();
         },
 
-        setState: function () {
+        _setState: function () {
             this.$el.toggleClass('disabled', this.model.get('disabled'));
         },
 
-        onClick: function () {
+        _onClick: function () {
             if (this.$el.hasClass('disabled')) {
                 return false;
             }

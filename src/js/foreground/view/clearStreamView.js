@@ -8,27 +8,26 @@
 
     var ClearStreamView = Backbone.Marionette.ItemView.extend({
         className: 'clear-stream',
-        
-        ui: {
-            reminderCheckbox: '.reminder input[type="checkbox"]'
-        },
-
         template: _.template(ClearStreamTemplate),
         
         templateHelpers: {
             areYouSureYouWantToClearYourStreamMessage: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream'),
             dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
         },
-
-        doRenderedOk: function () {           
-            var remindClearStream = !this.ui.reminderCheckbox.is(':checked');
-            Settings.set('remindClearStream', remindClearStream);
-
-            this.doOk();
+        
+        ui: {
+            reminderCheckbox: '.reminder input[type="checkbox"]'
         },
         
         doOk: function() {
             StreamItems.clear();
+        },
+
+        _doRenderedOk: function () {           
+            var remindClearStream = !this.ui.reminderCheckbox.is(':checked');
+            Settings.set('remindClearStream', remindClearStream);
+
+            this.doOk();
         }
     });
 

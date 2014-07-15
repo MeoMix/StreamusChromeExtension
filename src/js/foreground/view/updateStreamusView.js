@@ -13,7 +13,7 @@
             pleaseClickUpdateToRestartAndApplyTheUpdateMessage: chrome.i18n.getMessage('pleaseClickUpdateToRestartAndApplyTheUpdate')
         },
         
-        doRenderedOk: function () {
+        _doRenderedOk: function () {
             chrome.runtime.reload();
         }
     });

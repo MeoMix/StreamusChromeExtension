@@ -36,7 +36,7 @@
             return valid;
         },
         
-        doRenderedOk: function () {
+        _doRenderedOk: function () {
             var playlistTitle = $.trim(this.ui.playlistTitle.val());
             this.model.set('title', playlistTitle);
         }
