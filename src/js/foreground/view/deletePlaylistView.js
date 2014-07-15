@@ -18,15 +18,15 @@
             dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
         },
         
+        doOk: function() {
+            this.model.destroy();
+        },
+        
         _doRenderedOk: function () {
             var remindDeletePlaylist = !this.ui.reminderCheckbox.is(':checked');
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
 
             this.doOk();
-        },
-        
-        doOk: function() {
-            this.model.destroy();
         }
     });
 

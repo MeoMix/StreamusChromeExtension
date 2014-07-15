@@ -28,6 +28,13 @@
             this.bindUIElements();
         },
         
+        validate: function () {
+            var selectedPlaylistId = this.ui.playlistSelect.val();
+            var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
+
+            return isValid;
+        },
+        
         _getSelectizeOptions: function () {
             var playlistOptions = Playlists.map(function (playlist) {
                 return {
@@ -104,13 +111,6 @@
         
         _onSelectizeDelete: function() {
             this.model.set('creating', false);
-        },
-        
-        validate: function() {
-            var selectedPlaylistId = this.ui.playlistSelect.val();
-            var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
-
-            return isValid;
         },
         
         _doRenderedOk: function () {

@@ -14,7 +14,7 @@
         },
         
         events: {
-            'click': 'doDelete'
+            'click': '_doDelete'
         },
         
         behaviors: {
@@ -23,7 +23,7 @@
             }
         },
         
-        doDelete: function () {
+        _doDelete: function () {
             this.model.destroy();
             
             //  Don't allow click to bubble up to the list item and cause a selection.

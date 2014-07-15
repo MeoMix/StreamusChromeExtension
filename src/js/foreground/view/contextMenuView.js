@@ -28,12 +28,12 @@
         },
         
         //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
-        _ensureOffset: function(offset, elementSize, containerSize) {
+        _ensureOffset: function(offset, elementDimension, containerDimension) {
             var ensuredOffset = offset;
-            var needsFlip = offset + elementSize > containerSize;
+            var needsFlip = offset + elementDimension > containerDimension;
             
             if (needsFlip) {
-                ensuredOffset -= elementSize;
+                ensuredOffset -= elementDimension;
             }
 
             return ensuredOffset;

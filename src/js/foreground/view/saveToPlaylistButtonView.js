@@ -27,12 +27,12 @@
             }
         },
 
-        onRender: function() {
-            this._setTitleAndDisabled();
-        },
-        
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this._setTitleAndDisabled);
+        },
+
+        onRender: function() {
+            this._setTitleAndDisabled();
         },
 
         _saveToPlaylist: _.debounce(function () {

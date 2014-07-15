@@ -24,19 +24,31 @@ define([
         },
         
         events: {
-            'click @ui.nextButton': 'tryActivateNextStreamItem',
-            'click @ui.previousButton': 'tryDoTimeBasedPrevious',
-            'click @ui.playPauseButton': 'tryTogglePlayerState'
+            'click @ui.nextButton': '_tryActivateNextStreamItem',
+            'click @ui.previousButton': '_tryDoTimeBasedPrevious',
+            'click @ui.playPauseButton': '_tryTogglePlayerState'
         },
         
         modelEvents: {
-            'change:state': 'setPlayPauseButtonState'
+            'change:state': '_setPlayPauseButtonState'
         },
         
         ui: {
             nextButton: '#next-button',
             previousButton: '#previous-button',
             playPauseButton: '#play-pause-button'
+        },
+
+        initialize: function () {
+            this.listenTo(NextButton, 'change:enabled', this._setNextButtonDisabled);
+            this.listenTo(PreviousButton, 'change:enabled', this._setPreviousButtonDisabled);
+            this.listenTo(PlayPauseButton, 'change:enabled', this._setPlayPauseButtonState);
+        },
+        
+        onRender: function () {
+            this._setPlayPauseButtonState();
+            this._setNextButtonDisabled();
+            this._setPreviousButtonDisabled();
         },
         
         onShow: function () {
@@ -52,41 +64,29 @@ define([
                 model: this.model
             }));
         },
-
-        onRender: function () {
-            this.setPlayPauseButtonState();
-            this.setNextButtonDisabled();
-            this.setPreviousButtonDisabled();
-        },
         
-        initialize: function () {
-            this.listenTo(NextButton, 'change:enabled', this.setNextButtonDisabled);
-            this.listenTo(PreviousButton, 'change:enabled', this.setPreviousButtonDisabled);
-            this.listenTo(PlayPauseButton, 'change:enabled', this.setPlayPauseButtonState);
-        },
-        
-        tryActivateNextStreamItem: function () {
+        _tryActivateNextStreamItem: function () {
             //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
             NextButton.tryActivateNextStreamItem();
         },
         
-        tryDoTimeBasedPrevious: function() {
+        _tryDoTimeBasedPrevious: function() {
             PreviousButton.tryDoTimeBasedPrevious();
         },
         
-        tryTogglePlayerState: function () {
+        _tryTogglePlayerState: function () {
             PlayPauseButton.tryTogglePlayerState();
         },
         
-        setNextButtonDisabled: function () {
+        _setNextButtonDisabled: function () {
             this.ui.nextButton.toggleClass('disabled', !NextButton.get('enabled'));
         },
         
-        setPreviousButtonDisabled: function() {
+        _setPreviousButtonDisabled: function() {
             this.ui.previousButton.toggleClass('disabled', !PreviousButton.get('enabled'));
         },
         
-        setPlayPauseButtonState: function() {
+        _setPlayPauseButtonState: function() {
             var playerState = this.model.get('state');
             
             var icon;

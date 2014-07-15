@@ -30,8 +30,12 @@
         },
 
         events: {
-            'input @ui.youTubeSourceInput': 'processInput',
-            'input @ui.playlistTitleInput': 'validateTitle'
+            'input @ui.youTubeSourceInput': '_onSourceInput',
+            'input @ui.playlistTitleInput': '_validateTitle'
+        },
+
+        onRender: function () {
+            this._setDataSourceAsUserInput();
         },
 
         onShow: function () {
@@ -39,68 +43,39 @@
             this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
         },
 
-        onRender: function () {
-            this.setDataSourceAsUserInput();
-        },
-        
-        validateTitle: function() {
-            //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
-            this.ui.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
-        },
-        
-        //  TODO: Refactor this so it's not so nested.
-        //  Debounce for typing support so I know when typing has finished
-        processInput: _.debounce(function () {
-            //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
-            setTimeout(function() {
-                var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
-                this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
-
-                if (youTubeUrl !== '') {
-                    //  Check validity of URL and represent validity via invalid class.
-                    var dataSource = new DataSource({
-                        url: youTubeUrl,
-                        parseVideo: false
-                    });
-
-                    dataSource.parseUrl({
-                        success: function() {
-                            this.ui.youTubeSourceInput.data('datasource', dataSource);
-
-                            dataSource.getTitle({
-                                success: function (title) {
-                                    this.ui.playlistTitleInput.val(title);
-                                    this.validateTitle();
-                                    this.ui.youTubeSourceInput.addClass('valid');
-                                }.bind(this),
-                                error: function () {
-                                    var originalValue = this.ui.playlistTitleInput.val();
-                                    this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-                                    this.ui.youTubeSourceInput.addClass('invalid');
-                                }.bind(this)
-                            });
-                        }.bind(this)
-                    });
-                } else {
-                    this.ui.youTubeSourceInput.removeClass('invalid valid');
-                    this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
-
-                    this.setDataSourceAsUserInput();
-                }
-            }.bind(this));
-        }, 100),
-
-        setDataSourceAsUserInput: function() {
-            this.ui.youTubeSourceInput.data('datasource', new DataSource({
-                type: DataSourceType.UserInput
-            }));
-        },
-        
         validate: function () {
             //  If all submittable fields indicate themselves as valid -- allow submission.
             var valid = this.$el.find('.submittable.invalid').length === 0;
             return valid;
+        },
+        
+        //  Debounce for typing support so I know when typing has finished
+        _onSourceInput: _.debounce(function () {
+            //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
+            setTimeout(this._parseInput.bind(this));
+        }, 100),
+        
+        _parseInput: function () {
+            var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
+            this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
+
+            if (youTubeUrl !== '') {
+                this._setDataSourceViaUrl(youTubeUrl);
+            } else {
+                this._resetInputState();
+            }
+        },
+        
+        _validateTitle: function () {
+            //  When the user submits - check to see if they provided a playlist name
+            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
+            this.ui.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
+        },
+
+        _setDataSourceAsUserInput: function() {
+            this.ui.youTubeSourceInput.data('datasource', new DataSource({
+                type: DataSourceType.UserInput
+            }));
         },
 
         _doRenderedOk: function () {
@@ -108,6 +83,45 @@
             var playlistName = $.trim(this.ui.playlistTitleInput.val());
 
             Playlists.addPlaylistByDataSource(playlistName, dataSource);
+        },
+        
+        _setDataSourceViaUrl: function(url) {
+            //  Check validity of URL and represent validity via invalid class.
+            var dataSource = new DataSource({
+                url: url,
+                parseVideo: false
+            });
+
+            dataSource.parseUrl({
+                success: this._onParseUrlSuccess.bind(this)
+            });
+        },
+        
+        _onParseUrlSuccess: function() {
+            this.ui.youTubeSourceInput.data('datasource', dataSource);
+
+            dataSource.getTitle({
+                success: this._onGetTitleSuccess.bind(this),
+                error: this._onGetTitleError.bind(this)
+            });
+        },
+        
+        _onGetTitleSuccess: function(title) {
+            this.ui.playlistTitleInput.val(title);
+            this.validateTitle();
+            this.ui.youTubeSourceInput.addClass('valid');
+        },
+        
+        _onGetTitleError: function() {
+            var originalValue = this.ui.playlistTitleInput.val();
+            this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
+            this.ui.youTubeSourceInput.addClass('invalid');
+        },
+        
+        _resetInputState: function() {
+            this.ui.youTubeSourceInput.removeClass('invalid valid');
+            this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
+            this._setDataSourceAsUserInput();
         }
     });
 

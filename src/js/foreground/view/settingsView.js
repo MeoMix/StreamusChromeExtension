@@ -4,7 +4,6 @@
     'use strict';
 
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
         className: 'settings',
@@ -22,8 +21,6 @@
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
             remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist')
         },
-        
-        model: Settings,
         
         ui: {
             suggestedQualitySelect: '#suggested-quality',
@@ -43,28 +40,28 @@
         
         setSuggestedQuality: function () {
             var suggestedQuality = this.ui.suggestedQualitySelect.val();
-            Settings.set('suggestedQuality', suggestedQuality);
+            this.model.set('suggestedQuality', suggestedQuality);
             Player.setSuggestedQuality(suggestedQuality);
         },
         
         setRemindClearStream: function() {
             var remindClearStream = this.ui.remindClearStreamCheckbox.is(':checked');
-            Settings.set('remindClearStream', remindClearStream);
+            this.model.set('remindClearStream', remindClearStream);
         },
         
         setRemindDeletePlaylist: function() {
             var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
-            Settings.set('remindDeletePlaylist', remindDeletePlaylist);
+            this.model.set('remindDeletePlaylist', remindDeletePlaylist);
         },
 
         setShowTooltips: function() {
             var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
-            Settings.set('showTooltips', showTooltips);
+            this.model.set('showTooltips', showTooltips);
         },
         
         setAlwaysOpenToSearch: function() {
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
-            Settings.set('alwaysOpenToSearch', alwaysOpenToSearch);
+            this.model.set('alwaysOpenToSearch', alwaysOpenToSearch);
         }
     });
 

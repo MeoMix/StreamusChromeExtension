@@ -17,8 +17,8 @@
         },
         
         events: {
-            'click': 'playInStream',
-            'dblclick': 'playInStream'
+            'click': '_playInStream',
+            'dblclick': '_playInStream'
         },
         
         behaviors: {
@@ -27,7 +27,7 @@
             }
         },
         
-        playInStream: _.debounce(function () {
+        _playInStream: _.debounce(function () {
             var song = this.model.get('song');
             var streamItem = StreamItems.getBySong(song);
 
