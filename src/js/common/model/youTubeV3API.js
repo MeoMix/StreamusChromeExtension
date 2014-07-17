@@ -136,7 +136,6 @@
         getRelatedSongInformationList: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
-                    console.log("hi", JSON.stringify(response));
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
@@ -169,7 +168,6 @@
         getSongInformationList: function (options) {
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function (response) {
-                    console.log(JSON.stringify(response));
                     if (_.isUndefined(response.items)) {
                         if (options.error) options.error('The response\'s item list was undefined. Song(s) may have been banned.');
                     } else {

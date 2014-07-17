@@ -29,6 +29,7 @@ define([
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
+            //console.log('chrome.identity', chrome.identity.getProfileUserInfo(function(a) { console.log('a', a) }));
 
             this.on('change:signedIn', this._onSignedInChanged);
             
@@ -82,18 +83,6 @@ define([
                     this.set('signInRetryTimer', 30);
                 }
             });
-
-            //  Trying to get user's info without signing in, it will work if the
-            //  Application was previously authorized by the user.
-            //this.getUserInfo(function (userInfo) {
-            //    if (userInfo === null) {
-            //        //  There was an issue fetching your information
-            //        this.signIn();
-            //    } else {
-            //        this.tryLoginWithGooglePlusId();
-            //    }
-
-            //}.bind(this));
         },
         
         _onSignedInChanged: function(model, signedIn) {
@@ -171,68 +160,6 @@ define([
 
         },
         
-        getUserInfo: function (onUserInfoReceived) {
-            this.getAuthToken(false, true, onUserInfoReceived);
-        },
-        
-        getAuthToken: function (interactive, retry, onUserInfoReceived) {
-
-            if (typeof chrome.identity === 'undefined') {
-                console.error('chrome.identity permission not granted.');
-                onUserInfoReceived(null);
-                return;
-            }
-
-            chrome.identity.getAuthToken({ interactive: interactive }, function (authToken) {
-                
-                if (chrome.runtime.lastError) {
-                    //  The most common error here would be the fact the user isn't signed into Google Chrome.
-                    var errorMessage = chrome.runtime.lastError.message;
-                    console.error(errorMessage);
-                    onUserInfoReceived(null);
-                    
-                    if (errorMessage === 'The user is not signed in.') {
-                        //  TODO: It is bad form to just automatically prompt the user to sign-in.
-                        //  The interactive: true flag should only be set after a user interaction such as clicking a "sign-in" button.
-                        //this.getAuthToken(true, retry, onUserInfoReceived);
-                    }
-
-                } else {
-                    this.getUserInfoWithAuthToken(authToken, retry, onUserInfoReceived);
-                }
-
-            }.bind(this));
-            
-        },
-        
-        //  TODO: Revisit manifest permissions.. Not sure if people/me is even requested as OK.
-        getUserInfoWithAuthToken: function (authToken, retry, onUserInfoReceived) {
-            
-            $.ajax({
-                url: 'https://www.googleapis.com/plus/v1/people/me',
-                headers: {
-                    'Authorization': 'Bearer ' + authToken
-                },
-                success: function (response) {
-                    onUserInfoReceived(response);
-                },
-                error: function (error) {
-
-                    //  If authorization failure occurs - retry a second time after clearing any cached information which may be expired.
-                    if (error.status == 401 && retry) {
-                        chrome.identity.removeCachedAuthToken({ token: authToken }, function() {
-                            this.getAuthToken(false, false, onUserInfoReceived);
-                        }.bind(this));
-                    } else {
-                        onUserInfoReceived(null);
-                        console.error(error);
-                    }
-
-                }.bind(this)
-            });
-            
-        },
-        
         addPlaylistByShareData: function (shortId, urlFriendlyEntityTitle, callback) {
             if (this.canSignIn()) {
                 this.listenToOnce(this, 'change:signedIn', function() {
@@ -289,12 +216,6 @@ define([
             this.set('signingIn', false);
             this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
-
-            //this.getUserInfo(function(userInfo) {
-            //    if (userInfo !== null && userInfo.id !== this.get('googlePlusId')) {
-            //        this.updateWithGooglePlusId(userInfo.id);
-            //    }
-            //}.bind(this));
         },
 
         //  Loads user data by ID from the server, writes the ID to client-side storage locations
@@ -344,7 +265,6 @@ define([
             //    }
             //}.bind(this));
         }
-    
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
