@@ -6,7 +6,6 @@
 
     //  TODO: needs updating since I changed DataSource stuff.
     describe('DataSource', function () {
-
         var expectDataSource = function (dataSource, expectations) {
             //  Allow for expectations to be optional.
             expectations = expectations || {};
@@ -55,7 +54,6 @@
                 type: DataSourceType.YouTubePlaylist,
                 url: 'https://gdata.youtube.com/feeds/api/users/-SyDtP6JOvHZVcRrZrXnyA/favorites'
             });
-
         });
 
         it('Should be able to parse YouTube Channel Uploads URL', function() {
@@ -93,7 +91,6 @@
                 type: DataSourceType.YouTubePlaylist,
                 url: 'https://gdata.youtube.com/feeds/api/users/majesticcasual/uploads'
             });
- 
         });
 
         it('Should be able to parse YouTube Auto-Generated Playlist URLs', function() {
@@ -110,11 +107,9 @@
                 id: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                 type: DataSourceType.YouTubePlaylist
             });
-
         });
 
         describe('when asked to get a YouTube Channel\'s title', function () {
-            
             beforeEach(function (done) {
                 this.dataSource = new DataSource({
                     url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA'
@@ -128,11 +123,9 @@
             it('should get the title of the channel', function () {
                 expect(this.dataSource.get('title')).toEqual('Majestic Casual');
             });
-            
         });
 
         describe('when asked to get a YouTube Playlist\'s title', function () {
-            
             beforeEach(function(done) {
                 this.dataSource = new DataSource({
                     url: 'http://www.youtube.com/playlist?p=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH'
@@ -146,7 +139,6 @@
             it('should get the title of the playlist', function() {
                 expect(this.dataSource.get('title')).toEqual('Top Tracks for Kendrick Lamar');
             });
-            
         });
         
         it('Should be able to successfully indicate whether it needsLoading', function () {
@@ -175,8 +167,6 @@
             //  12 digit URL is not valid
             expect((new DataSource()).parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KaaCau0E')).toEqual('');
         });
-
     });
-
 });
 

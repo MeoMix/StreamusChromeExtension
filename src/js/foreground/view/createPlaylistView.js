@@ -93,11 +93,13 @@
             });
 
             dataSource.parseUrl({
-                success: this._onParseUrlSuccess.bind(this)
+                success: function () {
+                    this._onParseUrlSuccess(dataSource);
+                }.bind(this)
             });
         },
         
-        _onParseUrlSuccess: function() {
+        _onParseUrlSuccess: function(dataSource) {
             this.ui.youTubeSourceInput.data('datasource', dataSource);
 
             dataSource.getTitle({
@@ -108,7 +110,7 @@
         
         _onGetTitleSuccess: function(title) {
             this.ui.playlistTitleInput.val(title);
-            this.validateTitle();
+            this._validateTitle();
             this.ui.youTubeSourceInput.addClass('valid');
         },
         

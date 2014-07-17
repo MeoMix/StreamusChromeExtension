@@ -1,23 +1,22 @@
 ﻿define([
     'backbone',
-    'boot',
+    'chai',
     'jquery.hoverIntent',
     'jquery',
     'jquery.qtip',
-    'jquery.scrollIntoView',
     'jquery.transit',
     'jquery-ui',
     'lodash',
-    'selectize'
-], function () {
-    
-    require(['background/model/settings'], function (Settings) {
-        //  Enable testing in Settings so configuration values can be set accordingly (API keys, etc. testing runs on localhost)
-        Settings.set('testing', true);
-        //  Testing should hit a local server and not be ran against the production database.
-        Settings.set('localDebug', true);
-    });
+    'mocha',
+    'selectize',
+    'sinon'
+], function (Backbone, chai) {
+
+    window.expect = chai.expect;
+    window.mocha.setup('bdd');
 
     //  Finally, load the tests:
-    require(['test/test']);
+    require(['test/test'], function () {
+        window.mocha.run();
+    });
 });

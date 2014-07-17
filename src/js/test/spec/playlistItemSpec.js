@@ -5,7 +5,6 @@
     'use strict';
 
     describe('PlaylistItem', function () {
-
         it('Should set its title properly when being created with a Song object', function () {
             var song = TestUtility.buildSong();
 
@@ -13,7 +12,7 @@
                 song: song
             });
    
-            expect(playlistItem.get('title')).toEqual(song.get('title'));
+            expect(playlistItem.get('title')).to.equal(song.get('title'));
         });
         
         it('Should set its title properly when being created with raw Song data', function () {
@@ -23,8 +22,7 @@
                 song: song
             });
 
-            expect(playlistItem.get('title')).toEqual(song.title);
+            expect(playlistItem.get('title')).to.equal(song.title);
         });
-
     });
 });

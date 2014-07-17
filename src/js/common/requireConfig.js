@@ -11,13 +11,12 @@
 
             //  Third Party:
             'async': 'thirdParty/async',
-            'boot': 'thirdParty/boot',
             'backbone': 'thirdParty/backbone',
             'backbone.localStorage': 'thirdParty/backbone.localStorage',
             'backbone.marionette': 'thirdParty/backbone.marionette',
+            //  TODO: I don't think chai/mocha/sinon should be known here, but maaaybe.
+            'chai': 'thirdParty/chai',
             'googleAnalytics': 'thirdParty/googleAnalytics',
-            'jasmine': 'thirdParty/jasmine',
-            'jasmine-html': 'thirdParty/jasmine-html',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
             'jquery.qtip': 'thirdParty/jquery.qtip',
@@ -25,25 +24,16 @@
             'jquery-ui': 'thirdParty/jquery-ui',
             'less': 'thirdParty/less',
             'lodash': 'thirdParty/lodash',
+            'mocha': 'thirdParty/mocha',
             'selectize': 'thirdParty/selectize',
+            'sinon': 'thirdParty/sinon',
             'text': 'thirdParty/text'
         },
 
         shim: {
-            'boot': {
-                deps: ['jasmine', 'jasmine-html'],
-                exports: 'window.jasmineRequire'
-            },
             'googleAnalytics': {
                 deps: ['jquery'],
                 exports: '_gaq'
-            },
-            'jasmine': {
-                exports: 'window.jasmineRequire'
-            },
-            'jasmine-html': {
-                deps: ['jasmine'],
-                exports: 'window.jasmineRequire'
             },
             'jquery.hoverIntent': {
                 deps: ['jquery'],
@@ -55,6 +45,12 @@
             },
             'less': {
                 exports: 'window.less'
+            },
+            'mocha': {
+                exports: 'window.mocha'
+            },
+            'sinon': {
+                exports: 'window.sinon'
             }
         }
     });
