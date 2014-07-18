@@ -136,15 +136,15 @@
         },
         
         showSettingsPrompt: function () {
-            window.Application.vent.trigger('showPrompt', SettingsPromptView);
+            Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
         },
         
         showCreatePlaylistPrompt: function () {
-            window.Application.vent.trigger('showPrompt', CreatePlaylistPromptView);
+            Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
         },
         
         showEditActivePlaylistPrompt: function () {
-            window.Application.vent.trigger('showPrompt', EditPlaylistPromptView, {
+            Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
                 playlist: this.collection.getActivePlaylist()
             });
         },
@@ -175,7 +175,7 @@
             if (isEmpty) {
                 activePlaylist.destroy();
             } else {
-                window.Application.vent.trigger('showPrompt', DeletePlaylistPromptView, {
+                Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
                     playlist: activePlaylist
                 });
             }

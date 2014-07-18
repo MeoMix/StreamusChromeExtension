@@ -20,12 +20,12 @@
             }
         },
         
-        _showClearStreamPrompt: function() {
-            window.Application.vent.trigger('showPrompt', ClearStreamPromptView);
+        _showClearStreamPrompt: function () {
+            Wreqr.radio.channel('prompt').vent.trigger('show', ClearStreamPromptView);
         },
         
         _showSaveSongsPrompt: function() {
-            window.Application.vent.trigger('showPrompt', SaveSongsPromptView, {
+            Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
                 songs: StreamItems.pluck('song')
             });
         }

@@ -1,22 +1,33 @@
 ﻿define(function () {
     'use strict';
-    
-    var Application = new Backbone.Marionette.Application();
-    
-    //  Configure qTip2's default behavior.
-    Application.addInitializer(function () {
-        $.extend($.fn.qtip.defaults.position, {
-            viewport: $(window),
-            my: 'top center',
-            at: 'bottom center',
-            hide: {
-                leave: false
-            }
-        });
 
-        $.extend($.fn.qtip.defaults.style, {
-            classes: 'qtip-light qtip-shadow'
-        });
+    var Application = Backbone.Marionette.Application.extend({
+        initialize: function () {
+            this._configureQtip();
+        },
+
+        //  Configure qTip2's default behavior.
+        _configureQtip: function () {
+            this._setQtipPositioning();
+            this._setQtipStyle();
+        },
+        
+        _setQtipPositioning: function () {
+            $.extend($.fn.qtip.defaults.position, {
+                viewport: $(window),
+                my: 'top center',
+                at: 'bottom center',
+                hide: {
+                    leave: false
+                }
+            });
+        },
+        
+        _setQtipStyle: function() {
+            $.extend($.fn.qtip.defaults.style, {
+                classes: 'qtip-light qtip-shadow'
+            });
+        }
     });
     
     Application.on('start', function () {
@@ -25,7 +36,4 @@
     });
 
     Application.start();
-
-    //  Expose Application globally for referencing EventAggregator, etc. without incurring circular reference in requireJS.
-    window.Application = Application;
 });

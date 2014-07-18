@@ -14,7 +14,7 @@
         showReloadPromptTimeout: null,
         
         initialize: function() {
-            this.listenTo(window.Application.vent, 'showPrompt', this._showPrompt);
+            this.listenTo(Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
             this.listenTo(Player, 'error', this._showYouTubeErrorPrompt);
         },
         

@@ -65,7 +65,7 @@
         _announceClickedElement: function (event) {
             var clickedItem = $(event.target).closest('.multi-select-item');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-            window.Application.vent.trigger('clickedElement', listItemType);
+            Wreqr.radio.channel('global').vent.trigger('clickedElement', listItemType);
         },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.

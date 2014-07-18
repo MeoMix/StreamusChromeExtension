@@ -53,7 +53,7 @@
         },
         
         _showSaveSongsPrompt: function() {
-            window.Application.vent.trigger('showPrompt', SaveSongsPromptView, {
+            Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
                 songs: [this.model.get('song')]
             });
         }

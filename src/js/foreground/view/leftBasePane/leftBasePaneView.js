@@ -29,11 +29,11 @@
         
         events: {
             'click @ui.showSearch': function () {
-                window.Application.vent.trigger('showSearch', true);
+                Wreqr.radio.channel('global').vent.trigger('showSearch', true);
             },
 
             'click @ui.showPlaylistsArea': function () {
-                window.Application.vent.trigger('showPlaylistsArea');
+                Wreqr.radio.channel('global').vent.trigger('showPlaylistsArea');
             }
         },
 

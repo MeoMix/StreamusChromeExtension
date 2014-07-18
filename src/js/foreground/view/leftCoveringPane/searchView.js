@@ -92,7 +92,7 @@
         
         initialize: function () {
             this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
-            this.listenTo(window.Application.vent, 'clickedElement', this._onClickedElement);
+            this.listenTo(Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
  
         onRender: function () {
@@ -201,7 +201,7 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                window.Application.vent.trigger('showPrompt', SaveSongsPromptView, {
+                Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
                     songs: this.collection.getSelectedSongs()
                 });
             }

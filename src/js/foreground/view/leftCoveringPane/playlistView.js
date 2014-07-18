@@ -139,7 +139,7 @@
         },
         
         _showEditPlaylistPrompt: function() {
-            window.Application.vent.trigger('showPrompt', EditPlaylistPromptView, {
+            Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
                 playlist: this.model
             });
         },
@@ -149,7 +149,7 @@
             if (this.model.get('items').length === 0) {
                 this.model.destroy();
             } else {
-                window.Application.vent.trigger('showPrompt', DeletePlaylistPromptView, {
+                Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
                     playlist: this.model
                 });
             }
