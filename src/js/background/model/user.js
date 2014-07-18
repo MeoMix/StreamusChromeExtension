@@ -7,8 +7,6 @@ define([
 ], function (Playlists, Settings) {
     'use strict';
 
-    var syncUserIdKey = 'UserId';
-
     //  User data will be loaded either from cache or server.
     var User = Backbone.Model.extend({
         defaults: function() {
@@ -25,85 +23,122 @@ define([
             };
         },
         
-        //  TODO: I feel like some of the work should've been done in parse and not onLoaded...
         urlRoot: Settings.get('serverURL') + 'User/',
 
         initialize: function () {
             //console.log('chrome.identity', chrome.identity.getProfileUserInfo(function(a) { console.log('a', a) }));
-
             this.on('change:signedIn', this._onSignedInChanged);
-            
-            chrome.runtime.onMessage.addListener(function (request, sender, sendResponse) {
+            this.on('change:signInFailed', this._onSignInFailedChanged);
+            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
+        },
+        
+        signIn: function () {
+            if (!this.canSignIn()) return;
 
-                switch (request.method) {
-                    case 'getSignedInState':
-                        sendResponse({
-                            signedIn: this.get('signedIn')
-                        });
-                        break;
-                    case 'signIn':
-                        this.signIn();
-                        break;
-                    case 'addPlaylistByShareData':
-                        this.addPlaylistByShareData(request.shareCodeShortId, request.urlFriendlyEntityTitle, function (playlist) {
-                            if (playlist) {
-                                sendResponse({
-                                    result: 'success',
-                                    playlistTitle: playlist.get('title')
-                                });
-                            } else {
-                                sendResponse({ result: 'error' });
-                            }
-                        });
-                        break;
-                }
+            this.set('signedIn', false);
+            this.set('signingIn', true);
 
-            }.bind(this));
+            var foundUserId = Settings.get('userId');
 
-            this.on('change:signInFailed', function (model, signInFailed) {
-                var signInRetryInterval = this.get('signInRetryInterval');
-                clearInterval(signInRetryInterval);
-
-                if (signInFailed) {
-
-                    signInRetryInterval = window.setInterval(function () {
-                        var signInRetryTimer = this.get('signInRetryTimer');
-
-                        if (signInRetryTimer === 1) {
-                            clearInterval(this.get('signInRetryTimerInterval'));
-                            this.set('signInRetryTimer', 30);
-                            this.set('signInFailed', false);
-                        }
-
-                        this.set('signInRetryTimer', this.get('signInRetryTimer') - 1);
-                    }.bind(this), 1000);
-
-                    this.set('signInRetryInterval', signInRetryInterval);
-                } else {
-                    this.set('signInRetryTimer', 30);
-                }
+            if (foundUserId !== null) {
+                //this.set('id', foundUserId);
+                this._fetch();
+            } else {
+                this._create();
+            }
+        },
+        
+        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
+        _create: function () {
+            this.save({}, {
+                success: this._onSignInSuccess.bind(this),
+                error: this._onSignInError.bind(this)
             });
+        },
+        
+        //  Loads user data by ID from the server, writes the ID to client-side storage locations
+        //  for future loading and then announces that the user has been signedIn.
+        _fetch: function () {
+            this.fetch({
+                success: this._onSignInSuccess.bind(this),
+                error: this._onSignInError.bind(this)
+            });
+        },
+        
+        _onSignInError: function (error) {
+            console.error(error);
+            this.set('signingIn', false);
+            this.set('signInFailed', true);
         },
         
         _onSignedInChanged: function(model, signedIn) {
             this.notifyYouTubeTabsSignedIn(signedIn);
         },
         
+        _onSignInFailedChanged: function (model, signInFailed) {
+            if (signInFailed) {
+                this._onSignInFailed();
+            }
+        },
+        
+        _onSignInFailed: function () {
+            clearInterval(this.get('signInRetryInterval'));
+            this.set('signInRetryInterval', setInterval(this._doSignInRetryTimerIntervalTick.bind(this), 1000));
+        },
+        
+        _doSignInRetryTimerIntervalTick: function () {
+            var signInRetryTimer = this.get('signInRetryTimer');
+            this.set('signInRetryTimer', signInRetryTimer - 1);
+
+            if (signInRetryTimer === 1) {
+                this._resetSignInRetryTimer();
+            }
+        },
+        
+        _resetSignInRetryTimer: function () {
+            clearInterval(this.get('signInRetryInterval'));
+            this.set('signInRetryTimer', 30);
+            this.set('signInFailed', false);
+        },
+        
+        _onRuntimeMessage: function(request, sender, sendResponse) {
+            switch (request.method) {
+                case 'getSignedInState':
+                    sendResponse({
+                        signedIn: this.get('signedIn')
+                    });
+                    break;
+                case 'signIn':
+                    this.signIn();
+                    break;
+                case 'addPlaylistByShareData':
+                    this.addPlaylistByShareData({
+                        shortId: request.shareCodeShortId,
+                        urlFriendlyEntityTitle: request.urlFriendlyEntityTitle,
+                        success: function(playlist) {
+                            sendResponse({
+                                result: 'success',
+                                playlistTitle: playlist.get('title')
+                            });
+                        },
+                        error: function(error) {
+                            sendResponse({
+                                result: 'error',
+                                error: error
+                            });
+                        }
+                    });
+                    break;
+            }
+        },
+        
         //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
         notifyYouTubeTabsSignedIn: function (signedIn) {
-            //  TODO: Is tabs sufficient here? Do I need to do windows, as well? 
+            //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
             chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
                 _.each(tabs, function (tab) {
-
-                    var event;
-                    if (signedIn) {
-                        event = 'signed-in';
-                    } else {
-                        event = 'signed-out';
-                    }
-
                     chrome.tabs.sendMessage(tab.id, {
-                        event: event
+                        event: signedIn ? 'signed-in': 'signed-out'
                     });
                 });
             });
@@ -115,55 +150,12 @@ define([
 
             return canSignIn;
         },
-        
-        signIn: function () {
-            if (!this.canSignIn()) return;
 
-            this.set('signedIn', false);
-            this.set('signingIn', true);
-            this.set('signInFailed', false);
-
-            //  chrome.Storage.sync is cross-computer syncing with restricted read/write amounts.
-            //chrome.storage.sync.get(syncUserIdKey, function (data) {
-            //    //  Look for a user id in sync, it might be undefined though.
-            //    var foundUserId = data[syncUserIdKey];
-
-            //    if (_.isUndefined(foundUserId)) {
-
-                    var foundUserId = Settings.get('userId');
-
-                    if (foundUserId !== null) {
-                        this.set('id', foundUserId);
-                        this.loadFromServer(true);
-                    } else {
-
-                        //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-                        this.save({}, {
-                            success: function (model) {
-                                this.onLoaded(model, true);
-                            }.bind(this),
-                            error: function (error) {
-                                console.error(error);
-                                this.set('signInFailed', true);
-                            }.bind(this)
-                        });
-                    }
-
-            //    } else {
-            //        //  Update the model's id to proper value and call fetch to retrieve all data from server.
-            //        this.set('id', foundUserId);
-
-            //        //  Pass false due to success of fetching from chrome.storage.sync -- no need to overwrite with same data.
-            //        this.loadFromServer(false);
-            //    }
-            //}.bind(this));
-
-        },
-        
-        addPlaylistByShareData: function (shortId, urlFriendlyEntityTitle, callback) {
+        //  Expects options: { shortId, urlFriendlyEntityTitle, success, error };
+        addPlaylistByShareData: function (options) {
             if (this.canSignIn()) {
                 this.listenToOnce(this, 'change:signedIn', function() {
-                    this.addPlaylistByShareData(shortId, urlFriendlyEntityTitle, callback);
+                    this.addPlaylistByShareData(options);
                 });
 
                 this.signIn();
@@ -172,24 +164,24 @@ define([
                     type: 'POST',
                     url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
                     data: {
-                        shortId: shortId,
-                        urlFriendlyEntityTitle: urlFriendlyEntityTitle,
+                        shortId: options.shortId,
+                        urlFriendlyEntityTitle: options.urlFriendlyEntityTitle,
                         userId: this.get('id')
                     },
                     success: function (playlistDto) {
                         //  Add and convert back from JSON to Backbone object.
                         var playlist = Playlists.add(playlistDto);
-                        callback(playlist);
+                        options.success(playlist);
                     }.bind(this),
                     error: function (error) {
                         console.error("Error adding playlist by share data", error);
-                        callback();
+                        options.error();
                     }
                 });
             }
         },
         
-        onLoaded: function (model, setSyncStorage) {
+        _onSignInSuccess: function () {
             //  TODO: Go through User instead of Playlists.
             //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
             Playlists.reset(this.get('playlists'));
@@ -198,42 +190,14 @@ define([
             if (_.isUndefined(Playlists.getActivePlaylist())) {
                 Playlists.at(0).set('active', true);
             }
-            
-            //  Write to sync as little as possible because it has restricted read/write limits per hour.
-            var settingsUserId = Settings.get('userId');
-
-            //  If settings has changed -- assume need to keep in sync no matter what.
-            if (setSyncStorage || settingsUserId !== this.get('id')) {
-                //  Using the bracket access notation here to leverage the variable which stores the key for chrome.storage.sync
-                //  I want to be able to ensure I am getting/setting from the same location, thus the variable.
-                var storedKey = {};
-                storedKey[syncUserIdKey] = model.get('id');
-
-                chrome.storage.sync.set(storedKey);
-            }
 
             //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
             this.set('signedIn', true);
             Settings.set('userId', this.get('id'));
         },
-
-        //  Loads user data by ID from the server, writes the ID to client-side storage locations
-        //  for future loading and then announces that the user has been signedIn.
-        loadFromServer: function (setSyncStorage) {
-            this.fetch({
-                success: function (model) {
-                    this.onLoaded(model, setSyncStorage);
-                }.bind(this),
-                error: function () {
-                    this.set('signingIn', false);
-                    this.set('signInFailed', true);
-                }.bind(this)
-            });
-        },
         
         updateWithGooglePlusId: function(googlePlusId) {
-
             //  Testing that GooglePlusId logic works before relying on it.
             $.ajax({
                 url: Settings.get('serverURL') + 'User/UpdateGooglePlusId',
@@ -243,11 +207,9 @@ define([
                     googlePlusId: googlePlusId
                 }
             });
-            
         },
         
         tryLoginWithGooglePlusId: function (googlePlusId) {
-
             //$.ajax({
             //    url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
             //    contentType: 'application/json; charset=utf-8',
