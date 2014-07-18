@@ -4,6 +4,7 @@
     var Application = Backbone.Marionette.Application.extend({
         initialize: function () {
             this._configureQtip();
+            this.on('start', this._showForeground);
         },
 
         //  Configure qTip2's default behavior.
@@ -27,13 +28,14 @@
             $.extend($.fn.qtip.defaults.style, {
                 classes: 'qtip-light qtip-shadow'
             });
+        },
+        
+        _showForeground: function() {
+            //  Fire up the foreground:
+            require(['foreground/view/foregroundView']);
         }
     });
-    
-    Application.on('start', function () {
-        //  Fire up the foreground:
-        require(['foreground/view/foregroundView']);
-    });
 
-    Application.start();
+    var application = new Application();
+    application.start();
 });
