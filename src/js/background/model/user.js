@@ -108,16 +108,24 @@ define([
                 this._promptGoogleLogin(googlePlusId);
             }
 
+            console.log("Google PLus ID:", googlePlusId);
+
             googlePlusId === '' ? this._tryLoadingByUserId() : this._fetchByGooglePlusId(googlePlusId);
         },
         
         _tryLoadingByUserId: function() {
             var userId = this._getLocalUserId();
+            console.log("userId:", userId);
             userId === null ? this._createIfNew() : this._fetchByUserId(userId);
         },
         
         _getLocalUserId: function() {
             return Settings.get('userId');
+        },
+        
+        //  TODO: This is only used for testing. Not sure how I feel about its existence. 
+        _setLocalUserId: function (userId) {
+            Settings.set('userId', userId);
         },
         
         _clearLocalUserId: function () {
@@ -155,6 +163,7 @@ define([
             Settings.set('userId', this.get('id'));
 
             this._shouldLinkUserId(function (shouldLinkUserId) {
+                console.log("Should link:", shouldLinkUserId);
                 if (shouldLinkUserId) {
                     this._promptLinkUserId();
                 }
@@ -170,8 +179,7 @@ define([
             if (this._supportsGoogleLogin()) {
                 chrome.identity.getProfileUserInfo(function (profileUserInfo) {
                     var signedIn = profileUserInfo.id !== '';
-
-                    callback(signedIn && this.get('googlePlusId') === '');
+                    callback(signedIn && this.get('googlePlusId') !== '');
                 }.bind(this));
             } else {
                 callback(false);
@@ -224,6 +232,7 @@ define([
                 case 'signIn':
                     this.signInWithGoogle();
                     break;
+                //  TODO: This code doesn't really belong here. It should go into Playlists.
                 case 'addPlaylistByShareData':
                     this.addPlaylistByShareData({
                         shortId: request.shareCodeShortId,
@@ -324,10 +333,12 @@ define([
                     googlePlusId: googlePlusId
                 },
                 success: function (userDto) {
+                    console.log("Fetch response:", userDto);
                     if (userDto === null) {
                         this._tryLoadingByUserId();
                     } else {
                         this.set(userDto);
+                        console.log('onSignInSuccess');
                         this._onSignInSuccess();
                     }
                 }.bind(this),
