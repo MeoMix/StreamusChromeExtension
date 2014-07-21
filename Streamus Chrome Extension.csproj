@@ -41,14 +41,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+    <Folder Include="src\js\test\background\" />
+    <Folder Include="src\js\test\foreground\view\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
     <Content Include="src\css\font-awesome.css" />
     <Content Include="src\css\fontello.css" />
-    <Content Include="src\css\jasmine.css" />
     <Content Include="src\css\jquery.qtip.css" />
+    <Content Include="src\css\mocha.css" />
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
     <Content Include="src\css\youTubeInject.css" />
@@ -81,6 +83,7 @@
     <Content Include="src\img\Yellow 2.png" />
     <Content Include="src\img\Yellow 3.png" />
     <Content Include="src\img\Yellow 4.png" />
+    <Content Include="src\js\background\application.js" />
     <Content Include="src\js\background\background.js" />
     <Content Include="src\js\background\collection\multiSelectCollection.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
@@ -208,10 +211,8 @@
     <Content Include="src\font\fontello.woff" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
-    <Content Include="src\js\thirdParty\boot.js" />
+    <Content Include="src\js\thirdParty\chai.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
-    <Content Include="src\js\thirdParty\jasmine-html.js" />
-    <Content Include="src\js\thirdParty\jasmine.js" />
     <Content Include="src\js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
@@ -219,8 +220,10 @@
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
+    <Content Include="src\js\thirdParty\mocha.js" />
     <Content Include="src\js\thirdParty\require.js" />
     <Content Include="src\js\thirdParty\selectize.js" />
+    <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <None Include="src\less\beatportInject.less" />
     <None Include="src\less\youTubeInject.less" />
@@ -266,10 +269,9 @@
     <Content Include="src\template\search.html" />
     <Content Include="src\template\volume.html" />
     <Content Include="src\js\test\main.js" />
-    <Content Include="src\js\test\spec\relatedVideoInformationManagerSpec.js" />
+    <Content Include="src\js\test\spec\relatedSongInformationManagerSpec.js" />
     <Content Include="src\js\test\spec\dataSourceSpec.js" />
     <Content Include="src\js\test\spec\clientErrorSpec.js" />
-    <Content Include="src\js\test\spec\streamItemsSpec.js" />
     <Content Include="src\js\test\spec\utilitySpec.js" />
     <Content Include="src\js\test\spec\youTubeV3APISpec.js" />
     <Content Include="src\js\test\test.js" />
