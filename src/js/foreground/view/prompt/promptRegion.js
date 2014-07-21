@@ -14,7 +14,7 @@
         showReloadPromptTimeout: null,
         
         initialize: function() {
-            this.listenTo(Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
+            this.listenTo(Backbone.Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
             this.listenTo(Player, 'error', this._showYouTubeErrorPrompt);
         },
         
@@ -60,6 +60,7 @@
             if (reminderDisabled) {
                 promptView.model.get('view').doOk();
             } else {
+                //  TODO: Remove this after updating to Marionette v2.0.3
                 this.listenToOnce(promptView, 'hidden', this.empty);
                 this.show(promptView);
             }

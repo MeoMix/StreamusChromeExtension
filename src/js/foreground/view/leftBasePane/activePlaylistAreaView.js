@@ -75,7 +75,7 @@
         },
         
         initialize: function () {
-            this.listenTo(Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
 
         onRender: function () {            

@@ -54,7 +54,7 @@
         },
 
         signIn: function () {
-            this.model.signIn();
+            this.model.signInWithGoogle();
         }
     });
 

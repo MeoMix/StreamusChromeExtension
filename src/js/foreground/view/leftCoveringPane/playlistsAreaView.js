@@ -136,15 +136,15 @@
         },
         
         showSettingsPrompt: function () {
-            Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
         },
         
         showCreatePlaylistPrompt: function () {
-            Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
         },
         
         showEditActivePlaylistPrompt: function () {
-            Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
                 playlist: this.collection.getActivePlaylist()
             });
         },
@@ -175,7 +175,7 @@
             if (isEmpty) {
                 activePlaylist.destroy();
             } else {
-                Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
+                Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
                     playlist: activePlaylist
                 });
             }

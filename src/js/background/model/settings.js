@@ -11,7 +11,7 @@
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
             
             return {
-                localDebug: false,
+                localDebug: true,
                 testing: false,
                 serverURL: '',
                 

@@ -1,10 +1,10 @@
 ﻿define([
-    'backbone',
+    'backbone.marionette',
     'backbone.localStorage',
     'googleAnalytics'
 ], function () {
     'use strict';
     
-    //  Finally, load the background:
-    require(['background/background']);
+    //  Finally, load the application:
+    require(['background/application']);
 });

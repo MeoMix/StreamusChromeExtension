@@ -21,11 +21,11 @@
         },
         
         _showClearStreamPrompt: function () {
-            Wreqr.radio.channel('prompt').vent.trigger('show', ClearStreamPromptView);
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', ClearStreamPromptView);
         },
         
         _showSaveSongsPrompt: function() {
-            Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
                 songs: StreamItems.pluck('song')
             });
         }

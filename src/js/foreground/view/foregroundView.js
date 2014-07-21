@@ -48,7 +48,7 @@
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            User.signIn();
+            User.signInWithGoogle();
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
@@ -65,7 +65,7 @@
         _announceClickedElement: function (event) {
             var clickedItem = $(event.target).closest('.multi-select-item');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-            Wreqr.radio.channel('global').vent.trigger('clickedElement', listItemType);
+            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', listItemType);
         },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.

@@ -53,7 +53,7 @@
         },
         
         _showSaveSongsPrompt: function() {
-            Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
                 songs: [this.model.get('song')]
             });
         }

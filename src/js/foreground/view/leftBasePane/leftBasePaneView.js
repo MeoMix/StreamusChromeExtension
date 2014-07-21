@@ -29,11 +29,11 @@
         
         events: {
             'click @ui.showSearch': function () {
-                Wreqr.radio.channel('global').vent.trigger('showSearch', true);
+                Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
             },
 
             'click @ui.showPlaylistsArea': function () {
-                Wreqr.radio.channel('global').vent.trigger('showPlaylistsArea');
+                Backbone.Wreqr.radio.channel('global').vent.trigger('showPlaylistsArea');
             }
         },
 

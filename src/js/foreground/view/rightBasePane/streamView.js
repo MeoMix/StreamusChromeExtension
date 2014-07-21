@@ -46,7 +46,7 @@
             'click @ui.radioButton': 'toggleRadio',
             'click @ui.repeatButton': 'toggleRepeat',
             'click @ui.showSearch': function () {
-                Wreqr.radio.channel('global').vent.trigger('showSearch', true);
+                Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
             }
         },
         
@@ -91,7 +91,7 @@
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
             
-            this.listenTo(Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
         
         onRender: function () {

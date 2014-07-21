@@ -12,8 +12,8 @@
         el: '#left-covering-pane-region',
         
         initialize: function () {
-            this.listenTo(Wreqr.radio.channel('global').vent, 'showSearch', this.showSearchView);
-            this.listenTo(Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this.showPlaylistsAreaView);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showSearch', this.showSearchView);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this.showPlaylistsAreaView);
             
             if (Settings.get('alwaysOpenToSearch')) {
                 this.showSearchView(false);
