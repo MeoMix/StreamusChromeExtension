@@ -11,7 +11,7 @@
 ], function (ListItemType, RepeatButtonState, StreamAction, MultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
     'use strict';
 
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
     var RadioButton = chrome.extension.getBackgroundPage().RadioButton;
     var RepeatButton = chrome.extension.getBackgroundPage().RepeatButton;
     var ShuffleButton = chrome.extension.getBackgroundPage().ShuffleButton;
@@ -29,8 +29,7 @@
                 clearStreamMessage: chrome.i18n.getMessage('clearStream'),
                 searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
                 whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr'),
-                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn'),
-                userSignedIn: User.get('signedIn')
+                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
             };
         },
         
@@ -86,7 +85,7 @@
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.updateSaveStreamButton);
+            this.listenTo(SignInManager, 'change:signedIn', this.updateSaveStreamButton);
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
@@ -119,12 +118,12 @@
         },
         
         updateSaveStreamButton: function () {
-            var userSignedIn = User.get('signedIn');
+            var signedIn = SignInManager.get('signedIn');
             
             var templateHelpers = this.templateHelpers();
-            var newTitle = userSignedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
+            var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
 
-            this.ui.saveStreamButton.toggleClass('disabled', !userSignedIn);
+            this.ui.saveStreamButton.toggleClass('disabled', !signedIn);
             this.ui.saveStreamButton.attr('title', newTitle);
         },
         

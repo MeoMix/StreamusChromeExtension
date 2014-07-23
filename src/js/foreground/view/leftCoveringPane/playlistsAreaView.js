@@ -11,7 +11,7 @@
 ], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlists-area',
@@ -60,8 +60,8 @@
         },
 
         initialize: function () {
-            //  Don't show playlist actions if User isn't signedIn because won't be able to save reliably.
-            this.listenTo(User, 'change:signedIn', this.toggleContextButtons);
+            //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
+            this.listenTo(SignInManager, 'change:signedIn', this.toggleContextButtons);
         },
 
         onRender: function () {
@@ -150,7 +150,7 @@
         },
         
         toggleContextButtons: function () {
-            this.ui.contextButtons.toggle(User.get('signedIn'));
+            this.ui.contextButtons.toggle(SignInManager.get('signedIn'));
         },
         
         setDeleteButtonState: function() {

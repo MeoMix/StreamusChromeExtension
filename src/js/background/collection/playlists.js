@@ -1,10 +1,11 @@
 ﻿define([
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlist',
+    'background/model/settings',
     'background/model/song',
     'common/model/youTubeV3API',
     'common/model/dataSource'
-], function (SequencedCollectionMixin, Playlist, Song, YouTubeV3API, DataSource) {
+], function (SequencedCollectionMixin, Playlist, Settings, Song, YouTubeV3API, DataSource) {
     'use strict';
 
     var Playlists = Backbone.Collection.extend({
@@ -117,6 +118,25 @@
                 if (playlist !== changedPlaylist) {
                     playlist.set('active', false);
                 }
+            });
+        },
+
+        //  Expects options: { shortId, urlFriendlyEntityTitle, success, error };
+        addPlaylistByShareData: function (options) {
+            $.ajax({
+                type: 'POST',
+                url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
+                data: {
+                    shortId: options.shortId,
+                    urlFriendlyEntityTitle: options.urlFriendlyEntityTitle,
+                    userId: this.userId
+                },
+                success: function (playlistDto) {
+                    //  Add and convert back from JSON to Backbone object.
+                    var playlist = this.add(playlistDto);
+                    options.success(playlist);
+                }.bind(this),
+                error: options.error
             });
         },
         

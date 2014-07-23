@@ -3,13 +3,13 @@ define([
     'background/collection/streamItems',
     'background/collection/playlists',
     'background/model/notificationsManager',
+    'background/model/signInManager',
     'background/model/song',
-    'background/model/user',
     'common/enum/dataSourceType',
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, NotificationsManager, Song, User, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (StreamItems, Playlists, NotificationsManager, SignInManager, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -66,16 +66,14 @@ define([
                 }.bind(this)
             }));
             
-            if (User.get('signedIn')) {
+            if (SignInManager.get('signedIn')) {
                 this.createSaveContextMenu(contextMenuOptions);
             } else {
-
-                this.listenTo(User, 'change:signedIn', function (model, signedIn) {
+                this.listenTo(SignInManager, 'change:signedIn', function (model, signedIn) {
                     if (signedIn) {
                         this.createSaveContextMenu(contextMenuOptions);
                     }
                 });
-
             }
         },
         

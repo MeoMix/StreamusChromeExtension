@@ -8,7 +8,7 @@
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
         id: 'left-base-pane',
@@ -49,7 +49,7 @@
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.updateRegions);
+            this.listenTo(SignInManager, 'change:signedIn', this.updateRegions);
             this.listenTo(Playlists, 'change:active', this._onActivePlaylistChange);
         },
         
@@ -58,7 +58,7 @@
         },
         
         updateRegions: function () {
-            if (User.get('signedIn')) {
+            if (SignInManager.get('signedIn')) {
                 this._showActivePlaylistContent();
             } else {
                 this._showSignInContent();
@@ -85,7 +85,7 @@
             if (!(this.contentRegion.currentView instanceof SignInView)) {
                 //  Otherwise, allow the user to sign in by showing a sign in prompt.
                 this.contentRegion.show(new SignInView({
-                    model: User
+                    model: SignInManager
                 }));
 
                 this.playlistTitleRegion.empty();

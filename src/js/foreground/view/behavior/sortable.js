@@ -9,7 +9,7 @@
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var Search = chrome.extension.getBackgroundPage().Search;
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
     
     var Sortable = Backbone.Marionette.Behavior.extend({
         onRender: function () {
@@ -82,7 +82,7 @@
                     //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
                     //  duplicates in the Stream.
                     if (listItemType === ListItemType.StreamItem) {
-                        if (User.get('signedIn')) {
+                        if (SignInManager.get('signedIn')) {
                             var streamItemId = ui.item.data('id');
 
                             //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.

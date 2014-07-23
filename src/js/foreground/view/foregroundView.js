@@ -11,7 +11,7 @@
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
     var Settings = chrome.extension.getBackgroundPage().Settings;
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var ForegroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),
@@ -48,7 +48,7 @@
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            User.signInWithGoogle();
+            SignInManager.signInWithGoogle();
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));

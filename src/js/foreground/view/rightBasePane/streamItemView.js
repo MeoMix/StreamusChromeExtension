@@ -12,7 +12,7 @@
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
     var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
 
     var StreamItemView = MultiSelectListItemView.extend({
@@ -70,22 +70,22 @@
             var activePlaylist = Playlists.getActivePlaylist();
             var alreadyExists = false;
             
-            var userSignedIn = User.get('signedIn');
-            if (userSignedIn) {
+            var signedIn = SignInManager.get('signedIn');
+            if (signedIn) {
                 alreadyExists = activePlaylist.get('items').hasSong(this.model.get('song'));
             }
 
             var saveTitle = '';
-            if (userSignedIn && alreadyExists) {
+            if (signedIn && alreadyExists) {
                 saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
-            } else if (!userSignedIn) {
+            } else if (!signedIn) {
                 saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
             }
 
             ContextMenuItems.reset([{
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
-                    disabled: !userSignedIn || alreadyExists,
+                    disabled: !signedIn || alreadyExists,
                     onClick: this._addToActivePlaylistItems.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('copyUrl'),

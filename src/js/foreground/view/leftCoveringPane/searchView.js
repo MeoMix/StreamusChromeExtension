@@ -11,7 +11,7 @@
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
@@ -91,7 +91,7 @@
         },
         
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this.toggleSaveSelected);
+            this.listenTo(SignInManager, 'change:signedIn', this.toggleSaveSelected);
             this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
  
@@ -150,11 +150,11 @@
         },
         
         toggleSaveSelected: function () {
-            var userSignedIn = User.get('signedIn');
-            this.ui.saveSelectedButton.toggleClass('disabled', !userSignedIn);
+            var signedIn = SignInManager.get('signedIn');
+            this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
 
             var templateHelpers = this.templateHelpers();
-            this.ui.saveSelectedButton.attr('title', userSignedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
+            this.ui.saveSelectedButton.attr('title', signedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
         toggleBottomMenubar: function () {
             var selectedCount = this.collection.selected().length;

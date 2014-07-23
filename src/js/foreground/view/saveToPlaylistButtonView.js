@@ -5,7 +5,7 @@
 ], function (Tooltip, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
-    var User = chrome.extension.getBackgroundPage().User;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',
@@ -28,7 +28,7 @@
         },
 
         initialize: function () {
-            this.listenTo(User, 'change:signedIn', this._setTitleAndDisabled);
+            this.listenTo(SignInManager, 'change:signedIn', this._setTitleAndDisabled);
         },
 
         onRender: function() {
@@ -46,7 +46,7 @@
         }, 100, true),
         
         _setTitleAndDisabled: function () {
-            var signedIn = User.get('signedIn');
+            var signedIn = SignInManager.get('signedIn');
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
