@@ -37,6 +37,8 @@
 
         initialize: function () {
             this._checkPlayerReady();
+            this.promptRegion.promptIfNeedGoogleSignIn();
+            this.promptRegion.promptIfNeedLinkUserId();
             this.promptRegion.promptIfUpdateAvailable();
             this._setContextMenuRegion();
 

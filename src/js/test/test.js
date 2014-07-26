@@ -1,4 +1,5 @@
 ﻿define([
+      'test/background/model/userTests',
       'test/background/model/signInManagerTests'
     //'test/spec/playlistItemsSpec',
     //'test/spec/playlistItemSpec',

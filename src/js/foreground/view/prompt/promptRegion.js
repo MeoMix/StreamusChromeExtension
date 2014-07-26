@@ -1,21 +1,26 @@
 ﻿define([
     'common/enum/youTubePlayerError',
+    'foreground/view/prompt/googleSignInPromptView',
+    'foreground/view/prompt/linkUserIdPromptView',
     'foreground/view/prompt/noPlayEmbeddedPromptView',
     'foreground/view/prompt/notificationPromptView',
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView'
-], function (YouTubePlayerError, NoPlayEmbeddedPromptView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView) {
+], function (YouTubePlayerError, GoogleSignInPromptView, LinkUserIdPromptView, NoPlayEmbeddedPromptView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView) {
     'use strict';
     
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
         el: '#prompt-region',
         showReloadPromptTimeout: null,
         
-        initialize: function() {
+        initialize: function () {
             this.listenTo(Backbone.Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
             this.listenTo(Player, 'error', this._showYouTubeErrorPrompt);
+            this.listenTo(SignInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
+            this.listenTo(SignInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
         },
         
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
@@ -24,6 +29,20 @@
             chrome.runtime.onUpdateAvailable.addListener(this._showUpdateStreamusPrompt.bind(this));
             //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
             chrome.runtime.requestUpdateCheck(function () { });
+        },
+        
+        //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
+        //  This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
+        promptIfNeedLinkUserId: function() {
+            if (SignInManager.get('needPromptLinkUserId')) {
+                this._showLinkUserIdPrompt();
+            }
+        },
+        
+        promptIfNeedGoogleSignIn: function() {
+            if (SignInManager.get('needPromptGoogleSignIn')) {
+                this._showGoogleSignInPrompt();
+            }
         },
         
         //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
@@ -38,6 +57,27 @@
             if (this.currentView instanceof ReloadStreamusPromptView) {
                 this.currentView.hide();
             }
+        },
+        
+        _onChangeNeedPromptLinkUserId: function (model, needPromptLinkUserId) {
+            if (needPromptLinkUserId) {
+                this._showLinkUserIdPrompt();
+            }
+        },
+        
+        _onChangeNeedPromptGoogleSignIn: function (model, needPromptGoogleSignIn) {
+            if (needPromptGoogleSignIn) {
+                this._showGoogleSignInPrompt();
+            }
+        },
+        
+        //  Prompt the user to confirm that they want to link their Google+ ID to the currently signed in account.
+        _showLinkUserIdPrompt: function () {
+            this._showPrompt(LinkUserIdPromptView);
+        },
+        
+        _showGoogleSignInPrompt: function () {
+            this._showPrompt(GoogleSignInPromptView);
         },
         
         //  Display a prompt to the user indicating that they should restart Streamus because an update has been downloaded.
@@ -58,7 +98,11 @@
             var reminderDisabled = promptView.reminderDisabled();
             
             if (reminderDisabled) {
-                promptView.model.get('view').doOk();
+                var doOkFunction = promptView.model.get('view').doOk;
+                
+                if (_.isFunction(doOkFunction)) {
+                    doOkFunction();
+                }
             } else {
                 //  TODO: Remove this after updating to Marionette v2.0.3
                 this.listenToOnce(promptView, 'hidden', this.empty);

@@ -19,7 +19,9 @@
             alwaysOpenToSearchMessage: chrome.i18n.getMessage('alwaysOpenToSearch'),
             remindersMessage: chrome.i18n.getMessage('reminders'),
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
-            remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist')
+            remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist'),
+            remindLinkAccountMessage: chrome.i18n.getMessage('remindLinkAccount'),
+            remindGoogleSignInMessage: chrome.i18n.getMessage('remindGoogleSignIn')
         },
         
         ui: {
@@ -27,6 +29,8 @@
             showTooltipsCheckbox: '#show-tooltips',
             remindClearStreamCheckbox: '#remind-clear-stream',
             remindDeletePlaylistCheckbox: '#remind-delete-playlist',
+            remindLinkUserIdCheckbox: '#remind-link-user-id',
+            remindGoogleSignInCheckbox: '#remind-google-sign-in',
             alwaysOpenToSearchCheckbox: '#always-open-to-search'
         },
         
@@ -35,7 +39,9 @@
             'change @ui.remindClearStreamCheckbox': 'setRemindClearStream',
             'change @ui.remindDeletePlaylistCheckbox': 'setRemindDeletePlaylist',
             'change @ui.showTooltipsCheckbox': 'setShowTooltips',
-            'change @ui.alwaysOpenToSearchCheckbox': 'setAlwaysOpenToSearch'
+            'change @ui.alwaysOpenToSearchCheckbox': 'setAlwaysOpenToSearch',
+            'change @ui.remindLinkUserIdCheckbox': 'setRemindLinkUserId',
+            'change @ui.remindGoogleSignInCheckbox': 'setRemindGoogleSignIn'
         },
         
         setSuggestedQuality: function () {
@@ -52,6 +58,16 @@
         setRemindDeletePlaylist: function() {
             var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
             this.model.set('remindDeletePlaylist', remindDeletePlaylist);
+        },
+        
+        setRemindLinkUserId: function () {
+            var remindLinkUserId = this.ui.remindLinkUserIdCheckbox.is(':checked');
+            this.model.set('remindLinkUserId', remindLinkUserId);
+        },
+        
+        setRemindGoogleSignIn: function() {
+            var remindGoogleSignIn = this.ui.remindGoogleSignInCheckbox.is(':checked');
+            this.model.set('remindGoogleSignIn', remindGoogleSignIn);
         },
 
         setShowTooltips: function() {

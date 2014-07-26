@@ -429,5 +429,23 @@
 	},
 	"searchForAndPlay": {
 		"message": "Search for and Play"
+	},
+	"linkAccountToGoogle": {
+		"message": "Link account to Google?"
+	},
+	"linkAccountMessage": {
+		"message": "You're signed into Google, but you haven't linked your account to Streamus. You'll be able to access playlists from any computer if you link these accounts. Would you like to?"
+	},
+	"remindLinkAccount": {
+		"message": "Remind link account"
+	},
+	"signInToGoogle": {
+		"message": "Sign in to Google"
+	},
+	"googleSignInMessage": {
+		"message": "It looks like you're not signed into Google. If you were, your Streamus playlists would be accessible from any computer."
+	},
+	"remindGoogleSignIn": {
+		"message": "Remind Google sign in"
 	}
 }

@@ -56,6 +56,18 @@
                     <%= remindDeletePlaylistMessage %>
                 </label>
             </li>
+            <li>
+                <label>
+                    <input type="checkbox" id="remind-link-user-id" <%= remindLinkUserId ? 'checked' : '' %>>
+                    <%= remindLinkAccountMessage %>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" id="remind-google-sign-in" <%= remindGoogleSignIn ? 'checked' : '' %>>
+                    <%= remindGoogleSignInMessage %>
+                </label>
+            </li>
         </ul>
     </div>
 </div>

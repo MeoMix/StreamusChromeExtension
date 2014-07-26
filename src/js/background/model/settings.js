@@ -6,6 +6,8 @@
         defaults: function () {
             var remindClearStream = this.getItem('remindClearStream');
             var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
+            var remindLinkUserId = this.getItem('remindLinkUserId');
+            var remindGoogleSignIn = this.getItem('remindGoogleSignIn');
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
@@ -20,6 +22,8 @@
                 showTooltips: showTooltips === null ? true : showTooltips,
                 remindClearStream: remindClearStream === null ? true : remindClearStream,
                 remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
+                remindLinkUserId: remindLinkUserId === null ? true : remindLinkUserId,
+                remindGoogleSignIn: remindGoogleSignIn == null ? true: remindGoogleSignIn,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
                 alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
             };
@@ -61,12 +65,19 @@
             this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
                 localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
             });
+
+            this.on('change:remindLinkUserId', function(model, remindLinkUserId) {
+                localStorage.setItem('remindLinkUserId', JSON.stringify(remindLinkUserId));
+            });
+
+            this.on('change:remindGoogleSignIn', function(model, remindGoogleSignIn) {
+                localStorage.setItem('remindGoogleSignIn', JSON.stringify(remindGoogleSignIn));
+            });
         },
         
         //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
         //  If not, just allow the string type because its assumed to be correct.
         getItem: function (key) {
-            
             var item = localStorage.getItem(key);
 
             if (item !== null) {

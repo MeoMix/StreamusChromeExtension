@@ -53,6 +53,11 @@
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
+                var contentView = this.model.get('view');
+                if (_.isFunction(contentView._doOnHide)) {
+                    contentView._doOnHide();
+                }
+
                 this.triggerMethod('hidden');
             }.bind(this));
 
