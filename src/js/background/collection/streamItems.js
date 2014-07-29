@@ -24,128 +24,124 @@
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
             _.extend(this, { history: [] });
 
-            var self = this;
-
-            this.on('add', function (addedStreamItem) {
-                //  Ensure a streamItem is always active
-                if (_.isUndefined(this.getActiveItem())) {
-                    addedStreamItem.save({ active: true });
-                }
-            });
-            
-            this.on('remove', function (model) {
-                //  Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
-                model.destroy();
-            });
-
-            this.on('change:active', function (changedStreamItem, active) {
-                //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
-                if (active) {
-                    this._activateItem(changedStreamItem);
-                }
-            });
-
-            this.listenTo(Player, 'change:state', function (model, state) {
-                if (state === PlayerState.Ended) {
-                    this.activateNext();
-                }
-                else if (state === PlayerState.Playing) {
-                    //  Only display notifications if the foreground isn't open.
-                    var foreground = chrome.extension.getViews({ type: "popup" });
-
-                    if (foreground.length === 0) {
-                        this.showActiveNotification();
-                    }
-                }
-            });
-
-            this.on('remove reset', function () {
-                if (this.length === 0) {
-                    Player.stop();
-                }
-            });
-
-            this.on('remove', function (removedStreamItem, collection, options) {
-                //  If an item is deleted from the stream -- remove it from history, too, because you can't skip back to it.
-                var historyIndex = this.history.indexOf(removedStreamItem);
-                if (historyIndex > -1) {
-                    this.history.splice(historyIndex, 1);
-                }
-
-                if (removedStreamItem.get('active') && this.length > 0) {
-                    this.activateNext(options.index);
-                }
-            });
-
-            this.on('change:playedRecently', function() {
-                //  When all streamItems have been played recently, reset to not having been played recently.
-                //  Allows for de-prioritization of played streamItems during shuffling.
-                if (this.where({ playedRecently: true }).length === this.length) {
-                    this.each(function(streamItem) {
-                        streamItem.save({ playedRecently: false });
-                    });
-                }
-            });
-            
-            //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
-            chrome.runtime.onMessage.addListener(function (request) {
-                switch (request.method) {
-                    case 'searchAndStreamByQuery':
-                        self.searchAndAddByTitle({
-                            title: request.query,
-                            playOnAdd: true,
-                            error: function(error) {
-                                console.error("Failed to add song by title: " + request.query, error);
-                            }
-                        });
-                    break;
-                    case 'searchAndStreamByQueries':
-                        var queries = request.queries;
-
-                        if (queries.length > 0) {
-                            //  Queue up all of the queries.
-                            var query = queries.shift();
-
-                            var recursiveShiftTitleAndAdd = function () {
-                                if (queries.length > 0) {
-                                    query = queries.shift();
-                                    self.searchAndAddByTitle({
-                                        title: query,
-                                        error: function(error) {
-                                            console.error("Failed to add song by title: " + query, error);
-                                        },
-                                        complete: recursiveShiftTitleAndAdd
-                                    });
-                                }
-                            };
-
-                            //  Start playing the first song queued up
-                            self.searchAndAddByTitle({
-                                title: query,
-                                playOnAdd: true,
-                                error: function (error) {
-                                    console.error("Failed to add song by title: " + query, error);
-                                },
-                                complete: recursiveShiftTitleAndAdd
-                            });
-                        }
-                    break;
-                }
-            });
+            this.on('add', this._onAdd);
+            this.on('remove', this._onRemove);
+            this.on('reset', this._onReset);
+            this.on('change:active', this._onChangeActive);
+            this.listenTo(Player, 'change:state', this._onChangePlayerState);
+            this.on('change:playedRecently', this._onChangePlayedRecently);
+            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
 
             //  Load any existing StreamItems from local storage
             this.fetch();
 
-            //  If there's any stream items -- one must be active once fetched from localStorage, make sure the YouTube player loads it.
-            var activeItem = this.getActiveItem();
-            if (!_.isUndefined(activeItem)) {
-                this._activateItem(activeItem);
-            }
-            
-            //  Don't want to persist selections after restarts -- doesn't really make sense to.
-            this.deselectAllExcept();
-
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
+        },
+        
+        _onAdd: function (model) {
+            //  Ensure a streamItem is always active
+            if (_.isUndefined(this.getActiveItem())) {
+                model.save({ active: true });
+            }
+        },
+        
+        _onRemove: function (model, collection, options) {
+            //  Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
+            model.destroy();
+            
+            //  If an item is deleted from the stream -- remove it from history, too, because you can't skip back to it.
+            var historyIndex = this.history.indexOf(model);
+            if (historyIndex > -1) {
+                this.history.splice(historyIndex, 1);
+            }
+
+            if (model.get('active') && this.length > 0) {
+                this.activateNext(options.index);
+            }
+
+            this._stopPlayerIfEmpty();
+        },
+        
+        _onReset: function() {
+            this._stopPlayerIfEmpty();
+        },
+        
+        _onChangePlayerState: function(model, state) {
+            if (state === PlayerState.Ended) {
+                this.activateNext();
+            }
+            else if (state === PlayerState.Playing) {
+                //  Only display notifications if the foreground isn't open.
+                var foreground = chrome.extension.getViews({ type: "popup" });
+
+                if (foreground.length === 0) {
+                    this.showActiveNotification();
+                }
+            }
+        },
+        
+        _onChangeActive: function (model, active) {
+            //  Ensure only one streamItem is active at a time by deactivating all other active streamItems.
+            if (active) {
+                this._activateItem(model);
+            }
+        },
+        
+        _onChangePlayedRecently: function() {
+            //  When all streamItems have been played recently, reset to not having been played recently.
+            //  Allows for de-prioritization of played streamItems during shuffling.
+            if (this.where({ playedRecently: true }).length === this.length) {
+                this.each(function (streamItem) {
+                    streamItem.save({ playedRecently: false });
+                });
+            }
+        },
+        
+        //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
+        _onRuntimeMessage: function(request) {
+            switch (request.method) {
+                case 'searchAndStreamByQuery':
+                    this.searchAndAddByTitle({
+                        title: request.query,
+                        playOnAdd: true,
+                        error: function(error) {
+                            console.error("Failed to add song by title: " + request.query, error);
+                        }
+                    });
+                    break;
+                case 'searchAndStreamByQueries':
+                    var queries = request.queries;
+
+                    if (queries.length > 0) {
+                        //  Queue up all of the queries.
+                        var query = queries.shift();
+
+                        //  TODO: Too nested
+                        var recursiveShiftTitleAndAdd = function () {
+                            if (queries.length > 0) {
+                                query = queries.shift();
+                                this.searchAndAddByTitle({
+                                    title: query,
+                                    error: function(error) {
+                                        console.error("Failed to add song by title: " + query, error);
+                                    },
+                                    complete: recursiveShiftTitleAndAdd.bind(this)
+                                });
+                            }
+                        };
+
+                        //  Start playing the first song queued up
+                        this.searchAndAddByTitle({
+                            title: query,
+                            playOnAdd: true,
+                            error: function (error) {
+                                console.error("Failed to add song by title: " + query, error);
+                            },
+                            complete: recursiveShiftTitleAndAdd.bind(this)
+                        });
+                    }
+                    break;
+            }
         },
         
         _activateItem: function(streamItem) {
@@ -162,6 +158,12 @@
             }
 
             this.history.unshift(streamItem);
+        },
+        
+        _stopPlayerIfEmpty: function () {
+            if (this.length === 0) {
+                Player.stop();
+            }
         },
         
         searchAndAddByTitle: function (options) {
@@ -275,10 +277,8 @@
             }));
 
             //  Don't add any songs that are already in the stream.
-            var self = this;
-            
             relatedSongs = _.filter(relatedSongs, function (relatedSong) {
-                var alreadyExistingItem = self.find(function (streamItem) {
+                var alreadyExistingItem = this.find(function (streamItem) {
                     var sameSongId = streamItem.get('song').get('id') === relatedSong.get('id');
                     var sameCleanTitle = streamItem.get('song').get('cleanTitle') === relatedSong.get('cleanTitle');
 
@@ -286,7 +286,7 @@
                 });
 
                 return alreadyExistingItem == null;
-            });
+            }, this);
 
             // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function (relatedSong) {
@@ -315,6 +315,7 @@
             return relatedSong;
         },
         
+        //  TODO: Function is way too big.
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
         activateNext: function (removedActiveItemIndex) {
             var nextItem = null;

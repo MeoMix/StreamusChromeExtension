@@ -92,10 +92,6 @@ define([
         _setPlaylists: function () {
             Playlists.reset(this.get('playlists'));
             Playlists.setUserId(this.get('id'));
-
-            if (_.isUndefined(Playlists.getActivePlaylist())) {
-                Playlists.at(0).set('active', true);
-            }
         },
         
         _onLoadByGooglePlusIdSuccess: function(userDto) {

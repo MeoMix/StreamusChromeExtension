@@ -159,7 +159,7 @@
                 success: options.success,
                 error: options.error
             });
-        },
+        }
     }));
 
     return PlaylistItems;

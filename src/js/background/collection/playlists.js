@@ -8,96 +8,17 @@
 ], function (SequencedCollectionMixin, Playlist, Settings, Song, YouTubeV3API, DataSource) {
     'use strict';
 
-    var Playlists = Backbone.Collection.extend({
+    var Playlists = Backbone.Collection.extend(_.extend({}, SequencedCollectionMixin, {
         model: Playlist,
-        comparator: 'sequence',
         userId: null,
         
         initialize: function () {
-            //  Ensure there is an always active playlist by trying to load from localstorage
-            if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-                var activePlaylistId = localStorage.getItem('activePlaylistId');
-
-                //  Be sure to always have an active playlist if there is one available.
-                var playlistToSetActive = this.get(activePlaylistId) || playlists.at(0);
-                playlistToSetActive.set('active', true);
-            }
-
-            chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
-                switch (request.method) {
-                    case 'getPlaylists':
-                        sendResponse({ playlists: this });
-                        break;
-                    case 'addYouTubeSongByIdToPlaylist':
-                        YouTubeV3API.getSongInformation({
-                            songId: request.songId,
-                            success: function (youTubeSongInformation) {
-                                var song = new Song();
-                                song.setYouTubeInformation(youTubeSongInformation);
-                                
-                                this.get(request.playlistId).get('items').addSongs(song);
-
-                                sendResponse({ result: 'success' });
-                            }.bind(this),
-                            error: function () {
-                                sendResponse({ result: 'error' });
-                            }
-                        });
-                        break;
-                }
-            }.bind(this));
-
-            this.on('add', function (addedPlaylist) {
-                //  TODO: This could potentially be costly if not debounced.
-                //  Notify all open YouTube tabs that a playlist has been added.
-                sendEventToOpenYouTubeTabs('add', 'playlist', {
-                    id: addedPlaylist.get('id'),
-                    title: addedPlaylist.get('title')
-                });
-            });
-
-            //  Whenever a playlist is removed, if it was selected, select the next playlist.
-            this.on('remove', function (removedPlaylist, collection, options) {
-                if (removedPlaylist.get('active')) {
-                    //  Clear local storage of the active playlist if it gets removed.
-                    localStorage.setItem('activePlaylistId', null);
-                    
-                    //  Try selecting the next playlist if its there...
-                    var nextPlaylist = this.at(options.index);
-
-                    if (nextPlaylist !== undefined) {
-                        nextPlaylist.set('active', true);
-                    } else {
-                        //  Otherwise select the previous playlist.
-                        var previousPlaylist = this.at(options.index - 1);
-                        previousPlaylist.set('active', true);
-                    }
-                }
-
-                //  TODO: This could potentially be costly if not debounced.
-                //  Notify all open YouTube tabs that a playlist has been removed.
-                sendEventToOpenYouTubeTabs('remove', 'playlist', {
-                    id: removedPlaylist.get('id'),
-                    title: removedPlaylist.get('title')
-                });
-
-            });
-            
-            this.on('change:active', function (changedPlaylist, active) {
-                //  Ensure only one playlist is selected at a time by de-selecting all other selected playlists.
-                if (active) {
-                    this.deselectAllExcept(changedPlaylist);
-                    localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
-                }
-            });
-
-            this.on('change:title', function(changedPlaylist, title) {
-                //  Notify all open YouTube tabs that a playlist has been renamed.
-                sendEventToOpenYouTubeTabs('rename', 'playlist', {
-                    id: changedPlaylist.get('id'),
-                    title: title
-                });
-            });
+            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
+            this.on('add', this._onAdd);
+            this.on('remove', this._onRemove);
+            this.on('change:active', this._onChangeActive);
+            this.on('change:title', this._onChangeTitle);
+            this.on('reset', this._onReset);
         },
         
         setUserId: function(userId) {
@@ -113,7 +34,7 @@
             return this.findWhere({ active: true });
         },
         
-        deselectAllExcept: function (changedPlaylist) {
+        deactivateAllExcept: function (changedPlaylist) {
             this.each(function (playlist) {
                 if (playlist !== changedPlaylist) {
                     playlist.set('active', false);
@@ -141,6 +62,7 @@
         },
         
         addPlaylistWithSongs: function (playlistTitle, songs) {
+            //  TODO: This reads a bit weird.
             var playlistItems = [];
 
             if (_.isArray(songs)) {
@@ -158,6 +80,8 @@
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
                 success: function () {
+                    //  TODO: It doesn't make sense that I push Playlists after saving but I push PlaylistItems before saving. Probably change this to pushing before, but provide
+                    //  a UI indication that the playlist is still being saved.
                     this.push(playlist);
                 }.bind(this)
             });
@@ -168,8 +92,6 @@
         },
 
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
-            var self = this;
-
             var playlist = new Playlist({
                 title: playlistTitle,
                 userId: this.userId,
@@ -180,30 +102,114 @@
             //  Save the playlist, but push after version from server because the ID will have changed.
             playlist.save({}, {
                 success: function () {
-                    self.push(playlist);
+                    //  TODO: It doesn't make sense that I push Playlists after saving but I push PlaylistItems before saving. Probably change this to pushing before, but provide
+                    //  a UI indication that the playlist is still being saved.
+                    this.push(playlist);
 
                     if (dataSource.needsLoading()) {
                         playlist.loadDataSource();
                     }
-                }
+                }.bind(this)
             });
-        }
-    });
-    
-    //  Mixin methods needed for sequenced collections
-    _.extend(Playlists.prototype, SequencedCollectionMixin);
+        },
+        
+        _onReset: function() {
+            //  Ensure there is an always active playlist by trying to load from localstorage
+            if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
+                var activePlaylistId = localStorage.getItem('activePlaylistId');
 
-    function sendEventToOpenYouTubeTabs(event, type, data) {
-        chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
-            _.each(tabs, function (tab) {
-                chrome.tabs.sendMessage(tab.id, {
-                    event: event,
-                    type: type,
-                    data: data
+                //  Be sure to always have an active playlist if there is one available.
+                var playlistToSetActive = this.get(activePlaylistId) || playlists.at(0);
+                playlistToSetActive.set('active', true);
+            }
+        },
+        
+        _onRuntimeMessage: function(request, sender, sendResponse) {
+            switch (request.method) {
+                case 'getPlaylists':
+                    sendResponse({ playlists: this });
+                    break;
+                case 'addYouTubeSongByIdToPlaylist':
+                    //  TODO: Reduce nesting
+                    YouTubeV3API.getSongInformation({
+                        songId: request.songId,
+                        success: function (youTubeSongInformation) {
+                            var song = new Song();
+                            song.setYouTubeInformation(youTubeSongInformation);
+                                
+                            this.get(request.playlistId).get('items').addSongs(song);
+
+                            sendResponse({ result: 'success' });
+                        }.bind(this),
+                        error: function () {
+                            sendResponse({ result: 'error' });
+                        }
+                    });
+                    break;
+            }
+        },
+        
+        _onChangeActive: function (changedPlaylist, active) {
+            //  Ensure only one playlist is active at a time by de-activating all other active playlists.
+            if (active) {
+                this.deactivateAllExcept(changedPlaylist);
+                localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+            }
+        },
+        
+        _onAdd: function (addedPlaylist) {
+            //  Notify all open YouTube tabs that a playlist has been added.
+            this._sendEventToOpenYouTubeTabs('add', 'playlist', {
+                id: addedPlaylist.get('id'),
+                title: addedPlaylist.get('title')
+            });
+        },
+        
+        //  Whenever a playlist is removed, if it was selected, select the next playlist.
+        _onRemove: function (removedPlaylist, collection, options) {
+            if (removedPlaylist.get('active')) {
+                //  Clear local storage of the active playlist if it gets removed.
+                localStorage.setItem('activePlaylistId', null);
+                    
+                //  Try selecting the next playlist if its there...
+                var nextPlaylist = this.at(options.index);
+
+                if (nextPlaylist !== undefined) {
+                    nextPlaylist.set('active', true);
+                } else {
+                    //  Otherwise select the previous playlist.
+                    var previousPlaylist = this.at(options.index - 1);
+                    previousPlaylist.set('active', true);
+                }
+            }
+
+            //  Notify all open YouTube tabs that a playlist has been removed.
+            this._sendEventToOpenYouTubeTabs('remove', 'playlist', {
+                id: removedPlaylist.get('id'),
+                title: removedPlaylist.get('title')
+            });
+        },
+        
+        _onChangeTitle: function(changedPlaylist, title) {
+            //  Notify all open YouTube tabs that a playlist has been renamed.
+            this._sendEventToOpenYouTubeTabs('rename', 'playlist', {
+                id: changedPlaylist.get('id'),
+                title: title
+            });
+        },
+        
+        _sendEventToOpenYouTubeTabs: function(event, type, data) {
+            chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
+                _.each(tabs, function (tab) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        event: event,
+                        type: type,
+                        data: data
+                    });
                 });
             });
-        });
-    }
+        }
+    }));
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.Playlists = new Playlists();
