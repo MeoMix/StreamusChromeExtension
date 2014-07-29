@@ -20,44 +20,48 @@ define(function () {
         
         //  Expects options: { iconUrl: string, title: string, message: string }
         showNotification: function (options) {
-
             //  This API is currently available on ChromeOS, Windows, and Mac.
             if (!_.isUndefined(chrome.notifications)) {
                 //  Future version of Google Chrome will support permission levels on notifications.
                 if (!_.isUndefined(chrome.notifications.getPermissionLevel)) {
-                    chrome.notifications.getPermissionLevel(function (permissionLevel) {
-                        if (permissionLevel === 'granted') {
-                            this._showNotification(options);
-                        }
-                    }.bind(this));
+                    chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this));
                 } else {
                     this._showNotification(options);
                 }
             }
-
+        },
+        
+        _onGetPermissionLevel: function(permissionLevel) {
+            if (permissionLevel === 'granted') {
+                this._showNotification(options);
+            }
         },
         
         _showNotification: function (options) {
             clearTimeout(this.get('closeNotificationTimeout'));
 
             var notificationOptions = _.extend({}, this.get('defaultNotificationOptions'), options);
-
             //  Calling create with a notificationId will cause the existing notification to be cleared.
-            chrome.notifications.create(this.get('shownNotificationId'), notificationOptions, function (notificationId) {
-                this.set('shownNotificationId', notificationId);
-            }.bind(this));
+            chrome.notifications.create(this.get('shownNotificationId'), notificationOptions, this._onNotificationCreate.bind(this));
 
-            var closeNotificationTimeout = setTimeout(function () {
-                var shownNotificationId = this.get('shownNotificationId');
-
-                if (shownNotificationId !== '') {
-                    chrome.notifications.clear(shownNotificationId, function () {
-                        this.set('shownNotificationId', '');
-                    }.bind(this));
-                }
-            }.bind(this), 3000);
-
+            var closeNotificationTimeout = setTimeout(this._onCloseNotificationTimeout.bind(this), 3000);
             this.set('closeNotificationTimeout', closeNotificationTimeout);
+        },
+        
+        _onNotificationCreate: function(notificationId) {
+            this.set('shownNotificationId', notificationId);
+        },
+        
+        _onCloseNotificationTimeout: function() {
+            var shownNotificationId = this.get('shownNotificationId');
+
+            if (shownNotificationId !== '') {
+                chrome.notifications.clear(shownNotificationId, this._onNotificationClear.bind(this));
+            }
+        },
+        
+        _onNotificationClear: function() {
+            this.set('shownNotificationId', '');
         }
     });
 

@@ -90,7 +90,6 @@ define([
         
         //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
         _setPlaylists: function () {
-            console.log("Setting playlists", this);
             Playlists.reset(this.get('playlists'));
             Playlists.setUserId(this.get('id'));
 
@@ -100,19 +99,17 @@ define([
         },
         
         _onLoadByGooglePlusIdSuccess: function(userDto) {
-            if (userDto === null) throw "UserDTO should always be returned here.";
+            if (userDto === null) throw new Error("UserDTO should always be returned here.");
 
             this.set(userDto);
             this._onLoadSuccess();
         },
         
         _onLoadError: function (error) {
-            console.log("_onLoadError", this);
             this.trigger('loadError', error);
         },
         
         _onLoadSuccess: function() {
-            console.log("_onLoadSuccess", this);
             this._setPlaylists();
             Settings.set('userId', this.get('id'));
             this.trigger('loadSuccess');

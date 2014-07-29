@@ -50,36 +50,13 @@ define([
         },
         
         initialize: function () {
-            var items = this.get('items');
-
-            //  Need to convert items array to Backbone.Collection
-            if (!(items instanceof Backbone.Collection)) {
-                items = new PlaylistItems(items, {
-                    playlistId: this.get('id')
-                });
-                
-                //  Silent because items is just being properly set.
-                this.set('items', items, { silent: true });
-            }
-
-            this.on('change:title', function (model, title) {
-                //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
-                $.ajax({
-                    url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
-                    type: 'PATCH',
-                    data: {
-                        id: model.get('id'),
-                        title: title
-                    }
-                });
-                
-            });
-
-            this.listenTo(this.get('items'), 'add reset remove', this.setDisplayInfo);
-            this.setDisplayInfo();
+            this._ensureItemsCollection();
+            this.on('change:title', this._onChangeTitle);
+            this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
+            this._setDisplayInfo();
         },
         
-        setDisplayInfo: function () {
+        _setDisplayInfo: function () {
             var songs = this.get('items').pluck('song');
             var songDurations = _.invoke(songs, 'get', 'duration');
 
@@ -127,6 +104,7 @@ define([
             });
         },
         
+        //  TODO: Reduce nesting
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function () {
             YouTubeV3API.getPlaylistSongInformationList({
@@ -157,6 +135,30 @@ define([
                     });
                 }.bind(this)
             });
+        },
+        
+        //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
+        _onChangeTitle: function(model, title) {
+            $.ajax({
+                url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
+                type: 'PATCH',
+                data: {
+                    id: model.get('id'),
+                    title: title
+                }
+            });
+        },
+        
+        _ensureItemsCollection: function() {
+            var items = this.get('items');
+
+            //  Need to convert items array to Backbone.Collection
+            if (!(items instanceof Backbone.Collection)) {
+                //  Silent because items is just being properly set.
+                this.set('items', new PlaylistItems(items, {
+                    playlistId: this.get('id')
+                }), { silent: true });
+            }
         }
     });
 

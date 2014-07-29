@@ -13,7 +13,6 @@
                 title: '',
                 selected: false,
                 firstSelected: false,
-                
                 song: null
             };
         },
@@ -21,7 +20,6 @@
         urlRoot: Settings.get('serverURL') + 'PlaylistItem/',
         
         parse: function (playlistItemDto) {
-            
             //  Convert C# Guid.Empty into BackboneJS null
             for (var key in playlistItemDto) {
                 if (playlistItemDto.hasOwnProperty(key) && playlistItemDto[key] === '00000000-0000-0000-0000-000000000000') {
@@ -44,19 +42,25 @@
         },
 
         initialize: function () {
+            this._ensureSongModel();
+            this._ensureTitle();
+        },
+        
+        _ensureSongModel: function() {
             var song = this.get('song');
 
             //  Need to convert song object to Backbone.Model
             if (!(song instanceof Backbone.Model)) {
-                song = new Song(song);
                 //  Silent because song is just being properly set.
-                this.set('song', song, { silent: true });
+                this.set('song', new Song(song), { silent: true });
             }
-            
-            //  Ensure that the Song's title is propagated up to its parent when unset. 
-            //  PlaylistItem's title could be edited so only copy when its blank.
+        },
+        
+        //  Ensure that the Song's title is propagated up to its parent when unset. 
+        //  PlaylistItem's title could be edited so only copy when its blank.
+        _ensureTitle: function() {
             if (this.get('title') === '') {
-                this.set('title', song.get('title'));
+                this.set('title', this.get('song').get('title'));
             }
         }
     });

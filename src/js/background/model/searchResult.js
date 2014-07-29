@@ -7,11 +7,9 @@
                 id: _.uniqueId('searchResult_'),
                 selected: false,
                 title: '',
-                
                 //  Whether the item was the first to be selected or one of many.
                 //  Important for proper shift+click functionality.
                 firstSelected: false,
-                
                 song: null
             };
         },
@@ -23,7 +21,11 @@
         
         initialize: function () {
             //  SearchResult title can't be edited, but useful to duplicate to keep template DRY with streamItem/playlistItem
-            this.set('title', this.get('song').get('title'));
+            this.set('title', this._getSongTitle());
+        },
+        
+        _getSongTitle: function() {
+            return this.get('song').get('title');
         }
     });
 

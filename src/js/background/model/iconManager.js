@@ -9,12 +9,12 @@ define([
         initialize: function () {
             //  Initialize the visual state of the icon once the player is ready and able to provide information.
             if (Player.get('ready')) {
-                this.setIcon();
+                this._setIcon();
             } else {
-                Player.once('change:ready', this.setIcon.bind(this));
+                Player.once('change:ready', this._setIcon.bind(this));
             }
 
-            this.listenTo(Player, 'change:muted change:state change:volume', this.setIcon);
+            this.listenTo(Player, 'change:muted change:state change:volume', this._setIcon);
         },
         
         //  Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
@@ -22,28 +22,36 @@ define([
         //  GREEN: Player is playing (buffering counts as playing)
         //  Yellow: Player is paused/unstarted
         //  It's important to debounce this because if you spam setIcon it won't update reliably.
-        setIcon: _.debounce(function() {
-            var iconColor;
+        _setIcon: _.debounce(function() {
+            var iconColor = this._getIconColor();
+            var iconBarCount = this._getIconBarCount();
+
+            chrome.browserAction.setIcon({
+                path: '../../img/' + iconColor + '_' + iconBarCount + '.png'
+            });
+        }, 100),
+        
+        _getIconColor: function () {
+            var iconColor = 'yellow';
 
             var playerState = Player.get('state');
             var isMuted = Player.get('muted');
-            var volume = Player.get('volume');
 
             if (isMuted) {
                 iconColor = 'red';
             }
             else if (playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
                 iconColor = 'green';
-            } else {
-                iconColor = 'yellow';
             }
 
+            return iconColor;
+        },
+        
+        _getIconBarCount: function() {
+            var volume = Player.get('volume');
             var barCount = Math.ceil((volume / 25));
-
-            chrome.browserAction.setIcon({
-                path: '../../img/' + iconColor + '_' + barCount + '.png'
-            });
-        }, 100)
+            return barCount;
+        }
     });
     
     return new IconManager();

@@ -1,5 +1,4 @@
-﻿//  Holds information relevant to a song, either from YouTube or SoundCloud.
-define([
+﻿define([
     'background/model/settings',
     'common/enum/songType',
     'common/model/utility'
@@ -24,7 +23,6 @@ define([
                 url: '',
                 cleanTitle: ''
             };
-            
         },
         
         //  Song is never saved to the server -- it gets flattened into a PlaylistItem
@@ -33,34 +31,45 @@ define([
         },
         
         initialize: function () {
-            this.setPrettyDuration();
-            this.setCleanTitle();
-            this.setURL();
+            this._setPrettyDuration(this.get('duration'));
+            this._setCleanTitle(this.get('title'));
+            this._setUrl(this.get('id'));
 
-            //  Whenever Song is updated via setYouTubeInformation (or other ways), re-calculate values.
-            this.on('change:duration', this.setPrettyDuration);
-            this.on('change:title', this.setCleanTitle);
-            this.on('change:id', this.setURL);
+            this.on('change:duration', this._onChangeDuration);
+            this.on('change:title', this._onChangeTitle);
+            this.on('change:id', this._onChangeId);
         },
         
-        //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
-        setPrettyDuration: function () {
-            this.set('prettyDuration', Utility.prettyPrintTime(this.get('duration')));
-        },
-        
-        //  Useful for comparisons and other searching.
-        setCleanTitle: function() {
-            this.set('cleanTitle', Utility.cleanTitle(this.get('title')));
-        },
-        
-        setURL: function () {
-            this.set('url', 'https://youtu.be/' + this.get('id'));
-        },
-        
-        //  TODO: Not necessary now.
+        //  TODO: Not sure how I feel about this method. Why not just has type set to YouTube and call set?
         setYouTubeInformation: function (songInformation) {
             this.set('type', SongType.YouTube);
             this.set(songInformation);
+        },
+        
+        _onChangeId: function (model, id) {
+            this._setUrl(id);
+        },
+        
+        _onChangeTitle: function(model, title) {
+            this._setCleanTitle(title);
+        },
+        
+        _onChangeDuration: function(model, duration) {
+            this._setPrettyDuration(duration);
+        },
+        
+        //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
+        _setPrettyDuration: function (duration) {
+            this.set('prettyDuration', Utility.prettyPrintTime(duration));
+        },
+        
+        //  Useful for comparisons and other searching.
+        _setCleanTitle: function (title) {
+            this.set('cleanTitle', Utility.cleanTitle(title));
+        },
+        
+        _setUrl: function (id) {
+            this.set('url', 'https://youtu.be/' + id);
         }
     });
 

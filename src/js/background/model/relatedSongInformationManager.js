@@ -17,7 +17,7 @@
         //  When a song comes from the server it won't have its related songs, so need to fetch and populate.
         //  Expects options: { songId: string, success: function, error: function }
         getRelatedSongInformation: function(options) {
-            if (!this.canRequest()) {
+            if (!this._canRequest()) {
                 this.get('requestQueue').push(options);
                 return;
             }
@@ -44,7 +44,7 @@
         },
 
         //  Only allow requests up to maxConcurrentRequests -- otherwise return false and queue.
-        canRequest: function() {
+        _canRequest: function() {
             return this.get('concurrentRequestCount') < this.get('maxConcurrentRequests');
         }
     });

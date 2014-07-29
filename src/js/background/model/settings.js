@@ -2,6 +2,7 @@
     'use strict';
 
     //  TODO: It would be a good idea to move some of this functionality out of here and onto the models using the settings while persisting w/ Backbone.LocalStorage.
+    //  TODO: This needs refactoring badly.
     var Settings = Backbone.Model.extend({
         defaults: function () {
             var remindClearStream = this.getItem('remindClearStream');

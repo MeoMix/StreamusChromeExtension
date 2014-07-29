@@ -4,7 +4,6 @@ define([
     'use strict';
 
     var ShareCode = Backbone.Model.extend({
-        
         defaults: {
             id: null,
             entityType: -1,

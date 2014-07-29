@@ -20,123 +20,18 @@ define([
             volume: 50,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
-            loadedSongId: ''
+            loadedSongId: '',
+            refreshPausedSongTimeout: null
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
         initialize: function () {
-            var self = this;
-   
-            //  Update the volume whenever the UI modifies the volume property.
-            this.on('change:volume', function (model, volume) {
-                self.set('muted', false);
-                //  We want to update the youtube player's volume no matter what because it persists between browser sessions
-                //  thanks to YouTube saving it -- so should keep it always sync'ed.
-                youTubePlayer.setVolume(volume);
-            });
+            this.on('change:volume', this._onChangeVolume);
+            this.on('change:muted', this._onChangeMuted);
+            this.on('change:state', this._onChangeState);
+            chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
 
-            this.on('change:muted', function (model, isMuted) {
-
-                //  Same logic here as with the volume
-                if (isMuted) {
-                    youTubePlayer.mute();
-                } else {
-                    youTubePlayer.unMute();
-                }
-
-            });
-
-            var refreshPausedSongInterval = null;
-            this.on('change:state', function (model, state) {
-
-                clearInterval(refreshPausedSongInterval);
-       
-                if (state === PlayerState.Paused) {
-                    //  TODO: Maybe I need to restart the whole API after 8 hours because HTTPS times out?
-                    //  Start a long running timer when the player becomes paused. This is because YouTube
-                    //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
-                    var eightHoursInMilliseconds = 28800000;
-
-                    refreshPausedSongInterval = setInterval(function () {
-                        self.cueSongById(self.get('loadedSongId'), self.get('currentTime'));
-                    }, eightHoursInMilliseconds);
-                }
-            });
-            
-            chrome.runtime.onConnect.addListener(function(port) {
-
-                if (port.name === 'youTubeIFrameConnectRequest') {
-
-                    port.onMessage.addListener(function (message) {
-                        
-                        if (message.canvasDataURL !== undefined) {
-                            self.set('canvasDataUrl', message.canvasDataURL).trigger('change:canvasDataUrl');
-                        }
-                        
-                        //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
-                        if (message.currentTime !== undefined) {
-                            self.set('currentTime', message.currentTime);
-                        }
-                        
-                        //  YouTube's API for seeking/buffering doesn't fire events reliably.
-                        //  Listen directly to the element for more responsive results.
-                        if (message.seeking !== undefined) {
-                            
-                            if (message.seeking) {
-                                
-                                if (self.get('state') === PlayerState.Playing) {
-                                    self.set('state', PlayerState.Buffering);
-                                }
-                                
-                            } else {
-
-                                if (self.get('state') === PlayerState.Buffering) {
-                                    self.set('state', PlayerState.Playing);
-                                }
-                                
-                            }
-
-                        }
-
-                    });
-
-                }
-
-            });
-
-            var youTubePlayerAPI = new YouTubePlayerAPI();
-
-            this.listenTo(youTubePlayerAPI, 'change:ready', function () {
-                //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
-                //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-                youTubePlayer = new window.YT.Player('youtube-player', {
-                    events: {
-                        'onReady': function () {
-                            this.set('muted', youTubePlayer.isMuted());
-                            this.set('volume', youTubePlayer.getVolume());
-
-                            this.pause();
-                            this.set('ready', true);
-                        }.bind(this),
-                        'onStateChange': function (state) {
-                            this.set('state', state.data);
-
-                            //  TODO: There's a bug in YouTube's API which is causing the volume to change erratically every time I skip a song?
-                            youTubePlayer.setVolume(this.get('volume'));
-
-                        }.bind(this),
-                        'onError': function (error) {
-                            console.error("An error was encountered.", error);
-                            //  Push the error to the foreground so it can be displayed to the user.
-                            this.trigger('error', error.data);
-                        }.bind(this)
-                    }
-                });
-
-                $('#youtube-player').attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
-            });
-
-            youTubePlayerAPI.load();
+            this._loadYouTubePlayerApi();
         },
         
         //  Public method which is able to be called before the YouTube Player API is fully ready.
@@ -157,13 +52,13 @@ define([
                 this.trigger('change:loadedSongId');
             }
 
-            this.set('loadedSongId', songId);
-
             youTubePlayer.cueVideoById({
                 videoId: songId,
                 startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
+            
+            this.set('loadedSongId', songId);
 
             //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
             //  but until the song actually loads -- current time isn't set.
@@ -189,13 +84,14 @@ define([
             }
 
             this.set('state', PlayerState.Buffering);
-            this.set('loadedSongId', songId);
 
             youTubePlayer.loadVideoById({
                 videoId: songId,
                 startSeconds: startSeconds || 0,
                 suggestedQuality: Settings.get('suggestedQuality')
             });
+            
+            this.set('loadedSongId', songId);
         },
         
         isPlaying: function () {
@@ -204,7 +100,6 @@ define([
         
         mute: function () {
             this.set('muted', true);
-
             youTubePlayer.mute();
         },
         
@@ -234,17 +129,9 @@ define([
             }
         },
         
-        //  Once the Player indicates is loadedSongId has changed (to the song just selected in the stream) 
-        //  Call play to change from cueing the song to playing, but let the stack clear first because loadedSongId
-        //  is set just before cueSongById has finished.
+        //  Call play once Player indicates the loadedSongId has changed
         playOnceSongChanges: function() {
-            var self = this;
-
-            this.once('change:loadedSongId', function () {
-                setTimeout(function () {
-                    self.play();
-                });
-            });
+            this.once('change:loadedSongId', this.play);
         },
 
         seekTo: _.debounce(function (timeInSeconds) {
@@ -262,6 +149,102 @@ define([
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         setSuggestedQuality: function(suggestedQuality) {
             youTubePlayer.setPlaybackQuality(suggestedQuality);
+        },
+        
+        //  Update the volume whenever the UI modifies the volume property.
+        _onChangeVolume: function (model, volume) {
+            this.set('muted', false);
+            //  We want to update the youtube player's volume no matter what because it persists between browser sessions
+            //  thanks to YouTube saving it -- so should keep it always sync'ed.
+            youTubePlayer.setVolume(volume);
+        },
+        
+        _onChangeMuted: function(model, muted) {
+            muted ? youTubePlayer.mute() : youTubePlayer.unMute();
+        },
+        
+        _onChangeState: function (model, state) {
+            var refreshPausedSongTimeout = this.get('refreshPausedSongTimeout');
+            clearTimeout(refreshPausedSongTimeout);
+
+            if (state === PlayerState.Paused) {
+                //  TODO: Maybe I need to restart the whole API after 8 hours because HTTPS times out?
+                //  Start a long running timer when the player becomes paused. This is because YouTube
+                //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
+                var eightHours = 28800000;
+                refreshPausedSongTimeout = setTimeout(this._reloadSong.bind(this), eightHours);
+            }
+            
+            this.set('refreshPausedSongTimeout', refreshPausedSongTimeout);
+        },
+        
+        _reloadSong: function() {
+            this.cueSongById(this.get('loadedSongId'), this.get('currentTime'));
+        },
+        
+        _onRuntimeConnect: function (port) {
+            if (port.name === 'youTubeIFrameConnectRequest') {
+                port.onMessage.addListener(this._onYouTubeIFrameMessage.bind(this));
+            }
+        },
+        
+        _onYouTubeIFrameMessage: function(message) {
+            //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
+            if (!_.isUndefined(message.currentTime)) {
+                this.set('currentTime', message.currentTime);
+            }
+
+            //  YouTube's API for seeking/buffering doesn't fire events reliably.
+            //  Listen directly to the element for more responsive results.
+            if (!_.isUndefined(message.seeking)) {
+                if (message.seeking) {
+                    if (this.get('state') === PlayerState.Playing) {
+                        this.set('state', PlayerState.Buffering);
+                    }
+                } else {
+                    if (this.get('state') === PlayerState.Buffering) {
+                        this.set('state', PlayerState.Playing);
+                    }
+                }
+            }
+        },
+        
+        _loadYouTubePlayerApi: function() {
+            var youTubePlayerAPI = new YouTubePlayerAPI();
+            this.listenTo(youTubePlayerAPI, 'change:ready', this._onYouTubePlayerApiReady);
+            youTubePlayerAPI.load();
+        },
+        
+        _onYouTubePlayerApiReady: function() {
+            //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
+            //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
+            youTubePlayer = new window.YT.Player('youtube-player', {
+                events: {
+                    'onReady': this._onYouTubePlayerReady.bind(this),
+                    'onStateChange': this._onYouTubePlayerStateChange.bind(this),
+                    'onError': this._onYouTubePlayerError.bind(this)
+                }
+            });
+
+            $('#youtube-player').attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
+        },
+        
+        _onYouTubePlayerReady: function() {
+            this.set('muted', youTubePlayer.isMuted());
+            this.set('volume', youTubePlayer.getVolume());
+            this.pause();
+            this.set('ready', true);
+        },
+        
+        _onYouTubePlayerStateChange: function(state) {
+            this.set('state', state.data);
+            //  TODO: There's a bug in YouTube's API which is causing the volume to change erratically every time I skip a song?
+            youTubePlayer.setVolume(this.get('volume'));
+        },
+        
+        _onYouTubePlayerError: function(error) {
+            //  Push the error to the foreground so it can be displayed to the user.
+            this.trigger('error', error.data);
         }
     });
 
