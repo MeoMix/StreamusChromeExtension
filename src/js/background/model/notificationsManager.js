@@ -14,7 +14,8 @@ define(function () {
                 type: 'basic',
                 title: '',
                 message: '',
-                iconUrl: ''
+                //  iconUrl is required -- if none given, default to Streamus' icon.
+                iconUrl: 'img/streamus_icon128.png'
             }
         },
         
@@ -24,16 +25,15 @@ define(function () {
             if (!_.isUndefined(chrome.notifications)) {
                 //  Future version of Google Chrome will support permission levels on notifications.
                 if (!_.isUndefined(chrome.notifications.getPermissionLevel)) {
-                    chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this));
+                    //  TODO: Reduce nesting
+                    chrome.notifications.getPermissionLevel(function(permissionLevel) {
+                        if (permissionLevel === 'granted') {
+                            this._showNotification(options);
+                        }
+                    }.bind(this));
                 } else {
                     this._showNotification(options);
                 }
-            }
-        },
-        
-        _onGetPermissionLevel: function(permissionLevel) {
-            if (permissionLevel === 'granted') {
-                this._showNotification(options);
             }
         },
         
@@ -41,6 +41,7 @@ define(function () {
             clearTimeout(this.get('closeNotificationTimeout'));
 
             var notificationOptions = _.extend({}, this.get('defaultNotificationOptions'), options);
+            console.log("Notification options:", notificationOptions);
             //  Calling create with a notificationId will cause the existing notification to be cleared.
             chrome.notifications.create(this.get('shownNotificationId'), notificationOptions, this._onNotificationCreate.bind(this));
 

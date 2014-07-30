@@ -14,8 +14,7 @@
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
             
             return {
-                localDebug: false,
-                testing: false,
+                localDebug: true,
                 serverURL: '',
                 
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',

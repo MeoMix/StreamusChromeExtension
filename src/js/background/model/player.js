@@ -37,6 +37,7 @@ define([
         //  Public method which is able to be called before the YouTube Player API is fully ready.
         //  cue's a song (pauses it when it is ready)
         cueSongById: function (songId, startSeconds) {
+            console.log("cueuing song by id:", songId);
             if (this.get('ready')) {
                 this._cueSongById(songId, startSeconds);
             } else {

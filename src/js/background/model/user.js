@@ -61,7 +61,8 @@ define([
                 data: {
                     googlePlusId: this.get('googlePlusId')
                 },
-                success: callback
+                success: callback,
+                error: this._onLoadError.bind(this)
             });
         },
         
@@ -102,6 +103,7 @@ define([
         },
         
         _onLoadError: function (error) {
+            console.log("Load Error!", error);
             this.trigger('loadError', error);
         },
         

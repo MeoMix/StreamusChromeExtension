@@ -18,7 +18,7 @@
         //  Copies text to the clipboard. Has to happen on background page due to elevated privileges.
         _copyText: function(text) {
             this.$el.val(text).select();
-            document.execCommand(request.method, false, null);
+            document.execCommand('copy', false, null);
         }
     });
 

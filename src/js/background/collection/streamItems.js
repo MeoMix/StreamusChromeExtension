@@ -38,6 +38,11 @@
             //  TODO: Don't persist selectedness to localStorage.
             this.deselectAll();
 
+            var activeItem = this.getActiveItem();
+            if (!_.isUndefined(activeItem)) {
+                this._loadActiveItem(activeItem);
+            }
+
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
@@ -147,9 +152,15 @@
             }
         },
         
-        _activateItem: function(streamItem) {
+        _activateItem: function (streamItem) {
+            console.log('activating stream item');
             this.deactivateAllExcept(streamItem);
-            var songId = streamItem.get('song').get('id');
+            this._loadActiveItem(streamItem);
+        },
+        
+        _loadActiveItem: function (activeItem) {
+            var songId = activeItem.get('song').get('id');
+
             //  Maintain the state of the player by playing or cueuing based on current player state.
             var playerState = Player.get('state');
 
@@ -160,7 +171,7 @@
                 Player.cueSongById(songId);
             }
 
-            this.history.unshift(streamItem);
+            this.history.unshift(activeItem);
         },
         
         _stopPlayerIfEmpty: function () {
