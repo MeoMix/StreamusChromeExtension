@@ -1,18 +1,28 @@
-﻿//  NOTE: THIS IS A FORKED VERSION OF JQUERY.TRANSIT: https://github.com/tblasv/jquery.transit/blob/master/jquery.transit.js
-//  IT SUPPORTS STOPPING TRANSITIONS WHICH THE ORIGINAL VERSION DID NOT SUPPORT.
-
-/*!
+﻿/*!
  * jQuery Transit - CSS3 transitions and transformations
- * (c) 2011-2012 Rico Sta. Cruz <rico@ricostacruz.com>
+ * (c) 2011-2014 Rico Sta. Cruz
  * MIT Licensed.
  *
  * http://ricostacruz.com/jquery.transit
  * http://github.com/rstacruz/jquery.transit
  */
 
-(function ($) {
+/* jshint expr: true */
+
+; (function (root, factory) {
+
+    if (typeof define === 'function' && define.amd) {
+        define(['jquery'], factory);
+    } else if (typeof exports === 'object') {
+        module.exports = factory(require('jquery'));
+    } else {
+        factory(root.jQuery);
+    }
+
+}(this, function ($) {
+
     $.transit = {
-        version: "0.9.9",
+        version: "0.9.12",
 
         // Map of $.css() keys to values for 'transitionProperty'.
         // See https://developer.mozilla.org/en/CSS/CSS_transitions#Properties_that_can_be_animated
@@ -46,8 +56,6 @@
         var prefixes = ['Moz', 'Webkit', 'O', 'ms'];
         var prop_ = prop.charAt(0).toUpperCase() + prop.substr(1);
 
-        if (prop in div.style) { return prop; }
-
         for (var i = 0; i < prefixes.length; ++i) {
             var vendorProp = prefixes[i] + prop_;
             if (vendorProp in div.style) { return vendorProp; }
@@ -66,14 +74,14 @@
 
     // Check for the browser's transitions support.
     support.transition = getVendorPropertyName('transition');
-    support.transitionProperty = getVendorPropertyName('transitionProperty');
     support.transitionDelay = getVendorPropertyName('transitionDelay');
     support.transform = getVendorPropertyName('transform');
     support.transformOrigin = getVendorPropertyName('transformOrigin');
+    support.filter = getVendorPropertyName('Filter');
     support.transform3d = checkTransform3dSupport();
 
     var eventNames = {
-        'transition': 'transitionEnd',
+        'transition': 'transitionend',
         'MozTransition': 'transitionend',
         'OTransition': 'oTransitionEnd',
         'WebkitTransition': 'webkitTransitionEnd',
@@ -104,6 +112,7 @@
         'in-out': 'ease-in-out',
         'snap': 'cubic-bezier(0,1,.5,1)',
         // Penner equations
+        'easeInCubic': 'cubic-bezier(.550,.055,.675,.190)',
         'easeOutCubic': 'cubic-bezier(.215,.61,.355,1)',
         'easeInOutCubic': 'cubic-bezier(.645,.045,.355,1)',
         'easeInCirc': 'cubic-bezier(.6,.04,.98,.335)',
@@ -173,6 +182,20 @@
         set: $.cssHooks['transit:transform'].set
     };
 
+    // ## 'filter' CSS hook
+    // Allows you to use the `filter` property in CSS.
+    //
+    //     $("#hello").css({ filter: 'blur(10px)' });
+    //
+    $.cssHooks.filter = {
+        get: function (elem) {
+            return elem.style[support.filter];
+        },
+        set: function (elem, value) {
+            elem.style[support.filter] = value;
+        }
+    };
+
     // jQuery 1.8+ supports prefix-free transitions, so these polyfills will not
     // be necessary.
     if ($.fn.jquery < "1.8") {
@@ -209,6 +232,8 @@
     // ## Other CSS hooks
     // Allows you to rotate, scale and translate.
     registerCssHook('scale');
+    registerCssHook('scaleX');
+    registerCssHook('scaleY');
     registerCssHook('translate');
     registerCssHook('rotate');
     registerCssHook('rotateX');
@@ -438,7 +463,9 @@
         } else if (queue) {
             self.queue(queue, fn);
         } else {
-            fn();
+            self.each(function () {
+                fn.call(this);
+            });
         }
     }
 
@@ -452,6 +479,10 @@
             key = $.camelCase(key); // Convert "text-align" => "textAlign"
             key = $.transit.propertyMap[key] || $.cssProps[key] || key;
             key = uncamel(key); // Convert back to dasherized
+
+            // Get vendor specify propertie
+            if (support[key])
+                key = uncamel(support[key]);
 
             if ($.inArray(key, re) === -1) { re.push(key); }
         });
@@ -519,7 +550,7 @@
         var delay = 0;
         var queue = true;
 
-        var theseProperties = jQuery.extend(true, {}, properties);
+        var theseProperties = $.extend(true, {}, properties);
 
         // Account for `.transition(properties, callback)`.
         if (typeof duration === 'function') {
@@ -531,7 +562,7 @@
         if (typeof duration === 'object') {
             easing = duration.easing;
             delay = duration.delay || 0;
-            queue = duration.queue || true;
+            queue = typeof duration.queue === "undefined" ? true : duration.queue;
             callback = duration.complete;
             duration = duration.duration;
         }
@@ -594,106 +625,53 @@
             return self;
         }
 
-        var run = function (nextCall, element) {
-            var bound = false;
-            var self = $(element);
+        // Save the old transitions of each element so we can restore it later.
+        var oldTransitions = {};
 
-            // Save the old transitions of each element so we can restore it later.
-            var oldTransitions = {};
+        var run = function (nextCall) {
+            var bound = false;
 
             // Prepare the callback.
-            var cb = function (e) {
-                self.data('transitCallback', null);
-
-                if (e) e.stopPropagation();
-
+            var cb = function () {
                 if (bound) { self.unbind(transitionEnd, cb); }
 
-                element.style[support.transition] = (oldTransitions[this] || null);
+                if (i > 0) {
+                    self.each(function () {
+                        this.style[support.transition] = (oldTransitions[this] || null);
+                    });
+                }
 
                 if (typeof callback === 'function') { callback.apply(self); }
                 if (typeof nextCall === 'function') { nextCall(); }
             };
 
-            if ((transitionEnd) && ($.transit.useTransitionEnd)) {
+            if ((i > 0) && (transitionEnd) && ($.transit.useTransitionEnd)) {
                 // Use the 'transitionend' event if it's available.
                 bound = true;
                 self.bind(transitionEnd, cb);
             } else {
-                try {
-                    // Fallback to timers if the 'transitionend' event isn't supported.
-                    var id = window.setTimeout(cb, i);
-                    self.data('transitTimer', id);
-                } catch(exception) {
-                    //  Silently consume exceptions because this code is buggy.
-                }
+                // Fallback to timers if the 'transitionend' event isn't supported.
+                window.setTimeout(cb, i);
             }
 
             // Apply transitions.
-            element.style[support.transition] = transitionValue;
-            self.css(properties);
-            self.data('transitCallback', cb);
+            self.each(function () {
+                if (i > 0) {
+                    this.style[support.transition] = transitionValue;
+                }
+                $(this).css(theseProperties);
+            });
         };
 
         // Defer running. This allows the browser to paint any pending CSS it hasn't
         // painted yet before doing the transitions.
         var deferredRun = function (next) {
             this.offsetWidth; // force a repaint
-            run(next, this);
+            run(next);
         };
 
         // Use jQuery's fx queue.
         callOrQueue(self, queue, deferredRun);
-
-        // Chainability.
-        return this;
-    };
-
-    // ## $.fn.transitionStop
-    // Works like $.fn.stop( [clearQueue ] [, jumpToEnd ] )
-    //     
-    $.fn.transitionStop = $.fn.transitStop = function (clearQueue, jumpToEnd) {
-        this.each(function () {
-            var self = $(this);
-
-            var id = self.data('transitTimer');
-            clearTimeout(id);
-
-            self.data('transitTimer', null);
-
-            var properties = this.style[support.transitionProperty];
-
-            if (properties) {
-                properties = properties.replace(/\s*/g, '').split(',');
-
-                var style = window.getComputedStyle(this),
-                    css = {};
-
-                for (var i = 0; i < properties.length; i++) {
-                    css[properties[i]] = this.style[properties[i]];
-                    this.style[properties[i]] = style[properties[i]];
-                }
-
-                this.offsetWidth; // force a repaint
-                this.style[support.transition] = 'none';
-
-                if (clearQueue) {
-                    self.clearQueue();
-                    self.unbind(transitionEnd);
-                };
-
-                if (jumpToEnd) {
-                    for (var i = 0; i < properties.length; i++)
-                        this.style[properties[i]] = css[properties[i]];
-
-                    var cb = self.data('transitCallback');
-                    if (typeof cb === 'function') cb();
-
-                } else if (!clearQueue) {
-                    self.dequeue();
-                };
-            };
-        });
 
         // Chainability.
         return this;
@@ -762,4 +740,6 @@
 
     // Export some functions for testable-ness.
     $.transit.getTransitionValue = getTransition;
-})(jQuery);
+
+    return $;
+}));

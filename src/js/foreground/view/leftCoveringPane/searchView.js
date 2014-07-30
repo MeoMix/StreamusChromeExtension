@@ -20,6 +20,11 @@
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
         
+        //  Overwrite resortView to only render children as expected
+        resortView: function () {
+            this.renderChildren();
+        },
+        
         childViewOptions: {
             type: ListItemType.SearchResult
         },

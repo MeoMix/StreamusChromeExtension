@@ -35,6 +35,9 @@
             //  Load any existing StreamItems from local storage
             this.fetch();
 
+            //  TODO: Don't persist selectedness to localStorage.
+            this.deselectAll();
+
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         

@@ -23,7 +23,8 @@
             'jquery.transit': 'thirdParty/jquery.transit',
             'jquery-ui': 'thirdParty/jquery-ui',
             'less': 'thirdParty/less',
-            'lodash': 'thirdParty/lodash',
+            //  Rename lodash to underscore since functionality equivilant but underscore is expected by other third party libraries.
+            'underscore': 'thirdParty/lodash',
             'mocha': 'thirdParty/mocha',
             'selectize': 'thirdParty/selectize',
             'sinon': 'thirdParty/sinon',

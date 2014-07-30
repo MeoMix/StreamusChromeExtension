@@ -8,7 +8,7 @@
     'jquery.transit',
     'jquery-ui',
     'less',
-    'lodash',
+    'underscore',
     'selectize'
 ], function () {
     'use strict';

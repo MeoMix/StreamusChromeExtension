@@ -6,7 +6,7 @@
     'jquery.qtip',
     'jquery.transit',
     'jquery-ui',
-    'lodash',
+    'underscore',
     'mocha',
     'selectize',
     'sinon'

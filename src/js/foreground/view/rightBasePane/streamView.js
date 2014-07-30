@@ -20,6 +20,11 @@
         id: 'stream',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
+        
+        //  Overwrite resortView to only render children as expected
+        resortView: function () {
+            this.renderChildren();
+        },
 
         template: _.template(StreamTemplate),
         templateHelpers: function () {

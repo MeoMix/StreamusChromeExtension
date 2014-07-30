@@ -18,6 +18,11 @@
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
+        
+        //  Overwrite resortView to only render children as expected
+        resortView: function () {
+            this.renderChildren();
+        },
 
         events: {
             'click': 'hideIfClickOutsidePanel',

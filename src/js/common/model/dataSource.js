@@ -16,6 +16,7 @@
             url: ''
         },
         
+        //  TODO: Function is way too big
         //  Take the URL given to the dataSource and parse it for relevant information.
         //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
         //  need to fetch the Channel's Uploads playlist first.
@@ -124,7 +125,6 @@
 
         //  Expects options: { success: function, error: function }
         getTitle: function (options) {
-
             //  If the title has already been fetched from the URL -- return the cached one.
             if (this.get('title') !== '') {
                 options.success(this.get('title'));
