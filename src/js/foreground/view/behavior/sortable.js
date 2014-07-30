@@ -13,9 +13,13 @@
     
     var Sortable = Backbone.Marionette.Behavior.extend({
         onRender: function () {
+            this.view.ui.childContainer.sortable(this._getSortableOptions());
+        },
+        
+        _getSortableOptions: function() {
             var self = this;
 
-            this.view.ui.childContainer.sortable({
+            var sortableOptions = {
                 connectWith: '.droppable-list',
 
                 cursorAt: {
@@ -28,7 +32,7 @@
 
                 placeholder: 'sortable-placeholder list-item hidden-until-change',
 
-                helper: function (ui, listItem) {
+                helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
                     var viewOptions = {
@@ -38,17 +42,17 @@
                     var listItemType = listItem.data('type');
 
                     switch (listItemType) {
-                        case ListItemType.PlaylistItem:
-                            copyHelperView = new PlaylistItemView(viewOptions);
-                            break;
-                        case ListItemType.StreamItem:
-                            copyHelperView = new StreamItemView(viewOptions);
-                            break;
-                        case ListItemType.SearchResult:
-                            copyHelperView = new SearchResultView(viewOptions);
-                            break;
-                        default:
-                            throw new Error('Unhandled ListItemType: ' + listItemType);
+                    case ListItemType.PlaylistItem:
+                        copyHelperView = new PlaylistItemView(viewOptions);
+                        break;
+                    case ListItemType.StreamItem:
+                        copyHelperView = new StreamItemView(viewOptions);
+                        break;
+                    case ListItemType.SearchResult:
+                        copyHelperView = new SearchResultView(viewOptions);
+                        break;
+                    default:
+                        throw new Error('Unhandled ListItemType: ' + listItemType);
                     }
 
                     this.copyHelperView = copyHelperView;
@@ -64,15 +68,15 @@
                         'class': 'selected-models-length'
                     });
                 },
-                change: function () {
+                change: function() {
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
-                    //  So, I manually hide the placehelper (like it would be normally) until a change occurs -- then the CSS can take over.
+                    //  So, I manually hide the placeholder (like it would be normally) until a change occurs -- then the CSS can take over.
                     if (this.needFixCssRedraw) {
                         $('.hidden-until-change').removeClass('hidden-until-change');
                         this.needFixCssRedraw = false;
                     }
                 },
-                start: function (event, ui) {
+                start: function(event, ui) {
                     self.view.triggerMethod('ItemDragged', self.view.collection.get(ui.item.data('id')));
 
                     this.needFixCssRedraw = true;
@@ -112,14 +116,13 @@
                     ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
                 },
 
-                stop: function (event, ui) {
+                stop: function(event, ui) {
                     this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
                     if (copied) {
                         this.copyHelper.removeClass('copy-helper');
-                    }
-                    else {
+                    } else {
                         this.copyHelperView.destroy();
 
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
@@ -128,8 +131,8 @@
                             //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
                             //  Need to pad the index with the # of missing items.
                             self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
+                                //  TODO: This has a bug in it. If you drag an item far enough to exceed the render threshold then it doesn't properly find the index. :(
                                 var index = ui.item.index() + response.minRenderIndex;
-
                                 self.view.collection.moveToIndex(ui.item.data('id'), index);
                             });
 
@@ -153,10 +156,10 @@
                 },
 
                 tolerance: 'pointer',
-                receive: function (event, ui) {
+                receive: function(event, ui) {
                     //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
                     //  Need to pad the index with the # of missing items.
-                    self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
+                    self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function(response) {
                         var index = ui.item.index() + response.minRenderIndex;
 
                         var listItemType = ui.item.data('type');
@@ -165,8 +168,7 @@
                         if (listItemType === ListItemType.StreamItem) {
                             draggedModels = StreamItems.selected();
                             StreamItems.deselectAll();
-                        }
-                        else if (listItemType === ListItemType.PlaylistItem) {
+                        } else if (listItemType === ListItemType.PlaylistItem) {
                             var activePlaylistItems = Playlists.getActivePlaylist().get('items');
                             draggedModels = activePlaylistItems.selected();
                             activePlaylistItems.deselectAll();
@@ -175,15 +177,15 @@
                             draggedModels = searchResults.selected();
                             searchResults.deselectAll();
                         }
-                        
-                        var songs = _.map(draggedModels, function (model) {
+
+                        var songs = _.map(draggedModels, function(model) {
                             return model.get('song');
                         });
-                        
+
                         self.view.collection.addSongs(songs, {
                             index: index
                         });
-                        
+
                         //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
                         //  Don't swap it out until done using its dropped-position index.
                         ui.sender[0].copyHelper.replaceWith(ui.item);
@@ -195,7 +197,7 @@
                     self.view.triggerMethod('GetMinRenderIndex');
                 },
 
-                over: function (event, ui) {
+                over: function(event, ui) {
                     //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
                     // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
                     var placeholderParent = ui.placeholder.parent().parent();
@@ -203,7 +205,9 @@
                     ui.item.data('sortableItem').scrollParent = placeholderParent;
                     ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
                 }
-            });
+            };
+
+            return sortableOptions;
         }
     });
 
