@@ -136,14 +136,14 @@ body .qtip-light {
   padding: 10px;
 }
 .prompt.settings-prompt .panel {
-  margin-left: -185px;
-  width: 370px;
-  height: 195px;
+  margin-left: -190px;
+  width: 380px;
+  height: 200px;
 }
 .prompt.create-playlist-prompt .panel {
-  height: 180px;
-  width: 330px;
   margin-left: -165px;
+  width: 330px;
+  height: 180px;
 }
 .prompt.clear-stream-prompt .panel {
   width: 300px;

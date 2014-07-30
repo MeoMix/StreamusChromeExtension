@@ -2,12 +2,12 @@
     'background/collection/playlists',
     'background/model/settings',
     'background/model/user'
-], function(Playlists, Settings, User) {
+], function (Playlists, Settings, User) {
     'use strict';
 
     //  Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
     var SIGN_IN_FAILURE_WAIT_TIME = 30;
-    
+
     var SignInManager = Backbone.Model.extend({
         defaults: {
             signingIn: false,
@@ -15,29 +15,29 @@
             signInRetryTimer: SIGN_IN_FAILURE_WAIT_TIME,
             signInRetryTimerInterval: null,
             signedIn: false,
-            
+
             //  When chrome.identity.onSignInChanged runs with signedIn: true -- need to store the user who is about to be signed in momentarily.
             signingInUser: null,
             signedInUser: null,
-            
+
             needPromptLinkUserId: false,
             needPromptGoogleSignIn: false
         },
-        
-        initialize: function() {
+
+        initialize: function () {
             this.on('change:signedIn', this._onSignedInChanged);
             this.on('change:signInFailed', this._onSignInFailedChanged);
-            
+
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeSignInChanged.bind(this));
         },
-        
+
         signInWithGoogle: function () {
             if (this._canSignIn()) {
                 this._supportsGoogleSignIn ? this._getGoogleUserInfo() : this._signIn();
             }
         },
-        
+
         signOut: function () {
             if (this.get('signedIn')) {
                 Settings.set('userId', null);
@@ -45,7 +45,7 @@
                 this.set('signedIn', false);
             }
         },
-        
+
         _signIn: function (googlePlusId) {
             this.set('signingIn', true);
 
@@ -60,7 +60,7 @@
             }
 
             this._listenUserLoadEvents(signingInUser);
-            
+
             //  If the account doesn't have a Google+ ID -- try logging in by localStorage ID.
             if (!signingInUser.linkedToGoogle()) {
                 signingInUser.tryloadByUserId();
@@ -85,30 +85,30 @@
                 }.bind(this));
             }
         },
-        
-        _listenUserLoadEvents: function(user) {
+
+        _listenUserLoadEvents: function (user) {
             this.listenToOnce(user, 'loadSuccess', this._onSignInSuccess);
             this.listenToOnce(user, 'loadError', this._onSignInError);
         },
-        
+
         //  getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
         _supportsGoogleSignIn: function () {
             return !_.isUndefined(chrome.identity.getProfileUserInfo);
         },
 
-        _getGoogleUserInfo: function() {
+        _getGoogleUserInfo: function () {
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
-        
+
         //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
         _onGetProfileUserInfo: function (profileUserInfo) {
             this._signIn(profileUserInfo.id);
         },
-        
+
         _onSignedInChanged: function (model, signedIn) {
             this._notifyYouTubeTabsSignedIn(signedIn);
         },
-        
+
         //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
         _notifyYouTubeTabsSignedIn: function (signedIn) {
             //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
@@ -120,13 +120,13 @@
                 });
             });
         },
-        
+
         _onSignInFailedChanged: function (model, signInFailed) {
             if (signInFailed) {
                 this._onSignInFailed();
             }
         },
-        
+
         _onSignInFailed: function () {
             clearInterval(this.get('signInRetryInterval'));
             this.set('signInRetryInterval', setInterval(this._doSignInRetryTimerIntervalTick.bind(this), 1000));
@@ -140,39 +140,39 @@
                 this._resetSignInRetryTimer();
             }
         },
-        
+
         _resetSignInRetryTimer: function () {
             clearInterval(this.get('signInRetryInterval'));
             this.set('signInRetryTimer', SIGN_IN_FAILURE_WAIT_TIME);
             this.set('signInFailed', false);
         },
-        
+
         _canSignIn: function () {
             //  Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
             var canSignIn = !this.get('signedIn') && !this.get('signingIn') && !this.get('signInFailed');
             return canSignIn;
         },
-        
+
         //  https://developer.chrome.com/extensions/identity#event-onSignInChanged
         _onChromeSignInChanged: function (account, signedIn) {
             signedIn ? this._signIn(account.id) : this._onChromeSignedOut(account.id);
         },
-        
+
         _onSignInSuccess: function () {
             var signingInUser = this.get('signingInUser');
             this._setSignedInUser(signingInUser);
         },
-        
-        _onSignInError: function(error) {
+
+        _onSignInError: function (error) {
             this.stopListening(this.get('signingInUser'));
             this.set('signingInUser', null);
-            
+
             console.error(error);
             this.set('signingIn', false);
             this.set('signInFailed', true);
         },
-        
-        _setSignedInUser: function(user) {
+
+        _setSignedInUser: function (user) {
             this.stopListening(user);
 
             this.set('signedInUser', user);
@@ -197,7 +197,7 @@
                 this.signInWithGoogle();
             }
         },
-        
+
         _onRuntimeMessage: function (request, sender, sendResponse) {
             switch (request.method) {
                 case 'getSignedInState':
@@ -221,7 +221,7 @@
                     break;
             }
         },
-        
+
         _handleAddSharedPlaylistRequest: function (request, sendResponse) {
             //  TODO: Probably go through signedInUser here
             Playlists.addPlaylistByShareData({
@@ -241,7 +241,7 @@
                 }
             });
         },
-        
+
         _shouldLinkUserId: function (callback) {
             if (this._supportsGoogleSignIn()) {
                 chrome.identity.getProfileUserInfo(function (profileUserInfo) {
@@ -252,20 +252,19 @@
                 callback(false);
             }
         },
-        
+
         _promptLinkUserId: function () {
             //  Set a property indicating prompt is needed because UI might not be open when this method is ran so UI can't be shown immediately.
             this.set('needPromptLinkUserId', true);
         },
-        
+
         _promptGoogleSignIn: function () {
             this.set('needPromptGoogleSignIn', true);
         },
-        
-        saveGooglePlusId: function() {
+
+        saveGooglePlusId: function () {
             chrome.identity.getProfileUserInfo(function (profileUserInfo) {
                 if (profileUserInfo.id === '') throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
-                debugger;
                 this.get('signedInUser').updateGooglePlusId(profileUserInfo.id);
             }.bind(this));
         }
@@ -274,4 +273,4 @@
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.SignInManager = new SignInManager();
     return window.SignInManager;
-})
+});
