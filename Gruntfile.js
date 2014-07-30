@@ -3,8 +3,6 @@
 //	Type grunt to run the default method, or "grunt paramater" to run a specific method.
 //
 //	Options:
-//		*	grunt: Start up a server, run Jasmine test cases, watch for changes.
-//		*	grunt test: Start up a server, run Jasmine test cases.
 //		*	grunt lint: Display linter errors about the project
 //      *   grunt deploy: Pass a version to creat dist .zip. Otherwise, test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
 //
@@ -12,12 +10,9 @@
 'use strict';
 
 module.exports = function (grunt) {
-
 	grunt.initConfig({
-
 		//	Read project settings from package.json in order to be able to reference the properties with grunt.
 		pkg: grunt.file.readJSON('package.json'),
-
 		//	Tasks:
 		concat: {
 			//  NOTE: Careful not to define separator as semi-colon here. It will error out on font-awesome CSS.
@@ -25,7 +20,6 @@ module.exports = function (grunt) {
 				stripBanners: true
 			}
 		},
-
 		htmlmin: {
 			dist: {
 				options: {
@@ -45,17 +39,8 @@ module.exports = function (grunt) {
 				src: ['**/*.html', '!**/template/**']
 			}
 		},
-
-		//	Connect spins up tiny, quick servers for testing on
-		connect: {
-			test: {
-				port: 8000
-			}
-		},
-
 		//  Compress image sizes and move to dist folder
 		imagemin: {
-
 			dynamic: {
 				files: [{
 					expand: true,
@@ -64,37 +49,7 @@ module.exports = function (grunt) {
 					dest: 'dist/img/'
 				}]
 			}
-
 		},
-
-		//	Jasmine is for running our test cases. This runs in a headless web browser using phantom-js which is pretty sweet.
-		jasmine: {
-			//	Here's all the JavaScript I want to consider when running test cases
-			src: 'src/js/*.js',
-			options: {
-				//	Specs are all the cases I want to run
-				specs: 'test/js/spec/*Spec.js',
-				//	Don't run under file:// because some APIs don't respond well to that
-				host: 'http://localhost:8000/',
-				template: require('grunt-template-jasmine-requirejs'),
-				templateOptions: {
-					requireConfigFile: 'test/js/main.js',
-					requireConfig: {
-						//	Override the base URL with one relative to the gruntfile.
-						baseUrl: 'src/js/',
-						//	Emulate main.js' initialization logic.
-						deps: ['settings', 'backbone', 'jquery','underscore'],
-						callback: function (Settings, Backbone, $, _) {
-							//	Enable testing in Settings so configuration values can be set accordingly (API keys, etc. testing runs on localhost)
-							Settings.set('testing', true);
-							//	Testing should hit a local server and not be ran against the production database.
-							Settings.set('localDebug', true);
-						}
-					}
-				}
-			}
-		},
-
 		//	Improve code quality by applying a code-quality check with jshint
 		jshint: {
 			//	Files to analyze: 
@@ -109,12 +64,13 @@ module.exports = function (grunt) {
 
 				//  Don't whine about == on null vs undefined, it's a bit pedantic..
 				"eqnull": true,
+				//  Allow bool ? func() : func()
+				"expr": true,
 
 				//	Don't validate third-party libraries
 				ignores: ['src/js/thirdParty/**/*.js']
 			}
 		},
-		
 		less: {
 			files: {
 				expand: true,
@@ -124,7 +80,6 @@ module.exports = function (grunt) {
 				ext: '.css'
 			}
 		},
-		
 		requirejs: {
 			production: {
 				options: {
@@ -142,14 +97,15 @@ module.exports = function (grunt) {
 						name: 'background/main',
 						include: ['background/plugins']
 					}, {
-						name: 'background/background',
-						exclude: ['background/main', 'background/plugins']
+						name: 'background/application',
+						include: 'background/background',
+						exclude: ['background/main']
 					}, {
 						name: 'foreground/main',
 						include: ['foreground/plugins']
 					}, {
 						name: 'foreground/application',
-						include: ['foreground/foreground'],
+						include: ['foreground/view/foregroundView'],
 						exclude: ['foreground/main']
 					}],
 					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.
@@ -164,11 +120,6 @@ module.exports = function (grunt) {
 				}
 
 			}
-		},
-		
-		watch: {
-			files: ['<%= jshint.files %>'],
-			tasks: ['jshint']
 		}
 	});
 
@@ -176,25 +127,18 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-connect');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-jasmine');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-contrib-uglify');
-	grunt.loadNpmTasks('grunt-contrib-watch');
-	grunt.loadNpmTasks('grunt-template-jasmine-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
-	grunt.registerTask('default', ['connect', 'jasmine', 'watch']);
-	grunt.registerTask('test', ['connect', 'jasmine']);
 	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
-
 		var isDebugDeploy = version === undefined;
 		grunt.config.set('isDebugDeploy', isDebugDeploy);
 
@@ -224,7 +168,6 @@ module.exports = function (grunt) {
 		if (!isDebugDeploy) {
 			grunt.task.run('update-dist-manifest-version', 'compress-extension', 'update-src-manifest-version');
 		}
-
 	});
 	
 	grunt.registerTask('concat-foreground-css', 'Takes all the relevant CSS files for the foreground and concats them into one file.', function () {
@@ -235,6 +178,7 @@ module.exports = function (grunt) {
 				dest: 'dist/css/foreground.css'
 			}
 		});
+		
 		grunt.task.run('concat');
 	});
 	
@@ -250,6 +194,7 @@ module.exports = function (grunt) {
 				}]
 			}
 		});
+		
 		grunt.task.run('replace');
 	});
 	
@@ -265,11 +210,11 @@ module.exports = function (grunt) {
 				}]
 			}
 		});
+		
 		grunt.task.run('replace');
 	});
 
 	grunt.registerTask('concat-cssmin-css', 'minify and concatinate css for efficiency', function () {
-
 		grunt.config.set('cssmin', {
 			inject: {
 				files: {
@@ -284,7 +229,6 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
-
 		grunt.config.set('uglify', {
 			inject: {
 				files: {
@@ -321,7 +265,6 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
-
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
 				src: ['dist/js/**/main.js'],
@@ -350,8 +293,8 @@ module.exports = function (grunt) {
 					from: '<link href=css/font-awesome.css rel=stylesheet>',
 					to: ''
 				}, {
-				    from: '<link href=css/fontello.css rel=stylesheet>',
-				    to: ''
+					from: '<link href=css/fontello.css rel=stylesheet>',
+					to: ''
 				}, {
 					from: '<link href=css/jquery.qtip.css rel=stylesheet>',
 					to: ''
@@ -386,9 +329,7 @@ module.exports = function (grunt) {
 
 	//	Remove debugging information from the manifest file
 	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
-
 		var isDebugDeploy = grunt.config.get('isDebugDeploy');
-
 		var replacements = [];
 		
 		//  Don't remove this when testing debug deploy because server will throw CORS error
@@ -439,7 +380,6 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('transform-injected-js', 'transform inject files so that they reference minified versions of css', function() {
-
 		grunt.config.set('replace', {
 			transformSettings: {
 				src: ['dist/js/inject/beatportInject.js', 'dist/js/inject/youTubeInject.js'],
@@ -461,7 +401,6 @@ module.exports = function (grunt) {
 
 	//	Remove debugging information from the JavaScript
 	grunt.registerTask('transform-settings', 'ensure all the debugging flags are turned off in settings', function () {
-
 		grunt.config.set('replace', {
 			transformSettings: {
 				src: ['dist/js/background/background.js'],
@@ -479,12 +418,10 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('replace');
-
 	});
 
 	//	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
 	grunt.registerTask('compress-extension', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
-
 		//  There's no need to cleanup any old version because this will overwrite if it exists.
 		grunt.config.set('compress', {
 			dist: {
@@ -502,5 +439,4 @@ module.exports = function (grunt) {
 
 		grunt.task.run('compress');
 	});
-
 };
