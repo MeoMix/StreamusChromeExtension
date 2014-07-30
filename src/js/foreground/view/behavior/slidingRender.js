@@ -3,43 +3,10 @@
 
     var SlidingRender = Backbone.Marionette.Behavior.extend({
         collectionEvents: {
-            'reset': '_reset',
-            'remove': function (item, collection, options) {
-                //  When a rendered view is lost - render the next one since there's a spot in the viewport
-                if (this._indexWithinRenderRange(options.index)) {
-                    var rendered = this._renderElementAtIndex(this.maxRenderIndex);
-
-                    //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
-                    if (!rendered && this.minRenderIndex > 0) {
-                        this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
-                    }
-                }
-                
-                this._setHeightPaddingTop();
-            },
-            'add': function (item, collection) {
-                var index = collection.indexOf(item);
-
-                var indexWithinRenderRange = this._indexWithinRenderRange(index);
-
-                //  Subtract 1 from collection.length because, for instance, if our collection has 8 items in it
-                //  and min-max is 0-7, the 8th item in the collection has an index of 7.
-                //  Use a > comparator not >= because we only want to run this logic when the viewport is overfilled and not just enough to be filled.
-                var viewportOverfull = collection.length - 1 > this.maxRenderIndex;
-
-                //  If a view has been rendered and it pushes another view outside of maxRenderIndex, remove that view.
-                if (indexWithinRenderRange && viewportOverfull) {
-                    //  Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
-                    this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
-                }
-
-                this._setHeightPaddingTop();
-            },
-            'change:active': function (item, active) {
-                if (active) {
-                    this._scrollToItem(item);
-                }
-            }
+            'reset': '_onCollectionReset',
+            'remove': '_onCollectionRemove',
+            'add': '_onCollectionAdd',
+            'change:active': '_onCollectionChangeActive'
         },
         
         ui: {
@@ -197,17 +164,6 @@
 
             this.lastScrollTop = scrollTop;
         },
-
-        //  Reset min/max, scrollTop, paddingTop and height to their default values.
-        _reset: function () {
-            this.ui.list.scrollTop(0);
-            this.lastScrollTop = 0;
-
-            this.minRenderIndex = this._getMinRenderIndex(0);
-            this.maxRenderIndex = this._getMaxRenderIndex(0);
-
-            this._setHeightPaddingTop();
-        },
         
         _setHeightPaddingTop: function() {
             this._setPaddingTop();
@@ -347,6 +303,56 @@
                 }
 
                 this.ui.list.scrollTop(scrollTop);
+            }
+        },
+        
+        //  Reset min/max, scrollTop, paddingTop and height to their default values.
+        _onCollectionReset: function () {
+            this.ui.list.scrollTop(0);
+            this.lastScrollTop = 0;
+
+            this.minRenderIndex = this._getMinRenderIndex(0);
+            this.maxRenderIndex = this._getMaxRenderIndex(0);
+
+            this._setHeightPaddingTop();
+        },
+        
+        _onCollectionRemove: function (item, collection, options) {
+            //  When a rendered view is lost - render the next one since there's a spot in the viewport
+            if (this._indexWithinRenderRange(options.index)) {
+                var rendered = this._renderElementAtIndex(this.maxRenderIndex);
+
+                //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
+                if (!rendered && this.minRenderIndex > 0) {
+                    this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
+                }
+            }
+
+            this._setHeightPaddingTop();
+        },
+        
+        _onCollectionAdd: function (item, collection) {
+            var index = collection.indexOf(item);
+
+            var indexWithinRenderRange = this._indexWithinRenderRange(index);
+
+            //  Subtract 1 from collection.length because, for instance, if our collection has 8 items in it
+            //  and min-max is 0-7, the 8th item in the collection has an index of 7.
+            //  Use a > comparator not >= because we only want to run this logic when the viewport is overfilled and not just enough to be filled.
+            var viewportOverfull = collection.length - 1 > this.maxRenderIndex;
+
+            //  If a view has been rendered and it pushes another view outside of maxRenderIndex, remove that view.
+            if (indexWithinRenderRange && viewportOverfull) {
+                //  Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
+                this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
+            }
+
+            this._setHeightPaddingTop();
+        },
+        
+        _onCollectionChangeActive: function (item, active) {
+            if (active) {
+                this._scrollToItem(item);
             }
         }
     });

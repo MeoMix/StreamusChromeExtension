@@ -97,7 +97,6 @@
         
         initialize: function () {
             this.listenTo(SignInManager, 'change:signedIn', this.toggleSaveSelected);
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
  
         onRender: function () {
@@ -121,21 +120,8 @@
         },
 
         onDestroy: function () {
-            //  Forget selected items when the view is destroyed.
-            this.deselectCollection();
-            
             //  Remember search results for a bit just in case they close/re-open quickly, no need to re-search.
             this.model.startClearResultsTimer();
-        },
-        
-        _onClickedElement: function (listItemType) {
-            if (listItemType !== this.childViewOptions.type) {
-                this.deselectCollection();
-            }
-        },
-        
-        deselectCollection: function() {
-            this.collection.deselectAll();
         },
         
         hide: function () {

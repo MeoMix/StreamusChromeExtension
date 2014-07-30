@@ -7,17 +7,38 @@
         },
 
         events: {
-            'click @ui.listItem': 'setSelectedOnClick',
+            'click @ui.listItem': '_onItemClicked',
         },
         
-        onItemDragged: function(item) {
+        initialize: function() {
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
+        },
+        
+        //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
+        //  when performing a drag operation. It doesn't feel right to use mousedown instead of click.
+        onItemDragged: function (item) {
             this._setSelected({
                 modelToSelect: item,
                 drag: true
             });
         },
         
-        setSelectedOnClick: function (event) {
+        onDestroy: function() {
+            //  Forget selected items when the view is destroyed.
+            this._deselectCollection();
+        },
+        
+        _deselectCollection: function () {
+            this.view.collection.deselectAll();
+        },
+        
+        _onClickedElement: function (listItemType) {
+            if (listItemType !== this.view.childViewOptions.type) {
+                this._deselectCollection();
+            }
+        },
+        
+        _onItemClicked: function (event) {
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.view.collection.get(id);
 
@@ -36,6 +57,7 @@
             var isDrag = options.drag || false;
 
             var isSelectedAlready = modelToSelect.get('selected');
+            //  When holding the ctrl key and clicking an already selected item -- the item becomes deselected.
             modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
 
             //  When the shift key is pressed - select a block of search result items

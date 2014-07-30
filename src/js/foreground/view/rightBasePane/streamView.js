@@ -94,8 +94,6 @@
             this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
-            
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
         
         onRender: function () {
@@ -105,21 +103,6 @@
             this.setShuffleButtonState();
             this.setRadioButtonState();
             this.updateSaveStreamButton();
-        },
-        
-        onDestroy: function () {
-            //  Forget selected items when the view is destroyed.
-            this.deselectCollection();
-        },
-        
-        _onClickedElement: function (listItemType) {
-            if (listItemType !== this.childViewOptions.type) {
-                this.deselectCollection();
-            }
-        },
-        
-        deselectCollection: function () {
-            this.collection.deselectAll();
         },
         
         updateSaveStreamButton: function () {

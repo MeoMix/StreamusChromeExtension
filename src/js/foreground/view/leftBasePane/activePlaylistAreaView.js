@@ -78,31 +78,12 @@
                 }
             };
         },
-        
-        initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
-        },
 
         onRender: function () {            
             this.toggleBigText();
             this.toggleBottomMenubar();
         },
-        
-        onDestroy: function () {
-            //  Forget selected items when the view is destroyed.
-            this.deselectCollection();
-        },
-        
-        _onClickedElement: function (listItemType) {
-            if (listItemType !== this.childViewOptions.type) {
-                this.deselectCollection();
-            }
-        },
-        
-        deselectCollection: function () {
-            this.collection.deselectAll();
-        },
-        
+
         updatePlaylistDetails: function () {
             var displayInfo = this.model.get('displayInfo');
             this.ui.playlistDetails.text(displayInfo);
