@@ -81,8 +81,7 @@ define([
         
         buildSuggestions: function(songInformationList, text) {
             var suggestions = _.map(songInformationList, function (songInformation) {
-                var song = new Song();
-                song.setYouTubeInformation(songInformation);
+                var song = new Song(songInformation);
                 
                 this.get('suggestedSongs').push(song);
 

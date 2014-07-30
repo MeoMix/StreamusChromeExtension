@@ -1,7 +1,8 @@
 ﻿define([
+    'common/enum/songType',
     'common/enum/youTubeServiceType',
     'common/model/utility'
-], function (YouTubeServiceType, Utility) {
+], function (SongType, YouTubeServiceType, Utility) {
     'use strict';
 
     var YouTubeV3API = Backbone.Model.extend({
@@ -176,7 +177,8 @@
                                 id: item.id,
                                 duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
                                 title: item.snippet.title,
-                                author: item.snippet.channelTitle
+                                author: item.snippet.channelTitle,
+                                type: SongType.YouTube
                             };
                         });
 

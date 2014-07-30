@@ -40,12 +40,6 @@
             this.on('change:id', this._onChangeId);
         },
         
-        //  TODO: Not sure how I feel about this method. Why not just has type set to YouTube and call set?
-        setYouTubeInformation: function (songInformation) {
-            this.set('type', SongType.YouTube);
-            this.set(songInformation);
-        },
-        
         _onChangeId: function (model, id) {
             this._setUrl(id);
         },

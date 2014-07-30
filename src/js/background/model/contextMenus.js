@@ -123,10 +123,7 @@ define([
             YouTubeV3API.getSongInformationByTitle({
                 title: text,
                 success: function(songInformation) {
-                    var song = new Song();
-                    song.setYouTubeInformation(songInformation);
-
-                    callback(song);
+                    callback(new Song(songInformation));
                 }
             });
         },
@@ -139,11 +136,7 @@ define([
                     YouTubeV3API.getSongInformation({
                         songId: dataSource.get('id'),
                         success: function (songInformation) {
-
-                            var song = new Song();
-                            song.setYouTubeInformation(songInformation);
-
-                            callback(song);
+                            callback(new Song(songInformation));
                         },
                         error: function () {
                             //  TODO: i18n

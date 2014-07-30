@@ -10,11 +10,8 @@
         
         //  TODO: I think it would be better to just condense these functions and allow either an array or a single object to be given to it.
         setFromSongInformation: function (songInformation) {
-            var song = new Song();
-            song.setYouTubeInformation(songInformation);
-
             var searchResult = new SearchResult({
-                song: song
+                song: new Song(songInformation)
             });
 
             this.reset(searchResult);
@@ -22,11 +19,8 @@
 
         setFromSongInformationList: function (songInformationList) {
             var searchResults = _.map(songInformationList, function (songInformation) {
-                var song = new Song();
-                song.setYouTubeInformation(songInformation);
-
                 var searchResult = new SearchResult({
-                    song: song
+                    song: new Song(songInformation)
                 });
 
                 return searchResult;

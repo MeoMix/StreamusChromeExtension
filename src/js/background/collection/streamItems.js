@@ -173,10 +173,7 @@
             YouTubeV3API.getSongInformationByTitle({
                 title: options.title,
                 success: function (songInformation) {
-                    var song = new Song();
-                    song.setYouTubeInformation(songInformation);
-                    
-                    this.addSongs(song, {
+                    this.addSongs(new Song(songInformation), {
                         playOnAdd: !!options.playOnAdd
                     });
                     
@@ -272,10 +269,8 @@
 
             //  Create a list of all the related songs from all of the information of stream items.
             var relatedSongs = _.flatten(_.map(streamItemsWithInfo, function (streamItem) {
-                return _.map(streamItem.get('relatedSongInformation'), function (relatedSongInformation) {
-                    var song = new Song();
-                    song.setYouTubeInformation(relatedSongInformation);
-                    return song;
+                return _.map(streamItem.get('relatedSongInformation'), function (songInformation) {
+                    return new Song(songInformation);
                 });
             }));
 

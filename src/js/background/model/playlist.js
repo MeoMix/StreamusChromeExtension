@@ -110,11 +110,8 @@ define([
             YouTubeV3API.getPlaylistSongInformationList({
                 playlistId: this.get('dataSource').get('id'),
                 success: function onResponse(response) {
-                    var songs = _.map(response.songInformationList, function (youTubeSongInformation) {
-                        var song = new Song();
-                        song.setYouTubeInformation(youTubeSongInformation);
-
-                        return song;
+                    var songs = _.map(response.songInformationList, function (songInformation) {
+                        return new Song(songInformation);
                     });
 
                     //  Periodicially send bursts of packets to the server and trigger visual update.
