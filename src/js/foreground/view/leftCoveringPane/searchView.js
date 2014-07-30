@@ -143,9 +143,7 @@
             this.$el.transition({
                 //  Transition -20px off the screen to account for the shadow on the view.
                 x: -20
-            }, function () {
-                this.triggerMethod('hidden');
-            }.bind(this));
+            }, this.destroy.bind(this));
         },
         
         //  Searches youtube for song results based on the given text.

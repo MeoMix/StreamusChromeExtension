@@ -104,8 +104,6 @@
                     doOkFunction();
                 }
             } else {
-                //  TODO: Remove this after updating to Marionette v2.0.3
-                this.listenToOnce(promptView, 'hidden', this.empty);
                 this.show(promptView);
             }
         },

@@ -135,9 +135,7 @@
 
             this.ui.panel.transition({
                 x: -20
-            }, 300, function() {
-                this.triggerMethod('hidden');
-            }.bind(this));
+            }, 300, this.destroy.bind(this));
         },
         
         showSettingsPrompt: function () {

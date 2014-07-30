@@ -58,7 +58,7 @@
                     contentView._doOnHide();
                 }
 
-                this.triggerMethod('hidden');
+                this.destroy();
             }.bind(this));
 
             this.ui.panel.transition({

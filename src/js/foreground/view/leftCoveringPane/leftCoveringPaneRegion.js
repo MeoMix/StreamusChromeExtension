@@ -49,8 +49,6 @@
             });
 
             this.show(searchView);
-            //  When the user has clicked 'close' button the view will slide out and become hidden. Cleanup the view at this point.
-            this.listenToOnce(searchView, 'hidden', this.empty);
         },
         
         //  Returns true if PlaylistsAreaView is currently shown
@@ -64,8 +62,6 @@
             });
             
             this.show(playlistsAreaView);
-            //  When the user has clicked 'close' button the view will slide out and become hidden. Cleanup the view at this point.
-            this.listenToOnce(playlistsAreaView, 'hidden', this.empty);
         }
     });
 
