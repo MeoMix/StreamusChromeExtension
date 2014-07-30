@@ -1,7 +1,7 @@
 ﻿//  This code runs on beatport.com domains.
 $(function () {
     'use strict';
-    
+
     //  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
     var beatportCssUrl = 'css/beatportInject.css';
 
