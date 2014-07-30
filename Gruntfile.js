@@ -83,7 +83,7 @@ module.exports = function (grunt) {
 						//	Override the base URL with one relative to the gruntfile.
 						baseUrl: 'src/js/',
 						//	Emulate main.js' initialization logic.
-						deps: ['settings', 'backbone', 'jquery','lodash'],
+						deps: ['settings', 'backbone', 'jquery','underscore'],
 						callback: function (Settings, Backbone, $, _) {
 							//	Enable testing in Settings so configuration values can be set accordingly (API keys, etc. testing runs on localhost)
 							Settings.set('testing', true);
