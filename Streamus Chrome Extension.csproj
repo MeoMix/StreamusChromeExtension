@@ -41,7 +41,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
-    <Folder Include="src\js\test\background\" />
     <Folder Include="src\js\test\foreground\view\" />
   </ItemGroup>
   <ItemGroup>
@@ -108,6 +107,7 @@
     <Content Include="src\js\background\model\playlistItem.js" />
     <Content Include="src\js\background\model\settings.js" />
     <Content Include="src\js\background\model\shareCode.js" />
+    <Content Include="src\js\background\model\signInManager.js" />
     <Content Include="src\js\background\model\streamItem.js" />
     <Content Include="src\js\background\model\user.js" />
     <Content Include="src\js\background\model\song.js" />
@@ -129,7 +129,9 @@
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
+    <Content Include="src\js\foreground\view\linkUserIdView.js" />
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
+    <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
     <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneRegion.js" />
@@ -198,6 +200,8 @@
     <Content Include="src\js\inject\streamusShareInject.js" />
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
+    <Content Include="src\js\test\background\model\signInManagerTests.js" />
+    <Content Include="src\js\test\background\model\userTests.js" />
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\spec\playlistItemSpec.js" />
     <Content Include="src\js\test\spec\playlistItemsSpec.js" />
@@ -242,6 +246,7 @@
     </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\linkUserId.html" />
     <Content Include="src\template\noPlayEmbedded.html" />
     <Content Include="src\template\saveSongs.html" />
     <Content Include="src\template\updateStreamus.html" />
