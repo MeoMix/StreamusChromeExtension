@@ -52,22 +52,20 @@
     <Content Include="src\css\mocha.css" />
     <Content Include="src\css\selectize.css" />
     <Content Include="src\css\selectize.default.css" />
-    <Content Include="src\css\youTubeInject.css" />
     <Content Include="src\font\fontawesome-webfont.svg" />
     <Content Include="src\font\fontello.svg" />
     <Content Include="src\font\LICENSE.txt" />
     <Content Include="src\foreground.html" />
-    <Content Include="src\img\close.png" />
-    <Content Include="src\img\Green 0.png" />
-    <Content Include="src\img\Green 1.png" />
-    <Content Include="src\img\Green 2.png" />
-    <Content Include="src\img\Green 3.png" />
-    <Content Include="src\img\Green 4.png" />
-    <Content Include="src\img\Red 0.png" />
-    <Content Include="src\img\Red 1.png" />
-    <Content Include="src\img\Red 2.png" />
-    <Content Include="src\img\Red 3.png" />
-    <Content Include="src\img\Red 4.png" />
+    <Content Include="src\img\green_0.png" />
+    <Content Include="src\img\green_1.png" />
+    <Content Include="src\img\green_2.png" />
+    <Content Include="src\img\green_3.png" />
+    <Content Include="src\img\green_4.png" />
+    <Content Include="src\img\red_0.png" />
+    <Content Include="src\img\red_1.png" />
+    <Content Include="src\img\red_2.png" />
+    <Content Include="src\img\red_3.png" />
+    <Content Include="src\img\red_4.png" />
     <Content Include="src\img\streamus_icon128.png" />
     <Content Include="src\img\streamus_icon14_0bars.png" />
     <Content Include="src\img\streamus_icon16.png" />
@@ -77,11 +75,11 @@
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\img\streamus_icon_yellow_19_19.png" />
     <Content Include="src\img\streamus_icon_yellow_38_38.png" />
-    <Content Include="src\img\Yellow 0.png" />
-    <Content Include="src\img\Yellow 1.png" />
-    <Content Include="src\img\Yellow 2.png" />
-    <Content Include="src\img\Yellow 3.png" />
-    <Content Include="src\img\Yellow 4.png" />
+    <Content Include="src\img\yellow_0.png" />
+    <Content Include="src\img\yellow_1.png" />
+    <Content Include="src\img\yellow_2.png" />
+    <Content Include="src\img\yellow_3.png" />
+    <Content Include="src\img\yellow_4.png" />
     <Content Include="src\js\background\application.js" />
     <Content Include="src\js\background\background.js" />
     <Content Include="src\js\background\collection\multiSelectCollection.js" />
@@ -127,10 +125,12 @@
     <Content Include="src\js\foreground\model\contextMenuActions.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\googleSignInView.js" />
     <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
     <Content Include="src\js\foreground\view\linkUserIdView.js" />
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
+    <Content Include="src\js\foreground\view\prompt\googleSignInPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
@@ -213,7 +213,6 @@
     <Content Include="src\font\fontello.eot" />
     <Content Include="src\font\fontello.ttf" />
     <Content Include="src\font\fontello.woff" />
-    <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\chai.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
@@ -229,6 +228,7 @@
     <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
+    <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <None Include="src\less\beatportInject.less" />
     <None Include="src\less\youTubeInject.less" />
     <Content Include="src\less\foreground.css">
@@ -246,6 +246,7 @@
     </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\googleSignIn.html" />
     <Content Include="src\template\linkUserId.html" />
     <Content Include="src\template\noPlayEmbedded.html" />
     <Content Include="src\template\saveSongs.html" />
@@ -285,6 +286,7 @@
     <Content Include="package.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
     <Content Include="src\_locales\de\messages.json" />
+    <Content Include="src\_locales\tr\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
