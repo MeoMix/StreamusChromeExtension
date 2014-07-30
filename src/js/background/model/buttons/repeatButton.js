@@ -17,7 +17,7 @@
             this.fetch();
         },
         
-        toggleRepeat: function () {
+        toggleRepeatState: function () {
             var nextState = null;
 
             switch (this.get('state')) {

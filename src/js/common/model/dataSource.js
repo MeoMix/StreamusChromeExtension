@@ -28,7 +28,7 @@
 
             //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
             if (this.get('parseVideo')) {
-                dataSourceId = this.parseYouTubeSongIdFromUrl(url);
+                dataSourceId = this._parseYouTubeSongIdFromUrl(url);
 
                 if (dataSourceId !== '') {
                     this.set({
@@ -42,7 +42,7 @@
             }
 
             //  Try to find a playlist id if no video id was found.
-            dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
+            dataSourceId = this._parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
 
             if (dataSourceId !== '') {
                 this.set({
@@ -55,7 +55,7 @@
             }
 
             //  Try to find channel id if still nothing found.
-            dataSourceId = this.parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
+            dataSourceId = this._parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
 
             if (dataSourceId !== '') {
                 var channelUploadOptions = {
@@ -71,7 +71,7 @@
                     }.bind(this)
                 };
 
-                if (this.idIsUsername()) {
+                if (this._idIsUsername()) {
                     channelUploadOptions.username = dataSourceId;
                 } else {
                     channelUploadOptions.channelId = dataSourceId;
@@ -82,7 +82,6 @@
                 //  Callback with nothing set.
                 options.success();
             }
-
         },
 
         //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
@@ -90,39 +89,6 @@
             return this.get('type') === DataSourceType.YouTubePlaylist;
         },
         
-        //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
-        //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
-        parseYouTubeSongIdFromUrl: function (url) {
-            var songId = '';
-
-            var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
-            if (match && match[2].length === 11) {
-                songId = match[2];
-            }
-
-            return songId;
-        },
-        
-        //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
-        parseIdFromUrlWithIdentifiers: function (url, identifiers) {
-            var id = '';
-            
-            _.each(identifiers, function (identifier) {
-                var urlTokens = url.split(identifier);
-
-                if (urlTokens.length > 1) {
-                    id = url.split(identifier)[1];
-
-                    var indexOfAmpersand = id.indexOf('&');
-                    if (indexOfAmpersand !== -1) {
-                        id = id.substring(0, indexOfAmpersand);
-                    }
-                }
-            });
-
-            return id;
-        },
-
         //  Expects options: { success: function, error: function }
         getTitle: function (options) {
             //  If the title has already been fetched from the URL -- return the cached one.
@@ -142,7 +108,40 @@
             });
         },
         
-        idIsUsername: function() {
+        //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
+        //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
+        _parseYouTubeSongIdFromUrl: function (url) {
+            var songId = '';
+
+            var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
+            if (match && match[2].length === 11) {
+                songId = match[2];
+            }
+
+            return songId;
+        },
+        
+        //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
+        _parseIdFromUrlWithIdentifiers: function (url, identifiers) {
+            var id = '';
+            
+            _.each(identifiers, function (identifier) {
+                var urlTokens = url.split(identifier);
+
+                if (urlTokens.length > 1) {
+                    id = url.split(identifier)[1];
+
+                    var indexOfAmpersand = id.indexOf('&');
+                    if (indexOfAmpersand !== -1) {
+                        id = id.substring(0, indexOfAmpersand);
+                    }
+                }
+            });
+
+            return id;
+        },
+        
+        _idIsUsername: function() {
             var indexOfUser = this.get('url').indexOf('/user/');
             return indexOfUser != -1;
         }

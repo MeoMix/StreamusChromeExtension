@@ -49,15 +49,15 @@
         },
         
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this.updateRegions);
+            this.listenTo(SignInManager, 'change:signedIn', this._updateRegions);
             this.listenTo(Playlists, 'change:active', this._onActivePlaylistChange);
         },
         
         onShow: function () {
-            this.updateRegions();
+            this._updateRegions();
         },
         
-        updateRegions: function () {
+        _updateRegions: function () {
             if (SignInManager.get('signedIn')) {
                 this._showActivePlaylistContent();
             } else {
@@ -95,7 +95,7 @@
         _onActivePlaylistChange: function(playlist, active) {
             //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
             if (active) {
-                this.updateRegions();
+                this._updateRegions();
             }
         }
     });

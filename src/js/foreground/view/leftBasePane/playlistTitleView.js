@@ -20,10 +20,10 @@
         },
         
         onRender: function () {
-            this.setTitle();
+            this._setTitle();
         },
         
-        setTitle: function() {
+        _setTitle: function() {
             this.$el.attr('title', this.model.get('title'));
         }
     });

@@ -15,7 +15,7 @@
             this.fetch();
         },
  
-        toggleRadio: function () {
+        toggleEnabled: function () {
             this.save({
                 enabled: !this.get('enabled')
             });

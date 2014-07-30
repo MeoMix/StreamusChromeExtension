@@ -10,30 +10,26 @@
         },
 
         initialize: function () {
-            this.listenTo(StreamItems, 'change:active remove reset', this.toggleEnabled);
-            this.toggleEnabled();
-        },
-        
-        toggleEnabled: function() {
-            this.set('enabled', StreamItems.length > 0);
+            this.listenTo(StreamItems, 'change:active remove reset', this._toggleEnabled);
+            this._toggleEnabled();
         },
         
         //  Only allow changing once every 100ms to preent spamming.
         tryTogglePlayerState: _.debounce(function () {
-
             if (this.get('enabled')) {
-                
                 if (Player.isPlaying()) {
                     Player.pause();
                 } else {
                     Player.play();
                 }
-                
             }
 
             return this.get('enabled');
-            
-        }, 100, true)
+        }, 100, true),
+        
+        _toggleEnabled: function () {
+            this.set('enabled', StreamItems.length > 0);
+        }
     });
     
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

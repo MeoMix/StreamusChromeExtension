@@ -51,7 +51,7 @@ define([
                     success: function(searchResponse) {
                         this.set('searchJqXhr', null);
                         //  TODO: Handle missing song IDs
-                        var suggestions = this.buildSuggestions(searchResponse.songInformationList, trimmedSearchText);
+                        var suggestions = this._buildSuggestions(searchResponse.songInformationList, trimmedSearchText);
 
                         suggest(suggestions);
                     }.bind(this)
@@ -79,7 +79,7 @@ define([
             });
         },
         
-        buildSuggestions: function(songInformationList, text) {
+        _buildSuggestions: function(songInformationList, text) {
             var suggestions = _.map(songInformationList, function (songInformation) {
                 var song = new Song(songInformation);
                 

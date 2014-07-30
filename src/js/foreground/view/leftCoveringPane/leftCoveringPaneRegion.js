@@ -12,19 +12,19 @@
         el: '#left-covering-pane-region',
         
         initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showSearch', this.showSearchView);
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this.showPlaylistsAreaView);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showSearch', this._showSearchView);
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this._showPlaylistsAreaView);
             
             if (Settings.get('alwaysOpenToSearch')) {
-                this.showSearchView(false);
+                this._showSearchView(false);
             }
         },
 
-        showSearchView: function (doSnapAnimation) {
+        _showSearchView: function (doSnapAnimation) {
             this._searchViewExists() ? this._shakeSearchView() : this._createSearchView(doSnapAnimation);
         },
         
-        showPlaylistsAreaView: function () {
+        _showPlaylistsAreaView: function () {
             if (!this._playlistsAreaViewExists()) {
                 this._createPlaylistsAreaView();
             }

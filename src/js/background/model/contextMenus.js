@@ -18,14 +18,14 @@ define([
         targetUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
         
         initialize: function () {
-            this.createContextMenus(['link'], this.targetUrlPatterns, true);
-            this.createContextMenus(['page'], this.documentUrlPatterns, false);
+            this._createContextMenus(['link'], this.targetUrlPatterns, true);
+            this._createContextMenus(['page'], this.documentUrlPatterns, false);
             
             chrome.contextMenus.create({
                 'contexts': ['selection'],
                 'title': chrome.i18n.getMessage('searchForAndPlay') + ' \'%s\'',
                 'onclick': function (onClickData) {
-                    this.getSongFromText(onClickData.selectionText, function (song) {
+                    this._getSongFromText(onClickData.selectionText, function (song) {
                         StreamItems.addSongs(song, {
                             playOnAdd: true
                         });
@@ -34,7 +34,7 @@ define([
             });
         },
         
-        createContextMenus: function (contexts, urlPattern, isTarget) {
+        _createContextMenus: function (contexts, urlPattern, isTarget) {
             var contextMenuOptions = {
                 'contexts': contexts,
                 'targetUrlPatterns': isTarget ? urlPattern : undefined,
@@ -47,7 +47,7 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    this.getSongFromUrl(url, function (song) {
+                    this._getSongFromUrl(url, function (song) {
                         StreamItems.addSongs(song, {
                             playOnAdd: true
                         });
@@ -60,24 +60,24 @@ define([
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
                     
-                    this.getSongFromUrl(url, function (song) {
+                    this._getSongFromUrl(url, function (song) {
                         StreamItems.addSongs(song);
                     });
                 }.bind(this)
             }));
             
             if (SignInManager.get('signedIn')) {
-                this.createSaveContextMenu(contextMenuOptions);
+                this._createSaveContextMenu(contextMenuOptions);
             } else {
                 this.listenTo(SignInManager, 'change:signedIn', function (model, signedIn) {
                     if (signedIn) {
-                        this.createSaveContextMenu(contextMenuOptions);
+                        this._createSaveContextMenu(contextMenuOptions);
                     }
                 });
             }
         },
         
-        createSaveContextMenu: function(contextMenuOptions) {
+        _createSaveContextMenu: function(contextMenuOptions) {
             //  Create a sub menu item to hold all Playlists
             var playlistsContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('save')
@@ -85,23 +85,23 @@ define([
 
             //  Create menu items for each playlist
             Playlists.each(function (playlist) {
-                this.createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, playlist);
+                this._createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, playlist);
             }.bind(this));
             
             this.listenTo(Playlists, 'add', function (addedPlaylist) {
-                this.createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, addedPlaylist);
+                this._createPlaylistContextMenu(contextMenuOptions, playlistsContextMenuId, addedPlaylist);
             });
         },
         
         //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
-        createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
+        _createPlaylistContextMenu: function (contextMenuOptions, playlistsContextMenuId, playlist) {
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': playlist.get('title'),
                 'parentId': playlistsContextMenuId,
                 'onclick': function (onClickData) {
                     var url = onClickData.linkUrl || onClickData.pageUrl;
 
-                    this.getSongFromUrl(url, function (song) {
+                    this._getSongFromUrl(url, function (song) {
                         playlist.get('items').addSongs(song);
                     });
                 }.bind(this)
@@ -119,7 +119,7 @@ define([
             });
         },
         
-        getSongFromText: function(text, callback) {
+        _getSongFromText: function (text, callback) {
             YouTubeV3API.getSongInformationByTitle({
                 title: text,
                 success: function(songInformation) {
@@ -128,7 +128,7 @@ define([
             });
         },
         
-        getSongFromUrl: function(url, callback) {
+        _getSongFromUrl: function(url, callback) {
             var dataSource = new DataSource({ url: url });
 
             dataSource.parseUrl({

@@ -6,6 +6,15 @@
     var SignInView = Backbone.Marionette.ItemView.extend({
         id: 'sign-in',
         template: _.template(SignInTemplate),
+        
+        templateHelpers: function () {
+            return {
+                signingInMessage: chrome.i18n.getMessage('signingIn'),
+                signInMessage: chrome.i18n.getMessage('signIn'),
+                signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
+                pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
+            };
+        },
 
         ui: {
             signingInMessage: '.signing-in',
@@ -16,35 +25,25 @@
         },
 
         events: {
-            'click @ui.signInLink': 'signIn'
+            'click @ui.signInLink': '_signIn'
         },
 
         modelEvents: {
-            'change:signInFailed': 'toggleBigText',
-            'change:signingIn': 'toggleBigText',
-            'change:signInRetryTimer': 'updateSignInRetryTimer'
-        },
-
-        templateHelpers: function () {
-            return {
-                signingInMessage: chrome.i18n.getMessage('signingIn'),
-                signInMessage: chrome.i18n.getMessage('signIn'),
-                signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
-                pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
-            };
+            'change:signInFailed': '_toggleBigText',
+            'change:signingIn': '_toggleBigText',
+            'change:signInRetryTimer': '_updateSignInRetryTimer'
         },
         
         onRender: function () {
-            this.toggleBigText();
+            this._toggleBigText();
         },
 
-        updateSignInRetryTimer: function () {
+        _updateSignInRetryTimer: function () {
             this.ui.signInRetryTimer.text(this.model.get('signInRetryTimer'));
         },
 
         //  Set the visibility of any visible text messages.
-        toggleBigText: function () {
-
+        _toggleBigText: function () {
             var signingIn = this.model.get('signingIn');
             var signInFailed = this.model.get('signInFailed');
 
@@ -53,7 +52,7 @@
             this.ui.signInPrompt.toggleClass('hidden', signingIn);
         },
 
-        signIn: function () {
+        _signIn: function () {
             this.model.signInWithGoogle();
         }
     });

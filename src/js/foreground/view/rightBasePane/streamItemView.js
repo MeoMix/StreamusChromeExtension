@@ -63,7 +63,7 @@
             this.$el.toggleClass('active', active);
         },
 
-        showContextMenu: function (event) {
+        _showContextMenu: function (event) {
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
 

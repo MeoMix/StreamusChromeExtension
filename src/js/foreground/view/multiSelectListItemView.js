@@ -13,11 +13,11 @@
         },
 
         events: {
-            'contextmenu': 'showContextMenu'
+            'contextmenu': '_showContextMenu'
         },
 
         modelEvents: {
-            'change:selected': 'setSelectedClass'
+            'change:selected': '_setSelectedClass'
         },
         
         regions: {
@@ -37,7 +37,7 @@
         },
         
         onRender: function () {
-            this.setSelectedClass();
+            this._setSelectedClass();
 
             this.buttonsRegion.show(new ListItemButtonsView({
                 model: this.model,
@@ -45,7 +45,7 @@
             }));
         },
 
-        setSelectedClass: function () {
+        _setSelectedClass: function () {
             this.$el.toggleClass('selected', this.model.get('selected'));
         }
     });

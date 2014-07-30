@@ -47,19 +47,16 @@
         },
         
         events: {
-            'click @ui.addAll': 'addAllToStream',
-            'click @ui.playAll': 'playAllInStream'
+            'click @ui.addAll': '_addAllToStream',
+            'click @ui.playAll': '_playAllInStream'
         },
         
         modelEvents: {
-            'change:displayInfo': 'updatePlaylistDetails'
+            'change:displayInfo': '_onModelChangeDisplayInfo'
         },
         
         collectionEvents: {
-            'add remove reset': function () {
-                this.toggleBigText();
-                this.toggleBottomMenubar();
-            }
+            'add remove reset': '_setViewState'
         },
         
         behaviors: function () {
@@ -79,22 +76,30 @@
             };
         },
 
-        onRender: function () {            
-            this.toggleBigText();
-            this.toggleBottomMenubar();
+        onRender: function () {
+            this._setViewState();
+        },
+        
+        //  Ensure that the proper UI elements are being shown based on the state of the collection
+        _setViewState: function () {
+            this._toggleBigText();
+            this._toggleBottomMenubar();
+        },
+        
+        _onModelChangeDisplayInfo: function (model, displayInfo) {
+            this._updatePlaylistDetails(displayInfo);
         },
 
-        updatePlaylistDetails: function () {
-            var displayInfo = this.model.get('displayInfo');
+        _updatePlaylistDetails: function (displayInfo) {
             this.ui.playlistDetails.text(displayInfo);
         },
        
         //  Set the visibility of any visible text messages.
-        toggleBigText: function () {
+        _toggleBigText: function () {
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
-        toggleBottomMenubar: function () {
+        _toggleBottomMenubar: function () {
             var extended = this.ui.bigTextWrapper.hasClass('extended');
             var doToggle = (extended && this.collection.length > 0) || (!extended && this.collection.length === 0);
 
@@ -107,11 +112,11 @@
             }
         },
 
-        addAllToStream: function () {
+        _addAllToStream: function () {
             StreamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
-        playAllInStream: function() {
+        _playAllInStream: function () {
             StreamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });

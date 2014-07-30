@@ -14,12 +14,22 @@ define([
         id: 'time-progress',
         template: _.template(TimeProgressTemplate),
         
+        templateHelpers: {
+            elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
+            totalTimeMessage: chrome.i18n.getMessage('totalTime')
+        },
+        
         events: {
-            'input @ui.timeRange:not(.disabled)': 'updateProgress',
-            'mousewheel @ui.timeRange:not(.disabled)': 'mousewheelUpdateProgress',
-            'mousedown @ui.timeRange:not(.disabled)': 'startSeeking',
-            'mouseup @ui.timeRange:not(.disabled)': 'seekToTime',
-            'click @ui.timeElapsedLabel': 'toggleShowTimeRemaining'
+            'input @ui.timeRange:not(.disabled)': '_updateProgress',
+            'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateProgress',
+            'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
+            'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
+            'click @ui.timeElapsedLabel': '_toggleShowTimeRemaining'
+        },
+        
+        modelEvents: {
+            'change:currentTime': '_updateCurrentTime',
+            'change:state': '_stopSeeking'
         },
         
         ui: {
@@ -38,9 +48,10 @@ define([
        
         autoUpdate: true,
         
-        templateHelpers: {
-            elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
-            totalTimeMessage: chrome.i18n.getMessage('totalTime')
+        initialize: function () {
+            this.listenTo(StreamItems, 'remove reset', this._clearOnEmpty);
+            this.listenTo(StreamItems, 'add', this._enable);
+            this.listenTo(StreamItems, 'change:active', this._restart);
         },
 
         onRender: function () {
@@ -48,39 +59,28 @@ define([
             
             //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
-            this.setTotalTime(this.getCurrentSongDuration());
-            this.setCurrentTime(this.model.get('currentTime'));
-        },
-        
-        modelEvents: {
-            'change:currentTime': 'updateCurrentTime',
-            'change:state': 'stopSeeking'
-        },
-        
-        initialize: function () {
-            this.listenTo(StreamItems, 'remove reset', this.clearOnEmpty);
-            this.listenTo(StreamItems, 'add', this.enable);
-            this.listenTo(StreamItems, 'change:active', this.restart);
+            this._setTotalTime(this._getCurrentSongDuration());
+            this._setCurrentTime(this.model.get('currentTime'));
         },
         
         //  Allow the user to manual time change by click or scroll.
-        mousewheelUpdateProgress: function (event) {
+        _mousewheelUpdateProgress: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());
 
-            this.setCurrentTime(currentTime + delta);
+            this._setCurrentTime(currentTime + delta);
 
             this.model.seekTo(currentTime + delta);
         },
 
-        startSeeking: function (event) {
+        _startSeeking: function (event) {
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 this.autoUpdate = false;
             }
         },
         
-        stopSeeking: function () {
+        _stopSeeking: function () {
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = this.model.get('state');
 
@@ -89,7 +89,7 @@ define([
             }
         },
 
-        seekToTime: function (event) {
+        _seekToTime: function (event) {
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
@@ -99,7 +99,7 @@ define([
             }
         },
         
-        toggleShowTimeRemaining: function() {
+        _toggleShowTimeRemaining: function() {
             var showTimeRemaining = Settings.get('showTimeRemaining');
             //  Toggle showTimeRemaining and then read the new state and apply it.
             Settings.set('showTimeRemaining', !showTimeRemaining);
@@ -111,22 +111,22 @@ define([
             }
 
             this.ui.timeElapsedLabel.toggleClass('timeRemaining', !showTimeRemaining);
-            this.updateProgress();
+            this._updateProgress();
         },
         
-        enable: function () {
+        _enable: function () {
             this.ui.timeRange.removeClass('disabled');
         },
         
-        clearOnEmpty: function () {
+        _clearOnEmpty: function () {
             if (StreamItems.length === 0) {
-                this.clear();
+                this._clear();
             }
         },
         
-        clear: function () {
-            this.setCurrentTime(0);
-            this.setTotalTime(0);
+        _clear: function () {
+            this._setCurrentTime(0);
+            this._setTotalTime(0);
             this.ui.timeRange.addClass('disabled');
         },
         
@@ -134,23 +134,23 @@ define([
             //  Disable auto-updates here because there's a split second while changing songs that a timer tick makes things flicker weirdly.
             this.autoUpdate = false;
 
-            this.setCurrentTime(0);
-            this.setTotalTime(this.getCurrentSongDuration());
+            this._setCurrentTime(0);
+            this._setTotalTime(this._getCurrentSongDuration());
 
             this.autoUpdate = true;
         },
         
-        setCurrentTime: function (currentTime) {
+        _setCurrentTime: function (currentTime) {
             this.ui.timeRange.val(currentTime);
-            this.updateProgress();
+            this._updateProgress();
         },
 
-        setTotalTime: function (totalTime) {
+        _setTotalTime: function (totalTime) {
             this.ui.timeRange.prop('max', totalTime);
-            this.updateProgress();
+            this._updateProgress();
         },
         
-        updateCurrentTime: function () {
+        _updateCurrentTime: function () {
             if (this.autoUpdate) {
                 this.setCurrentTime(this.model.get('currentTime'));
             }
@@ -160,7 +160,7 @@ define([
         //  Keep separate from render because render is based on the player's values and updateProgress is based on the progress bar's values.
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
-        updateProgress: function () {
+        _updateProgress: function () {
             var currentTime = parseInt(this.ui.timeRange.val());
             var totalTime = parseInt(this.ui.timeRange.prop('max'));
 
@@ -180,7 +180,7 @@ define([
         },
 
         //  Return 0 or active song's duration.
-        getCurrentSongDuration: function () {
+        _getCurrentSongDuration: function () {
             var duration = 0;
 
             if (StreamItems.length > 0) {

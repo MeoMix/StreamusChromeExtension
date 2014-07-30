@@ -33,14 +33,6 @@
         getActivePlaylist: function() {
             return this.findWhere({ active: true });
         },
-        
-        deactivateAllExcept: function (changedPlaylist) {
-            this.each(function (playlist) {
-                if (playlist !== changedPlaylist) {
-                    playlist.set('active', false);
-                }
-            });
-        },
 
         //  Expects options: { shortId, urlFriendlyEntityTitle, success, error };
         addPlaylistByShareData: function (options) {
@@ -87,10 +79,6 @@
             });
         },
 
-        addEmptyPlaylist: function (playlistTitle) {
-            this.addPlaylistByDataSource(playlistTitle, new DataSource());
-        },
-
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
             var playlist = new Playlist({
                 title: playlistTitle,
@@ -110,6 +98,14 @@
                         playlist.loadDataSource();
                     }
                 }.bind(this)
+            });
+        },
+        
+        _deactivateAllExcept: function (changedPlaylist) {
+            this.each(function (playlist) {
+                if (playlist !== changedPlaylist) {
+                    playlist.set('active', false);
+                }
             });
         },
         
@@ -150,7 +146,7 @@
         _onChangeActive: function (changedPlaylist, active) {
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
-                this.deactivateAllExcept(changedPlaylist);
+                this._deactivateAllExcept(changedPlaylist);
                 localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },

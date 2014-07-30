@@ -24,17 +24,17 @@
         },
         
         events: {
-            'blur @ui.editableTitle': 'saveAndStopEdit',
-            'click': 'activate',
-            'contextmenu': 'showContextMenu',
-            'dblclick @ui.title': 'startEdit',
-            'keyup @ui.editableTitle': 'saveAndStopEditOnEnter'
+            'blur @ui.editableTitle': '_saveAndStopEdit',
+            'click': '_activate',
+            'contextmenu': '_showContextMenu',
+            'dblclick @ui.title': '_startEdit',
+            'keyup @ui.editableTitle': '_saveAndStopEditOnEnter'
         },
         
         modelEvents: {
-            'change:title': 'updateTitle',
-            'change:dataSourceLoaded': 'setLoadingClass',
-            'change:active': 'stopEditingOnInactive _setActiveClass'
+            'change:title': '_updateTitle',
+            'change:dataSourceLoaded': '_setLoadingClass',
+            'change:active': '_stopEditingOnInactive _setActiveClass'
         },
         
         ui: {
@@ -48,28 +48,28 @@
                 behaviorClass: Tooltip
             }
         },
-
+        
+        initialize: function () {
+            this.listenTo(this.model.get('items'), 'add remove', this._updateItemCount);
+        },
+        
         onRender: function () {
-            this.setLoadingClass();
+            this._setLoadingClass();
             this._setActiveClass();
         },
         
-        initialize: function () {
-            this.listenTo(this.model.get('items'), 'add remove', this.updateItemCount);
-        },
-        
-        updateTitle: function () {
+        _updateTitle: function () {
             var title = this.model.get('title');
             this.ui.title.text(title).attr('title', title);
         },
 
-        stopEditingOnInactive: function (model, active) {
+        _stopEditingOnInactive: function (model, active) {
             if (!active) {
-                this.saveAndStopEdit();
+                this._saveAndStopEdit();
             }
         },
         
-        setLoadingClass: function () {
+        _setLoadingClass: function () {
             var loading = this.model.has('dataSource') && !this.model.get('dataSourceLoaded');
             this.$el.toggleClass('loading', loading);
         },
@@ -79,16 +79,16 @@
             this.$el.toggleClass('active', active);
         },
         
-        updateItemCount: function () {
+        _updateItemCount: function () {
             var itemCount = this.model.get('items').length;
             this.ui.itemCount.text(itemCount);
         },
         
-        activate: function () {
+        _activate: function () {
             this.model.set('active', true);
         },
         
-        showContextMenu: function (event) {
+        _showContextMenu: function (event) {
             //  Allow the editableInput to use default contextmenu, feels right.
             if ($(event.target).is(this.ui.editableTitle)) {
                 return true;
@@ -159,19 +159,19 @@
             ContextMenuActions.addSongsToStream(this.model.get('items').pluck('song'));
         },
         
-        startEdit: function () {
+        _startEdit: function () {
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             this.ui.title.hide();
             this.ui.editableTitle.show().focus().val(this.ui.editableTitle.val());
         },
         
-        saveAndStopEditOnEnter: function(event) {
+        _saveAndStopEditOnEnter: function(event) {
             if (event.which === 13) {
-                this.saveAndStopEdit();
+                this._saveAndStopEdit();
             }
         },
         
-        saveAndStopEdit: function () {
+        _saveAndStopEdit: function () {
             this.ui.editableTitle.hide();
             //  Be sure to show the title before changing it's text so the tooltip can know whether it is overflowing or not.
             this.ui.title.show();

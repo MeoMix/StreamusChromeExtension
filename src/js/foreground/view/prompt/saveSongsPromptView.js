@@ -20,6 +20,7 @@
                 })
             });
 
+            //  TODO: Reduce nesting
             this.listenTo(saveSongs, 'change:creating', function (creating) {
                 if (creating) {
                     this.ui.okButton.text(chrome.i18n.getMessage('createPlaylist'));

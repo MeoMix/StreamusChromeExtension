@@ -18,14 +18,14 @@ define([
         },
 
         events: {
-            'input @ui.volumeRange': 'setVolume',
-            'click @ui.muteButton': 'toggleMute',
-            'mousewheel': 'scrollVolume'
+            'input @ui.volumeRange': '_setVolume',
+            'click @ui.muteButton': '_toggleMute',
+            'mousewheel': '_scrollVolume'
         },
        
         modelEvents: {
-            'change:muted': 'toggleMutedClass',
-            'change:volume': 'updateProgressAndVolumeIcon'
+            'change:muted': '_toggleMutedClass',
+            'change:volume': '_updateProgressAndVolumeIcon'
         },
 
         onRender: function () {
@@ -58,12 +58,12 @@ define([
             }, 250);
         },
 
-        setVolume: function () {
+        _setVolume: function () {
             var volume = parseInt(this.ui.volumeRange.val());
             this.model.set('volume', volume);
         },
 
-        updateProgressAndVolumeIcon: function () {
+        _updateProgressAndVolumeIcon: function () {
             var volume = parseInt(this.model.get('volume'));
 
             this.ui.volumeRange.val(volume);
@@ -92,7 +92,7 @@ define([
         },
 
         //  Adjust volume when user scrolls mousewheel while hovering over volume.
-        scrollVolume: function (event) {
+        _scrollVolume: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
 
@@ -107,12 +107,12 @@ define([
             this.model.set('volume', volume);
         },
 
-        toggleMute: function () {
+        _toggleMute: function () {
             var isMuted = this.model.get('muted');
             this.model.set('muted', !isMuted);
         },
 
-        toggleMutedClass: function () {
+        _toggleMutedClass: function () {
             var isMuted = this.model.get('muted');
             this.ui.muteButton.toggleClass('muted', isMuted);
         }

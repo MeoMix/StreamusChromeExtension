@@ -35,47 +35,48 @@
         },
         
         events: {
-            'change @ui.suggestedQualitySelect': 'setSuggestedQuality',
-            'change @ui.remindClearStreamCheckbox': 'setRemindClearStream',
-            'change @ui.remindDeletePlaylistCheckbox': 'setRemindDeletePlaylist',
-            'change @ui.showTooltipsCheckbox': 'setShowTooltips',
-            'change @ui.alwaysOpenToSearchCheckbox': 'setAlwaysOpenToSearch',
-            'change @ui.remindLinkUserIdCheckbox': 'setRemindLinkUserId',
-            'change @ui.remindGoogleSignInCheckbox': 'setRemindGoogleSignIn'
+            'change @ui.suggestedQualitySelect': '_setSuggestedQuality',
+            'change @ui.remindClearStreamCheckbox': '_setRemindClearStream',
+            'change @ui.remindDeletePlaylistCheckbox': '_setRemindDeletePlaylist',
+            'change @ui.showTooltipsCheckbox': '_setShowTooltips',
+            'change @ui.alwaysOpenToSearchCheckbox': '_setAlwaysOpenToSearch',
+            'change @ui.remindLinkUserIdCheckbox': '_setRemindLinkUserId',
+            'change @ui.remindGoogleSignInCheckbox': '_setRemindGoogleSignIn'
         },
         
-        setSuggestedQuality: function () {
+        //  TODO: Refactor w/ enum so this doesn't grow indefinitely
+        _setSuggestedQuality: function () {
             var suggestedQuality = this.ui.suggestedQualitySelect.val();
             this.model.set('suggestedQuality', suggestedQuality);
             Player.setSuggestedQuality(suggestedQuality);
         },
         
-        setRemindClearStream: function() {
+        _setRemindClearStream: function () {
             var remindClearStream = this.ui.remindClearStreamCheckbox.is(':checked');
             this.model.set('remindClearStream', remindClearStream);
         },
         
-        setRemindDeletePlaylist: function() {
+        _setRemindDeletePlaylist: function () {
             var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
             this.model.set('remindDeletePlaylist', remindDeletePlaylist);
         },
         
-        setRemindLinkUserId: function () {
+        _setRemindLinkUserId: function () {
             var remindLinkUserId = this.ui.remindLinkUserIdCheckbox.is(':checked');
             this.model.set('remindLinkUserId', remindLinkUserId);
         },
         
-        setRemindGoogleSignIn: function() {
+        _setRemindGoogleSignIn: function () {
             var remindGoogleSignIn = this.ui.remindGoogleSignInCheckbox.is(':checked');
             this.model.set('remindGoogleSignIn', remindGoogleSignIn);
         },
 
-        setShowTooltips: function() {
+        _setShowTooltips: function () {
             var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
             this.model.set('showTooltips', showTooltips);
         },
         
-        setAlwaysOpenToSearch: function() {
+        _setAlwaysOpenToSearch: function () {
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
             this.model.set('alwaysOpenToSearch', alwaysOpenToSearch);
         }

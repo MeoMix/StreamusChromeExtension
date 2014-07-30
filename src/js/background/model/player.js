@@ -46,26 +46,7 @@ define([
                 });
             }
         },
-        
-        _cueSongById: function (songId, startSeconds) {
-            //  Helps for keeping things in sync when the same song reloads.
-            if (this.get('loadedSongId') === songId) {
-                this.trigger('change:loadedSongId');
-            }
 
-            youTubePlayer.cueVideoById({
-                videoId: songId,
-                startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('suggestedQuality')
-            });
-            
-            this.set('loadedSongId', songId);
-
-            //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
-            //  but until the song actually loads -- current time isn't set.
-            this.set('currentTime', startSeconds || 0);
-        },
-           
         //  Public method which is able to be called before the YouTube Player API is fully ready.
         //  Loads a song (plays it when it is ready)
         loadSongById: function (songId, startSeconds) {
@@ -77,24 +58,7 @@ define([
                 });
             }
         },
-        
-        _loadSongById: function (songId, startSeconds) {
-            //  Helps for keeping things in sync when the same song reloads.
-            if (this.get('loadedSongId') === songId) {
-                this.trigger('change:loadedSongId');
-            }
 
-            this.set('state', PlayerState.Buffering);
-
-            youTubePlayer.loadVideoById({
-                videoId: songId,
-                startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('suggestedQuality')
-            });
-            
-            this.set('loadedSongId', songId);
-        },
-        
         isPlaying: function () {
             return this.get('state') === PlayerState.Playing;
         },
@@ -150,6 +114,42 @@ define([
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         setSuggestedQuality: function(suggestedQuality) {
             youTubePlayer.setPlaybackQuality(suggestedQuality);
+        },
+
+        _cueSongById: function (songId, startSeconds) {
+            //  Helps for keeping things in sync when the same song reloads.
+            if (this.get('loadedSongId') === songId) {
+                this.trigger('change:loadedSongId');
+            }
+
+            youTubePlayer.cueVideoById({
+                videoId: songId,
+                startSeconds: startSeconds || 0,
+                suggestedQuality: Settings.get('suggestedQuality')
+            });
+
+            this.set('loadedSongId', songId);
+
+            //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
+            //  but until the song actually loads -- current time isn't set.
+            this.set('currentTime', startSeconds || 0);
+        },
+        
+        _loadSongById: function (songId, startSeconds) {
+            //  Helps for keeping things in sync when the same song reloads.
+            if (this.get('loadedSongId') === songId) {
+                this.trigger('change:loadedSongId');
+            }
+
+            this.set('state', PlayerState.Buffering);
+
+            youTubePlayer.loadVideoById({
+                videoId: songId,
+                startSeconds: startSeconds || 0,
+                suggestedQuality: Settings.get('suggestedQuality')
+            });
+
+            this.set('loadedSongId', songId);
         },
         
         //  Update the volume whenever the UI modifies the volume property.

@@ -44,21 +44,21 @@
         },
         
         events: {
-            'input @ui.searchInput': 'search',
-            'click @ui.hideSearchButton': 'hide',
-            'contextmenu @ui.childContainer': 'showContextMenu',
-            'click @ui.playSelectedButton': 'playSelected',
-            'click @ui.addSelectedButton': 'addSelected',
-            'click @ui.saveSelectedButton': 'showSaveSelectedPrompt'
+            'input @ui.searchInput': '_search',
+            'click @ui.hideSearchButton': '_hide',
+            'contextmenu @ui.childContainer': '_showContextMenu',
+            'click @ui.playSelectedButton': '_playSelected',
+            'click @ui.addSelectedButton': '_addSelected',
+            'click @ui.saveSelectedButton': '_showSaveSelectedPrompt'
         },
         
         modelEvents: {
-            'change:searchJqXhr change:searchQuery change:typing': 'toggleBigText'
+            'change:searchJqXhr change:searchQuery change:typing': '_toggleBigText'
         },
 
         collectionEvents: {
-            'reset': 'toggleBigText',
-            'change:selected': 'toggleBottomMenubar'
+            'reset': '_toggleBigText',
+            'change:selected': '_toggleBottomMenubar'
         },
  
         templateHelpers: function() {
@@ -124,7 +124,16 @@
             this.model.startClearResultsTimer();
         },
         
-        hide: function () {
+        //  Shake the view to bring attention to the fact that the view is already visible.
+        //  Throttled so that the animations can't stack up if shake is spammed.
+        shake: _.throttle(function() {
+            this.$el.effect('shake', {
+                distance: 3,
+                times: 3
+            });
+        }, 500),
+        
+        _hide: function () {
             //  Transition the view back out before closing.
             this.$el.transition({
                 //  Transition -20px off the screen to account for the shadow on the view.
@@ -133,19 +142,20 @@
         },
         
         //  Searches youtube for song results based on the given text.
-        search: function () {
+        _search: function () {
             var searchQuery = $.trim(this.ui.searchInput.val());
             this.model.search(searchQuery);
         },
         
-        toggleSaveSelected: function () {
+        _toggleSaveSelected: function () {
             var signedIn = SignInManager.get('signedIn');
             this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
 
             var templateHelpers = this.templateHelpers();
             this.ui.saveSelectedButton.attr('title', signedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
-        toggleBottomMenubar: function () {
+        
+        _toggleBottomMenubar: function () {
             var selectedCount = this.collection.selected().length;
             
             var extended = this.ui.bigTextWrapper.hasClass('extended');
@@ -161,7 +171,7 @@
         },
 
         //  Set the visibility of any visible text messages.
-        toggleBigText: function () {
+        _toggleBigText: function () {
             //  Hide the search message when there is no search in progress nor any typing happening.
             var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
             this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
@@ -176,17 +186,17 @@
             this.ui.noResultsMessage.toggleClass('hidden', !hasNoResults);
         },
         
-        playSelected: function () {
+        _playSelected: function () {
             StreamItems.addSongs(this.collection.getSelectedSongs(), {
                 playOnAdd: true
             });
         },
         
-        addSelected: function() {
+        _addSelected: function() {
             StreamItems.addSongs(this.collection.getSelectedSongs());
         },
 
-        showSaveSelectedPrompt: function () {
+        _showSaveSelectedPrompt: function () {
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
@@ -196,16 +206,7 @@
             }
             //  Don't close the menu if disabled
             return !disabled;
-        },
-        
-        //  Shake the view to bring attention to the fact that the view is already visible.
-        //  Throttled so that the animations can't stack up if shake is spammed.
-        shake: _.throttle(function() {
-            this.$el.effect('shake', {
-                distance: 3,
-                times: 3
-            });
-        }, 500)
+        }
     });
 
     return SearchView;

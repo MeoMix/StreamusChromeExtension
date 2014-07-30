@@ -28,15 +28,7 @@
 
             this.reset(searchResults);
         },
-        
-        getBySongId: function (songId) {
-            var foundSearchResult = this.find(function(searchResult) {
-                return searchResult.get('song').get('id') === songId;
-            });
 
-            return foundSearchResult;
-        },
-        
         //  Returns the underlying Songs of the selected SearchResults.
         getSelectedSongs: function() {
             return _.map(this.selected(), function (searchResult) {

@@ -13,17 +13,29 @@
         },
         
         initialize: function () {
-            this.listenTo(StreamItems, 'add remove reset change:active', this.toggleEnabled);
-            this.listenTo(RadioButton, 'change:enabled', this.toggleEnabled);
-            this.listenTo(ShuffleButton, 'change:enabled', this.toggleEnabled);
-            this.listenTo(RepeatButton, 'change:state', this.toggleEnabled);
+            this.listenTo(StreamItems, 'add remove reset change:active', this._toggleEnabled);
+            this.listenTo(RadioButton, 'change:enabled', this._toggleEnabled);
+            this.listenTo(ShuffleButton, 'change:enabled', this._toggleEnabled);
+            this.listenTo(RepeatButton, 'change:state', this._toggleEnabled);
 
-            this.toggleEnabled();
+            this._toggleEnabled();
         },
         
-        toggleEnabled: function () {
+        //  Prevent spamming by only allowing a next click once every 100ms.
+        tryActivateNextStreamItem: _.debounce(function () {
+            var activatedNextItem = false;
+
+            if (this.get('enabled')) {
+                var nextItem = StreamItems.activateNext();
+                activatedNextItem = nextItem !== null;
+            }
+
+            return activatedNextItem;
+        }, 100, true),
+        
+        _toggleEnabled: function () {
             var enabled = false;
-            
+
             //  TODO: Make this call a getNext() to keep parity with previousButton
             if (StreamItems.length > 0) {
                 var radioEnabled = RadioButton.get('enabled');
@@ -34,7 +46,7 @@
                 if (shuffleEnabled && StreamItems.length > 1) {
                     enabled = true;
                 }
-                //  You can always continue if radio is enabled or if repeating is enabled
+                    //  You can always continue if radio is enabled or if repeating is enabled
                 else if (radioEnabled || repeatButtonState !== RepeatButtonState.Disabled) {
                     enabled = true;
                 } else {
@@ -48,19 +60,7 @@
             }
 
             this.set('enabled', enabled);
-        },
-        
-        //  Prevent spamming by only allowing a next click once every 100ms.
-        tryActivateNextStreamItem: _.debounce(function () {
-            var activatedNextItem = false;
-
-            if (this.get('enabled')) {
-                var nextItem = StreamItems.activateNext();
-                activatedNextItem = nextItem !== null;
-            }
-
-            return activatedNextItem;
-        }, 100, true)
+        }
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()

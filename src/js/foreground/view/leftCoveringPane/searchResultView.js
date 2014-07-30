@@ -33,7 +33,7 @@
             }
         },
         
-        showContextMenu: function (event) {
+        _showContextMenu: function (event) {
             event.preventDefault();
 
             ContextMenuItems.reset([{

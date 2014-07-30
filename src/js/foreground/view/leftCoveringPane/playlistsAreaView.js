@@ -25,16 +25,16 @@
         },
 
         events: {
-            'click': 'hideIfClickOutsidePanel',
-            'click @ui.hideButton': 'hide',
-            'click @ui.settingsButton': 'showSettingsPrompt',
-            'click @ui.addButton': 'showCreatePlaylistPrompt',
-            'click @ui.editButton': 'showEditActivePlaylistPrompt',
-            'click @ui.deleteButton:not(.disabled)': 'showDeleteActivePlaylistPrompt'
+            'click': '_hideIfClickOutsidePanel',
+            'click @ui.hideButton': '_hide',
+            'click @ui.settingsButton': '_showSettingsPrompt',
+            'click @ui.addButton': '_showCreatePlaylistPrompt',
+            'click @ui.editButton': '_showEditActivePlaylistPrompt',
+            'click @ui.deleteButton:not(.disabled)': '_showDeleteActivePlaylistPrompt'
         },
         
         collectionEvents: {
-            'add remove reset': 'setDeleteButtonState'
+            'add remove reset': '_setDeleteButtonState'
         },
         
         ui: {
@@ -66,14 +66,42 @@
 
         initialize: function () {
             //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
-            this.listenTo(SignInManager, 'change:signedIn', this.toggleContextButtons);
+            this.listenTo(SignInManager, 'change:signedIn', this._toggleContextButtons);
         },
 
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
 
-            this.toggleContextButtons();
-            this.setDeleteButtonState();
+            this._toggleContextButtons();
+            this._setDeleteButtonState();
+        },
+        
+        onShow: function () {
+            //  Store original values in data attribute to be able to revert without magic numbers.
+            this.$el.data('background', this.$el.css('background')).transition({
+                'background': 'rgba(0, 0, 0, 0.5)'
+            }, 'snap');
+
+            this.ui.panel.transition({
+                x: this.ui.panel.width()
+            }, 300, 'snap');
+        },
+        
+        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
+        _hideIfClickOutsidePanel: function (event) {
+            if (event.target == event.currentTarget) {
+                this._hide();
+            }
+        },
+        
+        _hide: function () {
+            this.$el.transition({
+                'background': this.$el.data('background')
+            });
+
+            this.ui.panel.transition({
+                x: -20
+            }, 300, this.destroy.bind(this));
         },
         
         _getSortableOptions: function () {
@@ -89,7 +117,7 @@
         },
         
         //  Whenever a playlist is moved visually -- update corresponding model with new information.
-        _onSortableUpdate: function(event, ui) {
+        _onSortableUpdate: function (event, ui) {
             var listItemType = ui.item.data('type');
 
             //  Run this code only when reorganizing playlists.
@@ -110,53 +138,25 @@
             }
         },
         
-        onShow: function () {
-            //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('background', this.$el.css('background')).transition({
-                'background': 'rgba(0, 0, 0, 0.5)'
-            }, 'snap');
-
-            this.ui.panel.transition({
-                x: this.ui.panel.width()
-            }, 300, 'snap');
-        },
-        
-        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        hideIfClickOutsidePanel: function(event) {
-            if (event.target == event.currentTarget) {
-                this.hide();
-            }
-        },
-        
-        hide: function () {
-            this.$el.transition({
-                'background': this.$el.data('background')
-            });
-
-            this.ui.panel.transition({
-                x: -20
-            }, 300, this.destroy.bind(this));
-        },
-        
-        showSettingsPrompt: function () {
+        _showSettingsPrompt: function () {
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
         },
         
-        showCreatePlaylistPrompt: function () {
+        _showCreatePlaylistPrompt: function () {
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
         },
         
-        showEditActivePlaylistPrompt: function () {
+        _showEditActivePlaylistPrompt: function () {
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
                 playlist: this.collection.getActivePlaylist()
             });
         },
         
-        toggleContextButtons: function () {
+        _toggleContextButtons: function () {
             this.ui.contextButtons.toggle(SignInManager.get('signedIn'));
         },
         
-        setDeleteButtonState: function() {
+        _setDeleteButtonState: function () {
             //  Can't delete the last playlist:
             var canDelete = this.collection.canDelete();
 
@@ -170,7 +170,7 @@
             this.ui.deleteButton.toggleClass('disabled', !canDelete).attr('title', title);
         },
         
-        showDeleteActivePlaylistPrompt: function () {
+        _showDeleteActivePlaylistPrompt: function () {
             var activePlaylist = this.collection.getActivePlaylist();
             var isEmpty = activePlaylist.get('items').length === 0;
 

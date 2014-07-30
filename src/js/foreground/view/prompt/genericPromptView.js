@@ -8,10 +8,10 @@
         template: _.template(GenericPromptTemplate),
 
         events: {
-            'click': 'hideIfClickOutsidePanel',
-            'click .remove': 'hide',
+            'click': '_hideIfClickOutsidePanel',
+            'click .remove': '_hide',
             'click @ui.okButton': '_doRenderedOk',
-            'keydown .submittable': 'doRenderedOkOnEnter'
+            'keydown .submittable': '_doRenderedOkOnEnter_doRenderedOkOnEnter'
         },
         
         ui: {
@@ -49,7 +49,12 @@
             this.model.get('view').triggerMethod('show');
         },
         
-        hide: function() {
+        //  Unless a prompt specifically implements a reminder it is assumed that the reminder is not disabled and the prompt should always be shown when asked.
+        reminderDisabled: function() {
+            return false;
+        },
+        
+        _hide: function() {
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {
@@ -68,14 +73,14 @@
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        hideIfClickOutsidePanel: function (event) {
+        _hideIfClickOutsidePanel: function (event) {
             if (event.target == event.currentTarget) {
                 this.hide();
             }
         },
         
         //  If the enter key is pressed on a submittable element, treat as if user pressed OK button.
-        doRenderedOkOnEnter: function(event) {
+        _doRenderedOkOnEnter: function(event) {
             if (event.which === 13) {
                 this._doRenderedOk();
             }
@@ -93,11 +98,6 @@
 
                 this.hide();
             }
-        },
-        
-        //  Unless a prompt specifically implements a reminder it is assumed that the reminder is not disabled and the prompt should always be shown when asked.
-        reminderDisabled: function() {
-            return false;
         }
     });
 

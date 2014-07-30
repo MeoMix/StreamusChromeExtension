@@ -13,6 +13,7 @@ define([
 ], function (Playlists, StreamItems, NotificationsManager, Player, NextButton, PreviousButton, PlayPauseButton, RadioButton, RepeatButton, ShuffleButton) {
     'use strict';
     
+    //  TODO: Turn this into a Backbone.Model
     //  Receive keyboard shortcuts from users.
     chrome.commands.onCommand.addListener(function (command) {
         switch (command) {
@@ -47,13 +48,13 @@ define([
                 }
                 break;
             case 'toggleRadio':
-                RadioButton.toggleRadio();
+                RadioButton.toggleEnabled();
                 break;
             case 'toggleShuffle':                
-                ShuffleButton.toggleShuffle();
+                ShuffleButton.toggleEnabled();
                 break;
             case 'toggleRepeat':
-                RepeatButton.toggleRepeat();
+                RepeatButton.toggleRepeatState();
                 break;
             case 'saveActiveSong':
                 Playlists.getActivePlaylist().get('items').addSongs(StreamItems.getActiveItem().get('song'));

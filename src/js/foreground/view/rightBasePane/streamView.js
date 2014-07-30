@@ -43,22 +43,18 @@
         },
         
         events: {
-            'click @ui.clearStreamButton': 'clear',
-            'click @ui.saveStreamButton:not(.disabled)': 'save',
-            'scroll @ui.stream-items': 'loadVisible',
-            'click @ui.shuffleButton': 'toggleShuffle',
-            'click @ui.radioButton': 'toggleRadio',
-            'click @ui.repeatButton': 'toggleRepeat',
+            'click @ui.clearStreamButton': '_clear',
+            'click @ui.saveStreamButton:not(.disabled)': '_save',
+            'click @ui.shuffleButton': '_toggleShuffle',
+            'click @ui.radioButton': '_toggleRadio',
+            'click @ui.repeatButton': '_toggleRepeat',
             'click @ui.showSearch': function () {
                 Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
             }
         },
         
         collectionEvents: {
-            'add remove reset': function () {
-                this.toggleBigText();
-                this.toggleContextButtons();
-            }
+            'add remove reset': '_setViewState'
         },
         
         ui: {
@@ -90,22 +86,26 @@
         },
         
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this.updateSaveStreamButton);
-            this.listenTo(ShuffleButton, 'change:enabled', this.setShuffleButtonState);
-            this.listenTo(RadioButton, 'change:enabled', this.setRadioButtonState);
-            this.listenTo(RepeatButton, 'change:state', this.setRepeatButtonState);
+            this.listenTo(SignInManager, 'change:signedIn', this._updateSaveStreamButton);
+            this.listenTo(ShuffleButton, 'change:enabled', this._setShuffleButtonState);
+            this.listenTo(RadioButton, 'change:enabled', this._setRadioButtonState);
+            this.listenTo(RepeatButton, 'change:state', this._setRepeatButtonState);
         },
         
         onRender: function () {
-            this.toggleBigText();
-            this.toggleContextButtons();
-            this.setRepeatButtonState();
-            this.setShuffleButtonState();
-            this.setRadioButtonState();
-            this.updateSaveStreamButton();
+            this._setViewState();
+            this._setRepeatButtonState();
+            this._setShuffleButtonState();
+            this._setRadioButtonState();
+            this._updateSaveStreamButton();
         },
         
-        updateSaveStreamButton: function () {
+        _setViewState: function() {
+            this._toggleBigText();
+            this._toggleContextButtons();
+        },
+        
+        _updateSaveStreamButton: function () {
             var signedIn = SignInManager.get('signedIn');
             
             var templateHelpers = this.templateHelpers();
@@ -116,36 +116,36 @@
         },
         
         //  Hide the empty message if there is anything in the collection
-        toggleBigText: function () {
+        _toggleBigText: function () {
             this.ui.streamEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
         //  Show buttons if there is anything in the collection otherwise hide
-        toggleContextButtons: function () {
+        _toggleContextButtons: function () {
             this.ui.contextButtons.toggle(this.collection.length > 0);
         },
         
-        clear: function() {
+        _clear: function() {
             StreamAction.clearStream();
         },
         
-        save: function() {
+        _save: function() {
             StreamAction.saveStream();
         },
         
-        toggleShuffle: function() {
+        _toggleShuffle: function() {
             ShuffleButton.toggleEnabled();
         },
         
-        toggleRadio: function() {
-            RadioButton.toggleRadio();
+        _toggleRadio: function() {
+            RadioButton.toggleEnabled();
         },
         
-        toggleRepeat: function() {
-            RepeatButton.toggleRepeat();
+        _toggleRepeat: function() {
+            RepeatButton.toggleRepeatState();
         },
         
-        setRepeatButtonState: function() {
+        _setRepeatButtonState: function() {
             var state = RepeatButton.get('state');
             //  The button is considered enabled if it is anything but disabled.
             var enabled = state !== RepeatButtonState.Disabled;
@@ -169,7 +169,7 @@
             this.ui.repeatButton.toggleClass('enabled', enabled).attr('title', title).empty().append(icon);
         },
         
-        setShuffleButtonState: function() {
+        _setShuffleButtonState: function() {
             var enabled = ShuffleButton.get('enabled');
 
             var title;
@@ -182,7 +182,7 @@
             this.ui.shuffleButton.toggleClass('enabled', enabled).attr('title', title);
         },
         
-        setRadioButtonState: function () {
+        _setRadioButtonState: function () {
             var enabled = RadioButton.get('enabled');
             
             var title;
