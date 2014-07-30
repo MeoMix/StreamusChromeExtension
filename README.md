@@ -1,38 +1,54 @@
 Streamus™
 =========
 
-A Google Chrome extension which allows users to add YouTube songs to playlists, share playlists and discover new YouTube songs.
+A Google Chrome extension which allows users to search & add songs to playlists, share playlists with others, and discover new songs.
 
 Overview
 ========
 
 Streamus consists of a front-end client, the Google Chrome extension, a back-end server and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, StreamusServer and StreamusWebsite, to gain a full understanding of the product.
+Streamus currently only supports YouTube's API, but will be expanding to SoundCloud shortly.
 
-Client
-------
-
-The Streamus extension utilizes many third-party libraries. Here's a list of those most prominent: 
-
-* [jQuery (v2.1.0)](http://jquery.com/)
-* [jQuery UI (v1.10.4)](http://jqueryui.com/)
-* [jQuery Transit (v0.9.9)](http://ricostacruz.com/jquery.transit/)
-* [jQuery qTip (v2.2.0)](http://qtip2.com/)
-* [BackboneJS (v1.1.2)](http://backbonejs.org/)
-* [RequireJS (v2.1.11)](http://requirejs.org/)
-* [Lo-Dash (v2.4.1)](http://lodash.com/)
-* [Jasmine (v2.0.0)](http://jasmine.github.io/)
-* [Selectize (v0.8.1)](http://brianreavis.github.io/selectize.js/)
-
-Installation
+Development
 ========
 
-1. Navigate to the page: chrome://extensions
-2. Check the checkbox 'Developer mode.' This will introduce several new buttons to the chrome://extensions page
+1. Navigate to: chrome://extensions/
+2. Enabled developer mode by checking the 'Developer mode' checkbox. This will introduce several new buttons to the chrome://extensions page
 3. Click the button 'Load unpacked extension...'
-4. Select the StreamusChromeExtension directory, click OK.
-5. The extension should now be loaded and ready to be interacted upon.
+4. Select the directory '/Streamus Chrome Extension/src/'
+5. Streamus is now loaded and ready for development.
 
-* NOTE: StreamusChromeExtension is dependent on a server. If you wish to debug without a local server instance you will need to set the property 'localDebug' to false. To do so, navigate to: 'StreamusChromeExtension/js/background/model/settings.js"
+**NOTE:**
+Unless you're running an instance of the Streamus Server you will need to ensure that localDebug is set to **false**. This property can be configured by editing 'src/js/background/model/settings.js'.
+User login functionality may not work if the production Streamus Server is out of date, but all local functionality will continue to function.
+
+Testing
+------
+Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
+
+Streamus uses [Mocha](http://visionmedia.github.io/mocha/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
+
+Third-Party Libraries
+------
+
+Streamus utilizes several third-party libraries. Here's a list of those most prominent: 
+
+* [BackboneJS (v1.1.2)](http://backbonejs.org/)
+* [Backbone LocalStorage (v1.1.7)](https://github.com/jeromegn/Backbone.localStorage)
+* [Backbone MarionetteJS (v2.1.0)](http://marionettejs.com)
+* [Chai (v1.9.1)](http://chaijs.com/)
+* [jQuery (v2.1.1)](http://jquery.com/)
+* [jQuery UI (v1.11.0)](http://jqueryui.com/)
+* [jQuery Hover Intent (vr7)](http://cherne.net/brian/resources/jquery.hoverIntent.html)
+* [jQuery qTip (v2.2.0-63-)](http://qtip2.com/)
+* [jQuery Transit (v0.9.12)](http://ricostacruz.com/jquery.transit/)
+* [Less (v1.7.4)](http://lesscss.org)
+* [Lo-Dash (v2.4.1)](http://lodash.com/)
+* [Mocha (v1.21.3)](http://visionmedia.github.io/mocha/)
+* [RequireJS (v2.1.14)](http://requirejs.org/)
+* [Selectize (v0.10.1)](http://brianreavis.github.io/selectize.js/)
+* [Sinon (v1.10.3)](http://sinonjs.org/)
+* [Text (v2.0.12)](https://github.com/requirejs/text)
 
 Supported Functionality
 ========
@@ -42,34 +58,42 @@ Supported Functionality
 * Add YouTube playlist as playlist
 * Add YouTube channel as playlist
 * Play, pause, skip, rewind, shuffle, repeat video, repeat playlist
-* Radio / Discovery
+* Discovery of songs via radio
 * Desktop notifications of currently playing video
-* Customizable keyboard shortcuts to control play, pause, skip, previous
+* Customizable keyboard shortcuts
 * Sharing of playlists via URL
-* Enhancement of YouTube video pages with injected Streamus HTML
+* Enhancement of YouTube video pages with injected HTML
+* Enhancement of Beatport Top 10/100 pages with injected HTML
 
 Deployment
 ========
 
-Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store. You'll need to have both of these pieces of software installed in order to build a distribution of Streamus.
-
-Once installed, simply run "grunt dist:0.103" to generate a distribution zip versioned at v0.103. 
-
+Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store.
+Run "grunt deploy" to generate a new dist folder. Provide a version number, i.e. "grunt deploy:0.103" to generate a .zip file and adjust the build version. 
 Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
  
 Usage Demo
 ========
 
-A video explanation of how to use Streamus can be found at:
-* "Streamus - Stream Bar Preview" - http://youtu.be/wjMLQWGYGOc
+A video explanation of how to use Streamus can be found [here on YouTube](https://www.youtube.com/watch?v=sVxncDakIdA)
 
 License
 =======
-This work is licensed under the GNU General Public License v2 (GPL-2.0)
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use any files in this repository except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 
 Authors
 =======
 
-* MeoMix - Original developer, main contributor.
-* MiracleBlue - Superstar co-developer extraordinare!
+* MeoMix - Owner, developer, main contributor.
 * Misostc - Phenomenal user interfactor designer.
