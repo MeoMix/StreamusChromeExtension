@@ -36,7 +36,9 @@
                 this.user.tryloadByUserId();
                 expect(this.user._create.calledOnce).to.equal(true);
                 expect($.ajax.calledOnce).to.equal(true);
-                ensureUserState.call(this.user);
+
+                console.log("this.user:", this.user);
+                ensureUserState.call(this, this.user);
             });
             
             it('should use _loadByUserId if a user id is in localStorage', function () {
@@ -44,7 +46,7 @@
                 this.user.tryloadByUserId();
                 expect(this.user._loadByUserId.calledOnce).to.equal(true);
                 expect($.ajax.calledOnce).to.equal(true);
-                ensureUserState.call(this.user);
+                ensureUserState.call(this, this.user);
             });
 
             afterEach(function () {
@@ -75,7 +77,7 @@
                     //  Once for fetchByGoogleId which returns null and then again to create a new account which is tied to the Google account.
                     expect($.ajax.calledOnce).to.equal(true);
                     expect(this.user._onLoadSuccess.calledOnce).to.equal(true);
-                    ensureUserState.call(this.user);
+                    ensureUserState.call(this, this.user);
                 });
                 
                 afterEach(function () {

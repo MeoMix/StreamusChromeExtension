@@ -28,7 +28,7 @@
                     }]
                 });
 
-                sinon.spy(SignInManager, '_promptGoogleLogin');
+                sinon.spy(SignInManager, '_promptGoogleSignIn');
                 sinon.spy(SignInManager, '_promptLinkUserId');
                 sinon.spy(SignInManager, '_onSignInSuccess');
             });
@@ -36,7 +36,7 @@
             afterEach(function () {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
-                SignInManager._promptGoogleLogin.restore();
+                SignInManager._promptGoogleSignIn.restore();
                 SignInManager._promptLinkUserId.restore();
                 SignInManager._onSignInSuccess.restore();
             });
@@ -63,7 +63,7 @@
                 expect(SignInManager.get('signedInUser')).not.to.equal(null);
                 expect(SignInManager._onSignInSuccess.calledOnce).to.equal(true);
                 //  Since the user isn't signed into Google Chrome we should prompt them to login so their data can be persisted across PCs.
-                expect(SignInManager._promptGoogleLogin.calledOnce).to.equal(true);
+                expect(SignInManager._promptGoogleSignIn.calledOnce).to.equal(true);
                 //  Since the user isn't signed into Google Chrome, we should NOT prompt them to link their data because there's no ID to link to yet.
                 expect(SignInManager._promptLinkUserId.calledOnce).to.equal(false);
             }
@@ -79,14 +79,14 @@
                     email: ''
                 });
 
-                sinon.spy(SignInManager, '_promptGoogleLogin');
+                sinon.spy(SignInManager, '_promptGoogleSignIn');
                 sinon.spy(SignInManager, '_promptLinkUserId');
             });
 
             afterEach(function () {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
-                SignInManager._promptGoogleLogin.restore();
+                SignInManager._promptGoogleSignIn.restore();
                 SignInManager._promptLinkUserId.restore();
             });
 
@@ -110,7 +110,7 @@
                     //  Once to login, again for checking to see if should prompt to link to Google Account.
                     expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
                     //  Since the user is signed into Google Chrome we should not prompt them to login.
-                    expect(SignInManager._promptGoogleLogin.calledOnce).to.equal(false);
+                    expect(SignInManager._promptGoogleSignIn.calledOnce).to.equal(false);
                     //  Since the user is signed into Google Chrome, but their data is already linked, should not prompt them to link.
                     expect(SignInManager._promptLinkUserId.calledOnce).to.equal(false);
                 });
@@ -138,7 +138,7 @@
                     //  Once to login, again for checking to see if should prompt to link to Google Account.
                     expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
                     //  Since the user is signed into Google Chrome we should not prompt them to login.
-                    expect(SignInManager._promptGoogleLogin.calledOnce).to.equal(false);
+                    expect(SignInManager._promptGoogleSignIn.calledOnce).to.equal(false);
                     //  Since the user is signed into Google Chrome and their data is not linked -- prompt to link the account
                     expect(SignInManager._promptLinkUserId.calledOnce).to.equal(true);
                 });
