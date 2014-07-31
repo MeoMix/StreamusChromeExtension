@@ -228,9 +228,9 @@
     <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
+    <Content Include="src\css\beatportInject.css" />
+    <Content Include="src\css\youTubeInject.css" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
-    <None Include="src\less\beatportInject.less" />
-    <None Include="src\less\youTubeInject.less" />
     <Content Include="src\less\foreground.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
@@ -238,12 +238,6 @@
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <None Include="src\less\foreground.less" />
-    <Content Include="src\less\youTubeInject.css">
-      <DependentUpon>youTubeInject.less</DependentUpon>
-    </Content>
-    <Content Include="src\less\youTubeInject.min.css">
-      <DependentUpon>youTubeInject.less</DependentUpon>
-    </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
     <Content Include="src\template\googleSignIn.html" />
