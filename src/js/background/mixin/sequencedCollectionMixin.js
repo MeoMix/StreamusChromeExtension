@@ -5,9 +5,10 @@ define({
 
     moveToIndex: function(modelId, index) {
         var model = this.get(modelId);
-        console.log("model:", model);
         var sequence = this.getSequenceFromIndex(index);
-        console.log("sequence:", sequence);
+
+        console.log("Sequence:", sequence);
+
         model.set({
             sequence: sequence
         });
@@ -26,14 +27,17 @@ define({
                 }
             });
         }
+
+        console.log("This:", this.at(0).get('title'));
         
         //  Collections with a comparator will not automatically re-sort if you later change model attributes
         this.sort();
+
+        console.log("This at 0:", this.at(0).get('title'));
     },
 
     //  Return what sequence number would be necessary to be at the given index     
     getSequenceFromIndex: function (index) {
-        console.log("Getting sequence from index:", index);
         var sequence;
         var sequenceIncrement = 10000;
 
@@ -47,14 +51,12 @@ define({
             } else {
                 highSequence = this.at(this.length - 1).get('sequence') + (sequenceIncrement * 2);
             }
-            console.log("high sequence:", highSequence);
 
             //  lowSequence is either the previous model's sequence or 0.
             var lowSequence = 0;
             if (index > 0) {
                 lowSequence = this.at(index - 1).get('sequence');
             }
-            console.log("low sequence:", lowSequence);
 
             sequence = (highSequence + lowSequence) / 2;
         }

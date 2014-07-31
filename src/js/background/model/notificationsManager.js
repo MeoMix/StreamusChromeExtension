@@ -41,7 +41,7 @@ define(function () {
             clearTimeout(this.get('closeNotificationTimeout'));
 
             var notificationOptions = _.extend({}, this.get('defaultNotificationOptions'), options);
-            console.log("Notification options:", notificationOptions);
+
             //  Calling create with a notificationId will cause the existing notification to be cleared.
             chrome.notifications.create(this.get('shownNotificationId'), notificationOptions, this._onNotificationCreate.bind(this));
 

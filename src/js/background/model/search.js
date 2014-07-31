@@ -91,8 +91,6 @@
                         searchJqXhr = YouTubeV3API.search({
                             text: searchQuery,
                             success: function (searchResponse) {
-                                console.log("searchQuery and this.searchQuery:", searchQuery, this.get('searchQuery'));
-
                                 //  TODO: This doesn't seem right to me. I should really be aborting properly so that I don't have to check this here.
                                 //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
                                 if (searchQuery === this.get('searchQuery')) {

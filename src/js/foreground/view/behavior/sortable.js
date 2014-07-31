@@ -133,6 +133,9 @@
                             self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
                                 //  TODO: This has a bug in it. If you drag an item far enough to exceed the render threshold then it doesn't properly find the index. :(
                                 var index = ui.item.index() + response.minRenderIndex;
+
+                                console.log("index and min render index:", ui.item.index(), response.minRenderIndex);
+
                                 self.view.collection.moveToIndex(ui.item.data('id'), index);
                             });
 

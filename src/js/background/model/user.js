@@ -32,7 +32,6 @@ define([
         
         tryloadByUserId: function () {
             var userId = this._getLocalUserId();
-            console.log('tryLoadByUserId userId:', userId);
             userId === null ? this._create() : this._loadByUserId(userId);
         },
         
@@ -103,7 +102,6 @@ define([
         },
         
         _onLoadError: function (error) {
-            console.log("Load Error!", error);
             this.trigger('loadError', error);
         },
         

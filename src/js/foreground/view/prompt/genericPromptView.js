@@ -9,7 +9,7 @@
 
         events: {
             'click': '_hideIfClickOutsidePanel',
-            'click .remove': '_hide',
+            'click .remove': 'hide',
             'click @ui.okButton': '_doRenderedOk',
             'keydown .submittable': '_doRenderedOkOnEnter_doRenderedOkOnEnter'
         },
@@ -54,7 +54,7 @@
             return false;
         },
         
-        _hide: function() {
+        hide: function() {
             this.$el.transition({
                 'background': this.$el.data('background')
             }, function () {

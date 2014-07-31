@@ -96,13 +96,13 @@
         },
         
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this.toggleSaveSelected);
+            this.listenTo(SignInManager, 'change:signedIn', this._toggleSaveSelected);
         },
  
         onRender: function () {
-            this.toggleBigText();
-            this.toggleBottomMenubar();
-            this.toggleSaveSelected();
+            this._toggleBigText();
+            this._toggleBottomMenubar();
+            this._toggleSaveSelected();
         },
         
         onShow: function () {

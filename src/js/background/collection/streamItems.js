@@ -73,10 +73,15 @@
                     sequence: sequence
                 });
 
-                var createdStreamItem = this.create(streamItem);
+                var createdStreamItem = this.create(streamItem, { sort: false });
                 createdStreamItems.push(createdStreamItem);
                 index++;
             }, this);
+            
+            //  If an index was provided then the collection's order might not be correct - trigger a sort. Otherwise, since just pushing onto end, it's OK not to sort.
+            if (!_.isUndefined(options.index)) {
+                this.sort();
+            }
 
             if (playOnAdd || options.markFirstActive) {
                 createdStreamItems[0].save({ active: true });
@@ -214,10 +219,11 @@
             return this.findWhere({ active: true });
         },
               
-        //  TODO: Make this efficient w/ Backbone.LocalStorage adapter.
         clear: function () {
             this.history.length = 0;
-            this.set();
+            //  Reset and clear instead of going through this.set() as a performance optimization
+            this.reset();
+            this.localStorage._clear();
         },
               
         getBySong: function (song) {
@@ -354,7 +360,6 @@
         },
         
         _activateItem: function (streamItem) {
-            console.log('activating stream item');
             this._deactivateAllExcept(streamItem);
             this._loadActiveItem(streamItem);
         },
