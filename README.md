@@ -6,7 +6,7 @@ A Google Chrome extension which allows users to search & add songs to playlists,
 Overview
 ========
 
-Streamus consists of a front-end client, the Google Chrome extension, a back-end server and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, StreamusServer and StreamusWebsite, to gain a full understanding of the product.
+Streamus consists of a front-end client, the Google Chrome extension, a back-end server and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, [StreamusServer](https://github.com/MeoMix/StreamusServer) and [StreamusWebsite](https://github.com/MeoMix/StreamusWebsite), to gain a full understanding of the product.
 Streamus currently only supports YouTube's API, but will be expanding to SoundCloud shortly.
 
 Development
@@ -27,6 +27,33 @@ Testing
 Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
 
 Streamus uses [Mocha](http://visionmedia.github.io/mocha/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
+
+Deployment
+========
+
+Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store.
+Run "grunt deploy" to generate a new dist folder. Provide a version number, i.e. "grunt deploy:0.103" to generate a .zip file and adjust the build version. 
+Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
+ 
+Supported Functionality
+========
+
+* YouTube search
+* Add YouTube video to playlist
+* Add YouTube playlist as playlist
+* Add YouTube channel as playlist
+* Play, pause, skip, rewind, shuffle, repeat video, repeat playlist
+* Discovery of songs via radio
+* Desktop notifications of currently playing video
+* Customizable keyboard shortcuts
+* Sharing of playlists via URL
+* Enhancement of YouTube video pages with injected HTML
+* Enhancement of Beatport Top 10/100 pages with injected HTML
+
+Usage Demo
+========
+
+A video explanation of how to use Streamus can be found [here on YouTube](https://www.youtube.com/watch?v=sVxncDakIdA)
 
 Third-Party Libraries
 ------
@@ -49,33 +76,6 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [Selectize (v0.10.1)](http://brianreavis.github.io/selectize.js/)
 * [Sinon (v1.10.3)](http://sinonjs.org/)
 * [Text (v2.0.12)](https://github.com/requirejs/text)
-
-Supported Functionality
-========
-
-* YouTube search
-* Add YouTube video to playlist
-* Add YouTube playlist as playlist
-* Add YouTube channel as playlist
-* Play, pause, skip, rewind, shuffle, repeat video, repeat playlist
-* Discovery of songs via radio
-* Desktop notifications of currently playing video
-* Customizable keyboard shortcuts
-* Sharing of playlists via URL
-* Enhancement of YouTube video pages with injected HTML
-* Enhancement of Beatport Top 10/100 pages with injected HTML
-
-Deployment
-========
-
-Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store.
-Run "grunt deploy" to generate a new dist folder. Provide a version number, i.e. "grunt deploy:0.103" to generate a .zip file and adjust the build version. 
-Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
- 
-Usage Demo
-========
-
-A video explanation of how to use Streamus can be found [here on YouTube](https://www.youtube.com/watch?v=sVxncDakIdA)
 
 License
 =======
