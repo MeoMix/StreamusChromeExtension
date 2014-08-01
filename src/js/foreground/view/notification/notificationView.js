@@ -14,18 +14,34 @@
             'click .remove': '_hide'
         },
         
+        transitionDelay: 200,
+        hideTimeout: null,
+        hideTimeoutDelay: 3000,
+
         onShow: function () {
             this.$el.transition({
                 y: 0,
                 opacity: 1
-            }, 250, 'snap');
+            }, this.transitionDelay, 'snap');
+
+            this._setHideTimeout();
         },
         
         _hide: function () {
+            this._clearHideTimeout();
+
             this.$el.transition({
                 y: -1 * this.$el.height(),
                 opacity: 0
-            }, 250, this.destroy.bind(this));
+            }, this.transitionDelay, this.destroy.bind(this));
+        },
+
+        _setHideTimeout: function () {
+            this.hideTimeout = setTimeout(this._hide.bind(this), this.hideTimeoutDelay);
+        },
+        
+        _clearHideTimeout: function() {
+            clearTimeout(this.hideTimeout);
         },
 
         //  Dynamically determine the class name of the view in order to style it based on the type of notification
