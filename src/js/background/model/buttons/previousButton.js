@@ -22,8 +22,9 @@
         tryDoTimeBasedPrevious: _.debounce(function () {
             if (this.get('enabled')){
 
+                //  TODO: This isn't DRY with > 3 below in toggleEnabled
                 //  Restart when clicking 'previous' if too much time has passed
-                if (Player.get('currentTime') > 5) {
+                if (Player.get('currentTime') > 3) {
                     Player.seekTo(0);
                 } else {
                     StreamItems.activatePrevious();
@@ -35,7 +36,11 @@
         
         _toggleEnabled: function () {
             var previousItem = StreamItems.getPrevious();
+            console.log("previous Item:", previousItem);
+
             var playerTime = Player.get('currentTime');
+
+            console.log("player time:", playerTime);
 
             var enabled = previousItem !== null || playerTime > 3;
             this.set('enabled', enabled);

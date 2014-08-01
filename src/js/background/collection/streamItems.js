@@ -1,7 +1,7 @@
 ﻿define([
     'background/collection/multiSelectCollection',
     'background/mixin/sequencedCollectionMixin',
-    'background/model/notificationsManager',
+    'background/model/chromeNotifications',
     'background/model/streamItem',
     'background/model/song',
     'background/model/player',
@@ -11,7 +11,7 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (MultiSelectCollection, SequencedCollectionMixin, NotificationsManager, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (MultiSelectCollection, SequencedCollectionMixin, ChromeNotifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     var StreamItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
@@ -165,6 +165,8 @@
         getPrevious: function() {
             var previousStreamItem = null;
 
+            console.log("this.history:", this.history);
+
             //  Top item of history is active item, second item in history is the last played.
             if (this.history.length > 1) {
                 previousStreamItem = this.history[1];
@@ -180,7 +182,7 @@
                     previousStreamItem = this.findWhere({ active: true }) || null;
                 } else if (shuffleEnabled) {
                     //  If shuffle is enabled and there's nothing in history -- grab a random song which hasn't been played recently.
-                    previousStreamItem = _.shuffle(this.where({ playedRecently: false }))[0];
+                    previousStreamItem = _.shuffle(this.where({ playedRecently: false }))[0] || null;
                 } else {
                     //  Activate the previous item by index. Potentially loop around to the back.
                     var activeItemIndex = this.indexOf(this.findWhere({ active: true }));
@@ -246,7 +248,7 @@
                 message = activeItem.get('title');
             }
 
-            NotificationsManager.showNotification({
+            ChromeNotifications.create({
                 iconUrl: iconUrl,
                 title: title,
                 message: message

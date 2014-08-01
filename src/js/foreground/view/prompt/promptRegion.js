@@ -1,12 +1,12 @@
 ﻿define([
     'common/enum/youTubePlayerError',
+    'foreground/view/prompt/errorPromptView',
     'foreground/view/prompt/googleSignInPromptView',
     'foreground/view/prompt/linkUserIdPromptView',
     'foreground/view/prompt/noPlayEmbeddedPromptView',
-    'foreground/view/prompt/notificationPromptView',
     'foreground/view/prompt/reloadStreamusPromptView',
     'foreground/view/prompt/updateStreamusPromptView'
-], function (YouTubePlayerError, GoogleSignInPromptView, LinkUserIdPromptView, NoPlayEmbeddedPromptView, NotificationPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView) {
+], function (YouTubePlayerError, ErrorPromptView, GoogleSignInPromptView, LinkUserIdPromptView, NoPlayEmbeddedPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView) {
     'use strict';
     
     var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
@@ -125,7 +125,7 @@
                         break;
                 }
 
-                this._showPrompt(NotificationPromptView, {
+                this._showPrompt(ErrorPromptView, {
                     text: text
                 });
             }

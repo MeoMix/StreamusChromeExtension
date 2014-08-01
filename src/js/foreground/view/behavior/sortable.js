@@ -20,6 +20,9 @@
             var self = this;
 
             var sortableOptions = {
+                //  Append to body so that the placeholder appears above all other elements instead of under when dragging between regions.
+                appendTo: 'body',
+
                 connectWith: '.droppable-list',
 
                 cursorAt: {

@@ -44,8 +44,7 @@ body .qtip-light {
   color: #666666;
 }
 /* TODO: Add some area to prevent clipping of context menu */
-#context-menu-region,
-#prompt-region {
+.full-overlay {
   width: 100%;
   height: 100%;
   position: absolute;
@@ -181,6 +180,47 @@ body .qtip-light {
 }
 .panel {
   background: #ffffff;
+}
+.notification {
+  height: 40px;
+  line-height: 40px;
+  position: absolute;
+  z-index: 50;
+  background-color: white;
+  text-align: center;
+  left: 0;
+  right: 0;
+  top: 0;
+  box-shadow: 0 0 20px #666;
+  font-size: 1.1em;
+  transform: translate(0px, -40px);
+}
+.notification .button-icon.remove {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 40px;
+  line-height: 40px;
+}
+.notification.success {
+  background-color: #27ae60;
+  color: white;
+}
+.notification.success button {
+  color: #89e5b0;
+}
+.notification.success button:hover {
+  color: white;
+}
+.notification.error {
+  background-color: #e74c3c;
+  color: white;
+}
+.notification.error button {
+  color: #f8c9c4;
+}
+.notification.error button:hover {
+  color: white;
 }
 /* TODO: Move the clear code into a separate import */
 input:focus,
@@ -1177,6 +1217,7 @@ button {
   margin: 0;
   padding: 0;
   transition: color 0.1s, text-shadow 0.1s;
+  /* TODO: Remove this */
   /* TODO: Maybe this should just go on a volume button */
 }
 button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {

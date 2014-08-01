@@ -3,9 +3,10 @@
     'foreground/view/contextMenuRegion',
     'foreground/view/leftBasePane/leftBasePaneRegion',
     'foreground/view/leftCoveringPane/leftCoveringPaneRegion',
+    'foreground/view/notification/notificationRegion',
     'foreground/view/prompt/promptRegion',
     'foreground/view/rightBasePane/rightBasePaneRegion'
-], function (ListItemType, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, PromptRegion, RightBasePaneRegion) {
+], function (ListItemType, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, NotificationRegion, PromptRegion, RightBasePaneRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -28,6 +29,7 @@
 
         regions: {
             promptRegion: PromptRegion,
+            notificationRegion: NotificationRegion,
             //  Depends on the view, set during initialize.
             //contextMenuRegion: null,
             leftBasePaneRegion: LeftBasePaneRegion,

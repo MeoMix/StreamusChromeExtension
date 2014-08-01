@@ -18,6 +18,7 @@
 @sunflower: #f1c40f;
 @lightSunflower: lighten(@sunflower, 30%);
 @alizarin: #e74c3c;
+@lightAlizarin: lighten(@alizarin, 30%);
 
 @font-face {
   font-family: 'Open Sans';
@@ -76,8 +77,7 @@ body {
 }
 
 /* TODO: Add some area to prevent clipping of context menu */
-#context-menu-region,
-#prompt-region {
+.full-overlay {
     width: 100%;
     height: 100%;
     position: absolute;
@@ -238,6 +238,55 @@ body {
 
 .panel {
     background: @white;
+}
+
+.notification {
+    height: 40px;
+    line-height: 40px;
+    position: absolute;
+    z-index: 50;
+    background-color: white;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    box-shadow: 0 0 20px #666;
+    font-size: 1.1em;
+    transform: translate(0px, -40px);
+
+    .button-icon.remove {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 40px;
+        line-height: 40px;
+    }
+
+    &.success {
+        background-color: @nephritis;
+        color: white;
+
+        button {
+            color: @lightNephritis;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
+
+    &.error {
+        background-color: @alizarin;
+        color: white;
+
+        button {
+            color: @lightAlizarin;
+
+            &:hover {
+                color: white;
+            }
+        }
+    }
 }
 
 /* TODO: Move the clear code into a separate import */
@@ -1324,6 +1373,7 @@ button {
     padding: 0;
     transition: color .1s, text-shadow .1s;
 
+    /* TODO: Remove this */
     &:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored){
 
         &:hover {

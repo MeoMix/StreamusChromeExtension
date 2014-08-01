@@ -130,7 +130,7 @@ define([
             this.ui.timeRange.addClass('disabled');
         },
         
-        restart: function () {
+        _restart: function () {
             //  Disable auto-updates here because there's a split second while changing songs that a timer tick makes things flicker weirdly.
             this.autoUpdate = false;
 
@@ -152,7 +152,7 @@ define([
         
         _updateCurrentTime: function () {
             if (this.autoUpdate) {
-                this.setCurrentTime(this.model.get('currentTime'));
+                this._setCurrentTime(this.model.get('currentTime'));
             }
         },
 
