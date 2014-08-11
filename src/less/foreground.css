@@ -532,7 +532,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 }
 .right-pane-region .top-bar #menu-region .menu {
   right: 10px;
-  display: none;
+  opacity: 0;
 }
 .right-pane-region .top-bar #volume-region #volume {
   bottom: 0;
@@ -1278,7 +1278,7 @@ button {
   cursor: pointer;
   margin: 0;
   padding: 0;
-  transition: color 0.1s, text-shadow 0.1s;
+  transition: color 0.05s, text-shadow 0.05s;
   /* TODO: Remove this */
   /* TODO: Maybe this should just go on a volume button */
 }

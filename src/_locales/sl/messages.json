@@ -267,12 +267,6 @@
 	"showTooltips": {
 		"message": "Pokaži nasvete"
 	},
-	"closeMenu": {
-		"message": "Zapri menu"
-	},
-	"openMenu": {
-		"message": "Odpri menu"
-	},
 	"wouldYouLikeTo": {
 		"message": "Želite"
 	},

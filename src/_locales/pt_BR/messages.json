@@ -267,12 +267,6 @@
 	"showTooltips": {
 		"message": "Mostrar dicas"
 	},
-	"closeMenu": {
-		"message": "Fechar menu"
-	},
-	"openMenu": {
-		"message": "Abrir menu"
-	},
 	"wouldYouLikeTo": {
 		"message": "Você gostaria de"
 	},

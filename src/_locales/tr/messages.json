@@ -357,12 +357,6 @@
 	"hideVideoSearch": {
 		"message": "Video aramalarını gizle"
 	},
-	"closeMenu": {
-		"message": "Menüyü gizle"
-	},
-	"openMenu": {
-		"message": "Menüyü göster"
-	},
 	"wouldYouLikeTo": {
 		"message": "İster misiniz?"
 	},

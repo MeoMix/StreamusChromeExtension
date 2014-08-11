@@ -17,7 +17,6 @@
         
         templateHelpers: function () {
             return {
-                openMenuMessage: chrome.i18n.getMessage('openMenu'),
                 showSearchMessage: chrome.i18n.getMessage('showSearch')
             };
         },

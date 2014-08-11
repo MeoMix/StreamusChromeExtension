@@ -264,12 +264,6 @@
 	"showTooltips": {
 		"message": "Mostrar tooltips"
 	},
-	"closeMenu": {
-		"message": "Cerrar menú"
-	},
-	"openMenu": {
-		"message": "Abrir menú"
-	},
 	"wouldYouLikeTo": {
 		"message": "Te gustaría"
 	},

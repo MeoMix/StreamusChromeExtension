@@ -9,7 +9,7 @@
         
         templateHelpers: {
             anUpdateToStreamusIsAvailableMessage: chrome.i18n.getMessage('anUpdateToStreamusIsAvailable'),
-            pleaseClickUpdateToRestartAndApplyTheUpdateMessage: chrome.i18n.getMessage('pleaseClickUpdateToRestartAndApplyTheUpdate')
+            pleaseClickUpdateToReloadAndApplyTheUpdateMessage: chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate')
         },
         
         _doRenderedOk: function () {

@@ -276,12 +276,6 @@
 	"showTooltips": {
 		"message": "Show tooltips"
 	},
-	"closeMenu": {
-		"message": "Close menu"
-	},
-	"openMenu": {
-		"message": "Open menu"
-	},
 	"wouldYouLikeTo": {
 		"message": "Would you like to"
 	},
@@ -341,8 +335,8 @@
 	"anUpdateToStreamusIsAvailable": {
 		"message": "An update to Streamus is available"
 	},
-	"pleaseClickUpdateToRestartAndApplyTheUpdate": {
-		"message": "Please click update to restart and apply the update"
+	"pleaseClickUpdateToReloadAndApplyTheUpdate": {
+		"message": "Please click update to reload and apply the update"
 	},
 	"updateRequired": {
 		"message": "Update required"
@@ -447,5 +441,11 @@
 	},
 	"remindGoogleSignIn": {
 		"message": "Remind Google sign in"
+	},
+	"donate": {
+		"message": "Donate"
+	},
+	"keyboardShortcuts": {
+		"message": "Keyboard shortcuts"
 	}
 }

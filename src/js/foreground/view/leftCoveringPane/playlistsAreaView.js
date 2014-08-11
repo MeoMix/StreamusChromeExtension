@@ -49,7 +49,6 @@
         },
         
         templateHelpers: {
-            closeMenu: chrome.i18n.getMessage('closeMenu'),
             playlists: chrome.i18n.getMessage('playlists'),
             createPlaylist: chrome.i18n.getMessage('createPlaylist'),
             editPlaylist: chrome.i18n.getMessage('editPlaylist')
