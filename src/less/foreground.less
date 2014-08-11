@@ -222,6 +222,12 @@ body {
         height: 160px;
     }
 
+    &.export-playlist-prompt .panel {
+        height: 215px;
+        width: 300px;
+        margin-left: -150px;
+    }
+
     .bottom-right {
         position: absolute;
         right: 10px;
@@ -1367,7 +1373,7 @@ html .selectize-control.multi .selectize-input.full > input {
     }
 }
 
-.clickable {
+.clickable:not(.disabled) {
     cursor: pointer !important;
 }
 
@@ -1583,11 +1589,11 @@ button {
     }
 }
 
-.settings-group {
+.topic-group {
     display: inline-block;
     vertical-align: top;
 
-    &.general {
+    &:not(:last-child) {
         margin-right: 20px;
     }
 }

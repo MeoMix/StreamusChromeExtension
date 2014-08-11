@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'backbone.localStorage',
     'backbone.marionette',
     'googleAnalytics',
     'jquery.hoverIntent',

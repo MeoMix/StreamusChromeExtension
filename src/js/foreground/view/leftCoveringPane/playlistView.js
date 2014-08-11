@@ -5,8 +5,9 @@
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
+    'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, ContextMenuActions, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, ContextMenuActions, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
@@ -110,9 +111,14 @@
                 }, {
                     text: chrome.i18n.getMessage('edit'),
                     onClick: this._showEditPlaylistPrompt.bind(this)
+                }, {
+                    //  No point in exporting an empty playlist.
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
+                    text: chrome.i18n.getMessage('export'),
+                    onClick: this._showExportPlaylistPrompt.bind(this)
                 }]
             );
-
         },
         
         _copyPlaylistUrl: function() {
@@ -143,6 +149,12 @@
                     playlist: this.model
                 });
             }
+        },
+        
+        _showExportPlaylistPrompt: function() {
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', ExportPlaylistPromptView, {
+                playlist: this.model
+            });
         },
         
         _addSongsToStream: function () {

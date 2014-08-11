@@ -77,6 +77,25 @@
         escapeRegExp: function (string) {
             var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
             return escapedString;
+        },
+        
+        //  http://stackoverflow.com/questions/8847766/how-to-convert-json-to-csv-format-and-store-in-a-variable
+        jsonToCsv: function(json) {
+            var array = typeof json != 'object' ? JSON.parse(json) : json;
+            var str = '';
+
+            for (var i = 0; i < array.length; i++) {
+                var line = '';
+                for (var index in array[i]) {
+                    if (line != '') line += ',';
+
+                    line += array[i][index];
+                }
+
+                str += line + '\r\n';
+            }
+
+            return str;
         }
     });
 

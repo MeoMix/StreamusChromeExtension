@@ -1,0 +1,57 @@
+﻿<div class="topic-group">
+    <div class="topic">File type</div>
+    <div class="category">
+        <ul>
+            <li>
+                <label>
+                    <input id="export-csv-radio" data-model-attribute="exportCsv" type="radio" name="export-type" value="csv" <%= exportCsv ? 'checked' : '' %> />
+                    CSV
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="export-json-radio" data-model-attribute="exportJson" type="radio" name="export-type" value="json"  <%= exportJson ? 'checked' : '' %> />
+                    JSON
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="topic-group">
+    <div class="topic">Include</div>
+    <div class="category">
+        <ul>
+            <li>
+                <label>
+                    <input id="export-title-checkbox" data-model-attribute="exportTitle" type="checkbox" <%= exportTitle ? 'checked' : '' %> />
+                    Title
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="export-id-checkbox" data-model-attribute="exportId" type="checkbox" <%= exportId ? 'checked' : '' %> />
+                    ID
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="export-url-checkbox" data-model-attribute="exportUrl" type="checkbox"  <%= exportUrl ? 'checked' : '' %> />
+                    URL
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="export-author-checkbox" data-model-attribute="exportAuthor" type="checkbox" <%= exportAuthor ? 'checked' : '' %> />
+                    Author
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input id="export-duration-checkbox" data-model-attribute="exportDuration" type="checkbox" <%= exportDuration ? 'checked' : '' %> />
+                    Duration
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>

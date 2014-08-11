@@ -447,5 +447,11 @@
 	},
 	"keyboardShortcuts": {
 		"message": "Keyboard shortcuts"
+	},
+	"export": {
+		"message": "Export"
+	},
+	"exportPlaylist": {
+		"message": "Export playlist"
 	}
 }

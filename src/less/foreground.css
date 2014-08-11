@@ -163,6 +163,11 @@ body .qtip-light {
 .prompt.no-play-embedded-prompt .panel {
   height: 160px;
 }
+.prompt.export-playlist-prompt .panel {
+  height: 215px;
+  width: 300px;
+  margin-left: -150px;
+}
 .prompt .bottom-right {
   position: absolute;
   right: 10px;
@@ -1201,7 +1206,7 @@ html .selectize-control.multi .selectize-input.full > input {
 .sortable-placeholder.hidden-until-change {
   display: none;
 }
-.clickable {
+.clickable:not(.disabled) {
   cursor: pointer !important;
 }
 #search .big-text {
@@ -1385,11 +1390,11 @@ button.mute.muted {
 #context-menu:empty {
   display: none;
 }
-.settings-group {
+.topic-group {
   display: inline-block;
   vertical-align: top;
 }
-.settings-group.general {
+.topic-group:not(:last-child) {
   margin-right: 20px;
 }
 #suggested-quality {
