@@ -8,10 +8,6 @@
         id: 'menu-area',
         template: _.template(MenuAreaTemplate),
 
-        templateHelpers: {
-            settings: chrome.i18n.getMessage('settings')
-        },
-
         events: {
             'click @ui.menuButton': '_toggleMenu',
             'click @ui.settingsMenuItem': '_showSettingsPrompt'
@@ -24,7 +20,7 @@
             //  TODO: Implement a donation prompt.
             donateMenuItem: '.menu .donate'
         },
-        
+
         menuShown: false,
         
         initialize: function () {
