@@ -61,6 +61,7 @@
     <Content Include="src\img\green_2.png" />
     <Content Include="src\img\green_3.png" />
     <Content Include="src\img\green_4.png" />
+    <Content Include="src\img\logo.png" />
     <Content Include="src\img\red_0.png" />
     <Content Include="src\img\red_1.png" />
     <Content Include="src\img\red_2.png" />
@@ -127,6 +128,7 @@
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\googleSignInView.js" />
     <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
@@ -134,10 +136,12 @@
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
     <Content Include="src\js\foreground\view\notification\notificationView.js" />
+    <Content Include="src\js\foreground\view\prompt\exportPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\googleSignInPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
+    <Content Include="src\js\foreground\view\rightBasePane\menuAreaView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\settingsView.js" />
@@ -243,6 +247,8 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\exportPlaylist.html" />
+    <Content Include="src\template\menuArea.html" />
     <Content Include="src\template\notification.html" />
     <Content Include="src\template\googleSignIn.html" />
     <Content Include="src\template\linkUserId.html" />
