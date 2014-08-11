@@ -111,7 +111,7 @@
     <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
     <Content Include="src\js\background\model\youTubePlayerAPI.js" />
-    <Content Include="src\js\background\model\notificationsManager.js" />
+    <Content Include="src\js\background\model\chromeNotifications.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\common\enum\songType.js" />
@@ -122,7 +122,9 @@
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
+    <Content Include="src\js\foreground\enum\notificationType.js" />
     <Content Include="src\js\foreground\model\contextMenuActions.js" />
+    <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\googleSignInView.js" />
@@ -130,6 +132,8 @@
     <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
     <Content Include="src\js\foreground\view\linkUserIdView.js" />
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
+    <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
+    <Content Include="src\js\foreground\view\notification\notificationView.js" />
     <Content Include="src\js\foreground\view\prompt\googleSignInPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
@@ -147,7 +151,6 @@
     <Content Include="src\js\foreground\main.js" />
     <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\genericPrompt.js" />
-    <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
     <Content Include="src\js\foreground\model\saveSongs.js" />
     <Content Include="src\js\foreground\model\streamAction.js" />
@@ -183,10 +186,10 @@
     <Content Include="src\js\foreground\view\prompt\editPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\deletePlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\createPlaylistPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\notificationPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\errorPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\reloadStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\genericPromptView.js" />
-    <Content Include="src\js\foreground\view\notificationView.js" />
+    <Content Include="src\js\foreground\view\errorView.js" />
     <Content Include="src\js\foreground\view\reloadStreamusView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\streamItemView.js" />
@@ -240,6 +243,7 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\notification.html" />
     <Content Include="src\template\googleSignIn.html" />
     <Content Include="src\template\linkUserId.html" />
     <Content Include="src\template\noPlayEmbedded.html" />
@@ -257,7 +261,6 @@
     <Content Include="src\template\deletePlaylist.html" />
     <Content Include="src\template\editPlaylist.html" />
     <Content Include="src\template\genericPrompt.html" />
-    <Content Include="src\template\notification.html" />
     <Content Include="src\template\playlist.html" />
     <Content Include="src\template\listItem.html" />
     <Content Include="src\template\reloadStreamus.html" />
