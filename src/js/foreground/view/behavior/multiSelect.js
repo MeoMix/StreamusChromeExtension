@@ -32,8 +32,8 @@
             this.view.collection.deselectAll();
         },
         
-        _onClickedElement: function (listItemType) {
-            if (listItemType !== this.view.childViewOptions.type) {
+        _onClickedElement: function (data) {
+            if (data.listItemType !== this.view.childViewOptions.type) {
                 this._deselectCollection();
             }
         },

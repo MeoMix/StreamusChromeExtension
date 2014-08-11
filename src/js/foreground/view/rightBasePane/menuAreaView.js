@@ -28,12 +28,11 @@
         menuShown: false,
         
         initialize: function () {
-            //  TODO: What's a better way to hide this?
-            $('body').on('click contextmenu', this._onClickBody.bind(this));
+            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
         
-        _onClickBody: function (event) {
-            if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
+        _onClickedElement: function (data) {
+            if (data.eventTarget.closest(this.ui.menuButton.selector).length === 0) {
                 this._hideMenu();
             }
         },

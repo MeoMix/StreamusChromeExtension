@@ -68,9 +68,13 @@
 
         //  Announce the type of element clicked so multi-select collections can decide if they should de-select their child views.
         _announceClickedElement: function (event) {
-            var clickedItem = $(event.target).closest('.multi-select-item');
+            var eventTarget = $(event.target);
+            var clickedItem = eventTarget.closest('.multi-select-item');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', listItemType);
+            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', {
+                eventTarget: eventTarget,
+                listItemType: listItemType
+            });
         },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
