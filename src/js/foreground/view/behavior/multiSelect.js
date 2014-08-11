@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'common/enum/listItemType'
+], function (ListItemType) {
     'use strict';
 
     var MultiSelect = Backbone.Marionette.Behavior.extend({
@@ -32,8 +34,11 @@
             this.view.collection.deselectAll();
         },
         
-        _onClickedElement: function (data) {
-            if (data.listItemType !== this.view.childViewOptions.type) {
+        _onClickedElement: function (clickedElement) {
+            var clickedItem = clickedElement.closest('.multi-select-item');
+            var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
+
+            if (listItemType !== this.view.childViewOptions.type) {
                 this._deselectCollection();
             }
         },

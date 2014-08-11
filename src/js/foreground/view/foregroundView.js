@@ -1,12 +1,11 @@
 ﻿define([
-    'common/enum/listItemType',
     'foreground/view/contextMenuRegion',
     'foreground/view/leftBasePane/leftBasePaneRegion',
     'foreground/view/leftCoveringPane/leftCoveringPaneRegion',
     'foreground/view/notification/notificationRegion',
     'foreground/view/prompt/promptRegion',
     'foreground/view/rightBasePane/rightBasePaneRegion'
-], function (ListItemType, ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, NotificationRegion, PromptRegion, RightBasePaneRegion) {
+], function (ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, NotificationRegion, PromptRegion, RightBasePaneRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -66,15 +65,10 @@
             });
         },
 
-        //  Announce the type of element clicked so multi-select collections can decide if they should de-select their child views.
+        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
+        //  and so that menus can close if they weren't clicked.
         _announceClickedElement: function (event) {
-            var eventTarget = $(event.target);
-            var clickedItem = eventTarget.closest('.multi-select-item');
-            var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', {
-                eventTarget: eventTarget,
-                listItemType: listItemType
-            });
+            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
         },
         
         //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.

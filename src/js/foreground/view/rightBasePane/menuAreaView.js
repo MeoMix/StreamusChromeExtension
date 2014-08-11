@@ -31,8 +31,8 @@
             this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
         },
         
-        _onClickedElement: function (data) {
-            if (data.eventTarget.closest(this.ui.menuButton.selector).length === 0) {
+        _onClickedElement: function (clickedElement) {
+            if (clickedElement.closest(this.ui.menuButton.selector).length === 0) {
                 this._hideMenu();
             }
         },
