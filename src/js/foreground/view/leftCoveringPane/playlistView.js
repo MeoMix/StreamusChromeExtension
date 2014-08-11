@@ -10,6 +10,7 @@
     'use strict';
 
     var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
@@ -24,23 +25,22 @@
         },
         
         events: {
-            'blur @ui.editableTitle': '_saveAndStopEdit',
-            'click': '_activate',
+            'click': '_onClick',
+            'click @ui.playButton': '_play',
             'contextmenu': '_showContextMenu',
-            'dblclick @ui.title': '_startEdit',
-            'keyup @ui.editableTitle': '_saveAndStopEditOnEnter'
+            'dblclick': '_onDblClick'
         },
         
         modelEvents: {
             'change:title': '_updateTitle',
             'change:dataSourceLoaded': '_setLoadingClass',
-            'change:active': '_stopEditingOnInactive _setActiveClass'
+            'change:active': '_setActiveClass'
         },
         
         ui: {
             itemCount: '.count',
-            editableTitle: '.editable-title',
-            title: '.title'
+            title: '.title',
+            playButton: '.play'
         },
         
         behaviors: {
@@ -61,12 +61,7 @@
         _updateTitle: function () {
             var title = this.model.get('title');
             this.ui.title.text(title).attr('title', title);
-        },
-
-        _stopEditingOnInactive: function (model, active) {
-            if (!active) {
-                this._saveAndStopEdit();
-            }
+            this.ui.playButton.attr('title', title);
         },
         
         _setLoadingClass: function () {
@@ -89,11 +84,6 @@
         },
         
         _showContextMenu: function (event) {
-            //  Allow the editableInput to use default contextmenu, feels right.
-            if ($(event.target).is(this.ui.editableTitle)) {
-                return true;
-            }
-
             event.preventDefault();
             
             var isEmpty = this.model.get('items').length === 0;
@@ -159,28 +149,19 @@
             ContextMenuActions.addSongsToStream(this.model.get('items').pluck('song'));
         },
         
-        _startEdit: function () {
-            //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            this.ui.title.hide();
-            this.ui.editableTitle.show().focus().val(this.ui.editableTitle.val());
+        _onClick: function () {
+            this._activate();
         },
         
-        _saveAndStopEditOnEnter: function(event) {
-            if (event.which === 13) {
-                this._saveAndStopEdit();
-            }
+        _onDblClick: function () {
+            this._activate();
         },
         
-        _saveAndStopEdit: function () {
-            this.ui.editableTitle.hide();
-            //  Be sure to show the title before changing it's text so the tooltip can know whether it is overflowing or not.
-            this.ui.title.show();
-            
-            //  TODO: This fails silently if an invalid title is provided and it does not enforce a max length.
-            var newTitle = $.trim(this.ui.editableTitle.val());
-            if (newTitle !== '') {
-                this.model.set('title', newTitle);
-            }
+        _play: function () {
+            //  TODO: I think this should actually go through Radio Channel and just tell StreamItems to play songs.
+            StreamItems.addSongs(this.model.get('items').pluck('song'), {
+                playOnAdd: true
+            });
         }
     });
 

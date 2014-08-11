@@ -1,11 +1,12 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
     'common/enum/playerState',
+    'foreground/view/rightBasePane/menuAreaView',
     'foreground/view/rightBasePane/streamView',
     'foreground/view/rightBasePane/timeProgressView',
     'foreground/view/rightBasePane/volumeView',
     'text!template/rightBasePane.html'
-], function (PlayerState, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
+], function (PlayerState, MenuAreaView, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
     'use strict';
 
     var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
@@ -14,13 +15,15 @@ define([
     var PreviousButton = chrome.extension.getBackgroundPage().PreviousButton;
 
     var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
-        className: 'right-base-pane',
+        id: 'right-base-pane',
+        className: 'right-pane',
         template: _.template(RightBasePaneTemplate),
         
         regions: {
-            stream: '#stream-region',
-            timeProgress: '#time-progress-region',
-            volume: '#volume-region'
+            streamRegion: '#stream-region',
+            timeProgressRegion: '#time-progress-region',
+            volumeRegion: '#volume-region',
+            menuRegion: '#menu-region'
         },
         
         events: {
@@ -52,17 +55,19 @@ define([
         },
         
         onShow: function () {
-            this.stream.show(new StreamView({
+            this.streamRegion.show(new StreamView({
                 collection: StreamItems
             }));
 
-            this.timeProgress.show(new TimeProgressView({
+            this.timeProgressRegion.show(new TimeProgressView({
                 model: this.model
             }));
 
-            this.volume.show(new VolumeView({
+            this.volumeRegion.show(new VolumeView({
                 model: this.model
             }));
+
+            this.menuRegion.show(new MenuAreaView());
         },
         
         _tryActivateNextStreamItem: function () {

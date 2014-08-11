@@ -11,7 +11,7 @@
             'click': '_hideIfClickOutsidePanel',
             'click .remove': 'hide',
             'click @ui.okButton': '_doRenderedOk',
-            'keydown .submittable': '_doRenderedOkOnEnter_doRenderedOkOnEnter'
+            'keydown .submittable': '_doRenderedOkOnEnter'
         },
         
         ui: {

@@ -7,8 +7,6 @@ define({
         var model = this.get(modelId);
         var sequence = this.getSequenceFromIndex(index);
 
-        console.log("Sequence:", sequence);
-
         model.set({
             sequence: sequence
         });
@@ -28,12 +26,8 @@ define({
             });
         }
 
-        console.log("This:", this.at(0).get('title'));
-        
         //  Collections with a comparator will not automatically re-sort if you later change model attributes
         this.sort();
-
-        console.log("This at 0:", this.at(0).get('title'));
     },
 
     //  Return what sequence number would be necessary to be at the given index     

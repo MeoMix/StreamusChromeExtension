@@ -6,7 +6,7 @@
             text: '',
             disabled: false,
             title: '',
-            onClick: null
+            onMouseDown: null
         }
     });
 

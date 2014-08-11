@@ -20,6 +20,11 @@
 @alizarin: #e74c3c;
 @lightAlizarin: lighten(@alizarin, 30%);
 
+//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
+@leftPaneWidth: 60.15625%;
+//  Width is set as 255px / 640px, TODO: follow golden ratio more closely
+@rightPaneWidth: 39.84375%;
+        
 @font-face {
   font-family: 'Open Sans';
   src: url('../font/OpenSans-Regular.ttf');
@@ -459,7 +464,7 @@ input[type="range"] {
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
-        -webkit-box-shadow: 0 0 5px @mediumLightGray;
+        box-shadow: 0 0 5px @mediumLightGray;
         background: @mediumDarkGray;
         border-radius: 100%;
         height: 10px;
@@ -472,26 +477,222 @@ input[type="range"] {
     }
 }
 
-.left-pane {
+.left-pane-region {
     background: @white;
     bottom: 0;
     left: 0;
     position: absolute;
-    right: 250px;
     top: 0;
-    width: 385px;
+    width: @leftPaneWidth;
+
+    .left-pane {
+        background: @white;
+        width: 100%;
+        height: 100%;
+    }
+
+    &#left-base-pane-region {
+        z-index: 1;
+
+        #left-base-pane {
+            #playlist-title-region {
+                width: 100%;
+                padding-left: 50px;
+                padding-right: 50px;
+                box-sizing: border-box;
+                height: 45px;
+                display: inline-block;
+                vertical-align: top;
+
+                #playlist-title {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    font-size: 1.1em;
+                    white-space: nowrap;
+                    line-height: 45px;
+                    cursor: default;
+                }
+            }
+
+            /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
+            .fa-search {
+                font-size: 18px;
+            }
+        }
+    }
+
+    &#left-covering-pane-region {
+        left: -1 * @leftPaneWidth;
+        z-index: 10;
+        
+        #search {
+            box-shadow: 0 0 10px @darkGray;
+
+            /* Can't sort search */
+            .sortable-placeholder {
+                display: none;
+            }
+        }
+    }
 }
 
-#stream {
+.right-pane-region {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: @rightPaneWidth;
+
+    &#right-base-pane-region {
+        z-index: 1;
+    }
+    
+    .right-pane {
+        background: @white;
+        width: 100%;
+        height: 100%;
+    }
+
+    .top-bar {
+        display: block;
+        height: 45px;
+        left: 0;
+        position: absolute;
+        right: 0;
+        top: 0;
+
+        #menu-region {
+            display: block;
+            position: absolute;
+            right: 10px;
+            top: 0;
+            height: 45px;
+            width: 40px;
+
+            .menu {
+                right: 10px;
+                display: none;
+            }
+        }
+
+        #volume-region {
+            #volume {
+                bottom: 0;
+                left: 10px;
+                overflow: hidden;
+                position: absolute;
+                top: 0;
+                height: 45px;
+                z-index: 3;
+                width: 42px;
+                cursor: pointer;
+
+                .volume-slider {
+                    background: @white;
+                    border: 1px solid @mediumLightGray;
+                    width: 40px;
+                    height: 80px;
+                    position: absolute;
+                    top: 44px;
+                    padding-top: 10px;
+                    padding-bottom: 10px;
+                    opacity: 0;
+                    -webkit-transform: rotate(180deg);
+                    cursor: default;
+
+                    .progress {
+                        margin-left: 19px;
+                        width: 2px;
+                        background: @baseBlue;
+                    }
+
+                    input {
+                        -webkit-appearance: none;
+                        width: 80px;
+                        height: 2px;
+                        -webkit-transform: rotate(90deg);
+                        -webkit-transform-origin: 0 0;
+                        background: rgba(0,0,0,.1);
+                        position: absolute;
+                        top: 10px;
+                        left: 21px;
+
+                        &:focus {
+                            outline: none;
+                        }
+                    }
+
+                    &:before {
+                        display: block;
+                        content: ' ';
+                        width: 10px;
+                        height: 10px;
+                        background: @white;
+                        position: absolute;
+                        bottom: -6px;
+                        left: 50%;
+                        margin-left: -5px;
+                        -webkit-transform: rotate(45deg);
+                        border-bottom: 1px solid @mediumLightGray;
+                        border-right: 1px solid @mediumLightGray;
+                    }
+                }
+            }
+        }
+
+        .center-group {
+            position: absolute;
+            width: 120px;
+            /*left: calc(50% - 60px);*/
+            left: 67.5px;
+            font-size: 0px;
+        }
+    }
+
+    .context-buttons {
+        border-top: 1px solid @lightGray;
+        bottom: 0;
+        display: block;
+        height: 30px;
+        left: 10px;
+        position: absolute;
+        right: 10px;
+
+        .left-group {
+            display: block;
+            height: 30px;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 128px;
+        }
+
+        .right-group {
+            display: block;
+            height: 30px;
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 84px;
+        }
+    }
+}
+
+#stream-region {
     position: absolute;
     top: 79px;
     bottom: 0;
     right: 0;
     left: 0;
 
-    .big-text-wrapper {
-        top: 0;
-        bottom: 40px;
+    #stream {
+        width: 100%;
+        height: 100%;
+
+        .big-text-wrapper {
+            top: 0;
+            bottom: 40px;
+        }
     }
 }
 
@@ -656,13 +857,13 @@ input[type="range"] {
 
         .buttons-region {
             button:hover {
-                color: @white;
+                color: @white !important;
             }
         }
 
         .spinner {
-            color: #fff;
-            border: 1px solid #fff;
+            color: @white;
+            border: 1px solid @white;
             border-left-color: transparent;
             border-top-color: transparent;
         }
@@ -727,11 +928,32 @@ input[type="range"] {
         height: 28px;
         line-height: 18px;
 
+        &:hover {
+            i.fa-play {
+                display: inline-block;
+            }
+
+            i.fa-list {
+                display: none;
+            }
+        }
+
         i {
             margin-right: .4em;
             display: inline-block;
             line-height: 18px;
             vertical-align: top;
+            color: @darkGray;
+
+            &.fa-play {
+                display: none;
+                margin-left: .4em;
+                margin-right: .5em;
+
+                &:hover {
+                    color: @black;
+                }
+            }
         }
 
         * {
@@ -749,7 +971,7 @@ input[type="range"] {
             font-size: .85em;
             font-weight: bold;
             line-height: 1.3;
-            padding: 0 .6em 0 .5em;
+            padding: 0 .5em 0 .5em;
             position: absolute;
             right: 5px;
             top: 2px;
@@ -763,6 +985,14 @@ input[type="range"] {
             .count {
                 background: @lightBaseBlue;
                 color: @baseBlue;
+            }
+
+            i.fa-play {
+                color: @lightBaseBlue;
+
+                &:hover {
+                    color: @white;
+                }
             }
         }
 
@@ -793,16 +1023,6 @@ input[type="range"] {
         text-overflow: ellipsis;
         width: 150px;
         line-height: 16px;
-    }
-
-    input.editable-title {
-        border: 0;
-        width: 150px;
-        line-height: 16px;
-
-        &.hidden {
-            display: none;
-        }
     }
 }
 
@@ -861,20 +1081,6 @@ input {
 
 input:focus  ~ .underline {
     background-color: @baseBlue;
-}
-
-#left-covering-pane-region {
-    left: -385px;
-    z-index: 10;
-}
-
-#search {
-    box-shadow: 0 0 10px @darkGray;
-
-    /* Can't sort search */
-    .sortable-placeholder {
-        display: none;
-    }
 }
 
 #active-playlist-items {
@@ -936,128 +1142,7 @@ input:focus  ~ .underline {
     }
 }
 
-#right-base-pane-region {
-    z-index: 1;
-}
-
-.right-pane {
-    bottom: 0;
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: 255px;
-
-    .top-bar {
-        display: block;
-        height: 44px;
-        left: 10px;
-        position: absolute;
-        right: 10px;
-        top: 0;
-    }
-
-    .context-buttons {
-        border-top: 1px solid @lightGray;
-        bottom: 0;
-        display: block;
-        height: 30px;
-        left: 10px;
-        position: absolute;
-        right: 10px;
-
-        .left-group {
-            display: block;
-            height: 30px;
-            left: 0;
-            position: absolute;
-            top: 0;
-            width: 128px;
-        }
-
-        .right-group {
-            display: block;
-            height: 30px;
-            position: absolute;
-            right: 0;
-            top: 0;
-            width: 84px;
-        }
-    }
-}
-
-#volume {
-    bottom: 0;
-    left: 0;
-    overflow: hidden;
-    position: absolute;
-    top: 0;
-    height: 45px;
-    z-index: 3;
-    width: 42px;
-    cursor: pointer;
-}
-
-.top-bar {
-    .center-group {
-        margin-left: 58px;
-        position: absolute;
-        width: 120px;
-        font-size: 0px;
-    }
-
-    .volume-slider {
-        background: @white;
-        border: 1px solid @mediumLightGray;
-        width: 40px;
-        height: 80px;
-        position: absolute;
-        top: 44px;
-        padding-top: 10px;
-        padding-bottom: 10px;
-        opacity: 0;
-        -webkit-transform: rotate(180deg);
-        cursor: default;
-
-        .progress {
-            margin-left: 19px;
-            width: 2px;
-            background: @baseBlue;
-        }
-
-        input {
-            -webkit-appearance: none;
-            width: 80px;
-            height: 2px;
-            -webkit-transform: rotate(90deg);
-            -webkit-transform-origin: 0 0;
-            background: rgba(0,0,0,.1);
-            position: absolute;
-            top: 10px;
-            left: 21px;
-
-            &:focus {
-                outline: none;
-            }
-        }
-
-        &:before {
-            display: block;
-            content: ' ';
-            width: 10px;
-            height: 10px;
-            background: @white;
-            position: absolute;
-            bottom: -6px;
-            left: 50%;
-            margin-left: -5px;
-            -webkit-transform: rotate(45deg);
-            border-bottom: 1px solid @mediumLightGray;
-            border-right: 1px solid @mediumLightGray;
-        }
-    }
-}
-
-#time-progress {
+#time-progress-region {
     top: 45px;
     left: 15px;
     right: 15px;
@@ -1066,48 +1151,55 @@ input:focus  ~ .underline {
     height: 20px;
     line-height: 1.5;
 
-    .time-slider {
-        background: @lightGray;
-        height: 3px;
-        left: 45px;
-        position: absolute;
-        right: 45px;
-        top: 8px;
+    #time-progress {
+        width: 100%;
+        height: 100%;
 
-        .progress {
-            background: @baseBlue;
-            bottom: 0;
-            display: block;
-            left: 0;
+        .time-slider {
+            background: @lightGray;
+            height: 3px;
+            left: 45px;
             position: absolute;
-            top: 0;
-            z-index: 1
+            right: 45px;
+            top: 8px;
+
+            .progress {
+                background: @baseBlue;
+                bottom: 0;
+                display: block;
+                left: 0;
+                position: absolute;
+                top: 0;
+                z-index: 1
+            }
+
+            input {
+                bottom: 0;
+                left: 0;
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 100%;    
+                z-index: 2;
+                cursor: pointer;
+            }
         }
 
-        input {
-            bottom: 0;
-            left: 0;
+        .time-elapsed {
             position: absolute;
-            right: 0;
-            top: 0;
-            width: 100%;    
-            z-index: 2;
+            left: 0;
             cursor: pointer;
         }
-    }
 
-    .time-elapsed {
-        position: absolute;
-        left: 0;
-        cursor: pointer;
-    }
-
-    .duration {
-        position: absolute;
-        right: 0;
-        cursor: default;
+        .duration {
+            position: absolute;
+            right: 0;
+            cursor: default;
+        }
     }
 }
+
+
 
 #playlists-area {
     bottom: 0;
@@ -1213,14 +1305,6 @@ input:focus  ~ .underline {
     height: 1px;
 }
 
-#settings-button {
-    display: block;
-    position: absolute;
-    right: 10px;
-    top: 0;
-    height: 46px;
-}
-
 /* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
 i { font-size: 14px; }
 
@@ -1284,7 +1368,7 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 
 .clickable {
-    cursor: pointer;
+    cursor: pointer !important;
 }
 
 #search .big-text {
@@ -1470,47 +1554,13 @@ button {
     right: 10px;
 }
 
-#left-base-pane-region {
-    z-index: 1;
-
-    #left-base-pane {
-        #playlist-title-region {
-            width: 100%;
-            padding-left: 50px;
-            padding-right: 50px;
-            box-sizing: border-box;
-            height: 45px;
-            display: inline-block;
-            vertical-align: top;
-
-            #playlist-title {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                font-size: 1.1em;
-                white-space: nowrap;
-                line-height: 45px;
-                cursor: default;
-            }
-        }
-
-        /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
-        .fa-search {
-            font-size: 18px;
-        }
-    }
-}
-
-#context-menu {
-    -webkit-box-shadow: 4px 7px 3px rgba(0, 0, 0, .3);
+.menu {
+    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.2);
     background: @white;
     position: absolute;
     z-index: 100;
     padding: 5px 0;
     border: 1px solid @mediumLightGray;
-
-    &:empty {
-        display: none;
-    }
 
     li {
         overflow: hidden;
@@ -1524,6 +1574,12 @@ button {
         &:not(.disabled):hover {
             background: @lightGray;
         }
+    }
+}
+
+#context-menu {
+    &:empty {
+        display: none;
     }
 }
 

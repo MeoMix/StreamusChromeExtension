@@ -18,6 +18,7 @@
         el: $('body'),
 
         events: {
+            //  TODO: I think it might make more sense to use mousedown instead of click because dragging elements doesn't hide the contextmenu
             'click': function (event) {
                 this.contextMenuRegion.handleClickEvent(event);
                 this._announceClickedElement(event);

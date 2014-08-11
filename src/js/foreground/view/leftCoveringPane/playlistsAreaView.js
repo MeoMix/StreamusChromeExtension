@@ -6,9 +6,8 @@
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/view/prompt/settingsPromptView',
     'text!template/playlistsArea.html'
-], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, SettingsPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
@@ -27,10 +26,10 @@
         events: {
             'click': '_hideIfClickOutsidePanel',
             'click @ui.hideButton': '_hide',
-            'click @ui.settingsButton': '_showSettingsPrompt',
             'click @ui.addButton': '_showCreatePlaylistPrompt',
             'click @ui.editButton': '_showEditActivePlaylistPrompt',
-            'click @ui.deleteButton:not(.disabled)': '_showDeleteActivePlaylistPrompt'
+            'click @ui.deleteButton:not(.disabled)': '_showDeleteActivePlaylistPrompt',
+            'dblclick @ui.childContainer': '_onDblClickChildContainer'
         },
         
         collectionEvents: {
@@ -46,13 +45,11 @@
             addButton: '.add',
             hideButton: '.hide',
             editButton: '.edit',
-            settingsButton: '#settings-button',
             textTooltipable: '.text-tooltipable'
         },
         
         templateHelpers: {
             closeMenu: chrome.i18n.getMessage('closeMenu'),
-            settings: chrome.i18n.getMessage('settings'),
             playlists: chrome.i18n.getMessage('playlists'),
             createPlaylist: chrome.i18n.getMessage('createPlaylist'),
             editPlaylist: chrome.i18n.getMessage('editPlaylist')
@@ -138,10 +135,6 @@
             }
         },
         
-        _showSettingsPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
-        },
-        
         _showCreatePlaylistPrompt: function () {
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
         },
@@ -182,6 +175,11 @@
                     playlist: activePlaylist
                 });
             }
+        },
+        
+        //  Whenever a child is double-clicked it will become active and the menu should hide itself.
+        _onDblClickChildContainer: function () {
+            this._hide();
         }
     });
 

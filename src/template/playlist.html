@@ -1,9 +1,11 @@
 ﻿<i class="fa fa-list fa-fw"></i>
+<!-- TODO: i18n -->
+<i class="play fa fa-play colored clickable tooltipable" title="Play <%= title %>"></i>
+
 <div class="spinner spinner-small"></div>
 
 <div class="title text-tooltipable" title="<%= title %>">
     <%= title %>
 </div>
-<input type="text" value="<%= title %>" class="editable-title hidden" maxlength="255"/>
 
 <span class="count"><%= items.length %></span>

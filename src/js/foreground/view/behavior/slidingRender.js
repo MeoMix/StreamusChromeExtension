@@ -54,13 +54,13 @@
         
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
         //  event requests the min render index -- return it!
-        onGetMinRenderIndex: function() {
+        onGetMinRenderIndex: function () {
             this.view.triggerMethod('GetMinRenderIndexReponse', {
                 minRenderIndex: this.minRenderIndex
             });
         },
         
-        onListHeightUpdated: function() {
+        onListHeightUpdated: function () {
             this._setViewportHeight();
         },
         

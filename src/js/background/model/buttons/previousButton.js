@@ -36,12 +36,7 @@
         
         _toggleEnabled: function () {
             var previousItem = StreamItems.getPrevious();
-            console.log("previous Item:", previousItem);
-
             var playerTime = Player.get('currentTime');
-
-            console.log("player time:", playerTime);
-
             var enabled = previousItem !== null || playerTime > 3;
             this.set('enabled', enabled);
         }

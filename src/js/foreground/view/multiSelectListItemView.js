@@ -13,7 +13,9 @@
         },
 
         events: {
-            'contextmenu': '_showContextMenu'
+            'contextmenu': '_showContextMenu',
+            'mouseenter': '_onMouseEnter',
+            'mouseleave': '_onMouseLeave'
         },
 
         modelEvents: {
@@ -38,11 +40,17 @@
         
         onRender: function () {
             this._setSelectedClass();
-
+        },
+        
+        _onMouseEnter: function () {
             this.buttonsRegion.show(new ListItemButtonsView({
                 model: this.model,
                 buttonViews: this.buttonViews
             }));
+        },
+        
+        _onMouseLeave: function () {
+            this.buttonsRegion.empty();
         },
 
         _setSelectedClass: function () {
