@@ -125,6 +125,7 @@
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\enum\notificationType.js" />
     <Content Include="src\js\foreground\model\contextMenuActions.js" />
+    <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
@@ -238,13 +239,44 @@
     <Content Include="src\css\beatportInject.css" />
     <Content Include="src\css\youTubeInject.css" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
+    <Content Include="src\less\colorPallete.css">
+      <DependentUpon>colorPallete.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\colorPallete.min.css">
+      <DependentUpon>colorPallete.less</DependentUpon>
+    </Content>
     <Content Include="src\less\foreground.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
     <Content Include="src\less\foreground.min.css">
       <DependentUpon>foreground.less</DependentUpon>
     </Content>
+    <Content Include="src\less\colorPallete.less" />
     <None Include="src\less\foreground.less" />
+    <Content Include="src\less\normalize.css">
+      <DependentUpon>normalize.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\normalize.min.css">
+      <DependentUpon>normalize.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\reset.css">
+      <DependentUpon>reset.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\reset.min.css">
+      <DependentUpon>reset.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\scrollbars.css">
+      <DependentUpon>scrollbars.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\scrollbars.min.css">
+      <DependentUpon>scrollbars.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\selectize.css">
+      <DependentUpon>selectize.less</DependentUpon>
+    </Content>
+    <Content Include="src\less\selectize.min.css">
+      <DependentUpon>selectize.less</DependentUpon>
+    </Content>
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
     <Content Include="src\template\exportPlaylist.html" />
@@ -290,6 +322,10 @@
     <Content Include="src\_locales\pt_BR\messages.json" />
     <Content Include="src\_locales\de\messages.json" />
     <Content Include="src\_locales\tr\messages.json" />
+    <Content Include="src\less\normalize.less" />
+    <Content Include="src\less\scrollbars.less" />
+    <Content Include="src\less\reset.less" />
+    <Content Include="src\less\selectize.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
