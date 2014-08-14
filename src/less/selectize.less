@@ -1,0 +1,44 @@
+﻿@import "colorPallete";
+
+/* Selectize Configuration */
+.selectize-input,
+.selectize-input * {
+    border-radius: 0 !important;
+    background-image: none !important;
+}
+
+.selectize-dropdown {
+    border: none !important;
+}
+
+html .selectize-control .selectize-dropdown .caption {
+    font-size: 12px;
+    display: block;
+    color: @mediumDarkGray;
+}
+
+html .selectize-control.multi .selectize-dropdown .selected .caption {
+    color: @lightBaseBlue;
+}
+
+html .selectize-control.multi .selectize-input > div {
+    border: none !important;
+    border-radius: 0;
+}
+
+html .selectize-control.multi .selectize-input [data-value] {
+    background-color: @baseBlue;
+}
+
+html .selectize-control.multi .selectize-input [data-value] > .remove {
+    border-color: @baseBlue;
+}
+
+html .selectize-control.multi .selectize-input.full > input {
+    display: none;
+}
+
+.selectize-dropdown-content div.selected {
+    background-color: @baseBlue;
+    color: @white;
+}

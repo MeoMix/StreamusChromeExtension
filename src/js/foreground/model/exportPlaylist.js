@@ -6,7 +6,6 @@
         localStorage: new Backbone.LocalStorage('ExportPlaylist'),
 
         defaults: {
-            //  TODO: Seriously? Even though Backbone.LocalStorage takes an ID?
             //  Need to set the ID for Backbone.LocalStorage
             id: 'ExportPlaylist',
             playlist: null,

@@ -51,6 +51,7 @@
         },
         
         _showMenu: function () {
+            this.ui.menu.show();
             this.ui.menu.transition({
                 opacity: 1
             }, 200, 'snap');
@@ -62,7 +63,9 @@
         _hideMenu: function () {
             this.ui.menu.transition({
                 opacity: 0
-            }, 200, 'snap');
+            }, 200, 'snap', function() {
+                this.ui.menu.hide();
+            }.bind(this));
             
             this.ui.menuButton.removeClass('enabled');
             this.menuShown = false;

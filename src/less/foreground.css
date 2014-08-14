@@ -1,54 +1,383 @@
-/* TODO: Can I use lighten/darken on these to be more consistent? */
-@font-face {
-  font-family: 'Open Sans';
-  src: url('../font/OpenSans-Regular.ttf');
-  font-weight: normal;
-  font-style: normal;
-}
-@font-face {
-  font-family: 'Open Sans';
-  src: url('../font/OpenSans-Bold.ttf');
-  font-weight: bold;
-  font-style: normal;
-}
+/*! normalize.css v3.0.1 | MIT License | git.io/normalize */
+/**
+ * 1. Set default font family to sans-serif.
+ * 2. Prevent iOS text size adjust after orientation change, without disabling
+ *    user zoom.
+ */
 html {
-  width: 640px;
-  height: 410px;
+  font-family: sans-serif;
+  /* 1 */
+  -ms-text-size-adjust: 100%;
+  /* 2 */
+  -webkit-text-size-adjust: 100%;
+  /* 2 */
 }
+/**
+ * Remove default margin.
+ */
 body {
-  width: 100%;
-  height: 100%;
-  -webkit-user-select: none;
-  font: 13px/1.2 'Open Sans';
-  /* qtip overrides: */
+  margin: 0;
 }
-body > .spinner {
-  z-index: 1;
-  display: none;
-}
-body.loading > *:not(.spinner):not(#prompt-region) {
-  opacity: .2;
-}
-body.loading > .spinner {
+/* HTML5 display definitions
+   ========================================================================== */
+/**
+ * Correct `block` display not defined for any HTML5 element in IE 8/9.
+ * Correct `block` display not defined for `details` or `summary` in IE 10/11 and Firefox.
+ * Correct `block` display not defined for `main` in IE 11.
+ */
+article,
+aside,
+details,
+figcaption,
+figure,
+footer,
+header,
+hgroup,
+main,
+nav,
+section,
+summary {
   display: block;
 }
-body.hide-tooltips .qtip {
-  display: none !important;
+/**
+ * 1. Correct `inline-block` display not defined in IE 8/9.
+ * 2. Normalize vertical alignment of `progress` in Chrome, Firefox, and Opera.
+ */
+audio,
+canvas,
+progress,
+video {
+  display: inline-block;
+  /* 1 */
+  vertical-align: baseline;
+  /* 2 */
 }
-body .qtip {
-  min-width: 0;
+/**
+ * Prevent modern browsers from displaying `audio` without controls.
+ * Remove excess height in iOS 5 devices.
+ */
+audio:not([controls]) {
+  display: none;
+  height: 0;
+}
+/**
+ * Address `[hidden]` styling not present in IE 8/9/10.
+ * Hide the `template` element in IE 8/9/11, Safari, and Firefox < 22.
+ */
+[hidden],
+template {
+  display: none;
+}
+/* Links
+   ========================================================================== */
+/**
+ * Remove the gray background color from active links in IE 10.
+ */
+a {
+  background: transparent;
+}
+/**
+ * Improve readability when focused and also mouse hovered in all browsers.
+ */
+a:active,
+a:hover {
+  outline: 0;
+}
+/* Text-level semantics
+   ========================================================================== */
+/**
+ * Address styling not present in IE 8/9/10/11, Safari, and Chrome.
+ */
+abbr[title] {
+  border-bottom: 1px dotted;
+}
+/**
+ * Address style set to `bolder` in Firefox 4+, Safari, and Chrome.
+ */
+b,
+strong {
+  font-weight: bold;
+}
+/**
+ * Address styling not present in Safari and Chrome.
+ */
+dfn {
+  font-style: italic;
+}
+/**
+ * Address variable `h1` font-size and margin within `section` and `article`
+ * contexts in Firefox 4+, Safari, and Chrome.
+ */
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+/**
+ * Address styling not present in IE 8/9.
+ */
+mark {
+  background: #ff0;
+  color: #000;
+}
+/**
+ * Address inconsistent and variable font size in all browsers.
+ */
+small {
+  font-size: 80%;
+}
+/**
+ * Prevent `sub` and `sup` affecting `line-height` in all browsers.
+ */
+sub,
+sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+sup {
+  top: -0.5em;
+}
+sub {
+  bottom: -0.25em;
+}
+/* Embedded content
+   ========================================================================== */
+/**
+ * Remove border when inside `a` element in IE 8/9/10.
+ */
+img {
+  border: 0;
+}
+/**
+ * Correct overflow not hidden in IE 9/10/11.
+ */
+svg:not(:root) {
+  overflow: hidden;
+}
+/* Grouping content
+   ========================================================================== */
+/**
+ * Address margin not present in IE 8/9 and Safari.
+ */
+figure {
+  margin: 1em 40px;
+}
+/**
+ * Address differences between Firefox and other browsers.
+ */
+hr {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  height: 0;
+}
+/**
+ * Contain overflow in all browsers.
+ */
+pre {
+  overflow: auto;
+}
+/**
+ * Address odd `em`-unit font size rendering in all browsers.
+ */
+code,
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+/* Forms
+   ========================================================================== */
+/**
+ * Known limitation: by default, Chrome and Safari on OS X allow very limited
+ * styling of `select`, unless a `border` property is set.
+ */
+/**
+ * 1. Correct color not being inherited.
+ *    Known issue: affects color of disabled elements.
+ * 2. Correct font properties not being inherited.
+ * 3. Address margins set differently in Firefox 4+, Safari, and Chrome.
+ */
+button,
+input,
+optgroup,
+select,
+textarea {
+  color: inherit;
+  /* 1 */
+  font: inherit;
+  /* 2 */
+  margin: 0;
+  /* 3 */
+}
+/**
+ * Address `overflow` set to `hidden` in IE 8/9/10/11.
+ */
+button {
+  overflow: visible;
+}
+/**
+ * Address inconsistent `text-transform` inheritance for `button` and `select`.
+ * All other form control elements do not inherit `text-transform` values.
+ * Correct `button` style inheritance in Firefox, IE 8/9/10/11, and Opera.
+ * Correct `select` style inheritance in Firefox.
+ */
+button,
+select {
+  text-transform: none;
+}
+/**
+ * 1. Avoid the WebKit bug in Android 4.0.* where (2) destroys native `audio`
+ *    and `video` controls.
+ * 2. Correct inability to style clickable `input` types in iOS.
+ * 3. Improve usability and consistency of cursor style between image-type
+ *    `input` and others.
+ */
+button,
+html input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+  -webkit-appearance: button;
+  /* 2 */
+  cursor: pointer;
+  /* 3 */
+}
+/**
+ * Re-set default cursor for disabled elements.
+ */
+button[disabled],
+html input[disabled] {
   cursor: default;
 }
-body .qtip-light {
-  border-color: #ebebeb;
-  color: #666666;
+/**
+ * Remove inner padding and border in Firefox 4+.
+ */
+button::-moz-focus-inner,
+input::-moz-focus-inner {
+  border: 0;
+  padding: 0;
 }
-/* TODO: Add some area to prevent clipping of context menu */
-.full-overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
+/**
+ * Address Firefox 4+ setting `line-height` on `input` using `!important` in
+ * the UA stylesheet.
+ */
+input {
+  line-height: normal;
 }
+/**
+ * It's recommended that you don't attempt to style these elements.
+ * Firefox's implementation doesn't respect box-sizing, padding, or width.
+ *
+ * 1. Address box sizing set to `content-box` in IE 8/9/10.
+ * 2. Remove excess padding in IE 8/9/10.
+ */
+input[type="checkbox"],
+input[type="radio"] {
+  box-sizing: border-box;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+/**
+ * Fix the cursor style for Chrome's increment/decrement buttons. For certain
+ * `font-size` values of the `input`, it causes the cursor style of the
+ * decrement button to change from `default` to `text`.
+ */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  height: auto;
+}
+/**
+ * 1. Address `appearance` set to `searchfield` in Safari and Chrome.
+ * 2. Address `box-sizing` set to `border-box` in Safari and Chrome
+ *    (include `-moz` to future-proof).
+ */
+input[type="search"] {
+  -webkit-appearance: textfield;
+  /* 1 */
+  -moz-box-sizing: content-box;
+  -webkit-box-sizing: content-box;
+  /* 2 */
+  box-sizing: content-box;
+}
+/**
+ * Remove inner padding and search cancel button in Safari and Chrome on OS X.
+ * Safari (but not Chrome) clips the cancel button when the search input has
+ * padding (and `textfield` appearance).
+ */
+input[type="search"]::-webkit-search-cancel-button,
+input[type="search"]::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+/**
+ * Define consistent border, margin, and padding.
+ */
+fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 0 2px;
+  padding: 0.35em 0.625em 0.75em;
+}
+/**
+ * 1. Correct `color` not being inherited in IE 8/9/10/11.
+ * 2. Remove padding so people aren't caught out if they zero out fieldsets.
+ */
+legend {
+  border: 0;
+  /* 1 */
+  padding: 0;
+  /* 2 */
+}
+/**
+ * Remove default vertical scrollbar in IE 8/9/10/11.
+ */
+textarea {
+  overflow: auto;
+}
+/**
+ * Don't inherit the `font-weight` (applied by a rule above).
+ * NOTE: the default cannot safely be changed in Chrome and Safari on OS X.
+ */
+optgroup {
+  font-weight: bold;
+}
+/* Tables
+   ========================================================================== */
+/**
+ * Remove most spacing between table cells.
+ */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+td,
+th {
+  padding: 0;
+}
+/* Custom resets for Streamus' UI which aren't included in Normalize */
+input:focus,
+button:focus {
+  outline: none;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+/* Keep these inputs aligned more properly with their labels */
+input[type=checkbox],
+input[type=radio] {
+  vertical-align: middle;
+  position: relative;
+  bottom: 1px;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+/* TODO: Can I use lighten/darken on these to be more consistent? */
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
@@ -72,14 +401,79 @@ body .qtip-light {
 ::-webkit-scrollbar-thumb:vertical:hover {
   background-color: #666666;
 }
-/* Animation keyframes - you need to add prefixes */
-@-webkit-keyframes spin {
-  from {
-    -webkit-transform: rotate(0);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
+/* Selectize Configuration */
+.selectize-input,
+.selectize-input * {
+  border-radius: 0 !important;
+  background-image: none !important;
+}
+.selectize-dropdown {
+  border: none !important;
+}
+html .selectize-control .selectize-dropdown .caption {
+  font-size: 12px;
+  display: block;
+  color: #666666;
+}
+html .selectize-control.multi .selectize-dropdown .selected .caption {
+  color: #d7ebfa;
+}
+html .selectize-control.multi .selectize-input > div {
+  border: none !important;
+  border-radius: 0;
+}
+html .selectize-control.multi .selectize-input [data-value] {
+  background-color: #4ea6ea;
+}
+html .selectize-control.multi .selectize-input [data-value] > .remove {
+  border-color: #4ea6ea;
+}
+html .selectize-control.multi .selectize-input.full > input {
+  display: none;
+}
+.selectize-dropdown-content div.selected {
+  background-color: #4ea6ea;
+  color: #ffffff;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../font/OpenSans-Regular.ttf');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Open Sans';
+  src: url('../font/OpenSans-Bold.ttf');
+  font-weight: bold;
+  font-style: normal;
+}
+html {
+  width: 640px;
+  height: 410px;
+}
+body {
+  width: 100%;
+  height: 100%;
+  -webkit-user-select: none;
+  font: 13px/1.2 'Open Sans';
+  /* qtip overrides: */
+}
+body:not(.loading) > .spinner {
+  display: none;
+}
+body.loading > *:not(.above-fade-out) {
+  opacity: .2;
+}
+body.hide-tooltips .qtip {
+  display: none !important;
+}
+body .qtip {
+  min-width: 0;
+  cursor: default;
+}
+body .qtip-light {
+  border-color: #ebebeb;
+  color: #666666;
 }
 .prompt {
   bottom: 0;
@@ -91,8 +485,9 @@ body .qtip-light {
   z-index: 50;
   /* Reminder checkboxes always go in the bottom right of the prompt */
 }
-.prompt .title {
+.prompt .header .title {
   cursor: default;
+  margin-left: 10px;
 }
 .prompt .underline {
   height: 5px;
@@ -123,13 +518,12 @@ body .qtip-light {
 }
 .prompt .panel .header {
   background: #ffffff;
-  height: 26px;
+  height: 46px;
   right: 0;
   top: 0;
   left: 0;
-  line-height: 26px;
-  font-size: 1.3em;
-  padding: 10px;
+  line-height: 46px;
+  font-size: 1.2em;
 }
 .prompt .panel .content {
   padding: 10px;
@@ -196,7 +590,7 @@ body .qtip-light {
   left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 0 20px #666;
+  box-shadow: 0 0 20px #666666;
   font-size: 1.1em;
   transform: translate(0px, -40px);
 }
@@ -227,187 +621,11 @@ body .qtip-light {
 .notification.error button:hover {
   color: white;
 }
-/* TODO: Move the clear code into a separate import */
-input:focus,
-button:focus {
-  outline: none;
-}
-body,
-div,
-dl,
-dt,
-dd,
-ul,
-ol,
-li,
-h1,
-h2,
-h3,
-h4,
-h5,
-h6,
-pre,
-code,
-form,
-fieldset,
-legend,
-input,
-button,
-textarea,
-p,
-blockquote,
-th,
-td {
-  margin: 0;
-  padding: 0;
-}
-table {
-  border-collapse: collapse;
-  border-spacing: 0;
-}
-fieldset,
-img {
-  border: 0;
-}
-address,
-caption,
-cite,
-code,
-dfn,
-em,
-th,
-var,
-optgroup {
-  font-style: inherit;
-  font-weight: inherit;
-}
-del,
-ins {
-  text-decoration: none;
-}
-caption,
-th {
-  text-align: left;
-}
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-size: 100%;
-}
-q:before,
-q:after {
-  content: '';
-}
-abbr,
-acronym {
-  border: 0;
-  font-variant: normal;
-}
-sup {
-  vertical-align: baseline;
-}
-sub {
-  vertical-align: baseline;
-}
-legend {
-  color: #333333;
-}
-input,
-button,
-textarea,
-select,
-optgroup,
-option {
-  font-family: inherit;
-  font-size: inherit;
-  font-style: inherit;
-  font-weight: inherit;
-}
-input,
-button,
-textarea,
-select {
-  font-size: 100%;
-}
-a {
-  cursor: pointer;
-}
-/*** End clear code ***/
-.playlist-details {
-  color: #666666;
-  line-height: 1.5;
-  cursor: default;
-}
-.item-title {
-  font-size: 1.1em;
-  white-space: nowrap;
-  color: #333333;
-  cursor: default;
-  display: inline-block;
-  width: 100%;
-  box-sizing: border-box;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-left: 50px;
-}
-.item-details {
-  color: #666666;
-  font-size: .8em;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  display: block;
-  bottom: 0;
-  left: 50px;
-  position: absolute;
-  right: 10px;
-  cursor: default;
-}
-.item-count {
-  margin-right: 0.8em;
-}
-.item-author {
-  margin-right: 0.8em;
-}
-button:not(.disabled):active {
-  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
-}
 .button-icon {
   font-size: 14px;
   height: 45px;
   line-height: 45px;
   width: 40px;
-}
-.fa.fa-repeat.repeat-song:after {
-  content: '1';
-  border-radius: 50%;
-  background-color: #666666;
-  color: #ffffff;
-  font-size: 10px;
-  bottom: -3px;
-  position: relative;
-  right: 2px;
-  padding-left: 2px;
-  padding-right: 3px;
-  margin-right: -10px;
-  font-family: sans-serif;
-}
-.fa.fa-repeat.repeat-stream:after {
-  content: "\221E ";
-  border-radius: 50%;
-  background-color: #666666;
-  color: #ffffff;
-  font-size: 10px;
-  bottom: -3px;
-  position: relative;
-  right: 2px;
-  padding-left: 2px;
-  padding-right: 2px;
-  font-family: sans-serif;
-  margin-right: -10px;
 }
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
@@ -467,22 +685,38 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   width: 100%;
   height: 100%;
 }
-.left-pane-region#left-base-pane-region {
+.left-pane-region .left-pane .top-bar {
+  height: 45px;
+  left: 10px;
+  position: absolute;
+  top: 0;
+  right: 10px;
+}
+.left-pane-region .left-pane .top-bar .hide-search,
+.left-pane-region .left-pane .top-bar .show-playlists-area,
+.left-pane-region .left-pane .top-bar .show-search {
+  position: absolute;
+  top: 0;
+}
+.left-pane-region .left-pane .top-bar .hide-search,
+.left-pane-region .left-pane .top-bar .show-search {
+  right: 0;
+}
+.left-pane-region.left-pane-region.base {
   z-index: 1;
 }
-.left-pane-region#left-base-pane-region #left-base-pane {
+.left-pane-region.left-pane-region.base .left-pane {
   /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
 }
-.left-pane-region#left-base-pane-region #left-base-pane #playlist-title-region {
+.left-pane-region.left-pane-region.base .left-pane .playlist-title-region {
   width: 100%;
   padding-left: 50px;
   padding-right: 50px;
-  box-sizing: border-box;
   height: 45px;
   display: inline-block;
   vertical-align: top;
 }
-.left-pane-region#left-base-pane-region #left-base-pane #playlist-title-region #playlist-title {
+.left-pane-region.left-pane-region.base .left-pane .playlist-title-region .playlist-title {
   overflow: hidden;
   text-overflow: ellipsis;
   font-size: 1.1em;
@@ -490,18 +724,18 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   line-height: 45px;
   cursor: default;
 }
-.left-pane-region#left-base-pane-region #left-base-pane .fa-search {
+.left-pane-region.left-pane-region.base .left-pane .fa-search {
   font-size: 18px;
 }
-.left-pane-region#left-covering-pane-region {
+.left-pane-region.left-pane-region.covering {
   left: -60.15625%;
   z-index: 10;
 }
-.left-pane-region#left-covering-pane-region #search {
+.left-pane-region.left-pane-region.covering .left-pane {
   box-shadow: 0 0 10px #333333;
   /* Can't sort search */
 }
-.left-pane-region#left-covering-pane-region #search .sortable-placeholder {
+.left-pane-region.left-pane-region.covering .left-pane .sortable-placeholder {
   display: none;
 }
 .right-pane-region {
@@ -518,6 +752,45 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   background: #ffffff;
   width: 100%;
   height: 100%;
+}
+.right-pane-region .right-pane #stream-region {
+  position: absolute;
+  top: 79px;
+  bottom: 0;
+  right: 0;
+  left: 0;
+}
+.right-pane-region .right-pane #stream-region #stream {
+  width: 100%;
+  height: 100%;
+}
+.right-pane-region .right-pane #stream-region #stream .repeat-song:after {
+  content: '1';
+  border-radius: 50%;
+  background-color: #666666;
+  color: #ffffff;
+  font-size: 10px;
+  bottom: -3px;
+  position: relative;
+  right: 2px;
+  padding-left: 2px;
+  padding-right: 3px;
+  margin-right: -10px;
+  font-family: sans-serif;
+}
+.right-pane-region .right-pane #stream-region #stream .repeat-stream:after {
+  content: "\221E ";
+  border-radius: 50%;
+  background-color: #666666;
+  color: #ffffff;
+  font-size: 10px;
+  bottom: -3px;
+  position: relative;
+  right: 2px;
+  padding-left: 2px;
+  padding-right: 2px;
+  font-family: sans-serif;
+  margin-right: -10px;
 }
 .right-pane-region .top-bar {
   display: block;
@@ -537,6 +810,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 }
 .right-pane-region .top-bar #menu-region .menu {
   right: 10px;
+  display: none;
   opacity: 0;
 }
 .right-pane-region .top-bar #volume-region #volume {
@@ -554,7 +828,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   background: #ffffff;
   border: 1px solid #cacaca;
   width: 40px;
-  height: 80px;
+  height: 100px;
   position: absolute;
   top: 44px;
   padding-top: 10px;
@@ -578,6 +852,7 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   position: absolute;
   top: 10px;
   left: 21px;
+  cursor: pointer;
 }
 .right-pane-region .top-bar #volume-region #volume .volume-slider input:focus {
   outline: none;
@@ -628,36 +903,6 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   top: 0;
   width: 84px;
 }
-#stream-region {
-  position: absolute;
-  top: 79px;
-  bottom: 0;
-  right: 0;
-  left: 0;
-}
-#stream-region #stream {
-  width: 100%;
-  height: 100%;
-}
-#stream-region #stream .big-text-wrapper {
-  top: 0;
-  bottom: 40px;
-}
-/* Hide some messages in search */
-.big-text.hidden {
-  display: none;
-}
-.big-text-wrapper {
-  top: 55px;
-  bottom: 40px;
-  width: 100%;
-  left: 0;
-  right: 0;
-  position: absolute;
-}
-.big-text-wrapper.extended {
-  bottom: 5px;
-}
 .left-top-divider {
   background: #ebebeb;
   display: block;
@@ -688,6 +933,8 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   line-height: 30px;
   position: absolute;
   top: 0;
+  color: #666666;
+  cursor: default;
 }
 .left-bottom-menubar .playlist-actions {
   bottom: 0;
@@ -709,20 +956,17 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
   border: 5px solid #ffffff;
   position: relative;
   width: 100%;
-  box-sizing: border-box;
   overflow: hidden;
   text-overflow: ellipsis;
   transition: background-color 0.1s, border-color 0.1s;
   /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
 }
-.list-item.saving > *:not(.spinner):not(.buttons-region) {
+.list-item.saving > *:not(.above-fade-out) {
   opacity: .2;
 }
 .list-item.saving .spinner {
   display: block;
-  /* TODO: This is overriding spinner-small -- doesn't really make sense. */
-  top: 50%;
 }
 .list-item.ui-sortable-helper {
   background: #ebebeb;
@@ -735,7 +979,6 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 }
 .list-item:hover .item-title {
   width: 100%;
-  box-sizing: border-box;
   padding-right: 80px;
 }
 .list-item:hover i.hoverable {
@@ -816,6 +1059,30 @@ body.playing .list-item.active.stream-item .buttons-region button {
 .list-item .buttons-region button:hover {
   color: #000000;
 }
+.list-item .item-title {
+  font-size: 1.1em;
+  white-space: nowrap;
+  color: #333333;
+  cursor: default;
+  display: inline-block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 50px;
+}
+.list-item .item-details {
+  color: #666666;
+  font-size: .8em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+  bottom: 0;
+  left: 50px;
+  position: absolute;
+  right: 10px;
+  cursor: default;
+}
 .list-item .item-details,
 .list-item .buttons-region,
 .list-item .item-title {
@@ -839,6 +1106,7 @@ body.playing .list-item.active.stream-item .buttons-region button {
 #playlists .list-item {
   height: 28px;
   line-height: 18px;
+  cursor: default;
 }
 #playlists .list-item:hover i.fa-play {
   display: inline-block;
@@ -847,7 +1115,6 @@ body.playing .list-item.active.stream-item .buttons-region button {
   display: none;
 }
 #playlists .list-item i {
-  margin-right: .4em;
   display: inline-block;
   line-height: 18px;
   vertical-align: top;
@@ -855,17 +1122,17 @@ body.playing .list-item.active.stream-item .buttons-region button {
 }
 #playlists .list-item i.fa-play {
   display: none;
-  margin-left: .4em;
-  margin-right: .5em;
+  margin-left: .3em;
 }
 #playlists .list-item i.fa-play:hover {
   color: #000000;
 }
-#playlists .list-item * {
-  cursor: default;
+#playlists .list-item i.fa-list {
+  margin-right: -0.2em;
 }
 #playlists .list-item .title {
   white-space: nowrap;
+  cursor: default;
 }
 #playlists .list-item .count {
   background: #666666;
@@ -897,16 +1164,9 @@ body.playing .list-item.active.stream-item .buttons-region button {
 #playlists .list-item.loading .spinner {
   display: inline-block;
 }
-#playlists .list-item.loading .fa-list {
-  display: none;
-}
-#playlists .list-item .spinner {
-  display: none;
-}
-#playlists .spinner-small {
-  position: static;
-  margin-left: 0;
-  margin-right: .6em;
+#playlists .list-item.loading .fa-list,
+#playlists .list-item.loading .play {
+  display: none !important;
 }
 #playlists .title {
   display: inline-block;
@@ -914,13 +1174,11 @@ body.playing .list-item.active.stream-item .buttons-region button {
   text-overflow: ellipsis;
   width: 150px;
   line-height: 16px;
-}
-.spinner {
-  color: #4ea6ea;
+  margin-left: .8em;
 }
 .selected-models-length {
-  width: 15px !important;
-  height: 15px !important;
+  width: 19px !important;
+  height: 19px !important;
   padding: 2px;
   background-color: #333333;
   font-weight: bold;
@@ -929,37 +1187,6 @@ body.playing .list-item.active.stream-item .buttons-region button {
   text-align: center;
   z-index: 9999 !important;
   position: absolute !important;
-}
-input.invalid {
-  background-color: #ffcccc;
-}
-input.valid {
-  background-color: #b5dea3;
-}
-.create-playlist-prompt input[type="text"],
-.edit-playlist-prompt input[type="text"] {
-  z-index: 1;
-  -webkit-appearance: none;
-  border: 0;
-  padding: 0 .2em;
-  font: bold 14px/1 sans-serif;
-  height: 24px;
-  width: 300px;
-}
-.input-underline-wrapper {
-  display: inline-block;
-}
-.input-underline-wrapper .underline {
-  margin-left: -1px;
-}
-.underline {
-  background-color: #ebebeb;
-  transition: background-color 0.3s;
-  z-index: 0;
-  height: 5px;
-}
-input:focus ~ .underline {
-  background-color: #4ea6ea;
 }
 #active-playlist-items .sortable-placeholder {
   /* Don't allow duplicates to be dropped into playlist items */
@@ -977,7 +1204,6 @@ input:focus ~ .underline {
 .search-bar {
   height: 45px;
   width: 100%;
-  box-sizing: border-box;
   padding-right: 43px;
   display: inline-block;
   vertical-align: top;
@@ -997,17 +1223,7 @@ input:focus ~ .underline {
   position: absolute;
   top: 10px;
   z-index: 1;
-  width: calc(100% - 73px);
-}
-.big-text {
-  cursor: default;
-  color: #666666;
-  margin: 2em 1em;
-  text-align: center;
-}
-.big-text .fa.i-4x {
-  margin-bottom: 10px;
-  display: block;
+  width: calc(100% - 67px);
 }
 #time-progress-region {
   top: 45px;
@@ -1151,130 +1367,45 @@ input:focus ~ .underline {
   background-color: #ebebeb;
   height: 1px;
 }
-/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
-i {
-  font-size: 14px;
-}
-i.fa-lg {
-  font-size: 19px;
-}
-i.i-2x {
-  font-size: 28px;
-}
-i.i-4x {
-  font-size: 56px;
-}
-/* Selectize Configuration */
-.selectize-input,
-.selectize-input * {
-  border-radius: 0 !important;
-  background-image: none !important;
-}
-.selectize-dropdown {
-  border: none !important;
-}
-html .selectize-control .selectize-dropdown .caption {
-  font-size: 12px;
-  display: block;
-  color: #666666;
-}
-html .selectize-control.multi .selectize-dropdown .selected .caption {
-  color: #d7ebfa;
-}
-html .selectize-control.multi .selectize-input > div {
-  border: none !important;
-  border-radius: 0;
-}
-html .selectize-control.multi .selectize-input [data-value] {
-  background-color: #4ea6ea;
-}
-html .selectize-control.multi .selectize-input [data-value] > .remove {
-  border-color: #4ea6ea;
-}
-html .selectize-control.multi .selectize-input.full > input {
-  display: none;
-}
-.selectize-dropdown-content div.selected {
-  background-color: #4ea6ea;
-  color: #ffffff;
-}
-/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
-.sortable-placeholder {
-  background-color: #ebebeb;
-  border-color: #ebebeb;
-}
-.sortable-placeholder.hidden-until-change {
-  display: none;
-}
-.clickable:not(.disabled) {
-  cursor: pointer !important;
-}
-#search .big-text {
-  z-index: 1;
-}
-#content-region .big-text,
-#search .big-text {
-  background-color: #ffffff;
+.big-text-wrapper {
   position: absolute;
-  bottom: 0;
-  top: 0;
+  top: 55px;
+  bottom: 40px;
   left: 0;
   right: 0;
-  margin: 0;
-  padding-top: 60px;
 }
-.big-text.stream-empty {
+#stream-region .big-text-wrapper {
+  top: 0;
+  bottom: 40px;
+}
+.big-text-wrapper.extended {
+  bottom: 5px;
+}
+.big-text-wrapper .big-text {
+  /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
   position: absolute;
+  /* width: 100% so that text-align center works properly with position: absolute */
+  width: 100%;
+  cursor: default;
+  color: #666666;
+  text-align: center;
+}
+.left-pane-region .big-text-wrapper .big-text {
+  margin-top: 60px;
+}
+.right-pane-region .big-text-wrapper .big-text {
   margin-top: 36px;
 }
-.big-text-header {
+.big-text-wrapper .big-text.hidden {
+  display: none;
+}
+.big-text-wrapper .big-text .header {
   font-size: 23px;
   color: #333333;
   margin-bottom: 15px;
 }
-.big-text-header.clickable {
-  display: inline;
-}
-.search-link {
+.big-text-wrapper .big-text .search-link {
   color: #4ea6ea;
-}
-ul,
-li {
-  list-style: none;
-}
-.remindersList li {
-  margin-left: 20px;
-  margin-top: 10px;
-}
-input[type=checkbox],
-input[type=radio] {
-  vertical-align: middle;
-  position: relative;
-  bottom: 1px;
-}
-input[type=radio] {
-  bottom: 2px;
-}
-.topic {
-  font-size: 1.1em;
-  cursor: default;
-}
-.topic:not(:first-of-type) {
-  margin-top: 5px;
-}
-.category {
-  margin-left: 10px;
-  margin-top: 5px;
-}
-.category li {
-  padding: 5px 0;
-  cursor: default;
-}
-.category li input[type="checkbox"],
-.category li label,
-.category li select,
-.category li option {
-  cursor: pointer;
 }
 button {
   color: #333333;
@@ -1290,6 +1421,9 @@ button {
 button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {
   color: #000000;
 }
+button:not(.disabled):active {
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+}
 button.enabled {
   color: #4ea6ea;
 }
@@ -1299,73 +1433,60 @@ button > i {
 button.mute.muted {
   color: #e74c3c;
 }
-.lowercase {
-  text-transform: lowercase;
-}
 @-webkit-keyframes spin {
   from {
-    -webkit-transform: rotate(0deg);
+    transform: rotate(0);
   }
   to {
-    -webkit-transform: rotate(360deg);
+    transform: rotate(360deg);
   }
 }
 .spinner {
-  position: absolute;
   border: 1px solid #4ea6ea;
+  color: #4ea6ea;
   border-left-color: transparent;
   border-top-color: transparent;
   border-radius: 50%;
-  -webkit-box-sizing: border-box;
   -webkit-animation-name: spin;
   -webkit-animation-duration: 700ms;
   -webkit-animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
 }
-.spinner-big {
+.spinner.large {
   width: 32px;
   height: 32px;
+  border-width: 4px;
+}
+.spinner.large.absolute-center {
+  position: absolute;
   top: 50%;
   left: 50%;
   margin: -16px 0 0 -16px;
-  border-width: 4px;
 }
-.big-text .spinner-medium {
-  top: 33%;
-}
-.spinner-medium {
+.spinner.medium {
   width: 24px;
   height: 24px;
   border-width: 2px;
-  top: 50%;
-  left: 50%;
-  margin: -12px 0 0 -12px;
 }
-.selected .spinner {
-  border-color: #ffffff;
-  border-left-color: transparent;
-  border-top-color: transparent;
-}
-.button-icon .spinner-small {
-  display: inline-block;
-  position: static;
-  margin: 0;
-  margin-bottom: -3px;
-}
-.spinner-small {
+.spinner.small {
   width: 16px;
   height: 16px;
   border-width: 1px;
-  top: 40%;
+  /* This is for the Play/Pause button when it is buffering */
+}
+.spinner.small.absolute-center {
+  position: absolute;
+  top: 50%;
   left: 50%;
   margin: -8px 0 0 -8px;
 }
-.left-top-bar {
-  height: 45px;
-  left: 10px;
-  position: absolute;
-  top: 0;
-  right: 10px;
+.button-icon .spinner.small {
+  display: inline-block;
+  margin-bottom: -3px;
+}
+.spinner.text-center {
+  margin-left: auto;
+  margin-right: auto;
 }
 .menu {
   box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.2);
@@ -1374,6 +1495,7 @@ button.mute.muted {
   z-index: 100;
   padding: 5px 0;
   border: 1px solid #cacaca;
+  /* Hide context-menu if there's nothing in it */
 }
 .menu li {
   overflow: hidden;
@@ -1387,7 +1509,7 @@ button.mute.muted {
 .menu li:not(.disabled):hover {
   background: #ebebeb;
 }
-#context-menu:empty {
+.menu:empty {
   display: none;
 }
 .topic-group {
@@ -1397,17 +1519,87 @@ button.mute.muted {
 .topic-group:not(:last-child) {
   margin-right: 20px;
 }
-#suggested-quality {
+.topic-group .topic {
+  font-size: 1.1em;
+  cursor: default;
+}
+.topic-group .topic:not(:first-of-type) {
+  margin-top: 5px;
+}
+.topic-group .category {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+.topic-group .category li {
+  padding: 5px 0;
+  cursor: default;
+}
+.topic-group .category li input[type="checkbox"],
+.topic-group .category li label,
+.topic-group .category li select,
+.topic-group .category li option {
+  cursor: pointer;
+}
+/* TODO: Organize this shit. */
+.lowercase {
+  text-transform: lowercase;
+}
+.suggested-quality {
   margin-top: -5px;
   margin-bottom: -5px;
 }
-button#hide-search,
-button.show-playlists-area,
-button.show-search {
-  position: absolute;
-  top: 0;
+/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
+i {
+  font-size: 14px;
 }
-button#hide-search,
-button.show-search {
-  right: 0;
+i.fa-lg {
+  font-size: 19px;
+}
+/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
+.sortable-placeholder {
+  background-color: #ebebeb;
+  border-color: #ebebeb;
+}
+.sortable-placeholder.hidden-until-change {
+  display: none;
+}
+.clickable:not(.disabled) {
+  cursor: pointer !important;
+}
+.input-underline-wrapper {
+  display: inline-block;
+}
+.input-underline-wrapper .underline {
+  margin-left: -1px;
+}
+.underline {
+  background-color: #ebebeb;
+  transition: background-color 0.3s;
+  z-index: 0;
+  height: 5px;
+}
+input:focus ~ .underline {
+  background-color: #4ea6ea;
+}
+input.invalid {
+  background-color: #ffcccc;
+}
+input.valid {
+  background-color: #b5dea3;
+}
+.create-playlist-prompt input[type="text"],
+.edit-playlist-prompt input[type="text"] {
+  z-index: 1;
+  -webkit-appearance: none;
+  border: 0;
+  padding: 0 .2em;
+  font: bold 14px/1 sans-serif;
+  height: 24px;
+  width: 306px;
+}
+/* TODO: Add some area to prevent clipping of context menu */
+.full-overlay {
+  width: 100%;
+  height: 100%;
+  position: absolute;
 }

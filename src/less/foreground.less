@@ -1,24 +1,8 @@
-﻿@baseBlue: #4EA6EA;
-@lightBaseBlue: lighten(@baseBlue, 30%);
-
-/* TODO: Can I use lighten/darken on these to be more consistent? */
-@lightGray: #ebebeb;
-@mediumLightGray: #cacaca;
-@mediumDarkGray: #666;
-@darkGray: #333;
-@white: #fff;
-@black: #000;
-
-@invalidRed: #ffcccc;
-@validGreen: #B5DEA3;
-
-//  http://flatuicolors.com/
-@nephritis: #27ae60;
-@lightNephritis: lighten(@nephritis, 30%);
-@sunflower: #f1c40f;
-@lightSunflower: lighten(@sunflower, 30%);
-@alizarin: #e74c3c;
-@lightAlizarin: lighten(@alizarin, 30%);
+﻿@import "normalize";
+@import "reset";
+@import "colorPallete";
+@import "scrollbars";
+@import "selectize";
 
 //  Width is set as 385px / 640px, TODO: follow golden ratio more closely
 @leftPaneWidth: 60.15625%;
@@ -50,17 +34,12 @@ body {
     -webkit-user-select: none;
     font: 13px/1.2 'Open Sans';
 
-    & > .spinner {
-        z-index: 1;
+    &:not(.loading) > .spinner {
         display: none;
     }
 
-    &.loading > *:not(.spinner):not(#prompt-region) {
+    &.loading > *:not(.above-fade-out) {
         opacity: .2;
-    }
-
-    &.loading > .spinner {
-        display: block;
     }
 
     &.hide-tooltips {
@@ -81,51 +60,6 @@ body {
     }
 }
 
-/* TODO: Add some area to prevent clipping of context menu */
-.full-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-}
-
-/* Custom Webkit Scrollbar */
-/* http://css-tricks.com/custom-scrollbars-in-webkit/ */
-::-webkit-scrollbar {
-    height: 4px;
-    width: 8px;
-}
-
-/* Ensure no buttons are displayed */
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment {
-     height: 0;
-}
-
-::-webkit-scrollbar-track-piece {
-    background-color: @white;
-    width: 8px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
-    background-color: @lightGray;
-    height: 50px;
-    transition: background-color .1s;
-}
-
-::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: @mediumDarkGray;
-}
-
-/* Animation keyframes - you need to add prefixes */
-@-webkit-keyframes spin {
-    from {
-        -webkit-transform: rotate(0);
-        }
-    to {
-        -webkit-transform: rotate(360deg);
-       }
-}
-
 .prompt {
     bottom: 0;
     display: block;
@@ -135,8 +69,11 @@ body {
     top: 0;
     z-index: 50;
 
-    .title {
-        cursor: default;
+    .header {
+        .title {
+            cursor: default;
+            margin-left: 10px;
+        }
     }
 
     .underline {
@@ -172,13 +109,12 @@ body {
 
         .header {
             background: @white;
-            height: 26px;
+            height: 46px;
             right: 0;
             top: 0;
             left: 0;
-            line-height: 26px;
-            font-size: 1.3em;
-            padding: 10px;
+            line-height: 46px;
+            font-size: 1.2em;
         }
 
         .content {
@@ -261,7 +197,7 @@ body {
     left: 0;
     right: 0;
     top: 0;
-    box-shadow: 0 0 20px #666;
+    box-shadow: 0 0 20px @mediumDarkGray;
     font-size: 1.1em;
     transform: translate(0px, -40px);
 
@@ -300,133 +236,11 @@ body {
     }
 }
 
-/* TODO: Move the clear code into a separate import */
-input:focus, button:focus { outline: none }
-
-body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, code, form, fieldset, legend, input, button, textarea, p, blockquote, th, td {
-    margin: 0;
-    padding: 0
-}
-
-table {
-    border-collapse: collapse;
-    border-spacing: 0
-}
-
-fieldset, img { border: 0 }
-
-address, caption, cite, code, dfn, em, th, var, optgroup {
-    font-style: inherit;
-    font-weight: inherit
-}
-
-del, ins { text-decoration: none }
-
-caption, th { text-align: left }
-
-h1, h2, h3, h4, h5, h6 { font-size: 100% }
-
-q:before, q:after { content: '' }
-
-abbr, acronym {
-    border: 0;
-    font-variant: normal
-}
-
-sup { vertical-align: baseline }
-
-sub { vertical-align: baseline }
-
-legend { color: @darkGray }
-
-input, button, textarea, select, optgroup, option {
-    font-family: inherit;
-    font-size: inherit;
-    font-style: inherit;
-    font-weight: inherit
-}
-
-input, button, textarea, select { font-size: 100% }
-
-a { cursor: pointer }
-
-/*** End clear code ***/
-
-.playlist-details {
-    color: @mediumDarkGray;
-    line-height: 1.5;
-    cursor: default;
-}
-
-.item-title {
-    font-size: 1.1em;
-    white-space: nowrap;
-    color: @darkGray;
-    cursor: default;
-    display: inline-block;
-    width: 100%;
-    box-sizing: border-box;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding-left: 50px;
-}
-
-.item-details {
-    color: @mediumDarkGray;
-    font-size: .8em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    display: block;
-    bottom: 0;
-    left: 50px;
-    position: absolute;
-    right: 10px;
-    cursor: default;
-}
-
-.item-count { margin-right: .8em }
-.item-author { margin-right: .8em }
-
-button:not(.disabled):active {
-    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3)
-}
-
 .button-icon {
     font-size: 14px;
     height: 45px;
     line-height: 45px;
     width: 40px;
-}
-
-.fa.fa-repeat.repeat-song:after {
-    content: '1';
-    border-radius: 50%;
-    background-color: @mediumDarkGray;
-    color: @white;
-    font-size: 10px;
-    bottom: -3px;
-    position: relative;
-    right: 2px;
-    padding-left: 2px;
-    padding-right: 3px;
-    margin-right: -10px;
-    font-family: sans-serif;
-}
-
-.fa.fa-repeat.repeat-stream:after {
-    content: "\221E ";
-    border-radius: 50%;
-    background-color: @mediumDarkGray;
-    color: @white;
-    font-size: 10px;
-    bottom: -3px;
-    position: relative;
-    right: 2px;
-    padding-left: 2px;
-    padding-right: 2px;
-    font-family: sans-serif;
-    margin-right: -10px;
 }
 
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
@@ -495,22 +309,41 @@ input[type="range"] {
         background: @white;
         width: 100%;
         height: 100%;
+
+        .top-bar {
+            height: 45px;
+            left: 10px;
+            position: absolute;
+            top: 0;
+            right: 10px;
+
+            .hide-search,
+            .show-playlists-area,
+            .show-search {
+                position: absolute;
+                top: 0;
+            }
+
+            .hide-search,
+            .show-search {
+                right: 0;
+            }
+        }
     }
 
-    &#left-base-pane-region {
+    &.left-pane-region.base {
         z-index: 1;
 
-        #left-base-pane {
-            #playlist-title-region {
+        .left-pane {
+            .playlist-title-region {
                 width: 100%;
                 padding-left: 50px;
                 padding-right: 50px;
-                box-sizing: border-box;
                 height: 45px;
                 display: inline-block;
                 vertical-align: top;
 
-                #playlist-title {
+                .playlist-title {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     font-size: 1.1em;
@@ -527,11 +360,11 @@ input[type="range"] {
         }
     }
 
-    &#left-covering-pane-region {
+    &.left-pane-region.covering {
         left: -1 * @leftPaneWidth;
         z-index: 10;
         
-        #search {
+        .left-pane {
             box-shadow: 0 0 10px @darkGray;
 
             /* Can't sort search */
@@ -557,6 +390,49 @@ input[type="range"] {
         background: @white;
         width: 100%;
         height: 100%;
+
+        #stream-region {
+            position: absolute;
+            top: 79px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+
+            #stream {
+                width: 100%;
+                height: 100%;
+
+                .repeat-song:after {
+                    content: '1';
+                    border-radius: 50%;
+                    background-color: @mediumDarkGray;
+                    color: @white;
+                    font-size: 10px;
+                    bottom: -3px;
+                    position: relative;
+                    right: 2px;
+                    padding-left: 2px;
+                    padding-right: 3px;
+                    margin-right: -10px;
+                    font-family: sans-serif;
+                }
+
+                .repeat-stream:after {
+                    content: "\221E ";
+                    border-radius: 50%;
+                    background-color: @mediumDarkGray;
+                    color: @white;
+                    font-size: 10px;
+                    bottom: -3px;
+                    position: relative;
+                    right: 2px;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    font-family: sans-serif;
+                    margin-right: -10px;
+                }
+            }
+        }
     }
 
     .top-bar {
@@ -577,6 +453,7 @@ input[type="range"] {
 
             .menu {
                 right: 10px;
+                display: none;
                 opacity: 0;
             }
         }
@@ -597,7 +474,7 @@ input[type="range"] {
                     background: @white;
                     border: 1px solid @mediumLightGray;
                     width: 40px;
-                    height: 80px;
+                    height: 100px;
                     position: absolute;
                     top: 44px;
                     padding-top: 10px;
@@ -622,6 +499,7 @@ input[type="range"] {
                         position: absolute;
                         top: 10px;
                         left: 21px;
+                        cursor: pointer;
 
                         &:focus {
                             outline: none;
@@ -684,42 +562,6 @@ input[type="range"] {
     }
 }
 
-#stream-region {
-    position: absolute;
-    top: 79px;
-    bottom: 0;
-    right: 0;
-    left: 0;
-
-    #stream {
-        width: 100%;
-        height: 100%;
-
-        .big-text-wrapper {
-            top: 0;
-            bottom: 40px;
-        }
-    }
-}
-
-/* Hide some messages in search */
-.big-text.hidden {
-    display: none;
-}
-
-.big-text-wrapper {
-    top: 55px;
-    bottom: 40px;
-    width: 100%;
-    left: 0;
-    right: 0;
-    position: absolute;
-
-    &.extended {
-        bottom: 5px;   
-    }
-}
-
 .left-top-divider {
     background: @lightGray;
     display: block;
@@ -752,6 +594,8 @@ input[type="range"] {
         line-height: 30px;
         position: absolute;
         top: 0;
+        color: @mediumDarkGray;
+        cursor: default;
     }
 
     .playlist-actions {
@@ -777,20 +621,17 @@ input[type="range"] {
     border: 5px solid @white;
     position: relative;
     width: 100%;
-    box-sizing: border-box;
     overflow: hidden;
     text-overflow: ellipsis;
     transition: background-color .1s, border-color .1s;
 
     &.saving {
-        &> *:not(.spinner):not(.buttons-region) {
+        &> *:not(.above-fade-out) {
             opacity: .2;
         }
 
         .spinner {
             display: block;
-            /* TODO: This is overriding spinner-small -- doesn't really make sense. */
-            top: 50%; 
         }
     }
 
@@ -805,7 +646,6 @@ input[type="range"] {
 
         .item-title {
             width: 100%;
-            box-sizing: border-box;
             padding-right: 80px;
         }
 
@@ -905,6 +745,32 @@ input[type="range"] {
         }
     }
 
+    .item-title {
+        font-size: 1.1em;
+        white-space: nowrap;
+        color: @darkGray;
+        cursor: default;
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        padding-left: 50px;
+    }
+
+    .item-details {
+        color: @mediumDarkGray;
+        font-size: .8em;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+        bottom: 0;
+        left: 50px;
+        position: absolute;
+        right: 10px;
+        cursor: default;
+    }
+
     .item-details,
     .buttons-region,
     .item-title {
@@ -933,6 +799,7 @@ input[type="range"] {
     .list-item {
         height: 28px;
         line-height: 18px;
+        cursor: default;
 
         &:hover {
             i.fa-play {
@@ -945,7 +812,6 @@ input[type="range"] {
         }
 
         i {
-            margin-right: .4em;
             display: inline-block;
             line-height: 18px;
             vertical-align: top;
@@ -953,21 +819,21 @@ input[type="range"] {
 
             &.fa-play {
                 display: none;
-                margin-left: .4em;
-                margin-right: .5em;
+                margin-left: .3em;
 
                 &:hover {
                     color: @black;
                 }
             }
-        }
 
-        * {
-            cursor: default;
+            &.fa-list {
+                margin-right: -.2em;
+            }
         }
 
         .title {
             white-space: nowrap;
+            cursor: default;
         }
 
         .count {
@@ -1007,20 +873,11 @@ input[type="range"] {
                 display: inline-block;
             }
 
-            .fa-list {
-                display: none;
+            .fa-list,
+            .play {
+                display: none !important;
             }
         }
-
-        .spinner {
-            display: none;
-        }
-    }
-
-    .spinner-small {
-        position: static;
-        margin-left: 0;
-        margin-right: .6em;
     }
 
     .title {
@@ -1029,16 +886,13 @@ input[type="range"] {
         text-overflow: ellipsis;
         width: 150px;
         line-height: 16px;
+        margin-left: .8em;
     }
 }
 
-.spinner {
-    color: @baseBlue;
-}
-
 .selected-models-length {
-    width: 15px !important;
-    height: 15px !important;
+    width: 19px !important;
+    height: 19px !important;
     padding: 2px;
     background-color: @darkGray;
     font-weight: bold;
@@ -1049,48 +903,7 @@ input[type="range"] {
     position: absolute !important;
 }
 
-input {
-    &.invalid {
-        background-color: @invalidRed;
-    }
-
-    &.valid {
-        background-color: @validGreen;   
-    }
-}
-
-.create-playlist-prompt input[type="text"],
-.edit-playlist-prompt input[type="text"] {
-    z-index: 1;
-    -webkit-appearance: none;
-    border: 0;
-    padding: 0 .2em;
-    font: bold 14px/1 sans-serif;
-    height: 24px;
-    width: 300px;
-}
-
-.input-underline-wrapper {
-    display: inline-block;
-
-    .underline {
-        margin-left: -1px;
-    }
-}
-
-.underline {
-    background-color: @lightGray;
-    transition: background-color .3s;
-    z-index: 0;
-    height: 5px;
-}
-
-input:focus  ~ .underline {
-    background-color: @baseBlue;
-}
-
 #active-playlist-items {
-
     .sortable-placeholder {
         &.not-signed-in {
             display: none;
@@ -1107,11 +920,9 @@ input:focus  ~ .underline {
     }
 }
 
-
 .search-bar {
     height: 45px;
     width: 100%;
-    box-sizing: border-box;
     padding-right: 43px;
     display: inline-block;
     vertical-align: top;
@@ -1132,19 +943,7 @@ input:focus  ~ .underline {
         position: absolute;
         top: 10px;
         z-index: 1;
-        width: calc(~"100% - 73px");
-    }
-}
-
-.big-text {
-    cursor: default;
-    color: @mediumDarkGray;
-    margin: 2em 1em;
-    text-align: center;
-
-    .fa.i-4x {
-        margin-bottom: 10px;
-        display: block;
+        width: calc(~"100% - 67px");
     }
 }
 
@@ -1204,8 +1003,6 @@ input:focus  ~ .underline {
         }
     }
 }
-
-
 
 #playlists-area {
     bottom: 0;
@@ -1311,145 +1108,51 @@ input:focus  ~ .underline {
     height: 1px;
 }
 
-/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
-i { font-size: 14px; }
-
-i.fa-lg { font-size: 19px; }
-
-i.i-2x { font-size: 28px }
-
-i.i-4x { font-size: 56px }
-
-/* Selectize Configuration */
-.selectize-input,
-.selectize-input * {
-    border-radius: 0 !important;
-    background-image: none !important;
-}
-
-.selectize-dropdown {
-    border: none !important;
-}
-
-html .selectize-control .selectize-dropdown .caption {
-    font-size: 12px;
-    display: block;
-    color: @mediumDarkGray;
-}
-
-html .selectize-control.multi .selectize-dropdown .selected .caption {
-    color: @lightBaseBlue;
-}
-
-html .selectize-control.multi .selectize-input > div {
-    border: none !important;
-    border-radius: 0;
-}
-
-html .selectize-control.multi .selectize-input [data-value] {
-    background-color: @baseBlue;
-}
-
-html .selectize-control.multi .selectize-input [data-value] > .remove {
-    border-color: @baseBlue;
-}
-
-html .selectize-control.multi .selectize-input.full > input {
-    display: none;
-}
-
-.selectize-dropdown-content div.selected {
-    background-color: @baseBlue;
-    color: @white;
-}
-
-/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
-.sortable-placeholder {
-    background-color: @lightGray;
-    border-color: @lightGray;
-
-    &.hidden-until-change {
-        display: none;
-    }
-}
-
-.clickable:not(.disabled) {
-    cursor: pointer !important;
-}
-
-#search .big-text {
-    z-index: 1;
-}
-
-#content-region .big-text,
-#search .big-text {
-    background-color: @white;
+.big-text-wrapper {
     position: absolute;
-    bottom: 0;
-    top: 0;
+    top: 55px;
+    bottom: 40px;
     left: 0;
     right: 0;
-    margin: 0;
-    padding-top: 60px;
-}
 
-.big-text.stream-empty {
-    position: absolute;
-    margin-top: 36px;
-}
-
-.big-text-header {
-    font-size: 23px;
-    color: @darkGray;
-    margin-bottom: 15px;
-}
-
-.big-text-header.clickable {
-    display: inline;
-}
- 
-.search-link {
-    color: @baseBlue;
-}
-
-ul, li {
-    list-style: none;   
-}
-
-.remindersList li {
-    margin-left: 20px;
-    margin-top: 10px;
-}
-
-input[type=checkbox], input[type=radio] {
-    vertical-align: middle;
-    position: relative;
-    bottom: 1px;
-}
-
-input[type=radio] {
-    bottom: 2px;
-}
-
-.topic {
-    font-size: 1.1em;
-    cursor: default;
-
-    &:not(:first-of-type){
-        margin-top: 5px;
+    #stream-region & {
+        top: 0;
+        bottom: 40px;
     }
-}
 
-.category {
-    margin-left: 10px;
-    margin-top: 5px;
+    &.extended {
+        bottom: 5px;   
+    }
 
-    li {
-        padding: 5px 0;
+    .big-text {
+        /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
+        position: absolute;
+        /* width: 100% so that text-align center works properly with position: absolute */
+        width: 100%;
         cursor: default;
+        color: @mediumDarkGray;
+        text-align: center;
 
-        input[type="checkbox"], label, select, option {
-            cursor: pointer;
+        .left-pane-region & {
+            margin-top: 60px;
+        }
+
+        .right-pane-region & {
+            margin-top: 36px;
+        }
+
+        &.hidden {
+            display: none;
+        }
+
+        .header {
+            font-size: 23px;
+            color: @darkGray;
+            margin-bottom: 15px;
+        }
+
+        .search-link {
+            color: @baseBlue;
         }
     }
 }
@@ -1465,11 +1168,13 @@ button {
 
     /* TODO: Remove this */
     &:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored){
-
         &:hover {
             color: @black;
         }
+    }
 
+    &:not(.disabled):active {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3)
     }
 
     &.enabled {
@@ -1486,78 +1191,64 @@ button {
     }
 }
 
-.lowercase {
-    text-transform: lowercase;
-}
-
 @-webkit-keyframes spin {
-    from { -webkit-transform: rotate(0deg); }
-    to { -webkit-transform: rotate(360deg); }
+    from { transform: rotate(0); }
+    to { transform: rotate(360deg); }
 }
 
 .spinner {
-  position: absolute;
-  border: 1px solid @baseBlue;
-  border-left-color: transparent;
-  border-top-color: transparent;
-  border-radius: 50%;
-  -webkit-box-sizing: border-box;
-  -webkit-animation-name: spin;
-  -webkit-animation-duration: 700ms;
-  -webkit-animation-iteration-count: infinite;
-  -webkit-animation-timing-function: linear;
-}
-
-.spinner-big {
-  width: 32px;
-  height: 32px;
-  top: 50%;
-  left: 50%;
-  margin: -16px 0 0 -16px;
-  border-width: 4px;  
-}
-
-.big-text .spinner-medium {
-    top: 33%;
-}
-
-.spinner-medium {
-  width: 24px;
-  height: 24px;
-  border-width: 2px;
-  top: 50%;
-  left: 50%;
-  margin: -12px 0 0 -12px;
-}
-
-.selected .spinner {
-    border-color: @white;
+    border: 1px solid @baseBlue;
+    color: @baseBlue;
     border-left-color: transparent;
     border-top-color: transparent;
-}
+    border-radius: 50%;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 700ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
 
-.button-icon .spinner-small {
-    display:inline-block;
-    position: static;
-    margin: 0;
-    margin-bottom: -3px;
-}
+    &.large {
+        width: 32px;
+        height: 32px;
+        border-width: 4px;
 
-.spinner-small {
-  width: 16px;
-  height: 16px;
-  border-width: 1px;
-  top: 40%;
-  left: 50%;
-  margin: -8px 0 0 -8px;
-}
+        &.absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+             margin: -16px 0 0 -16px;
+        }
+    }
 
-.left-top-bar {
-    height: 45px;
-    left: 10px;
-    position: absolute;
-    top: 0;
-    right: 10px;
+    &.medium {
+        width: 24px;
+        height: 24px;
+        border-width: 2px;
+    }
+
+    &.small {
+        width: 16px;
+        height: 16px;
+        border-width: 1px;
+
+        &.absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+        }
+
+        /* This is for the Play/Pause button when it is buffering */
+        .button-icon & {
+            display: inline-block;
+            margin-bottom: -3px;
+        }
+    }
+
+    &.text-center {
+        margin-left: auto;
+        margin-right: auto;
+    }
 }
 
 .menu {
@@ -1581,9 +1272,8 @@ button {
             background: @lightGray;
         }
     }
-}
 
-#context-menu {
+    /* Hide context-menu if there's nothing in it */
     &:empty {
         display: none;
     }
@@ -1596,21 +1286,102 @@ button {
     &:not(:last-child) {
         margin-right: 20px;
     }
+
+    .topic {
+        font-size: 1.1em;
+        cursor: default;
+
+        &:not(:first-of-type){
+            margin-top: 5px;
+        }
+    }
+
+    .category {
+        margin-left: 10px;
+        margin-top: 5px;
+
+        li {
+            padding: 5px 0;
+            cursor: default;
+
+            input[type="checkbox"], label, select, option {
+                cursor: pointer;
+            }
+        }
+    }
 }
 
-#suggested-quality {
+/* TODO: Organize this shit. */
+.lowercase {
+    text-transform: lowercase;
+}
+
+.suggested-quality {
     margin-top: -5px;
     margin-bottom: -5px;
 }
 
-button#hide-search,
-button.show-playlists-area,
-button.show-search {
-    position: absolute;
-    top: 0;
+/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
+i { font-size: 14px; }
+i.fa-lg { font-size: 19px; }
+
+/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
+.sortable-placeholder {
+    background-color: @lightGray;
+    border-color: @lightGray;
+
+    &.hidden-until-change {
+        display: none;
+    }
 }
 
-button#hide-search,
-button.show-search {
-    right: 0;
+.clickable:not(.disabled) {
+    cursor: pointer !important;
+}
+
+.input-underline-wrapper {
+    display: inline-block;
+
+    .underline {
+        margin-left: -1px;
+    }
+}
+
+.underline {
+    background-color: @lightGray;
+    transition: background-color .3s;
+    z-index: 0;
+    height: 5px;
+}
+
+input:focus  ~ .underline {
+    background-color: @baseBlue;
+}
+
+input {
+    &.invalid {
+        background-color: @invalidRed;
+    }
+
+    &.valid {
+        background-color: @validGreen;   
+    }
+}
+
+.create-playlist-prompt input[type="text"],
+.edit-playlist-prompt input[type="text"] {
+    z-index: 1;
+    -webkit-appearance: none;
+    border: 0;
+    padding: 0 .2em;
+    font: bold 14px/1 sans-serif;
+    height: 24px;
+    width: 306px;
+}
+
+/* TODO: Add some area to prevent clipping of context menu */
+.full-overlay {
+    width: 100%;
+    height: 100%;
+    position: absolute;
 }

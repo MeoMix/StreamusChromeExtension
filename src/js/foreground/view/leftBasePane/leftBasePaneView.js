@@ -11,7 +11,6 @@
     var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
-        id: 'left-base-pane',
         className: 'left-pane',
         template: _.template(LeftBasePaneTemplate),
         

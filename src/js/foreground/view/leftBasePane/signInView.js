@@ -49,7 +49,7 @@
 
             this.ui.signInFailedMessage.toggleClass('hidden', !signInFailed);
             this.ui.signingInMessage.toggleClass('hidden', !signingIn);
-            this.ui.signInPrompt.toggleClass('hidden', signingIn);
+            this.ui.signInPrompt.toggleClass('hidden', signingIn || signInFailed);
         },
 
         _signIn: function () {

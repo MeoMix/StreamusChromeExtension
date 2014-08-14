@@ -98,10 +98,11 @@
             var reminderDisabled = promptView.reminderDisabled();
             
             if (reminderDisabled) {
-                var doOkFunction = promptView.model.get('view').doOk;
+                var subView = promptView.model.get('view');
+                var doOkFunction = subView.doOk;
                 
                 if (_.isFunction(doOkFunction)) {
-                    doOkFunction();
+                    doOkFunction.call(subView);
                 }
             } else {
                 this.show(promptView);

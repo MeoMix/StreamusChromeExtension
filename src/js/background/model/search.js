@@ -11,107 +11,128 @@
         defaults: function () {
             return {
                 results: new SearchResults(),
-                searchQuery: '',
-                searchJqXhr: null,
-                typing: false,
-                clearResultsTimeout: null
+                query: '',
+                searching: false,
+                debounceSearchQueued: false,
+                pendingRequests: 0,
+                clearQueryTimeout: null
             };
         },
-
-        search: function (searchQuery) {
-            this.set('searchQuery', searchQuery);
-
-            this._abortCurrentSearch();
-
-            //  If the user provided no text to search on -- clear the search and do nothing.
-            if ($.trim(searchQuery) === '') {
-                this.get('results').reset();
-                return;
-            }
-            
-            //  Only set typing to true after we've checked for blank searchQuery because it won't trigger a debounceSearch which sets typing to false.
-            this.set('typing', true);
-            
-            //  Debounce a search request so that when the user stops typing the last request will run.
-            this._doDebounceSearch(searchQuery);
+        
+        initialize: function () {
+            this.on('change:query', this._search);
         },
         
-        //  It's important to write this to the background page because the foreground gets destroyed so it couldn't possibly remember it.
-        startClearResultsTimer: function () {
+        startClearQueryTimer: function () {
             //  Safe-guard against multiple setTimeouts, just incase.
-            this.stopClearResultsTimer();
-            this.set('clearResultsTimeout', setTimeout(this._clearResults.bind(this), 10000));
+            this.stopClearQueryTimer();
+            this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
         },
 
         //  The foreground has to be able to call this whenever a view opens.
-        stopClearResultsTimer: function () {
-            window.clearTimeout(this.get('clearResultsTimeout'));
-            this.set('clearResultsTimeout', null);
+        stopClearQueryTimer: function () {
+            window.clearTimeout(this.get('clearQueryTimeout'));
+            this.set('clearQueryTimeout', null);
+        },
+
+        //  Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
+        hasQuery: function() {
+            return this.get('query') !== '';
         },
         
-        //  Do not display results if searchText was modified while searching, abort old request.
-        _abortCurrentSearch: function() {
-            var previousSearchJqXhr = this.get('searchJqXhr');
-            if (previousSearchJqXhr) {
-                previousSearchJqXhr.abort();
+        //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
+        _hasSearchableQuery: function () {
+            return $.trim(this.get('query')) !== '';
+        },
+        
+        //  Perform a search on the given query or just terminate immediately if nothing to do.
+        _search: function () {
+            this._clearResults();
+
+            if (this._hasSearchableQuery()) {
+                this._startSearching();
+            } else {
+                this.set('searching', false);
             }
         },
         
+        //  Set some flags indicating that a search is in progress.
+        _startSearching: function () {
+            this.set('searching', true);
+            this.set('debounceSearchQueued', true);
+            //  Debounce a search request so that when the user stops typing the last request will run.
+            this._doDebounceSearch(this.get('query'));
+        },
+        
         _onSearchComplete: function () {
-            this.set('searchJqXhr', null);
+            this.set('pendingRequests', this.get('pendingRequests') - 1);
+
+            if (!this._hasSearchPending()) {
+                this.set('searching', false);
+            }
         },
         
         //  Handle the actual search functionality inside of a debounced function.
         //  This is so I can tell when the user starts typing, but not actually run the search logic until they pause.
-        _doDebounceSearch: _.debounce(function (searchQuery) {
+        _doDebounceSearch: _.debounce(function (query) {
+            this.set('debounceSearchQueued', false);
+
             //  If the user is just typing in whatever -- search for it, otherwise handle special data sources.
             var dataSource = new DataSource({
-                url: searchQuery
+                url: query
             });
 
             dataSource.parseUrl({
                 //  TODO: Reduce nesting here.
                 success: function () {
-                    var searchJqXhr;
+                    this.set('pendingRequests', this.get('pendingRequests') + 1);
+
                     //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                     if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
-                        searchJqXhr = YouTubeV3API.getSongInformation({
+                        YouTubeV3API.getSongInformation({
                             songId: dataSource.get('id'),
                             success: function (songInformation) {
-                                this.get('results').setFromSongInformation(songInformation);
+                                //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
+                                if (query === this.get('query')) {
+                                    this.get('results').setFromSongInformation(songInformation);
+                                }
                             }.bind(this),
-                            error: function (error) {
-                                console.error(error);
-                                //  TODO: Handle error.
-                            },
+                            //  TODO: Handle error.
+                            error: function (error) { },
                             complete: this._onSearchComplete.bind(this)
                         });
                     } else {
-                        //  TODO: Handle missing song IDs
-                        searchJqXhr = YouTubeV3API.search({
-                            text: searchQuery,
+                        YouTubeV3API.search({
+                            text: query,
                             success: function (searchResponse) {
-                                //  TODO: This doesn't seem right to me. I should really be aborting properly so that I don't have to check this here.
-                                //  Don't show old responses. Even with the xhr abort there's a point in time where the data could get through to the callback.
-                                if (searchQuery === this.get('searchQuery')) {
+                                //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
+                                if (query === this.get('query')) {
                                     this.get('results').setFromSongInformationList(searchResponse.songInformationList);
                                 }
                             }.bind(this),
+                            //  TODO: Handle error.
+                            error: function (error) { },
                             complete: this._onSearchComplete.bind(this)
                         });
                     }
-
-                    this.set('searchJqXhr', searchJqXhr);
-
-                    //  Typing is false if they've paused for long enough for doSearch to run.
-                    this.set('typing', false);
                 }.bind(this)
             });
         }, 350),
         
-        _clearResults: function() {
-            this.get('results').reset();
-            this.set('searchQuery', '');
+        _clearResults: function () {
+            //  Might as well not trigger excess reset events if they can be avoided.
+            var results = this.get('results');            
+            if (results.length > 0) {
+                results.reset();
+            }
+        },
+        
+        _clearQuery: function () {
+            this.set('query', '');
+        },
+        
+        _hasSearchPending: function() {
+            return this.get('debounceSearchQueued') || this.get('pendingRequests') !== 0;
         }
     });
 

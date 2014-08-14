@@ -9,16 +9,16 @@
                 <label>
                     <%= songQualityMessage %>
                 
-                    <select id="suggested-quality">
+                    <select id="suggested-quality" class="suggested-quality">
                         <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
-                        <%= highestMessage %>
-                    </option>
+                            <%= highestMessage %>
+                        </option>
                         <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
-                        <%= autoMessage %>
-                    </option>
+                            <%= autoMessage %>
+                        </option>
                         <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
-                        <%= lowestMessage %>
-                    </option>
+                            <%= lowestMessage %>
+                        </option>
                     </select>
                 </label>
             </li>

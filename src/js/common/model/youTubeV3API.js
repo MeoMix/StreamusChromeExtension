@@ -31,7 +31,6 @@
         search: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
-
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });

@@ -61,7 +61,6 @@
 
             var index = _.isUndefined(options.index) ? this.length : options.index;
 
-            console.time('hi');
             //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
             var createdStreamItems = [];
             _.each(songs, function (song) {
@@ -78,8 +77,6 @@
                 createdStreamItems.push(createdStreamItem);
                 index++;
             }, this);
-
-            console.time('yep');
             
             //  If an index was provided then the collection's order might not be correct - trigger a sort. Otherwise, since just pushing onto end, it's OK not to sort.
             if (!_.isUndefined(options.index)) {
@@ -89,8 +86,6 @@
             if (playOnAdd || options.markFirstActive) {
                 createdStreamItems[0].save({ active: true });
             }
-            console.timeEnd('yep');
-            console.timeEnd('hi');
 
             return createdStreamItems;
         },

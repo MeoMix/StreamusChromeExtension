@@ -36,8 +36,6 @@
                 this.user.tryloadByUserId();
                 expect(this.user._create.calledOnce).to.equal(true);
                 expect($.ajax.calledOnce).to.equal(true);
-
-                console.log("this.user:", this.user);
                 ensureUserState.call(this, this.user);
             });
             

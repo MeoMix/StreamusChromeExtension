@@ -1,17 +1,15 @@
 ﻿<div class="big-text-wrapper extended">
-    
     <div class="big-text signing-in">
-        <div class="big-text-header"><%= signingInMessage %>...</div>
-        <div class="spinner spinner-medium"></div>
+        <div class="header"><%= signingInMessage %>...</div>
+        <div class="spinner medium text-center"></div>
     </div>
     
     <div class="big-text sign-in">
-        <div class="big-text-header search-link clickable"><%= signInMessage %></div>
+        <div class="header search-link clickable"><%= signInMessage %></div>
     </div>
     
     <div class="big-text sign-in-failed">
-        <div class="big-text-header"><%= signInFailedMessage %></div>
+        <div class="header"><%= signInFailedMessage %></div>
         <%= pleaseWaitMessage %> <span id="sign-in-retry-timer"><%= signInRetryTimer %></span>
     </div>
-
 </div>

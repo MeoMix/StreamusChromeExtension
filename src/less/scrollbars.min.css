@@ -1,0 +1,1 @@
+::-webkit-scrollbar{height:4px;width:8px}::-webkit-scrollbar-button:start:decrement,::-webkit-scrollbar-button:end:increment{height:0}::-webkit-scrollbar-track-piece{background-color:#fff;width:8px}::-webkit-scrollbar-thumb:vertical{background-color:#ebebeb;height:50px;transition:background-color .1s}::-webkit-scrollbar-thumb:vertical:hover{background-color:#666}

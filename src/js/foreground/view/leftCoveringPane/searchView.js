@@ -38,7 +38,7 @@
             bigTextWrapper: '.big-text-wrapper',
             childContainer: '#search-results',
             saveSelectedButton: '#save-selected',
-            hideSearchButton: '#hide-search',
+            hideSearchButton: '.hide-search',
             playSelectedButton: '#play-selected',
             addSelectedButton: '#add-selected'
         },
@@ -53,7 +53,7 @@
         },
         
         modelEvents: {
-            'change:searchJqXhr change:searchQuery change:typing': '_toggleBigText'
+            'change:query change:searching': '_toggleBigText'
         },
 
         collectionEvents: {
@@ -106,7 +106,7 @@
         },
         
         onShow: function () {
-            this.model.stopClearResultsTimer();
+            this.model.stopClearQueryTimer();
             
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
@@ -120,8 +120,8 @@
         },
 
         onDestroy: function () {
-            //  Remember search results for a bit just in case they close/re-open quickly, no need to re-search.
-            this.model.startClearResultsTimer();
+            //  Remember search query for a bit just in case user close/re-open quickly, no need to re-search.
+            this.model.startClearQueryTimer();
         },
         
         //  Shake the view to bring attention to the fact that the view is already visible.
@@ -143,8 +143,8 @@
         
         //  Searches youtube for song results based on the given text.
         _search: function () {
-            var searchQuery = $.trim(this.ui.searchInput.val());
-            this.model.search(searchQuery);
+            var query = this.ui.searchInput.val();
+            this.model.set('query', query);
         },
         
         _toggleSaveSelected: function () {
@@ -172,18 +172,18 @@
 
         //  Set the visibility of any visible text messages.
         _toggleBigText: function () {
-            //  Hide the search message when there is no search in progress nor any typing happening.
-            var isNotSearching = this.model.get('searchJqXhr') === null && !this.model.get('typing');
-            this.ui.searchingMessage.toggleClass('hidden', isNotSearching);
+            //  Hide the search message when there is no search in progress.
+            var searching = this.model.get('searching');
+            this.ui.searchingMessage.toggleClass('hidden', !searching);
     
-            //  Hide the instructions message once user has searched or are searching.
-            var hasSearchResults = this.collection.length > 0;
-            var hasSearchQuery = this.model.get('searchQuery').length > 0;
-            this.ui.instructions.toggleClass('hidden', hasSearchResults || hasSearchQuery);
+            //  Hide the instructions message once user has typed something.
+            var hasSearchQuery = this.model.hasQuery();
+            this.ui.instructions.toggleClass('hidden', hasSearchQuery);
 
             //  Only show no results when all other options are exhausted and user has interacted.
-            var hasNoResults = isNotSearching && hasSearchQuery && !hasSearchResults;
-            this.ui.noResultsMessage.toggleClass('hidden', !hasNoResults);
+            var hasSearchResults = this.collection.length > 0;
+            var hideNoResults = hasSearchResults || searching || !hasSearchQuery;
+            this.ui.noResultsMessage.toggleClass('hidden', hideNoResults);
         },
         
         _playSelected: function () {

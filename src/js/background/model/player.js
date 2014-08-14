@@ -73,7 +73,6 @@ define([
         },
 
         stop: function () {
-            console.log("Stopping");
             this.set('state', PlayerState.Unstarted);
             youTubePlayer.stopVideo();
             this.set('loadedSongId', '');
@@ -84,14 +83,11 @@ define([
         },
 
         pause: function () {
-            console.log("pausing");
             youTubePlayer.pauseVideo();
         },
             
         play: function () {
-            console.log("Play being called");
             if (!this.isPlaying()) {
-                console.log("Playing video");
                 this.set('state', PlayerState.Buffering);
                 youTubePlayer.playVideo();
             }
@@ -99,7 +95,6 @@ define([
         
         //  Call play once Player indicates the loadedSongId has changed
         playOnceSongChanges: function () {
-            console.log("Play once song changes fired");
             this.once('change:loadedSongId', function() {
                 //  TODO: Why is setTimeout needed here? Otherwise play doesn't work if Player is paused?
                 setTimeout(this.play.bind(this));
@@ -128,9 +123,6 @@ define([
             if (this.get('loadedSongId') === songId) {
                 this.trigger('change:loadedSongId');
             }
-
-            console.log("Cueuing");
-            console.trace();
 
             youTubePlayer.cueVideoById({
                 videoId: songId,
