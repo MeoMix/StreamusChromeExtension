@@ -259,8 +259,6 @@ module.exports = function (grunt) {
 	});
 	
 	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
-		grunt.file.delete('src/css/beatportInject.css');
-		grunt.file.delete('src/css/youTubeInject.css');
 		grunt.file.delete('src/css/foreground.css');
 	});
 
