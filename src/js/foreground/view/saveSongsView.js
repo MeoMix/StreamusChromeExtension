@@ -3,7 +3,7 @@
 ], function (SaveSongsTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var Playlists = Streamus.backgroundPage.Playlists;
 
     var SaveSongsView = Backbone.Marionette.ItemView.extend({
         className: 'save-songs',

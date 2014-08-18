@@ -12,7 +12,7 @@ $(function () {
     document.head.appendChild(beatportInjectStylesheet);
 
     //  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
-    if (beatportCssUrl == 'css/beatportInject.css') {
+    if (beatportCssUrl.indexOf('min') === -1) {
         var style = document.createElement('link');
         style.rel = 'stylesheet';
         style.type = 'text/css';

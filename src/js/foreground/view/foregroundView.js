@@ -9,9 +9,9 @@
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Settings = Streamus.backgroundPage.Settings;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var ForegroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),

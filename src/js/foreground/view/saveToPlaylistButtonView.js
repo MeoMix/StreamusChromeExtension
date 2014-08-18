@@ -5,7 +5,7 @@
 ], function (Tooltip, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',

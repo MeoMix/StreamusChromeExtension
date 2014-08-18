@@ -6,10 +6,10 @@
 ], function (ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var Search = chrome.extension.getBackgroundPage().Search;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var Playlists = Streamus.backgroundPage.Playlists;
+    var Search = Streamus.backgroundPage.Search;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
     
     var Sortable = Backbone.Marionette.Behavior.extend({
         onRender: function () {

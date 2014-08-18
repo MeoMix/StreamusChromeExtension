@@ -2,10 +2,16 @@
     'use strict';
 
     var Application = Backbone.Marionette.Application.extend({
+        backgroundPage: null,
+
         //  Configure qTip2's default behavior.
         _configureQtip: function () {
             this._setQtipPositioning();
             this._setQtipStyle();
+        },
+        
+        _setBackgroundPage: function () {
+            this.backgroundPage = chrome.extension.getBackgroundPage();
         },
         
         _setQtipPositioning: function () {
@@ -31,12 +37,15 @@
         }
     });
 
-    var application = new Application();
+    var streamus = new Application();
     
-    application.addInitializer(function () {
+    streamus.addInitializer(function () {
         this._configureQtip();
+        this._setBackgroundPage();
         this.on('start', this._showForeground);
     });
     
-    application.start();
+    streamus.start();
+
+    window.Streamus = streamus;
 });

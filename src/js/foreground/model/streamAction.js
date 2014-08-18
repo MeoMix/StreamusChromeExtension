@@ -5,7 +5,7 @@
 ], function (ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var StreamAction = Backbone.Model.extend({
         clearStream: function () {

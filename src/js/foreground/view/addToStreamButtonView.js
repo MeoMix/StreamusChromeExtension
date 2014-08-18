@@ -4,7 +4,7 @@
 ], function (Tooltip, AddToStreamButtonTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',

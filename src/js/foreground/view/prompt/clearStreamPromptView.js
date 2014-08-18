@@ -5,7 +5,7 @@
 ], function (GenericPrompt, ClearStreamView, GenericPromptView) {
     'use strict';
     
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var Settings = Streamus.backgroundPage.Settings;
 
     var ClearStreamPromptView = GenericPromptView.extend({
         initialize: function () {

@@ -5,7 +5,7 @@
 ], function (GenericPrompt, GoogleSignInView, GenericPromptView) {
     'use strict';
 
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var Settings = Streamus.backgroundPage.Settings;
 
     var GoogleSignInPromptView = GenericPromptView.extend({
         initialize: function () {

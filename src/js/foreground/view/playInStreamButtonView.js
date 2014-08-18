@@ -4,8 +4,8 @@
 ], function (Tooltip, PlayInStreamButtonTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var PlayInStreamButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',

@@ -7,8 +7,8 @@
 ], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var Playlists = Streamus.backgroundPage.Playlists;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
         className: 'left-pane',

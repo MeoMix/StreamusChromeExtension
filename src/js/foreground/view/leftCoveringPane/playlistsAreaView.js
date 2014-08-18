@@ -10,7 +10,7 @@
 ], function (ListItemType, CreatePlaylistView, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlists-area',

@@ -5,7 +5,7 @@
 ], function (GenericPrompt, DeletePlaylistView, GenericPromptView) {
     'use strict';
     
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var Settings = Streamus.backgroundPage.Settings;
     
     var DeletePlaylistPromptView = GenericPromptView.extend({
         initialize: function (options) {

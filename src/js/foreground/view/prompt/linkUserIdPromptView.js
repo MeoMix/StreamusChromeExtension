@@ -5,7 +5,7 @@
 ], function (GenericPrompt, LinkUserIdView, GenericPromptView) {
     'use strict';
 
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var Settings = Streamus.backgroundPage.Settings;
 
     var LinkUserIdPromptView = GenericPromptView.extend({
         initialize: function () {

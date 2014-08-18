@@ -11,10 +11,10 @@
 ], function (ListItemType, RepeatButtonState, StreamAction, MultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
     'use strict';
 
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
-    var RadioButton = chrome.extension.getBackgroundPage().RadioButton;
-    var RepeatButton = chrome.extension.getBackgroundPage().RepeatButton;
-    var ShuffleButton = chrome.extension.getBackgroundPage().ShuffleButton;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
+    var RadioButton = Streamus.backgroundPage.RadioButton;
+    var RepeatButton = Streamus.backgroundPage.RepeatButton;
+    var ShuffleButton = Streamus.backgroundPage.ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
         id: 'stream',

@@ -1,9 +1,11 @@
 ﻿define([
+    'background/enum/syncActionType',
     'background/collection/multiSelectCollection',
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlistItem',
-    'background/model/settings'
-], function (MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings) {
+    'background/model/settings',
+    'common/enum/listItemType'
+], function (SyncActionType, MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings, ListItemType) {
     'use strict';
     
     var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
@@ -14,6 +16,9 @@
             if (!_.isUndefined(options)) {
                 this.playlistId = options.playlistId;
             }
+            
+            this.on('add', this._onAdd);
+            this.on('remove', this._onRemove);
             
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
@@ -50,10 +55,7 @@
                 songs = [songs];
             }
 
-            var itemsToSave = new PlaylistItems([], {
-                playlistId: this.playlistId
-            });
-
+            var itemsToCreate = [];
             var index = !_.isUndefined(options.index) ? options.index : this.length;
 
             _.each(songs, function (song) {
@@ -66,70 +68,52 @@
                         sequence: sequence
                     });
 
-                    itemsToSave.push(playlistItem);
+                    itemsToCreate.push(playlistItem);
                     this.add(playlistItem);
                     index++;
                 }
             }, this);
-
-            itemsToSave._save({}, {
-                success: options.success,
-                error: options.error
-            });
-        },
-        
-        //  TODO: Function too big.
-        _save: function (attributes, options) {
-            var self = this;
-
-            if (this.filter(function (item) {
-                return !item.isNew();
-            }).length > 0) {
-                throw new Error('Not Supported Yet');
-            }
-
-            var newItems = this.filter(function (item) {
-                return item.isNew();
-            });
-
-            if (newItems.length === 1) {
-                //  Default to Backbone if Collection is creating only 1 item.
-                newItems[0].save({}, {
+            
+            if (itemsToCreate.length === 1) {
+                //  Default to Backbone if only creating 1 item.
+                itemsToCreate[0].save({}, {
                     success: options ? options.success : null,
                     error: options ? options.error : null
                 });
-            }
-            else if (newItems.length > 1) {
-                //  Otherwise revert to a CreateMultiple
-                $.ajax({
-                    url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
-                    type: 'POST',
-                    contentType: 'application/json; charset=utf-8',
-                    data: JSON.stringify(newItems),
-                    success: function (createdItems) {
-                        //  For each of the createdItems, remap properties back to the old items.
-                        _.each(createdItems, function (createdItem) {
-                            //  Remap items based on their client id.
-                            var matchingNewItem = self.find(function (newItem) {
-                                return newItem.cid === createdItem.cid;
-                            });
-
-                            //  Call parse to emulate going through the Model's save logic.
-                            var parsedNewItem = matchingNewItem.parse(createdItem);
-
-                            //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
-                            matchingNewItem.set(parsedNewItem);
-                        });
-
-                        if (options && options.success) {
-                            options.success();
-                        }
-                    },
-                    error: options ? options.error : null
-                });
+            } else {
+                this._bulkCreate(itemsToCreate, options);
             }
         },
         
+        _bulkCreate: function(itemsToCreate, options) {
+            $.ajax({
+                url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
+                type: 'POST',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify(itemsToCreate),
+                success: function (createdItems) {
+                    //  For each of the createdItems, remap properties back to the old items.
+                    _.each(createdItems, function (createdItem) {
+                        //  Remap items based on their client id.
+                        var matchingNewItem = this.find(function (newItem) {
+                            return newItem.cid === createdItem.cid;
+                        });
+
+                        //  Call parse to emulate going through the Model's save logic.
+                        var parsedNewItem = matchingNewItem.parse(createdItem);
+
+                        //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
+                        matchingNewItem.set(parsedNewItem);
+                    }, this);
+
+                    if (options && options.success) {
+                        options.success();
+                    }
+                }.bind(this),
+                error: options ? options.error : null
+            });
+        },
+       
         _getBySongId: function (songId) {
             return this.find(function (playlistItem) {
                 return playlistItem.get('song').get('id') === songId;
@@ -159,6 +143,22 @@
                     playlistItem.cid = duplicateItem.cid;
                 }
             }
+        },
+        
+        _onAdd: function (addedPlaylistItem) {
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.PlaylistItem,
+                syncActionType: SyncActionType.Added,
+                model: addedPlaylistItem
+            });
+        },
+        
+        _onRemove: function(removedPlaylistItem) {
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.Removed,
+                model: removedPlaylistItem
+            });
         }
     }));
 

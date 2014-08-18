@@ -7,8 +7,8 @@ define([
 ], function (PlayerState, Utility, Tooltip, TimeProgressTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var Settings = Streamus.backgroundPage.Settings;
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
         id: 'time-progress',

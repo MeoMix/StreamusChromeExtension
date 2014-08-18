@@ -9,10 +9,10 @@ define([
 ], function (PlayerState, MenuAreaView, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var NextButton = chrome.extension.getBackgroundPage().NextButton;
-    var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
-    var PreviousButton = chrome.extension.getBackgroundPage().PreviousButton;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var NextButton = Streamus.backgroundPage.NextButton;
+    var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
+    var PreviousButton = Streamus.backgroundPage.PreviousButton;
 
     var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
         id: 'right-base-pane',

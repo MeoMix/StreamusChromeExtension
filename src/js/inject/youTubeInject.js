@@ -48,11 +48,11 @@ $(function () {
 
 		sharePanel.append(signInNotification);
 
-		var streamusAddButton = $('<input>', {
+		var streamusSignInButton = $('<input>', {
 			type: 'button',
 			value: 'Sign in to Streamus',
 			id: 'sign-in-button',
-			'class': 'yt-uix-button yt-uix-tooltip',
+			'class': 'yt-uix-button yt-uix-tooltip streamus-button',
 			click: function() {
 				chrome.runtime.sendMessage({
 					method: "signIn"
@@ -60,7 +60,7 @@ $(function () {
 			}
 		});
 
-		sharePanel.append(streamusAddButton);
+		sharePanel.append(streamusSignInButton);
 	}
 	
 	//  This content can only be shown once the user is signed in because it is dependent on the user's information.
@@ -128,7 +128,7 @@ $(function () {
 			value: chrome.i18n.getMessage('addSong'),
 			title: chrome.i18n.getMessage('addSong'),
 			id: 'streamusAddButton',
-			'class': 'yt-uix-button yt-uix-tooltip',
+			'class': 'yt-uix-button yt-uix-tooltip streamus-button',
 			click: function () {
 				$(this).val(chrome.i18n.getMessage('working') + '...');
 				$(this).attr('disabled', true);
@@ -238,7 +238,7 @@ $(function () {
 		getSignedInState(function (state) {
 			sharePanel.empty();
 			
-			if (state.signedIn) {
+			if (state.signedIn) {   
 				injectAddPlaylistContent(sharePanel);
 				getPlaylistsAndSetSelectOptions();
 			} else {

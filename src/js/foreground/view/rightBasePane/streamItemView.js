@@ -10,10 +10,10 @@
 ], function (Utility, ContextMenuItems, ContextMenuActions, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
-    var PlayPauseButton = chrome.extension.getBackgroundPage().PlayPauseButton;
+    var Playlists = Streamus.backgroundPage.Playlists;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
+    var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
 
     var StreamItemView = MultiSelectListItemView.extend({
         className: MultiSelectListItemView.prototype.className + ' stream-item',

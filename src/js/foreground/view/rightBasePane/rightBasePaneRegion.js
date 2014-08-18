@@ -3,7 +3,7 @@
 ], function (RightBasePaneView) {
     'use strict';
     
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var RightBasePaneRegion = Backbone.Marionette.Region.extend({
         el: '#right-base-pane-region',

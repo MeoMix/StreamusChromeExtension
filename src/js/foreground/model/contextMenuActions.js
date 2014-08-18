@@ -1,8 +1,8 @@
 ﻿define(function() {
     'use strict';
 
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var ContextMenuActions = Backbone.Model.extend({
         addSongsToStream: function(songs) {

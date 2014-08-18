@@ -96,7 +96,7 @@
             
             if (this._isExportingAsJson()) {
                 mimeType = 'application/json';
-            };
+            }
 
             return mimeType;
         },

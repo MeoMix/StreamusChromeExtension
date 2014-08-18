@@ -39,7 +39,7 @@
     font-size: 1.4em !important;
 }
 
-#streamusAddButton {
+.streamus-button {
     height: 24px;
     border: 1px solid #ccc;
     font-size: 11px;

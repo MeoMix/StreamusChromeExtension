@@ -7,6 +7,7 @@ define([
     'background/model/iconManager',
     'background/model/omnibox',
     'background/model/search',
+    'background/model/syncManager',
     'background/model/user',
     'background/view/clipboardView'
 ], function () {

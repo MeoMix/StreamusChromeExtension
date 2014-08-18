@@ -9,7 +9,7 @@
 ], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
         childView: PlaylistItemView,

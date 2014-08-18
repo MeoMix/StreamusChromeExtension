@@ -3,7 +3,7 @@
 ], function (SettingsTemplate) {
     'use strict';
 
-    var Player = chrome.extension.getBackgroundPage().YouTubePlayer;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
         className: 'settings',

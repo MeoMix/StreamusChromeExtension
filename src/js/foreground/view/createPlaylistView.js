@@ -5,7 +5,7 @@
 ], function (DataSourceType, DataSource, CreatePlaylistTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var Playlists = Streamus.backgroundPage.Playlists;
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
         className: 'create-playlist',

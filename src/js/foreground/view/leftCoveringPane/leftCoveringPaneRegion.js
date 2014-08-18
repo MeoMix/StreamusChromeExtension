@@ -4,9 +4,9 @@
 ], function (PlaylistsAreaView, SearchView) {
     'use strict';
     
-    var Search = chrome.extension.getBackgroundPage().Search;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
+    var Search = Streamus.backgroundPage.Search;
+    var Settings = Streamus.backgroundPage.Settings;
+    var Playlists = Streamus.backgroundPage.Playlists;
 
     var LeftCoveringPaneRegion = Backbone.Marionette.Region.extend({
         el: '#left-covering-pane-region',

@@ -10,8 +10,8 @@
 ], function (ListItemType, ContextMenuItems, ContextMenuActions, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
-    var Playlists = chrome.extension.getBackgroundPage().Playlists;
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
+    var Playlists = Streamus.backgroundPage.Playlists;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',

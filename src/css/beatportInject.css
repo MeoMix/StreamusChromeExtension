@@ -41,3 +41,7 @@ div.top-download-row .playWrapper {
 .play-queue{
     overflow: visible !important;
 }
+
+.qtip {
+    min-width: 40px !important;
+}

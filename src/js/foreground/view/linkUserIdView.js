@@ -3,8 +3,8 @@
 ], function (LinkUserIdTemplate) {
     'use strict';
 
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
+    var Settings = Streamus.backgroundPage.Settings;
     
     var LinkUserIdView = Backbone.Marionette.ItemView.extend({
         className: 'link-user-id',

@@ -2,12 +2,14 @@
 //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
 define([
     'background/collection/playlistItems',
+    'background/enum/syncActionType',
     'background/model/playlistItem',
     'background/model/settings',
     'background/model/shareCode',
     'background/model/song',
+    'common/enum/listItemType',
     'common/model/youTubeV3API'
-], function (PlaylistItems, PlaylistItem, Settings, ShareCode, Song, YouTubeV3API) {
+], function (PlaylistItems, SyncActionType, PlaylistItem, Settings, ShareCode, Song, ListItemType, YouTubeV3API) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -52,6 +54,7 @@ define([
         initialize: function () {
             this._ensureItemsCollection();
             this.on('change:title', this._onChangeTitle);
+            this.on('change:sequence', this._onChangeSequence);
             this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
             this._setDisplayInfo();
         },
@@ -143,6 +146,22 @@ define([
                     id: model.get('id'),
                     title: title
                 }
+            });
+            
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.PropertyChange,
+                property: 'title',
+                model: model
+            });
+        },
+        
+        _onChangeSequence: function (model, sequence) {
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.PropertyChange,
+                property: 'sequence',
+                model: model
             });
         },
         

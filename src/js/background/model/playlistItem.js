@@ -1,7 +1,9 @@
 ﻿define([
+    'background/enum/syncActionType',
     'background/model/settings',
-    'background/model/song'
-], function (Settings, Song) {
+    'background/model/song',
+    'common/enum/listItemType'
+], function (SyncActionType, Settings, Song, ListItemType) {
     'use strict';
     
     var PlaylistItem = Backbone.Model.extend({
@@ -44,6 +46,8 @@
         initialize: function () {
             this._ensureSongModel();
             this._ensureTitle();
+            
+            this.on('change:sequence', this._onChangeSequence);
         },
         
         _ensureSongModel: function() {
@@ -62,6 +66,15 @@
             if (this.get('title') === '') {
                 this.set('title', this.get('song').get('title'));
             }
+        },
+        
+        _onChangeSequence: function (model, sequence) {
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.PlaylistItem,
+                syncActionType: SyncActionType.PropertyChange,
+                property: 'sequence',
+                model: model
+            });
         }
     });
 

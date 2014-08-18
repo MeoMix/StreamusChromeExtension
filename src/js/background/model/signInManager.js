@@ -34,7 +34,7 @@
 
         signInWithGoogle: function () {
             if (this._canSignIn()) {
-                this._supportsGoogleSignIn ? this._getGoogleUserInfo() : this._signIn();
+                this._supportsGoogleSignIn() ? this._getGoogleUserInfo() : this._signIn();
             }
         },
 
@@ -112,7 +112,16 @@
         //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
         _notifyYouTubeTabsSignedIn: function (signedIn) {
             //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
-            chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
+            //  TODO: Simplify this and re-use the matching URL everywhere.
+            chrome.tabs.query({ url: '*://*.youtube.com/watch?*' }, function (tabs) {
+                _.each(tabs, function (tab) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        event: signedIn ? 'signed-in' : 'signed-out'
+                    });
+                });
+            });
+
+            chrome.tabs.query({ url: '*://*.youtu.be/*' }, function (tabs) {
                 _.each(tabs, function (tab) {
                     chrome.tabs.sendMessage(tab.id, {
                         event: signedIn ? 'signed-in' : 'signed-out'
@@ -199,6 +208,8 @@
         },
 
         _onRuntimeMessage: function (request, sender, sendResponse) {
+            var sendAsynchronousResponse = false;
+
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
@@ -218,8 +229,13 @@
                     } else {
                         this._handleAddSharedPlaylistRequest(request, sendResponse);
                     }
+
+                    sendAsynchronousResponse = true;
                     break;
             }
+            
+            //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
+            return sendAsynchronousResponse;
         },
 
         _handleAddSharedPlaylistRequest: function (request, sendResponse) {

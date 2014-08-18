@@ -3,7 +3,7 @@
 ], function (DeletePlaylistTemplate) {
     'use strict';
 
-    var Settings = chrome.extension.getBackgroundPage().Settings;
+    var Settings = Streamus.backgroundPage.Settings;
 
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
         className: 'delete-playlist',

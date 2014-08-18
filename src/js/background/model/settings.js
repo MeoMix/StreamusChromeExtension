@@ -14,7 +14,7 @@
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
             
             return {
-                localDebug: true,
+                localDebug: false,
                 serverURL: '',
                 
                 suggestedQuality: this.getItem('suggestedQuality') || 'default',
@@ -35,7 +35,7 @@
                 this.set('serverURL', 'http://localhost:28029/');
             }
             else {
-                this.set('serverURL', 'https://server.streamus.com/Streamus/');
+                this.set('serverURL', 'https://aws-server.streamus.com/Streamus/');
             }
 
             this.on('change:suggestedQuality', function(model, suggestedQuality) {

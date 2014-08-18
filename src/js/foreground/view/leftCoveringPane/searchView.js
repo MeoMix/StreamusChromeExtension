@@ -10,8 +10,8 @@
 ], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SaveSongsPromptView, SearchTemplate) {
     'use strict';
 
-    var StreamItems = chrome.extension.getBackgroundPage().StreamItems;
-    var SignInManager = chrome.extension.getBackgroundPage().SignInManager;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var SignInManager = Streamus.backgroundPage.SignInManager;
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',

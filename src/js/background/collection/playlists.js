@@ -1,11 +1,12 @@
 ﻿define([
+    'background/enum/syncActionType',
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlist',
     'background/model/settings',
     'background/model/song',
-    'common/model/youTubeV3API',
-    'common/model/dataSource'
-], function (SequencedCollectionMixin, Playlist, Settings, Song, YouTubeV3API, DataSource) {
+    'common/enum/listItemType',
+    'common/model/youTubeV3API'
+], function (SyncActionType, SequencedCollectionMixin, Playlist, Settings, Song, ListItemType, YouTubeV3API) {
     'use strict';
 
     var Playlists = Backbone.Collection.extend(_.extend({}, SequencedCollectionMixin, {
@@ -66,6 +67,8 @@
             var playlist = new Playlist({
                 title: playlistTitle,
                 userId: this.userId,
+                //  Playlists are always added at the end
+                sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
             });
 
@@ -83,6 +86,8 @@
             var playlist = new Playlist({
                 title: playlistTitle,
                 userId: this.userId,
+                //  Playlists are always added at the end
+                sequence: this.getSequenceFromIndex(this.length),
                 dataSource: dataSource,
                 dataSourceLoaded: !dataSource.needsLoading()
             });
@@ -120,7 +125,9 @@
             }
         },
         
-        _onRuntimeMessage: function(request, sender, sendResponse) {
+        _onRuntimeMessage: function (request, sender, sendResponse) {
+            var sendAsynchronousResponse = false;
+
             switch (request.method) {
                 case 'getPlaylists':
                     sendResponse({ playlists: this });
@@ -139,8 +146,13 @@
                             sendResponse({ result: 'error' });
                         }
                     });
+
+                    sendAsynchronousResponse = true;
                     break;
             }
+
+            //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
+            return sendAsynchronousResponse;
         },
         
         _onChangeActive: function (changedPlaylist, active) {
@@ -152,10 +164,17 @@
         },
         
         _onAdd: function (addedPlaylist) {
+            //  TODO: This should probably use the same event system as SyncActions.
             //  Notify all open YouTube tabs that a playlist has been added.
             this._sendEventToOpenYouTubeTabs('add', 'playlist', {
                 id: addedPlaylist.get('id'),
                 title: addedPlaylist.get('title')
+            });
+
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.Added,
+                model: addedPlaylist
             });
         },
         
@@ -176,11 +195,18 @@
                     previousPlaylist.set('active', true);
                 }
             }
-
+            
+            //  TODO: This should probably use the same event system as SyncActions.
             //  Notify all open YouTube tabs that a playlist has been removed.
             this._sendEventToOpenYouTubeTabs('remove', 'playlist', {
                 id: removedPlaylist.get('id'),
                 title: removedPlaylist.get('title')
+            });
+            
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.Removed,
+                model: removedPlaylist
             });
         },
         
@@ -192,8 +218,19 @@
             });
         },
         
-        _sendEventToOpenYouTubeTabs: function(event, type, data) {
-            chrome.tabs.query({ url: '*://*.youtube.com/watch?v*' }, function (tabs) {
+        _sendEventToOpenYouTubeTabs: function (event, type, data) {
+            //  TODO: Simplify this and re-use the matching URL everywhere.
+            chrome.tabs.query({ url: '*://*.youtube.com/watch?*' }, function (tabs) {
+                _.each(tabs, function (tab) {
+                    chrome.tabs.sendMessage(tab.id, {
+                        event: event,
+                        type: type,
+                        data: data
+                    });
+                });
+            });
+            
+            chrome.tabs.query({ url: '*://*.youtu.be/*' }, function (tabs) {
                 _.each(tabs, function (tab) {
                     chrome.tabs.sendMessage(tab.id, {
                         event: event,
