@@ -33,7 +33,7 @@
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
 
-                placeholder: 'sortable-placeholder list-item hidden-until-change',
+                placeholder: 'sortable-placeholder list-item hidden',
 
                 helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
@@ -75,7 +75,7 @@
                     //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
                     //  So, I manually hide the placeholder (like it would be normally) until a change occurs -- then the CSS can take over.
                     if (this.needFixCssRedraw) {
-                        $('.hidden-until-change').removeClass('hidden-until-change');
+                        $('.sortable-placeholder.hidden').removeClass('hidden');
                         this.needFixCssRedraw = false;
                     }
                 },

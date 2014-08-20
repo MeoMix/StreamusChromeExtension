@@ -66,7 +66,8 @@ define([
             url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
 
             var stack = '';
-            if (!_.isUndefined(errorObject)) {
+            //  errorObject can be null or undefined
+            if (errorObject) {
                 //  If just throw is called without creating an Error object then errorObject.stack will be undefined and just the text should be relied upon.
                 if (_.isUndefined(errorObject.stack)) {
                     stack = errorObject;

@@ -220,7 +220,7 @@
                     this.signInWithGoogle();
                     break;
                 case 'addPlaylistByShareData':
-                    if (this.canSignIn()) {
+                    if (this._canSignIn()) {
                         this.once('change:signedIn', function () {
                             this._handleAddSharedPlaylistRequest(request, sendResponse);
                         });

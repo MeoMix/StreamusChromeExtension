@@ -121,6 +121,7 @@
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
+                
                 playlistToSetActive.set('active', true);
             }
         },

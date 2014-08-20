@@ -34,6 +34,8 @@
 
             //  Load any existing StreamItems from local storage
             this.fetch();
+            
+            console.log("Played recently:", this.where({ playedRecently: true }));
 
             //  TODO: Don't persist selectedness to localStorage.
             this.deselectAll();
@@ -275,6 +277,9 @@
             }
 
             this._stopPlayerIfEmpty();
+            
+            //  The item removed could've been the last one not played recently. Need to ensure that this isn't the case so there are always valid shuffle targets.
+            this._ensureAllNotPlayedRecently();
         },
         
         _onReset: function() {
@@ -303,13 +308,7 @@
         },
         
         _onChangePlayedRecently: function() {
-            //  When all streamItems have been played recently, reset to not having been played recently.
-            //  Allows for de-prioritization of played streamItems during shuffling.
-            if (this.where({ playedRecently: true }).length === this.length) {
-                this.each(function (streamItem) {
-                    streamItem.save({ playedRecently: false });
-                });
-            }
+            this._ensureAllNotPlayedRecently();
         },
         
         //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
@@ -464,6 +463,17 @@
             }
 
             return relatedSongs;
+        },
+        
+        //  When all streamItems have been played recently, reset to not having been played recently.
+        //  Allows for de-prioritization of played streamItems during shuffling.
+        _ensureAllNotPlayedRecently: function() {
+            if (this.where({ playedRecently: true }).length === this.length) {
+                this.each(function (streamItem) {
+                    //  No need to notify that playedRecently is changing when resetting all.
+                    streamItem.save({ playedRecently: false }, { silent: true });
+                });
+            }
         }
     }));
 

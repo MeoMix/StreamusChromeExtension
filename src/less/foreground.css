@@ -359,6 +359,10 @@ input:focus,
 button:focus {
   outline: none;
 }
+input[type=text] {
+  border: 0;
+  padding: 0 .2em;
+}
 ul,
 li {
   margin: 0;
@@ -378,6 +382,21 @@ input[type=radio] {
   box-sizing: border-box;
 }
 /* TODO: Can I use lighten/darken on these to be more consistent? */
+.absolute-full {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+.clickable:not(.disabled) {
+  /* TODO: Should be able to be expressed without using !important */
+  cursor: pointer !important;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+.hidden {
+  display: none;
+}
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
 ::-webkit-scrollbar {
@@ -968,7 +987,8 @@ input[type="range"]:not(.disabled)::-webkit-slider-thumb {
 .list-item.saving .spinner {
   display: block;
 }
-.list-item.ui-sortable-helper {
+.list-item.ui-sortable-helper,
+.list-item.sortable-placeholder {
   background: #ebebeb;
   border-color: #ebebeb;
 }
@@ -1215,11 +1235,9 @@ body.playing .list-item.active.stream-item .buttons-region button {
   width: calc(100% - 65px);
 }
 .search-bar input {
-  border: 0;
   bottom: 11px;
   font-size: 1.1em;
   left: 11px;
-  padding: 0 .2em;
   position: absolute;
   top: 10px;
   z-index: 1;
@@ -1533,38 +1551,23 @@ button.mute.muted {
 .topic-group .category li {
   padding: 5px 0;
   cursor: default;
+  /* Select element feels like they're given too much padding implicitly -- center them vertically a bit better */
 }
 .topic-group .category li input[type="checkbox"],
 .topic-group .category li label,
-.topic-group .category li select,
-.topic-group .category li option {
+.topic-group .category li select {
   cursor: pointer;
 }
-/* TODO: Organize this shit. */
-.lowercase {
-  text-transform: lowercase;
-}
-.suggested-quality {
+.topic-group .category li select {
   margin-top: -5px;
   margin-bottom: -5px;
 }
-/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
+/* TODO: Organize this shit. */
 i {
   font-size: 14px;
 }
 i.fa-lg {
   font-size: 19px;
-}
-/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
-.sortable-placeholder {
-  background-color: #ebebeb;
-  border-color: #ebebeb;
-}
-.sortable-placeholder.hidden-until-change {
-  display: none;
-}
-.clickable:not(.disabled) {
-  cursor: pointer !important;
 }
 .input-underline-wrapper {
   display: inline-block;
@@ -1589,17 +1592,7 @@ input.valid {
 }
 .create-playlist-prompt input[type="text"],
 .edit-playlist-prompt input[type="text"] {
-  z-index: 1;
-  -webkit-appearance: none;
-  border: 0;
-  padding: 0 .2em;
   font: bold 14px/1 sans-serif;
   height: 24px;
   width: 306px;
-}
-/* TODO: Add some area to prevent clipping of context menu */
-.full-overlay {
-  width: 100%;
-  height: 100%;
-  position: absolute;
 }

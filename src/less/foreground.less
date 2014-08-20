@@ -1,6 +1,7 @@
 ﻿@import "normalize";
 @import "reset";
 @import "colorPallete";
+@import "utility";
 @import "scrollbars";
 @import "selectize";
 
@@ -635,7 +636,8 @@ input[type="range"] {
         }
     }
 
-    &.ui-sortable-helper {
+    &.ui-sortable-helper,
+    &.sortable-placeholder {
         background: @lightGray;
         border-color: @lightGray;
     }
@@ -935,11 +937,9 @@ input[type="range"] {
     }
 
     input {
-        border: 0;
         bottom: 11px;
         font-size: 1.1em;
         left: 11px;
-        padding: 0 .2em;
         position: absolute;
         top: 10px;
         z-index: 1;
@@ -1304,40 +1304,22 @@ button {
             padding: 5px 0;
             cursor: default;
 
-            input[type="checkbox"], label, select, option {
+            input[type="checkbox"], label, select {
                 cursor: pointer;
+            }
+
+            /* Select element feels like they're given too much padding implicitly -- center them vertically a bit better */
+            select {
+                margin-top: -5px;
+                margin-bottom: -5px;
             }
         }
     }
 }
 
 /* TODO: Organize this shit. */
-.lowercase {
-    text-transform: lowercase;
-}
-
-.suggested-quality {
-    margin-top: -5px;
-    margin-bottom: -5px;
-}
-
-/* TODO: FIX TO MAKE ICONS RENDER NICELY -- not sure what this means, misostc's comment. I think the icons look OK? */
 i { font-size: 14px; }
 i.fa-lg { font-size: 19px; }
-
-/* TODO: Ideally the sortable placeholder would be a washedout representation of the item being dragged, not just a gray square */
-.sortable-placeholder {
-    background-color: @lightGray;
-    border-color: @lightGray;
-
-    &.hidden-until-change {
-        display: none;
-    }
-}
-
-.clickable:not(.disabled) {
-    cursor: pointer !important;
-}
 
 .input-underline-wrapper {
     display: inline-block;
@@ -1354,7 +1336,7 @@ i.fa-lg { font-size: 19px; }
     height: 5px;
 }
 
-input:focus  ~ .underline {
+input:focus ~ .underline {
     background-color: @baseBlue;
 }
 
@@ -1370,18 +1352,7 @@ input {
 
 .create-playlist-prompt input[type="text"],
 .edit-playlist-prompt input[type="text"] {
-    z-index: 1;
-    -webkit-appearance: none;
-    border: 0;
-    padding: 0 .2em;
     font: bold 14px/1 sans-serif;
     height: 24px;
     width: 306px;
-}
-
-/* TODO: Add some area to prevent clipping of context menu */
-.full-overlay {
-    width: 100%;
-    height: 100%;
-    position: absolute;
 }

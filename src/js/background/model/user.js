@@ -91,6 +91,9 @@ define([
         //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
         _setPlaylists: function () {
             Playlists.reset(this.get('playlists'));
+
+            console.log('Active Playlist:', Playlists.getActivePlaylist());
+
             Playlists.setUserId(this.get('id'));
         },
         

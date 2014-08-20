@@ -31,7 +31,7 @@
             settingsMenuItem: '.menu .settings',
             donateMenuItem: '.menu .donate',
             keyboardShortcutsMenuItem: '.menu .keyboard-shortcuts',
-            restartMenuItem: '.menu .restart'
+            restartMenuItem: '.menu .reload'
         },
 
         menuShown: false,

@@ -77,6 +77,10 @@
             
             return this._doRequest('channels', {
                 success: function (response) {
+                    if (_.isUndefined(response.items[0])) {
+                        throw new Error("No response.items found for options:", JSON.stringify(options));
+                    }
+
                     options.success({
                         uploadsPlaylistId: response.items[0].contentDetails.relatedPlaylists.uploads
                     });
@@ -136,6 +140,10 @@
         getRelatedSongInformationList: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
+                    if (!response) {
+                        throw new Error("No response for: ", JSON.stringify(options));
+                    }
+
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
