@@ -3,22 +3,18 @@
         <button class="button-icon hide enabled tooltipable">
             <i class="fa fa-reorder"></i>
         </button>
-
-        <span class="title">
-            <img src="../img/logo.png" alt="Streamus Logo">
-        </span>
     </div>
-    <div class="left-top-divider"></div>
+    <div class="divider"></div>
     <div class="list">
-        <h3>
+        <div class="list-header">
             <%= playlists %>
-        </h3>
+        </div>
         
-        <ul id="playlists">
+        <ul class="playlists">
         </ul>
     </div>
     <div class="context-buttons">
-        <div class="right-group">
+        <div class="pull-right">
             <button class="button-icon button-small add tooltipable" title="<%= createPlaylist %>">
                 <i class="fa fa-plus"></i>
             </button>
@@ -28,7 +24,7 @@
             </button>
             
             <!--title is set in view because icon can be disabled-->
-            <button id="delete-playlist-button" class="button-icon button-small delete tooltipable" title="">
+            <button id="delete-playlist-button" class="button-icon button-small delete tooltipable">
                 <i class="fa fa-trash-o"></i>
             </button>
         </div>

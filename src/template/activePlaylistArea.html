@@ -7,17 +7,16 @@
     </div>
     
     <div class="list">
-        <div id="active-playlist-items" class="droppable-list">
-            
+        <div class="active-playlist-items droppable-list">
         </div>
     </div>
 </div>
 
-<div class="left-bottom-menubar">
-    <div class="playlist-details lowercase text-tooltipable" title="<%= displayInfo %>">
+<div class="bottom-menubar">
+    <div class="playlist-details lowercase text-tooltipable pull-left" title="<%= displayInfo %>">
         <%= displayInfo %>
     </div>
-    <div class="playlist-actions">
+    <div class="playlist-actions pull-right">
         <button class="button-label play-all">
             <i class="fa fa-play"></i><%= playAllMessage %>
         </button>

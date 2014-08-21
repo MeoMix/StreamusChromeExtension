@@ -1,0 +1,56 @@
+/* TODO: Can I use lighten/darken on these to be more consistent? */
+@-webkit-keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+.spinner {
+  border: 1px solid #4ea6ea;
+  color: #4ea6ea;
+  border-left-color: transparent;
+  border-top-color: transparent;
+  border-radius: 50%;
+  -webkit-animation-name: spin;
+  -webkit-animation-duration: 700ms;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+}
+.spinner.large {
+  width: 32px;
+  height: 32px;
+  border-width: 4px;
+}
+.spinner.large.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -16px 0 0 -16px;
+}
+.spinner.medium {
+  width: 24px;
+  height: 24px;
+  border-width: 2px;
+}
+.spinner.small {
+  width: 16px;
+  height: 16px;
+  border-width: 1px;
+  /* This is for the Play/Pause button when it is buffering */
+}
+.spinner.small.absolute-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -8px;
+}
+.button-icon .spinner.small {
+  display: inline-block;
+  margin-bottom: -3px;
+}
+.spinner.text-center {
+  margin-left: auto;
+  margin-right: auto;
+}

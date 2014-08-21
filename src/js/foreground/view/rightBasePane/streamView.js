@@ -17,7 +17,7 @@
     var ShuffleButton = Streamus.backgroundPage.ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
-        id: 'stream',
+        className: 'stream',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         
@@ -62,7 +62,7 @@
             streamEmptyMessage: '.stream-empty',
             contextButtons: '.context-buttons',
             saveStreamButton: '#save-stream',
-            childContainer: '#stream-items',
+            childContainer: '.stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
             repeatButton: '#repeat-button',

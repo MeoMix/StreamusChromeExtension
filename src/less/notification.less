@@ -1,0 +1,52 @@
+﻿@import "colorPallete";
+
+.region.notification {
+    .notification {
+        height: 40px;
+        line-height: 40px;
+        position: absolute;
+        z-index: 50;
+        background-color: white;
+        text-align: center;
+        left: 0;
+        right: 0;
+        top: 0;
+        box-shadow: 0 0 20px @mediumDarkGray;
+        font-size: 1.1em;
+        transform: translate(0px, -40px);
+
+        .button-icon.remove {
+            position: absolute;
+            top: 0;
+            right: 0;
+            height: 40px;
+            line-height: 40px;
+        }
+
+        &.success {
+            background-color: @nephritis;
+            color: white;
+
+            button {
+                color: @lightNephritis;
+
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+
+        &.error {
+            background-color: @alizarin;
+            color: white;
+
+            button {
+                color: @lightAlizarin;
+
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}

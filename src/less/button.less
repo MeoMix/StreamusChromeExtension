@@ -1,0 +1,67 @@
+﻿@import "colorPallete";
+
+button {
+    color: @darkGray;
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    margin: 0;
+    padding: 0;
+    transition: color .05s, text-shadow .05s;
+
+    /* TODO: Remove this */
+    &:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored){
+        &:hover {
+            color: @black;
+        }
+    }
+
+    &:not(.disabled):active {
+        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3)
+    }
+
+    &.enabled {
+        color: @baseBlue;
+    }
+
+    > i {
+        transition: color .1s;
+    }
+
+    /* TODO: Maybe this should just go on a volume button */
+    &.mute.muted{
+        color: @alizarin;
+    }
+}
+
+.button-icon {
+    font-size: 14px;
+    height: 45px;
+    line-height: 45px;
+    width: 40px;
+}
+
+.button-small {
+    height: 30px;
+    line-height: 30px
+}
+
+.button-label {
+    padding: .1em .4em; 
+
+    i {
+        margin-right: .5em
+    }
+}
+
+.button-color {
+    background: @lightGray;
+    border: 1px solid @mediumLightGray;
+    transition: all .1s;
+
+    &:not(.disabled):hover {
+        border-color: @baseBlue;
+        background: @baseBlue;
+        color: @white;
+    }
+}

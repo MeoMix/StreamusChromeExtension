@@ -6,7 +6,7 @@ define([
     'use strict';
 
     var VolumeView = Backbone.Marionette.ItemView.extend({
-        id: 'volume',
+        className: 'volume',
         template: _.template(VolumeTemplate),
         
         ui: {

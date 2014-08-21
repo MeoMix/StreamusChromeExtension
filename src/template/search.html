@@ -1,7 +1,9 @@
-﻿<div class="top-bar">
+﻿<div class="top-bar table">
     <div class="search-bar">
-        <input placeholder="<%= searchMessage %>..." type="text" value="<%= query %>">
-        <div class="underline"></div>
+        <span class="input-underline-wrapper">
+            <input placeholder="<%= searchMessage %>..." type="text" value="<%= query %>">
+            <div class="underline"></div>   
+        </span>
     </div>
     
     <button class="button-icon remove tooltipable hide-search" title="<%= hideSearchMessage %>">
@@ -9,7 +11,7 @@
     </button>
 </div>
 
-<div class="left-top-divider"></div>
+<div class="divider"></div>
 
 <div class="big-text-wrapper">
     <div class="big-text instructions">
@@ -32,8 +34,8 @@
     </div>
 </div>
 
-<div class="left-bottom-menubar">
-    <div class="playlist-actions">
+<div class="bottom-menubar">
+    <div class="playlist-actions pull-right">
         <button id="play-selected" class="button-label tooltipable" title="<%= playSelectedMessage %>">
             <i class="fa fa-play"></i>
             <%= playSelectedMessage %>

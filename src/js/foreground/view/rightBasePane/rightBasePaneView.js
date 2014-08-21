@@ -20,10 +20,10 @@ define([
         template: _.template(RightBasePaneTemplate),
         
         regions: {
-            streamRegion: '#stream-region',
-            timeProgressRegion: '#time-progress-region',
-            volumeRegion: '#volume-region',
-            menuRegion: '#menu-region'
+            streamRegion: '.region.stream',
+            timeProgressRegion: '.region.time-progress',
+            volumeRegion: '.region.volume',
+            streamusMenuRegion: '.region.streamus-menu'
         },
         
         events: {
@@ -67,7 +67,8 @@ define([
                 model: this.model
             }));
 
-            this.menuRegion.show(new MenuAreaView());
+            //  TODO: Instead of MenuAreaView called it StreamusMenuAreaView for clarity.
+            this.streamusMenuRegion.show(new MenuAreaView());
         },
         
         _tryActivateNextStreamItem: function () {

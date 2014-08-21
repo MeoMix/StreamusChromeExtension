@@ -13,7 +13,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
-        id: 'playlists-area',
+        className: 'playlists-area fixed-full-overlay',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
@@ -39,7 +39,7 @@
         ui: {
             buttons: '.button-icon',
             panel: '.panel',
-            childContainer: '#playlists',
+            childContainer: '.playlists',
             contextButtons: '.context-buttons',
             deleteButton: '#delete-playlist-button',
             addButton: '.add',

@@ -1,0 +1,61 @@
+﻿@import "colorPallete";
+
+@-webkit-keyframes spin {
+    from { transform: rotate(0); }
+    to { transform: rotate(360deg); }
+}
+
+.spinner {
+    border: 1px solid @baseBlue;
+    color: @baseBlue;
+    border-left-color: transparent;
+    border-top-color: transparent;
+    border-radius: 50%;
+    -webkit-animation-name: spin;
+    -webkit-animation-duration: 700ms;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: linear;
+
+    &.large {
+        width: 32px;
+        height: 32px;
+        border-width: 4px;
+
+        &.absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+             margin: -16px 0 0 -16px;
+        }
+    }
+
+    &.medium {
+        width: 24px;
+        height: 24px;
+        border-width: 2px;
+    }
+
+    &.small {
+        width: 16px;
+        height: 16px;
+        border-width: 1px;
+
+        &.absolute-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin: -8px 0 0 -8px;
+        }
+
+        /* This is for the Play/Pause button when it is buffering */
+        .button-icon & {
+            display: inline-block;
+            margin-bottom: -3px;
+        }
+    }
+
+    &.text-center {
+        margin-left: auto;
+        margin-right: auto;
+    }
+}

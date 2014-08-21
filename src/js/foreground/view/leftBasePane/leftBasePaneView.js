@@ -36,8 +36,8 @@
         },
 
         regions: {
-            playlistTitleRegion: '#playlist-title-region',
-            contentRegion: '#content-region'
+            playlistTitleRegion: '.region.playlist-title',
+            contentRegion: '.region.content'
         },
         
         behaviors: {

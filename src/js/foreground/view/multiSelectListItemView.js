@@ -23,7 +23,7 @@
         },
         
         regions: {
-            buttonsRegion: '.buttons-region'
+            buttonsRegion: '.region.list-item-buttons'
         },
         
         behaviors: {

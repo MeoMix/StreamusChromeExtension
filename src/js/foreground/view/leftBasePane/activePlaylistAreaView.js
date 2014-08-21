@@ -12,6 +12,7 @@
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
+        className: 'active-playlist-area',
         childView: PlaylistItemView,
         childViewContainer: '@ui.childContainer',
         template: _.template(ActivePlaylistAreaTemplate),
@@ -39,8 +40,8 @@
         ui: {
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
-            bottomMenubar: '.left-bottom-menubar',
-            childContainer: '#active-playlist-items',
+            bottomMenubar: '.bottom-menubar',
+            childContainer: '.active-playlist-items',
             bigTextWrapper: '.big-text-wrapper',
             playAll: '.play-all',
             addAll: '.add-all'

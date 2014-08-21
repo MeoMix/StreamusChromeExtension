@@ -68,7 +68,7 @@
                     $(this).data('copied', false);
 
                     return $('<span>', {
-                        'class': 'selected-models-length'
+                        'class': 'droppable-selected-models'
                     });
                 },
                 change: function() {

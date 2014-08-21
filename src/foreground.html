@@ -12,20 +12,19 @@
         <link href="css/selectize.css" rel="stylesheet" />
         <link href="css/selectize.default.css" rel="stylesheet" />
         <link href="css/jquery.qtip.css" rel="stylesheet" />
-<!--        <link href="css/awesome-bootstrap-checkbox.css" rel="stylesheet">-->
 
         <!--Load RequireJS and then go to js/foreground/main to start-->
         <script data-main="js/foreground/main" src="js/thirdParty/require.js"></script>
     </head>
     <body>
         <div class="spinner large absolute-center above-fade-out"></div>
-
-        <div id="left-base-pane-region" class="left-pane-region base"></div>
-        <div id="left-covering-pane-region" class="left-pane-region covering"></div>
-        <div id="right-base-pane-region" class="right-pane-region"></div>
+        <!--  TODO: I am required to use ID on these elements until bug resolved: https://github.com/marionettejs/backbone.marionette/issues/1530 -->
+        <div id="left-base-pane-region" class="left-pane region base"></div>
+        <div id="left-covering-pane-region" class="left-pane region covering"></div>
+        <div id="right-base-pane-region" class="right-pane region base"></div>
         
-        <div id="prompt-region" class="absolute-full above-fade-out"></div>
-        <div id="notification-region" class="absolute-full"></div>
-        <div id="context-menu-region" class="absolute-full"></div>
+        <div id="prompt-region" class="prompt region absolute-full above-fade-out"></div>
+        <div id="notification-region" class="notification region absolute-full"></div>
+        <div id="context-menu-region" class="context-menu region absolute-full"></div>
     </body>
 </html>

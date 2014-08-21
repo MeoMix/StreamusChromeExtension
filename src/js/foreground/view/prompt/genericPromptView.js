@@ -4,7 +4,7 @@
     'use strict';
 
     var GenericPromptView = Backbone.Marionette.ItemView.extend({
-        className: 'prompt',
+        className: 'prompt fixed-full-overlay',
         template: _.template(GenericPromptTemplate),
 
         events: {

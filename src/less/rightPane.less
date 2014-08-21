@@ -1,0 +1,231 @@
+﻿@import "colorPallete";
+
+//  Width is set as 255px / 640px, TODO: follow golden ratio more closely
+@rightPaneWidth: 39.84375%;
+
+
+.region.right-pane {
+    bottom: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: @rightPaneWidth;
+
+    &.base {
+        z-index: 1;
+    }
+    
+    .right-pane {
+        background: @white;
+        width: 100%;
+        height: 100%;
+
+        .stream.region {
+            position: absolute;
+            top: 79px;
+            bottom: 0;
+            right: 0;
+            left: 0;
+
+            .stream {
+                width: 100%;
+                height: 100%;
+
+                .repeat-song:after {
+                    content: '1';
+                    border-radius: 50%;
+                    background-color: @mediumDarkGray;
+                    color: @white;
+                    font-size: 10px;
+                    bottom: -3px;
+                    position: relative;
+                    right: 2px;
+                    padding-left: 2px;
+                    padding-right: 3px;
+                    margin-right: -10px;
+                    font-family: sans-serif;
+                }
+
+                .repeat-stream:after {
+                    content: "\221E ";
+                    border-radius: 50%;
+                    background-color: @mediumDarkGray;
+                    color: @white;
+                    font-size: 10px;
+                    bottom: -3px;
+                    position: relative;
+                    right: 2px;
+                    padding-left: 2px;
+                    padding-right: 2px;
+                    font-family: sans-serif;
+                    margin-right: -10px;
+                }
+            }
+        }
+
+        .time-progress.region {
+            top: 45px;
+            left: 15px;
+            right: 15px;
+            position: absolute;
+            font-size: .9em;
+            height: 20px;
+            line-height: 1.5;
+
+            .time-progress {
+                width: 100%;
+                height: 100%;
+
+                .time-slider {
+                    background: @lightGray;
+                    height: 3px;
+                    left: 45px;
+                    position: absolute;
+                    right: 45px;
+                    top: 8px;
+
+                    .progress {
+                        background: @baseBlue;
+                        bottom: 0;
+                        display: block;
+                        left: 0;
+                        position: absolute;
+                        top: 0;
+                        z-index: 1
+                    }
+
+                    input {
+                        bottom: 0;
+                        left: 0;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                        width: 100%;    
+                        z-index: 2;
+                        cursor: pointer;
+                    }
+                }
+
+                .time-elapsed {
+                    position: absolute;
+                    left: 0;
+                    cursor: pointer;
+                }
+
+                .duration {
+                    position: absolute;
+                    right: 0;
+                    cursor: default;
+                }
+            }
+        }
+
+        .top-bar {
+            display: block;
+            height: 45px;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+
+            .region.streamus-menu {
+                display: block;
+                position: absolute;
+                right: 10px;
+                top: 0;
+                height: 45px;
+                width: 40px;
+
+                .menu {
+                    right: 10px;
+                    display: none;
+                    opacity: 0;
+                }
+            }
+
+            .region.volume {
+                .volume {
+                    bottom: 0;
+                    left: 10px;
+                    overflow: hidden;
+                    position: absolute;
+                    top: 0;
+                    height: 45px;
+                    z-index: 3;
+                    width: 42px;
+                    cursor: pointer;
+
+                    .volume-slider {
+                        background: @white;
+                        border: 1px solid @mediumLightGray;
+                        width: 40px;
+                        height: 100px;
+                        position: absolute;
+                        top: 44px;
+                        padding-top: 10px;
+                        padding-bottom: 10px;
+                        opacity: 0;
+                        -webkit-transform: rotate(180deg);
+                        cursor: default;
+
+                        .progress {
+                            margin-left: 19px;
+                            width: 2px;
+                            background: @baseBlue;
+                        }
+
+                        input {
+                            -webkit-appearance: none;
+                            width: 80px;
+                            height: 2px;
+                            -webkit-transform: rotate(90deg);
+                            -webkit-transform-origin: 0 0;
+                            background: rgba(0,0,0,.1);
+                            position: absolute;
+                            top: 10px;
+                            left: 21px;
+                            cursor: pointer;
+
+                            &:focus {
+                                outline: none;
+                            }
+                        }
+
+                        &:before {
+                            display: block;
+                            content: ' ';
+                            width: 10px;
+                            height: 10px;
+                            background: @white;
+                            position: absolute;
+                            bottom: -6px;
+                            left: 50%;
+                            margin-left: -5px;
+                            -webkit-transform: rotate(45deg);
+                            border-bottom: 1px solid @mediumLightGray;
+                            border-right: 1px solid @mediumLightGray;
+                        }
+                    }
+                }
+            }
+
+            .center-group {
+                position: absolute;
+                width: 120px;
+                /*left: calc(50% - 60px);*/
+                left: 67.5px;
+                font-size: 0px;
+            }
+        }
+    }
+
+    .context-buttons {
+        border-top: 1px solid @lightGray;
+        bottom: 0;
+        display: block;
+        height: 30px;
+        left: 10px;
+        position: absolute;
+        right: 10px;
+    }
+}

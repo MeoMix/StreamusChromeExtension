@@ -15,7 +15,7 @@
 
     var PlaylistView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
-        className: 'list-item playlist',
+        className: 'list-item playlist small',
         template: _.template(PlaylistTemplate),
 
         attributes: function () {
@@ -27,7 +27,7 @@
         
         events: {
             'click': '_onClick',
-            'click @ui.playButton': '_play',
+            'click @ui.playButton:not(.disabled)': '_play',
             'contextmenu': '_showContextMenu',
             'dblclick': '_onDblClick'
         },
@@ -51,18 +51,19 @@
         },
         
         initialize: function () {
-            this.listenTo(this.model.get('items'), 'add remove', this._updateItemCount);
+            this.listenTo(this.model.get('items'), 'add remove reset', this._onItemCountChanged);
         },
         
         onRender: function () {
             this._setLoadingClass();
             this._setActiveClass();
+            this._setPlayButtonState();
         },
         
         _updateTitle: function () {
             var title = this.model.get('title');
             this.ui.title.text(title).attr('title', title);
-            this.ui.playButton.attr('title', title);
+            this._setPlayButtonTitle();
         },
         
         _setLoadingClass: function () {
@@ -73,6 +74,26 @@
         _setActiveClass: function () {
             var active = this.model.get('active');
             this.$el.toggleClass('active', active);
+        },
+        
+        _onItemCountChanged: function() {
+            this._updateItemCount();
+            this._setPlayButtonState();
+        },
+        
+        //  Disable the play button when there are no items in the playlist since the button can't do anything.
+        _setPlayButtonState: function () {
+            var itemCount = this.model.get('items').length;
+            this.ui.playButton.toggleClass('disabled', itemCount === 0);
+            this._setPlayButtonTitle();
+        },
+        
+        _setPlayButtonTitle: function() {
+            var isEmpty = this.model.get('items').length === 0;
+            
+            //  TODO: i18n
+            var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : 'Play ' + this.model.get('title');
+            this.ui.playButton.attr('title', title);
         },
         
         _updateItemCount: function () {
