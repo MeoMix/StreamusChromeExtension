@@ -24,6 +24,7 @@ body {
 
     &.loading > *:not(.above-fade-out) {
         opacity: .2;
+        pointer-events: none;
     }
 
     &.hide-tooltips {
@@ -35,7 +36,6 @@ body {
     /* qtip overrides: */
     .qtip {
         min-width: 0;
-        cursor: default;
     }
 
     .qtip-light {
@@ -46,6 +46,18 @@ body {
 
 .panel {
     background: @white;
+}
+
+/* This is the jQuery UI draggable object that shows # of items being dragged */
+.droppable-selected-models {
+    width: 19px !important;
+    height: 19px !important;
+    padding: 2px;
+    background-color: @darkGray;
+    font-weight: bold;
+    color: @white;
+    border-radius: 50%;
+    text-align: center;
 }
 
 .list {
@@ -91,14 +103,6 @@ body {
         .item-title {
             width: 100%;
             padding-right: 80px;
-        }
-
-        i.hoverable {
-            background-color: @lightGray;
-        }
-        /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
-        .region.list-item-buttons {
-            display: block;
         }
     }
 
@@ -170,7 +174,6 @@ body {
 
     .region.list-item-buttons {
         position: absolute;
-        display: none;
         right: 0;
         top: 0;
         bottom: 0;
@@ -181,11 +184,10 @@ body {
             line-height: 30px;
             width: 25px;
             font-size: 14px;
-            cursor: pointer;
-        }
 
-        button:hover {
-            color: @black;
+            &:hover:not(.disabled) {
+                color: @black;
+            }
         }
     }
 
@@ -193,7 +195,6 @@ body {
         font-size: 1.1em;
         white-space: nowrap;
         color: @darkGray;
-        cursor: default;
         display: inline-block;
         width: 100%;
         overflow: hidden;
@@ -212,7 +213,6 @@ body {
         left: 50px;
         position: absolute;
         right: 10px;
-        cursor: default;
     }
 
     .item-details,
@@ -221,13 +221,14 @@ body {
         transition: color .1s;
     }
 
-    img {
+    .item-thumb {
         height: 30px;
         width: 40px;
         position: absolute;
         top: 0;
         left: 0;
     }
+
     /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
        an item being copied -- it looks weird and doesn't make sense because no move happens */
     &.copy-helper + .sortable-placeholder {
@@ -235,41 +236,17 @@ body {
     }
 }
 
-.droppable-selected-models {
-    width: 19px !important;
-    height: 19px !important;
-    padding: 2px;
-    background-color: @darkGray;
-    font-weight: bold;
-    color: @white;
-    border-radius: 50%;
-    text-align: center;
-    z-index: 9999 !important;
-    position: absolute !important;
-}
-
 .big-text-wrapper {
-    position: absolute;
-    top: 55px;
-    bottom: 40px;
-    left: 0;
-    right: 0;
-
-    .region.stream & {
-        top: 0;
-        bottom: 40px;
-    }
-
-    &.extended {
-        bottom: 5px;   
-    }
+    flex: 1;
+    /* TODO: inconsistent :( */
+    padding-top: 5px;
+    padding-bottom: 10px;
 
     .big-text {
         /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
         position: absolute;
         /* width: 100% so that text-align center works properly with position: absolute */
         width: 100%;
-        cursor: default;
         color: @mediumDarkGray;
         text-align: center;
 
@@ -331,7 +308,6 @@ body {
 
     .topic {
         font-size: 1.1em;
-        cursor: default;
 
         &:not(:first-of-type){
             margin-top: 5px;
@@ -344,9 +320,8 @@ body {
 
         li {
             padding: 5px 0;
-            cursor: default;
 
-            input[type="checkbox"], label, select {
+            input[type=checkbox], label, select {
                 cursor: pointer;
             }
 
@@ -391,10 +366,7 @@ body {
 input[type=range] {
     -webkit-appearance: none;
     background: transparent;
-    border: 0;
     height: 1px;
-    margin: 0;
-    padding: 0;
 
     &::-webkit-slider-thumb {
         -webkit-appearance: none;
@@ -405,4 +377,12 @@ input[type=range] {
         width: 10px;
         transition: background-color .1s;
     }
+}
+
+.context-buttons {
+    border-top: 1px solid @lightGray;
+    height: 30px;
+    margin: 0 10px;
+    /* .small-button inside of context-buttons have less width than regular. Need 5px of padding to align with content. */
+    padding: 0 5px;
 }

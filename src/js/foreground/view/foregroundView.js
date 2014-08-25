@@ -12,6 +12,7 @@
     var Player = Streamus.backgroundPage.YouTubePlayer;
     var Settings = Streamus.backgroundPage.Settings;
     var SignInManager = Streamus.backgroundPage.SignInManager;
+    var TabManager = Streamus.backgroundPage.TabManager;
 
     var ForegroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),
@@ -56,6 +57,10 @@
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
+            
+            if (Settings.get('alwaysOpenInTab')) {
+                TabManager.showStreamusTab();
+            }
         },
         
         _setContextMenuRegion: function () {

@@ -8,6 +8,7 @@ define([
     'background/model/omnibox',
     'background/model/search',
     'background/model/syncManager',
+    'background/model/tabManager',
     'background/model/user',
     'background/view/clipboardView'
 ], function () {

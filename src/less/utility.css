@@ -1,8 +1,14 @@
 /* TODO: Can I use lighten/darken on these to be more consistent? */
-.absolute-full {
+.absolute {
+  position: absolute;
+}
+.full {
   width: 100%;
   height: 100%;
-  position: absolute;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 .fixed-full-overlay {
   bottom: 0;
@@ -14,8 +20,7 @@
   z-index: 50;
 }
 .clickable:not(.disabled) {
-  /* TODO: Should be able to be expressed without using !important */
-  cursor: pointer !important;
+  cursor: pointer;
 }
 .lowercase {
   text-transform: lowercase;
@@ -44,6 +49,7 @@
 }
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
+  /* TODO: I don't want to use !important */
   color: #cacaca !important;
-  cursor: default !important;
+  cursor: default;
 }

@@ -6,7 +6,7 @@ define([
     'use strict';
 
     var VolumeView = Backbone.Marionette.ItemView.extend({
-        className: 'volume',
+        className: 'volume clickable',
         template: _.template(VolumeTemplate),
         
         ui: {
@@ -43,6 +43,8 @@ define([
                 height: 150
             }, 250, 'snap');
 
+            this.ui.volumeSlider.removeClass('hidden');
+
             this.ui.volumeSlider.transition({
                 opacity: 1
             }, 250, 'snap');
@@ -55,7 +57,9 @@ define([
 
             this.ui.volumeSlider.transition({
                 opacity: 0
-            }, 250);
+            }, 250, function() {
+                this.ui.volumeSlider.addClass('hidden');
+            }.bind(this));
         },
 
         _setVolume: function () {

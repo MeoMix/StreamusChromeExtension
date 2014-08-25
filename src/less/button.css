@@ -22,6 +22,9 @@ button.enabled {
 button > i {
   transition: color .1s;
 }
+button:not(.disabled) > i {
+  cursor: pointer;
+}
 button.mute.muted {
   color: #e74c3c;
 }
@@ -33,6 +36,7 @@ button.mute.muted {
 }
 .button-small {
   height: 30px;
+  width: 30px;
   line-height: 30px;
 }
 .button-label {

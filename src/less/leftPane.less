@@ -13,8 +13,6 @@
 
     .left-pane {
         background: @white;
-        width: 100%;
-        height: 100%;
 
         .top-bar {
             height: 45px;
@@ -23,13 +21,10 @@
 
         .bottom-menubar {
             border-top: 1px solid @lightGray;
-            bottom: 0;
-            display: block;
             height: 30px;
-            left: 10px;
             line-height: 30px;
-            position: absolute;
-            right: 10px;
+            /* TODO: Prefer use padding, but need margin so border-top looks correct, replace w/ using divider maybe?*/
+            margin: 0 10px;
 
             button {
                 line-height: 30px;
@@ -38,7 +33,6 @@
 
             .playlist-details {
                 color: @mediumDarkGray;
-                cursor: default;
             }
         }
     }
@@ -60,8 +54,11 @@
                     font-size: 1.1em;
                     white-space: nowrap;
                     line-height: 45px;
-                    cursor: default;
                 }
+            }
+
+            .region.content {
+                flex: 1;
             }
 
             /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
@@ -119,7 +116,6 @@
             .panel {
                 bottom: 0;
                 box-shadow: 0 0 20px @darkGray;
-                display: block;
                 left: -250px;
                 position: absolute;
                 top: 0;
@@ -139,9 +135,9 @@
 
             .list {
                 padding: 5px 10px;
+                flex: 1;
 
                 .list-header {
-                    cursor: default;
                     height: 26px;
                     line-height: 26px;
                     font-weight: bold;
@@ -190,7 +186,6 @@
 
                         .title {
                             white-space: nowrap;
-                            cursor: default;
                         }
 
                         .count {
@@ -204,7 +199,6 @@
                             position: absolute;
                             right: 5px;
                             top: 2px;
-                            cursor: default;
                         }
 
                         &.active {
@@ -246,15 +240,6 @@
                         margin-left: .8em;
                     }
                 }
-            }
-
-            .context-buttons {
-                border-top: 1px solid @lightGray;
-                bottom: 0;
-                left: 10px;
-                position: absolute;
-                right: 10px;
-                height: 30px;
             }
         }
     }

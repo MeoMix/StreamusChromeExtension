@@ -453,5 +453,11 @@
 	},
 	"exportPlaylist": {
 		"message": "Export playlist"
+	},
+	"viewInTab": {
+		"message": "View in tab"
+	},
+	"alwaysOpenInTab": {
+		"message": "Always open in tab"
 	}
 }

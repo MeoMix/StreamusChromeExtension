@@ -17,6 +17,7 @@
             lowestMessage: chrome.i18n.getMessage('lowest'),
             showTooltipsMessage: chrome.i18n.getMessage('showTooltips'),
             alwaysOpenToSearchMessage: chrome.i18n.getMessage('alwaysOpenToSearch'),
+            alwaysOpenInTabMessage: chrome.i18n.getMessage('alwaysOpenInTab'),
             remindersMessage: chrome.i18n.getMessage('reminders'),
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
             remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist'),
@@ -31,7 +32,8 @@
             remindDeletePlaylistCheckbox: '#remind-delete-playlist',
             remindLinkUserIdCheckbox: '#remind-link-user-id',
             remindGoogleSignInCheckbox: '#remind-google-sign-in',
-            alwaysOpenToSearchCheckbox: '#always-open-to-search'
+            alwaysOpenToSearchCheckbox: '#always-open-to-search',
+            alwaysOpenInTabCheckbox: '#always-open-in-tab'
         },
         
         events: {
@@ -41,7 +43,8 @@
             'change @ui.showTooltipsCheckbox': '_setShowTooltips',
             'change @ui.alwaysOpenToSearchCheckbox': '_setAlwaysOpenToSearch',
             'change @ui.remindLinkUserIdCheckbox': '_setRemindLinkUserId',
-            'change @ui.remindGoogleSignInCheckbox': '_setRemindGoogleSignIn'
+            'change @ui.remindGoogleSignInCheckbox': '_setRemindGoogleSignIn',
+            'change @ui.alwaysOpenInTabCheckbox': '_setAlwaysOpenInTab'
         },
         
         //  TODO: Refactor w/ enum so this doesn't grow indefinitely
@@ -79,6 +82,11 @@
         _setAlwaysOpenToSearch: function () {
             var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
             this.model.set('alwaysOpenToSearch', alwaysOpenToSearch);
+        },
+        
+        _setAlwaysOpenInTab: function() {
+            var alwaysOpenInTab = this.ui.alwaysOpenInTabCheckbox.is(':checked');
+            this.model.set('alwaysOpenInTab', alwaysOpenInTab);
         }
     });
 

@@ -4,6 +4,7 @@
     'background/model/chromeNotifications',
     'background/model/streamItem',
     'background/model/song',
+    'background/model/tabManager',
     'background/model/player',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/radioButton',
@@ -11,7 +12,7 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (MultiSelectCollection, SequencedCollectionMixin, ChromeNotifications, StreamItem, Song, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (MultiSelectCollection, SequencedCollectionMixin, ChromeNotifications, StreamItem, Song, TabManager, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     var StreamItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
@@ -34,8 +35,6 @@
 
             //  Load any existing StreamItems from local storage
             this.fetch();
-            
-            console.log("Played recently:", this.where({ playedRecently: true }));
 
             //  TODO: Don't persist selectedness to localStorage.
             this.deselectAll();
@@ -291,12 +290,24 @@
                 this.activateNext();
             }
             else if (state === PlayerState.Playing) {
-                //  Only display notifications if the foreground isn't open.
-                var foreground = chrome.extension.getViews({ type: "popup" });
-
-                if (foreground.length === 0) {
-                    this.showActiveNotification();
-                }
+                //  Only display notifications if the foreground isn't open -- either through the extension popup or as a URL tab
+                this._isForegroundOpen(function(isForegroundOpen) {
+                    if (!isForegroundOpen) {
+                        this.showActiveNotification();
+                    }
+                }.bind(this));
+            }
+        },
+        
+        _isForegroundOpen: function (callback) {
+            var foreground = chrome.extension.getViews({ type: "popup" });
+            
+            if (foreground.length === 0) {
+                TabManager.isStreamusTabOpen(function(isStreamusTabOpen) {
+                    callback(isStreamusTabOpen);
+                });
+            } else {
+                callback(true);
             }
         },
         

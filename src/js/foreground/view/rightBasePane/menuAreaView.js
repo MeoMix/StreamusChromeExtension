@@ -3,6 +3,8 @@
     'text!template/menuArea.html'
 ], function (SettingsPromptView, MenuAreaTemplate) {
     'use strict';
+    
+    var TabManager = Streamus.backgroundPage.TabManager;
 
     var MenuAreaView = Backbone.Marionette.ItemView.extend({
         id: 'menu-area',
@@ -12,6 +14,7 @@
             return {
                 settingsMessage: chrome.i18n.getMessage('settings'),
                 keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
+                viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
                 donateMessage: chrome.i18n.getMessage('donate'),
                 reloadMessage: chrome.i18n.getMessage('reload')
             };
@@ -21,6 +24,7 @@
             'click @ui.menuButton': '_toggleMenu',
             'click @ui.settingsMenuItem': '_showSettingsPrompt',
             'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
+            'click @ui.viewInTabMenuItem': '_openStreamusTab',
             'click @ui.donateMenuItem': '_openDonateTab',
             'click @ui.restartMenuItem': '_restart'
         },
@@ -29,6 +33,7 @@
             menuButton: '.menu-button',
             menu: '.menu',
             settingsMenuItem: '.menu .settings',
+            viewInTabMenuItem: '.menu .view-in-tab',
             donateMenuItem: '.menu .donate',
             keyboardShortcutsMenuItem: '.menu .keyboard-shortcuts',
             restartMenuItem: '.menu .reload'
@@ -75,16 +80,16 @@
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
         },
         
+        _openStreamusTab: function () {
+            TabManager.showStreamusTab();
+        },
+        
         _openDonateTab: function () {
-            chrome.tabs.create({
-                url: 'https://streamus.com/#donate'
-            });
+            TabManager.showTab('https://streamus.com/#donate');
         },
         
         _openKeyboardShortcutsTab: function() {
-            chrome.tabs.create({
-                url: 'chrome://extensions/configureCommands'
-            });
+            TabManager.showTab('chrome://extensions/configureCommands');
         },
         
         _restart: function() {

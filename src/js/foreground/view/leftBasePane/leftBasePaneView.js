@@ -11,7 +11,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
-        className: 'left-pane',
+        className: 'left-pane full flex-column',
         template: _.template(LeftBasePaneTemplate),
         
         templateHelpers: function () {

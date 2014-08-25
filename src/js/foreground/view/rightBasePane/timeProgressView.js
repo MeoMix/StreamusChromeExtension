@@ -11,7 +11,7 @@ define([
     var Settings = Streamus.backgroundPage.Settings;
 
     var TimeProgressView = Backbone.Marionette.ItemView.extend({
-        className: 'time-progress',
+        className: 'time-progress full',
         template: _.template(TimeProgressTemplate),
         
         templateHelpers: {

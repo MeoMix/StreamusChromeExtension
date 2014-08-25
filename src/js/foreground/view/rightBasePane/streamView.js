@@ -17,7 +17,7 @@
     var ShuffleButton = Streamus.backgroundPage.ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
-        className: 'stream',
+        className: 'stream full flex-column',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         
@@ -123,6 +123,8 @@
         //  Show buttons if there is anything in the collection otherwise hide
         _toggleContextButtons: function () {
             this.ui.contextButtons.toggle(this.collection.length > 0);
+            //  Need to update viewportHeight in slidingRender behavior:
+            this.triggerMethod('ListHeightUpdated');
         },
         
         _clear: function() {

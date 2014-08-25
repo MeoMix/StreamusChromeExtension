@@ -28,6 +28,10 @@ button {
         transition: color .1s;
     }
 
+    &:not(.disabled) > i {
+        cursor: pointer;
+    }
+
     /* TODO: Maybe this should just go on a volume button */
     &.mute.muted{
         color: @alizarin;
@@ -43,7 +47,8 @@ button {
 
 .button-small {
     height: 30px;
-    line-height: 30px
+    width: 30px;
+    line-height: 30px;
 }
 
 .button-label {

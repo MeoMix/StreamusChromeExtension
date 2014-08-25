@@ -359,10 +359,6 @@ input:focus,
 button:focus {
   outline: none;
 }
-input[type=text] {
-  border: 0;
-  padding: 0 .2em;
-}
 ul,
 li {
   margin: 0;
@@ -381,6 +377,15 @@ input[type=radio] {
 *:after {
   box-sizing: border-box;
 }
+/* I don't really want text elements to show the text cursor. Just wipe all cursor stylings and set where wanted. */
+* {
+  cursor: default;
+}
+input[type=text] {
+  border: 0;
+  padding: 0 .2em;
+  cursor: text;
+}
 /* TODO: Not sure if it's kosher to be messing with the font-size of font-awesome/fontello icons directly like this */
 i {
   font-size: 14px;
@@ -389,10 +394,16 @@ i.fa-lg {
   font-size: 19px;
 }
 /* TODO: Can I use lighten/darken on these to be more consistent? */
-.absolute-full {
+.absolute {
+  position: absolute;
+}
+.full {
   width: 100%;
   height: 100%;
-  position: absolute;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
 }
 .fixed-full-overlay {
   bottom: 0;
@@ -404,8 +415,7 @@ i.fa-lg {
   z-index: 50;
 }
 .clickable:not(.disabled) {
-  /* TODO: Should be able to be expressed without using !important */
-  cursor: pointer !important;
+  cursor: pointer;
 }
 .lowercase {
   text-transform: lowercase;
@@ -434,8 +444,9 @@ i.fa-lg {
 }
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
+  /* TODO: I don't want to use !important */
   color: #cacaca !important;
-  cursor: default !important;
+  cursor: default;
 }
 @font-face {
   font-family: 'Open Sans';
@@ -472,7 +483,7 @@ i.fa-lg {
 ::-webkit-scrollbar-thumb:vertical:hover {
   background-color: #666666;
 }
-@-webkit-keyframes spin {
+@keyframes spin {
   from {
     transform: rotate(0);
   }
@@ -550,6 +561,9 @@ button.enabled {
 button > i {
   transition: color .1s;
 }
+button:not(.disabled) > i {
+  cursor: pointer;
+}
 button.mute.muted {
   color: #e74c3c;
 }
@@ -561,6 +575,7 @@ button.mute.muted {
 }
 .button-small {
   height: 30px;
+  width: 30px;
   line-height: 30px;
 }
 .button-label {
@@ -642,7 +657,6 @@ html .selectize-control.multi .selectize-input.full > input {
   background: #ffffff;
 }
 .region.prompt .prompt .panel .header .title {
-  cursor: default;
   line-height: 45px;
   font-size: 1.1em;
   padding-left: 10px;
@@ -746,8 +760,6 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .region.left-pane .left-pane {
   background: #ffffff;
-  width: 100%;
-  height: 100%;
 }
 .region.left-pane .left-pane .top-bar {
   height: 45px;
@@ -755,35 +767,17 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .region.left-pane .left-pane .bottom-menubar {
   border-top: 1px solid #ebebeb;
-  bottom: 0;
-  display: block;
   height: 30px;
-  left: 10px;
   line-height: 30px;
-  position: absolute;
-  right: 10px;
+  /* TODO: Prefer use padding, but need margin so border-top looks correct, replace w/ using divider maybe?*/
+  margin: 0 10px;
 }
 .region.left-pane .left-pane .bottom-menubar button {
   line-height: 30px;
   padding: 0 .5em;
 }
 .region.left-pane .left-pane .bottom-menubar .playlist-details {
-  bottom: 0;
-  display: block;
-  left: 0;
-  line-height: 30px;
-  position: absolute;
-  top: 0;
   color: #666666;
-  cursor: default;
-}
-.region.left-pane .left-pane .bottom-menubar .playlist-actions {
-  bottom: 0;
-  display: block;
-  line-height: 30px;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 .region.left-pane.region.left-pane.base {
   z-index: 1;
@@ -804,7 +798,9 @@ html .selectize-control.multi .selectize-input.full > input {
   font-size: 1.1em;
   white-space: nowrap;
   line-height: 45px;
-  cursor: default;
+}
+.region.left-pane.region.left-pane.base .left-pane .region.content {
+  flex: 1;
 }
 .region.left-pane.region.left-pane.base .left-pane .fa-search {
   font-size: 18px;
@@ -847,7 +843,6 @@ html .selectize-control.multi .selectize-input.full > input {
 .region.left-pane.region.left-pane.covering .playlists-area .panel {
   bottom: 0;
   box-shadow: 0 0 20px #333333;
-  display: block;
   left: -250px;
   position: absolute;
   top: 0;
@@ -865,9 +860,9 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list {
   padding: 5px 10px;
+  flex: 1;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .list-header {
-  cursor: default;
   height: 26px;
   line-height: 26px;
   font-weight: bold;
@@ -905,7 +900,6 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .title {
   white-space: nowrap;
-  cursor: default;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .count {
   background: #666666;
@@ -918,7 +912,6 @@ html .selectize-control.multi .selectize-input.full > input {
   position: absolute;
   right: 5px;
   top: 2px;
-  cursor: default;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active {
   background: #4ea6ea;
@@ -949,19 +942,6 @@ html .selectize-control.multi .selectize-input.full > input {
   line-height: 16px;
   margin-left: .8em;
 }
-.region.left-pane.region.left-pane.covering .playlists-area .context-buttons {
-  border-top: 1px solid #ebebeb;
-  bottom: 0;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-  height: 30px;
-}
-.region.left-pane.region.left-pane.covering .playlists-area .context-buttons .right-group {
-  position: absolute;
-  top: 0;
-  right: 0;
-}
 .region.right-pane {
   bottom: 0;
   position: absolute;
@@ -974,19 +954,13 @@ html .selectize-control.multi .selectize-input.full > input {
 }
 .region.right-pane .right-pane {
   background: #ffffff;
-  width: 100%;
-  height: 100%;
 }
 .region.right-pane .right-pane .stream.region {
   position: absolute;
-  top: 79px;
+  top: 75px;
   bottom: 0;
   right: 0;
   left: 0;
-}
-.region.right-pane .right-pane .stream.region .stream {
-  width: 100%;
-  height: 100%;
 }
 .region.right-pane .right-pane .stream.region .stream .repeat-song:after {
   content: '1';
@@ -1025,28 +999,23 @@ html .selectize-control.multi .selectize-input.full > input {
   height: 20px;
   line-height: 1.5;
 }
-.region.right-pane .right-pane .time-progress.region .time-progress {
-  width: 100%;
-  height: 100%;
-}
 .region.right-pane .right-pane .time-progress.region .time-progress .time-slider {
   background: #ebebeb;
   height: 3px;
+  right: 45px;
   left: 45px;
   position: absolute;
-  right: 45px;
   top: 8px;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .time-slider .progress {
   background: #4ea6ea;
   bottom: 0;
-  display: block;
   left: 0;
   position: absolute;
   top: 0;
   z-index: 1;
 }
-.region.right-pane .right-pane .time-progress.region .time-progress .time-slider input {
+.region.right-pane .right-pane .time-progress.region .time-progress .time-slider .time-range {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -1054,28 +1023,19 @@ html .selectize-control.multi .selectize-input.full > input {
   top: 0;
   width: 100%;
   z-index: 2;
-  cursor: pointer;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .time-elapsed {
   position: absolute;
   left: 0;
-  cursor: pointer;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .duration {
   position: absolute;
   right: 0;
-  cursor: default;
 }
 .region.right-pane .right-pane .top-bar {
-  display: block;
   height: 45px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 .region.right-pane .right-pane .top-bar .region.streamus-menu {
-  display: block;
   position: absolute;
   right: 10px;
   top: 0;
@@ -1087,36 +1047,28 @@ html .selectize-control.multi .selectize-input.full > input {
   display: none;
   opacity: 0;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume {
-  bottom: 0;
-  left: 10px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
+.region.right-pane .right-pane .top-bar .region.volume {
   height: 45px;
-  z-index: 3;
-  width: 42px;
-  cursor: pointer;
+  width: 40px;
+  position: absolute;
+  left: 10px;
+  z-index: 1;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider {
   background: #ffffff;
   border: 1px solid #cacaca;
   width: 40px;
   height: 100px;
-  position: absolute;
-  top: 44px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 0;
   opacity: 0;
   -webkit-transform: rotate(180deg);
-  cursor: default;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .progress {
   margin-left: 19px;
   width: 2px;
   background: #4ea6ea;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider input {
+.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .volume-range {
   -webkit-appearance: none;
   width: 80px;
   height: 2px;
@@ -1126,9 +1078,8 @@ html .selectize-control.multi .selectize-input.full > input {
   position: absolute;
   top: 10px;
   left: 21px;
-  cursor: pointer;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider input:focus {
+.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .volume-range:focus {
   outline: none;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider:before {
@@ -1146,36 +1097,9 @@ html .selectize-control.multi .selectize-input.full > input {
   border-right: 1px solid #cacaca;
 }
 .region.right-pane .right-pane .top-bar .center-group {
-  position: absolute;
   width: 120px;
-  /*left: calc(50% - 60px);*/
-  left: 67.5px;
+  margin: 0 auto;
   font-size: 0px;
-}
-.region.right-pane .context-buttons {
-  border-top: 1px solid #ebebeb;
-  bottom: 0;
-  display: block;
-  height: 30px;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-}
-.region.right-pane .context-buttons .left-group {
-  display: block;
-  height: 30px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 128px;
-}
-.region.right-pane .context-buttons .right-group {
-  display: block;
-  height: 30px;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 84px;
 }
 body {
   width: 640px;
@@ -1189,13 +1113,13 @@ body:not(.loading) > .spinner {
 }
 body.loading > *:not(.above-fade-out) {
   opacity: .2;
+  pointer-events: none;
 }
 body.hide-tooltips .qtip {
   display: none !important;
 }
 body .qtip {
   min-width: 0;
-  cursor: default;
 }
 body .qtip-light {
   border-color: #ebebeb;
@@ -1203,6 +1127,17 @@ body .qtip-light {
 }
 .panel {
   background: #ffffff;
+}
+/* This is the jQuery UI draggable object that shows # of items being dragged */
+.droppable-selected-models {
+  width: 19px !important;
+  height: 19px !important;
+  padding: 2px;
+  background-color: #333333;
+  font-weight: bold;
+  color: #ffffff;
+  border-radius: 50%;
+  text-align: center;
 }
 .list {
   height: 100%;
@@ -1238,17 +1173,10 @@ body .qtip-light {
 .list-item:hover {
   background: #ebebeb;
   border-color: #ebebeb;
-  /* Shift the title over an amount equal to icon on the far right side's width to simulate the icon pushing the title over '*/
 }
 .list-item:hover .item-title {
   width: 100%;
   padding-right: 80px;
-}
-.list-item:hover i.hoverable {
-  background-color: #ebebeb;
-}
-.list-item:hover .region.list-item-buttons {
-  display: block;
 }
 .list-item.active.stream-item {
   background: #f1c40f;
@@ -1306,7 +1234,6 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 }
 .list-item .region.list-item-buttons {
   position: absolute;
-  display: none;
   right: 0;
   top: 0;
   bottom: 0;
@@ -1317,16 +1244,14 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
   line-height: 30px;
   width: 25px;
   font-size: 14px;
-  cursor: pointer;
 }
-.list-item .region.list-item-buttons button:hover {
+.list-item .region.list-item-buttons .button-icon:hover:not(.disabled) {
   color: #000000;
 }
 .list-item .item-title {
   font-size: 1.1em;
   white-space: nowrap;
   color: #333333;
-  cursor: default;
   display: inline-block;
   width: 100%;
   overflow: hidden;
@@ -1344,14 +1269,13 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
   left: 50px;
   position: absolute;
   right: 10px;
-  cursor: default;
 }
 .list-item .item-details,
 .list-item .region.list-item-buttons,
 .list-item .item-title {
   transition: color .1s;
 }
-.list-item img {
+.list-item .item-thumb {
   height: 30px;
   width: 40px;
   position: absolute;
@@ -1361,38 +1285,17 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 .list-item.copy-helper + .sortable-placeholder {
   display: none;
 }
-.droppable-selected-models {
-  width: 19px !important;
-  height: 19px !important;
-  padding: 2px;
-  background-color: #333333;
-  font-weight: bold;
-  color: #ffffff;
-  border-radius: 50%;
-  text-align: center;
-  z-index: 9999 !important;
-  position: absolute !important;
-}
 .big-text-wrapper {
-  position: absolute;
-  top: 55px;
-  bottom: 40px;
-  left: 0;
-  right: 0;
-}
-.region.stream .big-text-wrapper {
-  top: 0;
-  bottom: 40px;
-}
-.big-text-wrapper.extended {
-  bottom: 5px;
+  flex: 1;
+  /* TODO: inconsistent :( */
+  padding-top: 5px;
+  padding-bottom: 10px;
 }
 .big-text-wrapper .big-text {
   /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
   position: absolute;
   /* width: 100% so that text-align center works properly with position: absolute */
   width: 100%;
-  cursor: default;
   color: #666666;
   text-align: center;
 }
@@ -1443,7 +1346,6 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 }
 .topic-group .topic {
   font-size: 1.1em;
-  cursor: default;
 }
 .topic-group .topic:not(:first-of-type) {
   margin-top: 5px;
@@ -1454,10 +1356,9 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 }
 .topic-group .category li {
   padding: 5px 0;
-  cursor: default;
   /* Select element feels like they're given too much padding implicitly -- center them vertically a bit better */
 }
-.topic-group .category li input[type="checkbox"],
+.topic-group .category li input[type=checkbox],
 .topic-group .category li label,
 .topic-group .category li select {
   cursor: pointer;
@@ -1493,10 +1394,7 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 input[type=range] {
   -webkit-appearance: none;
   background: transparent;
-  border: 0;
   height: 1px;
-  margin: 0;
-  padding: 0;
 }
 input[type=range]::-webkit-slider-thumb {
   -webkit-appearance: none;
@@ -1506,4 +1404,11 @@ input[type=range]::-webkit-slider-thumb {
   height: 10px;
   width: 10px;
   transition: background-color 0.1s;
+}
+.context-buttons {
+  border-top: 1px solid #ebebeb;
+  height: 30px;
+  margin: 0 10px;
+  /* .small-button inside of context-buttons have less width than regular. Need 5px of padding to align with content. */
+  padding: 0 5px;
 }

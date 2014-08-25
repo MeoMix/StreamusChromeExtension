@@ -16,7 +16,7 @@ define([
 
     var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
         id: 'right-base-pane',
-        className: 'right-pane',
+        className: 'right-pane full flex-column',
         template: _.template(RightBasePaneTemplate),
         
         regions: {

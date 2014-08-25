@@ -76,7 +76,6 @@
                     };
                 });
                     
-                //console.table(songs);
                 expect(relatedSongInformation.length).toBeGreaterThan(0);
                 expect(relatedSongInformation.length).toBe(10);
             });

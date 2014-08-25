@@ -3,10 +3,6 @@ input:focus,
 button:focus {
   outline: none;
 }
-input[type=text] {
-  border: 0;
-  padding: 0 .2em;
-}
 ul,
 li {
   margin: 0;
@@ -24,6 +20,15 @@ input[type=radio] {
 *:before,
 *:after {
   box-sizing: border-box;
+}
+/* I don't really want text elements to show the text cursor. Just wipe all cursor stylings and set where wanted. */
+* {
+  cursor: default;
+}
+input[type=text] {
+  border: 0;
+  padding: 0 .2em;
+  cursor: text;
 }
 /* TODO: Not sure if it's kosher to be messing with the font-size of font-awesome/fontello icons directly like this */
 i {

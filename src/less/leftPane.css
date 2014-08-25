@@ -9,8 +9,6 @@
 }
 .region.left-pane .left-pane {
   background: #ffffff;
-  width: 100%;
-  height: 100%;
 }
 .region.left-pane .left-pane .top-bar {
   height: 45px;
@@ -18,13 +16,10 @@
 }
 .region.left-pane .left-pane .bottom-menubar {
   border-top: 1px solid #ebebeb;
-  bottom: 0;
-  display: block;
   height: 30px;
-  left: 10px;
   line-height: 30px;
-  position: absolute;
-  right: 10px;
+  /* TODO: Prefer use padding, but need margin so border-top looks correct, replace w/ using divider maybe?*/
+  margin: 0 10px;
 }
 .region.left-pane .left-pane .bottom-menubar button {
   line-height: 30px;
@@ -32,7 +27,6 @@
 }
 .region.left-pane .left-pane .bottom-menubar .playlist-details {
   color: #666666;
-  cursor: default;
 }
 .region.left-pane.region.left-pane.base {
   z-index: 1;
@@ -53,7 +47,9 @@
   font-size: 1.1em;
   white-space: nowrap;
   line-height: 45px;
-  cursor: default;
+}
+.region.left-pane.region.left-pane.base .left-pane .region.content {
+  flex: 1;
 }
 .region.left-pane.region.left-pane.base .left-pane .fa-search {
   font-size: 18px;
@@ -96,7 +92,6 @@
 .region.left-pane.region.left-pane.covering .playlists-area .panel {
   bottom: 0;
   box-shadow: 0 0 20px #333333;
-  display: block;
   left: -250px;
   position: absolute;
   top: 0;
@@ -114,9 +109,9 @@
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list {
   padding: 5px 10px;
+  flex: 1;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .list-header {
-  cursor: default;
   height: 26px;
   line-height: 26px;
   font-weight: bold;
@@ -154,7 +149,6 @@
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .title {
   white-space: nowrap;
-  cursor: default;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .count {
   background: #666666;
@@ -167,7 +161,6 @@
   position: absolute;
   right: 5px;
   top: 2px;
-  cursor: default;
 }
 .region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active {
   background: #4ea6ea;
@@ -197,12 +190,4 @@
   width: 145px;
   line-height: 16px;
   margin-left: .8em;
-}
-.region.left-pane.region.left-pane.covering .playlists-area .context-buttons {
-  border-top: 1px solid #ebebeb;
-  bottom: 0;
-  left: 10px;
-  position: absolute;
-  right: 10px;
-  height: 30px;
 }

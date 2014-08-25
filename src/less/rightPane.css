@@ -11,19 +11,13 @@
 }
 .region.right-pane .right-pane {
   background: #ffffff;
-  width: 100%;
-  height: 100%;
 }
 .region.right-pane .right-pane .stream.region {
   position: absolute;
-  top: 79px;
+  top: 75px;
   bottom: 0;
   right: 0;
   left: 0;
-}
-.region.right-pane .right-pane .stream.region .stream {
-  width: 100%;
-  height: 100%;
 }
 .region.right-pane .right-pane .stream.region .stream .repeat-song:after {
   content: '1';
@@ -62,28 +56,23 @@
   height: 20px;
   line-height: 1.5;
 }
-.region.right-pane .right-pane .time-progress.region .time-progress {
-  width: 100%;
-  height: 100%;
-}
 .region.right-pane .right-pane .time-progress.region .time-progress .time-slider {
   background: #ebebeb;
   height: 3px;
+  right: 45px;
   left: 45px;
   position: absolute;
-  right: 45px;
   top: 8px;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .time-slider .progress {
   background: #4ea6ea;
   bottom: 0;
-  display: block;
   left: 0;
   position: absolute;
   top: 0;
   z-index: 1;
 }
-.region.right-pane .right-pane .time-progress.region .time-progress .time-slider input {
+.region.right-pane .right-pane .time-progress.region .time-progress .time-slider .time-range {
   bottom: 0;
   left: 0;
   position: absolute;
@@ -91,28 +80,19 @@
   top: 0;
   width: 100%;
   z-index: 2;
-  cursor: pointer;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .time-elapsed {
   position: absolute;
   left: 0;
-  cursor: pointer;
 }
 .region.right-pane .right-pane .time-progress.region .time-progress .duration {
   position: absolute;
   right: 0;
-  cursor: default;
 }
 .region.right-pane .right-pane .top-bar {
-  display: block;
   height: 45px;
-  left: 0;
-  position: absolute;
-  right: 0;
-  top: 0;
 }
 .region.right-pane .right-pane .top-bar .region.streamus-menu {
-  display: block;
   position: absolute;
   right: 10px;
   top: 0;
@@ -124,36 +104,28 @@
   display: none;
   opacity: 0;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume {
-  bottom: 0;
-  left: 10px;
-  overflow: hidden;
-  position: absolute;
-  top: 0;
+.region.right-pane .right-pane .top-bar .region.volume {
   height: 45px;
-  z-index: 3;
-  width: 42px;
-  cursor: pointer;
+  width: 40px;
+  position: absolute;
+  left: 10px;
+  z-index: 1;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider {
   background: #ffffff;
   border: 1px solid #cacaca;
   width: 40px;
   height: 100px;
-  position: absolute;
-  top: 44px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding: 10px 0;
   opacity: 0;
   -webkit-transform: rotate(180deg);
-  cursor: default;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .progress {
   margin-left: 19px;
   width: 2px;
   background: #4ea6ea;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider input {
+.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .volume-range {
   -webkit-appearance: none;
   width: 80px;
   height: 2px;
@@ -163,9 +135,8 @@
   position: absolute;
   top: 10px;
   left: 21px;
-  cursor: pointer;
 }
-.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider input:focus {
+.region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider .volume-range:focus {
   outline: none;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider:before {
@@ -183,18 +154,7 @@
   border-right: 1px solid #cacaca;
 }
 .region.right-pane .right-pane .top-bar .center-group {
-  position: absolute;
   width: 120px;
-  /*left: calc(50% - 60px);*/
-  left: 67.5px;
+  margin: 0 auto;
   font-size: 0px;
-}
-.region.right-pane .context-buttons {
-  border-top: 1px solid #ebebeb;
-  bottom: 0;
-  display: block;
-  height: 30px;
-  left: 10px;
-  position: absolute;
-  right: 10px;
 }

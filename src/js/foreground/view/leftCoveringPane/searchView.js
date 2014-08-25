@@ -15,7 +15,7 @@
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
-        className: 'left-pane',
+        className: 'left-pane full flex-column',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
@@ -157,17 +157,10 @@
         
         _toggleBottomMenubar: function () {
             var selectedCount = this.collection.selected().length;
-            
-            var extended = this.ui.bigTextWrapper.hasClass('extended');
-            var doToggle = (extended && selectedCount > 0) || (!extended && selectedCount === 0);
-            
-            if (doToggle) {
-                this.ui.bottomMenubar.toggle(selectedCount > 0);
-                this.ui.bigTextWrapper.toggleClass('extended', selectedCount === 0);
+            this.ui.bottomMenubar.toggle(selectedCount > 0);
 
-                //  Need to update viewportHeight in slidingRender behavior:
-                this.triggerMethod('ListHeightUpdated');
-            }
+            //  Need to update viewportHeight in slidingRender behavior:
+            this.triggerMethod('ListHeightUpdated');
         },
 
         //  Set the visibility of any visible text messages.

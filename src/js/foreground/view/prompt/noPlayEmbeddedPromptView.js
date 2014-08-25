@@ -4,6 +4,8 @@
     'foreground/view/prompt/genericPromptView'
 ], function (GenericPrompt, NoPlayEmbeddedView, GenericPromptView) {
     'use strict';
+    
+    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var NoPlayEmbeddedPromptView = GenericPromptView.extend({
         initialize: function () {
@@ -14,6 +16,8 @@
             });
             
             GenericPromptView.prototype.initialize.apply(this, arguments);
+
+            throw new Error("NoPlayEmbeddedView shown, loadedSongId:", Player.get('loadedSongId'));
         }
     });
 

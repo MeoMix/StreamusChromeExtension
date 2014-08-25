@@ -12,6 +12,7 @@
             var showTimeRemaining = this.getItem('showTimeRemaining');
             var showTooltips = this.getItem('showTooltips');
             var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
+            var alwaysOpenInTab = this.getItem('alwaysOpenInTab');
             
             return {
                 localDebug: false,
@@ -25,7 +26,8 @@
                 remindLinkUserId: remindLinkUserId === null ? true : remindLinkUserId,
                 remindGoogleSignIn: remindGoogleSignIn == null ? true: remindGoogleSignIn,
                 showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
-                alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch
+                alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch,
+                alwaysOpenInTab: alwaysOpenInTab === null ? false : alwaysOpenInTab
             };
         },
         
@@ -48,6 +50,10 @@
             
             this.on('change:alwaysOpenToSearch', function (model, alwaysOpenToSearch) {
                 localStorage.setItem('alwaysOpenToSearch', JSON.stringify(alwaysOpenToSearch));
+            });
+            
+            this.on('change:alwaysOpenInTab', function (model, alwaysOpenInTab) {
+                localStorage.setItem('alwaysOpenInTab', JSON.stringify(alwaysOpenInTab));
             });
 
             this.on('change:showTooltips', function (model, showTooltips) {

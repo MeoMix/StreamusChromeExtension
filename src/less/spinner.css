@@ -1,5 +1,5 @@
 /* TODO: Can I use lighten/darken on these to be more consistent? */
-@-webkit-keyframes spin {
+@keyframes spin {
   from {
     transform: rotate(0);
   }

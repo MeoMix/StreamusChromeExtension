@@ -12,7 +12,7 @@
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
-        className: 'active-playlist-area',
+        className: 'active-playlist-area full flex-column',
         childView: PlaylistItemView,
         childViewContainer: '@ui.childContainer',
         template: _.template(ActivePlaylistAreaTemplate),
@@ -101,16 +101,9 @@
         },
         
         _toggleBottomMenubar: function () {
-            var extended = this.ui.bigTextWrapper.hasClass('extended');
-            var doToggle = (extended && this.collection.length > 0) || (!extended && this.collection.length === 0);
-
-            if (doToggle) {
-                this.ui.bottomMenubar.toggle(this.collection.length > 0);
-                this.ui.bigTextWrapper.toggleClass('extended', this.collection.length === 0);
-
-                //  Need to update viewportHeight in slidingRender behavior:
-                this.triggerMethod('ListHeightUpdated');
-            }
+            this.ui.bottomMenubar.toggle(this.collection.length > 0);
+            //  Need to update viewportHeight in slidingRender behavior:
+            this.triggerMethod('ListHeightUpdated');
         },
 
         _addAllToStream: function () {
