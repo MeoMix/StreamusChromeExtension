@@ -44,7 +44,7 @@
                     this._scrollToItem(this.view.collection.getActiveItem());
                 }
             }
-            
+
             var self = this;
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
             this.ui.list.scroll(_.throttle(function () {
@@ -151,11 +151,13 @@
                 this.minRenderIndex = minRenderIndex;
                 this.maxRenderIndex = maxRenderIndex;
 
+                var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
+
                 if (direction === 'down') {
                     //  Items will be appended after oldMaxRenderIndex. 
-                    this._addItems(itemsToAdd, currentMaxRenderIndex + 1, true);
+                    this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
                 } else {
-                    this._addItems(itemsToAdd, minRenderIndex, false);
+                    this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
                 }
 
                 this._removeItems(itemsToRemove);
@@ -194,18 +196,26 @@
             this.view.ui.childContainer.height(height);
         },
 
-        _addItems: function (models, indexOffset, isAddingToEnd) {
+        _addItems: function (models, indexOffset, currentTotalRendered, isAddingToEnd) {
+            var skippedCount = 0;
+
             var ChildView;
             _.each(models, function (model, index) {
                 ChildView = this.view.getChildView(model);
+                
+                var shouldAdd = this._indexWithinRenderRange(index + indexOffset);
 
-                if (isAddingToEnd) {
-                    //  Adjust the childView's index to account for where it is actually being added in the list
-                    this._addChild(model, ChildView, index + indexOffset);
+                if (shouldAdd) {
+                    if (isAddingToEnd) {
+                        //  Adjust the childView's index to account for where it is actually being added in the list
+                        this._addChild(model, ChildView, index + currentTotalRendered - skippedCount, true);
+                    } else {
+                        //  Adjust the childView's index to account for where it is actually being added in the list, but
+                        //  also provide the unmodified index because this is the location in the rendered childViewList in which it will be added.
+                        this._addChild(model, ChildView, index, true);
+                    }
                 } else {
-                    //  Adjust the childView's index to account for where it is actually being added in the list, but
-                    //  also provide the unmodified index because this is the location in the rendered childViewList in which it will be added.
-                    this._addChild(model, ChildView, index, index + indexOffset);
+                    skippedCount++;
                 }
             }, this);
         },
@@ -227,14 +237,11 @@
             }, this);
         },
         
-        _addChild: function (item, ChildView, index, indexOverride) {
-            //  indexOverride is necessary because the 'actual' index of an item is different from its rendered position's index.
-            var shouldAdd;
-            if (_.isUndefined(indexOverride)) {
-                shouldAdd = this._indexWithinRenderRange(index);
-            } else {
-                shouldAdd = this._indexWithinRenderRange(indexOverride);
-            }
+        //  The bypass flag is set when shouldAdd has already been determined elsewhere. 
+        //  This is necessary because sometimes the view's model's index in its collection is different than the view's index in the collectionview.
+        //  In this scenario the index has already been corrected before _addChild is called so the index isn't a valid indicator of whether the view should be added.
+        _addChild: function (child, ChildView, index, bypass) {
+            var shouldAdd = bypass || this._indexWithinRenderRange(index);
 
             if (shouldAdd) {
                 Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
