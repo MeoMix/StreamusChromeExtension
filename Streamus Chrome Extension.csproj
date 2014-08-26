@@ -131,6 +131,7 @@
     <Content Include="src\js\foreground\model\contextMenuActions.js" />
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
+    <Content Include="src\js\background\model\tabManager.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\exportPlaylistView.js" />
