@@ -1,4 +1,5 @@
 ﻿@import "colorPallete";
+@import "utility";
 
 button {
     color: @darkGray;
@@ -7,7 +8,7 @@ button {
     cursor: pointer;
     margin: 0;
     padding: 0;
-    transition: color .05s, text-shadow .05s;
+    .color-transition;
 
     &:hover {
         color: @black;
@@ -26,7 +27,7 @@ button {
     }
 
     > i {
-        transition: color .1s;
+        .color-transition;
         cursor: pointer;
     }
 
@@ -41,7 +42,6 @@ button {
     &.button-color {
         background: @lightGray;
         border: 1px solid @mediumLightGray;
-        transition: all .1s;
 
         &:hover {
             border-color: @baseBlue;

@@ -1,4 +1,4 @@
-/* TODO: Can I use lighten/darken on these to be more consistent? */
+/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
 .region.prompt .prompt {
   /* Reminder checkboxes always go in the bottom right of the prompt */
 }
@@ -15,7 +15,7 @@
   padding-right: 5px;
 }
 .region.prompt .prompt .panel {
-  box-shadow: 0 0 20px #333333;
+  box-shadow: 0 0 10px #333333;
   position: absolute;
   left: 50%;
   opacity: 0;

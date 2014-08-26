@@ -56,3 +56,9 @@
 .disabled * {
   cursor: default;
 }
+.color-transition {
+  transition: color 0.1s, background 0.1s, border 0.1s, text-shadow 0.1s;
+}
+.slow-color-transition {
+  transition: color 0.3s, background 0.3s, border 0.3s, text-shadow 0.3s;
+}

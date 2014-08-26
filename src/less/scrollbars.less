@@ -1,4 +1,5 @@
 ﻿@import "colorPallete";
+@import "utility";
 
 /* Custom Webkit Scrollbar */
 /* http://css-tricks.com/custom-scrollbars-in-webkit/ */
@@ -21,7 +22,7 @@
 ::-webkit-scrollbar-thumb:vertical {
     background-color: @lightGray;
     height: 50px;
-    transition: background-color .1s;
+    .color-transition;
 }
 
 ::-webkit-scrollbar-thumb:vertical:hover {

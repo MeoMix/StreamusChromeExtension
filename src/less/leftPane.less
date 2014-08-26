@@ -1,4 +1,5 @@
 ﻿@import "colorPallete";
+@import "utility";
 
 //  Width is set as 385px / 640px, TODO: follow golden ratio more closely
 @leftPaneWidth: 60.15625%;
@@ -115,7 +116,7 @@
         .playlists-area {
             .panel {
                 bottom: 0;
-                box-shadow: 0 0 20px @darkGray;
+                box-shadow: 0 0 10px @darkGray;
                 left: -250px;
                 position: absolute;
                 top: 0;
@@ -154,6 +155,10 @@
                     max-height: 290px;
 
                     .list-item {
+                        i.fa-play {
+                            .slow-color-transition;
+                        }
+
                         &:hover {
                             i.fa-play {
                                 display: inline-block;

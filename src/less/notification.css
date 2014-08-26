@@ -1,4 +1,4 @@
-/* TODO: Can I use lighten/darken on these to be more consistent? */
+/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
 .region.notification .notification {
   height: 40px;
   line-height: 40px;
@@ -9,7 +9,7 @@
   left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 0 20px #666666;
+  box-shadow: 0 0 10px #333333;
   font-size: 1.1em;
   transform: translate(0px, -40px);
 }
