@@ -1,4 +1,4 @@
-/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
+/* TODO: Can I use lighten/darken on these to be more consistent? */
 .region.right-pane {
   bottom: 0;
   position: absolute;
@@ -110,12 +110,6 @@
   position: absolute;
   left: 10px;
   z-index: 1;
-}
-.region.right-pane .right-pane .top-bar .region.volume .volume .mute.muted {
-  color: #e74c3c;
-}
-.region.right-pane .right-pane .top-bar .region.volume .volume .mute.muted:hover {
-  color: #d62c1a;
 }
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider {
   background: #ffffff;

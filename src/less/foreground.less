@@ -114,8 +114,10 @@ body {
             color: @lightSunflower;
         }
 
-        .region.list-item-buttons button {
-            color: @lightSunflower;
+        .region.list-item-buttons {
+            button.button-icon {
+                color: @lightSunflower;
+            }
         }
     }
 
@@ -127,8 +129,16 @@ body {
             color: @lightNephritis;
         }
 
-        .region.list-item-buttons button {
-            color: @lightNephritis;
+        .region.list-item-buttons {
+            button.button-icon {
+                color: @lightNephritis;
+
+                /* TODO: This shouldn't be necessary, but body.playing gives higher specificity 
+                   which causes white hover to be overriden with non-hover color*/
+                &:hover {
+                    color: @white;
+                }
+            }
         }
     }
 
@@ -140,8 +150,10 @@ body {
             color: @lightBaseBlue;
         }
 
-        .region.list-item-buttons button {
-            color: @lightBaseBlue;
+        .region.list-item-buttons {
+            button.button-icon {
+                color: @lightBaseBlue;
+            }
         }
     }
 
@@ -150,8 +162,8 @@ body {
         color: @white;
 
         .region.list-item-buttons {
-            button:hover {
-                color: @white !important;
+            button.button-icon:hover {
+                color: @white;
             }
         }
 

@@ -6,7 +6,7 @@
 
     var DeleteButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',
-        className: 'button-icon colored',
+        className: 'button-icon',
         template: _.template(DeleteButtonTemplate),
         
         attributes: {

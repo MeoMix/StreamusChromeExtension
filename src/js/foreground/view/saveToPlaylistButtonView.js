@@ -9,7 +9,7 @@
 
     var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',
-        className: 'button-icon colored',
+        className: 'button-icon',
         template: _.template(SaveToPlaylistButtonTemplate),
         
         attributes: {

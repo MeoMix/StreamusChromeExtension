@@ -1,0 +1,193 @@
+/* TODO: Can I use lighten/darken on these to be more consistent? */
+.region.left-pane {
+  background: #ffffff;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 60.15625%;
+}
+.region.left-pane .left-pane {
+  background: #ffffff;
+}
+.region.left-pane .left-pane .top-bar {
+  height: 45px;
+  padding: 0 10px;
+}
+.region.left-pane .left-pane .bottom-menubar {
+  border-top: 1px solid #ebebeb;
+  height: 30px;
+  line-height: 30px;
+  /* TODO: Prefer use padding, but need margin so border-top looks correct, replace w/ using divider maybe?*/
+  margin: 0 10px;
+}
+.region.left-pane .left-pane .bottom-menubar button {
+  line-height: 30px;
+  padding: 0 .5em;
+}
+.region.left-pane .left-pane .bottom-menubar .playlist-details {
+  color: #666666;
+}
+.region.left-pane.region.left-pane.base {
+  z-index: 1;
+}
+.region.left-pane.region.left-pane.base .left-pane {
+  /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
+}
+.region.left-pane.region.left-pane.base .left-pane .region.playlist-title {
+  width: 100%;
+  /* TODO: This max-width doesn't scale -- might be an issue. */
+  max-width: 285px;
+  padding: 0 10px;
+  height: 45px;
+}
+.region.left-pane.region.left-pane.base .left-pane .region.playlist-title .playlist-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 1.1em;
+  white-space: nowrap;
+  line-height: 45px;
+}
+.region.left-pane.region.left-pane.base .left-pane .region.content {
+  flex: 1;
+}
+.region.left-pane.region.left-pane.base .left-pane .fa-search {
+  font-size: 18px;
+}
+.region.left-pane.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder {
+  /* Don't allow duplicates to be dropped into playlist items */
+}
+.region.left-pane.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.not-signed-in {
+  display: none;
+}
+.region.left-pane.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.no-drop {
+  background-color: #ffcccc;
+  /* TODO: I18N Clean this up a bit. Need to do i18n for it */
+}
+.region.left-pane.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.no-drop:after {
+  content: 'Duplicates not allowed';
+}
+.region.left-pane.region.left-pane.covering {
+  left: -60.15625%;
+  z-index: 10;
+}
+.region.left-pane.region.left-pane.covering .left-pane {
+  box-shadow: 0 0 10px #333333;
+  /* Can't sort search */
+}
+.region.left-pane.region.left-pane.covering .left-pane .sortable-placeholder {
+  display: none;
+}
+.region.left-pane.region.left-pane.covering .left-pane .search-bar {
+  height: 45px;
+  width: 100%;
+  padding: 15px 10px 0px;
+}
+.region.left-pane.region.left-pane.covering .left-pane .search-bar input {
+  font-size: 1.1em;
+  /* TODO: Not sure how I feel about this spacing, but it is consistent with previous layout so keeping it for now. */
+  margin-top: -2px;
+  padding-bottom: 2px;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .panel {
+  bottom: 0;
+  box-shadow: 0 0 20px #333333;
+  left: -250px;
+  position: absolute;
+  top: 0;
+  width: 250px;
+  z-index: 51;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .header {
+  background: #ffffff;
+  height: 45px;
+  padding: 0 10px;
+  background-image: url('../img/logo.png');
+  background-position: center;
+  background-size: 110px;
+  background-repeat: no-repeat;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list {
+  padding: 5px 10px;
+  flex: 1;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .list-header {
+  height: 26px;
+  line-height: 26px;
+  font-weight: bold;
+  font-size: 1.1em;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .list-header i {
+  margin-left: 0.3em;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists {
+  overflow-x: hidden;
+  height: auto;
+  max-height: 290px;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item:hover i.fa-play {
+  display: inline-block;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item:hover i.fa-list {
+  display: none;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item i {
+  display: inline-block;
+  line-height: 18px;
+  vertical-align: top;
+  color: #333333;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item i.fa-play {
+  display: none;
+  margin-left: .3em;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item i.fa-play:hover {
+  color: #000000;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item i.fa-list {
+  margin-right: -0.2em;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .title {
+  white-space: nowrap;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item .count {
+  background: #666666;
+  border-radius: 1em;
+  color: #ffffff;
+  font-size: .85em;
+  font-weight: bold;
+  line-height: 1.3;
+  padding: 0 .5em 0 .5em;
+  position: absolute;
+  right: 5px;
+  top: 2px;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active {
+  background: #4ea6ea;
+  border-color: #4ea6ea;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active .count {
+  background: #d7ebfa;
+  color: #4ea6ea;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active i.fa-play {
+  color: #d7ebfa;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.active i.fa-play:hover {
+  color: #ffffff;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.loading .spinner {
+  display: inline-block;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.loading .fa-list,
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .list-item.loading .play {
+  display: none !important;
+}
+.region.left-pane.region.left-pane.covering .playlists-area .list .playlists .title {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 145px;
+  line-height: 16px;
+  margin-left: .8em;
+}

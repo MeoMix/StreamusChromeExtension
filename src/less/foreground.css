@@ -393,7 +393,7 @@ i {
 i.fa-lg {
   font-size: 19px;
 }
-/* TODO: Can I use lighten/darken on these to be more consistent? */
+/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
 .absolute {
   position: absolute;
 }
@@ -446,6 +446,9 @@ i.fa-lg {
 .disabled {
   /* TODO: I don't want to use !important */
   color: #cacaca !important;
+  cursor: default;
+}
+.disabled * {
   cursor: default;
 }
 @font-face {
@@ -546,10 +549,8 @@ button {
   margin: 0;
   padding: 0;
   transition: color 0.05s, text-shadow 0.05s;
-  /* TODO: Remove this */
-  /* TODO: Maybe this should just go on a volume button */
 }
-button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {
+button:hover {
   color: #000000;
 }
 button:not(.disabled):active {
@@ -558,41 +559,39 @@ button:not(.disabled):active {
 button.enabled {
   color: #4ea6ea;
 }
+button.enabled:hover {
+  color: #208fe5;
+}
 button > i {
   transition: color .1s;
-}
-button:not(.disabled) > i {
   cursor: pointer;
 }
-button.mute.muted {
-  color: #e74c3c;
+button.button-label {
+  padding: .1em .4em;
 }
-.button-icon {
+button.button-label i {
+  margin-right: 0.5em;
+}
+button.button-color {
+  background: #ebebeb;
+  border: 1px solid #cacaca;
+  transition: all .1s;
+}
+button.button-color:hover {
+  border-color: #4ea6ea;
+  background: #4ea6ea;
+  color: #ffffff;
+}
+button.button-icon {
   font-size: 14px;
   height: 45px;
   line-height: 45px;
   width: 40px;
 }
-.button-small {
+button.button-icon.small {
   height: 30px;
   width: 30px;
   line-height: 30px;
-}
-.button-label {
-  padding: .1em .4em;
-}
-.button-label i {
-  margin-right: 0.5em;
-}
-.button-color {
-  background: #ebebeb;
-  border: 1px solid #cacaca;
-  transition: all .1s;
-}
-.button-color:not(.disabled):hover {
-  border-color: #4ea6ea;
-  background: #4ea6ea;
-  color: #ffffff;
 }
 /* Selectize Configuration */
 .selectize-input,
@@ -1054,6 +1053,12 @@ html .selectize-control.multi .selectize-input.full > input {
   left: 10px;
   z-index: 1;
 }
+.region.right-pane .right-pane .top-bar .region.volume .volume .mute.muted {
+  color: #e74c3c;
+}
+.region.right-pane .right-pane .top-bar .region.volume .volume .mute.muted:hover {
+  color: #d62c1a;
+}
 .region.right-pane .right-pane .top-bar .region.volume .volume .volume-slider {
   background: #ffffff;
   border: 1px solid #cacaca;
@@ -1185,7 +1190,7 @@ body .qtip-light {
 .list-item.active.stream-item .item-details {
   color: #f9e8a0;
 }
-.list-item.active.stream-item .region.list-item-buttons button {
+.list-item.active.stream-item .region.list-item-buttons button.button-icon {
   color: #f9e8a0;
 }
 body.playing .list-item.active.stream-item {
@@ -1195,8 +1200,13 @@ body.playing .list-item.active.stream-item {
 body.playing .list-item.active.stream-item .item-details {
   color: #89e5b0;
 }
-body.playing .list-item.active.stream-item .region.list-item-buttons button {
+body.playing .list-item.active.stream-item .region.list-item-buttons button.button-icon {
   color: #89e5b0;
+  /* TODO: This shouldn't be necessary, but body.playing gives higher specificity 
+                   which causes white hover to be overriden with non-hover color*/
+}
+body.playing .list-item.active.stream-item .region.list-item-buttons button.button-icon:hover {
+  color: #ffffff;
 }
 .list-item.selected {
   background: #4ea6ea;
@@ -1205,16 +1215,16 @@ body.playing .list-item.active.stream-item .region.list-item-buttons button {
 .list-item.selected .item-details {
   color: #d7ebfa;
 }
-.list-item.selected .region.list-item-buttons button {
+.list-item.selected .region.list-item-buttons button.button-icon {
   color: #d7ebfa;
 }
 .list-item.selected,
 .list-item.active {
   color: #ffffff;
 }
-.list-item.selected .region.list-item-buttons button:hover,
-.list-item.active .region.list-item-buttons button:hover {
-  color: #ffffff !important;
+.list-item.selected .region.list-item-buttons button.button-icon:hover,
+.list-item.active .region.list-item-buttons button.button-icon:hover {
+  color: #ffffff;
 }
 .list-item.selected .spinner,
 .list-item.active .spinner {

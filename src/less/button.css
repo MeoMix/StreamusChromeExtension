@@ -1,4 +1,4 @@
-/* TODO: Can I use lighten/darken on these to be more consistent? */
+/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
 button {
   color: #333333;
   background: transparent;
@@ -7,10 +7,8 @@ button {
   margin: 0;
   padding: 0;
   transition: color 0.05s, text-shadow 0.05s;
-  /* TODO: Remove this */
-  /* TODO: Maybe this should just go on a volume button */
 }
-button:not(.disabled):not(.enabled):not(.muted):not(.button-color):not(.colored):hover {
+button:hover {
   color: #000000;
 }
 button:not(.disabled):active {
@@ -19,39 +17,37 @@ button:not(.disabled):active {
 button.enabled {
   color: #4ea6ea;
 }
+button.enabled:hover {
+  color: #208fe5;
+}
 button > i {
   transition: color .1s;
-}
-button:not(.disabled) > i {
   cursor: pointer;
 }
-button.mute.muted {
-  color: #e74c3c;
+button.button-label {
+  padding: .1em .4em;
 }
-.button-icon {
+button.button-label i {
+  margin-right: 0.5em;
+}
+button.button-color {
+  background: #ebebeb;
+  border: 1px solid #cacaca;
+  transition: all .1s;
+}
+button.button-color:hover {
+  border-color: #4ea6ea;
+  background: #4ea6ea;
+  color: #ffffff;
+}
+button.button-icon {
   font-size: 14px;
   height: 45px;
   line-height: 45px;
   width: 40px;
 }
-.button-small {
+button.button-icon.small {
   height: 30px;
   width: 30px;
   line-height: 30px;
-}
-.button-label {
-  padding: .1em .4em;
-}
-.button-label i {
-  margin-right: 0.5em;
-}
-.button-color {
-  background: #ebebeb;
-  border: 1px solid #cacaca;
-  transition: all .1s;
-}
-.button-color:not(.disabled):hover {
-  border-color: #4ea6ea;
-  background: #4ea6ea;
-  color: #ffffff;
 }

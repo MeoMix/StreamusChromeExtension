@@ -1,4 +1,4 @@
-/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
+/* TODO: Can I use lighten/darken on these to be more consistent? */
 .absolute {
   position: absolute;
 }
@@ -51,8 +51,5 @@
 .disabled {
   /* TODO: I don't want to use !important */
   color: #cacaca !important;
-  cursor: default;
-}
-.disabled * {
   cursor: default;
 }
