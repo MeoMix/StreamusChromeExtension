@@ -15,7 +15,6 @@
                 author: '',
                 //  Duration in seconds for the length of the given song.
                 duration: -1,
-                highDefinition: false,
                 type: SongType.None,
                 
                 //  These are calculated:
@@ -38,6 +37,16 @@
             this.on('change:duration', this._onChangeDuration);
             this.on('change:title', this._onChangeTitle);
             this.on('change:id', this._onChangeId);
+        },
+        
+        getSyncAttributes: function () {
+            return {
+                id: this.get('id'),
+                title: this.get('title'),
+                author: this.get('author'),
+                duration: this.get('duration'),
+                type: this.get('type')
+            };
         },
         
         _onChangeId: function (model, id) {

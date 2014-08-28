@@ -9,12 +9,22 @@
             return {
                 listItemType: ListItemType.None,
                 actionType: SyncActionType.None,
-                model: null,
-                //  Stays blank if no ActionType is not PropertyChanged
-                property: '',
-                //  TODO: Necessary? Doubt it, maybe want a diff model instead
-                //  1+ ID of item which had an action applied
-                //idListAffected: []
+                
+                //  TODO: Rename to modelId instead of id
+                id: '',
+                //  TODO: Rename to modelParentId
+                //  Only defined if ListItemType is PlaylistItem
+                parentId: '',
+                
+                //  Only defined if ActionType is Added
+                modelAttributes: {   
+                },
+                
+                //  Only defined if ActionType is PropertyChanged
+                property: {
+                    name: '',
+                    value: null
+                }
             };
         }
     });

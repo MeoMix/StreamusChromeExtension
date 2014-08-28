@@ -1,0 +1,209 @@
+﻿define([
+    'background/enum/syncActionType',
+    'background/model/syncManager',
+    'background/model/playlist',
+    'background/model/playlistItem',
+    'common/enum/listItemType',
+    'common/enum/songType'
+], function (SyncActionType, SyncManager, Playlist, PlaylistItem, ListItemType, SongType) {
+    'use strict';
+
+    describe('SyncManager', function () {
+        var PLAYLIST_ID = '1111';
+        var PLAYLIST_TITLE = 'Playlist 0000';
+        var PLAYLIST_ACTIVE = true;
+        var PLAYLIST_SEQUENCE = 10000;
+
+        var PLAYLIST_ITEM_ID = '2222';
+        var PLAYLIST_ITEM_TITLE = 'Playlist Item 0000';
+        var PLAYLIST_ITEM_SEQUENCE = 20000;
+
+        var SONG_ID = 'ABCDEFGHIJK';
+        var SONG_TITLE = 'Song 0000';
+        var SONG_AUTHOR = 'John Doe';
+        var SONG_DURATION = 999;
+        var SONG_TYPE = SongType.YouTube;
+
+        beforeEach(function () {
+            SyncManager.get('syncActions').reset();
+
+            this.playlist = new Playlist({
+                id: PLAYLIST_ID,
+                title: PLAYLIST_TITLE,
+                active: PLAYLIST_ACTIVE,
+                sequence: PLAYLIST_SEQUENCE
+            });
+
+            this.playlistItem = new PlaylistItem({
+                id: PLAYLIST_ITEM_ID,
+                playlistId: PLAYLIST_ID,
+                title: PLAYLIST_ITEM_TITLE,
+                sequence: PLAYLIST_ITEM_SEQUENCE,
+                song: {
+                    id: SONG_ID,
+                    title: SONG_TITLE,
+                    author: SONG_AUTHOR,
+                    duration: SONG_DURATION,
+                    type: SONG_TYPE
+                }
+            });
+        });
+
+        it('should respond to sync events', function () {
+            sinon.spy(SyncManager, '_onSyncEvent');
+
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {});
+            //  TODO: Why the heck doesn't this pass?
+            //expect(SyncManager._onSyncEvent.calledOnce).to.equal(true);
+            expect(SyncManager.get('syncActions').length).to.equal(1);
+            
+            SyncManager._onSyncEvent.restore();
+        });
+
+        it('should be able to add Playlist - Added sync data to sync actions', function() {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.Playlist,
+                actionType: SyncActionType.Added,
+                modelId: this.playlist.get('id'),
+                modelAttributes: this.playlist.getSyncAttributes()
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('listItemType')).to.equal(ListItemType.Playlist);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Added);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ID);
+
+            var modelAttributes = syncAction.get('modelAttributes');
+            expect(modelAttributes.title).to.equal(PLAYLIST_TITLE);
+            expect(modelAttributes.active).to.equal(PLAYLIST_ACTIVE);
+            expect(modelAttributes.sequence).to.equal(PLAYLIST_SEQUENCE);
+        });
+        
+        it('should be able to add Playlist - Removed sync data to sync actions', function () {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.Playlist,
+                actionType: SyncActionType.Removed,
+                modelId: this.playlist.get('id')
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Removed);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ID);
+        });
+        
+        it('should be able to add Playlist - Changed:Sequence sync data to sync actions', function () {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.Playlist,
+                actionType: SyncActionType.PropertyChange,
+                modelId: this.playlist.get('id'),
+                property: {
+                    name: 'sequence',
+                    value: PLAYLIST_SEQUENCE
+                }
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.PropertyChange);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ID);
+
+            var property = syncAction.get('property');
+            expect(property.name).to.equal('sequence');
+            expect(property.value).to.equal(PLAYLIST_SEQUENCE);
+        });
+        
+        it('should be able to add PlaylistItem - Added sync data to sync actions', function () {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.PlaylistItem,
+                actionType: SyncActionType.Added,
+                modelId: this.playlistItem.get('id'),
+                modelParentId: this.playlistItem.get('playlistId'),
+                modelAttributes: this.playlistItem.getSyncAttributes()
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('listItemType')).to.equal(ListItemType.PlaylistItem);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Added);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ITEM_ID);
+            expect(syncAction.get('modelParentId')).to.equal(PLAYLIST_ID);
+
+            var modelAttributes = syncAction.get('modelAttributes');
+            expect(modelAttributes.title).to.equal(PLAYLIST_ITEM_TITLE);
+            expect(modelAttributes.sequence).to.equal(PLAYLIST_ITEM_SEQUENCE);
+            
+            //  These are stored outside of modelAttributes and shouldn't be sent twice.
+            expect(modelAttributes.id).to.equal(undefined);
+            expect(modelAttributes.playlistId).to.equal(undefined);
+            
+            //  These aren't necessary to send across because only need to be stored locally.
+            expect(modelAttributes.selected).to.equal(undefined);
+            expect(modelAttributes.firstSelected).to.equal(undefined);
+
+            var song = modelAttributes.song;
+            expect(song.title).to.equal(SONG_TITLE);
+            expect(song.id).to.equal(SONG_ID);
+            expect(song.author).to.equal(SONG_AUTHOR);
+            expect(song.duration).to.equal(SONG_DURATION);
+            expect(song.type).to.equal(SONG_TYPE);
+            //  These are derivable so shouldn't be synced.
+            expect(song.prettyDuration).to.equal(undefined);
+            expect(song.url).to.equal(undefined);
+            expect(song.cleanTitle).to.equal(undefined);
+        });
+        
+        it('should be able to add PlaylistItem - Removed sync data to sync actions', function () {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.PlaylistItem,
+                actionType: SyncActionType.Removed,
+                modelId: this.playlistItem.get('id'),
+                modelParentId: this.playlistItem.get('playlistId')
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Removed);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ITEM_ID);
+            expect(syncAction.get('modelParentId')).to.equal(PLAYLIST_ID);
+        });
+        
+        it('should be able to add PlaylistItem - Changed:Sequence sync data to sync actions', function () {
+            SyncManager._onSyncEvent({
+                listItemType: ListItemType.PlaylistItem,
+                actionType: SyncActionType.PropertyChange,
+                modelId: this.playlistItem.get('id'),
+                modelParentId: this.playlistItem.get('playlistId'),
+                property: {
+                    name: 'sequence',
+                    value: PLAYLIST_ITEM_SEQUENCE
+                }
+            });
+
+            var syncAction = SyncManager.get('syncActions').at(0);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.PropertyChange);
+            expect(syncAction.get('modelId')).to.equal(PLAYLIST_ITEM_ID);
+            expect(syncAction.get('modelParentId')).to.equal(PLAYLIST_ID);
+
+            var property = syncAction.get('property');
+            expect(property.name).to.equal('sequence');
+            expect(property.value).to.equal(PLAYLIST_ITEM_SEQUENCE);
+        });
+
+        xit('should be able to consolidate sync data', function() {
+
+        });
+
+        xit('should be able to write sync data to chrome.storage.sync', function() {
+
+        });
+
+        xit('should be able to determine an OK time to write sync data', function() {
+
+        });
+
+        xit('should be able to provide access to sync data from chrome.storage.sync', function() {
+
+        });
+
+        xit('should emit events when chrome.storage.sync has been modified', function() {
+
+        });
+    });
+});

@@ -1,6 +1,7 @@
 ﻿define([
-      'test/background/model/userTests',
-      'test/background/model/signInManagerTests'
+      'test/background/model/syncManagerTests',
+    //'test/background/model/userTests',
+    //'test/background/model/signInManagerTests'
     //'test/spec/playlistItemsSpec',
     //'test/spec/playlistItemSpec',
     //'test/spec/relatedSongInformationManagerSpec',

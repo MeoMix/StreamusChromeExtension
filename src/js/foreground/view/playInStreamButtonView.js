@@ -27,26 +27,31 @@
             }
         },
         
+        //  Debounced to defend against accidental/spam clicking.
         _playInStream: _.debounce(function () {
             var song = this.model.get('song');
             var streamItem = StreamItems.getBySong(song);
-
-            if (_.isUndefined(streamItem)) {
-                StreamItems.addSongs(song, {
-                    playOnAdd: true
-                });
-            } else {
-                if (streamItem.get('active')) {
-                    Player.play();
-                } else {
-                    Player.playOnceSongChanges();
-                    streamItem.save({ active: true });
-                }
-            }
+            
+            _.isUndefined(streamItem) ? this._playSong(song) : this._playStreamItem(streamItem);
 
             //  Don't allow dblclick to bubble up to the list item because that'll select it
             return false;
-        }, 100, true)
+        }, 100, true),
+        
+        _playSong: function (song) {
+            StreamItems.addSongs(song, {
+                playOnAdd: true
+            });
+        },
+        
+        _playStreamItem: function (streamItem) {
+            if (streamItem.get('active')) {
+                Player.play();
+            } else {
+                Player.playOnceSongChanges();
+                streamItem.save({ active: true });
+            }
+        }
     });
 
     return PlayInStreamButtonView;

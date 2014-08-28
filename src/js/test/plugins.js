@@ -1,5 +1,6 @@
 ﻿define([
     'backbone',
+    'backbone.marionette',
     'chai',
     'jquery.hoverIntent',
     'jquery',
@@ -10,7 +11,7 @@
     'mocha',
     'selectize',
     'sinon'
-], function (Backbone, chai) {
+], function (Backbone, Marionette, chai) {
 
     window.expect = chai.expect;
     window.mocha.setup('bdd');

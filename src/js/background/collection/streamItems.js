@@ -116,7 +116,10 @@
                     nextItemIndex = removedActiveItemIndex;
                 } else {
                     nextItemIndex = this.indexOf(this.findWhere({ active: true })) + 1;
-                    if (nextItemIndex <= 0) throw new Error('Failed to find nextItemIndex');
+                    
+                    if (nextItemIndex <= 0) {
+                        throw new Error('Failed to find nextItemIndex. More info: ' + JSON.stringify(this));
+                    }
                 }
                 
                 //  Activate the next item by index. Potentially go back one if deleting last item.
@@ -285,8 +288,10 @@
             this._stopPlayerIfEmpty();
         },
         
-        _onChangePlayerState: function(model, state) {
+        _onChangePlayerState: function (model, state) {
+            console.log("Player state has changed:", model, state);
             if (state === PlayerState.Ended) {
+                console.log('activating next');
                 this.activateNext();
             }
             else if (state === PlayerState.Playing) {
@@ -426,7 +431,7 @@
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
             
             if (relatedSong === null) {
-                console.error("No related song found.");
+                throw new Error("No related song found:" + JSON.stringify(this));
             }
             
             return relatedSong;

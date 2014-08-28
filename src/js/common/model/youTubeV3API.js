@@ -78,7 +78,7 @@
             return this._doRequest('channels', {
                 success: function (response) {
                     if (_.isUndefined(response.items[0])) {
-                        throw new Error("No response.items found for options:", JSON.stringify(options));
+                        throw new Error("No response.items found for options:" + JSON.stringify(options));
                     }
 
                     options.success({
@@ -141,7 +141,7 @@
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
                     if (!response) {
-                        throw new Error("No response for: ", JSON.stringify(options));
+                        throw new Error("No response for: " + JSON.stringify(options));
                     }
 
                     var songIds = _.map(response.items, function (item) {
@@ -176,6 +176,10 @@
         getSongInformationList: function (options) {
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function (response) {
+                    if (_.isUndefined(response)) {
+                        throw new Error("No response found for options:" + JSON.stringify(options));
+                    }
+
                     if (_.isUndefined(response.items)) {
                         if (options.error) options.error('The response\'s item list was undefined. Song(s) may have been banned.');
                     } else {

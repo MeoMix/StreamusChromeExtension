@@ -90,7 +90,8 @@
             this.model.destroy();
         },
         
-        _playInStream: function() {
+        _playInStream: function () {
+            console.log('play in stream running');
             ContextMenuActions.playSongsInStream(this.model.get('song'));
         },
         

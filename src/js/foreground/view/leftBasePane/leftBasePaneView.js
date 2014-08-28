@@ -64,7 +64,8 @@
         },
         
         //  If the user is signed in -- show the user's active playlist items / information.
-        _showActivePlaylistContent: function() {
+        _showActivePlaylistContent: function () {
+            console.log('showing active playlist content');
             var activePlaylist = Playlists.getActivePlaylist();
 
             this.contentRegion.show(new ActivePlaylistAreaView({

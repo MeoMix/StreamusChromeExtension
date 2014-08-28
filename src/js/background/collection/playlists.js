@@ -31,7 +31,7 @@
             return this.length > 1;
         },
         
-        getActivePlaylist: function() {
+        getActivePlaylist: function () {
             return this.findWhere({ active: true });
         },
 
@@ -121,7 +121,8 @@
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
-                
+
+                console.log('Making this playlist active', playlistToSetActive);
                 playlistToSetActive.set('active', true);
             }
         },

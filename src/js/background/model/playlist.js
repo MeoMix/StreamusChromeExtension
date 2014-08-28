@@ -58,38 +58,6 @@ define([
             this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
             this._setDisplayInfo();
         },
-        
-        _setDisplayInfo: function () {
-            var songs = this.get('items').pluck('song');
-            var songDurations = _.invoke(songs, 'get', 'duration');
-
-            var sumDurations = _.reduce(songDurations, function (memo, duration) {
-                return memo + duration;
-            }, 0);
-
-            var prettyTime;
-            var timeInMinutes = Math.floor(sumDurations / 60);
-            
-            //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
-            if (timeInMinutes === 1) {
-                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
-            }
-            //  3 days
-            else if (timeInMinutes > 4320) {
-                prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
-            }
-            //  3 hours
-            else if (timeInMinutes > 180) {
-                prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
-            } else {
-                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
-            }
-            
-            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
-            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTime;
-
-            this.set('displayInfo', displayInfo);
-        },
             
         getShareCode: function(callback) {
             $.ajax({
@@ -135,6 +103,47 @@ define([
                     });
                 }.bind(this)
             });
+        },
+        
+        //  Return the attributes needed to sync this object across chrome.storage.sync
+        getSyncAttributes: function () {
+            return {
+                title: this.get('title'),
+                active: this.get('active'),
+                sequence: this.get('sequence')
+            };
+        },
+        
+        _setDisplayInfo: function () {
+            var songs = this.get('items').pluck('song');
+            var songDurations = _.invoke(songs, 'get', 'duration');
+
+            var sumDurations = _.reduce(songDurations, function (memo, duration) {
+                return memo + duration;
+            }, 0);
+
+            var prettyTime;
+            var timeInMinutes = Math.floor(sumDurations / 60);
+
+            //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
+            if (timeInMinutes === 1) {
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
+            }
+                //  3 days
+            else if (timeInMinutes > 4320) {
+                prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
+            }
+                //  3 hours
+            else if (timeInMinutes > 180) {
+                prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
+            } else {
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
+            }
+
+            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
+            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTime;
+
+            this.set('displayInfo', displayInfo);
         },
         
         //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
