@@ -9,12 +9,10 @@
             return {
                 listItemType: ListItemType.None,
                 actionType: SyncActionType.None,
-                
-                //  TODO: Rename to modelId instead of id
-                id: '',
-                //  TODO: Rename to modelParentId
+
+                modelId: '',
                 //  Only defined if ListItemType is PlaylistItem
-                parentId: '',
+                modelParentId: '',
                 
                 //  Only defined if ActionType is Added
                 modelAttributes: {   
