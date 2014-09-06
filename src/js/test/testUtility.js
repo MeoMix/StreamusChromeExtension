@@ -5,7 +5,6 @@
     'use strict';
 
     return {
-        
         getRawSong: function() {
             return {
                 id: 'M7lc1UVf-VE',

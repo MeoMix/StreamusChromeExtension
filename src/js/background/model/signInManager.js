@@ -1,8 +1,9 @@
 ﻿define([
     'background/collection/playlists',
     'background/model/settings',
+    'background/model/tabManager',
     'background/model/user'
-], function (Playlists, Settings, User) {
+], function (Playlists, Settings, TabManager, User) {
     'use strict';
 
     //  Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
@@ -111,22 +112,8 @@
 
         //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
         _notifyYouTubeTabsSignedIn: function (signedIn) {
-            //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
-            //  TODO: Simplify this and re-use the matching URL everywhere.
-            chrome.tabs.query({ url: '*://*.youtube.com/watch?*' }, function (tabs) {
-                _.each(tabs, function (tab) {
-                    chrome.tabs.sendMessage(tab.id, {
-                        event: signedIn ? 'signed-in' : 'signed-out'
-                    });
-                });
-            });
-
-            chrome.tabs.query({ url: '*://*.youtu.be/*' }, function (tabs) {
-                _.each(tabs, function (tab) {
-                    chrome.tabs.sendMessage(tab.id, {
-                        event: signedIn ? 'signed-in' : 'signed-out'
-                    });
-                });
+            TabManager.messageYouTubeTabs({
+                event: signedIn ? 'signed-in' : 'signed-out'
             });
         },
 

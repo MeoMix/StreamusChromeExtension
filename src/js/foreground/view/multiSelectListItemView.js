@@ -1,7 +1,7 @@
 ﻿define([
-    'foreground/view/listItemButtonsView',
+    'foreground/view/behavior/hoverButtons',
     'foreground/view/behavior/tooltip'
-], function (ListItemButtonsView, Tooltip) {
+], function (HoverButtons, Tooltip) {
     'use strict';
 
     var MultiSelectListItemView = Backbone.Marionette.LayoutView.extend({
@@ -13,9 +13,7 @@
         },
 
         events: {
-            'contextmenu': '_showContextMenu',
-            'mouseenter': '_onMouseEnter',
-            'mouseleave': '_onMouseLeave'
+            'contextmenu': '_showContextMenu'
         },
 
         modelEvents: {
@@ -29,6 +27,9 @@
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
+            },
+            HoverButtons: {
+                behaviorClass: HoverButtons
             }
         },
 
@@ -40,17 +41,6 @@
         
         onRender: function () {
             this._setSelectedClass();
-        },
-        
-        _onMouseEnter: function () {
-            this.buttonsRegion.show(new ListItemButtonsView({
-                model: this.model,
-                buttonViews: this.buttonViews
-            }));
-        },
-        
-        _onMouseLeave: function () {
-            this.buttonsRegion.empty();
         },
 
         _setSelectedClass: function () {

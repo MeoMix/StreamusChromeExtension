@@ -2,21 +2,29 @@
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
+    'foreground/view/deleteButtonView',
+    'foreground/view/behavior/hoverButtons',
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, ContextMenuActions, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, ContextMenuActions, DeleteButtonView, HoverButtons, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
-    var PlaylistView = Backbone.Marionette.ItemView.extend({
+    var PlaylistView = Backbone.Marionette.LayoutView.extend({
         tagName: 'li',
         className: 'list-item playlist small',
         template: _.template(PlaylistTemplate),
+        
+        templateHelpers: function () {
+            return {
+                itemCount: this._getItemCount()
+            };
+        },
 
         attributes: function () {
             return {
@@ -44,9 +52,18 @@
             playButton: '.play'
         },
         
+        regions: {
+            buttonsRegion: '.region.list-item-buttons'
+        },
+        
+        buttonViews: [DeleteButtonView],
+        
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
+            },
+            HoverButtons: {
+                behaviorClass: HoverButtons
             }
         },
         
@@ -97,8 +114,18 @@
         },
         
         _updateItemCount: function () {
-            var itemCount = this.model.get('items').length;
+            var itemCount = this._getItemCount();
             this.ui.itemCount.text(itemCount);
+        },
+        
+        _getItemCount: function() {
+            var itemCount = this.model.get('items').length;
+
+            if (itemCount >= 1000) {
+                itemCount = Math.floor(itemCount / 1000) + 'K';
+            }
+
+            return itemCount;
         },
         
         _activate: function () {

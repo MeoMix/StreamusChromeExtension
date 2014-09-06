@@ -289,9 +289,7 @@
         },
         
         _onChangePlayerState: function (model, state) {
-            console.log("Player state has changed:", model, state);
             if (state === PlayerState.Ended) {
-                console.log('activating next');
                 this.activateNext();
             }
             else if (state === PlayerState.Playing) {

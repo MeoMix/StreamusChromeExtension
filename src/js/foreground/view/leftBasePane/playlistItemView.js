@@ -91,7 +91,6 @@
         },
         
         _playInStream: function () {
-            console.log('play in stream running');
             ContextMenuActions.playSongsInStream(this.model.get('song'));
         },
         

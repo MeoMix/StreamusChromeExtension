@@ -1,19 +1,18 @@
 ﻿<div class="panel flex-column">
-    <div class="header">
+    <div class="top-bar border-bottom inset">
         <button class="button-icon hide enabled tooltipable">
             <i class="fa fa-reorder"></i>
         </button>
-    </div>
-    <div class="divider"></div>
-    <div class="list">
-        <div class="list-header">
-            <%= playlists %>
-        </div>
         
+        <span class="header">
+            <%= playlists %>
+        </span>
+    </div>
+    <div class="list">
         <ul class="playlists">
         </ul>
     </div>
-    <div class="context-buttons">
+    <div class="context-buttons border-top inset">
         <div class="pull-right">
             <button class="button-icon small add tooltipable" title="<%= createPlaylist %>">
                 <i class="fa fa-plus"></i>

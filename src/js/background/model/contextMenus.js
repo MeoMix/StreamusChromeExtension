@@ -5,21 +5,21 @@ define([
     'background/model/chromeNotifications',
     'background/model/signInManager',
     'background/model/song',
+    'background/model/tabManager',
     'common/enum/dataSourceType',
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, ChromeNotifications, SignInManager, Song, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (StreamItems, Playlists, ChromeNotifications, SignInManager, Song, TabManager, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
-        //  Show the Streamus context menu items only when right-clicking on an appropriate target.
-        documentUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
-        targetUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
-        
         initialize: function () {
-            this._createContextMenus(['link'], this.targetUrlPatterns, true);
-            this._createContextMenus(['page'], this.documentUrlPatterns, false);
+            var youTubeUrlPatterns = TabManager.get('youTubeUrlPatterns');
+            
+            //  Show the Streamus context menu items only when right-clicking on an appropriate target.
+            this._createContextMenus(['link'], youTubeUrlPatterns, true);
+            this._createContextMenus(['page'], youTubeUrlPatterns, false);
             
             chrome.contextMenus.create({
                 'contexts': ['selection'],

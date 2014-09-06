@@ -1,6 +1,6 @@
 ﻿define({
     None: 'none',
-    PropertyChange: 'propertyChange',
+    Updated: 'updated',
     Added: 'added',
     Removed: 'removed'
 });

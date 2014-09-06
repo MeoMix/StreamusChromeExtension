@@ -1,5 +1,6 @@
 ﻿define([
-      'test/background/model/syncManagerTests',
+      'test/background/collection/playlistsTests',
+    //'test/background/model/syncManagerTests',
     //'test/background/model/userTests',
     //'test/background/model/signInManagerTests'
     //'test/spec/playlistItemsSpec',

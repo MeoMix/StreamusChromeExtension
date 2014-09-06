@@ -247,8 +247,9 @@ $(function () {
 		});
 
 		chrome.runtime.onMessage.addListener(function (request) {
-			switch (request.event) {
-				case 'add':
+		    switch (request.event) {
+		        //  TODO: added/removed/updated are synced with SyncActionType enum
+				case 'added':
 					var playlistOption = $('<option>', {
 						value: request.data.id,
 						text: request.data.title
@@ -256,10 +257,10 @@ $(function () {
 
 					playlistOption.appendTo($('#playlistSelect'));
 					break;
-				case 'remove':
+				case 'removed':
 					$('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
 					break;
-				case 'rename':
+				case 'updated':
 					$('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
 					break;
 				case 'signed-in':

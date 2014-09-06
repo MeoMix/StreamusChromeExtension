@@ -1,7 +1,6 @@
 ﻿define([
-    'background/collection/syncActions',
-    'common/enum/listItemType'
-], function (SyncActions, ListItemType) {
+    'background/collection/syncActions'
+], function (SyncActions) {
     'use strict';
 
     //  60000ms = 1 minute
@@ -19,9 +18,9 @@
             //this.listenTo(Backbone.Wreqr.radio.channel('sync').vent, 'sync', this._onSyncEvent);
             
             //  I need to group each type of action together before sending it through chrome.storage.sync.
-            chrome.storage.onChanged.addListener(this._onChromeStorageChanged.bind(this));
+            //chrome.storage.onChanged.addListener(this._onChromeStorageChanged.bind(this));
 
-            this.listenTo(this.get('syncActions'), 'add', this._onSyncActionAdded);
+            //this.listenTo(this.get('syncActions'), 'add', this._onSyncActionAdded);
         },
         
         _getWriteableSyncActions: function() {
@@ -39,8 +38,6 @@
         },
         
         _onChromeStorageChanged: function(changes, areaName) {
-            console.log("Changes:", changes, areaName);
-            
             if (areaName === 'sync') {
                 var syncActions = this._parseSyncChanges(changes);
                 this._emitSyncActions(syncActions);
@@ -68,13 +65,10 @@
         },
         
         _emitSyncActions: function(syncActions) {
-            console.log('syncActions:', syncActions);
-
-            syncActions.each(function(syncAction) {
-                Backbone.Wreqr.radio.channel('sync-' + syncAction.get('listItemType')).trigger(syncAction.get('actionType'), syncAction);  
-            });
-
-            //Backbone.Wreqr.radio.channel('sync').trigger('');  
+            syncActions.each(function (syncAction) {
+                var syncEventChannel = this._getSyncEventChannel(syncAction.get('listItemType'));
+                syncEventChannel.trigger(syncAction.get('actionType'), syncAction);
+            }, this);
         },
         
         _onSyncActionAdded: function() {
@@ -108,9 +102,12 @@
                 //  TODO: I might need to re-try saving sync actions or something?
                 throw new Error(error);
             } else {
-                console.log("Sync successful.");
                 this.get('syncActions').reset();
             }
+        },
+        
+        _getSyncEventChannel: function(listItemType) {
+            return Backbone.Wreqr.radio.channel('sync-' + listItemType).vent;
         }
     });
 

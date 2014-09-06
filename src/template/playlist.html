@@ -1,10 +1,14 @@
-﻿<i class="fa fa-list fa-fw"></i>
-<i class="play fa fa-play clickable tooltipable"></i>
-
-<div class="spinner small"></div>
-
+﻿<!--<i class="play fa fa-play clickable tooltipable"></i>-->
+<div class="spinner small absolute-center above-fade-out"></div>
 <div class="title text-tooltipable" title="<%= title %>">
     <%= title %>
 </div>
 
-<span class="count"><%= items.length %></span>
+<div class="playlist-item-count">
+    <div class="count">
+        <%= itemCount %>
+    </div>
+</div>
+
+<span class="list-item-buttons region above-fade-out">
+</span>

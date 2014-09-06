@@ -85,6 +85,16 @@
             }
         },
         
+        getTotalDuration: function () {
+            var songDurations = _.invoke(this.pluck('song'), 'get', 'duration');
+            
+            var totalDuration = _.reduce(songDurations, function (memo, songDuration) {
+                return memo + songDuration;
+            }, 0);
+
+            return totalDuration;
+        },
+        
         _bulkCreate: function(itemsToCreate, options) {
             $.ajax({
                 url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',

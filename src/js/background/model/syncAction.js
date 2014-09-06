@@ -18,7 +18,7 @@
                 modelAttributes: {   
                 },
                 
-                //  Only defined if ActionType is PropertyChanged
+                //  Only defined if ActionType is Updated
                 property: {
                     name: '',
                     value: null

@@ -76,7 +76,8 @@ body {
     text-overflow: ellipsis;
     .color-transition;
 
-    &.saving {
+    &.saving, 
+    &.loading {
         &> *:not(.above-fade-out) {
             opacity: .2;
         }
@@ -247,9 +248,6 @@ body {
 
 .big-text-wrapper {
     flex: 1;
-    /* TODO: inconsistent :( */
-    padding-top: 5px;
-    padding-bottom: 10px;
 
     .big-text {
         /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
@@ -389,9 +387,6 @@ input[type=range] {
 }
 
 .context-buttons {
-    border-top: 1px solid @lightGray;
-    height: 30px;
-    margin: 0 10px;
     /* .small-button inside of context-buttons have less width than regular. Need 5px of padding to align with content. */
     padding: 0 5px;
 }

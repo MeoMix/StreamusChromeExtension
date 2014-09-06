@@ -15,17 +15,8 @@
     .left-pane {
         background: @white;
 
-        .top-bar {
-            height: 45px;
-            padding: 0 10px;
-        }
-
         .bottom-menubar {
-            border-top: 1px solid @lightGray;
-            height: 30px;
             line-height: 30px;
-            /* TODO: Prefer use padding, but need margin so border-top looks correct, replace w/ using divider maybe?*/
-            margin: 0 10px;
 
             button {
                 line-height: 30px;
@@ -47,14 +38,12 @@
                 /* TODO: This max-width doesn't scale -- might be an issue. */
                 max-width: 285px;
                 padding: 0 10px;
-                height: 45px;
 
                 .playlist-title {
                     overflow: hidden;
                     text-overflow: ellipsis;
                     font-size: 1.1em;
                     white-space: nowrap;
-                    line-height: 45px;
                 }
             }
 
@@ -99,7 +88,6 @@
             }
 
             .search-bar {
-                height: 45px;
                 width: 100%;
                 padding: 15px 10px 0px;
 
@@ -125,36 +113,16 @@
             }
 
             .header {
-                background: @white;
-                height: 45px;
-                padding: 0 10px;
-                background-image: url('../img/logo.png');
-                background-position: center;
-                background-size: 110px;
-                background-repeat: no-repeat;
+                font-size: 1.1em;
             }
 
             .list {
-                padding: 5px 10px;
                 flex: 1;
 
-                .list-header {
-                    height: 26px;
-                    line-height: 26px;
-                    font-weight: bold;
-                    font-size: 1.1em;
-
-                    i {
-                        margin-left: .3em 
-                    }
-                }
-
                 .playlists {
-                    overflow-x: hidden;
-                    height: auto;
-                    max-height: 290px;
-
                     .list-item {
+                        display: flex;
+
                         i.fa-play {
                             .slow-color-transition;
                         }
@@ -189,8 +157,11 @@
                             }
                         }
 
-                        .title {
-                            white-space: nowrap;
+                        .playlist-item-count {
+                            display: inline-block;
+                            width: 40px;
+                            text-align: center;
+                            line-height: 16px;
                         }
 
                         .count {
@@ -200,10 +171,8 @@
                             font-size: .85em;
                             font-weight: bold;
                             line-height: 1.3;
-                            padding: 0 .5em 0 .5em;
-                            position: absolute;
-                            right: 5px;
-                            top: 2px;
+                            display: inline-block;
+                            width: 30px;
                         }
 
                         &.active {
@@ -237,12 +206,11 @@
                     }
 
                     .title {
-                        display: inline-block;
                         overflow: hidden;
                         text-overflow: ellipsis;
-                        width: 145px;
                         line-height: 16px;
-                        margin-left: .8em;
+                        white-space: nowrap;
+                        flex: 1;
                     }
                 }
             }

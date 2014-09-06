@@ -80,7 +80,7 @@
         _onChangeSequence: function (model, sequence) {
             Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
                 listItemType: ListItemType.PlaylistItem,
-                syncActionType: SyncActionType.PropertyChange,
+                syncActionType: SyncActionType.Updated,
                 property: 'sequence',
                 model: model
             });

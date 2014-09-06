@@ -4,11 +4,13 @@
     'background/model/playlist',
     'background/model/settings',
     'background/model/song',
+    'background/model/tabManager',
     'common/enum/listItemType',
     'common/model/youTubeV3API'
-], function (SyncActionType, SequencedCollectionMixin, Playlist, Settings, Song, ListItemType, YouTubeV3API) {
+], function (SyncActionType, SequencedCollectionMixin, Playlist, Settings, Song, TabManager, ListItemType, YouTubeV3API) {
     'use strict';
 
+    //  TODO: Stop having this be a singleton so it is easier to test.
     var Playlists = Backbone.Collection.extend(_.extend({}, SequencedCollectionMixin, {
         model: Playlist,
         userId: null,
@@ -18,8 +20,12 @@
             this.on('add', this._onAdd);
             this.on('remove', this._onRemove);
             this.on('change:active', this._onChangeActive);
-            this.on('change:title', this._onChangeTitle);
             this.on('reset', this._onReset);
+
+            var syncEventChannel = this._getSyncEventChannel();
+            this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
+            this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
+            this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
         },
         
         setUserId: function(userId) {
@@ -106,6 +112,35 @@
             });
         },
         
+        //  TODO: I don't think this should know about syncAction it should just be given the data.
+        _addBySyncAction: function (syncAction) {
+            var playlistOptions = _.extend({
+                id: syncAction.get('modelId'),
+                userId: this.userId
+            }, syncAction.get('modelAttributes'));
+
+            this.add(playlistOptions, {
+                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
+                sync: true
+            });
+        },
+        
+        _removeBySyncAction: function (syncAction) {
+            var playlist = this.get(syncAction.get('modelId'));
+            this.remove(playlist, {
+                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
+                sync: true
+            });
+        },
+        
+        _updateBySyncAction: function(syncAction) {
+            var playlist = this.get(syncAction.get('modelId'));
+
+            playlist.set(syncAction.property.name, syncAction.property.value, {
+                sync: true
+            });
+        },
+        
         _deactivateAllExcept: function (changedPlaylist) {
             this.each(function (playlist) {
                 if (playlist !== changedPlaylist) {
@@ -121,8 +156,6 @@
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
-
-                console.log('Making this playlist active', playlistToSetActive);
                 playlistToSetActive.set('active', true);
             }
         },
@@ -165,19 +198,22 @@
             }
         },
         
-        _onAdd: function (addedPlaylist) {
+        _onAdd: function (addedPlaylist, collection, options) {
             //  TODO: This should probably use the same event system as SyncActions.
             //  Notify all open YouTube tabs that a playlist has been added.
-            this._sendEventToOpenYouTubeTabs('add', 'playlist', {
-                id: addedPlaylist.get('id'),
-                title: addedPlaylist.get('title')
+            TabManager.messageYouTubeTabs({
+                event: SyncActionType.Added, 
+                type: ListItemType.Playlist, 
+                data: {
+                    id: addedPlaylist.get('id'),
+                    title: addedPlaylist.get('title')
+                }
             });
 
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Added,
-                model: addedPlaylist
-            });
+            var fromSyncEvent = options && options.sync;
+            if (!fromSyncEvent) {
+                this._emitSyncAddEvent(addedPlaylist);
+            }
         },
         
         //  Whenever a playlist is removed, if it was selected, select the next playlist.
@@ -185,62 +221,52 @@
             if (removedPlaylist.get('active')) {
                 //  Clear local storage of the active playlist if it gets removed.
                 localStorage.setItem('activePlaylistId', null);
-                    
-                //  Try selecting the next playlist if its there...
-                var nextPlaylist = this.at(options.index);
-
-                if (nextPlaylist !== undefined) {
-                    nextPlaylist.set('active', true);
-                } else {
-                    //  Otherwise select the previous playlist.
-                    var previousPlaylist = this.at(options.index - 1);
-                    previousPlaylist.set('active', true);
-                }
+                //  If the index of the item removed was the last one in the list, activate previous.
+                var index = options.index === this.length ? options.index - 1 : options.index;
+                this._activateByIndex(index);
             }
             
             //  TODO: This should probably use the same event system as SyncActions.
-            //  Notify all open YouTube tabs that a playlist has been removed.
-            this._sendEventToOpenYouTubeTabs('remove', 'playlist', {
-                id: removedPlaylist.get('id'),
-                title: removedPlaylist.get('title')
+            TabManager.messageYouTubeTabs({
+                event: SyncActionType.Removed,
+                type: ListItemType.Playlist,
+                data: {
+                    id: removedPlaylist.get('id')
+                }
             });
             
+            var fromSyncEvent = options && options.sync;
+            if (!fromSyncEvent) {
+                this._emitSyncRemoveEvent(removedPlaylist);
+            }
+        },
+        
+        _activateByIndex: function (index) {
+            this.at(index).set('active', true);
+        },
+        
+        _emitSyncAddEvent: function (playlist) {
+            //  TODO: Standardize the pattern for emitting triggers via sync.
+            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+                listItemType: ListItemType.Playlist,
+                syncActionType: SyncActionType.Added,
+                modelId: playlist.get('id'),
+                modelAttributes: playlist.getSyncAttributes()
+            });
+        },
+        
+        _emitSyncRemoveEvent: function (playlist) {
+            //  TODO: Standardize the pattern for emitting triggers via sync.
             Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
                 syncActionType: SyncActionType.Removed,
-                model: removedPlaylist
+                modelId: playlist.get('id')
             });
         },
-        
-        _onChangeTitle: function(changedPlaylist, title) {
-            //  Notify all open YouTube tabs that a playlist has been renamed.
-            this._sendEventToOpenYouTubeTabs('rename', 'playlist', {
-                id: changedPlaylist.get('id'),
-                title: title
-            });
-        },
-        
-        _sendEventToOpenYouTubeTabs: function (event, type, data) {
-            //  TODO: Simplify this and re-use the matching URL everywhere.
-            chrome.tabs.query({ url: '*://*.youtube.com/watch?*' }, function (tabs) {
-                _.each(tabs, function (tab) {
-                    chrome.tabs.sendMessage(tab.id, {
-                        event: event,
-                        type: type,
-                        data: data
-                    });
-                });
-            });
-            
-            chrome.tabs.query({ url: '*://*.youtu.be/*' }, function (tabs) {
-                _.each(tabs, function (tab) {
-                    chrome.tabs.sendMessage(tab.id, {
-                        event: event,
-                        type: type,
-                        data: data
-                    });
-                });
-            });
+
+        //  TODO: Make a custom radio emitter which can give this channel out.
+        _getSyncEventChannel: function () {
+            return Backbone.Wreqr.radio.channel('sync-' + ListItemType.Playlist).vent;
         }
     }));
 

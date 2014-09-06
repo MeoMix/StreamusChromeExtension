@@ -1,11 +1,12 @@
 ﻿define([
+    'background/collection/syncActions',
     'background/enum/syncActionType',
     'background/model/syncManager',
     'background/model/playlist',
     'background/model/playlistItem',
     'common/enum/listItemType',
     'common/enum/songType'
-], function (SyncActionType, SyncManager, Playlist, PlaylistItem, ListItemType, SongType) {
+], function (SyncActions, SyncActionType, SyncManager, Playlist, PlaylistItem, ListItemType, SongType) {
     'use strict';
 
     describe('SyncManager', function () {
@@ -96,10 +97,10 @@
             expect(syncAction.get('modelId')).to.equal(PLAYLIST_ID);
         });
         
-        it('should be able to add Playlist - Changed:Sequence sync data to sync actions', function () {
+        it('should be able to add Playlist - Updated:Sequence sync data to sync actions', function () {
             SyncManager._onSyncEvent({
                 listItemType: ListItemType.Playlist,
-                actionType: SyncActionType.PropertyChange,
+                actionType: SyncActionType.Updated,
                 modelId: this.playlist.get('id'),
                 property: {
                     name: 'sequence',
@@ -108,7 +109,7 @@
             });
 
             var syncAction = SyncManager.get('syncActions').at(0);
-            expect(syncAction.get('actionType')).to.equal(SyncActionType.PropertyChange);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Updated);
             expect(syncAction.get('modelId')).to.equal(PLAYLIST_ID);
 
             var property = syncAction.get('property');
@@ -169,10 +170,10 @@
             expect(syncAction.get('modelParentId')).to.equal(PLAYLIST_ID);
         });
         
-        it('should be able to add PlaylistItem - Changed:Sequence sync data to sync actions', function () {
+        it('should be able to add PlaylistItem - Updated:Sequence sync data to sync actions', function () {
             SyncManager._onSyncEvent({
                 listItemType: ListItemType.PlaylistItem,
-                actionType: SyncActionType.PropertyChange,
+                actionType: SyncActionType.Updated,
                 modelId: this.playlistItem.get('id'),
                 modelParentId: this.playlistItem.get('playlistId'),
                 property: {
@@ -182,7 +183,7 @@
             });
 
             var syncAction = SyncManager.get('syncActions').at(0);
-            expect(syncAction.get('actionType')).to.equal(SyncActionType.PropertyChange);
+            expect(syncAction.get('actionType')).to.equal(SyncActionType.Updated);
             expect(syncAction.get('modelId')).to.equal(PLAYLIST_ITEM_ID);
             expect(syncAction.get('modelParentId')).to.equal(PLAYLIST_ID);
 
@@ -269,6 +270,26 @@
             SyncManager._onChromeStorageChanged(changes, 'sync');
             
             SyncManager._parseSyncChanges.restore();
+        });
+
+        it('should emit through radio channels when emitSyncActions is called', function () {
+            var listItemType = ListItemType.PlaylistItem;
+            var syncEventChannel = SyncManager._getSyncEventChannel(listItemType);
+
+            sinon.stub(syncEventChannel, 'trigger');
+
+            var syncActions = new SyncActions({
+                listItemType: listItemType,
+                actionType: SyncActionType.Added,
+                modelId: this.playlistItem.get('id'),
+                modelParentId: this.playlistItem.get('playlistId'),
+                modelAttributes: this.playlistItem.getSyncAttributes()
+            });
+
+            SyncManager._emitSyncActions(syncActions);
+            expect(syncEventChannel.trigger.calledOnce).to.equal(true);
+
+            syncEventChannel.trigger.restore();
         });
 
         xit('should be able to provide access to sync data from chrome.storage.sync', function() {

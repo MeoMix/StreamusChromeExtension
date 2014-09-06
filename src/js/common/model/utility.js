@@ -31,6 +31,29 @@
 
             return timeString;
         },
+        
+        //  Similar to prettyPrintTime, but incorporates "days" "hours" "minutes" into the end result instead of just using numbers.
+        prettyPrintTimeWithWords: function(timeInSeconds) {
+            var prettyTime;
+            var timeInMinutes = Math.floor(timeInSeconds / 60);
+
+            //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
+            if (timeInMinutes === 1) {
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
+            }
+            //  3 days
+            else if (timeInMinutes > 4320) {
+                prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
+            }
+            //  3 hours
+            else if (timeInMinutes > 180) {
+                prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
+            } else {
+                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
+            }
+
+            return prettyTime;
+        },
 
         //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
         iso8061DurationToSeconds: function (isoDuration) {

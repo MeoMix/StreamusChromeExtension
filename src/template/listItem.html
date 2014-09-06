@@ -3,15 +3,17 @@
 
 <img class="item-thumb" src="http://img.youtube.com/vi/<%= song.get('id') %>/default.jpg" />
 
-<span class="item-title text-tooltipable" title="<%= title %>">
-    <%= title %>
-</span>
-
-<span class="item-details">
-    <span class="item-duration">
-        <%= song.get('prettyDuration') %>	
+<div class="item-content">
+    <span class="item-title text-tooltipable" title="<%= title %>">
+        <%= title %>
     </span>
-</span>
+
+    <span class="item-details">
+        <span class="item-duration">
+            <%= song.get('prettyDuration') %>	
+        </span>
+    </span>
+</div>
 
 <span class="list-item-buttons region above-fade-out">
 </span>

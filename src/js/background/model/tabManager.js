@@ -2,8 +2,11 @@
     'use strict';
 
     var TabManager = Backbone.Model.extend({
-        defaults: {
-            streamusForegroundUrl: 'chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/foreground.html'
+        defaults: function() {
+            return {
+                streamusForegroundUrl: 'chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/foreground.html',
+                youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*']
+            };
         },
 
         isStreamusTabOpen: function (callback) {
@@ -16,7 +19,6 @@
         
         showTab: function (tabUrl) {
             this._isTabOpen(tabUrl, function (tabIsOpen, tabDetails) {
-
                 if (tabIsOpen) {
                     if (!tabDetails.highlighted) {
                         chrome.tabs.highlight({
@@ -34,12 +36,26 @@
             });
         },
         
+        //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
+        messageYouTubeTabs: function (message) {
+            _.each(this.get('youTubeUrlPatterns'), function (youTubeUrlPattern) {
+                this._queryTabs(youTubeUrlPattern, function (tabs) {
+                    _.each(tabs, function (tab) {
+                        chrome.tabs.sendMessage(tab.id, message);
+                    });
+                });
+            }, this);
+        },
+        
         //  TODO: Doesn't make much sense that isTabOpen returns tabDetails -- should split off into another method in the future.
         _isTabOpen: function (url, callback) {
-            chrome.tabs.query({ url: url }, function (tabs) {
-                console.log("Tabs:", tabs);
+            this._queryTabs(url, function(tabs) {
                 callback(tabs.length > 0, tabs[0]);
             });
+        },
+        
+        _queryTabs: function(url, callback) {
+            chrome.tabs.query({ url: url }, callback);
         }
     });
 

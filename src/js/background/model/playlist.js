@@ -7,9 +7,11 @@ define([
     'background/model/settings',
     'background/model/shareCode',
     'background/model/song',
+    'background/model/tabManager',
     'common/enum/listItemType',
+    'common/model/utility',
     'common/model/youTubeV3API'
-], function (PlaylistItems, SyncActionType, PlaylistItem, Settings, ShareCode, Song, ListItemType, YouTubeV3API) {
+], function (PlaylistItems, SyncActionType, PlaylistItem, Settings, ShareCode, Song, TabManager, ListItemType, Utility, YouTubeV3API) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -75,33 +77,11 @@ define([
             });
         },
         
-        //  TODO: Reduce nesting
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function () {
             YouTubeV3API.getPlaylistSongInformationList({
                 playlistId: this.get('dataSource').get('id'),
-                success: function onResponse(response) {
-                    var songs = _.map(response.songInformationList, function (songInformation) {
-                        return new Song(songInformation);
-                    });
-
-                    //  Periodicially send bursts of packets to the server and trigger visual update.
-                    this.get('items').addSongs(songs, {
-                        success: function () {
-                            if (_.isUndefined(response.nextPageToken)) {
-                                this.set('dataSourceLoaded', true);
-                            }
-                            else {
-                                //  Request next batch of data by iteration once addItems has succeeded.
-                                YouTubeV3API.getPlaylistSongInformationList({
-                                    playlistId: this.get('dataSource').get('id'),
-                                    pageToken: response.nextPageToken,
-                                    success: onResponse.bind(this)
-                                });
-                            }
-                        }.bind(this)
-                    });
-                }.bind(this)
+                success: this._onGetPlaylistSongInformationListSuccess.bind(this)
             });
         },
         
@@ -114,63 +94,93 @@ define([
             };
         },
         
+        _onGetPlaylistSongInformationListSuccess: function (response) {
+            var songs = _.map(response.songInformationList, function (songInformation) {
+                return new Song(songInformation);
+            });
+
+            //  Periodicially send bursts of packets to the server and trigger visual update.
+            this.get('items').addSongs(songs, {
+                success: this._onAddSongsByDataSourceSuccess.call(this, response.nextPageToken)
+            });
+        },
+
+        _onAddSongsByDataSourceSuccess: function (nextPageToken) {
+            if (_.isUndefined(nextPageToken)) {
+                this.set('dataSourceLoaded', true);
+            }
+            else {
+                //  Request next batch of data by iteration once addItems has succeeded.
+                YouTubeV3API.getPlaylistSongInformationList({
+                    playlistId: this.get('dataSource').get('id'),
+                    pageToken: nextPageToken,
+                    success: this._onGetPlaylistSongInformationListSuccess.bind(this)
+                });
+            }
+        },
+        
         _setDisplayInfo: function () {
+            var totalItemsDuration = this.get('items').getTotalDuration();
+            var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
+            
             var songs = this.get('items').pluck('song');
-            var songDurations = _.invoke(songs, 'get', 'duration');
-
-            var sumDurations = _.reduce(songDurations, function (memo, duration) {
-                return memo + duration;
-            }, 0);
-
-            var prettyTime;
-            var timeInMinutes = Math.floor(sumDurations / 60);
-
-            //  Print the total duration of content in minutes unless there is 3+ hours, then just print hours.
-            if (timeInMinutes === 1) {
-                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minute');
-            }
-                //  3 days
-            else if (timeInMinutes > 4320) {
-                prettyTime = Math.floor(timeInMinutes / 1440) + ' ' + chrome.i18n.getMessage('days');
-            }
-                //  3 hours
-            else if (timeInMinutes > 180) {
-                prettyTime = Math.floor(timeInMinutes / 60) + ' ' + chrome.i18n.getMessage('hours');
-            } else {
-                prettyTime = timeInMinutes + ' ' + chrome.i18n.getMessage('minutes');
-            }
-
             var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
-            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTime;
-
+            
+            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
             this.set('displayInfo', displayInfo);
         },
         
+        _onChangeTitle: function(model, title, options) {
+            this._emitYouTubeTabUpdateEvent({
+                id: model.get('id'),
+                title: title
+            });
+            
+            var fromSyncEvent = options && options.sync;
+            if (!fromSyncEvent) {
+                this._saveTitle(model.get('id'), title);
+                this._emitSyncUpdateEvent(model, 'title', title);
+            }
+        },
+        
         //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
-        _onChangeTitle: function(model, title) {
+        _saveTitle: function(playlistId, title) {
             $.ajax({
                 url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
                 type: 'PATCH',
                 data: {
-                    id: model.get('id'),
+                    id: playlistId,
                     title: title
                 }
             });
-            
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.PropertyChange,
-                property: 'title',
-                model: model
+        },
+        
+        _onChangeSequence: function (model, sequence, options) {
+            var fromSyncEvent = options && options.sync;
+            if (!fromSyncEvent) {
+                this._emitSyncUpdateEvent(model, 'sequence', sequence);
+            }
+        },
+        
+        //  TODO: Probably make this look similiar to emitSyncUpdateEvent using radio channels?
+        //  Notify all open YouTube tabs that a playlist has been renamed.
+        _emitYouTubeTabUpdateEvent: function(data) {
+            TabManager.messageYouTubeTabs({
+                event: SyncActionType.Updated,
+                type: ListItemType.Playlist,
+                data: data
             });
         },
         
-        _onChangeSequence: function (model, sequence) {
+        _emitSyncUpdateEvent: function (playlist, propertyName, propertyValue) {
             Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.PropertyChange,
-                property: 'sequence',
-                model: model
+                syncActionType: SyncActionType.Updated,
+                modelId: playlist.get('id'),
+                property: {
+                    name: propertyName,
+                    value: propertyValue
+                }
             });
         },
         
@@ -182,7 +192,9 @@ define([
                 //  Silent because items is just being properly set.
                 this.set('items', new PlaylistItems(items, {
                     playlistId: this.get('id')
-                }), { silent: true });
+                }), {
+                    silent: true
+                });
             }
         }
     });
