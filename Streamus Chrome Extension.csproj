@@ -132,6 +132,7 @@
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />
+    <Content Include="src\js\foreground\view\behavior\hoverButtons.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\exportPlaylistView.js" />
@@ -213,7 +214,9 @@
     <Content Include="src\js\inject\streamusShareInject.js" />
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
+    <Content Include="src\js\test\background\collection\playlistsTests.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
+    <Content Include="src\js\test\background\model\syncManagerTests.js" />
     <Content Include="src\js\test\background\model\userTests.js" />
     <Content Include="src\js\test\plugins.js" />
     <Content Include="src\js\test\spec\playlistItemSpec.js" />
