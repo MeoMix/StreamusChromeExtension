@@ -31,8 +31,13 @@ button {
         cursor: pointer;
     }
 
+    &.prompt-button {
+        padding: .1em .4em;
+    }
+
     &.button-label {
-        padding: .1em .4em; 
+        height: 30px;
+        padding: 0 .5em;
 
         i {
             margin-right: .5em
@@ -58,8 +63,14 @@ button {
 
         &.small {
             height: 30px;
-            width: 30px;
             line-height: 30px;
+            width: 30px;
+        }
+
+        &.tiny {
+            height: 18px;
+            line-height: 18px;
+            width: 25px;
         }
     }
 }

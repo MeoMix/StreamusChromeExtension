@@ -1,14 +1,13 @@
 ﻿define([
-    'foreground/view/behavior/tooltip',
+    'common/enum/listItemType',
+    'foreground/view/listItemButtonView',
     'text!template/addToStreamButton.html'
-], function (Tooltip, AddToStreamButtonTemplate) {
+], function (ListItemType, ListItemButtonView, AddToStreamButtonTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
-    var AddToStreamButtonView = Backbone.Marionette.ItemView.extend({
-        tagName: 'button',
-        className: 'button-icon',
+    var AddToStreamButtonView = ListItemButtonView.extend({
         template: _.template(AddToStreamButtonTemplate),
         
         attributes: {
@@ -20,18 +19,30 @@
             'dblclick': '_addToStream'
         },
         
-        behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
-            }
-        },
-        
         _addToStream: _.debounce(function () {
-            StreamItems.addSongs(this.model.get('song'));
+            StreamItems.addSongs(this._getSongs());
 
             //  Don't allow dblclick to bubble up to the list item and cause a play.
             return false;
-        }, 100, true)
+        }, 100, true),
+        
+        _getSongs: function () {
+            var songs = [];
+            var listItemType = this.model.get('listItemType');
+            
+            switch(listItemType) {
+                case ListItemType.Playlist:
+                    songs = this.model.get('items').pluck('song');
+                    break;
+                case ListItemType.PlaylistItem:
+                    songs.push(this.model.get('song'));
+                    break;
+                default:
+                    throw new Error("Unhandled listItemType: " + listItemType);
+            }
+
+            return songs;
+        }
     });
 
     return AddToStreamButtonView;

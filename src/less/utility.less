@@ -64,6 +64,7 @@
     cursor: default;
 
     * {
+        color: @mediumLightGray !important;
         cursor: default;
     }
 }
@@ -74,6 +75,12 @@
 
 .slow-color-transition {
     transition: color .3s, background .3s, border .3s, text-shadow .3s;
+}
+
+.overflow-ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .border-bottom {

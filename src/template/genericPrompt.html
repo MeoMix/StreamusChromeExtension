@@ -10,11 +10,13 @@
     </div>
     <div class="content">
     </div>
-    <span class="bottom-right">
-        <% if( showOkButton ) { %>
-        <button class="ok prompt-button button-label button-color">
-            <%= okButtonText %>
-        </button>
-        <% } %>
-    </span>
+    <div class='footer'>
+        <span class="pull-right">
+            <% if( showOkButton ) { %>
+            <button class="ok prompt-button button-color">
+                <%= okButtonText %>
+            </button>
+            <% } %>
+        </span>
+    </div>
 </div>

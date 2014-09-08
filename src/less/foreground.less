@@ -12,6 +12,16 @@
 @import "leftPane";
 @import "rightPane";
 
+/* TODO:
+    - Spinners (always hidden, shown on loading/saving)
+    - Z-index standardization
+    - Is it possible to do input + underline w/o 2 elements?
+    - Font size standardization
+    - Fix prompt height / footers.
+    - Flex standardization
+    - top-bar vs bottom-menubar    
+*/
+
 body {
     width: 640px;
     height: 410px;
@@ -72,10 +82,10 @@ body {
     width: 100%;
     border: 5px solid @white;
     position: relative;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    display: flex;
     .color-transition;
 
+    /* TODO: I think this logic can be moved out and just taken as-is for everything. */
     &.saving, 
     &.loading {
         &> *:not(.above-fade-out) {
@@ -100,11 +110,6 @@ body {
     &:hover {
         background: @lightGray;
         border-color: @lightGray;
-
-        .item-title {
-            width: 100%;
-            padding-right: 80px;
-        }
     }
 
     &.active.stream-item {
@@ -185,58 +190,28 @@ body {
         display: none;
     }
 
-    .region.list-item-buttons {
-        position: absolute;
-        right: 0;
-        top: 0;
-        bottom: 0;
-        font-size: 0;
-        .color-transition;
-
-        .button-icon {
-            height: 30px;
-            line-height: 30px;
-            width: 25px;
-            font-size: 14px;
-
-            &:hover:not(.disabled) {
-                color: @black;
-            }
-        }
+    .item-content {
+        flex: 1;
+        margin-left: 10px;
     }
 
     .item-title {
         font-size: 1.1em;
-        white-space: nowrap;
         color: @darkGray;
-        display: inline-block;
-        width: 100%;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        padding-left: 50px;
+        .overflow-ellipsis;
         .color-transition;
     }
 
     .item-details {
         color: @mediumDarkGray;
         font-size: .8em;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        display: block;
-        bottom: 0;
-        left: 50px;
-        position: absolute;
-        right: 10px;
+        .overflow-ellipsis;
         .color-transition;
     }
 
     .item-thumb {
         height: 30px;
         width: 40px;
-        position: absolute;
-        top: 0;
-        left: 0;
     }
 
     /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
@@ -257,6 +232,7 @@ body {
         color: @mediumDarkGray;
         text-align: center;
 
+        /* TODO: Is there a better way to keep left/right pane text aligned? Should it even be aligned? */
         .region.left-pane & {
             margin-top: 60px;
         }
@@ -286,22 +262,16 @@ body {
     border: 1px solid @mediumLightGray;
 
     li {
-        overflow: hidden;
+        .overflow-ellipsis;
         max-width: 200px;
-        text-overflow: ellipsis;
-        white-space: nowrap;
         padding: 0 15px;
         color: @darkGray;
+        /* TODO: Fix. Probably just adjusting padding instead of line-height*/
         font: 13px/2.2 'Open Sans';
 
         &:not(.disabled):hover {
             background: @lightGray;
         }
-    }
-
-    /* Hide context-menu if there's nothing in it */
-    &:empty {
-        display: none;
     }
 }
 
@@ -310,15 +280,11 @@ body {
     vertical-align: top;
 
     &:not(:last-child) {
-        margin-right: 20px;
+        margin-right: 10px;
     }
 
     .topic {
         font-size: 1.1em;
-
-        &:not(:first-of-type){
-            margin-top: 5px;
-        }
     }
 
     .category {
@@ -327,19 +293,11 @@ body {
 
         li {
             padding: 5px 0;
-
-            input[type=checkbox], label, select {
-                cursor: pointer;
-            }
-
-            /* Select element feels like they're given too much padding implicitly -- center them vertically a bit better */
-            select {
-                margin: -5px 0;
-            }
         }
     }
 }
 
+/* TODO: Can I replace this with a clever shadow? Is that better? */
 .input-underline-wrapper {
     display: inline-block;
     width: 100%;
@@ -357,16 +315,11 @@ body {
         /* TODO: I don't like using calc, but I'm not sure how else I can show the 1px outline of underline on either side of input */
         width: calc(~"100% - 2px");
         margin-left: 1px;
+        padding-bottom: 2px;
     }
 
     input:focus ~ .underline {
         background-color: @baseBlue;
-    }
-
-    /* TODO: I don't know how I feel about bolding some inputs but not at all and I'm not sure if height is related to bolding. */
-    input.bold {
-        font: bold 14px/1 sans-serif;
-        height: 24px;
     }
 }
 
@@ -384,9 +337,4 @@ input[type=range] {
         width: 10px;
         .color-transition;
     }
-}
-
-.context-buttons {
-    /* .small-button inside of context-buttons have less width than regular. Need 5px of padding to align with content. */
-    padding: 0 5px;
 }

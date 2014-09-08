@@ -25,7 +25,6 @@
             /* Default Panel Size */
             width: 500px;
             margin-left: -250px;
-            height: 140px;
 
             .header {
                 background: @white;
@@ -42,14 +41,13 @@
             }
 
             .content {
-                padding: 10px;
+                padding: 0 10px 10px 10px;
             }
         }
 
         &.settings-prompt .panel {
-            margin-left: -190px;
-            width: 380px;
-            height: 200px;
+            margin-left: -185px;
+            width: 370px;
         }
 
         &.create-playlist-prompt .panel {
@@ -83,9 +81,8 @@
         }
 
         &.export-playlist-prompt .panel {
-            height: 215px;
-            width: 300px;
-            margin-left: -150px;
+            width: 290px;
+            margin-left: -145px;
         }
 
         .bottom-right {
@@ -94,6 +91,7 @@
             bottom: 10px;
         }
 
+        /* TODO: Not clear that it is in bottom-left */
         /* Reminder checkboxes always go in the bottom right of the prompt */
         .reminder {
             bottom: 10px;

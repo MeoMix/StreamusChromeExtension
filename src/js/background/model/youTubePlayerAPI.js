@@ -69,7 +69,7 @@ define(function () {
 			return { requestHeaders: info.requestHeaders };
 		},
 		
-		_onYouTubePlayerAPIReady: function () {
+		_onYouTubePlayerAPIReady: function (e) {
 			this.set('ready', true);
 		},
 		

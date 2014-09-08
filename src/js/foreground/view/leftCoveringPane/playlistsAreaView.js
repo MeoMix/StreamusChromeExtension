@@ -32,10 +32,6 @@
             'dblclick @ui.childContainer': '_onDblClickChildContainer'
         },
         
-        collectionEvents: {
-            'add remove reset': '_setDeleteButtonState'
-        },
-        
         ui: {
             buttons: '.button-icon',
             panel: '.panel',
@@ -69,7 +65,6 @@
             this.ui.childContainer.sortable(this._getSortableOptions());
 
             this._toggleContextButtons();
-            this._setDeleteButtonState();
         },
         
         onShow: function () {
@@ -146,20 +141,6 @@
         
         _toggleContextButtons: function () {
             this.ui.contextButtons.toggle(SignInManager.get('signedIn'));
-        },
-        
-        _setDeleteButtonState: function () {
-            //  Can't delete the last playlist:
-            var canDelete = this.collection.canDelete();
-
-            var title;
-            if (canDelete) {
-                title = chrome.i18n.getMessage('deletePlaylist');
-            } else {
-                title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
-            }
-
-            this.ui.deleteButton.toggleClass('disabled', !canDelete).attr('title', title);
         },
         
         _showDeleteActivePlaylistPrompt: function () {

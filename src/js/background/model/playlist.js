@@ -27,7 +27,10 @@ define([
                 active: false,
                 //  This is count and total duration of all playlistItem songs.
                 displayInfo: '',
-                sequence: -1
+                sequence: -1,
+                listItemType: ListItemType.Playlist,
+                //  Only allowed to delete a playlist if more than 1 exists.
+                canDelete: false
             };
         },
 

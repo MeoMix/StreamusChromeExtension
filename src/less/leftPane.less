@@ -15,16 +15,14 @@
     .left-pane {
         background: @white;
 
+        .top-bar {
+            display: flex;
+        }
+
         .bottom-menubar {
-            line-height: 30px;
-
-            button {
-                line-height: 30px;
-                padding: 0 .5em;
-            }
-
             .playlist-details {
                 color: @mediumDarkGray;
+                line-height: 30px;
             }
         }
     }
@@ -34,16 +32,13 @@
 
         .left-pane {
             .region.playlist-title {
-                width: 100%;
-                /* TODO: This max-width doesn't scale -- might be an issue. */
-                max-width: 285px;
+                flex: 1;
                 padding: 0 10px;
 
                 .playlist-title {
-                    overflow: hidden;
-                    text-overflow: ellipsis;
                     font-size: 1.1em;
-                    white-space: nowrap;
+                    line-height: 45px;
+                    .overflow-ellipsis;
                 }
             }
 
@@ -89,15 +84,7 @@
 
             .search-bar {
                 width: 100%;
-                padding: 15px 10px 0px;
-
-                input {
-                    font-size: 1.1em;
-        
-                    /* TODO: Not sure how I feel about this spacing, but it is consistent with previous layout so keeping it for now. */
-                    margin-top: -2px;
-                    padding-bottom: 2px;
-                }
+                padding-left: 10px;
             }
         }
 
@@ -114,6 +101,7 @@
 
             .header {
                 font-size: 1.1em;
+                padding: 5px 10px;
             }
 
             .list {
@@ -122,38 +110,11 @@
                 .playlists {
                     .list-item {
                         display: flex;
-
-                        i.fa-play {
-                            .slow-color-transition;
-                        }
+                        padding-left: 10px;
 
                         &:hover {
-                            i.fa-play {
-                                display: inline-block;
-                            }
-
-                            i.fa-list {
+                            .playlist-item-count {
                                 display: none;
-                            }
-                        }
-
-                        i {
-                            display: inline-block;
-                            line-height: 18px;
-                            vertical-align: top;
-                            color: @darkGray;
-
-                            &.fa-play {
-                                display: none;
-                                margin-left: .3em;
-
-                                &:hover {
-                                    color: @black;
-                                }
-                            }
-
-                            &.fa-list {
-                                margin-right: -.2em;
                             }
                         }
 
@@ -183,33 +144,19 @@
                                 background: @lightBaseBlue;
                                 color: @baseBlue;
                             }
-
-                            i.fa-play {
-                                color: @lightBaseBlue;
-
-                                &:hover {
-                                    color: @white;
-                                }
-                            }
                         }
 
+                        /* TODO: Make this more generic. All spinners when something is loading should be display; i*/
                         &.loading {
                             .spinner {
                                 display: inline-block;
-                            }
-
-                            .fa-list,
-                            .play {
-                                display: none !important;
                             }
                         }
                     }
 
                     .title {
-                        overflow: hidden;
-                        text-overflow: ellipsis;
+                        .overflow-ellipsis;
                         line-height: 16px;
-                        white-space: nowrap;
                         flex: 1;
                     }
                 }

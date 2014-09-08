@@ -15,7 +15,8 @@
                 title: '',
                 selected: false,
                 firstSelected: false,
-                song: null
+                song: null,
+                listItemType: ListItemType.PlaylistItem
             };
         },
         

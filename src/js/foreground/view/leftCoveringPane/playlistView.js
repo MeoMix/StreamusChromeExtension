@@ -2,14 +2,16 @@
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
+    'foreground/view/addToStreamButtonView',
     'foreground/view/deleteButtonView',
+    'foreground/view/playInStreamButtonView',
     'foreground/view/behavior/hoverButtons',
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, ContextMenuActions, DeleteButtonView, HoverButtons, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, ContextMenuActions, AddToStreamButtonView, DeleteButtonView, PlayInStreamButtonView, HoverButtons, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -56,7 +58,7 @@
             buttonsRegion: '.region.list-item-buttons'
         },
         
-        buttonViews: [DeleteButtonView],
+        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
         
         behaviors: {
             Tooltip: {
@@ -141,11 +143,20 @@
             var isDeleteDisabled = Playlists.length === 1;
 
             ContextMenuItems.reset([{
+                    text: chrome.i18n.getMessage('edit'),
+                    onClick: this._showEditPlaylistPrompt.bind(this)
+                },{
                     //  No point in sharing an empty playlist.
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: this._copyPlaylistUrl.bind(this)
+                }, {
+                    //  No point in exporting an empty playlist.
+                    disabled: isEmpty,
+                    title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
+                    text: chrome.i18n.getMessage('export'),
+                    onClick: this._showExportPlaylistPrompt.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('delete'),
                     disabled: isDeleteDisabled,
@@ -156,15 +167,6 @@
                     disabled: isEmpty,
                     title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                     onClick: this._addSongsToStream.bind(this)
-                }, {
-                    text: chrome.i18n.getMessage('edit'),
-                    onClick: this._showEditPlaylistPrompt.bind(this)
-                }, {
-                    //  No point in exporting an empty playlist.
-                    disabled: isEmpty,
-                    title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
-                    text: chrome.i18n.getMessage('export'),
-                    onClick: this._showExportPlaylistPrompt.bind(this)
                 }]
             );
         },

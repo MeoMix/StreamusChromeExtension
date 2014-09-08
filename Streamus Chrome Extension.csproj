@@ -140,6 +140,7 @@
     <Content Include="src\js\foreground\view\leftBasePane\leftBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\leftCoveringPane\leftCoveringPaneRegion.js" />
     <Content Include="src\js\foreground\view\linkUserIdView.js" />
+    <Content Include="src\js\foreground\view\listItemButtonView.js" />
     <Content Include="src\js\foreground\view\noPlayEmbeddedView.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
     <Content Include="src\js\foreground\view\notification\notificationView.js" />

@@ -26,15 +26,14 @@
             this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
+
+            this.add({ title: "Hello" });
+            this.add({ title: "World" });
+            this.add({ title: "Moo" });
         },
         
         setUserId: function(userId) {
             this.userId = userId;
-        },
-        
-        //  Disallow the deletion of the last playlist.
-        canDelete: function () {
-            return this.length > 1;
         },
         
         getActivePlaylist: function () {
@@ -149,6 +148,10 @@
             });
         },
         
+        _setCanDelete: function (canDelete) {
+            this.invoke('set', 'canDelete', canDelete);
+        },
+        
         _onReset: function() {
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
@@ -158,6 +161,8 @@
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
                 playlistToSetActive.set('active', true);
             }
+
+            this._setCanDelete(this.length > 1);
         },
         
         _onRuntimeMessage: function (request, sender, sendResponse) {
@@ -210,6 +215,8 @@
                 }
             });
 
+            this._setCanDelete(true);
+
             var fromSyncEvent = options && options.sync;
             if (!fromSyncEvent) {
                 this._emitSyncAddEvent(addedPlaylist);
@@ -224,6 +231,10 @@
                 //  If the index of the item removed was the last one in the list, activate previous.
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);
+            }
+            
+            if (this.length === 1) {
+                this._setCanDelete(false);
             }
             
             //  TODO: This should probably use the same event system as SyncActions.

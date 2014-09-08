@@ -1,15 +1,13 @@
 ﻿define([
-    'foreground/view/behavior/tooltip',
+    'foreground/view/listItemButtonView',
     'foreground/view/prompt/saveSongsPromptView',
     'text!template/saveToPlaylistButton.html'
-], function (Tooltip, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
+], function (ListItemButtonView, SaveSongsPromptView, SaveToPlaylistButtonTemplate) {
     'use strict';
 
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
-    var SaveToPlaylistButtonView = Backbone.Marionette.ItemView.extend({
-        tagName: 'button',
-        className: 'button-icon',
+    var SaveToPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(SaveToPlaylistButtonTemplate),
         
         attributes: {
@@ -19,12 +17,6 @@
         events: {
             'click': '_saveToPlaylist',
             'dblclick': '_saveToPlaylist'
-        },
-        
-        behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
-            }
         },
 
         initialize: function () {

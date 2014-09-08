@@ -1,0 +1,208 @@
+/* TODO: Can I lighten my grays to be more consistent w/ other lightenings? */
+.absolute {
+  position: absolute;
+}
+.full {
+  width: 100%;
+  height: 100%;
+}
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+.fixed-full-overlay {
+  bottom: 0;
+  display: block;
+  left: 0;
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 50;
+}
+.clickable:not(.disabled) {
+  cursor: pointer;
+}
+.lowercase {
+  text-transform: lowercase;
+}
+.hidden {
+  display: none;
+}
+.invalid {
+  background-color: #ffcccc;
+}
+.valid {
+  background-color: #b5dea3;
+}
+.inset {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.table {
+  display: table;
+}
+.table > * {
+  display: table-cell;
+}
+/* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
+.disabled {
+  /* TODO: I don't want to use !important */
+
+  color: #cacaca !important;
+  cursor: default;
+}
+.disabled * {
+  color: #cacaca !important;
+  cursor: default;
+}
+.color-transition {
+  transition: color 0.1s, background 0.1s, border 0.1s, text-shadow 0.1s;
+}
+.slow-color-transition {
+  transition: color 0.3s, background 0.3s, border 0.3s, text-shadow 0.3s;
+}
+.overflow-ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.border-bottom {
+  border-bottom: 1px solid #ebebeb;
+  margin-bottom: 5px;
+}
+.border-top {
+  border-top: 1px solid #ebebeb;
+  margin-top: 5px;
+}
+.region.left-pane {
+  background: #ffffff;
+  bottom: 0;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 60.15625%;
+}
+.region.left-pane .left-pane {
+  background: #ffffff;
+}
+.region.left-pane .left-pane .top-bar {
+  display: flex;
+}
+.region.left-pane .left-pane .bottom-menubar .playlist-details {
+  color: #666666;
+  line-height: 30px;
+}
+.region.left-pane.base {
+  z-index: 1;
+}
+.region.left-pane.base .left-pane {
+  /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
+
+}
+.region.left-pane.base .left-pane .region.playlist-title {
+  flex: 1;
+  padding: 0 10px;
+}
+.region.left-pane.base .left-pane .region.playlist-title .playlist-title {
+  font-size: 1.1em;
+  line-height: 45px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.region.left-pane.base .left-pane .region.content {
+  flex: 1;
+}
+.region.left-pane.base .left-pane .fa-search {
+  font-size: 18px;
+}
+.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder {
+  /* Don't allow duplicates to be dropped into playlist items */
+
+}
+.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.not-signed-in {
+  display: none;
+}
+.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.no-drop {
+  background-color: #ffcccc;
+  /* TODO: I18N Clean this up a bit. Need to do i18n for it */
+
+}
+.region.left-pane.base .left-pane .active-playlist-items .sortable-placeholder.no-drop:after {
+  content: 'Duplicates not allowed';
+}
+.region.left-pane.covering {
+  left: -60.15625%;
+  z-index: 10;
+}
+.region.left-pane.covering .left-pane {
+  box-shadow: 0 0 10px #333333;
+  /* Can't sort search */
+
+}
+.region.left-pane.covering .left-pane .sortable-placeholder {
+  display: none;
+}
+.region.left-pane.covering .left-pane .search-bar {
+  width: 100%;
+  padding-left: 10px;
+}
+.region.left-pane.covering .playlists-area .panel {
+  bottom: 0;
+  box-shadow: 0 0 10px #333333;
+  left: -250px;
+  position: absolute;
+  top: 0;
+  width: 250px;
+  z-index: 51;
+}
+.region.left-pane.covering .playlists-area .header {
+  font-size: 1.1em;
+  padding: 5px 10px;
+}
+.region.left-pane.covering .playlists-area .list {
+  flex: 1;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item {
+  display: flex;
+  padding-left: 10px;
+  /* TODO: Make this more generic. All spinners when something is loading should be display; i*/
+
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item:hover .playlist-item-count {
+  display: none;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item .playlist-item-count {
+  display: inline-block;
+  width: 40px;
+  text-align: center;
+  line-height: 16px;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item .count {
+  background: #666666;
+  border-radius: 1em;
+  color: #ffffff;
+  font-size: .85em;
+  font-weight: bold;
+  line-height: 1.3;
+  display: inline-block;
+  width: 30px;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item.active {
+  background: #4ea6ea;
+  border-color: #4ea6ea;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item.active .count {
+  background: #d7ebfa;
+  color: #4ea6ea;
+}
+.region.left-pane.covering .playlists-area .list .playlists .list-item.loading .spinner {
+  display: inline-block;
+}
+.region.left-pane.covering .playlists-area .list .playlists .title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  line-height: 16px;
+  flex: 1;
+}
