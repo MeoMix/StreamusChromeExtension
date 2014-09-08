@@ -26,10 +26,6 @@
             this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
-
-            this.add({ title: "Hello" });
-            this.add({ title: "World" });
-            this.add({ title: "Moo" });
         },
         
         setUserId: function(userId) {

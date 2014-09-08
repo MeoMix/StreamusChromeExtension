@@ -89,7 +89,7 @@
         //  Check if the YouTube player is loaded. If it isn't, place the UI into a loading state.
         _checkPlayerReady: function() {
             if (!Player.get('ready')) {
-                //this._startLoading();
+                this._startLoading();
             }
         },
 

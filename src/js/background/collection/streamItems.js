@@ -44,14 +44,6 @@
                 this._loadActiveItem(activeItem);
             }
 
-            this.add({
-                title: "Hello",
-                song: {
-                    duration: 200,
-                    author: 'Joe'
-                }
-            });
-
             MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
