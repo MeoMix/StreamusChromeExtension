@@ -11,8 +11,7 @@
         template: _.template(LinkUserIdTemplate),
 
         templateHelpers: {
-            linkAccountMessage: chrome.i18n.getMessage('linkAccountMessage'),
-            dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
+            linkAccountMessage: chrome.i18n.getMessage('linkAccountMessage')
         },
         
         ui: {

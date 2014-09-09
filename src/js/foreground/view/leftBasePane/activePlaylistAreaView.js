@@ -40,7 +40,7 @@
         ui: {
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
-            bottomMenubar: '.bottom-menubar',
+            bottomBar: '.bottom-bar',
             childContainer: '.active-playlist-items',
             bigTextWrapper: '.big-text-wrapper',
             playAll: '.play-all',
@@ -84,7 +84,7 @@
         //  Ensure that the proper UI elements are being shown based on the state of the collection
         _setViewState: function () {
             this._toggleBigText();
-            this._toggleBottomMenubar();
+            this._toggleBottomBar();
         },
         
         _onModelChangeDisplayInfo: function (model, displayInfo) {
@@ -100,8 +100,8 @@
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
-        _toggleBottomMenubar: function () {
-            this.ui.bottomMenubar.toggle(this.collection.length > 0);
+        _toggleBottomBar: function () {
+            this.ui.bottomBar.toggle(this.collection.length > 0);
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },

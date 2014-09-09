@@ -217,7 +217,7 @@
 	"signIn": {
 		"message": "Prijava"
 	},
-	"dontRemindMeAgain": {
+	"dontRemindMe": {
 		"message": "Ne spomni me ponovno"
 	},
 	"reminders": {

@@ -1,5 +1,5 @@
 ﻿<div class="panel">
-    <div class="header table border-bottom inset">
+    <div class="header border-bottom inset">
         <span class="title">
             <%= title %>
         </span>
@@ -10,13 +10,25 @@
     </div>
     <div class="content">
     </div>
-    <div class='footer'>
-        <span class="pull-right">
-            <% if( showOkButton ) { %>
+    
+    <% if( showReminder || showOkButton ) { %>
+    <div class="footer inset">
+        <% if( showReminder ) { %>
+        <div class="flex-justify-start reminder">
+            <label>
+                <input type="checkbox">
+                <%= reminderText %>
+            </label>
+        </div>
+        <% } %>
+
+        <% if( showOkButton ) { %>
+        <div class="flex-justify-end">
             <button class="ok prompt-button button-color">
                 <%= okButtonText %>
             </button>
-            <% } %>
-        </span>
+        </div>
+        <% } %>
     </div>
+    <% } %>
 </div>

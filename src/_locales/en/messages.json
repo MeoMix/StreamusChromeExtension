@@ -226,8 +226,8 @@
 	"signIn": {
 		"message": "Sign in"
 	},
-	"dontRemindMeAgain": {
-		"message": "Don't remind me again"
+	"dontRemindMe": {
+		"message": "Don't remind me"
 	},
 	"reminders": {
 		"message": "Reminders"

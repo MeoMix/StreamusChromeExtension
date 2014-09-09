@@ -48,46 +48,5 @@ define([
         }
     });
     
-    var platformInfo = {
-        os: '',
-        arch: '',
-        nacl_arch: ''
-    };
-
-    chrome.runtime.getPlatformInfo(function(platformInfoResponse) {
-        platformInfo = platformInfoResponse;
-    });
-    
-    //  Send a log message whenever any client errors occur; for debugging purposes.
-    window.onerror = _.throttle(function (message, url, lineNumber, columnNumber, errorObject) {
-        //  Only log client errors to the database in a deploy environment, not when debugging locally.
-        if (!Settings.get('localDebug')) {
-            //  The first part of the URL is always the same and not very interesting. Drop it off.
-            url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
-
-            var stack = '';
-            //  errorObject can be null or undefined
-            if (errorObject) {
-                //  If just throw is called without creating an Error object then errorObject.stack will be undefined and just the text should be relied upon.
-                if (_.isUndefined(errorObject.stack)) {
-                    stack = errorObject;
-                } else {
-                    stack = errorObject.stack;
-                }
-            }
-
-            var clientError = new ClientError({
-                message: message,
-                url: url,
-                lineNumber: lineNumber,
-                operatingSystem: platformInfo.os,
-                architecture: platformInfo.arch,
-                stack: stack
-            });
-
-            clientError.save();
-        }
-    }, 60000);
-
     return ClientError;
 });

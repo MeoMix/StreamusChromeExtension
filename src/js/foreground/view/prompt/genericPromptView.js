@@ -32,14 +32,16 @@
         },
 
         onShow: function () {
+            //  TODO: I think the region should be in charge of this
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
             //  Calculate center for prompt by finding the average difference between prompts height and its container
-            var yTranslateCenter = (this.options.containerHeight - this.ui.panel.height()) / 2;
-            
+            //  IMPORTANT: Math.floor is necessary to prevent sub-pixel calculations which result in blur.
+            var yTranslateCenter = Math.floor((this.options.containerHeight - this.ui.panel.height()) / 2);
+
             this.ui.panel.transition({
                 y: yTranslateCenter,
                 opacity: 1

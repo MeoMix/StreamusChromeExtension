@@ -31,6 +31,7 @@ input[type=checkbox], label, select {
 
 input[type=text] {
     border: 0;
+    /* TODO: This conflicts with other padding in input underline */
     padding: 0 .2em;
     cursor: text;
 }
@@ -38,13 +39,4 @@ input[type=text] {
 /* Selects feel like they're given too much padding implicitly*/
 select {
     margin: -5px 0;
-}
-
-/* TODO: Not sure if it's kosher to be messing with the font-size of font-awesome/fontello icons directly like this */
-i {
-    font-size: 14px;
-
-    &.fa-lg {
-        font-size: 19px;
-    }
 }

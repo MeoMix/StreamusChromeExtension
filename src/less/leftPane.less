@@ -19,7 +19,7 @@
             display: flex;
         }
 
-        .bottom-menubar {
+        .bottom-bar {
             .playlist-details {
                 color: @mediumDarkGray;
                 line-height: 30px;
@@ -46,9 +46,9 @@
                 flex: 1;
             }
 
-            /* Maybe it is just me -- but I swear the search icon looks weird at other sizes. */
             .fa-search {
-                font-size: 18px;
+                /* It doesn't look quite aligned properly with the default font-awesome line-height. */
+                line-height: .5em;
             }
 
             .active-playlist-items {
@@ -83,8 +83,11 @@
             }
 
             .search-bar {
-                width: 100%;
-                padding-left: 10px;
+                flex: 1;
+                padding: 0 10px;
+                line-height: 45px;
+                /* This area needs to have bigger font to look correct. Not 100% on it, but I feel like 1.0em looks bad. */
+                font-size:1.1em;
             }
         }
 
@@ -137,19 +140,9 @@
                         }
 
                         &.active {
-                            background: @baseBlue;
-                            border-color: @baseBlue;
-
                             .count {
                                 background: @lightBaseBlue;
                                 color: @baseBlue;
-                            }
-                        }
-
-                        /* TODO: Make this more generic. All spinners when something is loading should be display; i*/
-                        &.loading {
-                            .spinner {
-                                display: inline-block;
                             }
                         }
                     }

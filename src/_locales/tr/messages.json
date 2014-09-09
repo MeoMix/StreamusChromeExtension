@@ -262,7 +262,7 @@
 	"signIn": {
 		"message": "Oturum Aç"
 	},
-	"dontRemindMeAgain": {
+	"dontRemindMe": {
 		"message": "Tekrar hatırlatma"
 	},
 	"reminders": {

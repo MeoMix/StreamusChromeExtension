@@ -91,24 +91,16 @@ define([
         _setPreviousButtonDisabled: function() {
             this.ui.previousButton.toggleClass('disabled', !PreviousButton.get('enabled'));
         },
-        //  TODO: Instead of building HTML -- just set a class.
+
         _setPlayPauseButtonState: function() {
             var playerState = this.model.get('state');
-            
-            var icon;
-            switch(playerState) {
-                case PlayerState.Buffering:
-                    icon = $('<div>', { 'class': 'spinner small' });
-                    break;
-                case PlayerState.Playing:
-                    icon = $('<i>', { 'class': 'fa fa-lg fa-pause' });
-                    break;
-                default:
-                    icon = $('<i>', { 'class': 'fa fa-lg fa-play' });
-            }
 
-            this.ui.playPauseButton.empty().append(icon);
-            this.ui.playPauseButton.toggleClass('disabled', !PlayPauseButton.get('enabled'));
+            //  TODO: Break this apart into more discernable functions.
+            this.ui.playPauseButton
+                .toggleClass('disabled', !PlayPauseButton.get('enabled'))
+                .toggleClass('loading', playerState === PlayerState.Buffering)
+                .toggleClass('playing', playerState === PlayerState.Playing)
+                .toggleClass('paused', playerState !== PlayerState.Buffering && playerState !== PlayerState.Playing);
         }
     });
 

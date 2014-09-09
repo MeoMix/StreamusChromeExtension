@@ -33,7 +33,8 @@
 }
 
 .hidden {
-    display: none;
+    /* Use important to ensure that hidden always takes precedence -- even if JavaScript tries to mess with it. Hidden is hidden! */
+    display: none !important;
 }
 
 .invalid {
@@ -49,12 +50,16 @@
     margin-right: 10px;
 }
 
-.table {
-    display: table;
+.flex-justify-end {
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+}
 
-    > *{
-        display: table-cell;
-    }
+.flex-justify-start {
+    justify-content: flex-start;
+    display: flex;
+    flex: 1;
 }
 
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */

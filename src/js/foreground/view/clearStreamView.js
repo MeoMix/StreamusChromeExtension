@@ -11,8 +11,7 @@
         template: _.template(ClearStreamTemplate),
         
         templateHelpers: {
-            areYouSureYouWantToClearYourStreamMessage: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream'),
-            dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
+            areYouSureYouWantToClearYourStreamMessage: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream')
         },
         
         ui: {

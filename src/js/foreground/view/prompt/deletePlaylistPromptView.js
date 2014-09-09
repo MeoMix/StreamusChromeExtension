@@ -12,6 +12,7 @@
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('deletePlaylist'),
                 okButtonText: chrome.i18n.getMessage('delete'),
+                showReminder: true,
                 view: new DeletePlaylistView({
                     model: options.playlist
                 })

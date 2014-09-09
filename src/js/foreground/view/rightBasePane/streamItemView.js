@@ -36,10 +36,20 @@
         }),
         
         buttonViews: [PlayInStreamButtonView, SaveToPlaylistButtonView, DeleteButtonView],
+        
+        initialize: function() {
+            this.listenTo(Player, 'change:state', this._setPlayerStateClass);
+            this._setPlayerStateClass();
+        },
 
         onRender: function () {
             this._setActiveClass();
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
+        },
+        
+        //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
+        _setPlayerStateClass: function () {
+            this.$el.toggleClass('playing', Player.isPlaying());
         },
 
         _activateAndPlayOrToggleState: function () {

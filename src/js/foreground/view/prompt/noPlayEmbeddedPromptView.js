@@ -17,7 +17,7 @@
             
             GenericPromptView.prototype.initialize.apply(this, arguments);
 
-            throw new Error("NoPlayEmbeddedView shown, loadedSongId:" + Player.get('loadedSongId'));
+            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedView shown, loadedSongId:" + Player.get('loadedSongId'));
         }
     });
 

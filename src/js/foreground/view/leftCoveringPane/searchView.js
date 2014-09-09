@@ -30,7 +30,7 @@
         },
         
         ui: {
-            bottomMenubar: '.bottom-menubar',
+            bottomBar: '.bottom-bar',
             searchInput: '.search-bar input',
             searchingMessage: '.searching',
             instructions: '.instructions',
@@ -58,7 +58,7 @@
 
         collectionEvents: {
             'reset': '_toggleBigText',
-            'change:selected': '_toggleBottomMenubar'
+            'change:selected': '_toggleBottomBar'
         },
  
         templateHelpers: function() {
@@ -101,7 +101,7 @@
  
         onRender: function () {
             this._toggleBigText();
-            this._toggleBottomMenubar();
+            this._toggleBottomBar();
             this._toggleSaveSelected();
         },
         
@@ -155,9 +155,9 @@
             this.ui.saveSelectedButton.attr('title', signedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
         
-        _toggleBottomMenubar: function () {
+        _toggleBottomBar: function () {
             var selectedCount = this.collection.selected().length;
-            this.ui.bottomMenubar.toggle(selectedCount > 0);
+            this.ui.bottomBar.toggle(selectedCount > 0);
 
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');

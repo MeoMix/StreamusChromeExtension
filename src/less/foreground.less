@@ -5,6 +5,7 @@
 @import "font";
 @import "scrollbars";
 @import "spinner";
+@import "tooltip";
 @import "button";
 @import "selectize";
 @import "prompt";
@@ -13,13 +14,9 @@
 @import "rightPane";
 
 /* TODO:
-    - Spinners (always hidden, shown on loading/saving)
     - Z-index standardization
-    - Is it possible to do input + underline w/o 2 elements?
     - Font size standardization
-    - Fix prompt height / footers.
     - Flex standardization
-    - top-bar vs bottom-menubar    
 */
 
 body {
@@ -28,29 +25,8 @@ body {
     -webkit-user-select: none;
     font: 13px/1.2 'Open Sans';
 
-    &:not(.loading) > .spinner {
-        display: none;
-    }
-
     &.loading > *:not(.above-fade-out) {
-        opacity: .2;
         pointer-events: none;
-    }
-
-    &.hide-tooltips {
-        .qtip {
-            display: none !important;
-        }
-    }
-
-    /* qtip overrides: */
-    .qtip {
-        min-width: 0;
-    }
-
-    .qtip-light {
-        border-color: @lightGray;
-        color: @mediumDarkGray;
     }
 }
 
@@ -60,6 +36,7 @@ body {
 
 /* This is the jQuery UI draggable object that shows # of items being dragged */
 .droppable-selected-models {
+    /* Important is necessary here because height/width is set via javascript and I want to override. */
     width: 19px !important;
     height: 19px !important;
     padding: 2px;
@@ -80,22 +57,10 @@ body {
 .list-item {
     height: 40px;
     width: 100%;
-    border: 5px solid @white;
+    padding: 5px;
     position: relative;
     display: flex;
     .color-transition;
-
-    /* TODO: I think this logic can be moved out and just taken as-is for everything. */
-    &.saving, 
-    &.loading {
-        &> *:not(.above-fade-out) {
-            opacity: .2;
-        }
-
-        .spinner {
-            display: block;
-        }
-    }
 
     &.small {
         height: 28px;
@@ -104,90 +69,53 @@ body {
     &.ui-sortable-helper,
     &.sortable-placeholder {
         background: @lightGray;
-        border-color: @lightGray;
     }
 
     &:hover {
         background: @lightGray;
-        border-color: @lightGray;
+    }
+
+    &::before {
+        content: '';
+        position: absolute;
+        height: 100%;
+        width: 5px;
+        right: 0;
+        top: 0;
     }
 
     &.active.stream-item {
-        background: @sunflower;
-        border-color: @sunflower;
-
-        .item-details {
-            color: @lightSunflower;
+        &::before {
+            background-color: @sunflower;
         }
 
-        .region.list-item-buttons {
-            button.button-icon {
-                color: @lightSunflower;
+        &.playing {
+            &::before {
+                background-color: @nephritis;
             }
         }
     }
 
-    body.playing &.active.stream-item {
-        background: @nephritis;
-        border-color: @nephritis;
-
-        .item-details {
-            color: @lightNephritis;
-        }
-
-        .region.list-item-buttons {
-            button.button-icon {
-                color: @lightNephritis;
-
-                /* TODO: This shouldn't be necessary, but body.playing gives higher specificity 
-                   which causes white hover to be overriden with non-hover color*/
-                &:hover {
-                    color: @white;
-                }
-            }
-        }
-    }
-
-    &.selected {
+    &.selected, 
+    &.active:not(.stream-item) {
+        color: @white;
         background: @baseBlue;
-        border-color: @baseBlue !important;
 
+        .button-icon,
         .item-details {
             color: @lightBaseBlue;
         }
-
-        .region.list-item-buttons {
-            button.button-icon {
-                color: @lightBaseBlue;
-            }
-        }
-    }
-
-    &.selected,
-    &.active {
-        color: @white;
-
-        .region.list-item-buttons {
-            button.button-icon:hover {
-                color: @white;
-            }
+        
+        .item-title,
+        .button-icon:hover {
+            color: @white;
         }
 
         .spinner {
             color: @white;
-            border: 1px solid @white;
-            border-left-color: transparent;
-            border-top-color: transparent;
+            border-right-color: @white;
+            border-bottom-color: @white;
         }
-
-        .item-title,
-        .item-title-wrapper {
-            color: @white;
-        }
-    }
-
-    .spinner {
-        display: none;
     }
 
     .item-content {
@@ -301,6 +229,8 @@ body {
 .input-underline-wrapper {
     display: inline-block;
     width: 100%;
+    /* Ensure that any parent element affecting line-height doesn't mess up positioning of underline */
+    line-height: normal;
 
     .underline {
         background-color: @lightGray;
@@ -336,5 +266,16 @@ input[type=range] {
         height: 10px;
         width: 10px;
         .color-transition;
+    }
+}
+
+.saving, 
+.loading {
+    &> *:not(.above-fade-out):not(.spinner) {
+        opacity: .2;
+    }
+
+    > .spinner {
+        display: inline-block;
     }
 }

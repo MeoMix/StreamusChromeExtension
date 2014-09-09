@@ -14,8 +14,7 @@
         },
         
         templateHelpers: {
-            areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist'),
-            dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
+            areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist')
         },
         
         doOk: function() {

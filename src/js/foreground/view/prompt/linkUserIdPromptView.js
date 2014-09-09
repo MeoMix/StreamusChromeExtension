@@ -11,6 +11,7 @@
         initialize: function () {
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
+                showReminder: true,
                 view: new LinkUserIdView()
             });
             

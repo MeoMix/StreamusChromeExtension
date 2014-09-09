@@ -214,7 +214,7 @@
     "signIn": {
             "message": "Anmelden"
     },
-    "dontRemindMeAgain": {
+    "dontRemindMe": {
             "message": "Nicht mehr erinnern"
     },
     "reminders": {

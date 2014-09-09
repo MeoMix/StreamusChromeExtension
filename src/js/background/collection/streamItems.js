@@ -48,7 +48,6 @@
         },
         
         addSongs: function (songs, options) {
-            console.log("Adding songs:", songs);
             //  Support not passing in options
             options = options || {};
 

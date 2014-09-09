@@ -5,9 +5,8 @@
     'foreground/view/multiSelectListItemView',
     'foreground/view/playInStreamButtonView',
     'foreground/view/saveToPlaylistButtonView',
-    'foreground/view/behavior/tooltip',
     'text!template/listItem.html'
-], function (ContextMenuItems, ContextMenuActions, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, Tooltip, ListItemTemplate) {
+], function (ContextMenuItems, ContextMenuActions, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
     'use strict';
 
     var SearchResultView = MultiSelectListItemView.extend({
@@ -26,12 +25,6 @@
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
             'dblclick': '_playInStream'
         }),
-        
-        behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
-            }
-        },
         
         _showContextMenu: function (event) {
             event.preventDefault();

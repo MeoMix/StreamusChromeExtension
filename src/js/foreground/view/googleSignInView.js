@@ -11,8 +11,7 @@
         template: _.template(GoogleSignInTemplate),
 
         templateHelpers: {
-            googleSignInMessage: chrome.i18n.getMessage('googleSignInMessage'),
-            dontRemindMeAgainMessage: chrome.i18n.getMessage('dontRemindMeAgain')
+            googleSignInMessage: chrome.i18n.getMessage('googleSignInMessage')
         },
         
         ui: {

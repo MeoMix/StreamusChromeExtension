@@ -190,9 +190,27 @@
             }
 
             .center-group {
-                width: 120px;
-                margin: 0 auto;
-                font-size: 0px;
+                display: flex;
+                justify-content: center;
+
+                .loading {
+                    .fa-pause,
+                    .fa-play {
+                        display: none;
+                    }
+                }
+
+                .playing {
+                    .fa-play {
+                        display: none;
+                    }
+                }
+
+                .paused {
+                    .fa-pause {
+                        display: none;
+                    }
+                }
             }
         }
     }

@@ -214,7 +214,7 @@
 	"signIn": {
 		"message": "Iniciar Sesion"
 	},
-	"dontRemindMeAgain": {
+	"dontRemindMe": {
 		"message": "No recuerdes mis datos"
 	},
 	"reminders": {

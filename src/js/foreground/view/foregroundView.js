@@ -48,9 +48,6 @@
             this.listenTo(Settings, 'change:showTooltips', this._setHideTooltipsClass);
             this._setHideTooltipsClass();
 
-            this.listenTo(Player, 'change:state', this._setPlayerStateClass);
-            this._setPlayerStateClass();
-
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
             SignInManager.signInWithGoogle();
@@ -74,11 +71,6 @@
         //  and so that menus can close if they weren't clicked.
         _announceClickedElement: function (event) {
             Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
-        },
-        
-        //  Keep the player state represented on the body so CSS can easily reflect the state of the Player.
-        _setPlayerStateClass: function () {
-            this.$el.toggleClass('playing', Player.isPlaying());
         },
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.

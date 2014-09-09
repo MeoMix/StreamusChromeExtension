@@ -11,6 +11,7 @@
         initialize: function () {
             this.model = new GenericPrompt({
                 title: chrome.i18n.getMessage('signInToGoogle'),
+                showReminder: true,
                 view: new GoogleSignInView()
             });
 
