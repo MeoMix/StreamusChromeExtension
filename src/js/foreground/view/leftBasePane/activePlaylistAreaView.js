@@ -101,7 +101,7 @@
         },
         
         _toggleBottomBar: function () {
-            this.ui.bottomBar.toggle(this.collection.length > 0);
+            this.ui.bottomBar.toggleClass('hidden', this.collection.length === 0);
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },

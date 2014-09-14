@@ -1,8 +1,10 @@
 ﻿@import "colorPallete";
 
-.absolute {
-    position: absolute;
-}
+//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
+@largeColumnWidth: 60.15625%;
+//  Width is set as 255px / 640px, TODO: follow golden ratio more closely
+@smallColumnWidth: 39.84375%;
+@colorTransitionTime: .15s;
 
 .full {
     width: 100%;
@@ -16,15 +18,14 @@
 
 .fixed-full-overlay {
     bottom: 0;
-    display: block;
     left: 0;
     position: fixed;
     right: 0;
     top: 0;
-    z-index: 50;
+    z-index: 1;
 }
 
-.clickable:not(.disabled) {
+.clickable {
     cursor: pointer;
 }
 
@@ -64,36 +65,73 @@
 
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
-    /* TODO: I don't want to use !important */
     color: @mediumLightGray !important;
-    cursor: default;
+    cursor: default !important;
 
     * {
         color: @mediumLightGray !important;
-        cursor: default;
+        cursor: default !important;
     }
 }
 
-.color-transition {
-    transition: color .1s, background .1s, border .1s, text-shadow .1s;
-}
-
-.slow-color-transition {
-    transition: color .3s, background .3s, border .3s, text-shadow .3s;
-}
-
-.overflow-ellipsis {
+.text {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
+    &.text-secondary {
+        color: @mediumDarkGray;
+    }
 }
 
-.border-bottom {
-    border-bottom: 1px solid #ebebeb;
-    margin-bottom: 5px;
+.fontSize-smallest {
+    font-size: .7em;
 }
 
-.border-top {
-    border-top: 1px solid #ebebeb;
-    margin-top: 5px;
+.fontSize-small {
+    font-size: .85em;
+}
+
+.fontSize-large {
+    font-size: 1.1em;
+}
+
+.fontSize-largest {
+    font-size: 1.7em;
+}
+
+.lineHeight-tightest {
+    line-height: 13px;
+}
+
+.lineHeight-tighter {
+    line-height: 16px;
+}
+
+.lineHeight-tight {
+    line-height: 20px;
+}
+
+.lineHeight-base {
+    line-height: 30px;
+}
+
+.lineHeight-loose {
+    line-height: 45px;
+}
+
+.region.overlay {
+    position: absolute;
+
+    &:empty {
+        display: none;
+    }
+}
+
+.link {
+    color: @baseBlue;
+
+    &:hover {
+        color: @darkBaseBlue;
+    }
 }

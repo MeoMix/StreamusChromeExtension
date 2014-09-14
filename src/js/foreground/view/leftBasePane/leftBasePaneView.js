@@ -22,7 +22,9 @@
 
         ui: {
             showSearch: '.show-search',
-            showPlaylistsArea: '.show-playlists-area'
+            showPlaylistsArea: '.show-playlists-area',
+            playlistTitleRegion: '.region.playlist-title',
+            contentRegion: '.region.content'
         },
         
         events: {
@@ -36,8 +38,8 @@
         },
 
         regions: {
-            playlistTitleRegion: '.region.playlist-title',
-            contentRegion: '.region.content'
+            playlistTitleRegion: '@ui.playlistTitleRegion',
+            contentRegion: '@ui.contentRegion'
         },
         
         behaviors: {

@@ -1,8 +1,12 @@
 ﻿@import "colorPallete";
 
-@keyframes spin {
-    from { transform: rotate(0); }
-    to { transform: rotate(360deg); }
+@-webkit-keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(359deg);
+  }
 }
 
 .spinner {
@@ -11,10 +15,7 @@
     border-left-color: transparent;
     border-top-color: transparent;
     border-radius: 50%;
-    -webkit-animation-name: spin;
-    -webkit-animation-duration: 700ms;
-    -webkit-animation-iteration-count: infinite;
-    -webkit-animation-timing-function: linear;
+    -webkit-animation: spin 700ms infinite linear;
     display: none;
     vertical-align: middle;
 

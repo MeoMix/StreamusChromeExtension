@@ -1,0 +1,59 @@
+﻿@import "colorPallete";
+
+@inputSize: 4px;
+
+.range-slider {
+    background: @lightGray;
+    flex: 1;
+    position: relative;
+
+    &.horizontal {
+        height: @inputSize;
+        margin: 0 10px;
+
+        .progress {
+            height: 100%;
+        }
+    }
+
+    &.vertical {
+        width: @inputSize;
+        margin: 10px 0;
+        transform: rotate(180deg);
+
+        .progress {
+            width: 100%;
+        }
+
+        input[type=range] {
+            -webkit-transform: rotate(90deg);
+            -webkit-transform-origin: 0 0;
+        }
+    }
+
+    input[type=range] {
+        top: 0;
+        position: absolute;
+    }
+
+    .progress {
+        background: @baseBlue;
+        position: absolute;
+    }
+
+    input[type=range] {
+        -webkit-appearance: none;
+        background: transparent;
+        height: 100%;
+        width: 100%;
+
+        &::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            box-shadow: 0 0 5px @mediumLightGray;
+            background: @mediumDarkGray;
+            border-radius: 100%;
+            height: 10px;
+            width: 10px;
+        }
+    }
+}

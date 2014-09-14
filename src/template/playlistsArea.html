@@ -1,18 +1,22 @@
 ﻿<div class="panel flex-column">
-    <div class="top-bar border-bottom inset">
-        <button class="button-icon hide enabled tooltipable">
-            <i class="fa fa-reorder"></i>
-        </button>
+    <div class="top-bar">
+        <div class="flex-row">
+            <button class="button-icon hide enabled tooltipable">
+                <i class="fa fa-reorder"></i>
+            </button>
+        </div>
     </div>
     <span class="header">
         <%= playlists %>
     </span>
-    <div class="list">
-        <ul class="playlists">
-        </ul>
+    <div class="big-text-wrapper full flex-column">
+        <div class="list">
+            <ul class="playlists">
+            </ul>
+        </div>
     </div>
-    <div class="context-buttons border-top inset">
-        <div class="pull-right">
+    <div class="bottom-bar">
+        <div class="flex-row">
             <button class="button-label add">
                 <i class="fa fa-plus"></i>
                 <%= createPlaylist %>

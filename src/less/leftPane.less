@@ -1,158 +1,80 @@
 ﻿@import "colorPallete";
 @import "utility";
 
-//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
-@leftPaneWidth: 60.15625%;
-
 .region.left-pane {
-    background: @white;
-    bottom: 0;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: @leftPaneWidth;
+    width: @largeColumnWidth;
+    height: 100%;
+    display: inline-block;
 
-    .left-pane {
-        background: @white;
-
-        .top-bar {
-            display: flex;
-        }
-
-        .bottom-bar {
-            .playlist-details {
-                color: @mediumDarkGray;
-                line-height: 30px;
-            }
-        }
+    .region.playlist-title {
+        flex: 1;
+        padding: 0 10px;
     }
 
-    &.base {
-        z-index: 1;
-
-        .left-pane {
-            .region.playlist-title {
-                flex: 1;
-                padding: 0 10px;
-
-                .playlist-title {
-                    font-size: 1.1em;
-                    line-height: 45px;
-                    .overflow-ellipsis;
-                }
-            }
-
-            .region.content {
-                flex: 1;
-            }
-
-            .fa-search {
-                /* It doesn't look quite aligned properly with the default font-awesome line-height. */
-                line-height: .5em;
-            }
-
-            .active-playlist-items {
-                .sortable-placeholder {
-                    &.not-signed-in {
-                        display: none;
-                    }
-                    /* Don't allow duplicates to be dropped into playlist items */
-                    &.no-drop {
-                        background-color: @invalidRed;
-
-                        /* TODO: I18N Clean this up a bit. Need to do i18n for it */
-                        &:after {
-                            content: 'Duplicates not allowed';
-                        }
-                    }
-                }
-            }
-        }
+    .fa-search {
+        /* It doesn't look quite aligned properly with the default font-awesome line-height. */
+        line-height: .5em;
     }
 
-    &.covering {
-        left: -1 * @leftPaneWidth;
-        z-index: 10;
-        
+    .playlist-details {
+        flex: 1;
+    }
+
+    &.overlay {
+        left: -1 * @largeColumnWidth;
+
         .left-pane {
             box-shadow: 0 0 10px @darkGray;
-
-            /* Can't sort search */
-            .sortable-placeholder {
-                display: none;
-            }
 
             .search-bar {
                 flex: 1;
                 padding: 0 10px;
-                line-height: 45px;
-                /* This area needs to have bigger font to look correct. Not 100% on it, but I feel like 1.0em looks bad. */
-                font-size:1.1em;
+                .lineHeight-loose;
+                /* This area needs to have bigger font to look correct. */
+                .fontSize-large;
             }
         }
 
         .playlists-area {
             .panel {
-                bottom: 0;
                 box-shadow: 0 0 10px @darkGray;
-                left: -250px;
+                left: -1 * @smallColumnWidth;
                 position: absolute;
-                top: 0;
-                width: 250px;
-                z-index: 51;
+                width: @smallColumnWidth;
+                height: 100%;
             }
 
             .header {
-                font-size: 1.1em;
+                .fontSize-large;
                 padding: 5px 10px;
             }
 
-            .list {
-                flex: 1;
+            .list-item {
+                padding-left: 10px;
 
-                .playlists {
-                    .list-item {
-                        display: flex;
-                        padding-left: 10px;
+                .item-count {
+                    background: @mediumDarkGray;
+                    border-radius: 1em;
+                    color: @white;
+                    .fontSize-small;
+                    font-weight: bold;
+                    width: 30px;
+                    margin: 2px 5px;
+                    text-align: center;
+                    .lineHeight-tighter;
+                }
 
-                        &:hover {
-                            .playlist-item-count {
-                                display: none;
-                            }
-                        }
-
-                        .playlist-item-count {
-                            display: inline-block;
-                            width: 40px;
-                            text-align: center;
-                            line-height: 16px;
-                        }
-
-                        .count {
-                            background: @mediumDarkGray;
-                            border-radius: 1em;
-                            color: @white;
-                            font-size: .85em;
-                            font-weight: bold;
-                            line-height: 1.3;
-                            display: inline-block;
-                            width: 30px;
-                        }
-
-                        &.active {
-                            .count {
-                                background: @lightBaseBlue;
-                                color: @baseBlue;
-                            }
-                        }
-                    }
-
-                    .title {
-                        .overflow-ellipsis;
-                        line-height: 16px;
-                        flex: 1;
+                &.active {
+                    .item-count {
+                        background: @lightBaseBlue;
+                        color: @baseBlue;
                     }
                 }
+            }
+
+            .title {
+                .lineHeight-tight;
+                flex: 1;
             }
         }
     }

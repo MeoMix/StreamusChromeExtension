@@ -1,26 +1,29 @@
 ﻿@import "colorPallete";
+@import "utility";
 
 .region.notification {
+    top: 0;
+    left: 0;
+    right: 0;
+
     .notification {
-        height: 40px;
-        line-height: 40px;
+        height: 45px;
+        .lineHeight-loose;
         position: absolute;
-        z-index: 50;
+        z-index: 1;
         background-color: white;
         text-align: center;
         left: 0;
         right: 0;
         top: 0;
         box-shadow: 0 0 10px @darkGray;
-        font-size: 1.1em;
+        .fontSize-large;
         transform: translate(0px, -40px);
 
         .button-icon.remove {
             position: absolute;
             top: 0;
-            right: 0;
-            height: 40px;
-            line-height: 40px;
+            right: 5px;
         }
 
         &.success {

@@ -6,7 +6,7 @@
     var ContextMenuView = Backbone.Marionette.CompositeView.extend({
         id: 'context-menu',
         tagName: 'ul',
-        className: 'menu',
+        className: 'menu panel',
         childView: ContextMenuItemView,
         template: _.template(),
         //  Used to determine whether context-menu display should flip as to not overflow container

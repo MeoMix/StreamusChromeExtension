@@ -13,8 +13,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
-        //  TODO: I am required to use ID selector here until bug resolved: https://github.com/marionettejs/backbone.marionette/issues/1530
-        el: '#prompt-region',
+        el: '.region.prompt',
         showReloadPromptTimeout: null,
         
         initialize: function () {

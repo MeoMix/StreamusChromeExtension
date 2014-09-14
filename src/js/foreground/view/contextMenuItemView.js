@@ -6,7 +6,7 @@
 
     var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
-        className: 'clickable',
+        className: 'text clickable',
         template: _.template(ContextMenuItemTemplate),
 
         events: {

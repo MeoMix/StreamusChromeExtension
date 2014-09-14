@@ -1,14 +1,15 @@
-﻿<!-- TODO: Not all ListItems can be saved. Doesn't really make sense to have this here. -->
-<div class="spinner small absolute-center"></div>
+﻿<div class="spinner small absolute-center"></div>
+
+<i class="fa fa-volume-up hidden"></i>
 
 <img class="item-thumb" src="http://img.youtube.com/vi/<%= song.get('id') %>/default.jpg" />
 
 <div class="item-content">
-    <div class="item-title text-tooltipable" title="<%= title %>">
+    <div class="item-title text text-tooltipable" title="<%= title %>">
         <%= title %>
     </div>
 
-    <div class="item-details">
+    <div class="item-details text text-secondary">
         <span class="item-duration">
             <%= song.get('prettyDuration') %>	
         </span>

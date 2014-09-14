@@ -6,8 +6,7 @@
     'use strict';
 
     var ContextMenuRegion = Backbone.Marionette.Region.extend({
-        //  TODO: I am required to use ID selector here until bug resolved: https://github.com/marionettejs/backbone.marionette/issues/1530
-        el: '#context-menu-region',
+        el: '.region.context-menu',
         containerHeight: 0,
         containerWidth: 0,
         

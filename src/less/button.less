@@ -43,31 +43,28 @@ button {
     }
 
     &.button-color {
-        background: @lightGray;
+        background-color: @lightGray;
         border: 1px solid @mediumLightGray;
 
         &:hover {
             border-color: @baseBlue;
-            background: @baseBlue;
+            background-color: @baseBlue;
             color: @white;
         }
     }
 
     &.button-icon {
-        font-size: 14px;
-        height: 45px;
-        line-height: 45px;
+        .fontSize-large;
+        .lineHeight-loose;
         width: 40px;
 
-        &.small {
-            height: 30px;
-            line-height: 30px;
+        &.buttonSize-base {
+            .lineHeight-base;
             width: 30px;
         }
 
-        &.tiny {
-            height: 18px;
-            line-height: 18px;
+        &.buttonSize-small {
+            .lineHeight-tight;
             width: 25px;
         }
     }

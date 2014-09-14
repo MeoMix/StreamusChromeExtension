@@ -97,8 +97,6 @@
 
                             var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
                             ui.placeholder.toggleClass('no-drop', alreadyExists);
-                        } else {
-                            ui.placeholder.addClass('not-signed-in');
                         }
                     }
 
@@ -119,7 +117,7 @@
                     ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
                 },
 
-                stop: function(event, ui) {
+                stop: function (event, ui) {
                     this.backCopyHelper.removeClass('copy-helper');
 
                     var copied = $(this).data('copied');
@@ -128,6 +126,7 @@
                     } else {
                         this.copyHelperView.destroy();
 
+                        //  TODO: This doesn't support moving multiple items up/down the list.
                         //  Whenever a PlaylistItem or StreamItem row is reorganized -- update.
                         var listItemType = ui.item.data('type');
                         if (listItemType === ListItemType.PlaylistItem || listItemType === ListItemType.StreamItem) {
@@ -136,6 +135,12 @@
                             self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function (response) {
                                 //  TODO: This has a bug in it. If you drag an item far enough to exceed the render threshold then it doesn't properly find the index. :(
                                 var index = ui.item.index() + response.minRenderIndex;
+
+                                //  When dragging an item down the list -- since the whole list shifts up one -- need to +1 the index after dropping to account.
+                                if (ui.position.top > ui.originalPosition.top) {
+                                    index += 1;
+                                }
+
                                 self.view.collection.moveToIndex(ui.item.data('id'), index);
                             });
 
@@ -159,7 +164,7 @@
                 },
 
                 tolerance: 'pointer',
-                receive: function(event, ui) {
+                receive: function (event, ui) {
                     //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
                     //  Need to pad the index with the # of missing items.
                     self.view.listenToOnce(self.view, 'GetMinRenderIndexReponse', function(response) {

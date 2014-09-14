@@ -9,7 +9,8 @@
 
         ui: {
             imageThumbnail: '.item-thumb',
-            title: '.item-title'
+            title: '.item-title',
+            buttonsRegion: '.region.list-item-buttons'
         },
 
         events: {
@@ -21,7 +22,7 @@
         },
         
         regions: {
-            buttonsRegion: '.region.list-item-buttons'
+            buttonsRegion: '@ui.buttonsRegion'
         },
         
         behaviors: {

@@ -2,7 +2,7 @@
     <div class="big-text stream-empty">
         <div class="header"><%= streamEmptyMessage %></div>
         
-        <%= whyNotAddASongFromAPlaylistOrMessage %> <span class="show-search search-link clickable lowercase"><%= searchForSongsMessage %></span>?
+        <%= whyNotAddASongFromAPlaylistOrMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
     </div>
     
     <div class="list">
@@ -10,26 +10,27 @@
     </div>
 </div>
 
-<div class="context-buttons border-top inset">
-    <div class="pull-left">
-        <button id="shuffle-button" class="button-icon small tooltipable">
-            <i class="fa fa-random"></i>
-        </button>
+<div class="bottom-bar">
+    <div class="flex-row">
+        <div class="stream-controls">
+            <button id="shuffle-button" class="button-icon buttonSize-base tooltipable">
+                <i class="fa fa-random"></i>
+            </button>
         
-        <button id="repeat-button" class="button-icon small tooltipable">
-        </button>
+            <button id="repeat-button" class="button-icon buttonSize-base tooltipable">
+                <i class="fa fa-repeat"></i>
+            </button>
 
-        <button id="radio-button" class="button-icon small tooltipable">
-            <i class="icon-signal"></i>
-        </button>
-    </div>
-    
-    <div class="pull-right">
-        <button id="save-stream" class="button-icon small save disabled tooltipable">
+            <button id="radio-button" class="button-icon buttonSize-base tooltipable">
+                <i class="icon-signal"></i>
+            </button>
+        </div>
+
+        <button id="save-stream" class="button-icon buttonSize-base save disabled tooltipable">
             <i class="fa fa-save"></i>
         </button>
 
-        <button class="button-icon small clear tooltipable" title="<%= clearStreamMessage %>" >
+        <button class="button-icon buttonSize-base clear tooltipable" title="<%= clearStreamMessage %>" >
             <i class="fa fa-trash-o"></i>
         </button>
     </div>

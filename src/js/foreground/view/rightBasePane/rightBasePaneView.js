@@ -1,12 +1,12 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
     'common/enum/playerState',
-    'foreground/view/rightBasePane/menuAreaView',
+    'foreground/view/rightBasePane/streamusMenuAreaView',
     'foreground/view/rightBasePane/streamView',
     'foreground/view/rightBasePane/timeProgressView',
     'foreground/view/rightBasePane/volumeView',
     'text!template/rightBasePane.html'
-], function (PlayerState, MenuAreaView, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
+], function (PlayerState, StreamusMenuAreaView, StreamView, TimeProgressView, VolumeView, RightBasePaneTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
@@ -15,15 +15,24 @@ define([
     var PreviousButton = Streamus.backgroundPage.PreviousButton;
 
     var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
-        id: 'right-base-pane',
         className: 'right-pane full flex-column',
         template: _.template(RightBasePaneTemplate),
         
-        regions: {
+        ui: {
+            nextButton: '#next-button',
+            previousButton: '#previous-button',
+            playPauseButton: '#play-pause-button',
             streamRegion: '.region.stream',
             timeProgressRegion: '.region.time-progress',
             volumeRegion: '.region.volume',
-            streamusMenuRegion: '.region.streamus-menu'
+            streamusMenuAreaRegion: '.region.streamus-menu-area'
+        },
+        
+        regions: {
+            streamRegion: '@ui.streamRegion',
+            timeProgressRegion: '@ui.timeProgressRegion',
+            volumeRegion: '@ui.volumeRegion',
+            streamusMenuAreaRegion: '@ui.streamusMenuAreaRegion'
         },
         
         events: {
@@ -34,12 +43,6 @@ define([
         
         modelEvents: {
             'change:state': '_setPlayPauseButtonState'
-        },
-        
-        ui: {
-            nextButton: '#next-button',
-            previousButton: '#previous-button',
-            playPauseButton: '#play-pause-button'
         },
 
         initialize: function () {
@@ -55,10 +58,6 @@ define([
         },
         
         onShow: function () {
-            this.streamRegion.show(new StreamView({
-                collection: StreamItems
-            }));
-
             this.timeProgressRegion.show(new TimeProgressView({
                 model: this.model
             }));
@@ -67,8 +66,12 @@ define([
                 model: this.model
             }));
 
-            //  TODO: Instead of MenuAreaView called it StreamusMenuAreaView for clarity.
-            this.streamusMenuRegion.show(new MenuAreaView());
+            this.streamusMenuAreaRegion.show(new StreamusMenuAreaView());
+            
+            //  IMPORTANT: This needs to be appended LAST because top content is flexible which will affect this element's height.
+            this.streamRegion.show(new StreamView({
+                collection: StreamItems
+            }));
         },
         
         _tryActivateNextStreamItem: function () {

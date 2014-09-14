@@ -406,12 +406,6 @@
 	"cantToggleSong": {
 		"message": "Can't toggle song"
 	},
-	"showSearch": {
-		"message": "Show search"
-	},
-	"hideSearch": {
-		"message": "Hide search"
-	},
 	"searchForSongs": {
 		"message": "Search for songs"
 	},

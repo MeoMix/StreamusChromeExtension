@@ -1,14 +1,13 @@
-﻿<div class="top-bar border-bottom inset">
-    <div class="search-bar">
-        <div class="input-underline-wrapper">
-            <input placeholder="<%= searchMessage %>..." type="text" value="<%= query %>">
-            <div class="underline"></div>   
+﻿<div class="top-bar">
+    <div class="flex-row">
+        <div class="search-bar">
+            <input type="text" class="input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
         </div>
-    </div>
     
-    <button class="button-icon remove tooltipable hide-search" title="<%= hideSearchMessage %>">
-        <i class="fa fa-times"></i>
-    </button>
+        <button class="button-icon remove hide-search">
+            <i class="fa fa-times"></i>
+        </button>
+    </div>
 </div>
 
 <div class="big-text-wrapper full flex-column">
@@ -17,8 +16,8 @@
         <%= resultsWillAppearAsYouSearchMessage %>.
     </div>
 
-    <div class="big-text searching hidden">
-        <div class="header"><%= searchingMessage %>...</div>
+    <div class="big-text searching hidden loading">
+        <div class="header above-fade-out"><%= searchingMessage %>...</div>
         <div class="spinner medium text-center"></div>
     </div>
 
@@ -28,25 +27,27 @@
     </div>
     
     <div class="list">
-        <div id="search-results"></div>
+        <div id="search-results" class="unsortable"></div>
     </div>
 </div>
 
-<div class="bottom-bar border-top inset">
-    <div class="playlist-actions pull-right">
-        <button id="play-selected" class="button-label tooltipable" title="<%= playSelectedMessage %>">
-            <i class="fa fa-play"></i>
-            <%= playSelectedMessage %>
-        </button>
+<div class="bottom-bar">
+    <div class="flex-row">
+        <div class="playlist-actions">
+            <button id="play-selected" class="button-label">
+                <i class="fa fa-play"></i>
+                <%= playSelectedMessage %>
+            </button>
         
-        <button id="add-selected" class="button-label tooltipable" title="<%= addSelectedMessage %>">
-            <i class="fa fa-plus"></i>
-            <%= addSelectedMessage %>
-        </button>
+            <button id="add-selected" class="button-label">
+                <i class="fa fa-plus"></i>
+                <%= addSelectedMessage %>
+            </button>
 
-        <button id="save-selected" class="button-label tooltipable" title="<%= saveSelectedMessage %>">
-            <i class="fa fa-save"></i>
-            <%= saveSelectedMessage %>
-        </button>
+            <button id="save-selected" class="button-label">
+                <i class="fa fa-save"></i>
+                <%= saveSelectedMessage %>
+            </button>
+        </div>
     </div>
 </div>

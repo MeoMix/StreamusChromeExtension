@@ -15,7 +15,7 @@
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
-        className: 'left-pane full flex-column',
+        className: 'left-pane full flex-column panel',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
@@ -157,7 +157,7 @@
         
         _toggleBottomBar: function () {
             var selectedCount = this.collection.selected().length;
-            this.ui.bottomBar.toggle(selectedCount > 0);
+            this.ui.bottomBar.toggleClass('hidden', selectedCount === 0);
 
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');

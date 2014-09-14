@@ -1,9 +1,11 @@
 ﻿<button id="mute-button" class="mute button-icon<%= muted ? ' muted' : '' %>"> 
 </button>
 
-<div class="volume-slider hidden">
-    <div class="progress" style="height: <%= volume %>%">
-    </div>
+<div class="slide-panel panel flex-column">
+    <div class="range-slider vertical">
+        <div class="progress" style="height: <%= volume %>%">
+        </div>
 
-    <input class="volume-range clickable" type="range" value="<%= volume %>" />
+        <input class="volume-range clickable" type="range" value="<%= volume %>" />
+    </div>
 </div>

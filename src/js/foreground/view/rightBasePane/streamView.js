@@ -60,13 +60,14 @@
         ui: {
             buttons: '.button-icon',
             streamEmptyMessage: '.stream-empty',
-            contextButtons: '.context-buttons',
+            bottomBar: '.bottom-bar',
             saveStreamButton: '#save-stream',
             childContainer: '.stream-items',
             shuffleButton: '#shuffle-button',
             radioButton: '#radio-button',
             repeatButton: '#repeat-button',
-            clearStreamButton: 'button.clear',
+            repeatButtonIcon: '.fa-repeat',
+            clearStreamButton: '.clear',
             showSearch: '.show-search'
         },
         
@@ -102,7 +103,7 @@
         
         _setViewState: function() {
             this._toggleBigText();
-            this._toggleContextButtons();
+            this._toggleBottomBar();
         },
         
         _updateSaveStreamButton: function () {
@@ -121,8 +122,8 @@
         },
         
         //  Show buttons if there is anything in the collection otherwise hide
-        _toggleContextButtons: function () {
-            this.ui.contextButtons.toggle(this.collection.length > 0);
+        _toggleBottomBar: function () {
+            this.ui.bottomBar.toggleClass('hidden', this.collection.length === 0);
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },
@@ -151,24 +152,27 @@
             var state = RepeatButton.get('state');
             //  The button is considered enabled if it is anything but disabled.
             var enabled = state !== RepeatButtonState.Disabled;
-
+            
             var title = '';
-            var icon = $('<i>', { 'class': 'fa fa-repeat' });
             switch (state) {
                 case RepeatButtonState.Disabled:
                     title = chrome.i18n.getMessage('repeatDisabled');
                     break;
                 case RepeatButtonState.RepeatSong:
                     title = chrome.i18n.getMessage('repeatSong');
-                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-song' });
                     break;
                 case RepeatButtonState.RepeatStream:
                     title = chrome.i18n.getMessage('repeatStream');
-                    icon = $('<i>', { 'class': 'fa fa-repeat repeat-stream' });
                     break;
             }
 
-            this.ui.repeatButton.toggleClass('enabled', enabled).attr('title', title).empty().append(icon);
+            this.ui.repeatButton
+                .toggleClass('enabled', enabled)
+                .attr('title', title);
+
+            this.ui.repeatButtonIcon
+                .toggleClass('repeat-song', state === RepeatButtonState.RepeatSong)
+                .toggleClass('repeat-stream', state === RepeatButtonState.RepeatStream);
         },
         
         _setShuffleButtonState: function() {

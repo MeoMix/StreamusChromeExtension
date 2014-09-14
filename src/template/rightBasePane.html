@@ -1,24 +1,27 @@
 ﻿<div class="top-bar">
-    <div class="volume region"></div>
+    <div class="flex-row">
+        <div class="volume region"></div>
 
-    <div class="center-group">
-        <button id="previous-button" class="button-icon">
-            <i class="fa fa-backward fa-lg"></i> 
-        </button>
+        <div class="center-group">
+            <button id="previous-button" class="button-icon">
+                <i class="fa fa-backward fa-lg"></i> 
+            </button>
 
-        <button id="play-pause-button" class="button-icon play-pause-button">
-            <div class="spinner small"></div>
-            <i class="fa fa-lg fa-pause"></i>
-            <i class="fa fa-lg fa-play"></i>
-        </button>
+            <button id="play-pause-button" class="button-icon play-pause-button">
+                <div class="spinner small"></div>
+                <i class="fa fa-lg fa-pause"></i>
+                <i class="fa fa-lg fa-play"></i>
+            </button>
 
-        <button id="next-button" class="button-icon">
-            <i class="fa fa-forward fa-lg"></i>
-        </button>
-    </div>
+            <button id="next-button" class="button-icon">
+                <i class="fa fa-forward fa-lg"></i>
+            </button>
+        </div>
     
-    <div class="streamus-menu region"></div>
+        <div class="streamus-menu-area region"></div>
+    </div>
+    <div class="flex-row">
+        <div class="time-progress region"></div>
+    </div>
 </div>
-
-<div class="time-progress region"></div>
-<div class="stream region"></div>
+<div class="stream content region full flex-column"></div>

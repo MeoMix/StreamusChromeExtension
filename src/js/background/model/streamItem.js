@@ -1,7 +1,8 @@
 ﻿define([
     'background/model/song',
-    'background/model/relatedSongInformationManager'
-], function (Song, RelatedSongInformationManager) {
+    'background/model/relatedSongInformationManager',
+    'common/enum/listItemType'
+], function (Song, RelatedSongInformationManager, ListItemType) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
@@ -16,7 +17,8 @@
                 selected: false,
                 firstSelected: false,
                 relatedSongInformation: [],
-                sequence: -1
+                sequence: -1,
+                listItemType: ListItemType.StreamItem
             };
         },
         

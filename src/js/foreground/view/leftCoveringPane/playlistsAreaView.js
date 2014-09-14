@@ -36,7 +36,7 @@
             buttons: '.button-icon',
             panel: '.panel',
             childContainer: '.playlists',
-            contextButtons: '.context-buttons',
+            bottomBar: '.bottom-bar',
             deleteButton: '#delete-playlist-button',
             addButton: '.add',
             hideButton: '.hide',
@@ -58,13 +58,12 @@
 
         initialize: function () {
             //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
-            this.listenTo(SignInManager, 'change:signedIn', this._toggleContextButtons);
+            this.listenTo(SignInManager, 'change:signedIn', this._toggleBottomBar);
         },
 
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
-
-            this._toggleContextButtons();
+            this._toggleBottomBar();
         },
         
         onShow: function () {
@@ -139,8 +138,8 @@
             });
         },
         
-        _toggleContextButtons: function () {
-            this.ui.contextButtons.toggle(SignInManager.get('signedIn'));
+        _toggleBottomBar: function () {
+            this.ui.bottomBar.toggleClass('hidden', !SignInManager.get('signedIn'));
         },
         
         _showDeleteActivePlaylistPrompt: function () {

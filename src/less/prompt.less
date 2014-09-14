@@ -1,4 +1,5 @@
 ﻿@import "colorPallete";
+@import "utility";
 
 .region.prompt {
     .prompt {
@@ -15,24 +16,13 @@
                 li:not(:last-child) {
                     margin-bottom: 10px;
                 }
-
-                label {
-                    width: 60px;
-                    display: inline-block;
-                    text-align: right;
-                    padding-right: 5px;
-                }
             }
 
-            .header {
-                background: @white;
-                display: flex;
-
+            .top-bar {
                 .title {
-                    font-size: 1.1em;
-                    width: 100%;
+                    .fontSize-large;
+                    .lineHeight-loose;
                     flex: 1;
-                    line-height: 45px;
                 }
 
                 /* TODO: This is inconsistent. How can I make this button look right? */
@@ -84,7 +74,7 @@
         }
 
         .reminder {
-            line-height: 18px;
+            .lineHeight-tight;
         }
 
         .footer {

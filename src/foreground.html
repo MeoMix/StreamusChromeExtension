@@ -18,13 +18,12 @@
     </head>
     <body>
         <div class="spinner large absolute-center"></div>
-        <!--  TODO: I am required to use ID on these elements until bug resolved: https://github.com/marionettejs/backbone.marionette/issues/1530 -->
-        <div id="left-base-pane-region" class="left-pane region base"></div>
-        <div id="left-covering-pane-region" class="left-pane region covering"></div>
-        <div id="right-base-pane-region" class="right-pane region base"></div>
+        <div class="left-pane region base"></div>
+        <div class="left-pane region overlay"></div>
+        <div class="right-pane region base"></div>
         
-        <div id="prompt-region" class="prompt region absolute full above-fade-out"></div>
-        <div id="notification-region" class="notification region absolute full"></div>
-        <div id="context-menu-region" class="context-menu region absolute full"></div>
+        <div class="prompt region overlay full above-fade-out"></div>
+        <div class="notification region overlay"></div>
+        <div class="context-menu region overlay full"></div>
     </body>
 </html>

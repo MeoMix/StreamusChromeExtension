@@ -17,6 +17,7 @@
     var Playlists = Streamus.backgroundPage.Playlists;
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
+    //  TODO: This should implement ListItemView at some point or have a behavior for it.
     var PlaylistView = Backbone.Marionette.LayoutView.extend({
         tagName: 'li',
         className: 'list-item playlist small',
@@ -51,11 +52,12 @@
         ui: {
             itemCount: '.count',
             title: '.title',
-            playButton: '.play'
+            playButton: '.play',
+            buttonsRegion: '.region.list-item-buttons'
         },
         
         regions: {
-            buttonsRegion: '.region.list-item-buttons'
+            buttonsRegion: '@ui.buttonsRegion'
         },
         
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
@@ -175,7 +177,7 @@
             this.model.getShareCode(function (shareCode) {
                 var shareCodeShortId = shareCode.get('shortId');
                 var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
-                var playlistShareUrl = 'http://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
+                var playlistShareUrl = 'https://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
 
                 chrome.extension.sendMessage({
                     method: 'copy',

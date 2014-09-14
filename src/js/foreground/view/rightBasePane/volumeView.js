@@ -10,11 +10,10 @@ define([
         template: _.template(VolumeTemplate),
         
         ui: {
-            volumeSlider: '.volume-slider',
-            //  Progress is the shading filler for the volumeRange's value.
             progress: '.progress',
-            volumeRange: 'input.volume-range',
-            muteButton: '#mute-button'
+            volumeRange: '.volume-range',
+            muteButton: '.mute',
+            slidePanel: '.slide-panel'
         },
 
         events: {
@@ -29,37 +28,18 @@ define([
         },
 
         onRender: function () {
+            //  TODO: I don't like setting HTML like this. Just set a class and make some of the icons hidden in the template.
             var volumeIcon = this.getVolumeIcon(this.model.get('volume'));
             this.ui.muteButton.html(volumeIcon);
-            
-            this.$el.hoverIntent(this._expand.bind(this), this._collapse.bind(this), {
-                sensitivity: 2,
-                interval: 5500,
-            });
+            this.$el.hoverIntent(this._expand.bind(this), this._collapse.bind(this));
         },
         
-        _expand: function() {
-            this.$el.data('oldheight', this.$el.height()).transition({
-                height: 150
-            }, 250, 'snap');
-
-            this.ui.volumeSlider.removeClass('hidden');
-
-            this.ui.volumeSlider.transition({
-                opacity: 1
-            }, 250, 'snap');
+        _expand: function () {
+            this.ui.slidePanel.addClass('expanded');
         },
         
-        _collapse: function() {
-            this.$el.transition({
-                height: this.$el.data('oldheight')
-            }, 250);
-
-            this.ui.volumeSlider.transition({
-                opacity: 0
-            }, 250, function() {
-                this.ui.volumeSlider.addClass('hidden');
-            }.bind(this));
+        _collapse: function () {
+            this.ui.slidePanel.removeClass('expanded');
         },
 
         _setVolume: function () {

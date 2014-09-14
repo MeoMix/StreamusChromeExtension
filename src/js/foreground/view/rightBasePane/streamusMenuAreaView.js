@@ -1,13 +1,13 @@
 ﻿define([
     'foreground/view/prompt/settingsPromptView',
-    'text!template/menuArea.html'
+    'text!template/streamusMenuArea.html'
 ], function (SettingsPromptView, MenuAreaTemplate) {
     'use strict';
     
     var TabManager = Streamus.backgroundPage.TabManager;
 
-    var MenuAreaView = Backbone.Marionette.ItemView.extend({
-        id: 'menu-area',
+    var StreamusMenuAreaView = Backbone.Marionette.ItemView.extend({
+        className: 'streamus-menu-area',
         template: _.template(MenuAreaTemplate),
         
         templateHelpers: function () {
@@ -32,11 +32,11 @@
         ui: {
             menuButton: '.menu-button',
             menu: '.menu',
-            settingsMenuItem: '.menu .settings',
-            viewInTabMenuItem: '.menu .view-in-tab',
-            donateMenuItem: '.menu .donate',
-            keyboardShortcutsMenuItem: '.menu .keyboard-shortcuts',
-            restartMenuItem: '.menu .reload'
+            settingsMenuItem: '.settings',
+            viewInTabMenuItem: '.view-in-tab',
+            donateMenuItem: '.donate',
+            keyboardShortcutsMenuItem: '.keyboard-shortcuts',
+            restartMenuItem: '.reload'
         },
 
         menuShown: false,
@@ -56,22 +56,13 @@
         },
         
         _showMenu: function () {
-            this.ui.menu.show();
-            this.ui.menu.transition({
-                opacity: 1
-            }, 200, 'snap');
-
+            this.ui.menu.addClass('expanded');
             this.ui.menuButton.addClass('enabled');
             this.menuShown = true;
         },
         
         _hideMenu: function () {
-            this.ui.menu.transition({
-                opacity: 0
-            }, 200, 'snap', function() {
-                this.ui.menu.hide();
-            }.bind(this));
-            
+            this.ui.menu.removeClass('expanded');
             this.ui.menuButton.removeClass('enabled');
             this.menuShown = false;
         },
@@ -97,5 +88,5 @@
         }
     });
 
-    return MenuAreaView;
+    return StreamusMenuAreaView;
 });

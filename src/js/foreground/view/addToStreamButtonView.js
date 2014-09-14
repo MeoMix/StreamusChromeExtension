@@ -35,6 +35,7 @@
                     songs = this.model.get('items').pluck('song');
                     break;
                 case ListItemType.PlaylistItem:
+                case ListItemType.SearchResult:
                     songs.push(this.model.get('song'));
                     break;
                 default:

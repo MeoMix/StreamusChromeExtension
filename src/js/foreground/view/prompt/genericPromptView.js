@@ -17,7 +17,7 @@
         ui: {
             panel: '.panel',
             content: '.content',
-            okButton: 'button.ok'
+            okButton: '.ok'
         },
         
         initialize: function (options) {
@@ -64,7 +64,6 @@
                 if (_.isFunction(contentView._doOnHide)) {
                     contentView._doOnHide();
                 }
-
                 this.destroy();
             }.bind(this));
 

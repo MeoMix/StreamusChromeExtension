@@ -3,7 +3,7 @@
         <div class="header">
             <%= playlistEmptyMessage %>
         </div>
-        <%= wouldYouLikeToMessage %> <span class="show-search search-link clickable lowercase"><%= searchForSongsMessage %></span>?
+        <%= wouldYouLikeToMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
     </div>
     
     <div class="list">
@@ -12,17 +12,19 @@
     </div>
 </div>
 
-<div class="bottom-bar border-top inset">
-    <div class="playlist-details lowercase text-tooltipable pull-left" title="<%= displayInfo %>">
-        <%= displayInfo %>
-    </div>
-    <div class="playlist-actions pull-right">
-        <button class="button-label play-all">
-            <i class="fa fa-play"></i><%= playAllMessage %>
-        </button>
+<div class="bottom-bar">
+    <div class="flex-row">
+        <div class="playlist-details lowercase text text-secondary lineHeight-base text-tooltipable" title="<%= displayInfo %>">
+            <%= displayInfo %>
+        </div>
+        <div class="playlist-actions">
+            <button class="button-label play-all">
+                <i class="fa fa-play"></i><%= playAllMessage %>
+            </button>
 
-        <button class="button-label add-all">
-            <i class="fa fa-plus"></i><%= addAllMessage %>
-        </button>
+            <button class="button-label add-all">
+                <i class="fa fa-plus"></i><%= addAllMessage %>
+            </button>
+        </div>
     </div>
 </div>

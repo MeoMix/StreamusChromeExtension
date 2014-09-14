@@ -16,9 +16,10 @@
             }
         },
 
+        //  TODO: Rename to buttonSize ?
         _getIconSize: function () {
             var listItemType = this.model.get('listItemType');
-            return listItemType === ListItemType.Playlist ? 'tiny' : 'small';
+            return listItemType === ListItemType.Playlist ? 'buttonSize-small' : 'buttonSize-base';
         }
     });
 

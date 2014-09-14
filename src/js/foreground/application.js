@@ -3,6 +3,12 @@
 
     var Application = Backbone.Marionette.Application.extend({
         backgroundPage: null,
+        
+        initialize: function() {
+            this._configureQtip();
+            this._setBackgroundPage();
+            this.on('start', this._showForeground);
+        },
 
         //  Configure qTip2's default behavior.
         _configureQtip: function () {
@@ -38,13 +44,6 @@
     });
 
     var streamus = new Application();
-    
-    streamus.addInitializer(function () {
-        this._configureQtip();
-        this._setBackgroundPage();
-        this.on('start', this._showForeground);
-    });
-    
     streamus.start();
 
     window.Streamus = streamus;

@@ -7,6 +7,8 @@
 @import "spinner";
 @import "tooltip";
 @import "button";
+@import "rangeInput";
+@import "sortable";
 @import "selectize";
 @import "prompt";
 @import "notification";
@@ -17,34 +19,67 @@
     - Z-index standardization
     - Font size standardization
     - Flex standardization
+    - Color inheritance?
 */
 
-body {
+/* Detect when Streamus has been loaded into a browser tab instead of the extension window and force it to full-size. */
+@media(min-width: 700px){
+    html {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
+
+html {
     width: 640px;
     height: 410px;
-    -webkit-user-select: none;
-    font: 13px/1.2 'Open Sans';
+}
 
+body {
+    height: 100%;
+    width: 100%;
+    -webkit-user-select: none;
+
+    /* Remove the spacing on display: inline-block to allow for 100% 2-column grid layout */
+    font-size: 0;
+    > * {
+        font: 13px/1.2 'Open Sans';
+    }
+
+    /* Don't allow interacting with the core of the UI until fully loaded. */
     &.loading > *:not(.above-fade-out) {
         pointer-events: none;
     }
 }
 
 .panel {
-    background: @white;
+    background-color: @white;
 }
 
-/* This is the jQuery UI draggable object that shows # of items being dragged */
-.droppable-selected-models {
-    /* Important is necessary here because height/width is set via javascript and I want to override. */
-    width: 19px !important;
-    height: 19px !important;
-    padding: 2px;
-    background-color: @darkGray;
-    font-weight: bold;
-    color: @white;
-    border-radius: 50%;
-    text-align: center;
+.top-bar {
+    .flex-column;
+    .inset;
+    border-bottom: 1px solid #ebebeb;
+    margin-bottom: 5px;
+}
+
+.bottom-bar {
+    .flex-column;
+    .inset;
+    border-top: 1px solid #ebebeb;
+    margin-top: 5px;
+
+    .flex-row {
+        justify-content: flex-end
+    }
+}
+
+.flex-row {
+    display: flex;
+}
+
+.region.content {
+    flex: 1;
 }
 
 .list {
@@ -60,19 +95,18 @@ body {
     padding: 5px;
     position: relative;
     display: flex;
-    .color-transition;
+    transition: color @colorTransitionTime, background @colorTransitionTime;
 
     &.small {
-        height: 28px;
-    }
-
-    &.ui-sortable-helper,
-    &.sortable-placeholder {
-        background: @lightGray;
+        height: 30px;
     }
 
     &:hover {
         background: @lightGray;
+
+        .hidden-on-hover {
+            .hidden;
+        }
     }
 
     &::before {
@@ -124,33 +158,26 @@ body {
     }
 
     .item-title {
-        font-size: 1.1em;
+        .fontSize-large;
         color: @darkGray;
-        .overflow-ellipsis;
-        .color-transition;
+        transition: color @colorTransitionTime;
     }
 
     .item-details {
-        color: @mediumDarkGray;
-        font-size: .8em;
-        .overflow-ellipsis;
-        .color-transition;
+        .fontSize-small;
+        transition: color @colorTransitionTime;
     }
 
     .item-thumb {
         height: 30px;
         width: 40px;
     }
-
-    /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
-       an item being copied -- it looks weird and doesn't make sense because no move happens */
-    &.copy-helper + .sortable-placeholder {
-        display: none;
-    }
 }
 
 .big-text-wrapper {
     flex: 1;
+    /* Contain the position: absolute big-text */
+    position: relative;
 
     .big-text {
         /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
@@ -162,7 +189,7 @@ body {
 
         /* TODO: Is there a better way to keep left/right pane text aligned? Should it even be aligned? */
         .region.left-pane & {
-            margin-top: 60px;
+            margin-top: 66px;
         }
 
         .region.right-pane & {
@@ -170,32 +197,25 @@ body {
         }
 
         .header {
-            font-size: 23px;
+            .fontSize-largest;
+            .lineHeight-loose;
             color: @darkGray;
-            margin-bottom: 15px;
-        }
-
-        .search-link {
-            color: @baseBlue;
         }
     }
 }
 
 .menu {
     box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.2);
-    background: @white;
     position: absolute;
-    z-index: 100;
+    z-index: 1;
     padding: 5px 0;
     border: 1px solid @mediumLightGray;
 
     li {
-        .overflow-ellipsis;
         max-width: 200px;
         padding: 0 15px;
         color: @darkGray;
-        /* TODO: Fix. Probably just adjusting padding instead of line-height*/
-        font: 13px/2.2 'Open Sans';
+        .lineHeight-base;
 
         &:not(.disabled):hover {
             background: @lightGray;
@@ -212,7 +232,7 @@ body {
     }
 
     .topic {
-        font-size: 1.1em;
+        .fontSize-large;
     }
 
     .category {
@@ -225,47 +245,16 @@ body {
     }
 }
 
-/* TODO: Can I replace this with a clever shadow? Is that better? */
-.input-underline-wrapper {
-    display: inline-block;
-    width: 100%;
-    /* Ensure that any parent element affecting line-height doesn't mess up positioning of underline */
-    line-height: normal;
+.input-underlined {
+    box-shadow: -8px 8px 0px -7px @lightGray, 8px 8px 0px -7px @lightGray;
+    transition: box-shadow @colorTransitionTime;
+    /* Subtract 2 pixels from the width to account for the 1px box-shadow on either side. */
+    width: calc(~"100% - 2px");
+    /* And then bump it over 1px to account for 1px box-shadow on the left. */
+    margin-left: 1px;
 
-    .underline {
-        background-color: @lightGray;
-        .slow-color-transition;
-        z-index: 0;
-        height: 5px;
-        margin-top: -4px;
-        width: 100%;
-    }
-
-    input {
-        /* TODO: I don't like using calc, but I'm not sure how else I can show the 1px outline of underline on either side of input */
-        width: calc(~"100% - 2px");
-        margin-left: 1px;
-        padding-bottom: 2px;
-    }
-
-    input:focus ~ .underline {
-        background-color: @baseBlue;
-    }
-}
-
-input[type=range] {
-    -webkit-appearance: none;
-    background: transparent;
-    height: 1px;
-
-    &::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        box-shadow: 0 0 5px @mediumLightGray;
-        background: @mediumDarkGray;
-        border-radius: 100%;
-        height: 10px;
-        width: 10px;
-        .color-transition;
+    &:focus {
+        box-shadow: -8px 8px 0px -7px #4EA6EA, 8px 8px 0px -7px #4EA6EA;
     }
 }
 
