@@ -150,7 +150,7 @@
     <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
-    <Content Include="src\js\foreground\view\rightBasePane\menuAreaView.js" />
+    <Content Include="src\js\foreground\view\rightBasePane\streamusMenuAreaView.js" />
     <Content Include="src\js\foreground\view\rightBasePane\rightBasePaneRegion.js" />
     <Content Include="src\js\foreground\view\updateStreamusView.js" />
     <Content Include="src\js\foreground\view\settingsView.js" />
@@ -256,7 +256,7 @@
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
     <Content Include="src\template\exportPlaylist.html" />
-    <Content Include="src\template\menuArea.html" />
+    <Content Include="src\template\streamusMenuArea.html" />
     <Content Include="src\template\notification.html" />
     <Content Include="src\template\googleSignIn.html" />
     <Content Include="src\template\linkUserId.html" />
@@ -309,6 +309,7 @@
     <Content Include="src\less\leftPane.less" />
     <Content Include="src\less\rightPane.less" />
     <Content Include="src\less\tooltip.less" />
+    <Content Include="src\less\rangeInput.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
