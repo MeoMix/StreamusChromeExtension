@@ -90,9 +90,7 @@
         },
         
         _showPrompt: function (PromptView, options) {
-            var promptView = new PromptView(_.extend({
-                containerHeight: this.$el.height()
-            }, options));
+            var promptView = new PromptView(options);
 
             //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
             var reminderDisabled = promptView.reminderDisabled();

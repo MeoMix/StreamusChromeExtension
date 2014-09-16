@@ -21,34 +21,22 @@
             reminderCheckbox: '.checkbox-reminder'
         },
         
-        initialize: function (options) {
-            if (_.isUndefined(options) || _.isUndefined(options.containerHeight)) throw new Error('GenericPromptView expects to be initialized with a containerHeight');
-
-            this.$el.addClass(this.model.get('view').className + '-prompt');
-        },
-        
         onRender: function () {
+            //  TODO: Probably have a content region that shows this instead...
             //  Add specific content to the generic dialog's interior
             this.ui.content.append(this.model.get('view').render().el);
         },
 
         onShow: function () {
-            //  TODO: I think the region should be in charge of this
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
                 'background': 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            //  Calculate center for prompt by finding the average difference between prompts height and its container
-            //  IMPORTANT: Math.floor is necessary to prevent sub-pixel calculations which result in blur.
-            var yTranslateCenter = Math.floor((this.options.containerHeight - this.ui.panel.height()) / 2);
-
+            //  TODO: I shouldn't have to be setting x here, but transit overrides it when setting Y
             this.ui.panel.transition({
-                //  TODO: Can I make yTranslateCenter automatic??
-                //y: yTranslateCenter,
-                y: '-50%',
-                top: '50%',
                 x: '-50%',
+                y: '-50%',
                 opacity: 1
             }, 'snap');
 
@@ -74,8 +62,7 @@
             }.bind(this));
 
             this.ui.panel.transition({
-                y: 0,
-                top: 0,
+                y: '-100%',
                 opacity: 0
             });
         },
