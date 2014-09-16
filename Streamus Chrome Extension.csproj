@@ -252,6 +252,8 @@
     <Content Include="src\less\colorPallete.less" />
     <Content Include="src\less\font.less" />
     <Content Include="src\less\button.less" />
+    <Content Include="src\less\contentBar.less" />
+    <Content Include="src\less\fontSize.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addToStreamButton.html" />
@@ -310,6 +312,16 @@
     <Content Include="src\less\rightPane.less" />
     <Content Include="src\less\tooltip.less" />
     <Content Include="src\less\rangeInput.less" />
+    <Content Include="src\less\sortable.less" />
+    <Content Include="src\less\repeatIcon.less" />
+    <Content Include="src\less\volumeSlidePanel.less" />
+    <Content Include="src\less\list.less" />
+    <Content Include="src\less\menu.less" />
+    <Content Include="src\less\underlinedInput.less" />
+    <Content Include="src\less\grouping.less" />
+    <Content Include="src\less\instruction.less" />
+    <Content Include="src\less\panel.less" />
+    <Content Include="src\less\lineHeight.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />
