@@ -12,18 +12,28 @@
 
 <div class="instructions-wrapper full flex-column">
     <div class="instructions type-to-search">
-        <div class="header"><%= startTypingMessage %></div>
-        <%= resultsWillAppearAsYouSearchMessage %>.
+        <div class="instructions-header">
+            <%= startTypingMessage %>
+        </div>
+        <div class="text-secondary">
+            <%= resultsWillAppearAsYouSearchMessage %>.
+        </div>
     </div>
 
     <div class="instructions searching hidden loading">
-        <div class="header above-fade-out"><%= searchingMessage %>...</div>
-        <div class="spinner medium text-center"></div>
+        <div class="instructions-header above-fade-out">
+            <%= searchingMessage %>...
+        </div>
+        <div class="spinner spinner-medium text-center"></div>
     </div>
 
     <div class="instructions no-results hidden">
-        <div class="header"><%= noResultsFoundMessage %></div>
-        <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
+        <div class="instructions-header">
+            <%= noResultsFoundMessage %>
+        </div>
+        <div class="text-secondary">
+            <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
+        </div>
     </div>
     
     <div class="list">

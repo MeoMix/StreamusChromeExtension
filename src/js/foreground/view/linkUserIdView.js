@@ -14,12 +14,7 @@
             linkAccountMessage: chrome.i18n.getMessage('linkAccountMessage')
         },
         
-        ui: {
-            reminderCheckbox: '.reminder input[type="checkbox"]'
-        },
-        
-        _doOnHide: function() {
-            var remindLinkUserId = !this.ui.reminderCheckbox.is(':checked');
+        _doOnHide: function (remindLinkUserId) {
             Settings.set('remindLinkUserId', remindLinkUserId);
         },
 

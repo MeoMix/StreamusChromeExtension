@@ -6,7 +6,7 @@
 	'use strict';
 
 	var NotificationRegion = Backbone.Marionette.Region.extend({
-		el: '.region.notification',
+		el: '.region-notification',
 
 		initialize: function () {
 			this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show', this._showNotification);

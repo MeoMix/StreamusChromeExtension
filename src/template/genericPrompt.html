@@ -17,16 +17,16 @@
     <div class="contentBar-bottom">
         <div class="flex-row">
             <% if( showReminder ) { %>
-            <div class="reminder flex-full lineHeight-loose">
+            <div class=" flex-full lineHeight-loose">
                 <label>
-                    <input type="checkbox">
+                    <input type="checkbox" class="checkbox-reminder">
                     <%= reminderText %>
                 </label>
             </div>
             <% } %>
 
             <% if( showOkButton ) { %>
-            <button class="ok button-prompt">
+            <button class="button-prompt ok">
                 <%= okButtonText %>
             </button>
             <% } %>

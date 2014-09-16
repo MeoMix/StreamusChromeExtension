@@ -1,9 +1,11 @@
 ﻿<div class="instructions-wrapper full flex-column">
     <div class="instructions playlist-empty">
-        <div class="header">
+        <div class="instructions-header">
             <%= playlistEmptyMessage %>
         </div>
-        <%= wouldYouLikeToMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
+        <div class="text-secondary">
+            <%= wouldYouLikeToMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
+        </div>
     </div>
     
     <div class="list">
@@ -19,7 +21,8 @@
         </div>
         <div class="playlist-actions">
             <button class="button-label play-all">
-                <i class="fa fa-play"></i><%= playAllMessage %>
+                <i class="fa fa-play"></i>
+                <%= playAllMessage %>
             </button>
 
             <button class="button-label add-all">

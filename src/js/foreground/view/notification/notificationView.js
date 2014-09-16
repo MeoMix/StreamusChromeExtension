@@ -51,10 +51,10 @@
 			var notificationType = this.model.get('type');
 			switch (notificationType) {
 				case NotificationType.Success:
-					className += 'success';
+					className += 'notification-success';
 					break;
 				case NotificationType.Error:
-					className += 'error';
+					className += 'notification-error';
 					break;
 			}
 

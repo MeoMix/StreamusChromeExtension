@@ -14,12 +14,7 @@
             googleSignInMessage: chrome.i18n.getMessage('googleSignInMessage')
         },
         
-        ui: {
-            reminderCheckbox: '.reminder input[type="checkbox"]'
-        },
-        
-        _doOnHide: function() {
-            var remindGoogleSignIn = !this.ui.reminderCheckbox.is(':checked');
+        _doOnHide: function (remindGoogleSignIn) {
             Settings.set('remindGoogleSignIn', remindGoogleSignIn);
         },
         

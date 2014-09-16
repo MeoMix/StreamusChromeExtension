@@ -71,6 +71,20 @@
     flex: 1;
 }
 
+.absolute-center {
+    position: absolute;
+    margin: auto;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+}
+
+.text-center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
     color: @mediumLightGray !important;
@@ -86,10 +100,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
 
-    &.text-secondary {
-        color: @mediumDarkGray;
-    }
+.text-secondary {
+    color: @mediumDarkGray;
 }
 
 .link {

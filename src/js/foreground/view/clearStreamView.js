@@ -14,16 +14,11 @@
             areYouSureYouWantToClearYourStreamMessage: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream')
         },
         
-        ui: {
-            reminderCheckbox: '.reminder input[type="checkbox"]'
-        },
-        
         doOk: function() {
             StreamItems.clear();
         },
 
-        _doRenderedOk: function () {           
-            var remindClearStream = !this.ui.reminderCheckbox.is(':checked');
+        _doRenderedOk: function (remindClearStream) {
             Settings.set('remindClearStream', remindClearStream);
 
             this.doOk();

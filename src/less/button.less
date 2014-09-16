@@ -22,45 +22,45 @@ button {
             color: @darkBaseBlue;
         }
     }
+}
 
-    &.button-prompt {
-        padding: 0 5px;
-        height: 20px;
-        background-color: @lightGray;
-        border: 1px solid @mediumLightGray;
+.button-prompt {
+    padding: 0 5px;
+    height: 20px;
+    background-color: @lightGray;
+    border: 1px solid @mediumLightGray;
 
-        &:hover {
-            border-color: @baseBlue;
-            background-color: @baseBlue;
-            color: @white;
-        }
+    &:hover {
+        border-color: @baseBlue;
+        background-color: @baseBlue;
+        color: @white;
     }
+}
 
-    &.button-label {
-        height: 30px;
-        padding: 0 .5em;
+.button-label {
+    .lineHeight-loose;
+    margin-left: 10px;
 
-        > i {
-            margin-right: .5em
-        }
+    > i {
+        margin-right: .5em
     }
+}
 
-    &.button-icon {
-        .fontSize-large;
+.button-icon {
+    .fontSize-large;
+}
 
-        &.buttonSize-large {
-            .lineHeight-looser;
-            width: 40px;
-        }
+.buttonSize-large {
+    .lineHeight-looser;
+    width: 40px;
+}
 
-        &.buttonSize-base {
-            .lineHeight-loose;
-            width: 30px;
-        }
+.buttonSize-base {
+    .lineHeight-loose;
+    width: 30px;
+}
 
-        &.buttonSize-small {
-            .lineHeight-tight;
-            width: 25px;
-        }
-    }
+.buttonSize-small {
+    .lineHeight-tight;
+    width: 25px;
 }

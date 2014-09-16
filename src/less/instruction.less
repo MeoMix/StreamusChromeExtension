@@ -7,28 +7,28 @@
     .flex-full;
     /* Contain the position: absolute instructions */
     position: relative;
+}
 
-    .instructions {
-        /* position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior */
-        position: absolute;
-        /* width: 100% so that text-align center works properly with position: absolute */
-        width: 100%;
-        color: @mediumDarkGray;
-        text-align: center;
+.instructions {
+    /* position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior */
+    position: absolute;
+    /* width: 100% so that text-align center works properly with position: absolute */
+    width: 100%;
+    color: @darkGray;
+    text-align: center;
 
-        /* TODO: Is there a better way to keep left/right pane text aligned? Should it even be aligned? */
-        .region.left-pane & {
-            margin-top: 66px;
-        }
-
-        .region.right-pane & {
-            margin-top: 36px;
-        }
-
-        .header {
-            .fontSize-largest;
-            .lineHeight-looser;
-            color: @darkGray;
-        }
+    @leftPaneMarginTop: 60px;
+    .left-pane & {
+        margin-top: @leftPaneMarginTop
     }
+
+    .right-pane & {
+        /* -30px to align w/ left-pane because of 2nd contentBar-top column */
+        margin-top: @leftPaneMarginTop + -30px;
+    }
+}
+
+.instructions-header {
+    .fontSize-largest;
+    .lineHeight-looser;
 }

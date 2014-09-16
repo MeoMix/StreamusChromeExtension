@@ -2,53 +2,49 @@
 @import "fontSize";
 @import "lineHeight";
 
-.region.notification {
+.region-notification {
     top: 0;
     left: 0;
     right: 0;
+}
 
-    .notification {
-        .lineHeight-looser;
-        .fontSize-large;
-        height: 45px;
+.notification {
+    .lineHeight-looser;
+    .fontSize-large;
+    height: 45px;
+    z-index: 1;
+    text-align: center;
+    left: 0;
+    right: 0;
+    top: 0;
+    transform: translate(0px, -40px);
+    color: @white;
+
+    /* TODO: Standardize this... */
+    .remove {
         position: absolute;
-        z-index: 1;
-        text-align: center;
-        left: 0;
-        right: 0;
         top: 0;
-        transform: translate(0px, -40px);
+        right: 5px;
 
-        .button-icon.remove {
-            position: absolute;
-            top: 0;
-            right: 5px;
+        &:hover {
+            color: @white;
         }
+    }
+}
 
-        &.success {
-            background-color: @nephritis;
-            color: white;
+/* TODO: Remove important -- it's overriding the panel color of white. */
+.notification-success {
+    background-color: @nephritis !important;
 
-            button {
-                color: @lightNephritis;
+    .remove {
+        color: @lightNephritis;
+    }
+}
 
-                &:hover {
-                    color: white;
-                }
-            }
-        }
+.notification-error {
+    background-color: @alizarin !important;
 
-        &.error {
-            background-color: @alizarin;
-            color: white;
-
-            button {
-                color: @lightAlizarin;
-
-                &:hover {
-                    color: white;
-                }
-            }
-        }
+    .remove {
+        color: @lightAlizarin;
     }
 }

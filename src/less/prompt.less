@@ -3,10 +3,12 @@
 .prompt {
     .panel {
         opacity: 0;
-        width: 500px;
-        left: 0;
-        right: 0;
-        margin: 0 auto;
+        left: 50%;
+        transform: translateX(-50%);
+        min-width: 300px;
+        /*top: -50%;*/
+        top: 0;
+        white-space: nowrap;
 
         /* TODO: This is inconsistent. How can I make this button look right? */
         .contentBar-top .remove {
@@ -23,41 +25,4 @@
             margin-bottom: 5px;
         }
     }
-
-    &.clear-stream-prompt .panel {
-        width: 300px;
-    }
-
-    &.create-playlist-prompt .panel {
-        width: 330px;
-    }
-
-    &.delete-playlist-prompt .panel {
-        width: 400px;
-    }
-
-    &.edit-playlist-prompt .panel {
-        width: 330px;
-    }
-
-    /* Error Prompt*/
-
-    &.export-playlist-prompt .panel {
-        width: 290px;
-    }
-
-    /* Google Sign In Prompt */
-    /* Link User ID Prompt */
-    /* No Play Embedded Prompt */
-    /* Reload Streamus Prompt */
-
-    &.save-selected-prompt .panel {
-        width: 370px;
-    }
-    
-    &.settings-prompt .panel {
-        width: 370px;
-    }
-
-    /* Update Streamus Prompt */
 }

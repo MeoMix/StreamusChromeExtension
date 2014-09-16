@@ -17,7 +17,8 @@
         ui: {
             panel: '.panel',
             content: '.content',
-            okButton: '.ok'
+            okButton: '.ok',
+            reminderCheckbox: '.checkbox-reminder'
         },
         
         initialize: function (options) {
@@ -43,7 +44,11 @@
             var yTranslateCenter = Math.floor((this.options.containerHeight - this.ui.panel.height()) / 2);
 
             this.ui.panel.transition({
-                y: yTranslateCenter,
+                //  TODO: Can I make yTranslateCenter automatic??
+                //y: yTranslateCenter,
+                y: '-50%',
+                top: '50%',
+                x: '-50%',
                 opacity: 1
             }, 'snap');
 
@@ -62,13 +67,15 @@
             }, function () {
                 var contentView = this.model.get('view');
                 if (_.isFunction(contentView._doOnHide)) {
-                    contentView._doOnHide();
+                    var remind = !this.ui.reminderCheckbox.is(':checked');
+                    contentView._doOnHide(remind);
                 }
                 this.destroy();
             }.bind(this));
 
             this.ui.panel.transition({
                 y: 0,
+                top: 0,
                 opacity: 0
             });
         },
@@ -94,7 +101,8 @@
             
             if (isValid) {
                 if (_.isFunction(contentView._doRenderedOk)) {
-                    contentView._doRenderedOk();
+                    var remind = !this.ui.reminderCheckbox.is(':checked');
+                    contentView._doRenderedOk(remind);
                 }
 
                 this.hide();

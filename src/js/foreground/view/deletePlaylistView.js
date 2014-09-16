@@ -9,10 +9,6 @@
         className: 'delete-playlist',
         template: _.template(DeletePlaylistTemplate),
         
-        ui: {
-            reminderCheckbox: '.reminder input[type="checkbox"]'
-        },
-        
         templateHelpers: {
             areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist')
         },
@@ -21,10 +17,8 @@
             this.model.destroy();
         },
         
-        _doRenderedOk: function () {
-            var remindDeletePlaylist = !this.ui.reminderCheckbox.is(':checked');
+        _doRenderedOk: function (remindDeletePlaylist) {
             Settings.set('remindDeletePlaylist', remindDeletePlaylist);
-
             this.doOk();
         }
     });
