@@ -1,0 +1,56 @@
+﻿@import "utility";
+@import "rangeInput";
+
+.slide-panel {
+    @panelWidth: 40px;
+    @transitionTime: 250ms;
+    width: @panelWidth;
+    /* IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto. */
+    height: 0;
+    opacity: 0;
+    transition: opacity @transitionTime @transition-timingFunction-snap, height @transitionTime @transition-timingFunction-snap;
+    align-items: center;
+    z-index: 1;
+    /* Prevent hover events from firing on children when it isn't visible. */
+    pointer-events: none;
+
+    /* CSS triangle */
+    &:before {
+        content: ' ';
+        width: @panelWidth / 4;
+        height: @panelWidth / 4;
+        background-color: inherit;
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
+        top: -1 * @panelWidth / 8;
+        -webkit-transform: rotate(45deg);
+    }
+
+    &.expanded {
+        @expandedPanelHeight: 100px;
+        height: @expandedPanelHeight;
+        opacity: 1;
+        pointer-events: all;
+
+        .volume-range {
+            @volumeRangeSize: @expandedPanelHeight - (@rangeInputMargin * 2);
+            width: @volumeRangeSize;
+            right: -@volumeRangeSize;
+            opacity: 1;
+        }
+    }
+
+    .volume-range {
+        /* These values need to be explicitly set because element has been rotated so can't rely on width/height: 100% */
+        width: 0;
+        right: 0;
+        opacity: 0;
+        height: @rangeInputSize;
+        transition: 
+            width @transitionTime @transition-timingFunction-snap, 
+            right @transitionTime @transition-timingFunction-snap,
+            opacity @transitionTime @transition-timingFunction-snap;
+    }
+}

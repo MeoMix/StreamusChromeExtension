@@ -1,36 +1,36 @@
 ﻿<div class="panel">
-    <div class="top-bar">
+    <div class="contentBar-top">
         <div class="flex-row">
-            <span class="title">
+            <span class="title text contentBar-top-content">
                 <%= title %>
             </span>
         
-            <button class="button-icon remove">
+            <button class="button-icon buttonSize-large remove">
                 <i class="fa fa-times"></i>
             </button>
         </div>
     </div>
-    <div class="content">
+    <div class="content inset-horizontal inset-vertical">
     </div>
     
     <% if( showReminder || showOkButton ) { %>
-    <div class="footer inset">
-        <% if( showReminder ) { %>
-        <div class="flex-justify-start reminder">
-            <label>
-                <input type="checkbox">
-                <%= reminderText %>
-            </label>
-        </div>
-        <% } %>
+    <div class="contentBar-bottom">
+        <div class="flex-row">
+            <% if( showReminder ) { %>
+            <div class="reminder flex-full lineHeight-loose">
+                <label>
+                    <input type="checkbox">
+                    <%= reminderText %>
+                </label>
+            </div>
+            <% } %>
 
-        <% if( showOkButton ) { %>
-        <div class="flex-justify-end">
-            <button class="ok prompt-button button-color">
+            <% if( showOkButton ) { %>
+            <button class="ok button-prompt">
                 <%= okButtonText %>
             </button>
+            <% } %>
         </div>
-        <% } %>
     </div>
     <% } %>
 </div>

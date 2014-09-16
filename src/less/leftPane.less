@@ -1,81 +1,19 @@
-﻿@import "colorPallete";
-@import "utility";
+﻿@import "utility";
 
+/* TODO: Revisit how I am doing my transitions. They're not appropriately done which is resulting in weird logic here. */
 .region.left-pane {
     width: @largeColumnWidth;
-    height: 100%;
-    display: inline-block;
-
-    .region.playlist-title {
-        flex: 1;
-        padding: 0 10px;
-    }
-
-    .fa-search {
-        /* It doesn't look quite aligned properly with the default font-awesome line-height. */
-        line-height: .5em;
-    }
-
-    .playlist-details {
-        flex: 1;
-    }
 
     &.overlay {
         left: -1 * @largeColumnWidth;
+    }
 
-        .left-pane {
-            box-shadow: 0 0 10px @darkGray;
-
-            .search-bar {
-                flex: 1;
-                padding: 0 10px;
-                .lineHeight-loose;
-                /* This area needs to have bigger font to look correct. */
-                .fontSize-large;
-            }
-        }
-
-        .playlists-area {
-            .panel {
-                box-shadow: 0 0 10px @darkGray;
-                left: -1 * @smallColumnWidth;
-                position: absolute;
-                width: @smallColumnWidth;
-                height: 100%;
-            }
-
-            .header {
-                .fontSize-large;
-                padding: 5px 10px;
-            }
-
-            .list-item {
-                padding-left: 10px;
-
-                .item-count {
-                    background: @mediumDarkGray;
-                    border-radius: 1em;
-                    color: @white;
-                    .fontSize-small;
-                    font-weight: bold;
-                    width: 30px;
-                    margin: 2px 5px;
-                    text-align: center;
-                    .lineHeight-tighter;
-                }
-
-                &.active {
-                    .item-count {
-                        background: @lightBaseBlue;
-                        color: @baseBlue;
-                    }
-                }
-            }
-
-            .title {
-                .lineHeight-tight;
-                flex: 1;
-            }
-        }
+    .panel {
+        height: 100%;
+    }
+    
+    .playlists-area .panel {
+        left: -1 * @smallColumnWidth;
+        width: @smallColumnWidth;
     }
 }

@@ -1,20 +1,18 @@
 ﻿@import "colorPallete";
+@import "fontSize";
+@import "lineHeight";
 @import "utility";
 
 button {
+    .clickable;
     color: @darkGray;
-    background: transparent;
-    border: 0;
-    cursor: pointer;
-    margin: 0;
-    padding: 0;
+
+    > i {
+        .clickable;
+    }
 
     &:hover {
         color: @black;
-    }
-
-    &:not(.disabled):active {
-        text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3)
     }
 
     &.enabled {
@@ -25,24 +23,9 @@ button {
         }
     }
 
-    > i {
-        cursor: pointer;
-    }
-
-    &.prompt-button {
-        padding: .1em .4em;
-    }
-
-    &.button-label {
-        height: 30px;
-        padding: 0 .5em;
-
-        i {
-            margin-right: .5em
-        }
-    }
-
-    &.button-color {
+    &.button-prompt {
+        padding: 0 5px;
+        height: 20px;
         background-color: @lightGray;
         border: 1px solid @mediumLightGray;
 
@@ -53,13 +36,25 @@ button {
         }
     }
 
+    &.button-label {
+        height: 30px;
+        padding: 0 .5em;
+
+        > i {
+            margin-right: .5em
+        }
+    }
+
     &.button-icon {
         .fontSize-large;
-        .lineHeight-loose;
-        width: 40px;
+
+        &.buttonSize-large {
+            .lineHeight-looser;
+            width: 40px;
+        }
 
         &.buttonSize-base {
-            .lineHeight-base;
+            .lineHeight-loose;
             width: 30px;
         }
 

@@ -1,26 +1,27 @@
 ﻿@import "normalize";
 @import "reset";
-@import "colorPallete";
-@import "utility";
+/* TODO: This seems like a lot of components to import... is this how I should be doing things? How do I know if I missed one? */
+@import "button";
+@import "contentBar";
 @import "font";
+@import "grouping";
+@import "instruction";
+@import "leftPane";
+@import "list";
+@import "menu";
+@import "notification";
+@import "panel";
+@import "prompt";
+@import "rangeInput";
+@import "repeatIcon";
+@import "rightPane";
 @import "scrollbars";
+@import "selectize";
+@import "sortable";
 @import "spinner";
 @import "tooltip";
-@import "button";
-@import "rangeInput";
-@import "sortable";
-@import "selectize";
-@import "prompt";
-@import "notification";
-@import "leftPane";
-@import "rightPane";
-
-/* TODO:
-    - Z-index standardization
-    - Font size standardization
-    - Flex standardization
-    - Color inheritance?
-*/
+@import "underlinedInput";
+@import "volumeSlidePanel";
 
 /* Detect when Streamus has been loaded into a browser tab instead of the extension window and force it to full-size. */
 @media(min-width: 700px){
@@ -30,14 +31,13 @@
     }
 }
 
+/* Default dimensions of Streamus as a browser extension*/
 html {
     width: 640px;
     height: 410px;
 }
 
 body {
-    height: 100%;
-    width: 100%;
     -webkit-user-select: none;
 
     /* Remove the spacing on display: inline-block to allow for 100% 2-column grid layout */
@@ -49,222 +49,5 @@ body {
     /* Don't allow interacting with the core of the UI until fully loaded. */
     &.loading > *:not(.above-fade-out) {
         pointer-events: none;
-    }
-}
-
-.panel {
-    background-color: @white;
-}
-
-.top-bar {
-    .flex-column;
-    .inset;
-    border-bottom: 1px solid #ebebeb;
-    margin-bottom: 5px;
-}
-
-.bottom-bar {
-    .flex-column;
-    .inset;
-    border-top: 1px solid #ebebeb;
-    margin-top: 5px;
-
-    .flex-row {
-        justify-content: flex-end
-    }
-}
-
-.flex-row {
-    display: flex;
-}
-
-.region.content {
-    flex: 1;
-}
-
-.list {
-    height: 100%;
-    margin-left: 5px;
-    margin-right: 5px;
-    overflow-y: auto;
-}
-
-.list-item {
-    height: 40px;
-    width: 100%;
-    padding: 5px;
-    position: relative;
-    display: flex;
-    transition: color @colorTransitionTime, background @colorTransitionTime;
-
-    &.small {
-        height: 30px;
-    }
-
-    &:hover {
-        background: @lightGray;
-
-        .hidden-on-hover {
-            .hidden;
-        }
-    }
-
-    &::before {
-        content: '';
-        position: absolute;
-        height: 100%;
-        width: 5px;
-        right: 0;
-        top: 0;
-    }
-
-    &.active.stream-item {
-        &::before {
-            background-color: @sunflower;
-        }
-
-        &.playing {
-            &::before {
-                background-color: @nephritis;
-            }
-        }
-    }
-
-    &.selected, 
-    &.active:not(.stream-item) {
-        color: @white;
-        background: @baseBlue;
-
-        .button-icon,
-        .item-details {
-            color: @lightBaseBlue;
-        }
-        
-        .item-title,
-        .button-icon:hover {
-            color: @white;
-        }
-
-        .spinner {
-            color: @white;
-            border-right-color: @white;
-            border-bottom-color: @white;
-        }
-    }
-
-    .item-content {
-        flex: 1;
-        margin-left: 10px;
-    }
-
-    .item-title {
-        .fontSize-large;
-        color: @darkGray;
-        transition: color @colorTransitionTime;
-    }
-
-    .item-details {
-        .fontSize-small;
-        transition: color @colorTransitionTime;
-    }
-
-    .item-thumb {
-        height: 30px;
-        width: 40px;
-    }
-}
-
-.big-text-wrapper {
-    flex: 1;
-    /* Contain the position: absolute big-text */
-    position: relative;
-
-    .big-text {
-        /* position: absolute so that .list near big-text isn't bumped down to support drag-and-drop behavior */
-        position: absolute;
-        /* width: 100% so that text-align center works properly with position: absolute */
-        width: 100%;
-        color: @mediumDarkGray;
-        text-align: center;
-
-        /* TODO: Is there a better way to keep left/right pane text aligned? Should it even be aligned? */
-        .region.left-pane & {
-            margin-top: 66px;
-        }
-
-        .region.right-pane & {
-            margin-top: 36px;
-        }
-
-        .header {
-            .fontSize-largest;
-            .lineHeight-loose;
-            color: @darkGray;
-        }
-    }
-}
-
-.menu {
-    box-shadow: 2px 3px 3px rgba(0, 0, 0, 0.2);
-    position: absolute;
-    z-index: 1;
-    padding: 5px 0;
-    border: 1px solid @mediumLightGray;
-
-    li {
-        max-width: 200px;
-        padding: 0 15px;
-        color: @darkGray;
-        .lineHeight-base;
-
-        &:not(.disabled):hover {
-            background: @lightGray;
-        }
-    }
-}
-
-.topic-group {
-    display: inline-block;
-    vertical-align: top;
-
-    &:not(:last-child) {
-        margin-right: 10px;
-    }
-
-    .topic {
-        .fontSize-large;
-    }
-
-    .category {
-        margin-top: 5px;
-        margin-left: 10px;
-
-        li {
-            padding: 5px 0;
-        }
-    }
-}
-
-.input-underlined {
-    box-shadow: -8px 8px 0px -7px @lightGray, 8px 8px 0px -7px @lightGray;
-    transition: box-shadow @colorTransitionTime;
-    /* Subtract 2 pixels from the width to account for the 1px box-shadow on either side. */
-    width: calc(~"100% - 2px");
-    /* And then bump it over 1px to account for 1px box-shadow on the left. */
-    margin-left: 1px;
-
-    &:focus {
-        box-shadow: -8px 8px 0px -7px #4EA6EA, 8px 8px 0px -7px #4EA6EA;
-    }
-}
-
-.saving, 
-.loading {
-    &> *:not(.above-fade-out):not(.spinner) {
-        opacity: .2;
-    }
-
-    > .spinner {
-        display: inline-block;
     }
 }

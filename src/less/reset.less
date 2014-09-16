@@ -31,11 +31,18 @@ input[type=checkbox], label, select {
 
 input[type=text] {
     border: 0;
-    padding: 0 0 2px 3px;
+    padding: 0 3px 2px 3px;
     cursor: text;
 }
 
-/* Selects feel like they're given too much padding implicitly*/
-select {
-    margin: -5px 0;
+button {
+    background: transparent;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+/* I don't think the fa-search icon looks aligned properly when using the default font-awesome line-height. */
+.fa.fa-search {
+    line-height: .5em;
 }

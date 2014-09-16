@@ -1,159 +1,25 @@
 ﻿@import "colorPallete";
+@import "lineHeight";
 @import "utility";
 
 .region.right-pane {
     width: @smallColumnWidth;
-    height: 100%;
-    display: inline-block;
-
-    .stream-controls {
-        flex: 1;
-    }
-
-    .repeat-icon {
-        border-radius: 50%;
-        background: @mediumDarkGray;
-        color: @white;
-        bottom: -5px;
-        position: relative;
-        right: 3px;
-        margin-right: -13px;
-        width: 13px;
-        display: inline-block;
-        .fontSize-smallest;
-        font-family: 'Open Sans';
-        .lineHeight-tightest;
-        padding-right: 1px;
-    }
-
-    .repeat-song:after {
-        content: '1';
-        font-weight: bold;
-        .repeat-icon;
-    }
-
-    .repeat-stream:after {
-        content: "\221E";
-        .repeat-icon;
-    }
 
     .time-progress.region {
-        flex: 1;
-        margin-bottom: 5px;
-
         .time-progress {
             display: flex;
             align-items: center;
+            margin-bottom: 5px;
         }
 
         .time-label {
+            .lineHeight-base;
             width: 40px;
             text-align: center;
-            .lineHeight-tight;
         }
     }
 
-    .top-bar {
-        .streamus-menu {
-            right: 20px;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 250ms cubic-bezier(0, 1, 0.5, 1);
-
-            &.expanded {
-                pointer-events: all;
-                opacity: 1;
-            }
-        }
-
-        .region.volume {
-            .mute.muted{
-                color: @alizarin;
-
-                &:hover {
-                    color: @darkAlizarin;
-                }
-            }
-
-            .slide-panel {
-                border: 1px solid @mediumLightGray;
-                width: 40px;
-                /* IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto. */
-                height: 0;
-                opacity: 0;
-                @transitionTime: 250ms;
-                transition: opacity @transitionTime cubic-bezier(0, 1, 0.5, 1), height @transitionTime cubic-bezier(0, 1, 0.5, 1);
-                align-items: center;
-                position: absolute;
-                z-index: 1;
-                /* Prevent hover events from firing on children when it isn't visible. */
-                pointer-events: none;
-
-                &:before {
-                    content: ' ';
-                    width: 10px;
-                    height: 10px;
-                    background-color: inherit;
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    margin: 0 auto;
-                    top: -6px;
-                    -webkit-transform: rotate(45deg);
-                    border-top: 1px solid @mediumLightGray;
-                    border-left: 1px solid @mediumLightGray;
-                }
-
-                &.expanded {
-                    height: 100px;
-                    opacity: 1;
-                    pointer-events: all;
-
-                    .volume-range {
-                        @volumeRangeSize: 78px;
-                        width: @volumeRangeSize;
-                        right: -@volumeRangeSize;
-                        opacity: 1;
-                    }
-                }
-
-                .volume-range {
-                    /* These values need to be explicitly set because element has been rotated so can't rely on width/height: 100% */
-                    width: 0;
-                    right: 0;
-                    opacity: 0;
-                    height: 4px;
-                    transition: 
-                        width @transitionTime cubic-bezier(0, 1, 0.5, 1), 
-                        right @transitionTime cubic-bezier(0, 1, 0.5, 1),
-                        opacity @transitionTime cubic-bezier(0, 1, 0.5, 1);
-                }
-            }
-        }
-
-        .center-group {
-            display: flex;
-            justify-content: center;
-            flex: 1;
-
-            .loading {
-                .fa-pause,
-                .fa-play {
-                    display: none;
-                }
-            }
-
-            .playing {
-                .fa-play {
-                    display: none;
-                }
-            }
-
-            .paused {
-                .fa-pause {
-                    display: none;
-                }
-            }
-        }
+    .streamus-menu {
+        right: 20px;
     }
 }

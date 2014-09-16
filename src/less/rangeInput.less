@@ -1,6 +1,7 @@
 ﻿@import "colorPallete";
 
-@inputSize: 4px;
+@rangeInputSize: 4px;
+@rangeInputMargin: 10px;
 
 .range-slider {
     background: @lightGray;
@@ -8,17 +9,23 @@
     position: relative;
 
     &.horizontal {
-        height: @inputSize;
-        margin: 0 10px;
+        height: @rangeInputSize;
+        margin: 0 @rangeInputMargin;
 
         .progress {
             height: 100%;
         }
+
+        /* Can't force this on all range inputs because transform: rotate messes up height/width calculations */
+        input[type=range] {
+            height: 100%;
+            width: 100%;
+        }
     }
 
     &.vertical {
-        width: @inputSize;
-        margin: 10px 0;
+        width: @rangeInputSize;
+        margin: @rangeInputMargin 0;
         transform: rotate(180deg);
 
         .progress {
@@ -44,12 +51,9 @@
     input[type=range] {
         -webkit-appearance: none;
         background: transparent;
-        height: 100%;
-        width: 100%;
 
         &::-webkit-slider-thumb {
             -webkit-appearance: none;
-            box-shadow: 0 0 5px @mediumLightGray;
             background: @mediumDarkGray;
             border-radius: 100%;
             height: 10px;

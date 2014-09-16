@@ -26,7 +26,11 @@
                 top: offsetTop,
                 left: offsetLeft
             });
+
+            this.$el.addClass('expanded');
         },
+        
+        //  TODO: I don't have a way of removing the expanded class before ContextMenuView is emptied completely.
         
         //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
         _ensureOffset: function(offset, elementDimension, containerDimension) {

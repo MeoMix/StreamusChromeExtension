@@ -1,0 +1,30 @@
+﻿@import "fontSize";
+@import "lineHeight";
+
+.grouping-column {
+    display: inline-block;
+    vertical-align: top;
+
+    &:not(:last-child) {
+        margin-right: 10px;
+    }
+}
+
+.grouping-row {
+    &:not(:last-child){
+        margin-bottom: 10px;
+    }
+}
+
+.grouping-header {
+    .fontSize-large;
+    .lineHeight-base;
+}
+
+.grouping-content {
+    margin-left: 10px;
+}
+
+.grouping-item {
+    .lineHeight-base;
+}

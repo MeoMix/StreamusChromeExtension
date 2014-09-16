@@ -14,8 +14,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
-        id: 'search',
-        className: 'left-pane full flex-column panel',
+        className: 'search left-pane full flex-column panel',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
@@ -30,12 +29,11 @@
         },
         
         ui: {
-            bottomBar: '.bottom-bar',
-            searchInput: '.search-bar input',
+            bottomBar: '.contentBar-bottom',
+            searchInput: '.search-input',
             searchingMessage: '.searching',
-            instructions: '.instructions',
+            typeToSearchMessage: '.type-to-search',
             noResultsMessage: '.no-results',
-            bigTextWrapper: '.big-text-wrapper',
             childContainer: '#search-results',
             saveSelectedButton: '#save-selected',
             hideSearchButton: '.hide-search',
@@ -53,11 +51,11 @@
         },
         
         modelEvents: {
-            'change:query change:searching': '_toggleBigText'
+            'change:query change:searching': '_toggleInstructions'
         },
 
         collectionEvents: {
-            'reset': '_toggleBigText',
+            'reset': '_toggleInstructions',
             'change:selected': '_toggleBottomBar'
         },
  
@@ -100,7 +98,7 @@
         },
  
         onRender: function () {
-            this._toggleBigText();
+            this._toggleInstructions();
             this._toggleBottomBar();
             this._toggleSaveSelected();
         },
@@ -164,14 +162,14 @@
         },
 
         //  Set the visibility of any visible text messages.
-        _toggleBigText: function () {
+        _toggleInstructions: function () {
             //  Hide the search message when there is no search in progress.
             var searching = this.model.get('searching');
             this.ui.searchingMessage.toggleClass('hidden', !searching);
     
-            //  Hide the instructions message once user has typed something.
+            //  Hide the type to search message once user has typed something.
             var hasSearchQuery = this.model.hasQuery();
-            this.ui.instructions.toggleClass('hidden', hasSearchQuery);
+            this.ui.typeToSearchMessage.toggleClass('hidden', hasSearchQuery);
 
             //  Only show no results when all other options are exhausted and user has interacted.
             var hasSearchResults = this.collection.length > 0;

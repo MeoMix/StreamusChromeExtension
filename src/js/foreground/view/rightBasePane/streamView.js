@@ -60,7 +60,7 @@
         ui: {
             buttons: '.button-icon',
             streamEmptyMessage: '.stream-empty',
-            bottomBar: '.bottom-bar',
+            bottomBar: '.contentBar-bottom',
             saveStreamButton: '#save-stream',
             childContainer: '.stream-items',
             shuffleButton: '#shuffle-button',

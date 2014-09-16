@@ -20,7 +20,7 @@
     //  TODO: This should implement ListItemView at some point or have a behavior for it.
     var PlaylistView = Backbone.Marionette.LayoutView.extend({
         tagName: 'li',
-        className: 'list-item playlist small',
+        className: 'list-item indented playlist small',
         template: _.template(PlaylistTemplate),
         
         templateHelpers: function () {

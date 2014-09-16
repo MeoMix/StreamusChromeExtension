@@ -33,7 +33,7 @@
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
 
-                placeholder: 'sortable-placeholder list-item hidden',
+                placeholder: 'sortable-placeholder list-item base hidden',
 
                 helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship

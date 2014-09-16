@@ -36,7 +36,7 @@
             buttons: '.button-icon',
             panel: '.panel',
             childContainer: '.playlists',
-            bottomBar: '.bottom-bar',
+            bottomBar: '.contentBar-bottom',
             deleteButton: '#delete-playlist-button',
             addButton: '.add',
             hideButton: '.hide',

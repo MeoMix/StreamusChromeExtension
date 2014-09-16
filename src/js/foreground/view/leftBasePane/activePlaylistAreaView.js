@@ -40,9 +40,8 @@
         ui: {
             playlistDetails: '.playlist-details',
             playlistEmptyMessage: '.playlist-empty',
-            bottomBar: '.bottom-bar',
+            bottomBar: '.contentBar-bottom',
             childContainer: '.active-playlist-items',
-            bigTextWrapper: '.big-text-wrapper',
             playAll: '.play-all',
             addAll: '.add-all'
         },
@@ -83,7 +82,7 @@
         
         //  Ensure that the proper UI elements are being shown based on the state of the collection
         _setViewState: function () {
-            this._toggleBigText();
+            this._toggleInstructions();
             this._toggleBottomBar();
         },
         
@@ -95,8 +94,8 @@
             this.ui.playlistDetails.text(displayInfo);
         },
        
-        //  Set the visibility of any visible text messages.
-        _toggleBigText: function () {
+        //  Set the visibility of any visible instructions.
+        _toggleInstructions: function () {
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         

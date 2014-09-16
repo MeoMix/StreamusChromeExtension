@@ -22,6 +22,8 @@ define([
             nextButton: '#next-button',
             previousButton: '#previous-button',
             playPauseButton: '#play-pause-button',
+            playIcon: '.fa-play',
+            pauseIcon: '.fa-pause',
             streamRegion: '.region.stream',
             timeProgressRegion: '.region.time-progress',
             volumeRegion: '.region.volume',
@@ -101,9 +103,10 @@ define([
             //  TODO: Break this apart into more discernable functions.
             this.ui.playPauseButton
                 .toggleClass('disabled', !PlayPauseButton.get('enabled'))
-                .toggleClass('loading', playerState === PlayerState.Buffering)
-                .toggleClass('playing', playerState === PlayerState.Playing)
-                .toggleClass('paused', playerState !== PlayerState.Buffering && playerState !== PlayerState.Playing);
+                .toggleClass('loading', playerState === PlayerState.Buffering);
+            
+            this.ui.pauseIcon.toggleClass('hidden', playerState !== PlayerState.Playing);
+            this.ui.playIcon.toggleClass('hidden', playerState === PlayerState.Buffering || playerState === PlayerState.Playing);
         }
     });
 

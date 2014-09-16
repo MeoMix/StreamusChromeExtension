@@ -5,12 +5,13 @@
     'use strict';
 
     var MultiSelectListItemView = Backbone.Marionette.LayoutView.extend({
-        className: 'list-item multi-select-item sliding-view-item',
+        className: 'list-item base multi-select-item sliding-view-item',
 
         ui: {
             imageThumbnail: '.item-thumb',
             title: '.item-title',
-            buttonsRegion: '.region.list-item-buttons'
+            buttonsRegion: '.region.list-item-buttons',
+            onActiveShown: '.onActive-shown'
         },
 
         events: {

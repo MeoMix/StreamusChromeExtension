@@ -16,6 +16,10 @@
     flex-direction: column;
 }
 
+.flex-full {
+    flex: 1;
+}
+
 .fixed-full-overlay {
     bottom: 0;
     left: 0;
@@ -23,6 +27,11 @@
     right: 0;
     top: 0;
     z-index: 1;
+}
+
+.flex-row {
+    display: flex;
+    align-items: center;
 }
 
 .clickable {
@@ -46,20 +55,19 @@
     background-color: @validGreen;   
 }
 
-.inset {
+.inset-horizontal {
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.flex-justify-end {
-    display: flex;
-    justify-content: flex-end;
-    flex: 1;
+.inset-vertical {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
-.flex-justify-start {
-    justify-content: flex-start;
+.flex-justify-center {
     display: flex;
+    justify-content: center;
     flex: 1;
 }
 
@@ -84,54 +92,35 @@
     }
 }
 
-.fontSize-smallest {
-    font-size: .7em;
-}
-
-.fontSize-small {
-    font-size: .85em;
-}
-
-.fontSize-large {
-    font-size: 1.1em;
-}
-
-.fontSize-largest {
-    font-size: 1.7em;
-}
-
-.lineHeight-tightest {
-    line-height: 13px;
-}
-
-.lineHeight-tighter {
-    line-height: 16px;
-}
-
-.lineHeight-tight {
-    line-height: 20px;
-}
-
-.lineHeight-base {
-    line-height: 30px;
-}
-
-.lineHeight-loose {
-    line-height: 45px;
-}
-
-.region.overlay {
-    position: absolute;
-
-    &:empty {
-        display: none;
-    }
-}
-
 .link {
     color: @baseBlue;
 
     &:hover {
         color: @darkBaseBlue;
+    }
+}
+
+.muted {
+    color: @alizarin;
+
+    &:hover {
+        color: @darkAlizarin;
+    }
+}
+
+.grid-column {
+    height: 100%;
+    display: inline-block;
+}
+
+@transition-timingFunction-snap: cubic-bezier(0, 1, 0.5, 1);
+
+/* TODO: This is bad practice. I don't think I ever want a region to be absolutely positioned -- only its contents.
+   Additionally, I'm setting it to display: none because when it has nothing inside of it it shouldn't be overlapping visible content. */
+.region.overlay {
+    position: absolute;
+
+    &:empty {
+        display: none;
     }
 }

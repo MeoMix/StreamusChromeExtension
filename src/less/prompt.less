@@ -1,85 +1,63 @@
 ﻿@import "colorPallete";
-@import "utility";
 
-.region.prompt {
-    .prompt {
-        .panel {
-            box-shadow: 0 0 10px @darkGray;
-            position: absolute;
-            left: 50%;
-            opacity: 0;
-            /* Default Panel Size */
-            width: 500px;
-            margin-left: -250px;
+.prompt {
+    .panel {
+        opacity: 0;
+        width: 500px;
+        left: 0;
+        right: 0;
+        margin: 0 auto;
 
-            .options {
-                li:not(:last-child) {
-                    margin-bottom: 10px;
-                }
-            }
-
-            .top-bar {
-                .title {
-                    .fontSize-large;
-                    .lineHeight-loose;
-                    flex: 1;
-                }
-
-                /* TODO: This is inconsistent. How can I make this button look right? */
-                .remove {
-                    margin-right: -5px;
-                }
-            }
-
-            .content {
-                padding: 10px;
-            }
-
-            padding-bottom: 10px;
+        /* TODO: This is inconsistent. How can I make this button look right? */
+        .contentBar-top .remove {
+            margin-right: -5px;
         }
 
-        &.settings-prompt .panel {
-            margin-left: -185px;
-            width: 370px;
+        .ok {
+            margin: 5px 0;
         }
 
-        &.create-playlist-prompt .panel {
-            margin-left: -165px;
-            width: 330px;
-        }
-
-        &.clear-stream-prompt .panel {
-            width: 300px;
-            margin-left: -150px;
-        }
-
-        &.edit-playlist-prompt .panel {
-            width: 330px;
-            margin-left: -165px;
-        }
-
-        &.delete-playlist-prompt .panel {
-            width: 400px;
-            margin-left: -200px;
-        }
-
-        &.save-selected-prompt .panel {
-            width: 370px;
-            margin-left: -185px;
-        }
-
-        &.export-playlist-prompt .panel {
-            width: 290px;
-            margin-left: -145px;
-        }
-
-        .reminder {
-            .lineHeight-tight;
-        }
-
-        .footer {
-            padding-top: 5px;
-            display: flex;
+        /* TODO: This is inconsistent, but having the border looks weird and needs a bit more spacing.*/
+        .contentBar-bottom {
+            border: none;
+            margin-bottom: 5px;
         }
     }
+
+    &.clear-stream-prompt .panel {
+        width: 300px;
+    }
+
+    &.create-playlist-prompt .panel {
+        width: 330px;
+    }
+
+    &.delete-playlist-prompt .panel {
+        width: 400px;
+    }
+
+    &.edit-playlist-prompt .panel {
+        width: 330px;
+    }
+
+    /* Error Prompt*/
+
+    &.export-playlist-prompt .panel {
+        width: 290px;
+    }
+
+    /* Google Sign In Prompt */
+    /* Link User ID Prompt */
+    /* No Play Embedded Prompt */
+    /* Reload Streamus Prompt */
+
+    &.save-selected-prompt .panel {
+        width: 370px;
+    }
+    
+    &.settings-prompt .panel {
+        width: 370px;
+    }
+
+    /* Update Streamus Prompt */
 }

@@ -1,5 +1,6 @@
 ﻿@import "colorPallete";
-@import "utility";
+@import "fontSize";
+@import "lineHeight";
 
 .region.notification {
     top: 0;
@@ -7,17 +8,15 @@
     right: 0;
 
     .notification {
+        .lineHeight-looser;
+        .fontSize-large;
         height: 45px;
-        .lineHeight-loose;
         position: absolute;
         z-index: 1;
-        background-color: white;
         text-align: center;
         left: 0;
         right: 0;
         top: 0;
-        box-shadow: 0 0 10px @darkGray;
-        .fontSize-large;
         transform: translate(0px, -40px);
 
         .button-icon.remove {

@@ -1,0 +1,19 @@
+﻿@import "utility";
+@import "colorPallete";
+
+.input-underlined {
+    .input-underline(@lightGray);
+    transition: box-shadow @colorTransitionTime;
+    /* Subtract 2 pixels from the width to account for the 1px box-shadow on either side. */
+    width: calc(~"100% - 2px");
+    /* And then bump it over 1px to account for 1px box-shadow on the left. */
+    margin-left: 1px;
+
+    &:focus {
+        .input-underline(@baseBlue);
+    }
+
+    .input-underline(@color){
+        box-shadow: -8px 8px 0px -7px @color, 8px 8px 0px -7px @color;
+    }
+}

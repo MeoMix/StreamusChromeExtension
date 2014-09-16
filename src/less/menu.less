@@ -1,0 +1,30 @@
+﻿@import "colorPallete";
+@import "lineHeight";
+@import "utility";
+
+.menu {
+    position: absolute;
+    z-index: 1;
+    padding: 5px 0;
+    opacity: 0;
+    transition: opacity 250ms @transition-timingFunction-snap;
+    pointer-events: none;
+
+    &.expanded {
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .menu-item {
+        .lineHeight-loose;
+        .text;
+        .clickable;
+        max-width: 200px;
+        padding: 0 15px;
+        color: @darkGray;
+
+        &:not(.disabled):hover {
+            background: @lightGray;
+        }
+    }
+}

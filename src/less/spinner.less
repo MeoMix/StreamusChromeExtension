@@ -56,3 +56,15 @@
         margin-right: auto;
     }
 }
+
+.saving, 
+.loading {
+    /* TODO: This seems like a poor way of doing this. What would be more robust? */
+    > *:not(.above-fade-out):not(.spinner) {
+        opacity: .2;
+    }
+
+    > .spinner {
+        display: inline-block;
+    }
+}

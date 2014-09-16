@@ -1,0 +1,27 @@
+﻿@import "fontSize";
+@import "lineHeight";
+@import "utility";
+
+.contentBar-top {
+    .flex-column;
+    .inset-horizontal;
+    border-bottom: 1px solid @lightGray;
+    margin-bottom: 5px;
+}
+
+.contentBar-top-content {
+    .lineHeight-looser;
+    .fontSize-large;
+    .flex-full;
+}
+
+.contentBar-bottom {
+    .flex-column;
+    .inset-horizontal;
+    border-top: 1px solid @lightGray;
+    margin-top: 5px;
+
+    .flex-row {
+        justify-content: flex-end
+    }
+}

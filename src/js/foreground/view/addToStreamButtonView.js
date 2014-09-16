@@ -36,6 +36,7 @@
                     break;
                 case ListItemType.PlaylistItem:
                 case ListItemType.SearchResult:
+                case ListItemType.StreamItem:
                     songs.push(this.model.get('song'));
                     break;
                 default:

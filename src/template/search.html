@@ -1,27 +1,27 @@
-﻿<div class="top-bar">
+﻿<div class="contentBar-top">
     <div class="flex-row">
-        <div class="search-bar">
-            <input type="text" class="input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
+        <div class="search-bar contentBar-top-content inset-horizontal">
+            <input type="text" class="search-input input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
         </div>
     
-        <button class="button-icon remove hide-search">
+        <button class="button-icon buttonSize-large remove hide-search">
             <i class="fa fa-times"></i>
         </button>
     </div>
 </div>
 
-<div class="big-text-wrapper full flex-column">
-    <div class="big-text instructions">
+<div class="instructions-wrapper full flex-column">
+    <div class="instructions type-to-search">
         <div class="header"><%= startTypingMessage %></div>
         <%= resultsWillAppearAsYouSearchMessage %>.
     </div>
 
-    <div class="big-text searching hidden loading">
+    <div class="instructions searching hidden loading">
         <div class="header above-fade-out"><%= searchingMessage %>...</div>
         <div class="spinner medium text-center"></div>
     </div>
 
-    <div class="big-text no-results hidden">
+    <div class="instructions no-results hidden">
         <div class="header"><%= noResultsFoundMessage %></div>
         <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
     </div>
@@ -31,7 +31,7 @@
     </div>
 </div>
 
-<div class="bottom-bar">
+<div class="contentBar-bottom">
     <div class="flex-row">
         <div class="playlist-actions">
             <button id="play-selected" class="button-label">

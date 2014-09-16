@@ -46,7 +46,7 @@
 
 		//  Dynamically determine the class name of the view in order to style it based on the type of notification
 		_getClassName: function () {
-			var className = 'notification ';
+			var className = 'notification panel ';
 
 			var notificationType = this.model.get('type');
 			switch (notificationType) {

@@ -1,0 +1,9 @@
+﻿@import "colorPallete";
+
+.panel {
+    /* Panels overlay other content so background-color cannot be transparent. */
+    background-color: @white;
+    -webkit-filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+    /* TODO: I think panels should be position: absolute rather than their containing element */
+    position: absolute;
+}
