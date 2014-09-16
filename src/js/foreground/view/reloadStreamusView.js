@@ -4,7 +4,7 @@
     'use strict';
 
     var ReloadStreamusView = Backbone.Marionette.ItemView.extend({
-        className: 'reload-streamus',
+        className: 'reload-streamus wrap-white-space',
         template: _.template(ReloadStreamusTemplate),
         
         templateHelpers: {

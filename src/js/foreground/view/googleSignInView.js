@@ -7,7 +7,7 @@
     var Settings = Streamus.backgroundPage.Settings;
     
     var GoogleSignInView = Backbone.Marionette.ItemView.extend({
-        className: 'google-sign-in',
+        className: 'google-sign-in wrap-white-space',
         template: _.template(GoogleSignInTemplate),
 
         templateHelpers: {

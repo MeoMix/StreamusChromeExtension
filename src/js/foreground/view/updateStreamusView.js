@@ -4,7 +4,7 @@
     'use strict';
     
     var UpdateStreamusView = Backbone.Marionette.ItemView.extend({
-        className: 'update-streamus',
+        className: 'update-streamus wrap-white-space',
         template: _.template(UpdateStreamusTemplate),
         
         templateHelpers: {

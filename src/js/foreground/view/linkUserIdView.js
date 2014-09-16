@@ -7,7 +7,7 @@
     var Settings = Streamus.backgroundPage.Settings;
     
     var LinkUserIdView = Backbone.Marionette.ItemView.extend({
-        className: 'link-user-id',
+        className: 'link-user-id wrap-white-space',
         template: _.template(LinkUserIdTemplate),
 
         templateHelpers: {
