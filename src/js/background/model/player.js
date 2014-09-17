@@ -241,13 +241,16 @@ define([
         
         _onYouTubePlayerStateChange: function(state) {
             this.set('state', state.data);
-            //  TODO: There's a bug in YouTube's API which is causing the volume to change erratically every time I skip a song?
-            youTubePlayer.setVolume(this.get('volume'));
         },
         
-        _onYouTubePlayerError: function(error) {
+        _onYouTubePlayerError: function (error) {
             //  Push the error to the foreground so it can be displayed to the user.
             this.trigger('error', error.data);
+            //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
+            //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
+            youTubePlayer.cueVideoById({
+                videoId: this.get('loadedSongId')
+            });
         }
     });
 

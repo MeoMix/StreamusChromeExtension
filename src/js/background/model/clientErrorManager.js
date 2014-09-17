@@ -20,9 +20,12 @@
         
         logErrorMessage: function (message) {
             //  Only log client errors to the database in a deploy environment, not when debugging locally.
-            if (!Settings.get('localDebug')) {
+            if (Settings.get('localDebug')) {
+                console.log('Debugging is enabled. Skipping write to server.');
+            } else {
                 var clientError = new ClientError({
                     message: message,
+                    lineNumber: 0,
                     operatingSystem: this.get('platformInfo').os,
                     architecture: this.get('platformInfo').arch,
                 });
@@ -38,7 +41,9 @@
         //  Send a log message whenever any client errors occur; for debugging purposes.
         _onWindowError: _.throttle(function (message, url, lineNumber, columnNumber, errorObject) {
             //  Only log client errors to the database in a deploy environment, not when debugging locally.
-            if (!Settings.get('localDebug')) {
+            if (Settings.get('localDebug')) {
+                console.log('Debugging is enabled. Skipping write to server.');
+            } else {
                 //  The first part of the URL is always the same and not very interesting. Drop it off.
                 url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
 
