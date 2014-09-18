@@ -1,27 +1,27 @@
 ﻿<div class="contentBar-top">
     <div class="flex-row">
-        <div class="volume region"></div>
+        <div id="rightBasePane-volumeAreaRegion"></div>
 
         <div class="flex-justify-center">
-            <button id="previous-button" class="button-icon buttonSize-large">
+            <button id="rightBasePane-previousButton" class="button-icon buttonSize-large">
                 <i class="fa fa-backward fa-lg"></i> 
             </button>
 
-            <button id="play-pause-button" class="button-icon buttonSize-large play-pause-button">
+            <button id="rightBasePane-playPauseButton" class="button-icon buttonSize-large">
                 <div class="spinner spinner-small"></div>
-                <i class="fa fa-lg fa-pause hidden"></i>
-                <i class="fa fa-lg fa-play hidden"></i>
+                <i id="rightBasePane-playIcon" class="fa fa-lg fa-pause hidden"></i>
+                <i id="rightBasePane-pauseIcon" class="fa fa-lg fa-play hidden"></i>
             </button>
 
-            <button id="next-button" class="button-icon buttonSize-large">
+            <button id="rightBasePane-nextButton" class="button-icon buttonSize-large">
                 <i class="fa fa-forward fa-lg"></i>
             </button>
         </div>
     
-        <div class="streamus-menu-area region"></div>
+        <div id="rightBasePane-adminMenuAreaRegion"></div>
     </div>
     <div class="flex-row">
-        <div class="time-progress region flex-full"></div>
+        <div id="rightBasePane-timeAreaRegion" class="flex-full"></div>
     </div>
 </div>
-<div class="stream content region flex-full flex-column full"></div>
+<div id="rightBasePane-contentRegion" class="flex-full flex-column column"></div>

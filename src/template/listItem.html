@@ -1,18 +1,16 @@
 ﻿<div class="spinner spinner-small absolute-center"></div>
 
 <i class="fa fa-volume-up hidden"></i>
+<!-- TODO: Can this be https? -->
+<img class="listItem-imageThumbnail" src="http://img.youtube.com/vi/<%= song.get('id') %>/default.jpg" />
 
-<img class="item-thumb" src="http://img.youtube.com/vi/<%= song.get('id') %>/default.jpg" />
-
-<div class="item-content">
-    <div class="item-title text text-tooltipable" title="<%= title %>">
+<div class="listItem-content">
+    <div class="listItem-title text js-textTooltipable" title="<%= title %>">
         <%= title %>
     </div>
 
-    <div class="item-details text text-secondary">
-        <span class="item-duration">
-            <%= song.get('prettyDuration') %>	
-        </span>
+    <div class="listItem-details text text-secondary">
+        <%= song.get('prettyDuration') %>	
     </div>
 </div>
 
@@ -20,5 +18,4 @@
     <i class="fa fa-volume-up"></i>
 </button>
 
-<span class="list-item-buttons region above-fade-out">
-</span>
+<span class="listItem-buttonsRegion above-fade-out"></span>

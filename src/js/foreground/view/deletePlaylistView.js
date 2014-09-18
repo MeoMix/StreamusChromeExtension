@@ -6,7 +6,7 @@
     var Settings = Streamus.backgroundPage.Settings;
 
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
-        className: 'delete-playlist',
+        className: 'delete-playlist wrap-white-space',
         template: _.template(DeletePlaylistTemplate),
         
         templateHelpers: {

@@ -1,11 +1,12 @@
 ﻿define([
     'foreground/view/contextMenuRegion',
     'foreground/view/leftBasePane/leftBasePaneRegion',
-    'foreground/view/leftCoveringPane/leftCoveringPaneRegion',
     'foreground/view/notification/notificationRegion',
+    'foreground/view/playlists/playlistsAreaRegion',
     'foreground/view/prompt/promptRegion',
-    'foreground/view/rightBasePane/rightBasePaneRegion'
-], function (ContextMenuRegion, LeftBasePaneRegion, LeftCoveringPaneRegion, NotificationRegion, PromptRegion, RightBasePaneRegion) {
+    'foreground/view/rightBasePane/rightBasePaneRegion',
+    'foreground/view/search/searchAreaRegion'
+], function (ContextMenuRegion, LeftBasePaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, RightBasePaneRegion, SearchAreaRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -19,13 +20,8 @@
 
         events: {
             //  TODO: I think it might make more sense to use mousedown instead of click because dragging elements doesn't hide the contextmenu
-            'click': function (event) {
-                this.contextMenuRegion.handleClickEvent(event);
-                this._announceClickedElement(event);
-            },
-            'contextmenu': function(event) {
-                this.contextMenuRegion.handleClickEvent(event);
-            }
+            'click': '_onClickEvent',
+            'contextmenu': '_onClickEvent'
         },
 
         regions: {
@@ -34,7 +30,8 @@
             //  Depends on the view, set during initialize.
             //contextMenuRegion: null,
             leftBasePaneRegion: LeftBasePaneRegion,
-            leftCoveringPaneRegion: LeftCoveringPaneRegion,
+            searchAreaRegion: SearchAreaRegion,
+            playlistsAreaRegion: PlaylistsAreaRegion,
             rightBasePaneRegion: RightBasePaneRegion
         },
 
@@ -50,13 +47,18 @@
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            SignInManager.signInWithGoogle();
+            //SignInManager.signInWithGoogle();
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
             
             if (Settings.get('alwaysOpenInTab')) {
                 TabManager.showStreamusTab();
+            }
+            
+            //  Do this only once ForegroundView has initialized to ensure the view reads proper height/width dimensions.
+            if (Settings.get('alwaysOpenToSearch')) {
+                this.searchAreaRegion.showSearchView(false);
             }
         },
         
@@ -65,12 +67,6 @@
                 containerHeight: this.$el.height(),
                 containerWidth: this.$el.width()
             });
-        },
-
-        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
-        //  and so that menus can close if they weren't clicked.
-        _announceClickedElement: function (event) {
-            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
         },
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
@@ -96,6 +92,17 @@
         _stopLoading: function () {
             this.$el.removeClass('loading');
             this.promptRegion.hideReloadStreamusPrompt();
+        },
+        
+        _onClickEvent: function(event) {
+            this.contextMenuRegion.handleClickEvent(event);
+            this._announceClickedElement(event);
+        },
+        
+        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
+        //  and so that menus can close if they weren't clicked.
+        _announceClickedElement: function (event) {
+            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
         }
     });
 

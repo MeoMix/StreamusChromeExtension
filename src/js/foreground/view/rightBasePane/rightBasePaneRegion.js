@@ -6,7 +6,7 @@
     var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var RightBasePaneRegion = Backbone.Marionette.Region.extend({
-        el: '.region.right-pane.base',
+        el: '.region-rightPane',
         
         initialize: function() {
             this.show(new RightBasePaneView({

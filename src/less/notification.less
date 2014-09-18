@@ -2,12 +2,6 @@
 @import "fontSize";
 @import "lineHeight";
 
-.region-notification {
-    top: 0;
-    left: 0;
-    right: 0;
-}
-
 .notification {
     .lineHeight-looser;
     .fontSize-large;
@@ -19,16 +13,16 @@
     top: 0;
     transform: translate(0px, -40px);
     color: @white;
+}
 
-    /* TODO: Standardize this... */
-    .remove {
-        position: absolute;
-        top: 0;
-        right: 5px;
+/* TODO: Standardize this... */
+.notification-hideButton {
+    position: absolute;
+    top: 0;
+    right: 5px;
 
-        &:hover {
-            color: @white;
-        }
+    &:hover {
+        color: @white;
     }
 }
 
@@ -36,7 +30,7 @@
 .notification-success {
     background-color: @nephritis !important;
 
-    .remove {
+    .notification-hideButton {
         color: @lightNephritis;
     }
 }
@@ -44,7 +38,7 @@
 .notification-error {
     background-color: @alizarin !important;
 
-    .remove {
+    .notification-hideButton {
         color: @lightAlizarin;
     }
 }

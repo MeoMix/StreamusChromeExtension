@@ -2,7 +2,7 @@
     'common/enum/listItemType',
     'foreground/view/createPlaylistView',
     'foreground/view/behavior/tooltip',
-    'foreground/view/leftCoveringPane/playlistView',
+    'foreground/view/playlists/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
@@ -13,7 +13,8 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
-        className: 'playlists-area fixed-full-overlay',
+        id: 'playlistsArea',
+        className: 'absolute-full-overlay',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
@@ -26,22 +27,16 @@
         events: {
             'click': '_hideIfClickOutsidePanel',
             'click @ui.hideButton': '_hide',
-            'click @ui.addButton': '_showCreatePlaylistPrompt',
-            'click @ui.editButton': '_showEditActivePlaylistPrompt',
-            'click @ui.deleteButton:not(.disabled)': '_showDeleteActivePlaylistPrompt',
+            'click @ui.createButton': '_showCreatePlaylistPrompt',
             'dblclick @ui.childContainer': '_onDblClickChildContainer'
         },
         
         ui: {
-            buttons: '.button-icon',
-            panel: '.panel',
-            childContainer: '.playlists',
-            bottomBar: '.contentBar-bottom',
-            deleteButton: '#delete-playlist-button',
-            addButton: '.add',
-            hideButton: '.hide',
-            editButton: '.edit',
-            textTooltipable: '.text-tooltipable'
+            panel: '#playlistsArea-panel',
+            childContainer: '#playlistsArea-listItems',
+            bottomContentBar: '#playlistsArea-bottomContentBar',
+            createButton: '#playlistsArea-createButton',
+            hideButton: '#playlistsArea-hideButton'
         },
         
         templateHelpers: {
@@ -58,12 +53,12 @@
 
         initialize: function () {
             //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
-            this.listenTo(SignInManager, 'change:signedIn', this._toggleBottomBar);
+            this.listenTo(SignInManager, 'change:signedIn', this._toggleBottomContentBar);
         },
 
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
-            this._toggleBottomBar();
+            this._toggleBottomContentBar();
         },
         
         onShow: function () {
@@ -73,7 +68,7 @@
             }, 'snap');
 
             this.ui.panel.transition({
-                x: this.ui.panel.width()
+                x: 0
             }, 300, 'snap');
         },
         
@@ -90,14 +85,15 @@
             });
 
             this.ui.panel.transition({
-                x: -20
+                /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
+                x: '-102%'
             }, 300, this.destroy.bind(this));
         },
         
         _getSortableOptions: function () {
             var sortableOptions = {
                 axis: 'y',
-                placeholder: 'sortable-placeholder list-item',
+                placeholder: 'sortable-placeholder listItem',
                 delay: 100,
                 containment: 'parent',
                 update: this._onSortableUpdate.bind(this)
@@ -132,28 +128,8 @@
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
         },
         
-        _showEditActivePlaylistPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
-                playlist: this.collection.getActivePlaylist()
-            });
-        },
-        
-        _toggleBottomBar: function () {
-            this.ui.bottomBar.toggleClass('hidden', !SignInManager.get('signedIn'));
-        },
-        
-        _showDeleteActivePlaylistPrompt: function () {
-            var activePlaylist = this.collection.getActivePlaylist();
-            var isEmpty = activePlaylist.get('items').length === 0;
-
-            //  No need to notify if the playlist is empty.
-            if (isEmpty) {
-                activePlaylist.destroy();
-            } else {
-                Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
-                    playlist: activePlaylist
-                });
-            }
+        _toggleBottomContentBar: function () {
+            this.ui.bottomContentBar.toggleClass('hidden', !SignInManager.get('signedIn'));
         },
         
         //  Whenever a child is double-clicked it will become active and the menu should hide itself.

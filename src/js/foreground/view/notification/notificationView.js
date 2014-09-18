@@ -5,14 +5,19 @@
 	'use strict';
 
 	var NotificationView = Backbone.Marionette.ItemView.extend({
+	    id: 'notification',
 		className: function () {
 			return this._getClassName();
 		},
 		template: _.template(NotificationTemplate),
 
 		events: {
-			'click .remove': '_hide'
+			'click @ui.hideButton': '_hide'
 		},
+		
+		ui: {
+		    hideButton: '#notification-hideButton'
+        },
 
 		transitionDelay: 200,
 		hideTimeout: null,
@@ -46,7 +51,7 @@
 
 		//  Dynamically determine the class name of the view in order to style it based on the type of notification
 		_getClassName: function () {
-			var className = 'notification panel ';
+			var className = 'panel ';
 
 			var notificationType = this.model.get('type');
 			switch (notificationType) {

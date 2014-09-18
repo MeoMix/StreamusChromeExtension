@@ -133,7 +133,7 @@
 
                     var indexOfAmpersand = id.indexOf('&');
                     if (indexOfAmpersand !== -1) {
-                        id = id.substring(0, indexOfAmpersand);
+                        id = id.substring(0, indexOfAmpersand - 1);
                     }
                 }
             });

@@ -5,7 +5,7 @@
 
     var MultiSelect = Backbone.Marionette.Behavior.extend({
         ui: {
-            listItem: '.list-item'
+            listItem: '.listItem'
         },
 
         events: {

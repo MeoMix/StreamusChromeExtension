@@ -6,7 +6,7 @@
     var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
-        className: 'settings',
+        id: 'settings',
         template: _.template(SettingsTemplate),
         
         templateHelpers: {
@@ -26,14 +26,14 @@
         },
         
         ui: {
-            suggestedQualitySelect: '#suggested-quality',
-            showTooltipsCheckbox: '#show-tooltips',
-            remindClearStreamCheckbox: '#remind-clear-stream',
-            remindDeletePlaylistCheckbox: '#remind-delete-playlist',
-            remindLinkUserIdCheckbox: '#remind-link-user-id',
-            remindGoogleSignInCheckbox: '#remind-google-sign-in',
-            alwaysOpenToSearchCheckbox: '#always-open-to-search',
-            alwaysOpenInTabCheckbox: '#always-open-in-tab'
+            suggestedQualitySelect: '#settings-suggestedQualitySelect',
+            showTooltipsCheckbox: '#settings-showTooltipsCheckbox',
+            remindClearStreamCheckbox: '#settings-remindClearStreamCheckbox',
+            remindDeletePlaylistCheckbox: '#settings-remindDeletePlaylistCheckbox',
+            remindLinkUserIdCheckbox: '#settings-remindLinkUserIdCheckbox',
+            remindGoogleSignInCheckbox: '#settings-remindGoogleSignInCheckbox',
+            alwaysOpenToSearchCheckbox: '#settings-alwaysOpenToSearchCheckbox',
+            alwaysOpenInTabCheckbox: '#settings-alwaysOpenInTabCheckbox'
         },
         
         events: {

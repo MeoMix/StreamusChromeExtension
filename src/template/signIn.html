@@ -1,23 +1,24 @@
-﻿<div class="instructions-wrapper full flex-column">
-    <div class="instructions signing-in loading">
+﻿<div class="instructions-wrapper">
+    <!-- TODO: Remove the need for loading/above-fade-out classes -->
+    <div id="signIn-signingInMessage" class="instructions loading">
         <div class="instructions-header above-fade-out">
             <%= signingInMessage %>...
         </div>
-        <div class="spinner spinner-medium text-center"></div>
+        <div class="spinner spinner-medium"></div>
     </div>
     
-    <div class="instructions sign-in">
-        <div class="instructions-header link clickable">
+    <div id="signIn-signInMessage" class="instructions">
+        <div id="signIn-signInLink" class="instructions-header link clickable">
             <%= signInMessage %>
         </div>
     </div>
     
-    <div class="instructions sign-in-failed">
+    <div id="signIn-signInFailedMessage" class="instructions">
         <div class="instructions-header">
             <%= signInFailedMessage %>
         </div>
         <div class="text-secondary">
-            <%= pleaseWaitMessage %> <span id="sign-in-retry-timer"><%= signInRetryTimer %></span>
+            <%= pleaseWaitMessage %> <span id="signIn-signInRetryTimer"><%= signInRetryTimer %></span>
         </div>
     </div>
 </div>

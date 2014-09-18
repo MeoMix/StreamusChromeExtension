@@ -1,16 +1,9 @@
 ﻿@import "colorPallete";
 
-//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
-@largeColumnWidth: 60.15625%;
-//  Width is set as 255px / 640px, TODO: follow golden ratio more closely
-@smallColumnWidth: 39.84375%;
 @colorTransitionTime: .15s;
+@transition-timingFunction-snap: cubic-bezier(0, 1, 0.5, 1);
 
-.full {
-    width: 100%;
-    height: 100%;
-}
-
+//  TODO: make these u- or RIOT!
 .flex-column {
     display: flex;
     flex-direction: column;
@@ -20,10 +13,10 @@
     flex: 1;
 }
 
-.fixed-full-overlay {
+.absolute-full-overlay {
+    position: absolute;
     bottom: 0;
     left: 0;
-    position: fixed;
     right: 0;
     top: 0;
     z-index: 1;
@@ -47,6 +40,7 @@
     display: none !important;
 }
 
+//  TODO: Maybe these are just input classes and shouldn't be used elsewhere?
 .invalid {
     background-color: @invalidRed;
 }
@@ -80,11 +74,6 @@
     bottom: 0;
 }
 
-.text-center {
-    margin-left: auto;
-    margin-right: auto;
-}
-
 /* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
 .disabled {
     color: @mediumLightGray !important;
@@ -96,6 +85,7 @@
     }
 }
 
+//  TODO: not descriptive of intent
 .text {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -114,31 +104,7 @@
     }
 }
 
-.muted {
-    color: @alizarin;
-
-    &:hover {
-        color: @darkAlizarin;
-    }
-}
-
+//  TODO: Make this... whiteSpace-wrap
 .wrap-white-space {
     white-space: initial;
-}
-
-.grid-column {
-    height: 100%;
-    display: inline-block;
-}
-
-@transition-timingFunction-snap: cubic-bezier(0, 1, 0.5, 1);
-
-/* TODO: This is bad practice. I don't think I ever want a region to be absolutely positioned -- only its contents.
-   Additionally, I'm setting it to display: none because when it has nothing inside of it it shouldn't be overlapping visible content. */
-.region.overlay {
-    position: absolute;
-
-    &:empty {
-        display: none;
-    }
 }

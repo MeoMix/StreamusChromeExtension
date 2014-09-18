@@ -8,7 +8,7 @@
     var Playlists = Streamus.backgroundPage.Playlists;
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
-        className: 'create-playlist',
+        id: 'createPlaylist',
         template: _.template(CreatePlaylistTemplate),
         
         templateHelpers: function () {
@@ -25,8 +25,8 @@
         },
         
         ui: {
-            'playlistTitleInput': '.playlist-title',
-            'youTubeSourceInput': '.youtube-source'
+            'playlistTitleInput': '#createPlaylist-playlistTitleInput',
+            'youTubeSourceInput': '#createPlaylist-youTubeSourceInput'
         },
 
         events: {
@@ -44,8 +44,8 @@
         },
 
         validate: function () {
-            //  If all submittable fields indicate themselves as valid -- allow submission.
-            var valid = this.$el.find('.submittable.invalid').length === 0;
+            //  If all js-submittable fields indicate themselves as valid -- allow submission.
+            var valid = this.$el.find('.js-submittable.invalid').length === 0;
             return valid;
         },
         

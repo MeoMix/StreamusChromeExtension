@@ -1,18 +1,18 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/model/saveSongs',
     'foreground/view/saveSongsView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, SaveSongs, SaveSongsView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, SaveSongs, SaveSongsView, PromptView) {
     'use strict';
     
-    var SaveSongsPromptView = GenericPromptView.extend({
+    var SaveSongsPromptView = PromptView.extend({
         initialize: function (options) {
             var saveSongs = new SaveSongs({
                 songs: options.songs
             });
 
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: options.songs.length === 1 ? chrome.i18n.getMessage('saveSong') : chrome.i18n.getMessage('saveSongs'),
                 okButtonText: chrome.i18n.getMessage('save'),
                 view: new SaveSongsView({
@@ -29,7 +29,7 @@
                 }
             });
 
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

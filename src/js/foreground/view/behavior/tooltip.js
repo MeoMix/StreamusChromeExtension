@@ -1,21 +1,21 @@
 ﻿//  This behavior decorates a view with a qTip2 Tooltip. It will apply a tooltip to the view's root element
-//  if it has a title. It will also apply tooltips to child elements if they have the tooltipable or
-//  text-tooltipale class. The text-tooltipable class assumes that the element's text is to be conditionally
+//  if it has a title. It will also apply tooltips to child elements if they have the js-tooltipable or
+//  js-textTooltipable class. The js-textTooltipable class assumes that the element's text is to be conditionally
 //  shown as a tooltip. The text tooltip will only be shown if the text is overflows the element.
 define(function () {
     'use strict';
 
     var Tooltip = Backbone.Marionette.Behavior.extend({
         ui: {
-            //  Children which need tooltips are decorated with the tooltipable class.
-            tooltipable: '.tooltipable',
-            //  Children which need tooltips, but also need to take into account overflowing, are decorated with the text-tooltipable class.
-            textTooltipable: '.text-tooltipable'
+            //  Children which need tooltips are decorated with the js-tooltipable class.
+            tooltipable: '.js-tooltipable',
+            //  Children which need tooltips, but also need to take into account overflowing, are decorated with the js-textTooltipable class.
+            textTooltipable: '.js-textTooltipable'
         },
         
         initialize: function () {
             //  Give Tooltip an array property of titleMutationObservers: https://github.com/jashkenas/backbone/issues/1442
-            //  Mutation observers are used to track changes to text-tooltipable elements. If the text
+            //  Mutation observers are used to track changes to js-textTooltipable elements. If the text
             //  is modified then its overflowing state needs to be re-evaluated. 
             _.extend(this, {
                  titleMutationObservers: []
@@ -59,9 +59,9 @@ define(function () {
             this._setTitleMutationObserver(textTooltipableElement);
         },
         
-        //  Elements decorated with the class 'text-tooltipable' should display a tooltip if their text is overflowing and truncated.
+        //  Elements decorated with the class 'js-textTooltipable' should display a tooltip if their text is overflowing and truncated.
         _isTextTooltipableElement: function(element) {
-            return element.hasClass('text-tooltipable');
+            return element.hasClass('js-textTooltipable');
         },
         
         //  Whenever an element's title changes -- need to re-check to see if it is overflowing and apply/remove the tooltip accordingly.

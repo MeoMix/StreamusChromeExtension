@@ -1,17 +1,17 @@
 ﻿<div class="contentBar-top">
     <div class="flex-row">
-        <div class="search-bar contentBar-top-content inset-horizontal">
-            <input type="text" class="search-input input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
+        <div class="contentBar-top-content inset-horizontal">
+            <input id="search-searchInput" type="text" class="input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
         </div>
     
-        <button class="button-icon buttonSize-large remove hide-search">
+        <button id="search-hideSearchButton" class="button-icon buttonSize-large">
             <i class="fa fa-times"></i>
         </button>
     </div>
 </div>
 
-<div class="instructions-wrapper full flex-column">
-    <div class="instructions type-to-search">
+<div class="instructions-wrapper">
+    <div id="search-typeToSearchMessage" class="instructions">
         <div class="instructions-header">
             <%= startTypingMessage %>
         </div>
@@ -19,15 +19,16 @@
             <%= resultsWillAppearAsYouSearchMessage %>.
         </div>
     </div>
-
-    <div class="instructions searching hidden loading">
+    
+    <!-- TODO: Make not dependent on loading/above-fade-out classes -->
+    <div id="search-searchingMessage" class="instructions hidden loading">
         <div class="instructions-header above-fade-out">
             <%= searchingMessage %>...
         </div>
-        <div class="spinner spinner-medium text-center"></div>
+        <div class="spinner spinner-medium"></div>
     </div>
 
-    <div class="instructions no-results hidden">
+    <div id="search-noResultsMessage" class="instructions hidden">
         <div class="instructions-header">
             <%= noResultsFoundMessage %>
         </div>
@@ -37,24 +38,24 @@
     </div>
     
     <div class="list">
-        <div id="search-results" class="unsortable"></div>
+        <div id="search-listItems" class="sortable-unsortable"></div>
     </div>
 </div>
 
-<div class="contentBar-bottom">
+<div id="search-bottomContentBar" class="contentBar-bottom">
     <div class="flex-row">
-        <div class="playlist-actions">
-            <button id="play-selected" class="button-label">
+        <div>
+            <button id="search-playSelectedButton" class="button-label">
                 <i class="fa fa-play"></i>
                 <%= playSelectedMessage %>
             </button>
         
-            <button id="add-selected" class="button-label">
+            <button id="search-addSelectedButton" class="button-label">
                 <i class="fa fa-plus"></i>
                 <%= addSelectedMessage %>
             </button>
 
-            <button id="save-selected" class="button-label">
+            <button id="search-saveSelectedButton" class="button-label">
                 <i class="fa fa-save"></i>
                 <%= saveSelectedMessage %>
             </button>

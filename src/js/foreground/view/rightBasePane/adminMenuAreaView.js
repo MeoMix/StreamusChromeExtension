@@ -1,14 +1,14 @@
 ﻿define([
     'foreground/view/prompt/settingsPromptView',
-    'text!template/streamusMenuArea.html'
-], function (SettingsPromptView, MenuAreaTemplate) {
+    'text!template/adminMenuArea.html'
+], function (SettingsPromptView, AdminMenuAreaTemplate) {
     'use strict';
     
     var TabManager = Streamus.backgroundPage.TabManager;
 
-    var StreamusMenuAreaView = Backbone.Marionette.ItemView.extend({
-        className: 'streamus-menu-area',
-        template: _.template(MenuAreaTemplate),
+    var AdminMenuAreaView = Backbone.Marionette.ItemView.extend({
+        id: 'adminMenuArea',
+        template: _.template(AdminMenuAreaTemplate),
         
         templateHelpers: function () {
             return {
@@ -21,7 +21,7 @@
         },
 
         events: {
-            'click @ui.menuButton': '_toggleMenu',
+            'click @ui.showMenuButton': '_toggleMenu',
             'click @ui.settingsMenuItem': '_showSettingsPrompt',
             'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
             'click @ui.viewInTabMenuItem': '_openStreamusTab',
@@ -30,13 +30,13 @@
         },
 
         ui: {
-            menuButton: '.menu-button',
-            menu: '.menu',
-            settingsMenuItem: '.settings',
-            viewInTabMenuItem: '.view-in-tab',
-            donateMenuItem: '.donate',
-            keyboardShortcutsMenuItem: '.keyboard-shortcuts',
-            restartMenuItem: '.reload'
+            showMenuButton: '#adminMenuArea-showMenuButton',
+            menu: '#adminMenuArea-menu',
+            settingsMenuItem: '#adminMenuArea-settingsMenuItem',
+            viewInTabMenuItem: '#adminMenuArea-viewInTabMenuItem',
+            donateMenuItem: '#adminMenuArea-donateMenuItem',
+            keyboardShortcutsMenuItem: '#adminMenuArea-keyboardShortcutsMenuItem',
+            restartMenuItem: '#adminMenuArea-reloadMenuItem'
         },
 
         menuShown: false,
@@ -46,7 +46,8 @@
         },
         
         _onClickedElement: function (clickedElement) {
-            if (clickedElement.closest(this.ui.menuButton.selector).length === 0) {
+            //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
+            if (clickedElement.closest(this.ui.showMenuButton.selector).length === 0) {
                 this._hideMenu();
             }
         },
@@ -57,13 +58,13 @@
         
         _showMenu: function () {
             this.ui.menu.addClass('expanded');
-            this.ui.menuButton.addClass('enabled');
+            this.ui.showMenuButton.addClass('enabled');
             this.menuShown = true;
         },
         
         _hideMenu: function () {
             this.ui.menu.removeClass('expanded');
-            this.ui.menuButton.removeClass('enabled');
+            this.ui.showMenuButton.removeClass('enabled');
             this.menuShown = false;
         },
         
@@ -88,5 +89,5 @@
         }
     });
 
-    return StreamusMenuAreaView;
+    return AdminMenuAreaView;
 });

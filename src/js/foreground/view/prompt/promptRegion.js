@@ -13,7 +13,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
-        el: '.region.prompt',
+        el: '.region-prompt',
         showReloadPromptTimeout: null,
         
         initialize: function () {
@@ -94,6 +94,8 @@
 
             //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
             var reminderDisabled = promptView.reminderDisabled();
+
+            console.log('reminderDisabled:', reminderDisabled);
             
             if (reminderDisabled) {
                 var subView = promptView.model.get('view');

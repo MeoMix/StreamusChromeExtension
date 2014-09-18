@@ -1,21 +1,21 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/googleSignInView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, GoogleSignInView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, GoogleSignInView, PromptView) {
     'use strict';
 
     var Settings = Streamus.backgroundPage.Settings;
 
-    var GoogleSignInPromptView = GenericPromptView.extend({
+    var GoogleSignInPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('signInToGoogle'),
                 showReminder: true,
                 view: new GoogleSignInView()
             });
 
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         },
 
         reminderDisabled: function () {

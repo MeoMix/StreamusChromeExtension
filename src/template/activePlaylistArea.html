@@ -1,31 +1,31 @@
-﻿<div class="instructions-wrapper full flex-column">
-    <div class="instructions playlist-empty">
+﻿<div class="instructions-wrapper">
+    <div id="activePlaylistArea-playlistEmptyMessage" class="instructions">
         <div class="instructions-header">
             <%= playlistEmptyMessage %>
         </div>
         <div class="text-secondary">
-            <%= wouldYouLikeToMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
+            <%= wouldYouLikeToMessage %> <span id="activePlaylistArea-showSearchLink" class="link clickable lowercase"><%= searchForSongsMessage %></span>?
         </div>
     </div>
     
     <div class="list">
-        <div class="active-playlist-items droppable-list">
+        <div id="activePlaylistArea-listItems" class="js-droppable">
         </div>
     </div>
 </div>
 
-<div class="contentBar-bottom">
+<div id="activePlaylistArea-bottomContentBar" class="contentBar-bottom">
     <div class="flex-row">
-        <div class="playlist-details lowercase text text-secondary text-tooltipable lineHeight-loose flex-full" title="<%= displayInfo %>">
+        <div id="activePlaylistArea-playlistDetails" class="lowercase text text-secondary js-textTooltipable lineHeight-loose flex-full" title="<%= displayInfo %>">
             <%= displayInfo %>
         </div>
-        <div class="playlist-actions">
-            <button class="button-label play-all">
+        <div>
+            <button id="activePlaylistArea-playAllButton" class="button-label">
                 <i class="fa fa-play"></i>
                 <%= playAllMessage %>
             </button>
 
-            <button class="button-label add-all">
+            <button id="activePlaylistArea-addAllButton" class="button-label">
                 <i class="fa fa-plus"></i><%= addAllMessage %>
             </button>
         </div>

@@ -1,14 +1,14 @@
 ﻿define([
     'foreground/model/exportPlaylist',
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/exportPlaylistView',
-    'foreground/view/prompt/genericPromptView'
-], function (ExportPlaylist, GenericPrompt, ExportPlaylistView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (ExportPlaylist, Prompt, ExportPlaylistView, PromptView) {
     'use strict';
     
-    var ExportPlaylistPromptView = GenericPromptView.extend({
+    var ExportPlaylistPromptView = PromptView.extend({
         initialize: function (options) {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('exportPlaylist'),
                 okButtonText: chrome.i18n.getMessage('export'),
                 view: new ExportPlaylistView({
@@ -18,7 +18,7 @@
                 })
             });
 
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

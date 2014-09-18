@@ -3,20 +3,24 @@
 @import "fontSize";
 @import "utility";
 
+//  TODO: Maybe call this listItem-wrapper instead?
 .list {
+    //  TODO: instead of height: 100% I should make it a column!
     height: 100%;
     margin-left: 5px;
     margin-right: 5px;
     overflow-y: auto;
 }
 
-/* TODO: Reduce nesting. */
-.list-item {
+.listItem {
     width: 100%;
     padding: 5px;
     display: flex;
     transition: color @colorTransitionTime, background @colorTransitionTime;
+    /* TODO: This is only needed for position-absolute loading spinner. Fixable? */
+    position: relative;
 
+    //  TODO: Move these outside of nesting w/ better class naming
     &.base {
         height: 40px;
     }
@@ -27,10 +31,6 @@
         .text {
             .lineHeight-tight;
         }
-    }
-
-    &.indented {
-        padding-left: 10px;
     }
 
     &:hover {
@@ -46,12 +46,13 @@
         color: @white;
         background: @baseBlue;
 
+        //  TODO: Don't use button-icon here, be a bit more specific.
         .button-icon,
-        .item-details {
+        .listItem-details {
             color: @lightBaseBlue;
         }
         
-        .item-title,
+        .listItem-title,
         .button-icon:hover {
             color: @white;
         }
@@ -62,44 +63,48 @@
             border-bottom-color: @white;
         }
     }
-    
-    .item-count {
-        background: @mediumDarkGray;
-        border-radius: 1em;
-        color: @white;
-        .fontSize-small;
-        font-weight: bold;
-        width: 30px;
-        margin: 2px 5px;
-        text-align: center;
-        .lineHeight-tighter;
-    }
 
     &.active {
-        .item-count {
+        .listItem-itemCount {
             background: @lightBaseBlue;
             color: @baseBlue;
         }
     }
+}
 
-    .item-content {
-        flex: 1;
-        margin-left: 10px;
-    }
+.listItem-indented {
+    padding-left: 10px;
+}
 
-    .item-title {
-        .fontSize-large;
-        color: @darkGray;
-        transition: color @colorTransitionTime;
-    }
+.listItem-imageThumbnail {
+    height: 30px;
+    width: 40px;
+}
 
-    .item-details {
-        .fontSize-small;
-        transition: color @colorTransitionTime;
-    }
+.listItem-content {
+    flex: 1;
+    margin-left: 10px;
+}
 
-    .item-thumb {
-        height: 30px;
-        width: 40px;
-    }
+.listItem-title {
+    .fontSize-large;
+    color: @darkGray;
+    transition: color @colorTransitionTime;
+}
+
+.listItem-details {
+    .fontSize-small;
+    transition: color @colorTransitionTime;
+}
+
+.listItem-itemCount {
+    background: @mediumDarkGray;
+    border-radius: 1em;
+    color: @white;
+    .fontSize-small;
+    font-weight: bold;
+    width: 30px;
+    margin: 2px 5px;
+    text-align: center;
+    .lineHeight-tighter;
 }

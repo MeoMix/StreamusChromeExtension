@@ -1,20 +1,20 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/errorView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, ErrorView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, ErrorView, PromptView) {
     'use strict';
     
-    var ErrorPromptView = GenericPromptView.extend({
+    var ErrorPromptView = PromptView.extend({
         initialize: function (options) {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('errorEncountered'),
                 view: new ErrorView({
                     text: options.text
                 })
             });
 
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

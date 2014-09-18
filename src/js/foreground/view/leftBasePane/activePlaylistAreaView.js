@@ -12,7 +12,8 @@
     var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
-        className: 'active-playlist-area full flex-column',
+        id: 'activePlaylistArea',
+        className: 'column flex-column',
         childView: PlaylistItemView,
         childViewContainer: '@ui.childContainer',
         template: _.template(ActivePlaylistAreaTemplate),
@@ -38,12 +39,12 @@
         },
 
         ui: {
-            playlistDetails: '.playlist-details',
-            playlistEmptyMessage: '.playlist-empty',
-            bottomBar: '.contentBar-bottom',
-            childContainer: '.active-playlist-items',
-            playAll: '.play-all',
-            addAll: '.add-all'
+            playlistDetails: '#activePlaylistArea-playlistDetails',
+            playlistEmptyMessage: '#activePlaylistArea-playlistEmptyMessage',
+            bottomContentBar: '#activePlaylistArea-bottomContentBar',
+            childContainer: '#activePlaylistArea-listItems',
+            playAll: '#activePlaylistArea-playAllButton',
+            addAll: '#activePlaylistArea-addAllButton'
         },
         
         events: {
@@ -83,7 +84,7 @@
         //  Ensure that the proper UI elements are being shown based on the state of the collection
         _setViewState: function () {
             this._toggleInstructions();
-            this._toggleBottomBar();
+            this._toggleBottomContentBar();
         },
         
         _onModelChangeDisplayInfo: function (model, displayInfo) {
@@ -99,8 +100,8 @@
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
-        _toggleBottomBar: function () {
-            this.ui.bottomBar.toggleClass('hidden', this.collection.length === 0);
+        _toggleBottomContentBar: function () {
+            this.ui.bottomContentBar.toggleClass('hidden', this.collection.length === 0);
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },

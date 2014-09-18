@@ -3,16 +3,17 @@ define([
     'common/enum/playerState',
     'common/model/utility',
     'foreground/view/behavior/tooltip',
-    'text!template/timeProgress.html'
-], function (PlayerState, Utility, Tooltip, TimeProgressTemplate) {
+    'text!template/timeArea.html'
+], function (PlayerState, Utility, Tooltip, TimeAreaTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
     var Settings = Streamus.backgroundPage.Settings;
 
-    var TimeProgressView = Backbone.Marionette.ItemView.extend({
-        className: 'time-progress',
-        template: _.template(TimeProgressTemplate),
+    var TimeAreaView = Backbone.Marionette.ItemView.extend({
+        id: 'timeArea',
+        className: 'timeArea',
+        template: _.template(TimeAreaTemplate),
         
         templateHelpers: {
             elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
@@ -20,11 +21,11 @@ define([
         },
         
         events: {
-            'input @ui.timeRange:not(.disabled)': '_updateProgress',
-            'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateProgress',
+            'input @ui.timeRange:not(.disabled)': '_updateTimeProgress',
+            'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateTimeProgress',
             'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
             'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
-            'click @ui.timeElapsedLabel': '_toggleShowTimeRemaining'
+            'click @ui.elapsedTimeLabel': '_toggleShowTimeRemaining'
         },
         
         modelEvents: {
@@ -33,11 +34,10 @@ define([
         },
         
         ui: {
-            //  Progress is the shading filler for the volumeRange's value.
-            progress: '.progress',
-            timeRange: '.time-range',
-            timeElapsedLabel: '.time-elapsed',
-            durationLabel: '.duration'
+            timeProgress: '#timeArea-timeProgress',
+            timeRange: '#timeArea-timeRange',
+            elapsedTimeLabel: '#timeArea-elapsedTimeLabel',
+            totalTimeLabel: '#timeArea-totalTimeLabel'
         },
         
         behaviors: {
@@ -64,7 +64,7 @@ define([
         },
         
         //  Allow the user to manual time change by click or scroll.
-        _mousewheelUpdateProgress: function (event) {
+        _mousewheelUpdateTimeProgress: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());
 
@@ -105,13 +105,13 @@ define([
             Settings.set('showTimeRemaining', !showTimeRemaining);
 
             if (!showTimeRemaining) {
-                this.ui.timeElapsedLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
+                this.ui.elapsedTimeLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
             } else {
-                this.ui.timeElapsedLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
+                this.ui.elapsedTimeLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
             }
 
-            this.ui.timeElapsedLabel.toggleClass('timeRemaining', !showTimeRemaining);
-            this._updateProgress();
+            this.ui.elapsedTimeLabel.toggleClass('timeRemaining', !showTimeRemaining);
+            this._updateTimeProgress();
         },
         
         _enable: function () {
@@ -142,12 +142,12 @@ define([
         
         _setCurrentTime: function (currentTime) {
             this.ui.timeRange.val(currentTime);
-            this._updateProgress();
+            this._updateTimeProgress();
         },
 
         _setTotalTime: function (totalTime) {
             this.ui.timeRange.prop('max', totalTime);
-            this._updateProgress();
+            this._updateTimeProgress();
         },
         
         _updateCurrentTime: function () {
@@ -160,23 +160,23 @@ define([
         //  Keep separate from render because render is based on the player's values and updateProgress is based on the progress bar's values.
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
-        _updateProgress: function () {
+        _updateTimeProgress: function () {
             var currentTime = parseInt(this.ui.timeRange.val());
             var totalTime = parseInt(this.ui.timeRange.prop('max'));
 
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
-            this.ui.progress.width(progressPercent + '%');
+            this.ui.timeProgress.width(progressPercent + '%');
             
             if (Settings.get('showTimeRemaining')) {
                 //  Calculate the time remaining from the current time and show that instead.
                 var timeRemaining = totalTime - currentTime;
-                this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(timeRemaining));
+                this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(timeRemaining));
             } else {
-                this.ui.timeElapsedLabel.text(Utility.prettyPrintTime(currentTime));
+                this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(currentTime));
             }
 
-            this.ui.durationLabel.text(Utility.prettyPrintTime(totalTime));
+            this.ui.totalTimeLabel.text(Utility.prettyPrintTime(totalTime));
         },
 
         //  Return 0 or active song's duration.
@@ -192,5 +192,5 @@ define([
         }
     });
 
-    return TimeProgressView;
+    return TimeAreaView;
 });

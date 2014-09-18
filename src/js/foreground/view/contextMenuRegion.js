@@ -6,7 +6,7 @@
     'use strict';
 
     var ContextMenuRegion = Backbone.Marionette.Region.extend({
-        el: '.region.context-menu',
+        el: '.region-contextMenu',
         containerHeight: 0,
         containerWidth: 0,
         

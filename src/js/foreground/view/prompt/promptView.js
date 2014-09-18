@@ -1,30 +1,33 @@
 ﻿define([
-    'text!template/genericPrompt.html'
-], function (GenericPromptTemplate) {
+    'text!template/prompt.html'
+], function (PromptTemplate) {
     'use strict';
 
-    var GenericPromptView = Backbone.Marionette.ItemView.extend({
-        className: 'prompt fixed-full-overlay',
-        template: _.template(GenericPromptTemplate),
+    var PromptView = Backbone.Marionette.ItemView.extend({
+        className: 'prompt absolute-full-overlay',
+        template: _.template(PromptTemplate),
 
         events: {
             'click': '_hideIfClickOutsidePanel',
-            'click .remove': 'hide',
+            'click @ui.closeButton': 'hide',
             'click @ui.okButton': '_doRenderedOk',
-            'keydown .submittable': '_doRenderedOkOnEnter'
+            'keydown @ui.submittable': '_doRenderedOkOnEnter'
         },
         
         ui: {
-            panel: '.panel',
-            content: '.content',
-            okButton: '.ok',
-            reminderCheckbox: '.checkbox-reminder'
+            panel: '#prompt-panel',
+            content: '#prompt-content',
+            okButton: '#prompt-okButton',
+            reminderCheckbox: '#prompt-reminderCheckbox',
+            closeButton: '#prompt-closeButton',
+            submittable: '.js-submittable'
         },
         
         onRender: function () {
             //  TODO: Probably have a content region that shows this instead...
-            //  Add specific content to the generic dialog's interior
+            //  Add specific content to the prompt's interior
             this.ui.content.append(this.model.get('view').render().el);
+            this.bindUIElements();
         },
 
         onShow: function () {
@@ -74,7 +77,7 @@
             }
         },
         
-        //  If the enter key is pressed on a submittable element, treat as if user pressed OK button.
+        //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
         _doRenderedOkOnEnter: function(event) {
             if (event.which === 13) {
                 this._doRenderedOk();
@@ -97,5 +100,5 @@
         }
     });
 
-    return GenericPromptView;
+    return PromptView;
 });

@@ -4,13 +4,14 @@
 ], function (HoverButtons, Tooltip) {
     'use strict';
 
+    //  TODO: make MultiSelect a Behavior instead of intrinsic.
     var MultiSelectListItemView = Backbone.Marionette.LayoutView.extend({
-        className: 'list-item base multi-select-item sliding-view-item',
+        className: 'listItem base multi-select-item sliding-view-item',
 
         ui: {
-            imageThumbnail: '.item-thumb',
-            title: '.item-title',
-            buttonsRegion: '.region.list-item-buttons',
+            imageThumbnail: '.listItem-imageThumbnail',
+            title: '.listItem-title',
+            buttonsRegion: '.listItem-buttonsRegion',
             onActiveShown: '.onActive-shown'
         },
 

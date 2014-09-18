@@ -1,8 +1,9 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/view/listItemButtonView',
+    'foreground/view/prompt/deletePlaylistPromptView',
     'text!template/deleteButton.html'
-], function (ListItemType, ListItemButtonView, DeleteButtonTemplate) {
+], function (ListItemType, ListItemButtonView, DeletePlaylistPromptView, DeleteButtonTemplate) {
     'use strict';
 
     var DeleteButtonView = ListItemButtonView.extend({
@@ -39,7 +40,19 @@
         
         _doDelete: _.debounce(function () {
             if (!this.$el.hasClass('disabled')) {
-                this.model.destroy();
+
+                if (this.model.get('listItemType') === ListItemType.Playlist) {
+                    //  TODO: Logic is not DRY with ContextMenu delete operation.
+                    if (this.model.get('items').length === 0) {
+                        this.model.destroy();
+                    } else {
+                        Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
+                            playlist: this.model
+                        });
+                    }
+                } else {
+                    this.model.destroy();
+                }
             }
             
             //  Don't allow click to bubble up to the list item and cause a selection.

@@ -4,17 +4,18 @@
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
-    'foreground/view/leftCoveringPane/searchResultView',
     'foreground/view/prompt/saveSongsPromptView',
+    'foreground/view/search/searchResultView',
     'text!template/search.html'
-], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SaveSongsPromptView, SearchTemplate) {
+], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, SaveSongsPromptView, SearchResultView, SearchTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
     var SignInManager = Streamus.backgroundPage.SignInManager;
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
-        className: 'search left-pane full flex-column panel',
+        id: 'search',
+        className: 'leftPane column flex-column panel panel-left',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
@@ -29,16 +30,16 @@
         },
         
         ui: {
-            bottomBar: '.contentBar-bottom',
-            searchInput: '.search-input',
-            searchingMessage: '.searching',
-            typeToSearchMessage: '.type-to-search',
-            noResultsMessage: '.no-results',
-            childContainer: '#search-results',
-            saveSelectedButton: '#save-selected',
-            hideSearchButton: '.hide-search',
-            playSelectedButton: '#play-selected',
-            addSelectedButton: '#add-selected'
+            bottomContentBar: '#search-bottomContentBar',
+            searchInput: '#search-searchInput',
+            searchingMessage: '#search-searchingMessage',
+            typeToSearchMessage: '#search-typeToSearchMessage',
+            noResultsMessage: '#search-noResultsMessage',
+            childContainer: '#search-listItems',
+            hideSearchButton: '#search-hideSearchButton',
+            playSelectedButton: '#search-playSelectedButton',
+            saveSelectedButton: '#search-saveSelectedButton',
+            addSelectedButton: '#search-addSelectedButton'
         },
         
         events: {
@@ -56,7 +57,7 @@
 
         collectionEvents: {
             'reset': '_toggleInstructions',
-            'change:selected': '_toggleBottomBar'
+            'change:selected': '_toggleBottomContentBar'
         },
  
         templateHelpers: function() {
@@ -99,21 +100,19 @@
  
         onRender: function () {
             this._toggleInstructions();
-            this._toggleBottomBar();
+            this._toggleBottomContentBar();
             this._toggleSaveSelected();
         },
         
         onShow: function () {
             this.model.stopClearQueryTimer();
+            this.focusInput();
             
-            //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            this.ui.searchInput.focus().val(this.ui.searchInput.val());
-
             //  By passing undefined in I opt to use the default duration length.
             var transitionDuration = this.options.doSnapAnimation ? undefined : 0;
 
             this.$el.transition({
-                x: this.$el.width()
+                x: 0
             }, transitionDuration, 'snap');
         },
 
@@ -122,20 +121,16 @@
             this.model.startClearQueryTimer();
         },
         
-        //  Shake the view to bring attention to the fact that the view is already visible.
-        //  Throttled so that the animations can't stack up if shake is spammed.
-        shake: _.throttle(function() {
-            this.$el.effect('shake', {
-                distance: 3,
-                times: 3
-            });
-        }, 500),
+        //  Reset val after focusing to prevent selecting the text while maintaining focus.
+        focusInput: function () {
+            this.ui.searchInput.focus().val(this.ui.searchInput.val());
+        },
         
         _hide: function () {
             //  Transition the view back out before closing.
             this.$el.transition({
-                //  Transition -20px off the screen to account for the shadow on the view.
-                x: -20
+                /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
+                x: '-102%'
             }, this.destroy.bind(this));
         },
         
@@ -153,9 +148,9 @@
             this.ui.saveSelectedButton.attr('title', signedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
         
-        _toggleBottomBar: function () {
+        _toggleBottomContentBar: function () {
             var selectedCount = this.collection.selected().length;
-            this.ui.bottomBar.toggleClass('hidden', selectedCount === 0);
+            this.ui.bottomContentBar.toggleClass('hidden', selectedCount === 0);
 
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');

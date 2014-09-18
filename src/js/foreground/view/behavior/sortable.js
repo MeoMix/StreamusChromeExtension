@@ -1,9 +1,9 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/leftCoveringPane/searchResultView',
-    'foreground/view/rightBasePane/streamItemView'
-], function (ListItemType, PlaylistItemView, SearchResultView, StreamItemView) {
+    'foreground/view/rightBasePane/streamItemView',
+    'foreground/view/search/searchResultView'
+], function (ListItemType, PlaylistItemView, StreamItemView, SearchResultView) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -23,7 +23,7 @@
                 //  Append to body so that the placeholder appears above all other elements instead of under when dragging between regions.
                 appendTo: 'body',
 
-                connectWith: '.droppable-list',
+                connectWith: '.js-droppable',
 
                 cursorAt: {
                     right: 35,
@@ -33,7 +33,7 @@
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
 
-                placeholder: 'sortable-placeholder list-item base hidden',
+                placeholder: 'sortable-placeholder listItem base hidden',
 
                 helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship

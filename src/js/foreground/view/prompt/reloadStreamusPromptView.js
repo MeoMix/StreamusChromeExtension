@@ -1,19 +1,19 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/reloadStreamusView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, ReloadStreamusView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, ReloadStreamusView, PromptView) {
     'use strict';
 
-    var ReloadStreamusPromptView = GenericPromptView.extend({
+    var ReloadStreamusPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('reloadStreamus'),
                 okButtonText: chrome.i18n.getMessage('reload'),
                 view: new ReloadStreamusView()
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

@@ -1,39 +1,39 @@
-﻿<div class="instructions-wrapper full flex-column">
-    <div class="instructions stream-empty">
+﻿<div class="instructions-wrapper">
+    <div id="stream-emptyMessage" class="instructions">
         <div class="instructions-header">
-            <%= streamEmptyMessage %>
+            <%= emptyMessage %>
         </div>
         <div class="text-secondary">
-            <%= whyNotAddASongFromAPlaylistOrMessage %> <span class="show-search link clickable lowercase"><%= searchForSongsMessage %></span>?
+            <%= whyNotAddASongFromAPlaylistOrMessage %> <span id="stream-showSearchLink" class="link clickable lowercase"><%= searchForSongsMessage %></span>?
         </div>
     </div>
     
     <div class="list">
-        <div class="stream-items droppable-list"></div>
+        <div id="stream-listItems" class="js-droppable"></div>
     </div>
 </div>
 
-<div class="contentBar-bottom">
+<div id="stream-bottomContentBar" class="contentBar-bottom">
     <div class="flex-row">
-        <div class="stream-options flex-full">
-            <button id="shuffle-button" class="button-icon buttonSize-base tooltipable">
+        <div class="flex-full">
+            <button id="stream-shuffleButton" class="button-icon buttonSize-base js-tooltipable">
                 <i class="fa fa-random"></i>
             </button>
         
-            <button id="repeat-button" class="button-icon buttonSize-base tooltipable">
-                <i class="fa fa-repeat"></i>
+            <button id="stream-repeatButton" class="button-icon buttonSize-base js-tooltipable">
+                <i id="stream-repeatIcon" class="repeat-icon fa fa-repeat"></i>
             </button>
 
-            <button id="radio-button" class="button-icon buttonSize-base tooltipable">
+            <button id="stream-radioButton" class="button-icon buttonSize-base js-tooltipable">
                 <i class="icon-signal"></i>
             </button>
         </div>
-
-        <button id="save-stream" class="button-icon buttonSize-base save disabled tooltipable">
+        
+        <button id="stream-saveButton" class="button-icon buttonSize-base js-tooltipable">
             <i class="fa fa-save"></i>
         </button>
 
-        <button class="button-icon buttonSize-base clear tooltipable" title="<%= clearStreamMessage %>" >
+        <button id="stream-clearButton" class="button-icon buttonSize-base js-tooltipable" title="<%= clearStreamMessage %>">
             <i class="fa fa-trash-o"></i>
         </button>
     </div>

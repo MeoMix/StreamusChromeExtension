@@ -1,21 +1,21 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/noPlayEmbeddedView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, NoPlayEmbeddedView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, NoPlayEmbeddedView, PromptView) {
     'use strict';
     
     var Player = Streamus.backgroundPage.YouTubePlayer;
 
-    var NoPlayEmbeddedPromptView = GenericPromptView.extend({
+    var NoPlayEmbeddedPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('errorEncountered'),
                 okButtonText: chrome.i18n.getMessage('reload'),
                 view: new NoPlayEmbeddedView()
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
 
             Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedView shown, loadedSongId:" + Player.get('loadedSongId'));
         }

@@ -7,6 +7,7 @@ button {
     .clickable;
     color: @darkGray;
 
+    //  TODO: Inefficient...
     > i {
         .clickable;
     }
@@ -15,6 +16,7 @@ button {
         color: @black;
     }
 
+    //  TODO: rename to button-enabled
     &.enabled {
         color: @baseBlue;
 
@@ -42,6 +44,7 @@ button {
     .lineHeight-loose;
     margin-left: 10px;
 
+    //  TODO: Inefficient
     > i {
         margin-right: .5em
     }

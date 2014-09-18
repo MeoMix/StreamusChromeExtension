@@ -4,7 +4,7 @@
     'use strict';
 
     var EditPlaylistView = Backbone.Marionette.ItemView.extend({
-        className: 'edit-playlist',
+        id: 'editPlaylist',
         template: _.template(EditPlaylistTemplate),
         
         templateHelpers: {
@@ -13,11 +13,11 @@
         },
         
         ui: {
-            playlistTitle: 'input[type="text"]'
+            playlistTitleInput: '#editPlaylist-playlistTitleInput'
         },
 
         events: {
-            'input.playlist-title': '_validateTitle'
+            'input @playlistTitleInput': '_validateTitle'
         },
         
         onShow: function () {
@@ -26,7 +26,7 @@
         },
         
         validate: function () {
-            var valid = this.$el.find('.submittable.invalid').length === 0;
+            var valid = this.$el.find('.js-submittable.invalid').length === 0;
             return valid;
         },
         

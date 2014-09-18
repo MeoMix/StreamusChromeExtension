@@ -14,7 +14,7 @@
         },
         
         ui: {
-            playlistSelect: '.submittable',
+            playlistSelect: '.js-submittable',
             selectizeTitle: '.selectize-input .title'
         },
 

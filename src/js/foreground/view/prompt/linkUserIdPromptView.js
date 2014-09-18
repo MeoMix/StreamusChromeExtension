@@ -1,21 +1,21 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/linkUserIdView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, LinkUserIdView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, LinkUserIdView, PromptView) {
     'use strict';
 
     var Settings = Streamus.backgroundPage.Settings;
 
-    var LinkUserIdPromptView = GenericPromptView.extend({
+    var LinkUserIdPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
                 showReminder: true,
                 view: new LinkUserIdView()
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         },
 
         reminderDisabled: function () {

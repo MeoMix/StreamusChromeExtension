@@ -5,7 +5,7 @@
     'use strict';
 
     var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
-        className: 'text text-tooltipable',
+        className: 'text js-textTooltipable',
         template: _.template(PlaylistTitleTemplate),
         
         modelEvents: {

@@ -1,13 +1,13 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/editPlaylistView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, EditPlaylistView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, EditPlaylistView, PromptView) {
     'use strict';
     
-    var EditPlaylistPromptView = GenericPromptView.extend({
+    var EditPlaylistPromptView = PromptView.extend({
         initialize: function (options) {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('editPlaylist'),
                 okButtonText: chrome.i18n.getMessage('update'),
                 view: new EditPlaylistView({
@@ -15,7 +15,7 @@
                 })
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

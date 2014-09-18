@@ -15,12 +15,11 @@
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
-    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     //  TODO: This should implement ListItemView at some point or have a behavior for it.
     var PlaylistView = Backbone.Marionette.LayoutView.extend({
         tagName: 'li',
-        className: 'list-item indented playlist small',
+        className: 'playlist listItem listItem-indented small',
         template: _.template(PlaylistTemplate),
         
         templateHelpers: function () {
@@ -38,7 +37,6 @@
         
         events: {
             'click': '_onClick',
-            'click @ui.playButton:not(.disabled)': '_play',
             'contextmenu': '_showContextMenu',
             'dblclick': '_onDblClick'
         },
@@ -50,10 +48,9 @@
         },
         
         ui: {
-            itemCount: '.count',
-            title: '.title',
-            playButton: '.play',
-            buttonsRegion: '.region.list-item-buttons'
+            itemCount: '.playlist-itemCount',
+            title: '.playlist-title',
+            buttonsRegion: '.playlist-listItemButtonsRegion'
         },
         
         regions: {
@@ -78,13 +75,11 @@
         onRender: function () {
             this._setLoadingClass();
             this._setActiveClass();
-            this._setPlayButtonState();
         },
         
         _updateTitle: function () {
             var title = this.model.get('title');
             this.ui.title.text(title).attr('title', title);
-            this._setPlayButtonTitle();
         },
         
         _setLoadingClass: function () {
@@ -99,22 +94,6 @@
         
         _onItemCountChanged: function() {
             this._updateItemCount();
-            this._setPlayButtonState();
-        },
-        
-        //  Disable the play button when there are no items in the playlist since the button can't do anything.
-        _setPlayButtonState: function () {
-            var itemCount = this.model.get('items').length;
-            this.ui.playButton.toggleClass('disabled', itemCount === 0);
-            this._setPlayButtonTitle();
-        },
-        
-        _setPlayButtonTitle: function() {
-            var isEmpty = this.model.get('items').length === 0;
-            
-            //  TODO: i18n
-            var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : 'Play ' + this.model.get('title');
-            this.ui.playButton.attr('title', title);
         },
         
         _updateItemCount: function () {
@@ -219,13 +198,6 @@
         
         _onDblClick: function () {
             this._activate();
-        },
-        
-        _play: function () {
-            //  TODO: I think this should actually go through Radio Channel and just tell StreamItems to play songs.
-            StreamItems.addSongs(this.model.get('items').pluck('song'), {
-                playOnAdd: true
-            });
         }
     });
 

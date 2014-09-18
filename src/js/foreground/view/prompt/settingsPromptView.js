@@ -1,15 +1,15 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/settingsView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, SettingsView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, SettingsView, PromptView) {
     'use strict';
     
     var Settings = Streamus.backgroundPage.Settings;
     
-    var SettingsPromptView = GenericPromptView.extend({
+    var SettingsPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('settings'),
                 view: new SettingsView({
                     model: Settings
@@ -17,7 +17,7 @@
                 showOkButton: false
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

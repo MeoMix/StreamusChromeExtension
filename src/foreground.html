@@ -5,7 +5,6 @@
         <title>
             Streamus
         </title>
-
         <link href="less/foreground.less" rel="stylesheet/less">
         <link href="css/font-awesome.css" rel="stylesheet">
         <link href="css/fontello.css" rel="stylesheet">
@@ -16,14 +15,14 @@
         <!--Load RequireJS and then go to js/foreground/main to start-->
         <script data-main="js/foreground/main" src="js/thirdParty/require.js"></script>
     </head>
-    <body class="full">
+    <body class="column">
         <div class="spinner spinner-large absolute-center"></div>
-        <div class="left-pane region base grid-column"></div>
-        <div class="left-pane region overlay grid-column"></div>
-        <div class="right-pane region base grid-column"></div>
-        
-        <div class="prompt region overlay full above-fade-out"></div>
-        <div class="region region-notification overlay"></div>
-        <div class="context-menu region overlay full"></div>
+        <div class="region region-leftPane column column-largeWidth column-inlineBlock"></div>
+        <div class="region region-rightPane column column-smallWidth column-inlineBlock"></div>
+        <div class="region region-searchArea column column-largeWidth column-overlay"></div>
+        <div class="region region-playlistsArea"></div>
+        <div class="region region-prompt above-fade-out"></div>
+        <div class="region region-notification"></div>
+        <div class="region region-contextMenu"></div>
     </body>
 </html>

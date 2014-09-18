@@ -1,5 +1,6 @@
 ﻿@import "colorPallete";
 
+//  TODO: Naming isn't consistent.
 /* This is the jQuery UI draggable object that shows # of items being dragged */
 .droppable-selected-models {
     /* Important is necessary here because height/width is set via javascript and I want to override. */
@@ -13,6 +14,7 @@
     text-align: center;
 }
 
+//  TODO: Either prefix copy-helper with js-sortable or just sortable?
 /* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
     an item being copied -- it looks weird and doesn't make sense because no move happens */
 .copy-helper + .sortable-placeholder {
@@ -33,8 +35,6 @@
     }
 }
 
-.unsortable {
-    .sortable-placeholder {
-        display: none;
-    }
+.sortable-unsortable .sortable-placeholder {
+    display: none;
 }

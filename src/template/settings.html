@@ -1,4 +1,4 @@
-﻿<div class="general grouping-column">
+﻿<div class="grouping-column">
     <div class="grouping-header">
         <%= generalMessage %>
     </div>
@@ -9,7 +9,7 @@
                 <label>
                     <%= songQualityMessage %>
                 
-                    <select id="suggested-quality">
+                    <select id="settings-suggestedQualitySelect">
                         <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
                             <%= highestMessage %>
                         </option>
@@ -24,19 +24,19 @@
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="show-tooltips" <%= showTooltips ? 'checked' : '' %>>
+                    <input type="checkbox" id="settings-showTooltipsCheckbox" <%= showTooltips ? 'checked' : '' %>>
                     <%= showTooltipsMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="always-open-to-search" <%= alwaysOpenToSearch ? 'checked' : '' %> >
+                    <input type="checkbox" id="settings-alwaysOpenToSearchCheckbox" <%= alwaysOpenToSearch ? 'checked' : '' %> >
                     <%= alwaysOpenToSearchMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="always-open-in-tab" <%= alwaysOpenInTab ? 'checked' : '' %> >
+                    <input type="checkbox" id="settings-alwaysOpenInTabCheckbox" <%= alwaysOpenInTab ? 'checked' : '' %> >
                     <%= alwaysOpenInTabMessage %>
                 </label>
             </li>
@@ -44,7 +44,7 @@
     </div>
 </div>
 
-<div class="reminders grouping-column">
+<div class="grouping-column">
     <div class="grouping-header">
         <%= remindersMessage %>
     </div>
@@ -52,25 +52,25 @@
         <ul>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="remind-clear-stream" <%= remindClearStream ? 'checked' : '' %>>
+                    <input type="checkbox" id="settings-remindClearStreamCheckbox" <%= remindClearStream ? 'checked' : '' %>>
                     <%= remindClearStreamMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="remind-delete-playlist" <%= remindDeletePlaylist ? 'checked' : '' %>>
+                    <input type="checkbox" id="settings-remindDeletePlaylistCheckbox" <%= remindDeletePlaylist ? 'checked' : '' %>>
                     <%= remindDeletePlaylistMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="remind-link-user-id" <%= remindLinkUserId ? 'checked' : '' %>>
+                    <input type="checkbox" id="settings-remindLinkUserIdCheckbox" <%= remindLinkUserId ? 'checked' : '' %>>
                     <%= remindLinkAccountMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="remind-google-sign-in" <%= remindGoogleSignIn ? 'checked' : '' %>>
+                    <input type="checkbox" id="settings-remindGoogleSignInCheckbox" <%= remindGoogleSignIn ? 'checked' : '' %>>
                     <%= remindGoogleSignInMessage %>
                 </label>
             </li>

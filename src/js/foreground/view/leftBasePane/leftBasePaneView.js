@@ -11,7 +11,8 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
-        className: 'left-pane full flex-column',
+        id: 'leftBasePane',
+        className: 'leftPane column flex-column',
         template: _.template(LeftBasePaneTemplate),
         
         templateHelpers: function () {
@@ -21,20 +22,15 @@
         },
 
         ui: {
-            showSearch: '.show-search',
-            showPlaylistsArea: '.show-playlists-area',
-            playlistTitleRegion: '.region.playlist-title',
-            contentRegion: '.region.content'
+            showSearchButton: '#leftBasePane-showSearchButton',
+            showPlaylistsAreaButton: '#leftBasePane-showPlaylistsAreaButton',
+            playlistTitleRegion: '#leftBasePane-playlistTitleRegion',
+            contentRegion: '#leftBasePane-contentRegion'
         },
         
         events: {
-            'click @ui.showSearch': function () {
-                Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
-            },
-
-            'click @ui.showPlaylistsArea': function () {
-                Backbone.Wreqr.radio.channel('global').vent.trigger('showPlaylistsArea');
-            }
+            'click @ui.showSearchButton': '_showSearch',
+            'click @ui.showPlaylistsAreaButton': '_showPlaylistsArea'
         },
 
         regions: {
@@ -97,6 +93,14 @@
             if (active) {
                 this._updateRegions();
             }
+        },
+        
+        _showSearch: function() {
+            Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
+        },
+        
+        _showPlaylistsArea: function() {
+            Backbone.Wreqr.radio.channel('global').vent.trigger('showPlaylistsArea');
         }
     });
 

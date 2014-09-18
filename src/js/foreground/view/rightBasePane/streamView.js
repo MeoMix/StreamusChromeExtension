@@ -17,7 +17,8 @@
     var ShuffleButton = Streamus.backgroundPage.ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
-        className: 'stream full flex-column',
+        id: 'stream',
+        className: 'column flex-column',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         
@@ -29,7 +30,7 @@
         template: _.template(StreamTemplate),
         templateHelpers: function () {
             return {
-                streamEmptyMessage: chrome.i18n.getMessage('streamEmpty'),
+                emptyMessage: chrome.i18n.getMessage('streamEmpty'),
                 saveStreamMessage: chrome.i18n.getMessage('saveStream'),
                 clearStreamMessage: chrome.i18n.getMessage('clearStream'),
                 searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
@@ -43,14 +44,12 @@
         },
         
         events: {
-            'click @ui.clearStreamButton': '_clear',
-            'click @ui.saveStreamButton:not(.disabled)': '_save',
+            'click @ui.clearButton': '_clear',
+            'click @ui.saveButton:not(.disabled)': '_save',
             'click @ui.shuffleButton': '_toggleShuffle',
             'click @ui.radioButton': '_toggleRadio',
             'click @ui.repeatButton': '_toggleRepeat',
-            'click @ui.showSearch': function () {
-                Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
-            }
+            'click @ui.showSearchLink': '_showSearch'
         },
         
         collectionEvents: {
@@ -58,17 +57,17 @@
         },
         
         ui: {
-            buttons: '.button-icon',
-            streamEmptyMessage: '.stream-empty',
-            bottomBar: '.contentBar-bottom',
-            saveStreamButton: '#save-stream',
-            childContainer: '.stream-items',
-            shuffleButton: '#shuffle-button',
-            radioButton: '#radio-button',
-            repeatButton: '#repeat-button',
-            repeatButtonIcon: '.fa-repeat',
-            clearStreamButton: '.clear',
-            showSearch: '.show-search'
+            emptyMessage: '#stream-emptyMessage',
+            saveButton: '#stream-saveButton',
+            //  NOTE: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
+            childContainer: '#stream-listItems',
+            shuffleButton: '#stream-shuffleButton',
+            radioButton: '#stream-radioButton',
+            repeatButton: '#stream-repeatButton',
+            repeatIcon: '#stream-repeatIcon',
+            clearButton: '#stream-clearButton',
+            showSearchLink: '#stream-showSearchLink',
+            bottomContentBar: '#stream-bottomContentBar'
         },
         
         behaviors: {
@@ -87,7 +86,7 @@
         },
         
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this._updateSaveStreamButton);
+            this.listenTo(SignInManager, 'change:signedIn', this._updateSaveButton);
             this.listenTo(ShuffleButton, 'change:enabled', this._setShuffleButtonState);
             this.listenTo(RadioButton, 'change:enabled', this._setRadioButtonState);
             this.listenTo(RepeatButton, 'change:state', this._setRepeatButtonState);
@@ -98,32 +97,32 @@
             this._setRepeatButtonState();
             this._setShuffleButtonState();
             this._setRadioButtonState();
-            this._updateSaveStreamButton();
+            this._updateSaveButton();
         },
         
         _setViewState: function() {
             this._toggleBigText();
-            this._toggleBottomBar();
+            this._toggleBottomContentBar();
         },
         
-        _updateSaveStreamButton: function () {
+        _updateSaveButton: function () {
             var signedIn = SignInManager.get('signedIn');
             
             var templateHelpers = this.templateHelpers();
             var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
 
-            this.ui.saveStreamButton.toggleClass('disabled', !signedIn);
-            this.ui.saveStreamButton.attr('title', newTitle);
+            this.ui.saveButton.toggleClass('disabled', !signedIn);
+            this.ui.saveButton.attr('title', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection
         _toggleBigText: function () {
-            this.ui.streamEmptyMessage.toggleClass('hidden', this.collection.length > 0);
+            this.ui.emptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
         //  Show buttons if there is anything in the collection otherwise hide
-        _toggleBottomBar: function () {
-            this.ui.bottomBar.toggleClass('hidden', this.collection.length === 0);
+        _toggleBottomContentBar: function () {
+            this.ui.bottomContentBar.toggleClass('hidden', this.collection.length === 0);
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },
@@ -170,9 +169,9 @@
                 .toggleClass('enabled', enabled)
                 .attr('title', title);
 
-            this.ui.repeatButtonIcon
-                .toggleClass('repeat-song', state === RepeatButtonState.RepeatSong)
-                .toggleClass('repeat-stream', state === RepeatButtonState.RepeatStream);
+            this.ui.repeatIcon
+                .toggleClass('repeat-one', state === RepeatButtonState.RepeatSong)
+                .toggleClass('repeat-all', state === RepeatButtonState.RepeatStream);
         },
         
         _setShuffleButtonState: function() {
@@ -199,6 +198,10 @@
             }
             
             this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
+        },
+        
+        _showSearch: function () {
+            Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
         }
     });
 

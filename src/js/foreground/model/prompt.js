@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
     
-    var GenericPrompt = Backbone.Model.extend({
+    var Prompt = Backbone.Model.extend({
         defaults: {
             title: '',
             okButtonText: chrome.i18n.getMessage('ok'),
@@ -12,5 +12,5 @@
         }
     });
 
-    return GenericPrompt;
+    return Prompt;
 });

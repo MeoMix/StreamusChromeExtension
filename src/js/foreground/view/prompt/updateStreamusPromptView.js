@@ -1,19 +1,19 @@
 ﻿define([
-    'foreground/model/genericPrompt',
+    'foreground/model/prompt',
     'foreground/view/updateStreamusView',
-    'foreground/view/prompt/genericPromptView'
-], function (GenericPrompt, UpdateStreamusView, GenericPromptView) {
+    'foreground/view/prompt/promptView'
+], function (Prompt, UpdateStreamusView, PromptView) {
     'use strict';
 
-    var UpdateStreamusPromptView = GenericPromptView.extend({
+    var UpdateStreamusPromptView = PromptView.extend({
         initialize: function () {
-            this.model = new GenericPrompt({
+            this.model = new Prompt({
                 title: chrome.i18n.getMessage('updateRequired'),
                 okButtonText: chrome.i18n.getMessage('update'),
                 view: new UpdateStreamusView()
             });
             
-            GenericPromptView.prototype.initialize.apply(this, arguments);
+            PromptView.prototype.initialize.apply(this, arguments);
         }
     });
 

@@ -1,23 +1,23 @@
-﻿<div class="panel flex-column">
+﻿<div id="playlistsArea-panel" class="panel panel-left column column-smallWidth flex-column">
     <div class="contentBar-top">
         <div class="flex-row">
-            <button class="button-icon buttonSize-large hide enabled">
+            <button id="playlistsArea-hideButton" class="button-icon buttonSize-large enabled">
                 <i class="fa fa-reorder"></i>
             </button>
         </div>
     </div>
-    <span class="header fontSize-large lineHeight-base inset-horizontal text">
+    <span class="fontSize-large lineHeight-base inset-horizontal text">
         <%= playlists %>
     </span>
-    <div class="instructions-wrapper full flex-column">
+    <div class="instructions-wrapper">
         <div class="list">
-            <ul class="playlists">
+            <ul id="playlistsArea-listItems">
             </ul>
         </div>
     </div>
-    <div class="contentBar-bottom">
+    <div id="playlistsArea-bottomContentBar" class="contentBar-bottom">
         <div class="flex-row">
-            <button class="button-label add">
+            <button id="playlistsArea-createButton" class="button-label">
                 <i class="fa fa-plus"></i>
                 <%= createPlaylist %>
             </button>

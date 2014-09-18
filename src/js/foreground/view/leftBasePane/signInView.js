@@ -4,7 +4,7 @@
     'use strict';
 
     var SignInView = Backbone.Marionette.ItemView.extend({
-        id: 'sign-in',
+        id: 'signIn',
         template: _.template(SignInTemplate),
         
         templateHelpers: function () {
@@ -17,11 +17,11 @@
         },
 
         ui: {
-            signingInMessage: '.signing-in',
-            signInPrompt: '.sign-in',
-            signInLink: '.sign-in .clickable',
-            signInFailedMessage: '.sign-in-failed',
-            signInRetryTimer: '#sign-in-retry-timer'
+            signingInMessage: '#signIn-signingInMessage',
+            signInMessage: '#signIn-signInMessage',
+            signInFailedMessage: '#signIn-signInFailedMessage',
+            signInLink: '#signIn-signInLink',
+            signInRetryTimer: '#signIn-signInRetryTimer'
         },
 
         events: {
@@ -49,11 +49,10 @@
             
             this.ui.signInFailedMessage.toggleClass('hidden', !signInFailed);
             this.ui.signingInMessage.toggleClass('hidden', !signingIn);
-            this.ui.signInPrompt.toggleClass('hidden', signingIn || signInFailed);
+            this.ui.signInMessage.toggleClass('hidden', signingIn || signInFailed);
         },
 
         _signIn: function () {
-            console.log("signing in with google");
             this.model.signInWithGoogle();
         }
     });

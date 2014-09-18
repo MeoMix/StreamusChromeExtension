@@ -2,9 +2,12 @@
 @import "lineHeight";
 @import "fontSize";
 @import "utility";
+@import "column";
 
 .instructions-wrapper {
     .flex-full;
+    .flex-column;
+    .column;
     /* Contain the position: absolute instructions */
     position: relative;
 }
@@ -17,13 +20,14 @@
     color: @darkGray;
     text-align: center;
 
+    /* NOTE: This is being used to keep left/right pane instructions aligned. I feel weird about it. */
     @leftPaneMarginTop: 60px;
-    .left-pane & {
+    .leftPane & {
         margin-top: @leftPaneMarginTop
     }
 
-    .right-pane & {
-        /* -30px to align w/ left-pane because of 2nd contentBar-top column */
+    .rightPane & {
+        /* -30px to align w/ leftPane because of 2nd contentBar-top column */
         margin-top: @leftPaneMarginTop + -30px;
     }
 }

@@ -5,17 +5,17 @@
     'use strict';
 
     var ExportPlaylistView = Backbone.Marionette.ItemView.extend({
-        className: 'export-playlist',
+        id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
         
         ui: {
-            exportCsvRadio: '#export-csv-radio',
-            exportJsonRadio: '#export-json-radio',
-            exportTitleCheckbox: '#export-title-checkbox',
-            exportIdCheckbox: '#export-id-checkbox',
-            exportUrlCheckbox: '#export-url-checkbox',
-            exportAuthorCheckbox: '#export-author-checkbox',
-            exportDurationCheckbox: '#export-duration-checkbox',
+            exportCsvRadio: '#exportPlaylist-exportCsvRadio',
+            exportJsonRadio: '#exportPlaylist-exportJsonRadio',
+            exportTitleCheckbox: '#exportPlaylist-exportTitleCheckbox',
+            exportIdCheckbox: '#exportPlaylist-exportIdCheckbox',
+            exportUrlCheckbox: '#exportPlaylist-exportUrlCheckbox',
+            exportAuthorCheckbox: '#exportPlaylist-exportAuthorCheckbox',
+            exportDurationCheckbox: '#exportPlaylist-exportDurationCheckbox',
             checkboxes: 'input[type=checkbox]',
             radios: 'input[type=radio]'
         },
