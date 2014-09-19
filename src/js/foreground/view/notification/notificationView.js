@@ -33,12 +33,12 @@
 		},
 
 		_hide: function () {
-			//this._clearHideTimeout();
+			this._clearHideTimeout();
 
-			//this.$el.transition({
-			//	y: -1 * this.$el.height(),
-			//	opacity: 0
-			//}, this.transitionDelay, this.destroy.bind(this));
+			this.$el.transition({
+				y: -1 * this.$el.height(),
+				opacity: 0
+			}, this.transitionDelay, this.destroy.bind(this));
 		},
 
 		_setHideTimeout: function () {
