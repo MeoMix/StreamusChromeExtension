@@ -2,27 +2,27 @@
 @import "lineHeight";
 @import "utility";
 
-.contentBar-top {
-    .flex-column;
-    .inset-horizontal;
+.contentBar {
+    .u-flex--column;
+    .u-inset--horizontal;
+}
+
+.contentBar--top {
     border-bottom: 1px solid @lightGray;
     margin-bottom: 5px;
 }
 
-.contentBar-top-content {
+.contentBar--top-content {
     .lineHeight-looser;
     .fontSize-large;
-    .flex-full;
+    .u-flex--full;
 }
 
-.contentBar-bottom {
-    .flex-column;
-    .inset-horizontal;
+.contentBar--bottom {
     border-top: 1px solid @lightGray;
     margin-top: 5px;
 
-    //  TODO: Inefficient...
-    .flex-row {
+    .u-flex--row {
         justify-content: flex-end
     }
 }

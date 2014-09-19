@@ -1,0 +1,37 @@
+﻿@import "color";
+@import "transition";
+
+.textInput {
+    &.is-valid {
+        background-color: @validGreen;  
+    }
+
+    &.is-invalid {
+        background-color: @invalidRed;
+    }
+}
+
+.textInput--underlined {
+    .m-textInputUnderline(@lightGray);
+    transition: box-shadow @transition-color-time;
+    //  Subtract 2 pixels from the width to account for the 1px box-shadow on either side.
+    width: calc(~"100% - 2px");
+    //  Bump it over 1px to account for 1px box-shadow on the left.
+    margin-left: 1px;
+
+    &:hover{
+        .m-textInputUnderline(@mediumLightGray);
+    }
+
+    &:focus {
+        .m-textInputUnderline(@baseBlue);
+
+        &:hover {
+            .m-textInputUnderline(@darkBaseBlue);
+        }
+    }
+}
+
+.m-textInputUnderline(@color){
+    box-shadow: -8px 8px 0px -7px @color, 8px 8px 0px -7px @color;
+}

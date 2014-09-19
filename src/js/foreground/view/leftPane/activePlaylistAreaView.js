@@ -4,7 +4,7 @@
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
-    'foreground/view/leftBasePane/playlistItemView',
+    'foreground/view/leftPane/playlistItemView',
     'text!template/activePlaylistArea.html'
 ], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
@@ -13,7 +13,7 @@
 
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'activePlaylistArea',
-        className: 'column flex-column',
+        className: 'column u-flex--column',
         childView: PlaylistItemView,
         childViewContainer: '@ui.childContainer',
         template: _.template(ActivePlaylistAreaTemplate),
@@ -95,7 +95,6 @@
             this.ui.playlistDetails.text(displayInfo);
         },
        
-        //  Set the visibility of any visible instructions.
         _toggleInstructions: function () {
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },

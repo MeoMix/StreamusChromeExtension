@@ -6,7 +6,7 @@
     var Search = Streamus.backgroundPage.Search;
 
     var SearchAreaRegion = Backbone.Marionette.Region.extend({
-        el: '.region-searchArea',
+        el: '#searchAreaRegion',
         
         initialize: function () {
             this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showSearch', this.showSearchView);

@@ -14,7 +14,6 @@
         },
         
         events: {
-            //  TODO: Report bug to marionette -- can't do click:not(.disabled)
             'click': '_doDelete',
             'dblclick': '_doDelete'
         },

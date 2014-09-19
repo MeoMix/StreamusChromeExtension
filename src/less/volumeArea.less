@@ -1,9 +1,8 @@
-﻿@import "colorPallete";
-@import "utility";
+﻿@import "color";
 @import "rangeInput";
+@import "transition";
 
-/* TODO: Doesn't match standard... volumeArea-button-muted?? */
-.volume-muted {
+.volumeArea-volumeButton.is-muted {
     color: @alizarin;
 
     &:hover {
@@ -11,21 +10,21 @@
     }
 }
 
-/* TODO: Make this more generic once Google Chrome fixes this bug: https://code.google.com/p/chromium/issues/detail?id=341071*/
+//  TODO: Make this more generic once Google Chrome fixes this bug: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
     @panelWidth: 40px;
     @transitionTime: 250ms;
     width: @panelWidth;
-    /* IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto. */
+    //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
     transition: opacity @transitionTime @transition-timingFunction-snap, height @transitionTime @transition-timingFunction-snap;
     align-items: center;
     z-index: 1;
-    /* Prevent hover events from firing on children when it isn't visible. */
+    //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
 
-    /* CSS triangle */
+    // CSS triangle
     &:before {
         content: ' ';
         width: @panelWidth / 4;
@@ -39,8 +38,7 @@
         transform: rotate(45deg);
     }
 
-    //  TODO: Reduce nesting... 
-    &.expanded {
+    &.is-expanded {
         @expandedPanelHeight: 100px;
         height: @expandedPanelHeight;
         opacity: 1;
@@ -55,7 +53,7 @@
     }
 
     .rangeInput {
-        /* These values need to be explicitly set because element has been rotated so can't rely on width/height: 100% */
+        //  These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
         width: 0;
         right: 0;
         opacity: 0;

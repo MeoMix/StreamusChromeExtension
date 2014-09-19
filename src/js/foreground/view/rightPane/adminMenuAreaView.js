@@ -58,13 +58,13 @@
         
         _showMenu: function () {
             this.ui.menu.addClass('expanded');
-            this.ui.showMenuButton.addClass('enabled');
+            this.ui.showMenuButton.addClass('is-enabled');
             this.menuShown = true;
         },
         
         _hideMenu: function () {
             this.ui.menu.removeClass('expanded');
-            this.ui.showMenuButton.removeClass('enabled');
+            this.ui.showMenuButton.removeClass('is-enabled');
             this.menuShown = false;
         },
         

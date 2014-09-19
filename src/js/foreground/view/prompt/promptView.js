@@ -4,7 +4,7 @@
     'use strict';
 
     var PromptView = Backbone.Marionette.ItemView.extend({
-        className: 'prompt absolute-full-overlay',
+        className: 'prompt u-overlay',
         template: _.template(PromptTemplate),
 
         events: {

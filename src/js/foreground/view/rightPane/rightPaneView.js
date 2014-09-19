@@ -1,12 +1,12 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
     'common/enum/playerState',
-    'foreground/view/rightBasePane/adminMenuAreaView',
-    'foreground/view/rightBasePane/streamView',
-    'foreground/view/rightBasePane/timeAreaView',
-    'foreground/view/rightBasePane/volumeAreaView',
-    'text!template/rightBasePane.html'
-], function (PlayerState, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightBasePaneTemplate) {
+    'foreground/view/rightPane/adminMenuAreaView',
+    'foreground/view/rightPane/streamView',
+    'foreground/view/rightPane/timeAreaView',
+    'foreground/view/rightPane/volumeAreaView',
+    'text!template/rightPane.html'
+], function (PlayerState, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightPaneTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
@@ -14,21 +14,21 @@ define([
     var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
     var PreviousButton = Streamus.backgroundPage.PreviousButton;
 
-    var RightBasePaneView = Backbone.Marionette.LayoutView.extend({
-        id: 'rightBasePane',
-        className: 'rightPane column flex-column',
-        template: _.template(RightBasePaneTemplate),
+    var RightPaneView = Backbone.Marionette.LayoutView.extend({
+        id: 'rightPane',
+        className: 'rightPane column u-flex--column',
+        template: _.template(RightPaneTemplate),
         
         ui: {
-            nextButton: '#rightBasePane-nextButton',
-            previousButton: '#rightBasePane-previousButton',
-            playPauseButton: '#rightBasePane-playPauseButton',
-            playIcon: '#rightBasePane-playIcon',
-            pauseIcon: '#rightBasePane-pauseIcon',
-            contentRegion: '#rightBasePane-contentRegion',
-            timeAreaRegion: '#rightBasePane-timeAreaRegion',
-            volumeAreaRegion: '#rightBasePane-volumeAreaRegion',
-            adminMenuAreaRegion: '#rightBasePane-adminMenuAreaRegion'
+            nextButton: '#rightPane-nextButton',
+            previousButton: '#rightPane-previousButton',
+            playPauseButton: '#rightPane-playPauseButton',
+            playIcon: '#rightPane-playIcon',
+            pauseIcon: '#rightPane-pauseIcon',
+            contentRegion: '#rightPane-contentRegion',
+            timeAreaRegion: '#rightPane-timeAreaRegion',
+            volumeAreaRegion: '#rightPane-volumeAreaRegion',
+            adminMenuAreaRegion: '#rightPane-adminMenuAreaRegion'
         },
         
         regions: {
@@ -101,15 +101,14 @@ define([
         _setPlayPauseButtonState: function() {
             var playerState = this.model.get('state');
 
-            //  TODO: Break this apart into more discernable functions.
             this.ui.playPauseButton
                 .toggleClass('disabled', !PlayPauseButton.get('enabled'))
-                .toggleClass('loading', playerState === PlayerState.Buffering);
+                .toggleClass('is-showingSpinner', playerState === PlayerState.Buffering);
             
             this.ui.pauseIcon.toggleClass('hidden', playerState !== PlayerState.Playing);
             this.ui.playIcon.toggleClass('hidden', playerState === PlayerState.Buffering || playerState === PlayerState.Playing);
         }
     });
 
-    return RightBasePaneView;
+    return RightPaneView;
 });

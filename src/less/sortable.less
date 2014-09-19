@@ -1,9 +1,8 @@
-﻿@import "colorPallete";
+﻿@import "color";
 
-//  TODO: Naming isn't consistent.
-/* This is the jQuery UI draggable object that shows # of items being dragged */
-.droppable-selected-models {
-    /* Important is necessary here because height/width is set via javascript and I want to override. */
+//  This is the jQuery UI draggable object that shows # of items being dragged
+.sortable-selectedItemsCount {
+    //  Important is necessary here because height/width is set via javascript and I want to override.
     width: 19px !important;
     height: 19px !important;
     padding: 2px;
@@ -14,27 +13,26 @@
     text-align: center;
 }
 
-//  TODO: Either prefix copy-helper with js-sortable or just sortable?
-/* Hide the placeholder when it is adjacent to a copy-helper because the placeholder shouldn't be able to be right next to
-    an item being copied -- it looks weird and doesn't make sense because no move happens */
-.copy-helper + .sortable-placeholder {
+//  Hide sortable-placeholder when it is adjacent to sortable-copyHelper because it does not
+//  make sense to allow an item to be dropped into the same position it is already at
+.sortable-copyHelper + .sortable-placeholder {
     display: none;
 }
 
 .sortable-placeholder {
     background: @lightGray;
 
-    /* Don't allow duplicates to be dropped into playlist items */
-    &.no-drop {
+    //  Don't allow duplicates to be dropped into playlist items
+    &.is-notDroppable {
         background-color: @invalidRed;
 
-        /* TODO: I18N Clean this up a bit. Need to do i18n for it */
+        //  TODO: i18n
         &:after {
             content: 'Duplicates not allowed';
         }
     }
 }
 
-.sortable-unsortable .sortable-placeholder {
+.sortable--unsortable .sortable-placeholder {
     display: none;
 }

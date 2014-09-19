@@ -1,4 +1,4 @@
-﻿@import "colorPallete";
+﻿@import "color";
 
 @-webkit-keyframes spin {
   0% {
@@ -19,29 +19,30 @@
     vertical-align: middle;
 }
 
-.spinner-large {
+.spinner--large {
     width: 32px;
     height: 32px;
     border-width: 4px;
 }
 
-.spinner-medium {
+.spinner--medium {
     width: 24px;
     height: 24px;
     border-width: 2px;
 }
 
-.spinner-small {
+.spinner--small {
     width: 16px;
     height: 16px;
     border-width: 1px;
 }
 
-//  TODO: bad bad bad.
-.saving, 
-.loading {
-    /* TODO: This seems like a poor way of doing this. What would be more robust? */
-    > *:not(.above-fade-out):not(.spinner) {
+.is-showingSpinner {
+    > .spinner--unclickable {
+        pointer-events: none;
+    }
+
+    > .spinner--faded {
         opacity: .2;
     }
 

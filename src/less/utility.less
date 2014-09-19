@@ -1,102 +1,51 @@
-﻿@import "colorPallete";
+﻿@import "color";
 
-@colorTransitionTime: .15s;
-@transition-timingFunction-snap: cubic-bezier(0, 1, 0.5, 1);
-
-//  TODO: make these u- or RIOT!
-.flex-column {
-    display: flex;
+.u-flex--column {
     flex-direction: column;
+    display: flex;
 }
 
-.flex-full {
+.u-flex--row {
+    display: flex;
+}
+
+.u-flex--full {
     flex: 1;
 }
 
-.absolute-full-overlay {
+.u-flex--justifyCenter {
+    display: flex;
+    justify-content: center;
+}
+
+.u-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     right: 0;
     top: 0;
-    z-index: 1;
 }
 
-.flex-row {
-    display: flex;
-    align-items: center;
-}
-
-.clickable {
+.u-clickable {
     cursor: pointer;
 }
 
-.lowercase {
+.u-lowercase {
     text-transform: lowercase;
 }
 
-.hidden {
-    /* Use important to ensure that hidden always takes precedence -- even if JavaScript tries to mess with it. Hidden is hidden! */
-    display: none !important;
-}
-
-//  TODO: Maybe these are just input classes and shouldn't be used elsewhere?
-.invalid {
-    background-color: @invalidRed;
-}
-
-.valid {
-    background-color: @validGreen;   
-}
-
-.inset-horizontal {
+.u-inset--horizontal {
     margin-left: 10px;
     margin-right: 10px;
 }
 
-.inset-vertical {
+.u-inset--vertical {
     margin-top: 10px;
     margin-bottom: 10px;
 }
 
-.flex-justify-center {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-}
-
-.absolute-center {
-    position: absolute;
-    margin: auto;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-}
-
-/* it's important to use a disabled class and not the disabled attr because tooltips on disabled icons don't work well */
-.disabled {
-    color: @mediumLightGray !important;
-    cursor: default !important;
-
-    * {
-        color: @mediumLightGray !important;
-        cursor: default !important;
-    }
-}
-
-//  TODO: not descriptive of intent
-.text {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.text-secondary {
-    color: @mediumDarkGray;
-}
-
-.link {
+.u-link {
+    .u-clickable;
     color: @baseBlue;
 
     &:hover {
@@ -104,7 +53,47 @@
     }
 }
 
-//  TODO: Make this... whiteSpace-wrap
-.wrap-white-space {
-    white-space: initial;
+.u-marginAuto {
+    margin: auto;
+}
+
+.u-floatLeft {
+    float: left;
+}
+
+.u-floatRight {
+    float: right;
+}
+
+.u-textOverflowEllipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.u-textSecondary {
+    color: @mediumDarkGray;
+}
+
+.u-noWrap {
+    white-space: nowrap;
+}
+
+//  TODO: I don't know if these should be prefixed by u- or is-
+.hidden {
+    //  Use important to ensure that hidden always takes precedence.
+    display: none !important;
+}
+
+//  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements. */
+.disabled {
+    color: @mediumLightGray !important;
+    cursor: default !important;
+
+    *,
+    *:before,
+    *:after {
+        color: @mediumLightGray !important;
+        cursor: default !important;
+    }
 }

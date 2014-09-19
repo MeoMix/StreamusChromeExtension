@@ -10,7 +10,6 @@
         },
 
         _onMouseEnter: function () {
-            //  TODO: Rename ListItemButtonsView to something more generic?
             this.view.buttonsRegion.show(new ListItemButtonsView({
                 model: this.view.model,
                 buttonViews: this.view.buttonViews

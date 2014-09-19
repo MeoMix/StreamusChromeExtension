@@ -1,39 +1,30 @@
-﻿//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
-@largeColumnWidth: 60.15625%;
+﻿@import "utility";
+
+//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
+@wideColumnWidth: 60.15625%;
 //  Width is set as 255px / 640px, TODO: follow golden ratio more closely
-@smallColumnWidth: 39.84375%;
+@thinColumnWidth: 39.84375%;
 
 .column {
     height: 100%;
-}
 
-.column-largeWidth {
-    width: @largeColumnWidth;
-}
+    &.u-overlay {
+        /* An empty column-overlay should not be able to overlap visible content */
+        &:empty {
+            display: none;
+        }
 
-.column-smallWidth {
-    width: @smallColumnWidth;
-}
-
-.column-inlineBlock {
-    display: inline-block;
-}
-
-//  TODO: maybe name this overlayWrapper or something.
-.column-overlay {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    /* An empty column-overlay should not be able to overlap visible content */
-    &:empty {
-        display: none;
+        //  TODO: inefficient.
+        .column {
+            width: 100%;
+        }
     }
+}
 
-    //  TODO: inefficient.
-    .column {
-        width: 100%;
-    }
+.column--wide {
+    width: @wideColumnWidth;
+}
+
+.column--thin {
+    width: @thinColumnWidth;
 }

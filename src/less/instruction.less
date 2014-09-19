@@ -1,38 +1,38 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "lineHeight";
 @import "fontSize";
 @import "utility";
 @import "column";
 
-.instructions-wrapper {
-    .flex-full;
-    .flex-column;
+.instruction-wrapper {
+    .u-flex--full;
+    .u-flex--column;
     .column;
-    /* Contain the position: absolute instructions */
+    //  Contain the position: absolute instructions
     position: relative;
 }
 
-.instructions {
-    /* position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior */
+.instruction {
+    //  position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior
     position: absolute;
-    /* width: 100% so that text-align center works properly with position: absolute */
+    //  width: 100% so that text-align: center works properly with position: absolute
     width: 100%;
     color: @darkGray;
     text-align: center;
 
-    /* NOTE: This is being used to keep left/right pane instructions aligned. I feel weird about it. */
+    //  NOTE: This is being used to keep left/right pane instructions aligned, but I do not feel great about the code.
     @leftPaneMarginTop: 60px;
     .leftPane & {
         margin-top: @leftPaneMarginTop
     }
 
     .rightPane & {
-        /* -30px to align w/ leftPane because of 2nd contentBar-top column */
+        //  -30px to align because of the additional row in contentBar--top
         margin-top: @leftPaneMarginTop + -30px;
     }
 }
 
-.instructions-header {
+.instruction-header {
     .fontSize-largest;
     .lineHeight-looser;
 }

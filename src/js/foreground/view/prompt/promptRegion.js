@@ -13,7 +13,7 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
-        el: '.region-prompt',
+        el: '#promptRegion',
         showReloadPromptTimeout: null,
         
         initialize: function () {

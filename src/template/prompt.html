@@ -1,24 +1,24 @@
-﻿<div id="prompt-panel" class="prompt-panel panel">
-    <div class="contentBar-top">
-        <div class="flex-row">
-            <span class="text contentBar-top-content">
+﻿<div id="prompt-panel" class="prompt-panel panel panel--uncolored">
+    <div class="contentBar contentBar--top">
+        <div class="u-flex--row">
+            <span class="u-textOverflowEllipsis contentBar--top-content">
                 <%= title %>
             </span>
         
-            <button id="prompt-closeButton" class="prompt-closeButton button-icon buttonSize-large">
+            <button id="prompt-closeButton" class="prompt-closeButton button--icon button--large">
                 <i class="fa fa-times"></i>
             </button>
         </div>
     </div>
 
-    <div id="prompt-content" class="inset-horizontal inset-vertical">
+    <div id="prompt-content" class="u-inset--horizontal u-inset--vertical">
     </div>
     
     <% if( showReminder || showOkButton ) { %>
-    <div class="prompt-contentBar-bottom contentBar-bottom">
-        <div class="flex-row">
+    <div class="prompt-contentBar--bottom  contentBar contentBar--bottom">
+        <div class="u-flex--row">
             <% if( showReminder ) { %>
-            <div class="flex-full lineHeight-loose">
+            <div class="u-flex--full lineHeight-loose">
                 <label>
                     <input id="prompt-reminderCheckbox" type="checkbox">
                     <%= reminderText %>
@@ -27,7 +27,7 @@
             <% } %>
 
             <% if( showOkButton ) { %>
-            <button id="prompt-okButton" class="button-prompt">
+            <button id="prompt-okButton" class="button--prompt">
                 <%= okButtonText %>
             </button>
             <% } %>

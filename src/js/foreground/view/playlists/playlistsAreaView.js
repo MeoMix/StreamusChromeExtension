@@ -14,7 +14,7 @@
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlistsArea',
-        className: 'absolute-full-overlay',
+        className: 'u-overlay',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',

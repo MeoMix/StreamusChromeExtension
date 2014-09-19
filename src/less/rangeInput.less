@@ -1,4 +1,4 @@
-﻿@import "colorPallete";
+﻿@import "color";
 
 @rangeInputSize: 4px;
 @rangeInputMargin: 10px;
@@ -9,7 +9,7 @@
     position: relative;
 }
 
-.rangeInput-wrapper-horizontal {
+.rangeInput-wrapper--horizontal {
     height: @rangeInputSize;
     margin: 0 @rangeInputMargin;
 
@@ -17,14 +17,14 @@
         height: 100%;
     }
 
-    /* Can't force this on all range inputs because transform: rotate messes up height/width calculations */
+    //  NOTE: Can't force this on all range inputs because transform: rotate messes up height/width calculations.
     .rangeInput {
         height: 100%;
         width: 100%;
     }
 }
 
-.rangeInput-wrapper-vertical {
+.rangeInput-wrapper--vertical {
     width: @rangeInputSize;
     margin: @rangeInputMargin 0;
     transform: rotate(180deg);

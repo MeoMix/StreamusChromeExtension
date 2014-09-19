@@ -4,7 +4,6 @@
     'use strict';
 
     var NoPlayEmbeddedView = Backbone.Marionette.ItemView.extend({
-        className: 'no-play-embedded wrap-white-space',
         template: _.template(NoPlayEmbeddedTemplate),
 
         templateHelpers: {

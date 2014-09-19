@@ -6,7 +6,6 @@
     var Playlists = Streamus.backgroundPage.Playlists;
 
     var SaveSongsView = Backbone.Marionette.ItemView.extend({
-        className: 'save-songs',
         template: _.template(SaveSongsTemplate),
 
         templateHelpers: {

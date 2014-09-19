@@ -7,7 +7,7 @@
     var ListItemButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',
         className: function () {
-            return 'button-icon ' + this._getIconSize();
+            return 'listItem-button button--icon ' + this._getSize();
         },
         
         behaviors: {
@@ -16,10 +16,9 @@
             }
         },
 
-        //  TODO: Rename to buttonSize ?
-        _getIconSize: function () {
+        _getSize: function () {
             var listItemType = this.model.get('listItemType');
-            return listItemType === ListItemType.Playlist ? 'buttonSize-small' : 'buttonSize-base';
+            return listItemType === ListItemType.Playlist ? 'button--small' : 'button--medium';
         }
     });
 

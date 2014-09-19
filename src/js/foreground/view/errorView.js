@@ -2,7 +2,6 @@
     'use strict';
 
     var ErrorView = Backbone.Marionette.ItemView.extend({
-        className: 'error wrap-white-space',
         template: false,
         text: '',
 

@@ -1,12 +1,12 @@
 ﻿define([
     'foreground/view/contextMenuRegion',
-    'foreground/view/leftBasePane/leftBasePaneRegion',
+    'foreground/view/leftPane/leftPaneRegion',
     'foreground/view/notification/notificationRegion',
     'foreground/view/playlists/playlistsAreaRegion',
     'foreground/view/prompt/promptRegion',
-    'foreground/view/rightBasePane/rightBasePaneRegion',
+    'foreground/view/rightPane/rightPaneRegion',
     'foreground/view/search/searchAreaRegion'
-], function (ContextMenuRegion, LeftBasePaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, RightBasePaneRegion, SearchAreaRegion) {
+], function (ContextMenuRegion, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, RightPaneRegion, SearchAreaRegion) {
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
@@ -29,10 +29,10 @@
             notificationRegion: NotificationRegion,
             //  Depends on the view, set during initialize.
             //contextMenuRegion: null,
-            leftBasePaneRegion: LeftBasePaneRegion,
+            leftPaneRegion: LeftPaneRegion,
             searchAreaRegion: SearchAreaRegion,
             playlistsAreaRegion: PlaylistsAreaRegion,
-            rightBasePaneRegion: RightBasePaneRegion
+            rightPaneRegion: RightPaneRegion
         },
 
         initialize: function () {
@@ -47,7 +47,7 @@
 
             //  Automatically sign the user in once they've actually interacted with Streamus.
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            //SignInManager.signInWithGoogle();
+            SignInManager.signInWithGoogle();
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
@@ -71,7 +71,7 @@
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
         _setHideTooltipsClass: function () {
-            this.$el.toggleClass('hide-tooltips', !Settings.get('showTooltips'));
+            this.$el.toggleClass('is-hidingTooltips', !Settings.get('showTooltips'));
         },
         
         //  Check if the YouTube player is loaded. If it isn't, place the UI into a loading state.
@@ -83,14 +83,14 @@
 
         //  Give the program a few seconds before prompting the user to try restarting Streamus.
         _startLoading: function () {
-            this.$el.addClass('loading');
+            this.$el.addClass('is-showingSpinner');
             this.promptRegion.startShowReloadPromptTimer();
             this.listenToOnce(Player, 'change:ready', this._stopLoading);
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function () {
-            this.$el.removeClass('loading');
+            this.$el.removeClass('is-showingSpinner');
             this.promptRegion.hideReloadStreamusPrompt();
         },
         

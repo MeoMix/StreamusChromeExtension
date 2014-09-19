@@ -4,15 +4,15 @@
 ], function (HoverButtons, Tooltip) {
     'use strict';
 
-    //  TODO: make MultiSelect a Behavior instead of intrinsic.
+    //  TODO: Make MultiSelect a Behavior instead of intrinsic.
     var MultiSelectListItemView = Backbone.Marionette.LayoutView.extend({
-        className: 'listItem base multi-select-item sliding-view-item',
+        className: 'listItem listItem--medium js-listItem--multiSelect',
 
         ui: {
             imageThumbnail: '.listItem-imageThumbnail',
             title: '.listItem-title',
             buttonsRegion: '.listItem-buttonsRegion',
-            onActiveShown: '.onActive-shown'
+            onActiveShown: '.is-shownOnActive'
         },
 
         events: {
@@ -47,7 +47,7 @@
         },
 
         _setSelectedClass: function () {
-            this.$el.toggleClass('selected', this.model.get('selected'));
+            this.$el.toggleClass('is-selected', this.model.get('selected'));
         }
     });
 

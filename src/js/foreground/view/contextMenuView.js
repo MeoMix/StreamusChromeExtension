@@ -6,13 +6,14 @@
     var ContextMenuView = Backbone.Marionette.CompositeView.extend({
         id: 'context-menu',
         tagName: 'ul',
-        className: 'menu panel',
+        className: 'menu panel panel--uncolored',
         childView: ContextMenuItemView,
         template: _.template(),
         //  Used to determine whether context-menu display should flip as to not overflow container
         containerHeight: 0,
         containerWidth: 0,
         
+        //  TODO: This has a bug in it -- what happens if the browser window dimensions change when Streamus is open in a tab.
         initialize: function(options) {
             this.containerHeight = options.containerHeight;
             this.containerWidth = options.containerWidth;

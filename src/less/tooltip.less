@@ -1,16 +1,12 @@
-﻿@import "colorPallete";
+﻿@import "color";
+@import "utility";
 
-//  TODO: Class name isn't very consistent.
-.hide-tooltips {
-    .qtip {
-        display: none !important;
-    }
+.is-hidingTooltips .qtip {
+    .hidden;
 }
 
-/* qtip overrides: */
 .qtip {
     min-width: 0 !important;
-
 }
 
 .qtip-light {

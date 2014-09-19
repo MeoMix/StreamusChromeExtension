@@ -35,7 +35,7 @@
         },
         
         _onClickedElement: function (clickedElement) {
-            var clickedItem = clickedElement.closest('.multi-select-item');
+            var clickedItem = clickedElement.closest('.js-listItem--multiSelect');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
 
             if (listItemType !== this.view.childViewOptions.type) {

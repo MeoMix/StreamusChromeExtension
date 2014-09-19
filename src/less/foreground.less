@@ -8,23 +8,23 @@
 @import "font";
 @import "grouping";
 @import "instruction";
-@import "list";
+@import "listItem";
 @import "menu";
 @import "notification";
 @import "panel";
 @import "prompt";
 @import "rangeInput";
 @import "repeatIcon";
-@import "scrollbars";
+@import "scrollbar";
 @import "selectize";
 @import "sortable";
 @import "spinner";
+@import "textInput";
 @import "timeArea";
 @import "tooltip";
-@import "underlinedInput";
 @import "volumeArea";
 
-/* Detect when Streamus has been loaded into a browser tab instead of the extension window and force it to full-size. */
+//  Force UI to full size if Streamus has been loaded into a tab by detecting min-width greater than maximum extension width.
 @media(min-width: 700px){
     html {
         width: 100% !important;
@@ -32,7 +32,7 @@
     }
 }
 
-/* Default dimensions of Streamus as a browser extension*/
+//  Default dimensions of Streamus as a browser extension
 html {
     width: 640px;
     height: 410px;
@@ -40,16 +40,5 @@ html {
 
 body {
     -webkit-user-select: none;
-
-    /* Remove the spacing on display: inline-block to allow for 100% 2-column grid layout */
-    font-size: 0;
-    > * {
-        font: 13px/1.2 'Open Sans';
-    }
-
-    //  TODO: FIX FIX FIX.
-    /* Don't allow interacting with the core of the UI until fully loaded. */
-    &.loading > *:not(.above-fade-out) {
-        pointer-events: none;
-    }
+    font: 13px/1.2 'Open Sans';
 }

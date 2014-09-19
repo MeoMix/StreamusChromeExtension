@@ -16,13 +16,13 @@
         <script data-main="js/foreground/main" src="js/thirdParty/require.js"></script>
     </head>
     <body class="column">
-        <div class="spinner spinner-large absolute-center"></div>
-        <div class="region region-leftPane column column-largeWidth column-inlineBlock"></div>
-        <div class="region region-rightPane column column-smallWidth column-inlineBlock"></div>
-        <div class="region region-searchArea column column-largeWidth column-overlay"></div>
-        <div class="region region-playlistsArea"></div>
-        <div class="region region-prompt above-fade-out"></div>
-        <div class="region region-notification"></div>
-        <div class="region region-contextMenu"></div>
+        <div class="spinner spinner--large u-overlay u-marginAuto"></div>
+        <div id="leftPaneRegion" class="column column--wide u-floatLeft spinner--faded spinner--unclickable"></div>
+        <div id="rightPaneRegion" class="column column--thin u-floatRight spinner--faded spinner--unclickable"></div>
+        <div id="searchAreaRegion" class="column column--wide u-overlay spinner--faded spinner--unclickable"></div>
+        <div id="playlistsAreaRegion" class="spinner--faded spinner--unclickable"></div>
+        <div id="promptRegion"></div>
+        <div id="notificationRegion" class="spinner--faded spinner--unclickable"></div>
+        <div id="contextMenuRegion" class="spinner--faded spinner--unclickable"></div>
     </body>
 </html>

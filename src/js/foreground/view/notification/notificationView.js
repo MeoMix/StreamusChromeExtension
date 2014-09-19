@@ -33,12 +33,12 @@
 		},
 
 		_hide: function () {
-			this._clearHideTimeout();
+			//this._clearHideTimeout();
 
-			this.$el.transition({
-				y: -1 * this.$el.height(),
-				opacity: 0
-			}, this.transitionDelay, this.destroy.bind(this));
+			//this.$el.transition({
+			//	y: -1 * this.$el.height(),
+			//	opacity: 0
+			//}, this.transitionDelay, this.destroy.bind(this));
 		},
 
 		_setHideTimeout: function () {
@@ -51,15 +51,15 @@
 
 		//  Dynamically determine the class name of the view in order to style it based on the type of notification
 		_getClassName: function () {
-			var className = 'panel ';
+			var className = 'panel notification ';
 
 			var notificationType = this.model.get('type');
 			switch (notificationType) {
 				case NotificationType.Success:
-					className += 'notification-success';
+					className += 'notification--success';
 					break;
 				case NotificationType.Error:
-					className += 'notification-error';
+					className += 'notification--error';
 					break;
 			}
 

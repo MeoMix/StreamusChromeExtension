@@ -60,7 +60,7 @@
         //  render will cause the lazy-loaded image to be reset.
         _setActiveClass: function () {
             var active = this.model.get('active');
-            this.$el.toggleClass('active', active);
+            this.$el.toggleClass('is-active', active);
             this.ui.onActiveShown.toggleClass('hidden', !active);
         },
 

@@ -1,4 +1,4 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "fontSize";
 @import "lineHeight";
 
@@ -15,28 +15,20 @@
     color: @white;
 }
 
-/* TODO: Standardize this... */
-.notification-hideButton {
-    position: absolute;
-    top: 0;
-    right: 5px;
-
-    &:hover {
-        color: @white;
-    }
+.notification-hideButton:hover {
+    color: @white;
 }
 
-/* TODO: Remove important -- it's overriding the panel color of white. */
-.notification-success {
-    background-color: @nephritis !important;
+.notification--success {
+    background-color: @nephritis;
 
     .notification-hideButton {
         color: @lightNephritis;
     }
 }
 
-.notification-error {
-    background-color: @alizarin !important;
+.notification--error {
+    background-color: @alizarin;
 
     .notification-hideButton {
         color: @lightAlizarin;

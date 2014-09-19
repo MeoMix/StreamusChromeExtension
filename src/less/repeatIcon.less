@@ -1,8 +1,8 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "fontSize";
 @import "lineHeight";
 
-.repeat-icon {
+.m-repeatIcon {
     .fontSize-smallest;
     .lineHeight-tightest;
     border-radius: 50%;
@@ -18,14 +18,15 @@
     padding-right: 1px;
 }
 
-//  TODO: Change these to repeatIcon?
-.repeat-one:after {
-    .repeat-icon;
-    content: '1';
-    font-weight: bold;
-}
+.repeatIcon {
+    &.is-repeatOne:after {
+        .m-repeatIcon;
+        content: '1';
+        font-weight: bold;
+    }
 
-.repeat-all:after {
-    .repeat-icon;
-    content: "\221E";
+    &.is-repeatAll:after {
+        .m-repeatIcon;
+        content: "\221E";
+    }
 }

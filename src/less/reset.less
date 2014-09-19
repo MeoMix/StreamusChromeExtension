@@ -1,4 +1,4 @@
-﻿/* Custom resets for Streamus' UI which aren't included in Normalize */
+﻿//  Reset.less: Custom resets for Streamus' UI which aren't provided by Normalize.less
 input:focus, 
 button:focus {
     outline: none 
@@ -11,9 +11,9 @@ li {
     list-style: none;   
 }
 
-/* Keep these inputs aligned more properly with their labels */
-input[type=checkbox], 
-input[type=radio] {
+//  Keep these inputs aligned more properly with their labels.
+input[type="checkbox"], 
+input[type="radio"] {
     vertical-align: middle;
     position: relative;
     bottom: 1px;
@@ -24,22 +24,24 @@ input[type=radio] {
 *:after {
     box-sizing: border-box;
 
-    /* I don't really want text elements to show the text cursor. Just wipe all cursor stylings and set where wanted. */
+    //  Wipe all cursor stylings and set where wanted.
     cursor: default;
  }
 
-input[type=checkbox], 
+//  These are always interactable so it is safe to set their cursor back to pointer/text.
+input[type="checkbox"], 
 label, 
 select {
     cursor: pointer;
 }
 
-input[type=text] {
+input[type="text"] {
     border: 0;
     padding: 0 3px 2px 3px;
     cursor: text;
 }
 
+//  Streamus buttons are all custom
 button {
     background: transparent;
     border: 0;
@@ -47,7 +49,7 @@ button {
     padding: 0;
 }
 
-/* I don't think the fa-search icon looks aligned properly when using the default font-awesome alignment. */
+//  I don't think the fa-search icon looks aligned properly when using the default font-awesome alignment.
 .fa.fa-search {
     vertical-align: 0;
 }

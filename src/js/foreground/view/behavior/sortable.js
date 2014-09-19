@@ -1,7 +1,7 @@
 ﻿define([
     'common/enum/listItemType',
-    'foreground/view/leftBasePane/playlistItemView',
-    'foreground/view/rightBasePane/streamItemView',
+    'foreground/view/leftPane/playlistItemView',
+    'foreground/view/rightPane/streamItemView',
     'foreground/view/search/searchResultView'
 ], function (ListItemType, PlaylistItemView, StreamItemView, SearchResultView) {
     'use strict';
@@ -33,7 +33,7 @@
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
 
-                placeholder: 'sortable-placeholder listItem base hidden',
+                placeholder: 'sortable-placeholder listItem listItem--medium hidden',
 
                 helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
@@ -60,15 +60,15 @@
 
                     this.copyHelperView = copyHelperView;
                     this.copyHelper = copyHelperView.render().$el.insertAfter(listItem);
-                    this.copyHelper.addClass('copy-helper');
+                    this.copyHelper.addClass('sortable-copyHelper');
 
                     this.backCopyHelper = listItem.prev();
-                    this.backCopyHelper.addClass('copy-helper');
+                    this.backCopyHelper.addClass('sortable-copyHelper');
 
                     $(this).data('copied', false);
 
                     return $('<span>', {
-                        'class': 'droppable-selected-models'
+                        'class': 'sortable-selectedItemsCount'
                     });
                 },
                 change: function() {
@@ -96,7 +96,7 @@
                             var draggedStreamItem = self.view.collection.get(streamItemId);
 
                             var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
-                            ui.placeholder.toggleClass('no-drop', alreadyExists);
+                            ui.placeholder.toggleClass('is-notDroppable', alreadyExists);
                         }
                     }
 
@@ -118,11 +118,11 @@
                 },
 
                 stop: function (event, ui) {
-                    this.backCopyHelper.removeClass('copy-helper');
+                    this.backCopyHelper.removeClass('sortable-copyHelper');
 
                     var copied = $(this).data('copied');
                     if (copied) {
-                        this.copyHelper.removeClass('copy-helper');
+                        this.copyHelper.removeClass('sortable-copyHelper');
                     } else {
                         this.copyHelperView.destroy();
 

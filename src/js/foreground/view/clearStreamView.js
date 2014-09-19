@@ -7,7 +7,6 @@
     var Settings = Streamus.backgroundPage.Settings;
 
     var ClearStreamView = Backbone.Marionette.ItemView.extend({
-        className: 'clear-stream',
         template: _.template(ClearStreamTemplate),
         
         templateHelpers: {

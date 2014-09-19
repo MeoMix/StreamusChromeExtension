@@ -19,7 +19,7 @@
     //  TODO: This should implement ListItemView at some point or have a behavior for it.
     var PlaylistView = Backbone.Marionette.LayoutView.extend({
         tagName: 'li',
-        className: 'playlist listItem listItem-indented small',
+        className: 'playlist listItem listItem--indented listItem--small',
         template: _.template(PlaylistTemplate),
         
         templateHelpers: function () {
@@ -43,7 +43,7 @@
         
         modelEvents: {
             'change:title': '_updateTitle',
-            'change:dataSourceLoaded': '_setLoadingClass',
+            'change:dataSourceLoaded': '_setShowingSpinnerClass',
             'change:active': '_setActiveClass'
         },
         
@@ -73,7 +73,7 @@
         },
         
         onRender: function () {
-            this._setLoadingClass();
+            this._setShowingSpinnerClass();
             this._setActiveClass();
         },
         
@@ -82,14 +82,14 @@
             this.ui.title.text(title).attr('title', title);
         },
         
-        _setLoadingClass: function () {
+        _setShowingSpinnerClass: function () {
             var loading = this.model.has('dataSource') && !this.model.get('dataSourceLoaded');
-            this.$el.toggleClass('loading', loading);
+            this.$el.toggleClass('is-showingSpinner', loading);
         },
         
         _setActiveClass: function () {
             var active = this.model.get('active');
-            this.$el.toggleClass('active', active);
+            this.$el.toggleClass('is-active', active);
         },
         
         _onItemCountChanged: function() {

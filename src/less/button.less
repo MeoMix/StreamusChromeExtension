@@ -1,23 +1,22 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "fontSize";
 @import "lineHeight";
 @import "utility";
 
 button {
-    .clickable;
     color: @darkGray;
 
-    //  TODO: Inefficient...
-    > i {
-        .clickable;
+    i,
+    i:before,
+    i:after {
+        .u-clickable;
     }
 
     &:hover {
         color: @black;
     }
 
-    //  TODO: rename to button-enabled
-    &.enabled {
+    &.is-enabled {
         color: @baseBlue;
 
         &:hover {
@@ -26,7 +25,7 @@ button {
     }
 }
 
-.button-prompt {
+.button--prompt {
     padding: 0 5px;
     margin: 5px 0;
     height: 20px;
@@ -40,31 +39,30 @@ button {
     }
 }
 
-.button-label {
+.button--label {
     .lineHeight-loose;
     margin-left: 10px;
-
-    //  TODO: Inefficient
-    > i {
-        margin-right: .5em
-    }
 }
 
-.button-icon {
+.button--label-icon {
+    margin-right: .5em
+}
+
+.button--icon {
     .fontSize-large;
 }
 
-.buttonSize-large {
+.button--large {
     .lineHeight-looser;
     width: 40px;
 }
 
-.buttonSize-base {
+.button--medium {
     .lineHeight-loose;
     width: 30px;
 }
 
-.buttonSize-small {
+.button--small {
     .lineHeight-tight;
     width: 25px;
 }

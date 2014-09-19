@@ -1,5 +1,6 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "lineHeight";
+@import "transition";
 @import "utility";
 
 .menu {
@@ -17,8 +18,8 @@
 
 .menu-item {
     .lineHeight-loose;
-    .text;
-    .clickable;
+    .u-textOverflowEllipsis;
+    .u-clickable;
     max-width: 200px;
     padding: 0 15px;
     color: @darkGray;

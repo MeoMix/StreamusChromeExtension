@@ -1,19 +1,19 @@
 ﻿define([
     'foreground/view/behavior/tooltip',
-    'foreground/view/leftBasePane/activePlaylistAreaView',
-    'foreground/view/leftBasePane/playlistTitleView',
-    'foreground/view/leftBasePane/signInView',
-    'text!template/leftBasePane.html'
-], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftBasePaneTemplate) {
+    'foreground/view/leftPane/activePlaylistAreaView',
+    'foreground/view/leftPane/playlistTitleView',
+    'foreground/view/leftPane/signInView',
+    'text!template/leftPane.html'
+], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftPaneTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
-    var LeftBasePaneView = Backbone.Marionette.LayoutView.extend({
-        id: 'leftBasePane',
-        className: 'leftPane column flex-column',
-        template: _.template(LeftBasePaneTemplate),
+    var LeftPaneView = Backbone.Marionette.LayoutView.extend({
+        id: 'leftPane',
+        className: 'leftPane column u-flex--column',
+        template: _.template(LeftPaneTemplate),
         
         templateHelpers: function () {
             return {
@@ -22,10 +22,10 @@
         },
 
         ui: {
-            showSearchButton: '#leftBasePane-showSearchButton',
-            showPlaylistsAreaButton: '#leftBasePane-showPlaylistsAreaButton',
-            playlistTitleRegion: '#leftBasePane-playlistTitleRegion',
-            contentRegion: '#leftBasePane-contentRegion'
+            showSearchButton: '#leftPane-showSearchButton',
+            showPlaylistsAreaButton: '#leftPane-showPlaylistsAreaButton',
+            playlistTitleRegion: '#leftPane-playlistTitleRegion',
+            contentRegion: '#leftPane-contentRegion'
         },
         
         events: {
@@ -104,5 +104,5 @@
         }
     });
 
-    return LeftBasePaneView;
+    return LeftPaneView;
 });

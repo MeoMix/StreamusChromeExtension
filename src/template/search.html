@@ -1,62 +1,61 @@
-﻿<div class="contentBar-top">
-    <div class="flex-row">
-        <div class="contentBar-top-content inset-horizontal">
-            <input id="search-searchInput" type="text" class="input-underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
+﻿<div class="contentBar contentBar--top">
+    <div class="u-flex--row">
+        <div class="contentBar--top-content u-inset--horizontal">
+            <input id="search-searchInput" type="text" class="textInput textInput--underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
         </div>
     
-        <button id="search-hideSearchButton" class="button-icon buttonSize-large">
+        <button id="search-hideSearchButton" class="button--icon button--large">
             <i class="fa fa-times"></i>
         </button>
     </div>
 </div>
 
-<div class="instructions-wrapper">
-    <div id="search-typeToSearchMessage" class="instructions">
-        <div class="instructions-header">
+<div class="instruction-wrapper">
+    <div id="search-typeToSearchMessage" class="instruction">
+        <div class="instruction-header">
             <%= startTypingMessage %>
         </div>
-        <div class="text-secondary">
+        <div class="u-textSecondary">
             <%= resultsWillAppearAsYouSearchMessage %>.
         </div>
     </div>
     
-    <!-- TODO: Make not dependent on loading/above-fade-out classes -->
-    <div id="search-searchingMessage" class="instructions hidden loading">
-        <div class="instructions-header above-fade-out">
+    <div id="search-searchingMessage" class="instruction is-showingSpinner">
+        <div class="instruction-header">
             <%= searchingMessage %>...
         </div>
-        <div class="spinner spinner-medium"></div>
+        <div class="spinner spinner--medium"></div>
     </div>
 
-    <div id="search-noResultsMessage" class="instructions hidden">
-        <div class="instructions-header">
+    <div id="search-noResultsMessage" class="instruction">
+        <div class="instruction-header">
             <%= noResultsFoundMessage %>
         </div>
-        <div class="text-secondary">
+        <div class="u-textSecondary">
             <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
         </div>
     </div>
     
     <div class="list">
-        <div id="search-listItems" class="sortable-unsortable"></div>
+        <div id="search-listItems" class="sortable--unsortable"></div>
     </div>
 </div>
 
-<div id="search-bottomContentBar" class="contentBar-bottom">
-    <div class="flex-row">
+<div id="search-bottomContentBar" class="contentBar contentBar--bottom">
+    <div class="u-flex--row">
         <div>
-            <button id="search-playSelectedButton" class="button-label">
-                <i class="fa fa-play"></i>
+            <button id="search-playSelectedButton" class="button--label">
+                <i class="button--label-icon fa fa-play"></i>
                 <%= playSelectedMessage %>
             </button>
         
-            <button id="search-addSelectedButton" class="button-label">
-                <i class="fa fa-plus"></i>
+            <button id="search-addSelectedButton" class="button--label">
+                <i class="button--label-icon fa fa-plus"></i>
                 <%= addSelectedMessage %>
             </button>
 
-            <button id="search-saveSelectedButton" class="button-label">
-                <i class="fa fa-save"></i>
+            <button id="search-saveSelectedButton" class="button--label">
+                <i class="button--label-icon fa fa-save"></i>
                 <%= saveSelectedMessage %>
             </button>
         </div>

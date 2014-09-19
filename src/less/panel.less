@@ -1,14 +1,17 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "utility";
 
 .panel {
-    /* Panels overlay other content so background-color cannot be transparent. */
-    background-color: @white;
     -webkit-filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
     position: absolute;
 }
 
-.panel-left {
+.panel--uncolored {
+    //  Panels overlay other content so background-color cannot be transparent.
+    background-color: @white;
+}
+
+.panel--left {
     /* NOTE: I use jQuery.transit to perform the actual transitions, but initial value needs to be set for transition to take effect. */
     /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
     transform: translateX(-102%);

@@ -7,7 +7,6 @@ define([
 
     var VolumeAreaView = Backbone.Marionette.ItemView.extend({
         id: 'volumeArea',
-        className: 'clickable',
         template: _.template(VolumeAreaTemplate),
         
         ui: {
@@ -41,11 +40,11 @@ define([
         },
         
         _expand: function () {
-            this.ui.slidePanel.addClass('expanded');
+            this.ui.slidePanel.addClass('is-expanded');
         },
         
         _collapse: function () {
-            this.ui.slidePanel.removeClass('expanded');
+            this.ui.slidePanel.removeClass('is-expanded');
         },
 
         _setVolume: function () {
@@ -101,7 +100,7 @@ define([
         },
 
         _setMutedClass: function (muted) {
-            this.ui.volumeButton.toggleClass('volume-muted', muted);
+            this.ui.volumeButton.toggleClass('is-muted', muted);
         },
 
         _onChangeVolume: function (model, volume) {

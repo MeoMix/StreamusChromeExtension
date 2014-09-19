@@ -45,7 +45,7 @@
 
         validate: function () {
             //  If all js-submittable fields indicate themselves as valid -- allow submission.
-            var valid = this.$el.find('.js-submittable.invalid').length === 0;
+            var valid = this.$el.find('.js-submittable.is-invalid').length === 0;
             return valid;
         },
         
@@ -57,7 +57,7 @@
         
         _parseInput: function () {
             var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
-            this.ui.youTubeSourceInput.removeData('datasource').removeClass('valid invalid');
+            this.ui.youTubeSourceInput.removeData('datasource').removeClass('is-valid is-invalid');
 
             if (youTubeUrl !== '') {
                 this._setDataSourceViaUrl(youTubeUrl);
@@ -69,7 +69,7 @@
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
             var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
-            this.ui.playlistTitleInput.toggleClass('invalid', playlistTitle === '');
+            this.ui.playlistTitleInput.toggleClass('is-invalid', playlistTitle === '');
         },
 
         _setDataSourceAsUserInput: function() {
@@ -111,17 +111,17 @@
         _onGetTitleSuccess: function(title) {
             this.ui.playlistTitleInput.val(title);
             this._validateTitle();
-            this.ui.youTubeSourceInput.addClass('valid');
+            this.ui.youTubeSourceInput.addClass('is-valid');
         },
         
         _onGetTitleError: function() {
             var originalValue = this.ui.playlistTitleInput.val();
             this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-            this.ui.youTubeSourceInput.addClass('invalid');
+            this.ui.youTubeSourceInput.addClass('is-invalid');
         },
         
         _resetInputState: function() {
-            this.ui.youTubeSourceInput.removeClass('invalid valid');
+            this.ui.youTubeSourceInput.removeClass('is-invalid is-valid');
             this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
             this._setDataSourceAsUserInput();
         }

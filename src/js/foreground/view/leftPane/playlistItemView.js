@@ -26,20 +26,20 @@
         }),
         
         modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
-            'change:id': '_setDataId _setSavingClass'
+            'change:id': '_setDataId _setShowingSpinnerClass'
         }),
         
         buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
         
         onRender: function () {
-            this._setSavingClass();
+            this._setShowingSpinnerClass();
 
             MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
         
-        //  If the playlistItem hasn't been successfully saved to the server -- show a saving spinner over the UI.
-        _setSavingClass: function () {
-            this.$el.toggleClass('saving', this.model.isNew());
+        //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.
+        _setShowingSpinnerClass: function () {
+            this.$el.toggleClass('is-showingSpinner', this.model.isNew());
         },
         
         _setDataId: function () {

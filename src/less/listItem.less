@@ -1,12 +1,12 @@
-﻿@import "colorPallete";
+﻿@import "color";
 @import "lineHeight";
 @import "fontSize";
 @import "utility";
+@import "transition";
+@import "column";
 
-//  TODO: Maybe call this listItem-wrapper instead?
 .list {
-    //  TODO: instead of height: 100% I should make it a column!
-    height: 100%;
+    .column;
     margin-left: 5px;
     margin-right: 5px;
     overflow-y: auto;
@@ -16,63 +16,56 @@
     width: 100%;
     padding: 5px;
     display: flex;
-    transition: color @colorTransitionTime, background @colorTransitionTime;
-    /* TODO: This is only needed for position-absolute loading spinner. Fixable? */
+    transition: color @transition-color-time, background @transition-color-time;
+    //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
-
-    //  TODO: Move these outside of nesting w/ better class naming
-    &.base {
-        height: 40px;
-    }
-
-    &.small {
-        height: 30px;
-
-        .text {
-            .lineHeight-tight;
-        }
-    }
 
     &:hover {
         background: @lightGray;
 
-        .onHover-hidden{
+        .is-hiddenOnHover {
             .hidden;
         }
     }
 
-    &.selected, 
-    &.active:not(.stream-item) {
+    &.is-selected,
+    //  Since stream-item can be active AND selected I do not want to re-skin it when it is active.
+    &.is-active:not(.stream-item) {
         color: @white;
         background: @baseBlue;
 
-        //  TODO: Don't use button-icon here, be a bit more specific.
-        .button-icon,
+        .listItem-button,
         .listItem-details {
             color: @lightBaseBlue;
         }
         
         .listItem-title,
-        .button-icon:hover {
+        .listItem-button:hover {
             color: @white;
         }
 
-        .spinner {
+        .listItem-spinner {
             color: @white;
             border-right-color: @white;
             border-bottom-color: @white;
         }
     }
 
-    &.active {
-        .listItem-itemCount {
-            background: @lightBaseBlue;
-            color: @baseBlue;
-        }
+    &.is-active .listItem-itemCount {
+        background: @lightBaseBlue;
+        color: @baseBlue;
     }
 }
 
-.listItem-indented {
+.listItem--medium {
+    height: 40px;
+}
+
+.listItem--small {
+    height: 30px;
+}
+
+.listItem--indented {
     padding-left: 10px;
 }
 
@@ -89,22 +82,22 @@
 .listItem-title {
     .fontSize-large;
     color: @darkGray;
-    transition: color @colorTransitionTime;
+    transition: color @transition-color-time;
 }
 
 .listItem-details {
     .fontSize-small;
-    transition: color @colorTransitionTime;
+    transition: color @transition-color-time;
 }
 
 .listItem-itemCount {
+    .fontSize-small;
+    .lineHeight-tighter;
     background: @mediumDarkGray;
     border-radius: 1em;
     color: @white;
-    .fontSize-small;
     font-weight: bold;
     width: 30px;
     margin: 2px 5px;
     text-align: center;
-    .lineHeight-tighter;
 }

@@ -26,14 +26,14 @@
         },
         
         validate: function () {
-            var valid = this.$el.find('.js-submittable.invalid').length === 0;
+            var valid = this.$el.find('.js-submittable.is-invalid').length === 0;
             return valid;
         },
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
             var playlistTitle = $.trim(this.ui.playlistTitle.val());
-            this.ui.playlistTitle.toggleClass('invalid', playlistTitle === '');
+            this.ui.playlistTitle.toggleClass('is-invalid', playlistTitle === '');
         },
         
         _doRenderedOk: function () {

@@ -6,7 +6,7 @@
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
-    'foreground/view/rightBasePane/streamItemView',
+    'foreground/view/rightPane/streamItemView',
     'text!template/stream.html'
 ], function (ListItemType, RepeatButtonState, StreamAction, MultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
     'use strict';
@@ -18,7 +18,7 @@
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
         id: 'stream',
-        className: 'column flex-column',
+        className: 'column u-flex--column',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         
@@ -166,12 +166,12 @@
             }
 
             this.ui.repeatButton
-                .toggleClass('enabled', enabled)
+                .toggleClass('is-enabled', enabled)
                 .attr('title', title);
 
             this.ui.repeatIcon
-                .toggleClass('repeat-one', state === RepeatButtonState.RepeatSong)
-                .toggleClass('repeat-all', state === RepeatButtonState.RepeatStream);
+                .toggleClass('is-repeatOne', state === RepeatButtonState.RepeatSong)
+                .toggleClass('is-repeatAll', state === RepeatButtonState.RepeatStream);
         },
         
         _setShuffleButtonState: function() {
@@ -184,7 +184,7 @@
                 title = chrome.i18n.getMessage('shuffleDisabled');
             }
 
-            this.ui.shuffleButton.toggleClass('enabled', enabled).attr('title', title);
+            this.ui.shuffleButton.toggleClass('is-enabled', enabled).attr('title', title);
         },
         
         _setRadioButtonState: function () {
@@ -197,7 +197,7 @@
                 title = chrome.i18n.getMessage('radioDisabled');
             }
             
-            this.ui.radioButton.toggleClass('enabled', enabled).attr('title', title);
+            this.ui.radioButton.toggleClass('is-enabled', enabled).attr('title', title);
         },
         
         _showSearch: function () {
