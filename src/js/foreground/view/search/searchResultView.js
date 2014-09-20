@@ -1,12 +1,12 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/addToStreamButtonView',
+    'foreground/view/addSongButtonView',
     'foreground/view/multiSelectListItemView',
-    'foreground/view/playInStreamButtonView',
+    'foreground/view/playSongButtonView',
     'foreground/view/saveToPlaylistButtonView',
     'text!template/listItem.html'
-], function (ContextMenuItems, ContextMenuActions, AddToStreamButtonView, MultiSelectListItemView, PlayInStreamButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
+], function (ContextMenuItems, ContextMenuActions, AddSongButtonView, MultiSelectListItemView, PlaySongButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
     'use strict';
 
     var SearchResultView = MultiSelectListItemView.extend({
@@ -20,7 +20,7 @@
             };
         },
 
-        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, SaveToPlaylistButtonView],
+        buttonViews: [PlaySongButtonView, AddSongButtonView, SaveToPlaylistButtonView],
         
         events: _.extend({}, MultiSelectListItemView.prototype.events, {
             'dblclick': '_playInStream'

@@ -1,0 +1,18 @@
+.lineHeight-tightest {
+  line-height: 13px;
+}
+.lineHeight-tighter {
+  line-height: 16px;
+}
+.lineHeight-tight {
+  line-height: 20px;
+}
+.lineHeight-base {
+  line-height: 25px;
+}
+.lineHeight-loose {
+  line-height: 30px;
+}
+.lineHeight-looser {
+  line-height: 45px;
+}

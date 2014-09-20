@@ -1,4 +1,3 @@
-/* Custom resets for Streamus' UI which aren't included in Normalize */
 input:focus,
 button:focus {
   outline: none;
@@ -9,9 +8,8 @@ li {
   padding: 0;
   list-style: none;
 }
-/* Keep these inputs aligned more properly with their labels */
-input[type=checkbox],
-input[type=radio] {
+input[type="checkbox"],
+input[type="radio"] {
   vertical-align: middle;
   position: relative;
   bottom: 1px;
@@ -20,20 +18,24 @@ input[type=radio] {
 *:before,
 *:after {
   box-sizing: border-box;
-}
-/* I don't really want text elements to show the text cursor. Just wipe all cursor stylings and set where wanted. */
-* {
   cursor: default;
 }
-input[type=text] {
+input[type="checkbox"],
+label,
+select {
+  cursor: pointer;
+}
+input[type="text"] {
   border: 0;
-  padding: 0 .2em;
+  padding: 0 3px 2px 3px;
   cursor: text;
 }
-/* TODO: Not sure if it's kosher to be messing with the font-size of font-awesome/fontello icons directly like this */
-i {
-  font-size: 14px;
+button {
+  background: transparent;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
-i.fa-lg {
-  font-size: 19px;
+.fa.fa-search {
+  vertical-align: 0;
 }

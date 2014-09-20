@@ -1,12 +1,12 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/addToStreamButtonView',
+    'foreground/view/addSongButtonView',
     'foreground/view/deleteButtonView',
     'foreground/view/multiSelectListItemView',
-    'foreground/view/playInStreamButtonView',
+    'foreground/view/playSongButtonView',
     'text!template/listItem.html'
-], function (ContextMenuItems, ContextMenuActions, AddToStreamButtonView, DeleteButtonView, MultiSelectListItemView, PlayInStreamButtonView, ListItemTemplate) {
+], function (ContextMenuItems, ContextMenuActions, AddSongButtonView, DeleteButtonView, MultiSelectListItemView, PlaySongButtonView, ListItemTemplate) {
     'use strict';
 
     var PlaylistItemView = MultiSelectListItemView.extend({
@@ -29,7 +29,7 @@
             'change:id': '_setDataId _setShowingSpinnerClass'
         }),
         
-        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
+        buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteButtonView],
         
         onRender: function () {
             this._setShowingSpinnerClass();

@@ -2,16 +2,16 @@
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/addToStreamButtonView',
+    'foreground/view/addPlaylistButtonView',
     'foreground/view/deleteButtonView',
-    'foreground/view/playInStreamButtonView',
+    'foreground/view/playPlaylistButtonView',
     'foreground/view/behavior/hoverButtons',
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/deletePlaylistPromptView',
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist.html'
-], function (ListItemType, ContextMenuItems, ContextMenuActions, AddToStreamButtonView, DeleteButtonView, PlayInStreamButtonView, HoverButtons, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, ContextMenuActions, AddPlaylistButtonView, DeleteButtonView, PlayPlaylistButtonView, HoverButtons, Tooltip, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -57,7 +57,7 @@
             buttonsRegion: '@ui.buttonsRegion'
         },
         
-        buttonViews: [PlayInStreamButtonView, AddToStreamButtonView, DeleteButtonView],
+        buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeleteButtonView],
         
         behaviors: {
             Tooltip: {

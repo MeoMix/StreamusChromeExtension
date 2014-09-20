@@ -223,9 +223,6 @@
 	"playlists": {
 		"message": "Playlists"
 	},
-	"signIn": {
-		"message": "Sign in"
-	},
 	"dontRemindMe": {
 		"message": "Don't remind me"
 	},
@@ -385,8 +382,8 @@
 	"deleteSong": {
 		"message": "Delete song"
 	},
-	"songAddSuccess": {
-		"message": "Song successfully added to Streamus."
+	"songAdded": {
+		"message": "Song added"
 	},
 	"addSong": {
 		"message": "Add song"

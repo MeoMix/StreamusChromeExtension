@@ -1,42 +1,56 @@
-/* TODO: Can I use lighten/darken on these to be more consistent? */
-.region.notification .notification {
-  height: 40px;
-  line-height: 40px;
-  position: absolute;
-  z-index: 50;
-  background-color: white;
+.fontSize-smallest {
+  font-size: .7em;
+}
+.fontSize-small {
+  font-size: .85em;
+}
+.fontSize-large {
+  font-size: 1.1em;
+}
+.fontSize-largest {
+  font-size: 1.7em;
+}
+.lineHeight-tightest {
+  line-height: 13px;
+}
+.lineHeight-tighter {
+  line-height: 16px;
+}
+.lineHeight-tight {
+  line-height: 20px;
+}
+.lineHeight-base {
+  line-height: 25px;
+}
+.lineHeight-loose {
+  line-height: 30px;
+}
+.lineHeight-looser {
+  line-height: 45px;
+}
+.notification {
+  line-height: 45px;
+  font-size: 1.1em;
+  height: 45px;
   text-align: center;
   left: 0;
   right: 0;
   top: 0;
-  box-shadow: 0 0 20px #666666;
-  font-size: 1.1em;
   transform: translate(0px, -40px);
+  color: #ffffff;
 }
-.region.notification .notification .button-icon.remove {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 40px;
-  line-height: 40px;
+.notification-hideButton:hover {
+  color: #ffffff;
 }
-.region.notification .notification.success {
+.notification--success {
   background-color: #27ae60;
-  color: white;
 }
-.region.notification .notification.success button {
+.notification--success .notification-hideButton {
   color: #89e5b0;
 }
-.region.notification .notification.success button:hover {
-  color: white;
-}
-.region.notification .notification.error {
+.notification--error {
   background-color: #e74c3c;
-  color: white;
 }
-.region.notification .notification.error button {
+.notification--error .notification-hideButton {
   color: #f8c9c4;
-}
-.region.notification .notification.error button:hover {
-  color: white;
 }

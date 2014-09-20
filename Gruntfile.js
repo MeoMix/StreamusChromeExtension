@@ -73,7 +73,8 @@ module.exports = function (grunt) {
 		},
 		less: {
 			files: {
-				expand: true,
+			    expand: true,
+			    ieCompat: false,
 				cwd: 'src/less/',
 				src: '*.less',
 				dest: 'src/css',
@@ -219,7 +220,6 @@ module.exports = function (grunt) {
 			inject: {
 				files: {
 					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-					'dist/css/youTubeInject.min.css': ['src/css/youTubeInject.css'],
 					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/font-awesome.css', 'src/css/fontello.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
 				}
 			}
@@ -360,10 +360,6 @@ module.exports = function (grunt) {
 					from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/jquery.qtip.js", "js/inject/beatportInject.js"]',
 					to: '"js": ["js/inject/beatportInject.js"]'
 				}, {
-					//  Transform inject css to reference uglified/concat versions for deployment.
-					from: 'css/youTubeInject.css',
-					to: 'css/youTubeInject.min.css'
-				}, {
 					from: 'css/beatportInject.css',
 					to: 'css/beatportInject.min.css'
 				}, {
@@ -386,10 +382,6 @@ module.exports = function (grunt) {
 					//	Find the line that references beatportInject and change it to a minified reference.
 					from: 'css/beatportInject.css',
 					to: 'css/beatportInject.min.css'
-				}, {
-					//	Find the line that references youtubeInject and change it to a minified reference.
-					from: 'css/youTubeInject.css',
-					to: 'css/youTubeInject.min.css'
 				}]
 			}
 		});

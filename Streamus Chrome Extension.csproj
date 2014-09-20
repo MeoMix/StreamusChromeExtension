@@ -136,6 +136,8 @@
     <Content Include="src\js\foreground\view\behavior\hoverButtons.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\addPlaylistButtonView.js" />
+    <Content Include="src\js\foreground\view\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\googleSignInView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
@@ -174,7 +176,7 @@
     <Content Include="src\js\foreground\view\behavior\sortable.js" />
     <Content Include="src\js\foreground\view\behavior\multiSelect.js" />
     <Content Include="src\js\foreground\view\contextMenuItemView.js" />
-    <Content Include="src\js\foreground\view\addToStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\addSongButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButtonsView.js" />
     <Content Include="src\js\foreground\view\multiSelectListItemView.js" />
     <Content Include="src\js\foreground\view\prompt\clearStreamPromptView.js" />
@@ -189,7 +191,7 @@
     <Content Include="src\js\foreground\view\leftPane\leftPaneView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
-    <Content Include="src\js\foreground\view\playInStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\playSongButtonView.js" />
     <Content Include="src\js\foreground\view\playlists\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlists\playlistView.js" />
     <Content Include="src\js\foreground\view\clearStreamView.js" />
@@ -259,7 +261,7 @@
     <Content Include="src\less\adminMenuArea.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
-    <Content Include="src\template\addToStreamButton.html" />
+    <Content Include="src\template\addListItemButton.html" />
     <Content Include="src\template\exportPlaylist.html" />
     <Content Include="src\template\adminMenuArea.html" />
     <Content Include="src\template\notification.html" />
@@ -270,7 +272,7 @@
     <Content Include="src\template\updateStreamus.html" />
     <Content Include="src\template\deleteButton.html" />
     <Content Include="src\template\saveToPlaylistButton.html" />
-    <Content Include="src\template\playInStreamButton.html" />
+    <Content Include="src\template\playListItemButton.html" />
     <Content Include="src\template\playlistTitle.html" />
     <Content Include="src\template\leftPane.html" />
     <Content Include="src\template\playlistsArea.html" />

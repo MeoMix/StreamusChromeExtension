@@ -1,15 +1,3 @@
-.fontSize-smallest {
-  font-size: .7em;
-}
-.fontSize-small {
-  font-size: .85em;
-}
-.fontSize-large {
-  font-size: 1.1em;
-}
-.fontSize-largest {
-  font-size: 1.7em;
-}
 .lineHeight-tightest {
   line-height: 13px;
 }
@@ -27,6 +15,18 @@
 }
 .lineHeight-looser {
   line-height: 45px;
+}
+.fontSize-smallest {
+  font-size: .7em;
+}
+.fontSize-small {
+  font-size: .85em;
+}
+.fontSize-large {
+  font-size: 1.1em;
+}
+.fontSize-largest {
+  font-size: 1.7em;
 }
 .u-flex--column {
   flex-direction: column;
@@ -106,54 +106,53 @@
   color: #cacaca !important;
   cursor: default !important;
 }
-button {
+.column {
+  height: 100%;
+}
+.column.u-overlay {
+  /* An empty column-overlay should not be able to overlap visible content */
+}
+.column.u-overlay:empty {
+  display: none;
+}
+.column.u-overlay .column {
+  width: 100%;
+}
+.column--wide {
+  width: 60.15625%;
+}
+.column--thin {
+  width: 39.84375%;
+}
+.instruction-wrapper {
+  flex: 1;
+  flex-direction: column;
+  display: flex;
+  height: 100%;
+  position: relative;
+}
+.instruction-wrapper.u-overlay {
+  /* An empty column-overlay should not be able to overlap visible content */
+}
+.instruction-wrapper.u-overlay:empty {
+  display: none;
+}
+.instruction-wrapper.u-overlay .column {
+  width: 100%;
+}
+.instruction {
+  position: absolute;
+  width: 100%;
   color: #333333;
+  text-align: center;
 }
-button i,
-button i:before,
-button i:after {
-  cursor: pointer;
+.leftPane .instruction {
+  margin-top: 60px;
 }
-button:hover {
-  color: #000000;
+.rightPane .instruction {
+  margin-top: 30px;
 }
-button.is-enabled {
-  color: #4ea6ea;
-}
-button.is-enabled:hover {
-  color: #208fe5;
-}
-.button--prompt {
-  padding: 0 5px;
-  margin: 10px 0;
-  height: 20px;
-  background-color: #ebebeb;
-  border: 1px solid #cacaca;
-}
-.button--prompt:hover {
-  border-color: #4ea6ea;
-  background-color: #4ea6ea;
-  color: #ffffff;
-}
-.button--label {
-  line-height: 30px;
-  margin-left: 10px;
-}
-.button--label-icon {
-  margin-right: 0.5em;
-}
-.button--icon {
-  font-size: 1.1em;
-}
-.button--large {
+.instruction-header {
+  font-size: 1.7em;
   line-height: 45px;
-  width: 40px;
-}
-.button--medium {
-  line-height: 30px;
-  width: 30px;
-}
-.button--small {
-  line-height: 20px;
-  width: 25px;
 }

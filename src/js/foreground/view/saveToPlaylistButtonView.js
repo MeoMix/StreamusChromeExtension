@@ -20,11 +20,11 @@
         },
 
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this._setTitleAndDisabled);
+            this.listenTo(SignInManager, 'change:signedIn', this._setTitleAndDisabledClass);
         },
 
         onRender: function() {
-            this._setTitleAndDisabled();
+            this._setTitleAndDisabledClass();
         },
 
         _saveToPlaylist: _.debounce(function () {
@@ -37,7 +37,7 @@
             return false;
         }, 100, true),
         
-        _setTitleAndDisabled: function () {
+        _setTitleAndDisabledClass: function () {
             var signedIn = SignInManager.get('signedIn');
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');

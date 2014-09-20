@@ -106,54 +106,25 @@
   color: #cacaca !important;
   cursor: default !important;
 }
-button {
-  color: #333333;
-}
-button i,
-button i:before,
-button i:after {
-  cursor: pointer;
-}
-button:hover {
-  color: #000000;
-}
-button.is-enabled {
-  color: #4ea6ea;
-}
-button.is-enabled:hover {
-  color: #208fe5;
-}
-.button--prompt {
-  padding: 0 5px;
-  margin: 10px 0;
-  height: 20px;
-  background-color: #ebebeb;
-  border: 1px solid #cacaca;
-}
-.button--prompt:hover {
-  border-color: #4ea6ea;
-  background-color: #4ea6ea;
-  color: #ffffff;
-}
-.button--label {
-  line-height: 30px;
+.contentBar {
+  flex-direction: column;
+  display: flex;
   margin-left: 10px;
+  margin-right: 10px;
 }
-.button--label-icon {
-  margin-right: 0.5em;
+.contentBar--top {
+  border-bottom: 1px solid #ebebeb;
+  margin-bottom: 5px;
 }
-.button--icon {
-  font-size: 1.1em;
-}
-.button--large {
+.contentBar--top-content {
   line-height: 45px;
-  width: 40px;
+  font-size: 1.1em;
+  flex: 1;
 }
-.button--medium {
-  line-height: 30px;
-  width: 30px;
+.contentBar--bottom {
+  border-top: 1px solid #ebebeb;
+  margin-top: 5px;
 }
-.button--small {
-  line-height: 20px;
-  width: 25px;
+.contentBar--bottom .u-flex--row {
+  justify-content: flex-end;
 }

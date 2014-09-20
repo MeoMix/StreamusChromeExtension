@@ -1,0 +1,21 @@
+.textInput.is-valid {
+  background-color: #b5dea3;
+}
+.textInput.is-invalid {
+  background-color: #ffcccc;
+}
+.textInput--underlined {
+  box-shadow: -8px 8px 0px -7px #ebebeb, 8px 8px 0px -7px #ebebeb;
+  transition: box-shadow 0.15s;
+  width: calc(100% - 2px);
+  margin-left: 1px;
+}
+.textInput--underlined:hover {
+  box-shadow: -8px 8px 0px -7px #cacaca, 8px 8px 0px -7px #cacaca;
+}
+.textInput--underlined:focus {
+  box-shadow: -8px 8px 0px -7px #4ea6ea, 8px 8px 0px -7px #4ea6ea;
+}
+.textInput--underlined:focus:hover {
+  box-shadow: -8px 8px 0px -7px #208fe5, 8px 8px 0px -7px #208fe5;
+}

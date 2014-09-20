@@ -76,3 +76,21 @@
   color: #cacaca !important;
   cursor: default !important;
 }
+.column {
+  height: 100%;
+}
+.column.u-overlay {
+  /* An empty column-overlay should not be able to overlap visible content */
+}
+.column.u-overlay:empty {
+  display: none;
+}
+.column.u-overlay .column {
+  width: 100%;
+}
+.column--wide {
+  width: 60.15625%;
+}
+.column--thin {
+  width: 39.84375%;
+}

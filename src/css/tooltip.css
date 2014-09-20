@@ -76,3 +76,13 @@
   color: #cacaca !important;
   cursor: default !important;
 }
+.is-hidingTooltips .qtip {
+  display: none !important;
+}
+.qtip {
+  min-width: 0 !important;
+}
+.qtip-light {
+  border-color: #ebebeb;
+  color: #666666;
+}

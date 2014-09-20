@@ -5,9 +5,9 @@
     'foreground/view/deleteButtonView',
     'foreground/view/multiSelectListItemView',
     'foreground/view/saveToPlaylistButtonView',
-    'foreground/view/playInStreamButtonView',
+    'foreground/view/playSongButtonView',
     'text!template/listItem.html'
-], function (Utility, ContextMenuItems, ContextMenuActions, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlayInStreamButtonView, ListItemTemplate) {
+], function (Utility, ContextMenuItems, ContextMenuActions, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlaySongButtonView, ListItemTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -35,7 +35,7 @@
             'change:active': '_setActiveClass'
         }),
         
-        buttonViews: [PlayInStreamButtonView, SaveToPlaylistButtonView, DeleteButtonView],
+        buttonViews: [PlaySongButtonView, SaveToPlaylistButtonView, DeleteButtonView],
 
         onRender: function () {
             this._setActiveClass();
