@@ -24,8 +24,8 @@
 @import "tooltip";
 @import "volumeArea";
 
-//  Force UI to full size if Streamus has been loaded into a tab by detecting min-width greater than maximum extension width.
-@media(min-width: 700px){
+//  Force UI to full size if Streamus has been loaded into a tab by detecting min-width/height greater than maximum extension width/height.
+@media (min-width: 641px), (min-height: 411px) {
     html {
         width: 100% !important;
         height: 100% !important;

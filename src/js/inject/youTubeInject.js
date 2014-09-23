@@ -1,9 +1,56 @@
 //  This code runs on YouTube pages.
 $(function () {
-	'use strict';
+    'use strict';
 
-	injectStreamusHtml();
-	
+    var enhanceYouTube = false;
+    
+    chrome.runtime.sendMessage({ method: 'getCanEnhanceYouTube' }, function (canEnhanceYouTube) {
+        if (canEnhanceYouTube) {
+            injectHtml();
+            enhanceYouTube = true;
+        }
+    });
+    
+    chrome.runtime.onMessage.addListener(function (request) {
+        if (enhanceYouTube) {
+            switch (request.event) {
+                //  TODO: added/removed/updated are synced with SyncActionType enum
+                case 'added':
+                    var playlistOption = $('<option>', {
+                        value: request.data.id,
+                        text: request.data.title
+                    });
+
+                    playlistOption.appendTo($('#playlistSelect'));
+                    break;
+                case 'removed':
+                    $('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
+                    break;
+                case 'updated':
+                    $('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
+                    break;
+                case 'signed-in':
+                    $('#streamus-share-panel').empty();
+                    injectAddPlaylistContent($('#streamus-share-panel'));
+                    getPlaylistsAndSetSelectOptions();
+                    break;
+                case 'sign-out':
+                    $('#streamus-share-panel').empty();
+                    injectSignIn();
+                    break;
+                case 'enhance-off':
+                    removeHtml();
+                    enhanceYouTube = false;
+                    break;
+            }
+        } else {
+            if (request.event === 'enhance-on' && !enhanceYouTube) {
+                injectHtml();
+                enhanceYouTube = true;
+            }
+        }
+    });
+
 	function injectSignIn(sharePanel) {
 		sharePanel.append($('<input>', {
 		    type: 'button',
@@ -69,9 +116,13 @@ $(function () {
 			}
 		});
 	}
+    
+	function removeHtml() {
+	    $('#streamus-add-button-wrapper').remove();
+	}
 
-	function injectStreamusHtml() {
-		var addButtonWrapper = $('<span>');
+	function injectHtml() {
+		var addButtonWrapper = $('<span id="streamus-add-button-wrapper">');
 		addButtonWrapper.insertBefore($('#watch8-secondary-actions').children(':last'));
 
 		var addButton = $('<button>', {
@@ -111,38 +162,6 @@ $(function () {
 		    } else {
 		        injectSignIn(sharePanel);
 		    }
-		});
-
-		chrome.runtime.onMessage.addListener(function (request) {
-		    switch (request.event) {
-		        //  TODO: added/removed/updated are synced with SyncActionType enum
-				case 'added':
-					var playlistOption = $('<option>', {
-						value: request.data.id,
-						text: request.data.title
-					});
-
-					playlistOption.appendTo($('#playlistSelect'));
-					break;
-				case 'removed':
-					$('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
-					break;
-				case 'updated':
-					$('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
-					break;
-				case 'signed-in':
-					$('#streamus-share-panel').empty();
-					injectAddPlaylistContent($('#streamus-share-panel'));
-					getPlaylistsAndSetSelectOptions();
-					break;
-				case 'sign-out':
-					$('#streamus-share-panel').empty();
-					injectSignIn();
-					break;
-				default:
-					console.error("Unhandled request", request);
-					break;
-			}
 		});
 	}
 });

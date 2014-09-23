@@ -1,7 +1,33 @@
 ﻿//  This code runs on beatport.com domains.
 $(function () {
     'use strict';
+    
+    var enhanceBeatport = false;
 
+    chrome.runtime.sendMessage({ method: 'getCanEnhanceBeatport' }, function (canEnhanceBeatport) {
+        if (canEnhanceBeatport) {
+            injectHtml();
+            enhanceBeatport = true;
+        }
+    });
+    
+    chrome.runtime.onMessage.addListener(function (request) {
+        if (enhanceBeatport) {
+            switch (request.event) {
+                case 'enhance-off':
+                    removeHtml();
+                    enhanceBeatport = false;
+                    break;
+            }
+        } else {
+            if (request.event === 'enhance-on' && !enhanceBeatport) {
+                injectHtml();
+                enhanceBeatport = true;
+            }
+        }
+    });
+    
+    //  TODO: It would be better to only inject the CSS if enhanceBeatport is set to true, but nobody will be able to see anything because the HTML is gone so it's OK to do this.
     //  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
     var beatportCssUrl = 'css/beatportInject.css';
 
@@ -20,50 +46,53 @@ $(function () {
         document.head.appendChild(style);
     }
 
-    injectIconsBasedOnUrl();
+    function removeHtml() {
+        $('.streamus').remove();
+    }
+    
+    function injectHtml() {
+        injectIconsBasedOnUrl();
 
-    //  Need to check the URL whenever they click links to see if should inject.
-    var checkUrlInterval;
-    var timeout = 10000; //  Give it 10s to change before they'll need to refresh
-    var pollingFrequency = 1000; //  Check every 1s
+        //  Need to check the URL whenever they click links to see if should inject.
+        var checkUrlInterval;
+        var timeout = 10000; //  Give it 10s to change before they'll need to refresh
+        var pollingFrequency = 1000; //  Check every 1s
 
-    //  Filter out streamus links because they obviously can't take the user anywhere.
-    $(document).on('mousedown', 'a[href]', function () {
+        //  Filter out streamus links because they obviously can't take the user anywhere.
+        $(document).on('mousedown', 'a[href]', function () {
 
-        var clickedLinkHref = $(this).attr('href');
+            var clickedLinkHref = $(this).attr('href');
 
-        //  Stop any previous checks
-        clearInterval(checkUrlInterval);
+            //  Stop any previous checks
+            clearInterval(checkUrlInterval);
 
-        //  Wait for browser to load and check occassionally until the URL matches or we give up.
-        checkUrlInterval = setInterval(function () {
+            //  Wait for browser to load and check occassionally until the URL matches or we give up.
+            checkUrlInterval = setInterval(function () {
 
-            var currentLocationHref = window.location.href;
+                var currentLocationHref = window.location.href;
 
-            //  If they clicked something like /top-100, url will be beatport.com/top-100 so need to match both ways
-            var clickedRoutingLink = clickedLinkHref.charAt(0) === '/';
-            var hrefContainsRoutingLink = clickedRoutingLink && currentLocationHref.indexOf(clickedLinkHref) !== -1;
+                //  If they clicked something like /top-100, url will be beatport.com/top-100 so need to match both ways
+                var clickedRoutingLink = clickedLinkHref.charAt(0) === '/';
+                var hrefContainsRoutingLink = clickedRoutingLink && currentLocationHref.indexOf(clickedLinkHref) !== -1;
 
-            if (currentLocationHref == clickedLinkHref || hrefContainsRoutingLink) {
-                injectIconsBasedOnUrl();
-                clearInterval(checkUrlInterval);
-            }
+                if (currentLocationHref == clickedLinkHref || hrefContainsRoutingLink) {
+                    injectIconsBasedOnUrl();
+                    clearInterval(checkUrlInterval);
+                }
 
-            timeout -= pollingFrequency;
+                timeout -= pollingFrequency;
 
-            if (timeout <= 0) {
-                clearInterval(checkUrlInterval);
-            }
+                if (timeout <= 0) {
+                    clearInterval(checkUrlInterval);
+                }
 
-        }, pollingFrequency);
-        
-    });
+            }, pollingFrequency);
 
+        });
+    }
 });
 
-
 function injectIconsBasedOnUrl() {
-
     var currentPageUrl = window.location.href;
 
     var urlIsBeatportTop100 = currentPageUrl.match(/^.*beatport.com\/.*top-100.*/);
@@ -85,7 +114,6 @@ function injectIconsBasedOnUrl() {
 }
 
 function injectFrontPageIcons() {
-
     appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
 
     var top10TracksPlayButtons = $('.btn-play[data-item-type="track"]');
@@ -98,11 +126,9 @@ function injectFrontPageIcons() {
 
         buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
     });
-
 }
 
 function injectTop100Icons() {
-
     appendPlayAllButtonBeforeSelector('a.btn-play[data-trackable="Play All"]');
 
     var playButtons = $('.btn-play[data-item-name]');
@@ -115,11 +141,9 @@ function injectTop100Icons() {
 
         buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
     });
-
 }
 
 function injectReleaseIcons() {
-    
     appendPlayAllButtonBeforeSelector('div[data-module-type="release_detail"] a.btn-play[data-item-type="release"]');
 
     var playButtons = $('.btn-play[data-item-type="track"]');
@@ -133,11 +157,9 @@ function injectReleaseIcons() {
 
         buildAndAppendButtonBeforeSelector($(this), trackName, trackArtists);
     });
-
 }
 
 function buildAndAppendButtonBeforeSelector(selectorToAppendBefore, trackName, trackArtists) {
-
     var query = trackName.trim() + ' ' + trackArtists.replace(',', '').trim();
 
     var streamusPlayButton = $('<a>', {

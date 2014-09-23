@@ -11,16 +11,26 @@
         containerWidth: 0,
         
         initialize: function (options) {
-            this.containerHeight = options && options.containerHeight ? options.containerHeight : this.containerHeight;
-            this.containerWidth = options && options.containerWidth ? options.containerWidth : this.containerWidth;
+            this._setContainerDimensions(options.containerHeight, options.containerWidth);
 
-            if (this.containerHeight <= 0 || this.containerWidth <= 0) throw new Error('ContextMenuRegion expects containerHeight and containerWidth to be set');
+            this.listenTo(Backbone.Wreqr.radio.channel('window').vent, 'resize', this._onWindowResize);
         },
         
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
         handleClickEvent: function (event) {
             event.isDefaultPrevented() ? this._showContextMenu() : this._hideContextMenu();
+        },
+        
+        _onWindowResize: function (data) {
+            this._setContainerDimensions(data.height, data.width);
+        },
+        
+        _setContainerDimensions: function (containerHeight, containerWidth) {
+            this.containerHeight = containerHeight;
+            this.containerWidth = containerWidth;
+            
+            if (this.containerHeight <= 0 || this.containerWidth <= 0) throw new Error('ContextMenuRegion expects containerHeight and containerWidth to be greater than 0');
         },
         
         _showContextMenu: function() {

@@ -139,8 +139,8 @@
             var saveOptions = {};
 
             _.each(inputs, function (input) {
-                var modelAttribute = $(input).data('model-attribute');
-                saveOptions[modelAttribute] = input.checked;
+                var property = $(input).data('property');
+                saveOptions[property] = input.checked;
             });
 
             this.model.save(saveOptions);

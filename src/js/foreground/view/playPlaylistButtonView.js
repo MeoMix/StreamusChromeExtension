@@ -34,6 +34,9 @@
             if (this.model.get('items').length > 0) {
                 this._playSongs();
             }
+            
+            //  Don't allow event to bubble up because click event will cause it to be selected.
+            return false;
         },
         
         //  Debounced to defend against accidental/spam clicking.
@@ -43,9 +46,6 @@
             StreamItems.addSongs(songs, {
                 playOnAdd: true
             });
-
-            //  Don't allow dblclick to bubble up to the list item because that'll select it
-            return false;
         }, 100, true)
     });
 

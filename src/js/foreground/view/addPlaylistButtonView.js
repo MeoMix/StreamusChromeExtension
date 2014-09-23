@@ -34,13 +34,13 @@
             if (this.model.get('items').length > 0) {
                 this._addSongs();
             }
+            
+            //  Don't allow event to bubble up because click event will cause it to be selected.
+            return false;
         },
         
         _addSongs: _.debounce(function () {
             StreamItems.addSongs(this.model.get('items').pluck('song'));
-
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
         }, 100, true)
     });
 

@@ -1,7 +1,8 @@
 ﻿define([
     'foreground/view/prompt/settingsPromptView',
+    'foreground/view/prompt/browserSettingsPromptView',
     'text!template/adminMenuArea.html'
-], function (SettingsPromptView, AdminMenuAreaTemplate) {
+], function (SettingsPromptView, BrowserSettingsPromptView, AdminMenuAreaTemplate) {
     'use strict';
     
     var TabManager = Streamus.backgroundPage.TabManager;
@@ -13,6 +14,7 @@
         templateHelpers: function () {
             return {
                 settingsMessage: chrome.i18n.getMessage('settings'),
+                browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
                 keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
                 viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
                 donateMessage: chrome.i18n.getMessage('donate'),
@@ -23,6 +25,7 @@
         events: {
             'click @ui.showMenuButton': '_toggleMenu',
             'click @ui.settingsMenuItem': '_showSettingsPrompt',
+            'click @ui.browserSettingsMenuItem': '_showBrowserSettingsPrompt',
             'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
             'click @ui.viewInTabMenuItem': '_openStreamusTab',
             'click @ui.donateMenuItem': '_openDonateTab',
@@ -33,6 +36,7 @@
             showMenuButton: '#adminMenuArea-showMenuButton',
             menu: '#adminMenuArea-menu',
             settingsMenuItem: '#adminMenuArea-settingsMenuItem',
+            browserSettingsMenuItem: '#adminMenuArea-browserSettingsMenuItem',
             viewInTabMenuItem: '#adminMenuArea-viewInTabMenuItem',
             donateMenuItem: '#adminMenuArea-donateMenuItem',
             keyboardShortcutsMenuItem: '#adminMenuArea-keyboardShortcutsMenuItem',
@@ -70,6 +74,10 @@
         
         _showSettingsPrompt: function () {
             Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
+        },
+        
+        _showBrowserSettingsPrompt: function () {
+            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', BrowserSettingsPromptView);
         },
         
         _openStreamusTab: function () {

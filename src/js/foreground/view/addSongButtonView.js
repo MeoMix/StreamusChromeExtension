@@ -20,13 +20,13 @@
         
         _onClick: function () {
             this._addSong();
+            
+            //  Don't allow event to bubble up because click event will cause it to be selected.
+            return false;
         },
         
         _addSong: _.debounce(function () {
             StreamItems.addSongs(this.model.get('song'));
-
-            //  Don't allow dblclick to bubble up to the list item and cause a play.
-            return false;
         }, 100, true)
     });
 

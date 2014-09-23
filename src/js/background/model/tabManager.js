@@ -5,7 +5,8 @@
         defaults: function() {
             return {
                 streamusForegroundUrl: 'chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/foreground.html',
-                youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*']
+                youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
+                beatportUrlPatterns: ['*://*.beatport.com/*']
             };
         },
 
@@ -40,6 +41,16 @@
         messageYouTubeTabs: function (message) {
             _.each(this.get('youTubeUrlPatterns'), function (youTubeUrlPattern) {
                 this._queryTabs(youTubeUrlPattern, function (tabs) {
+                    _.each(tabs, function (tab) {
+                        chrome.tabs.sendMessage(tab.id, message);
+                    });
+                });
+            }, this);
+        },
+        
+        messageBeatportTabs: function (message) {
+            _.each(this.get('beatportUrlPatterns'), function (beatportUrlPattern) {
+                this._queryTabs(beatportUrlPattern, function (tabs) {
                     _.each(tabs, function (tab) {
                         chrome.tabs.sendMessage(tab.id, message);
                     });

@@ -450,5 +450,14 @@
 	},
 	"alwaysOpenInTab": {
 		"message": "Always open in tab"
+	},
+	"browserSettings": {
+		"message": "Browser settings"
+	},
+	"contextMenus": {
+		"message": "Context menus"
+	},
+	"websiteEnhancements": {
+		"message": "Website enhancements"
 	}
 }

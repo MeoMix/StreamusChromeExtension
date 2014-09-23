@@ -51,6 +51,7 @@
 
             //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
             $(window).unload(this.destroy.bind(this));
+            $(window).resize(this._onWindowResize.bind(this));
             
             if (Settings.get('alwaysOpenInTab')) {
                 TabManager.showStreamusTab();
@@ -103,6 +104,13 @@
         //  and so that menus can close if they weren't clicked.
         _announceClickedElement: function (event) {
             Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
+        },
+        
+        _onWindowResize: function() {
+            Backbone.Wreqr.radio.channel('window').vent.trigger('resize', {
+                height: this.$el.height(),
+                width: this.$el.width()
+            });
         }
     });
 

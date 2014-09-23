@@ -13,7 +13,6 @@
         containerHeight: 0,
         containerWidth: 0,
         
-        //  TODO: This has a bug in it -- what happens if the browser window dimensions change when Streamus is open in a tab.
         initialize: function(options) {
             this.containerHeight = options.containerHeight;
             this.containerWidth = options.containerWidth;

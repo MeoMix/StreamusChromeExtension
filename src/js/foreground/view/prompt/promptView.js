@@ -3,7 +3,7 @@
 ], function (PromptTemplate) {
     'use strict';
 
-    var PromptView = Backbone.Marionette.ItemView.extend({
+    var PromptView = Backbone.Marionette.LayoutView.extend({
         className: 'prompt u-overlay',
         template: _.template(PromptTemplate),
 
@@ -16,18 +16,15 @@
         
         ui: {
             panel: '#prompt-panel',
-            content: '#prompt-content',
             okButton: '#prompt-okButton',
             reminderCheckbox: '#prompt-reminderCheckbox',
             closeButton: '#prompt-closeButton',
+            contentRegion: '#prompt-contentRegion',
             submittable: '.js-submittable'
         },
         
-        onRender: function () {
-            //  TODO: Probably have a content region that shows this instead...
-            //  Add specific content to the prompt's interior
-            this.ui.content.append(this.model.get('view').render().el);
-            this.bindUIElements();
+        regions: {
+            contentRegion: '@ui.contentRegion'
         },
 
         onShow: function () {
@@ -42,9 +39,8 @@
                 y: '-50%',
                 opacity: 1
             }, 'snap');
-
-            //  Be sure to tell the child view it has been shown!
-            this.model.get('view').triggerMethod('show');
+            
+            this.contentRegion.show(this.model.get('view'));
         },
         
         //  Unless a prompt specifically implements a reminder it is assumed that the reminder is not disabled and the prompt should always be shown when asked.

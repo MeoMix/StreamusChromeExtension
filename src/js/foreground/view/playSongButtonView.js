@@ -21,6 +21,9 @@
         
         _onClick: function() {
             this._playSong();
+            
+            //  Don't allow event to bubble up because click event will cause it to be selected.
+            return false;
         },
 
         //  Debounced to defend against accidental/spam clicking.
@@ -31,15 +34,13 @@
             var streamItem = StreamItems.getBySong(song);
             
             if (_.isUndefined(streamItem)) {
-                StreamItems.addSongs(songs, {
+                StreamItems.addSongs(song, {
                     playOnAdd: true
                 });
             } else {
                 this._playStreamItem(streamItem);
             }
             
-            //  Don't allow dblclick to bubble up to the list item because that'll select it
-            return false;
         }, 100, true),
         
         _playStreamItem: function (streamItem) {

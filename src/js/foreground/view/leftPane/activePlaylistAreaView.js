@@ -44,12 +44,14 @@
             bottomContentBar: '#activePlaylistArea-bottomContentBar',
             childContainer: '#activePlaylistArea-listItems',
             playAll: '#activePlaylistArea-playAllButton',
-            addAll: '#activePlaylistArea-addAllButton'
+            addAll: '#activePlaylistArea-addAllButton',
+            showSearchLink: '#activePlaylistArea-showSearchLink'
         },
         
         events: {
             'click @ui.addAll': '_addAllToStream',
-            'click @ui.playAll': '_playAllInStream'
+            'click @ui.playAll': '_playAllInStream',
+            'click @ui.showSearchLink': '_showSearch'
         },
         
         modelEvents: {
@@ -113,6 +115,10 @@
             StreamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });
+        },
+
+        _showSearch: function () {
+            Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
         }
     });
 

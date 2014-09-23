@@ -1,0 +1,51 @@
+﻿<div class="grouping-column">
+    <div class="grouping-header">
+        <%= contextMenusMessage %>
+    </div>
+
+    <div class="grouping-content">
+        <ul>
+            <li class="grouping-item">
+                <label>
+                    <input type="checkbox" data-property="showContextMenuOnTextSelection" <%= showContextMenuOnTextSelection ? 'checked' : '' %>>
+                    Show on text selection
+                </label>
+            </li>
+            <li class="grouping-item">
+                <label>
+                    <input type="checkbox" data-property="showContextMenuOnYouTubeLinks" <%= showContextMenuOnYouTubeLinks ? 'checked' : '' %> >
+                    Show on YouTube links
+                </label>
+            </li>
+            <li class="grouping-item">
+                <label>
+                    <input type="checkbox" data-property="showContextMenuOnYouTubePages" <%= showContextMenuOnYouTubePages ? 'checked' : '' %> >
+                    Show on YouTube pages
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="grouping-column">
+    <div class="grouping-header">
+        <%= websiteEnhancementsMessage %>
+    </div>
+
+    <div class="grouping-content">
+        <ul>
+            <li class="grouping-item">
+                <label>
+                    <input type="checkbox" data-property="applyWebsiteEnhancementsToYouTube" <%= applyWebsiteEnhancementsToYouTube ? 'checked' : '' %>>
+                    Apply to YouTube
+                </label>
+            </li>
+            <li class="grouping-item">
+                <label>
+                    <input type="checkbox" data-property="applyWebsiteEnhancementsToBeatport" <%= applyWebsiteEnhancementsToBeatport ? 'checked' : '' %> >
+                    Apply to Beatport
+                </label>
+            </li>
+        </ul>
+    </div>
+</div>
