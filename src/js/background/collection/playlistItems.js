@@ -3,9 +3,8 @@
     'background/collection/multiSelectCollection',
     'background/mixin/sequencedCollectionMixin',
     'background/model/playlistItem',
-    'background/model/settings',
     'common/enum/listItemType'
-], function (SyncActionType, MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, Settings, ListItemType) {
+], function (SyncActionType, MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, ListItemType) {
     'use strict';
     
     var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
@@ -97,7 +96,7 @@
         
         _bulkCreate: function(itemsToCreate, options) {
             $.ajax({
-                url: Settings.get('serverURL') + 'PlaylistItem/CreateMultiple',
+                url: Streamus.serverUrl + 'PlaylistItem/CreateMultiple',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
                 data: JSON.stringify(itemsToCreate),

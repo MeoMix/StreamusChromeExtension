@@ -8,7 +8,7 @@ define([
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Settings = Streamus.backgroundPage.Settings;
+    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var TimeAreaView = Backbone.Marionette.ItemView.extend({
         id: 'timeArea',
@@ -16,7 +16,6 @@ define([
         template: _.template(TimeAreaTemplate),
         
         templateHelpers: {
-            elapsedTimeMessage: chrome.i18n.getMessage('elapsedTime'),
             totalTimeMessage: chrome.i18n.getMessage('totalTime')
         },
         
@@ -26,11 +25,6 @@ define([
             'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
             'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
             'click @ui.elapsedTimeLabel': '_toggleShowTimeRemaining'
-        },
-        
-        modelEvents: {
-            'change:currentTime': '_updateCurrentTime',
-            'change:state': '_stopSeeking'
         },
         
         ui: {
@@ -45,13 +39,13 @@ define([
                 behaviorClass: Tooltip
             }
         },
-       
-        autoUpdate: true,
         
         initialize: function () {
             this.listenTo(StreamItems, 'remove reset', this._clearOnEmpty);
             this.listenTo(StreamItems, 'add', this._enable);
             this.listenTo(StreamItems, 'change:active', this._restart);
+            this.listenTo(Player, 'change:currentTime', this._updateCurrentTime);
+            this.listenTo(Player, 'change:state', this._stopSeeking);
         },
 
         onRender: function () {
@@ -60,7 +54,8 @@ define([
             //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
             this._setTotalTime(this._getCurrentSongDuration());
-            this._setCurrentTime(this.model.get('currentTime'));
+            this._setCurrentTime(Player.get('currentTime'));
+            this._setElapsedTimeLabelTitle(this.model.get('showTimeRemaining'));
         },
         
         //  Allow the user to manual time change by click or scroll.
@@ -70,22 +65,22 @@ define([
 
             this._setCurrentTime(currentTime + delta);
 
-            this.model.seekTo(currentTime + delta);
+            Player.seekTo(currentTime + delta);
         },
 
         _startSeeking: function (event) {
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
-                this.autoUpdate = false;
+                this.model.set('autoUpdate', false);
             }
         },
         
         _stopSeeking: function () {
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
-            var state = this.model.get('state');
+            var state = Player.get('state');
 
             if (state == PlayerState.Playing || state == PlayerState.Paused) {
-                this.autoUpdate = true;
+                this.model.set('autoUpdate', true);
             }
         },
 
@@ -95,23 +90,23 @@ define([
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.ui.timeRange.val());
-                this.model.seekTo(currentTime);
+                Player.seekTo(currentTime);
             }
         },
         
         _toggleShowTimeRemaining: function() {
-            var showTimeRemaining = Settings.get('showTimeRemaining');
+            var showTimeRemaining = this.model.get('showTimeRemaining');
             //  Toggle showTimeRemaining and then read the new state and apply it.
-            Settings.set('showTimeRemaining', !showTimeRemaining);
+            this.model.save('showTimeRemaining', !showTimeRemaining);
 
-            if (!showTimeRemaining) {
-                this.ui.elapsedTimeLabel.attr('title', chrome.i18n.getMessage('timeRemaining'));
-            } else {
-                this.ui.elapsedTimeLabel.attr('title', chrome.i18n.getMessage('elapsedTime'));
-            }
+            this._setElapsedTimeLabelTitle(!showTimeRemaining);
 
-            this.ui.elapsedTimeLabel.toggleClass('timeRemaining', !showTimeRemaining);
             this._updateTimeProgress();
+        },
+        //  TODO: It's weird that in one instance it goes "time elapsed" and in other it's "remaining time" the word time should be consistent.
+        _setElapsedTimeLabelTitle: function (showTimeRemaining) {
+            var title = showTimeRemaining ? chrome.i18n.getMessage('timeRemaining') : chrome.i18n.getMessage('elapsedTime');
+            this.ui.elapsedTimeLabel.attr('title', title);
         },
         
         _enable: function () {
@@ -132,12 +127,12 @@ define([
         
         _restart: function () {
             //  Disable auto-updates here because there's a split second while changing songs that a timer tick makes things flicker weirdly.
-            this.autoUpdate = false;
+            this.model.set('autoUpdate', false);
 
             this._setCurrentTime(0);
             this._setTotalTime(this._getCurrentSongDuration());
 
-            this.autoUpdate = true;
+            this.model.set('autoUpdate', true);
         },
         
         _setCurrentTime: function (currentTime) {
@@ -151,8 +146,8 @@ define([
         },
         
         _updateCurrentTime: function () {
-            if (this.autoUpdate) {
-                this._setCurrentTime(this.model.get('currentTime'));
+            if (this.model.get('autoUpdate')) {
+                this._setCurrentTime(Player.get('currentTime'));
             }
         },
 
@@ -168,7 +163,7 @@ define([
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
             this.ui.timeProgress.width(progressPercent + '%');
             
-            if (Settings.get('showTimeRemaining')) {
+            if (this.model.get('showTimeRemaining')) {
                 //  Calculate the time remaining from the current time and show that instead.
                 var timeRemaining = totalTime - currentTime;
                 this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(timeRemaining));

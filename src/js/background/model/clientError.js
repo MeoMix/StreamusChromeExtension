@@ -1,7 +1,5 @@
 ﻿//  Holds all the relevant data for a client-side error
-define([
-    'background/model/settings'
-], function (Settings) {
+define(function () {
     'use strict';
 
     var ClientError = Backbone.Model.extend({
@@ -21,7 +19,7 @@ define([
             };
         },
         
-        urlRoot: Settings.get('serverURL') + 'ClientError/',
+        urlRoot: Streamus.serverUrl + 'ClientError/',
         
         initialize: function (attributes) {
             var message = attributes.message;

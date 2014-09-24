@@ -1,12 +1,13 @@
 ﻿//  This view is intended to house all of the player controls (play, pause, etc) as well as the StreamView
 define([
     'common/enum/playerState',
+    'foreground/model/timeArea',
     'foreground/view/rightPane/adminMenuAreaView',
     'foreground/view/rightPane/streamView',
     'foreground/view/rightPane/timeAreaView',
     'foreground/view/rightPane/volumeAreaView',
     'text!template/rightPane.html'
-], function (PlayerState, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightPaneTemplate) {
+], function (PlayerState, TimeArea, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightPaneTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
@@ -62,7 +63,7 @@ define([
         
         onShow: function () {
             this.timeAreaRegion.show(new TimeAreaView({
-                model: this.model
+                model: new TimeArea()
             }));
 
             this.volumeAreaRegion.show(new VolumeAreaView({

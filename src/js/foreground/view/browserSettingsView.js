@@ -10,7 +10,12 @@
         
         templateHelpers: {
             contextMenusMessage: chrome.i18n.getMessage('contextMenus'),
-            websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
+            websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements'),
+            showOnTextSelectionMessage: chrome.i18n.getMessage('showOnTextSelection'),
+            showOnYouTubeLinksMessage: chrome.i18n.getMessage('showOnYouTubeLinks'),
+            showOnYouTubePagesMessage: chrome.i18n.getMessage('showOnYouTubePages'),
+            applyToYouTubeMessage: chrome.i18n.getMessage('applyToYouTube'),
+            applyToBeatportMessage: chrome.i18n.getMessage('applyToBeatport')
         },
         
         ui: {

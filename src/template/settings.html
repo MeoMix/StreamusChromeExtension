@@ -9,14 +9,14 @@
                 <label>
                     <%= songQualityMessage %>
                 
-                    <select id="settings-suggestedQualitySelect">
-                        <option value="highres" <%= suggestedQuality === 'highres' ? 'selected' : '' %>>
+                    <select data-property="youTubeSuggestedQuality">
+                        <option value="<%= YouTubeSuggestedQuality.Highres %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Highres ? 'selected' : '' %>>
                             <%= highestMessage %>
                         </option>
-                        <option value="default" <%= suggestedQuality === 'default' ? 'selected' : '' %>>
+                        <option value="<%= YouTubeSuggestedQuality.Default %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Default ? 'selected' : '' %>>
                             <%= autoMessage %>
                         </option>
-                        <option value="small" <%= suggestedQuality === 'small' ? 'selected' : '' %>>
+                        <option value="<%= YouTubeSuggestedQuality.Small %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Small ? 'selected' : '' %>>
                             <%= lowestMessage %>
                         </option>
                     </select>
@@ -24,19 +24,19 @@
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-showTooltipsCheckbox" <%= showTooltips ? 'checked' : '' %>>
+                    <input type="checkbox" data-property="showTooltips" <%= showTooltips ? 'checked' : '' %>>
                     <%= showTooltipsMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-alwaysOpenToSearchCheckbox" <%= alwaysOpenToSearch ? 'checked' : '' %> >
+                    <input type="checkbox" data-property="alwaysOpenToSearch" <%= alwaysOpenToSearch ? 'checked' : '' %> >
                     <%= alwaysOpenToSearchMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-alwaysOpenInTabCheckbox" <%= alwaysOpenInTab ? 'checked' : '' %> >
+                    <input type="checkbox" data-property="alwaysOpenInTab" <%= alwaysOpenInTab ? 'checked' : '' %> >
                     <%= alwaysOpenInTabMessage %>
                 </label>
             </li>
@@ -52,25 +52,25 @@
         <ul>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-remindClearStreamCheckbox" <%= remindClearStream ? 'checked' : '' %>>
+                    <input type="checkbox" data-property="remindClearStream" <%= remindClearStream ? 'checked' : '' %>>
                     <%= remindClearStreamMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-remindDeletePlaylistCheckbox" <%= remindDeletePlaylist ? 'checked' : '' %>>
+                    <input type="checkbox" data-property="remindDeletePlaylist" <%= remindDeletePlaylist ? 'checked' : '' %>>
                     <%= remindDeletePlaylistMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-remindLinkUserIdCheckbox" <%= remindLinkUserId ? 'checked' : '' %>>
+                    <input type="checkbox" data-property="remindLinkUserId" <%= remindLinkUserId ? 'checked' : '' %>>
                     <%= remindLinkAccountMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
-                    <input type="checkbox" id="settings-remindGoogleSignInCheckbox" <%= remindGoogleSignIn ? 'checked' : '' %>>
+                    <input type="checkbox" data-property="remindGoogleSignIn" <%= remindGoogleSignIn ? 'checked' : '' %>>
                     <%= remindGoogleSignInMessage %>
                 </label>
             </li>

@@ -1,101 +1,27 @@
-﻿define(function () {
+﻿define([
+    'common/enum/youTubeSuggestedQuality'
+], function (YouTubeSuggestedQuality) {
     'use strict';
 
-    //  TODO: It would be a good idea to move some of this functionality out of here and onto the models using the settings while persisting w/ Backbone.LocalStorage.
-    //  TODO: This needs refactoring badly.
     var Settings = Backbone.Model.extend({
-        defaults: function () {
-            var remindClearStream = this.getItem('remindClearStream');
-            var remindDeletePlaylist = this.getItem('remindDeletePlaylist');
-            var remindLinkUserId = this.getItem('remindLinkUserId');
-            var remindGoogleSignIn = this.getItem('remindGoogleSignIn');
-            var showTimeRemaining = this.getItem('showTimeRemaining');
-            var showTooltips = this.getItem('showTooltips');
-            var alwaysOpenToSearch = this.getItem('alwaysOpenToSearch');
-            var alwaysOpenInTab = this.getItem('alwaysOpenInTab');
-            
-            return {
-                localDebug: false,
-                serverURL: '',
-                
-                suggestedQuality: this.getItem('suggestedQuality') || 'default',
-                userId: this.getItem('userId') || null,
-                showTooltips: showTooltips === null ? true : showTooltips,
-                remindClearStream: remindClearStream === null ? true : remindClearStream,
-                remindDeletePlaylist: remindDeletePlaylist === null ? true : remindDeletePlaylist,
-                remindLinkUserId: remindLinkUserId === null ? true : remindLinkUserId,
-                remindGoogleSignIn: remindGoogleSignIn == null ? true: remindGoogleSignIn,
-                showTimeRemaining: showTimeRemaining === null ? false : showTimeRemaining,
-                alwaysOpenToSearch: alwaysOpenToSearch === null ? false : alwaysOpenToSearch,
-                alwaysOpenInTab: alwaysOpenInTab === null ? false : alwaysOpenInTab
-            };
+        localStorage: new Backbone.LocalStorage('Settings'),
+
+        defaults: {
+            //  Need to set the ID for Backbone.LocalStorage
+            id: 'Settings',
+            youTubeSuggestedQuality: YouTubeSuggestedQuality.Default,
+            showTooltips: true,
+            remindClearStream: true,
+            remindDeletePlaylist: true,
+            remindLinkUserId: true,
+            remindGoogleSignIn: true,
+            alwaysOpenToSearch: false,
+            alwaysOpenInTab: false
         },
         
         initialize: function () {
-            //  BaseURL is needed for ajax requests to the server.
-            if (this.get('localDebug')) {
-                this.set('serverURL', 'http://localhost:28029/');
-            }
-            else {
-                this.set('serverURL', 'https://aws-server.streamus.com/Streamus/');
-            }
-
-            this.on('change:suggestedQuality', function(model, suggestedQuality) {
-                localStorage.setItem('suggestedQuality', suggestedQuality);
-            });
-            
-            this.on('change:userId', function (model, userId) {
-                localStorage.setItem('userId', JSON.stringify(userId));
-            });
-            
-            this.on('change:alwaysOpenToSearch', function (model, alwaysOpenToSearch) {
-                localStorage.setItem('alwaysOpenToSearch', JSON.stringify(alwaysOpenToSearch));
-            });
-            
-            this.on('change:alwaysOpenInTab', function (model, alwaysOpenInTab) {
-                localStorage.setItem('alwaysOpenInTab', JSON.stringify(alwaysOpenInTab));
-            });
-
-            this.on('change:showTooltips', function (model, showTooltips) {
-                localStorage.setItem('showTooltips', JSON.stringify(showTooltips));
-            });
-
-			this.on('change:remindClearStream', function (model, remindClearStream) {
-                localStorage.setItem('remindClearStream', JSON.stringify(remindClearStream));
-			});
-
-            this.on('change:remindDeletePlaylist', function(model, remindDeletePlaylist) {
-                localStorage.setItem('remindDeletePlaylist', JSON.stringify(remindDeletePlaylist));
-            });
-
-            this.on('change:showTimeRemaining', function(model, showTimeRemaining) {
-                localStorage.setItem('showTimeRemaining', JSON.stringify(showTimeRemaining));
-            });
-
-            this.on('change:remindLinkUserId', function(model, remindLinkUserId) {
-                localStorage.setItem('remindLinkUserId', JSON.stringify(remindLinkUserId));
-            });
-
-            this.on('change:remindGoogleSignIn', function(model, remindGoogleSignIn) {
-                localStorage.setItem('remindGoogleSignIn', JSON.stringify(remindGoogleSignIn));
-            });
-        },
-        
-        //  Fetch an item from localStorage, try and turn it from a string to an object literal if possible.
-        //  If not, just allow the string type because its assumed to be correct.
-        getItem: function (key) {
-            var item = localStorage.getItem(key);
-
-            if (item !== null) {
-                try {
-                    //  Make sure I don't send back 'null' or 'undefined' as string types.
-                    item = JSON.parse(item);
-                } catch (exception) {
-                    //  Consume any exceptions because might try and parse a GUID which isn't valid JSON.
-                }
-            }
-
-            return item;
+            //  Load from Backbone.LocalStorage
+            this.fetch();
         }
     });
     

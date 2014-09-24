@@ -44,7 +44,7 @@
     });
 
     var streamus = new Application();
-    streamus.start();
-
     window.Streamus = streamus;
+
+    streamus.start();
 });

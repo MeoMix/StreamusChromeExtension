@@ -459,5 +459,20 @@
 	},
 	"websiteEnhancements": {
 		"message": "Website enhancements"
+	},
+	"showOnTextSelection": {
+		"message": "Show on text selection"
+	},
+	"showOnYouTubeLinks": {
+		"message": "Show on YouTube links"
+	},
+	"showOnYouTubePages": {
+		"message": "Show on YouTube pages"
+	},
+	"applyToYouTube": {
+		"message": "Apply to YouTube"
+	},
+	"applyToBeatport": {
+		"message": "Apply to Beatport"
 	}
 }

@@ -19,7 +19,7 @@ Development
 5. Streamus is now loaded and ready for development.
 
 **NOTE:**
-Unless you're running an instance of the Streamus Server you will need to ensure that localDebug is set to **false**. This property can be configured by editing 'src/js/background/model/settings.js'.
+Unless you're running an instance of the Streamus Server you will need to ensure that localDebug is set to **false**. This property can be configured by editing 'src/js/background/application.js'.
 User login functionality may not work if the production Streamus Server is out of date, but all local functionality will continue to function.
 
 Testing

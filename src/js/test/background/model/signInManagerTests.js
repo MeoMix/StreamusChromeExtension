@@ -1,8 +1,7 @@
 ﻿define([
     'background/model/signInManager',
-    'background/model/settings',
     'background/model/user'
-], function (SignInManager, Settings, User) {
+], function (SignInManager, User) {
     'use strict';
 
     describe('SignInManager', function () {
@@ -43,7 +42,7 @@
 
             describe('when signing in as a new user', function () {
                 it('the user should be signed in and should prompt to consider signing into Google Chrome', function () {
-                    Settings.set('userId', null);
+                    localStorage.removeItem('userId');
                     SignInManager.signInWithGoogle();
                     ensureSignedIn();
                 });
@@ -51,7 +50,7 @@
 
             describe('when signing in as an existing user', function () {
                 it('the user should be signed should prompt to consider signing into Google Chrome', function () {
-                    Settings.set('userId', USER_ID);
+                    localStorage.setItem('userId', USER_ID);
                     SignInManager.signInWithGoogle();
                     ensureSignedIn();
                 });
@@ -105,7 +104,7 @@
                 });
 
                 it('should be created as a new user and should be linked to Google Chrome account', function () {
-                    Settings.set('userId', null);
+                    localStorage.removeItem('userId');
                     SignInManager.signInWithGoogle();
                     //  Once to login, again for checking to see if should prompt to link to Google Account.
                     expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
@@ -132,7 +131,7 @@
                 });
 
                 it('user data should be preserved and should prompt to consider linking account to Google Chrome', function () {
-                    Settings.set('userId', USER_ID);
+                    localStorage.setItem('userId', USER_ID);
                     SignInManager.signInWithGoogle();
 
                     //  Once to login, again for checking to see if should prompt to link to Google Account.
@@ -168,7 +167,7 @@
 
             describe('when account already linked to Google', function () {
                 beforeEach(function () {
-                    Settings.set('userId', null);
+                    localStorage.removeItem('userId');
 
                     //  Account already linked to Google:
                     SignInManager.set('signedInUser', new User({
@@ -233,7 +232,7 @@
 
             describe('when current user\'s account is not linked to Google', function () {
                 beforeEach(function () {
-                    Settings.set('userId', null);
+                    localStorage.removeItem('userId');
 
                     //  Currently signed in user's account is not linked to Google:
                     SignInManager.set('signedInUser', new User({

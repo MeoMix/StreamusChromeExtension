@@ -1,9 +1,8 @@
 ﻿define([
     'background/enum/syncActionType',
-    'background/model/settings',
     'background/model/song',
     'common/enum/listItemType'
-], function (SyncActionType, Settings, Song, ListItemType) {
+], function (SyncActionType, Song, ListItemType) {
     'use strict';
     
     var PlaylistItem = Backbone.Model.extend({
@@ -20,7 +19,7 @@
             };
         },
         
-        urlRoot: Settings.get('serverURL') + 'PlaylistItem/',
+        urlRoot: Streamus.serverUrl + 'PlaylistItem/',
         
         parse: function (playlistItemDto) {
             //  Convert C# Guid.Empty into BackboneJS null

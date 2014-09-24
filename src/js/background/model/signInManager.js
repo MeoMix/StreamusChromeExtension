@@ -41,7 +41,7 @@
 
         signOut: function () {
             if (this.get('signedIn')) {
-                Settings.set('userId', null);
+                localStorage.removeItem('userId');
                 this.set('signedInUser', null);
                 this.set('signedIn', false);
             }

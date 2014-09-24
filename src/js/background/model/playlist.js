@@ -4,14 +4,13 @@ define([
     'background/collection/playlistItems',
     'background/enum/syncActionType',
     'background/model/playlistItem',
-    'background/model/settings',
     'background/model/shareCode',
     'background/model/song',
     'background/model/tabManager',
     'common/enum/listItemType',
     'common/model/utility',
     'common/model/youTubeV3API'
-], function (PlaylistItems, SyncActionType, PlaylistItem, Settings, ShareCode, Song, TabManager, ListItemType, Utility, YouTubeV3API) {
+], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, Song, TabManager, ListItemType, Utility, YouTubeV3API) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -34,7 +33,7 @@ define([
             };
         },
 
-        urlRoot: Settings.get('serverURL') + 'Playlist/',
+        urlRoot: Streamus.serverUrl + 'Playlist/',
             
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
@@ -66,7 +65,7 @@ define([
             
         getShareCode: function(callback) {
             $.ajax({
-                url: Settings.get('serverURL') + 'ShareCode/GetShareCode',
+                url: Streamus.serverUrl + 'ShareCode/GetShareCode',
                 data: {
                     playlistId: this.get('id')
                 },
@@ -149,7 +148,7 @@ define([
         //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
         _saveTitle: function(playlistId, title) {
             $.ajax({
-                url: Settings.get('serverURL') + 'Playlist/UpdateTitle',
+                url: Streamus.serverUrl + 'Playlist/UpdateTitle',
                 type: 'PATCH',
                 data: {
                     id: playlistId,

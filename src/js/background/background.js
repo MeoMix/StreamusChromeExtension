@@ -8,6 +8,7 @@ define([
     'background/model/iconManager',
     'background/model/omnibox',
     'background/model/search',
+    'background/model/settings',
     'background/model/syncManager',
     'background/model/tabManager',
     'background/model/user',

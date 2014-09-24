@@ -1,7 +1,6 @@
 ﻿define([
-    'background/model/settings',
     'background/model/user'
-], function (Settings, User) {
+], function (User) {
     'use strict';
 
     describe('User', function () {
@@ -32,15 +31,16 @@
             });
 
             it('should use _create if no user id is in localStorage', function () {
-                Settings.set('userId', null);
+                localStorage.removeItem('userId');
                 this.user.tryloadByUserId();
+                
                 expect(this.user._create.calledOnce).to.equal(true);
                 expect($.ajax.calledOnce).to.equal(true);
                 ensureUserState.call(this, this.user);
             });
             
             it('should use _loadByUserId if a user id is in localStorage', function () {
-                Settings.set('userId', USER_ID);
+                localStorage.setItem('userId', USER_ID);
                 this.user.tryloadByUserId();
                 expect(this.user._loadByUserId.calledOnce).to.equal(true);
                 expect($.ajax.calledOnce).to.equal(true);
@@ -70,7 +70,7 @@
                 });
                 
                 it('should fetch the user from the database by GooglePlus ID', function () {
-                    Settings.set('userId', null);
+                    localStorage.removeItem('userId');
                     this.user.loadByGooglePlusId();
                     //  Once for fetchByGoogleId which returns null and then again to create a new account which is tied to the Google account.
                     expect($.ajax.calledOnce).to.equal(true);

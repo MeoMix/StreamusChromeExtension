@@ -163,7 +163,7 @@ module.exports = function (grunt) {
 			grunt.task.run('remove-key-from-manifest');
 		}
 
-		grunt.task.run('manifest-transform', 'transform-settings', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-src-folder', 'cleanup-dist-folder');
+		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-src-folder', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
@@ -390,7 +390,7 @@ module.exports = function (grunt) {
 	});
 
 	//	Remove debugging information from the JavaScript
-	grunt.registerTask('transform-settings', 'ensure all the debugging flags are turned off in settings', function () {
+	grunt.registerTask('disable-localDebug', 'ensure debugging flag is turned off', function () {
 		grunt.config.set('replace', {
 			transformSettings: {
 				src: ['dist/js/background/background.js'],
@@ -399,10 +399,6 @@ module.exports = function (grunt) {
 					//	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
 					from: 'localDebug: true',
 					to: 'localDebug: false'
-				}, {
-					//	Find the line that looks like: "testing: true" and set it to false. Testing is for development only.
-					from: 'testing: true',
-					to: 'testing: false'
 				}]
 			}
 		});

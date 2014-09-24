@@ -14,7 +14,7 @@
         },
         
         _doOnHide: function (remindLinkUserId) {
-            Settings.set('remindLinkUserId', remindLinkUserId);
+            Settings.save('remindLinkUserId', remindLinkUserId);
         },
 
         _doRenderedOk: function () {

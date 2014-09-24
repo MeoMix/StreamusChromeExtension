@@ -3,12 +3,11 @@
     'background/mixin/sequencedCollectionMixin',
     'background/model/chromeNotifications',
     'background/model/playlist',
-    'background/model/settings',
     'background/model/song',
     'background/model/tabManager',
     'common/enum/listItemType',
     'common/model/youTubeV3API'
-], function (SyncActionType, SequencedCollectionMixin, ChromeNotifications, Playlist, Settings, Song, TabManager, ListItemType, YouTubeV3API) {
+], function (SyncActionType, SequencedCollectionMixin, ChromeNotifications, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
     'use strict';
 
     //  TODO: Stop having this be a singleton so it is easier to test.
@@ -41,7 +40,7 @@
         addPlaylistByShareData: function (options) {
             $.ajax({
                 type: 'POST',
-                url: Settings.get('serverURL') + 'Playlist/CreateCopyByShareCode',
+                url: Streamus.serverUrl + 'Playlist/CreateCopyByShareCode',
                 data: {
                     shortId: options.shortId,
                     urlFriendlyEntityTitle: options.urlFriendlyEntityTitle,

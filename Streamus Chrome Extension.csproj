@@ -93,6 +93,7 @@
     <Content Include="src\js\background\enum\syncActionType.js" />
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\sequencedCollectionMixin.js" />
+    <Content Include="src\js\background\model\browserSettings.js" />
     <Content Include="src\js\background\model\buttons\nextButton.js" />
     <Content Include="src\js\background\model\buttons\playPauseButton.js" />
     <Content Include="src\js\background\model\buttons\previousButton.js" />
@@ -116,11 +117,13 @@
     <Content Include="src\js\background\model\user.js" />
     <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
+    <Content Include="src\js\background\model\utility.js" />
     <Content Include="src\js\background\model\youTubePlayerAPI.js" />
     <Content Include="src\js\background\model\chromeNotifications.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\common\enum\songType.js" />
+    <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
     <Content Include="src\js\common\enum\youTubeServiceType.js" />
     <Content Include="src\js\common\model\dataSource.js" />
     <Content Include="src\js\background\model\relatedSongInformationManager.js" />
@@ -133,14 +136,17 @@
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />
+    <Content Include="src\js\foreground\model\timeArea.js" />
     <Content Include="src\js\foreground\view\behavior\hoverButtons.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\addPlaylistButtonView.js" />
+    <Content Include="src\js\foreground\view\browserSettingsView.js" />
     <Content Include="src\js\foreground\view\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\googleSignInView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
+    <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
     <Content Include="src\js\foreground\view\search\searchAreaRegion.js" />
     <Content Include="src\js\foreground\view\linkUserIdView.js" />
     <Content Include="src\js\foreground\view\listItemButtonView.js" />
@@ -262,6 +268,7 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenuItem.html" />
     <Content Include="src\template\addListItemButton.html" />
+    <Content Include="src\template\browserSettings.html" />
     <Content Include="src\template\exportPlaylist.html" />
     <Content Include="src\template\adminMenuArea.html" />
     <Content Include="src\template\notification.html" />

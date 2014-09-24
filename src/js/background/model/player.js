@@ -29,6 +29,7 @@ define([
             this.on('change:volume', this._onChangeVolume);
             this.on('change:muted', this._onChangeMuted);
             this.on('change:state', this._onChangeState);
+            this.listenTo(Settings, 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
 
             this._loadYouTubePlayerApi();
@@ -114,7 +115,7 @@ define([
         }, 100),
         
         //  Attempt to set playback quality to suggestedQuality or highest possible.
-        setSuggestedQuality: function(suggestedQuality) {
+        _onChangeSuggestedQuality: function (model, suggestedQuality) {
             youTubePlayer.setPlaybackQuality(suggestedQuality);
         },
 
@@ -127,7 +128,7 @@ define([
             youTubePlayer.cueVideoById({
                 videoId: songId,
                 startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('suggestedQuality')
+                suggestedQuality: Settings.get('youTubeSuggestedQuality')
             });
 
             this.set('loadedSongId', songId);
@@ -148,7 +149,7 @@ define([
             youTubePlayer.loadVideoById({
                 videoId: songId,
                 startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('suggestedQuality')
+                suggestedQuality: Settings.get('youTubeSuggestedQuality')
             });
 
             this.set('loadedSongId', songId);

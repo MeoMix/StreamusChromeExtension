@@ -1,9 +1,8 @@
 ﻿define([
+    'common/enum/youTubeSuggestedQuality',
     'text!template/settings.html'
-], function (SettingsTemplate) {
+], function (YouTubeSuggestedQuality, SettingsTemplate) {
     'use strict';
-
-    var Player = Streamus.backgroundPage.YouTubePlayer;
 
     var SettingsView = Backbone.Marionette.ItemView.extend({
         id: 'settings',
@@ -23,71 +22,32 @@
             remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
             remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist'),
             remindLinkAccountMessage: chrome.i18n.getMessage('remindLinkAccount'),
-            remindGoogleSignInMessage: chrome.i18n.getMessage('remindGoogleSignIn')
+            remindGoogleSignInMessage: chrome.i18n.getMessage('remindGoogleSignIn'),
+            YouTubeSuggestedQuality: YouTubeSuggestedQuality
         },
         
         ui: {
-            suggestedQualitySelect: '#settings-suggestedQualitySelect',
-            showTooltipsCheckbox: '#settings-showTooltipsCheckbox',
-            remindClearStreamCheckbox: '#settings-remindClearStreamCheckbox',
-            remindDeletePlaylistCheckbox: '#settings-remindDeletePlaylistCheckbox',
-            remindLinkUserIdCheckbox: '#settings-remindLinkUserIdCheckbox',
-            remindGoogleSignInCheckbox: '#settings-remindGoogleSignInCheckbox',
-            alwaysOpenToSearchCheckbox: '#settings-alwaysOpenToSearchCheckbox',
-            alwaysOpenInTabCheckbox: '#settings-alwaysOpenInTabCheckbox'
+            checkboxes: 'input[type=checkbox]',
+            selects: 'select'
         },
         
         events: {
-            'change @ui.suggestedQualitySelect': '_setSuggestedQuality',
-            'change @ui.remindClearStreamCheckbox': '_setRemindClearStream',
-            'change @ui.remindDeletePlaylistCheckbox': '_setRemindDeletePlaylist',
-            'change @ui.showTooltipsCheckbox': '_setShowTooltips',
-            'change @ui.alwaysOpenToSearchCheckbox': '_setAlwaysOpenToSearch',
-            'change @ui.remindLinkUserIdCheckbox': '_setRemindLinkUserId',
-            'change @ui.remindGoogleSignInCheckbox': '_setRemindGoogleSignIn',
-            'change @ui.alwaysOpenInTabCheckbox': '_setAlwaysOpenInTab'
+            'change @ui.checkboxes': '_onCheckboxChange',
+            'change @ui.selects': '_onSelectChange'
         },
         
-        //  TODO: Refactor w/ enum so this doesn't grow indefinitely
-        _setSuggestedQuality: function () {
-            var suggestedQuality = this.ui.suggestedQualitySelect.val();
-            this.model.set('suggestedQuality', suggestedQuality);
-            Player.setSuggestedQuality(suggestedQuality);
+        _onCheckboxChange: function(event) {
+            var checkbox = $(event.target);
+            var property = checkbox.data('property');
+            var checked = checkbox.is(':checked');
+            this.model.save(property, checked);
         },
         
-        _setRemindClearStream: function () {
-            var remindClearStream = this.ui.remindClearStreamCheckbox.is(':checked');
-            this.model.set('remindClearStream', remindClearStream);
-        },
-        
-        _setRemindDeletePlaylist: function () {
-            var remindDeletePlaylist = this.ui.remindDeletePlaylistCheckbox.is(':checked');
-            this.model.set('remindDeletePlaylist', remindDeletePlaylist);
-        },
-        
-        _setRemindLinkUserId: function () {
-            var remindLinkUserId = this.ui.remindLinkUserIdCheckbox.is(':checked');
-            this.model.set('remindLinkUserId', remindLinkUserId);
-        },
-        
-        _setRemindGoogleSignIn: function () {
-            var remindGoogleSignIn = this.ui.remindGoogleSignInCheckbox.is(':checked');
-            this.model.set('remindGoogleSignIn', remindGoogleSignIn);
-        },
-
-        _setShowTooltips: function () {
-            var showTooltips = this.ui.showTooltipsCheckbox.is(':checked');
-            this.model.set('showTooltips', showTooltips);
-        },
-        
-        _setAlwaysOpenToSearch: function () {
-            var alwaysOpenToSearch = this.ui.alwaysOpenToSearchCheckbox.is(':checked');
-            this.model.set('alwaysOpenToSearch', alwaysOpenToSearch);
-        },
-        
-        _setAlwaysOpenInTab: function() {
-            var alwaysOpenInTab = this.ui.alwaysOpenInTabCheckbox.is(':checked');
-            this.model.set('alwaysOpenInTab', alwaysOpenInTab);
+        _onSelectChange: function(event) {
+            var select = $(event.target);
+            var property = select.data('property');
+            var value = select.val();
+            this.model.save(property, value);
         }
     });
 

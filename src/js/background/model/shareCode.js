@@ -1,6 +1,4 @@
-define([
-    'background/model/settings'
-], function (Settings) {
+define(function () {
     'use strict';
 
     var ShareCode = Backbone.Model.extend({
@@ -12,7 +10,7 @@ define([
             urlFriendlyEntityTitle: ''
         },
         
-        urlRoot: Settings.get('serverURL') + 'ShareCode/'
+        urlRoot: Streamus.serverUrl + 'ShareCode/'
     });
 
     return ShareCode;

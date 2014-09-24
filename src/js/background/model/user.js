@@ -2,9 +2,8 @@
 //  Tries to load itself by ID stored in localStorage and then by chrome.storage.sync.
 //  If still unloaded, tells the server to create a new user and assumes that identiy.
 define([
-    'background/collection/playlists',
-    'background/model/settings'
-], function (Playlists, Settings) {
+    'background/collection/playlists'
+], function (Playlists) {
     'use strict';
 
     var User = Backbone.Model.extend({
@@ -16,11 +15,15 @@ define([
             };
         },
         
-        urlRoot: Settings.get('serverURL') + 'User/',
+        urlRoot: Streamus.serverUrl + 'User/',
+        
+        initialize: function () {
+            this._getLocalUserId();
+        },
         
         loadByGooglePlusId: function () {
             $.ajax({
-                url: Settings.get('serverURL') + 'User/GetByGooglePlusId',
+                url: Streamus.serverUrl + 'User/GetByGooglePlusId',
                 contentType: 'application/json; charset=utf-8',
                 data: {
                     googlePlusId: this.get('googlePlusId')
@@ -39,7 +42,7 @@ define([
             this.set('googlePlusId', googlePlusId);
 
             $.ajax({
-                url: Settings.get('serverURL') + 'User/UpdateGooglePlusId',
+                url: Streamus.serverUrl + 'User/UpdateGooglePlusId',
                 type: 'PATCH',
                 data: {
                     id: this.get('id'),
@@ -55,7 +58,7 @@ define([
         
         hasLinkedGoogleAccount: function(callback) {
             $.ajax({
-                url: Settings.get('serverURL') + 'User/HasLinkedGoogleAccount',
+                url: Streamus.serverUrl + 'User/HasLinkedGoogleAccount',
                 contentType: 'application/json; charset=utf-8',
                 data: {
                     googlePlusId: this.get('googlePlusId')
@@ -65,8 +68,15 @@ define([
             });
         },
         
-        _getLocalUserId: function() {
-            return Settings.get('userId');
+        _getLocalUserId: function () {
+            var userId = localStorage.getItem('userId');
+            
+            //  NOTE: This is a bit of legacy code. Originally was calling toJSON on all objects written to localStorage, so quotes might exist.
+            if (userId !== null) {
+                userId = userId.replace(/"/g, '');
+            }
+
+            return userId;
         },
         
         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
@@ -107,7 +117,7 @@ define([
         
         _onLoadSuccess: function() {
             this._setPlaylists();
-            Settings.set('userId', this.get('id'));
+            localStorage.setItem('userId', this.get('id'));
             this.trigger('loadSuccess');
         }
     });

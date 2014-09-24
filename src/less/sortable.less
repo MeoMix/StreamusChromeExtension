@@ -2,15 +2,20 @@
 
 //  This is the jQuery UI draggable object that shows # of items being dragged
 .sortable-selectedItemsCount {
+    @radius: 19px;
     //  Important is necessary here because height/width is set via javascript and I want to override.
-    width: 19px !important;
-    height: 19px !important;
+    width: @radius !important;
+    height: @radius !important;
     padding: 2px;
     background-color: @darkGray;
     font-weight: bold;
     color: @white;
     border-radius: 50%;
     text-align: center;
+
+    /* Offset the margin by the width so that this element doesn't push out the body and trigger full-size media query*/
+    margin-right: -@radius;
+    margin-left: -@radius;
 }
 
 //  Hide sortable-placeholder when it is adjacent to sortable-copyHelper because it does not

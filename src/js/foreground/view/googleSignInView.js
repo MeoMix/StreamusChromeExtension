@@ -14,7 +14,7 @@
         },
         
         _doOnHide: function (remindGoogleSignIn) {
-            Settings.set('remindGoogleSignIn', remindGoogleSignIn);
+            Settings.save('remindGoogleSignIn', remindGoogleSignIn);
         },
         
         _doRenderedOk: function () {
