@@ -3,8 +3,6 @@
 ], function (DeletePlaylistTemplate) {
     'use strict';
 
-    var Settings = Streamus.backgroundPage.Settings;
-
     var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
         template: _.template(DeletePlaylistTemplate),
         
@@ -12,13 +10,8 @@
             areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist')
         },
         
-        doOk: function() {
+        onSubmit: function () {
             this.model.destroy();
-        },
-        
-        _doRenderedOk: function (remindDeletePlaylist) {
-            Settings.set('remindDeletePlaylist', remindDeletePlaylist);
-            this.doOk();
         }
     });
 

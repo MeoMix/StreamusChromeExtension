@@ -20,7 +20,7 @@
             radios: 'input[type=radio]'
         },
         
-        _doRenderedOk: function () {
+        onSubmit: function () {
             this._exportPlaylist();
             this._saveState();
         },

@@ -95,14 +95,12 @@
             //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
             var reminderDisabled = promptView.reminderDisabled();
 
-            console.log('reminderDisabled:', reminderDisabled);
-            
             if (reminderDisabled) {
                 var subView = promptView.model.get('view');
-                var doOkFunction = subView.doOk;
+                var onSubmitFunction = subView.onSubmit;
                 
-                if (_.isFunction(doOkFunction)) {
-                    doOkFunction.call(subView);
+                if (_.isFunction(onSubmitFunction)) {
+                    onSubmitFunction.call(subView);
                 }
             } else {
                 this.show(promptView);

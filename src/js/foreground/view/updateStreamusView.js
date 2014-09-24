@@ -11,7 +11,7 @@
             pleaseClickUpdateToReloadAndApplyTheUpdateMessage: chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate')
         },
         
-        _doRenderedOk: function () {
+        onSubmit: function () {
             chrome.runtime.reload();
         }
     });

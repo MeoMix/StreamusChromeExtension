@@ -40,7 +40,7 @@
             this.ui.playlistTitle.toggleClass('is-invalid', playlistTitle === '');
         },
         
-        _doRenderedOk: function () {
+        onSubmit: function () {
             var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
             this.model.set('title', playlistTitle);
         }

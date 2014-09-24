@@ -6,7 +6,7 @@
             title: '',
             okButtonText: chrome.i18n.getMessage('ok'),
             showOkButton: true,
-            showReminder: false,
+            reminderProperty: false,
             reminderText: chrome.i18n.getMessage('dontRemindMe'),
             view: null
         }

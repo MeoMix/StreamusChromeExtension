@@ -4,20 +4,15 @@
     'use strict';
 
     var SignInManager = Streamus.backgroundPage.SignInManager;
-    var Settings = Streamus.backgroundPage.Settings;
-    
+
     var LinkUserIdView = Backbone.Marionette.ItemView.extend({
         template: _.template(LinkUserIdTemplate),
 
         templateHelpers: {
             linkAccountMessage: chrome.i18n.getMessage('linkAccountMessage')
         },
-        
-        _doOnHide: function (remindLinkUserId) {
-            Settings.save('remindLinkUserId', remindLinkUserId);
-        },
 
-        _doRenderedOk: function () {
+        onSubmit: function () {
             SignInManager.saveGooglePlusId();
             SignInManager.set('needPromptLinkUserId', false);
         }

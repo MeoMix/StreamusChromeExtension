@@ -10,7 +10,7 @@
             streamusIsTakingALongTimeToLoadReloadingMayHelpMessage: chrome.i18n.getMessage('streamusIsTakingALongTimeToLoadReloadingMayHelp')
         },
         
-        _doRenderedOk: function () {
+        onSubmit: function () {
             chrome.runtime.reload();
         }
     });

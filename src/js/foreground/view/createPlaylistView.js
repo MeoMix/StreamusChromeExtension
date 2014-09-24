@@ -78,7 +78,7 @@
             }));
         },
 
-        _doRenderedOk: function () {
+        onSubmit: function () {
             var dataSource = this.ui.youTubeSourceInput.data('datasource');
             var playlistName = $.trim(this.ui.playlistTitleInput.val());
 

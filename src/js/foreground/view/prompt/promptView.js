@@ -3,15 +3,24 @@
 ], function (PromptTemplate) {
     'use strict';
 
+    var Settings = Streamus.backgroundPage.Settings;
+
     var PromptView = Backbone.Marionette.LayoutView.extend({
         className: 'prompt u-overlay',
         template: _.template(PromptTemplate),
+        
+        templateHelpers: function () {
+            return {
+                showReminder: this.model.get('reminderProperty') !== false
+            };
+        },
 
         events: {
             'click': '_hideIfClickOutsidePanel',
             'click @ui.closeButton': 'hide',
-            'click @ui.okButton': '_doRenderedOk',
-            'keydown @ui.submittable': '_doRenderedOkOnEnter'
+            'click @ui.okButton': '_submit',
+            'change @ui.reminderCheckbox': '_saveReminderState',
+            'keydown @ui.submittable': '_submitOnEnter'
         },
         
         ui: {
@@ -43,22 +52,23 @@
             this.contentRegion.show(this.model.get('view'));
         },
         
-        //  Unless a prompt specifically implements a reminder it is assumed that the reminder is not disabled and the prompt should always be shown when asked.
-        reminderDisabled: function() {
-            return false;
+        //  TODO: Invert function for clarity.
+        //  Unless a prompt specifically implements reminderProperty it is assumed that the reminder is not disabled and the prompt be shown when asked.
+        reminderDisabled: function () {
+            var reminderDisabled = false;
+            var reminderProperty = this.model.get('reminderProperty');
+            
+            if (reminderProperty !== false) {
+                reminderDisabled = !Settings.get(reminderProperty);
+            }
+
+            return reminderDisabled;
         },
         
         hide: function() {
             this.$el.transition({
                 'background': this.$el.data('background')
-            }, function () {
-                var contentView = this.model.get('view');
-                if (_.isFunction(contentView._doOnHide)) {
-                    var remind = !this.ui.reminderCheckbox.is(':checked');
-                    contentView._doOnHide(remind);
-                }
-                this.destroy();
-            }.bind(this));
+            }, this.destroy.bind(this));
 
             this.ui.panel.transition({
                 y: '-100%',
@@ -74,25 +84,31 @@
         },
         
         //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
-        _doRenderedOkOnEnter: function(event) {
+        _submitOnEnter: function(event) {
             if (event.which === 13) {
-                this._doRenderedOk();
+                this._submit();
             }
         },
         
-        _doRenderedOk: function () {
+        _submit: function () {
             //  Run validation logic if provided else assume valid
             var contentView = this.model.get('view');
             var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
             
             if (isValid) {
-                if (_.isFunction(contentView._doRenderedOk)) {
-                    var remind = !this.ui.reminderCheckbox.is(':checked');
-                    contentView._doRenderedOk(remind);
+                if (_.isFunction(contentView.onSubmit)) {
+                    contentView.onSubmit();
                 }
 
                 this.hide();
             }
+        },
+        
+        _saveReminderState: function () {
+            var reminderProperty = this.model.get('reminderProperty');
+            var remind = !this.ui.reminderCheckbox.is(':checked');
+
+            Settings.save(reminderProperty, remind);
         }
     });
 

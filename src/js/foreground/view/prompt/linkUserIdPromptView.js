@@ -5,21 +5,15 @@
 ], function (Prompt, LinkUserIdView, PromptView) {
     'use strict';
 
-    var Settings = Streamus.backgroundPage.Settings;
-
     var LinkUserIdPromptView = PromptView.extend({
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
-                showReminder: true,
+                reminderProperty: 'remindLinkUserId',
                 view: new LinkUserIdView()
             });
             
             PromptView.prototype.initialize.apply(this, arguments);
-        },
-
-        reminderDisabled: function () {
-            return !Settings.get('remindLinkUserId');
         }
     });
 
