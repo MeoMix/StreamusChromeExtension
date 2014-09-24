@@ -2,12 +2,13 @@
     'common/model/utility',
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/deleteButtonView',
-    'foreground/view/multiSelectListItemView',
-    'foreground/view/saveToPlaylistButtonView',
-    'foreground/view/playSongButtonView',
-    'text!template/listItem.html'
-], function (Utility, ContextMenuItems, ContextMenuActions, DeleteButtonView, MultiSelectListItemView, SaveToPlaylistButtonView, PlaySongButtonView, ListItemTemplate) {
+    'foreground/view/listItemView',
+    'foreground/view/behavior/itemViewMultiSelect',
+    'foreground/view/listItemButton/deleteSongButtonView',
+    'foreground/view/listItemButton/playSongButtonView',
+    'foreground/view/listItemButton/saveSongButtonView',
+    'text!template/rightPane/streamItem.html'
+], function (Utility, ContextMenuItems, ContextMenuActions, ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -15,31 +16,33 @@
     var SignInManager = Streamus.backgroundPage.SignInManager;
     var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
 
-    var StreamItemView = MultiSelectListItemView.extend({
-        className: MultiSelectListItemView.prototype.className + ' stream-item',
-        template: _.template(ListItemTemplate),
-
-        attributes: function () {
-            return {
-                'data-id': this.model.get('id'),
-                'data-type': this.options.type
-            };
-        },
+    var StreamItemView = ListItemView.extend({
+        className: ListItemView.prototype.className + ' stream-item listItem--medium',
+        template: _.template(StreamItemTemplate),
         
-        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+        ui: _.extend({}, ListItemView.prototype.ui, {
+            onActiveShown: '.is-shownOnActive'
+        }),
+
+        events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_activateAndPlayOrToggleState'
         }),
         
-        modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
+        modelEvents: {
             'change:id': '_setDataId',
             'change:active': '_setActiveClass'
+        },
+        
+        behaviors: _.extend({}, ListItemView.prototype.behaviors, {
+            ItemViewMultiSelect: {
+                behaviorClass: ItemViewMultiSelect
+            }
         }),
         
-        buttonViews: [PlaySongButtonView, SaveToPlaylistButtonView, DeleteButtonView],
+        buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
 
         onRender: function () {
             this._setActiveClass();
-            MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
        
         _activateAndPlayOrToggleState: function () {

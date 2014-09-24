@@ -2,13 +2,13 @@
     'common/enum/listItemType',
     'common/enum/repeatButtonState',
     'foreground/model/streamAction',
-    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/collectionViewMultiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/rightPane/streamItemView',
-    'text!template/stream.html'
-], function (ListItemType, RepeatButtonState, StreamAction, MultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
+    'text!template/rightPane/stream.html'
+], function (ListItemType, RepeatButtonState, StreamAction, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
     'use strict';
 
     var SignInManager = Streamus.backgroundPage.SignInManager;
@@ -71,8 +71,8 @@
         },
         
         behaviors: {
-            MultiSelect: {
-                behaviorClass: MultiSelect
+            CollectionViewMultiSelect: {
+                behaviorClass: CollectionViewMultiSelect
             },
             SlidingRender: {
                 behaviorClass: SlidingRender

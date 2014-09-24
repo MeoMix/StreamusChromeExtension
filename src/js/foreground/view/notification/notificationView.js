@@ -1,6 +1,6 @@
 ﻿define([
 	'foreground/enum/notificationType',
-	'text!template/notification.html'
+	'text!template/notification/notification.html'
 ], function (NotificationType, NotificationTemplate) {
 	'use strict';
 

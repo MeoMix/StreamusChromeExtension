@@ -1,8 +1,8 @@
 ﻿define([
-    'foreground/view/contextMenuRegion',
+    'foreground/view/contextMenu/contextMenuRegion',
     'foreground/view/leftPane/leftPaneRegion',
     'foreground/view/notification/notificationRegion',
-    'foreground/view/playlists/playlistsAreaRegion',
+    'foreground/view/playlist/playlistsAreaRegion',
     'foreground/view/prompt/promptRegion',
     'foreground/view/rightPane/rightPaneRegion',
     'foreground/view/search/searchAreaRegion'
@@ -20,8 +20,8 @@
 
         events: {
             //  TODO: I think it might make more sense to use mousedown instead of click because dragging elements doesn't hide the contextmenu
-            'click': '_onClickEvent',
-            'contextmenu': '_onClickEvent'
+            'click': '_onClick',
+            'contextmenu': '_onClick'
         },
 
         regions: {
@@ -49,8 +49,7 @@
             //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
             SignInManager.signInWithGoogle();
 
-            //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
-            $(window).unload(this.destroy.bind(this));
+            $(window).unload(this._onWindowUnload.bind(this));
             $(window).resize(this._onWindowResize.bind(this));
             
             if (Settings.get('alwaysOpenInTab')) {
@@ -95,7 +94,7 @@
             this.promptRegion.hideReloadStreamusPrompt();
         },
         
-        _onClickEvent: function(event) {
+        _onClick: function(event) {
             this.contextMenuRegion.handleClickEvent(event);
             this._announceClickedElement(event);
         },
@@ -111,6 +110,11 @@
                 height: this.$el.height(),
                 width: this.$el.width()
             });
+        },
+        
+        //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
+        _onWindowUnload: function () {
+            this.destroy();
         }
     });
 

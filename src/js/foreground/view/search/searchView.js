@@ -1,13 +1,13 @@
 ﻿define([
     'common/enum/listItemType',
-    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/collectionViewMultiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/prompt/saveSongsPromptView',
     'foreground/view/search/searchResultView',
-    'text!template/search.html'
-], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, SaveSongsPromptView, SearchResultView, SearchTemplate) {
+    'text!template/search/search.html'
+], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, SaveSongsPromptView, SearchResultView, SearchTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
@@ -79,8 +79,8 @@
         
         behaviors: function() {
             return {
-                MultiSelect: {
-                    behaviorClass: MultiSelect
+                CollectionViewMultiSelect: {
+                    behaviorClass: CollectionViewMultiSelect
                 },
                 SlidingRender: {
                     behaviorClass: SlidingRender

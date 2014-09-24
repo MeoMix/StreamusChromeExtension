@@ -59,6 +59,13 @@
 
 .listItem--medium {
     height: 40px;
+
+    .listItem-title {
+        .fontSize-large;
+        color: @darkGray;
+        //  TODO: Maybe this should apply to Playlists as well?
+        transition: color @transition-color-time;
+    }
 }
 
 .listItem--small {
@@ -77,12 +84,6 @@
 .listItem-content {
     flex: 1;
     margin-left: 10px;
-}
-
-.listItem-title {
-    .fontSize-large;
-    color: @darkGray;
-    transition: color @transition-color-time;
 }
 
 .listItem-details {

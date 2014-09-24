@@ -1,6 +1,12 @@
 ﻿define(function () {
     'use strict';
     
+    //  Only log errors with less.
+    //  http://lesscss.org/usage/
+    window.less = {
+        logLevel: 1
+    };
+    
     require.config({
         baseUrl: 'js/',
         enforceDefine: true,

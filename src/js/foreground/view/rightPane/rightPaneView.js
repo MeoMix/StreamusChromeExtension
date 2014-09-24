@@ -6,7 +6,7 @@ define([
     'foreground/view/rightPane/streamView',
     'foreground/view/rightPane/timeAreaView',
     'foreground/view/rightPane/volumeAreaView',
-    'text!template/rightPane.html'
+    'text!template/rightPane/rightPane.html'
 ], function (PlayerState, TimeArea, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightPaneTemplate) {
     'use strict';
 

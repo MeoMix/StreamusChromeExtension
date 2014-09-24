@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/model/prompt',
-    'foreground/view/editPlaylistView',
+    'foreground/view/prompt/editPlaylistView',
     'foreground/view/prompt/promptView'
 ], function (Prompt, EditPlaylistView, PromptView) {
     'use strict';

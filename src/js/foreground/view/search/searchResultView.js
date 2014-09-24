@@ -1,29 +1,29 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/addSongButtonView',
-    'foreground/view/multiSelectListItemView',
-    'foreground/view/playSongButtonView',
-    'foreground/view/saveToPlaylistButtonView',
-    'text!template/listItem.html'
-], function (ContextMenuItems, ContextMenuActions, AddSongButtonView, MultiSelectListItemView, PlaySongButtonView, SaveToPlaylistButtonView, ListItemTemplate) {
+    'foreground/view/listItemView',
+    'foreground/view/behavior/itemViewMultiSelect',
+    'foreground/view/listItemButton/addSongButtonView',
+    'foreground/view/listItemButton/playSongButtonView',
+    'foreground/view/listItemButton/saveSongButtonView',
+    'text!template/search/searchResult.html'
+], function (ContextMenuItems, ContextMenuActions, ListItemView, ItemViewMultiSelect, AddSongButtonView, PlaySongButtonView, SaveSongButtonView, SearchResultTemplate) {
     'use strict';
 
-    var SearchResultView = MultiSelectListItemView.extend({
-        className: MultiSelectListItemView.prototype.className + ' search-result',
-        template: _.template(ListItemTemplate),
+    var SearchResultView = ListItemView.extend({
+        className: ListItemView.prototype.className + ' search-result listItem--medium',
+        template: _.template(SearchResultTemplate),
 
-        attributes: function () {
-            return {
-                'data-id': this.model.get('id'),
-                'data-type': this.options.type
-            };
-        },
-
-        buttonViews: [PlaySongButtonView, AddSongButtonView, SaveToPlaylistButtonView],
+        buttonViews: [PlaySongButtonView, AddSongButtonView, SaveSongButtonView],
         
-        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+        events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_playInStream'
+        }),
+        
+        behaviors: _.extend({}, ListItemView.prototype.behaviors, {
+            ItemViewMultiSelect: {
+                behaviorClass: ItemViewMultiSelect
+            }
         }),
         
         _showContextMenu: function (event) {

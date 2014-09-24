@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/model/exportPlaylist',
     'foreground/model/prompt',
-    'foreground/view/exportPlaylistView',
+    'foreground/view/prompt/exportPlaylistView',
     'foreground/view/prompt/promptView'
 ], function (ExportPlaylist, Prompt, ExportPlaylistView, PromptView) {
     'use strict';

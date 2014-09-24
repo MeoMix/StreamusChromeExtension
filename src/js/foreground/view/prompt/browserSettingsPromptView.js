@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/model/prompt',
-    'foreground/view/browserSettingsView',
+    'foreground/view/prompt/browserSettingsView',
     'foreground/view/prompt/promptView'
 ], function (Prompt, BrowserSettingsView, PromptView) {
     'use strict';

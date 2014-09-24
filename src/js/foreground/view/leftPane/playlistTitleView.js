@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/view/behavior/tooltip',
-    'text!template/playlistTitle.html'
+    'text!template/leftPane/playlistTitle.html'
 ], function (Tooltip, PlaylistTitleTemplate) {
     'use strict';
 

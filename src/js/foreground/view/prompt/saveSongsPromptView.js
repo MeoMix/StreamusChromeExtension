@@ -1,9 +1,9 @@
 ﻿define([
     'foreground/model/prompt',
     'foreground/model/saveSongs',
-    'foreground/view/saveSongsView',
-    'foreground/view/prompt/promptView'
-], function (Prompt, SaveSongs, SaveSongsView, PromptView) {
+    'foreground/view/prompt/promptView',
+    'foreground/view/prompt/saveSongsView'
+], function (Prompt, SaveSongs, PromptView, SaveSongsView) {
     'use strict';
     
     var SaveSongsPromptView = PromptView.extend({

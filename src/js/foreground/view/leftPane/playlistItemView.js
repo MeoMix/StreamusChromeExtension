@@ -1,40 +1,37 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
     'foreground/model/contextMenuActions',
-    'foreground/view/addSongButtonView',
-    'foreground/view/deleteButtonView',
-    'foreground/view/multiSelectListItemView',
-    'foreground/view/playSongButtonView',
-    'text!template/listItem.html'
-], function (ContextMenuItems, ContextMenuActions, AddSongButtonView, DeleteButtonView, MultiSelectListItemView, PlaySongButtonView, ListItemTemplate) {
+    'foreground/view/listItemView',
+    'foreground/view/behavior/itemViewMultiSelect',
+    'foreground/view/listItemButton/addSongButtonView',
+    'foreground/view/listItemButton/deleteSongButtonView',
+    'foreground/view/listItemButton/playSongButtonView',
+    'text!template/leftPane/playlistItem.html'
+], function (ContextMenuItems, ContextMenuActions, ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
     'use strict';
 
-    var PlaylistItemView = MultiSelectListItemView.extend({
-        className: MultiSelectListItemView.prototype.className + ' playlist-item',
+    var PlaylistItemView = ListItemView.extend({
+        className: ListItemView.prototype.className + ' playlist-item listItem--medium',
+        template: _.template(PlaylistItemTemplate),
 
-        template: _.template(ListItemTemplate),
-
-        attributes: function () {
-            return {
-                'data-id': this.model.get('id'),
-                'data-type': this.options.type
-            };
-        },
-
-        events: _.extend({}, MultiSelectListItemView.prototype.events, {
+        events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_playInStream'
         }),
         
-        modelEvents: _.extend({}, MultiSelectListItemView.prototype.modelEvents, {
+        modelEvents: {
             'change:id': '_setDataId _setShowingSpinnerClass'
+        },
+        
+        behaviors: _.extend({}, ListItemView.prototype.behaviors, {
+            ItemViewMultiSelect: {
+                behaviorClass: ItemViewMultiSelect
+            }
         }),
         
-        buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteButtonView],
+        buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteSongButtonView],
         
         onRender: function () {
             this._setShowingSpinnerClass();
-
-            MultiSelectListItemView.prototype.onRender.apply(this, arguments);
         },
         
         //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.

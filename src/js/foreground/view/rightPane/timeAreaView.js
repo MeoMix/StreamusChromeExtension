@@ -3,7 +3,7 @@ define([
     'common/enum/playerState',
     'common/model/utility',
     'foreground/view/behavior/tooltip',
-    'text!template/timeArea.html'
+    'text!template/rightPane/timeArea.html'
 ], function (PlayerState, Utility, Tooltip, TimeAreaTemplate) {
     'use strict';
 

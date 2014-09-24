@@ -3,7 +3,7 @@
     'foreground/view/leftPane/activePlaylistAreaView',
     'foreground/view/leftPane/playlistTitleView',
     'foreground/view/leftPane/signInView',
-    'text!template/leftPane.html'
+    'text!template/leftPane/leftPane.html'
 ], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftPaneTemplate) {
     'use strict';
 

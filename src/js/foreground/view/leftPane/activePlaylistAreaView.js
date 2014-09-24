@@ -1,12 +1,12 @@
 ﻿define([
     'common/enum/listItemType',
-    'foreground/view/behavior/multiSelect',
+    'foreground/view/behavior/collectionViewMultiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/leftPane/playlistItemView',
-    'text!template/activePlaylistArea.html'
-], function (ListItemType, MultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
+    'text!template/leftPane/activePlaylistArea.html'
+], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
@@ -16,6 +16,11 @@
         className: 'column u-flex--column',
         childView: PlaylistItemView,
         childViewContainer: '@ui.childContainer',
+        
+        childViewOptions: {
+            type: ListItemType.PlaylistItem
+        },
+        
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {
@@ -32,10 +37,6 @@
         //  Overwrite resortView to only render children as expected
         resortView: function () {
             this._renderChildren();
-        },
-        
-        childViewOptions: {
-            type: ListItemType.PlaylistItem
         },
 
         ui: {
@@ -64,8 +65,8 @@
         
         behaviors: function () {
             return {
-                MultiSelect: {
-                    behaviorClass: MultiSelect,
+                CollectionViewMultiSelect: {
+                    behaviorClass: CollectionViewMultiSelect,
                 },
                 SlidingRender: {
                     behaviorClass: SlidingRender

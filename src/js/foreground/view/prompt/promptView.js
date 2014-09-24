@@ -1,5 +1,5 @@
 ﻿define([
-    'text!template/prompt.html'
+    'text!template/prompt/prompt.html'
 ], function (PromptTemplate) {
     'use strict';
 

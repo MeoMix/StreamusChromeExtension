@@ -1,7 +1,7 @@
 //  VolumeView represents the mute/unmute button as well as the volume slider.
 //  Interacting with these controls will affect the muted state and volume of the YouTube player.
 define([
-    'text!template/volumeArea.html'
+    'text!template/rightPane/volumeArea.html'
 ], function (VolumeAreaTemplate) {
     'use strict';
 

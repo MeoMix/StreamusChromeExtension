@@ -1,5 +1,5 @@
 ﻿define([
-    'text!template/signIn.html'
+    'text!template/leftPane/signIn.html'
 ], function (SignInTemplate) {
     'use strict';
 

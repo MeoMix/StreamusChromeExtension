@@ -84,22 +84,6 @@
 
                     this.needFixCssRedraw = true;
 
-                    var listItemType = ui.item.data('type');
-
-                    //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
-                    //  duplicates in the Stream.
-                    if (listItemType === ListItemType.StreamItem) {
-                        if (SignInManager.get('signedIn')) {
-                            var streamItemId = ui.item.data('id');
-
-                            //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
-                            var draggedStreamItem = self.view.collection.get(streamItemId);
-
-                            var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
-                            ui.placeholder.toggleClass('is-notDroppable', alreadyExists);
-                        }
-                    }
-
                     this.selectedItems = self.view.$el.find('.selected');
 
                     this.selectedItems.css({
@@ -205,13 +189,30 @@
                     self.view.triggerMethod('GetMinRenderIndex');
                 },
 
-                over: function(event, ui) {
+                over: function (event, ui) {
                     //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
                     // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
                     var placeholderParent = ui.placeholder.parent().parent();
 
                     ui.item.data('sortableItem').scrollParent = placeholderParent;
                     ui.item.data('sortableItem').overflowOffset = placeholderParent.offset();
+
+                    var listItemType = ui.item.data('type');
+
+                    //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
+                    //  duplicates in the Stream.
+                    if (listItemType === ListItemType.StreamItem && SignInManager.get('signedIn')) {
+                        var streamItemId = ui.item.data('id');
+
+                        //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
+                        var draggedStreamItem = StreamItems.get(streamItemId);
+
+                        //  TODO: FRAGILE! Checking to see if the target is playlist area, no good.
+                        var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
+                        var isOverPlaylist = event.target.id === 'activePlaylistArea-listItems';
+  
+                        ui.placeholder.toggleClass('is-notDroppable', alreadyExists && isOverPlaylist);
+                    }
                 }
             };
 

@@ -1,7 +1,7 @@
 ﻿define([
     'foreground/view/prompt/settingsPromptView',
     'foreground/view/prompt/browserSettingsPromptView',
-    'text!template/adminMenuArea.html'
+    'text!template/rightPane/adminMenuArea.html'
 ], function (SettingsPromptView, BrowserSettingsPromptView, AdminMenuAreaTemplate) {
     'use strict';
     

@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/model/prompt',
-    'foreground/view/settingsView',
-    'foreground/view/prompt/promptView'
-], function (Prompt, SettingsView, PromptView) {
+    'foreground/view/prompt/promptView',
+    'foreground/view/prompt/settingsView'
+], function (Prompt, PromptView, SettingsView) {
     'use strict';
     
     var SettingsPromptView = PromptView.extend({
