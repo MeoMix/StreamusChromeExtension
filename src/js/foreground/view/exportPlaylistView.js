@@ -20,9 +20,23 @@
             radios: 'input[type=radio]'
         },
         
-        onSubmit: function () {
-            this._exportPlaylist();
-            this._saveState();
+        events: {
+            'change @ui.checkboxes': '_onCheckboxOrRadioChange',
+            'change @ui.radios': '_onCheckboxOrRadioChange'
+        },
+        
+        exportPlaylist: function() {
+            var downloadableElement = document.createElement('a');
+            downloadableElement.setAttribute('href', 'data:' + this._getMimeType() + ';charset=utf-8,' + encodeURIComponent(this._getFileText()));
+            downloadableElement.setAttribute('download', this._getFileName());
+            downloadableElement.click();
+        },
+        
+        _onCheckboxOrRadioChange: function (event) {
+            var checkbox = $(event.target);
+            var property = checkbox.data('property');
+            var checked = checkbox.is(':checked');
+            this.model.save(property, checked);
         },
         
         //  Ensure at least one checkbox is checked
@@ -30,14 +44,7 @@
             var valid = this._isAnyCheckboxChecked();
             return valid;
         },
-        
-        _exportPlaylist: function() {
-            var downloadableElement = document.createElement('a');
-            downloadableElement.setAttribute('href', 'data:' + this._getMimeType() + ';charset=utf-8,' + encodeURIComponent(this._getFileText()));
-            downloadableElement.setAttribute('download', this._getFileName());
-            downloadableElement.click();
-        },
-        
+
         _getFileText: function() {
             var fileText;
 
@@ -131,19 +138,6 @@
         
         _isExportingAsCsv: function() {
             return this.ui.exportCsvRadio.is(':checked');
-        },
-        
-        //  Write the checked state of all radios and checkboxes to the model for saving to localStorage.
-        _saveState: function () {
-            var inputs = this.ui.checkboxes.add(this.ui.radios);
-            var saveOptions = {};
-
-            _.each(inputs, function (input) {
-                var property = $(input).data('property');
-                saveOptions[property] = input.checked;
-            });
-
-            this.model.save(saveOptions);
         }
     });
 

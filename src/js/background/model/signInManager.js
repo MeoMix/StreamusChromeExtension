@@ -270,6 +270,8 @@
                 if (profileUserInfo.id === '') throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
                 this.get('signedInUser').updateGooglePlusId(profileUserInfo.id);
             }.bind(this));
+            
+            this.set('needPromptLinkUserId', false);
         }
     });
 

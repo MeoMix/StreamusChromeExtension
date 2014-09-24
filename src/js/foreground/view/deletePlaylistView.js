@@ -10,7 +10,7 @@
             areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist')
         },
         
-        onSubmit: function () {
+        deletePlaylist: function() {
             this.model.destroy();
         }
     });

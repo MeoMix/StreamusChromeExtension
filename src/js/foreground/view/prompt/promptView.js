@@ -3,11 +3,12 @@
 ], function (PromptTemplate) {
     'use strict';
 
-    var Settings = Streamus.backgroundPage.Settings;
-
     var PromptView = Backbone.Marionette.LayoutView.extend({
         className: 'prompt u-overlay',
         template: _.template(PromptTemplate),
+        //  Provide either contentView to render or contentText to set as HTML.
+        contentView: null,
+        contentText: '',
         
         templateHelpers: function () {
             return {
@@ -35,11 +36,44 @@
         regions: {
             contentRegion: '@ui.contentRegion'
         },
+        
+        initialize: function () {
+            if (this.contentText === '' && this.contentView === null) console.error('No content set.');
+            if (this.contentText !== '' && this.contentView !== null) console.error('ContentView and ContextText are set; provide only one');
+        },
 
         onShow: function () {
+            this._setContent();
+            this._transitionIn();
+        },
+        
+        //  Unless a prompt specifically implements reminderProperty it is assumed that the reminder is not disabled and the prompt be shown when asked.
+        reminderDisabled: function () {
+            var reminderDisabled = false;
+            var reminderProperty = this.model.get('reminderProperty');
+            
+            if (reminderProperty !== false) {
+                reminderDisabled = !Streamus.backgroundPage.Settings.get(reminderProperty);
+            }
+
+            return reminderDisabled;
+        },
+        
+        hide: function () {
+            this._transitionOut();
+        },
+        
+        onSubmit: _.noop,
+        
+        validate: function () {
+            //  Don't use UI here because is-invalid is appended dynamically and so I can't rely on the cache.
+            return this.$el.find('.js-submittable.is-invalid').length === 0;
+        },
+        
+        _transitionIn: function() {
             //  Store original values in data attribute to be able to revert without magic numbers.
             this.$el.data('background', this.$el.css('background')).transition({
-                'background': 'rgba(0, 0, 0, 0.5)'
+                background: 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
             //  TODO: I shouldn't have to be setting x here, but transit overrides it when setting Y
@@ -48,32 +82,25 @@
                 y: '-50%',
                 opacity: 1
             }, 'snap');
-            
-            this.contentRegion.show(this.model.get('view'));
         },
         
-        //  TODO: Invert function for clarity.
-        //  Unless a prompt specifically implements reminderProperty it is assumed that the reminder is not disabled and the prompt be shown when asked.
-        reminderDisabled: function () {
-            var reminderDisabled = false;
-            var reminderProperty = this.model.get('reminderProperty');
-            
-            if (reminderProperty !== false) {
-                reminderDisabled = !Settings.get(reminderProperty);
-            }
-
-            return reminderDisabled;
-        },
-        
-        hide: function() {
+        _transitionOut: function() {
             this.$el.transition({
-                'background': this.$el.data('background')
+                background: this.$el.data('background')
             }, this.destroy.bind(this));
 
             this.ui.panel.transition({
                 y: '-100%',
                 opacity: 0
             });
+        },
+        
+        _setContent: function() {
+            if (this.contentView) {
+                this.contentRegion.show(this.contentView);
+            } else {
+                this.ui.contentRegion.html(this.contentText);
+            }
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
@@ -91,15 +118,8 @@
         },
         
         _submit: function () {
-            //  Run validation logic if provided else assume valid
-            var contentView = this.model.get('view');
-            var isValid = _.isFunction(contentView.validate) ? contentView.validate() : true;
-            
-            if (isValid) {
-                if (_.isFunction(contentView.onSubmit)) {
-                    contentView.onSubmit();
-                }
-
+            if (this.validate()) {
+                this.onSubmit();
                 this.hide();
             }
         },
@@ -108,7 +128,7 @@
             var reminderProperty = this.model.get('reminderProperty');
             var remind = !this.ui.reminderCheckbox.is(':checked');
 
-            Settings.save(reminderProperty, remind);
+            Streamus.backgroundPage.Settings.save(reminderProperty, remind);
         }
     });
 

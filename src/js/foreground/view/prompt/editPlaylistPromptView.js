@@ -6,16 +6,21 @@
     'use strict';
     
     var EditPlaylistPromptView = PromptView.extend({
+        model: new Prompt({
+            title: chrome.i18n.getMessage('editPlaylist'),
+            okButtonText: chrome.i18n.getMessage('update')
+        }),
+
         initialize: function (options) {
-            this.model = new Prompt({
-                title: chrome.i18n.getMessage('editPlaylist'),
-                okButtonText: chrome.i18n.getMessage('update'),
-                view: new EditPlaylistView({
-                    model: options.playlist
-                })
+            this.contentView = new EditPlaylistView({
+                model: options.playlist
             });
             
             PromptView.prototype.initialize.apply(this, arguments);
+        },
+        
+        onSubmit: function() {
+            this.contentView.editPlaylist();
         }
     });
 

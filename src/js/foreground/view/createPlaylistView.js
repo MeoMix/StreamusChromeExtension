@@ -42,11 +42,12 @@
             //  Reset the value after focusing to focus without selecting.
             this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
         },
+        
+        createPlaylist: function() {
+            var dataSource = this.ui.youTubeSourceInput.data('datasource');
+            var playlistName = this.ui.playlistTitleInput.val().trim();
 
-        validate: function () {
-            //  If all js-submittable fields indicate themselves as valid -- allow submission.
-            var valid = this.$el.find('.js-submittable.is-invalid').length === 0;
-            return valid;
+            Playlists.addPlaylistByDataSource(playlistName, dataSource);
         },
         
         //  Debounce for typing support so I know when typing has finished
@@ -56,7 +57,7 @@
         }, 100),
         
         _parseInput: function () {
-            var youTubeUrl = $.trim(this.ui.youTubeSourceInput.val());
+            var youTubeUrl = this.ui.youTubeSourceInput.val().trim();
             this.ui.youTubeSourceInput.removeData('datasource').removeClass('is-valid is-invalid');
 
             if (youTubeUrl !== '') {
@@ -68,7 +69,7 @@
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
+            var playlistTitle = this.ui.playlistTitleInput.val().trim();
             this.ui.playlistTitleInput.toggleClass('is-invalid', playlistTitle === '');
         },
 
@@ -76,13 +77,6 @@
             this.ui.youTubeSourceInput.data('datasource', new DataSource({
                 type: DataSourceType.UserInput
             }));
-        },
-
-        onSubmit: function () {
-            var dataSource = this.ui.youTubeSourceInput.data('datasource');
-            var playlistName = $.trim(this.ui.playlistTitleInput.val());
-
-            Playlists.addPlaylistByDataSource(playlistName, dataSource);
         },
         
         _setDataSourceViaUrl: function(url) {

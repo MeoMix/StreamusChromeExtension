@@ -17,16 +17,16 @@
         },
 
         events: {
-            'input @playlistTitleInput': '_validateTitle'
+            'input @ui.playlistTitleInput': '_validateTitle'
         },
         
         onShow: function () {
             this._focusInput();
         },
-        
-        validate: function () {
-            var valid = this.$el.find('.js-submittable.is-invalid').length === 0;
-            return valid;
+     
+        editPlaylist: function () {
+            var trimmedTitle = this._getTrimmedTitle();
+            this.model.set('title', trimmedTitle);
         },
         
         _focusInput: function () {
@@ -36,13 +36,12 @@
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
-            this.ui.playlistTitle.toggleClass('is-invalid', playlistTitle === '');
+            var trimmedTitle = this._getTrimmedTitle();
+            this.ui.playlistTitleInput.toggleClass('is-invalid', trimmedTitle === '');
         },
         
-        onSubmit: function () {
-            var playlistTitle = $.trim(this.ui.playlistTitleInput.val());
-            this.model.set('title', playlistTitle);
+        _getTrimmedTitle: function() {
+            return this.ui.playlistTitleInput.val().trim();
         }
     });
 

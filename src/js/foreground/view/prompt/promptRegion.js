@@ -96,12 +96,7 @@
             var reminderDisabled = promptView.reminderDisabled();
 
             if (reminderDisabled) {
-                var subView = promptView.model.get('view');
-                var onSubmitFunction = subView.onSubmit;
-                
-                if (_.isFunction(onSubmitFunction)) {
-                    onSubmitFunction.call(subView);
-                }
+                promptView.onSubmit();
             } else {
                 this.show(promptView);
             }

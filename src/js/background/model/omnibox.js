@@ -29,7 +29,7 @@ define([
             //  Clear suggestedSongs
             this.get('suggestedSongs').length = 0;
 
-            var trimmedSearchText = $.trim(text);
+            var trimmedSearchText = text.trim();
 
             //  Clear suggestions if there is no text.
             if (trimmedSearchText === '') {

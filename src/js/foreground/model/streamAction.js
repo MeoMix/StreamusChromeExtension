@@ -1,8 +1,7 @@
 ﻿define([
     'foreground/view/prompt/clearStreamPromptView',
-    'foreground/view/clearStreamView',
     'foreground/view/prompt/saveSongsPromptView'
-], function (ClearStreamPromptView, ClearStreamView, SaveSongsPromptView) {
+], function (ClearStreamPromptView, SaveSongsPromptView) {
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;

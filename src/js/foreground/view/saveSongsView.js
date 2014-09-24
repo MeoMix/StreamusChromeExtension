@@ -27,11 +27,16 @@
             this.bindUIElements();
         },
         
-        validate: function () {
+        saveSongs: function () {
             var selectedPlaylistId = this.ui.playlistSelect.val();
-            var isValid = selectedPlaylistId !== null && selectedPlaylistId.length > 0;
 
-            return isValid;
+            if (this.model.get('creating')) {
+                var playlistTitle = this.ui.selectizeTitle.text();
+                Playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
+            } else {
+                var selectedPlaylist = Playlists.get(selectedPlaylistId);
+                selectedPlaylist.get('items').addSongs(this.model.get('songs'));
+            }
         },
         
         _getSelectizeOptions: function () {
@@ -87,9 +92,9 @@
             return option;
         },
         
-        _onSelectizeCreate: function(input) {
+        _onSelectizeCreate: function (input) {
             var createResult = false;
-            var trimmedInput = $.trim(input);
+            var trimmedInput = input.trim();
 
             if (trimmedInput !== '') {
                 createResult = {
@@ -103,25 +108,15 @@
             return createResult;
         },
         
-        _onSelectizeItemAdd: function() {
+        _onSelectizeItemAdd: function () {
             //  Rebind UI elements after adding an element to selectize control in order to capture the appended DOM elements.
             this.bindUIElements();
+            this.ui.playlistSelect.removeClass('is-invalid');
         },
         
-        _onSelectizeDelete: function() {
+        _onSelectizeDelete: function () {
             this.model.set('creating', false);
-        },
-        
-        onSubmit: function () {
-            var selectedPlaylistId = this.ui.playlistSelect.val();
-
-            if (this.model.get('creating')) {
-                var playlistTitle = this.ui.selectizeTitle.text();
-                Playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
-            } else {
-                var selectedPlaylist = Playlists.get(selectedPlaylistId);
-                selectedPlaylist.get('items').addSongs(this.model.get('songs'));
-            }
+            this.ui.playlistSelect.addClass('is-invalid');
         }
     });
 

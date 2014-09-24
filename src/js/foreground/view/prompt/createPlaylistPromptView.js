@@ -6,14 +6,19 @@
     'use strict';
     
     var CreatePlaylistPromptView = PromptView.extend({
+        model: new Prompt({
+            title: chrome.i18n.getMessage('createPlaylist'),
+            okButtonText: chrome.i18n.getMessage('create')
+        }),
+
         initialize: function() {
-            this.model = new Prompt({
-                title: chrome.i18n.getMessage('createPlaylist'),
-                okButtonText: chrome.i18n.getMessage('create'),
-                view: new CreatePlaylistView()
-            });
+            this.contentView = new CreatePlaylistView();
             
             PromptView.prototype.initialize.apply(this, arguments);
+        }, 
+        
+        onSubmit: function () {
+            this.contentView.createPlaylist();
         }
     });
 

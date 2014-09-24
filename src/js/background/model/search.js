@@ -42,7 +42,7 @@
         
         //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
         _hasSearchableQuery: function () {
-            return $.trim(this.get('query')) !== '';
+            return this.get('query').trim() !== '';
         },
         
         //  Perform a search on the given query or just terminate immediately if nothing to do.

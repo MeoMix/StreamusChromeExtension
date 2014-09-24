@@ -1,23 +1,26 @@
 ﻿define([
     'foreground/model/prompt',
-    'foreground/view/noPlayEmbeddedView',
     'foreground/view/prompt/promptView'
-], function (Prompt, NoPlayEmbeddedView, PromptView) {
+], function (Prompt, PromptView) {
     'use strict';
     
-    var Player = Streamus.backgroundPage.YouTubePlayer;
-
     var NoPlayEmbeddedPromptView = PromptView.extend({
-        initialize: function () {
-            this.model = new Prompt({
-                title: chrome.i18n.getMessage('errorEncountered'),
-                okButtonText: chrome.i18n.getMessage('reload'),
-                view: new NoPlayEmbeddedView()
-            });
-            
-            PromptView.prototype.initialize.apply(this, arguments);
+        //  TODO: i18n.
+        contentText: chrome.i18n.getMessage('youTubePlayerErrorNoPlayEmbedded') + '<br/><br/>' + 'This is commonly caused by a bug in Streamus which is a known issue and is being worked on. Restarting Streamus should fix the problem. Sorry.',
 
-            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedView shown, loadedSongId:" + Player.get('loadedSongId'));
+        model: new Prompt({
+            title: chrome.i18n.getMessage('errorEncountered'),
+            okButtonText: chrome.i18n.getMessage('reload')
+        }),
+
+        initialize: function () {
+            PromptView.prototype.initialize.apply(this, arguments);
+            //  TODO: When I fix the bug related to this then this can go away.
+            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedView shown, loadedSongId:" + Streamus.backgroundPage.YouTubePlayer.get('loadedSongId'));
+        },
+
+        onSubmit: function () {
+            chrome.runtime.reload();
         }
     });
 

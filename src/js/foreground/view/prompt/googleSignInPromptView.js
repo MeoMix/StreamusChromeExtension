@@ -1,19 +1,19 @@
 ﻿define([
     'foreground/model/prompt',
-    'foreground/view/googleSignInView',
     'foreground/view/prompt/promptView'
-], function (Prompt, GoogleSignInView, PromptView) {
+], function (Prompt, PromptView) {
     'use strict';
 
     var GoogleSignInPromptView = PromptView.extend({
-        initialize: function () {
-            this.model = new Prompt({
-                title: chrome.i18n.getMessage('signInToGoogle'),
-                reminderProperty: 'remindGoogleSignIn',
-                view: new GoogleSignInView()
-            });
-
-            PromptView.prototype.initialize.apply(this, arguments);
+        contentText: chrome.i18n.getMessage('googleSignInMessage'),
+        
+        model: new Prompt({
+            title: chrome.i18n.getMessage('signInToGoogle'),
+            reminderProperty: 'remindGoogleSignIn'
+        }),
+        
+        onSubmit: function () {
+            Streamus.backgroundPage.SignInManager.set('needPromptGoogleSignIn', false);
         }
     });
 

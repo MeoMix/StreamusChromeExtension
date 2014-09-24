@@ -51,7 +51,7 @@
                 //  Probably set this to its default of video/playlist/channel at some point.
                 type: 'video',
                 maxResults: options.maxResults || 50,
-                q: $.trim(options.text),
+                q: options.text.trim(),
                 fields: 'items/id/videoId',
                 //  I don't think it's a good idea to filter out results based on safeSearch for music.
                 safeSearch: 'none'
