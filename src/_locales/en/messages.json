@@ -474,5 +474,29 @@
 	},
 	"applyToBeatport": {
 		"message": "Apply to Beatport"
+	},
+	"streamusBugApology": {
+		"message": "This is commonly caused by a bug in Streamus which is a known issue and is being worked on. Restarting Streamus should fix the problem. Sorry."
+	},
+	"fileType": {
+		"message": "File type"
+	},
+	"csv":{
+		"message": "CSV"
+	},
+	"json": {
+		"message": "JSON"
+	},
+	"include": {
+		"message": "Include"
+	},
+	"id": {
+		"message": "Id"
+	},
+	"author": {
+		"message": "Author"
+	},
+	"duration": {
+		"message": "Duration"
 	}
 }

@@ -7,10 +7,14 @@
     var ReloadStreamusPromptView = PromptView.extend({
         contentText: chrome.i18n.getMessage('streamusIsTakingALongTimeToLoadReloadingMayHelp'),
         
-        model: new Prompt({
-            title: chrome.i18n.getMessage('reloadStreamus'),
-            okButtonText: chrome.i18n.getMessage('reload')
-        }),
+        initialize: function () {
+            this.model = new Prompt({
+                title: chrome.i18n.getMessage('reloadStreamus'),
+                okButtonText: chrome.i18n.getMessage('reload')
+            });
+
+            PromptView.prototype.initialize.apply(this, arguments);
+        },
 
         onSubmit: function () {
             chrome.runtime.reload();

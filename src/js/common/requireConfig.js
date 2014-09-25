@@ -22,6 +22,7 @@
             'backbone.marionette': 'thirdParty/backbone.marionette',
             //  TODO: I don't think chai/mocha/sinon should be known here, but maaaybe.
             'chai': 'thirdParty/chai',
+            'cocktail': 'thirdParty/cocktail',
             'googleAnalytics': 'thirdParty/googleAnalytics',
             'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',

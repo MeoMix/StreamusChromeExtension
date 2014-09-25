@@ -1,12 +1,14 @@
 ﻿define([
-    'background/collection/multiSelectCollection',
+    'background/mixin/collectionMultiSelect',
     'background/model/searchResult',
     'background/model/song'
-], function (MultiSelectCollection, SearchResult, Song) {
+], function (CollectionMultiSelect, SearchResult, Song) {
     'use strict';
     
-    var SearchResults = MultiSelectCollection.extend({
+    var SearchResults = Backbone.Collection.extend({
         model: SearchResult,
+        
+        mixins: [CollectionMultiSelect],
         
         //  TODO: I think it would be better to just condense these functions and allow either an array or a single object to be given to it.
         setFromSongInformation: function (songInformation) {

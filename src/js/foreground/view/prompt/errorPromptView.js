@@ -5,11 +5,11 @@
     'use strict';
     
     var ErrorPromptView = PromptView.extend({
-        model: new Prompt({
-            title: chrome.i18n.getMessage('errorEncountered')
-        }),
-
         initialize: function (options) {
+            this.model = new Prompt({
+                title: chrome.i18n.getMessage('errorEncountered')
+            });
+
             this.contentText = options.text;
 
             PromptView.prototype.initialize.apply(this, arguments);

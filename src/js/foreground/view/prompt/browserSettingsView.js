@@ -30,7 +30,11 @@
             var checkbox = $(event.target);
             var property = checkbox.data('property');
             var checked = checkbox.is(':checked');
-            this.model.save(property, checked);
+            this._saveProperty(property, checked);
+        },
+
+        _saveProperty: function (property, value) {
+            this.model.save(property, value);
         }
     });
 

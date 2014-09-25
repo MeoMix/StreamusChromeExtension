@@ -6,13 +6,13 @@
     'use strict';
     
     var DeletePlaylistPromptView = PromptView.extend({
-        model: new Prompt({
-            title: chrome.i18n.getMessage('deletePlaylist'),
-            okButtonText: chrome.i18n.getMessage('delete'),
-            reminderProperty: 'remindDeletePlaylist'
-        }),
-
         initialize: function (options) {
+            this.model = new Prompt({
+                title: chrome.i18n.getMessage('deletePlaylist'),
+                okButtonText: chrome.i18n.getMessage('delete'),
+                reminderProperty: 'remindDeletePlaylist'
+            });
+
             this.contentView = new DeletePlaylistView({
                 model: options.playlist
             });

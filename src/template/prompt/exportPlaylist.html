@@ -1,17 +1,17 @@
 ﻿<div class="grouping-column">
-    <div class="grouping-header">File type</div>
+    <div class="grouping-header"><%= fileTypeMessage %></div>
     <div class="grouping-content">
         <ul>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportCsvRadio" data-property="exportCsv" type="radio" name="export-type" value="csv" <%= exportCsv ? 'checked' : '' %> />
-                    CSV
+                    <%= csvMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportJsonRadio" data-property="exportJson" type="radio" name="export-type" value="json" <%= exportJson ? 'checked' : '' %> />
-                    JSON
+                    <%= jsonMessage %>
                 </label>
             </li>
         </ul>
@@ -19,37 +19,37 @@
 </div>
 
 <div class="grouping-column">
-    <div class="grouping-header">Include</div>
+    <div class="grouping-header"><%= includeMessage %></div>
     <div class="grouping-content">
         <ul>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportTitleCheckbox" data-property="exportTitle" type="checkbox" <%= exportTitle ? 'checked' : '' %> />
-                    Title
+                    <%= titleMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportIdCheckbox" data-property="exportId" type="checkbox" <%= exportId ? 'checked' : '' %> />
-                    ID
+                    <%= idMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportUrlCheckbox" data-property="exportUrl" type="checkbox" <%= exportUrl ? 'checked' : '' %> />
-                    URL
+                    <%= urlMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportAuthorCheckbox" data-property="exportAuthor" type="checkbox" <%= exportAuthor ? 'checked' : '' %> />
-                    Author
+                    <%= authorMessage %>
                 </label>
             </li>
             <li class="grouping-item">
                 <label>
                     <input id="exportPlaylist-exportDurationCheckbox" data-property="exportDuration" type="checkbox" <%= exportDuration ? 'checked' : '' %> />
-                    Duration
+                    <%= durationMessage %>
                 </label>
             </li>
         </ul>

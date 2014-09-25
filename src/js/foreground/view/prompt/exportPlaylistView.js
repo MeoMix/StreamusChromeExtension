@@ -8,6 +8,20 @@
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
         
+        templateHelpers: function () {
+            return {
+                fileTypeMessage: chrome.i18n.getMessage('fileType'),
+                csvMessage: chrome.i18n.getMessage('csv'),
+                jsonMessage: chrome.i18n.getMessage('json'),
+                includeMessage: chrome.i18n.getMessage('include'),
+                titleMessage: chrome.i18n.getMessage('title'),
+                idMessage: chrome.i18n.getMessage('id'),
+                urlMessage: chrome.i18n.getMessage('url'),
+                authorMessage: chrome.i18n.getMessage('author'),
+                durationMessage: chrome.i18n.getMessage('duration')
+            };
+        },
+        
         ui: {
             exportCsvRadio: '#exportPlaylist-exportCsvRadio',
             exportJsonRadio: '#exportPlaylist-exportJsonRadio',

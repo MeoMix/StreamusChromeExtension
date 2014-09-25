@@ -40,13 +40,17 @@
             var checkbox = $(event.target);
             var property = checkbox.data('property');
             var checked = checkbox.is(':checked');
-            this.model.save(property, checked);
+            this._saveProperty(property, checked);
         },
         
         _onSelectChange: function(event) {
             var select = $(event.target);
             var property = select.data('property');
             var value = select.val();
+            this._saveProperty(property, value);
+        },
+        
+        _saveProperty: function(property, value) {
             this.model.save(property, value);
         }
     });

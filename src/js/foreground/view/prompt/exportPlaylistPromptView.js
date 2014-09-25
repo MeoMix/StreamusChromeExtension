@@ -7,12 +7,12 @@
     'use strict';
     
     var ExportPlaylistPromptView = PromptView.extend({
-        model: new Prompt({
-            title: chrome.i18n.getMessage('exportPlaylist'),
-            okButtonText: chrome.i18n.getMessage('export')
-        }),
-
         initialize: function (options) {
+            this.model = new Prompt({
+                title: chrome.i18n.getMessage('exportPlaylist'),
+                okButtonText: chrome.i18n.getMessage('export')
+            });
+
             this.contentView = new ExportPlaylistView({
                 model: new ExportPlaylist({
                     playlist: options.playlist

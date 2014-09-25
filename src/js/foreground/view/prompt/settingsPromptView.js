@@ -6,12 +6,12 @@
     'use strict';
     
     var SettingsPromptView = PromptView.extend({
-        model: new Prompt({
-            title: chrome.i18n.getMessage('settings'),
-            showOkButton: false
-        }),
-
         initialize: function () {
+            this.model = new Prompt({
+                title: chrome.i18n.getMessage('settings'),
+                showOkButton: false
+            });
+
             this.contentView = new SettingsView({
                 model: Streamus.backgroundPage.Settings
             });

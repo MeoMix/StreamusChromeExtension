@@ -1,6 +1,6 @@
 ﻿define([
-    'background/collection/multiSelectCollection',
-    'background/mixin/sequencedCollectionMixin',
+    'background/mixin/collectionMultiSelect',
+    'background/mixin/collectionSequence',
     'background/model/chromeNotifications',
     'background/model/streamItem',
     'background/model/song',
@@ -13,12 +13,14 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (MultiSelectCollection, SequencedCollectionMixin, ChromeNotifications, StreamItem, Song, TabManager, Player, Utility, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (CollectionMultiSelect, CollectionSequence, ChromeNotifications, StreamItem, Song, TabManager, Player, Utility, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
-    var StreamItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
+    var StreamItems = Backbone.Collection.extend({
         model: StreamItem,
         localStorage: new Backbone.LocalStorage('StreamItems'),
+        
+        mixins: [CollectionMultiSelect, CollectionSequence],
 
         initialize: function () {
             //  TODO: History is lost when Streamus is restarted. Not a HUGE deal since it just affects shuffling, but would be nice to save it.
@@ -44,8 +46,6 @@
             if (!_.isUndefined(activeItem)) {
                 this._loadActiveItem(activeItem);
             }
-
-            MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
         
         addSongs: function (songs, options) {
@@ -478,7 +478,7 @@
                 });
             }
         }
-    }));
+    });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.StreamItems = new StreamItems();

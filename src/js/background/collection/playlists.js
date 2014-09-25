@@ -1,19 +1,21 @@
 ﻿define([
     'background/enum/syncActionType',
-    'background/mixin/sequencedCollectionMixin',
+    'background/mixin/collectionSequence',
     'background/model/chromeNotifications',
     'background/model/playlist',
     'background/model/song',
     'background/model/tabManager',
     'common/enum/listItemType',
     'common/model/youTubeV3API'
-], function (SyncActionType, SequencedCollectionMixin, ChromeNotifications, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
+], function (SyncActionType, CollectionSequence, ChromeNotifications, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
     'use strict';
 
     //  TODO: Stop having this be a singleton so it is easier to test.
-    var Playlists = Backbone.Collection.extend(_.extend({}, SequencedCollectionMixin, {
+    var Playlists = Backbone.Collection.extend({
         model: Playlist,
         userId: null,
+        
+        mixins: [CollectionSequence],
         
         initialize: function () {
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
@@ -284,7 +286,7 @@
         _getSyncEventChannel: function () {
             return Backbone.Wreqr.radio.channel('sync-' + ListItemType.Playlist).vent;
         }
-    }));
+    });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.Playlists = new Playlists();

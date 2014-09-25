@@ -3,12 +3,12 @@ a.streamus {
 }
 
 .streamus.btn-play {
-    background-color: #51a351;
+    background-color: rgb(81,163,81);
     margin-right: 2px;
 }
 
 .streamus.btn-queue {
-    background-color: #439645;
+    background-color: rgb(67,150,69);
     background-image: url("../img/streamus_icon14_0bars.png");
     background-position: 4px;
 }
@@ -24,11 +24,11 @@ a.streamus {
 }
 
 .streamus.btn-play:hover {
-    background-color: #5bb75b;
+    background-color: rgb(91,183,91);
 }
 
 .streamus.btn-queue:hover {
-    background-color: #439645;
+    background-color: rgb(67,150,69);
 }
 
 /* Reduce top offset to account for streamus injected play button */

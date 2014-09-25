@@ -1,15 +1,17 @@
 ﻿define([
     'background/enum/syncActionType',
-    'background/collection/multiSelectCollection',
-    'background/mixin/sequencedCollectionMixin',
+    'background/mixin/collectionMultiSelect',
+    'background/mixin/collectionSequence',
     'background/model/playlistItem',
     'common/enum/listItemType'
-], function (SyncActionType, MultiSelectCollection, SequencedCollectionMixin, PlaylistItem, ListItemType) {
+], function (SyncActionType, CollectionMultiSelect, CollectionSequence, PlaylistItem, ListItemType) {
     'use strict';
-    
-    var PlaylistItems = MultiSelectCollection.extend(_.extend({}, SequencedCollectionMixin, {
+
+    var PlaylistItems = Backbone.Collection.extend({
         model: PlaylistItem,
         playlistId: -1,
+        
+        mixins: [CollectionMultiSelect, CollectionSequence],
         
         initialize: function (models, options) {
             if (!_.isUndefined(options)) {
@@ -18,8 +20,6 @@
             
             this.on('add', this._onAdd);
             this.on('remove', this._onRemove);
-            
-            MultiSelectCollection.prototype.initialize.apply(this, arguments);
         },
 
         //  Figure out if a Song would be unique to the collection or if it already referenced by a PlaylistItem.
@@ -42,7 +42,7 @@
                 this._trySetDuplicateSongId(items);
             }
             
-            return MultiSelectCollection.prototype.add.apply(this, arguments);
+            return Backbone.Collection.prototype.add.apply(this, arguments);
         },
 
         addSongs: function (songs, options) {
@@ -169,7 +169,7 @@
                 model: removedPlaylistItem
             });
         }
-    }));
+    });
 
     return PlaylistItems;
 });

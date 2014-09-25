@@ -19,16 +19,21 @@
     
     //  TODO: This is necessary for tests to work, but how can I make the original one reusable?
     var Application = Backbone.Marionette.Application.extend({
-        localDebug: false,
+        localDebug: true,
         serverUrl: '',
 
         initialize: function () {
             this._setServerUrl();
+            this._setBackgroundPage();
             this.on('start', this._runTests);
         },
 
         _setServerUrl: function () {
             this.serverUrl = this.localDebug ? 'http://localhost:28029/' : 'https://aws-server.streamus.com/Streamus/';
+        },
+        
+        _setBackgroundPage: function() {
+            this.backgroundPage = chrome.extension.getBackgroundPage();
         },
         
         _runTests: function () {
