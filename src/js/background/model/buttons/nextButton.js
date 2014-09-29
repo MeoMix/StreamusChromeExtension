@@ -1,10 +1,11 @@
 ﻿define([
     'background/collection/streamItems',
+    'background/model/chromeNotifications',
     'background/model/buttons/radioButton',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/repeatButton',
     'common/enum/repeatButtonState'
-], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
+], function (StreamItems, ChromeNotifications, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
     
     var NextButton = Backbone.Model.extend({
@@ -17,6 +18,7 @@
             this.listenTo(RadioButton, 'change:enabled', this._toggleEnabled);
             this.listenTo(ShuffleButton, 'change:enabled', this._toggleEnabled);
             this.listenTo(RepeatButton, 'change:state', this._toggleEnabled);
+            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             this._toggleEnabled();
         },
@@ -32,6 +34,19 @@
 
             return activatedNextItem;
         }, 100, true),
+        
+        _onChromeCommand: function (command) {
+            if (command === 'nextSong') {
+                var activatedStreamItem = this.tryActivateNextStreamItem();
+
+                if (!activatedStreamItem) {
+                    ChromeNotifications.create({
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        message: chrome.i18n.getMessage('cantSkipToNextSong')
+                    });
+                }
+            }
+        },
         
         _toggleEnabled: function () {
             var enabled = false;

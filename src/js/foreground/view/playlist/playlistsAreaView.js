@@ -96,9 +96,9 @@
         _getSortableOptions: function () {
             var sortableOptions = {
                 axis: 'y',
-                placeholder: 'sortable-placeholder listItem',
                 delay: 100,
                 containment: 'parent',
+                tolerance: 'pointer',
                 update: this._onSortableUpdate.bind(this)
             };
 
@@ -107,24 +107,19 @@
         
         //  Whenever a playlist is moved visually -- update corresponding model with new information.
         _onSortableUpdate: function (event, ui) {
-            var listItemType = ui.item.data('type');
+            var playlistId = ui.item.data('id');
+            var index = ui.item.index();
 
-            //  Run this code only when reorganizing playlists.
-            if (listItemType === ListItemType.Playlist) {
-                var playlistId = ui.item.data('id');
-                var index = ui.item.index();
+            var playlist = this.collection.get(playlistId);
+            var originalIndex = this.collection.indexOf(playlist);
 
-                var playlist = this.collection.get(playlistId);
-                var originalIndex = this.collection.indexOf(playlist);
-
-                //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
-                //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
-                if (originalIndex < index) {
-                    index += 1;
-                }
-
-                this.collection.moveToIndex(playlistId, index);
+            //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
+            //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
+            if (originalIndex < index) {
+                index += 1;
             }
+
+            this.collection.moveToIndex(playlistId, index);
         },
         
         _showCreatePlaylistPrompt: function () {

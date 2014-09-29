@@ -1,7 +1,7 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/collection/contextMenuItems',
-    'foreground/model/contextMenuActions',
+    'foreground/model/playlistAction',
     'foreground/view/listItemView',
     'foreground/view/listItemButton/addPlaylistButtonView',
     'foreground/view/listItemButton/deletePlaylistButtonView',
@@ -10,10 +10,11 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, ContextMenuItems, ContextMenuActions, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, ContextMenuItems, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
+    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var PlaylistView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist listItem--indented listItem--small',
@@ -38,7 +39,8 @@
         modelEvents: {
             'change:title': '_updateTitle',
             'change:dataSourceLoaded': '_setShowingSpinnerClass',
-            'change:active': '_setActiveClass'
+            'change:active': '_setActiveClass',
+            'change:id': '_setShowingSpinnerClass'
         },
         
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
@@ -59,7 +61,8 @@
         
         _setShowingSpinnerClass: function () {
             var loading = this.model.has('dataSource') && !this.model.get('dataSourceLoaded');
-            this.$el.toggleClass('is-showingSpinner', loading);
+            var saving = this.model.isNew();
+            this.$el.toggleClass('is-showingSpinner', loading || saving);
         },
         
         _setActiveClass: function () {
@@ -146,15 +149,8 @@
             });
         },
         
-        _showDeletePlaylistPrompt: function() {
-            //  No need to notify if the playlist is empty.
-            if (this.model.get('items').length === 0) {
-                this.model.destroy();
-            } else {
-                Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
-                    playlist: this.model
-                });
-            }
+        _showDeletePlaylistPrompt: function () {
+            PlaylistAction.deletePlaylist(this.model);
         },
         
         _showExportPlaylistPrompt: function() {
@@ -164,7 +160,7 @@
         },
         
         _addSongsToStream: function () {
-            ContextMenuActions.addSongsToStream(this.model.get('items').pluck('song'));
+            StreamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
         _onClick: function () {

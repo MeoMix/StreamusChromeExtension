@@ -1,14 +1,13 @@
 ﻿define([
     'common/model/utility',
     'foreground/collection/contextMenuItems',
-    'foreground/model/contextMenuActions',
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
     'foreground/view/listItemButton/deleteSongButtonView',
     'foreground/view/listItemButton/playSongButtonView',
     'foreground/view/listItemButton/saveSongButtonView',
     'text!template/rightPane/streamItem.html'
-], function (Utility, ContextMenuItems, ContextMenuActions, ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
+], function (Utility, ContextMenuItems, ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -114,13 +113,13 @@
         
         _copyUrl: function () {
             var songUrl = this.model.get('song').get('url');
-            ContextMenuActions.copyUrl(songUrl);
+            Streamus.backgroundPage.Clipboard.copyUrl(songUrl);
         },
 
         _copyTitleAndUrl: function () {
             var songTitle = this.model.get('title');
             var songUrl = this.model.get('song').get('url');
-            ContextMenuActions.copyTitleAndUrl(songTitle, songUrl);
+            Streamus.backgroundPage.Clipboard.copyTitleAndUrl(songTitle, songUrl);
         },
         
         _destroyModel: function () {
@@ -129,7 +128,7 @@
 
         _watchOnYouTube: function () {
             var song = this.model.get('song');
-            ContextMenuActions.watchOnYouTube(song.get('id'), song.get('url'));
+            Player.watchInTab(song.get('id'), song.get('url'));
         }
     });
 

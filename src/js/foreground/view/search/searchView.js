@@ -15,7 +15,7 @@
     
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
-        className: 'leftPane column u-flex--column panel panel--left panel--uncolored',
+        className: 'leftPane column column--fullWidth u-flex--column panel panel--left panel--uncolored',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,

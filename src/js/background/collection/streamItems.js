@@ -2,6 +2,7 @@
     'background/mixin/collectionMultiSelect',
     'background/mixin/collectionSequence',
     'background/model/chromeNotifications',
+    'background/model/clipboard',
     'background/model/streamItem',
     'background/model/song',
     'background/model/tabManager',
@@ -13,7 +14,7 @@
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (CollectionMultiSelect, CollectionSequence, ChromeNotifications, StreamItem, Song, TabManager, Player, Utility, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (CollectionMultiSelect, CollectionSequence, ChromeNotifications, Clipboard, StreamItem, Song, TabManager, Player, Utility, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     var StreamItems = Backbone.Collection.extend({
@@ -33,19 +34,54 @@
             this.on('reset', this._onReset);
             this.on('change:active', this._onChangeActive);
             this.listenTo(Player, 'change:state', this._onChangePlayerState);
+            this.listenTo(Player, 'error', this._onPlayerError);
             this.on('change:playedRecently', this._onChangePlayedRecently);
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             //  Load any existing StreamItems from local storage
             this.fetch();
-
-            //  TODO: Don't persist selectedness to localStorage.
+            
+            //  TODO: -somehow- I get into a state where it knows a song is selected and that is written to localStorage.
             this.deselectAll();
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
                 this._loadActiveItem(activeItem);
             }
+            
+            //this.add({
+            //    song: new Song({
+            //        id: 'M7lc1UVf-VE',
+            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
+            //        author: 'Google Developers',
+            //        duration: '1344'
+            //    }),
+            //    title: 'Test 0',
+            //    sequence: 0
+            //});
+
+            //this.add({
+            //    song: new Song({
+            //        id: 'JMPYmNINxrE',
+            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
+            //        author: 'Google Developers',
+            //        duration: '1344'
+            //    }),
+            //    title: 'Test 1',
+            //    sequence: 100
+            //});
+
+            //this.add({
+            //    song: new Song({
+            //        id: 'M7lc1UVf-VE',
+            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
+            //        author: 'Google Developers',
+            //        duration: '1344'
+            //    }),
+            //    title: 'Test 2',
+            //    sequence: 200
+            //});
         },
         
         addSongs: function (songs, options) {
@@ -69,13 +105,12 @@
                 //  TODO: Make each item unique / no duplicates allowed.
                 var sequence = this.getSequenceFromIndex(index);
 
-                var streamItem = new StreamItem({
+                var createdStreamItem = this.create({
                     song: song,
                     title: song.get('title'),
                     sequence: sequence
-                });
-
-                var createdStreamItem = this.create(streamItem, { sort: false });
+                }, { sort: false });
+                
                 createdStreamItems.push(createdStreamItem);
                 index++;
             }, this);
@@ -126,15 +161,16 @@
                 //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === this.length) {
                     if (repeatButtonState === RepeatButtonState.RepeatStream) {
-                        this.at(0).save({ active: true });
-
-                        //  TODO: Might be sending an erroneous trigger on delete?
-                        //  Only one item in the playlist and it was already active, resend activated trigger.
-                        if (this.length === 1) {
-                            this.at(0).trigger('change:active', this.at(0), true);
+                        var firstItem = this.at(0);
+                        
+                        //  Looped back to the front but that item was already active (only 1 in playlist during a skip), resend activated trigger.
+                        if (firstItem.get('active')) {
+                            firstItem.trigger('change:active', firstItem, true);
+                        } else {
+                            firstItem.save({ active: true });
                         }
 
-                        nextItem = this.at(0);
+                        nextItem = firstItem;
                     }
                     else if (radioEnabled) {
                         var randomRelatedSong = this._getRandomRelatedSong();
@@ -206,10 +242,9 @@
         activatePrevious: function () {
             var previousStreamItem = this.getPrevious();
             
-            //  TODO: It doesn't make a ton of sense that the current item is in history (I mean, it sort of does logically... but not when reading this code.)
-            //  Peel the currentStreamItem from the top of history.
+            //  Peel the current item from the top of history.
             this.history.shift();
-            //  Peel the previous streamItem from the top of history, as well.
+            //  Peel the previous item from the top of history, as well.
             this.history.shift();
             
             //  When repeating a song -- it'll already be active, but still need to trigger a change:active event so program will respond.
@@ -237,7 +272,7 @@
             });
         },
         
-        showActiveNotification: function () {
+        _showActiveNotification: function () {
             var activeItem = this.getActiveItem();
 
             var iconUrl = '';
@@ -297,10 +332,16 @@
                 //  Only display notifications if the foreground isn't open -- either through the extension popup or as a URL tab
                 Utility.isForegroundOpen(function(isForegroundOpen) {
                     if (!isForegroundOpen) {
-                        this.showActiveNotification();
+                        this._showActiveNotification();
                     }
                 }.bind(this));
             }
+        },
+        
+        _onPlayerError: function () {
+            console.log("Player state:", Player.get('state'));
+            Player.playOnceSongChanges();
+            this.activateNext();
         },
         
         _onChangeActive: function (model, active) {
@@ -327,37 +368,23 @@
                     });
                     break;
                 case 'searchAndStreamByQueries':
-                    var queries = request.queries;
-
-                    if (queries.length > 0) {
-                        //  Queue up all of the queries.
-                        var query = queries.shift();
-
-                        //  TODO: Too nested
-                        var recursiveShiftTitleAndAdd = function () {
-                            if (queries.length > 0) {
-                                query = queries.shift();
-                                this._searchAndAddByTitle({
-                                    title: query,
-                                    error: function(error) {
-                                        console.error("Failed to add song by title: " + query, error);
-                                    },
-                                    complete: recursiveShiftTitleAndAdd.bind(this)
-                                });
-                            }
-                        };
-
-                        //  Start playing the first song queued up
-                        this._searchAndAddByTitle({
-                            title: query,
-                            playOnAdd: true,
-                            error: function (error) {
-                                console.error("Failed to add song by title: " + query, error);
-                            },
-                            complete: recursiveShiftTitleAndAdd.bind(this)
-                        });
-                    }
+                    this._addByTitleList(true, request.queries);
                     break;
+            }
+        },
+        
+        _addByTitleList: function (playOnAdd, titleList) {
+            if (titleList.length > 0) {
+                var title = titleList.shift();
+
+                this._searchAndAddByTitle({
+                    title: title,
+                    playOnAdd: playOnAdd,
+                    error: function (error) {
+                        console.error("Failed to add song by title: " + query, error);
+                    },
+                    complete: this._addByTitleList.bind(this, false, titleList)
+                });
             }
         },
         
@@ -369,10 +396,13 @@
         _loadActiveItem: function (activeItem) {
             var songId = activeItem.get('song').get('id');
 
+            console.log('loading active item:', activeItem.get('song').get('title'));
+
             //  Maintain the state of the player by playing or cueuing based on current player state.
             var playerState = Player.get('state');
 
-            //  TODO: Maybe ended here isn't right if they had only 1 item in the playlist and then add another with the first ended.
+            console.log('playerState:', playerState);
+
             if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
                 Player.loadSongById(songId);
             } else {
@@ -476,6 +506,22 @@
                     //  No need to notify that playedRecently is changing when resetting all.
                     streamItem.save({ playedRecently: false }, { silent: true });
                 });
+            }
+        },
+        
+        _onChromeCommand: function(command) {
+            if (command === 'showActiveSong') {
+                this._showActiveNotification();
+            }
+            else if (command === 'deleteSongFromStream') {
+                this.getActiveItem().destroy();
+            }
+            else if (command === 'copySongUrl') {
+                Clipboard.copyUrl(this.getActiveItem().get('song').get('url'));
+            }
+            else if (command === 'copySongTitleAndUrl') {
+                var activeItem = this.getActiveItem();
+                Clipboard.copyTitleAndUrl(activeItem.get('title'), activeItem.get('song').get('url'));
             }
         }
     });

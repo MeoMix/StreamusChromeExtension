@@ -95,8 +95,8 @@
 	"elapsedTime": {
 		"message": "Elapsed time"
 	},
-	"timeRemaining": {
-		"message": "Time remaining"
+	"remainingTime": {
+		"message": "Remaining time"
 	},
 	"totalTime": {
 		"message": "Total time"

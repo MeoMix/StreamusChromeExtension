@@ -31,6 +31,7 @@ define([
             this.on('change:state', this._onChangeState);
             this.listenTo(Settings, 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             this._loadYouTubePlayerApi();
         },
@@ -96,7 +97,9 @@ define([
         
         //  Call play once Player indicates the loadedSongId has changed
         playOnceSongChanges: function () {
-            this.once('change:loadedSongId', function() {
+            this.once('change:loadedSongId', function () {
+                console.log('change loadedSongId:', this.get('loadedSongId'));
+                //console.trace();
                 //  TODO: Why is setTimeout needed here? Otherwise play doesn't work if Player is paused?
                 setTimeout(this.play.bind(this));
             });
@@ -114,6 +117,20 @@ define([
             }
         }, 100),
         
+        watchInTab: function (songId, songUrl) {
+            var url = songUrl;
+
+            if (this.get('loadedSongId') === songId) {
+                url += '?t=' + this.get('currentTime') + 's';
+            }
+
+            chrome.tabs.create({
+                url: url
+            });
+
+            this.pause();
+        },
+        
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         _onChangeSuggestedQuality: function (model, suggestedQuality) {
             youTubePlayer.setPlaybackQuality(suggestedQuality);
@@ -121,9 +138,9 @@ define([
 
         _cueSongById: function (songId, startSeconds) {
             //  Helps for keeping things in sync when the same song reloads.
-            if (this.get('loadedSongId') === songId) {
-                this.trigger('change:loadedSongId');
-            }
+            //if (this.get('loadedSongId') === songId) {
+            //    this.trigger('change:loadedSongId');
+            //}
 
             youTubePlayer.cueVideoById({
                 videoId: songId,
@@ -140,9 +157,9 @@ define([
         
         _loadSongById: function (songId, startSeconds) {
             //  Helps for keeping things in sync when the same song reloads.
-            if (this.get('loadedSongId') === songId) {
-                this.trigger('change:loadedSongId');
-            }
+            //if (this.get('loadedSongId') === songId) {
+            //    this.trigger('change:loadedSongId');
+            //}
 
             this.set('state', PlayerState.Buffering);
 
@@ -240,7 +257,8 @@ define([
             this.set('ready', true);
         },
         
-        _onYouTubePlayerStateChange: function(state) {
+        _onYouTubePlayerStateChange: function (state) {
+            console.log('YouTube state:', state);
             this.set('state', state.data);
         },
         
@@ -249,9 +267,22 @@ define([
             this.trigger('error', error.data);
             //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
             //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-            youTubePlayer.cueVideoById({
-                videoId: this.get('loadedSongId')
-            });
+            //youTubePlayer.cueVideoById({
+            //    videoId: this.get('loadedSongId')
+            //});
+        },
+        
+        _onChromeCommand: function(command) {
+            if (command === 'increaseVolume') {
+                var maxVolume = 100;
+                var increasedVolume = this.get('volume') + 5;
+                this.set('volume', increasedVolume > maxVolume ? maxVolume : increasedVolume);
+            }
+            else if (command === 'decreaseVolume') {
+                var minVolume = 0;
+                var decreasedVolume = this.get('volume') - 5;
+                this.set('volume', decreasedVolume < minVolume ? minVolume : decreasedVolume);
+            }
         }
     });
 

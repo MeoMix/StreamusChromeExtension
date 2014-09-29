@@ -23,12 +23,13 @@ define(function () {
         create: function (options) {
             //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
             if (this._canUseNotificationsApi()) {
-                //  TODO: Reduce nesting
-                chrome.notifications.getPermissionLevel(function (permissionLevel) {
-                    if (permissionLevel === 'granted') {
-                        this._createNotification(options);
-                    }
-                }.bind(this));
+                chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, options));
+            }
+        },
+        
+        _onGetPermissionLevel: function (options, permissionLevel) {
+            if (permissionLevel === 'granted') {
+                this._createNotification(options);
             }
         },
         

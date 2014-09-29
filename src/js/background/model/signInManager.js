@@ -46,6 +46,27 @@
                 this.set('signedIn', false);
             }
         },
+        
+        saveGooglePlusId: function () {
+            chrome.identity.getProfileUserInfo(function (profileUserInfo) {
+                if (profileUserInfo.id === '') throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
+
+                var signedInUser = this.get('signedInUser');
+                signedInUser.set('googlePlusId', profileUserInfo.id);
+
+                signedInUser.hasLinkedGoogleAccount(function (hasLinkedGoogleAccount) {
+                    //  If the account is already know to the database -- merge this account with it and then load existing account w/ merged data.
+                    if (hasLinkedGoogleAccount) {
+                        signedInUser.mergeByGooglePlusId();
+                    } else {
+                        //  Otherwise, no account -- safe to patch in a save and use this account as the main one.
+                        signedInUser.save({ googlePlusId: profileUserInfo.id }, { patch: true });
+                    }
+                }.bind(this));
+            }.bind(this));
+            
+            this.set('needPromptLinkUserId', false);
+        },
 
         _signIn: function (googlePlusId) {
             this.set('signingIn', true);
@@ -263,15 +284,6 @@
 
         _promptGoogleSignIn: function () {
             this.set('needPromptGoogleSignIn', true);
-        },
-
-        saveGooglePlusId: function () {
-            chrome.identity.getProfileUserInfo(function (profileUserInfo) {
-                if (profileUserInfo.id === '') throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
-                this.get('signedInUser').updateGooglePlusId(profileUserInfo.id);
-            }.bind(this));
-            
-            this.set('needPromptLinkUserId', false);
         }
     });
 

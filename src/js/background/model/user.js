@@ -33,22 +33,23 @@ define([
             });
         },
         
+        //  The googlePlusId associated with this account is already linked with another account. Merge them together and re-load as one user.
+        mergeByGooglePlusId: function() {
+            $.ajax({
+                type: 'POST',
+                url: Streamus.serverUrl + 'User/MergeByGooglePlusId',
+                contentType: 'application/json; charset=utf-8',
+                data: {
+                    googlePlusId: this.get('googlePlusId')
+                },
+                success: this._onLoadByGooglePlusIdSuccess.bind(this),
+                error: this._onLoadError.bind(this)
+            });
+        },
+        
         tryloadByUserId: function () {
             var userId = this._getLocalUserId();
             userId === null ? this._create() : this._loadByUserId(userId);
-        },
-        
-        updateGooglePlusId: function (googlePlusId) {
-            this.set('googlePlusId', googlePlusId);
-
-            $.ajax({
-                url: Streamus.serverUrl + 'User/UpdateGooglePlusId',
-                type: 'PATCH',
-                data: {
-                    id: this.get('id'),
-                    googlePlusId: googlePlusId
-                }
-            });
         },
         
         //  A user is linked to a Google account if their GooglePlusId is not empty.

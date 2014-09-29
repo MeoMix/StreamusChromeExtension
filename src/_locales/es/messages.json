@@ -83,7 +83,7 @@
 	"elapsedTime": {
 		"message": "Tiempo de reproducción"
 	},
-	"timeRemaining": {
+	"remainingTime": {
 		"message": "Tiempo restante"
 	},
 	"totalTime": {

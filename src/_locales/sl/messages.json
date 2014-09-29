@@ -86,7 +86,7 @@
 	"elapsedTime": {
 		"message": "Porabljen čas"
 	},
-	"timeRemaining": {
+	"remainingTime": {
 		"message": "Preostali čas"
 	},
 	"totalTime": {

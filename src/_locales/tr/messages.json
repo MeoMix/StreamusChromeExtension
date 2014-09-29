@@ -119,7 +119,7 @@
 	"elapsedTime": {
 		"message": "Geçen süre"
 	},
-	"timeRemaining": {
+	"remainingTime": {
 		"message": "Kalan süre"
 	},
 	"totalTime": {

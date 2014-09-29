@@ -7,24 +7,7 @@ define({
         var model = this.get(modelId);
         var sequence = this.getSequenceFromIndex(index);
 
-        model.set({
-            sequence: sequence
-        });
-
-        //  TODO: I won't need to check this (it's for skipping hitting the server on StreamItems) once I just go through .save();
-        if (model.urlRoot) {
-            //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
-            //  The problem is case sensitivity -- the OData API for my server expects Sequence: but I am sending sequence:
-            //  http://stackoverflow.com/questions/24254771/web-api-2-patch-using-odata-how-to-best-handle-case-sensitivity
-            $.ajax({
-                url: model.urlRoot + 'UpdateSequence',
-                type: 'PATCH',
-                data: {
-                    id: model.get('id'),
-                    sequence: sequence
-                }
-            });
-        }
+        model.save({ sequence: sequence }, { patch: true });
 
         //  Collections with a comparator will not automatically re-sort if you later change model attributes
         this.sort();

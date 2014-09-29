@@ -83,7 +83,7 @@
     "elapsedTime": {
             "message": "Vergangene Zeit"
     },
-    "timeRemaining": {
+    "remainingTime": {
             "message": "Zeit übrig"
     },
     "totalTime": {

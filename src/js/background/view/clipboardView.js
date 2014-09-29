@@ -1,17 +1,19 @@
-﻿define(function() {
+﻿define([
+    'background/model/clipboard'
+], function (Clipboard) {
     'use strict';
 
-    var ClipboardView = Backbone.View.extend({
+    var ClipboardView = Backbone.Marionette.ItemView.extend({
         el: $('#clipboard'),
+        model: Clipboard,
         
-        initialize: function() {
-            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
+        modelEvents: {
+            'change:text': '_onChangeText'
         },
         
-        _onRuntimeMessage: function(request) {
-            if (request.method === 'copy') {
-                this._copyText(request.text);
-            }
+        _onChangeText: function (model, text) {
+            this._copyText(text);
+            this.model.set({ text: '' }, { silent: true });
         },
         
         //  http://stackoverflow.com/questions/5235719/how-to-copy-text-to-clipboard-from-a-google-chrome-extension

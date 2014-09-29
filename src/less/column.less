@@ -1,24 +1,21 @@
 ﻿@import "utility";
 
-//  Width is set as 385px / 640px, TODO: follow golden ratio more closely
+//  Width is set as 385px / 640px
 @wideColumnWidth: 60.15625%;
-//  Width is set as 255px / 640px, TODO: follow golden ratio more closely
+//  Width is set as 255px / 640px
 @thinColumnWidth: 39.84375%;
 
 .column {
     height: 100%;
 
-    &.u-overlay {
-        /* An empty column-overlay should not be able to overlap visible content */
-        &:empty {
-            display: none;
-        }
-
-        //  TODO: inefficient.
-        .column {
-            width: 100%;
-        }
+    &.u-overlay:empty {
+        //  An empty column-overlay should not be able to overlap visible content
+        display: none;
     }
+}
+
+.column--fullWidth {
+    width: 100%;
 }
 
 .column--wide {

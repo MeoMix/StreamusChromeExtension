@@ -7,7 +7,7 @@
         defaults: {
             //  Need to set the ID for Backbone.LocalStorage
             id: 'TimeArea',
-            showTimeRemaining: false,
+            showRemainingTime: false,
             autoUpdate: true
         },
 

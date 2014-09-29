@@ -86,7 +86,7 @@
 	"elapsedTime": {
 		"message": "Tempo decorrido"
 	},
-	"timeRemaining": {
+	"remainingTime": {
 		"message": "Tempo restante"
 	},
 	"totalTime": {

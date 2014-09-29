@@ -24,7 +24,7 @@ define([
             'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateTimeProgress',
             'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
             'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
-            'click @ui.elapsedTimeLabel': '_toggleShowTimeRemaining'
+            'click @ui.elapsedTimeLabel': '_toggleShowRemainingTime'
         },
         
         ui: {
@@ -55,7 +55,7 @@ define([
             //  Set total time before current time because it affects the range's max.
             this._setTotalTime(this._getCurrentSongDuration());
             this._setCurrentTime(Player.get('currentTime'));
-            this._setElapsedTimeLabelTitle(this.model.get('showTimeRemaining'));
+            this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
         },
         
         //  Allow the user to manual time change by click or scroll.
@@ -94,18 +94,18 @@ define([
             }
         },
         
-        _toggleShowTimeRemaining: function() {
-            var showTimeRemaining = this.model.get('showTimeRemaining');
-            //  Toggle showTimeRemaining and then read the new state and apply it.
-            this.model.save('showTimeRemaining', !showTimeRemaining);
+        _toggleShowRemainingTime: function() {
+            var showRemainingTime = this.model.get('showRemainingTime');
+            //  Toggle showRemainingTime and then read the new state and apply it.
+            this.model.save('showRemainingTime', !showRemainingTime);
 
-            this._setElapsedTimeLabelTitle(!showTimeRemaining);
+            this._setElapsedTimeLabelTitle(!showRemainingTime);
 
             this._updateTimeProgress();
         },
-        //  TODO: It's weird that in one instance it goes "time elapsed" and in other it's "remaining time" the word time should be consistent.
-        _setElapsedTimeLabelTitle: function (showTimeRemaining) {
-            var title = showTimeRemaining ? chrome.i18n.getMessage('timeRemaining') : chrome.i18n.getMessage('elapsedTime');
+        
+        _setElapsedTimeLabelTitle: function (showRemainingTime) {
+            var title = showRemainingTime ? chrome.i18n.getMessage('remainingTime') : chrome.i18n.getMessage('elapsedTime');
             this.ui.elapsedTimeLabel.attr('title', title);
         },
         
@@ -163,10 +163,10 @@ define([
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
             this.ui.timeProgress.width(progressPercent + '%');
             
-            if (this.model.get('showTimeRemaining')) {
-                //  Calculate the time remaining from the current time and show that instead.
-                var timeRemaining = totalTime - currentTime;
-                this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(timeRemaining));
+            if (this.model.get('showRemainingTime')) {
+                //  Calculate the remaining time from the current time and show that instead.
+                var remainingTime = totalTime - currentTime;
+                this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(remainingTime));
             } else {
                 this.ui.elapsedTimeLabel.text(Utility.prettyPrintTime(currentTime));
             }

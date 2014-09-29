@@ -1,8 +1,9 @@
 ﻿define([
+    'foreground/model/playlistAction',
     'foreground/view/listItemButton/listItemButtonView',
     'foreground/view/prompt/deletePlaylistPromptView',
     'text!template/listItemButton/deleteListItemButton.html'
-], function (ListItemButtonView, DeletePlaylistPromptView, DeleteListItemButtonTemplate) {
+], function (PlaylistAction, ListItemButtonView, DeletePlaylistPromptView, DeleteListItemButtonTemplate) {
     'use strict';
 
     var DeletePlaylistButtonView = ListItemButtonView.extend({
@@ -17,14 +18,7 @@
         },
         
         doOnClickAction: function () {
-            //  TODO: Logic is not DRY with ContextMenu delete operation.
-            if (this.model.get('items').length === 0) {
-                this.model.destroy();
-            } else {
-                Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
-                    playlist: this.model
-                });
-            }
+            PlaylistAction.deletePlaylist(this.model);
         },
         
         _setDisabledState: function() {

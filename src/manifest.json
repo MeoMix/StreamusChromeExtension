@@ -35,9 +35,6 @@
 		"toggleSong": {
 			"description": "__MSG_toggleSongCommandDescription__"
 		},
-		"saveActiveSong": {
-			"description": "__MSG_saveSongCommandDescription__"
-		},
 		"deleteSongFromStream": {
 			"description": "__MSG_deleteSongCommandDescription__"
 		},

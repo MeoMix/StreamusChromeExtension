@@ -1,7 +1,8 @@
 ﻿define([
     'background/collection/streamItems',
+    'background/model/chromeNotifications',
     'background/model/player'
-], function (StreamItems, Player) {
+], function (StreamItems, ChromeNotifications, Player) {
     'use strict';
     
     var PlayPauseButton = Backbone.Model.extend({
@@ -11,6 +12,8 @@
 
         initialize: function () {
             this.listenTo(StreamItems, 'change:active remove reset', this._toggleEnabled);
+            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+
             this._toggleEnabled();
         },
         
@@ -26,6 +29,19 @@
 
             return this.get('enabled');
         }, 100, true),
+        
+        _onChromeCommand: function (command) {
+            if (command === 'toggleSong') {
+                var didTogglePlayerState = PlayPauseButton.tryTogglePlayerState();
+
+                if (!didTogglePlayerState) {
+                    ChromeNotifications.create({
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        message: chrome.i18n.getMessage('cantToggleSong')
+                    });
+                }
+            }
+        },
         
         _toggleEnabled: function () {
             this.set('enabled', StreamItems.length > 0);

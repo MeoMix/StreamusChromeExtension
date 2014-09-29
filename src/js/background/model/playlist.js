@@ -103,7 +103,7 @@ define([
 
             //  Periodicially send bursts of packets to the server and trigger visual update.
             this.get('items').addSongs(songs, {
-                success: this._onAddSongsByDataSourceSuccess.call(this, response.nextPageToken)
+                success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
             });
         },
 
@@ -140,23 +140,11 @@ define([
             
             var fromSyncEvent = options && options.sync;
             if (!fromSyncEvent) {
-                this._saveTitle(model.get('id'), title);
+                this.save({ title: title }, { patch: true });
                 this._emitSyncUpdateEvent(model, 'title', title);
             }
         },
-        
-        //  TODO: In the future, turn this into a .save({ patch: true } once I figure out how to properly merge updates into the server.
-        _saveTitle: function(playlistId, title) {
-            $.ajax({
-                url: Streamus.serverUrl + 'Playlist/UpdateTitle',
-                type: 'PATCH',
-                data: {
-                    id: playlistId,
-                    title: title
-                }
-            });
-        },
-        
+
         _onChangeSequence: function (model, sequence, options) {
             var fromSyncEvent = options && options.sync;
             if (!fromSyncEvent) {

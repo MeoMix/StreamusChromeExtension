@@ -13,12 +13,20 @@
         initialize: function () {
             //  Load from Backbone.LocalStorage
             this.fetch();
+            
+            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
         },
  
         toggleEnabled: function () {
             this.save({
                 enabled: !this.get('enabled')
             });
+        },
+        
+        _onChromeCommand: function (command) {
+            if (command === 'toggleRadio') {
+                this.toggleEnabled();
+            }
         }
     });
 

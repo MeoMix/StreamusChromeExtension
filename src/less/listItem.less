@@ -62,9 +62,6 @@
 
     .listItem-title {
         .fontSize-large;
-        color: @darkGray;
-        //  TODO: Maybe this should apply to Playlists as well?
-        transition: color @transition-color-time;
     }
 }
 
@@ -79,6 +76,11 @@
 .listItem-imageThumbnail {
     height: 30px;
     width: 40px;
+}
+
+.listItem-title {
+    color: @darkGray;
+    transition: color @transition-color-time;
 }
 
 .listItem-content {

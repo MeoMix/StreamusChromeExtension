@@ -78,6 +78,7 @@
             return this._doRequest('channels', {
                 success: function (response) {
                     if (_.isUndefined(response.items[0])) {
+                        options.error();
                         throw new Error("No response.items found for options:" + JSON.stringify(options));
                     }
 
@@ -177,6 +178,7 @@
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function (response) {
                     if (_.isUndefined(response)) {
+                        if (options.error) options.error();
                         throw new Error("No response found for options:" + JSON.stringify(options));
                     }
 

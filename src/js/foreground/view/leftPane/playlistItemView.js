@@ -1,14 +1,16 @@
 ﻿define([
     'foreground/collection/contextMenuItems',
-    'foreground/model/contextMenuActions',
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
     'foreground/view/listItemButton/addSongButtonView',
     'foreground/view/listItemButton/deleteSongButtonView',
     'foreground/view/listItemButton/playSongButtonView',
     'text!template/leftPane/playlistItem.html'
-], function (ContextMenuItems, ContextMenuActions, ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
+], function (ContextMenuItems, ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
     'use strict';
+    
+    var StreamItems = Streamus.backgroundPage.StreamItems;
+    var Player = Streamus.backgroundPage.YouTubePlayer
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium',
@@ -69,18 +71,18 @@
         },
         
         _addToStream: function () {
-            ContextMenuActions.addSongsToStream(this.model.get('song'));
+            StreamItems.addSongs(this.model.get('song'));
         },
         
         _copyUrl: function () {
             var songUrl = this.model.get('song').get('url');
-            ContextMenuActions.copyUrl(songUrl);
+            Streamus.backgroundPage.Clipboard.copyUrl(songUrl);
         },
         
         _copyTitleAndUrl: function () {
             var songTitle = this.model.get('title');
             var songUrl = this.model.get('song').get('url');
-            ContextMenuActions.copyTitleAndUrl(songTitle, songUrl);
+            Streamus.backgroundPage.Clipboard.copyTitleAndUrl(songTitle, songUrl);
         },
         
         _destroyModel: function () {
@@ -88,12 +90,14 @@
         },
         
         _playInStream: function () {
-            ContextMenuActions.playSongsInStream(this.model.get('song'));
+            StreamItems.addSongs(this.model.get('song'), {
+                playOnAdd: true
+            });
         },
         
         _watchOnYouTube: function () {
             var song = this.model.get('song');
-            ContextMenuActions.watchOnYouTube(song.get('id'), song.get('url'));
+            Player.watchInTab(song.get('id'), song.get('url'));
         }
     });
 

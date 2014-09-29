@@ -10,23 +10,20 @@
         
         mixins: [CollectionMultiSelect],
         
-        //  TODO: I think it would be better to just condense these functions and allow either an array or a single object to be given to it.
-        setFromSongInformation: function (songInformation) {
-            var searchResult = new SearchResult({
-                song: new Song(songInformation)
-            });
-
-            this.reset(searchResult);
-        },
-
         setFromSongInformationList: function (songInformationList) {
-            var searchResults = _.map(songInformationList, function (songInformation) {
-                var searchResult = new SearchResult({
-                    song: new Song(songInformation)
-                });
+            var searchResults = [];
 
-                return searchResult;
-            });
+            if (_.isArray(songInformationList)) {
+                searchResults = _.map(songInformationList, function(songInformation) {
+                    return {
+                        song: new Song(songInformation)
+                    };
+                });
+            } else {
+                searchResults.push({
+                    song: new Song(songInformationList)
+                });
+            }
 
             this.reset(searchResults);
         },

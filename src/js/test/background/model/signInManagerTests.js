@@ -257,6 +257,35 @@
                         //  Prompt the user to confirm that the account they just signed in with is the one they want to use to link to the currently existing data.
                         expect(SignInManager._promptLinkUserId.calledOnce).to.equal(true);
                     });
+
+                    it('should merge new user account with existing account if both share the same GooglePlusId', function() {
+                        var signedInUser = SignInManager.get('signedInUser');
+
+                        sinon.stub(signedInUser, 'hasLinkedGoogleAccount').yields(true);
+                        sinon.stub(signedInUser, 'mergeByGooglePlusId');
+
+                        SignInManager.saveGooglePlusId();
+
+                        expect(signedInUser.mergeByGooglePlusId.calledOnce).to.equal(true);
+
+                        signedInUser.mergeByGooglePlusId.restore();
+                        signedInUser.hasLinkedGoogleAccount.restore();
+                    });
+                    
+                    it('should patch new user account with GooglePlusID if no other account shares GooglePlusId', function () {
+                        var signedInUser = SignInManager.get('signedInUser');
+
+                        sinon.stub(signedInUser, 'hasLinkedGoogleAccount').yields(false);
+                        sinon.stub(signedInUser, 'sync');
+
+                        SignInManager.saveGooglePlusId();
+
+                        expect(signedInUser.sync.calledOnce).to.equal(true);
+                        expect(signedInUser.sync.calledWith('patch')).to.equal(true);
+                        
+                        signedInUser.sync.restore();
+                        signedInUser.hasLinkedGoogleAccount.restore();
+                    });
                 });
 
                 describe('when new user is already linked to Google', function () {

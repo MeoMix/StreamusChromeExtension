@@ -94,7 +94,7 @@
                             success: function (songInformation) {
                                 //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
                                 if (query === this.get('query')) {
-                                    this.get('results').setFromSongInformation(songInformation);
+                                    this.get('results').setFromSongInformationList(songInformation);
                                 }
                             }.bind(this),
                             //  TODO: Handle error.

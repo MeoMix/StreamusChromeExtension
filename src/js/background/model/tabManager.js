@@ -11,7 +11,9 @@
         },
 
         isStreamusTabOpen: function (callback) {
-            this._isTabOpen(this.get('streamusForegroundUrl'), callback);
+            this._queryTabs(this.get('streamusForegroundUrl'), function(tabs) {
+                callback(tabs.length > 0);
+            });
         },
         
         showStreamusTab: function () {
@@ -19,15 +21,16 @@
         },
         
         showTab: function (tabUrl) {
-            this._isTabOpen(tabUrl, function (tabIsOpen, tabDetails) {
-                if (tabIsOpen) {
+            this._queryTabs(tabUrl, function (tabs) {
+                if (tabs.length > 0) {
+                    var tabDetails = tabs[0];
+
                     if (!tabDetails.highlighted) {
+                        //  TODO: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
                         chrome.tabs.highlight({
                             windowId: tabDetails.windowId,
                             tabs: tabDetails.index
-                        }, function () {
-                            //  TODO: Use callback for something? Can't remove or chrome throws an error.
-                        });
+                        }, _.noop);
                     }
                 } else {
                     chrome.tabs.create({
@@ -56,13 +59,6 @@
                     });
                 });
             }, this);
-        },
-        
-        //  TODO: Doesn't make much sense that isTabOpen returns tabDetails -- should split off into another method in the future.
-        _isTabOpen: function (url, callback) {
-            this._queryTabs(url, function(tabs) {
-                callback(tabs.length > 0, tabs[0]);
-            });
         },
         
         _queryTabs: function(url, callback) {

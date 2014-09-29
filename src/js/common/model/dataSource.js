@@ -60,7 +60,6 @@
             if (dataSourceId !== '') {
                 var channelUploadOptions = {
                     success: function(response) {
-
                         this.set({
                             type: DataSourceType.YouTubePlaylist,
                             id: response.uploadsPlaylistId
@@ -68,7 +67,8 @@
 
                         options.success();
                         return;
-                    }.bind(this)
+                    }.bind(this),
+                    error: options.error
                 };
 
                 if (this._idIsUsername()) {
@@ -133,7 +133,17 @@
 
                     var indexOfAmpersand = id.indexOf('&');
                     if (indexOfAmpersand !== -1) {
-                        id = id.substring(0, indexOfAmpersand - 1);
+                        id = id.substring(0, indexOfAmpersand);
+                    }
+
+                    var indexOfSlash = id.indexOf('/');
+                    if (indexOfSlash !== -1) {
+                        id = id.substring(0, indexOfSlash);
+                    }
+                    
+                    var indexOfPound = id.indexOf('#');
+                    if (indexOfPound !== -1) {
+                        id = id.substring(0, indexOfPound);
                     }
                 }
             });

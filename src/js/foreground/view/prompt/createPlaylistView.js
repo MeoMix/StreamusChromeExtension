@@ -87,9 +87,8 @@
             });
 
             dataSource.parseUrl({
-                success: function () {
-                    this._onParseUrlSuccess(dataSource);
-                }.bind(this)
+                success: this._onParseUrlSuccess.bind(this, dataSource),
+                error: this._setErrorState.bind(this)
             });
         },
         
@@ -98,7 +97,7 @@
 
             dataSource.getTitle({
                 success: this._onGetTitleSuccess.bind(this),
-                error: this._onGetTitleError.bind(this)
+                error: this._setErrorState.bind(this)
             });
         },
         
@@ -108,7 +107,7 @@
             this.ui.youTubeSourceInput.addClass('is-valid');
         },
         
-        _onGetTitleError: function() {
+        _setErrorState: function() {
             var originalValue = this.ui.playlistTitleInput.val();
             this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
             this.ui.youTubeSourceInput.addClass('is-invalid');

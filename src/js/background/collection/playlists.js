@@ -58,54 +58,36 @@
         },
         
         addPlaylistWithSongs: function (playlistTitle, songs) {
-            //  TODO: This reads a bit weird.
             var playlistItems = [];
-
             if (_.isArray(songs)) {
                 playlistItems = _.map(songs, function (song) { return { song: song }; });
             } else {
                 playlistItems.push({ song: songs });
             }
 
-            var playlist = new Playlist({
+            this.create({
                 title: playlistTitle,
                 userId: this.userId,
                 //  Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
             });
-
-            //  Save the playlist, but push after version from server because the ID will have changed.
-            playlist.save({}, {
-                success: function () {
-                    //  TODO: It doesn't make sense that I push Playlists after saving but I push PlaylistItems before saving. Probably change this to pushing before, but provide
-                    //  a UI indication that the playlist is still being saved.
-                    this.push(playlist);
-                }.bind(this)
-            });
         },
 
         addPlaylistByDataSource: function (playlistTitle, dataSource) {
-            var playlist = new Playlist({
+            this.create({
                 title: playlistTitle,
                 userId: this.userId,
                 //  Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
                 dataSource: dataSource,
                 dataSourceLoaded: !dataSource.needsLoading()
-            });
-
-            //  Save the playlist, but push after version from server because the ID will have changed.
-            playlist.save({}, {
-                success: function () {
-                    //  TODO: It doesn't make sense that I push Playlists after saving but I push PlaylistItems before saving. Probably change this to pushing before, but provide
-                    //  a UI indication that the playlist is still being saved.
-                    this.push(playlist);
-
+            }, {
+                success: function (playlist) {
                     if (dataSource.needsLoading()) {
                         playlist.loadDataSource();
                     }
-                }.bind(this)
+                }
             });
         },
         
