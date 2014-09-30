@@ -8,8 +8,12 @@ define([
     //  This is the actual YouTube Player API object housed within the iframe.
     var youTubePlayer = null;
 
-    var YouTubePlayer = Backbone.Model.extend({
+    var Player = Backbone.Model.extend({
+        localStorage: new Backbone.LocalStorage('Player'),
+
         defaults: {
+            //  Need to set the ID for Backbone.LocalStorage
+            id: 'Player',
             //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
             currentTime: 0,
             //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
@@ -18,10 +22,19 @@ define([
             //  This will be set after the player is ready and can communicate its true value.
             //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
             volume: 50,
+            maxVolume: 100,
+            minVolume: 0,
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
             loadedSongId: '',
-            refreshPausedSongTimeout: null
+            refreshPausedSongTimeout: null,
+            playImmediately: false
+        },
+        
+        //  Don't want to save everything to localStorage -- only variables which need to be persisted.
+        whitelist: ['muted', 'volume'],
+        toJSON: function () {
+            return this.pick(this.whitelist);
         },
         
         //  Initialize the player by creating a YouTube Player IFrame hosting an HTML5 player
@@ -32,56 +45,52 @@ define([
             this.listenTo(Settings, 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
-
+            
             this._loadYouTubePlayerApi();
         },
         
         //  Public method which is able to be called before the YouTube Player API is fully ready.
-        //  cue's a song (pauses it when it is ready)
-        cueSongById: function (songId, startSeconds) {
+        //  This is needed because StreamItems sets its active item when it first loads up (which can happen before the Player is fully ready)
+        activateSong: function (song) {
+            //  TODO: I want a way to deny ANY action when ready is false and not necessitate running every public method/event handler through a check.
             if (this.get('ready')) {
-                this._cueSongById(songId, startSeconds);
+                this._activateSong(song.get('id'));
             } else {
                 this.once('change:ready', function () {
-                    this._cueSongById(songId, startSeconds);
+                    this._activateSong(song.get('id'));
                 });
             }
         },
-
-        //  Public method which is able to be called before the YouTube Player API is fully ready.
-        //  Loads a song (plays it when it is ready)
-        loadSongById: function (songId, startSeconds) {
-            if (this.get('ready')) {
-                this._loadSongById(songId, startSeconds);
-            } else {
-                this.once('change:ready', function() {
-                    this._loadSongById(songId, startSeconds);
-                });
+        
+        toggleState: function () {
+            var playing = this.get('state') === PlayerState.Playing;
+            playing ? this.pause() : this.play();
+        },
+        
+        setVolume: function (volume) {
+            var maxVolume = this.get('maxVolume');
+            var minVolume = this.get('minVolume');
+            
+            if (volume > maxVolume) {
+                volume = maxVolume;
             }
-        },
+            else if (volume < minVolume) {
+                volume = minVolume;
+            }
 
-        isPlaying: function () {
-            return this.get('state') === PlayerState.Playing;
-        },
-        
-        mute: function () {
-            this.set('muted', true);
-            youTubePlayer.mute();
-        },
-        
-        unMute: function () {
-            this.set('muted', false);
-            youTubePlayer.unMute();
+            this.save({
+                muted: false,
+                volume: volume
+            });
         },
 
         stop: function () {
-            this.set('state', PlayerState.Unstarted);
             youTubePlayer.stopVideo();
-            this.set('loadedSongId', '');
 
-            //  Stop is only called when there's no other items to queue up - set time back to 0 since
-            //  a new song won't queue up and set its time.
-            this.set('currentTime', 0);
+            this.set({
+                loadedSongId: '',
+                currentTime: 0
+            });
         },
 
         pause: function () {
@@ -89,32 +98,13 @@ define([
         },
             
         play: function () {
-            if (!this.isPlaying()) {
-                this.set('state', PlayerState.Buffering);
-                youTubePlayer.playVideo();
-            }
-        },
-        
-        //  Call play once Player indicates the loadedSongId has changed
-        playOnceSongChanges: function () {
-            this.once('change:loadedSongId', function () {
-                console.log('change loadedSongId:', this.get('loadedSongId'));
-                //console.trace();
-                //  TODO: Why is setTimeout needed here? Otherwise play doesn't work if Player is paused?
-                setTimeout(this.play.bind(this));
-            });
+            youTubePlayer.playVideo();
         },
 
+        //  TODO: This is debounced to defend against mousewheel seekTo updates, but I think that should be moved to the view instead of here.
         seekTo: _.debounce(function (timeInSeconds) {
-            var state = this.get('state');
-            
-            if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
-                this.cueSongById(this.get('loadedSongId'), timeInSeconds);
-                this.set('currentTime', timeInSeconds);
-            } else {
-                //  The true paramater allows the youTubePlayer to seek ahead past what is buffered.
-                youTubePlayer.seekTo(timeInSeconds, true);
-            }
+            //  The true paramater allows the youTubePlayer to seek ahead past what is buffered.
+            youTubePlayer.seekTo(timeInSeconds, true);
         }, 100),
         
         watchInTab: function (songId, songUrl) {
@@ -131,60 +121,52 @@ define([
             this.pause();
         },
         
+        _activateSong: function(songId, timeInSeconds) {
+            var playerState = this.get('state');
+            var playOnActivate = this.get('playOnActivate');
+
+            var apiOptions = {
+                videoId: songId,
+                startSeconds: timeInSeconds || 0,
+                suggestedQuality: Settings.get('youTubeSuggestedQuality')
+            };
+            
+            console.log('playerState:', playerState);
+
+            //  TODO: This is shitty. The idea is to keep the player going if the user skips (playerState will be playing) or if the current song
+            //  finishes naturally and there's another song to play (ended) but if you let one song finish playing, then add another, then skip to it,
+            //  it will start playing automatically which is incorrect behavior.
+            if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
+                youTubePlayer.loadVideoById(apiOptions);
+            } else {
+                youTubePlayer.cueVideoById(apiOptions);
+            }
+
+            this.set({
+                loadedSongId: songId,
+                //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
+                //  but until the song actually loads -- current time isn't set.
+                currentTime: timeInSeconds || 0,
+                playOnActivate: false
+            });
+        },
+        
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         _onChangeSuggestedQuality: function (model, suggestedQuality) {
             youTubePlayer.setPlaybackQuality(suggestedQuality);
         },
-
-        _cueSongById: function (songId, startSeconds) {
-            //  Helps for keeping things in sync when the same song reloads.
-            //if (this.get('loadedSongId') === songId) {
-            //    this.trigger('change:loadedSongId');
-            //}
-
-            youTubePlayer.cueVideoById({
-                videoId: songId,
-                startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('youTubeSuggestedQuality')
-            });
-
-            this.set('loadedSongId', songId);
-
-            //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
-            //  but until the song actually loads -- current time isn't set.
-            this.set('currentTime', startSeconds || 0);
-        },
-        
-        _loadSongById: function (songId, startSeconds) {
-            //  Helps for keeping things in sync when the same song reloads.
-            //if (this.get('loadedSongId') === songId) {
-            //    this.trigger('change:loadedSongId');
-            //}
-
-            this.set('state', PlayerState.Buffering);
-
-            youTubePlayer.loadVideoById({
-                videoId: songId,
-                startSeconds: startSeconds || 0,
-                suggestedQuality: Settings.get('youTubeSuggestedQuality')
-            });
-
-            this.set('loadedSongId', songId);
-        },
         
         //  Update the volume whenever the UI modifies the volume property.
         _onChangeVolume: function (model, volume) {
-            this.set('muted', false);
-            //  We want to update the youtube player's volume no matter what because it persists between browser sessions
-            //  thanks to YouTube saving it -- so should keep it always sync'ed.
             youTubePlayer.setVolume(volume);
         },
         
-        _onChangeMuted: function(model, muted) {
+        _onChangeMuted: function (model, muted) {
             muted ? youTubePlayer.mute() : youTubePlayer.unMute();
         },
         
         _onChangeState: function (model, state) {
+            console.log('change state', model, state);
             var refreshPausedSongTimeout = this.get('refreshPausedSongTimeout');
             clearTimeout(refreshPausedSongTimeout);
 
@@ -200,7 +182,7 @@ define([
         },
         
         _reloadSong: function() {
-            this.cueSongById(this.get('loadedSongId'), this.get('currentTime'));
+            this._activateSong(this.get('loadedSongId'), this.get('currentTime'));
         },
         
         _onRuntimeConnect: function (port) {
@@ -232,61 +214,54 @@ define([
         
         _loadYouTubePlayerApi: function() {
             var youTubePlayerAPI = new YouTubePlayerAPI();
-            this.listenTo(youTubePlayerAPI, 'change:ready', this._onYouTubePlayerApiReady);
+            this.listenToOnce(youTubePlayerAPI, 'change:ready', this._onYouTubePlayerApiReady);
             youTubePlayerAPI.load();
         },
         
-        _onYouTubePlayerApiReady: function() {
+        _onYouTubePlayerApiReady: function () {
             //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
             //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-            youTubePlayer = new window.YT.Player('youtube-player', {
+            var iframeId = 'youtube-player';
+            youTubePlayer = new window.YT.Player(iframeId, {
                 events: {
-                    'onReady': this._onYouTubePlayerReady.bind(this),
-                    'onStateChange': this._onYouTubePlayerStateChange.bind(this),
-                    'onError': this._onYouTubePlayerError.bind(this)
+                    onReady: this._onYouTubePlayerReady.bind(this),
+                    onStateChange: this._onYouTubePlayerStateChange.bind(this),
+                    onError: this._onYouTubePlayerError.bind(this)
                 }
             });
-
-            $('#youtube-player').attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
+            
+            //  Set this manually after constructing the iframe because I need to be able to intercept headers being sent during its construction.
+            $('#' + iframeId).attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
         },
         
-        _onYouTubePlayerReady: function() {
-            this.set('muted', youTubePlayer.isMuted());
-            this.set('volume', youTubePlayer.getVolume());
-            this.pause();
+        _onYouTubePlayerReady: function () {
+            //  Load from Backbone.LocalStorage
+            this.fetch();
             this.set('ready', true);
         },
         
         _onYouTubePlayerStateChange: function (state) {
-            console.log('YouTube state:', state);
             this.set('state', state.data);
         },
         
+        //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function (error) {
-            //  Push the error to the foreground so it can be displayed to the user.
             this.trigger('error', error.data);
-            //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
-            //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-            //youTubePlayer.cueVideoById({
-            //    videoId: this.get('loadedSongId')
-            //});
         },
         
         _onChromeCommand: function(command) {
             if (command === 'increaseVolume') {
-                var maxVolume = 100;
                 var increasedVolume = this.get('volume') + 5;
-                this.set('volume', increasedVolume > maxVolume ? maxVolume : increasedVolume);
+                this.setVolume(increasedVolume);
             }
             else if (command === 'decreaseVolume') {
-                var minVolume = 0;
                 var decreasedVolume = this.get('volume') - 5;
-                this.set('volume', decreasedVolume < minVolume ? minVolume : decreasedVolume);
+                this.setVolume(decreasedVolume);
             }
         }
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.YouTubePlayer = new YouTubePlayer();
-    return window.YouTubePlayer;
+    window.Player = new Player();
+    return window.Player;
 });

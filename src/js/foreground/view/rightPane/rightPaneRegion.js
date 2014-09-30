@@ -3,7 +3,7 @@
 ], function (RightPaneView) {
     'use strict';
     
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
 
     var RightPaneRegion = Backbone.Marionette.Region.extend({
         el: '#rightPaneRegion',

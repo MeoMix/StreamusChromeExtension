@@ -10,7 +10,7 @@
     'use strict';
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
     var Settings = Streamus.backgroundPage.Settings;
     var SignInManager = Streamus.backgroundPage.SignInManager;
     var TabManager = Streamus.backgroundPage.TabManager;

@@ -10,7 +10,7 @@
     'use strict';
     
     var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.YouTubePlayer
+    var Player = Streamus.backgroundPage.Player
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium',

@@ -20,11 +20,7 @@
         //  Only allow changing once every 100ms to preent spamming.
         tryTogglePlayerState: _.debounce(function () {
             if (this.get('enabled')) {
-                if (Player.isPlaying()) {
-                    Player.pause();
-                } else {
-                    Player.play();
-                }
+                Player.toggleState();
             }
 
             return this.get('enabled');

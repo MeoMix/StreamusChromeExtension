@@ -8,7 +8,7 @@ define([
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
 
     var TimeAreaView = Backbone.Marionette.ItemView.extend({
         id: 'timeArea',
@@ -120,19 +120,15 @@ define([
         },
         
         _clear: function () {
-            this._setCurrentTime(0);
-            this._setTotalTime(0);
+            this._restart();
             this.ui.timeRange.addClass('disabled');
         },
         
         _restart: function () {
-            //  Disable auto-updates here because there's a split second while changing songs that a timer tick makes things flicker weirdly.
-            this.model.set('autoUpdate', false);
-
+            //  It's important to set current time explicitly to 0 because might be representing a "seekTo" time which
+            //  shows a currentTime value even though Player hasn't had that value set yet.
             this._setCurrentTime(0);
             this._setTotalTime(this._getCurrentSongDuration());
-
-            this.model.set('autoUpdate', true);
         },
         
         _setCurrentTime: function (currentTime) {

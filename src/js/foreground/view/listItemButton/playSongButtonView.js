@@ -5,7 +5,7 @@
     'use strict';
 
     var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
 
     var PlayInStreamButtonView = ListItemButtonView.extend({
         template: _.template(PlayListItemButtonTemplate),
@@ -37,7 +37,7 @@
             if (streamItem.get('active')) {
                 Player.play();
             } else {
-                Player.playOnceSongChanges();
+                Player.set('playOnActivate', true);
                 streamItem.save({ active: true });
             }
         }

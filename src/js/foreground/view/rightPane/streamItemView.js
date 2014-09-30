@@ -11,7 +11,7 @@
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
     var SignInManager = Streamus.backgroundPage.SignInManager;
     var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
 
@@ -44,10 +44,10 @@
             this._setActiveClass();
         },
        
+        //  TODO: This is not DRY with PlaySongButtonView's _playStreamItem
         _activateAndPlayOrToggleState: function () {
             if (!this.model.get('active')) {
-                Player.playOnceSongChanges();
-
+                Player.set('playOnActivate', true);
                 this.model.save({ active: true });
             } else {
                 PlayPauseButton.tryTogglePlayerState();

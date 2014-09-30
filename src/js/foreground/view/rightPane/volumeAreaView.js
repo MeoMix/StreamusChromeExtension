@@ -49,7 +49,7 @@ define([
 
         _setVolume: function () {
             var volume = parseInt(this.ui.volumeRange.val());
-            this.model.set('volume', volume);
+            this.model.setVolume(volume);
         },
         
         _setVolumeProgress: function (volume) {
@@ -91,12 +91,14 @@ define([
                 volume = 0;
             }
 
-            this.model.set('volume', volume);
+            this.model.setVolume(volume);
         },
 
         _toggleMute: function () {
             var isMuted = this.model.get('muted');
-            this.model.set('muted', !isMuted);
+            this.model.save({
+                muted: !isMuted
+            });
         },
 
         _setMutedClass: function (muted) {

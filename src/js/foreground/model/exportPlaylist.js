@@ -20,7 +20,7 @@
         //  Don't want to save the playlist to localStorage -- only the configuration variables
         blacklist: ['playlist'],
         toJSON: function () {
-            return _.omit(this.attributes, this.blacklist);
+            return this.omit(this.blacklist);
         },
         
         initialize: function () {

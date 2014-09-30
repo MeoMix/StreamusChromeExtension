@@ -55,7 +55,7 @@
 		"message": "Song requested is not found. This occurs when a song has been removed or it has been marked as private."
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Song requested does not allow playback in the embedded players."
+		"message": "Requested song unable to be played."
 	},
 	"errorEncountered": {
 		"message": "An error was encountered."
@@ -476,7 +476,7 @@
 		"message": "Apply to Beatport"
 	},
 	"streamusBugApology": {
-		"message": "This is commonly caused by a bug in Streamus which is a known issue and is being worked on. Restarting Streamus should fix the problem. Sorry."
+		"message": "This is sometimes due to an issue in Streamus, but the song might be unplayable due to YouTube content settings. Try restarting if you think it's a bug."
 	},
 	"fileType": {
 		"message": "File type"

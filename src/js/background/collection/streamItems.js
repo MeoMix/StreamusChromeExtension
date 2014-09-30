@@ -47,41 +47,11 @@
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
-                this._loadActiveItem(activeItem);
+                Player.activateSong(activeItem.get('song'));
+                
+                //  TODO: This won't be necessary once I fix history persistence because activeItem should already be in history after a restart.
+                this.history.unshift(activeItem);
             }
-            
-            //this.add({
-            //    song: new Song({
-            //        id: 'M7lc1UVf-VE',
-            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
-            //        author: 'Google Developers',
-            //        duration: '1344'
-            //    }),
-            //    title: 'Test 0',
-            //    sequence: 0
-            //});
-
-            //this.add({
-            //    song: new Song({
-            //        id: 'JMPYmNINxrE',
-            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
-            //        author: 'Google Developers',
-            //        duration: '1344'
-            //    }),
-            //    title: 'Test 1',
-            //    sequence: 100
-            //});
-
-            //this.add({
-            //    song: new Song({
-            //        id: 'M7lc1UVf-VE',
-            //        title: 'YouTube Developers Live: Embedded Web Player Customization',
-            //        author: 'Google Developers',
-            //        duration: '1344'
-            //    }),
-            //    title: 'Test 2',
-            //    sequence: 200
-            //});
         },
         
         addSongs: function (songs, options) {
@@ -94,7 +64,7 @@
 
             var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             if (playOnAdd) {
-                Player.playOnceSongChanges();
+                Player.set('playOnActivate', true);
             }
 
             var index = _.isUndefined(options.index) ? this.length : options.index;
@@ -339,9 +309,17 @@
         },
         
         _onPlayerError: function () {
-            console.log("Player state:", Player.get('state'));
-            Player.playOnceSongChanges();
-            this.activateNext();
+            Player.set('playOnActivate', true);
+            var nextItem = this.activateNext();
+            
+            if (nextItem === null) {
+                Player.set('playOnActivate', false);
+                //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
+                //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
+                Player.activateSong({
+                    song: this.getActiveItem().get('song')
+                });
+            }
         },
         
         _onChangeActive: function (model, active) {
@@ -394,25 +372,12 @@
         },
         
         _loadActiveItem: function (activeItem) {
-            var songId = activeItem.get('song').get('id');
-
-            console.log('loading active item:', activeItem.get('song').get('title'));
-
-            //  Maintain the state of the player by playing or cueuing based on current player state.
-            var playerState = Player.get('state');
-
-            console.log('playerState:', playerState);
-
-            if (playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                Player.loadSongById(songId);
-            } else {
-                Player.cueSongById(songId);
-            }
-
+            Player.activateSong(activeItem.get('song'));
             this.history.unshift(activeItem);
         },
         
         _stopPlayerIfEmpty: function () {
+            console.log('this.length:', this.length);
             if (this.length === 0) {
                 Player.stop();
             }

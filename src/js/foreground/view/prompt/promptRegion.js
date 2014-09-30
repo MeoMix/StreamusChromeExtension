@@ -9,7 +9,7 @@
 ], function (YouTubePlayerError, ErrorPromptView, GoogleSignInPromptView, LinkUserIdPromptView, NoPlayEmbeddedPromptView, ReloadStreamusPromptView, UpdateStreamusPromptView) {
     'use strict';
     
-    var Player = Streamus.backgroundPage.YouTubePlayer;
+    var Player = Streamus.backgroundPage.Player;
     var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
