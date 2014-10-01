@@ -38,19 +38,22 @@ define([
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
         parse: function (playlistDto) {
-            //  Convert C# Guid.Empty into BackboneJS null
-            for (var key in playlistDto) {
-                if (playlistDto.hasOwnProperty(key) && playlistDto[key] === '00000000-0000-0000-0000-000000000000') {
-                    playlistDto[key] = null;
+            //  Patch requests do not return information.
+            if (!_.isUndefined(playlistDto)) {
+                //  Convert C# Guid.Empty into BackboneJS null
+                for (var key in playlistDto) {
+                    if (playlistDto.hasOwnProperty(key) && playlistDto[key] === '00000000-0000-0000-0000-000000000000') {
+                        playlistDto[key] = null;
+                    }
                 }
-            }
-            
-            //  Reset will load the server's response into items as a Backbone.Collection
-            this.get('items').reset(playlistDto.items);
-            this.get('items').playlistId = playlistDto.id;
 
-            // Remove so parse doesn't set and overwrite instance after parse returns.
-            delete playlistDto.items;
+                //  Reset will load the server's response into items as a Backbone.Collection
+                this.get('items').reset(playlistDto.items);
+                this.get('items').playlistId = playlistDto.id;
+
+                // Remove so parse doesn't set and overwrite instance after parse returns.
+                delete playlistDto.items;
+            }
 
             return playlistDto;
         },
