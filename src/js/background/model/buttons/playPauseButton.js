@@ -28,7 +28,7 @@
         
         _onChromeCommand: function (command) {
             if (command === 'toggleSong') {
-                var didTogglePlayerState = PlayPauseButton.tryTogglePlayerState();
+                var didTogglePlayerState = this.tryTogglePlayerState();
 
                 if (!didTogglePlayerState) {
                     ChromeNotifications.create({

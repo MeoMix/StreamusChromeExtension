@@ -22,7 +22,9 @@
         
         //  Prevent spamming by only allowing a previous click once every 100ms.
         tryDoTimeBasedPrevious: _.debounce(function () {
-            if (this.get('enabled')){
+            var enabled = this.get('enabled');
+
+            if (enabled) {
                 //  Restart when clicking 'previous' if too much time has passed
                 if (this._songHasBeenPlaying()) {
                     Player.seekTo(0);
@@ -31,7 +33,7 @@
                 }
             }
 
-            return this.get('enabled');
+            return enabled;
         }, 100, true),
         
         _onChromeCommand: function (command) {
