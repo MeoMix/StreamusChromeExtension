@@ -50,7 +50,7 @@
             var jsonStringSyncActions = [];
             //  Only work upon "newValue" changes -- "oldValue" changes have been removed and don't need propagation anywhere.
             _.each(syncChangeValues, function(syncChangeValue) {
-                var newValueJsonString = syncChangeValue["newValue"];
+                var newValueJsonString = syncChangeValue.newValue;
                 
                 if (!_.isUndefined(newValueJsonString)) {
                     jsonStringSyncActions.push(newValueJsonString);

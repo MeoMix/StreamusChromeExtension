@@ -1,66 +1,66 @@
 //  This code runs on YouTube pages.
 $(function () {
-    'use strict';
+	'use strict';
 
-    var enhanceYouTube = false;
-    
-    chrome.runtime.sendMessage({ method: 'getCanEnhanceYouTube' }, function (canEnhanceYouTube) {
-        if (canEnhanceYouTube) {
-            injectHtml();
-            enhanceYouTube = true;
-        }
-    });
-    
-    chrome.runtime.onMessage.addListener(function (request) {
-        if (enhanceYouTube) {
-            switch (request.event) {
-                //  TODO: added/removed/updated are synced with SyncActionType enum
-                case 'added':
-                    var playlistOption = $('<option>', {
-                        value: request.data.id,
-                        text: request.data.title
-                    });
+	var enhanceYouTube = false;
+	
+	chrome.runtime.sendMessage({ method: 'getCanEnhanceYouTube' }, function (canEnhanceYouTube) {
+		if (canEnhanceYouTube) {
+			injectHtml();
+			enhanceYouTube = true;
+		}
+	});
+	
+	chrome.runtime.onMessage.addListener(function (request) {
+		if (enhanceYouTube) {
+			switch (request.event) {
+				//  TODO: added/removed/updated are synced with SyncActionType enum
+				case 'added':
+					var playlistOption = $('<option>', {
+						value: request.data.id,
+						text: request.data.title
+					});
 
-                    playlistOption.appendTo($('#playlistSelect'));
-                    break;
-                case 'removed':
-                    $('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
-                    break;
-                case 'updated':
-                    $('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
-                    break;
-                case 'signed-in':
-                    $('#streamus-share-panel').empty();
-                    injectAddPlaylistContent($('#streamus-share-panel'));
-                    getPlaylistsAndSetSelectOptions();
-                    break;
-                case 'sign-out':
-                    $('#streamus-share-panel').empty();
-                    injectSignIn();
-                    break;
-                case 'enhance-off':
-                    removeHtml();
-                    enhanceYouTube = false;
-                    break;
-            }
-        } else {
-            if (request.event === 'enhance-on' && !enhanceYouTube) {
-                injectHtml();
-                enhanceYouTube = true;
-            }
-        }
-    });
+					playlistOption.appendTo($('#playlistSelect'));
+					break;
+				case 'removed':
+					$('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
+					break;
+				case 'updated':
+					$('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
+					break;
+				case 'signed-in':
+					$('#streamus-share-panel').empty();
+					injectAddPlaylistContent($('#streamus-share-panel'));
+					getPlaylistsAndSetSelectOptions();
+					break;
+				case 'sign-out':
+					$('#streamus-share-panel').empty();
+					injectSignIn();
+					break;
+				case 'enhance-off':
+					removeHtml();
+					enhanceYouTube = false;
+					break;
+			}
+		} else {
+			if (request.event === 'enhance-on' && !enhanceYouTube) {
+				injectHtml();
+				enhanceYouTube = true;
+			}
+		}
+	});
 
 	function injectSignIn(sharePanel) {
 		sharePanel.append($('<input>', {
-		    type: 'button',
-		    value: chrome.i18n.getMessage('signIn'),
-		    'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-primary',
-		    click: function() {
-		        chrome.runtime.sendMessage({
-		            method: "signIn"
-		        });
-		    }
+			type: 'button',
+			value: chrome.i18n.getMessage('signIn'),
+			'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-primary',
+			click: function() {
+				chrome.runtime.sendMessage({
+					method: "signIn"
+				});
+			}
 		}));
 	}
 	
@@ -70,34 +70,34 @@ $(function () {
 			id: 'share-panel-playlist-select',
 			'class': 'share-panel-playlists-container'
 		});
-	    sharePanel.append(sharePanelPlaylistSelect);
+		sharePanel.append(sharePanelPlaylistSelect);
 
-	    sharePanelPlaylistSelect.append($('<select>', {
-	        id: 'playlistSelect',
-	        'class': 'yt-uix-form-input-text',
-	        'css': {
-	            'margin-right': '10px'
-	        }
-	    }));
+		sharePanelPlaylistSelect.append($('<select>', {
+			id: 'playlistSelect',
+			'class': 'yt-uix-form-input-text',
+			'css': {
+				'margin-right': '10px'
+			}
+		}));
 
 		sharePanelPlaylistSelect.append($('<input>', {
-		    type: 'button',
-		    value: chrome.i18n.getMessage('addSong'),
-		    'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-primary',
-		    css: {
-		        'margin-top': '-2px'
-		    },
-		    click: function () {
-		        $(this).val(chrome.i18n.getMessage('working') + '...').attr('disabled', true);
+			type: 'button',
+			value: chrome.i18n.getMessage('addSong'),
+			'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-primary',
+			css: {
+				'margin-top': '-2px'
+			},
+			click: function () {
+				$(this).val(chrome.i18n.getMessage('working') + '...').attr('disabled', true);
 
-		        chrome.runtime.sendMessage({
-		            method: "addYouTubeSongByIdToPlaylist",
-		            playlistId: $('#playlistSelect').val(),
-		            songId: $('.video-stream').data('youtube-id')
-		        }, function () {
-		            $(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));
-		        }.bind(this));
-		    }
+				chrome.runtime.sendMessage({
+					method: "addYouTubeSongByIdToPlaylist",
+					playlistId: $('#playlistSelect').val(),
+					songId: $('.video-stream').data('youtube-id')
+				}, function () {
+					$(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));
+				}.bind(this));
+			}
 		}));
 	}
 	
@@ -116,9 +116,9 @@ $(function () {
 			}
 		});
 	}
-    
+	
 	function removeHtml() {
-	    $('#streamus-add-button-wrapper').remove();
+		$('#streamus-add-button-wrapper').remove();
 	}
 
 	function injectHtml() {
@@ -126,15 +126,15 @@ $(function () {
 		addButtonWrapper.insertBefore($('#watch8-secondary-actions').children(':last'));
 
 		var addButton = $('<button>', {
-		    'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon action-panel-trigger yt-uix-button-opacity',
+			'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-opacity yt-uix-button-has-icon action-panel-trigger yt-uix-button-opacity',
 			type: 'button',
 			'data-trigger-for': 'action-panel-streamus'
 		});
 
-	    addButton.append($('<span>', {
-	        'class': 'yt-uix-button-content',
-	        text: chrome.i18n.getMessage('addToStreamus')
-	    }));
+		addButton.append($('<span>', {
+			'class': 'yt-uix-button-content',
+			text: chrome.i18n.getMessage('addToStreamus')
+		}));
 
 		addButton.appendTo(addButtonWrapper);
 
@@ -151,17 +151,17 @@ $(function () {
 			'class': 'share-panel'
 		});
 		sharePanel.appendTo(streamusActionPanel);
-	    
-	    //  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
+		
+		//  Append or remove HTML dependent on whether the user is signed in (show add playlist functionality) or signed out (show sign in button)
 		chrome.runtime.sendMessage({ method: 'getSignedInState' }, function (state) {
-		    sharePanel.empty();
+			sharePanel.empty();
 			
-		    if (state.signedIn) {   
-		        injectAddPlaylistContent(sharePanel);
-		        getPlaylistsAndSetSelectOptions();
-		    } else {
-		        injectSignIn(sharePanel);
-		    }
+			if (state.signedIn) {   
+				injectAddPlaylistContent(sharePanel);
+				getPlaylistsAndSetSelectOptions();
+			} else {
+				injectSignIn(sharePanel);
+			}
 		});
 	}
 });

@@ -30,4 +30,4 @@
             this.view.model.destroy.restore();
         });
     });
-})
+});

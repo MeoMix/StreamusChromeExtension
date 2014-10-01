@@ -12,6 +12,10 @@
   display: flex;
   justify-content: center;
 }
+.u-flex--alignCenter {
+  display: flex;
+  align-items: center;
+}
 .u-overlay {
   position: absolute;
   bottom: 0;
@@ -84,7 +88,5 @@
   background-color: #ffffff;
 }
 .panel--left {
-  /* NOTE: I use jQuery.transit to perform the actual transitions, but initial value needs to be set for transition to take effect. */
-  /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
   transform: translateX(-102%);
 }

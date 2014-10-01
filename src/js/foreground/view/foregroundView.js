@@ -37,6 +37,8 @@
 
         initialize: function () {
             this._checkPlayerReady();
+            this.listenTo(Player, 'change:ready', this._onPlayerChangeReady);
+
             this.promptRegion.promptIfNeedGoogleSignIn();
             this.promptRegion.promptIfNeedLinkUserId();
             this.promptRegion.promptIfUpdateAvailable();
@@ -85,7 +87,6 @@
         _startLoading: function () {
             this.$el.addClass('is-showingSpinner');
             this.promptRegion.startShowReloadPromptTimer();
-            this.listenToOnce(Player, 'change:ready', this._stopLoading);
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
@@ -115,6 +116,10 @@
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
             this.destroy();
+        },
+        
+        _onPlayerChangeReady: function (model, ready) {
+            ready ? this._stopLoading() : this._startLoading();
         }
     });
 

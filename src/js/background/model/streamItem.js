@@ -22,10 +22,19 @@
             };
         },
         
+        //  Don't want to save everything to localStorage -- only variables which need to be persisted.
+        blacklist: ['selected', 'firstSelected'],
+        toJSON: function () {
+            return this.omit(this.blacklist);
+        },
+        
         initialize: function () {
             this._ensureSongModel();
             this.on('change:active', this._onChangeActive);
-            this._getRelatedSongInformation();
+            
+            if (this.get('relatedSongInformation').length === 0) {
+                this._getRelatedSongInformation();
+            }
         },
         
         _ensureSongModel: function() {

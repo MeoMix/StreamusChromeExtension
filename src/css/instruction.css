@@ -42,6 +42,10 @@
   display: flex;
   justify-content: center;
 }
+.u-flex--alignCenter {
+  display: flex;
+  align-items: center;
+}
 .u-overlay {
   position: absolute;
   bottom: 0;
@@ -109,13 +113,10 @@
 .column {
   height: 100%;
 }
-.column.u-overlay {
-  /* An empty column-overlay should not be able to overlap visible content */
-}
 .column.u-overlay:empty {
   display: none;
 }
-.column.u-overlay .column {
+.column--fullWidth {
   width: 100%;
 }
 .column--wide {
@@ -131,14 +132,8 @@
   height: 100%;
   position: relative;
 }
-.instruction-wrapper.u-overlay {
-  /* An empty column-overlay should not be able to overlap visible content */
-}
 .instruction-wrapper.u-overlay:empty {
   display: none;
-}
-.instruction-wrapper.u-overlay .column {
-  width: 100%;
 }
 .instruction {
   position: absolute;

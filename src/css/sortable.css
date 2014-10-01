@@ -7,6 +7,8 @@
   color: #ffffff;
   border-radius: 50%;
   text-align: center;
+  margin-right: -19px;
+  margin-left: -19px;
 }
 .sortable-copyHelper + .sortable-placeholder {
   display: none;

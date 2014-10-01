@@ -1,12 +1,9 @@
 define([
-    'background/model/youTubePlayerAPI',
+    'background/model/youTubePlayer',
     'background/model/settings',
     'common/enum/playerState'
-], function (YouTubePlayerAPI, Settings, PlayerState) {
+], function (YouTubePlayer, Settings, PlayerState) {
     'use strict';
-
-    //  This is the actual YouTube Player API object housed within the iframe.
-    var youTubePlayer = null;
 
     var Player = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Player'),
@@ -27,7 +24,6 @@ define([
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
             loadedSongId: '',
-            refreshPausedSongTimeout: null,
             playImmediately: false
         },
         
@@ -41,12 +37,12 @@ define([
         initialize: function () {
             this.on('change:volume', this._onChangeVolume);
             this.on('change:muted', this._onChangeMuted);
-            this.on('change:state', this._onChangeState);
             this.listenTo(Settings, 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
+            this.listenTo(YouTubePlayer, 'change:ready', this._onYouTubePlayerChangeReady);
+            this.listenTo(YouTubePlayer, 'change:state', this._onYouTubePlayerChangeState);
+            this.listenTo(YouTubePlayer, 'youTubeError', this._onYouTubePlayerError);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
-            
-            this._loadYouTubePlayerApi();
         },
         
         //  Public method which is able to be called before the YouTube Player API is fully ready.
@@ -85,7 +81,7 @@ define([
         },
 
         stop: function () {
-            youTubePlayer.stopVideo();
+            YouTubePlayer.stop();
 
             this.set({
                 loadedSongId: '',
@@ -94,17 +90,16 @@ define([
         },
 
         pause: function () {
-            youTubePlayer.pauseVideo();
+            YouTubePlayer.pause();
         },
             
         play: function () {
-            youTubePlayer.playVideo();
+            YouTubePlayer.play();
         },
 
         //  TODO: This is debounced to defend against mousewheel seekTo updates, but I think that should be moved to the view instead of here.
         seekTo: _.debounce(function (timeInSeconds) {
-            //  The true paramater allows the youTubePlayer to seek ahead past what is buffered.
-            youTubePlayer.seekTo(timeInSeconds, true);
+            YouTubePlayer.seekTo(timeInSeconds);
         }, 100),
         
         watchInTab: function (songId, songUrl) {
@@ -125,21 +120,19 @@ define([
             var playerState = this.get('state');
             var playOnActivate = this.get('playOnActivate');
 
-            var apiOptions = {
+            var videoOptions = {
                 videoId: songId,
                 startSeconds: timeInSeconds || 0,
                 suggestedQuality: Settings.get('youTubeSuggestedQuality')
             };
             
-            console.log('playerState:', playerState);
-
             //  TODO: This is shitty. The idea is to keep the player going if the user skips (playerState will be playing) or if the current song
             //  finishes naturally and there's another song to play (ended) but if you let one song finish playing, then add another, then skip to it,
             //  it will start playing automatically which is incorrect behavior.
             if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                youTubePlayer.loadVideoById(apiOptions);
+                YouTubePlayer.loadVideoById(videoOptions);
             } else {
-                youTubePlayer.cueVideoById(apiOptions);
+                YouTubePlayer.cueVideoById(videoOptions);
             }
 
             this.set({
@@ -153,36 +146,16 @@ define([
         
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         _onChangeSuggestedQuality: function (model, suggestedQuality) {
-            youTubePlayer.setPlaybackQuality(suggestedQuality);
+            YouTubePlayer.setPlaybackQuality(suggestedQuality);
         },
         
         //  Update the volume whenever the UI modifies the volume property.
         _onChangeVolume: function (model, volume) {
-            youTubePlayer.setVolume(volume);
+            YouTubePlayer.setVolume(volume);
         },
         
         _onChangeMuted: function (model, muted) {
-            muted ? youTubePlayer.mute() : youTubePlayer.unMute();
-        },
-        
-        _onChangeState: function (model, state) {
-            console.log('change state', model, state);
-            var refreshPausedSongTimeout = this.get('refreshPausedSongTimeout');
-            clearTimeout(refreshPausedSongTimeout);
-
-            if (state === PlayerState.Paused) {
-                //  TODO: Maybe I need to restart the whole API after 8 hours because HTTPS times out?
-                //  Start a long running timer when the player becomes paused. This is because YouTube
-                //  will expire after ~8+ hours of being loaded. This only happens if the player is paused.
-                var eightHours = 28800000;
-                refreshPausedSongTimeout = setTimeout(this._reloadSong.bind(this), eightHours);
-            }
-            
-            this.set('refreshPausedSongTimeout', refreshPausedSongTimeout);
-        },
-        
-        _reloadSong: function() {
-            this._activateSong(this.get('loadedSongId'), this.get('currentTime'));
+            muted ? YouTubePlayer.mute() : YouTubePlayer.unMute();
         },
         
         _onRuntimeConnect: function (port) {
@@ -211,42 +184,11 @@ define([
                 }
             }
         },
-        
-        _loadYouTubePlayerApi: function() {
-            var youTubePlayerAPI = new YouTubePlayerAPI();
-            this.listenToOnce(youTubePlayerAPI, 'change:ready', this._onYouTubePlayerApiReady);
-            youTubePlayerAPI.load();
-        },
-        
-        _onYouTubePlayerApiReady: function () {
-            //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
-            //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
-            var iframeId = 'youtube-player';
-            youTubePlayer = new window.YT.Player(iframeId, {
-                events: {
-                    onReady: this._onYouTubePlayerReady.bind(this),
-                    onStateChange: this._onYouTubePlayerStateChange.bind(this),
-                    onError: this._onYouTubePlayerError.bind(this)
-                }
-            });
-            
-            //  Set this manually after constructing the iframe because I need to be able to intercept headers being sent during its construction.
-            $('#' + iframeId).attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
-        },
-        
+
         _onYouTubePlayerReady: function () {
             //  Load from Backbone.LocalStorage
             this.fetch();
             this.set('ready', true);
-        },
-        
-        _onYouTubePlayerStateChange: function (state) {
-            this.set('state', state.data);
-        },
-        
-        //  Emit errors so the foreground so can notify the user.
-        _onYouTubePlayerError: function (error) {
-            this.trigger('error', error.data);
         },
         
         _onChromeCommand: function(command) {
@@ -258,6 +200,30 @@ define([
                 var decreasedVolume = this.get('volume') - 5;
                 this.setVolume(decreasedVolume);
             }
+        },
+        
+        _onYouTubePlayerChangeReady: function (model, ready) {
+            this.set('ready', ready);
+
+            if (ready) {
+                //  TODO: Only fetch this one? Or every time on ready?
+                //  Load from Backbone.LocalStorage
+                this.fetch();
+                
+                //  This will be set when the YouTube player is reloaded after expiring due to inactivity.
+                if (this.get('loadedSongId') !== '') {
+                    this._activateSong(this.get('loadedSongId'), this.get('currentTime'));
+                }
+            }
+        },
+        
+        _onYouTubePlayerChangeState: function(model, state) {
+            this.set('state', state);
+        },
+        
+        //  Emit errors so the foreground so can notify the user.
+        _onYouTubePlayerError: function(model, error) {
+            this.trigger('youTubeError', error);
         }
     });
 

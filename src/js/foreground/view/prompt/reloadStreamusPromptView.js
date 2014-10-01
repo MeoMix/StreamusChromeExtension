@@ -14,6 +14,9 @@
             });
 
             PromptView.prototype.initialize.apply(this, arguments);
+            
+            //  TODO: Just monitoring this for a while to see if it happens to people very frequently.
+            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("ReloadStreamusPromptView shown");
         },
 
         onSubmit: function () {

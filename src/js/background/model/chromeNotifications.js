@@ -22,6 +22,7 @@ define(function () {
         //  Expects options: { iconUrl: string, title: string, message: string }
         create: function (options) {
             //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
+            //  TODO: I should log information about what clients are throwing errors (their Google Chrome version?)
             if (this._canUseNotificationsApi()) {
                 chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, options));
             }

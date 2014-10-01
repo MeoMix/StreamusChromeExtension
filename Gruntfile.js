@@ -73,8 +73,8 @@ module.exports = function (grunt) {
 		},
 		less: {
 			files: {
-			    expand: true,
-			    ieCompat: false,
+				expand: true,
+				ieCompat: false,
 				cwd: 'src/less/',
 				src: '*.less',
 				dest: 'src/css',
@@ -99,7 +99,7 @@ module.exports = function (grunt) {
 						include: ['background/plugins']
 					}, {
 						name: 'background/application',
-						include: 'background/background',
+						include: 'background/view/backgroundView',
 						exclude: ['background/main']
 					}, {
 						name: 'foreground/main',

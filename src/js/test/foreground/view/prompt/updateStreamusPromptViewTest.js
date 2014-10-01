@@ -1,6 +1,6 @@
 ﻿define([
     'foreground/view/prompt/updateStreamusPromptView'
-], function(UpdateStreamusPromptView) {
+], function (UpdateStreamusPromptView) {
     'use strict';
 
     describe('UpdateStreamusPromptView', function () {
@@ -24,9 +24,9 @@
 
                 this.view.onSubmit();
                 expect(chrome.runtime.reload.calledOnce).to.equal(true);
-                
+
                 chrome.runtime.reload.restore();
             });
         });
     });
-})
+});

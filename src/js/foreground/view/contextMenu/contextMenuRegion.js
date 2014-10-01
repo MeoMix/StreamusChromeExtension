@@ -33,7 +33,7 @@
             if (this.containerHeight <= 0 || this.containerWidth <= 0) throw new Error('ContextMenuRegion expects containerHeight and containerWidth to be greater than 0');
         },
         
-        _showContextMenu: function() {
+        _showContextMenu: function () {
             this.show(new ContextMenuView({
                 collection: ContextMenuItems,
                 model: new ContextMenu({

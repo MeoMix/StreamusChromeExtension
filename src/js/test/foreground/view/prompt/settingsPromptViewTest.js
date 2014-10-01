@@ -18,4 +18,4 @@
             this.view.triggerMethod('show');
         });
     });
-})
+});

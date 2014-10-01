@@ -6,4 +6,4 @@
     xdescribe('PromptView', function () {
 
     });
-})
+});

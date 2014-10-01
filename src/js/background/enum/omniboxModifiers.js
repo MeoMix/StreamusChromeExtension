@@ -1,0 +1,3 @@
+﻿define({
+    Add: 'add'
+});

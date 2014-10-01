@@ -1,17 +1,21 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
     'background/collection/streamItems',
+    'background/enum/omniboxModifiers',
+    'background/model/chromeNotifications',
     'background/model/song',
     'common/model/youTubeV3API',
     'common/model/utility'
-], function (StreamItems, Song, YouTubeV3API, Utility) {
+], function (StreamItems, OmniboxModifiers, ChromeNotifications, Song, YouTubeV3API, Utility) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
         defaults: function () {
             return {
                 suggestedSongs: [],
-                searchJqXhr: null
+                searchJqXhr: null,
+                modifiers: [],
+                validModifiers: [OmniboxModifiers.Add]
             };
         },
         
@@ -29,10 +33,11 @@ define([
             //  Clear suggestedSongs
             this.get('suggestedSongs').length = 0;
 
-            var trimmedSearchText = text.trim();
+            var searchText = text.trim();
 
             //  Clear suggestions if there is no text.
-            if (trimmedSearchText === '') {
+            if (searchText === '') {
+                this.set('modifiers', []);
                 suggest([]);
             } else {
                 //  Do not display results if searchText was modified while searching, abort old request.
@@ -43,25 +48,53 @@ define([
                     this.set('searchJqXhr', null);
                 }
 
+                var modifiers = this._getModifiers(searchText);
+                this.set('modifiers', modifiers);
+                searchText = this._trimModifiers(searchText, modifiers);
+
                 var searchJqXhr = YouTubeV3API.search({
-                    text: trimmedSearchText,
+                    text: searchText,
                     //  Omnibox can only show 6 results
                     maxResults: 6,
-                    //  TODO: Reduce nesting
-                    success: function(searchResponse) {
-                        this.set('searchJqXhr', null);
-                        //  TODO: Handle missing song IDs
-                        var suggestions = this._buildSuggestions(searchResponse.songInformationList, trimmedSearchText);
-
-                        suggest(suggestions);
-                    }.bind(this)
+                    success: this._onSearchResponse.bind(this, suggest, searchText)
                 });
 
                 this.set('searchJqXhr', searchJqXhr);
             }
         },
         
-        _onInputEntered: function(text) {
+        _getModifiers: function (text) {
+            var validModifiers = this.get('validModifiers');
+            var usedModifiers = [];
+
+            _.each(validModifiers, function (modifier) {
+                var indexOfModifier = text.indexOf('@' + modifier);
+                
+                if (indexOfModifier !== -1) {
+                    usedModifiers.push(modifier);
+                }
+            });
+
+            return usedModifiers;
+        },
+        
+        _trimModifiers: function (text, modifiers) {
+            _.each(modifiers, function (modifier) {
+                var regexp = new RegExp('@' + modifier, 'gi');
+                text = text.replace(regexp, '');
+            });
+
+            return text.trim();
+        },
+        
+        _onSearchResponse: function (suggest, searchText, searchResponse) {
+            this.set('searchJqXhr', null);
+
+            var suggestions = this._buildSuggestions(searchResponse.songInformationList, searchText);
+            suggest(suggestions);
+        },
+        
+        _onInputEntered: function (text) {
             //  Find the cached song data by url
             var pickedSong = _.find(this.get('suggestedSongs'), function (song) {
                 return song.get('url') === text;
@@ -73,10 +106,19 @@ define([
                 pickedSong = this.get('suggestedSongs')[0];
             }
 
-            //  TODO: Support both playOnAdd true and false
+            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
+            var playOnAdd = addOnlyModifierExists ? false : true;
+            
             StreamItems.addSongs(pickedSong, {
-                playOnAdd: true
+                playOnAdd: playOnAdd 
             });
+            
+            if (!playOnAdd) {
+                ChromeNotifications.create({
+                    title: chrome.i18n.getMessage('songAdded'),
+                    message: pickedSong.get('title')
+                });
+            }
         },
         
         _buildSuggestions: function(songInformationList, text) {

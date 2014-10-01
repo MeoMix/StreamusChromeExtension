@@ -498,5 +498,11 @@
 	},
 	"duration": {
 		"message": "Duration"
+	},
+	"failedToFindSong": {
+		"message": "Failed to find song"
+	},
+	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
+		"message": "An issue was encountered while attempting to find song with URL:"
 	}
 }

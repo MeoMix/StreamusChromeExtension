@@ -42,6 +42,10 @@
   display: flex;
   justify-content: center;
 }
+.u-flex--alignCenter {
+  display: flex;
+  align-items: center;
+}
 .u-overlay {
   position: absolute;
   bottom: 0;

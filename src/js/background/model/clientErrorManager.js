@@ -1,6 +1,6 @@
 ﻿define([
     'background/model/clientError'
-], function(ClientError) {
+], function (ClientError) {
     'use strict';
 
     var ClientErrorManager = Backbone.Model.extend({
@@ -16,11 +16,11 @@
             chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
         },
-        
+
         logErrorMessage: function (message) {
             //  Only log client errors to the database in a deploy environment, not when debugging locally.
             if (Streamus.localDebug) {
-                console.log('Debugging is enabled. Skipping write to server.');
+                console.warn('Debugging is enabled. Skipping write to server.');
             } else {
                 var clientError = new ClientError({
                     message: message,
@@ -32,16 +32,16 @@
                 clientError.save();
             }
         },
-        
+
         _onGetPlatformInfo: function (platformInfo) {
             this.set('platformInfo', platformInfo);
         },
-        
+
         //  Send a log message whenever any client errors occur; for debugging purposes.
         _onWindowError: _.throttle(function (message, url, lineNumber, columnNumber, errorObject) {
             //  Only log client errors to the database in a deploy environment, not when debugging locally.
             if (Streamus.localDebug) {
-                console.log('Debugging is enabled. Skipping write to server.');
+                console.warn('Debugging is enabled. Skipping write to server.');
             } else {
                 //  The first part of the URL is always the same and not very interesting. Drop it off.
                 url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
@@ -70,8 +70,8 @@
             }
         }, 60000)
     });
-    
+
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
     window.ClientErrorManager = new ClientErrorManager();
     return window.ClientErrorManager;
-})
+});

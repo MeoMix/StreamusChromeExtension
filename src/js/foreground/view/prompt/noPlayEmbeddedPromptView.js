@@ -15,7 +15,7 @@
 
             PromptView.prototype.initialize.apply(this, arguments);
             //  TODO: When I fix the bug related to this then this can go away.
-            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedView shown, loadedSongId:" + Streamus.backgroundPage.Player.get('loadedSongId'));
+            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("NoPlayEmbeddedPromptView shown, loadedSongId:" + Streamus.backgroundPage.Player.get('loadedSongId'));
         },
 
         onSubmit: function () {

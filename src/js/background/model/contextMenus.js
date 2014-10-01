@@ -200,10 +200,9 @@ define([
                             callback(new Song(songInformation));
                         },
                         error: function () {
-                            //  TODO: i18n
                             ChromeNotifications.create({
-                                title: 'Failed to find song',
-                                message: 'An issue was encountered while attempting to find song with URL: ' + url
+                                title: chrome.i18n.getMessage('failedToFindSong'),
+                                message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + url
                             });
                         }
                     });

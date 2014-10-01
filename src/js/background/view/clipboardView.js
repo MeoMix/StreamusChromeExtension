@@ -4,7 +4,10 @@
     'use strict';
 
     var ClipboardView = Backbone.Marionette.ItemView.extend({
-        el: $('#clipboard'),
+        id: 'clipboard',
+        tagName: 'textarea',
+        template: false,
+
         model: Clipboard,
         
         modelEvents: {
@@ -24,5 +27,5 @@
         }
     });
 
-    return new ClipboardView();
+    return ClipboardView;
 });

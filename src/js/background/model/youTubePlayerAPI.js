@@ -27,7 +27,6 @@ define(function () {
 		},
 		
 		_onWebRequestCompleted: function () {
-		    console.log('completed');
 			this.set('completed', true);
 		},
 		
@@ -36,7 +35,6 @@ define(function () {
 		// Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
 		// Without a Referer - YouTube will reject most of the requests to play music.
 		_onWebRequestBeforeSendHeaders: function (info) {
-		    console.log('beforeSendHeaders');
 			//  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
 			var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
 				return requestHeader.name === 'Referer';
@@ -71,15 +69,15 @@ define(function () {
 			return { requestHeaders: info.requestHeaders };
 		},
 		
-		_onYouTubePlayerAPIReady: function (e) {
+		_onYouTubePlayerAPIReady: function () {
 			this.set('ready', true);
 		},
 		
 		//  TODO: I'm bringing in YouTube's source to patch it because it's buggy as shit. Weird race conditions dependent on an unlaggy system and more.
 		_loadExternalYouTubeApi: function() {
 			/* jshint ignore:start */
-			var self = this;
-			
+		    var self = this;
+
 			if (!window['YT']) {
 				window.YT = { loading: 0, loaded: 0 };
 			}

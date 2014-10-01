@@ -5,7 +5,7 @@
 	'use strict';
 
 	var NotificationView = Backbone.Marionette.ItemView.extend({
-	    id: 'notification',
+		id: 'notification',
 		className: function () {
 			return this._getClassName();
 		},
@@ -16,8 +16,8 @@
 		},
 		
 		ui: {
-		    hideButton: '#notification-hideButton'
-        },
+			hideButton: '#notification-hideButton'
+		},
 
 		transitionDelay: 200,
 		hideTimeout: null,

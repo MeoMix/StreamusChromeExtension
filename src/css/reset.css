@@ -3,6 +3,7 @@ button:focus {
   outline: none;
 }
 ul,
+ol,
 li {
   margin: 0;
   padding: 0;

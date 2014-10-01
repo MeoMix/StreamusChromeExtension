@@ -19,8 +19,8 @@
         },
 
         onShow: function () {
-            var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.height(), this.containerHeight);
-            var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.width(), this.containerWidth);
+            var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.outerHeight(), this.containerHeight);
+            var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.outerWidth(), this.containerWidth);
 
             this.$el.offset({
                 top: offsetTop,
@@ -36,7 +36,7 @@
         _ensureOffset: function(offset, elementDimension, containerDimension) {
             var ensuredOffset = offset;
             var needsFlip = offset + elementDimension > containerDimension;
-            
+
             if (needsFlip) {
                 ensuredOffset -= elementDimension;
             }

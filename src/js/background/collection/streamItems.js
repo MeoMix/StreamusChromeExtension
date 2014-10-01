@@ -34,16 +34,13 @@
             this.on('reset', this._onReset);
             this.on('change:active', this._onChangeActive);
             this.listenTo(Player, 'change:state', this._onChangePlayerState);
-            this.listenTo(Player, 'error', this._onPlayerError);
+            this.listenTo(Player, 'youTubeError', this._onPlayerError);
             this.on('change:playedRecently', this._onChangePlayedRecently);
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             //  Load any existing StreamItems from local storage
             this.fetch();
-            
-            //  TODO: -somehow- I get into a state where it knows a song is selected and that is written to localStorage.
-            this.deselectAll();
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
@@ -377,7 +374,6 @@
         },
         
         _stopPlayerIfEmpty: function () {
-            console.log('this.length:', this.length);
             if (this.length === 0) {
                 Player.stop();
             }

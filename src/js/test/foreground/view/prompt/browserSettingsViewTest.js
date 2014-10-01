@@ -29,4 +29,4 @@
             this.view.model.save.restore();
         });
     });
-})
+});

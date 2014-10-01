@@ -16,7 +16,7 @@
 
         _showBackground: function() {
             //  Fire up the background:
-            require(['background/background']);
+            require(['background/view/backgroundView']);
         }
     });
 

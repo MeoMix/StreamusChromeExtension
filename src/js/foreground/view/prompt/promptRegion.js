@@ -18,7 +18,7 @@
         
         initialize: function () {
             this.listenTo(Backbone.Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
-            this.listenTo(Player, 'error', this._showYouTubeErrorPrompt);
+            this.listenTo(Player, 'youTubeError', this._showYouTubeErrorPrompt);
             this.listenTo(SignInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
             this.listenTo(SignInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
         },
@@ -45,10 +45,10 @@
             }
         },
         
-        //  If the foreground hasn't properly initialized after 5 seconds offer the ability to restart the program.
+        //  If the foreground hasn't properly initialized after 10 seconds offer the ability to restart the program.
         //  Background.js might have gone awry for some reason and it is not always clear how to restart Streamus via chrome://extension
         startShowReloadPromptTimer: function () {
-            this.showReloadPromptTimeout = setTimeout(this._showReloadStreamusPrompt.bind(this), 5000);
+            this.showReloadPromptTimeout = setTimeout(this._showReloadStreamusPrompt.bind(this), 10000);
         },
 
         hideReloadStreamusPrompt: function () {
