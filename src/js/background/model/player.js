@@ -185,12 +185,6 @@ define([
             }
         },
 
-        _onYouTubePlayerReady: function () {
-            //  Load from Backbone.LocalStorage
-            this.fetch();
-            this.set('ready', true);
-        },
-        
         _onChromeCommand: function(command) {
             if (command === 'increaseVolume') {
                 var increasedVolume = this.get('volume') + 5;
@@ -206,13 +200,16 @@ define([
             this.set('ready', ready);
 
             if (ready) {
-                //  TODO: Only fetch this one? Or every time on ready?
                 //  Load from Backbone.LocalStorage
                 this.fetch();
+                //  These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is same as default.
+                YouTubePlayer.setVolume(this.get('volume'));
+                this.get('muted') ? YouTubePlayer.mute() : YouTubePlayer.unMute();
                 
                 //  This will be set when the YouTube player is reloaded after expiring due to inactivity.
-                if (this.get('loadedSongId') !== '') {
-                    this._activateSong(this.get('loadedSongId'), this.get('currentTime'));
+                var loadedSongId = this.get('loadedSongId');
+                if (loadedSongId !== '') {
+                    this._activateSong(loadedSongId, this.get('currentTime'));
                 }
             }
         },

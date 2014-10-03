@@ -42,6 +42,7 @@
         },
 
         _setSrc: function () {
+            this.model.get('api').set('iframeRequestCompleted', false);
             //  Set this manually after constructing the iframe because I need to be able to intercept headers being sent during its construction.
             this.$el.attr('src', 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd');
         }

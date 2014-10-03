@@ -151,7 +151,7 @@
                     }
                         //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
                         //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
-                    else if (removedActiveItemIndex !== undefined && removedActiveItemIndex !== null) {
+                    else if (!_.isUndefined(removedActiveItemIndex)) {
                         this.at(this.length - 1).save({ active: true });
                         Player.pause();
                     }
@@ -270,12 +270,7 @@
         _onRemove: function (model, collection, options) {
             //  Destroy the model so that Backbone.LocalStorage keeps localStorage up-to-date.
             model.destroy();
-            
-            //  If an item is deleted from the stream -- remove it from history, too, because you can't skip back to it.
-            var historyIndex = this.history.indexOf(model);
-            if (historyIndex > -1) {
-                this.history.splice(historyIndex, 1);
-            }
+            this.history = _.without(this.history, model);
 
             if (model.get('active') && this.length > 0) {
                 this.activateNext(options.index);
@@ -356,7 +351,7 @@
                     title: title,
                     playOnAdd: playOnAdd,
                     error: function (error) {
-                        console.error("Failed to add song by title: " + query, error);
+                        console.error("Failed to add song by title: " + title, error);
                     },
                     complete: this._addByTitleList.bind(this, false, titleList)
                 });
@@ -370,7 +365,12 @@
         
         _loadActiveItem: function (activeItem) {
             Player.activateSong(activeItem.get('song'));
-            this.history.unshift(activeItem);
+            
+            //  When deleting the last item in the stream AND it is active then you go back 1 sequentially.
+            //  This can cause a duplicate to be added to history if you just came from it.
+            if (this.history[0] !== activeItem) {
+                this.history.unshift(activeItem);
+            }
         },
         
         _stopPlayerIfEmpty: function () {
@@ -409,6 +409,8 @@
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
             
             if (relatedSong === null) {
+                //  TODO: Uncaught Error: No related song found:[{"song":{"id":"wGegubqsWiQ","duration":254,"title":"Caravan Palace - Dragons","author":"loova31","type":1,"prettyDuration":"04:14","url":"https://youtu.be/wGegubqsWiQ","cleanTitle":"Caravan Palace - Dragons"},"tit...
+                //  TODO: Uncaught Error: No related song found:[{"song":{"id":"mDA2nauLnk0","duration":353,"title":"Pantera - Hollow","author":"isaac8399","type":1,"prettyDuration":"05:53","url":"https://youtu.be/mDA2nauLnk0","cleanTitle":"Pantera - Hollow"},"title":"Pantera -...
                 throw new Error("No related song found:" + JSON.stringify(this));
             }
             
@@ -478,7 +480,7 @@
                 this.getActiveItem().destroy();
             }
             else if (command === 'copySongUrl') {
-                Clipboard.copyUrl(this.getActiveItem().get('song').get('url'));
+                Clipboard.copy(this.getActiveItem().get('song').get('url'));
             }
             else if (command === 'copySongTitleAndUrl') {
                 var activeItem = this.getActiveItem();

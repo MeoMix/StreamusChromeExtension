@@ -51,6 +51,7 @@
         
         _toggleEnabled: function () {
             var previousItem = StreamItems.getPrevious();
+
             var enabled = previousItem !== null || this._songHasBeenPlaying();
             this.set('enabled', enabled);
         },

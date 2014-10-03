@@ -164,7 +164,7 @@ define([
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': playlist.get('title'),
                 'parentId': parentId,
-                'onclick': this._onClickSaveContextMenu.bind(this)
+                'onclick': this._onClickSaveContextMenu.bind(this, playlist)
             }));
 
             //  Update context menu items whenever the playlist's data changes (renamed or deleted)
@@ -248,7 +248,7 @@ define([
             });
         },
         
-        _onClickSaveContextMenu: function(onClickData) {
+        _onClickSaveContextMenu: function(playlist, onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
             this._getSongFromUrl(url, function (song) {

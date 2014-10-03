@@ -4,25 +4,29 @@
     'use strict';
 
     //  This is the actual YouTube Player API widget housed within the iframe.
-    var youTubePlayerWidget;
+    var youTubePlayerWidget = null;
 
     var YouTubePlayer = Backbone.Model.extend({
         defaults: {
             ready: false,
+            api: new YouTubePlayerAPI(),
             apiReady: false,
             iframeId: '',
             reloadInterval: null,
             maxReloadTries: 2,
             remainingReloadTries: 2
         },
+        
+        initialize: function () {
+            this.listenTo(this.get('api'), 'change:ready', this._onYouTubePlayerApiChangeReady);
+        },
 
         loadApi: function () {
-            var youTubePlayerAPI = new YouTubePlayerAPI();
-            this.listenToOnce(youTubePlayerAPI, 'change:ready', this._onYouTubePlayerApiReady);
-            youTubePlayerAPI.load();
+            this.get('api').load();
         },
 
         load: function () {
+            youTubePlayerWidget = null;
             this.set('ready', false);
 
             this._setReloadInterval();
@@ -83,15 +87,17 @@
         },
 
         //  Loading YouTube's Player API has proven to be very unreliable. 1 in 10 chance it doesn't fire onReady even though subsequent calls work fine.
-        //  So, set a timeout to wait for the API to be ready and try to load a few times before giving up and assuming it legitimately isn't working.
+        //  So, set an interval to wait for the API to be ready and try to load a few times before giving up and assuming it legitimately isn't working.
         _setReloadInterval: function () {
+            //  This line should never do anything in a production environment, but in debugging it could be possible to get here w/ an interval already set.
+            this._clearReloadInterval();
             var reloadInterval = setInterval(this._reload.bind(this), 2500);
             this.set('reloadInterval', reloadInterval);
         },
 
         _clearReloadInterval: function () {
             var reloadInterval = this.get('reloadInterval');
-            clearTimeout(reloadInterval);
+            clearInterval(reloadInterval);
             this.set('reloadInterval', null);
             this.set('remainingReloadTries', this.get('maxReloadTries'));
         },
@@ -121,9 +127,11 @@
             this.trigger('youTubeError', error.data);
         },
 
-        _onYouTubePlayerApiReady: function () {
-            this.load();
-            this.set('apiReady', true);
+        _onYouTubePlayerApiChangeReady: function (model, ready) {
+            if (ready) {
+                this.load();
+                this.set('apiReady', true);
+            }
         }
     });
 

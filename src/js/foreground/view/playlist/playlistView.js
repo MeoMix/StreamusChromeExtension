@@ -136,10 +136,7 @@
                 var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
                 var playlistShareUrl = 'https://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
 
-                chrome.extension.sendMessage({
-                    method: 'copy',
-                    text: playlistShareUrl
-                });
+                Streamus.backgroundPage.Clipboard.copy(playlistShareUrl);
             });
         },
         

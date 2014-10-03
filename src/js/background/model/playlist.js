@@ -65,7 +65,7 @@ define([
             this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
             this._setDisplayInfo();
         },
-            
+        //  TODO: I should be creating a ShareCode object w/ entityID and entityType set and fetching it that way instead.
         getShareCode: function(callback) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',

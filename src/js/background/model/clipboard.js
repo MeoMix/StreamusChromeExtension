@@ -6,8 +6,8 @@
             text: ''
         },
 
-        copyUrl: function(url) {
-            this.set('text', url);
+        copy: function(text) {
+            this.set('text', text);
         },
 
         copyTitleAndUrl: function(title, url) {

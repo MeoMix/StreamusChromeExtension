@@ -76,7 +76,7 @@
         
         _copyUrl: function () {
             var songUrl = this.model.get('song').get('url');
-            Streamus.backgroundPage.Clipboard.copyUrl(songUrl);
+            Streamus.backgroundPage.Clipboard.copy(songUrl);
         },
         
         _copyTitleAndUrl: function () {

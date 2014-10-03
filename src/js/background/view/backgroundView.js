@@ -44,8 +44,10 @@ define([
             chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
         },
         
-        _onChromeAlarm: function(alarm) {
+        _onChromeAlarm: function (alarm) {
+            //  Check the alarm name because closing the browser will not clear an alarm, but new alarm name is generated on open.
             if (alarm.name === this.reloadAlarmName) {
+                this._clearReloadAlarm();
                 this._showYouTubePlayerView();
             }
         },
@@ -68,10 +70,9 @@ define([
         _createReloadAlarm: function () {
             if (!this.reloadAlarmCreated) {
                 this.reloadAlarmCreated = true;
-
                 chrome.alarms.create(this.reloadAlarmName, {
-                    //  Wait an hour
-                    delayInMinutes: 60.0
+                    //  Wait 4 hours
+                    delayInMinutes: 240.0
                 });
             }
         },

@@ -158,6 +158,7 @@
                         songId: request.songId,
                         success: function (songInformation) {
                             var song = new Song(songInformation);
+                            //  TODO: How could this fail to find the playlistId? Sometimes throws error: Uncaught TypeError: Cannot read property 'get' of undefined
                             this.get(request.playlistId).get('items').addSongs(song);
 
                             ChromeNotifications.create({
