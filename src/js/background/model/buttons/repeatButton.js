@@ -1,6 +1,7 @@
 ﻿define([
+    'background/model/chromeNotifications',
     'common/enum/repeatButtonState'
-], function (RepeatButtonState) {
+], function (ChromeNotifications, RepeatButtonState) {
     'use strict';
 
     var RepeatButton = Backbone.Model.extend({
@@ -45,6 +46,23 @@
         _onChromeCommand: function (command) {
             if (command === 'toggleRepeat') {
                 this.toggleRepeatState();
+
+                //  TODO: i18n
+                var message = '';
+                switch(this.get('state')) {
+                    case RepeatButtonState.Disabled:
+                        message = 'Repeat off';
+                        break;
+                    case RepeatButtonState.RepeatSong:
+                        message = 'Repeat song on';
+                        break;
+                    case RepeatButtonState.RepeatStream:
+                        message = 'Repeat stream on';
+                }
+                
+                ChromeNotifications.create({
+                    message: message
+                });
             }
         }
     });

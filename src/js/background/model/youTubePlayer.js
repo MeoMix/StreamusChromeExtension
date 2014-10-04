@@ -114,8 +114,13 @@
         },
 
         _onYouTubePlayerReady: function () {
-            this._clearReloadInterval();
-            this.set('ready', true);
+            //  NOTE: This setTimeout is ABSOLUTELY NECESSARY. YouTube's API is buggy and when working on a slow connection
+            //  it will emit its ready event before the widget is 100% ready. Giving it another moment to build itself greatly
+            //  improves reliability.
+            setTimeout(function () {
+                this._clearReloadInterval();
+                this.set('ready', true);
+            }.bind(this));
         },
 
         _onYouTubePlayerStateChange: function (state) {

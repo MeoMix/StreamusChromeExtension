@@ -10,8 +10,13 @@
             };
         },
 
-        isStreamusTabOpen: function (callback) {
-            this._queryTabs(this.get('streamusForegroundUrl'), function(tabs) {
+        isStreamusTabActive: function (callback) {
+            var queryInfo = {
+                url: this.get('streamusForegroundUrl'),
+                lastFocusedWindow: true
+            };
+
+            this._queryTabs(queryInfo, function (tabs) {
                 callback(tabs.length > 0);
             });
         },
@@ -21,16 +26,22 @@
         },
         
         showTab: function (tabUrl) {
-            this._queryTabs(tabUrl, function (tabs) {
+            var queryInfo = {
+                url: tabUrl
+            };
+
+            this._queryTabs(queryInfo, function (tabs) {
                 if (tabs.length > 0) {
+                    //  TODO: This logic isn't supporting the scenario of multiple tabs existing. What happens then? If its in a diff window?
                     var tabDetails = tabs[0];
 
                     if (!tabDetails.highlighted) {
-                        //  TODO: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
-                        chrome.tabs.highlight({
+                        var highlightInfo = {
                             windowId: tabDetails.windowId,
                             tabs: tabDetails.index
-                        }, _.noop);
+                        };
+
+                        this._highlightTabs(highlightInfo);
                     }
                 } else {
                     chrome.tabs.create({
@@ -43,7 +54,11 @@
         //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
         messageYouTubeTabs: function (message) {
             _.each(this.get('youTubeUrlPatterns'), function (youTubeUrlPattern) {
-                this._queryTabs(youTubeUrlPattern, function (tabs) {
+                var queryInfo = {
+                    url: youTubeUrlPattern
+                };
+
+                this._queryTabs(queryInfo, function (tabs) {
                     _.each(tabs, function (tab) {
                         chrome.tabs.sendMessage(tab.id, message);
                     });
@@ -53,7 +68,11 @@
         
         messageBeatportTabs: function (message) {
             _.each(this.get('beatportUrlPatterns'), function (beatportUrlPattern) {
-                this._queryTabs(beatportUrlPattern, function (tabs) {
+                var queryInfo = {
+                    url: beatportUrlPattern
+                };
+
+                this._queryTabs(queryInfo, function (tabs) {
                     _.each(tabs, function (tab) {
                         chrome.tabs.sendMessage(tab.id, message);
                     });
@@ -61,8 +80,13 @@
             }, this);
         },
         
-        _queryTabs: function(url, callback) {
-            chrome.tabs.query({ url: url }, callback);
+        _queryTabs: function(queryInfo, callback) {
+            chrome.tabs.query(queryInfo, callback);
+        },
+        
+        _highlightTabs: function (highlightInfo) {
+            //  TODO: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
+            chrome.tabs.highlight(highlightInfo, _.noop);
         }
     });
 

@@ -12,11 +12,11 @@ define(function () {
 		},
 
 		load: function () {
-		    if (this.get('ready')) {
-		        console.warn('YouTube Player API is already loaded and should not be loaded again');
-		        return;
-		    }
-		    
+			if (this.get('ready')) {
+				console.warn('YouTube Player API is already loaded and should not be loaded again');
+				return;
+			}
+			
 			chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted.bind(this), {
 				urls: [this.get('youTubeEmbedUrl')]
 			});
@@ -32,7 +32,7 @@ define(function () {
 		},
 		
 		_onWebRequestCompleted: function () {
-		    this.set('iframeRequestCompleted', true);
+			this.set('iframeRequestCompleted', true);
 		},
 		
 		// Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
@@ -81,7 +81,7 @@ define(function () {
 		//  TODO: I'm bringing in YouTube's source to patch it because it's buggy as shit. Weird race conditions dependent on an unlaggy system and more.
 		_loadExternalYouTubeApi: function() {
 			/* jshint ignore:start */
-		    var self = this;
+			var self = this;
 
 			if (!window['YT']) {
 				window.YT = { loading: 0, loaded: 0 };
@@ -896,7 +896,7 @@ define(function () {
 							if (self.get('iframeRequestCompleted')) {
 								this.a.contentWindow.postMessage(a, c);
 							} else {
-							    self.once('change:iframeRequestCompleted', function () {
+								self.once('change:iframeRequestCompleted', function () {
 									this.a.contentWindow.postMessage(a, c);
 								}.bind(this));
 							}

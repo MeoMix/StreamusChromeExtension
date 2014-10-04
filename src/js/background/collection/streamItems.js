@@ -241,22 +241,13 @@
         
         _showActiveNotification: function () {
             var activeItem = this.getActiveItem();
-
-            var iconUrl = '';
-            var title = 'No active song';
-            var message = '';
-
-            if (!_.isUndefined(activeItem)) {
-                var activeSongId = activeItem.get('song').get('id');
-                iconUrl = 'http://img.youtube.com/vi/' + activeSongId + '/default.jpg';
-                title = 'Now Playing';
-                message = activeItem.get('title');
-            }
+            var activeSongId = activeItem.get('song').get('id');
 
             ChromeNotifications.create({
-                iconUrl: iconUrl,
-                title: title,
-                message: message
+                iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
+                //  TODO: i18n
+                title: 'Now Playing',
+                message: activeItem.get('title')
             });
         },
         
@@ -291,9 +282,9 @@
                 this.activateNext();
             }
             else if (state === PlayerState.Playing) {
-                //  Only display notifications if the foreground isn't open -- either through the extension popup or as a URL tab
-                Utility.isForegroundOpen(function(isForegroundOpen) {
-                    if (!isForegroundOpen) {
+                //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
+                Utility.isForegroundActive(function(foregroundActive) {
+                    if (!foregroundActive) {
                         this._showActiveNotification();
                     }
                 }.bind(this));
@@ -301,16 +292,19 @@
         },
         
         _onPlayerError: function () {
-            Player.set('playOnActivate', true);
-            var nextItem = this.activateNext();
-            
-            if (nextItem === null) {
-                Player.set('playOnActivate', false);
-                //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
-                //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                Player.activateSong({
-                    song: this.getActiveItem().get('song')
-                });
+            //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
+            if (this.length > 0) {
+                Player.set('playOnActivate', true);
+                var nextItem = this.activateNext();
+
+                if (nextItem === null) {
+                    Player.set('playOnActivate', false);
+                    //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
+                    //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
+                    Player.activateSong({
+                        song: this.getActiveItem().get('song')
+                    });
+                }
             }
         },
         
@@ -472,19 +466,30 @@
             }
         },
         
-        _onChromeCommand: function(command) {
-            if (command === 'showActiveSong') {
-                this._showActiveNotification();
-            }
-            else if (command === 'deleteSongFromStream') {
-                this.getActiveItem().destroy();
-            }
-            else if (command === 'copySongUrl') {
-                Clipboard.copy(this.getActiveItem().get('song').get('url'));
-            }
-            else if (command === 'copySongTitleAndUrl') {
-                var activeItem = this.getActiveItem();
-                Clipboard.copyTitleAndUrl(activeItem.get('title'), activeItem.get('song').get('url'));
+        _onChromeCommand: function (command) {
+            //  TODO: How can I write this logic more DRYly?
+            if (command === 'showActiveSong' || command === 'deleteSongFromStream' || command === 'copySongUrl' || command === 'copySongTitleAndUrl') {
+                if (this.length === 0) {
+                    ChromeNotifications.create({
+                        //  TODO: i18n
+                        title: chrome.i18n.getMessage('keyboardCommandFailure'),
+                        message: 'Stream empty'
+                    });
+                } else {
+                    if (command === 'showActiveSong') {
+                        this._showActiveNotification();
+                    }
+                    else if (command === 'deleteSongFromStream') {
+                        this.getActiveItem().destroy();
+                    }
+                    else if (command === 'copySongUrl') {
+                        Clipboard.copy(this.getActiveItem().get('song').get('url'));
+                    }
+                    else if (command === 'copySongTitleAndUrl') {
+                        var activeItem = this.getActiveItem();
+                        Clipboard.copyTitleAndUrl(activeItem.get('title'), activeItem.get('song').get('url'));
+                    }
+                }
             }
         }
     });

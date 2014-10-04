@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'background/model/chromeNotifications'
+], function (ChromeNotifications) {
     'use strict';
     
     var ShuffleButton = Backbone.Model.extend({
@@ -26,6 +28,11 @@
         _onChromeCommand: function (command) {
             if (command === 'toggleShuffle') {
                 this.toggleEnabled();
+                
+                ChromeNotifications.create({
+                    //  TODO: i18n
+                    message: this.get('enabled') ? 'Shuffling on' : 'Shuffling off'
+                });
             }
         }
     });

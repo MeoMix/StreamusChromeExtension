@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'background/model/chromeNotifications'
+], function (ChromeNotifications) {
     'use strict';
     
     var RadioButton = Backbone.Model.extend({
@@ -26,6 +28,11 @@
         _onChromeCommand: function (command) {
             if (command === 'toggleRadio') {
                 this.toggleEnabled();
+
+                ChromeNotifications.create({
+                    //  TODO: i18n
+                    message: this.get('enabled') ? 'Radio on' : 'Radio off'
+                });
             }
         }
     });

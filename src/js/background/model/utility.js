@@ -4,12 +4,12 @@
     'use strict';
 
     var Utility = Backbone.Model.extend({
-        isForegroundOpen: function (callback) {
+        isForegroundActive: function (callback) {
             var foreground = chrome.extension.getViews({ type: "popup" });
 
             if (foreground.length === 0) {
-                TabManager.isStreamusTabOpen(function (isStreamusTabOpen) {
-                    callback(isStreamusTabOpen);
+                TabManager.isStreamusTabActive(function (streamusTabActive) {
+                    callback(streamusTabActive);
                 });
             } else {
                 callback(true);

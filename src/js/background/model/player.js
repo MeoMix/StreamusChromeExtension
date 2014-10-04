@@ -24,7 +24,8 @@ define([
             //  This will be set after the player is ready and can communicate its true value.
             muted: false,
             loadedSongId: '',
-            playImmediately: false
+            playImmediately: false,
+            songIdToActivate: ''
         },
         
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
@@ -52,9 +53,7 @@ define([
             if (this.get('ready')) {
                 this._activateSong(song.get('id'));
             } else {
-                this.once('change:ready', function () {
-                    this._activateSong(song.get('id'));
-                });
+                this.set('songIdToActivate', song.get('id'));
             }
         },
         
@@ -99,7 +98,11 @@ define([
 
         //  TODO: This is debounced to defend against mousewheel seekTo updates, but I think that should be moved to the view instead of here.
         seekTo: _.debounce(function (timeInSeconds) {
-            YouTubePlayer.seekTo(timeInSeconds);
+            if (this.get('ready')) {
+                YouTubePlayer.seekTo(timeInSeconds);
+            } else {
+                this.set('currentTime', timeInSeconds);
+            }
         }, 100),
         
         watchInTab: function (songId, songUrl) {
@@ -151,11 +154,15 @@ define([
         
         //  Update the volume whenever the UI modifies the volume property.
         _onChangeVolume: function (model, volume) {
-            YouTubePlayer.setVolume(volume);
+            if (this.get('ready')) {
+                YouTubePlayer.setVolume(volume);
+            }
         },
         
         _onChangeMuted: function (model, muted) {
-            muted ? YouTubePlayer.mute() : YouTubePlayer.unMute();
+            if (this.get('ready')) {
+                muted ? YouTubePlayer.mute() : YouTubePlayer.unMute();
+            }
         },
         
         _onRuntimeConnect: function (port) {
@@ -185,7 +192,7 @@ define([
             }
         },
 
-        _onChromeCommand: function(command) {
+        _onChromeCommand: function (command) {
             if (command === 'increaseVolume') {
                 var increasedVolume = this.get('volume') + 5;
                 this.setVolume(increasedVolume);
@@ -210,6 +217,12 @@ define([
                 var loadedSongId = this.get('loadedSongId');
                 if (loadedSongId !== '') {
                     this._activateSong(loadedSongId, this.get('currentTime'));
+                }
+
+                var songIdToActivate = this.get('songIdToActivate');
+                if (songIdToActivate !== '') {
+                    this.set('songIdToActivate', '');
+                    this._activateSong(songIdToActivate);
                 }
             }
         },

@@ -129,6 +129,7 @@
         },
         
         _setCanDelete: function (canDelete) {
+            //  Playlists can only be deleted if there's >1 playlist existing because I don't want to leave the user with 0 playlists.
             this.invoke('set', 'canDelete', canDelete);
         },
         
@@ -158,7 +159,6 @@
                         songId: request.songId,
                         success: function (songInformation) {
                             var song = new Song(songInformation);
-                            //  TODO: How could this fail to find the playlistId? Sometimes throws error: Uncaught TypeError: Cannot read property 'get' of undefined
                             this.get(request.playlistId).get('items').addSongs(song);
 
                             ChromeNotifications.create({
@@ -194,18 +194,31 @@
         },
         
         _onAdd: function (addedPlaylist, collection, options) {
+            //  TODO: What if the playlist fails to save? Event handler never fires and just hangs around forever even if playlist is deleted.
+            //  Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
+            //  This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
+            if (addedPlaylist.isNew()) {
+                this.listenToOnce(addedPlaylist, 'change:id', function() {
+                    this._onCreateSuccess(addedPlaylist, options);
+                });
+            } else {
+                this._onCreateSuccess(addedPlaylist, options);
+            }
+        },
+        
+        _onCreateSuccess: function(addedPlaylist, options) {
             //  TODO: This should probably use the same event system as SyncActions.
             //  Notify all open YouTube tabs that a playlist has been added.
             TabManager.messageYouTubeTabs({
-                event: SyncActionType.Added, 
-                type: ListItemType.Playlist, 
+                event: SyncActionType.Added,
+                type: ListItemType.Playlist,
                 data: {
                     id: addedPlaylist.get('id'),
                     title: addedPlaylist.get('title')
                 }
             });
 
-            this._setCanDelete(true);
+            this._setCanDelete(this.length > 1);
 
             var fromSyncEvent = options && options.sync;
             if (!fromSyncEvent) {

@@ -19,7 +19,8 @@ define([
             };
         },
         
-        initialize: function() {
+        initialize: function () {
+            //  TODO: Uncaught TypeError: Cannot read property 'setDefaultSuggestion' of undefined -- how would this error ever be thrown?
             chrome.omnibox.setDefaultSuggestion({
                 description: chrome.i18n.getMessage('pressEnterToPlay')
             });

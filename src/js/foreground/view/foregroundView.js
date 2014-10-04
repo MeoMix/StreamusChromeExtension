@@ -115,6 +115,7 @@
         
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
+            Streamus.backgroundPage.Streamus.onForegroundUnload();
             this.destroy();
         },
         
