@@ -45,7 +45,7 @@ define([
             this.listenTo(Player, 'change:state', this._onChangePlayerState);
             chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
 
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'foregroundUnload', this._onForegroundUnload);
+            this.listenTo(Backbone.Wreqr.radio.channel('foreground').vent, 'unload', this._onForegroundUnload);
         },
         
         _onChromeAlarm: function (alarm) {
@@ -91,8 +91,8 @@ define([
             if (!this.reloadAlarmCreated) {
                 this.reloadAlarmCreated = true;
                 chrome.alarms.create(this.reloadAlarmName, {
-                    //  Wait 4 hours
-                    delayInMinutes: 240.0
+                    //  Wait 6 hours
+                    delayInMinutes: 360.0
                 });
             }
         },

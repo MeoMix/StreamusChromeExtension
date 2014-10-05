@@ -25,7 +25,7 @@
             });
         },
         
-        onDestroy: function() {
+        onBeforeDestroy: function () {
             //  Forget selected items when the view is destroyed.
             this._deselectCollection();
         },

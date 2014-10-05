@@ -4,15 +4,14 @@ define(function () {
 
     var ClientError = Backbone.Model.extend({
         defaults: function () {
-            //  Support testing and general graceful fallback by checking for existence of applicationDetails.
-            var manifest = typeof chrome === 'undefined' ? '' : chrome.runtime.getManifest();
-            var clientVersion = manifest ? manifest.version : 'Unknown';
+            var browserVersion = window.navigator.appVersion.match(/Chrome\/(.*?) /)[1];
 
             return {
                 message: '',
                 lineNumber: -1,
                 url: '',
-                clientVersion: clientVersion,
+                clientVersion: chrome.runtime.getManifest().version,
+                browserVersion: browserVersion || '',
                 operatingSystem: '',
                 architecture: '',
                 stack: ''

@@ -27,6 +27,7 @@
                     lineNumber: 0,
                     operatingSystem: this.get('platformInfo').os,
                     architecture: this.get('platformInfo').arch,
+                    stack: (new Error()).stack
                 });
 
                 clientError.save();

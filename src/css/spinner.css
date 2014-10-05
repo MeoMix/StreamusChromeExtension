@@ -34,7 +34,7 @@
   pointer-events: none;
 }
 .is-showingSpinner > .spinner--faded {
-  opacity: .2;
+  opacity: .1;
 }
 .is-showingSpinner > .spinner {
   display: inline-block;

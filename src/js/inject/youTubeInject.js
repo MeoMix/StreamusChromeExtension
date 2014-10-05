@@ -6,7 +6,35 @@ $(function () {
 	
 	chrome.runtime.sendMessage({ method: 'getCanEnhanceYouTube' }, function (canEnhanceYouTube) {
 		if (canEnhanceYouTube) {
-			injectHtml();
+			//  This code handles the fact that when you navigate from a YouTube search results list to a video
+			//  the page does not reload because they use AJAX to load the video page. 
+			var isFirstLoad = true;
+			var waitingForLoad = false;
+
+			var observer = new window.WebKitMutationObserver(function (mutations) {
+				if (isFirstLoad) {
+					isFirstLoad = false;
+					injectHtml();
+				}
+				else {
+					var isPageLoaded = mutations[0].target.classList.contains('page-loaded');
+
+					if (!waitingForLoad && !isPageLoaded) {
+						waitingForLoad = true;
+					}
+					else if (waitingForLoad && isPageLoaded) {
+						injectHtml();
+						waitingForLoad = false;
+					}
+				}
+			});
+
+			observer.observe(document.querySelector("body"), {
+				attributes: true,
+				attributeFilter: ["class"]
+			});
+
+
 			enhanceYouTube = true;
 		}
 	});

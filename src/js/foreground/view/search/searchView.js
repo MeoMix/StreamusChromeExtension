@@ -116,7 +116,7 @@
             }, transitionDuration, 'snap');
         },
 
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             //  Remember search query for a bit just in case user close/re-open quickly, no need to re-search.
             this.model.startClearQueryTimer();
         },

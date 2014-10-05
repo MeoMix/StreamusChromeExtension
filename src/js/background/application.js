@@ -11,7 +11,7 @@
         },
         
         onForegroundUnload: function () {
-            Backbone.Wreqr.radio.channel('global').vent.trigger('foregroundUnload');
+            Backbone.Wreqr.radio.channel('foreground').vent.trigger('unload');
         },
         
         _setServerUrl: function () {

@@ -26,7 +26,7 @@ define(function () {
             this._setTooltips();
         },
         
-        onDestroy: function () {
+        onBeforeDestroy: function () {
             _.each(this.titleMutationObservers, function (titleMutationObserver) {
                 titleMutationObserver.disconnect();
             });

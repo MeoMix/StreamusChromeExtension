@@ -25,19 +25,23 @@
 
 //  Force UI to full size if Streamus has been loaded into a tab by detecting min-width/height greater than maximum extension width/height.
 @media (min-width:650px) and (min-height:420px) {
-    html {
+    html,
+    body {
         width: 100% !important;
         height: 100% !important;
     }
 }
 
-//  Default dimensions of Streamus as a browser extension
-html {
+body {
+    -webkit-user-select: none;
+    font: 13px/1.2 'Open Sans';
+    //  Default dimensions of Streamus as a browser extension
     width: 640px;
     height: 410px;
 }
 
-body {
-    -webkit-user-select: none;
-    font: 13px/1.2 'Open Sans';
+/* TODO: Make this more generic. */
+#foregroundArea-loadingMessage,
+#foregroundArea-loadFailedMessage {
+    top: 35%;
 }

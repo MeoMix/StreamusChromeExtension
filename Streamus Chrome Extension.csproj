@@ -157,7 +157,6 @@
     <Content Include="src\js\foreground\view\prompt\exportPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\googleSignInPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\linkUserIdPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\noPlayEmbeddedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptRegion.js" />
     <Content Include="src\js\foreground\view\rightPane\adminMenuAreaView.js" />
     <Content Include="src\js\foreground\view\rightPane\rightPaneRegion.js" />
@@ -168,7 +167,7 @@
     <Content Include="src\js\common\enum\youTubePlayerError.js" />
     <Content Include="src\js\foreground\application.js" />
     <Content Include="src\js\foreground\collection\contextMenuItems.js" />
-    <Content Include="src\js\foreground\view\foregroundView.js" />
+    <Content Include="src\js\foreground\view\foregroundAreaView.js" />
     <Content Include="src\js\foreground\main.js" />
     <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\prompt.js" />
@@ -207,7 +206,6 @@
     <Content Include="src\js\foreground\view\prompt\deletePlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\createPlaylistPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\errorPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\reloadStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptView.js" />
     <Content Include="src\js\foreground\view\rightPane\rightPaneView.js" />
     <Content Include="src\js\foreground\view\rightPane\streamItemView.js" />
@@ -239,11 +237,9 @@
     <Content Include="src\js\test\foreground\view\prompt\exportPlaylistViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\googleSignInPromptViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\linkUserIdPromptViewTest.js" />
-    <Content Include="src\js\test\foreground\view\prompt\noPlayEmbeddedPromptViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\promptRegionTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\promptTestModule.js" />
     <Content Include="src\js\test\foreground\view\prompt\promptViewTest.js" />
-    <Content Include="src\js\test\foreground\view\prompt\reloadStreamusPromptViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\saveSongsPromptViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\saveSongsViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\updateStreamusPromptViewTest.js" />
@@ -288,6 +284,7 @@
     <Content Include="src\less\adminMenuArea.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\contextMenu\contextMenuItem.html" />
+    <Content Include="src\template\foregroundArea.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />
     <Content Include="src\template\prompt\browserSettings.html" />
     <Content Include="src\template\prompt\exportPlaylist.html" />

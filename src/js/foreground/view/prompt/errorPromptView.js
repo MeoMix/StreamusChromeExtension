@@ -13,6 +13,8 @@
             this.contentText = options.text;
 
             PromptView.prototype.initialize.apply(this, arguments);
+            
+            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("Error: " + options.error + ", loadedSongId:" + Streamus.backgroundPage.Player.get('loadedSongId') + " " + options.text);
         }
     });
 

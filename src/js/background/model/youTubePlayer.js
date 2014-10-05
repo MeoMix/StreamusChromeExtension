@@ -14,23 +14,23 @@
             iframeId: '',
             reloadInterval: null,
             maxReloadTries: 2,
-            remainingReloadTries: 2
+            remainingReloadTries: 2,
+            loadFailed: false,
+            //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
+            youTubeEmbedUrl: '*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd'
         },
         
         initialize: function () {
             this.listenTo(this.get('api'), 'change:ready', this._onYouTubePlayerApiChangeReady);
         },
 
-        loadApi: function () {
-            this.get('api').load();
-        },
-
         load: function () {
-            youTubePlayerWidget = null;
-            this.set('ready', false);
-
-            this._setReloadInterval();
-            this._tryLoadPlayerWidget();
+            if (this.get('apiReady')) {
+                this._load();
+            } else {
+                this.get('api').load();
+                this.once('change:apiReady', this._load);
+            }
         },
 
         stop: function () {
@@ -73,6 +73,14 @@
         cueVideoById: function (videoOptions) {
             youTubePlayerWidget.cueVideoById(videoOptions);
         },
+        
+        _load: function () {
+            youTubePlayerWidget = null;
+            this.set('ready', false);
+
+            this._setReloadInterval();
+            this._tryLoadPlayerWidget();
+        },
 
         //  Injected YouTube code creates a global YT object with which a 'YouTube Player' object can be created.
         //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
@@ -107,6 +115,7 @@
 
             if (remainingReloadTries === 0) {
                 this._clearReloadInterval();
+                this.set('loadFailed', true);
             } else {
                 this.set('remainingReloadTries', remainingReloadTries - 1);
                 this._tryLoadPlayerWidget();
@@ -114,13 +123,9 @@
         },
 
         _onYouTubePlayerReady: function () {
-            //  NOTE: This setTimeout is ABSOLUTELY NECESSARY. YouTube's API is buggy and when working on a slow connection
-            //  it will emit its ready event before the widget is 100% ready. Giving it another moment to build itself greatly
-            //  improves reliability.
-            setTimeout(function () {
-                this._clearReloadInterval();
-                this.set('ready', true);
-            }.bind(this));
+            //  TODO: If .setVolume continues to throw errros after v0.151 -- use Object.observe to try and detect when widget is 100% ready.
+            this._clearReloadInterval();
+            this.set('ready', true);
         },
 
         _onYouTubePlayerStateChange: function (state) {
@@ -133,12 +138,11 @@
         },
 
         _onYouTubePlayerApiChangeReady: function (model, ready) {
-            if (ready) {
-                this.load();
-                this.set('apiReady', true);
-            }
+            this.set('apiReady', ready);
         }
     });
 
-    return new YouTubePlayer();
+    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+    window.YouTubePlayer = new YouTubePlayer();
+    return window.YouTubePlayer;
 });

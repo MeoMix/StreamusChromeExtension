@@ -106,7 +106,7 @@ module.exports = function (grunt) {
 						include: ['foreground/plugins']
 					}, {
 						name: 'foreground/application',
-						include: ['foreground/view/foregroundView'],
+						include: ['foreground/view/foregroundAreaView'],
 						exclude: ['foreground/main']
 					}],
 					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.

@@ -6,7 +6,7 @@
     var Playlists = Streamus.backgroundPage.Playlists;
 
     var PlaylistsAreaRegion = Backbone.Marionette.Region.extend({
-        el: '#playlistsAreaRegion',
+        el: '#foregroundArea-playlistsAreaRegion',
         
         initialize: function () {
             this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this._showPlaylistsAreaView);

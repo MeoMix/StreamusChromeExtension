@@ -4,9 +4,13 @@
     'use strict';
 
     var LeftPaneRegion = Backbone.Marionette.Region.extend({
-        el: '#leftPaneRegion',
+        el: '#foregroundArea-leftPaneRegion',
         
         initialize: function() {
+            this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
+        },
+        
+        _onForegroundAreaShown: function() {
             this.show(new LeftPaneView());
         }
     });

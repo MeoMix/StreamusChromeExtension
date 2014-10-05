@@ -21,6 +21,16 @@
             });
         },
         
+        isStreamusTabOpen: function (callback) {
+            var queryInfo = {
+                url: this.get('streamusForegroundUrl'),
+            };
+
+            this._queryTabs(queryInfo, function (tabs) {
+                callback(tabs.length > 0);
+            });
+        },
+        
         showStreamusTab: function () {
             this.showTab(this.get('streamusForegroundUrl'));
         },
@@ -48,7 +58,7 @@
                         url: tabUrl
                     });
                 }
-            });
+            }.bind(this));
         },
         
         //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
@@ -80,7 +90,7 @@
             }, this);
         },
         
-        _queryTabs: function(queryInfo, callback) {
+        _queryTabs: function (queryInfo, callback) {
             chrome.tabs.query(queryInfo, callback);
         },
         

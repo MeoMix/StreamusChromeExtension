@@ -8,8 +8,10 @@
 }
 
 .contentBar--top {
-    border-bottom: 1px solid @lightGray;
     margin-bottom: 5px;
+    //  NOTE: Do **not** use 1px border-bottom/border-top. It puts the box model into odd-number math
+    //  instead of even-number math which then breaks at 125% page zoom because of sub-pixel rounding.
+    box-shadow: -7px 8px 0px -7px @lightGray, 7px 8px 0px -7px @lightGray;
 }
 
 .contentBar--top-content {
@@ -19,7 +21,7 @@
 }
 
 .contentBar--bottom {
-    border-top: 1px solid @lightGray;
+    box-shadow: -7px -8px 0px -7px @lightGray, 7px -8px 0px -7px @lightGray;
     margin-top: 5px;
 
     .u-flex--row {

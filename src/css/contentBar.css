@@ -117,8 +117,8 @@
   margin-right: 10px;
 }
 .contentBar--top {
-  border-bottom: 1px solid #ebebeb;
   margin-bottom: 5px;
+  box-shadow: -7px 8px 0px -7px #ebebeb, 7px 8px 0px -7px #ebebeb;
 }
 .contentBar--top-content {
   line-height: 45px;
@@ -126,7 +126,7 @@
   flex: 1;
 }
 .contentBar--bottom {
-  border-top: 1px solid #ebebeb;
+  box-shadow: -7px -8px 0px -7px #ebebeb, 7px -8px 0px -7px #ebebeb;
   margin-top: 5px;
 }
 .contentBar--bottom .u-flex--row {

@@ -350,8 +350,6 @@
 	"showActiveSongCommandDescription": {
 		"message": "Show active song"
 	},
-
-
     "saveSong": {
 		"message": "Save song"
 	},
@@ -504,5 +502,11 @@
 	},
 	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
 		"message": "An issue was encountered while attempting to find song with URL:"
+	},
+	"loadingYouTubeAPI": {
+		"message": "Loading YouTube API"
+	},
+	"loadYouTubeAPIFailed": {
+		"message": "Load YouTube API failed"
 	}
 }

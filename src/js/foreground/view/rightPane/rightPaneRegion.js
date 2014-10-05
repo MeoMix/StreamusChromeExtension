@@ -6,9 +6,13 @@
     var Player = Streamus.backgroundPage.Player;
 
     var RightPaneRegion = Backbone.Marionette.Region.extend({
-        el: '#rightPaneRegion',
+        el: '#foregroundArea-rightPaneRegion',
         
         initialize: function() {
+            this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
+        },
+        
+        _onForegroundAreaShown: function() {
             this.show(new RightPaneView({
                 model: Player
             }));

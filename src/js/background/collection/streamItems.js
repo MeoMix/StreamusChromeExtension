@@ -270,7 +270,7 @@
             this._stopPlayerIfEmpty();
             
             //  The item removed could've been the last one not played recently. Need to ensure that this isn't the case so there are always valid shuffle targets.
-            this._ensureAllNotPlayedRecently();
+            this._ensureAllNotPlayedRecentlyExcept();
         },
         
         _onReset: function() {
@@ -315,8 +315,10 @@
             }
         },
         
-        _onChangePlayedRecently: function() {
-            this._ensureAllNotPlayedRecently();
+        _onChangePlayedRecently: function (model, playedRecently) {
+            if (playedRecently) {
+                this._ensureAllNotPlayedRecentlyExcept(model);
+            }
         },
         
         //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
@@ -457,11 +459,13 @@
         
         //  When all streamItems have been played recently, reset to not having been played recently.
         //  Allows for de-prioritization of played streamItems during shuffling.
-        _ensureAllNotPlayedRecently: function() {
+        _ensureAllNotPlayedRecentlyExcept: function(model) {
             if (this.where({ playedRecently: true }).length === this.length) {
                 this.each(function (streamItem) {
-                    //  No need to notify that playedRecently is changing when resetting all.
-                    streamItem.save({ playedRecently: false }, { silent: true });
+                    if (streamItem !== model) {
+                        //  No need to notify that playedRecently is changing when resetting all.
+                        streamItem.save({ playedRecently: false }, { silent: true });
+                    }
                 });
             }
         },
