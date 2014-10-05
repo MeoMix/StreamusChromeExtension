@@ -119,6 +119,13 @@ define([
             this.pause();
         },
         
+        refresh: function() {
+            var loadedSongId = this.get('loadedSongId');
+            if (loadedSongId !== '') {
+                this._activateSong(loadedSongId, this.get('currentTime'));
+            }
+        },
+        
         _activateSong: function(songId, timeInSeconds) {
             var playerState = this.get('state');
             var playOnActivate = this.get('playOnActivate');
@@ -213,11 +220,8 @@ define([
                 YouTubePlayer.setVolume(this.get('volume'));
                 this.get('muted') ? YouTubePlayer.mute() : YouTubePlayer.unMute();
                 
-                //  This will be set when the YouTube player is reloaded after expiring due to inactivity.
-                var loadedSongId = this.get('loadedSongId');
-                if (loadedSongId !== '') {
-                    this._activateSong(loadedSongId, this.get('currentTime'));
-                }
+                //  Refresh is needed if view is recreated after first load.
+                this.refresh();
 
                 var songIdToActivate = this.get('songIdToActivate');
                 if (songIdToActivate !== '') {

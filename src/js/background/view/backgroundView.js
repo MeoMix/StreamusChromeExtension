@@ -109,7 +109,8 @@ define([
         
         _reloadYouTubePlayer: function() {
             this._clearReloadAlarm();
-            this._showYouTubePlayerView();
+            //this._showYouTubePlayerView();
+            Player.refresh();
         },
         
         _onForegroundUnload: function() {
