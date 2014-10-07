@@ -5,8 +5,12 @@ define(function () {
     var ClientError = Backbone.Model.extend({
         defaults: function () {
             var browserVersion = window.navigator.appVersion.match(/Chrome\/(.*?) /)[1];
-
+            //  TODO: I'm referencing the global SignInManager here because it would be bad if SignInManager tried to log an error and created a circular reference.
+            //  I think I could fix this just by emitting an error via channel rather than going through a public ClientErrorManager method.
+            var signedInUser = SignInManager.get('signedInUser');
+            
             return {
+                userId: signedInUser ? signedInUser.get('id') : '',
                 message: '',
                 lineNumber: -1,
                 url: '',
@@ -14,34 +18,41 @@ define(function () {
                 browserVersion: browserVersion || '',
                 operatingSystem: '',
                 architecture: '',
-                stack: ''
+                stack: '',
+                error: null
             };
         },
         
-        urlRoot: Streamus.serverUrl + 'ClientError/',
-        
-        initialize: function (attributes) {
-            var message = attributes.message;
-            if (message && message.length > 255) {
-                this.set('message', message.substring(0, 252) + '...');
-            }
-            
-            var stack = attributes.stack;
-            if (stack && stack.length > 2000) {
-                this.set('stack', stack.substring(0, 1997) + '...');
-            }
+        //  Don't save error because stack is a better representation of error.
+        blacklist: ['error'],
+        toJSON: function () {
+            return this.omit(this.blacklist);
         },
         
-        validate: function (attributes) {
-            if (attributes.message.length > 255) {
-                return 'Message length must be no longer than 255 characters';
-            }
-            
-            if (attributes.stack.length > 2000) {
-                return 'Stack length must be no longer than 2000 characters';
+        initialize: function () {
+            this._dropUrlPrefix();
+            this._setStack();
+        },
+        
+        //  The first part of the URL is always the same and not very interesting. Drop it off.
+        _dropUrlPrefix: function () {
+            this.set('url', this.get('url').replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', ''));
+        },
+        
+        _setStack: function() {
+            var stack = '';
+            var error = this.get('error');
+
+            if (error) {
+                //  If just throw is called without creating an Error then error.stack will be undefined and just the text should be relied upon.
+                if (_.isUndefined(error.stack)) {
+                    stack = error;
+                } else {
+                    stack = error.stack;
+                }
             }
 
-            return undefined;
+            this.set('stack', stack);
         }
     });
     

@@ -34,7 +34,6 @@ $(function () {
 				attributeFilter: ["class"]
 			});
 
-
 			enhanceYouTube = true;
 		}
 	});

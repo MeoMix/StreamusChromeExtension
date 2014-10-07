@@ -43,8 +43,8 @@ define([
         initialize: function () {
             this.listenTo(StreamItems, 'remove reset', this._clearOnEmpty);
             this.listenTo(StreamItems, 'add', this._enable);
-            this.listenTo(StreamItems, 'change:active', this._restart);
-            this.listenTo(Player, 'change:currentTime', this._updateCurrentTime);
+            this.listenTo(StreamItems, 'change:active', this._onStreamItemsChangeActive);
+            this.listenTo(Player, 'change:currentTime', this._onPlayerChangeCurrentTime);
             this.listenTo(Player, 'change:state', this._stopSeeking);
         },
 
@@ -53,7 +53,7 @@ define([
             
             //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
-            this._setTotalTime(this._getCurrentSongDuration());
+            this._setTotalTime();
             this._setCurrentTime(Player.get('currentTime'));
             this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
         },
@@ -115,20 +115,9 @@ define([
         
         _clearOnEmpty: function () {
             if (StreamItems.length === 0) {
-                this._clear();
+                this._setTotalTime();
+                this.ui.timeRange.addClass('disabled');
             }
-        },
-        
-        _clear: function () {
-            this._restart();
-            this.ui.timeRange.addClass('disabled');
-        },
-        
-        _restart: function () {
-            //  It's important to set current time explicitly to 0 because might be representing a "seekTo" time which
-            //  shows a currentTime value even though Player hasn't had that value set yet.
-            this._setCurrentTime(0);
-            this._setTotalTime(this._getCurrentSongDuration());
         },
         
         _setCurrentTime: function (currentTime) {
@@ -136,14 +125,15 @@ define([
             this._updateTimeProgress();
         },
 
-        _setTotalTime: function (totalTime) {
+        _setTotalTime: function () {
+            var totalTime = this._getCurrentSongDuration();
             this.ui.timeRange.prop('max', totalTime);
             this._updateTimeProgress();
         },
         
-        _updateCurrentTime: function () {
+        _updateCurrentTime: function (currentTime) {
             if (this.model.get('autoUpdate')) {
-                this._setCurrentTime(Player.get('currentTime'));
+                this._setCurrentTime(currentTime);
             }
         },
 
@@ -180,6 +170,16 @@ define([
             }
 
             return duration;
+        },
+        
+        _onPlayerChangeCurrentTime: function(model, currentTime) {
+            this._updateCurrentTime(currentTime);
+        },
+        
+        _onStreamItemsChangeActive: function(model, active) {
+            if (active) {
+                this._setTotalTime();
+            }
         }
     });
 

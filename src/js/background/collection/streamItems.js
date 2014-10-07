@@ -299,11 +299,10 @@
 
                 if (nextItem === null) {
                     Player.set('playOnActivate', false);
+
                     //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
                     //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                    Player.activateSong({
-                        song: this.getActiveItem().get('song')
-                    });
+                    Player.activateSong(this.getActiveItem().get('song'));
                 }
             }
         },

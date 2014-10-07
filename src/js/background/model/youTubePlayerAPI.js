@@ -18,8 +18,7 @@ define(function () {
 			window.onYouTubeIframeAPIReady = this._onYouTubeIframeAPIReady.bind(this);
 
 			$('<script>', {
-			    src: 'https://www.youtube.com/iframe_api',
-			    async: true
+				src: 'https://www.youtube.com/iframe_api',
 			}).insertBefore($('script:first'));
 		},
 		

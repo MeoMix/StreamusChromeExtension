@@ -126,7 +126,7 @@ define([
             }
         },
         
-        _activateSong: function(songId, timeInSeconds) {
+        _activateSong: function (songId, timeInSeconds) {
             var playerState = this.get('state');
             var playOnActivate = this.get('playOnActivate');
 
@@ -135,7 +135,7 @@ define([
                 startSeconds: timeInSeconds || 0,
                 suggestedQuality: Settings.get('youTubeSuggestedQuality')
             };
-            
+
             //  TODO: This is shitty. The idea is to keep the player going if the user skips (playerState will be playing) or if the current song
             //  finishes naturally and there's another song to play (ended) but if you let one song finish playing, then add another, then skip to it,
             //  it will start playing automatically which is incorrect behavior.
@@ -236,7 +236,7 @@ define([
         },
         
         //  Emit errors so the foreground so can notify the user.
-        _onYouTubePlayerError: function(model, error) {
+        _onYouTubePlayerError: function (error) {
             this.trigger('youTubeError', error);
         }
     });

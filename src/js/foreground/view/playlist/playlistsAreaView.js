@@ -83,6 +83,7 @@
         },
         
         _hide: function () {
+            //  TODO: Should these two transitions be synced in timing?
             this.$el.transition({
                 'background': this.$el.data('background')
             });

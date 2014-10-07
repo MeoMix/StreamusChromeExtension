@@ -10,5 +10,5 @@
   margin-right: -5px;
 }
 .prompt-contentBar--bottom {
-  border: none;
+  box-shadow: none;
 }

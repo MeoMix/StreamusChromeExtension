@@ -1,6 +1,7 @@
 ﻿define([
+    'background/model/clientErrorManager',
     'background/model/youTubePlayer'
-], function (YouTubePlayer) {
+], function (ClientErrorManager, YouTubePlayer) {
     'use strict';
 
     var YouTubePlayerView = Backbone.Marionette.ItemView.extend({
@@ -16,7 +17,6 @@
             title: 'YouTube player',
             width: 640,
             height: 360,
-            //  This will trigger _onWebRequestCompleted event once the iframe is properly constructed.
             src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd'
         },
 
@@ -25,27 +25,26 @@
 
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
             //  which will break chrome's .removeListener method which expects a named function in order to work properly.
-            this._onWebRequestCompleted = this._onWebRequestCompleted.bind(this);
             this._onWebRequestBeforeSendHeaders = this._onWebRequestBeforeSendHeaders.bind(this);
-            
-            chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted, {
+            this._onWebRequestErrorOccurred = this._onWebRequestErrorOccurred.bind(this);
+
+            //chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
+            //    urls: [this.model.get('youTubeEmbedUrl')]
+            //}, ['blocking', 'requestHeaders']);
+
+            chrome.webRequest.onErrorOccurred.addListener(this._onWebRequestErrorOccurred, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             });
-
-            chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
-                urls: [this.model.get('youTubeEmbedUrl')]
-            }, ['blocking', 'requestHeaders']);
+        },
+        
+        onShow: function () {
+            //  Load the YouTube player widget once the view has been shown because then the origin for the iframe has for sure been set / is part of the DOM.
+            this.model.load();
         },
         
         onBeforeDestroy: function () {
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onWebRequestBeforeSendHeaders);
-            //  NOTE: This removeListener shouldn't ever remove anything, but if something goes wrong with loading the iframe then this prevents memory leaks.
-            chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
-        },
-        
-        _onWebRequestCompleted: function () {
-            chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
-            this.model.load();
+            chrome.webRequest.onErrorOccurred.removeListener(this._onWebRequestErrorOccurred);
         },
 
         //  Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
@@ -58,15 +57,15 @@
                 return requestHeader.name === 'Referer';
             });
 
-            var refererUrl = info.url.substring(0, info.url.indexOf('/embed/'));
+            var referer = info.url.substring(0, info.url.indexOf('/embed/'));
 
             if (_.isUndefined(refererRequestHeader)) {
                 info.requestHeaders.push({
                     name: 'Referer',
-                    value: refererUrl
+                    value: referer
                 });
             } else {
-                refererRequestHeader.value = refererUrl;
+                refererRequestHeader.value = referer;
             }
 
             //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if YouTube has an ad.
@@ -83,8 +82,13 @@
             } else {
                 userAgentRequestHeader.value = iPhoneUserAgent;
             }
-            //  https://www.youtube.com/embed/?enablejsapi=1&amp;origin=chrome-extension%3A%2F%2Fjbnkffmindojffecdhbbmekbmkkfpmjd
+
             return { requestHeaders: info.requestHeaders };
+        },
+        
+        _onWebRequestErrorOccurred: function(details) {
+            ClientErrorManager.logErrorMessage(JSON.stringify(details));
+            return details;
         }
     });
 

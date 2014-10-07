@@ -79,6 +79,9 @@
 
             if (this._supportsGoogleSignIn() && !signingInUser.linkedToGoogle()) {
                 this._promptGoogleSignIn(googlePlusId);
+            } else {
+                //  If the user signs out and then signs back in without restarting Streamus then shouldn't promtp them to sign in.
+                this.set('needPromptGoogleSignIn', false);
             }
 
             this._listenUserLoadEvents(signingInUser);
@@ -115,7 +118,9 @@
 
         //  getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
         _supportsGoogleSignIn: function () {
-            return !_.isUndefined(chrome.identity.getProfileUserInfo);
+            //  chrome.identity.getProfileUserInfo is defined in Opera, but throws an error if called. I've reported the issue to them.
+            var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
+            return !_.isUndefined(chrome.identity.getProfileUserInfo) && !isOpera;
         },
 
         _getGoogleUserInfo: function () {

@@ -1,6 +1,6 @@
 ﻿define([
-    'background/model/clientError'
-], function (ClientError) {
+    'background/collection/clientErrors'
+], function (ClientErrors) {
     'use strict';
 
     var ClientErrorManager = Backbone.Model.extend({
@@ -9,7 +9,8 @@
                 os: '',
                 arch: '',
                 nacl_arch: ''
-            }
+            },
+            reportedErrors: new ClientErrors()
         },
 
         initialize: function () {
@@ -18,58 +19,37 @@
         },
 
         logErrorMessage: function (message) {
-            //  Only log client errors to the database in a deploy environment, not when debugging locally.
-            if (Streamus.localDebug) {
-                console.warn('Debugging is enabled. Skipping write to server.');
-            } else {
-                var clientError = new ClientError({
-                    message: message,
-                    lineNumber: 0,
-                    operatingSystem: this.get('platformInfo').os,
-                    architecture: this.get('platformInfo').arch,
-                    stack: (new Error()).stack
-                });
-
-                clientError.save();
-            }
+            this._createError(message);
+        },
+        
+        //  Only log client errors to the database in a deploy environment, not when debugging locally.
+        _warnDebugEnabled: function() {
+            console.warn('Debugging is enabled. Skipping write to server.');
         },
 
         _onGetPlatformInfo: function (platformInfo) {
             this.set('platformInfo', platformInfo);
         },
 
-        //  Send a log message whenever any client errors occur; for debugging purposes.
-        _onWindowError: _.throttle(function (message, url, lineNumber, columnNumber, errorObject) {
-            //  Only log client errors to the database in a deploy environment, not when debugging locally.
-            if (Streamus.localDebug) {
-                console.warn('Debugging is enabled. Skipping write to server.');
-            } else {
-                //  The first part of the URL is always the same and not very interesting. Drop it off.
-                url = url.replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', '');
-
-                var stack = '';
-                //  errorObject can be null or undefined
-                if (errorObject) {
-                    //  If just throw is called without creating an Error object then errorObject.stack will be undefined and just the text should be relied upon.
-                    if (_.isUndefined(errorObject.stack)) {
-                        stack = errorObject;
-                    } else {
-                        stack = errorObject.stack;
-                    }
-                }
-
-                var clientError = new ClientError({
-                    message: message,
-                    url: url,
-                    lineNumber: lineNumber,
-                    operatingSystem: this.get('platformInfo').os,
-                    architecture: this.get('platformInfo').arch,
-                    stack: stack
-                });
-
-                clientError.save();
+        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
+            this._createError(message, url, lineNumber, error);
+        },
+        
+        _createError: function (message, url, lineNumber, error) {
+            if (Streamus.localDebug && !Streamus.testing) {
+                this._warnDebugEnabled();
+                return;
             }
-        }, 60000)
+
+            this.get('reportedErrors').create({
+                message: message,
+                url: url || '',
+                lineNumber: lineNumber || 0,
+                operatingSystem: this.get('platformInfo').os,
+                architecture: this.get('platformInfo').arch,
+                error: error || new Error()
+            });
+        }
     });
 
     //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
