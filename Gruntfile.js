@@ -251,6 +251,9 @@ module.exports = function (grunt) {
 			grunt.task.run('clean');
 			grunt.file.delete('dist/template');
 			grunt.file.delete('dist/less');
+			grunt.file.delete('dist/js/thirdParty/mocha.js');
+			grunt.file.delete('dist/js/thirdParty/chai.js');
+			grunt.file.delete('dist/js/thirdParty/sinon.js');
 			grunt.file.delete('dist/js/test');
 			grunt.file.delete('dist/test.html');
 		}
@@ -334,7 +337,8 @@ module.exports = function (grunt) {
 		if (!isDebugDeploy) {
 			replacements.push({
 				//	Remove permissions that're only needed for debugging.
-				from: '"http://localhost:61975/Streamus/",',
+				//  TODO: Make port dynamic.
+				from: '"http://localhost:28029/Streamus/",',
 				to: ''
 			});
 		}

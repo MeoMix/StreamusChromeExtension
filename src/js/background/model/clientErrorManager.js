@@ -16,6 +16,7 @@
         initialize: function () {
             chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
+            this.listenTo(Backbone.Wreqr.radio.channel('error').vent, 'iframeInjectFailure', this.logErrorMessage);
         },
 
         logErrorMessage: function (message) {

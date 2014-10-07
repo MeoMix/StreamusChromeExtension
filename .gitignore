@@ -190,3 +190,5 @@ pip-log.txt
 
 # Grunt/Jasmine
 .grunt
+*.nex
+*.pem

@@ -1,6 +1,6 @@
 ﻿define([
    'background/model/clientErrorManager'
-], function(ClientErrorManager) {
+], function (ClientErrorManager) {
     'use strict';
 
     describe('ClientErrorManager', function () {
@@ -14,18 +14,18 @@
             Backbone.sync.restore();
         });
 
-        it('should log an error message properly', function() {
+        it('should log an error message properly', function () {
             ClientErrorManager.logErrorMessage('test message');
 
             expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);
         });
-        
+
         it('should log not log the same error message more than once', function () {
             for (var i = 0; i < 5; i++) {
                 ClientErrorManager.logErrorMessage('test message');
             }
-            
+
             expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);
         });
     });
-})
+});

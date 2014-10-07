@@ -28,9 +28,9 @@
             this._onWebRequestBeforeSendHeaders = this._onWebRequestBeforeSendHeaders.bind(this);
             this._onWebRequestErrorOccurred = this._onWebRequestErrorOccurred.bind(this);
 
-            //chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
-            //    urls: [this.model.get('youTubeEmbedUrl')]
-            //}, ['blocking', 'requestHeaders']);
+            chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
+                urls: [this.model.get('youTubeEmbedUrl')]
+            }, ['blocking', 'requestHeaders']);
 
             chrome.webRequest.onErrorOccurred.addListener(this._onWebRequestErrorOccurred, {
                 urls: [this.model.get('youTubeEmbedUrl')]

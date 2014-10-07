@@ -197,6 +197,10 @@ define([
                     }
                 }
             }
+            
+            if (!_.isUndefined(message.error)) {
+                Backbone.Wreqr.radio.channel('error').vent.trigger('iframeInjectFailure', message.error);
+            }
         },
 
         _onChromeCommand: function (command) {

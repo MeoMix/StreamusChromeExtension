@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.153",
+	"version": "0.156",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -100,13 +100,12 @@
 	"omnibox": { "keyword" : "streamus" }, 
 	"permissions": [
 	    "alarms",
-	    "http://localhost:61975/Streamus/",
+	    "http://localhost:28029/Streamus/",
 	    "contextMenus",
 		"background",
 		"notifications",
 		"storage",
 		"identity",
-		"idle",
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*"

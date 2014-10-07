@@ -20,4 +20,4 @@
     });
 
     return ClientErrors;
-})
+});
