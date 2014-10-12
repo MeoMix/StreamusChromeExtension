@@ -186,7 +186,7 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
+                Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SaveSongsPromptView, {
                     songs: this.collection.getSelectedSongs()
                 });
             }

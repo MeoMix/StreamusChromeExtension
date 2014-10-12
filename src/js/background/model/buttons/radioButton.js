@@ -1,6 +1,4 @@
-﻿define([
-    'background/model/chromeNotifications'
-], function (ChromeNotifications) {
+﻿define(function () {
     'use strict';
     
     var RadioButton = Backbone.Model.extend({
@@ -29,7 +27,7 @@
             if (command === 'toggleRadio') {
                 this.toggleEnabled();
 
-                ChromeNotifications.create({
+                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                     //  TODO: i18n
                     message: this.get('enabled') ? 'Radio on' : 'Radio off'
                 });

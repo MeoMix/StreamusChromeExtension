@@ -14,7 +14,7 @@
         },
         
         _showDeletePlaylistPrompt: function(playlist) {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', DeletePlaylistPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', DeletePlaylistPromptView, {
                 playlist: playlist
             });
         }

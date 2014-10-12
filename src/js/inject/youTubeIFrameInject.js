@@ -1,13 +1,12 @@
-﻿//  This is mostly disabled until I fix: https://code.google.com/p/chromium/issues/detail?id=161471
-//  This code runs inside of the youtube-player iframe in the Streamus background -- hax!
-$(function () {
+﻿$(function() {
+    //  TODO: Does this work even if I reload the iframe?
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'youtube-player') {
         var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'
         });
 
-        var monitorVideoStream = function() {
+        var monitorVideoStream = function () {
             var lastPostedTime = null;
 
             videoStream.on('loadstart', function() {
@@ -28,13 +27,13 @@ $(function () {
                 }
             });
 
-            videoStream.on('seeking', function() {
+            videoStream.on('seeking', function () {
                 youTubeIFrameConnectRequestPort.postMessage({
                     seeking: true
                 });
             });
 
-            videoStream.on('seeked', function() {
+            videoStream.on('seeked', function () {
                 youTubeIFrameConnectRequestPort.postMessage({
                     seeking: false
                 });
@@ -45,6 +44,8 @@ $(function () {
 
         //  Monitor the video for change of src so that background can mimic player.
         var videoStream = $('.video-stream');
+
+        console.log('length:', videoStream.length);
 
         //  If failed to find the videoStream -- keep searching for a bit. Opera loads too early and I guess this might be possible in Chrome, too.
         if (videoStream.length === 0) {

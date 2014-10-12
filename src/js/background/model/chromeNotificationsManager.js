@@ -3,10 +3,12 @@
 //  Permissions: "notifications" 
 //  Note: This API is currently available on ChromeOS, Windows, and Mac.
 //  URL: https://developer.chrome.com/extensions/notifications
-define(function () {
+define([
+    'background/model/utility'
+], function (Utility) {
     'use strict';
 
-    var ChromeNotifications = Backbone.Model.extend({
+    var ChromeNotificationsManager = Backbone.Model.extend({
         defaults: {
             shownNotificationId: '',
             closeNotificationTimeout: null,
@@ -19,12 +21,33 @@ define(function () {
             }
         },
         
-        //  Expects options: { iconUrl: string, title: string, message: string }
-        create: function (options) {
-            //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
-            //  TODO: I should log information about what clients are throwing errors (their Google Chrome version?)
-            if (this._canUseNotificationsApi()) {
-                chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, options));
+        initialize: function () {
+            this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._onShowNotificationCommand);
+            //  Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
+            this.listenTo(Backbone.Wreqr.radio.channel('backgroundNotification').commands, 'show:notification', this._onShowNotificationCommand);
+        },
+        
+        _onShowNotificationCommand: function (notificationOptions) {
+            //  Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
+            Utility.isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
+        },
+                
+        _onIsForegroundActiveResponse: function (notificationOptions, foregroundActive) {
+            if (!foregroundActive) {
+                var chromeNotificationOptions = {
+                    //  TODO: ChromeNotifications support a 'Title' property where as my foreground implementation does not. Unsure how to handle this elegantly for now.
+                    message: notificationOptions.message
+                };
+                
+                if (!_.isUndefined(notificationOptions.title)) {
+                    chromeNotificationOptions.title = notificationOptions.title;
+                }
+
+                //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
+                //  TODO: I should log information about what clients are throwing errors (their Google Chrome version?)
+                if (this._canUseNotificationsApi()) {
+                    chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
+                }
             }
         },
         
@@ -79,5 +102,5 @@ define(function () {
         }
     });
 
-    return new ChromeNotifications();
+    return ChromeNotificationsManager;
 });

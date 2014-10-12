@@ -16,16 +16,16 @@
         initialize: function () {
             chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
-            this.listenTo(Backbone.Wreqr.radio.channel('error').vent, 'iframeInjectFailure', this.logErrorMessage);
+            this.listenTo(Backbone.Wreqr.radio.channel('error').commands, 'log:message', this._logMessage);
         },
 
-        logErrorMessage: function (message) {
+        _logMessage: function (message) {
             this._createError(message);
         },
         
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
-        _warnDebugEnabled: function() {
-            console.warn('Debugging is enabled. Skipping write to server.');
+        _warnDebugEnabled: function(message) {
+            console.warn('Debugging enabled; Message:' + message);
         },
 
         _onGetPlatformInfo: function (platformInfo) {
@@ -38,7 +38,7 @@
         
         _createError: function (message, url, lineNumber, error) {
             if (Streamus.localDebug && !Streamus.testing) {
-                this._warnDebugEnabled();
+                this._warnDebugEnabled(message);
                 return;
             }
 

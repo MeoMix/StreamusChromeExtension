@@ -15,7 +15,7 @@
         
         initialize: function () {
             //  TODO: show should be a command not an event.
-            this.listenTo(Backbone.Wreqr.radio.channel('prompt').vent, 'show', this._showPrompt);
+            this.listenTo(Backbone.Wreqr.radio.channel('prompt').commands, 'show:prompt', this._showPrompt);
             this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
             this.listenTo(Player, 'youTubeError', this._showYouTubeErrorPrompt);
             this.listenTo(SignInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);

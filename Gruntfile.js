@@ -99,7 +99,8 @@ module.exports = function (grunt) {
 						include: ['background/plugins']
 					}, {
 						name: 'background/application',
-						include: 'background/view/backgroundView',
+						//  TODO: Having to include these SUCKS and is a liability.
+						include: ['background/model/background', 'background/view/backgroundView'],
 						exclude: ['background/main']
 					}, {
 						name: 'foreground/main',

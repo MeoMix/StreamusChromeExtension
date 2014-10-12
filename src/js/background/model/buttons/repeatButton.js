@@ -1,7 +1,6 @@
 ﻿define([
-    'background/model/chromeNotifications',
     'common/enum/repeatButtonState'
-], function (ChromeNotifications, RepeatButtonState) {
+], function (RepeatButtonState) {
     'use strict';
 
     var RepeatButton = Backbone.Model.extend({
@@ -60,7 +59,7 @@
                         message = 'Repeat stream on';
                 }
                 
-                ChromeNotifications.create({
+                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                     message: message
                 });
             }

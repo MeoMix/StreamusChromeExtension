@@ -503,10 +503,10 @@
 	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
 		"message": "An issue was encountered while attempting to find song with URL:"
 	},
-	"loadingYouTubeAPI": {
-		"message": "Loading YouTube API"
+	"loadingYouTube": {
+		"message": "Loading YouTube"
 	},
-	"loadYouTubeAPIFailed": {
-		"message": "Load YouTube API failed"
+	"loadingYouTubeFailed": {
+		"message": "Loading YouTube failed"
 	}
 }

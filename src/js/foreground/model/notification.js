@@ -1,12 +1,12 @@
 ﻿define([
-    'foreground/enum/notificationType'
+    'common/enum/notificationType'
 ], function (NotificationType) {
     'use strict';
 
     var Notification = Backbone.Model.extend({
         defaults: {
             type: NotificationType.None,
-            text: ''
+            message: ''
         },
         
         initialize: function() {

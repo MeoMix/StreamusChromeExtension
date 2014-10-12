@@ -1,11 +1,10 @@
 ﻿define([
     'background/collection/streamItems',
-    'background/model/chromeNotifications',
     'background/model/buttons/radioButton',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/repeatButton',
     'common/enum/repeatButtonState'
-], function (StreamItems, ChromeNotifications, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
+], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
     'use strict';
     
     var NextButton = Backbone.Model.extend({
@@ -40,7 +39,7 @@
                 var activatedStreamItem = this.tryActivateNextStreamItem();
 
                 if (!activatedStreamItem) {
-                    ChromeNotifications.create({
+                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantSkipToNextSong')
                     });

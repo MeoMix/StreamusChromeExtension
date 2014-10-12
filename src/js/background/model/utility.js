@@ -1,4 +1,5 @@
-﻿define([
+﻿//  TODO: Not sure how I am feeling about having a common and a background utility object.s
+define([
     'background/model/tabManager'
 ], function (TabManager) {
     'use strict';

@@ -66,7 +66,7 @@ define([
             this._setDisplayInfo();
         },
         //  TODO: I should be creating a ShareCode object w/ entityID and entityType set and fetching it that way instead.
-        getShareCode: function(callback) {
+        getShareCode: function(options) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',
                 data: {
@@ -74,11 +74,9 @@ define([
                 },
                 success: function (shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
-                    callback(shareCode);
+                    options.success(shareCode);
                 },
-                error: function (error) {
-                    console.error("Error retrieving share code", error, error.message);
-                }
+                error: options.error
             });
         },
         

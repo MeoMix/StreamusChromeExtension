@@ -1,9 +1,8 @@
 ﻿define([
     'background/collection/streamItems',
-    'background/model/chromeNotifications',
     'background/model/player',
     'background/model/buttons/shuffleButton'
-], function (StreamItems, ChromeNotifications, Player, ShuffleButton) {
+], function (StreamItems, Player, ShuffleButton) {
     'use strict';
     
     var PreviousButton = Backbone.Model.extend({
@@ -41,7 +40,7 @@
                 var didPrevious = this.tryDoTimeBasedPrevious();
 
                 if (!didPrevious) {
-                    ChromeNotifications.create({
+                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
                     });

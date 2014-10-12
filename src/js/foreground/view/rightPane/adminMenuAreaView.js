@@ -73,11 +73,11 @@
         },
         
         _showSettingsPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SettingsPromptView);
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SettingsPromptView);
         },
         
         _showBrowserSettingsPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', BrowserSettingsPromptView);
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', BrowserSettingsPromptView);
         },
         
         _openStreamusTab: function () {

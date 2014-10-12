@@ -1,5 +1,5 @@
 ﻿define([
-	'foreground/enum/notificationType',
+	'common/enum/notificationType',
 	'foreground/model/notification',
 	'foreground/view/notification/notificationView'
 ], function (NotificationType, Notification, NotificationView) {
@@ -9,18 +9,14 @@
 		el: '#foregroundArea-notificationRegion',
 
 		initialize: function () {
-			this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show', this._showNotification);
+			this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._showNotification);
+			this.listenTo(Streamus.backgroundPage.Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._showNotification);
 			//  TODO: Need to listen to background application triggering errors and build notifications from them
-
-			//this._showNotification(new Notification({
-			//    type: NotificationType.Success,
-			//    text: 'Hello, world'
-			//}));
 		},
 
-		_showNotification: function (notification) {
+		_showNotification: function (notificationOptions) {
 			var notificationView = new NotificationView({
-				model: notification
+				model: new Notification(notificationOptions)
 			});
 
 			this.show(notificationView);

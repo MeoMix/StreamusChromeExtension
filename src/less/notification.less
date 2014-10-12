@@ -12,10 +12,11 @@
     top: 0;
     transform: translate(0px, -40px);
     color: @white;
-}
 
-.notification-hideButton:hover {
-    color: @white;
+    //  Nest this to increase its priority so that hover overrides success/error color.
+    .notification-hideButton:hover {
+        color: @white;
+    }
 }
 
 .notification--success {

@@ -1,6 +1,4 @@
-﻿define([
-    'background/model/chromeNotifications'
-], function (ChromeNotifications) {
+﻿define(function () {
     'use strict';
     
     var ShuffleButton = Backbone.Model.extend({
@@ -29,7 +27,7 @@
             if (command === 'toggleShuffle') {
                 this.toggleEnabled();
                 
-                ChromeNotifications.create({
+                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                     //  TODO: i18n
                     message: this.get('enabled') ? 'Shuffling on' : 'Shuffling off'
                 });

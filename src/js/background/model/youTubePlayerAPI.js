@@ -5,12 +5,14 @@ define(function () {
 
 	var YouTubePlayerAPI = Backbone.Model.extend({
 		defaults: {
-			ready: false
+			ready: false,
+			inserted: false
 		},
 
 		load: function () {
-			if (this.get('ready')) {
-				console.warn('YouTube Player API is already loaded and should not be loaded again');
+			//  TODO: If I insert the script, but _onYouTubeIframeAPIReady fails to load for whatever reason, I need to be able to recover gracefully somehow.
+			if (this.get('inserted')) {
+				Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', 'API script already inserted');
 				return;
 			}
 
@@ -20,6 +22,8 @@ define(function () {
 			$('<script>', {
 				src: 'https://www.youtube.com/iframe_api',
 			}).insertBefore($('script:first'));
+
+			this.set('inserted', true);
 		},
 		
 		_onYouTubeIframeAPIReady: function () {

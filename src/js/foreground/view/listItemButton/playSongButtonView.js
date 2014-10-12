@@ -35,6 +35,7 @@
         
         _playStreamItem: function (streamItem) {
             if (streamItem.get('active')) {
+                //  TODO: It's weird that this doesn't turn to a pause once playing.
                 Player.play();
             } else {
                 Player.set('playOnActivate', true);

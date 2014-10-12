@@ -2,11 +2,10 @@
 define([
     'background/collection/streamItems',
     'background/enum/omniboxModifiers',
-    'background/model/chromeNotifications',
     'background/model/song',
     'common/model/youTubeV3API',
     'common/model/utility'
-], function (StreamItems, OmniboxModifiers, ChromeNotifications, Song, YouTubeV3API, Utility) {
+], function (StreamItems, OmniboxModifiers, Song, YouTubeV3API, Utility) {
     'use strict';
 
     var Omnibox = Backbone.Model.extend({
@@ -115,7 +114,7 @@ define([
             });
             
             if (!playOnAdd) {
-                ChromeNotifications.create({
+                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                     title: chrome.i18n.getMessage('songAdded'),
                     message: pickedSong.get('title')
                 });

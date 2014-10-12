@@ -1,8 +1,7 @@
 ﻿define([
     'background/collection/streamItems',
-    'background/model/chromeNotifications',
     'background/model/player'
-], function (StreamItems, ChromeNotifications, Player) {
+], function (StreamItems, Player) {
     'use strict';
     
     var PlayPauseButton = Backbone.Model.extend({
@@ -31,7 +30,8 @@
                 var didTogglePlayerState = this.tryTogglePlayerState();
 
                 if (!didTogglePlayerState) {
-                    ChromeNotifications.create({
+                    //  TODO: This probably shouldn't be a background notification -- they can use a keyboard shortcut with UI open.
+                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantToggleSong')
                     });

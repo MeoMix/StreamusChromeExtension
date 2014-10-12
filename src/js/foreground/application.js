@@ -42,6 +42,8 @@
         },
         
         _onStart: function () {
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('foreground').vent.trigger('started');
+
             //  Don't even bother loading the foreground if Streamus should open in a tab instead.
             if (this.backgroundPage.Settings.get('alwaysOpenInTab')) {
                 this.backgroundPage.TabManager.isStreamusTabOpen(this._onIsStreamusTabOpenResponse.bind(this));
@@ -53,7 +55,7 @@
         _onIsStreamusTabOpenResponse: function (streamusTabOpen) {
             //  At this point the the open tab could be running this code, or the extension might be being opened again with a tab already running.
             if (streamusTabOpen) {
-                //  If the popup is closed then we know that the extension isnt' trying to open the popup and the code is running to initialize the tab.
+                //  If the popup is closed then we know that the extension isn't trying to open the popup and the code is running to initialize the tab.
                 var popupClosed = chrome.extension.getViews({ type: "popup" }).length === 0;
                 popupClosed ? this._showForegroundArea() : this._showStreamusTab();
             } else {

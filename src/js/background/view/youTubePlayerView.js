@@ -1,14 +1,10 @@
-﻿define([
-    'background/model/clientErrorManager',
-    'background/model/youTubePlayer'
-], function (ClientErrorManager, YouTubePlayer) {
+﻿define(function () {
     'use strict';
 
     var YouTubePlayerView = Backbone.Marionette.ItemView.extend({
         tagName: 'iframe',
         id: 'youtube-player',
         template: false,
-        model: YouTubePlayer,
 
         attributes: {
             name: 'youtube-player',
@@ -26,25 +22,20 @@
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
             //  which will break chrome's .removeListener method which expects a named function in order to work properly.
             this._onWebRequestBeforeSendHeaders = this._onWebRequestBeforeSendHeaders.bind(this);
-            this._onWebRequestErrorOccurred = this._onWebRequestErrorOccurred.bind(this);
+            this._onWebRequestCompleted = this._onWebRequestCompleted.bind(this);
 
             chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             }, ['blocking', 'requestHeaders']);
-
-            chrome.webRequest.onErrorOccurred.addListener(this._onWebRequestErrorOccurred, {
+            
+            chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             });
         },
         
-        onShow: function () {
-            //  Load the YouTube player widget once the view has been shown because then the origin for the iframe has for sure been set / is part of the DOM.
-            this.model.load();
-        },
-        
         onBeforeDestroy: function () {
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onWebRequestBeforeSendHeaders);
-            chrome.webRequest.onErrorOccurred.removeListener(this._onWebRequestErrorOccurred);
+            chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
         },
 
         //  Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
@@ -86,9 +77,15 @@
             return { requestHeaders: info.requestHeaders };
         },
         
-        _onWebRequestErrorOccurred: function(details) {
-            ClientErrorManager.logErrorMessage(JSON.stringify(details));
-            return details;
+        _onWebRequestCompleted: function (info) {
+            //  TODO: This needs to only run once, but, on first install and ocassionally thereafter, a second request comes in from the cache. No idea why it is happening.
+            if (!info.fromCache) {
+                chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
+                //  Only load YouTube's API once the iframe has been built successfully.
+                //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
+                //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
+                this.model.load();
+            }
         }
     });
 

@@ -18,14 +18,19 @@
             this.serverUrl = this.localDebug ? 'http://localhost:28029/' : 'https://aws-server.streamus.com/Streamus/';
         },
 
-        _showBackground: function() {
-            //  Fire up the background:
-            require(['background/view/backgroundView']);
+        _showBackground: function () {
+            //  TODO: I would like to rewrite my code using the alternative syntax for requireJS, but I need to deal with my singletons first.
+            require(['background/model/background', 'background/view/backgroundView'], function (Background, BackgroundView) {
+
+                var backgroundView = new BackgroundView({
+                    model: new Background()
+                });
+            });
         }
     });
 
     var streamus = new Application();
     window.Streamus = streamus;
-    
+
     streamus.start();
 });

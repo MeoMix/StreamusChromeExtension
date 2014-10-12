@@ -1,13 +1,12 @@
 ﻿define([
     'background/enum/syncActionType',
     'background/mixin/collectionSequence',
-    'background/model/chromeNotifications',
     'background/model/playlist',
     'background/model/song',
     'background/model/tabManager',
     'common/enum/listItemType',
     'common/model/youTubeV3API'
-], function (SyncActionType, CollectionSequence, ChromeNotifications, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
+], function (SyncActionType, CollectionSequence, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
     'use strict';
 
     //  TODO: Stop having this be a singleton so it is easier to test.
@@ -161,7 +160,7 @@
                             var song = new Song(songInformation);
                             this.get(request.playlistId).get('items').addSongs(song);
 
-                            ChromeNotifications.create({
+                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('songAdded'),
                                 message: song.get('title')
                             });
@@ -169,7 +168,7 @@
                             sendResponse({ result: 'success' });
                         }.bind(this),
                         error: function () {
-                            ChromeNotifications.create({
+                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('errorEncountered')
                             });
 

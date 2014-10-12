@@ -85,8 +85,7 @@
 }
 .qtip {
   min-width: 0 !important;
-}
-.qtip-light {
-  border-color: #ebebeb;
-  color: #666666;
+  border-color: #ebebeb !important;
+  color: #666666 !important;
+  background-color: #ffffff !important;
 }

@@ -1,7 +1,8 @@
 ﻿define([
     'common/model/utility',
+    'common/enum/notificationType',
     'text!template/prompt/exportPlaylist.html'
-], function (Utility, ExportPlaylistTemplate) {
+], function (Utility, NotificationType, ExportPlaylistTemplate) {
     'use strict';
 
     var ExportPlaylistView = Backbone.Marionette.ItemView.extend({
@@ -44,6 +45,12 @@
             downloadableElement.setAttribute('href', 'data:' + this._getMimeType() + ';charset=utf-8,' + encodeURIComponent(this._getFileText()));
             downloadableElement.setAttribute('download', this._getFileName());
             downloadableElement.click();
+            
+            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+                type: NotificationType.Success,
+                //  TODO: i18n
+                message: 'Playlist exported successfully.'
+            });
         },
         
         _onCheckboxOrRadioChange: function (event) {

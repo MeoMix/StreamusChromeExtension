@@ -81,7 +81,9 @@
     <Content Include="src\img\yellow_3.png" />
     <Content Include="src\img\yellow_4.png" />
     <Content Include="src\js\background\application.js" />
+    <Content Include="src\js\background\collection\clientErrors.js" />
     <Content Include="src\js\background\enum\omniboxModifiers.js" />
+    <Content Include="src\js\background\model\background.js" />
     <Content Include="src\js\background\view\backgroundView.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
     <Content Include="src\js\background\collection\playlists.js" />
@@ -100,7 +102,6 @@
     <Content Include="src\js\background\model\buttons\repeatButton.js" />
     <Content Include="src\js\background\model\buttons\shuffleButton.js" />
     <Content Include="src\js\background\model\clientErrorManager.js" />
-    <Content Include="src\js\background\model\clipboard.js" />
     <Content Include="src\js\background\model\contextMenus.js" />
     <Content Include="src\js\background\model\clientError.js" />
     <Content Include="src\js\background\model\iconManager.js" />
@@ -120,9 +121,10 @@
     <Content Include="src\js\background\model\utility.js" />
     <Content Include="src\js\background\model\youTubePlayer.js" />
     <Content Include="src\js\background\model\youTubePlayerAPI.js" />
-    <Content Include="src\js\background\model\chromeNotifications.js" />
+    <Content Include="src\js\background\model\chromeNotificationsManager.js" />
     <Content Include="src\js\background\plugins.js" />
     <Content Include="src\js\background\view\clipboardView.js" />
+    <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
     <Content Include="src\js\common\enum\songType.js" />
     <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
@@ -133,7 +135,7 @@
     <Content Include="src\js\common\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
-    <Content Include="src\js\foreground\enum\notificationType.js" />
+    <Content Include="src\js\common\enum\notificationType.js" />
     <Content Include="src\js\foreground\model\playlistAction.js" />
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
@@ -220,6 +222,7 @@
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
     <Content Include="src\js\test\background\collection\playlistsTests.js" />
+    <Content Include="src\js\test\background\model\clientErrorManagerTest.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
     <Content Include="src\js\test\background\model\syncManagerTests.js" />
     <Content Include="src\js\test\background\model\userTests.js" />
@@ -316,7 +319,6 @@
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\background\model\relatedSongInformationManagerTests.js" />
     <Content Include="src\js\test\common\model\dataSourceTests.js" />
-    <Content Include="src\js\test\background\model\clientErrorTests.js" />
     <Content Include="src\js\test\common\model\utilityTests.js" />
     <Content Include="src\js\test\common\model\youTubeV3APITests.js" />
     <Content Include="src\js\test\test.js" />

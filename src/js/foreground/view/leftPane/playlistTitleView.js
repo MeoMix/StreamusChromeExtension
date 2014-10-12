@@ -22,7 +22,7 @@
             this._setTitle();
         },
         
-        _setTitle: function() {
+        _setTitle: function () {
             this.$el.attr('title', this.model.get('title'));
         }
     });

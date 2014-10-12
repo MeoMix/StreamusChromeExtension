@@ -23,7 +23,7 @@
         },
 
         doOnClickAction: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', SaveSongsPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SaveSongsPromptView, {
                 songs: [this.model.get('song')]
             });
         },

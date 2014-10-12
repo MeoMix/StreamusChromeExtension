@@ -1,16 +1,26 @@
 ﻿<div id="foregroundArea-loadingMessage" class="instruction is-showingSpinner hidden">
     <div class="instruction-header">
-        <%= loadingYouTubeAPIMessage %>...
+        <%= loadingYouTubeMessage %>
     </div>
-    <div class="spinner spinner--large"></div>
+    <div class="u-textSecondary">
+        <!-- TODO: i18n -->
+        Attempt <span id="foregroundArea-loadAttempt"><%= loadAttempt %></span> of <%= maxLoadAttempts %>
+        <div>
+            <span class="foregroundArea-reloadLink u-link lineHeight-base">
+                <%= reloadMessage %>
+            </span>  
+        </div>
+    </div>
 </div>
 
-<div id="foregroundArea-loadFailedMessage" class="instruction hidden">
+<div id="foregroundArea-loadingFailedMessage" class="instruction hidden">
     <div class="instruction-header">
-        <%= loadYouTubeAPIFailedMessage %>
+        <%= loadingYouTubeFailedMessage %>
     </div>
-    <div id="foregroundArea-reloadLink" class="u-link">
-        <%= reloadMessage %>
+    <div>
+        <span class="foregroundArea-reloadLink u-link">
+            <%= reloadMessage %>
+        </span>  
     </div>
 </div>
 

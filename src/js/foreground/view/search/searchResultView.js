@@ -60,14 +60,11 @@
         },
         
         _copyUrl: function () {
-            var songUrl = this.model.get('song').get('url');
-            Streamus.backgroundPage.Clipboard.copy(songUrl);
+            this.model.get('song').copyUrl();
         },
 
         _copyTitleAndUrl: function () {
-            var songTitle = this.model.get('title');
-            var songUrl = this.model.get('song').get('url');
-            Streamus.backgroundPage.Clipboard.copyTitleAndUrl(songTitle, songUrl);
+            this.model.get('song').copyTitleAndUrl();
         },
 
         _watchOnYouTube: function () {

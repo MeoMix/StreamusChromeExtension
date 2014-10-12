@@ -1,20 +1,17 @@
 ﻿define([
     'background/mixin/collectionMultiSelect',
     'background/mixin/collectionSequence',
-    'background/model/chromeNotifications',
-    'background/model/clipboard',
     'background/model/streamItem',
     'background/model/song',
     'background/model/tabManager',
     'background/model/player',
-    'background/model/utility',
     'background/model/buttons/shuffleButton',
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
     'common/enum/repeatButtonState',
     'common/enum/playerState',
     'common/model/youTubeV3API'
-], function (CollectionMultiSelect, CollectionSequence, ChromeNotifications, Clipboard, StreamItem, Song, TabManager, Player, Utility, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+], function (CollectionMultiSelect, CollectionSequence, StreamItem, Song, TabManager, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
     'use strict';
     
     var StreamItems = Backbone.Collection.extend({
@@ -44,7 +41,7 @@
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
-                Player.activateSong(activeItem.get('song'));
+                Player.activateSong(activeItem.get('song').get('id'));
                 
                 //  TODO: This won't be necessary once I fix history persistence because activeItem should already be in history after a restart.
                 this.history.unshift(activeItem);
@@ -243,7 +240,7 @@
             var activeItem = this.getActiveItem();
             var activeSongId = activeItem.get('song').get('id');
 
-            ChromeNotifications.create({
+            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                 iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
                 //  TODO: i18n
                 title: 'Now Playing',
@@ -283,16 +280,11 @@
             }
             else if (state === PlayerState.Playing) {
                 //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
-                Utility.isForegroundActive(function(foregroundActive) {
-                    if (!foregroundActive) {
-                        this._showActiveNotification();
-                    }
-                }.bind(this));
+                this._showActiveNotification();
             }
         },
         
-        _onPlayerError: function () {
-            //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
+        _onPlayerError: function (error) {
             if (this.length > 0) {
                 Player.set('playOnActivate', true);
                 var nextItem = this.activateNext();
@@ -302,8 +294,11 @@
 
                     //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
                     //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                    Player.activateSong(this.getActiveItem().get('song'));
+                    Player.activateSong(this.getActiveItem().get('song').get('id'));
                 }
+            } else {
+                //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
+                Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', 'Error ' + error + ' happened while StreamItems was empty.');
             }
         },
         
@@ -359,7 +354,7 @@
         },
         
         _loadActiveItem: function (activeItem) {
-            Player.activateSong(activeItem.get('song'));
+            Player.activateSong(activeItem.get('song').get('id'));
             
             //  When deleting the last item in the stream AND it is active then you go back 1 sequentially.
             //  This can cause a duplicate to be added to history if you just came from it.
@@ -473,7 +468,7 @@
             //  TODO: How can I write this logic more DRYly?
             if (command === 'showActiveSong' || command === 'deleteSongFromStream' || command === 'copySongUrl' || command === 'copySongTitleAndUrl') {
                 if (this.length === 0) {
-                    ChromeNotifications.create({
+                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                         //  TODO: i18n
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: 'Stream empty'
@@ -486,11 +481,10 @@
                         this.getActiveItem().destroy();
                     }
                     else if (command === 'copySongUrl') {
-                        Clipboard.copy(this.getActiveItem().get('song').get('url'));
+                        this.getActiveItem().get('song').copyUrl();
                     }
                     else if (command === 'copySongTitleAndUrl') {
-                        var activeItem = this.getActiveItem();
-                        Clipboard.copyTitleAndUrl(activeItem.get('title'), activeItem.get('song').get('url'));
+                        this.getActiveItem().get('song').copyTitleAndUrl();
                     }
                 }
             }

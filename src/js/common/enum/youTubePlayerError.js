@@ -3,6 +3,8 @@
 define({
     None: -1,
     InvalidParameter: 2,
+    //  Undocumented error that YouTube throws when it breaks due to internet issues.
+    ReallyBad: 5,
     VideoNotFound: 100,
     NoPlayEmbedded: 101,
     NoPlayEmbedded2: 150

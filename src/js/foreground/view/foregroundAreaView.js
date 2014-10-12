@@ -12,9 +12,7 @@
 
     //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
     var Player = Streamus.backgroundPage.Player;
-    var YouTubePlayer = Streamus.backgroundPage.YouTubePlayer;
     var Settings = Streamus.backgroundPage.Settings;
-    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var ForegroundAreaView = Backbone.Marionette.LayoutView.extend({
         id: 'foregroundArea',
@@ -23,9 +21,11 @@
         
         templateHelpers: function () {
             return {
-                loadingYouTubeAPIMessage: chrome.i18n.getMessage('loadingYouTubeAPI'),
-                loadYouTubeAPIFailedMessage: chrome.i18n.getMessage('loadYouTubeAPIFailed'),
-                reloadMessage: chrome.i18n.getMessage('reload')
+                loadingYouTubeMessage: chrome.i18n.getMessage('loadingYouTube'),
+                loadingYouTubeFailedMessage: chrome.i18n.getMessage('loadingYouTubeFailed'),
+                reloadMessage: chrome.i18n.getMessage('reload'),
+                loadAttempt: Player.get('loadAttempt'),
+                maxLoadAttempts: Player.get('maxLoadAttempts')
             };
         },
 
@@ -38,8 +38,9 @@
         
         ui: {
             loadingMessage: '#foregroundArea-loadingMessage',
-            loadFailedMessage: '#foregroundArea-loadFailedMessage',
-            reloadLink: '#foregroundArea-reloadLink'
+            loadingFailedMessage: '#foregroundArea-loadingFailedMessage',
+            reloadLink: '.foregroundArea-reloadLink',
+            loadAttempt: '#foregroundArea-loadAttempt'
         },
 
         regions: {
@@ -53,24 +54,19 @@
         },
 
         initialize: function () {
-            this.listenTo(Player, 'change:ready', this._onPlayerChangeReady);
             this.listenTo(Settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
-            this.listenTo(YouTubePlayer, 'change:loadFailed', this._onYouTubePlayerChangeLoadFailed);
+            this.listenTo(Player, 'change:loading', this._onPlayerChangeLoading);
+            this.listenTo(Player, 'change:loadAttempt', this._onPlayerChangeLoadAttempt);
             $(window).unload(this._onWindowUnload.bind(this));
             $(window).resize(this._onWindowResize.bind(this));
         },
         
         onRender: function() {
             this._setHideTooltipsClass(Settings.get('showTooltips'));
+            this._checkPlayerLoading();
         },
         
         onShow: function () {
-            this._checkPlayerReady();
-
-            //  Automatically sign the user in once they've actually interacted with Streamus.
-            //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-            SignInManager.signInWithGoogle();
-
             Backbone.Wreqr.radio.channel('foregroundArea').vent.trigger('shown');
         },
         
@@ -78,39 +74,23 @@
         _setHideTooltipsClass: function (showTooltips) {
             this.$el.toggleClass('is-hidingTooltips', !showTooltips);
         },
-        
-        //  Check if the player is loaded. If it isn't, place the UI into a loading state.
-        _checkPlayerReady: function () {
-            if (!Player.get('ready')) {
-                this._startLoading();
-            }
-        },
 
-        //  TODO: The message here indicates that I'm loading YouTube's API, which is true, but will need to be expanded for SoundCloud soon.
-        //  Give the program a few seconds before prompting the user to try restarting Streamus.
         _startLoading: function () {
             this.$el.addClass('is-showingSpinner');
+            this.ui.loadingFailedMessage.addClass('hidden');
             this.ui.loadingMessage.removeClass('hidden');
-            
-            if (YouTubePlayer.get('loadFailed')) {
-                this._onLoadFailed();
-            }
-        },
-        
-        _onLoadFailed: function () {
-            //  TODO: Just monitoring this for a while to see if it happens to people very frequently.
-            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("loadFailed");
-
-            //  TODO: Technically I should be removing 'is-showingSpinner' class because no spinner is showing, but I still want everything grayed out on failure.
-            this.ui.loadingMessage.addClass('hidden');
-            this.ui.loadFailedMessage.removeClass('hidden');
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function () {
-            this.$el.removeClass('is-showingSpinner');
             this.ui.loadingMessage.addClass('hidden');
-            this.ui.loadFailedMessage.addClass('hidden');
+
+            if (Player.get('ready')) {
+                this.$el.removeClass('is-showingSpinner');
+                this.ui.loadingFailedMessage.addClass('hidden');
+            } else {
+                this.ui.loadingFailedMessage.removeClass('hidden');
+            }
         },
         
         _onClick: function(event) {
@@ -137,22 +117,26 @@
             this.destroy();
         },
         
-        _onPlayerChangeReady: function (model, ready) {
-            ready ? this._stopLoading() : this._startLoading();
-        },
-        
         _onSettingsChangeShowTooltips: function(model, showTooltips) {
             this._setHideTooltipsClass(showTooltips);
         },
         
-        _onYouTubePlayerChangeLoadFailed: function(model, loadFailed) {
-            if (loadFailed) {
-                this._onLoadFailed();
-            }
-        },
-        
         _onClickReloadLink: function() {
             chrome.runtime.reload();
+        },
+        
+        _onPlayerChangeLoading: function (model, loading) {
+            loading ? this._startLoading() : this._stopLoading();
+        },
+        
+        _onPlayerChangeLoadAttempt: function (model, loadAttempt) {
+            this.ui.loadAttempt.text(loadAttempt);
+        },
+        
+        _checkPlayerLoading: function () {
+            if (Player.get('loading')) {
+                this._startLoading();
+            }
         }
     });
 

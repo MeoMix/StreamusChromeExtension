@@ -28,6 +28,7 @@
         initialize: function () {
             this.on('change:signedIn', this._onSignedInChanged);
             this.on('change:signInFailed', this._onSignInFailedChanged);
+            this.listenTo(Backbone.Wreqr.radio.channel('foreground').vent, 'started', this._onForegroundStarted);
 
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeSignInChanged.bind(this));
@@ -289,6 +290,13 @@
 
         _promptGoogleSignIn: function () {
             this.set('needPromptGoogleSignIn', true);
+        },
+        
+        //  TODO: I think my server can probably handle signing in automatically ever since indexing was fixed.
+        //  Automatically sign the user in once they've actually interacted with Streamus.
+        //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
+        _onForegroundStarted: function() {
+            this.signInWithGoogle();
         }
     });
 

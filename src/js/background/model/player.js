@@ -15,6 +15,10 @@ define([
             currentTime: 0,
             //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
             ready: false,
+            loading: false,
+            loadAttempt: 1,
+            //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
+            maxLoadAttempts: 10,
             state: PlayerState.Unstarted,
             //  This will be set after the player is ready and can communicate its true value.
             //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
@@ -38,22 +42,50 @@ define([
         initialize: function () {
             this.on('change:volume', this._onChangeVolume);
             this.on('change:muted', this._onChangeMuted);
+            this.on('change:ready', this._onChangeReady);
+            this.on('change:loading', this._onChangeLoading);
             this.listenTo(Settings, 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
             this.listenTo(YouTubePlayer, 'change:ready', this._onYouTubePlayerChangeReady);
             this.listenTo(YouTubePlayer, 'change:state', this._onYouTubePlayerChangeState);
             this.listenTo(YouTubePlayer, 'youTubeError', this._onYouTubePlayerError);
+            this.listenTo(YouTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
+            this.listenTo(YouTubePlayer, 'change:loadAttempt', this._onYouTubePlayerChangeLoadAttempt);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+
+            this._ensureInitialState();
         },
         
-        //  Public method which is able to be called before the YouTube Player API is fully ready.
-        //  This is needed because StreamItems sets its active item when it first loads up (which can happen before the Player is fully ready)
-        activateSong: function (song) {
-            //  TODO: I want a way to deny ANY action when ready is false and not necessitate running every public method/event handler through a check.
+        activateSong: function (songId, timeInSeconds) {
             if (this.get('ready')) {
-                this._activateSong(song.get('id'));
+                var playerState = this.get('state');
+                var playOnActivate = this.get('playOnActivate');
+
+                var videoOptions = {
+                    videoId: songId,
+                    startSeconds: timeInSeconds || 0,
+                    suggestedQuality: Settings.get('youTubeSuggestedQuality')
+                };
+
+                //  TODO: This is shitty. The idea is to keep the player going if the user skips (playerState will be playing) or if the current song
+                //  finishes naturally and there's another song to play (ended) but if you let one song finish playing, then add another, then skip to it,
+                //  it will start playing automatically which is incorrect behavior.
+                if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
+                    YouTubePlayer.loadVideoById(videoOptions);
+                } else {
+                    YouTubePlayer.cueVideoById(videoOptions);
+                }
+
+                this.set({
+                    loadedSongId: songId,
+                    //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
+                    //  but until the song actually loads -- current time isn't set.
+                    currentTime: timeInSeconds || 0,
+                    playOnActivate: false,
+                    songIdToActivate: ''
+                });
             } else {
-                this.set('songIdToActivate', song.get('id'));
+                this.set('songIdToActivate', songId);
             }
         },
         
@@ -93,17 +125,21 @@ define([
         },
             
         play: function () {
-            YouTubePlayer.play();
+            if (YouTubePlayer.get('ready')) {
+                YouTubePlayer.play();
+            } else {
+                this.set('playOnActivate', true);
+                YouTubePlayer.preload();
+            }
         },
 
-        //  TODO: This is debounced to defend against mousewheel seekTo updates, but I think that should be moved to the view instead of here.
-        seekTo: _.debounce(function (timeInSeconds) {
+        seekTo: function (timeInSeconds) {
             if (this.get('ready')) {
                 YouTubePlayer.seekTo(timeInSeconds);
             } else {
                 this.set('currentTime', timeInSeconds);
             }
-        }, 100),
+        },
         
         watchInTab: function (songId, songUrl) {
             var url = songUrl;
@@ -122,38 +158,18 @@ define([
         refresh: function() {
             var loadedSongId = this.get('loadedSongId');
             if (loadedSongId !== '') {
-                this._activateSong(loadedSongId, this.get('currentTime'));
+                this.activateSong(loadedSongId, this.get('currentTime'));
             }
         },
         
-        _activateSong: function (songId, timeInSeconds) {
-            var playerState = this.get('state');
-            var playOnActivate = this.get('playOnActivate');
-
-            var videoOptions = {
-                videoId: songId,
-                startSeconds: timeInSeconds || 0,
-                suggestedQuality: Settings.get('youTubeSuggestedQuality')
-            };
-
-            //  TODO: This is shitty. The idea is to keep the player going if the user skips (playerState will be playing) or if the current song
-            //  finishes naturally and there's another song to play (ended) but if you let one song finish playing, then add another, then skip to it,
-            //  it will start playing automatically which is incorrect behavior.
-            if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Ended) {
-                YouTubePlayer.loadVideoById(videoOptions);
-            } else {
-                YouTubePlayer.cueVideoById(videoOptions);
-            }
-
-            this.set({
-                loadedSongId: songId,
-                //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
-                //  but until the song actually loads -- current time isn't set.
-                currentTime: timeInSeconds || 0,
-                playOnActivate: false
-            });
+        //  Ensure that the initial state of the player properly reflects the state of its APIs
+        _ensureInitialState: function () {
+            this.set('ready', YouTubePlayer.get('ready'));
+            this.set('loading', YouTubePlayer.get('loading'));
+            //  TODO: How will I handle loadAttempt w/ 2+ APIs? If both are loading they could be on separate attempts...?
+            this.set('loadAttempt', YouTubePlayer.get('loadAttempt'));
         },
-        
+
         //  Attempt to set playback quality to suggestedQuality or highest possible.
         _onChangeSuggestedQuality: function (model, suggestedQuality) {
             YouTubePlayer.setPlaybackQuality(suggestedQuality);
@@ -163,12 +179,44 @@ define([
         _onChangeVolume: function (model, volume) {
             if (this.get('ready')) {
                 YouTubePlayer.setVolume(volume);
+            } else {
+                YouTubePlayer.preload();
             }
         },
         
         _onChangeMuted: function (model, muted) {
             if (this.get('ready')) {
                 muted ? YouTubePlayer.mute() : YouTubePlayer.unMute();
+            } else {
+                YouTubePlayer.preload();
+            }
+        },
+        
+        _onChangeReady: function(model, ready) {
+            if (ready) {
+                //  Load from Backbone.LocalStorage
+                this.fetch();
+                //  These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is the same as default.
+                YouTubePlayer.setVolume(this.get('volume'));
+                this.get('muted') ? YouTubePlayer.mute() : YouTubePlayer.unMute();
+
+                //  If an 'activateSong' command came in while the player was not ready, fulfill it now. 
+                var songIdToActivate = this.get('songIdToActivate');
+                if (songIdToActivate !== '') {
+                    this.activateSong(songIdToActivate);
+                } else {
+                    //  Otherwise, ensure that the currently active song is loaded into its respective API player.
+                    this.refresh();
+                }
+            }
+        },
+        
+        _onChangeLoading: function(model, loading) {
+            //  Ensure player doesn't start playing a song when recovering from a bad state after a long period of time.
+            //  It is OK to start playback again when recovering initially, but not OK if recovering hours later.
+            if (!loading && !this.get('ready')) {
+                var state = this.get('loadedSongId') === '' ? PlayerState.Unstarted : PlayerState.Paused;
+                this.set('state', state);
             }
         },
         
@@ -178,7 +226,7 @@ define([
             }
         },
         
-        _onYouTubeIFrameMessage: function(message) {
+        _onYouTubeIFrameMessage: function (message) {
             //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
             if (!_.isUndefined(message.currentTime)) {
                 this.set('currentTime', message.currentTime);
@@ -199,7 +247,7 @@ define([
             }
             
             if (!_.isUndefined(message.error)) {
-                Backbone.Wreqr.radio.channel('error').vent.trigger('iframeInjectFailure', message.error);
+                Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', message.error);
             }
         },
 
@@ -215,28 +263,23 @@ define([
         },
         
         _onYouTubePlayerChangeReady: function (model, ready) {
+            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('ready', ready);
-
-            if (ready) {
-                //  Load from Backbone.LocalStorage
-                this.fetch();
-                //  These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is same as default.
-                YouTubePlayer.setVolume(this.get('volume'));
-                this.get('muted') ? YouTubePlayer.mute() : YouTubePlayer.unMute();
-                
-                //  Refresh is needed if view is recreated after first load.
-                this.refresh();
-
-                var songIdToActivate = this.get('songIdToActivate');
-                if (songIdToActivate !== '') {
-                    this.set('songIdToActivate', '');
-                    this._activateSong(songIdToActivate);
-                }
-            }
         },
         
-        _onYouTubePlayerChangeState: function(model, state) {
+        _onYouTubePlayerChangeState: function (model, state) {
+            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('state', state);
+        },
+        
+        _onYouTubePlayerChangeLoading: function (model, loading) {
+            //  TODO: This will need to be smarter w/ SoundCloud support.
+            this.set('loading', loading);
+        },
+        
+        _onYouTubePlayerChangeLoadAttempt: function (model, loadAttempt) {
+            //  TODO: This will need to be smarter w/ SoundCloud support.
+            this.set('loadAttempt', loadAttempt);
         },
         
         //  Emit errors so the foreground so can notify the user.

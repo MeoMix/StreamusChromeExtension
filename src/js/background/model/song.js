@@ -1,8 +1,9 @@
 ﻿define([
     'background/model/settings',
+    'common/enum/notificationType',
     'common/enum/songType',
     'common/model/utility'
-], function (Settings, SongType, Utility) {
+], function (Settings, NotificationType, SongType, Utility) {
     'use strict';
 
     var Song = Backbone.Model.extend({
@@ -47,6 +48,22 @@
                 duration: this.get('duration'),
                 type: this.get('type')
             };
+        },
+        
+        copyUrl: function () {
+            var url = this.get('url');
+            Backbone.Wreqr.radio.channel('clipboard').commands.trigger('copy:text', url);
+            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+                type: NotificationType.Success,
+                //  TODO: i18n
+                message: 'URL copied to clipboard successfully.'
+            });
+        },
+        
+        copyTitleAndUrl: function () {
+            //  TODO: I will need to read title from StreamItem/PlaylistItem if I ever make those titles user-editable.
+            var titleAndUrl = this.get('title') + ' - ' + this.get('url');
+            Backbone.Wreqr.radio.channel('clipboard').commands.trigger('copy:text', titleAndUrl);
         },
         
         _onChangeId: function (model, id) {

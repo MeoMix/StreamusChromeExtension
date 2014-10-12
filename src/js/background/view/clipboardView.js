@@ -1,6 +1,4 @@
-﻿define([
-    'background/model/clipboard'
-], function (Clipboard) {
+﻿define(function () {
     'use strict';
 
     var ClipboardView = Backbone.Marionette.ItemView.extend({
@@ -8,15 +6,8 @@
         tagName: 'textarea',
         template: false,
 
-        model: Clipboard,
-        
-        modelEvents: {
-            'change:text': '_onChangeText'
-        },
-        
-        _onChangeText: function (model, text) {
-            this._copyText(text);
-            this.model.set({ text: '' }, { silent: true });
+        initialize: function () {
+            this.listenTo(Backbone.Wreqr.radio.channel('clipboard').commands, 'copy:text', this._copyText);
         },
         
         //  http://stackoverflow.com/questions/5235719/how-to-copy-text-to-clipboard-from-a-google-chrome-extension

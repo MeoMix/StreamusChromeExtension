@@ -1,6 +1,6 @@
 ﻿//  Background.js is a bit of a dumping ground for code which needs a permanent housing spot.
 define([
-    'background/view/youTubePlayerView',
+    'background/view/youTubePlayerRegion',
     'background/view/clipboardView',
     'background/model/player',
     'background/model/utility',
@@ -22,14 +22,14 @@ define([
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
     'background/model/buttons/shuffleButton'
-], function (YouTubePlayerView, ClipboardView, Player, Utility, PlayerState) {
+], function (YouTubePlayerRegion, ClipboardView, Player, Utility, PlayerState) {
     'use strict';
 
     var BackgroundView = Backbone.Marionette.LayoutView.extend({
         el: $('body'),
         
         regions: {
-            youTubePlayerRegion: '#youTubePlayerRegion',
+            youTubePlayerRegion: YouTubePlayerRegion,
             clipboardRegion: '#clipboardRegion'
         },
         
@@ -39,13 +39,20 @@ define([
         needReloadYouTubePlayer: false,
 
         initialize: function () {
-            this._showYouTubePlayerView();
             this._showClipboardView();
 
-            this.listenTo(Player, 'change:state', this._onChangePlayerState);
-            chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
-
+            //  TODO: I would like to reconsider my implementation. It's possible for someone to juggle a single song between playing/not playing for long enough that
+            //  it would still expire. It would be better to keep the timer always going as long as the song is loaded and if it pauses with the timer exceeded
+            //  or is paused when the timer exceeds, reload.
+            this.listenTo(Player, 'change:state', this._onPlayerChangeState);
+            this.listenTo(Player, 'change:ready', this._onPlayerChangeReady);
             this.listenTo(Backbone.Wreqr.radio.channel('foreground').vent, 'unload', this._onForegroundUnload);
+            chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
+        },
+        
+        _showClipboardView: function() {
+            var clipboardView = new ClipboardView();
+            this.clipboardRegion.show(clipboardView);
         },
         
         _onChromeAlarm: function (alarm) {
@@ -72,11 +79,17 @@ define([
             }
         },
         
-        _onChangePlayerState: function (model, state) {
+        _onPlayerChangeState: function (model, state) {
             if (state === PlayerState.Playing || state === PlayerState.Buffering) {
                 this._clearReloadAlarm();
             } else {
                 this._createReloadAlarm();
+            }
+        },
+        
+        _onPlayerChangeReady: function (model, ready) {
+            if (!ready) {
+                this._clearReloadAlarm();
             }
         },
         
@@ -96,20 +109,9 @@ define([
                 });
             }
         },
-
-        _showYouTubePlayerView: function() {
-            var youTubePlayerView = new YouTubePlayerView();
-            this.youTubePlayerRegion.show(youTubePlayerView);
-        },
-        
-        _showClipboardView: function() {
-            var clipboardView = new ClipboardView();
-            this.clipboardRegion.show(clipboardView);
-        },
         
         _reloadYouTubePlayer: function() {
             this._clearReloadAlarm();
-            //this._showYouTubePlayerView();
             Player.refresh();
         },
         
@@ -121,5 +123,5 @@ define([
         }
     });
 
-    return new BackgroundView();
+    return BackgroundView;
 });

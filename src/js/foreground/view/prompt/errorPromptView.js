@@ -14,7 +14,7 @@
 
             PromptView.prototype.initialize.apply(this, arguments);
             
-            Streamus.backgroundPage.ClientErrorManager.logErrorMessage("Error: " + options.error + ", loadedSongId:" + Streamus.backgroundPage.Player.get('loadedSongId') + " " + options.text);
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', "Error: " + options.error + ", loadedSongId:" + Streamus.backgroundPage.Player.get('loadedSongId') + " " + options.text);
         }
     });
 

@@ -124,7 +124,7 @@
         },
         
         _showCreatePlaylistPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', CreatePlaylistPromptView);
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', CreatePlaylistPromptView);
         },
         
         _toggleBottomContentBar: function () {

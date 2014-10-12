@@ -1,5 +1,6 @@
 ﻿define([
     'common/enum/listItemType',
+    'common/enum/notificationType',
     'foreground/collection/contextMenuItems',
     'foreground/model/playlistAction',
     'foreground/view/listItemView',
@@ -10,7 +11,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, ContextMenuItems, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, NotificationType, ContextMenuItems, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var Playlists = Streamus.backgroundPage.Playlists;
@@ -131,17 +132,36 @@
         },
         
         _copyPlaylistUrl: function() {
-            this.model.getShareCode(function (shareCode) {
-                var shareCodeShortId = shareCode.get('shortId');
-                var urlFriendlyEntityTitle = shareCode.get('urlFriendlyEntityTitle');
-                var playlistShareUrl = 'https://share.streamus.com/playlist/' + shareCodeShortId + '/' + urlFriendlyEntityTitle;
-
-                Streamus.backgroundPage.Clipboard.copy(playlistShareUrl);
+            this.model.getShareCode({
+                success: this._onGetShareCodeSuccess,
+                error: this._onGetShareCodeError
             });
         },
         
+        _onGetShareCodeSuccess: function (shareCode) {
+            shareCode.copyUrl();
+            
+            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+                type: NotificationType.Success,
+                //  TODO: i18n
+                message: 'URL copied to clipboard successfully.'
+            });
+        },
+        
+        _onGetShareCodeError: function () {
+            var errorMessage = 'Failed to copy URL to clipboard.';
+
+            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+                type: NotificationType.Error,
+                //  TODO: i18n
+                message: errorMessage
+            });
+
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', errorMessage + ' playlist: ' + JSON.stringify(this.model));
+        },
+        
         _showEditPlaylistPrompt: function() {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', EditPlaylistPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', EditPlaylistPromptView, {
                 playlist: this.model
             });
         },
@@ -151,7 +171,7 @@
         },
         
         _showExportPlaylistPrompt: function() {
-            Backbone.Wreqr.radio.channel('prompt').vent.trigger('show', ExportPlaylistPromptView, {
+            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', ExportPlaylistPromptView, {
                 playlist: this.model
             });
         },

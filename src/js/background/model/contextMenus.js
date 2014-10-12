@@ -3,7 +3,6 @@ define([
     'background/collection/streamItems',
     'background/collection/playlists',
     'background/model/browserSettings',
-    'background/model/chromeNotifications',
     'background/model/signInManager',
     'background/model/song',
     'background/model/tabManager',
@@ -11,7 +10,7 @@ define([
     'common/model/youTubeV3API',
     'common/model/utility',
     'common/model/dataSource'
-], function (StreamItems, Playlists, BrowserSettings, ChromeNotifications, SignInManager, Song, TabManager, DataSourceType, YouTubeV3API, Utility, DataSource) {
+], function (StreamItems, Playlists, BrowserSettings, SignInManager, Song, TabManager, DataSourceType, YouTubeV3API, Utility, DataSource) {
     'use strict';
 
     var ContextMenu = Backbone.Model.extend({
@@ -200,7 +199,7 @@ define([
                             callback(new Song(songInformation));
                         },
                         error: function () {
-                            ChromeNotifications.create({
+                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('failedToFindSong'),
                                 message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + url
                             });

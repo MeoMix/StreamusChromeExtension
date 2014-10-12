@@ -172,7 +172,7 @@ define([
             return duration;
         },
         
-        _onPlayerChangeCurrentTime: function(model, currentTime) {
+        _onPlayerChangeCurrentTime: function (model, currentTime) {
             this._updateCurrentTime(currentTime);
         },
         
