@@ -1,3 +1,5 @@
+//  The Google Analytics code has been slightly modified to work within the extension environment. 
+//  See here for more information: https://developer.chrome.com/extensions/tut_analytics
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-32334126-1']);
 _gaq.push(['_trackPageview']);

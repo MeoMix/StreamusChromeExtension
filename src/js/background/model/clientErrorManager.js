@@ -16,7 +16,7 @@
         initialize: function () {
             chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
-            this.listenTo(Backbone.Wreqr.radio.channel('error').commands, 'log:message', this._logMessage);
+            this.listenTo(Backbone.Wreqr.radio.channel('error').commands, 'log:error', this._createError);
         },
 
         _logMessage: function (message) {

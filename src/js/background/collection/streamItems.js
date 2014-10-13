@@ -106,6 +106,7 @@
                 activeItem.trigger('change:active', activeItem, true);
                 nextItem = activeItem;
             } else if (shuffleEnabled) {
+                //  TODO: How can this return null?
                 var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
                 shuffledItems[0].save({ active: true });
                 nextItem = shuffledItems[0];
@@ -298,7 +299,7 @@
                 }
             } else {
                 //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
-                Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', 'Error ' + error + ' happened while StreamItems was empty.');
+                Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', 'Error ' + error + ' happened while StreamItems was empty.');
             }
         },
         

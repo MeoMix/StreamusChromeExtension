@@ -192,7 +192,7 @@ define([
             }
         },
         
-        _onChangeReady: function(model, ready) {
+        _onChangeReady: function (model, ready) {
             if (ready) {
                 //  Load from Backbone.LocalStorage
                 this.fetch();
@@ -247,7 +247,7 @@ define([
             }
             
             if (!_.isUndefined(message.error)) {
-                Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', message.error);
+                Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', message.error);
             }
         },
 

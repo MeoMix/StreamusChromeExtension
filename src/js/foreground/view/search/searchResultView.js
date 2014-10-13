@@ -10,6 +10,7 @@
     'use strict';
     
     var StreamItems = Streamus.backgroundPage.StreamItems;
+    var Player = Streamus.backgroundPage.Player;
 
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium',

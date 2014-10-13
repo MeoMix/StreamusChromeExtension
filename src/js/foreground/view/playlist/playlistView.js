@@ -157,7 +157,7 @@
                 message: errorMessage
             });
 
-            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:message', errorMessage + ' playlist: ' + JSON.stringify(this.model));
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', errorMessage + ' playlist: ' + JSON.stringify(this.model));
         },
         
         _showEditPlaylistPrompt: function() {

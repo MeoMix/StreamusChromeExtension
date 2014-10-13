@@ -263,7 +263,7 @@
                         playlistTitle: playlist.get('title')
                     });
                 },
-                error: function () {
+                error: function (error) {
                     sendResponse({
                         result: 'error',
                         error: error

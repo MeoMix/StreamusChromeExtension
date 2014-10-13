@@ -57,8 +57,9 @@
             this.listenTo(Settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
             this.listenTo(Player, 'change:loading', this._onPlayerChangeLoading);
             this.listenTo(Player, 'change:loadAttempt', this._onPlayerChangeLoadAttempt);
-            $(window).unload(this._onWindowUnload.bind(this));
-            $(window).resize(this._onWindowResize.bind(this));
+            window.onunload = this._onWindowUnload.bind(this);
+            window.onresize = this._onWindowResize.bind(this);
+            window.onerror = this._onWindowError.bind(this);
         },
         
         onRender: function() {
@@ -113,8 +114,12 @@
         
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
-            Streamus.backgroundPage.Streamus.onForegroundUnload();
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('foreground').vent.trigger('unload');
             this.destroy();
+        },
+        
+        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
+            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', message, url, lineNumber, error);
         },
         
         _onSettingsChangeShowTooltips: function(model, showTooltips) {

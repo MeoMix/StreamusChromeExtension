@@ -28,6 +28,7 @@
                 urls: [this.model.get('youTubeEmbedUrl')]
             }, ['blocking', 'requestHeaders']);
             
+            //  TODO: I think I can filter on 'type: sub_frame' instead of checking cache.
             chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             });
@@ -43,6 +44,7 @@
         //  Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
         //  Without a Referer - YouTube will reject most of the requests to play music.
         _onWebRequestBeforeSendHeaders: function (info) {
+            console.log('headers sending');
             //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
             var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                 return requestHeader.name === 'Referer';
@@ -78,6 +80,7 @@
         },
         
         _onWebRequestCompleted: function (info) {
+            console.log('web request completed');
             //  TODO: This needs to only run once, but, on first install and ocassionally thereafter, a second request comes in from the cache. No idea why it is happening.
             if (!info.fromCache) {
                 chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);

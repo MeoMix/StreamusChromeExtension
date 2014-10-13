@@ -9,11 +9,7 @@
             this._setServerUrl();
             this.on('start', this._showBackground);
         },
-        
-        onForegroundUnload: function () {
-            Backbone.Wreqr.radio.channel('foreground').vent.trigger('unload');
-        },
-        
+
         _setServerUrl: function () {
             this.serverUrl = this.localDebug ? 'http://localhost:28029/' : 'https://aws-server.streamus.com/Streamus/';
         },

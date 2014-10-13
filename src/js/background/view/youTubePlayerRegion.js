@@ -24,7 +24,7 @@
                 //  TODO: It would be nice to have this not be a singleton.
                 model: YouTubePlayer
             });
-
+            
             this.show(youTubePlayerView);
         },
 
