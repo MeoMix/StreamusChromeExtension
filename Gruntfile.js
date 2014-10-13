@@ -127,6 +127,7 @@ module.exports = function (grunt) {
 
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
+	grunt.loadNpmTasks('grunt-contrib-copy');
 	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
 	grunt.loadNpmTasks('grunt-contrib-htmlmin');
@@ -168,7 +169,13 @@ module.exports = function (grunt) {
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
-			grunt.task.run('update-dist-manifest-version', 'compress-extension', 'update-src-manifest-version');
+			//  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
+			grunt.task.run('update-dist-manifest-version');
+
+			grunt.task.run('prep-chrome-distribution');
+			grunt.task.run('prep-opera-distribution');
+			
+			grunt.task.run('update-src-manifest-version');
 		}
 	});
 	
@@ -412,12 +419,12 @@ module.exports = function (grunt) {
 	});
 
 	//	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
-	grunt.registerTask('compress-extension', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
+	grunt.registerTask('prep-chrome-distribution', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
 		//  There's no need to cleanup any old version because this will overwrite if it exists.
 		grunt.config.set('compress', {
 			dist: {
 				options: {
-					archive: 'Streamus v' + grunt.option('version') + '.zip'
+					archive: 'Streamus v' + grunt.option('version') + '/chrome/' + 'Streamus v' + grunt.option('version') + '.zip'
 				},
 				files: [{
 					src: ['**'],
@@ -429,5 +436,49 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('compress');
+	});
+
+	grunt.registerTask('prep-opera-distribution', '', function() {
+		//  Copy the distribution folder into opera directory.
+		var operaDirectory = 'Streamus v' + grunt.option('version') + '/opera';
+
+		grunt.config.set('copy', {
+			files: {
+				cwd: 'dist/',
+				src: '**/*',
+				dest: operaDirectory,
+				expand: true
+			}
+		});
+
+		grunt.task.run('copy');
+
+		//  Remove background and notifications from manifest as they aren't available in opera yet.
+		grunt.config.set('replace', {
+			removeDebuggingKeys: {
+				src: [operaDirectory + '/manifest.json'],
+				overwrite: true,
+				replacements: [{
+					from: '"background",',
+					to: ''
+				}, {
+					from: '"notifications",',
+					to: ''
+				}]
+			}
+		});
+
+		grunt.task.run('replace');
+	   
+	    //  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
+	    //	Can't delete a full directory -- clean them up.
+		grunt.config.set('clean', [operaDirectory + '/de', operaDirectory + '/es', operaDirectory + '/pt_BR', operaDirectory + '/sl', operaDirectory + '/tr']);
+		grunt.task.run('clean');
+
+		grunt.file.delete(operaDirectory + '/de');
+		grunt.file.delete(operaDirectory + '/es');
+		grunt.file.delete(operaDirectory + '/pt_BR');
+		grunt.file.delete(operaDirectory + '/sl');
+		grunt.file.delete(operaDirectory + '/tr');
 	});
 };
