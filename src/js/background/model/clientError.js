@@ -32,7 +32,9 @@ define([
             this._dropUrlPrefix();
             this._setStack();
             
-            //  TODO: Probably would be better to use req/res or something...
+
+            //  TODO: Instead of caring about the logged in user here I should generate a unique ID for the Streamus instance and reference that.
+            //  More reliable since errors can be thrown before the user is signed in.
             var signedInUser = SignInManager.get('signedInUser');
             this.set('userId', signedInUser ? signedInUser.get('id') : '');
         },

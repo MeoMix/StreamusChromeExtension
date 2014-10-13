@@ -141,6 +141,7 @@
         getRelatedSongInformationList: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
+                    //  It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
                     if (!response) {
                         throw new Error("No response for: " + JSON.stringify(options));
                     }

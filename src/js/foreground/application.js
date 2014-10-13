@@ -76,8 +76,9 @@
         }
     });
 
-    var streamus = new Application();
-    window.Streamus = streamus;
-
-    streamus.start();
+    $(function() {
+        var streamus = new Application();
+        window.Streamus = streamus;
+        streamus.start();
+    });
 });

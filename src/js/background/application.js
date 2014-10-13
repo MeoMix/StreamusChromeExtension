@@ -2,7 +2,7 @@
     'use strict';
     
     var Application = Backbone.Marionette.Application.extend({
-        localDebug: false,
+        localDebug: true,
         serverUrl: '',
 
         initialize: function() {
@@ -25,8 +25,9 @@
         }
     });
 
-    var streamus = new Application();
-    window.Streamus = streamus;
-
-    streamus.start();
+    $(function() {
+        var streamus = new Application();
+        window.Streamus = streamus;
+        streamus.start();
+    });
 });

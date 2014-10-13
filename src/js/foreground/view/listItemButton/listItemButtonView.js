@@ -20,16 +20,21 @@
                 behaviorClass: Tooltip
             }
         },
-        
-        //  Debounced to defend against accidental/spam clicking.
-        _onClick: _.debounce(function () {
+
+        _onClick: function () {
             if (!this.$el.hasClass('disabled')) {
                 this.doOnClickAction();
             }
 
             //  Don't allow click to bubble up to the list item and cause a selection.
             return false;
-        }, 100, true),
+        },
+        
+        //  Debounced to defend against accidental/spam clicking. Don't debounce _onClick directly because
+        //  the debounce timer will be shared between all ListItemButtonViews and not each individual view.
+        _doOnClickAction: _.debounce(function () {
+            this.doOnClickAction();
+        }, 1000, true),
 
         _getSize: function () {
             var listItemType = this.model.get('listItemType');

@@ -106,10 +106,15 @@
                 activeItem.trigger('change:active', activeItem, true);
                 nextItem = activeItem;
             } else if (shuffleEnabled) {
-                //  TODO: How can this return null?
-                var shuffledItems = _.shuffle(this.where({ playedRecently: false }));
-                shuffledItems[0].save({ active: true });
-                nextItem = shuffledItems[0];
+                var eligibleItems = this.where({ playedRecently: false });
+                
+                //  TODO: It doesn't make sense that the Stream cycles indefinitely through shuffled songs without RepeatStream enabled.
+                //  All songs will be played recently if there's only one item because it just finished playing.
+                if (eligibleItems.length > 0) {
+                    var shuffledItems = _.shuffle(eligibleItems);
+                    shuffledItems[0].save({ active: true });
+                    nextItem = shuffledItems[0];
+                }
             } else {
                 var nextItemIndex;
 
@@ -276,7 +281,9 @@
         },
         
         _onChangePlayerState: function (model, state) {
+            console.log('player state:', state);
             if (state === PlayerState.Ended) {
+                console.log('activating next because player state is ended');
                 this.activateNext();
             }
             else if (state === PlayerState.Playing) {
