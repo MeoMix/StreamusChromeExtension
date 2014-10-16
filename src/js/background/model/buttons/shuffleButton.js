@@ -27,7 +27,7 @@
             if (command === 'toggleShuffle') {
                 this.toggleEnabled();
                 
-                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                     //  TODO: i18n
                     message: this.get('enabled') ? 'Shuffling on' : 'Shuffling off'
                 });
@@ -35,7 +35,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.ShuffleButton = new ShuffleButton();
-    return window.ShuffleButton;
+    return ShuffleButton;
 });

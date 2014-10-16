@@ -32,7 +32,7 @@
             //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
             this.view.addChild = this._addChild.bind(this);
             
-            this.listenTo(Backbone.Wreqr.radio.channel('window').vent, 'resize', this._onWindowResize);
+            this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
         },
         
         onShow: function () {

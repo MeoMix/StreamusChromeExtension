@@ -3,9 +3,7 @@
 //  Permissions: "notifications" 
 //  Note: This API is currently available on ChromeOS, Windows, and Mac.
 //  URL: https://developer.chrome.com/extensions/notifications
-define([
-    'background/model/utility'
-], function (Utility) {
+define(function () {
     'use strict';
 
     var ChromeNotificationsManager = Backbone.Model.extend({
@@ -18,18 +16,19 @@ define([
                 message: '',
                 //  iconUrl is required -- if none given, default to Streamus' icon.
                 iconUrl: 'img/streamus_icon128.png'
-            }
+            },
+            tabManager: null
         },
         
         initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._onShowNotificationCommand);
+            this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._onShowNotificationCommand);
             //  Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
-            this.listenTo(Backbone.Wreqr.radio.channel('backgroundNotification').commands, 'show:notification', this._onShowNotificationCommand);
+            this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._onShowNotificationCommand);
         },
         
         _onShowNotificationCommand: function (notificationOptions) {
             //  Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
-            Utility.isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
+            this._isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
         },
                 
         _onIsForegroundActiveResponse: function (notificationOptions, foregroundActive) {
@@ -39,8 +38,13 @@ define([
                     message: notificationOptions.message
                 };
                 
+                //  TODO: Make this more robust.
                 if (!_.isUndefined(notificationOptions.title)) {
                     chromeNotificationOptions.title = notificationOptions.title;
+                }
+                
+                if (!_.isUndefined(notificationOptions.iconUrl)) {
+                    chromeNotificationOptions.iconUrl = notificationOptions.iconUrl;
                 }
 
                 //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
@@ -99,6 +103,19 @@ define([
         _setCloseNotificationTimeout: function() {
             var closeNotificationTimeout = setTimeout(this._onCloseNotificationTimeout.bind(this), 3000);
             this.set('closeNotificationTimeout', closeNotificationTimeout);
+        },
+        
+        //  TODO: This might be moved into a utility class in the future, but for now I am keeping it here.
+        _isForegroundActive: function (callback) {
+            var foreground = chrome.extension.getViews({ type: "popup" });
+
+            if (foreground.length === 0) {
+                this.get('tabManager').isStreamusTabActive(function (streamusTabActive) {
+                    callback(streamusTabActive);
+                });
+            } else {
+                callback(true);
+            }
         }
     });
 

@@ -1,8 +1,8 @@
 ﻿define([
-    'common/model/utility',
     'common/enum/notificationType',
+    'common/utility',
     'text!template/prompt/exportPlaylist.html'
-], function (Utility, NotificationType, ExportPlaylistTemplate) {
+], function (NotificationType, Utility, ExportPlaylistTemplate) {
     'use strict';
 
     var ExportPlaylistView = Backbone.Marionette.ItemView.extend({
@@ -46,7 +46,7 @@
             downloadableElement.setAttribute('download', this._getFileName());
             downloadableElement.click();
             
-            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+            Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Success,
                 //  TODO: i18n
                 message: 'Playlist exported successfully.'

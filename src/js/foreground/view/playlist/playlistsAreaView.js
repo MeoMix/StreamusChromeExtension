@@ -9,8 +9,6 @@
 ], function (ListItemType, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlistsArea',
         className: 'u-overlay',
@@ -53,10 +51,14 @@
                 behaviorClass: Tooltip
             }
         },
+        
+        signInManager: null,
 
         initialize: function () {
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+
             //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
-            this.listenTo(SignInManager, 'change:signedIn', this._toggleBottomContentBar);
+            this.listenTo(this.signInManager, 'change:signedIn', this._toggleBottomContentBar);
         },
 
         onRender: function () {
@@ -124,11 +126,11 @@
         },
         
         _showCreatePlaylistPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', CreatePlaylistPromptView);
+            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView);
         },
         
         _toggleBottomContentBar: function () {
-            this.ui.bottomContentBar.toggleClass('hidden', !SignInManager.get('signedIn'));
+            this.ui.bottomContentBar.toggleClass('hidden', !this.signInManager.get('signedIn'));
         },
         
         //  Whenever a child is double-clicked it will become active and the menu should hide itself.

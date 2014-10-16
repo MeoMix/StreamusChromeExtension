@@ -1,10 +1,9 @@
 ﻿define([
     'background/collection/searchResults',
-    'common/enum/dataSourceType',
-    'common/model/youTubeV3API',
-    'common/model/utility',
-    'common/model/dataSource'
-], function (SearchResults, DataSourceType, YouTubeV3API, Utility, DataSource) {
+    'background/model/dataSource',
+    'background/model/youTubeV3API',
+    'common/enum/dataSourceType'
+], function (SearchResults, DataSource, YouTubeV3API, DataSourceType) {
     'use strict';
 
     var Search = Backbone.Model.extend({
@@ -42,7 +41,11 @@
         
         //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
         _hasSearchableQuery: function () {
-            return this.get('query').trim() !== '';
+            return this._getTrimmedQuery() !== '';
+        },
+        
+        _getTrimmedQuery: function () {
+            return this.get('query').trim();
         },
         
         //  Perform a search on the given query or just terminate immediately if nothing to do.
@@ -61,7 +64,7 @@
             this.set('searching', true);
             this.set('debounceSearchQueued', true);
             //  Debounce a search request so that when the user stops typing the last request will run.
-            this._doDebounceSearch(this.get('query'));
+            this._doDebounceSearch(this._getTrimmedQuery());
         },
         
         _onSearchComplete: function () {
@@ -93,7 +96,7 @@
                             songId: dataSource.get('id'),
                             success: function (songInformation) {
                                 //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
-                                if (query === this.get('query')) {
+                                if (query === this._getTrimmedQuery()) {
                                     this.get('results').setFromSongInformationList(songInformation);
                                 }
                             }.bind(this),
@@ -106,7 +109,7 @@
                             text: query,
                             success: function (searchResponse) {
                                 //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
-                                if (query === this.get('query')) {
+                                if (query === this._getTrimmedQuery()) {
                                     this.get('results').setFromSongInformationList(searchResponse.songInformationList);
                                 }
                             }.bind(this),
@@ -136,7 +139,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.Search = new Search();
-    return window.Search;
+    return Search;
 });

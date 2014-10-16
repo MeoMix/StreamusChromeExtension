@@ -4,21 +4,25 @@
     'use strict';
 
     var PlaylistAction = Backbone.Model.extend({
-        deletePlaylist: function (playlist) {
+        defaults: {
+            playlist: null
+        },
+
+        deletePlaylist: function () {
             //  No need to notify if the playlist is empty.
-            if (playlist.get('items').length === 0) {
-                playlist.destroy();
+            if (this.get('playlist').get('items').length === 0) {
+                this.get('playlist').destroy();
             } else {
-                this._showDeletePlaylistPrompt(playlist);
+                this._showDeletePlaylistPrompt();
             }
         },
         
-        _showDeletePlaylistPrompt: function(playlist) {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', DeletePlaylistPromptView, {
-                playlist: playlist
+        _showDeletePlaylistPrompt: function() {
+            Streamus.channels.prompt.commands.trigger('show:prompt', DeletePlaylistPromptView, {
+                playlist: this.get('playlist')
             });
         }
     });
 
-    return new PlaylistAction();
+    return PlaylistAction;
 });

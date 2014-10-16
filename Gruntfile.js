@@ -99,15 +99,12 @@ module.exports = function (grunt) {
 						include: ['background/plugins']
 					}, {
 						name: 'background/application',
-						//  TODO: Having to include these SUCKS and is a liability.
-						include: ['background/model/background', 'background/view/backgroundView'],
 						exclude: ['background/main']
 					}, {
 						name: 'foreground/main',
 						include: ['foreground/plugins']
 					}, {
 						name: 'foreground/application',
-						include: ['foreground/view/foregroundAreaView'],
 						exclude: ['foreground/main']
 					}],
 					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.
@@ -344,9 +341,8 @@ module.exports = function (grunt) {
 		//  Don't remove this when testing debug deploy because server will throw CORS error
 		if (!isDebugDeploy) {
 			replacements.push({
-				//	Remove permissions that're only needed for debugging.
-				//  TODO: Make port dynamic.
-				from: '"http://localhost:28029/Streamus/",',
+			    //	Remove permissions that're only needed for debugging.
+			    from: /".*localhost:.*,/g,
 				to: ''
 			});
 		}
@@ -469,16 +465,35 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('replace');
-	   
-	    //  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
-	    //	Can't delete a full directory -- clean them up.
-		grunt.config.set('clean', [operaDirectory + '/de', operaDirectory + '/es', operaDirectory + '/pt_BR', operaDirectory + '/sl', operaDirectory + '/tr']);
+
+		var operaLocalesDirectory = operaDirectory + '/_locales/';
+
+		//  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
+		//	Can't delete a full directory -- clean them up.
+		grunt.config.set('clean', [operaLocalesDirectory + 'de', operaLocalesDirectory + 'es', operaLocalesDirectory + 'pt_BR', operaLocalesDirectory + 'sl', operaLocalesDirectory + 'tr']);
 		grunt.task.run('clean');
 
-		grunt.file.delete(operaDirectory + '/de');
-		grunt.file.delete(operaDirectory + '/es');
-		grunt.file.delete(operaDirectory + '/pt_BR');
-		grunt.file.delete(operaDirectory + '/sl');
-		grunt.file.delete(operaDirectory + '/tr');
+		grunt.file.delete(operaLocalesDirectory + 'de');
+		grunt.file.delete(operaLocalesDirectory + 'es');
+		grunt.file.delete(operaLocalesDirectory + 'pt_BR');
+		grunt.file.delete(operaLocalesDirectory + 'sl');
+		grunt.file.delete(operaLocalesDirectory + 'tr');
+		
+		//  There's no need to cleanup any old version because this will overwrite if it exists.
+		grunt.config.set('compress', {
+			dist: {
+				options: {
+					archive: 'Streamus v' + grunt.option('version') + '/opera/' + 'Streamus v' + grunt.option('version') + '.zip'
+				},
+				files: [{
+					src: ['**'],
+					dest: '',
+					cwd: operaDirectory,
+					expand: true
+				}]
+			}
+		});
+
+		grunt.task.run('compress');
 	});
 };

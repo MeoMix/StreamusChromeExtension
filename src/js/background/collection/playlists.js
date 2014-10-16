@@ -3,10 +3,9 @@
     'background/mixin/collectionSequence',
     'background/model/playlist',
     'background/model/song',
-    'background/model/tabManager',
-    'common/enum/listItemType',
-    'common/model/youTubeV3API'
-], function (SyncActionType, CollectionSequence, Playlist, Song, TabManager, ListItemType, YouTubeV3API) {
+    'background/model/youTubeV3API',
+    'common/enum/listItemType'
+], function (SyncActionType, CollectionSequence, Playlist, Song, YouTubeV3API, ListItemType) {
     'use strict';
 
     //  TODO: Stop having this be a singleton so it is easier to test.
@@ -160,7 +159,7 @@
                             var song = new Song(songInformation);
                             this.get(request.playlistId).get('items').addSongs(song);
 
-                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('songAdded'),
                                 message: song.get('title')
                             });
@@ -168,7 +167,7 @@
                             sendResponse({ result: 'success' });
                         }.bind(this),
                         error: function () {
-                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('errorEncountered')
                             });
 
@@ -188,6 +187,7 @@
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
+                //  TODO: Why doesn't each playlist keep track of this instead...?
                 localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
@@ -205,10 +205,9 @@
             }
         },
         
-        _onCreateSuccess: function(addedPlaylist, options) {
-            //  TODO: This should probably use the same event system as SyncActions.
+        _onCreateSuccess: function (addedPlaylist, options) {
             //  Notify all open YouTube tabs that a playlist has been added.
-            TabManager.messageYouTubeTabs({
+            Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Added,
                 type: ListItemType.Playlist,
                 data: {
@@ -239,8 +238,8 @@
                 this._setCanDelete(false);
             }
             
-            //  TODO: This should probably use the same event system as SyncActions.
-            TabManager.messageYouTubeTabs({
+            //  Notify all open YouTube tabs that a playlist has been added.
+            Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Removed,
                 type: ListItemType.Playlist,
                 data: {
@@ -260,7 +259,7 @@
         
         _emitSyncAddEvent: function (playlist) {
             //  TODO: Standardize the pattern for emitting triggers via sync.
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
                 syncActionType: SyncActionType.Added,
                 modelId: playlist.get('id'),
@@ -270,7 +269,7 @@
         
         _emitSyncRemoveEvent: function (playlist) {
             //  TODO: Standardize the pattern for emitting triggers via sync.
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
                 syncActionType: SyncActionType.Removed,
                 modelId: playlist.get('id')
@@ -279,11 +278,10 @@
 
         //  TODO: Make a custom radio emitter which can give this channel out.
         _getSyncEventChannel: function () {
+            //  TODO: Uhhhh this seems bad.
             return Backbone.Wreqr.radio.channel('sync-' + ListItemType.Playlist).vent;
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.Playlists = new Playlists();
-    return window.Playlists;
+    return Playlists;
 });

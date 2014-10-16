@@ -6,18 +6,22 @@
 
     var LinkUserIdPromptView = PromptView.extend({
         contentText: chrome.i18n.getMessage('linkAccountMessage'),
+        
+        signInManager: null,
 
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
                 reminderProperty: 'remindLinkUserId'
             });
+
+            this.signInManager = Streamus.backgroundPage.SignInManager;
             
             PromptView.prototype.initialize.apply(this, arguments);
         },
 
         onSubmit: function () {
-            Streamus.backgroundPage.SignInManager.saveGooglePlusId();
+            this.signInManager.saveGooglePlusId();
         }
     });
 

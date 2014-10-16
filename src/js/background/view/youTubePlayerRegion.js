@@ -1,28 +1,34 @@
 ﻿define([
-	'background/model/youTubePlayer',
 	'background/view/youTubePlayerView'
-], function (YouTubePlayer, YouTubePlayerView) {
+], function (YouTubePlayerView) {
     'use strict';
 
     var YouTubePlayerRegion = Backbone.Marionette.Region.extend({
-        el: '#youTubePlayerRegion',
+        el: '#backgroundArea-youTubePlayerRegion',
 
-        initialize: function () {
-            this.listenTo(YouTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
-            this.listenTo(YouTubePlayer, 'change:loadAttempt', this._onYouTubePlayerChangeLoadAttempt);
+        youTubePlayer: null,
 
+        initialize: function (options) {
+            this.youTubePlayer = options.youTubePlayer;
+            console.log('youTubePlayer:', this.youTubePlayer);
+
+            this.listenTo(Streamus.channels.backgroundArea.vent, 'shown', this._onBackgroundAreaShown);
+            this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
+            this.listenTo(this.youTubePlayer, 'change:loadAttempt', this._onYouTubePlayerChangeLoadAttempt);
+        },
+        
+        _onBackgroundAreaShown: function () {
             //  TODO: This feels weird. I need to be more consistent with how I tell the player to load.
-            if (YouTubePlayer.get('loading')) {
+            if (this.youTubePlayer.get('loading')) {
                 this._showYouTubePlayerView();
             } else {
-                YouTubePlayer.preload();
+                this.youTubePlayer.preload();
             }
         },
 
         _showYouTubePlayerView: function () {
             var youTubePlayerView = new YouTubePlayerView({
-                //  TODO: It would be nice to have this not be a singleton.
-                model: YouTubePlayer
+                model: this.youTubePlayer
             });
             
             this.show(youTubePlayerView);

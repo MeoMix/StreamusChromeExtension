@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'foreground/view/foregroundAreaView'
+], function (ForegroundAreaView) {
     'use strict';
 
     var Application = Backbone.Marionette.Application.extend({
@@ -8,9 +10,21 @@
             foregroundAreaRegion: '#foregroundAreaRegion'
         },
         
+        channels: {
+            global: Backbone.Wreqr.radio.channel('global'),
+            prompt: Backbone.Wreqr.radio.channel('prompt'),
+            notification: Backbone.Wreqr.radio.channel('notification'),
+            foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
+            window: Backbone.Wreqr.radio.channel('window'),
+            contextMenu: Backbone.Wreqr.radio.channel('contextMenu')
+        },
+        
+        backgroundChannels: null,
+        
         initialize: function() {
             this._configureQtip();
             this._setBackgroundPage();
+            this._setBackgroundChannels();
             this.on('start', this._onStart);
         },
 
@@ -22,6 +36,14 @@
         
         _setBackgroundPage: function () {
             this.backgroundPage = chrome.extension.getBackgroundPage();
+        },
+        
+        _setBackgroundChannels: function () {
+            this.backgroundChannels = {
+                error: this.backgroundPage.Backbone.Wreqr.radio.channel('error'),
+                notification: this.backgroundPage.Backbone.Wreqr.radio.channel('notification'),
+                foreground: this.backgroundPage.Backbone.Wreqr.radio.channel('foreground')
+            };
         },
         
         _setQtipPositioning: function () {
@@ -42,7 +64,7 @@
         },
         
         _onStart: function () {
-            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('foreground').vent.trigger('started');
+            Streamus.backgroundChannels.foreground.vent.trigger('started');
 
             //  Don't even bother loading the foreground if Streamus should open in a tab instead.
             if (this.backgroundPage.Settings.get('alwaysOpenInTab')) {
@@ -70,9 +92,7 @@
         },
         
         _showForegroundArea: function () {
-            require(['foreground/view/foregroundAreaView'], function (ForegroundAreaView) {
-                this.foregroundAreaRegion.show(new ForegroundAreaView());
-            }.bind(this));
+            this.foregroundAreaRegion.show(new ForegroundAreaView());
         }
     });
 

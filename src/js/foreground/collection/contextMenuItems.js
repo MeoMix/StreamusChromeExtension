@@ -7,5 +7,5 @@
         model: ContextMenuItem
     });
 
-    return new ContextMenuItems();
+    return ContextMenuItems;
 });

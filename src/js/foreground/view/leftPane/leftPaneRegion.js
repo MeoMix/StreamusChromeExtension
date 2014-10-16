@@ -7,7 +7,7 @@
         el: '#foregroundArea-leftPaneRegion',
         
         initialize: function() {
-            this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
         
         _onForegroundAreaShown: function() {

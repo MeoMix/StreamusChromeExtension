@@ -1,9 +1,6 @@
 ﻿define([
-    'background/collection/playlists',
-    'background/model/settings',
-    'background/model/tabManager',
     'background/model/user'
-], function (Playlists, Settings, TabManager, User) {
+], function (User) {
     'use strict';
 
     //  Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
@@ -22,13 +19,15 @@
             signedInUser: null,
 
             needPromptLinkUserId: false,
-            needPromptGoogleSignIn: false
+            needPromptGoogleSignIn: false,
+            
+            playlists: null
         },
 
         initialize: function () {
             this.on('change:signedIn', this._onSignedInChanged);
             this.on('change:signInFailed', this._onSignInFailedChanged);
-            this.listenTo(Backbone.Wreqr.radio.channel('foreground').vent, 'started', this._onForegroundStarted);
+            this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
 
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeSignInChanged.bind(this));
@@ -73,6 +72,7 @@
             this.set('signingIn', true);
 
             var signingInUser = new User({
+                globalPlaylists: this.get('playlists'),
                 googlePlusId: googlePlusId || ''
             });
 
@@ -134,12 +134,8 @@
         },
 
         _onSignedInChanged: function (model, signedIn) {
-            this._notifyYouTubeTabsSignedIn(signedIn);
-        },
-
-        //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
-        _notifyYouTubeTabsSignedIn: function (signedIn) {
-            TabManager.messageYouTubeTabs({
+            //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
+            Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: signedIn ? 'signed-in' : 'signed-out'
             });
         },
@@ -235,6 +231,7 @@
                     break;
                 case 'addPlaylistByShareData':
                     if (this._canSignIn()) {
+                        //  TODO: What if sign in fails?
                         this.once('change:signedIn', function () {
                             this._handleAddSharedPlaylistRequest(request, sendResponse);
                         });
@@ -254,7 +251,7 @@
 
         _handleAddSharedPlaylistRequest: function (request, sendResponse) {
             //  TODO: Probably go through signedInUser here
-            Playlists.addPlaylistByShareData({
+            this.get('playlists').addPlaylistByShareData({
                 shortId: request.shareCodeShortId,
                 urlFriendlyEntityTitle: request.urlFriendlyEntityTitle,
                 success: function (playlist) {
@@ -300,7 +297,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.SignInManager = new SignInManager();
-    return window.SignInManager;
+    return SignInManager;
 });

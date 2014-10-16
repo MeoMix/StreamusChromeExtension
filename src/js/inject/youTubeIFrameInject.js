@@ -1,4 +1,9 @@
-﻿$(function () {
+﻿var errorsEncountered = '';
+window.onerror = function (error) {
+    errorsEncountered += error + ' ';
+};
+
+$(function () {
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'youtube-player') {
         var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
@@ -48,10 +53,8 @@
         if (videoStream.length === 0) {
             var findVideoStreamInterval = setInterval(function () {
                 if (triesRemaining <= 0) {
-                    var swfFound = $('#movie_player').length > 0;
-
                     youTubeIFrameConnectRequestPort.postMessage({
-                        error: 'video-stream not found; swfFound? ' + swfFound
+                        error: 'video-stream not found, readystate:' + document.readyState + ' ' + errorsEncountered + JSON.stringify(navigator.plugins) + document.body.innerHTML
                     });
                     clearInterval(findVideoStreamInterval);
                 } else {

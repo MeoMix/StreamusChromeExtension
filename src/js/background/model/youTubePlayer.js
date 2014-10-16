@@ -12,23 +12,25 @@
     var _initialLoadAttempt = 1;
 
     var YouTubePlayer = Backbone.Model.extend({
-        defaults: {
-            ready: false,
-            loading: false,
-            api: new YouTubePlayerAPI(),
-            iframeId: '',
-            //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
-            youTubeEmbedUrl: '*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd',
-            //  Wait 6 seconds before each load attempt so that total time elapsed is one minute
-            maxLoadAttempts: 10,
-            loadAttemptDelay: 6000,
-            loadAttempt: _initialLoadAttempt,
-            loadAttemptInterval: null
+        defaults: function() {
+            return {
+                ready: false,
+                loading: false,
+                api: new YouTubePlayerAPI(),
+                iframeId: '',
+                //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
+                youTubeEmbedUrl: '*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + Streamus.extensionId,
+                //  Wait 6 seconds before each load attempt so that total time elapsed is one minute
+                maxLoadAttempts: 10,
+                loadAttemptDelay: 6000,
+                loadAttempt: _initialLoadAttempt,
+                loadAttemptInterval: null
+            };
         },
         
         initialize: function () {
             this.listenTo(this.get('api'), 'change:ready', this._onApiChangeReady);
-            this.listenTo(Backbone.Wreqr.radio.channel('foreground').vent, 'started', this._onForegroundStarted);
+            this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
             this.on('change:loading', this._onChangeLoading);
         },
         
@@ -170,5 +172,5 @@
         }
     });
 
-    return new YouTubePlayer();
+    return YouTubePlayer;
 });

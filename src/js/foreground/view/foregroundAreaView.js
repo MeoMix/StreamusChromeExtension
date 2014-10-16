@@ -10,10 +10,6 @@
 ], function (ContextMenuRegion, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, RightPaneRegion, SearchAreaRegion, ForegroundAreaTemplate) {
     'use strict';
 
-    //  Load variables from Background -- don't require because then you'll load a whole instance of the background when you really just want a reference to specific parts.
-    var Player = Streamus.backgroundPage.Player;
-    var Settings = Streamus.backgroundPage.Settings;
-
     var ForegroundAreaView = Backbone.Marionette.LayoutView.extend({
         id: 'foregroundArea',
         className: 'column',
@@ -24,8 +20,8 @@
                 loadingYouTubeMessage: chrome.i18n.getMessage('loadingYouTube'),
                 loadingYouTubeFailedMessage: chrome.i18n.getMessage('loadingYouTubeFailed'),
                 reloadMessage: chrome.i18n.getMessage('reload'),
-                loadAttempt: Player.get('loadAttempt'),
-                maxLoadAttempts: Player.get('maxLoadAttempts')
+                loadAttempt: this.player.get('loadAttempt'),
+                maxLoadAttempts: this.player.get('maxLoadAttempts')
             };
         },
 
@@ -52,23 +48,29 @@
             playlistsAreaRegion: PlaylistsAreaRegion,
             rightPaneRegion: RightPaneRegion
         },
+        
+        player: null,
+        settings: null,
 
         initialize: function () {
-            this.listenTo(Settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
-            this.listenTo(Player, 'change:loading', this._onPlayerChangeLoading);
-            this.listenTo(Player, 'change:loadAttempt', this._onPlayerChangeLoadAttempt);
+            this.player = Streamus.backgroundPage.Player;
+            this.settings = Streamus.backgroundPage.Settings;
+
+            this.listenTo(this.settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
+            this.listenTo(this.player, 'change:loading', this._onPlayerChangeLoading);
+            this.listenTo(this.player, 'change:loadAttempt', this._onPlayerChangeLoadAttempt);
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);
         },
         
         onRender: function() {
-            this._setHideTooltipsClass(Settings.get('showTooltips'));
+            this._setHideTooltipsClass(this.settings.get('showTooltips'));
             this._checkPlayerLoading();
         },
         
         onShow: function () {
-            Backbone.Wreqr.radio.channel('foregroundArea').vent.trigger('shown');
+            Streamus.channels.foregroundArea.vent.trigger('shown');
         },
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
@@ -86,7 +88,7 @@
         _stopLoading: function () {
             this.ui.loadingMessage.addClass('hidden');
 
-            if (Player.get('ready')) {
+            if (this.player.get('ready')) {
                 this.$el.removeClass('is-showingSpinner');
                 this.ui.loadingFailedMessage.addClass('hidden');
             } else {
@@ -102,11 +104,11 @@
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
         //  and so that menus can close if they weren't clicked.
         _announceClickedElement: function (event) {
-            Backbone.Wreqr.radio.channel('global').vent.trigger('clickedElement', $(event.target));
+            Streamus.channels.global.vent.trigger('clickedElement', $(event.target));
         },
         
         _onWindowResize: function() {
-            Backbone.Wreqr.radio.channel('window').vent.trigger('resize', {
+            Streamus.channels.window.vent.trigger('resize', {
                 height: this.$el.height(),
                 width: this.$el.width()
             });
@@ -114,12 +116,11 @@
         
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
-            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('foreground').vent.trigger('unload');
             this.destroy();
         },
         
         _onWindowError: function (message, url, lineNumber, columnNumber, error) {
-            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', message, url, lineNumber, error);
+            Streamus.backgroundChannels.error.vent.trigger('onWindowError', message, url, lineNumber, columnNumber, error);
         },
         
         _onSettingsChangeShowTooltips: function(model, showTooltips) {
@@ -139,7 +140,7 @@
         },
         
         _checkPlayerLoading: function () {
-            if (Player.get('loading')) {
+            if (this.player.get('loading')) {
                 this._startLoading();
             }
         }

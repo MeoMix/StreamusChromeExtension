@@ -9,8 +9,6 @@
 ], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
     'use strict';
 
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-
     var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'activePlaylistArea',
         className: 'column u-flex--column',
@@ -79,6 +77,12 @@
                 }
             };
         },
+        
+        streamItems: null,
+        
+        initialize: function() {
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+        },
 
         onRender: function () {
             this._setViewState();
@@ -109,17 +113,17 @@
         },
 
         _addAllToStream: function () {
-            StreamItems.addSongs(this.model.get('items').pluck('song'));
+            this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
         _playAllInStream: function () {
-            StreamItems.addSongs(this.model.get('items').pluck('song'), {
+            this.streamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });
         },
 
         _showSearch: function () {
-            Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
+            Streamus.channels.global.vent.trigger('showSearch', true);
         }
     });
 

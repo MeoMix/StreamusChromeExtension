@@ -3,8 +3,6 @@
 ], function (SaveSongsTemplate) {
     'use strict';
 
-    var Playlists = Streamus.backgroundPage.Playlists;
-
     var SaveSongsView = Backbone.Marionette.ItemView.extend({
         template: _.template(SaveSongsTemplate),
 
@@ -16,12 +14,18 @@
             playlistSelect: '.js-submittable',
             selectizeTitle: '.selectize-input .title'
         },
+        
+        playlists: null,
+        
+        initialize: function () {
+            this.playlists = Streamus.backgroundPage.Playlists;
+        },
 
         onRender: function () {
             this.ui.playlistSelect.selectize(this._getSelectizeOptions());
 
             //  Default the control to the active playlist since this is the most common need.
-            this.ui.playlistSelect[0].selectize.setValue(Playlists.getActivePlaylist().get('id'));
+            this.ui.playlistSelect[0].selectize.setValue(this.playlists.getActivePlaylist().get('id'));
 
             //  Rebind UI elements after initializing selectize control in order to capture the appended DOM elements.
             this.bindUIElements();
@@ -32,15 +36,15 @@
 
             if (this.model.get('creating')) {
                 var playlistTitle = this.ui.selectizeTitle.text();
-                Playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
+                this.playlists.addPlaylistWithSongs(playlistTitle, this.model.get('songs'));
             } else {
-                var selectedPlaylist = Playlists.get(selectedPlaylistId);
+                var selectedPlaylist = this.playlists.get(selectedPlaylistId);
                 selectedPlaylist.get('items').addSongs(this.model.get('songs'));
             }
         },
         
         _getSelectizeOptions: function () {
-            var playlistOptions = Playlists.map(function (playlist) {
+            var playlistOptions = this.playlists.map(function (playlist) {
                 return {
                     id: playlist.get('id'),
                     title: playlist.get('title'),
@@ -79,7 +83,7 @@
         },
         
         _getSelectizeRenderOption: function (item, escape) {
-            var activePlaylistId = Playlists.getActivePlaylist().get('id');
+            var activePlaylistId = this.playlists.getActivePlaylist().get('id');
 
             var className = item.id === activePlaylistId ? 'selected' : '';
             var option = '<div class="' + className + '">';

@@ -5,8 +5,6 @@
 ], function (SettingsPromptView, BrowserSettingsPromptView, AdminMenuAreaTemplate) {
     'use strict';
     
-    var TabManager = Streamus.backgroundPage.TabManager;
-
     var AdminMenuAreaView = Backbone.Marionette.ItemView.extend({
         id: 'adminMenuArea',
         template: _.template(AdminMenuAreaTemplate),
@@ -44,9 +42,13 @@
         },
 
         menuShown: false,
+        //  TODO: Need a ViewModel to save state.
+        tabManager: null,
         
         initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
+            this.tabManager = Streamus.backgroundPage.TabManager;
+
+            this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
         },
         
         _onClickedElement: function (clickedElement) {
@@ -73,23 +75,23 @@
         },
         
         _showSettingsPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SettingsPromptView);
+            Streamus.channels.prompt.commands.trigger('show:prompt', SettingsPromptView);
         },
         
         _showBrowserSettingsPrompt: function () {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', BrowserSettingsPromptView);
+            Streamus.channels.prompt.commands.trigger('show:prompt', BrowserSettingsPromptView);
         },
         
         _openStreamusTab: function () {
-            TabManager.showStreamusTab();
+            this.tabManager.showStreamusTab();
         },
         
         _openDonateTab: function () {
-            TabManager.showTab('https://streamus.com/#donate');
+            this.tabManager.showDonateTab();
         },
         
         _openKeyboardShortcutsTab: function() {
-            TabManager.showTab('chrome://extensions/configureCommands');
+            this.tabManager.showKeyboardShortcutsTab();
         },
         
         _restart: function() {

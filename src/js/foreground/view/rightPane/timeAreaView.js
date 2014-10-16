@@ -1,14 +1,11 @@
 ﻿//  A progress bar which shows the elapsed time as compared to the total time of the current song.
 define([
     'common/enum/playerState',
-    'common/model/utility',
+    'common/utility',
     'foreground/view/behavior/tooltip',
     'text!template/rightPane/timeArea.html'
 ], function (PlayerState, Utility, Tooltip, TimeAreaTemplate) {
     'use strict';
-
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.Player;
 
     var TimeAreaView = Backbone.Marionette.ItemView.extend({
         id: 'timeArea',
@@ -40,21 +37,27 @@ define([
             }
         },
         
+        streamItems: null,
+        player: null,
+        
         initialize: function () {
-            this.listenTo(StreamItems, 'remove reset', this._clearOnEmpty);
-            this.listenTo(StreamItems, 'add', this._enable);
-            this.listenTo(StreamItems, 'change:active', this._onStreamItemsChangeActive);
-            this.listenTo(Player, 'change:currentTime', this._onPlayerChangeCurrentTime);
-            this.listenTo(Player, 'change:state', this._stopSeeking);
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.player = Streamus.backgroundPage.Player;
+
+            this.listenTo(this.streamItems, 'remove reset', this._clearOnEmpty);
+            this.listenTo(this.streamItems, 'add', this._enable);
+            this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
+            this.listenTo(this.player, 'change:currentTime', this._onPlayerChangeCurrentTime);
+            this.listenTo(this.player, 'change:state', this._stopSeeking);
         },
 
         onRender: function () {
-            this.ui.timeRange.toggleClass('disabled', StreamItems.length === 0);
+            this.ui.timeRange.toggleClass('disabled', this.streamItems.length === 0);
             
             //  If a song is currently playing when the GUI opens then initialize with those values.
             //  Set total time before current time because it affects the range's max.
             this._setTotalTime();
-            this._setCurrentTime(Player.get('currentTime'));
+            this._setCurrentTime(this.player.get('currentTime'));
             this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
         },
         
@@ -65,7 +68,7 @@ define([
 
             this._setCurrentTime(currentTime + delta);
 
-            Player.seekTo(currentTime + delta);
+            this.player.seekTo(currentTime + delta);
         },
 
         _startSeeking: function (event) {
@@ -77,7 +80,7 @@ define([
         
         _stopSeeking: function () {
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
-            var state = Player.get('state');
+            var state = this.player.get('state');
 
             if (state == PlayerState.Playing || state == PlayerState.Paused) {
                 this.model.set('autoUpdate', true);
@@ -90,7 +93,7 @@ define([
                 //  Bind to progressBar mouse-up to support dragging as well as clicking.
                 //  I don't want to send a message until drag ends, so mouseup works nicely. 
                 var currentTime = parseInt(this.ui.timeRange.val());
-                Player.seekTo(currentTime);
+                this.player.seekTo(currentTime);
             }
         },
         
@@ -114,7 +117,7 @@ define([
         },
         
         _clearOnEmpty: function () {
-            if (StreamItems.length === 0) {
+            if (this.streamItems.length === 0) {
                 this._setTotalTime();
                 this.ui.timeRange.addClass('disabled');
             }
@@ -164,8 +167,8 @@ define([
         _getCurrentSongDuration: function () {
             var duration = 0;
 
-            if (StreamItems.length > 0) {
-                var activeStreamItem = StreamItems.getActiveItem();
+            if (this.streamItems.length > 0) {
+                var activeStreamItem = this.streamItems.getActiveItem();
                 duration = activeStreamItem.get('song').get('duration');
             }
 

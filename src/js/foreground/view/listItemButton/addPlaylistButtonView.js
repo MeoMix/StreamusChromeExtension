@@ -6,8 +6,11 @@
 
     var AddPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(AddListItemButtonTemplate),
+        
+        streamItems: null,
 
         initialize: function () {
+            this.streamItems = Streamus.backgroundPage.StreamItems;
             this.listenTo(this.model.get('items'), 'add remove reset', this._setDisabledState);
         },
 
@@ -25,7 +28,7 @@
         
         doOnClickAction: function () {
             var songs = this.model.get('items').pluck('song');
-            Streamus.backgroundPage.StreamItems.addSongs(songs);
+            this.streamItems.addSongs(songs);
         }
     });
 

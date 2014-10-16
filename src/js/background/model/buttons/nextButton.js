@@ -1,22 +1,22 @@
 ﻿define([
-    'background/collection/streamItems',
-    'background/model/buttons/radioButton',
-    'background/model/buttons/shuffleButton',
-    'background/model/buttons/repeatButton',
     'common/enum/repeatButtonState'
-], function (StreamItems, RadioButton, ShuffleButton, RepeatButton, RepeatButtonState) {
+], function (RepeatButtonState) {
     'use strict';
     
     var NextButton = Backbone.Model.extend({
         defaults: {
-            enabled: false
+            enabled: false,
+            streamItems: null,
+            radioButton: null,
+            shuffleButton: null,
+            repeatButton: null,
         },
-        
+
         initialize: function () {
-            this.listenTo(StreamItems, 'add remove reset change:active', this._toggleEnabled);
-            this.listenTo(RadioButton, 'change:enabled', this._toggleEnabled);
-            this.listenTo(ShuffleButton, 'change:enabled', this._toggleEnabled);
-            this.listenTo(RepeatButton, 'change:state', this._toggleEnabled);
+            this.listenTo(this.get('streamItems'), 'add remove reset change:active', this._toggleEnabled);
+            this.listenTo(this.get('radioButton'), 'change:enabled', this._toggleEnabled);
+            this.listenTo(this.get('shuffleButton'), 'change:enabled', this._toggleEnabled);
+            this.listenTo(this.get('repeatButton'), 'change:state', this._toggleEnabled);
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             this._toggleEnabled();
@@ -27,7 +27,7 @@
             var activatedNextItem = false;
 
             if (this.get('enabled')) {
-                var nextItem = StreamItems.activateNext();
+                var nextItem = this.get('streamItems').activateNext();
                 activatedNextItem = nextItem !== null;
             }
 
@@ -39,7 +39,7 @@
                 var activatedStreamItem = this.tryActivateNextStreamItem();
 
                 if (!activatedStreamItem) {
-                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantSkipToNextSong')
                     });
@@ -51,13 +51,13 @@
             var enabled = false;
 
             //  TODO: Make this call a getNext() to keep parity with previousButton
-            if (StreamItems.length > 0) {
-                var radioEnabled = RadioButton.get('enabled');
-                var shuffleEnabled = ShuffleButton.get('enabled');
-                var repeatButtonState = RepeatButton.get('state');
+            if (this.get('streamItems').length > 0) {
+                var radioEnabled = this.get('radioButton').get('enabled');
+                var shuffleEnabled = this.get('shuffleButton').get('enabled');
+                var repeatButtonState = this.get('repeatButton').get('state');
 
                 //  You can skip with shuffle enabled if there are multiple items to shuffle between.
-                if (shuffleEnabled && StreamItems.length > 1) {
+                if (shuffleEnabled && this.get('streamItems').length > 1) {
                     enabled = true;
                 }
                     //  You can always continue if radio is enabled or if repeating is enabled
@@ -65,9 +65,9 @@
                     enabled = true;
                 } else {
                     //  Enable only if there are more items to skip to.
-                    var activeItemIndex = StreamItems.indexOf(StreamItems.getActiveItem());
+                    var activeItemIndex = this.get('streamItems').indexOf(this.get('streamItems').getActiveItem());
 
-                    if (activeItemIndex + 1 !== StreamItems.length) {
+                    if (activeItemIndex + 1 !== this.get('streamItems').length) {
                         enabled = true;
                     }
                 }
@@ -77,7 +77,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.NextButton = new NextButton();
-    return window.NextButton;
+    return NextButton;
 });

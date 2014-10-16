@@ -15,14 +15,14 @@
         });
 
         it('should log an error message properly', function () {
-            ClientErrorManager._logMessage('test message');
+            ClientErrorManager._logError(new Error('test message'));
 
             expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);
         });
 
         it('should log not log the same error message more than once', function () {
             for (var i = 0; i < 5; i++) {
-                ClientErrorManager._logMessage('test message');
+                ClientErrorManager._logError(new Error('test message'));
             }
 
             expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);

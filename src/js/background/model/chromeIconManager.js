@@ -1,20 +1,23 @@
 ﻿//  Handles setting and managing the Streamus icon state.
 define([
-    'background/model/player',
     'common/enum/playerState'
-], function (Player, PlayerState) {
+], function (PlayerState) {
     'use strict';
 
-    var IconManager = Backbone.Model.extend({
+    var ChromeIconManager = Backbone.Model.extend({
+        defaults: {
+            player: null
+        },
+
         initialize: function () {
             //  Initialize the visual state of the icon once the player is ready and able to provide information.
-            if (Player.get('ready')) {
+            if (this.get('player').get('ready')) {
                 this._setIcon();
             } else {
-                Player.once('change:ready', this._setIcon.bind(this));
+                this.get('player').once('change:ready', this._setIcon.bind(this));
             }
 
-            this.listenTo(Player, 'change:muted change:state change:volume', this._setIcon);
+            this.listenTo(this.get('player'), 'change:muted change:state change:volume', this._setIcon);
         },
         
         //  Set the Streamus icon color and bar count based on the volume level, mutedness and player state.
@@ -34,8 +37,8 @@ define([
         _getIconColor: function () {
             var iconColor = 'yellow';
 
-            var playerState = Player.get('state');
-            var isMuted = Player.get('muted');
+            var playerState = this.get('player').get('state');
+            var isMuted = this.get('player').get('muted');
 
             if (isMuted) {
                 iconColor = 'red';
@@ -48,11 +51,11 @@ define([
         },
         
         _getIconBarCount: function() {
-            var volume = Player.get('volume');
+            var volume = this.get('player').get('volume');
             var barCount = Math.ceil((volume / 25));
             return barCount;
         }
     });
     
-    return new IconManager();
+    return ChromeIconManager;
 });

@@ -1,7 +1,6 @@
 ﻿define([
     'common/enum/listItemType',
     'common/enum/notificationType',
-    'foreground/collection/contextMenuItems',
     'foreground/model/playlistAction',
     'foreground/view/listItemView',
     'foreground/view/listItemButton/addPlaylistButtonView',
@@ -11,11 +10,8 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, NotificationType, ContextMenuItems, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, NotificationType, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, DeletePlaylistPromptView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
-
-    var Playlists = Streamus.backgroundPage.Playlists;
-    var StreamItems = Streamus.backgroundPage.StreamItems;
 
     var PlaylistView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist listItem--indented listItem--small',
@@ -46,7 +42,13 @@
         
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
         
+        playlists: null,
+        streamItems: null,
+        
         initialize: function () {
+            this.playlists = Streamus.backgroundPage.Playlists;
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+
             this.listenTo(this.model.get('items'), 'add remove reset', this._onItemCountChanged);
         },
         
@@ -100,9 +102,9 @@
             var isEmpty = this.model.get('items').length === 0;
 
             //  Don't allow deleting of the last playlist.
-            var isDeleteDisabled = Playlists.length === 1;
+            var isDeleteDisabled = this.playlists.length === 1;
 
-            ContextMenuItems.reset([{
+            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                     text: chrome.i18n.getMessage('edit'),
                     onClick: this._showEditPlaylistPrompt.bind(this)
                 },{
@@ -141,7 +143,7 @@
         _onGetShareCodeSuccess: function (shareCode) {
             shareCode.copyUrl();
             
-            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+            Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Success,
                 //  TODO: i18n
                 message: 'URL copied to clipboard successfully.'
@@ -151,33 +153,38 @@
         _onGetShareCodeError: function () {
             var errorMessage = 'Failed to copy URL to clipboard.';
 
-            Backbone.Wreqr.radio.channel('notification').commands.trigger('show:notification', {
+            Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Error,
                 //  TODO: i18n
                 message: errorMessage
             });
 
-            Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', errorMessage + ' playlist: ' + JSON.stringify(this.model));
+            var error = new Error(errorMessage + ' playlist: ' + JSON.stringify(this.model));
+            Streamus.backgroundChannels.error.commands.trigger('log:error', error);
         },
         
         _showEditPlaylistPrompt: function() {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', EditPlaylistPromptView, {
+            Streamus.channels.prompt.commands.trigger('show:prompt', EditPlaylistPromptView, {
                 playlist: this.model
             });
         },
         
         _showDeletePlaylistPrompt: function () {
-            PlaylistAction.deletePlaylist(this.model);
+            var playlistAction = new PlaylistAction({
+                playlist: this.model
+            });
+            
+            playlistAction.deletePlaylist();
         },
         
         _showExportPlaylistPrompt: function() {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', ExportPlaylistPromptView, {
+            Streamus.channels.prompt.commands.trigger('show:prompt', ExportPlaylistPromptView, {
                 playlist: this.model
             });
         },
         
         _addSongsToStream: function () {
-            StreamItems.addSongs(this.model.get('items').pluck('song'));
+            this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
         _onClick: function () {

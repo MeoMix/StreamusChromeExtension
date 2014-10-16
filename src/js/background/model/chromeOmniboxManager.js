@@ -1,20 +1,20 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
-    'background/collection/streamItems',
     'background/enum/omniboxModifiers',
     'background/model/song',
-    'common/model/youTubeV3API',
-    'common/model/utility'
-], function (StreamItems, OmniboxModifiers, Song, YouTubeV3API, Utility) {
+    'background/model/youTubeV3API',
+    'common/utility'
+], function (OmniboxModifiers, Song, YouTubeV3API, Utility) {
     'use strict';
 
-    var Omnibox = Backbone.Model.extend({
+    var ChromeOmniboxManager = Backbone.Model.extend({
         defaults: function () {
             return {
                 suggestedSongs: [],
                 searchJqXhr: null,
                 modifiers: [],
-                validModifiers: [OmniboxModifiers.Add]
+                validModifiers: [OmniboxModifiers.Add],
+                streamItems: null
             };
         },
         
@@ -109,12 +109,12 @@ define([
             var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
             var playOnAdd = addOnlyModifierExists ? false : true;
             
-            StreamItems.addSongs(pickedSong, {
+            this.get('streamItems').addSongs(pickedSong, {
                 playOnAdd: playOnAdd 
             });
             
             if (!playOnAdd) {
-                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                     title: chrome.i18n.getMessage('songAdded'),
                     message: pickedSong.get('title')
                 });
@@ -143,5 +143,5 @@ define([
         }
     });
 
-    return new Omnibox();
+    return ChromeOmniboxManager;
 });

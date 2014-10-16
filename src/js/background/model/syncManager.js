@@ -15,7 +15,7 @@
         
         initialize: function () {
             //  I need to be able to detect all the different types of events happening in my program and queue up actions when they happen.
-            //this.listenTo(Backbone.Wreqr.radio.channel('sync').vent, 'sync', this._onSyncEvent);
+            //this.listenTo(Streamus.channels.sync.vent, 'sync', this._onSyncEvent);
             
             //  I need to group each type of action together before sending it through chrome.storage.sync.
             //chrome.storage.onChanged.addListener(this._onChromeStorageChanged.bind(this));
@@ -106,10 +106,11 @@
             }
         },
         
-        _getSyncEventChannel: function(listItemType) {
+        _getSyncEventChannel: function (listItemType) {
+            //  TODO: Uhh this seems bad.
             return Backbone.Wreqr.radio.channel('sync-' + listItemType).vent;
         }
     });
 
-    return new SyncManager();
+    return SyncManager;
 });

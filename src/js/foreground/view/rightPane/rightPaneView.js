@@ -10,11 +10,6 @@ define([
 ], function (PlayerState, TimeArea, AdminMenuAreaView, StreamView, TimeAreaView, VolumeAreaView, RightPaneTemplate) {
     'use strict';
 
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var NextButton = Streamus.backgroundPage.NextButton;
-    var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
-    var PreviousButton = Streamus.backgroundPage.PreviousButton;
-
     var RightPaneView = Backbone.Marionette.LayoutView.extend({
         id: 'rightPane',
         className: 'rightPane column u-flex--column',
@@ -48,11 +43,19 @@ define([
         modelEvents: {
             'change:state': '_setPlayPauseButtonState'
         },
+        
+        nextButton: null,
+        playPauseButton: null,
+        previousButton: null,
 
         initialize: function () {
-            this.listenTo(NextButton, 'change:enabled', this._setNextButtonDisabled);
-            this.listenTo(PreviousButton, 'change:enabled', this._setPreviousButtonDisabled);
-            this.listenTo(PlayPauseButton, 'change:enabled', this._setPlayPauseButtonState);
+            this.nextButton = Streamus.backgroundPage.NextButton;
+            this.playPauseButton = Streamus.backgroundPage.PlayPauseButton;
+            this.previousButton = Streamus.backgroundPage.PreviousButton;
+
+            this.listenTo(this.nextButton, 'change:enabled', this._setNextButtonDisabled);
+            this.listenTo(this.previousButton, 'change:enabled', this._setPreviousButtonDisabled);
+            this.listenTo(this.playPauseButton, 'change:enabled', this._setPlayPauseButtonState);
         },
         
         onRender: function () {
@@ -67,43 +70,44 @@ define([
             }));
 
             this.volumeAreaRegion.show(new VolumeAreaView({
+                //  TODO: Feels bad to trickle a model down like this.
                 model: this.model
             }));
 
             this.adminMenuAreaRegion.show(new AdminMenuAreaView());
-            
+
             //  IMPORTANT: This needs to be appended LAST because top content is flexible which will affect this element's height.
             this.contentRegion.show(new StreamView({
-                collection: StreamItems
+                collection: Streamus.backgroundPage.StreamItems
             }));
         },
         
         _tryActivateNextStreamItem: function () {
             //  Model is persistent to allow for easy rule validation when using keyboard shortcuts to control.
-            NextButton.tryActivateNextStreamItem();
+            this.nextButton.tryActivateNextStreamItem();
         },
         
         _tryDoTimeBasedPrevious: function() {
-            PreviousButton.tryDoTimeBasedPrevious();
+            this.previousButton.tryDoTimeBasedPrevious();
         },
         
         _tryTogglePlayerState: function () {
-            PlayPauseButton.tryTogglePlayerState();
+            this.playPauseButton.tryTogglePlayerState();
         },
         
         _setNextButtonDisabled: function () {
-            this.ui.nextButton.toggleClass('disabled', !NextButton.get('enabled'));
+            this.ui.nextButton.toggleClass('disabled', !this.nextButton.get('enabled'));
         },
         
         _setPreviousButtonDisabled: function() {
-            this.ui.previousButton.toggleClass('disabled', !PreviousButton.get('enabled'));
+            this.ui.previousButton.toggleClass('disabled', !this.previousButton.get('enabled'));
         },
 
         _setPlayPauseButtonState: function() {
             var playerState = this.model.get('state');
 
             this.ui.playPauseButton
-                .toggleClass('disabled', !PlayPauseButton.get('enabled'))
+                .toggleClass('disabled', !this.playPauseButton.get('enabled'))
                 .toggleClass('is-showingSpinner', playerState === PlayerState.Buffering);
             
             this.ui.pauseIcon.toggleClass('hidden', playerState !== PlayerState.Playing);

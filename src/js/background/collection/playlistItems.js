@@ -155,7 +155,7 @@
         },
         
         _onAdd: function (addedPlaylistItem) {
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.PlaylistItem,
                 syncActionType: SyncActionType.Added,
                 model: addedPlaylistItem
@@ -163,7 +163,7 @@
         },
         
         _onRemove: function(removedPlaylistItem) {
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
                 syncActionType: SyncActionType.Removed,
                 model: removedPlaylistItem

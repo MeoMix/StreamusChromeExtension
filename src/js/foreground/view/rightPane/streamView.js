@@ -1,26 +1,25 @@
 ﻿define([
     'common/enum/listItemType',
     'common/enum/repeatButtonState',
-    'foreground/model/streamAction',
     'foreground/view/behavior/collectionViewMultiSelect',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
+    'foreground/view/prompt/clearStreamPromptView',
+    'foreground/view/prompt/saveSongsPromptView',
     'foreground/view/rightPane/streamItemView',
     'text!template/rightPane/stream.html'
-], function (ListItemType, RepeatButtonState, StreamAction, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamTemplate) {
+], function (ListItemType, RepeatButtonState, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, ClearStreamPromptView, SaveSongsPromptView, StreamItemView, StreamTemplate) {
     'use strict';
-
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-    var RadioButton = Streamus.backgroundPage.RadioButton;
-    var RepeatButton = Streamus.backgroundPage.RepeatButton;
-    var ShuffleButton = Streamus.backgroundPage.ShuffleButton;
     
     var StreamView = Backbone.Marionette.CompositeView.extend({
         id: 'stream',
         className: 'column u-flex--column',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
+        childViewOptions: {
+            type: ListItemType.StreamItem
+        },
         
         //  Overwrite resortView to only render children as expected
         resortView: function () {
@@ -37,10 +36,6 @@
                 whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr'),
                 cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
             };
-        },
-        
-        childViewOptions: {
-            type: ListItemType.StreamItem
         },
         
         events: {
@@ -85,11 +80,21 @@
             }
         },
         
+        signInManager: null,
+        shuffleButton: null,
+        radioButton: null,
+        repeatButton: null,
+        
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this._updateSaveButton);
-            this.listenTo(ShuffleButton, 'change:enabled', this._setShuffleButtonState);
-            this.listenTo(RadioButton, 'change:enabled', this._setRadioButtonState);
-            this.listenTo(RepeatButton, 'change:state', this._setRepeatButtonState);
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.shuffleButton = Streamus.backgroundPage.ShuffleButton;
+            this.radioButton = Streamus.backgroundPage.RadioButton;
+            this.repeatButton = Streamus.backgroundPage.RepeatButton;
+
+            this.listenTo(this.signInManager, 'change:signedIn', this._updateSaveButton);
+            this.listenTo(this.shuffleButton, 'change:enabled', this._setShuffleButtonState);
+            this.listenTo(this.radioButton, 'change:enabled', this._setRadioButtonState);
+            this.listenTo(this.repeatButton, 'change:state', this._setRepeatButtonState);
         },
         
         onRender: function () {
@@ -106,7 +111,7 @@
         },
         
         _updateSaveButton: function () {
-            var signedIn = SignInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedIn');
             
             var templateHelpers = this.templateHelpers();
             var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
@@ -128,27 +133,41 @@
         },
         
         _clear: function() {
-            StreamAction.clearStream();
+            if (this.collection.length > 0) {
+                this._showClearStreamPrompt();
+            }
         },
         
         _save: function() {
-            StreamAction.saveStream();
+            if (this.collection.length > 0) {
+                this._showSaveSongsPrompt();
+            }
+        },
+        
+        _showClearStreamPrompt: function () {
+            Streamus.channels.prompt.commands.trigger('show:prompt', ClearStreamPromptView);
+        },
+        
+        _showSaveSongsPrompt: function() {
+            Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
+                songs: this.collection.pluck('song')
+            });
         },
         
         _toggleShuffle: function() {
-            ShuffleButton.toggleEnabled();
+            this.shuffleButton.toggleEnabled();
         },
         
         _toggleRadio: function() {
-            RadioButton.toggleEnabled();
+            this.radioButton.toggleEnabled();
         },
         
         _toggleRepeat: function() {
-            RepeatButton.toggleRepeatState();
+            this.repeatButton.toggleRepeatState();
         },
         
         _setRepeatButtonState: function() {
-            var state = RepeatButton.get('state');
+            var state = this.repeatButton.get('state');
             //  The button is considered enabled if it is anything but disabled.
             var enabled = state !== RepeatButtonState.Disabled;
             
@@ -175,7 +194,7 @@
         },
         
         _setShuffleButtonState: function() {
-            var enabled = ShuffleButton.get('enabled');
+            var enabled = this.shuffleButton.get('enabled');
 
             var title;
             if (enabled) {
@@ -188,7 +207,7 @@
         },
         
         _setRadioButtonState: function () {
-            var enabled = RadioButton.get('enabled');
+            var enabled = this.radioButton.get('enabled');
             
             var title;
             if (enabled) {
@@ -201,7 +220,7 @@
         },
         
         _showSearch: function () {
-            Backbone.Wreqr.radio.channel('global').vent.trigger('showSearch', true);
+            Streamus.channels.global.vent.trigger('showSearch', true);
         }
     });
 

@@ -1,19 +1,18 @@
-﻿define([
-    'background/collection/streamItems',
-    'background/model/player',
-    'background/model/buttons/shuffleButton'
-], function (StreamItems, Player, ShuffleButton) {
+﻿define(function () {
     'use strict';
     
     var PreviousButton = Backbone.Model.extend({
         defaults: {
-            enabled: false
+            enabled: false,
+            player: null,
+            shuffleButton: null,
+            streamItems: null
         },
-
+        
         initialize: function () {
-            this.listenTo(StreamItems, 'add remove reset change:active sort', this._toggleEnabled);
-            this.listenTo(Player, 'change:currentTime', this._toggleEnabled);
-            this.listenTo(ShuffleButton, 'change:enabled', this._toggleEnabled);
+            this.listenTo(this.get('streamItems'), 'add remove reset change:active sort', this._toggleEnabled);
+            this.listenTo(this.get('player'), 'change:currentTime', this._toggleEnabled);
+            this.listenTo(this.get('shuffleButton'), 'change:enabled', this._toggleEnabled);
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
             
             this._toggleEnabled();
@@ -26,9 +25,9 @@
             if (enabled) {
                 //  Restart when clicking 'previous' if too much time has passed
                 if (this._songHasBeenPlaying()) {
-                    Player.seekTo(0);
+                    this.get('player').seekTo(0);
                 } else {
-                    StreamItems.activatePrevious();
+                    this.get('streamItems').activatePrevious();
                 }
             }
 
@@ -40,7 +39,7 @@
                 var didPrevious = this.tryDoTimeBasedPrevious();
 
                 if (!didPrevious) {
-                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
                     });
@@ -49,7 +48,7 @@
         },
         
         _toggleEnabled: function () {
-            var previousItem = StreamItems.getPrevious();
+            var previousItem = this.get('streamItems').getPrevious();
 
             var enabled = previousItem !== null || this._songHasBeenPlaying();
             this.set('enabled', enabled);
@@ -59,11 +58,9 @@
         //  clicking 'previous' will skip to the front of the song rather than skipping to the previous
         //  song in the stream
         _songHasBeenPlaying: function() {
-            return Player.get('currentTime') > 3;
+            return this.get('player').get('currentTime') > 3;
         }
     });
     
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.PreviousButton = new PreviousButton();
-    return window.PreviousButton;
+    return PreviousButton;
 });

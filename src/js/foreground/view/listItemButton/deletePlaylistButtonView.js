@@ -18,7 +18,14 @@
         },
         
         doOnClickAction: function () {
-            PlaylistAction.deletePlaylist(this.model);
+            console.log('this model:', this.model);
+            var playlistAction = new PlaylistAction({
+                playlist: this.model
+            });
+
+            console.log("PlaylistAction playlist:", playlistAction.get('playlist'));
+            
+            playlistAction.deletePlaylist();
         },
         
         _setDisabledState: function() {

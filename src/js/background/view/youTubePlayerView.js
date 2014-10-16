@@ -5,15 +5,25 @@
         tagName: 'iframe',
         id: 'youtube-player',
         template: false,
+        //  webRequestCompleted indicates whether loading the src of the iframe was successful
+        webRequestCompleted: false,
+        //  loaded is set to true when the iframes contentWindow is ready
+        loaded: false,
 
-        attributes: {
-            name: 'youtube-player',
-            frameborder: 0,
-            allowfullscreen: 1,
-            title: 'YouTube player',
-            width: 640,
-            height: 360,
-            src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\jbnkffmindojffecdhbbmekbmkkfpmjd'
+        attributes: function () {
+            return {
+                name: 'youtube-player',
+                frameborder: 0,
+                allowfullscreen: 1,
+                title: 'YouTube player',
+                width: 640,
+                height: 360,
+                src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + Streamus.extensionId
+            };
+        },
+        
+        events: {
+            'load': '_onLoad'
         },
 
         initialize: function () {
@@ -28,9 +38,9 @@
                 urls: [this.model.get('youTubeEmbedUrl')]
             }, ['blocking', 'requestHeaders']);
             
-            //  TODO: I think I can filter on 'type: sub_frame' instead of checking cache.
             chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted, {
-                urls: [this.model.get('youTubeEmbedUrl')]
+                urls: [this.model.get('youTubeEmbedUrl')],
+                types: ['sub_frame']
             });
         },
         
@@ -38,13 +48,23 @@
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onWebRequestBeforeSendHeaders);
             chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
         },
+        
+        _checkLoadModel: function () {
+            if (this.loaded && this.webRequestCompleted) {
+                this.model.load();
+            }
+        },
+        
+        _onLoad: function () {
+            this.loaded = true;
+            this._checkLoadModel();
+        },
 
         //  Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
         //  Benefits include faster loading, less CPU usage, and no crashing
         //  Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
         //  Without a Referer - YouTube will reject most of the requests to play music.
         _onWebRequestBeforeSendHeaders: function (info) {
-            console.log('headers sending');
             //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
             var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                 return requestHeader.name === 'Referer';
@@ -79,16 +99,13 @@
             return { requestHeaders: info.requestHeaders };
         },
         
-        _onWebRequestCompleted: function (info) {
-            console.log('web request completed');
-            //  TODO: This needs to only run once, but, on first install and ocassionally thereafter, a second request comes in from the cache. No idea why it is happening.
-            if (!info.fromCache) {
-                chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
-                //  Only load YouTube's API once the iframe has been built successfully.
-                //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
-                //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
-                this.model.load();
-            }
+        //  Only load YouTube's API once the iframe has been built successfully.
+        //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
+        //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
+        _onWebRequestCompleted: function () {
+            chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
+            this.webRequestCompleted = true;
+            this._checkLoadModel();
         }
     });
 

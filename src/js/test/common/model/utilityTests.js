@@ -1,5 +1,5 @@
 ﻿define([
-    'common/model/utility'
+    'common/utility'
 ], function (Utility) {
     'use strict';
     

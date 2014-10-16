@@ -3,15 +3,15 @@
 ], function (SearchView) {
     'use strict';
     
-    var Search = Streamus.backgroundPage.Search;
-    var Settings = Streamus.backgroundPage.Settings;
-
     var SearchAreaRegion = Backbone.Marionette.Region.extend({
         el: '#foregroundArea-searchAreaRegion',
+        settings: null,
         
         initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showSearch', this.showSearchView);
-            this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
+            this.settings = Streamus.backgroundPage.Settings;
+
+            this.listenTo(Streamus.channels.global.vent, 'showSearch', this.showSearchView);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
 
         showSearchView: function (doSnapAnimation) {
@@ -19,7 +19,7 @@
         },
         
         _onForegroundAreaShown: function () {
-            if (Settings.get('alwaysOpenToSearch')) {
+            if (this.settings.get('alwaysOpenToSearch')) {
                 this.showSearchView(false);
             }
         },
@@ -36,8 +36,8 @@
         
         _createSearchView: function (doSnapAnimation) {
             var searchView = new SearchView({
-                collection: Search.get('results'),
-                model: Search,
+                collection: Streamus.backgroundPage.Search.get('results'),
+                model: Streamus.backgroundPage.Search,
                 //  Indicate whether view should appear immediately or animate.
                 doSnapAnimation: doSnapAnimation
             });

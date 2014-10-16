@@ -5,7 +5,9 @@
 
     var ClientErrors = Backbone.Collection.extend({
         model: ClientError,
-        url: Streamus.serverUrl + 'ClientError/',
+        url: function() {
+            return Streamus.serverUrl + 'ClientError/';
+        },
         //  Don't allow duplicate ClientErrors by stack + lineNumber. 
         add: function (addedClientError) {
             var isDuplicate = this.any(function (clientError) {

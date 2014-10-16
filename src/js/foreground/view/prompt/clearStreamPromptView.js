@@ -7,17 +7,21 @@
     var ClearStreamPromptView = PromptView.extend({
         contentText: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream'),
         
+        streamItems: null,
+        
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('areYouSure'),
                 reminderProperty: 'remindClearStream'
             });
 
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+
             PromptView.prototype.initialize.apply(this, arguments);
         },
         
         onSubmit: function () {
-            Streamus.backgroundPage.StreamItems.clear();
+            this.streamItems.clear();
         }
     });
 

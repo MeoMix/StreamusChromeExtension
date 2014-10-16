@@ -19,6 +19,8 @@
     transition: color @transition-color-time, background @transition-color-time;
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
+    //  NOTE: This is needed so that .spinner's margin: auto; doesn't cause odd overflow while spinning.
+    overflow: hidden;
 
     &:hover {
         background: @lightGray;

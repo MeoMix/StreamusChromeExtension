@@ -13,7 +13,7 @@
         },
         
         initialize: function() {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'clickedElement', this._onClickedElement);
+            this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
@@ -49,7 +49,8 @@
             var modelToSelect = this.view.collection.get(id);
             
             if (_.isUndefined(modelToSelect)) {
-                Streamus.backgroundPage.Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', 'modelToSelect undefined. id:' + id + 'collection length: ' + this.view.collection.length);
+                var error = new Error('modelToSelect undefined. id: ' + id + ' collection length: ' + this.view.collection.length);
+                Streamus.backgroundChannels.error.commands.trigger('log:error', error);
             }
 
             this._setSelected({

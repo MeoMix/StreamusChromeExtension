@@ -37,9 +37,13 @@
             contentRegion: '@ui.contentRegion'
         },
         
+        settings: null,
+        
         initialize: function () {
             if (this.contentText === '' && this.contentView === null) console.error('No content set.');
             if (this.contentText !== '' && this.contentView !== null) console.error('ContentView and ContextText are set; provide only one');
+
+            this.settings = Streamus.backgroundPage.Settings;
         },
 
         onShow: function () {
@@ -53,7 +57,7 @@
             var reminderProperty = this.model.get('reminderProperty');
             
             if (reminderProperty !== false) {
-                reminderDisabled = !Streamus.backgroundPage.Settings.get(reminderProperty);
+                reminderDisabled = !this.settings.get(reminderProperty);
             }
 
             return reminderDisabled;
@@ -128,7 +132,7 @@
             var reminderProperty = this.model.get('reminderProperty');
             var remind = !this.ui.reminderCheckbox.is(':checked');
 
-            Streamus.backgroundPage.Settings.save(reminderProperty, remind);
+            this.settings.save(reminderProperty, remind);
         }
     });
 

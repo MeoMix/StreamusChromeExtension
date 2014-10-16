@@ -1,7 +1,7 @@
 ﻿define([
     'common/enum/songType',
     'common/enum/youTubeServiceType',
-    'common/model/utility'
+    'common/utility'
 ], function (SongType, YouTubeServiceType, Utility) {
     'use strict';
 
@@ -257,5 +257,6 @@
         }
     });
 
+    //  TODO: Don't return new instance even if its not stateful.
     return new YouTubeV3API();
 });

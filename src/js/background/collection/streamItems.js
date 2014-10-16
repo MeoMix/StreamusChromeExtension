@@ -3,15 +3,10 @@
     'background/mixin/collectionSequence',
     'background/model/streamItem',
     'background/model/song',
-    'background/model/tabManager',
-    'background/model/player',
-    'background/model/buttons/shuffleButton',
-    'background/model/buttons/radioButton',
-    'background/model/buttons/repeatButton',
+    'background/model/youTubeV3API',
     'common/enum/repeatButtonState',
-    'common/enum/playerState',
-    'common/model/youTubeV3API'
-], function (CollectionMultiSelect, CollectionSequence, StreamItem, Song, TabManager, Player, ShuffleButton, RadioButton, RepeatButton, RepeatButtonState, PlayerState, YouTubeV3API) {
+    'common/enum/playerState'
+], function (CollectionMultiSelect, CollectionSequence, StreamItem, Song, YouTubeV3API, RepeatButtonState, PlayerState) {
     'use strict';
     
     var StreamItems = Backbone.Collection.extend({
@@ -19,8 +14,17 @@
         localStorage: new Backbone.LocalStorage('StreamItems'),
         
         mixins: [CollectionMultiSelect, CollectionSequence],
+        player: null,
+        shuffleButton: null,
+        radioButton: null,
+        repeatButton: null,
 
-        initialize: function () {
+        initialize: function (models, options) {
+            this.player = options.player;
+            this.shuffleButton = options.shuffleButton;
+            this.radioButton = options.radioButton;
+            this.repeatButton = options.repeatButton;
+
             //  TODO: History is lost when Streamus is restarted. Not a HUGE deal since it just affects shuffling, but would be nice to save it.
             //  TODO: Probably make a stream model instead of extending streamItems
             //  Give StreamItems a history: https://github.com/jashkenas/backbone/issues/1442
@@ -30,8 +34,8 @@
             this.on('remove', this._onRemove);
             this.on('reset', this._onReset);
             this.on('change:active', this._onChangeActive);
-            this.listenTo(Player, 'change:state', this._onChangePlayerState);
-            this.listenTo(Player, 'youTubeError', this._onPlayerError);
+            this.listenTo(this.player, 'change:state', this._onChangePlayerState);
+            this.listenTo(this.player, 'youTubeError', this._onPlayerError);
             this.on('change:playedRecently', this._onChangePlayedRecently);
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
@@ -41,7 +45,7 @@
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
-                Player.activateSong(activeItem.get('song').get('id'));
+                this.player.activateSong(activeItem.get('song').get('id'));
                 
                 //  TODO: This won't be necessary once I fix history persistence because activeItem should already be in history after a restart.
                 this.history.unshift(activeItem);
@@ -58,7 +62,7 @@
 
             var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
             if (playOnAdd) {
-                Player.set('playOnActivate', true);
+                this.player.set('playOnActivate', true);
             }
 
             var index = _.isUndefined(options.index) ? this.length : options.index;
@@ -96,9 +100,9 @@
         activateNext: function (removedActiveItemIndex) {
             var nextItem = null;
 
-            var shuffleEnabled = ShuffleButton.get('enabled');
-            var radioEnabled = RadioButton.get('enabled');
-            var repeatButtonState = RepeatButton.get('state');
+            var shuffleEnabled = this.shuffleButton.get('enabled');
+            var radioEnabled = this.radioButton.get('enabled');
+            var repeatButtonState = this.repeatButton.get('state');
 
             //  If removedActiveItemIndex is provided, RepeatButtonState.RepeatSong doesn't matter because the StreamItem was just deleted.
             if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatSong) {
@@ -156,12 +160,12 @@
                         //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
                     else if (!_.isUndefined(removedActiveItemIndex)) {
                         this.at(this.length - 1).save({ active: true });
-                        Player.pause();
+                        this.player.pause();
                     }
                     else {
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         this.at(0).save({ active: true });
-                        Player.pause();
+                        this.player.pause();
                     }
                 } else {
                     this.at(nextItemIndex).save({ active: true });
@@ -183,8 +187,8 @@
             
             //  If nothing found by history -- rely on settings
             if (previousStreamItem == null) {
-                var shuffleEnabled = ShuffleButton.get('enabled');
-                var repeatButtonState = RepeatButton.get('state');
+                var shuffleEnabled = this.shuffleButton.get('enabled');
+                var repeatButtonState = this.repeatButton.get('state');
 
                 if (repeatButtonState === RepeatButtonState.RepeatSong) {
                     //  If repeating a single song just return whichever song is already currently active.
@@ -246,7 +250,7 @@
             var activeItem = this.getActiveItem();
             var activeSongId = activeItem.get('song').get('id');
 
-            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
                 //  TODO: i18n
                 title: 'Now Playing',
@@ -281,10 +285,14 @@
         },
         
         _onChangePlayerState: function (model, state) {
-            console.log('player state:', state);
             if (state === PlayerState.Ended) {
-                console.log('activating next because player state is ended');
-                this.activateNext();
+                //  TODO: I need to be able to check whether there's an active item or not before calling activateNext.
+                this.player.set('playOnActivate', true);
+                var nextItem = this.activateNext();
+                
+                if (nextItem === null) {
+                    this.player.set('playOnActivate', false);
+                }
             }
             else if (state === PlayerState.Playing) {
                 //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
@@ -292,21 +300,23 @@
             }
         },
         
-        _onPlayerError: function (error) {
+        _onPlayerError: function (playerError) {
             if (this.length > 0) {
-                Player.set('playOnActivate', true);
+                this.player.set('playOnActivate', true);
+                //  TODO: It would be better if I could get the next item instead of having to activate it automatically.
                 var nextItem = this.activateNext();
 
                 if (nextItem === null) {
-                    Player.set('playOnActivate', false);
+                    this.player.set('playOnActivate', false);
 
                     //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
                     //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                    Player.activateSong(this.getActiveItem().get('song').get('id'));
+                    this.player.activateSong(this.getActiveItem().get('song').get('id'));
                 }
             } else {
                 //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
-                Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', 'Error ' + error + ' happened while StreamItems was empty.');
+                var error = new Error('Error ' + playerError + ' happened while StreamItems was empty.');
+                Streamus.channels.error.commands.trigger('log:error', error);
             }
         },
         
@@ -362,7 +372,7 @@
         },
         
         _loadActiveItem: function (activeItem) {
-            Player.activateSong(activeItem.get('song').get('id'));
+            this.player.activateSong(activeItem.get('song').get('id'));
             
             //  When deleting the last item in the stream AND it is active then you go back 1 sequentially.
             //  This can cause a duplicate to be added to history if you just came from it.
@@ -373,7 +383,7 @@
         
         _stopPlayerIfEmpty: function () {
             if (this.length === 0) {
-                Player.stop();
+                this.player.stop();
             }
         },
         
@@ -408,7 +418,6 @@
             
             if (relatedSong === null) {
                 //  TODO: Uncaught Error: No related song found:[{"song":{"id":"wGegubqsWiQ","duration":254,"title":"Caravan Palace - Dragons","author":"loova31","type":1,"prettyDuration":"04:14","url":"https://youtu.be/wGegubqsWiQ","cleanTitle":"Caravan Palace - Dragons"},"tit...
-                //  TODO: Uncaught Error: No related song found:[{"song":{"id":"mDA2nauLnk0","duration":353,"title":"Pantera - Hollow","author":"isaac8399","type":1,"prettyDuration":"05:53","url":"https://youtu.be/mDA2nauLnk0","cleanTitle":"Pantera - Hollow"},"title":"Pantera -...
                 throw new Error("No related song found:" + JSON.stringify(this));
             }
             
@@ -476,7 +485,7 @@
             //  TODO: How can I write this logic more DRYly?
             if (command === 'showActiveSong' || command === 'deleteSongFromStream' || command === 'copySongUrl' || command === 'copySongTitleAndUrl') {
                 if (this.length === 0) {
-                    Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                         //  TODO: i18n
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: 'Stream empty'
@@ -499,7 +508,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.StreamItems = new StreamItems();
-    return window.StreamItems;
+    return StreamItems;
 });

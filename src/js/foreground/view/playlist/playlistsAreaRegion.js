@@ -3,13 +3,11 @@
 ], function (PlaylistsAreaView) {
     'use strict';
     
-    var Playlists = Streamus.backgroundPage.Playlists;
-
     var PlaylistsAreaRegion = Backbone.Marionette.Region.extend({
         el: '#foregroundArea-playlistsAreaRegion',
         
         initialize: function () {
-            this.listenTo(Backbone.Wreqr.radio.channel('global').vent, 'showPlaylistsArea', this._showPlaylistsAreaView);
+            this.listenTo(Streamus.channels.global.vent, 'showPlaylistsArea', this._showPlaylistsAreaView);
         },
         
         _showPlaylistsAreaView: function () {
@@ -25,7 +23,7 @@
         
         _createPlaylistsAreaView: function() {
             var playlistsAreaView = new PlaylistsAreaView({
-                collection: Playlists
+                collection: Streamus.backgroundPage.Playlists
             });
             
             this.show(playlistsAreaView);

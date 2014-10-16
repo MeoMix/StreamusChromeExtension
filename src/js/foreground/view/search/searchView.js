@@ -10,9 +10,6 @@
 ], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, SaveSongsPromptView, SearchResultView, SearchTemplate) {
     'use strict';
 
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-    
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
         className: 'leftPane column column--fullWidth u-flex--column panel panel--left panel--uncolored',
@@ -94,8 +91,16 @@
             };
         },
         
-        initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this._toggleSaveSelected);
+        doSnapAnimation: false,
+        streamItems: null,
+        signInManager: null,
+
+        initialize: function (options) {
+            this.doSnapAnimation = options.doSnapAnimation;
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+
+            this.listenTo(this.signInManager, 'change:signedIn', this._toggleSaveSelected);
         },
  
         onRender: function () {
@@ -109,7 +114,7 @@
             this.focusInput();
             
             //  By passing undefined in I opt to use the default duration length.
-            var transitionDuration = this.options.doSnapAnimation ? undefined : 0;
+            var transitionDuration = this.doSnapAnimation ? undefined : 0;
 
             this.$el.transition({
                 x: 0
@@ -141,7 +146,7 @@
         },
         
         _toggleSaveSelected: function () {
-            var signedIn = SignInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedIn');
             this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
 
             var templateHelpers = this.templateHelpers();
@@ -173,20 +178,20 @@
         },
         
         _playSelected: function () {
-            StreamItems.addSongs(this.collection.getSelectedSongs(), {
+            this.streamItems.addSongs(this.collection.getSelectedSongs(), {
                 playOnAdd: true
             });
         },
         
         _addSelected: function() {
-            StreamItems.addSongs(this.collection.getSelectedSongs());
+            this.streamItems.addSongs(this.collection.getSelectedSongs());
         },
 
         _showSaveSelectedPrompt: function () {
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
             
             if (!disabled) {
-                Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SaveSongsPromptView, {
+                Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
                     songs: this.collection.getSelectedSongs()
                 });
             }

@@ -1,19 +1,12 @@
 ﻿define([
-    'common/model/utility',
-    'foreground/collection/contextMenuItems',
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
     'foreground/view/listItemButton/deleteSongButtonView',
     'foreground/view/listItemButton/playSongButtonView',
     'foreground/view/listItemButton/saveSongButtonView',
     'text!template/rightPane/streamItem.html'
-], function (Utility, ContextMenuItems, ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
+], function (ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
     'use strict';
-
-    var Playlists = Streamus.backgroundPage.Playlists;
-    var Player = Streamus.backgroundPage.Player;
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-    var PlayPauseButton = Streamus.backgroundPage.PlayPauseButton;
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium',
@@ -39,6 +32,18 @@
         }),
         
         buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
+        
+        playlists: null,
+        player: null,
+        signInManager: null,
+        playPauseButton: null,
+        
+        initialize: function () {
+            this.playlists = Streamus.backgroundPage.Playlists;
+            this.player = Streamus.backgroundPage.Player;
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.playPauseButton = Streamus.backgroundPage.PlayPauseButton;
+        },
 
         onRender: function () {
             this._setActiveClass();
@@ -47,10 +52,10 @@
         //  TODO: This is not DRY with PlaySongButtonView's _playStreamItem
         _activateAndPlayOrToggleState: function () {
             if (!this.model.get('active')) {
-                Player.set('playOnActivate', true);
+                this.player.set('playOnActivate', true);
                 this.model.save({ active: true });
             } else {
-                PlayPauseButton.tryTogglePlayerState();
+                this.playPauseButton.tryTogglePlayerState();
             }
         },
         
@@ -70,10 +75,10 @@
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
 
-            var activePlaylist = Playlists.getActivePlaylist();
+            var activePlaylist = this.playlists.getActivePlaylist();
             var alreadyExists = false;
             
-            var signedIn = SignInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedIn');
             if (signedIn) {
                 alreadyExists = activePlaylist.get('items').hasSong(this.model.get('song'));
             }
@@ -85,7 +90,7 @@
                 saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
             }
 
-            ContextMenuItems.reset([{
+            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                     text: chrome.i18n.getMessage('save'),
                     title: saveTitle,
                     disabled: !signedIn || alreadyExists,
@@ -107,7 +112,7 @@
         },
         
         _addToActivePlaylistItems: function () {
-            var activePlaylist = Playlists.getActivePlaylist();
+            var activePlaylist = this.playlists.getActivePlaylist();
             activePlaylist.get('items').addSongs(this.model.get('song'));
         },
         
@@ -124,8 +129,7 @@
         },
 
         _watchOnYouTube: function () {
-            var song = this.model.get('song');
-            Player.watchInTab(song.get('id'), song.get('url'));
+            this.player.watchInTab(this.model.get('song'));
         }
     });
 

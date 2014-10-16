@@ -1,9 +1,7 @@
 //  A singleton representing the sole logged on user for the program.
 //  Tries to load itself by ID stored in localStorage and then by chrome.storage.sync.
 //  If still unloaded, tells the server to create a new user and assumes that identiy.
-define([
-    'background/collection/playlists'
-], function (Playlists) {
+define(function () {
     'use strict';
 
     var User = Backbone.Model.extend({
@@ -15,9 +13,17 @@ define([
             };
         },
         
-        urlRoot: Streamus.serverUrl + 'User/',
+        urlRoot: function() {
+            return Streamus.serverUrl + 'User/';
+        },
         
-        initialize: function () {
+        //  TODO: FIX FIX FIX
+        globalPlaylists: null,
+
+        initialize: function (options) {
+            console.log('options:', options);
+            this.globalPlaylists = options.globalPlaylists;
+
             this._getLocalUserId();
         },
         
@@ -101,8 +107,8 @@ define([
         
         //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
         _setPlaylists: function () {
-            Playlists.reset(this.get('playlists'));
-            Playlists.setUserId(this.get('id'));
+            this.globalPlaylists.reset(this.get('playlists'));
+            this.globalPlaylists.setUserId(this.get('id'));
         },
         
         _onLoadByGooglePlusIdSuccess: function(userDto) {

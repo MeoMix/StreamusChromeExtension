@@ -4,12 +4,13 @@
 ], function (ListItemButtonView, PlayListItemButtonTemplate) {
     'use strict';
 
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-
     var PlayPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(PlayListItemButtonTemplate),
+        
+        streamItems: null,
 
         initialize: function () {
+            this.streamItems = Streamus.backgroundPage.StreamItems;
             this.listenTo(this.model.get('items'), 'add remove reset', this._setDisabledState);
         },
         
@@ -20,7 +21,7 @@
         doOnClickAction: function () {
             var songs = this.model.get('items').pluck('song');
 
-            StreamItems.addSongs(songs, {
+            this.streamItems.addSongs(songs, {
                 playOnAdd: true
             });
         },

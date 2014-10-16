@@ -4,14 +4,19 @@
 ], function (ListItemButtonView, PlayListItemButtonTemplate) {
     'use strict';
 
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.Player;
-
     var PlayInStreamButtonView = ListItemButtonView.extend({
         template: _.template(PlayListItemButtonTemplate),
         
         attributes: {
             title: chrome.i18n.getMessage('play')
+        },
+        
+        streamItems: null,
+        player: null,
+        
+        initialize: function() {
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.player = Streamus.backgroundPage.Player;
         },
         
         doOnClickAction: function() {
@@ -22,10 +27,10 @@
             var song = this.model.get('song');
             
             //  If there's only one song to be played - check if it's already in the stream.
-            var streamItem = StreamItems.getBySong(song);
+            var streamItem = this.streamItems.getBySong(song);
             
             if (_.isUndefined(streamItem)) {
-                StreamItems.addSongs(song, {
+                this.streamItems.addSongs(song, {
                     playOnAdd: true
                 });
             } else {
@@ -36,9 +41,9 @@
         _playStreamItem: function (streamItem) {
             if (streamItem.get('active')) {
                 //  TODO: It's weird that this doesn't turn to a pause once playing.
-                Player.play();
+                this.player.play();
             } else {
-                Player.set('playOnActivate', true);
+                this.player.set('playOnActivate', true);
                 streamItem.save({ active: true });
             }
         }

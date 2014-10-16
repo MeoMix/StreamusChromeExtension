@@ -2,12 +2,20 @@
     'use strict';
 
     var TabManager = Backbone.Model.extend({
-        defaults: function() {
+        defaults: function () {
             return {
-                streamusForegroundUrl: 'chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/foreground.html',
+                streamusForegroundUrl: 'chrome-extension://' + Streamus.extensionId + '/foreground.html',
+                donateUrl: 'https://streamus.com/#donate',
+                keyboardShortcutsUrl: 'chrome://extensions/configureCommands',
                 youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
                 beatportUrlPatterns: ['*://*.beatport.com/*']
             };
+        },
+        
+        initialize: function () {
+            //  TODO: Is this the right channel to be listening on? Maybe it should be related to signedIn?
+            this.listenTo(Streamus.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
+            this.listenTo(Streamus.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
         },
 
         isStreamusTabActive: function (callback) {
@@ -32,10 +40,27 @@
         },
         
         showStreamusTab: function () {
-            this.showTab(this.get('streamusForegroundUrl'));
+            this._showTab(this.get('streamusForegroundUrl'));
         },
         
-        showTab: function (tabUrl) {
+        showDonateTab: function () {
+            this._showTab(this.get('donateUrl'));
+        },
+        
+        showKeyboardShortcutsTab: function() {
+            this._showTab(this.get('keyboardShortcutsUrl'));
+        },
+        
+        _notifyYouTube: function (data) {
+            //  TODO: naming.
+            this.messageYouTubeTabs(data);
+        },
+        
+        _notifyBeatport: function (data) {
+            this.messageBeatportTabs(data);
+        },
+        
+        _showTab: function (tabUrl) {
             var queryInfo = {
                 url: tabUrl
             };
@@ -100,7 +125,5 @@
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.TabManager = new TabManager();
-    return window.TabManager;
+    return TabManager;
 });

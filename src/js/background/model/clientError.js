@@ -1,7 +1,4 @@
-﻿//  Holds all the relevant data for a client-side error
-define([
-    'background/model/signInManager'
-], function (SignInManager) {
+﻿define(function () {
     'use strict';
 
     var ClientError = Backbone.Model.extend({
@@ -9,7 +6,7 @@ define([
             var browserVersion = window.navigator.appVersion.match(/Chrome\/(.*?) /)[1];
 
             return {
-                userId: '',
+                instanceId: Streamus.instanceId,
                 message: '',
                 lineNumber: -1,
                 url: '',
@@ -31,17 +28,11 @@ define([
         initialize: function () {
             this._dropUrlPrefix();
             this._setStack();
-            
-
-            //  TODO: Instead of caring about the logged in user here I should generate a unique ID for the Streamus instance and reference that.
-            //  More reliable since errors can be thrown before the user is signed in.
-            var signedInUser = SignInManager.get('signedInUser');
-            this.set('userId', signedInUser ? signedInUser.get('id') : '');
         },
         
         //  The first part of the URL is always the same and not very interesting. Drop it off.
         _dropUrlPrefix: function () {
-            this.set('url', this.get('url').replace('chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/', ''));
+            this.set('url', this.get('url').replace('chrome-extension://' + Streamus.extensionId + '/', ''));
         },
         
         _setStack: function() {
@@ -57,13 +48,7 @@ define([
                 }
             }
 
-            //  TODO: This is fragile as crap, need to find out a better way to do it.
-            stack = stack.replace('at Backbone.Model.extend._createError (chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/js/background/application.js:166:33)', '');
-            stack = stack.replace('at Backbone.Model.extend.logMessage (chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/js/background/application.js:138:18)', '');
-            stack = stack.replace('Error ');
-            stack = stack.trim();
-
-            this.set('stack', stack);
+            this.set('stack', stack.replace('Error ', '').trim());
         }
     });
     

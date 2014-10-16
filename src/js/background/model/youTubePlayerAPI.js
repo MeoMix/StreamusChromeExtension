@@ -10,9 +10,9 @@ define(function () {
 		},
 
 		load: function () {
-			//  TODO: If I insert the script, but _onYouTubeIframeAPIReady fails to load for whatever reason, I need to be able to recover gracefully somehow.
 			if (this.get('inserted')) {
-				Backbone.Wreqr.radio.channel('error').commands.trigger('log:error', 'API script already inserted');
+				var error = new Error('API script already inserted');
+				Streamus.channels.error.commands.trigger('log:error', error);
 				return;
 			}
 
@@ -80,6 +80,7 @@ define(function () {
 		},
 		
 		//  This code is from https://s.ytimg.com/yts/jsbin/www-widgetapi-vflBfDu58/www-widgetapi.js. I pull it in locally as to not need to relax content_security_policy.
+		//  NOTE: I have patched a bug in this code. It is documented here: https://code.google.com/p/gdata-issues/issues/detail?id=6402
 		_loadWidgetAPI: function() {
 			/* jshint ignore:start */
 			var g, h = window;
@@ -817,6 +818,9 @@ define(function () {
 				Ra(a.d, "load", q(function () {
 					window.clearInterval(this.j);
 					this.j = La(q(this.N, this));
+					if (window.initialDeliveryComplete) {
+						clearInterval(this.j);
+					}
 				}, a));
 			}
 
@@ -839,8 +843,9 @@ define(function () {
 				f && (k += "//", e && (k += e + "@"), k += f, d && (k += ":" + d));
 				c = k;
 				b = 0 == c.indexOf("https:") ? [c] : b.d ? [c.replace("http:", "https:")] : b.j ? [c] : [c, c.replace("http:", "https:")];
-			    console.log('this.d', this.d, this.d.contentWindow);
-				for (c = 0; c < b.length; c++) this.d.contentWindow.postMessage(a, b[c]);
+				for (c = 0; c < b.length; c++) {
+					this.d.contentWindow.postMessage(a, b[c]);
+				}
 			};
 			var db = "StopIteration" in h ? h.StopIteration : Error("StopIteration");
 
@@ -1087,6 +1092,7 @@ define(function () {
 						break;
 					case "initialDelivery":
 						window.clearInterval(this.j);
+						window.initialDeliveryComplete = true;
 						this.A = {};
 						this.t = {};
 						Qb(this, a.apiInterface);

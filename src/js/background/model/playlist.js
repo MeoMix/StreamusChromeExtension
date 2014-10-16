@@ -6,11 +6,10 @@ define([
     'background/model/playlistItem',
     'background/model/shareCode',
     'background/model/song',
-    'background/model/tabManager',
+    'background/model/youTubeV3API',
     'common/enum/listItemType',
-    'common/model/utility',
-    'common/model/youTubeV3API'
-], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, Song, TabManager, ListItemType, Utility, YouTubeV3API) {
+    'common/utility'
+], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, Song, YouTubeV3API, ListItemType, Utility) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -33,7 +32,9 @@ define([
             };
         },
 
-        urlRoot: Streamus.serverUrl + 'Playlist/',
+        urlRoot: function() {
+            return Streamus.serverUrl + 'Playlist/';
+        },
             
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
@@ -65,6 +66,7 @@ define([
             this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
             this._setDisplayInfo();
         },
+        
         //  TODO: I should be creating a ShareCode object w/ entityID and entityType set and fetching it that way instead.
         getShareCode: function(options) {
             $.ajax({
@@ -153,10 +155,9 @@ define([
             }
         },
         
-        //  TODO: Probably make this look similiar to emitSyncUpdateEvent using radio channels?
         //  Notify all open YouTube tabs that a playlist has been renamed.
-        _emitYouTubeTabUpdateEvent: function(data) {
-            TabManager.messageYouTubeTabs({
+        _emitYouTubeTabUpdateEvent: function (data) {
+            Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Updated,
                 type: ListItemType.Playlist,
                 data: data
@@ -164,7 +165,7 @@ define([
         },
         
         _emitSyncUpdateEvent: function (playlist, propertyName, propertyValue) {
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.Playlist,
                 syncActionType: SyncActionType.Updated,
                 modelId: playlist.get('id'),

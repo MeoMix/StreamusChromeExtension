@@ -1,11 +1,8 @@
 ﻿define([
     'common/enum/dataSourceType',
-    'common/model/dataSource',
     'text!template/prompt/createPlaylist.html'
-], function (DataSourceType, DataSource, CreatePlaylistTemplate) {
+], function (DataSourceType, CreatePlaylistTemplate) {
     'use strict';
-
-    var Playlists = Streamus.backgroundPage.Playlists;
 
     var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
         id: 'createPlaylist',
@@ -20,7 +17,7 @@
                 'playlistLowerCaseMessage': chrome.i18n.getMessage('playlist').toLowerCase(),
                 'urlMessage': chrome.i18n.getMessage('url'),
                 'channelLowerCaseMessage': chrome.i18n.getMessage('channel').toLowerCase(),
-                'playlistCount': Playlists.length
+                'playlistCount': this.playlists.length
             };
         },
         
@@ -32,6 +29,14 @@
         events: {
             'input @ui.youTubeSourceInput': '_onSourceInput',
             'input @ui.playlistTitleInput': '_validateTitle'
+        },
+        
+        playlists: null,
+        dataSourceManager: null,
+        
+        initialize: function() {
+            this.playlists = Streamus.backgroundPage.Playlists;
+            this.dataSourceManager = Streamus.backgroundPage.DataSourceManager;
         },
 
         onRender: function () {
@@ -47,7 +52,7 @@
             var dataSource = this.ui.youTubeSourceInput.data('datasource');
             var playlistName = this.ui.playlistTitleInput.val().trim();
 
-            Playlists.addPlaylistByDataSource(playlistName, dataSource);
+            this.playlists.addPlaylistByDataSource(playlistName, dataSource);
         },
         
         //  Debounce for typing support so I know when typing has finished
@@ -73,15 +78,17 @@
             this.ui.playlistTitleInput.toggleClass('is-invalid', playlistTitle === '');
         },
 
-        _setDataSourceAsUserInput: function() {
-            this.ui.youTubeSourceInput.data('datasource', new DataSource({
+        _setDataSourceAsUserInput: function () {
+            var dataSource = this.dataSourceManager.getDataSource({
                 type: DataSourceType.UserInput
-            }));
+            });
+
+            this.ui.youTubeSourceInput.data('datasource', dataSource);
         },
         
         _setDataSourceViaUrl: function(url) {
             //  Check validity of URL and represent validity via invalid class.
-            var dataSource = new DataSource({
+            var dataSource = this.dataSourceManager.getDataSource({
                 url: url,
                 parseVideo: false
             });

@@ -9,9 +9,8 @@
 		el: '#foregroundArea-notificationRegion',
 
 		initialize: function () {
-			this.listenTo(Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._showNotification);
-			this.listenTo(Streamus.backgroundPage.Backbone.Wreqr.radio.channel('notification').commands, 'show:notification', this._showNotification);
-			//  TODO: Need to listen to background application triggering errors and build notifications from them
+		    this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
+			this.listenTo(Streamus.backgroundChannels.notification.commands, 'show:notification', this._showNotification);
 		},
 
 		_showNotification: function (notificationOptions) {

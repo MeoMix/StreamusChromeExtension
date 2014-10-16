@@ -5,17 +5,18 @@
 ], function (ListItemButtonView, SaveSongsPromptView, SaveListItemButtonTemplate) {
     'use strict';
 
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-
     var SaveSongButtonView = ListItemButtonView.extend({
         template: _.template(SaveListItemButtonTemplate),
         
         attributes: {
             title: chrome.i18n.getMessage('cantSaveNotSignedIn')
         },
+        
+        signInManager: null,
 
         initialize: function () {
-            this.listenTo(SignInManager, 'change:signedIn', this._setDisabledState);
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.listenTo(this.signInManager, 'change:signedIn', this._setDisabledState);
         },
 
         onRender: function() {
@@ -23,13 +24,13 @@
         },
 
         doOnClickAction: function () {
-            Backbone.Wreqr.radio.channel('prompt').commands.trigger('show:prompt', SaveSongsPromptView, {
+            Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
                 songs: [this.model.get('song')]
             });
         },
         
         _setDisabledState: function () {
-            var signedIn = SignInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedIn');
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);

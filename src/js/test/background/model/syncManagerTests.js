@@ -58,7 +58,7 @@
         it('should respond to sync events', function () {
             sinon.spy(SyncManager, '_onSyncEvent');
 
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {});
+            Streamus.channels.sync.vent.trigger('sync', {});
             //  TODO: Why the heck doesn't this pass?
             //expect(SyncManager._onSyncEvent.calledOnce).to.equal(true);
             expect(SyncManager.get('syncActions').length).to.equal(1);

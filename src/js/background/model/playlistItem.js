@@ -19,7 +19,9 @@
             };
         },
         
-        urlRoot: Streamus.serverUrl + 'PlaylistItem/',
+        urlRoot: function () {
+            return Streamus.serverUrl + 'PlaylistItem/';
+        },
         
         parse: function (playlistItemDto) {
             //  Patch requests do not return information.
@@ -81,7 +83,7 @@
         },
         
         _onChangeSequence: function (model, sequence) {
-            Backbone.Wreqr.radio.channel('sync').vent.trigger('sync', {
+            Streamus.channels.sync.vent.trigger('sync', {
                 listItemType: ListItemType.PlaylistItem,
                 syncActionType: SyncActionType.Updated,
                 property: 'sequence',

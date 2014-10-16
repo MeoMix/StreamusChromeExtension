@@ -16,11 +16,8 @@
         initialize: function () {
             chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
-            this.listenTo(Backbone.Wreqr.radio.channel('error').commands, 'log:error', this._createError);
-        },
-
-        _logMessage: function (message) {
-            this._createError(message);
+            this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
+            this.listenTo(Streamus.channels.error.vent, 'onWindowError', this._onWindowError);
         },
         
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
@@ -33,10 +30,14 @@
         },
 
         _onWindowError: function (message, url, lineNumber, columnNumber, error) {
-            this._createError(message, url, lineNumber, error);
+            this._createClientError(message, url, lineNumber, error);
         },
         
-        _createError: function (message, url, lineNumber, error) {
+        _logError: function(error) {
+            this._createClientError(error.message, '', 0, error);
+        },
+        
+        _createClientError: function (message, url, lineNumber, error) {
             if (Streamus.localDebug && !Streamus.testing) {
                 this._warnDebugEnabled(message);
                 return;
@@ -44,16 +45,14 @@
 
             this.get('reportedErrors').create({
                 message: message,
-                url: url || '',
-                lineNumber: lineNumber || 0,
+                url: url,
+                lineNumber: lineNumber,
                 operatingSystem: this.get('platformInfo').os,
                 architecture: this.get('platformInfo').arch,
-                error: error || new Error()
+                error: error
             });
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.ClientErrorManager = new ClientErrorManager();
-    return window.ClientErrorManager;
+    return ClientErrorManager;
 });

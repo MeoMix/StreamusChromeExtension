@@ -7,17 +7,21 @@
     var GoogleSignInPromptView = PromptView.extend({
         contentText: chrome.i18n.getMessage('googleSignInMessage'),
         
+        signInManager: null,
+        
         initialize: function () {
             this.model =  new Prompt({
                 title: chrome.i18n.getMessage('signInToGoogle'),
                 reminderProperty: 'remindGoogleSignIn'
             });
 
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+
             PromptView.prototype.initialize.apply(this, arguments);
         },
         
         onSubmit: function () {
-            Streamus.backgroundPage.SignInManager.set('needPromptGoogleSignIn', false);
+            this.signInManager.set('needPromptGoogleSignIn', false);
         }
     });
 

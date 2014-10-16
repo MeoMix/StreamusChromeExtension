@@ -6,12 +6,19 @@
 ], function (ListItemType, PlaylistItemView, StreamItemView, SearchResultView) {
     'use strict';
 
-    var Playlists = Streamus.backgroundPage.Playlists;
-    var Search = Streamus.backgroundPage.Search;
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var SignInManager = Streamus.backgroundPage.SignInManager;
-    
     var Sortable = Backbone.Marionette.Behavior.extend({
+        playlists: null,
+        search: null,
+        streamItems: null,
+        signInManager: null,
+
+        initialize: function() {
+            this.playlists = Streamus.backgroundPage.Playlists;
+            this.search = Streamus.backgroundPage.Search;
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+        },
+
         onRender: function () {
             this.view.ui.childContainer.sortable(this._getSortableOptions());
         },
@@ -35,6 +42,7 @@
 
                 placeholder: 'sortable-placeholder listItem listItem--medium hidden',
 
+                //  TODO: Reduce nesting
                 helper: function(ui, listItem) {
                     //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
                     var copyHelperView;
@@ -158,14 +166,14 @@
 
                         var draggedModels = [];
                         if (listItemType === ListItemType.StreamItem) {
-                            draggedModels = StreamItems.selected();
-                            StreamItems.deselectAll();
+                            draggedModels = self.streamItems.selected();
+                            self.streamItems.deselectAll();
                         } else if (listItemType === ListItemType.PlaylistItem) {
-                            var activePlaylistItems = Playlists.getActivePlaylist().get('items');
+                            var activePlaylistItems = self.playlists.getActivePlaylist().get('items');
                             draggedModels = activePlaylistItems.selected();
                             activePlaylistItems.deselectAll();
                         } else if (listItemType === ListItemType.SearchResult) {
-                            var searchResults = Search.get('results');
+                            var searchResults = self.search.get('results');
                             draggedModels = searchResults.selected();
                             searchResults.deselectAll();
                         }
@@ -201,14 +209,14 @@
 
                     //  TODO: This logic prevents dragging a duplicate streamItem to a Playlist, but I also would like to prevent
                     //  duplicates in the Stream.
-                    if (listItemType === ListItemType.StreamItem && SignInManager.get('signedIn')) {
+                    if (listItemType === ListItemType.StreamItem && self.signInManager.get('signedIn')) {
                         var streamItemId = ui.item.data('id');
 
                         //  Color the placeholder to indicate that the StreamItem can't be copied into the Playlist.
-                        var draggedStreamItem = StreamItems.get(streamItemId);
+                        var draggedStreamItem = self.streamItems.get(streamItemId);
 
                         //  TODO: FRAGILE! Checking to see if the target is playlist area, no good.
-                        var alreadyExists = Playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
+                        var alreadyExists = self.playlists.getActivePlaylist().get('items').hasSong(draggedStreamItem.get('song'));
                         var isOverPlaylist = event.target.id === 'activePlaylistArea-listItems';
   
                         ui.placeholder.toggleClass('is-notDroppable', alreadyExists && isOverPlaylist);

@@ -1,6 +1,4 @@
-﻿define([
-    'background/model/tabManager'
-], function (TabManager) {
+﻿define(function () {
     'use strict';
 
     var BrowserSettings = Backbone.Model.extend({
@@ -36,20 +34,18 @@
             }
         },
         
-        _onChangeApplyWebsiteEnhancementsToYouTube: function(model, enhanceYouTube) {
-            TabManager.messageYouTubeTabs({
+        _onChangeApplyWebsiteEnhancementsToYouTube: function (model, enhanceYouTube) {
+            Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: enhanceYouTube ? 'enhance-on' : 'enhance-off'
             });
         },
         
         _onChangeApplyWebsiteEnhancementsToBeatport: function (model, enhanceBeatport) {
-            TabManager.messageBeatportTabs({
+            Streamus.channels.tab.commands.trigger('notify:beatport', {
                 event: enhanceBeatport ? 'enhance-on' : 'enhance-off'
             });
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.BrowserSettings = new BrowserSettings();
-    return window.BrowserSettings;
+    return BrowserSettings;
 });

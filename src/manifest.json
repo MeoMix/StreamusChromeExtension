@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.159",
+	"version": "0.163",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -67,7 +67,7 @@
 	},
 	"content_scripts": [
 		{
-			"matches": ["*://*.youtube.com/embed/*"],
+			"matches": ["*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:*"],
 			"all_frames": true,
 			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]
 		},

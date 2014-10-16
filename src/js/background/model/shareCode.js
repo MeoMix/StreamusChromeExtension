@@ -10,14 +10,16 @@ define(function () {
             urlFriendlyEntityTitle: ''
         },
         
-        urlRoot: Streamus.serverUrl + 'ShareCode/',
+        urlRoot: function() {
+            return Streamus.serverUrl + 'ShareCode/';
+        },
         
         copyUrl: function() {
             var shortId = this.get('shortId');
             var urlFriendlyEntityTitle = this.get('urlFriendlyEntityTitle');
             var shareUrl = 'https://share.streamus.com/playlist/' + shortId + '/' + urlFriendlyEntityTitle;
 
-            Backbone.Wreqr.radio.channel('clipboard').commands.trigger('copy:text', shareUrl);
+            Streamus.channels.clipboard.commands.trigger('copy:text', shareUrl);
         }
     });
 

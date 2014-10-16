@@ -6,20 +6,23 @@
     'foreground/view/prompt/updateStreamusPromptView'
 ], function (YouTubePlayerError, ErrorPromptView, GoogleSignInPromptView, LinkUserIdPromptView, UpdateStreamusPromptView) {
     'use strict';
-    
-    var Player = Streamus.backgroundPage.Player;
-    var SignInManager = Streamus.backgroundPage.SignInManager;
 
     var PromptRegion = Backbone.Marionette.Region.extend({
         el: '#foregroundArea-promptRegion',
         
+        player: null,
+        signInManager: null,
+        
         initialize: function () {
+            this.player = Streamus.backgroundPage.Player;
+            this.signInManager = Streamus.backgroundPage.SignInManager;
+
             //  TODO: show should be a command not an event.
-            this.listenTo(Backbone.Wreqr.radio.channel('prompt').commands, 'show:prompt', this._showPrompt);
-            this.listenTo(Backbone.Wreqr.radio.channel('foregroundArea').vent, 'shown', this._onForegroundAreaShown);
-            this.listenTo(Player, 'youTubeError', this._showYouTubeErrorPrompt);
-            this.listenTo(SignInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
-            this.listenTo(SignInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
+            this.listenTo(Streamus.channels.prompt.commands, 'show:prompt', this._showPrompt);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
+            this.listenTo(this.player, 'youTubeError', this._showYouTubeErrorPrompt);
+            this.listenTo(this.signInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
+            this.listenTo(this.signInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeUpdateAvailable.bind(this));
         },
         
@@ -39,13 +42,13 @@
         //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
         //  This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
         _promptIfNeedLinkUserId: function() {
-            if (SignInManager.get('needPromptLinkUserId')) {
+            if (this.signInManager.get('needPromptLinkUserId')) {
                 this._showLinkUserIdPrompt();
             }
         },
         
         _promptIfNeedGoogleSignIn: function() {
-            if (SignInManager.get('needPromptGoogleSignIn')) {
+            if (this.signInManager.get('needPromptGoogleSignIn')) {
                 this._showGoogleSignInPrompt();
             }
         },

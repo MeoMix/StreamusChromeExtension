@@ -1,16 +1,12 @@
 ﻿define([
-    'foreground/collection/contextMenuItems',
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
     'foreground/view/listItemButton/addSongButtonView',
     'foreground/view/listItemButton/deleteSongButtonView',
     'foreground/view/listItemButton/playSongButtonView',
     'text!template/leftPane/playlistItem.html'
-], function (ContextMenuItems, ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
+], function (ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
     'use strict';
-    
-    var StreamItems = Streamus.backgroundPage.StreamItems;
-    var Player = Streamus.backgroundPage.Player;
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium',
@@ -32,6 +28,14 @@
         
         buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteSongButtonView],
         
+        streamItems: null,
+        player: null,
+
+        initialize: function() {
+            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.player = Streamus.backgroundPage.Player;
+        },
+        
         onRender: function () {
             this._setShowingSpinnerClass();
         },
@@ -48,7 +52,7 @@
         _showContextMenu: function (event) {
             event.preventDefault();
 
-            ContextMenuItems.reset([{
+            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                     text: chrome.i18n.getMessage('copyUrl'),
                     onClick: this._copyUrl.bind(this)
                 }, {
@@ -66,12 +70,11 @@
                 }, {
                     text: chrome.i18n.getMessage('watchOnYouTube'),
                     onClick: this._watchOnYouTube.bind(this)
-                }]
-            );
+                }]);
         },
         
         _addToStream: function () {
-            StreamItems.addSongs(this.model.get('song'));
+            this.streamItems.addSongs(this.model.get('song'));
         },
         
         _copyUrl: function () {
@@ -87,14 +90,13 @@
         },
         
         _playInStream: function () {
-            StreamItems.addSongs(this.model.get('song'), {
+            this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
         },
         
         _watchOnYouTube: function () {
-            var song = this.model.get('song');
-            Player.watchInTab(song.get('id'), song.get('url'));
+            this.player.watchInTab(this.model.get('song'));
         }
     });
 

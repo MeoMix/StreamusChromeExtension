@@ -59,14 +59,12 @@
                         message = 'Repeat stream on';
                 }
                 
-                Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                     message: message
                 });
             }
         }
     });
 
-    //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-    window.RepeatButton = new RepeatButton();
-    return window.RepeatButton;
+    return RepeatButton;
 });

@@ -1,19 +1,12 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
-    'background/collection/streamItems',
-    'background/collection/playlists',
-    'background/model/browserSettings',
-    'background/model/signInManager',
+    'background/model/dataSource',
     'background/model/song',
-    'background/model/tabManager',
-    'common/enum/dataSourceType',
-    'common/model/youTubeV3API',
-    'common/model/utility',
-    'common/model/dataSource'
-], function (StreamItems, Playlists, BrowserSettings, SignInManager, Song, TabManager, DataSourceType, YouTubeV3API, Utility, DataSource) {
+    'background/model/youTubeV3API'
+], function (DataSource, Song, YouTubeV3API) {
     'use strict';
 
-    var ContextMenu = Backbone.Model.extend({
+    var ChromeContextMenusManager = Backbone.Model.extend({
         defaults: {
             textSelectionId: -1,
             youTubeLinkPlayId: -1,
@@ -21,7 +14,12 @@ define([
             youTubeLinkSaveId: -1,
             youTubePagePlayId: -1,
             youTubePageAddId: -1,
-            youTubePageSaveId: -1
+            youTubePageSaveId: -1,
+            streamItems: null,
+            browserSettings: null,
+            tabManager: null,
+            signInManager: null,
+            playlists: null,
         },
 
         initialize: function () {
@@ -29,30 +27,30 @@ define([
             this._setYouTubeLinks();
             this._setYouTubePages();
             
-            this.listenTo(BrowserSettings, 'change:showContextMenuOnTextSelection', this._setTextSelection);
-            this.listenTo(BrowserSettings, 'change:showContextMenuOnYouTubeLinks', this._setYouTubeLinks);
-            this.listenTo(BrowserSettings, 'change:showContextMenuOnYouTubePages', this._setYouTubePages);
-            this.listenTo(SignInManager, 'change:signedIn', this._onChangeSignedIn);
-            this.listenTo(Playlists, 'add', this._onPlaylistAdded);
+            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnTextSelection', this._setTextSelection);
+            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubeLinks', this._setYouTubeLinks);
+            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubePages', this._setYouTubePages);
+            this.listenTo(this.get('signInManager'), 'change:signedIn', this._onChangeSignedIn);
+            this.listenTo(this.get('playlists'), 'add', this._onPlaylistAdded);
         },
         
         _onPlaylistAdded: function (addedPlaylist) {
-            if (BrowserSettings.get('showContextMenuOnYouTubeLinks')) {
+            if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
                 this._createPlaylistContextMenu(this._getContextMenuOptions(true), this.get('youTubeLinkSaveId'), addedPlaylist);
             }
 
-            if (BrowserSettings.get('showContextMenuOnYouTubePages')) {
+            if (this.get('browserSettings').get('showContextMenuOnYouTubePages')) {
                 this._createPlaylistContextMenu(this._getContextMenuOptions(false), this.get('youTubePageSaveId'), addedPlaylist);
             }
         },
         
         _onChangeSignedIn: function(model, signedIn) {
             if (signedIn) {
-                if (BrowserSettings.get('showContextMenuOnYouTubeLinks')) {
+                if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
                     this.set('youTubeLinkSaveId', this._createSaveContextMenu(this._getContextMenuOptions(true)));
                 }
                 
-                if (BrowserSettings.get('showContextMenuOnYouTubePages')) {
+                if (this.get('browserSettings').get('showContextMenuOnYouTubePages')) {
                     this.set('youTubePageSaveId', this._createSaveContextMenu(this._getContextMenuOptions(false)));
                 }
             } else {
@@ -62,15 +60,15 @@ define([
         },
         
         _setTextSelection: function () {
-            BrowserSettings.get('showContextMenuOnTextSelection') ? this._createTextSelection() : this._removeContextMenu('textSelectionId');
+            this.get('browserSettings').get('showContextMenuOnTextSelection') ? this._createTextSelection() : this._removeContextMenu('textSelectionId');
         },
         
         _setYouTubeLinks: function () {
-            BrowserSettings.get('showContextMenuOnYouTubeLinks') ? this._createYouTubeLinks() : this._removeYouTubeLinks();
+            this.get('browserSettings').get('showContextMenuOnYouTubeLinks') ? this._createYouTubeLinks() : this._removeYouTubeLinks();
         },
         
         _setYouTubePages: function () {
-            BrowserSettings.get('showContextMenuOnYouTubePages') ? this._createYouTubePages() : this._removeYouTubePages();
+            this.get('browserSettings').get('showContextMenuOnYouTubePages') ? this._createYouTubePages() : this._removeYouTubePages();
         },
         
         _createYouTubeLinks: function() {
@@ -79,7 +77,7 @@ define([
             this.set('youTubeLinkPlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubeLinkAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (SignInManager.get('signedIn')) {
+            if (this.get('signInManager').get('signedIn')) {
                 this.set('youTubeLinkSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },
@@ -90,7 +88,7 @@ define([
             this.set('youTubePagePlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubePageAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (SignInManager.get('signedIn')) {
+            if (this.get('signInManager').get('signedIn')) {
                 this.set('youTubePageSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },
@@ -145,13 +143,13 @@ define([
         },
         
         _createSaveContextMenu: function(contextMenuOptions) {
-            //  Create a sub menu item to hold all Playlists
+            //  Create a sub menu item to hold playlists
             var saveContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('save')
             }));
 
             //  Create menu items for each playlist
-            Playlists.each(function (playlist) {
+            this.get('playlists').each(function (playlist) {
                 this._createPlaylistContextMenu(contextMenuOptions, saveContextMenuId, playlist);
             }.bind(this));
 
@@ -199,7 +197,7 @@ define([
                             callback(new Song(songInformation));
                         },
                         error: function () {
-                            Backbone.Wreqr.radio.channel('backgroundNotification').commands.trigger('show:notification', {
+                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('failedToFindSong'),
                                 message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + url
                             });
@@ -210,7 +208,7 @@ define([
         },
         
         _getContextMenuOptions: function (isLink) {
-            var urlPatterns = TabManager.get('youTubeUrlPatterns');
+            var urlPatterns = this.get('tabManager').get('youTubeUrlPatterns');
 
             var contextMenuOptions = {
                 contexts: isLink ? ['link'] : ['page'],
@@ -223,28 +221,28 @@ define([
         
         _onClickTextSelectionContextMenu: function (onClickData) {
             this._getSongFromText(onClickData.selectionText, function (song) {
-                StreamItems.addSongs(song, {
+                this.get('streamItems').addSongs(song, {
                     playOnAdd: true
                 });
-            });
+            }.bind(this));
         },
         
         _onClickPlayContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
             this._getSongFromUrl(url, function (song) {
-                StreamItems.addSongs(song, {
+                this.get('streamItems').addSongs(song, {
                     playOnAdd: true
                 });
-            });
+            }.bind(this));
         },
         
         _onClickAddContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
             this._getSongFromUrl(url, function (song) {
-                StreamItems.addSongs(song);
-            });
+                this.get('streamItems').addSongs(song);
+            }.bind(this));
         },
         
         _onClickSaveContextMenu: function(playlist, onClickData) {
@@ -256,5 +254,5 @@ define([
         }
     });
 
-    return new ContextMenu();
+    return ChromeContextMenusManager;
 });
