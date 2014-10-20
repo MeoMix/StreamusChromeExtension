@@ -4,13 +4,15 @@
     'use strict';
 
     var ClientErrorManager = Backbone.Model.extend({
-        defaults: {
-            platformInfo: {
-                os: '',
-                arch: '',
-                nacl_arch: ''
-            },
-            reportedErrors: new ClientErrors()
+        defaults: function () {
+            return {
+                platformInfo: {
+                    os: '',
+                    arch: '',
+                    nacl_arch: ''
+                },
+                reportedErrors: new ClientErrors()
+            };
         },
 
         initialize: function () {

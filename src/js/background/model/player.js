@@ -6,35 +6,37 @@ define([
     var Player = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Player'),
 
-        defaults: {
-            //  Need to set the ID for Backbone.LocalStorage
-            id: 'Player',
-            //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
-            currentTime: 0,
-            //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
-            ready: false,
-            loading: false,
-            loadAttempt: 1,
-            //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
-            maxLoadAttempts: 10,
-            state: PlayerState.Unstarted,
-            //  This will be set after the player is ready and can communicate its true value.
-            //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
-            volume: 50,
-            maxVolume: 100,
-            minVolume: 0,
-            //  This will be set after the player is ready and can communicate its true value.
-            muted: false,
-            loadedSongId: '',
-            playImmediately: false,
-            songIdToActivate: '',
-            
-            //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
-            //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
-            refreshAlarmName: 'refreshAlarm_' + _.now(),
-            
-            settings: null,
-            youTubePlayer: null
+        defaults: function () {
+            return {
+                //  Need to set the ID for Backbone.LocalStorage
+                id: 'Player',
+                //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
+                currentTime: 0,
+                //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
+                ready: false,
+                loading: false,
+                currentLoadAttempt: 1,
+                //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
+                maxLoadAttempts: 10,
+                state: PlayerState.Unstarted,
+                //  This will be set after the player is ready and can communicate its true value.
+                //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
+                volume: 50,
+                maxVolume: 100,
+                minVolume: 0,
+                //  This will be set after the player is ready and can communicate its true value.
+                muted: false,
+                loadedSongId: '',
+                playImmediately: false,
+                songIdToActivate: '',
+
+                //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
+                //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
+                refreshAlarmName: 'refreshAlarm_' + _.now(),
+
+                settings: null,
+                youTubePlayer: null
+            };
         },
         
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
@@ -56,7 +58,7 @@ define([
             this.listenTo(this.get('youTubePlayer'), 'change:state', this._onYouTubePlayerChangeState);
             this.listenTo(this.get('youTubePlayer'), 'youTubeError', this._onYouTubePlayerError);
             this.listenTo(this.get('youTubePlayer'), 'change:loading', this._onYouTubePlayerChangeLoading);
-            this.listenTo(this.get('youTubePlayer'), 'change:loadAttempt', this._onYouTubePlayerChangeLoadAttempt);
+            this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
             chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
@@ -174,8 +176,8 @@ define([
         _ensureInitialState: function () {
             this.set('ready', this.get('youTubePlayer').get('ready'));
             this.set('loading', this.get('youTubePlayer').get('loading'));
-            //  TODO: How will I handle loadAttempt w/ 2+ APIs? If both are loading they could be on separate attempts...?
-            this.set('loadAttempt', this.get('youTubePlayer').get('loadAttempt'));
+            //  TODO: How will I handle currentLoadAttempt w/ 2+ APIs? If both are loading they could be on separate attempts...?
+            this.set('currentLoadAttempt', this.get('youTubePlayer').get('currentLoadAttempt'));
         },
 
         //  Attempt to set playback quality to suggestedQuality or highest possible.
@@ -304,9 +306,9 @@ define([
             this.set('loading', loading);
         },
         
-        _onYouTubePlayerChangeLoadAttempt: function (model, loadAttempt) {
+        _onYouTubePlayerChangeCurrentLoadAttempt: function (model, currentLoadAttempt) {
             //  TODO: This will need to be smarter w/ SoundCloud support.
-            this.set('loadAttempt', loadAttempt);
+            this.set('currentLoadAttempt', currentLoadAttempt);
         },
         
         //  Emit errors so the foreground so can notify the user.

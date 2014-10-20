@@ -20,8 +20,7 @@
                 loadingYouTubeMessage: chrome.i18n.getMessage('loadingYouTube'),
                 loadingYouTubeFailedMessage: chrome.i18n.getMessage('loadingYouTubeFailed'),
                 reloadMessage: chrome.i18n.getMessage('reload'),
-                loadAttempt: this.player.get('loadAttempt'),
-                maxLoadAttempts: this.player.get('maxLoadAttempts')
+                loadAttemptMessage: this._getLoadAttemptMessage()
             };
         },
 
@@ -36,7 +35,7 @@
             loadingMessage: '#foregroundArea-loadingMessage',
             loadingFailedMessage: '#foregroundArea-loadingFailedMessage',
             reloadLink: '.foregroundArea-reloadLink',
-            loadAttempt: '#foregroundArea-loadAttempt'
+            loadAttemptMessage: '#foregroundArea-loadAttemptMessage'
         },
 
         regions: {
@@ -58,7 +57,7 @@
 
             this.listenTo(this.settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
             this.listenTo(this.player, 'change:loading', this._onPlayerChangeLoading);
-            this.listenTo(this.player, 'change:loadAttempt', this._onPlayerChangeLoadAttempt);
+            this.listenTo(this.player, 'change:currentLoadAttempt', this._onPlayerChangeCurrentLoadAttempt);
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);
@@ -135,14 +134,18 @@
             loading ? this._startLoading() : this._stopLoading();
         },
         
-        _onPlayerChangeLoadAttempt: function (model, loadAttempt) {
-            this.ui.loadAttempt.text(loadAttempt);
+        _onPlayerChangeCurrentLoadAttempt: function () {
+            this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
         },
         
         _checkPlayerLoading: function () {
             if (this.player.get('loading')) {
                 this._startLoading();
             }
+        },
+        
+        _getLoadAttemptMessage: function() {
+            return chrome.i18n.getMessage('loadAttempt', [this.player.get('currentLoadAttempt'), this.player.get('maxLoadAttempts')]);
         }
     });
 

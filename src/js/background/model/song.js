@@ -6,22 +6,20 @@
     'use strict';
 
     var Song = Backbone.Model.extend({
-        defaults: function () {
-            return {
-                //  ID is either a YouTube Video ID or a SoundCloud Song ID.
-                id: '',
-                //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
-                title: '',
-                author: '',
-                //  Duration in seconds for the length of the given song.
-                duration: -1,
-                type: SongType.None,
+        defaults: {
+            //  ID is either a YouTube Video ID or a SoundCloud Song ID.
+            id: '',
+            //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
+            title: '',
+            author: '',
+            //  Duration in seconds for the length of the given song.
+            duration: -1,
+            type: SongType.None,
                 
-                //  These are calculated:
-                prettyDuration: '',
-                url: '',
-                cleanTitle: ''
-            };
+            //  These are calculated:
+            prettyDuration: '',
+            url: '',
+            cleanTitle: ''
         },
         
         //  Song is never saved to the server -- it gets flattened into a PlaylistItem

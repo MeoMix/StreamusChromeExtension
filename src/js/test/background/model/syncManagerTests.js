@@ -59,8 +59,7 @@
             sinon.spy(SyncManager, '_onSyncEvent');
 
             Streamus.channels.sync.vent.trigger('sync', {});
-            //  TODO: Why the heck doesn't this pass?
-            //expect(SyncManager._onSyncEvent.calledOnce).to.equal(true);
+            expect(SyncManager._onSyncEvent.calledOnce).to.equal(true);
             expect(SyncManager.get('syncActions').length).to.equal(1);
             
             SyncManager._onSyncEvent.restore();
@@ -238,9 +237,8 @@
                 modelParentId: this.playlistItem.get('playlistId'),
                 modelAttributes: this.playlistItem.getSyncAttributes()
             });
-
-            //  TODO: Why does this not work??
-            //expect(SyncManager._onSyncActionAdded.calledOnce).to.equal(true);
+            
+            expect(SyncManager._onSyncActionAdded.calledOnce).to.equal(true);
             expect(SyncManager.get('syncWriteTimeout')).not.to.equal(null);
 
             SyncManager._onSyncActionAdded.restore();

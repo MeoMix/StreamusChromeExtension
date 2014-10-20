@@ -22,10 +22,33 @@
         localDebug: true,
         testing: true,
         serverUrl: '',
+        
+        //  TODO: Not sure how I am going to handle background/foreground channels.
+        channels: {
+            global: Backbone.Wreqr.radio.channel('global'),
+            prompt: Backbone.Wreqr.radio.channel('prompt'),
+            notification: Backbone.Wreqr.radio.channel('notification'),
+            foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
+            window: Backbone.Wreqr.radio.channel('window'),
+            contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
+            
+            //  BACKGROUND:
+            sync: Backbone.Wreqr.radio.channel('sync'),
+            tab: Backbone.Wreqr.radio.channel('tab'),
+            error: Backbone.Wreqr.radio.channel('error'),
+            backgroundNotification: Backbone.Wreqr.radio.channel('backgroundNotification'),
+            //notification: Backbone.Wreqr.radio.channel('notification'),
+            backgroundArea: Backbone.Wreqr.radio.channel('backgroundArea'),
+            clipboard: Backbone.Wreqr.radio.channel('clipboard'),
+            foreground: Backbone.Wreqr.radio.channel('foreground')
+        },
+        
+        backgroundChannels: null,
 
         initialize: function () {
             this._setServerUrl();
             this._setBackgroundPage();
+            this._setBackgroundChannels();
             this.on('start', this._runTests);
         },
 
@@ -35,6 +58,14 @@
         
         _setBackgroundPage: function() {
             this.backgroundPage = chrome.extension.getBackgroundPage();
+        },
+        
+        _setBackgroundChannels: function () {
+            this.backgroundChannels = {
+                error: this.backgroundPage.Backbone.Wreqr.radio.channel('error'),
+                notification: this.backgroundPage.Backbone.Wreqr.radio.channel('notification'),
+                foreground: this.backgroundPage.Backbone.Wreqr.radio.channel('foreground')
+            };
         },
         
         _runTests: function () {

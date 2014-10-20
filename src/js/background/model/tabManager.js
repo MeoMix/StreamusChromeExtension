@@ -4,7 +4,7 @@
     var TabManager = Backbone.Model.extend({
         defaults: function () {
             return {
-                streamusForegroundUrl: 'chrome-extension://' + Streamus.extensionId + '/foreground.html',
+                streamusForegroundUrl: 'chrome-extension://' + chrome.runtime.id + '/foreground.html',
                 donateUrl: 'https://streamus.com/#donate',
                 keyboardShortcutsUrl: 'chrome://extensions/configureCommands',
                 youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],

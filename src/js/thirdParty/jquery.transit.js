@@ -1,4 +1,5 @@
-﻿/*!
+﻿//  NOTE: I HAVE MODIFIED THIS TO ALLOW FOR TRANSFORM3D IN CHROME.
+/*!
  * jQuery Transit - CSS3 transitions and transformations
  * (c) 2011-2014 Rico Sta. Cruz
  * MIT Licensed.
@@ -160,16 +161,7 @@
                 value = new Transform(value);
             }
 
-            // We've seen the 3D version of Scale() not work in Chrome when the
-            // element being scaled extends outside of the viewport.  Thus, we're
-            // forcing Chrome to not use the 3d transforms as well.  Not sure if
-            // translate is affectede, but not risking it.  Detection code from
-            // http://davidwalsh.name/detecting-google-chrome-javascript
-            if (support.transform === 'WebkitTransform' && !isChrome) {
-                elem.style[support.transform] = value.toString(true);
-            } else {
-                elem.style[support.transform] = value.toString();
-            }
+            elem.style[support.transform] = value.toString(true);
 
             $(elem).data('transform', value);
         }
@@ -431,6 +423,9 @@
         // it converts to a `-webkit-transition` CSS property string instead.
         toString: function (use3d) {
             var re = [];
+
+            console.log('use3d:', use3d);
+            console.trace();
 
             for (var i in this) {
                 if (this.hasOwnProperty(i)) {

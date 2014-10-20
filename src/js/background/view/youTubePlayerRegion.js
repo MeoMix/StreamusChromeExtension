@@ -14,7 +14,7 @@
 
             this.listenTo(Streamus.channels.backgroundArea.vent, 'shown', this._onBackgroundAreaShown);
             this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
-            this.listenTo(this.youTubePlayer, 'change:loadAttempt', this._onYouTubePlayerChangeLoadAttempt);
+            this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
         },
         
         _onBackgroundAreaShown: function () {
@@ -40,7 +40,7 @@
             }
         },
 
-        _onYouTubePlayerChangeLoadAttempt: function (model) {
+        _onYouTubePlayerChangeCurrentLoadAttempt: function (model) {
             if (model.get('loading')) {
                 this._showYouTubePlayerView();
             }

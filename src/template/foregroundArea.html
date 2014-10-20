@@ -1,10 +1,9 @@
-﻿<div id="foregroundArea-loadingMessage" class="instruction is-showingSpinner hidden">
+﻿<div id="foregroundArea-loadingMessage" class="instruction is-showingSpinner u-alignTopThird hidden">
     <div class="instruction-header">
         <%= loadingYouTubeMessage %>
     </div>
     <div class="u-textSecondary">
-        <!-- TODO: i18n -->
-        Attempt <span id="foregroundArea-loadAttempt"><%= loadAttempt %></span> of <%= maxLoadAttempts %>
+        <span id="foregroundArea-loadAttemptMessage"><%= loadAttemptMessage %></span>
         <div>
             <span class="foregroundArea-reloadLink u-link lineHeight-base">
                 <%= reloadMessage %>
@@ -13,7 +12,7 @@
     </div>
 </div>
 
-<div id="foregroundArea-loadingFailedMessage" class="instruction hidden">
+<div id="foregroundArea-loadingFailedMessage" class="instruction u-alignTopThird hidden">
     <div class="instruction-header">
         <%= loadingYouTubeFailedMessage %>
     </div>

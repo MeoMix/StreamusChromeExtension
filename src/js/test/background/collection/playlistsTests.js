@@ -33,7 +33,7 @@
             //expect(this.playlists)
         });
 
-        it('should not emit a second sync event when adding a playlist via sync', function() {
+        xit('should not emit a second sync event when adding a playlist via sync', function() {
             sinon.spy(Playlists, '_emitSyncAddEvent');
             sinon.spy(Playlists, '_onAdd');
 
@@ -52,8 +52,7 @@
             }));
 
             expect(Playlists._emitSyncAddEvent.called).to.equal(false);
-            //  TODO: This fails to work properly because Playlists is a singleton. :/
-            //expect(Playlists._onAdd.calledOnce).to.equal(true);
+            expect(Playlists._onAdd.calledOnce).to.equal(true);
 
             Playlists._emitSyncAddEvent.restore();
         });

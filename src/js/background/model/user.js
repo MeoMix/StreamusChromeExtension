@@ -5,12 +5,10 @@ define(function () {
     'use strict';
 
     var User = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                id: null,
-                googlePlusId: '',
-                playlists: null
-            };
+        defaults: {
+            id: null,
+            googlePlusId: '',
+            playlists: null
         },
         
         urlRoot: function() {
@@ -107,6 +105,8 @@ define(function () {
         
         //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
         _setPlaylists: function () {
+            console.log("Calling set playlists:", this.get('playlists'));
+
             this.globalPlaylists.reset(this.get('playlists'));
             this.globalPlaylists.setUserId(this.get('id'));
         },

@@ -13,23 +13,21 @@ define([
     'use strict';
 
     var Playlist = Backbone.Model.extend({
-        defaults: function () {
-            return {
-                id: null,
-                userId: null,
-                title: chrome.i18n.getMessage('newPlaylist'),
-                //  This is set to a PlaylistItemsCollection once the playlist has an ID.
-                items: null,
-                dataSource: null,
-                dataSourceLoaded: false,
-                active: false,
-                //  This is count and total duration of all playlistItem songs.
-                displayInfo: '',
-                sequence: -1,
-                listItemType: ListItemType.Playlist,
-                //  Only allowed to delete a playlist if more than 1 exists.
-                canDelete: false
-            };
+        defaults: {
+            id: null,
+            userId: null,
+            title: chrome.i18n.getMessage('newPlaylist'),
+            //  This is set to a PlaylistItemsCollection once the playlist has an ID.
+            items: null,
+            dataSource: null,
+            dataSourceLoaded: false,
+            active: false,
+            //  This is count and total duration of all playlistItem songs.
+            displayInfo: '',
+            sequence: -1,
+            listItemType: ListItemType.Playlist,
+            //  Only allowed to delete a playlist if more than 1 exists.
+            canDelete: false
         },
 
         urlRoot: function() {

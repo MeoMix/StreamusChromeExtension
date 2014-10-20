@@ -1,4 +1,4 @@
-﻿//  TODO: This isn't tested much because I'm ripping it out soon.
+﻿//  TODO: Test more
 define([
     'foreground/model/saveSongs',
     'foreground/view/prompt/saveSongsView',

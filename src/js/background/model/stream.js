@@ -3,8 +3,10 @@
     'use strict';
 
     var Stream = Backbone.Model.extend({
-        defaults: {
-            streamItems: null
+        defaults: function () {
+            return {
+                items: new StreamItems()
+            };
         }
     });
 

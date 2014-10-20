@@ -21,7 +21,8 @@
             return !_.isUndefined(this.currentView) && this.currentView instanceof PlaylistsAreaView;
         },
         
-        _createPlaylistsAreaView: function() {
+        _createPlaylistsAreaView: function () {
+            //  TODO: I will need to have a view for if not signed in.
             var playlistsAreaView = new PlaylistsAreaView({
                 collection: Streamus.backgroundPage.Playlists
             });

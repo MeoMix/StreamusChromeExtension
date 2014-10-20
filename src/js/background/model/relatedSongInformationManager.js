@@ -49,5 +49,6 @@
         }
     });
 
+    //  TODO: Remove need for singleton by introducing a Stream object which holds a reference to RelatedSongInformationManager.
     return new RelatedSongInformationManager();
 });

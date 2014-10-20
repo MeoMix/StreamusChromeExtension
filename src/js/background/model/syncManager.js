@@ -7,10 +7,12 @@
     var SYNC_WRITE_TIMEOUT_DELAY = 60000;
     
     var SyncManager = Backbone.Model.extend({
-        defaults: {
-            //  TODO: What if they restart Streamus with queuedActions still available? Need to persist in local.
-            syncActions: new SyncActions(),
-            syncWriteTimeout: null
+        defaults: function () {
+            return {
+                //  TODO: What if they restart Streamus with queuedActions still available? Need to persist in local.
+                syncActions: new SyncActions(),
+                syncWriteTimeout: null
+            };
         },
         
         initialize: function () {

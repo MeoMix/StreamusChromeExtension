@@ -1,4 +1,5 @@
-﻿/**
+﻿//  NOTE: I HAVE MODIFIED THIS FILE TO ADD THE "patch" KEYWORD. PATCH IS TREATED AS A FULL UPDATE.
+/**
  * Backbone localStorage Adapter
  * Version 1.1.7
  *
@@ -171,7 +172,6 @@
           (Backbone.Deferred && Backbone.Deferred());
 
         try {
-
             switch (method) {
                 case "read":
                     resp = model.id != undefined ? store.find(model) : store.findAll();
@@ -179,6 +179,7 @@
                 case "create":
                     resp = store.create(model);
                     break;
+                case "patch":
                 case "update":
                     resp = store.update(model);
                     break;

@@ -508,5 +508,50 @@
 	},
 	"loadingYouTubeFailed": {
 		"message": "Loading YouTube failed"
+	},
+
+	"loadAttempt": {
+		"message": "Attempt $currentLoadAttempt$ of $maxLoadAttempts$",
+		"placeholders": {
+			"currentLoadAttempt": {
+				"content": "$1"
+			},
+			"maxLoadAttempts": {
+				"content": "$2"
+			}
+		}
+	},
+
+	"songAlreadyInCollection": {
+		"message": "Song already in $collectionName$",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+
+	"allSongsAlreadyInCollection": {
+		"message": "All songs already in $collectionName$",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	
+	"songsAlreadyInCollection": {
+		"message": "$duplicateSongCount$ of $draggedSongCount$ songs already in $collectionName$",
+		"placeholders": {
+			"duplicateSongCount": {
+				"content": "$1"
+			},
+			"draggedSongCount": {
+				"content": "$2"
+			},
+			"collectionName": {
+				"content": "$3"
+			}
+		}
 	}
 }

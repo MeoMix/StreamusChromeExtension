@@ -14,6 +14,7 @@
         
         initialize: function() {
             this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
+            this.listenTo(Streamus.channels.global.vent, 'collectionReceived', this._onCollectionReceived);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
@@ -27,6 +28,10 @@
         
         onBeforeDestroy: function () {
             //  Forget selected items when the view is destroyed.
+            this._deselectCollection();
+        },
+        
+        _onCollectionReceived: function () {
             this._deselectCollection();
         },
         

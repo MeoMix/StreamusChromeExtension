@@ -7,6 +7,7 @@ define({
         var model = this.get(modelId);
         var sequence = this.getSequenceFromIndex(index);
 
+        console.log('model', model);
         model.save({ sequence: sequence }, { patch: true });
 
         //  Collections with a comparator will not automatically re-sort if you later change model attributes

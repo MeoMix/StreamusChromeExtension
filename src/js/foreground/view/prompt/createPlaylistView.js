@@ -63,7 +63,7 @@
         
         _parseInput: function () {
             var youTubeUrl = this.ui.youTubeSourceInput.val().trim();
-            this.ui.youTubeSourceInput.removeData('datasource').removeClass('is-valid is-invalid');
+            this.ui.youTubeSourceInput.removeData('datasource').removeClass('is-invalid');
 
             if (youTubeUrl !== '') {
                 this._setDataSourceViaUrl(youTubeUrl);
@@ -111,7 +111,6 @@
         _onGetTitleSuccess: function(title) {
             this.ui.playlistTitleInput.val(title);
             this._validateTitle();
-            this.ui.youTubeSourceInput.addClass('is-valid');
         },
         
         _setErrorState: function() {
@@ -121,7 +120,7 @@
         },
         
         _resetInputState: function() {
-            this.ui.youTubeSourceInput.removeClass('is-invalid is-valid');
+            this.ui.youTubeSourceInput.removeClass('is-invalid');
             this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
             this._setDataSourceAsUserInput();
         }

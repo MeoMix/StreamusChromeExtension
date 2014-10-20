@@ -3,6 +3,7 @@
 
     var ClientError = Backbone.Model.extend({
         defaults: function () {
+            //  TODO: Log opera vs chrome.
             var browserVersion = window.navigator.appVersion.match(/Chrome\/(.*?) /)[1];
 
             return {
@@ -32,7 +33,7 @@
         
         //  The first part of the URL is always the same and not very interesting. Drop it off.
         _dropUrlPrefix: function () {
-            this.set('url', this.get('url').replace('chrome-extension://' + Streamus.extensionId + '/', ''));
+            this.set('url', this.get('url').replace('chrome-extension://' + chrome.runtime.id + '/', ''));
         },
         
         _setStack: function() {

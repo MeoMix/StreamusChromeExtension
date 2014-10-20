@@ -5,25 +5,23 @@
     'use strict';
 
     var SyncAction = Backbone.Model.extend({
-        defaults: function () {
-            return {
-                listItemType: ListItemType.None,
-                actionType: SyncActionType.None,
+        defaults: {
+            listItemType: ListItemType.None,
+            actionType: SyncActionType.None,
 
-                modelId: '',
-                //  Only defined if ListItemType is PlaylistItem
-                modelParentId: '',
+            modelId: '',
+            //  Only defined if ListItemType is PlaylistItem
+            modelParentId: '',
                 
-                //  Only defined if ActionType is Added
-                modelAttributes: {   
-                },
+            //  Only defined if ActionType is Added
+            modelAttributes: {   
+            },
                 
-                //  Only defined if ActionType is Updated
-                property: {
-                    name: '',
-                    value: null
-                }
-            };
+            //  Only defined if ActionType is Updated
+            property: {
+                name: '',
+                value: null
+            }
         }
     });
 

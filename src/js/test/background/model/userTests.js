@@ -1,6 +1,7 @@
 ﻿define([
+    'background/collection/playlists',
     'background/model/user'
-], function (User) {
+], function (Playlists, User) {
     'use strict';
 
     describe('User', function () {
@@ -8,7 +9,9 @@
         var GOOGLE_PLUS_ID = '';
 
         beforeEach(function() {
-            this.user = new User();
+            this.user = new User({
+                globalPlaylists: new Playlists()
+            });
         });
         
         function ensureUserState(user) {

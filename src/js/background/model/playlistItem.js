@@ -6,17 +6,15 @@
     'use strict';
     
     var PlaylistItem = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                id: null,
-                playlistId: null,
-                sequence: -1,
-                title: '',
-                selected: false,
-                firstSelected: false,
-                song: null,
-                listItemType: ListItemType.PlaylistItem
-            };
+        defaults: {
+            id: null,
+            playlistId: null,
+            sequence: -1,
+            title: '',
+            selected: false,
+            firstSelected: false,
+            song: null,
+            listItemType: ListItemType.PlaylistItem
         },
         
         urlRoot: function () {

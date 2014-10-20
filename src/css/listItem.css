@@ -140,6 +140,7 @@
   display: flex;
   transition: color 0.15s, background 0.15s;
   position: relative;
+  overflow: hidden;
 }
 .listItem:hover {
   background: #ebebeb;

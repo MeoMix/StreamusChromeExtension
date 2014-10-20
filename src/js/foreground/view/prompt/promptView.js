@@ -80,7 +80,6 @@
                 background: 'rgba(0, 0, 0, 0.5)'
             }, 'snap');
 
-            //  TODO: I shouldn't have to be setting x here, but transit overrides it when setting Y
             this.ui.panel.transition({
                 x: '-50%',
                 y: '-50%',

@@ -5,27 +5,27 @@
 
     describe('ClientErrorManager', function () {
         beforeEach(function () {
-            //  TODO: I would prefer to stub reportedErrors, but ClientErrorManager is a singleton which makes it impossible.
-            sinon.stub(Backbone, 'sync');
-            ClientErrorManager.get('reportedErrors').reset();
+            this.clientErrorManager = new ClientErrorManager();
+            this.reportedErrors = this.clientErrorManager.get('reportedErrors');
+            sinon.stub(this.reportedErrors.model.prototype, 'sync');
         });
 
         afterEach(function () {
-            Backbone.sync.restore();
+            this.reportedErrors.model.prototype.sync.restore();
         });
 
         it('should log an error message properly', function () {
-            ClientErrorManager._logError(new Error('test message'));
+            this.clientErrorManager._logError(new Error('test message'));
 
-            expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);
+            expect(this.reportedErrors.length).to.equal(1);
         });
 
         it('should log not log the same error message more than once', function () {
             for (var i = 0; i < 5; i++) {
-                ClientErrorManager._logError(new Error('test message'));
+                this.clientErrorManager._logError(new Error('test message'));
             }
 
-            expect(ClientErrorManager.get('reportedErrors').length).to.equal(1);
+            expect(this.reportedErrors.length).to.equal(1);
         });
     });
 });

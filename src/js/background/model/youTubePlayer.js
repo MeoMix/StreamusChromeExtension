@@ -19,11 +19,11 @@
                 api: new YouTubePlayerAPI(),
                 iframeId: '',
                 //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
-                youTubeEmbedUrl: '*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + Streamus.extensionId,
+                youTubeEmbedUrl: '*://*.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id,
                 //  Wait 6 seconds before each load attempt so that total time elapsed is one minute
                 maxLoadAttempts: 10,
                 loadAttemptDelay: 6000,
-                loadAttempt: _initialLoadAttempt,
+                currentLoadAttempt: _initialLoadAttempt,
                 loadAttemptInterval: null
             };
         },
@@ -140,7 +140,7 @@
         },
         
         _onChangeLoading: function (model, loading) {
-            this.set('loadAttempt', _initialLoadAttempt);
+            this.set('currentLoadAttempt', _initialLoadAttempt);
             var loadAttemptInterval = null;
 
             //  Consume an attempt every 6 seconds while loading.
@@ -154,12 +154,12 @@
         },
         
         _onLoadAttemptDelayExceeded: function () {
-            var loadAttempt = this.get('loadAttempt');
+            var currentLoadAttempt = this.get('currentLoadAttempt');
                     
-            if (loadAttempt === this.get('maxLoadAttempts')) {
+            if (currentLoadAttempt === this.get('maxLoadAttempts')) {
                 this.set('loading', false);
             } else {
-                this.set('loadAttempt', loadAttempt + 1);
+                this.set('currentLoadAttempt', currentLoadAttempt + 1);
             }
         },
         

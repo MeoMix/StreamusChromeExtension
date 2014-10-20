@@ -21,7 +21,7 @@
         
         backgroundChannels: null,
         
-        initialize: function() {
+        initialize: function () {
             this._configureQtip();
             this._setBackgroundPage();
             this._setBackgroundChannels();
@@ -95,7 +95,7 @@
             this.foregroundAreaRegion.show(new ForegroundAreaView());
         }
     });
-
+    
     $(function() {
         var streamus = new Application();
         window.Streamus = streamus;

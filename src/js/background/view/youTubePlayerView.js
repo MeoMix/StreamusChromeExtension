@@ -18,7 +18,7 @@
                 title: 'YouTube player',
                 width: 640,
                 height: 360,
-                src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + Streamus.extensionId
+                src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id
             };
         },
         

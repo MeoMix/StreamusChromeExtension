@@ -1,6 +1,6 @@
 ﻿define([
     'common/enum/youTubeServiceType',
-    'common/model/youTubeV3API'
+    'background/model/youTubeV3API'
 ], function (YouTubeServiceType, YouTubeV3API) {
     'use strict';
     

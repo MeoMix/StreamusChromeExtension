@@ -25,19 +25,23 @@
 }
 
 .sortable-placeholder {
+    color: white;
     background: @lightGray;
 
     //  Don't allow duplicates to be dropped into playlist items
     &.is-notDroppable {
-        background-color: @invalidRed;
+        background-color: @alizarin;
+    }
 
-        //  TODO: i18n
-        &:after {
-            content: 'Duplicates not allowed';
-        }
+    &.is-warnDroppable {
+        background-color: @sunFlower;
     }
 }
 
 .sortable--unsortable .sortable-placeholder {
     display: none;
+}
+
+.is-dragging .is-selected {
+    opacity: .5;
 }

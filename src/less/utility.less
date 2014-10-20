@@ -88,13 +88,17 @@
     z-index: 1;
 }
 
+.u-alignTopThird {
+    top: 33.33%;
+}
+
 //  TODO: I don't know if these should be prefixed by u- or is-
 .hidden {
     //  Use important to ensure that hidden always takes precedence.
     display: none !important;
 }
 
-//  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements. */
+//  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
 .disabled {
     color: @mediumLightGray !important;
     cursor: default !important;

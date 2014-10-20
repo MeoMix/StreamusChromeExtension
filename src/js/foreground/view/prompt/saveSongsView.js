@@ -19,6 +19,7 @@
         
         initialize: function () {
             this.playlists = Streamus.backgroundPage.Playlists;
+            console.log('Streamus.backgroundPage.Playlists:', this.playlists);
         },
 
         onRender: function () {
