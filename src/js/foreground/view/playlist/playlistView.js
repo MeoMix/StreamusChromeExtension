@@ -42,11 +42,9 @@
         
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
         
-        playlists: null,
         streamItems: null,
         
         initialize: function () {
-            this.playlists = Streamus.backgroundPage.Playlists;
             this.streamItems = Streamus.backgroundPage.StreamItems;
 
             this.listenTo(this.model.get('items'), 'add remove reset', this._onItemCountChanged);
@@ -100,9 +98,7 @@
             event.preventDefault();
             
             var isEmpty = this.model.get('items').length === 0;
-
-            //  Don't allow deleting of the last playlist.
-            var isDeleteDisabled = this.playlists.length === 1;
+            var canDelete = this.model.get('canDelete');
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                     text: chrome.i18n.getMessage('edit'),
@@ -121,8 +117,8 @@
                     onClick: this._showExportPlaylistPrompt.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('delete'),
-                    disabled: isDeleteDisabled,
-                    title: isDeleteDisabled ? chrome.i18n.getMessage('cantDeleteLastPlaylist') : '',
+                    disabled: !canDelete,
+                    title: !canDelete ? chrome.i18n.getMessage('cantDeleteLastPlaylist') : '',
                     onClick: this._showDeletePlaylistPrompt.bind(this)
                 }, {
                     text: chrome.i18n.getMessage('add'),

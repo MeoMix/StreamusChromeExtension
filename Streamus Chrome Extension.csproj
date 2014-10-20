@@ -85,6 +85,7 @@
     <Content Include="src\js\background\enum\omniboxModifiers.js" />
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
+    <Content Include="src\js\background\model\relatedSongInformationManager.js" />
     <Content Include="src\js\background\model\stream.js" />
     <Content Include="src\js\background\view\backgroundAreaView.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
@@ -132,7 +133,6 @@
     <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
     <Content Include="src\js\common\enum\youTubeServiceType.js" />
     <Content Include="src\js\background\model\dataSource.js" />
-    <Content Include="src\js\background\model\relatedSongInformationManager.js" />
     <Content Include="src\js\common\utility.js" />
     <Content Include="src\js\background\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
@@ -320,9 +320,9 @@
     <Content Include="src\template\rightPane\volumeArea.html" />
     <Content Include="src\js\test\main.js" />
     <Content Include="src\js\test\background\model\relatedSongInformationManagerTests.js" />
-    <Content Include="src\js\test\common\model\dataSourceTests.js" />
+    <Content Include="src\js\test\background\model\dataSourceTests.js" />
     <Content Include="src\js\test\common\model\utilityTests.js" />
-    <Content Include="src\js\test\common\model\youTubeV3APITests.js" />
+    <Content Include="src\js\test\background\model\youTubeV3APITests.js" />
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
     <Content Include="src\test.html" />

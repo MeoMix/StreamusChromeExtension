@@ -78,7 +78,8 @@
             var activePlaylist = this.playlists.getActivePlaylist();
             var alreadyExists = false;
             
-            var signedIn = this.signInManager.get('signedIn');
+            var signedInUser = this.signInManager.get('signedInUser');
+            var signedIn = signedInUser !== null;
             if (signedIn) {
                 alreadyExists = activePlaylist.get('items').hasSong(this.model.get('song'));
             }

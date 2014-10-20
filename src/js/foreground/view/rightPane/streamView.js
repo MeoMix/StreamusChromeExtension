@@ -91,7 +91,7 @@
             this.radioButton = Streamus.backgroundPage.RadioButton;
             this.repeatButton = Streamus.backgroundPage.RepeatButton;
 
-            this.listenTo(this.signInManager, 'change:signedIn', this._updateSaveButton);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._updateSaveButton);
             this.listenTo(this.shuffleButton, 'change:enabled', this._setShuffleButtonState);
             this.listenTo(this.radioButton, 'change:enabled', this._setRadioButtonState);
             this.listenTo(this.repeatButton, 'change:state', this._setRepeatButtonState);
@@ -111,7 +111,7 @@
         },
         
         _updateSaveButton: function () {
-            var signedIn = this.signInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedInUser') !== null;
             
             var templateHelpers = this.templateHelpers();
             var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;

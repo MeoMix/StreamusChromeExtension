@@ -57,8 +57,8 @@
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.SignInManager;
 
-            //  Don't show playlist actions if SignInManager isn't signedIn because won't be able to save reliably.
-            this.listenTo(this.signInManager, 'change:signedIn', this._toggleBottomContentBar);
+            //  Don't show playlist actions if signedInUser is null because won't be able to save reliably.
+            this.listenTo(this.signInManager, 'change:signedInUser', this._toggleBottomContentBar);
         },
 
         onRender: function () {
@@ -130,7 +130,8 @@
         },
         
         _toggleBottomContentBar: function () {
-            this.ui.bottomContentBar.toggleClass('hidden', !this.signInManager.get('signedIn'));
+            var signedOut = this.signInManager.get('signedInUser') === null;
+            this.ui.bottomContentBar.toggleClass('hidden', signedOut);
         },
         
         //  Whenever a child is double-clicked it will become active and the menu should hide itself.

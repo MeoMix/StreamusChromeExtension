@@ -48,16 +48,20 @@
             this.playlists = Streamus.backgroundPage.Playlists;
             this.signInManager = Streamus.backgroundPage.SignInManager;
 
-            this.listenTo(this.signInManager, 'change:signedIn', this._updateRegions);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(this.playlists, 'change:active', this._onActivePlaylistChange);
         },
         
         onShow: function () {
-            this._updateRegions();
+            this._updateRegions(this.signInManager.get('signedInUser'));
         },
         
-        _updateRegions: function () {
-            if (this.signInManager.get('signedIn')) {
+        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+            this._updateRegions(signedInUser);
+        },
+        
+        _updateRegions: function (signedInUser) {
+            if (signedInUser !== null) {
                 this._showActivePlaylistContent();
             } else {
                 this._showSignInContent();
@@ -94,7 +98,7 @@
         _onActivePlaylistChange: function(playlist, active) {
             //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
             if (active) {
-                this._updateRegions();
+                this._updateRegions(this.signInManager.get('signedInUser'));
             }
         },
         

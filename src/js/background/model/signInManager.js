@@ -12,7 +12,6 @@
             signInFailed: false,
             signInRetryTimer: SIGN_IN_FAILURE_WAIT_TIME,
             signInRetryTimerInterval: null,
-            signedIn: false,
 
             //  When chrome.identity.onSignInChanged runs with signedIn: true -- need to store the user who is about to be signed in momentarily.
             signingInUser: null,
@@ -25,7 +24,7 @@
         },
 
         initialize: function () {
-            this.on('change:signedIn', this._onSignedInChanged);
+            this.on('change:signedInUser', this._onSignedInUserChanged);
             this.on('change:signInFailed', this._onSignInFailedChanged);
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
 
@@ -40,10 +39,9 @@
         },
 
         signOut: function () {
-            if (this.get('signedIn')) {
+            if (this.get('signedInUser') !== null) {
                 localStorage.removeItem('userId');
                 this.set('signedInUser', null);
-                this.set('signedIn', false);
             }
         },
         
@@ -133,10 +131,10 @@
             this._signIn(profileUserInfo.id);
         },
 
-        _onSignedInChanged: function (model, signedIn) {
+        _onSignedInUserChanged: function (model, signedInUser) {
             //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
-                event: signedIn ? 'signed-in' : 'signed-out'
+                event: signedInUser !== null ? 'signed-in' : 'signed-out'
             });
         },
 
@@ -168,7 +166,7 @@
 
         _canSignIn: function () {
             //  Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
-            var canSignIn = !this.get('signedIn') && !this.get('signingIn') && !this.get('signInFailed');
+            var canSignIn = this.get('signedInUser') === null && !this.get('signingIn') && !this.get('signInFailed');
             return canSignIn;
         },
 
@@ -199,7 +197,6 @@
 
             //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
-            this.set('signedIn', true);
 
             this._shouldLinkUserId(function (shouldLinkUserId) {
                 if (shouldLinkUserId) {
@@ -223,7 +220,7 @@
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
-                        signedIn: this.get('signedIn')
+                        signedIn: this.get('signedInUser') !== null
                     });
                     break;
                 case 'signIn':
@@ -232,7 +229,7 @@
                 case 'addPlaylistByShareData':
                     if (this._canSignIn()) {
                         //  TODO: What if sign in fails?
-                        this.once('change:signedIn', function () {
+                        this.once('change:signedInUser', function () {
                             this._handleAddSharedPlaylistRequest(request, sendResponse);
                         });
 
@@ -272,8 +269,9 @@
         _shouldLinkUserId: function (callback) {
             if (this._supportsGoogleSignIn()) {
                 chrome.identity.getProfileUserInfo(function (profileUserInfo) {
-                    var signedIn = profileUserInfo.id !== '';
-                    callback(signedIn && !this.get('signedInUser').linkedToGoogle());
+                    var signedInToChrome = profileUserInfo.id !== '';
+                    var accountLinked = this.get('signedInUser').linkedToGoogle();
+                    callback(signedInToChrome && !accountLinked);
                 }.bind(this));
             } else {
                 callback(false);

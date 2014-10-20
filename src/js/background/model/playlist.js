@@ -26,7 +26,7 @@ define([
             displayInfo: '',
             sequence: -1,
             listItemType: ListItemType.Playlist,
-            //  Only allowed to delete a playlist if more than 1 exists.
+            //  Only allowed to delete a playlist if more than 1 exists. TODO: Rename to deletable?
             canDelete: false
         },
 

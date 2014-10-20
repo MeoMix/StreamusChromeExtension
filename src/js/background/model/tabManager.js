@@ -13,7 +13,6 @@
         },
         
         initialize: function () {
-            //  TODO: Is this the right channel to be listening on? Maybe it should be related to signedIn?
             this.listenTo(Streamus.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
             this.listenTo(Streamus.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
         },

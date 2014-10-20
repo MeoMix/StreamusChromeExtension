@@ -100,7 +100,7 @@
             this.streamItems = Streamus.backgroundPage.StreamItems;
             this.signInManager = Streamus.backgroundPage.SignInManager;
 
-            this.listenTo(this.signInManager, 'change:signedIn', this._toggleSaveSelected);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._toggleSaveSelected);
         },
  
         onRender: function () {
@@ -146,7 +146,7 @@
         },
         
         _toggleSaveSelected: function () {
-            var signedIn = this.signInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedInUser') !== null;
             this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
 
             var templateHelpers = this.templateHelpers();

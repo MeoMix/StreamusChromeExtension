@@ -30,7 +30,7 @@ define([
             this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnTextSelection', this._setTextSelection);
             this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubeLinks', this._setYouTubeLinks);
             this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubePages', this._setYouTubePages);
-            this.listenTo(this.get('signInManager'), 'change:signedIn', this._onChangeSignedIn);
+            this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onChangeSignedInUser);
             this.listenTo(this.get('playlists'), 'add', this._onPlaylistAdded);
         },
         
@@ -44,8 +44,8 @@ define([
             }
         },
         
-        _onChangeSignedIn: function(model, signedIn) {
-            if (signedIn) {
+        _onChangeSignedInUser: function (model, signedInUser) {
+            if (signedInUser !== null) {
                 if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
                     this.set('youTubeLinkSaveId', this._createSaveContextMenu(this._getContextMenuOptions(true)));
                 }
@@ -77,7 +77,7 @@ define([
             this.set('youTubeLinkPlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubeLinkAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (this.get('signInManager').get('signedIn')) {
+            if (this.get('signInManager').get('signedInUser') !== null) {
                 this.set('youTubeLinkSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },
@@ -88,7 +88,7 @@ define([
             this.set('youTubePagePlayId', this._createPlayContextMenu(contextMenuOptions));
             this.set('youTubePageAddId', this._createAddContextMenu(contextMenuOptions));
 
-            if (this.get('signInManager').get('signedIn')) {
+            if (this.get('signInManager').get('signedInUser') !== null) {
                 this.set('youTubePageSaveId', this._createSaveContextMenu(contextMenuOptions));
             }
         },

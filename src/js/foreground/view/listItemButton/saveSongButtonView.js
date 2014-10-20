@@ -16,7 +16,7 @@
 
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.SignInManager;
-            this.listenTo(this.signInManager, 'change:signedIn', this._setDisabledState);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._setDisabledState);
         },
 
         onRender: function() {
@@ -30,7 +30,7 @@
         },
         
         _setDisabledState: function () {
-            var signedIn = this.signInManager.get('signedIn');
+            var signedIn = this.signInManager.get('signedInUser') !== null;
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
