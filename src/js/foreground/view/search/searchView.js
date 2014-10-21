@@ -40,14 +40,13 @@
         },
         
         events: {
-            'input @ui.searchInput': '_search',
-            'click @ui.hideSearchButton': '_hide',
-            'contextmenu @ui.childContainer': '_showContextMenu',
-            'click @ui.playSelectedButton': '_playSelected',
-            'click @ui.addSelectedButton': '_addSelected',
-            'click @ui.saveSelectedButton': '_showSaveSelectedPrompt'
+            'input @ui.searchInput': '_onInputSearchInput',
+            'click @ui.hideSearchButton': '_onClickHideSearchButton',
+            'click @ui.playSelectedButton': '_onClickPlaySelectedButton',
+            'click @ui.addSelectedButton': '_onClickAddSelectedButton',
+            'click @ui.saveSelectedButton': '_onClickSaveSelectedButton'
         },
-        
+        //  TODO: Event handler names
         modelEvents: {
             'change:query change:searching': '_toggleInstructions'
         },
@@ -70,7 +69,7 @@
                 noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
                 sorryAboutThatMessage: chrome.i18n.getMessage('sorryAboutThat'),
                 trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse'),
-                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
+                notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
             };
         },
         
@@ -131,6 +130,26 @@
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
         },
         
+        _onClickSaveSelectedButton: function() {
+            this._showSaveSelectedPrompt();
+        },
+        
+        _onClickAddSelectedButton: function () {
+            this._addSelected();
+        },
+        
+        _onClickPlaySelectedButton: function () {
+            this._playSelected();
+        },
+        
+        _onClickHideSearchButton: function () {
+            this._hide();
+        },
+        
+        _onInputSearchInput: function () {
+            this._search();
+        },
+        
         _hide: function () {
             //  Transition the view back out before closing.
             this.$el.transition({
@@ -148,15 +167,12 @@
         _toggleSaveSelected: function () {
             var signedIn = this.signInManager.get('signedInUser') !== null;
             this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
-
-            var templateHelpers = this.templateHelpers();
-            this.ui.saveSelectedButton.attr('title', signedIn ? templateHelpers.saveSelectedMessage : templateHelpers.cantSaveNotSignedInMessage);
         },
         
         _toggleBottomContentBar: function () {
             var selectedCount = this.collection.selected().length;
             this.ui.bottomContentBar.toggleClass('hidden', selectedCount === 0);
-
+            //  TODO: It would be better to only run this when needed.
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },

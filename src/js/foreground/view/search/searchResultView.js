@@ -15,7 +15,7 @@
         buttonViews: [PlaySongButtonView, AddSongButtonView, SaveSongButtonView],
         
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_playInStream'
+            'dblclick': '_onDblClick'
         }),
         
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
@@ -30,6 +30,10 @@
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.StreamItems;
             this.player = Streamus.backgroundPage.Player;
+        },
+        
+        _onDblClick: function () {
+            this._playInStream();
         },
         
         _showContextMenu: function (event) {

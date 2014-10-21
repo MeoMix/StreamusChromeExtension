@@ -1,5 +1,4 @@
 ﻿define([
-    'background/collection/playlists',
     'background/collection/streamItems',
     'background/model/browserSettings',
     'background/model/chromeContextMenusManager',
@@ -21,7 +20,7 @@
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
     'background/model/buttons/shuffleButton'
-], function (Playlists, StreamItems, BrowserSettings, ChromeContextMenusManager, ChromeIconManager, ChromeNotificationsManager, ChromeOmniboxManager, ClientErrorManager, DataSourceManager, Player, Search, Settings, SignInManager, SyncManager, TabManager, YouTubePlayer, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton) {
+], function (StreamItems, BrowserSettings, ChromeContextMenusManager, ChromeIconManager, ChromeNotificationsManager, ChromeOmniboxManager, ClientErrorManager, DataSourceManager, Player, Search, Settings, SignInManager, SyncManager, TabManager, YouTubePlayer, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton) {
     'use strict';
 
     var BackgroundArea = Backbone.Model.extend({
@@ -33,7 +32,6 @@
             var browserSettings = new BrowserSettings();
             var settings = new Settings();
 
-            var playlists = new Playlists();
             var youTubePlayer = new YouTubePlayer();
             this.set('youTubePlayer', youTubePlayer);
 
@@ -56,17 +54,14 @@
             });
             
             var tabManager = new TabManager();
-            var signInManager = new SignInManager({
-                playlists: playlists
-            });
+            var signInManager = new SignInManager();
             var search = new Search();
 
             //  TODO: I am initializing these here because I have no better place / concept of how to initialize a bunch of objects with no dependencies.
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: browserSettings,
                 tabManager: tabManager,
-                signInManager: signInManager,
-                playlists: playlists
+                signInManager: signInManager
             });
             
             var chromeIconManager = new ChromeIconManager({
@@ -107,7 +102,6 @@
 
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             //  TODO: Capitalization needs fixing.
-            window.Playlists = playlists;
             window.BrowserSettings = browserSettings;
             window.TabManager = tabManager;
             window.SignInManager = signInManager;

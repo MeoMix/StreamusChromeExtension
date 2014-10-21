@@ -34,7 +34,7 @@
                 clearStreamMessage: chrome.i18n.getMessage('clearStream'),
                 searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
                 whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr'),
-                cantSaveNotSignedInMessage: chrome.i18n.getMessage('cantSaveNotSignedIn')
+                notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
             };
         },
         
@@ -114,7 +114,7 @@
             var signedIn = this.signInManager.get('signedInUser') !== null;
             
             var templateHelpers = this.templateHelpers();
-            var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.cantSaveNotSignedInMessage;
+            var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.notSignedInMessage;
 
             this.ui.saveButton.toggleClass('disabled', !signedIn);
             this.ui.saveButton.attr('title', newTitle);
@@ -128,6 +128,7 @@
         //  Show buttons if there is anything in the collection otherwise hide
         _toggleBottomContentBar: function () {
             this.ui.bottomContentBar.toggleClass('hidden', this.collection.length === 0);
+            //  TODO: It would be better to only run this when needed.
             //  Need to update viewportHeight in slidingRender behavior:
             this.triggerMethod('ListHeightUpdated');
         },

@@ -75,20 +75,19 @@
             //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
             event.preventDefault();
 
-            var activePlaylist = this.playlists.getActivePlaylist();
             var alreadyExists = false;
             
             var signedInUser = this.signInManager.get('signedInUser');
             var signedIn = signedInUser !== null;
             if (signedIn) {
-                alreadyExists = activePlaylist.get('items').hasSong(this.model.get('song'));
+                alreadyExists = signedInUser.get('playlists').getActivePlaylist().get('items').hasSong(this.model.get('song'));
             }
 
             var saveTitle = '';
             if (signedIn && alreadyExists) {
-                saveTitle = chrome.i18n.getMessage('duplicatesNotAllowed');
+                saveTitle = chrome.i18n.getMessage('songAlreadyInCollection', [chrome.i18n.getMessage('playlist').toLowerCase()]);
             } else if (!signedIn) {
-                saveTitle = chrome.i18n.getMessage('cantSaveNotSignedIn');
+                saveTitle = chrome.i18n.getMessage('notSignedIn');
             }
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
@@ -113,7 +112,7 @@
         },
         
         _addToActivePlaylistItems: function () {
-            var activePlaylist = this.playlists.getActivePlaylist();
+            var activePlaylist = this.signInManager.get('signedInUser').get('playlists').getActivePlaylist();
             activePlaylist.get('items').addSongs(this.model.get('song'));
         },
         

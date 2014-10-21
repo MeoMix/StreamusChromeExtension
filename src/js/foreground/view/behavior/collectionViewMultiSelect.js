@@ -14,7 +14,7 @@
         
         initialize: function() {
             this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
-            this.listenTo(Streamus.channels.global.vent, 'collectionReceived', this._onCollectionReceived);
+            this.listenTo(Streamus.channels.global.vent, 'itemsDropped', this._onItemsDropped);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
@@ -31,7 +31,7 @@
             this._deselectCollection();
         },
         
-        _onCollectionReceived: function () {
+        _onItemsDropped: function () {
             this._deselectCollection();
         },
         

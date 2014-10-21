@@ -5,12 +5,19 @@
 
     var Sortable = Backbone.Marionette.Behavior.extend({
         placeholderClass: 'sortable-placeholder',
-        copyHelperClass: 'sortable-copyHelper',
         isDraggingClass: 'is-dragging',
-        needFixCssRedraw: true,
-
+        
+        ui: {
+            list: '.list'
+        },
+        
         onRender: function () {
             this.view.ui.childContainer.sortable(this._getSortableOptions());
+            
+            //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
+            this.ui.list.scroll(_.throttle(function () {
+                this.view.ui.childContainer.sortable('refresh');
+            }.bind(this), 20));
         },
         
         _getSortableOptions: function() {
@@ -24,6 +31,8 @@
                 },
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
+                //  NOTE: THIS IS A CUSTOM MODIFICATION TO JQUERY UI. Prevent hiding dragged views.
+                hideOnDrag: false,
                 placeholder: this.placeholderClass + ' listItem listItem--medium hidden',
                 helper: this._helper.bind(this),
                 change: this._change.bind(this),
@@ -31,115 +40,89 @@
                 stop: this._stop.bind(this),
                 tolerance: 'pointer',
                 receive: this._receive.bind(this),
-                over: this._over.bind(this)
+                over: this._over.bind(this),
+                beforeStop: this._beforeStop.bind(this)
             };
 
             return sortableOptions;
         },
         
-        _helper: function (ui, listItem) {
-            var container = this.view.ui.childContainer[0];
-
-            //  Manually clone the dragged item to simulate copying the item between containers.
-            //  Create a new view instead of just copying the HTML in order to preserve HTML->Backbone.View relationship
-            var copyHelperView = new this.view.childView({
-                model: this.view.collection.get(listItem.data('id'))
-            });
-
-            var copyHelper = copyHelperView.render().$el;
-            copyHelper.addClass(this.copyHelperClass);
-            copyHelper.insertAfter(listItem);
-            copyHelperView.triggerMethod('show');
-
-            container.copyHelperView = copyHelperView;
-
-            container.backCopyHelper = listItem.prev();
-            container.backCopyHelper.addClass(this.copyHelperClass);
-            container.copied = false;
-
+        _helper: function () {
             return $('<span>', {
                 'class': 'sortable-selectedItemsCount'
             });
         },
         
-        _change: function () {
-            //  There's a CSS redraw issue with my CSS selector: .listItem.copyHelper + .sortable-placeholder 
-            //  So, I manually hide the placeholder (like it would be normally) until a change occurs -- then the CSS can take over.
-            if (this.needFixCssRedraw) {
-                $('.' + this.placeholderClass).removeClass('hidden');
-                this.needFixCssRedraw = false;
+        _change: function (event, ui) {
+            var placeholderAdjacent = false;
+            //  When dragging an element up/down its own list -- hide the sortable helper around the element being dragged.
+            var draggedItems = this.view.collection.selected();
+            //  Only disallow moving to adjacent location if dragging one item because that'd be a no-op.
+            if (draggedItems.length === 1) {
+                var draggedModelId = draggedItems[0].get('id');
+                placeholderAdjacent = ui.placeholder.next().data('id') === draggedModelId || ui.placeholder.prev().data('id') === draggedModelId;
             }
+            
+            $('.' + this.placeholderClass).toggleClass('hidden', placeholderAdjacent);
         },
         
         _start: function (event, ui) {
             //  TODO: This won't be necessary if I change my logic to 'onMouseDown' instead of 'onClick'.
             this.view.triggerMethod('ItemDragged', this.view.collection.get(ui.item.data('id')));
-            this.needFixCssRedraw = true;
+            
+            this.view.once('GetMinRenderIndexReponse', function (response) {
+                this.originalPlaceholderIndex = ui.placeholder.index() + response.minRenderIndex;
+            }.bind(this));
+            this.view.triggerMethod('GetMinRenderIndex');
 
             //  Set helper text here, not in helper, because dragStart may select a search result.
-            var selected = this.view.collection.selected();
-            ui.helper.text(selected.length);
-            
-            this.view.ui.childContainer.addClass(this.isDraggingClass);
-            this.view.ui.childContainer[0].draggedSongs = _.map(selected, function (model) {
-                return model.get('song');
+            var selectedItems = this.view.collection.selected();
+            ui.helper.text(selectedItems.length);
+
+            var draggedSongs = _.map(selectedItems, function (item) {
+                return item.get('song');
+            });
+
+            this.view.ui.childContainer.addClass(this.isDraggingClass).data({
+                draggedSongs: draggedSongs,
+                copied: false
             });
 
             this._overrideSortableItem(ui);
         },
         
+        _beforeStop: function(event, ui) {
+            this.view.once('GetMinRenderIndexReponse', function (response) {
+                this.placeholderIndex = ui.placeholder.index() + response.minRenderIndex;
+            }.bind(this));
+            this.view.triggerMethod('GetMinRenderIndex');
+        },
+        
         _stop: function (event, ui) {
+            var childContainer = this.view.ui.childContainer;
             //  The SearchResult view is not able to be moved so disable move logic for it.
-            var isMovable = ui.item.data('type') !== ListItemType.SearchResult;
-            var container = this.view.ui.childContainer[0];
-
-            container.backCopyHelper.removeClass(this.copyHelperClass);
-            container.copyHelperView.$el.removeClass(this.copyHelperClass);
-            
-            if (!container.copied) {
-                container.copyHelperView.destroy();
-
-                //  TODO: This doesn't support moving multiple items up/down the list.
-                if (isMovable) {
-                    var movedDown = ui.position.top > ui.originalPosition.top;
-                    //  TODO: Maybe I want to store draggedModels instead of draggedSongs afterall.
-                    this._moveItems(this.view.collection.selected(), ui.item.index(), movedDown);
-                }
+            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && !childContainer.data('copied');
+            if (allowMove) {
+                //  SUPER IMPORTANT: DO NOT REMOVE THIS SET TIMEOUT.
+                //  _moveItems calls collection.sort but the list's height is still adjusting due to the placeholder being removed.
+                //  sorting the collection will re-render the collectionview, but doing so while modifying the collections' height will break indices.
+                setTimeout(this._moveItems.bind(this, this.view.collection.selected()));
             }
             
-            this.view.ui.childContainer.removeClass(this.isDraggingClass);
-
-            delete container.backCopyHelper;
-            delete container.copyHelperView;
-            delete container.draggedSongs;
-
-            return this.copied || isMovable;
+            childContainer.removeClass(this.isDraggingClass).removeData('draggedSongs copied');
+            return allowMove;
         },
         
         _receive: function (event, ui) {
-            var senderElement = ui.sender[0];
-
-            //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
-            //  Need to pad the index with the # of missing items.
             this.view.once('GetMinRenderIndexReponse', function (response) {
-                var index = ui.item.index() + response.minRenderIndex;
-
-                this.view.collection.addSongs(senderElement.draggedSongs, {
-                    index: index
+                this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
+                    index: ui.item.index() + response.minRenderIndex
                 });
-
-                //  Swap copy helper out with the actual item once successfully dropped because Marionette keeps track of specific view instances.
-                //  Don't swap it out until done using its dropped-position index.
-                var copyHelperView = senderElement.copyHelperView;
-                copyHelperView.$el.replaceWith(ui.item);
-                copyHelperView.destroy();
-
-                Streamus.channels.global.vent.trigger('collectionReceived');
+                Streamus.channels.global.vent.trigger('itemsDropped');
             }.bind(this));
-
             this.view.triggerMethod('GetMinRenderIndex');
-
-            senderElement.copied = true;
+            
+            ui.sender.data('copied', true);
         },
         
         _over: function (event, ui) {
@@ -147,31 +130,24 @@
             this._decoratePlaceholder(ui);
         },
         
-        _moveItems: function (items, index, movedDown) {
-            //  Index inside of receive may be incorrect if the user is scrolled down -- some items will have been unrendered.
-            //  Need to pad the index with the # of missing items.
-            this.view.once('GetMinRenderIndexReponse', function (response) {
-                //  TODO: This has a bug in it. If you drag an item far enough to exceed the render threshold then it doesn't properly find the index. :(
-                //  TODO: Since I now support moving multiple items up/down the 'movedDown' logic is WAY HARDER because it depends on how many items are being moved.
-                index += response.minRenderIndex;
+        _moveItems: function (items) {
+            //  TODO: MovedDown is broken when moving multiple items in some scenarios because some items might be moving up and others down.
+            //  Always subtract one from placeholderIndex because it is the sibling of the actual item which means it's +1 index.
+            //  When dragging an item down the list -- since the whole list shifts up 1 -- need to +1 the index which cancels out the -1.
+            var movedDown = this.placeholderIndex > this.originalPlaceholderIndex;
+            var index = movedDown ? this.placeholderIndex : this.placeholderIndex - 1;
 
-                //  When dragging an item down the list -- since the whole list shifts up one -- need to +1 the index after dropping to account.
-                if (movedDown) {
+            _.each(items, function (item) {
+                var itemMoved = this.view.collection.moveToIndex(item.get('id'), index);
+                //  TODO: I don't think this is 100% true -- it works but it's not correct because all being added at same 'index' but each one calculates their sequence appropriately.
+                //  When moving a group of items down the list their indices will naturally work themselves out.
+                if (!movedDown) {
                     index += 1;
                 }
-
-                _.each(items, function (item) {
-                    this.view.collection.moveToIndex(item.get('id'), index);
-                    index += 1;
-                }, this);
-            }.bind(this));
-
-            this.view.triggerMethod('GetMinRenderIndex');
+            }, this);
         },
         
         _decoratePlaceholder: function (ui) {
-            var senderElement = ui.sender[0];
-
             var listItemType = ui.item.data('type');
 
             //  TODO: Also prevent dragging duplicates from Playlist/Search into Stream.
@@ -184,7 +160,7 @@
 
                 if (overPlaylist) {
                     //  Decorate the placeholder to indicate songs can't be copied.
-                    var draggedSongs = senderElement.draggedSongs;
+                    var draggedSongs = ui.sender.data('draggedSongs');
 
                     //  Show a visual indicator if all dragged stream items are duplicates.
                     var duplicates = _.filter(draggedSongs, function (draggedSong) {

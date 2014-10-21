@@ -9,7 +9,7 @@
         template: _.template(SaveListItemButtonTemplate),
         
         attributes: {
-            title: chrome.i18n.getMessage('cantSaveNotSignedIn')
+            title: chrome.i18n.getMessage('notSignedIn')
         },
         
         signInManager: null,
@@ -32,7 +32,7 @@
         _setDisabledState: function () {
             var signedIn = this.signInManager.get('signedInUser') !== null;
 
-            var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('cantSaveNotSignedIn');
+            var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
             this.$el.attr('title', title).toggleClass('disabled', !signedIn);
         }
     });

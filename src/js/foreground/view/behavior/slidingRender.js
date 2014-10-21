@@ -318,7 +318,7 @@
                 this.ui.list.scrollTop(scrollTop);
             }
         },
-        
+        //  TODO: I feel like it would be bad to call this if I reset with new values....? Maybe not?
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
         _onCollectionReset: function () {
             this.ui.list.scrollTop(0);

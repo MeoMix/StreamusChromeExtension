@@ -1,15 +1,12 @@
 ﻿define([
-    'background/collection/playlists',
     'background/model/signInManager',
     'background/model/user'
-], function (Playlists, SignInManager, User) {
+], function (SignInManager, User) {
     'use strict';
 
     describe('SignInManager', function () {
         beforeEach(function () {
-            this.signInManager = new SignInManager({
-                playlists: new Playlists()
-            });
+            this.signInManager = new SignInManager();
         });
 
         describe('when not signed into Google Chrome ', function () {

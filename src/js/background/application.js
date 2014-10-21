@@ -47,7 +47,6 @@
         },
 
         _showBackground: function () {
-            console.log('background loaded');
             this.backgroundAreaRegion.show(new BackgroundAreaView({
                 model: new BackgroundArea()
             }));

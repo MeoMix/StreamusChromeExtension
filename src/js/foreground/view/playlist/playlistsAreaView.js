@@ -3,10 +3,8 @@
     'foreground/view/behavior/tooltip',
     'foreground/view/playlist/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
-    'foreground/view/prompt/deletePlaylistPromptView',
-    'foreground/view/prompt/editPlaylistPromptView',
     'text!template/playlist/playlistsArea.html'
-], function (ListItemType, Tooltip, PlaylistView, CreatePlaylistPromptView, DeletePlaylistPromptView, EditPlaylistPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, Tooltip, PlaylistView, CreatePlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
@@ -26,17 +24,16 @@
         },
 
         events: {
-            'click': '_hideIfClickOutsidePanel',
-            'click @ui.hideButton': '_hide',
-            'click @ui.createButton': '_showCreatePlaylistPrompt',
+            'click': '_onClick',
+            'click @ui.hideButton': '_onClickHideButton',
+            'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton',
             'dblclick @ui.childContainer': '_onDblClickChildContainer'
         },
         
         ui: {
             panel: '#playlistsArea-panel',
             childContainer: '#playlistsArea-listItems',
-            bottomContentBar: '#playlistsArea-bottomContentBar',
-            createButton: '#playlistsArea-createButton',
+            createPlaylistButton: '#playlistsArea-createPlaylistButton',
             hideButton: '#playlistsArea-hideButton'
         },
         
@@ -52,18 +49,12 @@
             }
         },
         
-        signInManager: null,
-
         initialize: function () {
-            this.signInManager = Streamus.backgroundPage.SignInManager;
-
-            //  Don't show playlist actions if signedInUser is null because won't be able to save reliably.
-            this.listenTo(this.signInManager, 'change:signedInUser', this._toggleBottomContentBar);
+            this.listenTo(Streamus.backgroundPage.SignInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
 
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
-            this._toggleBottomContentBar();
         },
         
         onShow: function () {
@@ -77,23 +68,42 @@
             }, 300, 'snap');
         },
         
+        _onClickHideButton: function() {
+            this._hide();
+        },
+        
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        _hideIfClickOutsidePanel: function (event) {
+        _onClick: function (event) {
             if (event.target == event.currentTarget) {
                 this._hide();
             }
         },
         
-        _hide: function () {
-            //  TODO: Should these two transitions be synced in timing?
+        _onClickCreatePlaylistButton: function () {
+            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView);
+        },
+        
+        //  Whenever a playlist is double-clicked it will become active and the menu should hide itself.
+        _onDblClickChildContainer: function () {
+            this._hide();
+        },
+        
+        //  Don't allow this view to be shown if the user is not signed in.
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
+            if (signedInUser === null) {
+                this._hide(true);
+            }
+        },
+        
+        _hide: function (instant) {
             this.$el.transition({
                 'background': this.$el.data('background')
-            });
+            }, instant ? 0 : undefined);
 
             this.ui.panel.transition({
-                /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
+                //  Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model.
                 x: '-102%'
-            }, 300, this.destroy.bind(this));
+            }, instant ? 0 : 300, this.destroy.bind(this));
         },
         
         _getSortableOptions: function () {
@@ -123,20 +133,6 @@
             }
 
             this.collection.moveToIndex(playlistId, index);
-        },
-        
-        _showCreatePlaylistPrompt: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView);
-        },
-        
-        _toggleBottomContentBar: function () {
-            var signedOut = this.signInManager.get('signedInUser') === null;
-            this.ui.bottomContentBar.toggleClass('hidden', signedOut);
-        },
-        
-        //  Whenever a child is double-clicked it will become active and the menu should hide itself.
-        _onDblClickChildContainer: function () {
-            this._hide();
         }
     });
 

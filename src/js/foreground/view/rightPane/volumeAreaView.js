@@ -18,11 +18,12 @@ define([
         },
 
         events: {
-            'input @ui.volumeRange': '_setVolume',
-            'click @ui.volumeButton': '_toggleMute',
-            'mousewheel': '_scrollVolume'
+            'input @ui.volumeRange': '_onInputVolumeRange',
+            'click @ui.volumeButton': '_onClickVolumeButton',
+            //  TODO: mousewheel not supported on FF -- maybe bind to wheel event as well, but that is not supported on Opera...? double check.
+            'mousewheel': '_onMousewheel'
         },
-       
+        //  TODO: Event handler naming conventions.
         modelEvents: {
             'change:muted': '_onChangeMuted',
             'change:volume': '_onChangeVolume'
@@ -37,6 +38,19 @@ define([
             this._setMutedClass(muted);
 
             this.$el.hoverIntent(this._expand.bind(this), this._collapse.bind(this));
+        },
+        
+        _onInputVolumeRange: function() {
+            this._setVolume();
+        },
+        
+        _onClickVolumeButton: function() {
+            this._toggleMute();
+        },
+        
+        _onMousewheel: function (event) {
+            var delta = event.originalEvent.wheelDeltaY / 120;
+            this._scrollVolume(delta);
         },
         
         _expand: function () {
@@ -79,8 +93,7 @@ define([
         },
 
         //  Adjust volume when user scrolls mousewheel while hovering over volume.
-        _scrollVolume: function (event) {
-            var delta = event.originalEvent.wheelDeltaY / 120;
+        _scrollVolume: function (delta) {
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
 
             if (volume > 100) {

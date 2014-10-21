@@ -22,9 +22,8 @@
         },
         
         _createPlaylistsAreaView: function () {
-            //  TODO: I will need to have a view for if not signed in.
             var playlistsAreaView = new PlaylistsAreaView({
-                collection: Streamus.backgroundPage.Playlists
+                collection: Streamus.backgroundPage.SignInManager.get('signedInUser').get('playlists')
             });
             
             this.show(playlistsAreaView);

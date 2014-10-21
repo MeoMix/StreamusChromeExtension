@@ -10,8 +10,7 @@
 
         initialize: function (options) {
             this.youTubePlayer = options.youTubePlayer;
-            console.log('youTubePlayer:', this.youTubePlayer);
-
+            
             this.listenTo(Streamus.channels.backgroundArea.vent, 'shown', this._onBackgroundAreaShown);
             this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
             this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);

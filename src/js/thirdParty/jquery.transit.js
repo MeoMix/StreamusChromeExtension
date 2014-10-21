@@ -424,9 +424,6 @@
         toString: function (use3d) {
             var re = [];
 
-            console.log('use3d:', use3d);
-            console.trace();
-
             for (var i in this) {
                 if (this.hasOwnProperty(i)) {
                     // Don't use 3D transformations if the browser can't support it.

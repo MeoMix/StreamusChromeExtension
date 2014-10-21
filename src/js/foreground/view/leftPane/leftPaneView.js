@@ -27,7 +27,7 @@
         
         events: {
             'click @ui.showSearchButton': '_showSearch',
-            'click @ui.showPlaylistsAreaButton': '_showPlaylistsArea'
+            'click @ui.showPlaylistsAreaButton:not(.disabled)': '_showPlaylistsArea'
         },
 
         regions: {
@@ -41,37 +41,48 @@
             }
         },
         
-        playlists: null,
         signInManager: null,
         
         initialize: function () {
-            this.playlists = Streamus.backgroundPage.Playlists;
             this.signInManager = Streamus.backgroundPage.SignInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-            this.listenTo(this.playlists, 'change:active', this._onActivePlaylistChange);
+            
+            //  TODO: Not DRY with below.
+            var signedInUser = this.signInManager.get('signedInUser');
+            if (signedInUser !== null) {
+                this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
+            }
         },
         
         onShow: function () {
-            this._updateRegions(this.signInManager.get('signedInUser'));
+            var signedInUser = this.signInManager.get('signedInUser');
+            this._updateRegions(signedInUser);
+            this._setShowPlaylistsAreaButtonState(signedInUser);
         },
         
         _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+            if (signedInUser === null) {
+                this.stopListening(model.previous('signedInUser').get('playlists'));
+            } else {
+                this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
+            }
+            
             this._updateRegions(signedInUser);
+            this._setShowPlaylistsAreaButtonState(signedInUser);
         },
         
         _updateRegions: function (signedInUser) {
             if (signedInUser !== null) {
-                this._showActivePlaylistContent();
+                var activePlaylist = signedInUser.get('playlists').getActivePlaylist();
+                this._showActivePlaylistContent(activePlaylist);
             } else {
                 this._showSignInContent();
             }
         },
         
         //  If the user is signed in -- show the user's active playlist items / information.
-        _showActivePlaylistContent: function () {
-            var activePlaylist = this.playlists.getActivePlaylist();
-
+        _showActivePlaylistContent: function (activePlaylist) {
             this.contentRegion.show(new ActivePlaylistAreaView({
                 model: activePlaylist,
                 collection: activePlaylist.get('items')
@@ -95,7 +106,7 @@
             }
         },
         
-        _onActivePlaylistChange: function(playlist, active) {
+        _onPlaylistsChangeActive: function (model, active) {
             //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
             if (active) {
                 this._updateRegions(this.signInManager.get('signedInUser'));
@@ -108,6 +119,10 @@
         
         _showPlaylistsArea: function() {
             Streamus.channels.global.vent.trigger('showPlaylistsArea');
+        },
+        
+        _setShowPlaylistsAreaButtonState: function (signedInUser) {
+            this.ui.showPlaylistsAreaButton.toggleClass('disabled', signedInUser === null);
         }
     });
 

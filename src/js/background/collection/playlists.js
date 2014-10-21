@@ -8,14 +8,15 @@
 ], function (SyncActionType, CollectionSequence, Playlist, Song, YouTubeV3API, ListItemType) {
     'use strict';
 
-    //  TODO: Stop having this be a singleton so it is easier to test.
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
         userId: null,
         
         mixins: [CollectionSequence],
         
-        initialize: function () {
+        initialize: function (models, options) {
+            this.userId = options.userId;
+            
             chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
             this.on('add', this._onAdd);
             this.on('remove', this._onRemove);
@@ -26,10 +27,6 @@
             this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
             this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
-        },
-        
-        setUserId: function(userId) {
-            this.userId = userId;
         },
         
         getActivePlaylist: function () {

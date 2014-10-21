@@ -18,8 +18,7 @@ define([
             streamItems: null,
             browserSettings: null,
             tabManager: null,
-            signInManager: null,
-            playlists: null,
+            signInManager: null
         },
 
         initialize: function () {
@@ -31,7 +30,11 @@ define([
             this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubeLinks', this._setYouTubeLinks);
             this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubePages', this._setYouTubePages);
             this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onChangeSignedInUser);
-            this.listenTo(this.get('playlists'), 'add', this._onPlaylistAdded);
+
+            var signedInUser = this.get('signInManager').get('signedInUser');
+            if (signedInUser !== null) {
+                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistAdded);
+            }
         },
         
         _onPlaylistAdded: function (addedPlaylist) {
@@ -45,17 +48,21 @@ define([
         },
         
         _onChangeSignedInUser: function (model, signedInUser) {
-            if (signedInUser !== null) {
+            if (signedInUser === null) {
+                this.stopListening(model.previous('signedInUser').get('playlists'));
+                
+                this._removeContextMenu('youTubeLinkSaveId');
+                this._removeContextMenu('youTubePageSaveId');
+            } else {
+                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistAdded);
+
                 if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
                     this.set('youTubeLinkSaveId', this._createSaveContextMenu(this._getContextMenuOptions(true)));
                 }
-                
+
                 if (this.get('browserSettings').get('showContextMenuOnYouTubePages')) {
                     this.set('youTubePageSaveId', this._createSaveContextMenu(this._getContextMenuOptions(false)));
                 }
-            } else {
-                this._removeContextMenu('youTubeLinkSaveId');
-                this._removeContextMenu('youTubePageSaveId');
             }
         },
         
@@ -149,7 +156,7 @@ define([
             }));
 
             //  Create menu items for each playlist
-            this.get('playlists').each(function (playlist) {
+            this.get('signInManager').get('signedInUser').get('playlists').each(function (playlist) {
                 this._createPlaylistContextMenu(contextMenuOptions, saveContextMenuId, playlist);
             }.bind(this));
 

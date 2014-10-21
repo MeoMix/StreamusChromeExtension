@@ -1,3 +1,4 @@
+
 /*! jQuery UI - v1.11.0 - 2014-06-30
 * http://jqueryui.com
 * Includes: core.js, widget.js, mouse.js, position.js, draggable.js, droppable.js, selectable.js, sortable.js, effect.js, effect-shake.js
@@ -3230,6 +3231,8 @@
             scope: "default",
             tolerance: "intersect",
             zIndex: 1000,
+            
+            hideOnDrag: true,
 
             // callbacks
             activate: null,
@@ -3418,7 +3421,9 @@
 
             //If the helper is not the original, hide the original so it's not playing any role during the drag, won't cause anything bad this way
             if (this.helper[0] !== this.currentItem[0]) {
-                this.currentItem.hide();
+                if (this.hideOnDrag) {
+                    this.currentItem.hide();
+                }
             }
 
             //Create the placeholder

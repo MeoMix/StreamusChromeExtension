@@ -1,7 +1,6 @@
-//  A singleton representing the sole logged on user for the program.
-//  Tries to load itself by ID stored in localStorage and then by chrome.storage.sync.
-//  If still unloaded, tells the server to create a new user and assumes that identiy.
-define(function () {
+define([
+    'background/collection/playlists'
+], function (Playlists) {
     'use strict';
 
     var User = Backbone.Model.extend({
@@ -14,17 +13,7 @@ define(function () {
         urlRoot: function() {
             return Streamus.serverUrl + 'User/';
         },
-        
-        //  TODO: FIX FIX FIX
-        globalPlaylists: null,
 
-        initialize: function (options) {
-            console.log('options:', options);
-            this.globalPlaylists = options.globalPlaylists;
-
-            this._getLocalUserId();
-        },
-        
         loadByGooglePlusId: function () {
             $.ajax({
                 url: Streamus.serverUrl + 'User/GetByGooglePlusId',
@@ -103,12 +92,22 @@ define(function () {
             });
         },
         
-        //  Set a global Playlists with the user's playlists for ease of use in getting user's playlists later.
-        _setPlaylists: function () {
-            console.log("Calling set playlists:", this.get('playlists'));
+        //  Set playlists as a Backbone.Collection from the JSON received from the server.
+        _ensurePlaylistsCollection: function () {
+            var playlists = this.get('playlists');
 
-            this.globalPlaylists.reset(this.get('playlists'));
-            this.globalPlaylists.setUserId(this.get('id'));
+            //  Need to convert playlists array to Backbone.Collection
+            if (!(playlists instanceof Backbone.Collection)) {
+                //  Silent because playlists is just being properly set.
+                this.set('playlists', new Playlists([], {
+                    userId: this.get('id')
+                }), {
+                    silent: true
+                });
+
+                //  Call reset afterward because I want to run _onReset logic which isn't ran when passing models into initial constructor.
+                this.get('playlists').reset(playlists);
+            }
         },
         
         _onLoadByGooglePlusIdSuccess: function(userDto) {
@@ -123,7 +122,7 @@ define(function () {
         },
         
         _onLoadSuccess: function() {
-            this._setPlaylists();
+            this._ensurePlaylistsCollection();
             localStorage.setItem('userId', this.get('id'));
             this.trigger('loadSuccess');
         }

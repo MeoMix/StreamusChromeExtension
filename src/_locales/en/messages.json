@@ -297,12 +297,8 @@
 	"watchOnYouTube": {
 		"message": "Watch on YouTube"
 	},
-	
-	"cantSaveNotSignedIn": {
-		"message": "Can't save. Not signed in"
-	},
-	"duplicatesNotAllowed": {
-		"message": "Duplicates not allowed"
+	"notSignedIn": {
+		"message": "Not signed in"
 	},
 	"signingIn": {
 		"message": "Signing in"
@@ -509,7 +505,6 @@
 	"loadingYouTubeFailed": {
 		"message": "Loading YouTube failed"
 	},
-
 	"loadAttempt": {
 		"message": "Attempt $currentLoadAttempt$ of $maxLoadAttempts$",
 		"placeholders": {
@@ -521,7 +516,6 @@
 			}
 		}
 	},
-
 	"songAlreadyInCollection": {
 		"message": "Song already in $collectionName$",
 		"placeholders": {
@@ -530,7 +524,6 @@
 			}
 		}
 	},
-
 	"allSongsAlreadyInCollection": {
 		"message": "All songs already in $collectionName$",
 		"placeholders": {
@@ -539,7 +532,6 @@
 			}
 		}
 	},
-	
 	"songsAlreadyInCollection": {
 		"message": "$duplicateSongCount$ of $draggedSongCount$ songs already in $collectionName$",
 		"placeholders": {

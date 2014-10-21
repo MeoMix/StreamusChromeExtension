@@ -18,9 +18,7 @@
             signedInUser: null,
 
             needPromptLinkUserId: false,
-            needPromptGoogleSignIn: false,
-            
-            playlists: null
+            needPromptGoogleSignIn: false
         },
 
         initialize: function () {
@@ -70,7 +68,6 @@
             this.set('signingIn', true);
 
             var signingInUser = new User({
-                globalPlaylists: this.get('playlists'),
                 googlePlusId: googlePlusId || ''
             });
 
@@ -247,8 +244,8 @@
         },
 
         _handleAddSharedPlaylistRequest: function (request, sendResponse) {
-            //  TODO: Probably go through signedInUser here
-            this.get('playlists').addPlaylistByShareData({
+            //  TODO: Probably house this logic on signedInUser or on playlists?
+            this.get('signedInUser').get('playlists').addPlaylistByShareData({
                 shortId: request.shareCodeShortId,
                 urlFriendlyEntityTitle: request.urlFriendlyEntityTitle,
                 success: function (playlist) {
@@ -290,7 +287,7 @@
         //  TODO: I think my server can probably handle signing in automatically ever since indexing was fixed.
         //  Automatically sign the user in once they've actually interacted with Streamus.
         //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-        _onForegroundStarted: function() {
+        _onForegroundStarted: function () {
             this.signInWithGoogle();
         }
     });

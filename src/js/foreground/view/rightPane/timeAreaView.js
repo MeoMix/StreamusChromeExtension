@@ -15,9 +15,12 @@ define([
         templateHelpers: {
             totalTimeMessage: chrome.i18n.getMessage('totalTime')
         },
-        
+
         events: {
-            'input @ui.timeRange:not(.disabled)': '_updateTimeProgress',
+            //  TODO: input vs change?
+            'input @ui.timeRange:not(.disabled)': '_onInputTimeRange',
+            //  TODO: mousewheel doesn't work on FF, consider wheel.
+            //  TODO: What should I name this since updateTimeProgress is taken...?
             'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateTimeProgress',
             'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
             'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
@@ -59,6 +62,10 @@ define([
             this._setTotalTime();
             this._setCurrentTime(this.player.get('currentTime'));
             this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
+        },
+        
+        _onInputTimeRange: function() {
+            this._updateTimeProgress();
         },
         
         //  Allow the user to manual time change by click or scroll.
