@@ -17,6 +17,8 @@
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.StreamItems;
             this.player = Streamus.backgroundPage.Player;
+            
+            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
         
         doOnClickAction: function() {

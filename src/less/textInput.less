@@ -5,9 +5,14 @@
     background-color: @lightAlizarin;
 }
 
+.textInput.is-valid {
+    background-color: @lightSuccessGreen;
+}
+
 .textInput--underlined {
     .m-textInputUnderline(@lightGray);
     transition: box-shadow @transition-color-time;
+    will-change: box-shadow;
     //  Subtract 2 pixels from the width to account for the 1px box-shadow on either side.
     width: calc(~"100% - 2px");
     //  Bump it over 1px to account for 1px box-shadow on the left.
@@ -28,4 +33,8 @@
 
 .m-textInputUnderline(@color){
     box-shadow: -8px 8px 0px -7px @color, 8px 8px 0px -7px @color;
+}
+
+::-webkit-input-placeholder {
+    color: @mediumDarkGray;
 }

@@ -30,16 +30,13 @@
         templateHelpers: function () {
             return {
                 emptyMessage: chrome.i18n.getMessage('streamEmpty'),
-                saveStreamMessage: chrome.i18n.getMessage('saveStream'),
-                clearStreamMessage: chrome.i18n.getMessage('clearStream'),
                 searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr'),
-                notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
+                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
             };
         },
         
         events: {
-            'click @ui.clearButton': '_clear',
+            'click @ui.clearButton:not(.disabled)': '_clear',
             'click @ui.saveButton:not(.disabled)': '_save',
             'click @ui.shuffleButton': '_toggleShuffle',
             'click @ui.radioButton': '_toggleRadio',
@@ -61,8 +58,7 @@
             repeatButton: '#stream-repeatButton',
             repeatIcon: '#stream-repeatIcon',
             clearButton: '#stream-clearButton',
-            showSearchLink: '#stream-showSearchLink',
-            bottomContentBar: '#stream-bottomContentBar'
+            showSearchLink: '#stream-showSearchLink'
         },
         
         behaviors: {
@@ -103,34 +99,33 @@
             this._setShuffleButtonState();
             this._setRadioButtonState();
             this._updateSaveButton();
+            this._updateClearButton();
         },
         
         _setViewState: function() {
             this._toggleBigText();
-            this._toggleBottomContentBar();
+            this._updateClearButton();
         },
         
         _updateSaveButton: function () {
-            var signedIn = this.signInManager.get('signedInUser') !== null;
-            
-            var templateHelpers = this.templateHelpers();
-            var newTitle = signedIn ? templateHelpers.saveStreamMessage : templateHelpers.notSignedInMessage;
+            var signedOut = this.signInManager.get('signedInUser') === null;
+            var newTitle = signedOut ? chrome.i18n.getMessage('notSignedIn') : chrome.i18n.getMessage('saveStream');
 
-            this.ui.saveButton.toggleClass('disabled', !signedIn);
+            this.ui.saveButton.toggleClass('disabled', signedOut);
             this.ui.saveButton.attr('title', newTitle);
+        },
+        
+        _updateClearButton: function () {
+            var streamEmpty = this.collection.length === 0;
+            var newTitle = streamEmpty ? chrome.i18n.getMessage('streamEmpty') : chrome.i18n.getMessage('clearStream');
+
+            this.ui.clearButton.toggleClass('disabled', streamEmpty);
+            this.ui.clearButton.attr('title', newTitle);
         },
         
         //  Hide the empty message if there is anything in the collection
         _toggleBigText: function () {
             this.ui.emptyMessage.toggleClass('hidden', this.collection.length > 0);
-        },
-        
-        //  Show buttons if there is anything in the collection otherwise hide
-        _toggleBottomContentBar: function () {
-            this.ui.bottomContentBar.toggleClass('hidden', this.collection.length === 0);
-            //  TODO: It would be better to only run this when needed.
-            //  Need to update viewportHeight in slidingRender behavior:
-            this.triggerMethod('ListHeightUpdated');
         },
         
         _clear: function() {
@@ -221,7 +216,7 @@
         },
         
         _showSearch: function () {
-            Streamus.channels.global.vent.trigger('showSearch', true);
+            Streamus.channels.searchArea.commands.trigger('show', true);
         }
     });
 

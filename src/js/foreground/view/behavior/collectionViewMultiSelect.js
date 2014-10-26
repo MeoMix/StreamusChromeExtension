@@ -9,29 +9,26 @@
         },
 
         events: {
-            'click @ui.listItem': '_onItemClicked',
+            'click @ui.listItem': '_onClickListItem',
         },
         
         initialize: function() {
-            this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
-            this.listenTo(Streamus.channels.global.vent, 'itemsDropped', this._onItemsDropped);
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'drop', this._onElementDrop);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
         //  when performing a drag operation. It doesn't feel right to use mousedown instead of click.
-        onItemDragged: function (item) {
+        onItemDragged: function (options) {
             this._setSelected({
-                modelToSelect: item,
+                modelToSelect: options.item,
+                shiftKey: event.shiftKey,
+                ctrlKey: event.ctrlKey,
                 drag: true
             });
         },
         
-        onBeforeDestroy: function () {
-            //  Forget selected items when the view is destroyed.
-            this._deselectCollection();
-        },
-        
-        _onItemsDropped: function () {
+        _onElementDrop: function () {
             this._deselectCollection();
         },
         
@@ -39,8 +36,9 @@
             this.view.collection.deselectAll();
         },
         
-        _onClickedElement: function (clickedElement) {
-            var clickedItem = clickedElement.closest('.js-listItem--multiSelect');
+        _onElementClick: function (event) {
+            //  TODO: Checking for a string constant class like this is fragile.
+            var clickedItem = $(event.target).closest('.js-listItem--multiSelect');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
 
             if (listItemType !== this.view.childViewOptions.type) {
@@ -48,7 +46,7 @@
             }
         },
         
-        _onItemClicked: function (event) {
+        _onClickListItem: function (event) {
             var id = $(event.currentTarget).data('id');
             //  TODO: I am seeing errors saying that modelToSelect is undefined here sometimes?
             var modelToSelect = this.view.collection.get(id);

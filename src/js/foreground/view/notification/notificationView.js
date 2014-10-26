@@ -19,15 +19,17 @@
 			hideButton: '#notification-hideButton'
 		},
 
-		transitionDelay: 200,
+		transitionDuration: 300,
 		hideTimeout: null,
 		hideTimeoutDelay: 3000,
 
 		onShow: function () {
 			this.$el.transition({
-				y: 0,
-				opacity: 1
-			}, this.transitionDelay, 'snap');
+				y: 0
+			}, {
+			    easing: 'easeOutCubic',
+			    duration: this.transitionDuration
+			});
 
 			this._setHideTimeout();
 		},
@@ -36,9 +38,12 @@
 			this._clearHideTimeout();
 
 			this.$el.transition({
-				y: -1 * this.$el.height(),
-				opacity: 0
-			}, this.transitionDelay, this.destroy.bind(this));
+				y: -1 * this.$el.height()
+			}, {
+			    easing: 'easeOutCubic',
+			    duration: this.transitionDuration,
+			    complete: this.destroy.bind(this)
+			});
 		},
 
 		_setHideTimeout: function () {

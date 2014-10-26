@@ -10,7 +10,14 @@
 
 		initialize: function () {
 		    this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
-			this.listenTo(Streamus.backgroundChannels.notification.commands, 'show:notification', this._showNotification);
+		    this.listenTo(Streamus.backgroundChannels.notification.commands, 'show:notification', this._showNotification);
+
+		    //setTimeout(function() {
+		    //    this._showNotification({
+		    //        type: NotificationType.Success,
+		    //        message: 'hello!'
+		    //    });
+		    //}.bind(this), 200);
 		},
 
 		_showNotification: function (notificationOptions) {

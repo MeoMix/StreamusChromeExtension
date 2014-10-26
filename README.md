@@ -66,7 +66,6 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [Chai (v1.9.1)](http://chaijs.com/)
 * [jQuery (v2.1.1)](http://jquery.com/)
 * [jQuery UI (v1.11.0)](http://jqueryui.com/)
-* [jQuery Hover Intent (vr7)](http://cherne.net/brian/resources/jquery.hoverIntent.html)
 * [jQuery qTip (v2.2.0-63-)](http://qtip2.com/)
 * [jQuery Transit (v0.9.12)](http://ricostacruz.com/jquery.transit/)
 * [Less (v1.7.4)](http://lesscss.org)

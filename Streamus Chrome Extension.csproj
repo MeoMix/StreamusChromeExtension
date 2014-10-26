@@ -83,6 +83,7 @@
     <Content Include="src\js\background\application.js" />
     <Content Include="src\js\background\collection\clientErrors.js" />
     <Content Include="src\js\background\enum\omniboxModifiers.js" />
+    <Content Include="src\js\background\mixin\collectionUniqueSong.js" />
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
     <Content Include="src\js\background\model\relatedSongInformationManager.js" />
@@ -129,6 +130,7 @@
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
+    <Content Include="src\js\common\enum\direction.js" />
     <Content Include="src\js\common\enum\songType.js" />
     <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
     <Content Include="src\js\common\enum\youTubeServiceType.js" />
@@ -264,7 +266,6 @@
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\chai.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
-    <Content Include="src\js\thirdParty\jquery.hoverIntent.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery.transit.js" />
@@ -352,6 +353,7 @@
     <Content Include="src\less\lineHeight.less" />
     <Content Include="src\less\timeArea.less" />
     <Content Include="src\less\transition.less" />
+    <Content Include="src\less\overlay.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />

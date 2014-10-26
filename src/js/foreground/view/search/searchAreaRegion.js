@@ -10,17 +10,19 @@
         initialize: function () {
             this.settings = Streamus.backgroundPage.Settings;
 
-            this.listenTo(Streamus.channels.global.vent, 'showSearch', this.showSearchView);
+            this.listenTo(Streamus.channels.searchArea.commands, 'show', this._showSearchView);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
 
-        showSearchView: function (doSnapAnimation) {
-            this._searchViewExists() ? this._focusSearchView() : this._createSearchView(doSnapAnimation);
+        _showSearchView: function (transitionIn) {
+            this.currentView.visible ? this._focusSearchView() : this.currentView.show(transitionIn);
         },
         
         _onForegroundAreaShown: function () {
+            this._createSearchView();
+
             if (this.settings.get('alwaysOpenToSearch')) {
-                this.showSearchView(false);
+                this._showSearchView(false);
             }
         },
         
@@ -34,15 +36,15 @@
             this.currentView.focusInput();
         },
         
-        _createSearchView: function (doSnapAnimation) {
-            var searchView = new SearchView({
-                collection: Streamus.backgroundPage.Search.get('results'),
-                model: Streamus.backgroundPage.Search,
-                //  Indicate whether view should appear immediately or animate.
-                doSnapAnimation: doSnapAnimation
-            });
+        _createSearchView: function () {
+            if (!this._searchViewExists()) {
+                var searchView = new SearchView({
+                    model: Streamus.backgroundPage.Search,
+                    collection: Streamus.backgroundPage.Search.get('results')
+                });
 
-            this.show(searchView);
+                this.show(searchView);
+            }
         }
     });
 

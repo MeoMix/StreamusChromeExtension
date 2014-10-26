@@ -2,16 +2,17 @@
     'background/enum/syncActionType',
     'background/mixin/collectionMultiSelect',
     'background/mixin/collectionSequence',
+    'background/mixin/collectionUniqueSong',
     'background/model/playlistItem',
     'common/enum/listItemType'
-], function (SyncActionType, CollectionMultiSelect, CollectionSequence, PlaylistItem, ListItemType) {
+], function (SyncActionType, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, PlaylistItem, ListItemType) {
     'use strict';
 
     var PlaylistItems = Backbone.Collection.extend({
         model: PlaylistItem,
         playlistId: -1,
-        
-        mixins: [CollectionMultiSelect, CollectionSequence],
+        userFriendlyName: chrome.i18n.getMessage('playlist'),
+        mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
         
         initialize: function (models, options) {
             if (!_.isUndefined(options)) {
@@ -22,53 +23,28 @@
             this.on('remove', this._onRemove);
         },
 
-        //  Figure out if a Song would be unique to the collection or if it already referenced by a PlaylistItem.
-        hasSong: function (song) {
-            return !_.isUndefined(this._getBySongId(song.get('id')));
-        },
-        
-        //  Don't allow duplicate PlaylistItems by songId. 
-        add: function (items) {
-            if (items instanceof Backbone.Collection) {
-                items.each(function (item) {
-                    this._trySetDuplicateSongId(item);
-                }.bind(this));
-            }
-            else if (_.isArray(items)) {
-                _.each(items, function (item) {
-                    this._trySetDuplicateSongId(item);
-                }.bind(this));
-            } else {
-                this._trySetDuplicateSongId(items);
-            }
-            
-            return Backbone.Collection.prototype.add.apply(this, arguments);
-        },
-
         addSongs: function (songs, options) {
-            //  Support optional options.
             options = _.isUndefined(options) ? {} : options;
-
-            //  Convert songs to an array when given a single song
-            if (!_.isArray(songs)) {
-                songs = [songs];
-            }
+            songs = _.isArray(songs) ? songs : [songs];
 
             var itemsToCreate = [];
-            var index = !_.isUndefined(options.index) ? options.index : this.length;
+            var index = _.isUndefined(options.index) ? this.length : options.index;
 
             _.each(songs, function (song) {
-                if (!this.hasSong(song)) {
-                    var sequence = this.getSequenceFromIndex(index);
+                var playlistItem = new PlaylistItem({
+                    playlistId: this.playlistId,
+                    song: song,
+                    sequence: this.getSequenceFromIndex(index)
+                });
 
-                    var playlistItem = new PlaylistItem({
-                        playlistId: this.playlistId,
-                        song: song,
-                        sequence: sequence
-                    });
-
+                //  Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
+                this.add(playlistItem, {
+                    at: index
+                });
+                
+                //  If the item was added successfully to the collection (not duplicate) then allow for it to be created.
+                if (!_.isUndefined(playlistItem.collection)) {
                     itemsToCreate.push(playlistItem);
-                    this.add(playlistItem);
                     index++;
                 }
             }, this);
@@ -76,8 +52,8 @@
             if (itemsToCreate.length === 1) {
                 //  Default to Backbone if only creating 1 item.
                 itemsToCreate[0].save({}, {
-                    success: options ? options.success : null,
-                    error: options ? options.error : null
+                    success: options.success,
+                    error: options.error
                 });
             } else {
                 this._bulkCreate(itemsToCreate, options);
@@ -127,31 +103,6 @@
             return this.find(function (playlistItem) {
                 return playlistItem.get('song').get('id') === songId;
             });
-        },
-
-        _trySetDuplicateSongId: function (playlistItem) {
-            //  You can pass an object into .add so gotta support both types. Maybe rethink this?
-            var songId;
-            if (playlistItem instanceof Backbone.Model) {
-                songId = playlistItem.get('song').get('id');
-            } else {
-                songId = playlistItem.song.id;
-            }
-
-            var duplicateItem = this._getBySongId(songId);
-
-            if (!_.isUndefined(duplicateItem)) {
-                //  Make their IDs match to prevent adding to the collection.
-                if (duplicateItem.has('id')) {
-                    if (playlistItem instanceof Backbone.Model) {
-                        playlistItem.set('id', duplicateItem.get('id'));
-                    } else {
-                        playlistItem.id = duplicateItem.get('id');
-                    }
-                } else {
-                    playlistItem.cid = duplicateItem.cid;
-                }
-            }
         },
         
         _onAdd: function (addedPlaylistItem) {

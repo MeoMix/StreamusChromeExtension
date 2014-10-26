@@ -1,19 +1,20 @@
 ﻿define([
     'background/mixin/collectionMultiSelect',
     'background/mixin/collectionSequence',
+    'background/mixin/collectionUniqueSong',
     'background/model/streamItem',
     'background/model/song',
     'background/model/youTubeV3API',
     'common/enum/repeatButtonState',
     'common/enum/playerState'
-], function (CollectionMultiSelect, CollectionSequence, StreamItem, Song, YouTubeV3API, RepeatButtonState, PlayerState) {
+], function (CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, StreamItem, Song, YouTubeV3API, RepeatButtonState, PlayerState) {
     'use strict';
     
     var StreamItems = Backbone.Collection.extend({
         model: StreamItem,
         localStorage: new Backbone.LocalStorage('StreamItems'),
-        
-        mixins: [CollectionMultiSelect, CollectionSequence],
+        userFriendlyName: chrome.i18n.getMessage('stream'),
+        mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
         player: null,
         shuffleButton: null,
         radioButton: null,
@@ -45,7 +46,7 @@
 
             var activeItem = this.getActiveItem();
             if (!_.isUndefined(activeItem)) {
-                this.player.activateSong(activeItem.get('song').get('id'));
+                this.player.activateSong(activeItem.get('song'));
                 
                 //  TODO: This won't be necessary once I fix history persistence because activeItem should already be in history after a restart.
                 this.history.unshift(activeItem);
@@ -53,43 +54,49 @@
         },
         
         addSongs: function (songs, options) {
-            //  Support not passing in options
-            options = options || {};
+            options = _.isUndefined(options) ? {} : options;
+            songs = _.isArray(songs) ? songs : [songs];
 
-            if (!_.isArray(songs)) {
-                songs = [songs];
-            }
-
-            var playOnAdd = _.isUndefined(options.playOnAdd) ? false : options.playOnAdd;
-            if (playOnAdd) {
+            if (options.playOnAdd) {
                 this.player.set('playOnActivate', true);
             }
 
             var index = _.isUndefined(options.index) ? this.length : options.index;
 
-            //  TODO: I don't like the wordyness of this... maybe I should go back to setting active as a property.
             var createdStreamItems = [];
             _.each(songs, function (song) {
-                //  TODO: Make each item unique / no duplicates allowed.
-                var sequence = this.getSequenceFromIndex(index);
-
-                var createdStreamItem = this.create({
+                var streamItem = new StreamItem({
                     song: song,
                     title: song.get('title'),
-                    sequence: sequence
-                }, { sort: false });
-                
-                createdStreamItems.push(createdStreamItem);
-                index++;
+                    sequence: this.getSequenceFromIndex(index)
+                });
+
+                //  Provide the index that the item will be placed at because allowing re-sorting the collection is expensive.
+                this.add(streamItem, {
+                    at: index
+                });
+
+                //  If the item was added successfully to the collection (not duplicate) then allow for it to be created.
+                if (!_.isUndefined(streamItem.collection)) {
+                    streamItem.save();
+                    createdStreamItems.push(streamItem);
+                    index++;
+                }
             }, this);
             
-            //  If an index was provided then the collection's order might not be correct - trigger a sort. Otherwise, since just pushing onto end, it's OK not to sort.
-            if (!_.isUndefined(options.index)) {
-                this.sort();
-            }
-
-            if (playOnAdd || options.markFirstActive) {
-                createdStreamItems[0].save({ active: true });
+            if (options.playOnAdd || options.markFirstActive) {
+                if (createdStreamItems.length > 0) {
+                    createdStreamItems[0].save({ active: true });
+                } else {
+                    //  TODO: I need to notify the user that this fallback happened.
+                    var song = this.getBySong(songs[0]);
+                    
+                    if (song.get('active')) {
+                        song.trigger('change:active', song, true);
+                    } else {
+                        song.save({ active: true });
+                    }
+                }
             }
 
             return createdStreamItems;
@@ -309,9 +316,10 @@
                 if (nextItem === null) {
                     this.player.set('playOnActivate', false);
 
+                    //  TODO: Once I refactoring activateNext and have better ways of handling errors then I can re-enable this, but infinite looping for now sucks.
                     //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
                     //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                    this.player.activateSong(this.getActiveItem().get('song').get('id'));
+                    //this.player.activateSong(this.getActiveItem().get('song'));
                 }
             } else {
                 //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
@@ -372,7 +380,7 @@
         },
         
         _loadActiveItem: function (activeItem) {
-            this.player.activateSong(activeItem.get('song').get('id'));
+            this.player.activateSong(activeItem.get('song'));
             
             //  When deleting the last item in the stream AND it is active then you go back 1 sequentially.
             //  This can cause a duplicate to be added to history if you just came from it.

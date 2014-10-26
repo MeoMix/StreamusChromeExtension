@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div id="activePlaylistArea-bottomContentBar" class="contentBar contentBar--bottom">
+<div class="contentBar contentBar--bottom">
     <div class="u-flex--row">
         <div id="activePlaylistArea-playlistDetails" class="u-lowercase u-textOverflowEllipsis u-textSecondary js-textTooltipable lineHeight-loose u-flex--full" title="<%- displayInfo %>">
             <%= displayInfo %>
@@ -24,8 +24,9 @@
                 <%= playAllMessage %>
             </button>
 
-            <button id="activePlaylistArea-addAllButton" class="button--label">
-                <i class="button--label-icon fa fa-plus"></i><%= addAllMessage %>
+            <button id="activePlaylistArea-addAllButton" class="button--label js-tooltipable">
+                <i class="button--label-icon fa fa-plus"></i>
+                <%= addAllMessage %>
             </button>
         </div>
     </div>

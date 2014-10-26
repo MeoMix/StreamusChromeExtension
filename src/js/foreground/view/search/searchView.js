@@ -12,7 +12,7 @@
 
     var SearchView = Backbone.Marionette.CompositeView.extend({
         id: 'search',
-        className: 'leftPane column column--fullWidth u-flex--column panel panel--left panel--uncolored',
+        className: 'leftPane column column--wide u-flex--column panel panel--left panel--uncolored u-transitionable',
         template: _.template(SearchTemplate),
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
@@ -27,7 +27,6 @@
         },
         
         ui: {
-            bottomContentBar: '#search-bottomContentBar',
             searchInput: '#search-searchInput',
             searchingMessage: '#search-searchingMessage',
             typeToSearchMessage: '#search-typeToSearchMessage',
@@ -42,18 +41,19 @@
         events: {
             'input @ui.searchInput': '_onInputSearchInput',
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
-            'click @ui.playSelectedButton': '_onClickPlaySelectedButton',
-            'click @ui.addSelectedButton': '_onClickAddSelectedButton',
-            'click @ui.saveSelectedButton': '_onClickSaveSelectedButton'
+            'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
+            'click @ui.addSelectedButton:not(.disabled)': '_onClickAddSelectedButton',
+            'click @ui.saveSelectedButton:not(.disabled)': '_onClickSaveSelectedButton'
         },
-        //  TODO: Event handler names
+
         modelEvents: {
-            'change:query change:searching': '_toggleInstructions'
+            'change:query': '_onChangeQuery',
+            'change:searching': '_onChangeSearching'
         },
 
         collectionEvents: {
-            'reset': '_toggleInstructions',
-            'change:selected': '_toggleBottomContentBar'
+            'reset': '_onCollectionReset',
+            'change:selected': '_onCollectionChangeSelected'
         },
  
         templateHelpers: function() {
@@ -90,12 +90,12 @@
             };
         },
         
-        doSnapAnimation: false,
+        transitionDuration: 300,
         streamItems: null,
         signInManager: null,
+        visible: false,
 
-        initialize: function (options) {
-            this.doSnapAnimation = options.doSnapAnimation;
+        initialize: function () {
             this.streamItems = Streamus.backgroundPage.StreamItems;
             this.signInManager = Streamus.backgroundPage.SignInManager;
 
@@ -104,25 +104,22 @@
  
         onRender: function () {
             this._toggleInstructions();
-            this._toggleBottomContentBar();
-            this._toggleSaveSelected();
+            this._toggleSelectedButtons();
         },
-        
-        onShow: function () {
+
+        show: function (transitionIn) {
+            this.visible = true;
+            this.$el.addClass('is-visible');
+
             this.model.stopClearQueryTimer();
             this.focusInput();
-            
-            //  By passing undefined in I opt to use the default duration length.
-            var transitionDuration = this.doSnapAnimation ? undefined : 0;
 
             this.$el.transition({
                 x: 0
-            }, transitionDuration, 'snap');
-        },
-
-        onBeforeDestroy: function () {
-            //  Remember search query for a bit just in case user close/re-open quickly, no need to re-search.
-            this.model.startClearQueryTimer();
+            }, {
+                easing: 'easeOutCubic',
+                duration: transitionIn ? this.transitionDuration : 0
+            });
         },
         
         //  Reset val after focusing to prevent selecting the text while maintaining focus.
@@ -130,6 +127,23 @@
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
         },
         
+        _onChangeSearching: function () {
+            this._toggleInstructions();
+        },
+        
+        _onChangeQuery: function (model, query) {
+            this.ui.searchInput.val(query);
+            this._toggleInstructions();
+        },
+        
+        _onCollectionReset: function () {
+            this._toggleInstructions();
+        },
+        
+        _onCollectionChangeSelected: function () {
+            this._toggleSelectedButtons();
+        },
+
         _onClickSaveSelectedButton: function() {
             this._showSaveSelectedPrompt();
         },
@@ -153,9 +167,17 @@
         _hide: function () {
             //  Transition the view back out before closing.
             this.$el.transition({
-                /* Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model. */
-                x: '-102%'
-            }, this.destroy.bind(this));
+                x: '-100%'
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration,
+                complete: this._onHideComplete.bind(this)
+            });
+        },
+        
+        _onHideComplete: function () {
+            this.visible = false;
+            this.$el.removeClass('is-visible');
         },
         
         //  Searches youtube for song results based on the given text.
@@ -165,16 +187,9 @@
         },
         
         _toggleSaveSelected: function () {
-            var signedIn = this.signInManager.get('signedInUser') !== null;
-            this.ui.saveSelectedButton.toggleClass('disabled', !signedIn);
-        },
-        
-        _toggleBottomContentBar: function () {
-            var selectedCount = this.collection.selected().length;
-            this.ui.bottomContentBar.toggleClass('hidden', selectedCount === 0);
-            //  TODO: It would be better to only run this when needed.
-            //  Need to update viewportHeight in slidingRender behavior:
-            this.triggerMethod('ListHeightUpdated');
+            var signedOut = this.signInManager.get('signedInUser') === null;
+            var noResultsSelected = this.collection.selected().length === 0;
+            this.ui.saveSelectedButton.toggleClass('disabled', signedOut || noResultsSelected);
         },
 
         //  Set the visibility of any visible text messages.
@@ -191,6 +206,13 @@
             var hasSearchResults = this.collection.length > 0;
             var hideNoResults = hasSearchResults || searching || !hasSearchQuery;
             this.ui.noResultsMessage.toggleClass('hidden', hideNoResults);
+        },
+        
+        _toggleSelectedButtons: function () {
+            this._toggleSaveSelected();
+            var noResultsSelected = this.collection.selected().length === 0;
+            this.ui.playSelectedButton.toggleClass('disabled', noResultsSelected);
+            this.ui.addSelectedButton.toggleClass('disabled', noResultsSelected);
         },
         
         _playSelected: function () {

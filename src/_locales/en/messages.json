@@ -158,6 +158,9 @@
 	"playlist": {
 		"message": "Playlist"
 	},
+	"stream": {
+		"message": "Stream"
+	},
 	"settings": {
 		"message": "Settings"
 	},

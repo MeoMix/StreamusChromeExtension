@@ -10,4 +10,7 @@
     border-color: @lightGray !important;
     color: @mediumDarkGray !important;
     background-color: @white !important;
+    //  Prevent pointer events on tooltips so that user can't misclick when
+    //  right-clicking on a listItem that is showing its context menu.
+    pointer-events: none;
 }

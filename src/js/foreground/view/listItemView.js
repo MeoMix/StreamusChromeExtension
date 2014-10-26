@@ -20,7 +20,7 @@
         },
 
         events: {
-            'contextmenu': '_showContextMenu',
+            'contextmenu': '_onContextMenu',
             'mouseenter': '_onMouseEnter',
             'mouseleave': '_onMouseLeave'
         },
@@ -33,6 +33,11 @@
             Tooltip: {
                 behaviorClass: Tooltip
             }
+        },
+        
+        _onContextMenu: function (event) {
+            event.preventDefault();
+            this.showContextMenu();
         },
         
         _onMouseEnter: function () {

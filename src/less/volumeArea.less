@@ -1,7 +1,7 @@
 ﻿@import "color";
 @import "rangeInput";
 @import "transition";
-@import "utility";
+
 
 .volumeArea-volumeButton.is-muted {
     color: @alizarin;
@@ -11,19 +11,39 @@
     }
 }
 
+.volumeArea:hover,
+.volumeArea:active {
+    @expandedPanelHeight: 100px;
+    .volumeArea-slidePanel {
+        height: @expandedPanelHeight;
+        opacity: 1;
+        pointer-events: all;
+    }
+
+    .rangeInput {
+        @volumeRangeSize: @expandedPanelHeight - (@rangeInputMargin * 2);
+        width: @volumeRangeSize;
+        right: -@volumeRangeSize;
+        opacity: 1;
+    }
+}
+
 //  TODO: Make this more generic once Google Chrome fixes this bug: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
     @panelWidth: 40px;
-    @transitionTime: 250ms;
+    @transitionTime: 350ms;
+    @transitionDelay: .1s;
     width: @panelWidth;
     //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
-    transition: opacity @transitionTime @transition-timingFunction-snap, height @transitionTime @transition-timingFunction-snap;
+    transition: opacity @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay, 
+                height @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay;
     align-items: center;
     z-index: 1;
     //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
+    will-change: opacity, height;
 
     // CSS triangle
     &:before {
@@ -39,29 +59,16 @@
         transform: rotate(45deg);
     }
 
-    &.is-expanded {
-        @expandedPanelHeight: 100px;
-        height: @expandedPanelHeight;
-        opacity: 1;
-        pointer-events: all;
-
-        .rangeInput {
-            @volumeRangeSize: @expandedPanelHeight - (@rangeInputMargin * 2);
-            width: @volumeRangeSize;
-            right: -@volumeRangeSize;
-            opacity: 1;
-        }
-    }
-
     .rangeInput {
         //  These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
         width: 0;
         right: 0;
         opacity: 0;
         height: @rangeInputSize;
+        will-change: opacity, right, height;
         transition: 
-            width @transitionTime @transition-timingFunction-snap, 
-            right @transitionTime @transition-timingFunction-snap,
-            opacity @transitionTime @transition-timingFunction-snap;
+            width @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay, 
+            right @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay,
+            opacity @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay;
     }
 }

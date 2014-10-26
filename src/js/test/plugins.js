@@ -3,7 +3,6 @@
     'backbone.localStorage',
     'backbone.marionette',
     'chai',
-    'jquery.hoverIntent',
     'jquery',
     'jquery.qtip',
     'jquery.transit',

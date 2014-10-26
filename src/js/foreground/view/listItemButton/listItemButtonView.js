@@ -12,7 +12,7 @@
         
         events: {
             'click': '_onClick',
-            'dblclick': '_onClick'
+            'dblclick': '_onDblClick'
         },
         
         behaviors: {
@@ -20,21 +20,30 @@
                 behaviorClass: Tooltip
             }
         },
+        
+        initialize: function () {
+            //  Debounced to defend against accidental/spam clicking. Bound in initialize because
+            //  the debounce timer will be shared between all ListItemButtonViews if bound before initialize.
+            this._doOnClickAction = _.debounce(function() {
+                if (!this.$el.hasClass('disabled')) {
+                    this.doOnClickAction();
+                }
+            }.bind(this), 1000, true);
+        },
 
         _onClick: function () {
-            if (!this.$el.hasClass('disabled')) {
-                this.doOnClickAction();
-            }
-
-            //  Don't allow click to bubble up to the list item and cause a selection.
+            this._doOnClickAction();
+            //  Don't allow click to bubble up since handling click at this level.
             return false;
         },
         
-        //  Debounced to defend against accidental/spam clicking. Don't debounce _onClick directly because
-        //  the debounce timer will be shared between all ListItemButtonViews and not each individual view.
-        _doOnClickAction: _.debounce(function () {
-            this.doOnClickAction();
-        }, 1000, true),
+        _onDblClick: function () {
+            this._doOnClickAction();
+            //  Don't allow dblClick to bubble up since handling click at this level.
+            return false;
+        },
+
+        _doOnClickAction: null,
 
         _getSize: function () {
             var listItemType = this.model.get('listItemType');

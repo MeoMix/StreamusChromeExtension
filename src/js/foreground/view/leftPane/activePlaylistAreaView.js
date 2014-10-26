@@ -34,22 +34,22 @@
         
         //  Overwrite resortView to only render children as expected
         resortView: function () {
+            console.log('resorting view');
             this._renderChildren();
         },
 
         ui: {
             playlistDetails: '#activePlaylistArea-playlistDetails',
             playlistEmptyMessage: '#activePlaylistArea-playlistEmptyMessage',
-            bottomContentBar: '#activePlaylistArea-bottomContentBar',
             childContainer: '#activePlaylistArea-listItems',
-            playAll: '#activePlaylistArea-playAllButton',
-            addAll: '#activePlaylistArea-addAllButton',
+            playAllButton: '#activePlaylistArea-playAllButton',
+            addAllButton: '#activePlaylistArea-addAllButton',
             showSearchLink: '#activePlaylistArea-showSearchLink'
         },
         
         events: {
-            'click @ui.addAll': '_addAllToStream',
-            'click @ui.playAll': '_playAllInStream',
+            'click @ui.addAllButton:not(.disabled)': '_addAllToStream',
+            'click @ui.playAllButton:not(.disabled)': '_playAllInStream',
             'click @ui.showSearchLink': '_showSearch'
         },
         
@@ -82,6 +82,7 @@
         
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.listenTo(this.streamItems, 'add remove reset', this._toggleButtons);
         },
 
         onRender: function () {
@@ -91,7 +92,15 @@
         //  Ensure that the proper UI elements are being shown based on the state of the collection
         _setViewState: function () {
             this._toggleInstructions();
-            this._toggleBottomContentBar();
+            this._toggleButtons();
+        },
+        
+        _toggleButtons: function () {
+            var playlistEmpty = this.collection.length === 0;
+            this.ui.playAllButton.toggleClass('disabled', playlistEmpty);
+
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.collection.pluck('song'));
+            this.ui.addAllButton.toggleClass('disabled', playlistEmpty || duplicatesInfo.allDuplicates).attr('title', duplicatesInfo.message);
         },
         
         _onModelChangeDisplayInfo: function (model, displayInfo) {
@@ -105,15 +114,9 @@
         _toggleInstructions: function () {
             this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
-        
-        _toggleBottomContentBar: function () {
-            this.ui.bottomContentBar.toggleClass('hidden', this.collection.length === 0);
-            //  TODO: It would be better to only run this when needed.
-            //  Need to update viewportHeight in slidingRender behavior:
-            this.triggerMethod('ListHeightUpdated');
-        },
 
         _addAllToStream: function () {
+            console.log('running addAllToStream');
             this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
@@ -124,7 +127,7 @@
         },
 
         _showSearch: function () {
-            Streamus.channels.global.vent.trigger('showSearch', true);
+            Streamus.channels.searchArea.commands.trigger('show', true);
         }
     });
 

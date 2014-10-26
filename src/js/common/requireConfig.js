@@ -24,7 +24,6 @@
             'chai': 'thirdParty/chai',
             'cocktail': 'thirdParty/cocktail',
             'googleAnalytics': 'thirdParty/googleAnalytics',
-            'jquery.hoverIntent': 'thirdParty/jquery.hoverIntent',
             'jquery': 'thirdParty/jquery',
             'jquery.qtip': 'thirdParty/jquery.qtip',
             'jquery.transit': 'thirdParty/jquery.transit',
@@ -42,10 +41,6 @@
             'googleAnalytics': {
                 deps: ['jquery'],
                 exports: '_gaq'
-            },
-            'jquery.hoverIntent': {
-                deps: ['jquery'],
-                exports: '$.fn.hoverIntent'
             },
             'jquery.transit': {
                 deps: ['jquery'],

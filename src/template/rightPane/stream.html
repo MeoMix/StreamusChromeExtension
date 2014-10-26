@@ -13,7 +13,7 @@
     </div>
 </div>
 
-<div id="stream-bottomContentBar" class="contentBar contentBar--bottom">
+<div class="contentBar contentBar--bottom">
     <div class="u-flex--row">
         <div class="u-flex--full">
             <button id="stream-shuffleButton" class="button--icon button--medium js-tooltipable">
@@ -29,12 +29,16 @@
             </button>
         </div>
         
-        <button id="stream-saveButton" class="button--icon button--medium js-tooltipable">
-            <i class="fa fa-save"></i>
-        </button>
-
-        <button id="stream-clearButton" class="button--icon button--medium js-tooltipable" title="<%- clearStreamMessage %>">
-            <i class="fa fa-trash-o"></i>
-        </button>
+        <div id="stream-saveButtonRegion">
+            <button id="stream-saveButton" class="button--icon button--medium js-tooltipable">
+                <i class="fa fa-save"></i>
+            </button>
+        </div>
+        
+        <div id="stream-clearButtonRegion">
+            <button id="stream-clearButton" class="button--icon button--medium js-tooltipable">
+                <i class="fa fa-trash-o"></i>
+            </button>
+        </div>
     </div>
 </div>

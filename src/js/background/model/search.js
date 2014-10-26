@@ -9,6 +9,7 @@
     var Search = Backbone.Model.extend({
         defaults: function () {
             return {
+                //  TODO: It's weird this one is called results and Stream/Playlist are both items.
                 results: new SearchResults(),
                 query: '',
                 searching: false,

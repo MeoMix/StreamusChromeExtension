@@ -23,14 +23,6 @@
     align-items: center;
 }
 
-.u-overlay {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    top: 0;
-}
-
 .u-clickable {
     cursor: pointer;
 }
@@ -90,6 +82,14 @@
 
 .u-alignTopThird {
     top: 33.33%;
+}
+
+.u-transitionable {
+    pointer-events: none;
+
+    &.is-visible {
+        pointer-events: all;
+    }
 }
 
 //  TODO: I don't know if these should be prefixed by u- or is-

@@ -16,7 +16,10 @@
             notification: Backbone.Wreqr.radio.channel('notification'),
             foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
             window: Backbone.Wreqr.radio.channel('window'),
-            contextMenu: Backbone.Wreqr.radio.channel('contextMenu')
+            contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
+            playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
+            searchArea: Backbone.Wreqr.radio.channel('searchArea'),
+            elementInteractions: Backbone.Wreqr.radio.channel('elementInteractions')
         },
         
         backgroundChannels: null,

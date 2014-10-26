@@ -114,15 +114,17 @@
         },
         
         _showSearch: function() {
-            Streamus.channels.global.vent.trigger('showSearch', true);
+            Streamus.channels.searchArea.commands.trigger('show', true);
         },
         
         _showPlaylistsArea: function() {
-            Streamus.channels.global.vent.trigger('showPlaylistsArea');
+            Streamus.channels.playlistsArea.commands.trigger('show');
         },
         
         _setShowPlaylistsAreaButtonState: function (signedInUser) {
-            this.ui.showPlaylistsAreaButton.toggleClass('disabled', signedInUser === null);
+            var signedOut = signedInUser === null;
+            var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
+            this.ui.showPlaylistsAreaButton.toggleClass('disabled', signedOut).attr('title', title);
         }
     });
 

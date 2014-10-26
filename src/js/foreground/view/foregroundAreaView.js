@@ -25,9 +25,9 @@
         },
 
         events: {
-            //  TODO: I think it might make more sense to use mousedown instead of click because dragging elements doesn't hide the contextmenu
+            'mousedown': '_onMouseDown',
             'click': '_onClick',
-            'contextmenu': '_onClick',
+            'contextmenu': '_onContextMenu',
             'click @ui.reloadLink': '_onClickReloadLink'
         },
         
@@ -95,15 +95,17 @@
             }
         },
         
+        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
         _onClick: function(event) {
-            this.contextMenuRegion.handleClickEvent(event);
-            this._announceClickedElement(event);
+            Streamus.channels.elementInteractions.vent.trigger('click', event);
         },
         
-        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
-        //  and so that menus can close if they weren't clicked.
-        _announceClickedElement: function (event) {
-            Streamus.channels.global.vent.trigger('clickedElement', $(event.target));
+        _onContextMenu: function (event) {
+            Streamus.channels.elementInteractions.vent.trigger('contextMenu', event);
+        },
+        
+        _onMouseDown: function () {
+            Streamus.channels.elementInteractions.vent.trigger('mouseDown', event);
         },
         
         _onWindowResize: function() {
@@ -115,7 +117,9 @@
         
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
+            Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
             this.destroy();
+            Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
         },
         
         _onWindowError: function (message, url, lineNumber, columnNumber, error) {

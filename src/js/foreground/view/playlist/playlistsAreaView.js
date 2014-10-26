@@ -9,7 +9,7 @@
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlistsArea',
-        className: 'u-overlay',
+        className: 'u-transitionable',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
@@ -24,13 +24,14 @@
         },
 
         events: {
-            'click': '_onClick',
+            'click @ui.overlay': '_onClickOverlay',
             'click @ui.hideButton': '_onClickHideButton',
             'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton',
             'dblclick @ui.childContainer': '_onDblClickChildContainer'
         },
         
         ui: {
+            overlay: '#playlistsArea-overlay',
             panel: '#playlistsArea-panel',
             childContainer: '#playlistsArea-listItems',
             createPlaylistButton: '#playlistsArea-createPlaylistButton',
@@ -49,34 +50,62 @@
             }
         },
         
-        initialize: function () {
-            this.listenTo(Streamus.backgroundPage.SignInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-        },
-
+        transitionDuration: 350,
+        
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
         },
         
-        onShow: function () {
-            //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('background', this.$el.css('background')).transition({
-                'background': 'rgba(0, 0, 0, 0.5)'
-            }, 'snap');
+        show: function () {
+            this.$el.addClass('is-visible');
+
+            this.ui.overlay.transition({
+                opacity: 1
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration
+            });
 
             this.ui.panel.transition({
                 x: 0
-            }, 300, 'snap');
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration,
+                complete: this._onPanelShowComplete.bind(this)
+            });
+        },
+        
+        hide: function () {
+            this.ui.overlay.transition({
+                opacity: 0
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration
+            });
+
+            this.ui.panel.removeClass('is-visible').transition({
+                x: '-100%'
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration,
+                complete: this._onPanelHideComplete.bind(this)
+            });
+        },
+        
+        _onPanelShowComplete: function () {
+            this.ui.panel.addClass('is-visible');
+        },
+        
+        _onPanelHideComplete: function() {
+            this.$el.removeClass('is-visible');
         },
         
         _onClickHideButton: function() {
-            this._hide();
+            this.hide();
         },
-        
-        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        _onClick: function (event) {
-            if (event.target == event.currentTarget) {
-                this._hide();
-            }
+
+        _onClickOverlay: function () {
+            this.hide();
         },
         
         _onClickCreatePlaylistButton: function () {
@@ -85,25 +114,7 @@
         
         //  Whenever a playlist is double-clicked it will become active and the menu should hide itself.
         _onDblClickChildContainer: function () {
-            this._hide();
-        },
-        
-        //  Don't allow this view to be shown if the user is not signed in.
-        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
-            if (signedInUser === null) {
-                this._hide(true);
-            }
-        },
-        
-        _hide: function (instant) {
-            this.$el.transition({
-                'background': this.$el.data('background')
-            }, instant ? 0 : undefined);
-
-            this.ui.panel.transition({
-                //  Go beyond -100% for the translate in order to hide the drop shadow skirting the border of the box model.
-                x: '-102%'
-            }, instant ? 0 : 300, this.destroy.bind(this));
+            this.hide();
         },
         
         _getSortableOptions: function () {
@@ -112,27 +123,20 @@
                 delay: 100,
                 containment: 'parent',
                 tolerance: 'pointer',
+                start: this._onSortableStart.bind(this),
                 update: this._onSortableUpdate.bind(this)
             };
 
             return sortableOptions;
         },
         
+        _onSortableStart: function() {
+            Streamus.channels.elementInteractions.vent.trigger('drag');
+        },
+        
         //  Whenever a playlist is moved visually -- update corresponding model with new information.
         _onSortableUpdate: function (event, ui) {
-            var playlistId = ui.item.data('id');
-            var index = ui.item.index();
-
-            var playlist = this.collection.get(playlistId);
-            var originalIndex = this.collection.indexOf(playlist);
-
-            //  When moving a playlist down - all the items shift up one which causes an off-by-one error when calling
-            //  moveToIndex. Account for this by adding 1 to the index when moving down, but not when moving up since no shift happens.
-            if (originalIndex < index) {
-                index += 1;
-            }
-
-            this.collection.moveToIndex(playlistId, index);
+            this.collection.moveToIndex(ui.item.data('id'), ui.item.index());
         }
     });
 

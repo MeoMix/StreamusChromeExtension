@@ -19,7 +19,7 @@
             PromptView.prototype.initialize.apply(this, arguments);
 
             //  TODO: I can probably remove this at some point once errors aren't happening.
-            var error = new Error("Error: " + options.error + ", loadedSongId:" + this.player.get('loadedSongId') + " " + options.text);
+            var error = new Error("Error: " + options.error + ", loadedSongId:" + this.player.get('loadedSong').get('id') + " " + options.text);
             Streamus.backgroundChannels.error.commands.trigger('log:error', error);
         }
     });

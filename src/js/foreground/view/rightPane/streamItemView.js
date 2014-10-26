@@ -33,29 +33,38 @@
         
         buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
         
-        playlists: null,
         player: null,
-        signInManager: null,
         playPauseButton: null,
         
         initialize: function () {
-            this.playlists = Streamus.backgroundPage.Playlists;
             this.player = Streamus.backgroundPage.Player;
-            this.signInManager = Streamus.backgroundPage.SignInManager;
             this.playPauseButton = Streamus.backgroundPage.PlayPauseButton;
         },
 
         onRender: function () {
             this._setActiveClass();
         },
+        
+        showContextMenu: function () {
+            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
+                text: chrome.i18n.getMessage('copyUrl'),
+                onClick: this._copyUrl.bind(this)
+            }, {
+                text: chrome.i18n.getMessage('copyTitleAndUrl'),
+                onClick: this._copyTitleAndUrl.bind(this)
+            }, {
+                text: chrome.i18n.getMessage('watchOnYouTube'),
+                onClick: this._watchOnYouTube.bind(this)
+            }]);
+        },
        
         //  TODO: This is not DRY with PlaySongButtonView's _playStreamItem
         _activateAndPlayOrToggleState: function () {
-            if (!this.model.get('active')) {
+            if (this.model.get('active')) {
+                this.playPauseButton.tryTogglePlayerState();
+            } else {
                 this.player.set('playOnActivate', true);
                 this.model.save({ active: true });
-            } else {
-                this.playPauseButton.tryTogglePlayerState();
             }
         },
         
@@ -71,51 +80,6 @@
             this.ui.onActiveShown.toggleClass('hidden', !active);
         },
 
-        _showContextMenu: function (event) {
-            //  Whenever a context menu is shown -- set preventDefault to true to let foreground know to not reset the context menu.
-            event.preventDefault();
-
-            var alreadyExists = false;
-            
-            var signedInUser = this.signInManager.get('signedInUser');
-            var signedIn = signedInUser !== null;
-            if (signedIn) {
-                alreadyExists = signedInUser.get('playlists').getActivePlaylist().get('items').hasSong(this.model.get('song'));
-            }
-
-            var saveTitle = '';
-            if (signedIn && alreadyExists) {
-                saveTitle = chrome.i18n.getMessage('songAlreadyInCollection', [chrome.i18n.getMessage('playlist').toLowerCase()]);
-            } else if (!signedIn) {
-                saveTitle = chrome.i18n.getMessage('notSignedIn');
-            }
-
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                    text: chrome.i18n.getMessage('save'),
-                    title: saveTitle,
-                    disabled: !signedIn || alreadyExists,
-                    onClick: this._addToActivePlaylistItems.bind(this)
-                }, {
-                    text: chrome.i18n.getMessage('copyUrl'),
-                    onClick: this._copyUrl.bind(this)
-                }, {
-                    text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                    onClick: this._copyTitleAndUrl.bind(this)
-                }, {
-                    text: chrome.i18n.getMessage('delete'),
-                    onClick: this._destroyModel.bind(this)
-                }, {
-                    text: chrome.i18n.getMessage('watchOnYouTube'),
-                    onClick: this._watchOnYouTube.bind(this)
-                }]
-            );
-        },
-        
-        _addToActivePlaylistItems: function () {
-            var activePlaylist = this.signInManager.get('signedInUser').get('playlists').getActivePlaylist();
-            activePlaylist.get('items').addSongs(this.model.get('song'));
-        },
-        
         _copyUrl: function () {
             this.model.get('song').copyUrl();
         },
@@ -123,11 +87,6 @@
         _copyTitleAndUrl: function () {
             this.model.get('song').copyTitleAndUrl();
         },
-        
-        _destroyModel: function () {
-            this.model.destroy();
-        },
-
         _watchOnYouTube: function () {
             this.player.watchInTab(this.model.get('song'));
         }

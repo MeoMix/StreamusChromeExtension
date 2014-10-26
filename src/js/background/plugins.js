@@ -2,13 +2,7 @@
     'cocktail',
     'backbone.marionette',
     'backbone.localStorage',
-    'googleAnalytics',
-    'jquery.hoverIntent',
-    'jquery.qtip',
-    'jquery.transit',
-    'jquery-ui',
-    'less',
-    'selectize'
+    'googleAnalytics'
 ], function (Cocktail) {
     'use strict';
 

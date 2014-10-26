@@ -47,13 +47,18 @@
         
         initialize: function () {
             this.tabManager = Streamus.backgroundPage.TabManager;
-
-            this.listenTo(Streamus.channels.global.vent, 'clickedElement', this._onClickedElement);
+            
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'drag', this._onElementDrag);
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
         },
         
-        _onClickedElement: function (clickedElement) {
+        _onElementDrag: function () {
+            this._hideMenu();
+        },
+        
+        _onElementClick: function (event) {;
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
-            if (clickedElement.closest(this.ui.showMenuButton.selector).length === 0) {
+            if ($(event.target).closest(this.ui.showMenuButton.selector).length === 0) {
                 this._hideMenu();
             }
         },
@@ -63,15 +68,19 @@
         },
         
         _showMenu: function () {
-            this.ui.menu.addClass('expanded');
-            this.ui.showMenuButton.addClass('is-enabled');
-            this.menuShown = true;
+            if (!this.menuShown) {
+                this.ui.menu.addClass('expanded');
+                this.ui.showMenuButton.addClass('is-enabled');
+                this.menuShown = true;
+            }
         },
         
         _hideMenu: function () {
-            this.ui.menu.removeClass('expanded');
-            this.ui.showMenuButton.removeClass('is-enabled');
-            this.menuShown = false;
+            if (this.menuShown) {
+                this.ui.menu.removeClass('expanded');
+                this.ui.showMenuButton.removeClass('is-enabled');
+                this.menuShown = false;
+            }
         },
         
         _showSettingsPrompt: function () {

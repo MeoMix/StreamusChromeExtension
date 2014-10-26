@@ -1,4 +1,5 @@
 ﻿@import "utility";
+@import "overlay";
 
 //  Width is set as 385px / 640px
 @wideColumnWidth: 60.15625%;
@@ -7,15 +8,6 @@
 
 .column {
     height: 100%;
-
-    &.u-overlay:empty {
-        //  An empty column-overlay should not be able to overlap visible content
-        display: none;
-    }
-}
-
-.column--fullWidth {
-    width: 100%;
 }
 
 .column--wide {

@@ -1,6 +1,7 @@
 ﻿define([
+    'common/enum/direction',
     'common/enum/listItemType'
-], function (ListItemType) {
+], function (Direction, ListItemType) {
     'use strict';
 
     var Sortable = Backbone.Marionette.Behavior.extend({
@@ -67,14 +68,13 @@
         },
         
         _start: function (event, ui) {
-            //  TODO: This won't be necessary if I change my logic to 'onMouseDown' instead of 'onClick'.
-            this.view.triggerMethod('ItemDragged', this.view.collection.get(ui.item.data('id')));
+            Streamus.channels.elementInteractions.vent.trigger('drag');
+            this.view.triggerMethod('ItemDragged', {
+                item: this.view.collection.get(ui.item.data('id')),
+                ctrlKey: event.ctrlKey,
+                shiftKey: event.shiftKey
+            });
             
-            this.view.once('GetMinRenderIndexReponse', function (response) {
-                this.originalPlaceholderIndex = ui.placeholder.index() + response.minRenderIndex;
-            }.bind(this));
-            this.view.triggerMethod('GetMinRenderIndex');
-
             //  Set helper text here, not in helper, because dragStart may select a search result.
             var selectedItems = this.view.collection.selected();
             ui.helper.text(selectedItems.length);
@@ -84,116 +84,136 @@
             });
 
             this.view.ui.childContainer.addClass(this.isDraggingClass).data({
-                draggedSongs: draggedSongs,
-                copied: false
+                draggedSongs: draggedSongs
             });
 
             this._overrideSortableItem(ui);
         },
         
-        _beforeStop: function(event, ui) {
-            this.view.once('GetMinRenderIndexReponse', function (response) {
-                this.placeholderIndex = ui.placeholder.index() + response.minRenderIndex;
-            }.bind(this));
-            this.view.triggerMethod('GetMinRenderIndex');
+        //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
+        _beforeStop: function (event, ui) {
+            //  Subtract one from placeholderIndex because it is the next sibling of the target position.
+            this.view.ui.childContainer.data({
+                placeholderIndex: ui.placeholder.index() - 1
+            });
         },
         
         _stop: function (event, ui) {
             var childContainer = this.view.ui.childContainer;
+
             //  The SearchResult view is not able to be moved so disable move logic for it.
-            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && !childContainer.data('copied');
+            //  If the mouse dropped the items not over the given list don't run move logic.
+            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
             if (allowMove) {
-                //  SUPER IMPORTANT: DO NOT REMOVE THIS SET TIMEOUT.
-                //  _moveItems calls collection.sort but the list's height is still adjusting due to the placeholder being removed.
-                //  sorting the collection will re-render the collectionview, but doing so while modifying the collections' height will break indices.
-                setTimeout(this._moveItems.bind(this, this.view.collection.selected()));
+                this.view.once('GetMinRenderIndexReponse', function (response) {
+                    var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
+                    this._moveItems(this.view.collection.selected(), dropIndex);
+                    
+                    childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+                }.bind(this));
+                this.view.triggerMethod('GetMinRenderIndex');
             }
-            
-            childContainer.removeClass(this.isDraggingClass).removeData('draggedSongs copied');
+
+            //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
             return allowMove;
         },
         
         _receive: function (event, ui) {
             this.view.once('GetMinRenderIndexReponse', function (response) {
                 this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
-                    index: ui.item.index() + response.minRenderIndex
+                    index: ui.sender.data('placeholderIndex') + response.minRenderIndex
                 });
-                Streamus.channels.global.vent.trigger('itemsDropped');
+
+                //  Only announced 'drop' in 'receive' and not when moving item up/down its own collection because it feels weird to de-select when in same parent.
+                //  Delay announcing drop until after _stop has finished to let jQuery UI finish executing.
+                setTimeout(function () {
+                    Streamus.channels.elementInteractions.vent.trigger('drop');
+                });
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');
-            
-            ui.sender.data('copied', true);
         },
         
         _over: function (event, ui) {
             this._overrideSortableItem(ui);
             this._decoratePlaceholder(ui);
         },
-        
-        _moveItems: function (items) {
-            //  TODO: MovedDown is broken when moving multiple items in some scenarios because some items might be moving up and others down.
-            //  Always subtract one from placeholderIndex because it is the sibling of the actual item which means it's +1 index.
-            //  When dragging an item down the list -- since the whole list shifts up 1 -- need to +1 the index which cancels out the -1.
-            var movedDown = this.placeholderIndex > this.originalPlaceholderIndex;
-            var index = movedDown ? this.placeholderIndex : this.placeholderIndex - 1;
 
-            _.each(items, function (item) {
-                var itemMoved = this.view.collection.moveToIndex(item.get('id'), index);
-                //  TODO: I don't think this is 100% true -- it works but it's not correct because all being added at same 'index' but each one calculates their sequence appropriately.
-                //  When moving a group of items down the list their indices will naturally work themselves out.
-                if (!movedDown) {
-                    index += 1;
-                }
+        _moveItems: function (items, dropIndex) {
+            var moved = false;
+            var itemsHandledBelowOrAtDropIndex = 0;
+            var itemsHandled = 0;
+
+            //  Capture the indices of the items being moved before actually moving them because sorts on the collection will
+            //  change indices during each iteration.
+            var dropInfoList = _.map(items, function (item) {
+                return {
+                    itemId: item.get('id'),
+                    itemIndex: this.view.collection.indexOf(item)
+                };
             }, this);
+
+            _.each(dropInfoList, function (dropInfo) {
+                var index = dropIndex;
+                var aboveDropIndex = dropInfo.itemIndex > dropIndex;
+
+                //  Moving items below the drop index causes indices to shift with each move, but this is not the case with above the index.
+                if (aboveDropIndex) {
+                    //  So, the target index should be incremented to put the item an appropriate number of slots past dropIndex.
+                    index += itemsHandled;
+                    //  However, each item moved below the index doesn't count - except for the one placed AT the drop index, thus subtract one.
+                    if (itemsHandledBelowOrAtDropIndex > 0) {
+                        index -= (itemsHandledBelowOrAtDropIndex - 1);
+                    }
+                }
+                
+                //  Pass silent: true to moveToIndex because we might be looping over many items in which case I don't want to refresh the view repeatedly.
+                var moveResult = this.view.collection.moveToIndex(dropInfo.itemId, index, {
+                    silent: true
+                });
+
+                //  When an item is moved down all the indices slide up one, so no need to increment.
+                if (moveResult.moved) {
+                    moved = true;
+                }
+                
+                if (!aboveDropIndex) {
+                    itemsHandledBelowOrAtDropIndex += 1;
+                }
+
+                itemsHandled++;
+            }, this);
+            
+            //  If a move happened call sort without silent so that views can update accordingly.
+            if (moved) {
+                this.view.collection.sort();
+            }
         },
         
         _decoratePlaceholder: function (ui) {
-            var listItemType = ui.item.data('type');
-
-            //  TODO: Also prevent dragging duplicates from Playlist/Search into Stream.
-            if (listItemType === ListItemType.StreamItem) {
-                var notDroppable = false;
-                var warnDroppable = false;
-                var placeholderText = '';
-
-                var overPlaylist = this.view.childViewOptions.type === ListItemType.PlaylistItem;
-
-                if (overPlaylist) {
-                    //  Decorate the placeholder to indicate songs can't be copied.
-                    var draggedSongs = ui.sender.data('draggedSongs');
-
-                    //  Show a visual indicator if all dragged stream items are duplicates.
-                    var duplicates = _.filter(draggedSongs, function (draggedSong) {
-                        return this.view.collection.hasSong(draggedSong);
-                    }, this);
-
-                    notDroppable = duplicates.length === draggedSongs.length;
-                    warnDroppable = !notDroppable && duplicates.length > 0;
-                    //  TODO: Support other collectionNames once I deny duplicates in the stream.
-                    var collectionName = chrome.i18n.getMessage('playlist').toLowerCase();
-                    
-                    if (notDroppable) {
-                        if (draggedSongs.length === 1) {
-                            placeholderText = chrome.i18n.getMessage('songAlreadyInCollection', [collectionName]);
-                        } else {
-                            placeholderText = chrome.i18n.getMessage('allSongsAlreadyInCollection', [collectionName]);
-                        }
-                    }
-                    else if (warnDroppable) {
-                        placeholderText = chrome.i18n.getMessage('songsAlreadyInCollection', [duplicates.length, draggedSongs.length, collectionName]);
-                    }
-                }
-
-                var placeholderTextElement = $('<div>', {
-                    'class': 'u-marginAuto fontSize-large',
-                    text: placeholderText
-                });
-
-                ui.placeholder
-                    .toggleClass('is-notDroppable', notDroppable)
-                    .toggleClass('is-warnDroppable', warnDroppable)
-                    .html(placeholderTextElement);
+            var notDroppable = false;
+            var warnDroppable = false;
+            var placeholderText = '';
+            
+            var overOtherCollection = this.view.childViewOptions.type !== ui.item.data('type');
+            if (overOtherCollection) {
+                //  Decorate the placeholder to indicate songs can't be copied.
+                var draggedSongs = ui.sender.data('draggedSongs');
+                //  Show a visual indicator if all dragged stream items are duplicates.
+                var duplicatesInfo = this.view.collection.getDuplicatesInfo(draggedSongs);
+                notDroppable = duplicatesInfo.allDuplicates;
+                warnDroppable = duplicatesInfo.someDuplicates;
+                placeholderText = duplicatesInfo.message;
             }
+
+            var placeholderTextElement = $('<div>', {
+                'class': 'u-marginAuto fontSize-large',
+                text: placeholderText
+            });
+
+            ui.placeholder
+                .toggleClass('is-notDroppable', notDroppable)
+                .toggleClass('is-warnDroppable', warnDroppable)
+                .html(placeholderTextElement);
         },
         
         //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.

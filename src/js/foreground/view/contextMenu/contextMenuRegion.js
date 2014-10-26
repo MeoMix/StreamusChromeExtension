@@ -11,11 +11,23 @@
 
         initialize: function () {
             this.contextMenu = new ContextMenu();
+            
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'drag', this._onElementDrag);
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.elementInteractions.vent, 'contextMenu', this._onElementContextMenu);
         },
-
+        
+        _onElementDrag: function () {
+            this._hideContextMenu();
+        },
+        
+        _onElementClick: function () {
+            this._hideContextMenu();
+        },
+        
         //  If a click occurs and the default isn't prevented, reset the context menu groups to hide it.
         //  Child elements will call event.preventDefault() to indicate that they have handled the context menu.
-        handleClickEvent: function (event) {
+        _onElementContextMenu: function(event) {
             if (event.isDefaultPrevented()) {
                 //  Show the element just slightly offset as to not break onHover effects.
                 this._showContextMenu(event.pageY, event.pageX + 1);

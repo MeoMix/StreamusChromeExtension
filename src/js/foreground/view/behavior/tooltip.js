@@ -39,24 +39,34 @@ define(function () {
         
         _setTooltips: function () {
             //  Decorate the view itself
-            var isTextTooltipableElement = this._isTextTooltipableElement(this.$el);
-
-            if (isTextTooltipableElement) {
+            if (this._isTextTooltipableElement(this.$el)) {
                 this._decorateTextTooltipable(this.$el);
-            } else {
-                this.$el.qtip();
+            } else if (this._isTooltipableElement(this.$el)) {
+                this._decorateTooltipable(this.$el);
             }
 
             //  Decorate child views
-            this.ui.tooltipable.qtip();
+            if (this.ui.tooltipable.length > 0) {
+                _.each(this.ui.tooltipable, function(tooltipable) {
+                    this._decorateTooltipable($(tooltipable));
+                }, this);
+            }
+
             if (this.ui.textTooltipable.length > 0) {
-                this._decorateTextTooltipable(this.ui.textTooltipable);
+                _.each(this.ui.textTooltipable, function (textTooltipable) {
+                    this._decorateTextTooltipable($(textTooltipable));
+                }, this);
             }
         },
         
+        _decorateTooltipable: function(tooltipableElement) {
+            this._applyQtip(tooltipableElement);
+            this._setTitleMutationObserver(tooltipableElement, false);
+        },
+        
         _decorateTextTooltipable: function(textTooltipableElement) {
-            this._setTitleTooltip(textTooltipableElement);
-            this._setTitleMutationObserver(textTooltipableElement);
+            this._setTitleTooltip(textTooltipableElement, true);
+            this._setTitleMutationObserver(textTooltipableElement, true);
         },
         
         //  Elements decorated with the class 'js-textTooltipable' should display a tooltip if their text is overflowing and truncated.
@@ -64,11 +74,16 @@ define(function () {
             return element.hasClass('js-textTooltipable');
         },
         
-        //  Whenever an element's title changes -- need to re-check to see if it is overflowing and apply/remove the tooltip accordingly.
-        _setTitleMutationObserver: function (element) {
+        _isTooltipableElement: function (element) {
+            return element.hasClass('js-tooltipable');
+        },
+        
+        //  Whenever an element's title changes -- need to re-check to see if a title exists / if the element is overflowing and apply/remove the tooltip accordingly.
+        _setTitleMutationObserver: function (element, checkOverflow) {
             var titleMutationObserver = new window.MutationObserver(function (mutations) {
-                mutations.forEach(function() {
-                    this._setTitleTooltip(element);
+                mutations.forEach(function (mutation) {
+                    var oldTitle = mutation.attributeName === 'title' ? mutation.oldValue : undefined;
+                    this._setTitleTooltip(element, checkOverflow, oldTitle);
                 }.bind(this));
             }.bind(this));
 
@@ -76,28 +91,43 @@ define(function () {
                 attributes: true,
                 //  Once qtip has been applied to the element -- oldtitle will mutate instead of title
                 attributeFilter: ['title', 'oldtitle'],
+                attributeOldValue: true,
                 subtree: false
             });
 
             this.titleMutationObservers.push(titleMutationObserver);
         },
         
-        _setTitleTooltip: function (element) {
-            //  Only show the tooltip if the title is overflowing.
-            var textOverflows = element[0].offsetWidth < element[0].scrollWidth;
+        _setTitleTooltip: function (element, checkOverflow, oldTitle) {
+            if (checkOverflow) {
+                //  Only show the tooltip if the title is overflowing.
+                var textOverflows = element[0].offsetWidth < element[0].scrollWidth;
 
-            if (textOverflows) {
-                element.qtip();
-            } else {
-                //  It's important to only set the title to string.empty if it's not already string.empty because MutationObserver will infinite loop otherwise.
-                if (element.attr('title') !== '') {
-                    //  Clear the title so that it doesn't show using the native tooltip.
-                    element.attr('title', '');
+                if (textOverflows) {
+                    this._applyQtip(element);
+                } else {
+                    //  It's important to only set the title to string.empty if it's not already string.empty because MutationObserver will infinite loop otherwise.
+                    if (element.attr('title') !== '') {
+                        //  Clear the title so that it doesn't show using the native tooltip.
+                        element.attr('title', '');
+                    }
+
+                    //  If tooltip has already been applied to the element - remove it.
+                    this._destroy(element);
                 }
-                
-                //  If tooltip has already been applied to the element - remove it.
-                this._destroy(element);
+            } else {
+                if (element.attr('title') === '') {
+                    //  If there is no title on the given element, destroy its tooltip.
+                    this._destroy(element);
+                } else if (oldTitle === '') {
+                    //  Only apply qtip if transitioning from no title previously because tooltip can change titles without needing to be re-applied.
+                    this._applyQtip(element);
+                }
             }
+        },
+        
+        _applyQtip: function(element) {
+            element.qtip();
         },
         
         //  Unbind qTip to allow the GC to clean-up everything.

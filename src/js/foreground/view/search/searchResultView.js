@@ -32,20 +32,8 @@
             this.player = Streamus.backgroundPage.Player;
         },
         
-        _onDblClick: function () {
-            this._playInStream();
-        },
-        
-        _showContextMenu: function (event) {
-            event.preventDefault();
-
+        showContextMenu: function () {
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('play'),
-                onClick: this._playInStream.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('add'),
-                onClick: this._addToStream.bind(this)
-            }, {
                 text: chrome.i18n.getMessage('copyUrl'),
                 onClick: this._copyUrl.bind(this)
             }, {
@@ -57,8 +45,8 @@
             }]);
         },
         
-        _addToStream: function() {
-            this.streamItems.addSongs(this.model.get('song'));
+        _onDblClick: function () {
+            this._playInStream();
         },
 
         _playInStream: function () {

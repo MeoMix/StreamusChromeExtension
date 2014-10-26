@@ -15,6 +15,8 @@
 
         initialize: function () {
             this._setDisabledState();
+            
+            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
         
         doOnClickAction: function () {

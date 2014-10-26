@@ -7,6 +7,7 @@ define([
 
     var VolumeAreaView = Backbone.Marionette.ItemView.extend({
         id: 'volumeArea',
+        className: 'volumeArea',
         template: _.template(VolumeAreaTemplate),
         
         ui: {
@@ -36,8 +37,6 @@ define([
 
             var muted = this.model.get('muted');
             this._setMutedClass(muted);
-
-            this.$el.hoverIntent(this._expand.bind(this), this._collapse.bind(this));
         },
         
         _onInputVolumeRange: function() {
@@ -51,14 +50,6 @@ define([
         _onMousewheel: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             this._scrollVolume(delta);
-        },
-        
-        _expand: function () {
-            this.ui.slidePanel.addClass('is-expanded');
-        },
-        
-        _collapse: function () {
-            this.ui.slidePanel.removeClass('is-expanded');
         },
 
         _setVolume: function () {

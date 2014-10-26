@@ -5,18 +5,27 @@
 @import "transition";
 @import "column";
 
+
+
 .list {
     .column;
     margin-left: 5px;
     margin-right: 5px;
     overflow-y: auto;
+
+    &:hover {
+        will-change: scroll-position;
+    }
 }
 
 .listItem {
     width: 100%;
     padding: 5px;
     display: flex;
-    transition: color @transition-color-time, background @transition-color-time;
+    transition: color @transition-color-time @transition-timingFunction-easeOutCubic, 
+                background @transition-color-time @transition-timingFunction-easeOutCubic,
+                opacity @transition-color-time @transition-timingFunction-easeOutCubic;
+
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
     //  NOTE: This is needed so that .spinner's margin: auto; doesn't cause odd overflow while spinning.
@@ -59,6 +68,11 @@
     }
 }
 
+.listItem-spinner,
+.listItem-button {
+    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
+}
+
 .listItem--medium {
     height: 40px;
 
@@ -82,7 +96,7 @@
 
 .listItem-title {
     color: @darkGray;
-    transition: color @transition-color-time;
+    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
 }
 
 .listItem-content {
@@ -92,7 +106,7 @@
 
 .listItem-details {
     .fontSize-small;
-    transition: color @transition-color-time;
+    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
 }
 
 .listItem-itemCount {

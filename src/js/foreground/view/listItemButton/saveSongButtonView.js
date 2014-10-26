@@ -17,6 +17,8 @@
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.SignInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._setDisabledState);
+            
+            ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
         onRender: function() {

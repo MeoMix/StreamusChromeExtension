@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'common/enum/direction'
+], function (Direction) {
     'use strict';
 
     var SlidingRender = Backbone.Marionette.Behavior.extend({
@@ -31,6 +33,7 @@
         initialize: function () {
             //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
             this.view.addChild = this._addChild.bind(this);
+            this.view.showCollection = this._showCollection.bind(this);
             
             this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
         },
@@ -60,10 +63,6 @@
             this.view.triggerMethod('GetMinRenderIndexReponse', {
                 minRenderIndex: this.minRenderIndex
             });
-        },
-        
-        onListHeightUpdated: function () {
-            this._setViewportHeight();
         },
         
         _onWindowResize: function () {
@@ -100,7 +99,7 @@
         },
 
         //  When deleting an element from a list it's important to render the next element (if any) since
-        //  usually this only happens during scroll, but positions change when removing.
+        //  positions change when removing.
         _renderElementAtIndex: function (index) {
             var rendered = false;
 
@@ -129,9 +128,9 @@
             var itemsToRemove = [];
 
             //  Append items in the direction being scrolled and remove items being scrolled away from.
-            var direction = scrollTop > this.lastScrollTop ? 'down' : 'up';
+            var direction = scrollTop > this.lastScrollTop ? Direction.Down : Direction.Up;
 
-            if (direction === 'down') {
+            if (direction === Direction.Down) {
                 //  Need to remove items which are less than the new minRenderIndex
                 if (minRenderIndex > currentMinRenderIndex) {
                     itemsToRemove = this.view.collection.slice(currentMinRenderIndex, minRenderIndex);
@@ -157,16 +156,20 @@
                 this.minRenderIndex = minRenderIndex;
                 this.maxRenderIndex = maxRenderIndex;
 
-                var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
-
-                if (direction === 'down') {
-                    //  Items will be appended after oldMaxRenderIndex. 
-                    this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
-                } else {
-                    this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
+                if (itemsToAdd.length > 0) {
+                    var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
+                    if (direction === Direction.Down) {
+                        //  Items will be appended after oldMaxRenderIndex. 
+                        this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
+                    } else {
+                        this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
+                    }
                 }
 
-                this._removeItems(itemsToRemove);
+                if (itemsToRemove.length > 0) {
+                    this._removeItems(itemsToRemove);
+                }
+
                 this._setHeightPaddingTop();
             }
 
@@ -243,14 +246,35 @@
             }, this);
         },
         
+        //  Overridden Marionette's internal method to loop through collection and show each child view.
+        //  BUG: https://github.com/marionettejs/backbone.marionette/issues/2021
+        _showCollection: function () {
+            var viewIndex = 0;
+            var ChildView;
+            this.view.collection.each(function (child, index) {
+                ChildView = this.view.getChildView(child);
+
+                if (this._indexWithinRenderRange(index)) {
+                    this.view.addChild(child, ChildView, viewIndex, true);
+                    viewIndex += 1;
+                }
+            }, this);
+        },
+        
         //  The bypass flag is set when shouldAdd has already been determined elsewhere. 
         //  This is necessary because sometimes the view's model's index in its collection is different than the view's index in the collectionview.
         //  In this scenario the index has already been corrected before _addChild is called so the index isn't a valid indicator of whether the view should be added.
         _addChild: function (child, ChildView, index, bypass) {
-            var shouldAdd = bypass || this._indexWithinRenderRange(index);
+            var shouldAdd = false;
+
+            if (this.minRenderIndex > -1 && this.maxRenderIndex > -1) {
+                shouldAdd = bypass || this._indexWithinRenderRange(index);
+            }
+            
+            //console.log('bypass:', shouldAdd, bypass, this.minRenderIndex, this.maxRenderIndex);
 
             if (shouldAdd) {
-                Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
+                return Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
         },
 

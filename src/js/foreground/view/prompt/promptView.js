@@ -4,7 +4,7 @@
     'use strict';
 
     var PromptView = Backbone.Marionette.LayoutView.extend({
-        className: 'prompt u-overlay',
+        className: 'prompt overlay overlay--faded u-transitionable',
         template: _.template(PromptTemplate),
         //  Provide either contentView to render or contentText to set as HTML.
         contentView: null,
@@ -38,6 +38,7 @@
         },
         
         settings: null,
+        transitionDuration: 400,
         
         initialize: function () {
             if (this.contentText === '' && this.contentView === null) console.error('No content set.');
@@ -74,27 +75,41 @@
             return this.$el.find('.js-submittable.is-invalid').length === 0;
         },
         
-        _transitionIn: function() {
-            //  Store original values in data attribute to be able to revert without magic numbers.
-            this.$el.data('background', this.$el.css('background')).transition({
-                background: 'rgba(0, 0, 0, 0.5)'
-            }, 'snap');
+        _transitionIn: function () {
+            this.$el.addClass('is-visible');
+
+            this.$el.transition({
+                opacity: 1
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration
+            });
 
             this.ui.panel.transition({
                 x: '-50%',
-                y: '-50%',
-                opacity: 1
-            }, 'snap');
+                y: '-50%'
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration
+            });
         },
-        
-        _transitionOut: function() {
+
+        _transitionOut: function () {
+            this.$el.removeClass('is-visible');
+
             this.$el.transition({
-                background: this.$el.data('background')
-            }, this.destroy.bind(this));
+                opacity: 0
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration,
+                complete: this.destroy.bind(this)
+            });
 
             this.ui.panel.transition({
-                y: '-100%',
-                opacity: 0
+                y: '-100%'
+            }, {
+                easing: 'easeOutCubic',
+                duration: this.transitionDuration
             });
         },
         

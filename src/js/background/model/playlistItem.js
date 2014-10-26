@@ -71,9 +71,7 @@
                 this.set('song', new Song(song), { silent: true });
             }
         },
-        
-        //  Ensure that the Song's title is propagated up to its parent when unset. 
-        //  PlaylistItem's title could be edited so only copy when its blank.
+        //  TODO: This function seems terrible.
         _ensureTitle: function() {
             if (this.get('title') === '') {
                 this.set('title', this.get('song').get('title'));

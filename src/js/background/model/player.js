@@ -26,9 +26,9 @@ define([
                 minVolume: 0,
                 //  This will be set after the player is ready and can communicate its true value.
                 muted: false,
-                loadedSongId: '',
+                loadedSong: null,
                 playImmediately: false,
-                songIdToActivate: '',
+                songToActivate: null,
 
                 //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
                 //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
@@ -66,13 +66,13 @@ define([
             this._ensureInitialState();
         },
         
-        activateSong: function (songId, timeInSeconds) {
+        activateSong: function (song, timeInSeconds) {
             if (this.get('ready')) {
                 var playerState = this.get('state');
                 var playOnActivate = this.get('playOnActivate');
 
                 var videoOptions = {
-                    videoId: songId,
+                    videoId: song.get('id'),
                     startSeconds: timeInSeconds || 0,
                     suggestedQuality: this.get('settings').get('youTubeSuggestedQuality')
                 };
@@ -85,15 +85,15 @@ define([
                 }
 
                 this.set({
-                    loadedSongId: songId,
+                    loadedSong: song,
                     //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
                     //  but until the song actually loads -- current time isn't set.
                     currentTime: timeInSeconds || 0,
                     playOnActivate: false,
-                    songIdToActivate: ''
+                    songToActivate: null
                 });
             } else {
-                this.set('songIdToActivate', songId);
+                this.set('songToActivate', song);
             }
         },
         
@@ -123,7 +123,7 @@ define([
             this.get('youTubePlayer').stop();
 
             this.set({
-                loadedSongId: '',
+                loadedSong: null,
                 currentTime: 0
             });
         },
@@ -152,7 +152,7 @@ define([
         watchInTab: function (song) {
             var url = song.get('url');
 
-            if (this.get('loadedSongId') === song.get('id')) {
+            if (this.get('loadedSong') === song) {
                 url += '?t=' + this.get('currentTime') + 's';
             }
 
@@ -166,9 +166,9 @@ define([
         refresh: function () {
             this._clearRefreshAlarm();
 
-            var loadedSongId = this.get('loadedSongId');
-            if (loadedSongId !== '') {
-                this.activateSong(loadedSongId, this.get('currentTime'));
+            var loadedSong = this.get('loadedSong');
+            if (loadedSong !== null) {
+                this.activateSong(loadedSong, this.get('currentTime'));
             }
         },
         
@@ -219,9 +219,9 @@ define([
                 this.get('muted') ? this.get('youTubePlayer').mute() : this.get('youTubePlayer').unMute();
 
                 //  If an 'activateSong' command came in while the player was not ready, fulfill it now. 
-                var songIdToActivate = this.get('songIdToActivate');
-                if (songIdToActivate !== '') {
-                    this.activateSong(songIdToActivate);
+                var songToActivate = this.get('songToActivate');
+                if (songToActivate !== null) {
+                    this.activateSong(songToActivate);
                 } else {
                     //  Otherwise, ensure that the currently active song is loaded into its respective API player.
                     this.refresh();
@@ -235,7 +235,7 @@ define([
             //  Ensure player doesn't start playing a song when recovering from a bad state after a long period of time.
             //  It is OK to start playback again when recovering initially, but not OK if recovering hours later.
             if (!loading && !this.get('ready')) {
-                var state = this.get('loadedSongId') === '' ? PlayerState.Unstarted : PlayerState.Paused;
+                var state = this.get('loadedSong') === null ? PlayerState.Unstarted : PlayerState.Paused;
                 this.set('state', state);
             }
         },
