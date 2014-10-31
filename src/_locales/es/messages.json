@@ -74,10 +74,10 @@
 	"radioDisabled": {
 		"message": "Radio desactivada"
 	},
-	"shuffleEnabled": {
+	"shufflingEnabled": {
 		"message": "Mezclador activado"
 	},
-	"shuffleDisabled": {
+	"shufflingDisabled": {
 		"message": "Mezclador desactivado"
 	},
 	"elapsedTime": {

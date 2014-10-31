@@ -21,7 +21,8 @@
             notification: Backbone.Wreqr.radio.channel('notification'),
             backgroundArea: Backbone.Wreqr.radio.channel('backgroundArea'),
             clipboard: Backbone.Wreqr.radio.channel('clipboard'),
-            foreground: Backbone.Wreqr.radio.channel('foreground')
+            foreground: Backbone.Wreqr.radio.channel('foreground'),
+            player: Backbone.Wreqr.radio.channel('player')
         },
 
         initialize: function() {

@@ -7,7 +7,7 @@
     'test/background/model/signInManagerTests',
     'test/background/model/playlistItemsTests',
     'test/background/model/playlistItemTests',
-    'test/background/model/relatedSongInformationManagerTests',
+    'test/background/model/relatedSongsManagerTests',
     'test/background/model/dataSourceTests',
     'test/common/model/utilityTests',
     'test/background/model/youTubeV3APITests'

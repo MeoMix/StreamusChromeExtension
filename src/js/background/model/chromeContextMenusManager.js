@@ -1,9 +1,8 @@
 ﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
 define([
     'background/model/dataSource',
-    'background/model/song',
     'background/model/youTubeV3API'
-], function (DataSource, Song, YouTubeV3API) {
+], function (DataSource, YouTubeV3API) {
     'use strict';
 
     var ChromeContextMenusManager = Backbone.Model.extend({
@@ -182,38 +181,7 @@ define([
                 chrome.contextMenus.remove(playlistContextMenuId);
             });
         },
-        
-        _getSongFromText: function (text, callback) {
-            YouTubeV3API.getSongInformationByTitle({
-                title: text,
-                success: function(songInformation) {
-                    callback(new Song(songInformation));
-                }
-            });
-        },
-        
-        //  TODO: This should be kept DRY outside of ContextMenu logic.
-        _getSongFromUrl: function(url, callback) {
-            var dataSource = new DataSource({ url: url });
 
-            dataSource.parseUrl({
-                success: function() {
-                    YouTubeV3API.getSongInformation({
-                        songId: dataSource.get('id'),
-                        success: function (songInformation) {
-                            callback(new Song(songInformation));
-                        },
-                        error: function () {
-                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                title: chrome.i18n.getMessage('failedToFindSong'),
-                                message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + url
-                            });
-                        }
-                    });
-                }
-            });
-        },
-        
         _getContextMenuOptions: function (isLink) {
             var urlPatterns = this.get('tabManager').get('youTubeUrlPatterns');
 
@@ -227,36 +195,48 @@ define([
         },
         
         _onClickTextSelectionContextMenu: function (onClickData) {
-            this._getSongFromText(onClickData.selectionText, function (song) {
-                this.get('streamItems').addSongs(song, {
-                    playOnAdd: true
-                });
-            }.bind(this));
+            YouTubeV3API.getSongByTitle({
+                title: onClickData.selectionText,
+                success: function (song) {
+                    this.get('streamItems').addSongs(song, {
+                        playOnAdd: true
+                    });
+                }.bind(this)
+            });
         },
         
         _onClickPlayContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
-
-            this._getSongFromUrl(url, function (song) {
-                this.get('streamItems').addSongs(song, {
-                    playOnAdd: true
-                });
-            }.bind(this));
+            
+            var dataSource = new DataSource({ url: url });
+            dataSource.getSong({
+                success: function (song) {
+                    this.get('streamItems').addSongs(song, {
+                        playOnAdd: true
+                    });
+                }.bind(this)
+            });
         },
         
         _onClickAddContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
-            this._getSongFromUrl(url, function (song) {
-                this.get('streamItems').addSongs(song);
-            }.bind(this));
+            var dataSource = new DataSource({ url: url });
+            dataSource.getSong({
+                success: function (song) {
+                    this.get('streamItems').addSongs(song);
+                }.bind(this)
+            });
         },
         
         _onClickSaveContextMenu: function(playlist, onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
-
-            this._getSongFromUrl(url, function (song) {
-                playlist.get('items').addSongs(song);
+            
+            var dataSource = new DataSource({ url: url });
+            dataSource.getSong({
+                success: function (song) {
+                    playlist.get('items').addSongs(song);
+                }
             });
         }
     });

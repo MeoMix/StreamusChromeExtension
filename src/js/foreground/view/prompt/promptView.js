@@ -44,7 +44,7 @@
             if (this.contentText === '' && this.contentView === null) console.error('No content set.');
             if (this.contentText !== '' && this.contentView !== null) console.error('ContentView and ContextText are set; provide only one');
 
-            this.settings = Streamus.backgroundPage.Settings;
+            this.settings = Streamus.backgroundPage.settings;
         },
 
         onShow: function () {

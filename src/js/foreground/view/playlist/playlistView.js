@@ -123,22 +123,17 @@
             
             Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Success,
-                //  TODO: i18n
-                message: 'URL copied to clipboard successfully.'
+                message: chrome.i18n.getMessage('urlCopiedToClipboardSuccessfully')
             });
         },
         
         _onGetShareCodeError: function () {
-            var errorMessage = 'Failed to copy URL to clipboard.';
-
             Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Error,
-                //  TODO: i18n
-                message: errorMessage
+                message: chrome.i18n.getMessage('failedTopCopyUrlToClipboard')
             });
 
-            var error = new Error(errorMessage + ' playlist: ' + JSON.stringify(this.model));
-            Streamus.backgroundChannels.error.commands.trigger('log:error', error);
+            Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));
         },
         
         _showEditPlaylistPrompt: function() {

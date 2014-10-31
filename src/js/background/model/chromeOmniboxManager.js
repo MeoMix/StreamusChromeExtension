@@ -1,16 +1,16 @@
 ﻿//  Displays streamus search suggestions and allows instant playing in the stream
 define([
+    'background/collection/songs',
     'background/enum/omniboxModifiers',
-    'background/model/song',
     'background/model/youTubeV3API',
     'common/utility'
-], function (OmniboxModifiers, Song, YouTubeV3API, Utility) {
+], function (Songs, OmniboxModifiers, YouTubeV3API, Utility) {
     'use strict';
 
     var ChromeOmniboxManager = Backbone.Model.extend({
         defaults: function () {
             return {
-                suggestedSongs: [],
+                suggestedSongs: new Songs(),
                 searchJqXhr: null,
                 modifiers: [],
                 validModifiers: [OmniboxModifiers.Add],
@@ -19,7 +19,6 @@ define([
         },
         
         initialize: function () {
-            //  TODO: Uncaught TypeError: Cannot read property 'setDefaultSuggestion' of undefined -- how would this error ever be thrown?
             chrome.omnibox.setDefaultSuggestion({
                 description: chrome.i18n.getMessage('pressEnterToPlay')
             });
@@ -31,7 +30,7 @@ define([
         
         _onInputChanged: function (text, suggest) {
             //  Clear suggestedSongs
-            this.get('suggestedSongs').length = 0;
+            this.get('suggestedSongs').reset();
 
             var searchText = text.trim();
 
@@ -87,23 +86,23 @@ define([
             return text.trim();
         },
         
-        _onSearchResponse: function (suggest, searchText, searchResponse) {
+        _onSearchResponse: function (suggest, searchText, songs) {
             this.set('searchJqXhr', null);
 
-            var suggestions = this._buildSuggestions(searchResponse.songInformationList, searchText);
+            var suggestions = this._buildSuggestions(songs, searchText);
             suggest(suggestions);
         },
         
         _onInputEntered: function (text) {
             //  Find the cached song data by url
-            var pickedSong = _.find(this.get('suggestedSongs'), function (song) {
+            var pickedSong = this.get('suggestedSongs').find(function (song) {
                 return song.get('url') === text;
             });
                 
             //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
             //  take the best suggestion related to their text.
             if (_.isUndefined(pickedSong)) {
-                pickedSong = this.get('suggestedSongs')[0];
+                pickedSong = this.get('suggestedSongs').first();
             }
 
             var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
@@ -121,11 +120,9 @@ define([
             }
         },
         
-        _buildSuggestions: function(songInformationList, text) {
-            var suggestions = _.map(songInformationList, function (songInformation) {
-                var song = new Song(songInformation);
-                
-                this.get('suggestedSongs').push(song);
+        _buildSuggestions: function (songs, text) {
+            var suggestions = songs.map(function (song) {
+                this.get('suggestedSongs').add(song);
 
                 var safeTitle = _.escape(song.get('title'));
                 var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), "i");

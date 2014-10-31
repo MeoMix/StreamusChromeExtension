@@ -14,7 +14,6 @@
         var PLAYLIST_ID = '1111';
 
         xit('should respond to emited SyncManager events', function() {
-            //  TODO: I feel like I should couple to SyncManager instead of going through Backbone.Wreqr.radio?
             var listItemType = ListItemType.Playlist;
             var syncEventChannel = SyncManager._getSyncEventChannel(listItemType);
 
@@ -29,8 +28,6 @@
                 modelId: playlist.get('id'),
                 modelAttributes: playlist.getSyncAttributes()
             }));
-            
-            //expect(this.playlists)
         });
 
         xit('should not emit a second sync event when adding a playlist via sync', function() {

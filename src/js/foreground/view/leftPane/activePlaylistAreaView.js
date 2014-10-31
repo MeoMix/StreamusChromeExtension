@@ -34,7 +34,6 @@
         
         //  Overwrite resortView to only render children as expected
         resortView: function () {
-            console.log('resorting view');
             this._renderChildren();
         },
 
@@ -81,7 +80,7 @@
         streamItems: null,
         
         initialize: function() {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.listenTo(this.streamItems, 'add remove reset', this._toggleButtons);
         },
 
@@ -116,7 +115,6 @@
         },
 
         _addAllToStream: function () {
-            console.log('running addAllToStream');
             this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
         

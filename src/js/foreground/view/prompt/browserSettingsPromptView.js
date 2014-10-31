@@ -13,7 +13,7 @@
             });
 
             this.contentView = new BrowserSettingsView({
-                model: Streamus.backgroundPage.BrowserSettings
+                model: Streamus.backgroundPage.browserSettings
             }); 
 
             PromptView.prototype.initialize.apply(this, arguments);

@@ -20,12 +20,12 @@
         
         describe('onSubmit', function () {
             it('should clear StreamItems', function () {
-                sinon.stub(Streamus.backgroundPage.StreamItems, 'clear');
+                sinon.stub(Streamus.backgroundPage.stream, 'clear');
 
                 this.view.onSubmit();
-                expect(Streamus.backgroundPage.StreamItems.clear.calledOnce).to.equal(true);
+                expect(Streamus.backgroundPage.stream.clear.calledOnce).to.equal(true);
 
-                Streamus.backgroundPage.StreamItems.clear.restore();
+                Streamus.backgroundPage.stream.clear.restore();
             });
         });
     });

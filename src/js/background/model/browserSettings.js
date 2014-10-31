@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'background/enum/syncActionType'
+],function (SyncActionType) {
     'use strict';
 
     var BrowserSettings = Backbone.Model.extend({
@@ -27,10 +29,13 @@
             switch (request.method) {
                 case 'getCanEnhanceBeatport':
                     sendResponse(this.get('applyWebsiteEnhancementsToBeatport'));
-                break;
-                case 'getCanEnhanceYouTube':
-                    sendResponse(this.get('applyWebsiteEnhancementsToYouTube'));
-                break;
+                    break;
+                case 'getYouTubeInjectData':
+                    sendResponse({
+                        canInject: this.get('applyWebsiteEnhancementsToYouTube'),
+                        SyncActionType: SyncActionType
+                    });
+                    break;
             }
         },
         

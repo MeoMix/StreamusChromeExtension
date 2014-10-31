@@ -1,8 +1,8 @@
 ﻿define([
+    'background/collection/songs',
     'background/model/song',
-    'background/model/relatedSongInformationManager',
     'common/enum/listItemType'
-], function (Song, RelatedSongInformationManager, ListItemType) {
+], function (Songs, Song, ListItemType) {
     'use strict';
    
     var StreamItem = Backbone.Model.extend({
@@ -16,7 +16,7 @@
                 active: false,
                 selected: false,
                 firstSelected: false,
-                relatedSongInformation: [],
+                relatedSongs: new Songs(),
                 sequence: -1,
                 listItemType: ListItemType.StreamItem
             };
@@ -30,13 +30,10 @@
         
         initialize: function () {
             this._ensureSongModel();
+            this._ensureRelatedSongsCollection();
             this.on('change:active', this._onChangeActive);
-            
-            if (this.get('relatedSongInformation').length === 0) {
-                this._getRelatedSongInformation();
-            }
         },
-        
+
         _ensureSongModel: function() {
             var song = this.get('song');
 
@@ -47,24 +44,24 @@
             }
         },
         
-        //  Whenever a streamItem is activated it is considered playedRecently.
-        //  This will reset when all streamItems in the stream have been played recently.
-        _onChangeActive: function(model, active) {
-            if (active) {
-                this.save({ playedRecently: true });
+        _ensureRelatedSongsCollection: function () {
+            var relatedSongs = this.get('relatedSongs');
+
+            //  Need to convert relatedSongs array to Backbone.Collection
+            if (!(relatedSongs instanceof Backbone.Collection)) {
+                //  Silent because relatedSongs is just being properly set.
+                this.set('relatedSongs', new Songs(relatedSongs), {
+                    silent: true
+                });
             }
         },
         
-        //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
-        _getRelatedSongInformation: function () {
-            RelatedSongInformationManager.getRelatedSongInformation({
-                songId: this.get('song').get('id'),
-                success: this._onGetRelatedSongInformationSuccess.bind(this)
-            });
-        },
-        
-        _onGetRelatedSongInformationSuccess: function(relatedSongInformation) {
-            this.set('relatedSongInformation', relatedSongInformation);
+        //  Whenever a streamItem is activated it is considered playedRecently.
+        //  This will reset when all streamItems in the stream have been played recently.
+        _onChangeActive: function(model, active) {
+            if (active && !this.get('playedRecently')) {
+                this.save({ playedRecently: true });
+            }
         }
     });
 

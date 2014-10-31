@@ -5,7 +5,7 @@
     },
     
     getDuplicatesInfo: function (songs) {
-        songs = _.isArray(songs) ? songs : [songs];
+        songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
         var duplicates = _.filter(songs, this._hasSong.bind(this));
         var allDuplicates = duplicates.length === songs.length;
@@ -74,15 +74,19 @@
     },
 
     _clone: function (model) {
-        return model instanceof Backbone.Model ? _.clone(model.attributes) : _.clone(model);
+        return model instanceof Backbone.Model ? model.clone() : _.clone(model);
     },
     
     //  Set attributes's id or cid to the model's id or cid to prevent attributes from being added to the collection.
-    _copyId: function (attributes, model) {
-        if (model.has('id')) {
-            attributes.id = model.get('id');
+    _copyId: function (preparedModel, existingModel) {
+        if (existingModel.has('id')) {
+            if (preparedModel instanceof Backbone.Model) {
+                preparedModel.set('id', existingModel.get('id'), { silent: true });
+            } else {
+                preparedModel.id = existingModel.get('id');
+            }
         } else {
-            attributes.cid = model.cid;
+            preparedModel.cid = existingModel.cid;
         }
     },
     

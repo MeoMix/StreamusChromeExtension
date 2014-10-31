@@ -17,11 +17,8 @@ define([
         },
 
         events: {
-            //  TODO: input vs change?
             'input @ui.timeRange:not(.disabled)': '_onInputTimeRange',
-            //  TODO: mousewheel doesn't work on FF, consider wheel.
-            //  TODO: What should I name this since updateTimeProgress is taken...?
-            'mousewheel @ui.timeRange:not(.disabled)': '_mousewheelUpdateTimeProgress',
+            'wheel @ui.timeRange:not(.disabled)': '_onWheelTimeRange',
             'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
             'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
             'click @ui.elapsedTimeLabel': '_toggleShowRemainingTime'
@@ -44,8 +41,8 @@ define([
         player: null,
         
         initialize: function () {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
-            this.player = Streamus.backgroundPage.Player;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.player = Streamus.backgroundPage.player;
 
             this.listenTo(this.streamItems, 'remove reset', this._clearOnEmpty);
             this.listenTo(this.streamItems, 'add', this._enable);
@@ -69,7 +66,7 @@ define([
         },
         
         //  Allow the user to manual time change by click or scroll.
-        _mousewheelUpdateTimeProgress: function (event) {
+        _onWheelTimeRange: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());
 

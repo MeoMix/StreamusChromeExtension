@@ -29,7 +29,6 @@
             expect(Utility.prettyPrintTime(86400)).to.equal('24:00:00');
         });
 
-        //  TODO: Finish testing this one. It can cleanse more than just this.
         it('Should be able to cleanse a YouTube song title', function() {
             expect(Utility.cleanTitle(' ')).to.equal('');
             expect(Utility.cleanTitle('**NEW**')).to.equal('');
@@ -38,6 +37,13 @@
             expect(Utility.cleanTitle('(best version)')).to.equal('');
             expect(Utility.cleanTitle('official music video')).to.equal('');
             expect(Utility.cleanTitle('ALBUM TRACK')).to.equal('');
+            expect(Utility.cleanTitle('(official)')).to.equal('');
+            expect(Utility.cleanTitle('x (HD)')).to.equal('x');
+            expect(Utility.cleanTitle('x HQ ')).to.equal('x');
+            expect(Utility.cleanTitle('video clip')).to.equal('');
+            expect(Utility.cleanTitle('x live')).to.equal('x');
+            expect(Utility.cleanTitle('with lyrics')).to.equal('');
+            expect(Utility.cleanTitle('artist - "track title"')).to.equal('track title');
         });
     });
 });

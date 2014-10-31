@@ -15,7 +15,7 @@
                 reminderProperty: 'remindGoogleSignIn'
             });
 
-            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.signInManager = Streamus.backgroundPage.signInManager;
 
             PromptView.prototype.initialize.apply(this, arguments);
         },

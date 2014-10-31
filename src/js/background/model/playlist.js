@@ -5,11 +5,10 @@ define([
     'background/enum/syncActionType',
     'background/model/playlistItem',
     'background/model/shareCode',
-    'background/model/song',
     'background/model/youTubeV3API',
     'common/enum/listItemType',
     'common/utility'
-], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, Song, YouTubeV3API, ListItemType, Utility) {
+], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, YouTubeV3API, ListItemType, Utility) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -26,7 +25,7 @@ define([
             displayInfo: '',
             sequence: -1,
             listItemType: ListItemType.Playlist,
-            //  Only allowed to delete a playlist if more than 1 exists. TODO: Rename to deletable?
+            //  Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
 
@@ -65,7 +64,6 @@ define([
             this._setDisplayInfo();
         },
         
-        //  TODO: I should be creating a ShareCode object w/ entityID and entityType set and fetching it that way instead.
         getShareCode: function(options) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',
@@ -82,9 +80,9 @@ define([
         
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function () {
-            YouTubeV3API.getPlaylistSongInformationList({
+            YouTubeV3API.getPlaylistSongs({
                 playlistId: this.get('dataSource').get('id'),
-                success: this._onGetPlaylistSongInformationListSuccess.bind(this)
+                success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
         
@@ -97,11 +95,7 @@ define([
             };
         },
         
-        _onGetPlaylistSongInformationListSuccess: function (response) {
-            var songs = _.map(response.songInformationList, function (songInformation) {
-                return new Song(songInformation);
-            });
-
+        _onGetPlaylistSongsSuccess: function (songs) {
             //  Periodicially send bursts of packets to the server and trigger visual update.
             this.get('items').addSongs(songs, {
                 success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
@@ -114,10 +108,10 @@ define([
             }
             else {
                 //  Request next batch of data by iteration once addItems has succeeded.
-                YouTubeV3API.getPlaylistSongInformationList({
+                YouTubeV3API.getPlaylistSongs({
                     playlistId: this.get('dataSource').get('id'),
                     pageToken: nextPageToken,
-                    success: this._onGetPlaylistSongInformationListSuccess.bind(this)
+                    success: this._onGetPlaylistSongsSuccess.bind(this)
                 });
             }
         },

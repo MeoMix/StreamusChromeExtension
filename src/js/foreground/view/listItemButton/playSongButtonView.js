@@ -15,8 +15,8 @@
         player: null,
         
         initialize: function() {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
-            this.player = Streamus.backgroundPage.Player;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.player = Streamus.backgroundPage.player;
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
@@ -42,7 +42,6 @@
         
         _playStreamItem: function (streamItem) {
             if (streamItem.get('active')) {
-                //  TODO: It's weird that this doesn't turn to a pause once playing.
                 this.player.play();
             } else {
                 this.player.set('playOnActivate', true);

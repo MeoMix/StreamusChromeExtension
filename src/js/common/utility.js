@@ -59,13 +59,13 @@
         title = title.replace(/\s*\[[^\]]+\]$/, ''); // [whatever]
         title = title.replace(/\s*\([^\)]*version\)$/i, ''); // (whatever version)
         title = title.replace(/\s*\.(avi|wmv|mpg|mpeg|flv)$/i, ''); // video extensions
+        title = title.replace(/\s*video\s*clip/i, ''); // video clip
         title = title.replace(/\s*(of+icial\s*)?(music\s*)?video/i, ''); // (official)? (music)? video
         title = title.replace(/\s*(ALBUM TRACK\s*)?(album track\s*)/i, ''); // (ALBUM TRACK)
         title = title.replace(/\s*\(\s*of+icial\s*\)/i, ''); // (official)
         title = title.replace(/\s*\(\s*[0-9]{4}\s*\)/i, ''); // (1999)
         title = title.replace(/\s+\(\s*(HD|HQ)\s*\)$/, ''); // HD (HQ)
         title = title.replace(/\s+(HD|HQ)\s*$/, ''); // HD (HQ)
-        title = title.replace(/\s*video\s*clip/i, ''); // video clip
         title = title.replace(/\s+\(?live\)?$/i, ''); // live
         title = title.replace(/\(\s*\)/, ''); // Leftovers after e.g. (official video)
         title = title.replace(/\(.*lyrics?\)/i, ''); // (with lyrics)

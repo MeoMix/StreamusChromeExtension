@@ -1,4 +1,7 @@
-﻿define(function () {
+﻿define([
+    'background/enum/chromeCommand',
+    'common/enum/notificationType'
+], function (ChromeCommand, NotificationType) {
     'use strict';
     
     var PreviousButton = Backbone.Model.extend({
@@ -6,13 +9,15 @@
             enabled: false,
             player: null,
             shuffleButton: null,
-            streamItems: null
+            repeatButton: null,
+            stream: null
         },
         
         initialize: function () {
-            this.listenTo(this.get('streamItems'), 'add remove reset change:active sort', this._toggleEnabled);
+            this.listenTo(this.get('stream').get('items'), 'add remove reset change:active sort', this._toggleEnabled);
             this.listenTo(this.get('player'), 'change:currentTime', this._toggleEnabled);
             this.listenTo(this.get('shuffleButton'), 'change:enabled', this._toggleEnabled);
+            this.listenTo(this.get('repeatButton'), 'change:state', this._toggleEnabled);
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
             
             this._toggleEnabled();
@@ -27,7 +32,7 @@
                 if (this._songHasBeenPlaying()) {
                     this.get('player').seekTo(0);
                 } else {
-                    this.get('streamItems').activatePrevious();
+                    this.get('stream').activatePrevious();
                 }
             }
 
@@ -35,11 +40,12 @@
         }, 100, true),
         
         _onChromeCommand: function (command) {
-            if (command === 'previousSong') {
+            if (command === ChromeCommand.PreviousSong) {
                 var didPrevious = this.tryDoTimeBasedPrevious();
 
                 if (!didPrevious) {
-                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                    Streamus.channels.notification.commands.trigger('show:notification', {
+                        type: NotificationType.Error,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
                     });
@@ -48,7 +54,7 @@
         },
         
         _toggleEnabled: function () {
-            var previousItem = this.get('streamItems').getPrevious();
+            var previousItem = this.get('stream').getPrevious();
 
             var enabled = previousItem !== null || this._songHasBeenPlaying();
             this.set('enabled', enabled);

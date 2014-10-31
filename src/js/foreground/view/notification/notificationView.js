@@ -66,6 +66,9 @@
 				case NotificationType.Error:
 					className += 'notification--error';
 					break;
+			    case NotificationType.Warning:
+			        className += 'notification--warning';
+			        break;
 			}
 
 			return className;

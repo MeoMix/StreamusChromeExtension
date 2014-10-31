@@ -17,7 +17,7 @@
         }),
 
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_activateAndPlayOrToggleState'
+            'dblclick': '_onDblClick'
         }),
         
         modelEvents: {
@@ -37,8 +37,8 @@
         playPauseButton: null,
         
         initialize: function () {
-            this.player = Streamus.backgroundPage.Player;
-            this.playPauseButton = Streamus.backgroundPage.PlayPauseButton;
+            this.player = Streamus.backgroundPage.player;
+            this.playPauseButton = Streamus.backgroundPage.playPauseButton;
         },
 
         onRender: function () {
@@ -58,8 +58,7 @@
             }]);
         },
        
-        //  TODO: This is not DRY with PlaySongButtonView's _playStreamItem
-        _activateAndPlayOrToggleState: function () {
+        _onDblClick: function () {
             if (this.model.get('active')) {
                 this.playPauseButton.tryTogglePlayerState();
             } else {

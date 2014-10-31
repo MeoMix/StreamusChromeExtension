@@ -9,6 +9,7 @@
             var song = TestUtility.buildSong();
 
             var playlistItem = new PlaylistItem({
+                title: song.get('title'),
                 song: song
             });
    
@@ -19,6 +20,7 @@
             var song = TestUtility.getRawSong();
 
             var playlistItem = new PlaylistItem({
+                title: song.title,
                 song: song
             });
 

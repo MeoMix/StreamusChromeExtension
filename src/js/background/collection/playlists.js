@@ -2,10 +2,9 @@
     'background/enum/syncActionType',
     'background/mixin/collectionSequence',
     'background/model/playlist',
-    'background/model/song',
     'background/model/youTubeV3API',
     'common/enum/listItemType'
-], function (SyncActionType, CollectionSequence, Playlist, Song, YouTubeV3API, ListItemType) {
+], function (SyncActionType, CollectionSequence, Playlist, YouTubeV3API, ListItemType) {
     'use strict';
 
     var Playlists = Backbone.Collection.extend({
@@ -53,12 +52,13 @@
         },
         
         addPlaylistWithSongs: function (playlistTitle, songs) {
-            var playlistItems = [];
-            if (_.isArray(songs)) {
-                playlistItems = _.map(songs, function (song) { return { song: song }; });
-            } else {
-                playlistItems.push({ song: songs });
-            }
+            songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
+            var playlistItems = _.map(songs, function (song) {
+                return {
+                    title: song.get('title'),
+                    song: song
+                };
+            });
 
             this.create({
                 title: playlistTitle,
@@ -66,6 +66,10 @@
                 //  Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
+            }, {
+                error: function(model) {
+                    model.trigger('createError');
+                }
             });
         },
 
@@ -82,6 +86,9 @@
                     if (dataSource.needsLoading()) {
                         playlist.loadDataSource();
                     }
+                },
+                error: function (model) {
+                    model.trigger('createError');
                 }
             });
         },
@@ -149,11 +156,9 @@
                     sendResponse({ playlists: this });
                     break;
                 case 'addYouTubeSongByIdToPlaylist':
-                    //  TODO: Reduce nesting
-                    YouTubeV3API.getSongInformation({
+                    YouTubeV3API.getSong({
                         songId: request.songId,
-                        success: function (songInformation) {
-                            var song = new Song(songInformation);
+                        success: function (song) {
                             this.get(request.playlistId).get('items').addSongs(song);
 
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
@@ -184,17 +189,21 @@
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
-                //  TODO: Why doesn't each playlist keep track of this instead...?
                 localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
         
         _onAdd: function (addedPlaylist, collection, options) {
-            //  TODO: What if the playlist fails to save? Event handler never fires and just hangs around forever even if playlist is deleted.
             //  Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
             //  This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
             if (addedPlaylist.isNew()) {
-                this.listenToOnce(addedPlaylist, 'change:id', function() {
+                this.listenToOnce(addedPlaylist, 'createError', function () {
+                    //  TODO: Do something with this error.
+                    this.stopListening(addedPlaylist, 'change:id');
+                });
+
+                this.listenToOnce(addedPlaylist, 'change:id', function () {
+                    this.stopListening(addedPlaylist, 'createError');
                     this._onCreateSuccess(addedPlaylist, options);
                 });
             } else {

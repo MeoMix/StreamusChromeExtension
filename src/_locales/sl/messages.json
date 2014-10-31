@@ -77,10 +77,10 @@
 	"radioDisabled": {
 		"message": "Radio onemogočen"
 	},
-	"shuffleEnabled": {
+	"shufflingEnabled": {
 		"message": "Naključno predvajanje omogočeno"
 	},
-	"shuffleDisabled": {
+	"shufflingDisabled": {
 		"message": " Naključno predvajanje onemogočeno "
 	},
 	"elapsedTime": {

@@ -1,4 +1,7 @@
-﻿define(function () {
+﻿define([
+    'background/enum/chromeCommand',
+    'common/enum/notificationType'
+], function (ChromeCommand, NotificationType) {
     'use strict';
     
     var PlayPauseButton = Backbone.Model.extend({
@@ -9,7 +12,7 @@
         },
 
         initialize: function () {
-            this.listenTo(this.get('streamItems'), 'change:active remove reset', this._toggleEnabled);
+            this.listenTo(this.get('streamItems'), 'add remove reset', this._toggleEnabled);
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
 
             this._toggleEnabled();
@@ -25,12 +28,12 @@
         }, 100, true),
         
         _onChromeCommand: function (command) {
-            if (command === 'toggleSong') {
+            if (command === ChromeCommand.ToggleSong) {
                 var didTogglePlayerState = this.tryTogglePlayerState();
 
                 if (!didTogglePlayerState) {
-                    //  TODO: This probably shouldn't be a background notification -- they can use a keyboard shortcut with UI open.
-                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                    Streamus.channels.notification.commands.trigger('show:notification', {
+                        type: NotificationType.Success,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantToggleSong')
                     });

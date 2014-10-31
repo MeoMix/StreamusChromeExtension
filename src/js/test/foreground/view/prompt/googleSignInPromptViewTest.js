@@ -20,13 +20,13 @@
         
         describe('onSubmit', function () {
             it('should tell SignInManager not to prompt again', function () {
-                sinon.stub(Streamus.backgroundPage.SignInManager, 'set');
+                sinon.stub(Streamus.backgroundPage.signInManager, 'set');
 
                 this.view.onSubmit();
-                expect(Streamus.backgroundPage.SignInManager.set.calledOnce).to.equal(true);
-                expect(Streamus.backgroundPage.SignInManager.set.calledWith('needPromptGoogleSignIn', false)).to.equal(true);
+                expect(Streamus.backgroundPage.signInManager.set.calledOnce).to.equal(true);
+                expect(Streamus.backgroundPage.signInManager.set.calledWith('needPromptGoogleSignIn', false)).to.equal(true);
 
-                Streamus.backgroundPage.SignInManager.set.restore();
+                Streamus.backgroundPage.signInManager.set.restore();
             });
         });
     });

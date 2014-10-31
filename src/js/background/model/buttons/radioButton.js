@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'background/enum/chromeCommand'
+], function (ChromeCommand) {
     'use strict';
     
     var RadioButton = Backbone.Model.extend({
@@ -23,13 +25,16 @@
             });
         },
         
+        getStateMessage: function () {
+            return this.get('enabled') ? chrome.i18n.getMessage('radioEnabled') : chrome.i18n.getMessage('radioDisabled');
+        },
+        
         _onChromeCommand: function (command) {
-            if (command === 'toggleRadio') {
+            if (command === ChromeCommand.ToggleRadio) {
                 this.toggleEnabled();
 
                 Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                    //  TODO: i18n
-                    message: this.get('enabled') ? 'Radio on' : 'Radio off'
+                    message: this.getStateMessage()
                 });
             }
         }

@@ -6,6 +6,7 @@ $(function () {
 
     chrome.runtime.sendMessage({ method: 'getCanEnhanceBeatport' }, function (canEnhanceBeatport) {
         if (canEnhanceBeatport) {
+            injectCss();
             injectHtml();
             enhanceBeatport = true;
         }
@@ -15,35 +16,51 @@ $(function () {
         if (enhanceBeatport) {
             switch (request.event) {
                 case 'enhance-off':
+                    removeCss();
                     removeHtml();
                     enhanceBeatport = false;
                     break;
             }
         } else {
             if (request.event === 'enhance-on' && !enhanceBeatport) {
+                injectCss();
                 injectHtml();
                 enhanceBeatport = true;
             }
         }
     });
     
-    //  TODO: It would be better to only inject the CSS if enhanceBeatport is set to true, but nobody will be able to see anything because the HTML is gone so it's OK to do this.
     //  Inject CSS via javascript to give it priority over all other CSS loaded on the page.
-    var beatportCssUrl = 'css/beatportInject.css';
+    function injectCss() {
+        var beatportCssUrl = 'css/beatportInject.css';
 
-    var beatportInjectStylesheet = document.createElement('link');
-    beatportInjectStylesheet.rel = 'stylesheet';
-    beatportInjectStylesheet.type = 'text/css';
-    beatportInjectStylesheet.href = chrome.extension.getURL(beatportCssUrl);
-    document.head.appendChild(beatportInjectStylesheet);
+        var streamusBeatportCss = $("<link>", {
+            rel: "stylesheet",
+            type: "text/css",
+            id: 'streamus-beatport-css',
+            href: chrome.extension.getURL(beatportCssUrl)
+        });
+        streamusBeatportCss.appendTo('head');
+        
+        //  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
+        if (beatportCssUrl.indexOf('min') === -1) {
+            var qtipBeatportCss = $("<link>", {
+                rel: "stylesheet",
+                type: "text/css",
+                id: 'qtip-beatport-css',
+                href: chrome.extension.getURL('css/jquery.qtip.css')
+            });
+            qtipBeatportCss.appendTo('head');
+        }
+    }
+    
+    function removeCss() {
+        $('#streamus-beatport-css').remove();
 
-    //  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
-    if (beatportCssUrl.indexOf('min') === -1) {
-        var style = document.createElement('link');
-        style.rel = 'stylesheet';
-        style.type = 'text/css';
-        style.href = chrome.extension.getURL('css/jquery.qtip.css');
-        document.head.appendChild(style);
+        var qtipCss = $('#qtip-beatport-css');
+        if (qtipCss.length > 0) {
+            qtipCss.remove();
+        }
     }
 
     function removeHtml() {
@@ -97,15 +114,12 @@ function injectIconsBasedOnUrl() {
 
     var urlIsBeatportTop100 = currentPageUrl.match(/^.*beatport.com\/.*top-100.*/);
     var urlIsBeatportRelease = currentPageUrl.match(/^.*beatport.com\/.*release.*/);
-    var urlIsBeatportTrack = currentPageUrl.match(/^.*beatport.com\/.*track.*/);
     var urlIsBeatportFrontPage = currentPageUrl.match(/^.*beatport.com.*/);
 
     if (urlIsBeatportTop100) {
         injectTop100Icons();
     } else if (urlIsBeatportRelease) {
         injectReleaseIcons();
-    } else if (urlIsBeatportTrack) {
-        //  TODO: Track support.
     } else if (urlIsBeatportFrontPage) {
         injectFrontPageIcons();
     } else {
@@ -201,7 +215,6 @@ function appendPlayAllButtonBeforeSelector(selector) {
         'role': 'button',
         'title': chrome.i18n.getMessage('playAll'),
         click: function () {
-            //  TODO: Detect bad queries such (failure to find) and filter out. Maybe just do distinct for now?
             var itemQueries = $('.streamus.btn-play[data-query]').map(function (index, playButton) {
                 var itemQuery = $(playButton).data('query');
                 return itemQuery;

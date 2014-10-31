@@ -1,8 +1,7 @@
 ﻿define([
     'background/mixin/collectionMultiSelect',
-    'background/model/searchResult',
-    'background/model/song'
-], function (CollectionMultiSelect, SearchResult, Song) {
+    'background/model/searchResult'
+], function (CollectionMultiSelect, SearchResult) {
     'use strict';
     
     var SearchResults = Backbone.Collection.extend({
@@ -10,18 +9,18 @@
         
         mixins: [CollectionMultiSelect],
         
-        setFromSongInformationList: function (songInformationList) {
+        setFromSongs: function (songs) {
             var searchResults = [];
 
-            if (_.isArray(songInformationList)) {
-                searchResults = _.map(songInformationList, function(songInformation) {
+            if (songs instanceof Backbone.Collection) {
+                searchResults = songs.map(function (song) {
                     return {
-                        song: new Song(songInformation)
+                        song: song
                     };
                 });
             } else {
                 searchResults.push({
-                    song: new Song(songInformationList)
+                    song: songs
                 });
             }
 

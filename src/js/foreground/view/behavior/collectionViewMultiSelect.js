@@ -48,7 +48,6 @@
         
         _onClickListItem: function (event) {
             var id = $(event.currentTarget).data('id');
-            //  TODO: I am seeing errors saying that modelToSelect is undefined here sometimes?
             var modelToSelect = this.view.collection.get(id);
             
             if (_.isUndefined(modelToSelect)) {

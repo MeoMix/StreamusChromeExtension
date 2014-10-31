@@ -25,7 +25,7 @@
 
         addSongs: function (songs, options) {
             options = _.isUndefined(options) ? {} : options;
-            songs = _.isArray(songs) ? songs : [songs];
+            songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
             var itemsToCreate = [];
             var index = _.isUndefined(options.index) ? this.length : options.index;
@@ -34,6 +34,7 @@
                 var playlistItem = new PlaylistItem({
                     playlistId: this.playlistId,
                     song: song,
+                    title: song.get('title'),
                     sequence: this.getSequenceFromIndex(index)
                 });
 

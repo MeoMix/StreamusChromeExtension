@@ -1,5 +1,6 @@
 ﻿define({
     None: 'none',
     Success: 'success',
-    Error: 'error'
+    Error: 'error',
+    Warning: 'warning'
 });

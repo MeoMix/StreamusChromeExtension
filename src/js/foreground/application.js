@@ -70,8 +70,8 @@
             Streamus.backgroundChannels.foreground.vent.trigger('started');
 
             //  Don't even bother loading the foreground if Streamus should open in a tab instead.
-            if (this.backgroundPage.Settings.get('alwaysOpenInTab')) {
-                this.backgroundPage.TabManager.isStreamusTabOpen(this._onIsStreamusTabOpenResponse.bind(this));
+            if (this.backgroundPage.settings.get('alwaysOpenInTab')) {
+                this.backgroundPage.tabManager.isStreamusTabOpen(this._onIsStreamusTabOpenResponse.bind(this));
             } else {
                 this._showForegroundArea();
             }
@@ -89,7 +89,7 @@
         },
         
         _showStreamusTab: function () {
-            this.backgroundPage.TabManager.showStreamusTab();
+            this.backgroundPage.tabManager.showStreamusTab();
             //  Be sure to close the popup window because if the tab is already open and focused it won't shut.
             window.close();
         },

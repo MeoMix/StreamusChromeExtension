@@ -10,7 +10,7 @@
         streamItems: null,
 
         initialize: function () {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.listenTo(this.model.get('items'), 'add remove reset', this._setDisabledState);
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);

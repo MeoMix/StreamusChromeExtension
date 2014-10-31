@@ -1,4 +1,6 @@
-﻿define(function () {
+﻿define([
+    'background/enum/chromeCommand'
+], function (ChromeCommand) {
     'use strict';
     
     var ShuffleButton = Backbone.Model.extend({
@@ -22,14 +24,17 @@
                 enabled: !this.get('enabled')
             });
         },
+        
+        getStateMessage: function () {
+            return this.get('enabled') ? chrome.i18n.getMessage('shufflingEnabled') : chrome.i18n.getMessage('shufflingDisabled');
+        },
 
         _onChromeCommand: function (command) {
-            if (command === 'toggleShuffle') {
+            if (command === ChromeCommand.ToggleShuffle) {
                 this.toggleEnabled();
                 
                 Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                    //  TODO: i18n
-                    message: this.get('enabled') ? 'Shuffling on' : 'Shuffling off'
+                    message: this.getStateMessage()
                 });
             }
         }

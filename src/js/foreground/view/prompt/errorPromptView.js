@@ -12,14 +12,16 @@
                 title: chrome.i18n.getMessage('errorEncountered')
             });
 
-            this.player = Streamus.backgroundPage.Player;
+            this.player = Streamus.backgroundPage.player;
 
             this.contentText = options.text;
 
             PromptView.prototype.initialize.apply(this, arguments);
 
             //  TODO: I can probably remove this at some point once errors aren't happening.
-            var error = new Error("Error: " + options.error + ", loadedSongId:" + this.player.get('loadedSong').get('id') + " " + options.text);
+            var loadedSong = this.player.get('loadedSong');
+            var loadedSongId = loadedSong ? loadedSong.get('id') : '';
+            var error = new Error("Error: " + options.error + ", loadedSongId:" + loadedSongId + " " + options.text);
             Streamus.backgroundChannels.error.commands.trigger('log:error', error);
         }
     });

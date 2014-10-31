@@ -74,11 +74,11 @@
 	"repeatDisabled": {
 		"message": "Repeat disabled"
 	},
-	"repeatSong": {
-		"message": "Repeat song"
+	"repeatSongEnabled": {
+		"message": "Repeat song enabled"
 	},
-	"repeatStream": {
-		"message": "Repeat stream"
+	"repeatStreamEnabled": {
+		"message": "Repeat stream enabled"
 	},
 	"radioEnabled": {
 		"message": "Radio enabled"
@@ -86,10 +86,10 @@
 	"radioDisabled": {
 		"message": "Radio disabled"
 	},
-	"shuffleEnabled": {
+	"shufflingEnabled": {
 		"message": "Shuffling enabled"
 	},
-	"shuffleDisabled": {
+	"shufflingDisabled": {
 		"message": "Shuffling disabled"
 	},
 	"elapsedTime": {
@@ -355,9 +355,6 @@
 	"saveSongs": {
 		"message": "Save songs"
 	},
-	"saveSongCommandDescription": {
-		"message": "Save the active song to the active playlist"
-	},
 	"nextSongCommandDescription": {
 		"message": "Go to the next song in the stream"
 	},
@@ -370,10 +367,10 @@
 	"deleteSongCommandDescription": {
 		"message": "Remove the current song from the stream"
 	},
-	"copySongUrlCommandDescription": {
+	"copySongURLCommandDescription": {
 		"message": "Copy the current song's URL"
 	},
-	"copySongTitleUrlCommandDescription": {
+	"copySongTitleURLCommandDescription": {
 		"message": "Copy the current song's title and URL"
 	},
 	"deleteSong": {
@@ -499,6 +496,9 @@
 	"failedToFindSong": {
 		"message": "Failed to find song"
 	},
+	"failedToFindSongs": {
+		"message": "Failed to find songs"
+	},
 	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
 		"message": "An issue was encountered while attempting to find song with URL:"
 	},
@@ -548,5 +548,17 @@
 				"content": "$3"
 			}
 		}
+	},
+	"activeSong": {
+		"message": "Active song"
+	},
+	"urlCopiedToClipboardSuccessfully": {
+		"message": "URL copied to clipboard successfully."
+	},
+	"failedTopCopyUrlToClipboard": {
+		"message": "Failed to copy URL to clipboard."
+	},
+	"playlistExportedSuccessfully": {
+		"message": "Playlist exported successfully."
 	}
 }

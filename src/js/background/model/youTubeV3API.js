@@ -1,24 +1,26 @@
 ﻿define([
+    'background/collection/songs',
+    'background/key/youTubeAPI',
+    'background/model/song',
     'common/enum/songType',
     'common/enum/youTubeServiceType',
     'common/utility'
-], function (SongType, YouTubeServiceType, Utility) {
+], function (Songs, YouTubeAPIKey, Song, SongType, YouTubeServiceType, Utility) {
     'use strict';
 
     var YouTubeV3API = Backbone.Model.extend({
-        //  Performs a search and then grabs the first item most related to the search title by calculating
-        //  the levenshtein distance between all the possibilities and returning the result with the lowest distance.
+        //  Performs a search and then grabs the first item and returns its title
         //  Expects options: { title: string, success: function, error: function }
-        getSongInformationByTitle: function (options) {
+        getSongByTitle: function (options) {
             return this.search({
                 text: options.title,
                 //  Expect to find a playable song within the first 10 -- don't need the default 50 items
                 maxResults: 10,
-                success: function (response) {
-                    if (response.songInformationList.length === 0) {
-                        if (options.error) options.error('No playable song found after searching with title ' + options.title);
+                success: function (songs) {
+                    if (songs.length === 0) {
+                        if (options.error) options.error(chrome.i18n.getMessage('failedToFindSong'));
                     } else {
-                        options.success(response.songInformationList[0]);
+                        options.success(songs.first());
                     }
                 },
                 error: options.error,
@@ -35,7 +37,7 @@
                         return item.id.videoId;
                     });
                     
-                    this.getSongInformationList({
+                    this.getSongs({
                         songIds: songIds,
                         success: options.success,
                         error: options.error,
@@ -59,21 +61,10 @@
         },
         
         getChannelUploadsPlaylistId: function (options) {
-            var listOptions = {
+            var listOptions = _.extend({
                 part: 'contentDetails',
                 fields: 'items/contentDetails/relatedPlaylists/uploads'
-            };
-            
-            if (!_.isUndefined(options.username)) {
-                _.extend(listOptions, {
-                    forUsername: options.username
-                });
-            }
-            else if (!_.isUndefined(options.channelId)) {
-                _.extend(listOptions, {
-                    id: options.channelId
-                });
-            }
+            }, _.pick(options, ['id', 'forUsername']));
             
             return this._doRequest('channels', {
                 success: function (response) {
@@ -91,14 +82,14 @@
             }, listOptions);
         },
         
-        getSongInformation: function (options) {
-            return this.getSongInformationList({
+        getSong: function (options) {
+            return this.getSongs({
                 songIds: [options.songId],
-                success: function (response) {
-                    if (response.missingSongIds.length === 1) {
-                        options.error('Failed to find song ' + options.songId);
+                success: function (songs) {
+                    if (songs.length === 0) {
+                        options.error(chrome.i18n.getMessage('failedToFindSong') + ' ' + options.songId);
                     } else {
-                        options.success(response.songInformationList[0]);
+                        options.success(songs.first());
                     }
                 },
                 error: options.error,
@@ -107,19 +98,19 @@
         },
 
         //  Returns the results of a request for a segment of a channel, playlist, or other dataSource.
-        getPlaylistSongInformationList: function (options) {
+        getPlaylistSongs: function (options) {
             return this._doRequest(YouTubeServiceType.PlaylistItems, {
                 success: function (response) {
                     var songIds = _.map(response.items, function (item) {
                         return item.contentDetails.videoId;
                     });
 
-                    this.getSongInformationList({
+                    this.getSongs({
                         songIds: songIds,
-                        success: function (songInformationListResponse) {
+                        success: function (songs) {
                             options.success(_.extend({
                                 nextPageToken: response.nextPageToken,
-                            }, songInformationListResponse));
+                            }, songs));
                         },
                         error: options.error,
                         complete: options.complete
@@ -138,7 +129,7 @@
             });
         },
 
-        getRelatedSongInformationList: function (options) {
+        getRelatedSongs: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
                     //  It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
@@ -150,12 +141,9 @@
                         return item.id.videoId;
                     });
 
-                    this.getSongInformationList({
+                    this.getSongs({
                         songIds: songIds,
-                        success: function (songInformationListResponse) {
-                            //  OK to drop missingSongIds; not expecting any because YouTube determines related song ids.
-                            options.success(songInformationListResponse.songInformationList);
-                        },
+                        success: options.success,
                         error: options.error,
                         complete: options.complete
                     });
@@ -175,7 +163,7 @@
         },
         
         //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
-        getSongInformationList: function (options) {
+        getSongs: function (options) {
             return this._doRequest(YouTubeServiceType.Videos, {
                 success: function (response) {
                     if (_.isUndefined(response)) {
@@ -184,26 +172,15 @@
                     }
 
                     if (_.isUndefined(response.items)) {
-                        if (options.error) options.error('The response\'s item list was undefined. Song(s) may have been banned.');
+                        if (options.error) {
+                            var errorMessage = options.songIds.length > 1 ? chrome.i18n.getMessage('failedToFindSongs') : chrome.i18n.getMessage('failedToFindSong');
+                            options.error(errorMessage);
+                        }
                     } else {
-                        var songInformationList = _.map(response.items, function (item) {
-                            return {
-                                id: item.id,
-                                duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
-                                title: item.snippet.title,
-                                author: item.snippet.channelTitle,
-                                type: SongType.YouTube
-                            };
-                        });
-
-                        var missingSongIds = _.difference(options.songIds, _.pluck(songInformationList, 'id'));
-
-                        options.success({
-                            songInformationList: songInformationList,
-                            missingSongIds: missingSongIds
-                        });
+                        var songs = this._itemListToSongs(response.items);
+                        options.success(songs);
                     }
-                },
+                }.bind(this),
                 error: options.error,
                 complete: options.complete
             }, {
@@ -216,24 +193,15 @@
         
         //  Expects options: { channelId: string, success: function, error: function };
         getTitle: function (options) {
-            var ajaxDataOptions = {
+            var ajaxDataOptions = _.extend({
                 part: 'snippet',
                 fields: 'items/snippet/title'
-            };
-            
-            if (!_.isUndefined(options.id)) {
-                ajaxDataOptions.id = options.id;
-            }
-            else if (!_.isUndefined(options.forUsername)) {
-                ajaxDataOptions.forUsername = options.forUsername;
-            } else {
-                throw new Error('Expected id or forUsername');
-            }
+            }, _.pick(options, ['id', 'forUsername']));
 
             return this._doRequest(options.serviceType, {
                 success: function (response) {
                     if (response.items.length === 0) {
-                        options.error('No title found');
+                        options.error(chrome.i18n.getMessage('errorRetrievingTitle'));
                     } else {
                         options.success(response.items[0].snippet.title);
                     }
@@ -247,12 +215,20 @@
             return $.ajax(_.extend(ajaxOptions, {
                 url: 'https://www.googleapis.com/youtube/v3/' + serviceType,
                 data: _.extend({
-                    //  The Simple API Access API key is used here. Please note that it is set to allow "Referers: Any referer allowed" because
-                    //  a Google Chrome extension does not send a referer by design. As such, it seems easiest to allow any referer rather than try to 
-                    //  fix the extension for slightly improved security.
-                    //  https://code.google.com/apis/console/b/0/?noredirect&pli=1#project:346456917689:access
-                    key: 'AIzaSyBWegNdKdnwKGr2bCKRzqXnWw00kA7T2lk'
+                    key: YouTubeAPIKey
                 }, ajaxDataOptions)
+            }));
+        },
+        
+        _itemListToSongs: function(itemList) {
+            return new Songs(_.map(itemList, function (item) {
+                return {
+                    id: item.id,
+                    duration: Utility.iso8061DurationToSeconds(item.contentDetails.duration),
+                    title: item.snippet.title,
+                    author: item.snippet.channelTitle,
+                    type: SongType.YouTube
+                };
             }));
         }
     });

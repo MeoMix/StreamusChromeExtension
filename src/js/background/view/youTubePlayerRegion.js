@@ -17,7 +17,6 @@
         },
         
         _onBackgroundAreaShown: function () {
-            //  TODO: This feels weird. I need to be more consistent with how I tell the player to load.
             if (this.youTubePlayer.get('loading')) {
                 this._showYouTubePlayerView();
             } else {

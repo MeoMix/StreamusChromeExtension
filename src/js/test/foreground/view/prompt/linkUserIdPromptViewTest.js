@@ -20,12 +20,12 @@
         
         describe('onSubmit', function () {
             it('should tell SignInManager to save the current user\'s GooglePlusId', function () {
-                sinon.stub(Streamus.backgroundPage.SignInManager, 'saveGooglePlusId');
+                sinon.stub(Streamus.backgroundPage.signInManager, 'saveGooglePlusId');
 
                 this.view.onSubmit();
-                expect(Streamus.backgroundPage.SignInManager.saveGooglePlusId.calledOnce).to.equal(true);
+                expect(Streamus.backgroundPage.signInManager.saveGooglePlusId.calledOnce).to.equal(true);
     
-                Streamus.backgroundPage.SignInManager.saveGooglePlusId.restore();
+                Streamus.backgroundPage.signInManager.saveGooglePlusId.restore();
             });
         });
     });

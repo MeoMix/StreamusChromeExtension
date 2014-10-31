@@ -3,9 +3,15 @@ $(function () {
 	'use strict';
 
 	var enhanceYouTube = false;
-	
-	chrome.runtime.sendMessage({ method: 'getCanEnhanceYouTube' }, function (canEnhanceYouTube) {
-		if (canEnhanceYouTube) {
+    var injectData = {
+        canInject: false,
+        SyncActionType: null
+    };
+
+    chrome.runtime.sendMessage({ method: 'getYouTubeInjectData' }, function (youTubeInjectData) {
+        injectData = youTubeInjectData;
+
+        if (injectData.canInject) {
 			//  This code handles the fact that when you navigate from a YouTube search results list to a video
 			//  the page does not reload because they use AJAX to load the video page. 
 			var isFirstLoad = true;
@@ -41,8 +47,7 @@ $(function () {
 	chrome.runtime.onMessage.addListener(function (request) {
 		if (enhanceYouTube) {
 			switch (request.event) {
-				//  TODO: added/removed/updated are synced with SyncActionType enum
-				case 'added':
+			    case injectData.SyncActionType.Added:
 					var playlistOption = $('<option>', {
 						value: request.data.id,
 						text: request.data.title
@@ -50,10 +55,10 @@ $(function () {
 
 					playlistOption.appendTo($('#playlistSelect'));
 					break;
-				case 'removed':
+			    case injectData.SyncActionType.Removed:
 					$('#playlistSelect').find('option[value="' + request.data.id + '"]').remove();
 					break;
-				case 'updated':
+			    case injectData.SyncActionType.Updated:
 					$('#playlistSelect').find('option[value="' + request.data.id + '"]').text(request.data.title);
 					break;
 				case 'signed-in':
@@ -61,7 +66,7 @@ $(function () {
 					injectAddPlaylistContent($('#streamus-share-panel'));
 					getPlaylistsAndSetSelectOptions();
 					break;
-				case 'sign-out':
+				case 'signed-out':
 					$('#streamus-share-panel').empty();
 					injectSignIn();
 					break;
@@ -145,7 +150,13 @@ $(function () {
 	}
 	
 	function removeHtml() {
-		$('#streamus-add-button-wrapper').remove();
+	    //  Hide the panel if it is active before removing code.
+	    if ($('#action-panel-streamus').is(':visible')) {
+	        $('#streamus-add-button-wrapper > button').click();
+	    }
+
+	    $('#streamus-add-button-wrapper').remove();
+	    $('#action-panel-streamus').remove();
 	}
 
 	function injectHtml() {

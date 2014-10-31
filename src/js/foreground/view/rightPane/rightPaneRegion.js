@@ -11,10 +11,7 @@
         },
         
         _onForegroundAreaShown: function() {
-            this.show(new RightPaneView({
-                //  TODO: Why is this the model?
-                model: Streamus.backgroundPage.Player
-            }));
+            this.show(new RightPaneView());
         }
     });
 

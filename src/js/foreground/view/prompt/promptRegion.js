@@ -14,13 +14,12 @@
         signInManager: null,
         
         initialize: function () {
-            this.player = Streamus.backgroundPage.Player;
-            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.player = Streamus.backgroundPage.player;
+            this.signInManager = Streamus.backgroundPage.signInManager;
 
-            //  TODO: show should be a command not an event.
             this.listenTo(Streamus.channels.prompt.commands, 'show:prompt', this._showPrompt);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
-            this.listenTo(this.player, 'youTubeError', this._showYouTubeErrorPrompt);
+            this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
             this.listenTo(this.signInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
             this.listenTo(this.signInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeUpdateAvailable.bind(this));
@@ -94,6 +93,10 @@
             } else {
                 this.show(promptView);
             }
+        },
+        
+        _onPlayerYouTubeError: function (model, youTubeError) {
+            this._showYouTubeErrorPrompt(youTubeError);
         },
         
         //  Whenever the YouTube API throws an error in the background, communicate

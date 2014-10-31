@@ -33,24 +33,12 @@ define(function () {
                 
         _onIsForegroundActiveResponse: function (notificationOptions, foregroundActive) {
             if (!foregroundActive) {
-                var chromeNotificationOptions = {
-                    //  TODO: ChromeNotifications support a 'Title' property where as my foreground implementation does not. Unsure how to handle this elegantly for now.
-                    message: notificationOptions.message
-                };
-                
-                //  TODO: Make this more robust.
-                if (!_.isUndefined(notificationOptions.title)) {
-                    chromeNotificationOptions.title = notificationOptions.title;
-                }
-                
-                if (!_.isUndefined(notificationOptions.iconUrl)) {
-                    chromeNotificationOptions.iconUrl = notificationOptions.iconUrl;
-                }
-
-                //  TODO: I don't understand why this is necessary. All clients should be able to call getPermissionLevel just fine because I enforce Chrome32+
-                //  TODO: I should log information about what clients are throwing errors (their Google Chrome version?)
+                var chromeNotificationOptions = _.pick(notificationOptions, ['message', 'title', 'iconUrl']);
+    
                 if (this._canUseNotificationsApi()) {
                     chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
+                } else {
+                    Streamus.channels.error.commands.trigger('log:error', new Error('ChromeNotificationsManager cannot use notifications api'));
                 }
             }
         },
@@ -105,7 +93,6 @@ define(function () {
             this.set('closeNotificationTimeout', closeNotificationTimeout);
         },
         
-        //  TODO: This might be moved into a utility class in the future, but for now I am keeping it here.
         _isForegroundActive: function (callback) {
             var foreground = chrome.extension.getViews({ type: "popup" });
 

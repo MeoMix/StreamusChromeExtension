@@ -6,6 +6,8 @@
             return {
                 streamusForegroundUrl: 'chrome-extension://' + chrome.runtime.id + '/foreground.html',
                 donateUrl: 'https://streamus.com/#donate',
+                //  TODO: chrome.tabs can't match on fragment identifiers. Fix this once website is redone without using fragments for each page.
+                donateUrlPattern: '*://streamus.com/*',
                 keyboardShortcutsUrl: 'chrome://extensions/configureCommands',
                 youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
                 beatportUrlPatterns: ['*://*.beatport.com/*']
@@ -43,7 +45,7 @@
         },
         
         showDonateTab: function () {
-            this._showTab(this.get('donateUrl'));
+            this._showTab(this.get('donateUrlPattern'), this.get('donateUrl'));
         },
         
         showKeyboardShortcutsTab: function() {
@@ -51,7 +53,6 @@
         },
         
         _notifyYouTube: function (data) {
-            //  TODO: naming.
             this.messageYouTubeTabs(data);
         },
         
@@ -59,27 +60,32 @@
             this.messageBeatportTabs(data);
         },
         
-        _showTab: function (tabUrl) {
+        _showTab: function (urlPattern, url) {
             var queryInfo = {
-                url: tabUrl
+                url: urlPattern
             };
 
-            this._queryTabs(queryInfo, function (tabs) {
-                if (tabs.length > 0) {
-                    //  TODO: This logic isn't supporting the scenario of multiple tabs existing. What happens then? If its in a diff window?
-                    var tabDetails = tabs[0];
+            this._queryTabs(queryInfo, function (tabDetailsList) {
+                if (tabDetailsList.length > 0) {
+                    var anyTabHighlighted = _.some(tabDetailsList, function (tabDetails) {
+                        return tabDetails.highlighted;
+                    });
 
-                    if (!tabDetails.highlighted) {
+                    if (!anyTabHighlighted) {
+                        //  Just use the first tab if none are highlighted -- all tabs which match the URL pattern are the same.
+                        var firstTabDetails = tabDetailsList[0];
+
                         var highlightInfo = {
-                            windowId: tabDetails.windowId,
-                            tabs: tabDetails.index
+                            windowId: firstTabDetails.windowId,
+                            tabs: firstTabDetails.index
                         };
 
                         this._highlightTabs(highlightInfo);
                     }
                 } else {
                     chrome.tabs.create({
-                        url: tabUrl
+                        //  If a specific URL is provided then use it, otherwise assume the URL pattern is the URL.
+                        url: url || urlPattern
                     });
                 }
             }.bind(this));
@@ -119,7 +125,7 @@
         },
         
         _highlightTabs: function (highlightInfo) {
-            //  TODO: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
+            //  NOTE: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
         }
     });

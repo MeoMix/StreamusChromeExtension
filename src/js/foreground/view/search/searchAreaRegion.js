@@ -8,7 +8,7 @@
         settings: null,
         
         initialize: function () {
-            this.settings = Streamus.backgroundPage.Settings;
+            this.settings = Streamus.backgroundPage.settings;
 
             this.listenTo(Streamus.channels.searchArea.commands, 'show', this._showSearchView);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
@@ -39,8 +39,8 @@
         _createSearchView: function () {
             if (!this._searchViewExists()) {
                 var searchView = new SearchView({
-                    model: Streamus.backgroundPage.Search,
-                    collection: Streamus.backgroundPage.Search.get('results')
+                    model: Streamus.backgroundPage.search,
+                    collection: Streamus.backgroundPage.search.get('results')
                 });
 
                 this.show(searchView);

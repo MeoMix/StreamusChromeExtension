@@ -21,21 +21,24 @@ define([
         events: {
             'input @ui.volumeRange': '_onInputVolumeRange',
             'click @ui.volumeButton': '_onClickVolumeButton',
-            //  TODO: mousewheel not supported on FF -- maybe bind to wheel event as well, but that is not supported on Opera...? double check.
-            'mousewheel': '_onMousewheel'
+            'wheel': '_onWheel'
         },
-        //  TODO: Event handler naming conventions.
-        modelEvents: {
-            'change:muted': '_onChangeMuted',
-            'change:volume': '_onChangeVolume'
+
+        player: null,
+        
+        initialize: function () {
+            this.player = Streamus.backgroundPage.player;
+
+            this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
+            this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);
         },
 
         onRender: function () {
-            var volume = this.model.get('volume');
+            var volume = this.player.get('volume');
             this._setVolumeProgress(volume);
             this._setVolumeIconClass(volume);
 
-            var muted = this.model.get('muted');
+            var muted = this.player.get('muted');
             this._setMutedClass(muted);
         },
         
@@ -47,14 +50,14 @@ define([
             this._toggleMute();
         },
         
-        _onMousewheel: function (event) {
+        _onWheel: function (event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             this._scrollVolume(delta);
         },
 
         _setVolume: function () {
             var volume = parseInt(this.ui.volumeRange.val());
-            this.model.setVolume(volume);
+            this.player.setVolume(volume);
         },
         
         _setVolumeProgress: function (volume) {
@@ -83,7 +86,7 @@ define([
             return volumeIconClass;
         },
 
-        //  Adjust volume when user scrolls mousewheel while hovering over volume.
+        //  Adjust volume when user scrolls wheel while hovering over volume.
         _scrollVolume: function (delta) {
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
 
@@ -95,12 +98,12 @@ define([
                 volume = 0;
             }
 
-            this.model.setVolume(volume);
+            this.player.setVolume(volume);
         },
 
         _toggleMute: function () {
-            var isMuted = this.model.get('muted');
-            this.model.save({
+            var isMuted = this.player.get('muted');
+            this.player.save({
                 muted: !isMuted
             });
         },
@@ -109,12 +112,12 @@ define([
             this.ui.volumeButton.toggleClass('is-muted', muted);
         },
 
-        _onChangeVolume: function (model, volume) {
+        _onPlayerChangeVolume: function (model, volume) {
             this._setVolumeProgress(volume);
             this._setVolumeIconClass(volume);
         },
         
-        _onChangeMuted: function(model, muted) {
+        _onPlayerChangeMuted: function (model, muted) {
             this._setMutedClass(muted);
         }
     });

@@ -3,6 +3,7 @@
     'backbone.localStorage',
     'backbone.marionette',
     'chai',
+    'cocktail',
     'jquery',
     'jquery.qtip',
     'jquery.transit',
@@ -11,10 +12,12 @@
     'mocha',
     'selectize',
     'sinon'
-], function (Backbone, BackboneLocalStorage, Marionette, chai) {
+], function (Backbone, BackboneLocalStorage, Marionette, chai, Cocktail) {
 
     window.expect = chai.expect;
     window.mocha.setup('bdd');
+
+    Cocktail.patch(Backbone);
     
     //  TODO: This is necessary for tests to work, but how can I make the original one reusable?
     var Application = Backbone.Marionette.Application.extend({

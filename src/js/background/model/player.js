@@ -1,6 +1,7 @@
 define([
+    'background/enum/chromeCommand',
     'common/enum/playerState'
-], function (PlayerState) {
+], function (ChromeCommand, PlayerState) {
     'use strict';
 
     var Player = Backbone.Model.extend({
@@ -59,6 +60,8 @@ define([
             this.listenTo(this.get('youTubePlayer'), 'youTubeError', this._onYouTubePlayerError);
             this.listenTo(this.get('youTubePlayer'), 'change:loading', this._onYouTubePlayerChangeLoading);
             this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
+            this.listenTo(Streamus.channels.player.commands, 'playOnActivate', this._onCommandPlayOnActivate);
+
             chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
             chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
@@ -273,11 +276,11 @@ define([
         },
 
         _onChromeCommand: function (command) {
-            if (command === 'increaseVolume') {
+            if (command === ChromeCommand.IncreaseVolume) {
                 var increasedVolume = this.get('volume') + 5;
                 this.setVolume(increasedVolume);
             }
-            else if (command === 'decreaseVolume') {
+            else if (command === ChromeCommand.DecreaseVolume) {
                 var decreasedVolume = this.get('volume') - 5;
                 this.setVolume(decreasedVolume);
             }
@@ -311,9 +314,10 @@ define([
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
         
+        //  TODO: In the future this should probably be generic and just emit an error which isn't tied to YouTube.
         //  Emit errors so the foreground so can notify the user.
-        _onYouTubePlayerError: function (error) {
-            this.trigger('youTubeError', error);
+        _onYouTubePlayerError: function (model, error) {
+            this.trigger('youTubeError', this, error);
         },
         
         _createRefreshAlarm: function () {
@@ -334,6 +338,10 @@ define([
                 this.set('refreshAlarmCreated', false);
                 chrome.alarms.clear(this.get('refreshAlarmName'));
             }
+        },
+        
+        _onCommandPlayOnActivate: function(playOnActivate) {
+            this.set('playOnActivate', playOnActivate);
         }
     });
 

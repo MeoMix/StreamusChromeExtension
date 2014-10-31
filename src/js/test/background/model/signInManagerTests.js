@@ -276,7 +276,6 @@
                         var signedInUser = this.signInManager.get('signedInUser');
 
                         sinon.stub(signedInUser, 'hasLinkedGoogleAccount').yields(false);
-                        //  TODO: Is this actually stubbing their sync event??
                         sinon.stub(signedInUser, 'sync');
 
                         this.signInManager.saveGooglePlusId();

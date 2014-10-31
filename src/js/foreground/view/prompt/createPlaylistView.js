@@ -35,8 +35,8 @@
         dataSourceManager: null,
         
         initialize: function() {
-            this.playlists = Streamus.backgroundPage.SignInManager.get('signedInUser').get('playlists');
-            this.dataSourceManager = Streamus.backgroundPage.DataSourceManager;
+            this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
+            this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
         },
 
         onRender: function () {

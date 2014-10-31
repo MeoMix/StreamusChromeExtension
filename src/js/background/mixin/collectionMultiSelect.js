@@ -2,6 +2,8 @@
     initialize: function () {
         this.on('change:selected', this._onChangeSelected);
         this.on('change:firstSelected', this._onChangeFirstSelected);
+        
+        this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
     },
 
     //  Just a nicer naming for deselectAll
@@ -53,5 +55,9 @@
                 }
             });
         }
+    },
+
+    _onForegroundEndUnload: function () {
+        this.deselectAll();
     }
 });

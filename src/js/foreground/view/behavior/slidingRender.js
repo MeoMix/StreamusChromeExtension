@@ -271,8 +271,6 @@
                 shouldAdd = bypass || this._indexWithinRenderRange(index);
             }
             
-            //console.log('bypass:', shouldAdd, bypass, this.minRenderIndex, this.maxRenderIndex);
-
             if (shouldAdd) {
                 return Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
@@ -342,7 +340,7 @@
                 this.ui.list.scrollTop(scrollTop);
             }
         },
-        //  TODO: I feel like it would be bad to call this if I reset with new values....? Maybe not?
+
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
         _onCollectionReset: function () {
             this.ui.list.scrollTop(0);

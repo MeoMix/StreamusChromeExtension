@@ -1,15 +1,13 @@
 ﻿define([
     'background/collection/searchResults',
     'background/model/dataSource',
-    'background/model/youTubeV3API',
-    'common/enum/dataSourceType'
-], function (SearchResults, DataSource, YouTubeV3API, DataSourceType) {
+    'background/model/youTubeV3API'
+], function (SearchResults, DataSource, YouTubeV3API) {
     'use strict';
 
     var Search = Backbone.Model.extend({
         defaults: function () {
             return {
-                //  TODO: It's weird this one is called results and Stream/Playlist are both items.
                 results: new SearchResults(),
                 query: '',
                 searching: false,
@@ -21,12 +19,7 @@
         
         initialize: function () {
             this.on('change:query', this._search);
-        },
-        
-        startClearQueryTimer: function () {
-            //  Safe-guard against multiple setTimeouts, just incase.
-            this.stopClearQueryTimer();
-            this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
+            this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
         },
 
         //  The foreground has to be able to call this whenever a view opens.
@@ -38,6 +31,12 @@
         //  Whether anything has been typed into the query at all -- regardless of whether that is just whitespace or not.
         hasQuery: function() {
             return this.get('query') !== '';
+        },
+        
+        _startClearQueryTimer: function () {
+            //  Safe-guard against multiple setTimeouts, just incase.
+            this.stopClearQueryTimer();
+            this.set('clearQueryTimeout', setTimeout(this._clearQuery.bind(this), 10000));
         },
         
         //  Only search on queries which actually contain text. Different from hasQuery because want to show no search results when they type 'space'
@@ -87,41 +86,41 @@
             });
 
             dataSource.parseUrl({
-                //  TODO: Reduce nesting here.
                 success: function () {
                     this.set('pendingRequests', this.get('pendingRequests') + 1);
 
                     //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
-                    if (dataSource.get('type') === DataSourceType.YouTubeVideo) {
-                        YouTubeV3API.getSongInformation({
-                            songId: dataSource.get('id'),
-                            success: function (songInformation) {
-                                //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
-                                if (query === this._getTrimmedQuery()) {
-                                    this.get('results').setFromSongInformationList(songInformation);
-                                }
-                            }.bind(this),
-                            //  TODO: Handle error.
-                            error: function (error) { },
-                            complete: this._onSearchComplete.bind(this)
-                        });
+                    if (dataSource.isYouTubeVideo()) {
+                        this._setResultsBySong(dataSource.get('id'), query);
                     } else {
-                        YouTubeV3API.search({
-                            text: query,
-                            success: function (searchResponse) {
-                                //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
-                                if (query === this._getTrimmedQuery()) {
-                                    this.get('results').setFromSongInformationList(searchResponse.songInformationList);
-                                }
-                            }.bind(this),
-                            //  TODO: Handle error.
-                            error: function (error) { },
-                            complete: this._onSearchComplete.bind(this)
-                        });
+                        this._setResultsByText(query);
                     }
                 }.bind(this)
             });
         }, 350),
+        
+        _setResultsBySong: function(songId, query) {  
+            YouTubeV3API.getSong({
+                songId: songId,
+                success: this._trySetResults.bind(this, query),
+                complete: this._onSearchComplete.bind(this)
+            });
+        },
+        
+        _setResultsByText: function (query) {
+            YouTubeV3API.search({
+                text: query,
+                success: this._trySetResults.bind(this, query),
+                complete: this._onSearchComplete.bind(this)
+            });
+        },
+        
+        _trySetResults: function (query, songs) {
+            //  Don't show old responses. Even with xhr.abort() there's a point in time where the data could get through to the callback.
+            if (query === this._getTrimmedQuery()) {
+                this.get('results').setFromSongs(songs);
+            }
+        },
         
         _clearResults: function () {
             //  Might as well not trigger excess reset events if they can be avoided.
@@ -137,6 +136,11 @@
         
         _hasSearchPending: function() {
             return this.get('debounceSearchQueued') || this.get('pendingRequests') !== 0;
+        },
+        
+        _onForegroundEndUnload: function() {
+            //  Remember search query for a bit just in case user closes and re-opens immediately.
+            this._startClearQueryTimer();
         }
     });
 

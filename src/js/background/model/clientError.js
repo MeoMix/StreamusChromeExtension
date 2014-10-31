@@ -1,18 +1,15 @@
 ﻿define(function () {
     'use strict';
-
+    
     var ClientError = Backbone.Model.extend({
         defaults: function () {
-            //  TODO: Log opera vs chrome.
-            var browserVersion = window.navigator.appVersion.match(/Chrome\/(.*?) /)[1];
-
             return {
                 instanceId: Streamus.instanceId,
                 message: '',
                 lineNumber: -1,
                 url: '',
                 clientVersion: chrome.runtime.getManifest().version,
-                browserVersion: browserVersion || '',
+                browserVersion: this._getBrowserVersion(),
                 operatingSystem: '',
                 architecture: '',
                 stack: '',
@@ -50,6 +47,18 @@
             }
 
             this.set('stack', stack.replace('Error ', '').trim());
+        },
+        
+        _getBrowserVersion: function() {
+            var browserVersion = '';
+
+            var chromeMatch = window.navigator.appVersion.match(/Chrome\/(.*?) /);
+            browserVersion += chromeMatch ? chromeMatch[0] : '';
+
+            var operaMatch = window.navigator.appVersion.match(/OPR\/.*/);
+            browserVersion += operaMatch ? operaMatch[0] : '';
+
+            return browserVersion;
         }
     });
     

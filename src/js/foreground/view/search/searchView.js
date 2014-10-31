@@ -96,8 +96,8 @@
         visible: false,
 
         initialize: function () {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
-            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._toggleSaveSelected);
         },

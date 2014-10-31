@@ -32,8 +32,8 @@
         player: null,
 
         initialize: function() {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
-            this.player = Streamus.backgroundPage.Player;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.player = Streamus.backgroundPage.player;
         },
         
         onRender: function () {
@@ -71,7 +71,6 @@
         },
         
         _playInStream: function () {
-            console.log('playlistItemView playInStream is running');
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });

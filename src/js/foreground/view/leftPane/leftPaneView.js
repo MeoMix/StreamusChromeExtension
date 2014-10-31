@@ -44,11 +44,9 @@
         signInManager: null,
         
         initialize: function () {
-            this.signInManager = Streamus.backgroundPage.SignInManager;
-
+            this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             
-            //  TODO: Not DRY with below.
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);

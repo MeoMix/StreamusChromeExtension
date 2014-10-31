@@ -18,7 +18,7 @@
         playlists: null,
         
         initialize: function () {
-            this.playlists = Streamus.backgroundPage.SignInManager.get('signedInUser').get('playlists');
+            this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
         },
 
         onRender: function () {

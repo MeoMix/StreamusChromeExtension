@@ -31,14 +31,12 @@
             });
 
             it('should return the available songs', function (done) {
-                YouTubeV3API.getSongInformationList({
+                YouTubeV3API.getSongs({
                     songIds: ['MKS8Jn_3bnA', 'mNGpPqxsTmQ', '6od4WeaWDcs', 'JMPYmNINxrE'],
-                    success: function (response) {
+                    success: function (songs) {
                         expect($.ajax.calledOnce).to.equal(true);
-                        expect(response).not.to.equal(null);
-                        expect(response.songInformationList.length).to.equal(2);
-                        expect(response.missingSongIds.length).to.equal(2);
-                        
+                        expect(songs).not.to.equal(null);
+                        expect(songs.length).to.equal(2);
                         done();
                     }
                 });
@@ -59,13 +57,10 @@
             it('should return 50 songs', function (done) {
                 YouTubeV3API.search({
                     text: 'Gramatik',
-                    success: function (response) {
+                    success: function (songs) {
                         expect($.ajax.calledTwice).to.equal(true);
-                        expect(response).not.to.equal(null);
-                        expect(response.missingSongIds).not.to.equal(null);
-                        expect(response.missingSongIds.length).to.equal(0);
-                        expect(response.songInformationList.length).to.equal(50);
-
+                        expect(songs).not.to.equal(null);
+                        expect(songs.length).to.equal(50);
                         done();
                     }
                 });
@@ -84,16 +79,15 @@
             });
 
             it('should return a playable result', function (done) {
-                YouTubeV3API.getSongInformationByTitle({
+                YouTubeV3API.getSongByTitle({
                     title: 'Gramatik',
                     success: function (response) {
                         expect($.ajax.calledTwice).to.equal(true);
                         expect(response).not.to.equal(null);
-                        expect(response.author).to.equal("Stay See");
-                        expect(response.duration).to.equal(4782);
-                        expect(response.id).to.equal("o4_1hS1aIC8");
-                        expect(response.title).to.equal('Best of Gramatik HD');
-
+                        expect(response.get('author')).to.equal("Stay See");
+                        expect(response.get('duration')).to.equal(4782);
+                        expect(response.get('id')).to.equal("o4_1hS1aIC8");
+                        expect(response.get('title')).to.equal('Best of Gramatik HD');
                         done();
                     }
                 });
@@ -112,13 +106,12 @@
             });
 
             it('should return related song information', function (done) {
-                YouTubeV3API.getRelatedSongInformationList({
+                YouTubeV3API.getRelatedSongs({
                     songId: 'CxHFnVCZDRo',
-                    success: function (response) {
+                    success: function (songs) {
                         expect($.ajax.calledTwice).to.equal(true);
-                        expect(response).not.to.equal(null);
-                        expect(response.length).to.equal(5);
-
+                        expect(songs).not.to.equal(null);
+                        expect(songs.length).to.equal(5);
                         done();
                     }
                 });
@@ -128,300 +121,234 @@
                 $.ajax.restore();
             });
         });
-        
-        //  TODO: Test iterative fetching of data maybe?
-        xdescribe('when asked to get playlist items from a YouTube favorites playlist', function() {
 
-            beforeEach(function (done) {
-                this.result = null;
+        describe('when asked to get a channel\'s upload\'s playlistId', function () {
+            var uploadsPlaylistId = 'UU_Gkp1Oa7e2a8NNaf5-KCpA';
 
-                YouTubeV3API.getPlaylistSongInformationList({
-                    playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
-                    success: function (response) {
-                        this.result = response;
-                        done();
-                    }.bind(this)
+            beforeEach(function() {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: [{
+                        contentDetails: {
+                            relatedPlaylists: {
+                                uploads: uploadsPlaylistId
+                            }
+                        }
+                    }]
                 });
             });
 
-            it('should return a list of playlist items', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result.missingSongIds).not.toEqual(null);
-                expect(this.result.songInformationList.length).toBeGreaterThan(0);
+            afterEach(function () {
+                $.ajax.restore();
             });
-            
-        });
 
-        xdescribe('when asked to get a channel\'s upload\'s playlist by channel name', function () {
-            
-            beforeEach(function (done) {
-                this.result = null;
-
+            it('should return an uploads playlist when asked for by channel name', function (done) {
                 YouTubeV3API.getChannelUploadsPlaylistId({
-                    username: 'goodguygarry',
+                    forUsername: 'goodguygarry',
                     success: function (response) {
-                        this.result = response;
+                        expect(response).not.to.equal(null);
+                        expect(response.uploadsPlaylistId).to.equal(uploadsPlaylistId);
                         done();
-                    }.bind(this)
+                    }
                 });
             });
-
-            it('should return an uploads playlist', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result).not.toEqual('');
-            });
             
-        });
-        
-        xdescribe('when asked to get a channel\'s upload\'s playlist id by channel id', function () {
-            
-            beforeEach(function (done) {
-                this.result = null;
-
+            it('should return an uploads playlist when asked for by channel id', function (done) {
                 YouTubeV3API.getChannelUploadsPlaylistId({
-                    channelId: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
+                    id: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
-                        this.result = response;
+                        expect(response).not.to.equal(null);
+                        expect(response.uploadsPlaylistId).to.equal(uploadsPlaylistId);
                         done();
-                    }.bind(this)
+                    }
                 });
             });
-
-            it('should return an uploads playlist id', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result).not.toEqual('');
-            });
-            
-        });
-
-        xdescribe('when asked to get a channel\'s latest uploaded videos by uploads playlist id', function () {
-            
-            beforeEach(function (done) {
-                this.result = null;
-
-                YouTubeV3API.getPlaylistSongInformationList({
-                    playlistId: 'UU_Gkp1Oa7e2a8NNaf5-KCpA',
-                    success: function (response) {
-                        this.result = response;
-                        done();
-                    }.bind(this)
-                });
-            });
-            
-            it('should return a list of playlist items', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result.missingSongIds).not.toEqual(null);
-                expect(this.result.songInformationList.length).toBeGreaterThan(0);
-            });
-            
         });
         
-        xdescribe('when asked to get a regular playlist\'s playlist items by id', function () {
-
-            beforeEach(function (done) {
-                this.result = null;
-                
-                YouTubeV3API.getPlaylistSongInformationList({
-                    playlistId: 'PLCyVVJA8G-6CPwZ1Gzj_oYody7x_p5ipR',
-                    success: function (response) {
-                        this.result = response;
-                        done();
-                    }.bind(this)
-                });
-            });
-
-            it('should return a list of playlist items', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result.missingSongIds).not.toEqual(null);
-                expect(this.result.songInformationList.length).toBeGreaterThan(0);
-            });
+        describe('when asked to get a song by songId', function () {
+            var songTitle = 'Danger - 22h39';
+            var songId = 'MKS8Jn_3bnA';
             
-        });
-
-        xdescribe('when asked to get an auto-generated playlist\'s items', function () {
-            
-            beforeEach(function (done) {
-                this.result = null;
-
-                YouTubeV3API.getPlaylistSongInformationList({
-                    playlistId: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
-                    success: function (response) {
-                        this.result = response;
-                        done();
-                    }.bind(this)
+            beforeEach(function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: [{
+                        contentDetails: {
+                            duration: 'PT4M33S'
+                        },
+                        id: songId,
+                        snippet: {
+                            channelTitle: 'jlmaha5',
+                            title: songTitle
+                        }
+                    }]
                 });
             });
             
-            it('should return a list of playlist items', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result.missingSongIds).not.toEqual(null);
-                expect(this.result.songInformationList.length).toBeGreaterThan(0);
+            afterEach(function () {
+                $.ajax.restore();
             });
 
+            it('should return the song', function (done) {
+                YouTubeV3API.getSong({
+                    songId: 'MKS8Jn_3bnA',
+                    success: function (song) {
+                        expect(song instanceof Backbone.Model).to.equal(true);
+                        expect(song.get('title')).to.equal(songTitle);
+                        expect(song.get('id')).to.equal(songId);
+                        done();
+                    }
+                });
+            });
         });
 
-        xdescribe('when asked to get a playlist\'s title', function() {
-            beforeEach(function (done) {
-                this.result = null;
+        describe('when asked to get a title of a playlist', function() {
+            var playlistTitle = 'Favorites';
+            beforeEach(function() {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: [{
+                        snippet: {
+                            title: playlistTitle
+                        }
+                    }]
+                });
+            });
 
+            afterEach(function() {
+                $.ajax.restore();
+            });
+
+            it('should return the title of the playlist', function(done) {
                 YouTubeV3API.getTitle({
                     serviceType: YouTubeServiceType.Playlists,
                     id: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
-                    success: function (response) {
-                        this.result = response;
+                    success: function(response) {
+                        expect(response).to.equal(playlistTitle);
                         done();
-                    }.bind(this)
+                    }
+                });
+            });
+        });
+
+        describe('when asked to get a title of a channel', function () {
+            var channelTitle = 'Good Guy Garry';
+            beforeEach(function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: [{
+                        snippet: {
+                            title: channelTitle
+                        }
+                    }]
                 });
             });
 
-            it('should return the title of the playlist', function () {
-                expect(this.result).toEqual('Favorite videos');
+            afterEach(function () {
+                $.ajax.restore();
             });
 
-        });
-        
-        xdescribe('when asked to get a channel\'s title', function () {
-            beforeEach(function (done) {
-                this.result = null;
-
+            it('should return the title of the channel by id', function(done) {
                 YouTubeV3API.getTitle({
                     serviceType: YouTubeServiceType.Channels,
                     id: 'UC_Gkp1Oa7e2a8NNaf5-KCpA',
                     success: function (response) {
-                        this.result = response;
+                        expect(response).to.equal(channelTitle);
                         done();
-                    }.bind(this)
-                });
-            });
-
-            it('should return the title of the playlist', function () {
-                expect(this.result).toEqual('Good Guy Garry');
-            });
-
-        });
-        
-        xdescribe('when asked to get the title of an invalid URL', function () {
-            beforeEach(function (done) {
-                this.result = null;
-
-                YouTubeV3API.getTitle({
-                    serviceType: YouTubeServiceType.Playlists,
-                    id: 'Sharthstone/playlists',
-                    error: function (error) {
-                        this.result = error;
-                        done();
-                    }.bind(this)
-                });
-            });
-
-            it('should return an error of \'No title found\'', function () {
-                expect(this.result).toEqual('No title found');
-            });
-
-        });
-        
-        xdescribe('when asked to get a playable song\'s information', function () {
-
-            beforeEach(function (done) {
-                this.result = null;
-
-                YouTubeV3API.getSongInformation({
-                    songId: 'MKS8Jn_3bnA',
-                    success: function (response) {
-                        this.result = response;
-                        done();
-                    }.bind(this),
-                    error: function (error) {
-                        console.error("error:", error);
                     }
                 });
             });
-
-            it('should return the title of the playlist', function () {
-                expect(this.result).not.toEqual(null);
-                expect(this.result.title).toEqual('Danger - 22h39');
+            
+            it('should return the title of the channel by forUsername', function (done) {
+                YouTubeV3API.getTitle({
+                    serviceType: YouTubeServiceType.Channels,
+                    forUsername: 'goodguygarry',
+                    success: function (response) {
+                        expect(response).to.equal(channelTitle);
+                        done();
+                    }
+                });
+            });
+        });
+        
+        describe('when asked to get the title of an invalid playlist', function () {
+            beforeEach(function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: []
+                });
             });
 
+            afterEach(function () {
+                $.ajax.restore();
+            });
+            
+            it('should return error message', function(done) {
+                YouTubeV3API.getTitle({
+                    serviceType: YouTubeServiceType.Playlists,
+                    id: 'Sharthstone/playlists',
+                    error: function (response) {
+                        expect(response).to.equal(chrome.i18n.getMessage('errorRetrievingTitle'));
+                        done();
+                    }
+                });
+            });
         });
 
-        xdescribe('when asked to get information on a song which has been removed for copyright infringement', function() {
+        describe('when asked to get playlist items from a YouTube favorites playlist', function () {
+            beforeEach(function () {
+                sinon.stub($, 'ajax').onFirstCall().yieldsTo('success', {
+                    items: [{
+                        contentDetails: {
+                            videoId: '0Foctr1XCHE'
+                        }
+                    }]
+                }).onSecondCall().yieldsTo('success', {
+                    items: [{
+                        contentDetails: {
+                            duration: 'PT4M33S'
+                        },
+                        id: '0Foctr1XCHE',
+                        snippet: {
+                            channelTitle: 'Favorites',
+                            title: 'Best League Hacks Glitches and bugs Part 1'
+                        }
+                    }]
+                });
+            });
 
-            beforeEach(function (done) {
-                this.error = null;
+            afterEach(function () {
+                $.ajax.restore();
+            });
 
-                YouTubeV3API.getSongInformation({
-                    songId: 'mNGpPqxsTmQ',
-                    error: function (error) {
-                        this.error = error;
+            it('should return a list of playlist items', function (done) {
+                YouTubeV3API.getPlaylistSongs({
+                    playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
+                    success: function (songs) {
+                        expect(songs).not.to.equal(null);
+                        expect(songs.length).to.equal(1);
                         done();
-                    }.bind(this)
+                    }
+                });
+            });
+        });
+        
+        describe('when asked to get information on a song which is unavailable', function () {
+            beforeEach(function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    items: []
                 });
             });
             
-            it('should throw an error indicating no song found', function () {
-                expect(this.error).not.toEqual(null);
+            afterEach(function () {
+                $.ajax.restore();
             });
 
-        });
-        
-        xdescribe('when asked to get information on a song which is unavailable', function () {
-
-            beforeEach(function (done) {
-                this.error = null;
-
-                YouTubeV3API.getSongInformation({
+            it('should throw an error indicating no song found', function (done) {
+                YouTubeV3API.getSong({
                     songId: 'JMPYmNINxrE',
                     error: function (error) {
-                        this.error = error;
+                        expect(error).not.to.equal(null);
+                        expect(error).to.equal('Failed to find song JMPYmNINxrE');
                         done();
-                    }.bind(this)
+                    }
                 });
             });
-
-            it('should throw an error indicating no song found', function () {
-                expect(this.error).not.toEqual(null);
-            });
-
-        });
-
-        xdescribe('when asked to get a list of information involving only unavailable songs', function () {
-
-            beforeEach(function (done) {
-                this.error = null;
-
-                YouTubeV3API.getPlaylistSongInformationList({
-                    songId: ['mNGpPqxsTmQ', 'JMPYmNINxrE'],
-                    error: function (error) {
-                        this.error = error;
-                        done();
-                    }.bind(this)
-                });
-            });
-
-            it('should throw an error indicating no songs found', function () {
-                expect(this.error).not.toEqual(null);
-            });
-
-        });
-
-        //  TODO: Figure out how to detect. http://stackoverflow.com/questions/22886156/detecting-that-a-youtube-video-was-muted-for-copyright-violations
-        xdescribe('when asked to get song information for a copyright-muted song', function () {
-
-            beforeEach(function (done) {
-                this.response = null;
-                YouTubeV3API.getSongInformation({
-                    songId: '1poQE-mItpc',
-                    success: function (response) {
-                        this.response = response;
-                        done();
-                    }.bind(this)
-                });
-            });
-
-            it('should return the available song with indication of muted', function () {
-                expect(this.response).not.toEqual(null);
-            });
-
         });
     });
 });

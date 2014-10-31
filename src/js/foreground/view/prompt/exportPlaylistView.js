@@ -48,8 +48,7 @@
             
             Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Success,
-                //  TODO: i18n
-                message: 'Playlist exported successfully.'
+                message: chrome.i18n.getMessage('playlistExportedSuccessfully')
             });
         },
         

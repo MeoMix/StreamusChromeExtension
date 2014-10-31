@@ -72,9 +72,9 @@
                 };
 
                 if (this._idIsUsername()) {
-                    channelUploadOptions.username = dataSourceId;
+                    channelUploadOptions.forUsername = dataSourceId;
                 } else {
-                    channelUploadOptions.channelId = dataSourceId;
+                    channelUploadOptions.id = dataSourceId;
                 }
 
                 YouTubeV3API.getChannelUploadsPlaylistId(channelUploadOptions);
@@ -83,10 +83,33 @@
                 options.success();
             }
         },
+        
+        getSong: function (options) {
+            this.parseUrl({
+                success: function () {
+                    YouTubeV3API.getSong({
+                        songId: this.get('id'),
+                        success: options.success,
+                        error: function () {
+                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                title: chrome.i18n.getMessage('failedToFindSong'),
+                                message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + this.get('url')
+                            });
+
+                            if (options.error) options.error();
+                        }
+                    });
+                }
+            });
+        },
 
         //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
         needsLoading: function () {
             return this.get('type') === DataSourceType.YouTubePlaylist;
+        },
+        
+        isYouTubeVideo: function () {
+            return this.get('type') === DataSourceType.YouTubeVideo;
         },
         
         //  Expects options: { success: function, error: function }

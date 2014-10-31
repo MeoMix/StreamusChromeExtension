@@ -28,8 +28,8 @@
         player: null,
         
         initialize: function () {
-            this.streamItems = Streamus.backgroundPage.StreamItems;
-            this.player = Streamus.backgroundPage.Player;
+            this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.player = Streamus.backgroundPage.player;
         },
         
         showContextMenu: function () {

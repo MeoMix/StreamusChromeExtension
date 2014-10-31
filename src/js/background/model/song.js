@@ -52,13 +52,11 @@
             Streamus.channels.clipboard.commands.trigger('copy:text', url);
             Streamus.channels.notification.commands.trigger('show:notification', {
                 type: NotificationType.Success,
-                //  TODO: i18n
-                message: 'URL copied to clipboard successfully.'
+                message: chrome.i18n.getMessage('urlCopiedToClipboardSuccessfully')
             });
         },
         
         copyTitleAndUrl: function () {
-            //  TODO: I will need to read title from StreamItem/PlaylistItem if I ever make those titles user-editable.
             var titleAndUrl = this.get('title') + ' - ' + this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', titleAndUrl);
         },

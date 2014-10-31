@@ -110,10 +110,10 @@
 	"radioDisabled": {
 		"message": "Radyo kapalı"
 	},
-	"shuffleEnabled": {
+	"shufflingEnabled": {
 		"message": "Rastgele açık"
 	},
-	"shuffleDisabled": {
+	"shufflingDisabled": {
 		"message": "Rastgele kapalı"
 	},
 	"elapsedTime": {

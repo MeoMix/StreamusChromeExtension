@@ -50,14 +50,13 @@
                 model: this.contextMenu,
                 containerHeight: $this.height(),
                 containerWidth: $this.width()
-                //containerHeight: this.$el.height(),
-                //containerWidth: this.$el.width()
             }));
         },
         
-        _hideContextMenu: function() {
-            this.contextMenu.get('items').reset();
-            this.empty();
+        _hideContextMenu: function () {
+            if (this.currentView) {
+                this.currentView.hide();
+            }
         }
     });
 

@@ -52,8 +52,8 @@
         settings: null,
 
         initialize: function () {
-            this.player = Streamus.backgroundPage.Player;
-            this.settings = Streamus.backgroundPage.Settings;
+            this.player = Streamus.backgroundPage.player;
+            this.settings = Streamus.backgroundPage.settings;
 
             this.listenTo(this.settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
             this.listenTo(this.player, 'change:loading', this._onPlayerChangeLoading);

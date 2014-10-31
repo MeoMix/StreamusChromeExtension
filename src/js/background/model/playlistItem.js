@@ -48,8 +48,6 @@
 
         initialize: function () {
             this._ensureSongModel();
-            this._ensureTitle();
-            
             this.on('change:sequence', this._onChangeSequence);
         },
         
@@ -69,12 +67,6 @@
             if (!(song instanceof Backbone.Model)) {
                 //  Silent because song is just being properly set.
                 this.set('song', new Song(song), { silent: true });
-            }
-        },
-        //  TODO: This function seems terrible.
-        _ensureTitle: function() {
-            if (this.get('title') === '') {
-                this.set('title', this.get('song').get('title'));
             }
         },
         

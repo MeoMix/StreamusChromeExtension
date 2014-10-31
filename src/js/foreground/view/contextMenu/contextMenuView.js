@@ -26,11 +26,19 @@
                 top: offsetTop,
                 left: offsetLeft
             });
-
-            this.$el.addClass('expanded');
+            
+            this.$el.addClass('is-expanded');
         },
         
-        //  TODO: I don't have a way of removing the expanded class before ContextMenuView is emptied completely.
+        hide: function () {
+            this.$el.off('webkitTransitionEnd').on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.$el.removeClass('is-expanded');
+        },
+        
+        _onTransitionOutComplete: function () {
+            this.get('items').reset();
+            this.destroy();
+        },
         
         //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
         _ensureOffset: function(offset, elementDimension, containerDimension) {

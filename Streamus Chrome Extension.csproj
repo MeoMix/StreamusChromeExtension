@@ -82,11 +82,13 @@
     <Content Include="src\img\yellow_4.png" />
     <Content Include="src\js\background\application.js" />
     <Content Include="src\js\background\collection\clientErrors.js" />
+    <Content Include="src\js\background\collection\songs.js" />
+    <Content Include="src\js\background\enum\chromeCommand.js" />
     <Content Include="src\js\background\enum\omniboxModifiers.js" />
     <Content Include="src\js\background\mixin\collectionUniqueSong.js" />
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
-    <Content Include="src\js\background\model\relatedSongInformationManager.js" />
+    <Content Include="src\js\background\model\relatedSongsManager.js" />
     <Content Include="src\js\background\model\stream.js" />
     <Content Include="src\js\background\view\backgroundAreaView.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
@@ -130,6 +132,7 @@
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
+    <Content Include="src\js\background\key\youTubeAPI.js" />
     <Content Include="src\js\common\enum\direction.js" />
     <Content Include="src\js\common\enum\songType.js" />
     <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
@@ -140,6 +143,7 @@
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\common\enum\notificationType.js" />
+    <Content Include="src\js\foreground\model\adminMenuArea.js" />
     <Content Include="src\js\foreground\model\playlistAction.js" />
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
@@ -320,7 +324,7 @@
     <Content Include="src\template\search\search.html" />
     <Content Include="src\template\rightPane\volumeArea.html" />
     <Content Include="src\js\test\main.js" />
-    <Content Include="src\js\test\background\model\relatedSongInformationManagerTests.js" />
+    <Content Include="src\js\test\background\model\relatedSongsManagerTests.js" />
     <Content Include="src\js\test\background\model\dataSourceTests.js" />
     <Content Include="src\js\test\common\model\utilityTests.js" />
     <Content Include="src\js\test\background\model\youTubeV3APITests.js" />

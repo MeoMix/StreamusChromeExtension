@@ -74,10 +74,10 @@
     "radioDisabled": {
             "message": "Radio deaktiviert"
     },
-    "shuffleEnabled": {
+    "shufflingEnabled": {
             "message": "Zufallswiedergabe aktiviert"
     },
-    "shuffleDisabled": {
+    "shufflingDisabled": {
             "message": "Zufallswiedergabe deaktiviert"
     },
     "elapsedTime": {

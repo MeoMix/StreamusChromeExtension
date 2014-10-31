@@ -36,8 +36,8 @@
         },
         
         events: {
-            'click @ui.clearButton:not(.disabled)': '_clear',
-            'click @ui.saveButton:not(.disabled)': '_save',
+            'click @ui.clearButton:not(.disabled)': '_onClickClearButton',
+            'click @ui.saveButton:not(.disabled)': '_onClickSaveButton',
             'click @ui.shuffleButton': '_toggleShuffle',
             'click @ui.radioButton': '_toggleRadio',
             'click @ui.repeatButton': '_toggleRepeat',
@@ -82,10 +82,10 @@
         repeatButton: null,
         
         initialize: function () {
-            this.signInManager = Streamus.backgroundPage.SignInManager;
-            this.shuffleButton = Streamus.backgroundPage.ShuffleButton;
-            this.radioButton = Streamus.backgroundPage.RadioButton;
-            this.repeatButton = Streamus.backgroundPage.RepeatButton;
+            this.signInManager = Streamus.backgroundPage.signInManager;
+            this.shuffleButton = Streamus.backgroundPage.shuffleButton;
+            this.radioButton = Streamus.backgroundPage.radioButton;
+            this.repeatButton = Streamus.backgroundPage.repeatButton;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._updateSaveButton);
             this.listenTo(this.shuffleButton, 'change:enabled', this._setShuffleButtonState);
@@ -98,20 +98,26 @@
             this._setRepeatButtonState();
             this._setShuffleButtonState();
             this._setRadioButtonState();
-            this._updateSaveButton();
-            this._updateClearButton();
         },
         
         _setViewState: function() {
             this._toggleBigText();
             this._updateClearButton();
+            this._updateSaveButton();
         },
         
         _updateSaveButton: function () {
             var signedOut = this.signInManager.get('signedInUser') === null;
-            var newTitle = signedOut ? chrome.i18n.getMessage('notSignedIn') : chrome.i18n.getMessage('saveStream');
+            var streamEmpty = this.collection.length === 0;
+            
+            var newTitle;
+            if (signedOut) {
+                newTitle = chrome.i18n.getMessage('notSignedIn');
+            } else {
+                newTitle = streamEmpty ? chrome.i18n.getMessage('streamEmpty') : chrome.i18n.getMessage('saveStream');
+            }
 
-            this.ui.saveButton.toggleClass('disabled', signedOut);
+            this.ui.saveButton.toggleClass('disabled', signedOut || streamEmpty);
             this.ui.saveButton.attr('title', newTitle);
         },
         
@@ -128,16 +134,12 @@
             this.ui.emptyMessage.toggleClass('hidden', this.collection.length > 0);
         },
         
-        _clear: function() {
-            if (this.collection.length > 0) {
-                this._showClearStreamPrompt();
-            }
+        _onClickClearButton: function () {
+            this._showClearStreamPrompt();
         },
         
-        _save: function() {
-            if (this.collection.length > 0) {
-                this._showSaveSongsPrompt();
-            }
+        _onClickSaveButton: function () {
+            this._showSaveSongsPrompt();
         },
         
         _showClearStreamPrompt: function () {
@@ -166,20 +168,8 @@
             var state = this.repeatButton.get('state');
             //  The button is considered enabled if it is anything but disabled.
             var enabled = state !== RepeatButtonState.Disabled;
+            var title = this.repeatButton.getStateMessage();
             
-            var title = '';
-            switch (state) {
-                case RepeatButtonState.Disabled:
-                    title = chrome.i18n.getMessage('repeatDisabled');
-                    break;
-                case RepeatButtonState.RepeatSong:
-                    title = chrome.i18n.getMessage('repeatSong');
-                    break;
-                case RepeatButtonState.RepeatStream:
-                    title = chrome.i18n.getMessage('repeatStream');
-                    break;
-            }
-
             this.ui.repeatButton
                 .toggleClass('is-enabled', enabled)
                 .attr('title', title);
@@ -191,26 +181,14 @@
         
         _setShuffleButtonState: function() {
             var enabled = this.shuffleButton.get('enabled');
-
-            var title;
-            if (enabled) {
-                title = chrome.i18n.getMessage('shuffleEnabled');
-            } else {
-                title = chrome.i18n.getMessage('shuffleDisabled');
-            }
+            var title = this.shuffleButton.getStateMessage();
 
             this.ui.shuffleButton.toggleClass('is-enabled', enabled).attr('title', title);
         },
         
         _setRadioButtonState: function () {
             var enabled = this.radioButton.get('enabled');
-            
-            var title;
-            if (enabled) {
-                title = chrome.i18n.getMessage('radioEnabled');
-            } else {
-                title = chrome.i18n.getMessage('radioDisabled');
-            }
+            var title = this.radioButton.getStateMessage();
             
             this.ui.radioButton.toggleClass('is-enabled', enabled).attr('title', title);
         },

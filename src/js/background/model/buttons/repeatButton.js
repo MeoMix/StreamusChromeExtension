@@ -1,6 +1,7 @@
 ﻿define([
+    'background/enum/chromeCommand',
     'common/enum/repeatButtonState'
-], function (RepeatButtonState) {
+], function (ChromeCommand, RepeatButtonState) {
     'use strict';
 
     var RepeatButton = Backbone.Model.extend({
@@ -41,26 +42,29 @@
                 state: nextState
             });
         },
+        
+        getStateMessage: function () {
+            var message = '';
+            switch (this.get('state')) {
+                case RepeatButtonState.Disabled:
+                    message = chrome.i18n.getMessage('repeatDisabled');
+                    break;
+                case RepeatButtonState.RepeatSong:
+                    message = chrome.i18n.getMessage('repeatSongEnabled');
+                    break;
+                case RepeatButtonState.RepeatStream:
+                    message = chrome.i18n.getMessage('repeatStreamEnabled');
+            }
+            
+            return message;
+        },
 
         _onChromeCommand: function (command) {
-            if (command === 'toggleRepeat') {
+            if (command === ChromeCommand.ToggleRepeat) {
                 this.toggleRepeatState();
 
-                //  TODO: i18n
-                var message = '';
-                switch(this.get('state')) {
-                    case RepeatButtonState.Disabled:
-                        message = 'Repeat off';
-                        break;
-                    case RepeatButtonState.RepeatSong:
-                        message = 'Repeat song on';
-                        break;
-                    case RepeatButtonState.RepeatStream:
-                        message = 'Repeat stream on';
-                }
-                
                 Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                    message: message
+                    message: this.getStateMessage()
                 });
             }
         }

@@ -118,7 +118,6 @@
         },
 
         _onYouTubePlayerStateChange: function (state) {
-            //  TODO: It might be nice to store 'state' on the YouTubePlayer as well as on Player for debugging purposes.
             //  Pass 'this' as the first parameter to match the event signature of a Backbone.Model change event.
             this.trigger('change:state', this, state.data);
         },
@@ -129,7 +128,7 @@
             if (error.data === YouTubePlayerError.ReallyBad) {
                 this.preload();
             } else {
-                this.trigger('youTubeError', error.data);
+                this.trigger('youTubeError', this, error.data);
             }
         },
 

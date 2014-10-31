@@ -8,7 +8,7 @@
         signInManager: null,
         
         initialize: function () {
-            this.signInManager = Streamus.backgroundPage.SignInManager;
+            this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show', this._showPlaylistsAreaView);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);

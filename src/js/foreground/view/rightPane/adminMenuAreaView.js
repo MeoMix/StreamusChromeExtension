@@ -19,17 +19,7 @@
                 reloadMessage: chrome.i18n.getMessage('reload')
             };
         },
-
-        events: {
-            'click @ui.showMenuButton': '_toggleMenu',
-            'click @ui.settingsMenuItem': '_showSettingsPrompt',
-            'click @ui.browserSettingsMenuItem': '_showBrowserSettingsPrompt',
-            'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
-            'click @ui.viewInTabMenuItem': '_openStreamusTab',
-            'click @ui.donateMenuItem': '_openDonateTab',
-            'click @ui.restartMenuItem': '_restart'
-        },
-
+        
         ui: {
             showMenuButton: '#adminMenuArea-showMenuButton',
             menu: '#adminMenuArea-menu',
@@ -41,46 +31,56 @@
             restartMenuItem: '#adminMenuArea-reloadMenuItem'
         },
 
-        menuShown: false,
-        //  TODO: Need a ViewModel to save state.
+        events: {
+            'click @ui.showMenuButton': '_toggleMenu',
+            'click @ui.settingsMenuItem': '_showSettingsPrompt',
+            'click @ui.browserSettingsMenuItem': '_showBrowserSettingsPrompt',
+            'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
+            'click @ui.viewInTabMenuItem': '_openStreamusTab',
+            'click @ui.donateMenuItem': '_openDonateTab',
+            'click @ui.restartMenuItem': '_restart'
+        },
+        
+        modelEvents: {
+            'change:menuShown': '_onChangeMenuShown'
+        },
+
         tabManager: null,
         
         initialize: function () {
-            this.tabManager = Streamus.backgroundPage.TabManager;
+            this.tabManager = Streamus.backgroundPage.tabManager;
             
             this.listenTo(Streamus.channels.elementInteractions.vent, 'drag', this._onElementDrag);
             this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
         },
         
         _onElementDrag: function () {
-            this._hideMenu();
+            this.model.set('menuShown', false);
         },
         
         _onElementClick: function (event) {;
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
             if ($(event.target).closest(this.ui.showMenuButton.selector).length === 0) {
-                this._hideMenu();
+                this.model.set('menuShown', false);
             }
+        },
+        
+        _onChangeMenuShown: function (model, menuShown) {
+            menuShown ? this._showMenu() : this._hideMenu();
         },
 
         _toggleMenu: function () {
-            this.menuShown ? this._hideMenu() : this._showMenu();
+            this.model.set('menuShown', !this.model.get('menuShown'));
         },
         
         _showMenu: function () {
-            if (!this.menuShown) {
-                this.ui.menu.addClass('expanded');
-                this.ui.showMenuButton.addClass('is-enabled');
-                this.menuShown = true;
-            }
+            this.ui.menu.addClass('is-expanded');
+            this.ui.showMenuButton.addClass('is-enabled');
         },
         
         _hideMenu: function () {
-            if (this.menuShown) {
-                this.ui.menu.removeClass('expanded');
-                this.ui.showMenuButton.removeClass('is-enabled');
-                this.menuShown = false;
-            }
+            this.ui.menu.removeClass('is-expanded');
+            this.ui.showMenuButton.removeClass('is-enabled');
         },
         
         _showSettingsPrompt: function () {
