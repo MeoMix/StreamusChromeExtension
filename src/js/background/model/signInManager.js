@@ -22,12 +22,12 @@
         },
 
         initialize: function () {
-            this.on('change:signedInUser', this._onSignedInUserChanged);
-            this.on('change:signInFailed', this._onSignInFailedChanged);
-            this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
-
-            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
-            chrome.identity.onSignInChanged.addListener(this._onChromeSignInChanged.bind(this));
+            this.on('change:signedInUser', this._onChangeSignedInUser);
+            this.on('change:signInFailed', this._onChangeSignInFailed);
+            chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
+            chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
+            
+            this.signInWithGoogle();
         },
 
         signInWithGoogle: function () {
@@ -62,6 +62,10 @@
             }.bind(this));
             
             this.set('needPromptLinkUserId', false);
+        },
+        
+        isSignedIn: function () {
+            return this.get('signedInUser') !== null;
         },
 
         _signIn: function (googlePlusId) {
@@ -128,14 +132,14 @@
             this._signIn(profileUserInfo.id);
         },
 
-        _onSignedInUserChanged: function (model, signedInUser) {
+        _onChangeSignedInUser: function (model, signedInUser) {
             //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: signedInUser !== null ? 'signed-in' : 'signed-out'
             });
         },
 
-        _onSignInFailedChanged: function (model, signInFailed) {
+        _onChangeSignInFailed: function (model, signInFailed) {
             if (signInFailed) {
                 this._onSignInFailed();
             }
@@ -168,7 +172,7 @@
         },
 
         //  https://developer.chrome.com/extensions/identity#event-onSignInChanged
-        _onChromeSignInChanged: function (account, signedIn) {
+        _onChromeIdentitySignInChanged: function (account, signedIn) {
             signedIn ? this._signIn(account.id) : this._onChromeSignedOut(account.id);
         },
 
@@ -211,7 +215,7 @@
             }
         },
 
-        _onRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {
@@ -282,13 +286,6 @@
 
         _promptGoogleSignIn: function () {
             this.set('needPromptGoogleSignIn', true);
-        },
-        
-        //  TODO: I think my server can probably handle signing in automatically ever since indexing was fixed.
-        //  Automatically sign the user in once they've actually interacted with Streamus.
-        //  Don't sign in when the background loads because people who don't use Streamus, but have it installed, will bog down the server.
-        _onForegroundStarted: function () {
-            this.signInWithGoogle();
         }
     });
 

@@ -11,13 +11,17 @@
 
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.model.get('items'), 'add remove reset', this._setDisabledState);
+
+            var playlistItems = this.model.get('items');
+            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
+            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
+            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
         
         onRender: function() {
-            this._setDisabledState();
+            this._setState(this.model.get('items').isEmpty());
         },
         
         doOnClickAction: function () {
@@ -28,11 +32,22 @@
             });
         },
         
-        _setDisabledState: function () {
-            var empty = this.model.get('items').length === 0;
-            this.$el.toggleClass('disabled', empty);
+        _onPlaylistItemsAdd: function () {
+            this._setState(false);
+        },
 
-            var title = empty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
+        _onPlaylistItemsRemove: function (model, collection) {
+            this._setState(collection.isEmpty());
+        },
+
+        _onPlaylistItemsReset: function (collection) {
+            this._setState(collection.isEmpty());
+        },
+        
+        _setState: function (isEmpty) {
+            this.$el.toggleClass('disabled', isEmpty);
+
+            var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
             this.$el.attr('title', title);
         }
     });

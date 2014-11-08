@@ -16,11 +16,11 @@
                 text: options.title,
                 //  Expect to find a playable song within the first 10 -- don't need the default 50 items
                 maxResults: 10,
-                success: function (songs) {
-                    if (songs.length === 0) {
+                success: function (searchResponse) {
+                    if (searchResponse.songs.length === 0) {
                         if (options.error) options.error(chrome.i18n.getMessage('failedToFindSong'));
                     } else {
-                        options.success(songs.first());
+                        options.success(searchResponse.songs.first());
                     }
                 },
                 error: options.error,
@@ -33,13 +33,21 @@
         search: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
+                    console.log('searchResponse:', response);
+
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
                     
                     this.getSongs({
                         songIds: songIds,
-                        success: options.success,
+                        success: function (songs) {
+                            console.log('getSongs:', songs);
+                            options.success({
+                                songs: songs, 
+                                nextPageToken: response.nextPageToken,
+                            });
+                        },
                         error: options.error,
                         complete: options.complete
                     });
@@ -53,8 +61,9 @@
                 //  Probably set this to its default of video/playlist/channel at some point.
                 type: 'video',
                 maxResults: options.maxResults || 50,
+                pageToken: options.pageToken || '',
                 q: options.text.trim(),
-                fields: 'items/id/videoId',
+                fields: 'nextPageToken, items/id/videoId',
                 //  I don't think it's a good idea to filter out results based on safeSearch for music.
                 safeSearch: 'none'
             });
@@ -108,9 +117,10 @@
                     this.getSongs({
                         songIds: songIds,
                         success: function (songs) {
-                            options.success(_.extend({
+                            options.success({
+                                songs: songs,
                                 nextPageToken: response.nextPageToken,
-                            }, songs));
+                            });
                         },
                         error: options.error,
                         complete: options.complete

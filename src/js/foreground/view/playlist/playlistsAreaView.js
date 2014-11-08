@@ -131,7 +131,7 @@
         },
         
         _onSortableStart: function() {
-            Streamus.channels.elementInteractions.vent.trigger('drag');
+            Streamus.channels.element.vent.trigger('drag');
         },
         
         //  Whenever a playlist is moved visually -- update corresponding model with new information.

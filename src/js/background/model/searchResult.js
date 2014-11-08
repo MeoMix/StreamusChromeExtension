@@ -16,19 +16,10 @@
                 song: null
             };
         },
-        
+        //  TODO: Why is this needed?
         //  SearchResults are never saved to the server.
         sync: function() {
             return false;
-        },
-        
-        initialize: function () {
-            //  SearchResult title can't be edited, but useful to duplicate to keep template DRY with streamItem/playlistItem
-            this.set('title', this._getSongTitle());
-        },
-        
-        _getSongTitle: function() {
-            return this.get('song').get('title');
         }
     });
 

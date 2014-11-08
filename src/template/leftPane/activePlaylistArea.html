@@ -1,31 +1,16 @@
-﻿<div class="instruction-wrapper">
-    <div id="activePlaylistArea-playlistEmptyMessage" class="instruction">
-        <div class="instruction-header">
-            <%= playlistEmptyMessage %>
-        </div>
-        <div class="u-textSecondary">
-            <%= wouldYouLikeToMessage %> <span id="activePlaylistArea-showSearchLink" class="u-link u-lowercase"><%= searchForSongsMessage %></span>?
-        </div>
-    </div>
-    
-    <div class="list">
-        <ol id="activePlaylistArea-listItems" class="js-droppable"></ol>
-    </div>
-</div>
+﻿<div id='activePlaylistArea-playlistItemsRegion' class='column u-flex--column u-flex--full'></div>
 
-<div class="contentBar contentBar--bottom">
-    <div class="u-flex--row">
-        <div id="activePlaylistArea-playlistDetails" class="u-lowercase u-textOverflowEllipsis u-textSecondary js-textTooltipable lineHeight-loose u-flex--full" title="<%- displayInfo %>">
-            <%= displayInfo %>
-        </div>
+<div class='contentBar contentBar--bottom'>
+    <div class='u-flex--row'>
+        <div id='activePlaylistArea-playlistDetails' class='u-lowercase u-textOverflowEllipsis u-textSecondary lineHeight-loose u-flex--full'></div>
         <div>
-            <button id="activePlaylistArea-playAllButton" class="button--label">
-                <i class="button--label-icon fa fa-play"></i>
+            <button id='activePlaylistArea-playAllButton' class='button--label'>
+                <i class='button--label-icon fa fa-play'></i>
                 <%= playAllMessage %>
             </button>
 
-            <button id="activePlaylistArea-addAllButton" class="button--label js-tooltipable">
-                <i class="button--label-icon fa fa-plus"></i>
+            <button id='activePlaylistArea-addAllButton' class='button--label js-tooltipable'>
+                <i class='button--label-icon fa fa-plus'></i>
                 <%= addAllMessage %>
             </button>
         </div>

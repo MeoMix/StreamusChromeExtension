@@ -16,12 +16,6 @@
         className: ListItemView.prototype.className + ' playlist listItem--indented listItem--small',
         template: _.template(PlaylistTemplate),
         
-        templateHelpers: function () {
-            return {
-                itemCount: this._getItemCount()
-            };
-        },
-        
         ui: _.extend({}, ListItemView.prototype.ui, {
             title: '.listItem-title',
             itemCount: '.listItem-itemCount'  
@@ -31,27 +25,31 @@
             'click': '_onClick',
             'dblclick': '_onDblClick'
         }),
-        
+
         modelEvents: {
-            'change:title': '_updateTitle',
-            'change:dataSourceLoaded': '_setShowingSpinnerClass',
-            'change:active': '_setActiveClass',
-            'change:id': '_setShowingSpinnerClass'
+            'change:title': '_onChangeTitle',
+            'change:dataSourceLoaded': '_onChangeDataSourceLoaded',
+            'change:active': '_onChangeActive',
+            'change:id': '_onChangeId'
         },
         
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
         
         initialize: function () {
-            this.listenTo(this.model.get('items'), 'add remove reset', this._onItemCountChanged);
+            var playlistItems = this.model.get('items');
+            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
+            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
+            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
         },
         
         onRender: function () {
             this._setShowingSpinnerClass();
-            this._setActiveClass();
+            this._setActiveClass(this.model.get('active'));
+            this._setItemCount(this.model.get('items').length);
         },
         
         showContextMenu: function () {
-            var isEmpty = this.model.get('items').length === 0;
+            var isEmpty = this.model.get('items').isEmpty();
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('edit'),
@@ -68,43 +66,54 @@
                 title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                 text: chrome.i18n.getMessage('export'),
                 onClick: this._showExportPlaylistPrompt.bind(this)
-            }]
-            );
+            }]);
         },
         
-        _updateTitle: function () {
-            var title = this.model.get('title');
+        _onChangeTitle: function (model, title) {
             this.ui.title.text(title).attr('title', title);
         },
         
+        _onChangeDataSourceLoaded: function () {
+            this._setShowingSpinnerClass();
+        },
+        
+        _onChangeId: function () {
+            this._setShowingSpinnerClass();
+        },
+        
+        _onChangeActive: function (model, active) {
+            this._setActiveClass(active);
+        },
+        
         _setShowingSpinnerClass: function () {
-            var loading = this.model.has('dataSource') && !this.model.get('dataSourceLoaded');
+            var loading = this.model.isLoading();
             var saving = this.model.isNew();
             this.$el.toggleClass('is-showingSpinner', loading || saving);
         },
         
-        _setActiveClass: function () {
-            var active = this.model.get('active');
+        _setActiveClass: function (active) {
             this.$el.toggleClass('is-active', active);
         },
         
-        _onItemCountChanged: function() {
-            this._updateItemCount();
+        _onPlaylistItemsAdd: function (model, collection) {
+            this._setItemCount(collection.length);
         },
-        
-        _updateItemCount: function () {
-            var itemCount = this._getItemCount();
-            this.ui.itemCount.text(itemCount);
-        },
-        
-        _getItemCount: function() {
-            var itemCount = this.model.get('items').length;
 
+        _onPlaylistItemsRemove: function (model, collection) {
+            this._setItemCount(collection.length);
+        },
+
+        _onPlaylistItemsReset: function (collection) {
+            this._setItemCount(collection.length);
+        },
+        
+        _setItemCount: function (itemCount) {
+            //  Format the number if it is too large.
             if (itemCount >= 1000) {
                 itemCount = Math.floor(itemCount / 1000) + 'K';
             }
-
-            return itemCount;
+            
+            this.ui.itemCount.text(itemCount);
         },
         
         _activate: function () {

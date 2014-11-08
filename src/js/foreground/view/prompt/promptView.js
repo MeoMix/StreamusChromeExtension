@@ -15,14 +15,6 @@
                 showReminder: this.model.get('reminderProperty') !== false
             };
         },
-
-        events: {
-            'click': '_hideIfClickOutsidePanel',
-            'click @ui.closeButton': 'hide',
-            'click @ui.okButton': '_submit',
-            'change @ui.reminderCheckbox': '_saveReminderState',
-            'keydown @ui.submittable': '_submitOnEnter'
-        },
         
         ui: {
             panel: '#prompt-panel',
@@ -31,6 +23,14 @@
             closeButton: '#prompt-closeButton',
             contentRegion: '#prompt-contentRegion',
             submittable: '.js-submittable'
+        },
+
+        events: {
+            'click': '_onClick',
+            'click @ui.closeButton': '_onClickCloseButton',
+            'click @ui.okButton': '_onClickOkButton',
+            'input @ui.reminderCheckbox': '_onInputReminderCheckbox',
+            'keypress @ui.submittable': '_onKeyPressSubmittable'
         },
         
         regions: {
@@ -41,6 +41,7 @@
         transitionDuration: 400,
         
         initialize: function () {
+            //  TODO: This feels a bit weird.
             if (this.contentText === '' && this.contentView === null) console.error('No content set.');
             if (this.contentText !== '' && this.contentView !== null) console.error('ContentView and ContextText are set; provide only one');
 
@@ -117,19 +118,32 @@
             if (this.contentView) {
                 this.contentRegion.show(this.contentView);
             } else {
+                //  TODO: Uhhh. I don't think I should ever access a Region through HTML.
                 this.ui.contentRegion.html(this.contentText);
             }
         },
         
         //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        _hideIfClickOutsidePanel: function (event) {
+        _onClick: function (event) {
             if (event.target == event.currentTarget) {
                 this.hide();
             }
         },
         
+        _onClickCloseButton: function () {
+            this.hide();
+        },
+        
+        _onClickOkButton: function () {
+            this._submit();
+        },
+        
+        _onInputReminderCheckbox: function () {
+            this._saveReminderState();
+        },
+        
         //  If the enter key is pressed on a js-submittable element, treat as if user pressed OK button.
-        _submitOnEnter: function(event) {
+        _onKeyPressSubmittable: function (event) {
             if (event.which === 13) {
                 this._submit();
             }

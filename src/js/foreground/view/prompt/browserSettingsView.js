@@ -23,10 +23,10 @@
         },
         
         events: {
-            'change @ui.checkboxes': '_onCheckboxChange'
+            'change @ui.checkboxes': '_onChangeCheckbox'
         },
         
-        _onCheckboxChange: function(event) {
+        _onChangeCheckbox: function (event) {
             var checkbox = $(event.target);
             var property = checkbox.data('property');
             var checked = checkbox.is(':checked');

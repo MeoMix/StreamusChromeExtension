@@ -7,13 +7,11 @@
         id: 'signIn',
         template: _.template(SignInTemplate),
         
-        templateHelpers: function () {
-            return {
-                signingInMessage: chrome.i18n.getMessage('signingIn'),
-                signInMessage: chrome.i18n.getMessage('signIn'),
-                signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
-                pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
-            };
+        templateHelpers: {
+            signingInMessage: chrome.i18n.getMessage('signingIn'),
+            signInMessage: chrome.i18n.getMessage('signIn'),
+            signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
+            pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
         },
 
         ui: {
@@ -25,28 +23,41 @@
         },
 
         events: {
-            'click @ui.signInLink': '_signIn'
+            'click @ui.signInLink': '_onClickSignInLink'
         },
 
         modelEvents: {
-            'change:signInFailed': '_toggleBigText',
-            'change:signingIn': '_toggleBigText',
-            'change:signInRetryTimer': '_updateSignInRetryTimer'
+            'change:signInFailed': '_onChangeSignInFailed',
+            'change:signingIn': '_onChangeSigningIn',
+            'change:signInRetryTimer': '_onChangeSignInRetryTimer'
         },
         
         onRender: function () {
-            this._toggleBigText();
+            this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
+        },
+        
+        _onClickSignInLink: function () {
+            this._signIn();
+        },
+        
+        _onChangeSignInFailed: function(model, signInFailed) {
+            this._toggleBigText(model.get('signingIn'), signInFailed);
+        },
+        
+        _onChangeSigningIn: function (model, signingIn) {
+            this._toggleBigText(signingIn, model.get('signInFailed'));
+        },
+        
+        _onChangeSignInRetryTimer: function (model, signInRetryTimer) {
+            this._setSignInRetryTimer(signInRetryTimer);
         },
 
-        _updateSignInRetryTimer: function () {
-            this.ui.signInRetryTimer.text(this.model.get('signInRetryTimer'));
+        _setSignInRetryTimer: function (signInRetryTimer) {
+            this.ui.signInRetryTimer.text(signInRetryTimer);
         },
 
         //  Set the visibility of any visible text messages.
-        _toggleBigText: function () {
-            var signingIn = this.model.get('signingIn');
-            var signInFailed = this.model.get('signInFailed');
-            
+        _toggleBigText: function (signingIn, signInFailed) {
             this.ui.signInFailedMessage.toggleClass('hidden', !signInFailed);
             this.ui.signingInMessage.toggleClass('hidden', !signingIn);
             this.ui.signInMessage.toggleClass('hidden', signingIn || signInFailed);

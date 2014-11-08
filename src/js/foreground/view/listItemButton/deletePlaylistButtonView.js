@@ -14,7 +14,7 @@
         },
 
         initialize: function () {
-            this._setDisabledState();
+            this._setState();
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
@@ -27,7 +27,7 @@
             playlistAction.deletePlaylist();
         },
         
-        _setDisabledState: function() {
+        _setState: function () {
             var canDelete = this.model.get('canDelete');
 
             var title;

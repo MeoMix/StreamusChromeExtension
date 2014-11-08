@@ -1,61 +1,32 @@
-﻿<div class="contentBar contentBar--top">
-    <div class="u-flex--row">
-        <div class="contentBar--top-content u-inset--horizontal">
-            <input id="search-searchInput" type="text" class="textInput textInput--underlined" placeholder="<%= searchMessage %>..." value="<%= query %>">
+﻿<div class='contentBar contentBar--top'>
+    <div class='u-flex--row'>
+        <div class='contentBar--top-content u-inset--horizontal'>
+            <input id='search-searchInput' type='text' class='textInput textInput--underlined' placeholder='<%= searchMessage %>...' value='<%= query %>'>
         </div>
     
-        <button id="search-hideSearchButton" class="button--icon button--large">
-            <i class="fa fa-times"></i>
+        <button id='search-hideSearchButton' class='button--icon button--large'>
+            <i class='fa fa-times'></i>
         </button>
     </div>
 </div>
 
-<div class="instruction-wrapper">
-    <div id="search-typeToSearchMessage" class="instruction">
-        <div class="instruction-header">
-            <%= startTypingMessage %>
-        </div>
-        <div class="u-textSecondary">
-            <%= resultsWillAppearAsYouSearchMessage %>.
-        </div>
-    </div>
-    
-    <div id="search-searchingMessage" class="instruction is-showingSpinner">
-        <div class="instruction-header">
-            <%= searchingMessage %>...
-        </div>
-        <div class="spinner spinner--medium"></div>
-    </div>
+<div id='search-searchResultsRegion' class='column u-flex--column u-flex--full'></div>
 
-    <div id="search-noResultsMessage" class="instruction">
-        <div class="instruction-header">
-            <%= noResultsFoundMessage %>
-        </div>
-        <div class="u-textSecondary">
-            <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
-        </div>
-    </div>
-    
-    <div class="list">
-        <ol id="search-listItems" class="sortable--unsortable"></ol>
-    </div>
-</div>
-
-<div class="contentBar contentBar--bottom">
-    <div class="u-flex--row">
+<div class='contentBar contentBar--bottom'>
+    <div class='u-flex--row'>
         <div>
-            <button id="search-playSelectedButton" class="button--label">
-                <i class="button--label-icon fa fa-play"></i>
+            <button id='search-playSelectedButton' class='button--label'>
+                <i class='button--label-icon fa fa-play'></i>
                 <%= playSelectedMessage %>
             </button>
         
-            <button id="search-addSelectedButton" class="button--label">
-                <i class="button--label-icon fa fa-plus"></i>
+            <button id='search-addSelectedButton' class='button--label'>
+                <i class='button--label-icon fa fa-plus'></i>
                 <%= addSelectedMessage %>
             </button>
 
-            <button id="search-saveSelectedButton" class="button--label">
-                <i class="button--label-icon fa fa-save"></i>
+            <button id='search-saveSelectedButton' class='button--label'>
+                <i class='button--label-icon fa fa-save'></i>
                 <%= saveSelectedMessage %>
             </button>
         </div>

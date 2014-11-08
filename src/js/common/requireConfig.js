@@ -26,7 +26,7 @@
     shim: {
         'googleAnalytics': {
             deps: ['jquery'],
-            exports: '_gaq'
+            exports: 'ga'
         },
         'jquery.transit': {
             deps: ['jquery'],

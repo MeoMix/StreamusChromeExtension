@@ -10,7 +10,7 @@
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.signInManager;
 
-            this.listenTo(Streamus.channels.playlistsArea.commands, 'show', this._showPlaylistsAreaView);
+            this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
@@ -22,7 +22,7 @@
             }
         },
         
-        _showPlaylistsAreaView: function () {
+        _showPlaylistsArea: function () {
             this.currentView.show();
         },
         

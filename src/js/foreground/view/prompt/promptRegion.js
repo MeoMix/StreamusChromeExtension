@@ -20,9 +20,9 @@
             this.listenTo(Streamus.channels.prompt.commands, 'show:prompt', this._showPrompt);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
             this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
-            this.listenTo(this.signInManager, 'change:needPromptLinkUserId', this._onChangeNeedPromptLinkUserId);
-            this.listenTo(this.signInManager, 'change:needPromptGoogleSignIn', this._onChangeNeedPromptGoogleSignIn);
-            chrome.runtime.onUpdateAvailable.addListener(this._onChromeUpdateAvailable.bind(this));
+            this.listenTo(this.signInManager, 'change:needPromptLinkUserId', this._onSignInManagerChangeNeedPromptLinkUserId);
+            this.listenTo(this.signInManager, 'change:needPromptGoogleSignIn', this._onSignInManagerChangeNeedPromptGoogleSignIn);
+            chrome.runtime.onUpdateAvailable.addListener(this._onChromeRuntimeUpdateAvailable.bind(this));
         },
         
         _onForegroundAreaShown: function () {
@@ -35,6 +35,7 @@
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _promptIfUpdateAvailable: function () {
             //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
+            //  TODO: Maybe this will be optional in the future if Google fixes it?
             chrome.runtime.requestUpdateCheck(function () { });
         },
         
@@ -52,17 +53,17 @@
             }
         },
         
-        _onChromeUpdateAvailable: function() {
+        _onChromeRuntimeUpdateAvailable: function () {
             this._showUpdateStreamusPrompt();
         },
         
-        _onChangeNeedPromptLinkUserId: function (model, needPromptLinkUserId) {
+        _onSignInManagerChangeNeedPromptLinkUserId: function (model, needPromptLinkUserId) {
             if (needPromptLinkUserId) {
                 this._showLinkUserIdPrompt();
             }
         },
         
-        _onChangeNeedPromptGoogleSignIn: function (model, needPromptGoogleSignIn) {
+        _onSignInManagerChangeNeedPromptGoogleSignIn: function (model, needPromptGoogleSignIn) {
             if (needPromptGoogleSignIn) {
                 this._showGoogleSignInPrompt();
             }

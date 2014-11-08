@@ -5,6 +5,7 @@
 
     var SlidingRender = Backbone.Marionette.Behavior.extend({
         collectionEvents: {
+            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove',
             'add': '_onCollectionAdd',

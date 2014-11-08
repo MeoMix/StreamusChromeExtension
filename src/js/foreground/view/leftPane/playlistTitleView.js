@@ -7,9 +7,15 @@
     var PlaylistTitleView = Backbone.Marionette.ItemView.extend({
         className: 'u-textOverflowEllipsis js-textTooltipable',
         template: _.template(PlaylistTitleTemplate),
-        
+
+        attributes: function() {
+            return {
+                title: this.model.get('title')
+            };
+        },
+
         modelEvents: {
-            'change:title': 'render'
+            'change:title': '_onChangeTitle'
         },
         
         behaviors: {
@@ -19,11 +25,15 @@
         },
         
         onRender: function () {
-            this._setTitle();
+            this._setTitle(this.model.get('title'));
         },
         
-        _setTitle: function () {
-            this.$el.attr('title', this.model.get('title'));
+        _onChangeTitle: function () {
+            this.render();
+        },
+        
+        _setTitle: function (title) {
+            this.$el.attr('title', title);
         }
     });
 

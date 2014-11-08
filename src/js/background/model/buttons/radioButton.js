@@ -16,7 +16,7 @@
             //  Load from Backbone.LocalStorage
             this.fetch();
             
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
         },
  
         toggleEnabled: function () {
@@ -29,7 +29,7 @@
             return this.get('enabled') ? chrome.i18n.getMessage('radioEnabled') : chrome.i18n.getMessage('radioDisabled');
         },
         
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.ToggleRadio) {
                 this.toggleEnabled();
 

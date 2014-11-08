@@ -11,21 +11,35 @@
         
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.streamItems, 'add remove reset', this._setDisabledState.bind(this));
+            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
+            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
         
         onRender: function () {
-            this._setDisabledState();
+            this._setState();
         },
         
         doOnClickAction: function () {
             var song = this.model.get('song');
             this.streamItems.addSongs(song);
         },
+        
+        _onStreamItemsAdd: function () {
+            this._setState();
+        },
 
-        _setDisabledState: function () {
+        _onStreamItemsRemove: function () {
+            this._setState();
+        },
+
+        _onStreamItemsReset: function () {
+            this._setState();
+        },
+
+        _setState: function () {
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('song'));
            
             this.$el.toggleClass('disabled', duplicatesInfo.allDuplicates);

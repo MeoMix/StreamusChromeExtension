@@ -16,10 +16,10 @@
         },
 
         initialize: function () {
-            chrome.runtime.getPlatformInfo(this._onGetPlatformInfo.bind(this));
+            chrome.runtime.getPlatformInfo(this._onChromeRuntimeGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
             this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
-            this.listenTo(Streamus.channels.error.vent, 'onWindowError', this._onWindowError);
+            this.listenTo(Streamus.channels.error.vent, 'windowError', this._onWindowError);
         },
         
         //  Only log client errors to the database in a deploy environment, not when debugging locally.
@@ -27,7 +27,7 @@
             console.warn('Debugging enabled; Message:' + message);
         },
 
-        _onGetPlatformInfo: function (platformInfo) {
+        _onChromeRuntimeGetPlatformInfo: function (platformInfo) {
             this.set('platformInfo', platformInfo);
         },
 

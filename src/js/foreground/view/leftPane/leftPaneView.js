@@ -12,27 +12,23 @@
         className: 'leftPane column u-flex--column',
         template: _.template(LeftPaneTemplate),
         
-        templateHelpers: function () {
-            return {
-                showSearchMessage: chrome.i18n.getMessage('showSearch')
-            };
+        templateHelpers: {
+            showSearchMessage: chrome.i18n.getMessage('showSearch')
         },
 
         ui: {
             showSearchButton: '#leftPane-showSearchButton',
-            showPlaylistsAreaButton: '#leftPane-showPlaylistsAreaButton',
-            playlistTitleRegion: '#leftPane-playlistTitleRegion',
-            contentRegion: '#leftPane-contentRegion'
+            showPlaylistsAreaButton: '#leftPane-showPlaylistsAreaButton'
         },
         
         events: {
-            'click @ui.showSearchButton': '_showSearch',
-            'click @ui.showPlaylistsAreaButton:not(.disabled)': '_showPlaylistsArea'
+            'click @ui.showSearchButton': '_onClickShowSearchButton',
+            'click @ui.showPlaylistsAreaButton:not(.disabled)': '_onClickShowPlaylistsAreaButton'
         },
 
         regions: {
-            playlistTitleRegion: '@ui.playlistTitleRegion',
-            contentRegion: '@ui.contentRegion'
+            playlistTitleRegion: '#leftPane-playlistTitleRegion',
+            contentRegion: '#leftPane-contentRegion'
         },
         
         behaviors: {
@@ -85,7 +81,7 @@
                 model: activePlaylist,
                 collection: activePlaylist.get('items')
             }));
-
+            
             this.playlistTitleRegion.show(new PlaylistTitleView({
                 model: activePlaylist
             }));
@@ -111,12 +107,12 @@
             }
         },
         
-        _showSearch: function() {
-            Streamus.channels.searchArea.commands.trigger('show', true);
+        _onClickShowSearchButton: function () {
+            Streamus.channels.searchArea.commands.trigger('show:search', true);
         },
         
-        _showPlaylistsArea: function() {
-            Streamus.channels.playlistsArea.commands.trigger('show');
+        _onClickShowPlaylistsAreaButton: function () {
+            Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
         },
         
         _setShowPlaylistsAreaButtonState: function (signedInUser) {

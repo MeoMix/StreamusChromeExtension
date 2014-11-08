@@ -9,43 +9,46 @@
         defaults: {
             //  Need to set the ID for Backbone.LocalStorage
             id: 'BrowserSettings',
-            showContextMenuOnTextSelection: true,
-            showContextMenuOnYouTubeLinks: true,
-            showContextMenuOnYouTubePages: true,
-            applyWebsiteEnhancementsToYouTube: true,
-            applyWebsiteEnhancementsToBeatport: true
+            //  TODO: These variables are really long still. How can I make them shorter?
+            showTextSelectionContextMenu: true,
+            showYouTubeLinkContextMenu: true,
+            showYouTubePageContextMenu: true,
+            enhanceYouTube: true,
+            enhanceBeatport: true
         },
 
         initialize: function () {
             //  Load from Backbone.LocalStorage
             this.fetch();
             
-            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
-            this.on('change:applyWebsiteEnhancementsToYouTube', this._onChangeApplyWebsiteEnhancementsToYouTube);
-            this.on('change:applyWebsiteEnhancementsToBeatport', this._onChangeApplyWebsiteEnhancementsToBeatport);
+            chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
+            this.on('change:enhanceYouTube', this._onChangeEnhanceYouTube);
+            this.on('change:enhanceBeatport', this._onChangeEnhanceBeatport);
         },
         
-        _onRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
             switch (request.method) {
-                case 'getCanEnhanceBeatport':
-                    sendResponse(this.get('applyWebsiteEnhancementsToBeatport'));
+                case 'getBeatportInjectData':
+                    sendResponse({
+                        canEnhance: this.get('enhanceBeatport')
+                    });
                     break;
                 case 'getYouTubeInjectData':
                     sendResponse({
-                        canInject: this.get('applyWebsiteEnhancementsToYouTube'),
+                        canEnhance: this.get('enhanceYouTube'),
                         SyncActionType: SyncActionType
                     });
                     break;
             }
         },
         
-        _onChangeApplyWebsiteEnhancementsToYouTube: function (model, enhanceYouTube) {
+        _onChangeEnhanceYouTube: function (model, enhanceYouTube) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: enhanceYouTube ? 'enhance-on' : 'enhance-off'
             });
         },
         
-        _onChangeApplyWebsiteEnhancementsToBeatport: function (model, enhanceBeatport) {
+        _onChangeEnhanceBeatport: function (model, enhanceBeatport) {
             Streamus.channels.tab.commands.trigger('notify:beatport', {
                 event: enhanceBeatport ? 'enhance-on' : 'enhance-off'
             });

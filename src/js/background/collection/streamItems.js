@@ -20,13 +20,11 @@
             this.on('remove', this._onRemove);
             this.on('change:playedRecently', this._onChangePlayedRecently);
             this.on('change:active', this._onChangeActive);
-            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+            chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
             
             //  Load any existing StreamItems from local storage
             this.fetch();
-
-            console.log("This:", this.at(0));
         },
         
         getActiveItem: function () {
@@ -144,7 +142,7 @@
         },
         
         //  Beatport can send messages to add stream items and play directly if user has clicked on a button.
-        _onRuntimeMessage: function(request) {
+        _onChromeRuntimeMessage: function (request) {
             switch (request.method) {
                 case 'searchAndStreamByQuery':
                     this._searchAndAddByTitle({
@@ -253,7 +251,7 @@
             }
         },
         
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {

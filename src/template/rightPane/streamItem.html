@@ -1,17 +1,17 @@
-﻿<img class="listItem-imageThumbnail" src="https://img.youtube.com/vi/<%= song.get('id') %>/default.jpg" />
+﻿<img class='listItem-imageThumbnail' src='https://img.youtube.com/vi/<%= song.get("id") %>/default.jpg' />
 
-<div class="listItem-content">
-    <div class="listItem-title u-textOverflowEllipsis js-textTooltipable" title="<%- title %>">
+<div class='listItem-content'>
+    <div class='listItem-title u-textOverflowEllipsis js-textTooltipable' title='<%- title %>'>
         <%= title %>
     </div>
 
-    <div class="listItem-details u-textOverflowEllipsis u-textSecondary">
+    <div class='listItem-details u-textOverflowEllipsis u-textSecondary'>
         <%= song.get('prettyDuration') %>	
     </div>
 </div>
 
-<button class="listItem-button button--icon button--medium hidden is-hiddenOnHover is-shownOnActive">
-    <i class="fa fa-volume-up"></i>
+<button class='listItem-button button--icon button--medium hidden is-hiddenOnHover is-shownOnActive'>
+    <i class='fa fa-volume-up'></i>
 </button>
 
-<span class="listItem-buttonsRegion"></span>
+<span class='listItem-buttonsRegion'></span>

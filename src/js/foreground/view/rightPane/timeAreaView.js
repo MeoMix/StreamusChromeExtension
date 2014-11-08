@@ -17,11 +17,12 @@ define([
         },
 
         events: {
+            //  TODO: Kind of feels like TimeRange should have its own view.
             'input @ui.timeRange:not(.disabled)': '_onInputTimeRange',
             'wheel @ui.timeRange:not(.disabled)': '_onWheelTimeRange',
-            'mousedown @ui.timeRange:not(.disabled)': '_startSeeking',
-            'mouseup @ui.timeRange:not(.disabled)': '_seekToTime',
-            'click @ui.elapsedTimeLabel': '_toggleShowRemainingTime'
+            'mousedown @ui.timeRange:not(.disabled)': '_onMouseDownTimeRange',
+            'mouseup @ui.timeRange:not(.disabled)': '_onMouseUpTimeRange',
+            'click @ui.elapsedTimeLabel': '_onClickElapsedTimeLabel'
         },
         
         ui: {
@@ -44,11 +45,12 @@ define([
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.player = Streamus.backgroundPage.player;
 
-            this.listenTo(this.streamItems, 'remove reset', this._clearOnEmpty);
-            this.listenTo(this.streamItems, 'add', this._enable);
+            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
+            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
+            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
             this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
             this.listenTo(this.player, 'change:currentTime', this._onPlayerChangeCurrentTime);
-            this.listenTo(this.player, 'change:state', this._stopSeeking);
+            this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
         },
 
         onRender: function () {
@@ -74,12 +76,47 @@ define([
 
             this.player.seekTo(currentTime + delta);
         },
-
-        _startSeeking: function (event) {
+        
+        _onMouseDownTimeRange: function (event) {
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
-                this.model.set('autoUpdate', false);
+                this._startSeeking();
             }
+        },
+        //  TODO: This runs even if onMouseDownTimeRange did not run.
+        _onMouseUpTimeRange: function (event) {
+            //  1 is primary mouse button, usually left
+            if (event.which === 1) {
+                this._seekToCurrentTime();
+            }
+        },
+        
+        _onClickElapsedTimeLabel: function () {
+            this._toggleShowRemainingTime();
+        },
+        
+        _onPlayerChangeState: function () {
+            this._stopSeeking();
+        },
+        
+        _onStreamItemsAdd: function () {
+            this.ui.timeRange.removeClass('disabled');
+        },
+        
+        _onStreamItemsRemove: function (model, collection) {
+            if (collection.isEmpty()) {
+                this._clear();
+            }
+        },
+        
+        _onStreamItemsReset: function (collection) {
+            if (collection.isEmpty()) {
+                this._clear();
+            }
+        },
+
+        _startSeeking: function () {
+            this.model.set('autoUpdate', false);
         },
         
         _stopSeeking: function () {
@@ -91,14 +128,11 @@ define([
             }
         },
 
-        _seekToTime: function (event) {
-            //  1 is primary mouse button, usually left
-            if (event.which === 1) {
-                //  Bind to progressBar mouse-up to support dragging as well as clicking.
-                //  I don't want to send a message until drag ends, so mouseup works nicely. 
-                var currentTime = parseInt(this.ui.timeRange.val());
-                this.player.seekTo(currentTime);
-            }
+        _seekToCurrentTime: function () {
+            //  Bind to progressBar mouse-up to support dragging as well as clicking.
+            //  I don't want to send a message until drag ends, so mouseup works nicely. 
+            var currentTime = parseInt(this.ui.timeRange.val());
+            this.player.seekTo(currentTime);
         },
         
         _toggleShowRemainingTime: function() {
@@ -116,15 +150,9 @@ define([
             this.ui.elapsedTimeLabel.attr('title', title);
         },
         
-        _enable: function () {
-            this.ui.timeRange.removeClass('disabled');
-        },
-        
-        _clearOnEmpty: function () {
-            if (this.streamItems.length === 0) {
-                this._setTotalTime();
-                this.ui.timeRange.addClass('disabled');
-            }
+        _clear: function () {
+            this._setTotalTime();
+            this.ui.timeRange.addClass('disabled');
         },
         
         _setCurrentTime: function (currentTime) {

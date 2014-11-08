@@ -16,7 +16,7 @@
         initialize: function (models, options) {
             this.userId = options.userId;
             
-            chrome.runtime.onMessage.addListener(this._onRuntimeMessage.bind(this));
+            chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             this.on('add', this._onAdd);
             this.on('remove', this._onRemove);
             this.on('change:active', this._onChangeActive);
@@ -79,13 +79,10 @@
                 userId: this.userId,
                 //  Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
-                dataSource: dataSource,
-                dataSourceLoaded: !dataSource.needsLoading()
+                dataSource: dataSource
             }, {
                 success: function (playlist) {
-                    if (dataSource.needsLoading()) {
-                        playlist.loadDataSource();
-                    }
+                    playlist.loadDataSource();
                 },
                 error: function (model) {
                     model.trigger('createError');
@@ -148,7 +145,7 @@
             this._setCanDelete(this.length > 1);
         },
         
-        _onRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {

@@ -57,10 +57,10 @@
             it('should return 50 songs', function (done) {
                 YouTubeV3API.search({
                     text: 'Gramatik',
-                    success: function (songs) {
+                    success: function (searchResponse) {
                         expect($.ajax.calledTwice).to.equal(true);
-                        expect(songs).not.to.equal(null);
-                        expect(songs.length).to.equal(50);
+                        expect(searchResponse.songs).not.to.equal(null);
+                        expect(searchResponse.songs.length).to.equal(50);
                         done();
                     }
                 });

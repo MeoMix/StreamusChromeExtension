@@ -7,7 +7,7 @@
     var ListItemButtonView = Backbone.Marionette.ItemView.extend({
         tagName: 'button',
         className: function () {
-            return 'listItem-button button--icon ' + this._getSize();
+            return 'js-tooltipable listItem-button button--icon ' + this._getSize();
         },
         
         events: {

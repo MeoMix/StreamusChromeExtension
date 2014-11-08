@@ -54,17 +54,18 @@ define([
             this.on('change:loading', this._onChangeLoading);
             this.on('change:state', this._onChangeState);
 
+            //  TODO: Probably change youTubeSuggestedQuality to just 'quality' since I'll want to use it for Beatport too.
             this.listenTo(this.get('settings'), 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
             this.listenTo(this.get('youTubePlayer'), 'change:ready', this._onYouTubePlayerChangeReady);
             this.listenTo(this.get('youTubePlayer'), 'change:state', this._onYouTubePlayerChangeState);
             this.listenTo(this.get('youTubePlayer'), 'youTubeError', this._onYouTubePlayerError);
             this.listenTo(this.get('youTubePlayer'), 'change:loading', this._onYouTubePlayerChangeLoading);
             this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
-            this.listenTo(Streamus.channels.player.commands, 'playOnActivate', this._onCommandPlayOnActivate);
+            this.listenTo(Streamus.channels.player.commands, 'playOnActivate', this._playOnActivate);
 
-            chrome.runtime.onConnect.addListener(this._onRuntimeConnect.bind(this));
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
-            chrome.alarms.onAlarm.addListener(this._onChromeAlarm.bind(this));
+            chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
+            chrome.alarms.onAlarm.addListener(this._onChromeAlarmsAlarm.bind(this));
 
             this._ensureInitialState();
         },
@@ -243,7 +244,7 @@ define([
             }
         },
         
-        _onRuntimeConnect: function (port) {
+        _onChromeRuntimeConnect: function (port) {
             if (port.name === 'youTubeIFrameConnectRequest') {
                 port.onMessage.addListener(this._onYouTubeIFrameMessage.bind(this));
             }
@@ -275,7 +276,7 @@ define([
             }
         },
 
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.IncreaseVolume) {
                 var increasedVolume = this.get('volume') + 5;
                 this.setVolume(increasedVolume);
@@ -286,8 +287,7 @@ define([
             }
         },
         
-        
-        _onChromeAlarm: function (alarm) {
+        _onChromeAlarmsAlarm: function (alarm) {
             //  Check the alarm name because closing the browser will not clear an alarm, but new alarm name is generated on open.
             if (alarm.name === this.get('refreshAlarmName')) {
                 this.refresh();
@@ -340,7 +340,7 @@ define([
             }
         },
         
-        _onCommandPlayOnActivate: function(playOnActivate) {
+        _playOnActivate: function (playOnActivate) {
             this.set('playOnActivate', playOnActivate);
         }
     });

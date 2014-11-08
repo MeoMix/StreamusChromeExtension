@@ -160,18 +160,18 @@
             YouTubeV3API.getTitle.restore();
         });
         
-        it('Should be able to successfully indicate whether it needsLoading', function () {
+        it('Should be able to successfully indicate whether it isYouTubePlaylist', function () {
             var dataSource = new DataSource({ type: DataSourceType.YouTubePlaylist });
-            expect(dataSource.needsLoading()).to.equal(true);
+            expect(dataSource.isYouTubePlaylist()).to.equal(true);
 
             dataSource = new DataSource({ type: DataSourceType.None });
-            expect(dataSource.needsLoading()).to.equal(false);
+            expect(dataSource.isYouTubePlaylist()).to.equal(false);
 
             dataSource = new DataSource({ type: DataSourceType.Unknown });
-            expect(dataSource.needsLoading()).to.equal(false);
+            expect(dataSource.isYouTubePlaylist()).to.equal(false);
             
             dataSource = new DataSource({ type: DataSourceType.UserInput });
-            expect(dataSource.needsLoading()).to.equal(false);
+            expect(dataSource.isYouTubePlaylist()).to.equal(false);
         });
 
         it('Should be able to parse a YouTube song id from a variety of URL patterns', function () {

@@ -1,37 +1,22 @@
 ﻿define([
-    'common/enum/listItemType',
-    'foreground/view/behavior/collectionViewMultiSelect',
-    'foreground/view/behavior/slidingRender',
-    'foreground/view/behavior/sortable',
-    'foreground/view/behavior/tooltip',
     'foreground/view/prompt/saveSongsPromptView',
-    'foreground/view/search/searchResultView',
+    'foreground/view/search/searchResultsView',
     'text!template/search/search.html'
-], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, SaveSongsPromptView, SearchResultView, SearchTemplate) {
+], function (SaveSongsPromptView, SearchResultsView, SearchTemplate) {
     'use strict';
 
-    var SearchView = Backbone.Marionette.CompositeView.extend({
+    var SearchView = Backbone.Marionette.LayoutView.extend({
         id: 'search',
-        className: 'leftPane column column--wide u-flex--column panel panel--left panel--uncolored u-transitionable',
+        className: 'leftPane column column--wide u-flex--column u-flex--full panel panel--left panel--uncolored u-transitionable u-focusable',
         template: _.template(SearchTemplate),
-        childViewContainer: '@ui.childContainer',
-        childView: SearchResultView,
         
-        //  Overwrite resortView to only render children as expected
-        resortView: function () {
-            this._renderChildren();
+        attributes: {
+            //  Allow keyboard shortcuts to be handled by the view by giving it a tabindex so that keydown will run.
+            tabindex: 0
         },
-        
-        childViewOptions: {
-            type: ListItemType.SearchResult
-        },
-        
+
         ui: {
             searchInput: '#search-searchInput',
-            searchingMessage: '#search-searchingMessage',
-            typeToSearchMessage: '#search-typeToSearchMessage',
-            noResultsMessage: '#search-noResultsMessage',
-            childContainer: '#search-listItems',
             hideSearchButton: '#search-hideSearchButton',
             playSelectedButton: '#search-playSelectedButton',
             saveSelectedButton: '#search-saveSelectedButton',
@@ -39,6 +24,7 @@
         },
         
         events: {
+            'keydown': '_onKeyDown',
             'input @ui.searchInput': '_onInputSearchInput',
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
             'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
@@ -47,47 +33,23 @@
         },
 
         modelEvents: {
-            'change:query': '_onChangeQuery',
-            'change:searching': '_onChangeSearching'
+            'change:query': '_onChangeQuery'
         },
 
         collectionEvents: {
-            'reset': '_onCollectionReset',
-            'change:selected': '_onCollectionChangeSelected'
+            'change:selected': '_onSearchResultsChangeSelected'
         },
  
-        templateHelpers: function() {
-            return {
-                saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
-                addSelectedMessage: chrome.i18n.getMessage('addSelected'),
-                playSelectedMessage: chrome.i18n.getMessage('playSelected'),
-                searchMessage: chrome.i18n.getMessage('search'),
-                hideSearchMessage: chrome.i18n.getMessage('hideSearch'),
-                startTypingMessage: chrome.i18n.getMessage('startTyping'),
-                resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
-                searchingMessage: chrome.i18n.getMessage('searching'),
-                noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-                sorryAboutThatMessage: chrome.i18n.getMessage('sorryAboutThat'),
-                trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse'),
-                notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
-            };
+        templateHelpers: {
+            searchMessage: chrome.i18n.getMessage('search'),
+            saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
+            addSelectedMessage: chrome.i18n.getMessage('addSelected'),
+            playSelectedMessage: chrome.i18n.getMessage('playSelected'),
+            notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
         },
         
-        behaviors: function() {
-            return {
-                CollectionViewMultiSelect: {
-                    behaviorClass: CollectionViewMultiSelect
-                },
-                SlidingRender: {
-                    behaviorClass: SlidingRender
-                },
-                Sortable: {
-                    behaviorClass: Sortable
-                },
-                Tooltip: {
-                    behaviorClass: Tooltip
-                }
-            };
+        regions: {
+            searchResultsRegion: '#search-searchResultsRegion'
         },
         
         transitionDuration: 300,
@@ -99,12 +61,19 @@
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.signInManager = Streamus.backgroundPage.signInManager;
 
-            this.listenTo(this.signInManager, 'change:signedInUser', this._toggleSaveSelected);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
  
         onRender: function () {
-            this._toggleInstructions();
             this._toggleSelectedButtons();
+        },
+        
+        onShow: function () {
+            this.searchResultsRegion.show(new SearchResultsView({
+                //  TODO: SearchResultsView shouldn't have to be dependent on model
+                model: this.model,
+                collection: this.model.get('results')
+            }));
         },
 
         show: function (transitionIn) {
@@ -127,20 +96,18 @@
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
         },
         
-        _onChangeSearching: function () {
-            this._toggleInstructions();
+        _onKeyDown: function (event) {
+            //  If Ctrl + A is pressed in the search view when not working with the input -- select all results
+            if (event.ctrlKey && event.which === 65 && !this.ui.searchInput.is(':focus')) {
+                this.collection.selectAll();
+            }
         },
         
         _onChangeQuery: function (model, query) {
             this.ui.searchInput.val(query);
-            this._toggleInstructions();
         },
         
-        _onCollectionReset: function () {
-            this._toggleInstructions();
-        },
-        
-        _onCollectionChangeSelected: function () {
+        _onSearchResultsChangeSelected: function () {
             this._toggleSelectedButtons();
         },
 
@@ -162,6 +129,10 @@
         
         _onInputSearchInput: function () {
             this._search();
+        },
+        
+        _onSignInManagerChangeSignedInUser: function() {
+            this._toggleSaveSelected();
         },
         
         _hide: function () {
@@ -192,22 +163,6 @@
             this.ui.saveSelectedButton.toggleClass('disabled', signedOut || noResultsSelected);
         },
 
-        //  Set the visibility of any visible text messages.
-        _toggleInstructions: function () {
-            //  Hide the search message when there is no search in progress.
-            var searching = this.model.get('searching');
-            this.ui.searchingMessage.toggleClass('hidden', !searching);
-    
-            //  Hide the type to search message once user has typed something.
-            var hasSearchQuery = this.model.hasQuery();
-            this.ui.typeToSearchMessage.toggleClass('hidden', hasSearchQuery);
-
-            //  Only show no results when all other options are exhausted and user has interacted.
-            var hasSearchResults = this.collection.length > 0;
-            var hideNoResults = hasSearchResults || searching || !hasSearchQuery;
-            this.ui.noResultsMessage.toggleClass('hidden', hideNoResults);
-        },
-        
         _toggleSelectedButtons: function () {
             this._toggleSaveSelected();
             var noResultsSelected = this.collection.selected().length === 0;
@@ -233,8 +188,6 @@
                     songs: this.collection.getSelectedSongs()
                 });
             }
-            //  Don't close the menu if disabled
-            return !disabled;
         }
     });
 

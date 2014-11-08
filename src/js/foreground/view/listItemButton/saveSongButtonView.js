@@ -7,22 +7,18 @@
 
     var SaveSongButtonView = ListItemButtonView.extend({
         template: _.template(SaveListItemButtonTemplate),
-        
-        attributes: {
-            title: chrome.i18n.getMessage('notSignedIn')
-        },
-        
+
         signInManager: null,
 
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.signInManager;
-            this.listenTo(this.signInManager, 'change:signedInUser', this._setDisabledState);
+            this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
         onRender: function() {
-            this._setDisabledState();
+            this._setState();
         },
 
         doOnClickAction: function () {
@@ -31,7 +27,11 @@
             });
         },
         
-        _setDisabledState: function () {
+        _onSignInManagerChangeSignedInUser: function() {
+            this._setState();
+        },
+        
+        _setState: function () {
             var signedIn = this.signInManager.get('signedInUser') !== null;
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');

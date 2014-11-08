@@ -12,7 +12,7 @@
 		template: _.template(NotificationTemplate),
 
 		events: {
-			'click @ui.hideButton': '_hide'
+			'click @ui.hideButton': '_onClickHideButton'
 		},
 		
 		ui: {
@@ -32,6 +32,10 @@
 			});
 
 			this._setHideTimeout();
+		},
+		
+		_onClickHideButton: function () {
+		    this._hide();
 		},
 
 		_hide: function () {

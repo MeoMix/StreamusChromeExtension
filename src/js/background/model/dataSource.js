@@ -104,7 +104,7 @@
         },
 
         //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
-        needsLoading: function () {
+        isYouTubePlaylist: function () {
             return this.get('type') === DataSourceType.YouTubePlaylist;
         },
         

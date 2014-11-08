@@ -1,0 +1,30 @@
+﻿<div class='instruction-wrapper'>
+    <div id='searchResults-typeToSearchMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= startTypingMessage %>
+        </div>
+        <div class='u-textSecondary'>
+            <%= resultsWillAppearAsYouSearchMessage %>.
+        </div>
+    </div>
+    
+    <div id='searchResults-searchingMessage' class='instruction is-showingSpinner'>
+        <div class='instruction-header'>
+            <%= searchingMessage %>...
+        </div>
+        <div class='spinner spinner--medium'></div>
+    </div>
+
+    <div id='searchResults-noResultsMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= noResultsFoundMessage %>
+        </div>
+        <div class='u-textSecondary'>
+            <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
+        </div>
+    </div>
+    
+    <div class='list'>
+        <ol id='searchResults-listItems' class='sortable--unsortable'></ol>
+    </div>
+</div>

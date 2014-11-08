@@ -15,13 +15,14 @@
         },
 
         initialize: function () {
-            this.listenTo(this.get('stream').get('items'), 'add remove reset change:active', this._toggleEnabled);
-            this.listenTo(this.get('radioButton'), 'change:enabled', this._toggleEnabled);
-            this.listenTo(this.get('shuffleButton'), 'change:enabled', this._toggleEnabled);
-            this.listenTo(this.get('repeatButton'), 'change:state', this._toggleEnabled);
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+            //  TODO: There's a LOT of things to listen to here. Once Stream can tell me its nextItem I should be able to clean this up easier.
+            this.listenTo(this.get('stream').get('items'), 'add remove reset change:active', this._setEnabled);
+            this.listenTo(this.get('radioButton'), 'change:enabled', this._onRadioButtonChangeEnabled);
+            this.listenTo(this.get('shuffleButton'), 'change:enabled', this._onShuffleButtonChangeEnabled);
+            this.listenTo(this.get('repeatButton'), 'change:state', this._onRepeatButtonChangeState);
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
 
-            this._toggleEnabled();
+            this._setEnabled();
         },
         
         //  Prevent spamming by only allowing a next click once every 100ms.
@@ -36,7 +37,7 @@
             return activatedNextItem;
         }, 100, true),
         
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.NextSong) {
                 var activatedStreamItem = this.tryActivateNextStreamItem();
 
@@ -50,7 +51,19 @@
             }
         },
         
-        _toggleEnabled: function () {
+        _onRepeatButtonChangeState: function () {
+            this._setEnabled();
+        },
+        
+        _onShuffleButtonChangeEnabled: function() {
+            this._setEnabled();
+        },
+        
+        _onRadioButtonChangeEnabled: function() {
+            this._setEnabled();
+        },
+        
+        _setEnabled: function () {
             var enabled = false;
 
             var streamItems = this.get('stream').get('items');

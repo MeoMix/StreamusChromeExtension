@@ -1,6 +1,6 @@
 ﻿define([
     'background/model/song'
-], function(Song) {
+], function (Song) {
     'use strict';
 
     var Songs = Backbone.Collection.extend({
@@ -8,4 +8,4 @@
     });
 
     return Songs;
-})
+});

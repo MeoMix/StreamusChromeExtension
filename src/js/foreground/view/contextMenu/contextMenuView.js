@@ -36,7 +36,7 @@
         },
         
         _onTransitionOutComplete: function () {
-            this.get('items').reset();
+            this.model.get('items').reset();
             this.destroy();
         },
         

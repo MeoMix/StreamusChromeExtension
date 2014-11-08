@@ -5,6 +5,10 @@
         
         this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
     },
+    
+    selectAll: function () {
+        this.invoke('set', 'selected', true);
+    },
 
     //  Just a nicer naming for deselectAll
     deselectAll: function () {

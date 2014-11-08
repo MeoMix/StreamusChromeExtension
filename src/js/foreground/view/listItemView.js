@@ -15,10 +15,6 @@
             };
         },
 
-        ui: {
-            buttonsRegion: '.listItem-buttonsRegion'
-        },
-
         events: {
             'contextmenu': '_onContextMenu',
             'mouseenter': '_onMouseEnter',
@@ -26,7 +22,7 @@
         },
         
         regions: {
-            buttonsRegion: '@ui.buttonsRegion'
+            buttonsRegion: '.listItem-buttonsRegion'
         },
         
         behaviors: {

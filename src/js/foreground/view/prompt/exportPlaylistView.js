@@ -9,18 +9,16 @@
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
         
-        templateHelpers: function () {
-            return {
-                fileTypeMessage: chrome.i18n.getMessage('fileType'),
-                csvMessage: chrome.i18n.getMessage('csv'),
-                jsonMessage: chrome.i18n.getMessage('json'),
-                includeMessage: chrome.i18n.getMessage('include'),
-                titleMessage: chrome.i18n.getMessage('title'),
-                idMessage: chrome.i18n.getMessage('id'),
-                urlMessage: chrome.i18n.getMessage('url'),
-                authorMessage: chrome.i18n.getMessage('author'),
-                durationMessage: chrome.i18n.getMessage('duration')
-            };
+        templateHelpers: {
+            fileTypeMessage: chrome.i18n.getMessage('fileType'),
+            csvMessage: chrome.i18n.getMessage('csv'),
+            jsonMessage: chrome.i18n.getMessage('json'),
+            includeMessage: chrome.i18n.getMessage('include'),
+            titleMessage: chrome.i18n.getMessage('title'),
+            idMessage: chrome.i18n.getMessage('id'),
+            urlMessage: chrome.i18n.getMessage('url'),
+            authorMessage: chrome.i18n.getMessage('author'),
+            durationMessage: chrome.i18n.getMessage('duration')
         },
         
         ui: {
@@ -36,8 +34,8 @@
         },
         
         events: {
-            'change @ui.checkboxes': '_onCheckboxOrRadioChange',
-            'change @ui.radios': '_onCheckboxOrRadioChange'
+            'change @ui.checkboxes': '_onChangeCheckbox',
+            'change @ui.radios': '_onChangeRadio'
         },
         
         exportPlaylist: function() {
@@ -52,8 +50,15 @@
             });
         },
         
-        _onCheckboxOrRadioChange: function (event) {
-            var checkbox = $(event.target);
+        _onChangeCheckbox: function (event) {
+            this._saveState($(event.target));
+        },
+        
+        _onChangeRadio: function (event) {
+            this._saveState($(event.target));
+        },
+        
+        _saveState: function (checkbox) {
             var property = checkbox.data('property');
             var checked = checkbox.is(':checked');
             this.model.save(property, checked);

@@ -28,11 +28,15 @@
         initialize: function() {
             this._setServerUrl();
             this._setInstanceId();
-            this.on('start', this._showBackground);
+            this.on('start', this._onStart);
+        },
+        
+        _onStart: function () {
+            this._showBackground();
         },
 
         _setServerUrl: function () {
-            this.serverUrl = this.localDebug ? 'http://localhost:28029/' : 'https://aws-server.streamus.com/Streamus/';
+            this.serverUrl = this.localDebug ? 'http://localhost:7969/' : 'https://aws-server.streamus.com/Streamus/';
         },
         
         //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.

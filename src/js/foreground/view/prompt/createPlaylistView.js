@@ -10,25 +10,25 @@
         
         templateHelpers: function () {
             return {
-                'requiredMessage': chrome.i18n.getMessage('required'),
-                'titleLowerCaseMessage': chrome.i18n.getMessage('title').toLowerCase(),
-                'optionalMessage': chrome.i18n.getMessage('optional'),
-                'playlistMessage': chrome.i18n.getMessage('playlist'),
-                'playlistLowerCaseMessage': chrome.i18n.getMessage('playlist').toLowerCase(),
-                'urlMessage': chrome.i18n.getMessage('url'),
-                'channelLowerCaseMessage': chrome.i18n.getMessage('channel').toLowerCase(),
-                'playlistCount': this.playlists.length
+                requiredMessage: chrome.i18n.getMessage('required'),
+                titleLowerCaseMessage: chrome.i18n.getMessage('title').toLowerCase(),
+                optionalMessage: chrome.i18n.getMessage('optional'),
+                playlistMessage: chrome.i18n.getMessage('playlist'),
+                playlistLowerCaseMessage: chrome.i18n.getMessage('playlist').toLowerCase(),
+                urlMessage: chrome.i18n.getMessage('url'),
+                channelLowerCaseMessage: chrome.i18n.getMessage('channel').toLowerCase(),
+                playlistCount: this.playlists.length
             };
         },
         
         ui: {
-            'playlistTitleInput': '#createPlaylist-playlistTitleInput',
-            'youTubeSourceInput': '#createPlaylist-youTubeSourceInput'
+            'playlistTitle': '#createPlaylist-playlistTitle',
+            'youTubeSource': '#createPlaylist-youTubeSource'
         },
 
         events: {
-            'input @ui.youTubeSourceInput': '_onSourceInput',
-            'input @ui.playlistTitleInput': '_validateTitle'
+            'input @ui.youTubeSource': '_onInputYouTubeSource',
+            'input @ui.playlistTitle': '_onInputPlaylistTitle'
         },
         
         playlists: null,
@@ -45,25 +45,33 @@
 
         onShow: function () {
             //  Reset the value after focusing to focus without selecting.
-            this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
+            this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
         },
         
         createPlaylist: function() {
-            var dataSource = this.ui.youTubeSourceInput.data('datasource');
-            var playlistName = this.ui.playlistTitleInput.val().trim();
+            var dataSource = this.ui.youTubeSource.data('datasource');
+            var playlistName = this.ui.playlistTitle.val().trim();
 
             this.playlists.addPlaylistByDataSource(playlistName, dataSource);
         },
         
+        _onInputYouTubeSourceInput: function() {
+            this._debounceParseInput();
+        },
+        
+        _onInputPlaylistTitleInput: function () {
+            this._validateTitle();
+        },
+        
         //  Debounce for typing support so I know when typing has finished
-        _onSourceInput: _.debounce(function () {
+        _debounceParseInput: _.debounce(function () {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(this._parseInput.bind(this));
         }, 100),
         
         _parseInput: function () {
-            var youTubeUrl = this.ui.youTubeSourceInput.val().trim();
-            this.ui.youTubeSourceInput.removeData('datasource').removeClass('is-invalid is-valid');
+            var youTubeUrl = this.ui.youTubeSource.val().trim();
+            this.ui.youTubeSource.removeData('datasource').removeClass('is-invalid is-valid');
 
             if (youTubeUrl !== '') {
                 this._setDataSourceViaUrl(youTubeUrl);
@@ -74,8 +82,8 @@
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = this.ui.playlistTitleInput.val().trim();
-            this.ui.playlistTitleInput.toggleClass('is-invalid', playlistTitle === '');
+            var playlistTitle = this.ui.playlistTitle.val().trim();
+            this.ui.playlistTitle.toggleClass('is-invalid', playlistTitle === '');
         },
 
         _setDataSourceAsUserInput: function () {
@@ -83,7 +91,7 @@
                 type: DataSourceType.UserInput
             });
 
-            this.ui.youTubeSourceInput.data('datasource', dataSource);
+            this.ui.youTubeSource.data('datasource', dataSource);
         },
         
         _setDataSourceViaUrl: function(url) {
@@ -100,7 +108,7 @@
         },
         
         _onParseUrlSuccess: function(dataSource) {
-            this.ui.youTubeSourceInput.data('datasource', dataSource);
+            this.ui.youTubeSource.data('datasource', dataSource);
 
             dataSource.getTitle({
                 success: this._onGetTitleSuccess.bind(this),
@@ -109,20 +117,20 @@
         },
         
         _onGetTitleSuccess: function(title) {
-            this.ui.playlistTitleInput.val(title);
+            this.ui.playlistTitle.val(title);
             this._validateTitle();
-            this.ui.youTubeSourceInput.addClass('is-valid');
+            this.ui.youTubeSource.addClass('is-valid');
         },
         
         _setErrorState: function() {
-            var originalValue = this.ui.playlistTitleInput.val();
-            this.ui.playlistTitleInput.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-            this.ui.youTubeSourceInput.addClass('is-invalid');
+            var originalValue = this.ui.playlistTitle.val();
+            this.ui.playlistTitle.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
+            this.ui.youTubeSource.addClass('is-invalid');
         },
         
         _resetInputState: function() {
-            this.ui.youTubeSourceInput.removeClass('is-invalid is-valid');
-            this.ui.playlistTitleInput.val(this.ui.playlistTitleInput.data('original-value'));
+            this.ui.youTubeSource.removeClass('is-invalid is-valid');
+            this.ui.playlistTitle.val(this.ui.playlistTitle.data('original-value'));
             this._setDataSourceAsUserInput();
         }
     });

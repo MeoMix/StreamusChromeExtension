@@ -13,11 +13,11 @@
         template: _.template(PlaylistItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_playInStream'
+            'dblclick': '_onDblClick'
         }),
         
         modelEvents: {
-            'change:id': '_setDataId _setShowingSpinnerClass'
+            'change:id': '_onChangeId'
         },
         
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
@@ -51,6 +51,15 @@
                 text: chrome.i18n.getMessage('watchOnYouTube'),
                 onClick: this._watchOnYouTube.bind(this)
             }]);
+        },
+        
+        _onDblClick: function () {
+            this._playInStream();
+        },
+        
+        _onChangeId: function() {
+            this._setDataId();
+            this._setShowingSpinnerClass();
         },
         
         //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.

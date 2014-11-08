@@ -1,25 +1,25 @@
-﻿<div class="grouping-column">
-    <div class="grouping-header">
+﻿<div class='grouping-column'>
+    <div class='grouping-header'>
         <%= contextMenusMessage %>
     </div>
 
-    <div class="grouping-content">
+    <div class='grouping-content'>
         <ul>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="showContextMenuOnTextSelection" <%= showContextMenuOnTextSelection ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='showTextSelectionContextMenu' <%= showTextSelectionContextMenu ? 'checked' : '' %>>
                     <%= showOnTextSelectionMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="showContextMenuOnYouTubeLinks" <%= showContextMenuOnYouTubeLinks ? 'checked' : '' %> >
+                    <input type='checkbox' data-property='showYouTubeLinkContextMenu' <%= showYouTubeLinkContextMenu ? 'checked' : '' %> >
                     <%= showOnYouTubeLinksMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="showContextMenuOnYouTubePages" <%= showContextMenuOnYouTubePages ? 'checked' : '' %> >
+                    <input type='checkbox' data-property='showYouTubePageContextMenu' <%= showYouTubePageContextMenu ? 'checked' : '' %> >
                     <%= showOnYouTubePagesMessage %>
                 </label>
             </li>
@@ -27,22 +27,22 @@
     </div>
 </div>
 
-<div class="grouping-column">
-    <div class="grouping-header">
+<div class='grouping-column'>
+    <div class='grouping-header'>
         <%= websiteEnhancementsMessage %>
     </div>
 
-    <div class="grouping-content">
+    <div class='grouping-content'>
         <ul>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="applyWebsiteEnhancementsToYouTube" <%= applyWebsiteEnhancementsToYouTube ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='enhanceYouTube' <%= enhanceYouTube ? 'checked' : '' %>>
                     <%= applyToYouTubeMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="applyWebsiteEnhancementsToBeatport" <%= applyWebsiteEnhancementsToBeatport ? 'checked' : '' %> >
+                    <input type='checkbox' data-property='enhanceBeatport' <%= enhanceBeatport ? 'checked' : '' %> >
                     <%= applyToBeatportMessage %>
                 </label>
             </li>

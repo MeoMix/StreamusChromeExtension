@@ -318,7 +318,6 @@
 	"alwaysOpenToSearch": {
 		"message": "Always open to search"
 	},
-
 	"addAll": {
 		"message": "Add all"
 	},
@@ -339,6 +338,9 @@
 	},
 	"pressEnterToPlay": {
 		"message": "Press enter to play"
+	},
+	"volume": {
+		"message": "Volume"
 	},
 	"increaseVolumeCommandDescription": {
 		"message": "Increase volume"
@@ -560,5 +562,14 @@
 	},
 	"playlistExportedSuccessfully": {
 		"message": "Playlist exported successfully."
+	},
+	"playing": {
+		"message": "Playing"
+	},
+	"buffering": {
+		"message": "Buffering"
+	},
+	"paused": {
+		"message": "Paused"
 	}
 }

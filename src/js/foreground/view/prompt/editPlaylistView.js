@@ -13,11 +13,11 @@
         },
         
         ui: {
-            playlistTitleInput: '#editPlaylist-playlistTitleInput'
+            playlistTitle: '#editPlaylist-playlistTitle'
         },
 
         events: {
-            'input @ui.playlistTitleInput': '_validateTitle'
+            'input @ui.playlistTitle': '_onInputPlaylistTitle'
         },
         
         onShow: function () {
@@ -29,19 +29,23 @@
             this.model.set('title', trimmedTitle);
         },
         
+        _onInputPlaylistTitle: function () {
+            this._validateTitle();
+        },
+        
         _focusInput: function () {
             //  Reset val to prevent text from becoming highlighted.
-            this.ui.playlistTitleInput.focus().val(this.ui.playlistTitleInput.val());
+            this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
         },
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
             var trimmedTitle = this._getTrimmedTitle();
-            this.ui.playlistTitleInput.toggleClass('is-invalid', trimmedTitle === '');
+            this.ui.playlistTitle.toggleClass('is-invalid', trimmedTitle === '');
         },
         
         _getTrimmedTitle: function() {
-            return this.ui.playlistTitleInput.val().trim();
+            return this.ui.playlistTitle.val().trim();
         }
     });
 

@@ -21,12 +21,12 @@ define(function () {
         },
         
         initialize: function () {
-            this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._onShowNotificationCommand);
+            this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
             //  Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
-            this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._onShowNotificationCommand);
+            this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
         },
         
-        _onShowNotificationCommand: function (notificationOptions) {
+        _showNotification: function (notificationOptions) {
             //  Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
             this._isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
         },

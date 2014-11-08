@@ -27,8 +27,8 @@
                 appendTo: 'body',
                 connectWith: '.js-droppable',
                 cursorAt: {
-                    right: 35,
-                    bottom: 40
+                    right: 32,
+                    bottom: 30
                 },
                 //  Adding a delay helps preventing unwanted drags when clicking on an element.
                 delay: 100,
@@ -68,7 +68,7 @@
         },
         
         _start: function (event, ui) {
-            Streamus.channels.elementInteractions.vent.trigger('drag');
+            Streamus.channels.element.vent.trigger('drag');
             this.view.triggerMethod('ItemDragged', {
                 item: this.view.collection.get(ui.item.data('id')),
                 ctrlKey: event.ctrlKey,
@@ -105,17 +105,24 @@
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
             if (allowMove) {
-                this.view.once('GetMinRenderIndexReponse', function (response) {
+                this.view.once('GetMinRenderIndexReponse', function(response) {
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex);
                     
-                    childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+                    this._cleanup();
                 }.bind(this));
                 this.view.triggerMethod('GetMinRenderIndex');
+            } else {
+                //  setTimeout allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
+                setTimeout(this._cleanup.bind(this));
             }
 
             //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
             return allowMove;
+        },
+        
+        _cleanup: function () {
+            this.view.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
         },
         
         _receive: function (event, ui) {
@@ -127,7 +134,7 @@
                 //  Only announced 'drop' in 'receive' and not when moving item up/down its own collection because it feels weird to de-select when in same parent.
                 //  Delay announcing drop until after _stop has finished to let jQuery UI finish executing.
                 setTimeout(function () {
-                    Streamus.channels.elementInteractions.vent.trigger('drop');
+                    Streamus.channels.element.vent.trigger('drop');
                 });
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');

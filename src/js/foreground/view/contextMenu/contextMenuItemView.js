@@ -6,7 +6,11 @@
 
     var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
         tagName: 'li',
-        className: 'menu-item',
+        className: function () {
+            var className = 'menu-item js-tooltipable';
+            className += this.model.get('disabled') ? ' disabled' : '';
+            return className;
+        },
         template: _.template(ContextMenuItemTemplate),
 
         events: {
@@ -25,20 +29,15 @@
             }
         },
 
-        onRender: function () {
-            this._setState();
-        },
-
-        _setState: function () {
-            this.$el.toggleClass('disabled', this.model.get('disabled'));
-        },
-
         _onClick: function () {
-            if (this.$el.hasClass('disabled')) {
-                return false;
-            }
+            var enabled = !this.model.get('disabled');
 
-            this.model.get('onClick')();
+            if (enabled) {
+                this.model.get('onClick')();
+            }
+            
+            //  Return false to prevent the view from closing which emulates how native, disabled contextMenu views work when clicked.
+            return enabled;
         }
     });
 

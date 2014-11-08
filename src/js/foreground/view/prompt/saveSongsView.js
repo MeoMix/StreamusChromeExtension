@@ -48,7 +48,7 @@
                 return {
                     id: playlist.get('id'),
                     title: playlist.get('title'),
-                    displayInfo: playlist.get('displayInfo')
+                    displayInfo: playlist.get('items').getDisplayInfo()
                 };
             });
 

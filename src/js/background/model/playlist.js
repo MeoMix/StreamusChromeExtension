@@ -6,9 +6,8 @@ define([
     'background/model/playlistItem',
     'background/model/shareCode',
     'background/model/youTubeV3API',
-    'common/enum/listItemType',
-    'common/utility'
-], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, YouTubeV3API, ListItemType, Utility) {
+    'common/enum/listItemType'
+], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, YouTubeV3API, ListItemType) {
     'use strict';
 
     var Playlist = Backbone.Model.extend({
@@ -21,8 +20,6 @@ define([
             dataSource: null,
             dataSourceLoaded: false,
             active: false,
-            //  This is count and total duration of all playlistItem songs.
-            displayInfo: '',
             sequence: -1,
             listItemType: ListItemType.Playlist,
             //  Only allowed to delete a playlist if more than 1 exists.
@@ -60,8 +57,6 @@ define([
             this._ensureItemsCollection();
             this.on('change:title', this._onChangeTitle);
             this.on('change:sequence', this._onChangeSequence);
-            this.listenTo(this.get('items'), 'add reset remove', this._setDisplayInfo);
-            this._setDisplayInfo();
         },
         
         getShareCode: function(options) {
@@ -95,9 +90,13 @@ define([
             };
         },
         
-        _onGetPlaylistSongsSuccess: function (songs) {
+        isLoading: function () {
+            return this.has('dataSource') && !this.get('dataSourceLoaded');
+        },
+        
+        _onGetPlaylistSongsSuccess: function (response) {
             //  Periodicially send bursts of packets to the server and trigger visual update.
-            this.get('items').addSongs(songs, {
+            this.get('items').addSongs(response.songs, {
                 success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
             });
         },
@@ -114,17 +113,6 @@ define([
                     success: this._onGetPlaylistSongsSuccess.bind(this)
                 });
             }
-        },
-        
-        _setDisplayInfo: function () {
-            var totalItemsDuration = this.get('items').getTotalDuration();
-            var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
-            
-            var songs = this.get('items').pluck('song');
-            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
-            
-            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
-            this.set('displayInfo', displayInfo);
         },
         
         _onChangeTitle: function(model, title, options) {

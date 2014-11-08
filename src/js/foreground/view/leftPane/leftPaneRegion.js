@@ -10,7 +10,7 @@
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
         
-        _onForegroundAreaShown: function() {
+        _onForegroundAreaShown: function () {
             this.show(new LeftPaneView());
         }
     });

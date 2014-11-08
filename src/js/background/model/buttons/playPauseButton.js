@@ -12,10 +12,13 @@
         },
 
         initialize: function () {
-            this.listenTo(this.get('streamItems'), 'add remove reset', this._toggleEnabled);
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+            var streamItems = this.get('streamItems');
+            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
+            this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
 
-            this._toggleEnabled();
+            this._toggleEnabled(streamItems.isEmpty());
         },
         
         //  Only allow changing once every 100ms to preent spamming.
@@ -27,7 +30,7 @@
             return this.get('enabled');
         }, 100, true),
         
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.ToggleSong) {
                 var didTogglePlayerState = this.tryTogglePlayerState();
 
@@ -41,8 +44,20 @@
             }
         },
         
-        _toggleEnabled: function () {
-            this.set('enabled', this.get('streamItems').length > 0);
+        _onStreamItemsAdd: function() {
+            this._toggleEnabled(false);
+        },
+        
+        _onStreamItemsRemove: function(model, collection) {
+            this._toggleEnabled(collection.isEmpty());
+        },
+        
+        _onStreamItemsReset: function(collection) {
+            this._toggleEnabled(collection.isEmpty());
+        },
+        
+        _toggleEnabled: function (streamItemsEmpty) {
+            this.set('enabled', !streamItemsEmpty);
         }
     });
     

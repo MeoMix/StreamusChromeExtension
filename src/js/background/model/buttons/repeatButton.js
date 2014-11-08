@@ -17,7 +17,7 @@
             //  Load from Backbone.LocalStorage
             this.fetch();
             
-            chrome.commands.onCommand.addListener(this._onChromeCommand.bind(this));
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
         },
         
         toggleRepeatState: function () {
@@ -59,7 +59,7 @@
             return message;
         },
 
-        _onChromeCommand: function (command) {
+        _onChromeCommandsCommand: function (command) {
             if (command === ChromeCommand.ToggleRepeat) {
                 this.toggleRepeatState();
 

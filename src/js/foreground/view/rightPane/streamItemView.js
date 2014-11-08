@@ -13,6 +13,7 @@
         template: _.template(StreamItemTemplate),
         
         ui: _.extend({}, ListItemView.prototype.ui, {
+            //  TODO: I don't really like this naming...
             onActiveShown: '.is-shownOnActive'
         }),
 
@@ -21,8 +22,8 @@
         }),
         
         modelEvents: {
-            'change:id': '_setDataId',
-            'change:active': '_setActiveClass'
+            'change:id': '_onChangeId',
+            'change:active': '_onChangeActive'
         },
         
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
@@ -42,7 +43,7 @@
         },
 
         onRender: function () {
-            this._setActiveClass();
+            this._setActiveClass(this.model.get('active'));
         },
         
         showContextMenu: function () {
@@ -67,14 +68,17 @@
             }
         },
         
-        _setDataId: function () {
-            this.$el.data('id', this.model.get('id'));
+        _onChangeId: function (model, id) {
+            this.$el.data('id', id);
+        },
+        
+        _onChangeActive: function (model, active) {
+            this._setActiveClass(active);
         },
 
         //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
         //  render will cause the lazy-loaded image to be reset.
-        _setActiveClass: function () {
-            var active = this.model.get('active');
+        _setActiveClass: function (active) {
             this.$el.toggleClass('is-active', active);
             this.ui.onActiveShown.toggleClass('hidden', !active);
         },

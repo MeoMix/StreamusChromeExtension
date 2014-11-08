@@ -31,40 +31,29 @@
 
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
             //  which will break chrome's .removeListener method which expects a named function in order to work properly.
-            this._onWebRequestBeforeSendHeaders = this._onWebRequestBeforeSendHeaders.bind(this);
-            this._onWebRequestCompleted = this._onWebRequestCompleted.bind(this);
+            this._onChromeWebRequestBeforeSendHeaders = this._onChromeWebRequestBeforeSendHeaders.bind(this);
+            this._onChromeWebRequestCompleted = this._onChromeWebRequestCompleted.bind(this);
 
-            chrome.webRequest.onBeforeSendHeaders.addListener(this._onWebRequestBeforeSendHeaders, {
+            chrome.webRequest.onBeforeSendHeaders.addListener(this._onChromeWebRequestBeforeSendHeaders, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             }, ['blocking', 'requestHeaders']);
             
-            chrome.webRequest.onCompleted.addListener(this._onWebRequestCompleted, {
+            chrome.webRequest.onCompleted.addListener(this._onChromeWebRequestCompleted, {
                 urls: [this.model.get('youTubeEmbedUrl')],
                 types: ['sub_frame']
             });
         },
         
         onBeforeDestroy: function () {
-            chrome.webRequest.onBeforeSendHeaders.removeListener(this._onWebRequestBeforeSendHeaders);
-            chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
+            chrome.webRequest.onBeforeSendHeaders.removeListener(this._onChromeWebRequestBeforeSendHeaders);
+            chrome.webRequest.onCompleted.removeListener(this._onChromeWebRequestCompleted);
         },
         
-        _checkLoadModel: function () {
-            if (this.loaded && this.webRequestCompleted) {
-                this.model.load();
-            }
-        },
-        
-        _onLoad: function () {
-            this.loaded = true;
-            this._checkLoadModel();
-        },
-
         //  Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
         //  Benefits include faster loading, less CPU usage, and no crashing
         //  Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
         //  Without a Referer - YouTube will reject most of the requests to play music.
-        _onWebRequestBeforeSendHeaders: function (info) {
+        _onChromeWebRequestBeforeSendHeaders: function (info) {
             //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
             var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
                 return requestHeader.name === 'Referer';
@@ -102,9 +91,20 @@
         //  Only load YouTube's API once the iframe has been built successfully.
         //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
         //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
-        _onWebRequestCompleted: function () {
+        _onChromeWebRequestCompleted: function () {
             chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
             this.webRequestCompleted = true;
+            this._checkLoadModel();
+        },
+        
+        _checkLoadModel: function () {
+            if (this.loaded && this.webRequestCompleted) {
+                this.model.load();
+            }
+        },
+
+        _onLoad: function () {
+            this.loaded = true;
             this._checkLoadModel();
         }
     });

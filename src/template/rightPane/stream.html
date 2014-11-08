@@ -1,44 +1,14 @@
-﻿<div class="instruction-wrapper">
-    <div id="stream-emptyMessage" class="instruction">
-        <div class="instruction-header">
-            <%= emptyMessage %>
-        </div>
-        <div class="u-textSecondary">
-            <%= whyNotAddASongFromAPlaylistOrMessage %> <span id="stream-showSearchLink" class="u-link u-lowercase"><%= searchForSongsMessage %></span>?
-        </div>
-    </div>
-    
-    <div class="list">
-        <ol id="stream-listItems" class="js-droppable"></ol>
-    </div>
-</div>
+﻿<div id='stream-streamItemsRegion' class='column u-flex--column u-flex--full'></div>
 
-<div class="contentBar contentBar--bottom">
-    <div class="u-flex--row">
-        <div class="u-flex--full">
-            <button id="stream-shuffleButton" class="button--icon button--medium js-tooltipable">
-                <i class="fa fa-random"></i>
-            </button>
-        
-            <button id="stream-repeatButton" class="button--icon button--medium js-tooltipable">
-                <i id="stream-repeatIcon" class="repeatIcon fa fa-repeat"></i>
-            </button>
+<div class='contentBar contentBar--bottom'>
+    <div class='u-flex--row'>
+        <div class='u-flex--full'>
+            <span id='stream-shuffleButtonRegion'></span>
+            <span id='stream-repeatButtonRegion'></span>
+            <span id='stream-radioButtonRegion'></span>
+        </div>
 
-            <button id="stream-radioButton" class="button--icon button--medium js-tooltipable">
-                <i class="icon-signal"></i>
-            </button>
-        </div>
-        
-        <div id="stream-saveButtonRegion">
-            <button id="stream-saveButton" class="button--icon button--medium js-tooltipable">
-                <i class="fa fa-save"></i>
-            </button>
-        </div>
-        
-        <div id="stream-clearButtonRegion">
-            <button id="stream-clearButton" class="button--icon button--medium js-tooltipable">
-                <i class="fa fa-trash-o"></i>
-            </button>
-        </div>
+        <div id='stream-saveStreamButtonRegion'></div>
+        <div id='stream-clearStreamButtonRegion'></div>
     </div>
 </div>

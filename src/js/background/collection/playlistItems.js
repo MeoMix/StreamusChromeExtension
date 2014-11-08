@@ -4,8 +4,9 @@
     'background/mixin/collectionSequence',
     'background/mixin/collectionUniqueSong',
     'background/model/playlistItem',
-    'common/enum/listItemType'
-], function (SyncActionType, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, PlaylistItem, ListItemType) {
+    'common/enum/listItemType',
+    'common/utility'
+], function (SyncActionType, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, PlaylistItem, ListItemType, Utility) {
     'use strict';
 
     var PlaylistItems = Backbone.Collection.extend({
@@ -60,10 +61,21 @@
                 this._bulkCreate(itemsToCreate, options);
             }
         },
+
+        getDisplayInfo: function () {
+            var totalItemsDuration = this._getTotalDuration();
+            var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
+
+            var songs = this.pluck('song');
+            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
+
+            var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
+            return displayInfo;
+        },
         
-        getTotalDuration: function () {
+        _getTotalDuration: function () {
             var songDurations = _.invoke(this.pluck('song'), 'get', 'duration');
-            
+
             var totalDuration = _.reduce(songDurations, function (memo, songDuration) {
                 return memo + songDuration;
             }, 0);

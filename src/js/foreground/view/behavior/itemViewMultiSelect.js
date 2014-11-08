@@ -3,7 +3,7 @@
 
     var ItemViewMultiSelect = Backbone.Marionette.Behavior.extend({
         modelEvents: {
-            'change:selected': '_onModelChangeSelected'
+            'change:selected': '_onChangeSelected'
         },
 
         onRender: function() {
@@ -11,7 +11,7 @@
             this._setSelectedClass(this.view.model.get('selected'));
         },
         
-        _onModelChangeSelected: function (model, selected) {
+        _onChangeSelected: function (model, selected) {
             this._setSelectedClass(selected);
         },
 

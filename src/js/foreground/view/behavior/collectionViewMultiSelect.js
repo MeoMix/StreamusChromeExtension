@@ -13,8 +13,8 @@
         },
         
         initialize: function() {
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'drop', this._onElementDrop);
+            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.element.vent, 'drop', this._onElementDrop);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen

@@ -1,42 +1,42 @@
-﻿<div class="grouping-column">
-    <div class="grouping-header">
+﻿<div class='grouping-column'>
+    <div class='grouping-header'>
         <%= generalMessage %>
     </div>
 
-    <div class="grouping-content">
+    <div class='grouping-content'>
         <ul>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
                     <%= songQualityMessage %>
                 
-                    <select data-property="youTubeSuggestedQuality">
-                        <option value="<%= YouTubeSuggestedQuality.Highres %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Highres ? 'selected' : '' %>>
+                    <select data-property='youTubeSuggestedQuality'>
+                        <option value='<%= YouTubeSuggestedQuality.Highres %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Highres ? 'selected' : '' %>>
                             <%= highestMessage %>
                         </option>
-                        <option value="<%= YouTubeSuggestedQuality.Default %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Default ? 'selected' : '' %>>
+                        <option value='<%= YouTubeSuggestedQuality.Default %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Default ? 'selected' : '' %>>
                             <%= autoMessage %>
                         </option>
-                        <option value="<%= YouTubeSuggestedQuality.Small %>" <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Small ? 'selected' : '' %>>
+                        <option value='<%= YouTubeSuggestedQuality.Small %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Small ? 'selected' : '' %>>
                             <%= lowestMessage %>
                         </option>
                     </select>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="showTooltips" <%= showTooltips ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='showTooltips' <%= showTooltips ? 'checked' : '' %>>
                     <%= showTooltipsMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="alwaysOpenToSearch" <%= alwaysOpenToSearch ? 'checked' : '' %> >
+                    <input type='checkbox' data-property='alwaysOpenToSearch' <%= alwaysOpenToSearch ? 'checked' : '' %> >
                     <%= alwaysOpenToSearchMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="alwaysOpenInTab" <%= alwaysOpenInTab ? 'checked' : '' %> >
+                    <input type='checkbox' data-property='alwaysOpenInTab' <%= alwaysOpenInTab ? 'checked' : '' %> >
                     <%= alwaysOpenInTabMessage %>
                 </label>
             </li>
@@ -44,33 +44,33 @@
     </div>
 </div>
 
-<div class="grouping-column">
-    <div class="grouping-header">
+<div class='grouping-column'>
+    <div class='grouping-header'>
         <%= remindersMessage %>
     </div>
-    <div class="grouping-content">
+    <div class='grouping-content'>
         <ul>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="remindClearStream" <%= remindClearStream ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='remindClearStream' <%= remindClearStream ? 'checked' : '' %>>
                     <%= remindClearStreamMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="remindDeletePlaylist" <%= remindDeletePlaylist ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='remindDeletePlaylist' <%= remindDeletePlaylist ? 'checked' : '' %>>
                     <%= remindDeletePlaylistMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="remindLinkUserId" <%= remindLinkUserId ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='remindLinkUserId' <%= remindLinkUserId ? 'checked' : '' %>>
                     <%= remindLinkAccountMessage %>
                 </label>
             </li>
-            <li class="grouping-item">
+            <li class='grouping-item'>
                 <label>
-                    <input type="checkbox" data-property="remindGoogleSignIn" <%= remindGoogleSignIn ? 'checked' : '' %>>
+                    <input type='checkbox' data-property='remindGoogleSignIn' <%= remindGoogleSignIn ? 'checked' : '' %>>
                     <%= remindGoogleSignInMessage %>
                 </label>
             </li>

@@ -2,7 +2,6 @@
 @import "rangeInput";
 @import "transition";
 
-
 .volumeArea-volumeButton.is-muted {
     color: @alizarin;
 
@@ -14,10 +13,13 @@
 .volumeArea:hover,
 .volumeArea:active {
     @expandedPanelHeight: 100px;
+    @transitionDelay: .2s;
+
     .volumeArea-slidePanel {
         height: @expandedPanelHeight;
         opacity: 1;
         pointer-events: all;
+        transition-delay: @transitionDelay;
     }
 
     .rangeInput {
@@ -25,6 +27,7 @@
         width: @volumeRangeSize;
         right: -@volumeRangeSize;
         opacity: 1;
+        transition-delay: @transitionDelay;
     }
 }
 
@@ -32,13 +35,12 @@
 .volumeArea-slidePanel {
     @panelWidth: 40px;
     @transitionTime: 350ms;
-    @transitionDelay: .1s;
     width: @panelWidth;
     //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
-    transition: opacity @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay, 
-                height @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay;
+    transition: opacity @transitionTime @transition-timingFunction-easeOutCubic, 
+                height @transitionTime @transition-timingFunction-easeOutCubic;
     align-items: center;
     z-index: 1;
     //  Prevent hover events from firing on children when it isn't visible.
@@ -67,8 +69,8 @@
         height: @rangeInputSize;
         will-change: opacity, right, height;
         transition: 
-            width @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay, 
-            right @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay,
-            opacity @transitionTime @transition-timingFunction-easeOutCubic @transitionDelay;
+            width @transitionTime @transition-timingFunction-easeOutCubic, 
+            right @transitionTime @transition-timingFunction-easeOutCubic,
+            opacity @transitionTime @transition-timingFunction-easeOutCubic;
     }
 }

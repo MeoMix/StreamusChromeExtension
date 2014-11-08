@@ -69,7 +69,55 @@
         },
         
         onShow: function () {
+            console.log('foregroundAreaView visible', this.$el.is(':visible'));
             Streamus.channels.foregroundArea.vent.trigger('shown');
+        },
+
+        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
+        _onClick: function (event) {
+            Streamus.channels.element.vent.trigger('click', event);
+        },
+
+        _onContextMenu: function (event) {
+            Streamus.channels.element.vent.trigger('contextMenu', event);
+        },
+
+        _onMouseDown: function () {
+            Streamus.channels.element.vent.trigger('mouseDown', event);
+        },
+
+        _onClickReloadLink: function () {
+            chrome.runtime.reload();
+        },
+        
+        _onWindowResize: function () {
+            Streamus.channels.window.vent.trigger('resize', {
+                height: this.$el.height(),
+                width: this.$el.width()
+            });
+        },
+
+        //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
+        _onWindowUnload: function () {
+            Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
+            this.destroy();
+            Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
+        },
+
+        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
+            Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
+        },
+
+        _onSettingsChangeShowTooltips: function (model, showTooltips) {
+            this._setHideTooltipsClass(showTooltips);
+        },
+
+        _onPlayerChangeLoading: function (model, loading) {
+            loading ? this._startLoading() : this._stopLoading();
+        },
+
+        _onPlayerChangeCurrentLoadAttempt: function () {
+            this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
         },
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
@@ -94,54 +142,7 @@
                 this.ui.loadingFailedMessage.removeClass('hidden');
             }
         },
-        
-        //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
-        _onClick: function(event) {
-            Streamus.channels.elementInteractions.vent.trigger('click', event);
-        },
-        
-        _onContextMenu: function (event) {
-            Streamus.channels.elementInteractions.vent.trigger('contextMenu', event);
-        },
-        
-        _onMouseDown: function () {
-            Streamus.channels.elementInteractions.vent.trigger('mouseDown', event);
-        },
-        
-        _onWindowResize: function() {
-            Streamus.channels.window.vent.trigger('resize', {
-                height: this.$el.height(),
-                width: this.$el.width()
-            });
-        },
-        
-        //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
-        _onWindowUnload: function () {
-            Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
-            this.destroy();
-            Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
-        },
-        
-        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
-            Streamus.backgroundChannels.error.vent.trigger('onWindowError', message, url, lineNumber, columnNumber, error);
-        },
-        
-        _onSettingsChangeShowTooltips: function(model, showTooltips) {
-            this._setHideTooltipsClass(showTooltips);
-        },
-        
-        _onClickReloadLink: function() {
-            chrome.runtime.reload();
-        },
-        
-        _onPlayerChangeLoading: function (model, loading) {
-            loading ? this._startLoading() : this._stopLoading();
-        },
-        
-        _onPlayerChangeCurrentLoadAttempt: function () {
-            this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
-        },
-        
+
         _checkPlayerLoading: function () {
             if (this.player.get('loading')) {
                 this._startLoading();

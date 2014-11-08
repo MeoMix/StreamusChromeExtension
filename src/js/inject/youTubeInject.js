@@ -4,14 +4,14 @@ $(function () {
 
 	var enhanceYouTube = false;
     var injectData = {
-        canInject: false,
+        canEnhance: false,
         SyncActionType: null
     };
 
     chrome.runtime.sendMessage({ method: 'getYouTubeInjectData' }, function (youTubeInjectData) {
         injectData = youTubeInjectData;
 
-        if (injectData.canInject) {
+        if (injectData.canEnhance) {
 			//  This code handles the fact that when you navigate from a YouTube search results list to a video
 			//  the page does not reload because they use AJAX to load the video page. 
 			var isFirstLoad = true;

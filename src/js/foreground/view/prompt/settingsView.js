@@ -32,18 +32,18 @@
         },
         
         events: {
-            'change @ui.checkboxes': '_onCheckboxChange',
-            'change @ui.selects': '_onSelectChange'
+            'change @ui.checkboxes': '_onChangeCheckbox',
+            'input @ui.selects': '_onInputSelect'
         },
         
-        _onCheckboxChange: function(event) {
+        _onChangeCheckbox: function (event) {
             var checkbox = $(event.target);
             var property = checkbox.data('property');
             var checked = checkbox.is(':checked');
             this._saveProperty(property, checked);
         },
         
-        _onSelectChange: function(event) {
+        _onInputSelect: function (event) {
             var select = $(event.target);
             var property = select.data('property');
             var value = select.val();

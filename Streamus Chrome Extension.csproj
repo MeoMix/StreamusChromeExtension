@@ -144,6 +144,8 @@
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\common\enum\notificationType.js" />
     <Content Include="src\js\foreground\model\adminMenuArea.js" />
+    <Content Include="src\js\foreground\model\clearStreamButton.js" />
+    <Content Include="src\js\foreground\model\saveStreamButton.js" />
     <Content Include="src\js\foreground\model\playlistAction.js" />
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
@@ -152,6 +154,7 @@
     <Content Include="src\js\foreground\view\behavior\itemViewMultiSelect.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsView.js" />
@@ -159,6 +162,15 @@
     <Content Include="src\js\foreground\view\prompt\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
+    <Content Include="src\js\foreground\view\rightPane\clearStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\nextButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\playPauseButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\previousButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\radioButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\repeatButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\saveStreamButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\shuffleButtonView.js" />
+    <Content Include="src\js\foreground\view\rightPane\streamItemsView.js" />
     <Content Include="src\js\foreground\view\search\searchAreaRegion.js" />
     <Content Include="src\js\foreground\view\listItemButton\listItemButtonView.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
@@ -221,6 +233,7 @@
     <Content Include="src\js\foreground\view\rightPane\streamView.js" />
     <Content Include="src\js\foreground\view\rightPane\timeAreaView.js" />
     <Content Include="src\js\foreground\view\rightPane\volumeAreaView.js" />
+    <Content Include="src\js\foreground\view\search\searchResultsView.js" />
     <Content Include="src\js\foreground\view\search\searchResultView.js" />
     <Content Include="src\js\foreground\view\search\searchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
@@ -295,6 +308,7 @@
     <Content Include="src\template\backgroundArea.html" />
     <Content Include="src\template\contextMenu\contextMenuItem.html" />
     <Content Include="src\template\foregroundArea.html" />
+    <Content Include="src\template\leftPane\playlistItems.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />
     <Content Include="src\template\prompt\browserSettings.html" />
     <Content Include="src\template\prompt\exportPlaylist.html" />
@@ -314,11 +328,20 @@
     <Content Include="src\template\prompt\prompt.html" />
     <Content Include="src\template\playlist\playlist.html" />
     <Content Include="src\template\leftPane\playlistItem.html" />
+    <Content Include="src\template\rightPane\clearStreamButton.html" />
+    <Content Include="src\template\rightPane\nextButton.html" />
+    <Content Include="src\template\rightPane\playPauseButton.html" />
+    <Content Include="src\template\rightPane\previousButton.html" />
+    <Content Include="src\template\rightPane\radioButton.html" />
+    <Content Include="src\template\rightPane\repeatButton.html" />
+    <Content Include="src\template\rightPane\saveStreamButton.html" />
+    <Content Include="src\template\rightPane\shuffleButton.html" />
     <Content Include="src\template\rightPane\streamItem.html" />
     <Content Include="src\template\rightPane\rightPane.html" />
     <Content Include="src\template\prompt\settings.html" />
     <Content Include="src\template\leftPane\signIn.html" />
     <Content Include="src\template\rightPane\stream.html" />
+    <Content Include="src\template\rightPane\streamItems.html" />
     <Content Include="src\template\rightPane\timeArea.html" />
     <Content Include="src\template\search\searchResult.html" />
     <Content Include="src\template\search\search.html" />
@@ -330,6 +353,7 @@
     <Content Include="src\js\test\background\model\youTubeV3APITests.js" />
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
+    <Content Include="src\template\search\searchResults.html" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />

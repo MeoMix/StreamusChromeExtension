@@ -2,7 +2,7 @@
     'use strict';
     
     var ListItemButtonsView = Backbone.Marionette.ItemView.extend({
-        template: _.template(),
+        template: false,
 
         //  Render a collection of button views to keep things DRY between various types of list-items:        
         onRender: function () {

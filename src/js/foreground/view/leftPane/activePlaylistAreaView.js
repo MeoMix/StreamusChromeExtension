@@ -1,131 +1,113 @@
 ﻿define([
-    'common/enum/listItemType',
-    'foreground/view/behavior/collectionViewMultiSelect',
-    'foreground/view/behavior/slidingRender',
-    'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
-    'foreground/view/leftPane/playlistItemView',
+    'foreground/view/leftPane/playlistItemsView',
     'text!template/leftPane/activePlaylistArea.html'
-], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, ActivePlaylistAreaTemplate) {
+], function (Tooltip, PlaylistItemsView, ActivePlaylistAreaTemplate) {
     'use strict';
 
-    var ActivePlaylistAreaView = Backbone.Marionette.CompositeView.extend({
+    var ActivePlaylistAreaView = Backbone.Marionette.LayoutView.extend({
         id: 'activePlaylistArea',
-        className: 'column u-flex--column',
-        childView: PlaylistItemView,
-        childViewContainer: '@ui.childContainer',
-        
-        childViewOptions: {
-            type: ListItemType.PlaylistItem
-        },
-        
+        className: 'column u-flex--column u-flex--full',
         template: _.template(ActivePlaylistAreaTemplate),
         
-        templateHelpers: function () {
-            return {
-                showSearchMessage: chrome.i18n.getMessage('showSearch'),
-                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-                wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo'),
-                addAllMessage: chrome.i18n.getMessage('addAll'),
-                playAllMessage: chrome.i18n.getMessage('playAll')
-            };
+        templateHelpers:{
+            addAllMessage: chrome.i18n.getMessage('addAll'),
+            playAllMessage: chrome.i18n.getMessage('playAll')
         },
         
-        //  Overwrite resortView to only render children as expected
-        resortView: function () {
-            this._renderChildren();
+        regions: {
+            playlistItemsRegion: '#activePlaylistArea-playlistItemsRegion',
         },
 
         ui: {
             playlistDetails: '#activePlaylistArea-playlistDetails',
-            playlistEmptyMessage: '#activePlaylistArea-playlistEmptyMessage',
-            childContainer: '#activePlaylistArea-listItems',
             playAllButton: '#activePlaylistArea-playAllButton',
-            addAllButton: '#activePlaylistArea-addAllButton',
-            showSearchLink: '#activePlaylistArea-showSearchLink'
+            addAllButton: '#activePlaylistArea-addAllButton'
         },
-        
+
         events: {
-            'click @ui.addAllButton:not(.disabled)': '_addAllToStream',
-            'click @ui.playAllButton:not(.disabled)': '_playAllInStream',
-            'click @ui.showSearchLink': '_showSearch'
+            'click @ui.addAllButton:not(.disabled)': '_onClickAddAllButton',
+            'click @ui.playAllButton:not(.disabled)': '_onClickPlayAllButton'
         },
         
-        modelEvents: {
-            'change:displayInfo': '_onModelChangeDisplayInfo'
-        },
-        
-        collectionEvents: {
-            'add remove reset': '_setViewState'
-        },
-        
-        behaviors: function () {
-            return {
-                CollectionViewMultiSelect: {
-                    behaviorClass: CollectionViewMultiSelect,
-                },
-                SlidingRender: {
-                    behaviorClass: SlidingRender
-                },
-                Sortable: {
-                    behaviorClass: Sortable
-                },
-                Tooltip: {
-                    behaviorClass: Tooltip
-                }
-            };
+        behaviors: {
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
         
         streamItems: null,
         
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.streamItems, 'add remove reset', this._toggleButtons);
+            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
+            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
+
+            var playlistItems = this.model.get('items');
+            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
+            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
+            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
         },
 
         onRender: function () {
-            this._setViewState();
+            this._toggleButtons();
+            this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
         },
         
-        //  Ensure that the proper UI elements are being shown based on the state of the collection
-        _setViewState: function () {
-            this._toggleInstructions();
+        onShow: function () {
+            this.playlistItemsRegion.show(new PlaylistItemsView({
+                collection: this.model.get('items')
+            }));
+        },
+        
+        _onStreamItemsAdd: function () {
             this._toggleButtons();
         },
         
-        _toggleButtons: function () {
-            var playlistEmpty = this.collection.length === 0;
-            this.ui.playAllButton.toggleClass('disabled', playlistEmpty);
-
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.collection.pluck('song'));
-            this.ui.addAllButton.toggleClass('disabled', playlistEmpty || duplicatesInfo.allDuplicates).attr('title', duplicatesInfo.message);
+        _onStreamItemsRemove: function() {
+            this._toggleButtons();
         },
         
-        _onModelChangeDisplayInfo: function (model, displayInfo) {
-            this._updatePlaylistDetails(displayInfo);
+        _onStreamItemsReset: function () {
+            this._toggleButtons();
+        },
+        
+        _onPlaylistItemsAdd: function(model, collection) {
+            this._toggleButtons();
+            this._updatePlaylistDetails(collection.getDisplayInfo());
+        },
+        
+        _onPlaylistItemsRemove: function (model, collection) {
+            this._toggleButtons();
+            this._updatePlaylistDetails(collection.getDisplayInfo());
+        },
+        
+        _onPlaylistItemsReset: function (collection) {
+            this._toggleButtons();
+            this._updatePlaylistDetails(collection.getDisplayInfo());
+        },
+        
+        _toggleButtons: function () {
+            var isEmpty = this.model.get('items').isEmpty();
+            this.ui.playAllButton.toggleClass('disabled', isEmpty);
+
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+            this.ui.addAllButton.toggleClass('disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', duplicatesInfo.message);
         },
 
         _updatePlaylistDetails: function (displayInfo) {
             this.ui.playlistDetails.text(displayInfo);
         },
-       
-        _toggleInstructions: function () {
-            this.ui.playlistEmptyMessage.toggleClass('hidden', this.collection.length > 0);
-        },
 
-        _addAllToStream: function () {
+        _onClickAddAllButton: function () {
             this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
         
-        _playAllInStream: function () {
+        _onClickPlayAllButton: function () {
             this.streamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });
-        },
-
-        _showSearch: function () {
-            Streamus.channels.searchArea.commands.trigger('show', true);
         }
     });
 

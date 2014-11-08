@@ -69,7 +69,10 @@
             });
             
             var chromeIconManager = new ChromeIconManager({
-                player: player
+                player: player,
+                streamItems: stream.get('items'),
+                settings: settings,
+                tabManager: tabManager
             });
             
             var chromeNotificationsManager = new ChromeNotificationsManager({

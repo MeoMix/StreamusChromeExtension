@@ -12,9 +12,9 @@
         initialize: function () {
             this.contextMenu = new ContextMenu();
             
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'drag', this._onElementDrag);
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'contextMenu', this._onElementContextMenu);
+            this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
+            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
         },
         
         _onElementDrag: function () {

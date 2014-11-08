@@ -25,56 +25,68 @@ define([
             this._setYouTubeLinks();
             this._setYouTubePages();
             
-            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnTextSelection', this._setTextSelection);
-            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubeLinks', this._setYouTubeLinks);
-            this.listenTo(this.get('browserSettings'), 'change:showContextMenuOnYouTubePages', this._setYouTubePages);
-            this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onChangeSignedInUser);
+            this.listenTo(this.get('browserSettings'), 'change:showTextSelectionContextMenu', this._onBrowserSettingsChangeShowTextSelectionContextMenu);
+            this.listenTo(this.get('browserSettings'), 'change:showYouTubeLinkContextMenu', this._onBrowserSettingsChangeShowYouTubeLinkContextMenu);
+            this.listenTo(this.get('browserSettings'), 'change:showYouTubePageContextMenu', this._onBrowserSettingsChangeShowYouTubePageContextMenu);
+            this.listenTo(this.get('signInManager'), 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
             var signedInUser = this.get('signInManager').get('signedInUser');
             if (signedInUser !== null) {
-                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistAdded);
+                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistsAdd);
             }
         },
         
-        _onPlaylistAdded: function (addedPlaylist) {
-            if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
-                this._createPlaylistContextMenu(this._getContextMenuOptions(true), this.get('youTubeLinkSaveId'), addedPlaylist);
+        _onBrowserSettingsChangeShowTextSelectionContextMenu: function() {
+            this._setTextSelection();
+        },
+        
+        _onBrowserSettingsChangeShowYouTubeLinkContextMenu: function() {
+            this._setYouTubeLinks();
+        },
+        
+        _onBrowserSettingsChangeShowYouTubePageContextMenu: function() {
+            this._setYouTubePages();
+        },
+        
+        _onPlaylistsAdd: function (model) {
+            if (this.get('browserSettings').get('showYouTubeLinkContextMenu')) {
+                this._createPlaylistContextMenu(this._getContextMenuOptions(true), this.get('youTubeLinkSaveId'), model);
             }
 
-            if (this.get('browserSettings').get('showContextMenuOnYouTubePages')) {
-                this._createPlaylistContextMenu(this._getContextMenuOptions(false), this.get('youTubePageSaveId'), addedPlaylist);
+            if (this.get('browserSettings').get('showYouTubePageContextMenu')) {
+                this._createPlaylistContextMenu(this._getContextMenuOptions(false), this.get('youTubePageSaveId'), model);
             }
         },
         
-        _onChangeSignedInUser: function (model, signedInUser) {
+        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
             if (signedInUser === null) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
                 
                 this._removeContextMenu('youTubeLinkSaveId');
                 this._removeContextMenu('youTubePageSaveId');
             } else {
-                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistAdded);
+                this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistsAdd);
 
-                if (this.get('browserSettings').get('showContextMenuOnYouTubeLinks')) {
+                if (this.get('browserSettings').get('showYouTubeLinkContextMenu')) {
                     this.set('youTubeLinkSaveId', this._createSaveContextMenu(this._getContextMenuOptions(true)));
                 }
 
-                if (this.get('browserSettings').get('showContextMenuOnYouTubePages')) {
+                if (this.get('browserSettings').get('showYouTubePageContextMenu')) {
                     this.set('youTubePageSaveId', this._createSaveContextMenu(this._getContextMenuOptions(false)));
                 }
             }
         },
         
         _setTextSelection: function () {
-            this.get('browserSettings').get('showContextMenuOnTextSelection') ? this._createTextSelection() : this._removeContextMenu('textSelectionId');
+            this.get('browserSettings').get('showTextSelectionContextMenu') ? this._createTextSelection() : this._removeContextMenu('textSelectionId');
         },
         
         _setYouTubeLinks: function () {
-            this.get('browserSettings').get('showContextMenuOnYouTubeLinks') ? this._createYouTubeLinks() : this._removeYouTubeLinks();
+            this.get('browserSettings').get('showYouTubeLinkContextMenu') ? this._createYouTubeLinks() : this._removeYouTubeLinks();
         },
         
         _setYouTubePages: function () {
-            this.get('browserSettings').get('showContextMenuOnYouTubePages') ? this._createYouTubePages() : this._removeYouTubePages();
+            this.get('browserSettings').get('showYouTubePageContextMenu') ? this._createYouTubePages() : this._removeYouTubePages();
         },
         
         _createYouTubeLinks: function() {

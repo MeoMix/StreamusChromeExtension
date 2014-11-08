@@ -9,19 +9,17 @@
         id: 'adminMenuArea',
         template: _.template(AdminMenuAreaTemplate),
         
-        templateHelpers: function () {
-            return {
-                settingsMessage: chrome.i18n.getMessage('settings'),
-                browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
-                keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
-                viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
-                donateMessage: chrome.i18n.getMessage('donate'),
-                reloadMessage: chrome.i18n.getMessage('reload')
-            };
+        templateHelpers: {
+            settingsMessage: chrome.i18n.getMessage('settings'),
+            browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
+            keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
+            viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
+            donateMessage: chrome.i18n.getMessage('donate'),
+            reloadMessage: chrome.i18n.getMessage('reload')
         },
         
         ui: {
-            showMenuButton: '#adminMenuArea-showMenuButton',
+            menuButton: '#adminMenuArea-menuButton',
             menu: '#adminMenuArea-menu',
             settingsMenuItem: '#adminMenuArea-settingsMenuItem',
             browserSettingsMenuItem: '#adminMenuArea-browserSettingsMenuItem',
@@ -32,13 +30,13 @@
         },
 
         events: {
-            'click @ui.showMenuButton': '_toggleMenu',
-            'click @ui.settingsMenuItem': '_showSettingsPrompt',
-            'click @ui.browserSettingsMenuItem': '_showBrowserSettingsPrompt',
-            'click @ui.keyboardShortcutsMenuItem': '_openKeyboardShortcutsTab',
-            'click @ui.viewInTabMenuItem': '_openStreamusTab',
-            'click @ui.donateMenuItem': '_openDonateTab',
-            'click @ui.restartMenuItem': '_restart'
+            'click @ui.menuButton': '_onClickMenuButton',
+            'click @ui.settingsMenuItem': '_onClickSettingsMenuItem',
+            'click @ui.browserSettingsMenuItem': '_onClickBrowserSettingsMenuItem',
+            'click @ui.keyboardShortcutsMenuItem': '_onClickKeyboardShortcutsMenuItem',
+            'click @ui.viewInTabMenuItem': '_onClickViewInTabMenuItem',
+            'click @ui.donateMenuItem': '_onClickDonateMenuItem',
+            'click @ui.restartMenuItem': '_onClickRestartMenuItem'
         },
         
         modelEvents: {
@@ -50,8 +48,36 @@
         initialize: function () {
             this.tabManager = Streamus.backgroundPage.tabManager;
             
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'drag', this._onElementDrag);
-            this.listenTo(Streamus.channels.elementInteractions.vent, 'click', this._onElementClick);
+            this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
+            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+        },
+        
+        _onClickMenuButton: function () {
+            this.model.set('menuShown', !this.model.get('menuShown'));
+        },
+        
+        _onClickSettingsMenuItem: function () {
+            Streamus.channels.prompt.commands.trigger('show:prompt', SettingsPromptView);
+        },
+        
+        _onClickBrowserSettingsMenuItem: function() {
+            Streamus.channels.prompt.commands.trigger('show:prompt', BrowserSettingsPromptView);
+        },
+        
+        _onClickKeyboardShortcutsMenuItem: function() {
+            this.tabManager.showKeyboardShortcutsTab();
+        },
+        
+        _onClickViewInTabMenuItem: function() {
+            this.tabManager.showStreamusTab();
+        },
+        
+        _onClickDonateMenuItem: function() {
+            this.tabManager.showDonateTab();
+        },
+        
+        _onClickRestartMenuItem: function () {
+            chrome.runtime.reload();
         },
         
         _onElementDrag: function () {
@@ -60,7 +86,7 @@
         
         _onElementClick: function (event) {;
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
-            if ($(event.target).closest(this.ui.showMenuButton.selector).length === 0) {
+            if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
                 this.model.set('menuShown', false);
             }
         },
@@ -68,43 +94,15 @@
         _onChangeMenuShown: function (model, menuShown) {
             menuShown ? this._showMenu() : this._hideMenu();
         },
-
-        _toggleMenu: function () {
-            this.model.set('menuShown', !this.model.get('menuShown'));
-        },
         
         _showMenu: function () {
             this.ui.menu.addClass('is-expanded');
-            this.ui.showMenuButton.addClass('is-enabled');
+            this.ui.menuButton.addClass('is-enabled');
         },
         
         _hideMenu: function () {
             this.ui.menu.removeClass('is-expanded');
-            this.ui.showMenuButton.removeClass('is-enabled');
-        },
-        
-        _showSettingsPrompt: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', SettingsPromptView);
-        },
-        
-        _showBrowserSettingsPrompt: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', BrowserSettingsPromptView);
-        },
-        
-        _openStreamusTab: function () {
-            this.tabManager.showStreamusTab();
-        },
-        
-        _openDonateTab: function () {
-            this.tabManager.showDonateTab();
-        },
-        
-        _openKeyboardShortcutsTab: function() {
-            this.tabManager.showKeyboardShortcutsTab();
-        },
-        
-        _restart: function() {
-            chrome.runtime.reload();
+            this.ui.menuButton.removeClass('is-enabled');
         }
     });
 

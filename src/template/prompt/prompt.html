@@ -1,33 +1,33 @@
-﻿<div id="prompt-panel" class="prompt-panel panel panel--uncolored">
-    <div class="contentBar contentBar--top">
-        <div class="u-flex--row">
-            <span class="u-textOverflowEllipsis contentBar--top-content">
+﻿<div id='prompt-panel' class='prompt-panel panel panel--uncolored'>
+    <div class='contentBar contentBar--top'>
+        <div class='u-flex--row'>
+            <span class='u-textOverflowEllipsis contentBar--top-content'>
                 <%= title %>
             </span>
         
-            <button id="prompt-closeButton" class="prompt-closeButton button--icon button--large">
-                <i class="fa fa-times"></i>
+            <button id='prompt-closeButton' class='prompt-closeButton button--icon button--large'>
+                <i class='fa fa-times'></i>
             </button>
         </div>
     </div>
 
-    <div id="prompt-contentRegion" class="u-inset--horizontal u-inset--vertical">
+    <div id='prompt-contentRegion' class='u-inset--horizontal u-inset--vertical'>
     </div>
     
     <% if( showReminder || showOkButton ) { %>
-    <div class="prompt-contentBar--bottom  contentBar contentBar--bottom">
-        <div class="u-flex--row">
+    <div class='prompt-contentBar--bottom  contentBar contentBar--bottom'>
+        <div class='u-flex--row'>
             <% if( showReminder ) { %>
-            <div class="u-flex--full u-flex--alignCenter lineHeight-loose">
+            <div class='u-flex--full u-flex--alignCenter lineHeight-loose'>
                 <label>
-                    <input id="prompt-reminderCheckbox" type="checkbox">
+                    <input id='prompt-reminderCheckbox' type='checkbox'>
                     <%= reminderText %>
                 </label>
             </div>
             <% } %>
 
             <% if( showOkButton ) { %>
-            <button id="prompt-okButton" class="button--prompt">
+            <button id='prompt-okButton' class='button--prompt'>
                 <%= okButtonText %>
             </button>
             <% } %>

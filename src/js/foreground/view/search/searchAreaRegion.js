@@ -2,7 +2,7 @@
     'foreground/view/search/searchView'
 ], function (SearchView) {
     'use strict';
-    
+    //  TODO: SearchAreaRegion vs SearchView...
     var SearchAreaRegion = Backbone.Marionette.Region.extend({
         el: '#foregroundArea-searchAreaRegion',
         settings: null,
@@ -10,11 +10,11 @@
         initialize: function () {
             this.settings = Streamus.backgroundPage.settings;
 
-            this.listenTo(Streamus.channels.searchArea.commands, 'show', this._showSearchView);
+            this.listenTo(Streamus.channels.searchArea.commands, 'show:search', this._showSearch);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
 
-        _showSearchView: function (transitionIn) {
+        _showSearch: function (transitionIn) {
             this.currentView.visible ? this._focusSearchView() : this.currentView.show(transitionIn);
         },
         

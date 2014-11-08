@@ -24,11 +24,11 @@ define([
             });
             
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
-            chrome.omnibox.onInputChanged.addListener(this._onInputChanged.bind(this));
-            chrome.omnibox.onInputEntered.addListener(this._onInputEntered.bind(this));
+            chrome.omnibox.onInputChanged.addListener(this._onChromeOmniboxInputChanged.bind(this));
+            chrome.omnibox.onInputEntered.addListener(this._onChromeOmniboxInputEntered.bind(this));
         },
         
-        _onInputChanged: function (text, suggest) {
+        _onChromeOmniboxInputChanged: function (text, suggest) {
             //  Clear suggestedSongs
             this.get('suggestedSongs').reset();
 
@@ -62,6 +62,33 @@ define([
             }
         },
         
+        _onChromeOmniboxInputEntered: function (text) {
+            //  Find the cached song data by url
+            var pickedSong = this.get('suggestedSongs').find(function (song) {
+                return song.get('url') === text;
+            });
+
+            //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
+            //  take the best suggestion related to their text.
+            if (_.isUndefined(pickedSong)) {
+                pickedSong = this.get('suggestedSongs').first();
+            }
+
+            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
+            var playOnAdd = addOnlyModifierExists ? false : true;
+
+            this.get('streamItems').addSongs(pickedSong, {
+                playOnAdd: playOnAdd
+            });
+
+            if (!playOnAdd) {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                    title: chrome.i18n.getMessage('songAdded'),
+                    message: pickedSong.get('title')
+                });
+            }
+        },
+        
         _getModifiers: function (text) {
             var validModifiers = this.get('validModifiers');
             var usedModifiers = [];
@@ -86,40 +113,13 @@ define([
             return text.trim();
         },
         
-        _onSearchResponse: function (suggest, searchText, songs) {
+        _onSearchResponse: function (suggest, searchText, searchResponse) {
             this.set('searchJqXhr', null);
 
-            var suggestions = this._buildSuggestions(songs, searchText);
+            var suggestions = this._buildSuggestions(searchResponse.songs, searchText);
             suggest(suggestions);
         },
-        
-        _onInputEntered: function (text) {
-            //  Find the cached song data by url
-            var pickedSong = this.get('suggestedSongs').find(function (song) {
-                return song.get('url') === text;
-            });
-                
-            //  If the user doesn't make a selection (commonly when typing and then just hitting enter on their query)
-            //  take the best suggestion related to their text.
-            if (_.isUndefined(pickedSong)) {
-                pickedSong = this.get('suggestedSongs').first();
-            }
 
-            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
-            var playOnAdd = addOnlyModifierExists ? false : true;
-            
-            this.get('streamItems').addSongs(pickedSong, {
-                playOnAdd: playOnAdd 
-            });
-            
-            if (!playOnAdd) {
-                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                    title: chrome.i18n.getMessage('songAdded'),
-                    message: pickedSong.get('title')
-                });
-            }
-        },
-        
         _buildSuggestions: function (songs, text) {
             var suggestions = songs.map(function (song) {
                 this.get('suggestedSongs').add(song);

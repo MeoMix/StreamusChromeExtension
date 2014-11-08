@@ -3,9 +3,14 @@ $(function () {
     'use strict';
     
     var enhanceBeatport = false;
+    var injectData = {
+        canEnhance: false
+    };
 
-    chrome.runtime.sendMessage({ method: 'getCanEnhanceBeatport' }, function (canEnhanceBeatport) {
-        if (canEnhanceBeatport) {
+    chrome.runtime.sendMessage({ method: 'getBeatportInjectData' }, function (beatportInjectData) {
+        injectData = beatportInjectData;
+
+        if (injectData.canEnhance) {
             injectCss();
             injectHtml();
             enhanceBeatport = true;
