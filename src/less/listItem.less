@@ -22,9 +22,9 @@
     width: 100%;
     padding: 5px;
     display: flex;
-    transition: color @transition-color-time @transition-timingFunction-easeOutCubic, 
-                background @transition-color-time @transition-timingFunction-easeOutCubic,
-                opacity @transition-color-time @transition-timingFunction-easeOutCubic;
+    transition: color @transition-color-time @transition-easeOutSine, 
+                background @transition-color-time @transition-easeOutSine,
+                opacity @transition-color-time @transition-easeOutSine;
 
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
@@ -32,7 +32,7 @@
     overflow: hidden;
 
     &:hover {
-        background: @lightGray;
+        background: @black--a12;
 
         .is-hiddenOnHover {
             .hidden;
@@ -43,11 +43,11 @@
     //  Since stream-item can be active AND selected I do not want to re-skin it when it is active.
     &.is-active:not(.stream-item) {
         color: @white;
-        background: @baseBlue;
+        background-color: @blue--500;
 
         .listItem-button,
         .listItem-details {
-            color: @lightBaseBlue;
+            color: @blue--100;
         }
         
         .listItem-title,
@@ -63,14 +63,14 @@
     }
 
     &.is-active .listItem-itemCount {
-        background: @lightBaseBlue;
-        color: @baseBlue;
+        background-color: @blue--100;
+        color: @blue--500;
     }
 }
 
 .listItem-spinner,
 .listItem-button {
-    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
+    transition: color @transition-color-time @transition-easeOutSine;
 }
 
 .listItem--medium {
@@ -95,8 +95,8 @@
 }
 
 .listItem-title {
-    color: @darkGray;
-    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
+    color: @black--a87;
+    transition: color @transition-color-time @transition-easeOutSine;
 }
 
 .listItem-content {
@@ -106,13 +106,13 @@
 
 .listItem-details {
     .fontSize-small;
-    transition: color @transition-color-time @transition-timingFunction-easeOutCubic;
+    transition: color @transition-color-time @transition-easeOutSine;
 }
 
 .listItem-itemCount {
     .fontSize-small;
     .lineHeight-tighter;
-    background: @mediumDarkGray;
+    background: @black--a54;
     border-radius: 1em;
     color: @white;
     font-weight: bold;

@@ -7,7 +7,9 @@
     z-index: 1;
     padding: 5px 0;
     opacity: 0;
-    transition: opacity 250ms @transition-timingFunction-easeOutCubic;
+    transition-property: opacity;
+    transition-duration: @transition-easeOutSine;
+    .transition--fast;
     will-change: opacity;
     pointer-events: none;
 
@@ -23,9 +25,9 @@
     .u-clickable;
     max-width: 200px;
     padding: 0 15px;
-    color: @darkGray;
+    color: @black--a87;
 
     &:not(.disabled):hover {
-        background: @lightGray;
+        background: @black--a12;
     }
 }

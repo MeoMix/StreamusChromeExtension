@@ -14,11 +14,6 @@
         
         onRender: function () {
             this.view.ui.childContainer.sortable(this._getSortableOptions());
-            
-            //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.ui.list.scroll(_.throttle(function () {
-                this.view.ui.childContainer.sortable('refresh');
-            }.bind(this), 20));
         },
         
         _getSortableOptions: function() {
@@ -65,6 +60,8 @@
             }
             
             $('.' + this.placeholderClass).toggleClass('hidden', placeholderAdjacent);
+            
+            this.view.ui.childContainer.sortable('refresh');
         },
         
         _start: function (event, ui) {
@@ -92,7 +89,7 @@
         
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
         _beforeStop: function (event, ui) {
-            //  Subtract one from placeholderIndex because it is the next sibling of the target position.
+            //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
             this.view.ui.childContainer.data({
                 placeholderIndex: ui.placeholder.index() - 1
             });
@@ -118,7 +115,8 @@
             }
 
             //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
-            return allowMove;
+            var removeHtmlElement = allowMove || ui.item[0].parentNode === null;
+            return removeHtmlElement;
         },
         
         _cleanup: function () {
@@ -126,10 +124,26 @@
         },
         
         _receive: function (event, ui) {
+            //  If the parentNode does not exist then slidingRender has removed the HTML element which means the HTML element is not above the placeholder and I need to +1.
+            //  This only applies for receiving and not for sorting elements within the parent list, so don't do this logic in onBeforeStop because it's not clear
+            //  if sort or receive is happening.
+            var placeholderIndex = ui.sender.data('placeholderIndex');
+
+            if (ui.item[0].parentNode === null) {
+                placeholderIndex += 1;
+            }
+
             this.view.once('GetMinRenderIndexReponse', function (response) {
+                console.log("i'm going to add at index:", placeholderIndex + response.minRenderIndex);
+
                 this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
-                    index: ui.sender.data('placeholderIndex') + response.minRenderIndex
+                    index: placeholderIndex + response.minRenderIndex
                 });
+                
+                //  TODO: Since I provided the index that the item would be inserted at in the collection, the collection does not resort.
+                //  But, the index in the collection does not correspond to the index in the CollectionView -- that's simply the placeholderIndex. Not sure how to handle that.
+                //  I'd need to intercept the _onCollectionAdd event of Marionette, calculate the proper index, and pass bypass: true in, but not going to do that for now.
+                this.view.collection.sort();
 
                 //  Only announced 'drop' in 'receive' and not when moving item up/down its own collection because it feels weird to de-select when in same parent.
                 //  Delay announcing drop until after _stop has finished to let jQuery UI finish executing.
@@ -201,7 +215,7 @@
             var warnDroppable = false;
             var placeholderText = '';
             
-            var overOtherCollection = this.view.childViewOptions.type !== ui.item.data('type');
+            var overOtherCollection = this.view.childViewType !== ui.item.data('type');
             if (overOtherCollection) {
                 //  Decorate the placeholder to indicate songs can't be copied.
                 var draggedSongs = ui.sender.data('draggedSongs');
@@ -230,6 +244,12 @@
             var placeholderParent = ui.placeholder.parent().parent();
             var sortableItem = ui.item.data('sortableItem');
             
+            //  If the item being sorted has been unloaded by slidingRender behavior then sortableItem will be unavailable.
+            //  In this scenario, fall back to the more expensive query of getting a reference to the sortable instance via its parent's ID.
+            if (_.isUndefined(sortableItem)) {
+                sortableItem = $('#' + ui.item.data('parentid')).sortable('instance');
+            }
+
             sortableItem.scrollParent = placeholderParent;
             sortableItem.overflowOffset = placeholderParent.offset();
         }

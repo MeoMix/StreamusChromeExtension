@@ -14,6 +14,7 @@
             global: Backbone.Wreqr.radio.channel('global'),
             prompt: Backbone.Wreqr.radio.channel('prompt'),
             notification: Backbone.Wreqr.radio.channel('notification'),
+            foreground: Backbone.Wreqr.radio.channel('foreground'),
             foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
             window: Backbone.Wreqr.radio.channel('window'),
             contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),

@@ -14,8 +14,12 @@
         className: 'column u-flex--column u-flex--full',
         childViewContainer: '@ui.childContainer',
         childView: PlaylistItemView,
-        childViewOptions: {
-            type: ListItemType.PlaylistItem
+        childViewType: ListItemType.PlaylistItem, 
+        childViewOptions: function () {
+            return {
+                type: this.childViewType,
+                parentId: this.ui.childContainer[0].id
+            };
         },
 
         //  Overwrite resortView to only render children as expected
@@ -84,8 +88,7 @@
         },
 
         _onClickShowSearchLink: function () {
-            //  TODO: No idea what this true is.
-            Streamus.channels.searchArea.commands.trigger('show:search', true);
+            Streamus.channels.searchArea.commands.trigger('show:search');
         }
     });
 

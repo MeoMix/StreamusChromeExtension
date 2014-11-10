@@ -57,13 +57,11 @@
             }, {
                 //  No point in sharing an empty playlist.
                 disabled: isEmpty,
-                title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                 text: chrome.i18n.getMessage('copyUrl'),
                 onClick: this._copyPlaylistUrl.bind(this)
             }, {
                 //  No point in exporting an empty playlist.
                 disabled: isEmpty,
-                title: isEmpty ? chrome.i18n.getMessage('playlistEmpty') : '',
                 text: chrome.i18n.getMessage('export'),
                 onClick: this._showExportPlaylistPrompt.bind(this)
             }]);

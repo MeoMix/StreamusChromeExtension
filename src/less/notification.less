@@ -10,7 +10,6 @@
     left: 0;
     right: 0;
     top: 0;
-    transform: translate(0px, -40px);
     color: @white;
 
     //  Nest this to increase its priority so that hover overrides success/error color.
@@ -20,25 +19,25 @@
 }
 
 .notification--success {
-    background-color: @successGreen;
+    background-color: @green--500;
 
     .notification-hideButton {
-        color: @lightSuccessGreen;
+        color: @green--100;
     }
 }
 
 .notification--error {
-    background-color: @alizarin;
+    background-color: @red--500;
 
     .notification-hideButton {
-        color: @lightAlizarin;
+        color: @red--100;
     }
 }
 
 .notification--warning {
-    background-color: @sunFlower;
+    background-color: @amber--500;
 
     .notification-hideButton {
-        color: @lightSunflower;
+        color: @amber--100;
     }
 }

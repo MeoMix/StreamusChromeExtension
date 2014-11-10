@@ -2,15 +2,15 @@
 @import "transition";
 
 .textInput.is-invalid {
-    background-color: @lightAlizarin;
+    background-color: @red--100;
 }
 
 .textInput.is-valid {
-    background-color: @lightSuccessGreen;
+    background-color: @green--100;
 }
 
 .textInput--underlined {
-    .m-textInputUnderline(@lightGray);
+    .m-textInputUnderline(@black--a12);
     transition: box-shadow @transition-color-time;
     will-change: box-shadow;
     //  Subtract 2 pixels from the width to account for the 1px box-shadow on either side.
@@ -19,14 +19,14 @@
     margin-left: 1px;
 
     &:hover{
-        .m-textInputUnderline(@mediumLightGray);
+        .m-textInputUnderline(@black--a26);
     }
 
     &:focus {
-        .m-textInputUnderline(@baseBlue);
+        .m-textInputUnderline(@blue--500);
 
         &:hover {
-            .m-textInputUnderline(@darkBaseBlue);
+            .m-textInputUnderline(@blue--700);
         }
     }
 }
@@ -36,5 +36,5 @@
 }
 
 ::-webkit-input-placeholder {
-    color: @mediumDarkGray;
+    color: @black--a54;
 }

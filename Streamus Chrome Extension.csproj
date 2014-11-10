@@ -285,7 +285,6 @@
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
-    <Content Include="src\js\thirdParty\jquery.transit.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
@@ -382,6 +381,7 @@
     <Content Include="src\less\timeArea.less" />
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
+    <Content Include="src\less\row.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />

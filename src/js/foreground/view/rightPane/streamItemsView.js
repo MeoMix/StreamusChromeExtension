@@ -15,8 +15,12 @@
         className: 'column u-flex--full u-flex--column',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
-        childViewOptions: {
-            type: ListItemType.StreamItem
+        childViewType: ListItemType.StreamItem,
+        childViewOptions: function () {
+            return {
+                type: this.childViewType,
+                parentId: this.ui.childContainer[0].id
+            };
         },
 
         //  Overwrite resortView to only render children as expected
@@ -90,8 +94,7 @@
         },
         
         _showSearch: function () {
-            //  TODO: What is this true parameter?
-            Streamus.channels.searchArea.commands.trigger('show:search', true);
+            Streamus.channels.searchArea.commands.trigger('show:search');
         }
     });
 

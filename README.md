@@ -67,7 +67,6 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [jQuery (v2.1.1)](http://jquery.com/)
 * [jQuery UI (v1.11.0)](http://jqueryui.com/)
 * [jQuery qTip (v2.2.0-63-)](http://qtip2.com/)
-* [jQuery Transit (v0.9.12)](http://ricostacruz.com/jquery.transit/)
 * [Less (v1.7.4)](http://lesscss.org)
 * [Lo-Dash (v2.4.1)](http://lodash.com/)
 * [Mocha (v1.21.3)](http://visionmedia.github.io/mocha/)

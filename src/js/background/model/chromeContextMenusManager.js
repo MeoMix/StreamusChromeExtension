@@ -219,7 +219,7 @@ define([
         
         _onClickPlayContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
-            
+            console.log('onClick url:', url);
             var dataSource = new DataSource({ url: url });
             dataSource.getSong({
                 success: function (song) {

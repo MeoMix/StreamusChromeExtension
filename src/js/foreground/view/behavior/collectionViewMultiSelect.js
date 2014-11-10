@@ -41,7 +41,7 @@
             var clickedItem = $(event.target).closest('.js-listItem--multiSelect');
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
 
-            if (listItemType !== this.view.childViewOptions.type) {
+            if (listItemType !== this.view.childViewType) {
                 this._deselectCollection();
             }
         },

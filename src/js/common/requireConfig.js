@@ -14,7 +14,6 @@
         'googleAnalytics': 'thirdParty/googleAnalytics',
         'jquery': 'thirdParty/jquery',
         'jquery.qtip': 'thirdParty/jquery.qtip',
-        'jquery.transit': 'thirdParty/jquery.transit',
         'jquery-ui': 'thirdParty/jquery-ui',
         'less': 'thirdParty/less',
         //  Rename lodash to underscore since functionality equivilant but underscore is expected by other third party libraries.
@@ -27,10 +26,6 @@
         'googleAnalytics': {
             deps: ['jquery'],
             exports: 'ga'
-        },
-        'jquery.transit': {
-            deps: ['jquery'],
-            exports: '$.transit'
         },
         'less': {
             exports: 'window.less'

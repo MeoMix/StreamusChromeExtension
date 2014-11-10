@@ -14,8 +14,14 @@
         className: 'column u-flex--column u-flex--full',
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
-        childViewOptions: {
-            type: ListItemType.SearchResult
+        childViewType: ListItemType.SearchResult,
+        childViewOptions: function () {
+            return {
+                type: this.childViewType,
+                test: this.ui.childContainer,
+                moo: this.childViewContainer,
+                parentId: this.ui.childContainer[0].id
+            };
         },
 
         //  Overwrite resortView to only render children as expected

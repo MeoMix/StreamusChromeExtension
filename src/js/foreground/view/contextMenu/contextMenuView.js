@@ -29,9 +29,9 @@
             
             this.$el.addClass('is-expanded');
         },
-        
+        //  TODO: Move this logic to the ContextMenuRegion and use the same logic as in NotificationRegion.
         hide: function () {
-            this.$el.off('webkitTransitionEnd').on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-expanded');
         },
         

@@ -5,7 +5,6 @@
     'googleAnalytics',
     'jquery',
     'jquery.qtip',
-    'jquery.transit',
     'jquery-ui',
     'less',
     'underscore',

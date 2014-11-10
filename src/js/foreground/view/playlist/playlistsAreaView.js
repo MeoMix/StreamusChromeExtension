@@ -9,13 +9,15 @@
 
     var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
         id: 'playlistsArea',
-        className: 'u-transitionable',
         template: _.template(PlaylistsAreaTemplate),
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
-        
-        childViewOptions: {
-            type: ListItemType.Playlist
+        childViewType: ListItemType.Playlist,
+        childViewOptions: function () {
+            return {
+                type: this.childViewType,
+                parentId: this.ui.childContainer[0].id
+            };
         },
 
         //  Overwrite resortView to only render children as expected
@@ -31,6 +33,7 @@
         },
         
         ui: {
+            transitionable: '.u-transitionable',
             overlay: '#playlistsArea-overlay',
             panel: '#playlistsArea-panel',
             childContainer: '#playlistsArea-listItems',
@@ -50,56 +53,18 @@
             }
         },
         
-        transitionDuration: 350,
-        
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
         },
         
         show: function () {
-            this.$el.addClass('is-visible');
-
-            this.ui.overlay.transition({
-                opacity: 1
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration
-            });
-
-            this.ui.panel.transition({
-                x: 0
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration,
-                complete: this._onPanelShowComplete.bind(this)
-            });
+            this.ui.transitionable.addClass('is-visible');
         },
         
         hide: function () {
-            this.ui.overlay.transition({
-                opacity: 0
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration
-            });
+            this.ui.transitionable.removeClass('is-visible');
+        },
 
-            this.ui.panel.removeClass('is-visible').transition({
-                x: '-100%'
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration,
-                complete: this._onPanelHideComplete.bind(this)
-            });
-        },
-        
-        _onPanelShowComplete: function () {
-            this.ui.panel.addClass('is-visible');
-        },
-        
-        _onPanelHideComplete: function() {
-            this.$el.removeClass('is-visible');
-        },
-        
         _onClickHideButton: function() {
             this.hide();
         },

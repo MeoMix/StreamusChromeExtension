@@ -6,7 +6,6 @@
     'cocktail',
     'jquery',
     'jquery.qtip',
-    'jquery.transit',
     'jquery-ui',
     'underscore',
     'mocha',

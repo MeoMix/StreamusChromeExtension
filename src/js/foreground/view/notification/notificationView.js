@@ -11,51 +11,12 @@
 		},
 		template: _.template(NotificationTemplate),
 
-		events: {
-			'click @ui.hideButton': '_onClickHideButton'
-		},
-		
 		ui: {
-			hideButton: '#notification-hideButton'
+		    hideButton: '#notification-hideButton'
 		},
 
-		transitionDuration: 300,
-		hideTimeout: null,
-		hideTimeoutDelay: 3000,
-
-		onShow: function () {
-			this.$el.transition({
-				y: 0
-			}, {
-			    easing: 'easeOutCubic',
-			    duration: this.transitionDuration
-			});
-
-			this._setHideTimeout();
-		},
-		
-		_onClickHideButton: function () {
-		    this._hide();
-		},
-
-		_hide: function () {
-			this._clearHideTimeout();
-
-			this.$el.transition({
-				y: -1 * this.$el.height()
-			}, {
-			    easing: 'easeOutCubic',
-			    duration: this.transitionDuration,
-			    complete: this.destroy.bind(this)
-			});
-		},
-
-		_setHideTimeout: function () {
-			this.hideTimeout = setTimeout(this._hide.bind(this), this.hideTimeoutDelay);
-		},
-
-		_clearHideTimeout: function () {
-			clearTimeout(this.hideTimeout);
+		triggers: {
+			'click @ui.hideButton': 'hide:notification'
 		},
 
 		//  Dynamically determine the class name of the view in order to style it based on the type of notification

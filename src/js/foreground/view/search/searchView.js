@@ -7,7 +7,7 @@
 
     var SearchView = Backbone.Marionette.LayoutView.extend({
         id: 'search',
-        className: 'leftPane column column--wide u-flex--column u-flex--full panel panel--left panel--uncolored u-transitionable u-focusable',
+        className: 'leftPane column u-flex--column u-flex--full u-focusable',
         template: _.template(SearchTemplate),
         
         attributes: {
@@ -26,10 +26,13 @@
         events: {
             'keydown': '_onKeyDown',
             'input @ui.searchInput': '_onInputSearchInput',
-            'click @ui.hideSearchButton': '_onClickHideSearchButton',
             'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
             'click @ui.addSelectedButton:not(.disabled)': '_onClickAddSelectedButton',
             'click @ui.saveSelectedButton:not(.disabled)': '_onClickSaveSelectedButton'
+        },
+        
+        triggers: {
+            'click @ui.hideSearchButton': 'hide:search'
         },
 
         modelEvents: {
@@ -52,10 +55,9 @@
             searchResultsRegion: '#search-searchResultsRegion'
         },
         
-        transitionDuration: 300,
+        transitionDuration: 4000,
         streamItems: null,
         signInManager: null,
-        visible: false,
 
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
@@ -75,22 +77,13 @@
                 collection: this.model.get('results')
             }));
         },
-
-        show: function (transitionIn) {
-            this.visible = true;
-            this.$el.addClass('is-visible');
-
+        
+        //  onVisible is triggered when the element begins to transition into the viewport.
+        onVisible: function () {
             this.model.stopClearQueryTimer();
             this.focusInput();
-
-            this.$el.transition({
-                x: 0
-            }, {
-                easing: 'easeOutCubic',
-                duration: transitionIn ? this.transitionDuration : 0
-            });
         },
-        
+
         //  Reset val after focusing to prevent selecting the text while maintaining focus.
         focusInput: function () {
             this.ui.searchInput.focus().val(this.ui.searchInput.val());
@@ -123,10 +116,6 @@
             this._playSelected();
         },
         
-        _onClickHideSearchButton: function () {
-            this._hide();
-        },
-        
         _onInputSearchInput: function () {
             this._search();
         },
@@ -134,23 +123,7 @@
         _onSignInManagerChangeSignedInUser: function() {
             this._toggleSaveSelected();
         },
-        
-        _hide: function () {
-            //  Transition the view back out before closing.
-            this.$el.transition({
-                x: '-100%'
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration,
-                complete: this._onHideComplete.bind(this)
-            });
-        },
-        
-        _onHideComplete: function () {
-            this.visible = false;
-            this.$el.removeClass('is-visible');
-        },
-        
+
         //  Searches youtube for song results based on the given text.
         _search: function () {
             var query = this.ui.searchInput.val();

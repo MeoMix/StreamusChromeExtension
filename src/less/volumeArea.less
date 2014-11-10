@@ -3,16 +3,17 @@
 @import "transition";
 
 .volumeArea-volumeButton.is-muted {
-    color: @alizarin;
+    color: @red--500;
 
     &:hover {
-        color: @darkAlizarin;
+        color: @red--700;
     }
 }
 
 .volumeArea:hover,
 .volumeArea:active {
     @expandedPanelHeight: 100px;
+    // TODO: I don't like using transitionDelay.
     @transitionDelay: .2s;
 
     .volumeArea-slidePanel {
@@ -34,13 +35,13 @@
 //  TODO: Make this more generic once Google Chrome fixes this bug: https://code.google.com/p/chromium/issues/detail?id=341071
 .volumeArea-slidePanel {
     @panelWidth: 40px;
-    @transitionTime: 350ms;
+    @transitionTime: 250ms;
     width: @panelWidth;
     //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
-    transition: opacity @transitionTime @transition-timingFunction-easeOutCubic, 
-                height @transitionTime @transition-timingFunction-easeOutCubic;
+    transition: opacity @transitionTime @transition-easeOutSine, 
+                height @transitionTime @transition-easeOutSine;
     align-items: center;
     z-index: 1;
     //  Prevent hover events from firing on children when it isn't visible.
@@ -69,8 +70,8 @@
         height: @rangeInputSize;
         will-change: opacity, right, height;
         transition: 
-            width @transitionTime @transition-timingFunction-easeOutCubic, 
-            right @transitionTime @transition-timingFunction-easeOutCubic,
-            opacity @transitionTime @transition-timingFunction-easeOutCubic;
+            width @transitionTime @transition-easeOutSine, 
+            right @transitionTime @transition-easeOutSine,
+            opacity @transitionTime @transition-easeOutSine;
     }
 }

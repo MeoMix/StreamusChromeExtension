@@ -99,7 +99,7 @@
                             if (options.error) options.error();
                         }
                     });
-                }
+                }.bind(this)
             });
         },
 

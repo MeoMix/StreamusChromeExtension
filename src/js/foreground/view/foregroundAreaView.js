@@ -99,8 +99,10 @@
 
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
         _onWindowUnload: function () {
+            Streamus.channels.foreground.vent.trigger('beginUnload');
             Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
             this.destroy();
+            Streamus.channels.foreground.vent.trigger('endUnload');
             Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
         },
 

@@ -2703,8 +2703,23 @@
         },
 
         _rearrange: function (event, i, a, hardRefresh) {
-
-            a ? a[0].appendChild(this.placeholder[0]) : i.item[0].parentNode.insertBefore(this.placeholder[0], (this.direction === "down" ? i.item[0] : i.item[0].nextSibling));
+            if (a) {
+                a[0].appendChild(this.placeholder[0]);
+            } else {
+                //  When dragging the top most item in the list, if the item is dragged far enough down to unrender and then back up, parentNode is lost.
+                //  In this scenario it's OK to just no-op because we're not actually going to append it before itself.
+                var parentNode = i.item[0].parentNode;
+                
+                if (parentNode) {
+                    parentNode.insertBefore(this.placeholder[0], (this.direction === "down" ? i.item[0] : i.item[0].nextSibling));
+                } else {
+                    //  Be sure to refresh positions or else jQuery UI gets confused about the fact that no insert happened.
+                    this._delay(function () {
+                        this.refreshPositions(!hardRefresh); //Precompute after each DOM insertion, NOT on mousemove
+                    });
+                    return;
+                }
+            }
 
             //Various things done here to improve the performance:
             // 1. we create a setTimeout, that calls refreshPositions
@@ -2830,6 +2845,7 @@
 
         _uiHash: function (_inst) {
             var inst = _inst || this;
+
             return {
                 helper: inst.helper,
                 placeholder: inst.placeholder || $([]),
@@ -2837,7 +2853,8 @@
                 originalPosition: inst.originalPosition,
                 offset: inst.positionAbs,
                 item: inst.currentItem,
-                sender: _inst ? _inst.element : null
+                //  NOTE: I am overriding this because I want to be able to support scrolling down another list where I'll need the sender during a change event.
+                sender: _inst ? _inst.element : this.element
             };
         }
 

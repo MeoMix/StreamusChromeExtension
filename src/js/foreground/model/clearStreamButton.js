@@ -13,6 +13,7 @@
             this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
             this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
+            this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
 
             this.set('enabled', !streamItems.isEmpty());
         },
@@ -32,6 +33,11 @@
 
         _onStreamItemsReset: function (collection) {
             this.set('enabled', !collection.isEmpty());
+        },
+        
+        //  Since models don't cascade clean-up their listenTo event handlers I need to do this manually when the foreground unloads.
+        _onForegroundBeginUnload: function() {
+            this.stopListening();
         }
     });
 

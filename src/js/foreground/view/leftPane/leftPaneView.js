@@ -108,7 +108,7 @@
         },
         
         _onClickShowSearchButton: function () {
-            Streamus.channels.searchArea.commands.trigger('show:search', true);
+            Streamus.channels.searchArea.commands.trigger('show:search');
         },
         
         _onClickShowPlaylistsAreaButton: function () {

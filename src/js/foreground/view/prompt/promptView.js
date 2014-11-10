@@ -4,7 +4,7 @@
     'use strict';
 
     var PromptView = Backbone.Marionette.LayoutView.extend({
-        className: 'prompt overlay overlay--faded u-transitionable',
+        className: 'prompt overlay overlay--faded u-transitionable transition--veryFast',
         template: _.template(PromptTemplate),
         //  Provide either contentView to render or contentText to set as HTML.
         contentView: null,
@@ -38,7 +38,6 @@
         },
         
         settings: null,
-        transitionDuration: 400,
         
         initialize: function () {
             //  TODO: This feels a bit weird.
@@ -50,7 +49,8 @@
 
         onShow: function () {
             this._setContent();
-            this._transitionIn();
+            //  Transition needs to be deferred so that DOM will apply transition instead of thinking element was created with state.
+            _.defer(this._transitionIn.bind(this));
         },
         
         //  Unless a prompt specifically implements reminderProperty it is assumed that the reminder is not disabled and the prompt be shown when asked.
@@ -78,40 +78,18 @@
         
         _transitionIn: function () {
             this.$el.addClass('is-visible');
-
-            this.$el.transition({
-                opacity: 1
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration
-            });
-
-            this.ui.panel.transition({
-                x: '-50%',
-                y: '-50%'
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration
-            });
+            this.ui.panel.addClass('is-visible');
         },
 
         _transitionOut: function () {
+            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+
             this.$el.removeClass('is-visible');
-
-            this.$el.transition({
-                opacity: 0
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration,
-                complete: this.destroy.bind(this)
-            });
-
-            this.ui.panel.transition({
-                y: '-100%'
-            }, {
-                easing: 'easeOutCubic',
-                duration: this.transitionDuration
-            });
+            this.ui.panel.removeClass('is-visible');
+        },
+        
+        _onTransitionOutComplete: function () {
+            this.destroy();
         },
         
         _setContent: function() {
