@@ -92,9 +92,15 @@
         for (var i = 0; i < array.length; i++) {
             var line = '';
             for (var index in array[i]) {
+                var csval = array[i][index];
                 if (line !== '') line += ',';
 
-                line += array[i][index];
+                if (/("|,|\n)/.test(csval)) {
+                    // enclose value in double quotes, escaping any pre-existing
+                    line += '"' + csval.replace('"', '""') + '"';
+                } else {
+                    line += csval;
+                }
             }
 
             str += line + '\r\n';
