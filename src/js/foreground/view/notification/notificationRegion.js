@@ -1,27 +1,32 @@
 ﻿define([
-	'common/enum/notificationType',
 	'foreground/model/notification',
 	'foreground/view/notification/notificationView'
-], function (NotificationType, Notification, NotificationView) {
+], function (Notification, NotificationView) {
 	'use strict';
 
-	var NotificationRegion = Backbone.Marionette.Region.extend({
+	var NotificationRegion = Marionette.Region.extend({
 	    el: '#foregroundArea-notificationRegion',
 	    hideTimeout: null,
 	    hideTimeoutDelay: 3000,
 
 		initialize: function () {
 		    this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
+		    this.listenTo(Streamus.channels.notification.commands, 'hide:notification', this._hideNotification);
+		    this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
 		    this.listenTo(Streamus.backgroundChannels.notification.commands, 'show:notification', this._showNotification);
 		},
+	    
+		_onElementClick: function () {
+		    if (!_.isUndefined(this.currentView)) {
+		        this._hideNotification();
+		    }
+        },
 
 		_showNotification: function (notificationOptions) {
-			var notificationView = new NotificationView({
-				model: new Notification(notificationOptions)
-			});
+			this.show(new NotificationView({
+			    model: new Notification(notificationOptions)
+			}));
 		    
-			this.listenTo(notificationView, 'hide:notification', this._hideNotification);
-			this.show(notificationView);
 			this._setHideTimeout();
 			this.$el.addClass('is-visible');
 		},

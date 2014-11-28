@@ -1,8 +1,7 @@
 ﻿define([
-    'common/enum/notificationType',
     'common/enum/songType',
     'common/utility'
-], function (NotificationType, SongType, Utility) {
+], function (SongType, Utility) {
     'use strict';
 
     var Song = Backbone.Model.extend({
@@ -51,8 +50,7 @@
             var url = this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', url);
             Streamus.channels.notification.commands.trigger('show:notification', {
-                type: NotificationType.Success,
-                message: chrome.i18n.getMessage('urlCopiedToClipboardSuccessfully')
+                message: chrome.i18n.getMessage('urlCopied')
             });
         },
         

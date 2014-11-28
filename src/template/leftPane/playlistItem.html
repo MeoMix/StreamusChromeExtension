@@ -1,6 +1,6 @@
-﻿<div class='listItem-spinner spinner spinner--small overlay u-marginAuto'></div>
+﻿<div class='listItem-spinner spinner spinner--small spinner--dark overlay u-marginAuto'></div>
 
-<img class='listItem-imageThumbnail spinner--faded--light' src='https://img.youtube.com/vi/<%= song.get("id") %>/default.jpg' />
+<div class='listItem-imageThumbnail spinner--faded--light' style='background-image: url("https://img.youtube.com/vi/<%= song.get("id") %>/mqdefault.jpg")' />
 
 <div class='listItem-content spinner--faded--light'>
     <div class='listItem-title u-textOverflowEllipsis js-textTooltipable' title='<%- title %>'>
@@ -12,4 +12,4 @@
     </div>
 </div>
 
-<span class='listItem-buttonsRegion'></span>
+<span class='listItem-buttonsRegion button-container'></span>

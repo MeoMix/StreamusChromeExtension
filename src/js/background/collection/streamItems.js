@@ -4,9 +4,8 @@
     'background/mixin/collectionSequence',
     'background/mixin/collectionUniqueSong',
     'background/model/streamItem',
-    'background/model/youTubeV3API',
-    'common/enum/notificationType',
-], function (ChromeCommand, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, StreamItem, YouTubeV3API, NotificationType) {
+    'background/model/youTubeV3API'
+], function (ChromeCommand, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, StreamItem, YouTubeV3API) {
     'use strict';
     
     var StreamItems = Backbone.Collection.extend({
@@ -255,7 +254,6 @@
             if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
-                        type: NotificationType.Error,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('streamEmpty')
                     });

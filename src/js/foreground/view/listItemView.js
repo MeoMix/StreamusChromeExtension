@@ -4,7 +4,7 @@
 ], function (Tooltip, ListItemButtonsView) {
     'use strict';
 
-    var ListItemView = Backbone.Marionette.LayoutView.extend({
+    var ListItemView = Marionette.LayoutView.extend({
         tagName: 'li',
         className: 'listItem',
         
@@ -23,8 +23,10 @@
             'mouseleave': '_onMouseLeave'
         },
         
-        regions: {
-            buttonsRegion: '.listItem-buttonsRegion'
+        regions: function () {
+            return {
+                buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion'
+            };
         },
         
         behaviors: {

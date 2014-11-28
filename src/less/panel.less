@@ -1,9 +1,12 @@
 ﻿@import "color";
 @import "utility";
 @import "transition";
+@import "boxShadow";
 
 .panel {
-    -webkit-filter: drop-shadow(1px 1px 2px rgba(0, 0, 0, 0.3));
+    //  NOTE: This fixes blur when translating on sub-pixel. Don't remove it.
+    -webkit-filter: drop-shadow(0 0 rgba(0, 0, 0, 0));
+    box-shadow: @boxShadow-elevation--low;
     position: absolute;
     will-change: transform;
     transition-property: transform;
@@ -20,8 +23,9 @@
 }
 
 .panel--left {
-    transform: translate3d(-110%, 0, 0);
+    box-shadow: @boxShadow-elevation--low, @boxShadow-divider--top;
 
+    transform: translate3d(-110%, 0, 0);
     &.is-visible {
         transform: translate3d(0, 0, 0);
     }
@@ -29,6 +33,14 @@
 
 .panel--top {
     transform: translate3d(0, -110%, 0);
+
+    &.is-visible {
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.panel--bottom {
+    transform: translate3d(0, 110%, 0);
 
     &.is-visible {
         transform: translate3d(0, 0, 0);

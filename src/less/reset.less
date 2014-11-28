@@ -1,6 +1,7 @@
 ﻿//  Reset.less: Custom resets for Streamus' UI which aren't provided by Normalize.less
 input:focus, 
-button:focus {
+button:focus,
+select:focus {
     outline: none 
 }
 
@@ -24,9 +25,6 @@ input[type="radio"] {
 *:before, 
 *:after {
     box-sizing: border-box;
-
-    //  Wipe all cursor stylings and set where wanted.
-    cursor: default;
  }
 
 //  These are always interactable so it is safe to set their cursor back to pointer/text.
@@ -37,9 +35,11 @@ select {
 }
 
 input[type="text"] {
-    border: 0;
-    padding: 0 3px 2px 3px;
-    cursor: text;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-width: 1px;
+    padding: 8px 0;
 }
 
 //  Streamus buttons are all custom
@@ -48,9 +48,4 @@ button {
     border: 0;
     margin: 0;
     padding: 0;
-}
-
-//  I don't think the fa-search icon looks aligned properly when using the default font-awesome alignment.
-.fa.fa-search {
-    vertical-align: 0;
 }

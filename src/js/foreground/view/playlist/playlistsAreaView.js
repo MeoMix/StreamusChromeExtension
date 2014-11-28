@@ -7,9 +7,14 @@
 ], function (ListItemType, Tooltip, PlaylistView, CreatePlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
-    var PlaylistsAreaView = Backbone.Marionette.CompositeView.extend({
+    var PlaylistsAreaView = Marionette.CompositeView.extend({
         id: 'playlistsArea',
+        
         template: _.template(PlaylistsAreaTemplate),
+        templateHelpers: {
+            createPlaylist: chrome.i18n.getMessage('createPlaylist')
+        },
+        
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
         childViewType: ListItemType.Playlist,
@@ -24,27 +29,22 @@
         resortView: function () {
             this._renderChildren();
         },
+        
+        ui: function () {
+            return {
+                transitionable: '.u-transitionable',
+                overlay: '#' + this.id + '-overlay',
+                panel: '#' + this.id + '-panel',
+                childContainer: '#' + this.id + '-listItems',
+                createPlaylistButton: '#' + this.id + '-createPlaylistButton'
+            };
+        },
 
         events: {
             'click @ui.overlay': '_onClickOverlay',
             'click @ui.hideButton': '_onClickHideButton',
             'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton',
             'dblclick @ui.childContainer': '_onDblClickChildContainer'
-        },
-        
-        ui: {
-            transitionable: '.u-transitionable',
-            overlay: '#playlistsArea-overlay',
-            panel: '#playlistsArea-panel',
-            childContainer: '#playlistsArea-listItems',
-            createPlaylistButton: '#playlistsArea-createPlaylistButton',
-            hideButton: '#playlistsArea-hideButton'
-        },
-        
-        templateHelpers: {
-            playlists: chrome.i18n.getMessage('playlists'),
-            createPlaylist: chrome.i18n.getMessage('createPlaylist'),
-            editPlaylist: chrome.i18n.getMessage('editPlaylist')
         },
         
         behaviors: {
@@ -58,10 +58,12 @@
         },
         
         show: function () {
+            Streamus.channels.playlistsArea.vent.trigger('showing');
             this.ui.transitionable.addClass('is-visible');
         },
         
         hide: function () {
+            Streamus.channels.playlistsArea.vent.trigger('hiding');
             this.ui.transitionable.removeClass('is-visible');
         },
 

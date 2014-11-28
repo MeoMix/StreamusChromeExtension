@@ -1,16 +1,23 @@
 ﻿@import "color";
 @import "utility";
+@import "fontSize";
 
 .is-hidingTooltips .qtip {
     .hidden;
 }
 
-.qtip {
+html .qtip {
     min-width: 0 !important;
-    border-color: @black--a12 !important;
-    color: @black--a54 !important;
-    background-color: @white !important;
     //  Prevent pointer events on tooltips so that user can't misclick when
     //  right-clicking on a listItem that is showing its context menu.
     pointer-events: none;
+    border-radius: 2px;
+    color: white;
+    background-color: @gray--tooltip;
+    border: none;
+    .fontSize-small;
+}
+
+html .qtip-content {
+    padding: 5px 8px !important;
 }

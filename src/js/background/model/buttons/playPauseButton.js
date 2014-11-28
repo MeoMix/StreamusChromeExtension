@@ -1,7 +1,6 @@
 ﻿define([
-    'background/enum/chromeCommand',
-    'common/enum/notificationType'
-], function (ChromeCommand, NotificationType) {
+    'background/enum/chromeCommand'
+], function (ChromeCommand) {
     'use strict';
     
     var PlayPauseButton = Backbone.Model.extend({
@@ -36,7 +35,6 @@
 
                 if (!didTogglePlayerState) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
-                        type: NotificationType.Success,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantToggleSong')
                     });

@@ -3,7 +3,7 @@
 ], function (SaveSongsTemplate) {
     'use strict';
 
-    var SaveSongsView = Backbone.Marionette.ItemView.extend({
+    var SaveSongsView = Marionette.ItemView.extend({
         template: _.template(SaveSongsTemplate),
 
         templateHelpers: {

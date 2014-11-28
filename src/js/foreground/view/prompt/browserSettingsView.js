@@ -3,7 +3,7 @@
 ], function (BrowserSettingsTemplate) {
     'use strict';
 
-    var BrowserSettingsView = Backbone.Marionette.ItemView.extend({
+    var BrowserSettingsView = Marionette.ItemView.extend({
         id: 'browserSettings',
         className: 'u-noWrap',
         template: _.template(BrowserSettingsTemplate),

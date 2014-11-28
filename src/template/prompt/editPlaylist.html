@@ -1,1 +1,6 @@
-﻿<input type='text' id='editPlaylist-playlistTitle' class='textInput textInput--underlined js-submittable' placeholder='<%= requiredMessage %>: <%= titleMessage %>' value='<%- title %>'>
+﻿<div class='grouping-row'>
+    <input type='text' id='editPlaylist-title' class='textInput textInput--basic js-submittable' placeholder='<%= titleMessage %>' value='<%- title %>'>
+    <div id="editPlaylist-title-hint" class="textInput-hint textInput-characterCounter">
+        <span id="editPlaylist-title-characterCount">0</span> / <%= titleMaxLength %>
+    </div>
+</div>

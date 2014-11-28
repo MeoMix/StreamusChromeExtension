@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var ItemViewMultiSelect = Backbone.Marionette.Behavior.extend({
+    var ItemViewMultiSelect = Marionette.Behavior.extend({
         modelEvents: {
             'change:selected': '_onChangeSelected'
         },

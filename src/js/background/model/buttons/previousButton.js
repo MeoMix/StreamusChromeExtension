@@ -1,7 +1,6 @@
 ﻿define([
-    'background/enum/chromeCommand',
-    'common/enum/notificationType'
-], function (ChromeCommand, NotificationType) {
+    'background/enum/chromeCommand'
+], function (ChromeCommand) {
     'use strict';
     
     var PreviousButton = Backbone.Model.extend({
@@ -58,7 +57,6 @@
 
                 if (!didPrevious) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
-                        type: NotificationType.Error,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantGoBackToPreviousSong')
                     });

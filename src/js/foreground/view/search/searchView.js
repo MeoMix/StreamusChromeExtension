@@ -5,44 +5,11 @@
 ], function (SaveSongsPromptView, SearchResultsView, SearchTemplate) {
     'use strict';
 
-    var SearchView = Backbone.Marionette.LayoutView.extend({
+    var SearchView = Marionette.LayoutView.extend({
         id: 'search',
-        className: 'leftPane column u-flex--column u-flex--full u-focusable',
+        className: 'leftPane column u-flex--column u-flex--full',
         template: _.template(SearchTemplate),
         
-        attributes: {
-            //  Allow keyboard shortcuts to be handled by the view by giving it a tabindex so that keydown will run.
-            tabindex: 0
-        },
-
-        ui: {
-            searchInput: '#search-searchInput',
-            hideSearchButton: '#search-hideSearchButton',
-            playSelectedButton: '#search-playSelectedButton',
-            saveSelectedButton: '#search-saveSelectedButton',
-            addSelectedButton: '#search-addSelectedButton'
-        },
-        
-        events: {
-            'keydown': '_onKeyDown',
-            'input @ui.searchInput': '_onInputSearchInput',
-            'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
-            'click @ui.addSelectedButton:not(.disabled)': '_onClickAddSelectedButton',
-            'click @ui.saveSelectedButton:not(.disabled)': '_onClickSaveSelectedButton'
-        },
-        
-        triggers: {
-            'click @ui.hideSearchButton': 'hide:search'
-        },
-
-        modelEvents: {
-            'change:query': '_onChangeQuery'
-        },
-
-        collectionEvents: {
-            'change:selected': '_onSearchResultsChangeSelected'
-        },
- 
         templateHelpers: {
             searchMessage: chrome.i18n.getMessage('search'),
             saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
@@ -50,9 +17,33 @@
             playSelectedMessage: chrome.i18n.getMessage('playSelected'),
             notSignedInMessage: chrome.i18n.getMessage('notSignedIn')
         },
+
+        regions: function () {
+            return {
+                searchResultsRegion: '#' + this.id + '-searchResultsRegion'
+            };
+        },
         
-        regions: {
-            searchResultsRegion: '#search-searchResultsRegion'
+        ui: function () {
+            return {
+                playSelectedButton: '#' + this.id + '-playSelectedButton',
+                saveSelectedButton: '#' + this.id + '-saveSelectedButton',
+                addSelectedButton: '#' + this.id + '-addSelectedButton'
+            };
+        },
+        
+        events: {
+            'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
+            'click @ui.addSelectedButton:not(.disabled)': '_onClickAddSelectedButton',
+            'click @ui.saveSelectedButton:not(.disabled)': '_onClickSaveSelectedButton'
+        },
+
+        modelEvents: {
+            //'change:query': '_onChangeQuery'
+        },
+
+        collectionEvents: {
+            'change:selected': '_onSearchResultsChangeSelected'
         },
         
         transitionDuration: 4000,
@@ -64,6 +55,7 @@
             this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
+            this.listenTo(Streamus.channels.searchArea.commands, 'search', this._search);
         },
  
         onRender: function () {
@@ -81,24 +73,11 @@
         //  onVisible is triggered when the element begins to transition into the viewport.
         onVisible: function () {
             this.model.stopClearQueryTimer();
-            this.focusInput();
-        },
-
-        //  Reset val after focusing to prevent selecting the text while maintaining focus.
-        focusInput: function () {
-            this.ui.searchInput.focus().val(this.ui.searchInput.val());
         },
         
-        _onKeyDown: function (event) {
-            //  If Ctrl + A is pressed in the search view when not working with the input -- select all results
-            if (event.ctrlKey && event.which === 65 && !this.ui.searchInput.is(':focus')) {
-                this.collection.selectAll();
-            }
-        },
-        
-        _onChangeQuery: function (model, query) {
-            this.ui.searchInput.val(query);
-        },
+        //_onChangeQuery: function (model, query) {
+        //    this.ui.searchInput.val(query);
+        //},
         
         _onSearchResultsChangeSelected: function () {
             this._toggleSelectedButtons();
@@ -116,18 +95,13 @@
             this._playSelected();
         },
         
-        _onInputSearchInput: function () {
-            this._search();
-        },
-        
         _onSignInManagerChangeSignedInUser: function() {
             this._toggleSaveSelected();
         },
 
         //  Searches youtube for song results based on the given text.
-        _search: function () {
-            var query = this.ui.searchInput.val();
-            this.model.set('query', query);
+        _search: function (options) {
+            this.model.set('query', options.query);
         },
         
         _toggleSaveSelected: function () {

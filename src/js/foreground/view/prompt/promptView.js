@@ -3,7 +3,7 @@
 ], function (PromptTemplate) {
     'use strict';
 
-    var PromptView = Backbone.Marionette.LayoutView.extend({
+    var PromptView = Marionette.LayoutView.extend({
         className: 'prompt overlay overlay--faded u-transitionable transition--veryFast',
         template: _.template(PromptTemplate),
         //  Provide either contentView to render or contentText to set as HTML.
@@ -16,27 +16,36 @@
             };
         },
         
-        ui: {
-            panel: '#prompt-panel',
-            okButton: '#prompt-okButton',
-            reminderCheckbox: '#prompt-reminderCheckbox',
-            closeButton: '#prompt-closeButton',
-            contentRegion: '#prompt-contentRegion',
-            submittable: '.js-submittable'
+        //  TODO: Fix this.
+        regions: {
+            contentRegion: '@ui.contentRegion'
+        },
+        
+        ui: function () {
+            //  TODO: Keep this in-sync with the PromptView base className.
+            var prefix = 'prompt';
+
+            return {
+                panel: '#' + prefix + '-panel',
+                //  TODO: Rename to submit since it's not always OK but will always submit.
+                okButton: '#' + prefix + '-okButton',
+                cancelButton: '#' + prefix + '-cancelButton',
+                reminderCheckbox: '#' + prefix + '-reminderCheckbox',
+                closeButton: '#' + prefix + '-closeButton',
+                contentRegion: '#' + prefix + '-contentRegion',
+                submittable: '.js-submittable'
+            };
         },
 
         events: {
             'click': '_onClick',
             'click @ui.closeButton': '_onClickCloseButton',
+            'click @ui.cancelButton': '_onClickCancelButton',
             'click @ui.okButton': '_onClickOkButton',
             'input @ui.reminderCheckbox': '_onInputReminderCheckbox',
             'keypress @ui.submittable': '_onKeyPressSubmittable'
         },
-        
-        regions: {
-            contentRegion: '@ui.contentRegion'
-        },
-        
+
         settings: null,
         
         initialize: function () {
@@ -82,14 +91,16 @@
         },
 
         _transitionOut: function () {
-            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.$el.off('webkitTransitionEnd').on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
 
             this.$el.removeClass('is-visible');
             this.ui.panel.removeClass('is-visible');
         },
         
-        _onTransitionOutComplete: function () {
-            this.destroy();
+        _onTransitionOutComplete: function (event) {
+            if (event.target === event.currentTarget) {
+                this.destroy();
+            }
         },
         
         _setContent: function() {
@@ -109,6 +120,10 @@
         },
         
         _onClickCloseButton: function () {
+            this.hide();
+        },
+        
+        _onClickCancelButton: function () {
             this.hide();
         },
         

@@ -4,9 +4,7 @@
 ], function (ContextMenu, ContextMenuView) {
     'use strict';
 
-    var ContextMenuRegion = Backbone.Marionette.Region.extend({
-        el: '#foregroundArea-contextMenuRegion',
-        
+    var ContextMenuRegion = Marionette.Region.extend({
         contextMenu: null,
 
         initialize: function () {

@@ -4,7 +4,7 @@
 ], function (YouTubeSuggestedQuality, SettingsTemplate) {
     'use strict';
 
-    var SettingsView = Backbone.Marionette.ItemView.extend({
+    var SettingsView = Marionette.ItemView.extend({
         id: 'settings',
         className: 'u-noWrap',
         template: _.template(SettingsTemplate),

@@ -13,32 +13,12 @@
     flex: 1;
 }
 
-.u-flex--justifyCenter {
-    display: flex;
-    justify-content: center;
-}
-
-.u-flex--alignCenter {
-    display: flex;
-    align-items: center;
-}
-
 .u-clickable {
     cursor: pointer;
 }
 
 .u-lowercase {
     text-transform: lowercase;
-}
-
-.u-inset--horizontal {
-    margin-left: 10px;
-    margin-right: 10px;
-}
-
-.u-inset--vertical {
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
 .u-link {
@@ -54,14 +34,6 @@
     margin: auto;
 }
 
-.u-floatLeft {
-    float: left;
-}
-
-.u-floatRight {
-    float: right;
-}
-
 .u-textOverflowEllipsis {
     overflow: hidden;
     text-overflow: ellipsis;
@@ -69,19 +41,11 @@
 }
 
 .u-textSecondary {
-    color: @black--a54;
+    color: @dark--secondary;
 }
 
 .u-noWrap {
     white-space: nowrap;
-}
-
-.u-aboveContent {
-    z-index: 1;
-}
-
-.u-alignTopThird {
-    top: 33.33%;
 }
 
 .u-transitionable {
@@ -92,10 +56,6 @@
     }
 }
 
-.u-focusable {
-    outline: none;
-}
-
 //  TODO: I don't know if these should be prefixed by u- or is-
 .hidden {
     //  Use important to ensure that hidden always takes precedence.
@@ -104,13 +64,13 @@
 
 //  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
 .disabled {
-    color: @black--a26 !important;
+    color: @dark--tertiary !important;
     cursor: default !important;
 
     *,
     *:before,
     *:after {
-        color: @black--a26 !important;
+        color: @dark--tertiary !important;
         cursor: default !important;
     }
 }

@@ -10,13 +10,23 @@
 }
 
 .spinner {
-    border: 1px solid @blue--500;
-    border-left-color: transparent;
-    border-top-color: transparent;
+    border-style: solid;
+    border-top: none;
+    border-left: none;
     border-radius: 50%;
     -webkit-animation: spin 600ms infinite linear;
     display: none;
+    /* TODO: I don't think this is needed, margin: auto might handle it? */
     vertical-align: middle;
+    margin: auto;
+}
+
+.spinner--light {
+    border-color: @white;
+}
+
+.spinner--dark {
+    border-color: @blue--500;
 }
 
 .spinner--large {

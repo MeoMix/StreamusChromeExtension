@@ -3,11 +3,11 @@
 ], function (DeletePlaylistTemplate) {
     'use strict';
 
-    var DeletePlaylistView = Backbone.Marionette.ItemView.extend({
+    var DeletePlaylistView = Marionette.ItemView.extend({
         template: _.template(DeletePlaylistTemplate),
         
         templateHelpers: {
-            areYouSureYouWantToDeletePlaylistMessage: chrome.i18n.getMessage('areYouSureYouWantToDeletePlaylist')
+            deleteMessage: chrome.i18n.getMessage('delete')
         },
         
         deletePlaylist: function() {

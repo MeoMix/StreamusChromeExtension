@@ -3,7 +3,7 @@
 ], function (ContextMenuItemView) {
     'use strict';
 
-    var ContextMenuView = Backbone.Marionette.CompositeView.extend({
+    var ContextMenuView = Marionette.CompositeView.extend({
         id: 'context-menu',
         tagName: 'ul',
         className: 'menu panel panel--uncolored',

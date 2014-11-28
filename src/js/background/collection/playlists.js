@@ -79,10 +79,14 @@
                 userId: this.userId,
                 //  Playlists are always added at the end
                 sequence: this.getSequenceFromIndex(this.length),
-                dataSource: dataSource
+                dataSource: dataSource,
+                //  If a playlist is being created with a YouTube Playlist URL then that URL will need to be imported into the playlist.
+                dataSourceLoaded: !dataSource.isYouTubePlaylist()
             }, {
                 success: function (playlist) {
-                    playlist.loadDataSource();
+                    if (!playlist.get('dataSourceLoaded')) {
+                        playlist.loadDataSource();
+                    }
                 },
                 error: function (model) {
                     model.trigger('createError');

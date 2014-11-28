@@ -1,18 +1,13 @@
 ﻿<div id='activePlaylistArea-playlistItemsRegion' class='column u-flex--column u-flex--full'></div>
 
 <div class='contentBar contentBar--bottom'>
-    <div class='u-flex--row'>
-        <div id='activePlaylistArea-playlistDetails' class='u-lowercase u-textOverflowEllipsis u-textSecondary lineHeight-loose u-flex--full'></div>
-        <div>
-            <button id='activePlaylistArea-playAllButton' class='button--label'>
-                <i class='button--label-icon fa fa-play'></i>
-                <%= playAllMessage %>
-            </button>
+    <div id='activePlaylistArea-playlistDetails' class='u-lowercase u-textOverflowEllipsis u-textSecondary lineHeight-loose u-flex--full'></div>
 
-            <button id='activePlaylistArea-addAllButton' class='button--label js-tooltipable'>
-                <i class='button--label-icon fa fa-plus'></i>
-                <%= addAllMessage %>
-            </button>
-        </div>
-    </div>
+    <button id='activePlaylistArea-playAllButton' class='button--flat'>
+        <%= playAllMessage %>
+    </button>
+
+    <button id='activePlaylistArea-addAllButton' class='button--flat js-tooltipable'>
+        <%= addAllMessage %>
+    </button>
 </div>

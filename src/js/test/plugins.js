@@ -19,7 +19,7 @@
     Cocktail.patch(Backbone);
     
     //  TODO: This is necessary for tests to work, but how can I make the original one reusable?
-    var Application = Backbone.Marionette.Application.extend({
+    var Application = Marionette.Application.extend({
         localDebug: true,
         testing: true,
         serverUrl: '',

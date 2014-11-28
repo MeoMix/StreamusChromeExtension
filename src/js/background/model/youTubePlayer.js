@@ -67,10 +67,11 @@
         },
 
         seekTo: function (timeInSeconds) {
-            //  The seekTo method accepts an "allowSeekAhead" boolean. I never provide it because
-            //  I have no need to aggressively load a new video stream.
+            //  Always pass allowSeekAhead: true to the seekTo method.
+            //  If this value is not provided and the user seeks to the end of a song while paused 
+            //  the player will enter into a bad state of 'ended -> playing.' 
             //  https://developers.google.com/youtube/js_api_reference#seekTo
-            youTubePlayerWidget.seekTo(timeInSeconds);
+            youTubePlayerWidget.seekTo(timeInSeconds, true);
         },
 
         mute: function () {

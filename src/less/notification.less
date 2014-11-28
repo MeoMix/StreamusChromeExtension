@@ -3,41 +3,15 @@
 @import "lineHeight";
 
 .notification {
-    .lineHeight-looser;
-    .fontSize-large;
-    height: 45px;
-    text-align: center;
-    left: 0;
-    right: 0;
-    top: 0;
+    line-height: 48px;
+    bottom: 0;
     color: @white;
-
-    //  Nest this to increase its priority so that hover overrides success/error color.
-    .notification-hideButton:hover {
-        color: @white;
-    }
-}
-
-.notification--success {
-    background-color: @green--500;
-
-    .notification-hideButton {
-        color: @green--100;
-    }
-}
-
-.notification--error {
-    background-color: @red--500;
-
-    .notification-hideButton {
-        color: @red--100;
-    }
-}
-
-.notification--warning {
-    background-color: @amber--500;
-
-    .notification-hideButton {
-        color: @amber--100;
-    }
+    cursor: default;
+    //  http://www.google.com/design/spec/components/snackbars-toasts.html#snackbars-toasts-usage
+    background-color: #323232;
+    font-size: 1.1em;
+    padding: 0 24px;
+    min-width: 288px;
+    max-width: 568px;
+    border-radius: 2px;
 }

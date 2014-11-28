@@ -3,7 +3,7 @@
 ], function (Direction) {
     'use strict';
 
-    var SlidingRender = Backbone.Marionette.Behavior.extend({
+    var SlidingRender = Marionette.Behavior.extend({
         collectionEvents: {
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'reset': '_onCollectionReset',
@@ -21,12 +21,12 @@
         maxRenderIndex: -1,
 
         //  The height of a rendered childView in px. Including padding/margin.
-        childViewHeight: 40,
+        childViewHeight: 52,
         viewportHeight: -1,
         
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
-        threshold: 0,
+        threshold: 10,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -61,9 +61,13 @@
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
         //  event requests the min render index -- return it!
         onGetMinRenderIndex: function () {
-            this.view.triggerMethod('GetMinRenderIndexReponse', {
+            this.view.triggerMethod('GetMinRenderIndexResponse', {
                 minRenderIndex: this.minRenderIndex
             });
+        },
+        
+        onListHeightUpdated: function () {
+            this._setViewportHeight();
         },
         
         _onWindowResize: function () {
@@ -273,7 +277,7 @@
             }
             
             if (shouldAdd) {
-                return Backbone.Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
+                return Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
         },
 
@@ -354,17 +358,21 @@
         },
         
         _onCollectionRemove: function (item, collection, options) {
-            //  When a rendered view is lost - render the next one since there's a spot in the viewport
-            if (this._indexWithinRenderRange(options.index)) {
-                var rendered = this._renderElementAtIndex(this.maxRenderIndex);
+            //  I've wrapped this in a setTimeout because the CollectionView has yet to remove the model which is being removed from the collection.
+            //  Because of this, _renderElementAtIndex has an off-by-one error due to the presence of the view whose model is being removed.
+            setTimeout(function() {
+                //  When a rendered view is lost - render the next one since there's a spot in the viewport
+                if (this._indexWithinRenderRange(options.index)) {
+                    var rendered = this._renderElementAtIndex(this.maxRenderIndex);
 
-                //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
-                if (!rendered && this.minRenderIndex > 0) {
-                    this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
+                    //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
+                    if (!rendered && this.minRenderIndex > 0) {
+                        this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
+                    }
                 }
-            }
 
-            this._setHeightPaddingTop();
+                this._setHeightPaddingTop();
+            }.bind(this));
         },
         
         _onCollectionAdd: function (item, collection) {

@@ -1,6 +1,8 @@
 ﻿@import "normalize";
 @import "reset";
 @import "adminMenuArea";
+@import "appBar";
+@import "boxShadow";
 @import "button";
 @import "contentBar";
 @import "column";
@@ -14,8 +16,6 @@
 @import "panel";
 @import "prompt";
 @import "rangeInput";
-@import "repeatIcon";
-@import "row";
 @import "scrollbar";
 @import "selectize";
 @import "sortable";
@@ -26,7 +26,7 @@
 @import "volumeArea";
 
 //  Force UI to full size if Streamus has been loaded into a tab by detecting min-width/height greater than maximum extension width/height.
-@media (min-width:650px) and (min-height:420px) {
+@media (min-width:650px) and (min-height:490px) {
     html,
     body {
         width: 100% !important;
@@ -36,8 +36,129 @@
 
 body {
     -webkit-user-select: none;
-    font: 13px/1.2 'Open Sans';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    font: 82.5% 'Roboto';
     //  Default dimensions of Streamus as a browser extension
     width: 640px;
-    height: 410px;
+    height: 480px;
+}
+
+#stream-activeStreamItemRegion {
+    //  TODO: Would prefer to use -110% transform, but need to be able to shift StreamItems down the same amount.
+    //  TODO: This should be like -68px so that the transition is moving at full velocity when it slides in,
+    //  but doing so screws up the flex column because negative margin is bad for flexing.
+    margin-top: -62px;
+    height: 62px;
+
+    &.is-instant {
+        transition: none;
+    }
+
+    &.is-visible {
+        margin-top: 0;
+    }
+    
+    will-change: margin;
+    transition-property: margin;
+    transition-timing-function: @transition-easeOutSine;
+    .transition--fast;
+    overflow: hidden;
+    box-shadow: @boxShadow-divider--bottom, @boxShadow-divider--left;
+}
+
+#activeStreamItem {
+    padding: 8px 16px;
+    color: rgba(0, 0, 0, 0.87);
+    width: 100%;
+}
+
+#activeStreamItem-title {
+    font-size: 1.1em;
+    margin-top: 6px;
+    line-height: 22px;
+    cursor: default;
+}
+
+#timeArea-elapsedTimeLabel {
+    text-align: left;
+}
+
+#timeArea-totalTimeLabel {
+    text-align: right;
+}
+
+.appBar-text {
+    font-size: 1.3em;
+    cursor: default;
+}
+
+.appBar-content {
+    margin: auto 0;
+}
+
+#appBar-hidePlaylistsAreaButton,
+#appBar-showPlaylistsAreaButton {
+    margin-right: 20px;
+}
+
+#foregroundArea-appBarRegion {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 56px;
+    width: 100%;
+}
+
+.base {
+    position: absolute;
+    top: 56px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+}
+
+#playlistsArea-panel,
+#foregroundArea-searchAreaRegion,
+#foregroundArea-streamRegion,
+#foregroundArea-leftPaneRegion {
+    position: absolute;
+    top: 0;
+}
+
+#foregroundArea-leftPaneRegion {
+    left: 0;
+}
+
+#foregroundArea-streamRegion {
+    right: 0;
+}
+
+#activePlaylistArea-playlistDetails {
+    margin: 0 12px;
+    cursor: default;
+}
+
+#streamItems {
+    box-shadow: @boxShadow-divider--left;
+
+     #streamItems-listItems.is-heightRestricted {
+        max-height: -webkit-max-content;
+    }
+}
+
+#foregroundArea-notificationRegion {
+    z-index: 1;
+    //  TODO: bottom: 16px conflicts a bit with translateY -110%, but the opacity hides the issue so OK for now.
+    left: 16px;
+    bottom: 16px;
+    opacity: 0;
+    will-change: opacity, transform;
+    transition-property: opacity, transform;
+    transition-timing-function: @transition-easeOutSine;
+
+    &.is-visible {
+        opacity: 1;
+    }
 }

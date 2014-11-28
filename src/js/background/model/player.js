@@ -71,6 +71,7 @@ define([
         },
         
         activateSong: function (song, timeInSeconds) {
+            console.log('song/timeInSeconds', song, timeInSeconds);
             if (this.get('ready')) {
                 var playerState = this.get('state');
                 var playOnActivate = this.get('playOnActivate');
@@ -80,6 +81,8 @@ define([
                     startSeconds: timeInSeconds || 0,
                     suggestedQuality: this.get('settings').get('youTubeSuggestedQuality')
                 };
+
+                console.log('videooptions:', videoOptions);
 
                 //  TODO: I don't think I *always* want to keep the player going if a song is activated while one is playing, but maybe...
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
@@ -147,7 +150,15 @@ define([
 
         seekTo: function (timeInSeconds) {
             if (this.get('ready')) {
-                this.get('youTubePlayer').seekTo(timeInSeconds);
+                var state = this.get('state');
+
+                //  TODO: I'd like to ensure the Player is always in the 'paused' state because seekTo will start playing
+                //  if called when in the Unstarted or SongCued state.
+                if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
+                    this.activateSong(this.get('loadedSong'), timeInSeconds);
+                } else {
+                    this.get('youTubePlayer').seekTo(timeInSeconds);
+                }
             } else {
                 this.set('currentTime', timeInSeconds);
             }
@@ -300,6 +311,7 @@ define([
         },
         
         _onYouTubePlayerChangeState: function (model, state) {
+            console.log('state change:', state);
             //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('state', state);
         },

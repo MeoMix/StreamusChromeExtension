@@ -1,16 +1,17 @@
 ﻿define([
+    'foreground/view/appBar/appBarRegion',
     'foreground/view/contextMenu/contextMenuRegion',
     'foreground/view/leftPane/leftPaneRegion',
     'foreground/view/notification/notificationRegion',
     'foreground/view/playlist/playlistsAreaRegion',
     'foreground/view/prompt/promptRegion',
-    'foreground/view/rightPane/rightPaneRegion',
     'foreground/view/search/searchAreaRegion',
+    'foreground/view/stream/streamRegion',
     'text!template/foregroundArea.html'
-], function (ContextMenuRegion, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, RightPaneRegion, SearchAreaRegion, ForegroundAreaTemplate) {
+], function (AppBarRegion, ContextMenuRegion, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
     'use strict';
 
-    var ForegroundAreaView = Backbone.Marionette.LayoutView.extend({
+    var ForegroundAreaView = Marionette.LayoutView.extend({
         id: 'foregroundArea',
         className: 'column',
         template: _.template(ForegroundAreaTemplate),
@@ -31,21 +32,50 @@
             'click @ui.reloadLink': '_onClickReloadLink'
         },
         
-        ui: {
-            loadingMessage: '#foregroundArea-loadingMessage',
-            loadingFailedMessage: '#foregroundArea-loadingFailedMessage',
-            reloadLink: '.foregroundArea-reloadLink',
-            loadAttemptMessage: '#foregroundArea-loadAttemptMessage'
+        ui: function () {
+            return {
+                loadingMessage: '#' + this.id + '-loadingMessage',
+                loadingFailedMessage: '#' + this.id + '-loadingFailedMessage',
+                reloadLink: '.' + this.id + '-reloadLink',
+                loadAttemptMessage: '#' + this.id + '-loadAttemptMessage'
+            };
         },
 
-        regions: {
-            promptRegion: PromptRegion,
-            notificationRegion: NotificationRegion,
-            contextMenuRegion: ContextMenuRegion,
-            leftPaneRegion: LeftPaneRegion,
-            searchAreaRegion: SearchAreaRegion,
-            playlistsAreaRegion: PlaylistsAreaRegion,
-            rightPaneRegion: RightPaneRegion
+        regions: function () {
+            return {
+                appBarRegion: {
+                    el: '#' + this.id + '-appBarRegion',
+                    regionClass: AppBarRegion
+                },
+                promptRegion: {
+                    el: '#' + this.id + '-promptRegion',
+                    regionClass: PromptRegion
+                },
+                notificationRegion: {
+                    el: '#' + this.id + '-notificationRegion',
+                    regionClass: NotificationRegion
+                },
+                contextMenuRegion: {
+                    el: '#' + this.id + '-contextMenuRegion',
+                    regionClass: ContextMenuRegion
+                },
+                leftPaneRegion: {
+                    el: '#' + this.id + '-leftPaneRegion',
+                    regionClass: LeftPaneRegion
+                },
+                searchAreaRegion: {
+                    el: '#' + this.id + '-searchAreaRegion',
+                    regionClass: SearchAreaRegion
+                },
+                playlistsAreaRegion: {
+                    el: '#' + this.id + '-playlistsAreaRegion',
+                    regionClass: PlaylistsAreaRegion
+                },
+                streamRegion: {
+                    el: '#' + this.id + '-streamRegion',
+                    regionClass: StreamRegion
+                }
+            };
         },
         
         player: null,
@@ -69,7 +99,6 @@
         },
         
         onShow: function () {
-            console.log('foregroundAreaView visible', this.$el.is(':visible'));
             Streamus.channels.foregroundArea.vent.trigger('shown');
         },
 

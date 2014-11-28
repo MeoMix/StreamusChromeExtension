@@ -3,9 +3,7 @@
 ], function (ClipboardView) {
     'use strict';
 
-    var ClipboardRegion = Backbone.Marionette.Region.extend({
-        el: '#backgroundArea-clipboardRegion',
-
+    var ClipboardRegion = Marionette.Region.extend({
         initialize: function () {
             this.listenTo(Streamus.channels.backgroundArea.vent, 'shown', this._onBackgroundAreaShown);
         },

@@ -4,7 +4,7 @@
 ], function (Tooltip, ContextMenuItemTemplate) {
     'use strict';
 
-    var ContextMenuItemView = Backbone.Marionette.ItemView.extend({
+    var ContextMenuItemView = Marionette.ItemView.extend({
         tagName: 'li',
         className: function () {
             var className = 'menu-item js-tooltipable';

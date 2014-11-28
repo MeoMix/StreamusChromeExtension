@@ -1,43 +1,26 @@
 ﻿define([
-	'common/enum/notificationType',
 	'text!template/notification/notification.html'
-], function (NotificationType, NotificationTemplate) {
+], function (NotificationTemplate) {
 	'use strict';
 
-	var NotificationView = Backbone.Marionette.ItemView.extend({
+	var NotificationView = Marionette.ItemView.extend({
 		id: 'notification',
-		className: function () {
-			return this._getClassName();
-		},
+		className: 'notification',
 		template: _.template(NotificationTemplate),
 
-		ui: {
-		    hideButton: '#notification-hideButton'
+		ui: function () {
+		    return {
+		        hideButton: '#' + this.id + '-hideButton'
+		    };
 		},
 
-		triggers: {
-			'click @ui.hideButton': 'hide:notification'
+		events: {
+			'click @ui.hideButton': '_onClickHideButton'
 		},
-
-		//  Dynamically determine the class name of the view in order to style it based on the type of notification
-		_getClassName: function () {
-			var className = 'panel notification ';
-
-			var notificationType = this.model.get('type');
-			switch (notificationType) {
-				case NotificationType.Success:
-					className += 'notification--success';
-					break;
-				case NotificationType.Error:
-					className += 'notification--error';
-					break;
-			    case NotificationType.Warning:
-			        className += 'notification--warning';
-			        break;
-			}
-
-			return className;
-		}
+		
+        _onClickHideButton: function() {
+            Streamus.channels.notification.commands.trigger('hide:notification');
+        }
 	});
 
 	return NotificationView;

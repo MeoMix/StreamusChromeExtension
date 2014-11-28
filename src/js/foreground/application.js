@@ -3,7 +3,7 @@
 ], function (ForegroundAreaView) {
     'use strict';
 
-    var Application = Backbone.Marionette.Application.extend({
+    var Application = Marionette.Application.extend({
         backgroundPage: null,
         
         regions: {
@@ -20,6 +20,7 @@
             contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
             playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
             searchArea: Backbone.Wreqr.radio.channel('searchArea'),
+            activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
             element: Backbone.Wreqr.radio.channel('element')
         },
         
@@ -37,15 +38,15 @@
             $.extend($.fn.qtip.defaults.position, {
                 viewport: $(window),
                 my: 'top center',
-                at: 'bottom center'
+                at: 'bottom center',
+                adjust: $.extend($.fn.qtip.defaults.position.adjust, {
+                    y: 8,
+                    method: 'shift flipinvert'
+                })
             });
 
             $.extend($.fn.qtip.defaults.show, {
                 delay: 200
-            });
-            
-            $.extend($.fn.qtip.defaults.style, {
-                classes: 'qtip-light qtip-shadow'
             });
         },
         

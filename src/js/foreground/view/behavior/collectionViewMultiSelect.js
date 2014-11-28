@@ -3,7 +3,7 @@
 ], function (ListItemType) {
     'use strict';
 
-    var CollectionViewMultiSelect = Backbone.Marionette.Behavior.extend({
+    var CollectionViewMultiSelect = Marionette.Behavior.extend({
         ui: {
             listItem: '.listItem'
         },

@@ -1940,7 +1940,7 @@
                 // no useless actions that have been done before
                 // no action if the item moved is the parent of the item checked
                 //  NOTE: I HAVE MODIFIED THIS. If hideOnDrag is set to false then the element's placeholder CAN intersect with itself.
-                var doesntIntersect = this.optionsHideOnDrag ? itemElement !== this.currentItem[0] : true;
+                var doesntIntersect = this.options.hideOnDrag ? itemElement !== this.currentItem[0] : true;
                 if (doesntIntersect &&
                     this.placeholder[intersection === 1 ? "next" : "prev"]()[0] !== itemElement &&
                     !$.contains(this.placeholder[0], itemElement) &&

@@ -5,17 +5,21 @@
 ], function (YouTubePlayerRegion, ClipboardRegion, BackgroundAreaTemplate) {
     'use strict';
 
-    var BackgroundAreaView = Backbone.Marionette.LayoutView.extend({
+    var BackgroundAreaView = Marionette.LayoutView.extend({
         id: 'backgroundArea',
         template: _.template(BackgroundAreaTemplate),
         
         regions: function (options) {
             return {
                 youTubePlayerRegion: {
+                    el: '#' + this.id + '-youTubePlayerRegion',
                     regionClass: YouTubePlayerRegion,
                     youTubePlayer: options.model.get('youTubePlayer')
                 },
-                clipboardRegion: ClipboardRegion              
+                clipboardRegion: {
+                    el: '#' + this.id + '-clipboardRegion',
+                    regionClass: ClipboardRegion
+                }              
             };
         },
 

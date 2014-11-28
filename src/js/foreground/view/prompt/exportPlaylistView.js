@@ -1,11 +1,10 @@
 ﻿define([
-    'common/enum/notificationType',
     'common/utility',
     'text!template/prompt/exportPlaylist.html'
-], function (NotificationType, Utility, ExportPlaylistTemplate) {
+], function (Utility, ExportPlaylistTemplate) {
     'use strict';
 
-    var ExportPlaylistView = Backbone.Marionette.ItemView.extend({
+    var ExportPlaylistView = Marionette.ItemView.extend({
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
         
@@ -21,16 +20,18 @@
             durationMessage: chrome.i18n.getMessage('duration')
         },
         
-        ui: {
-            exportCsvRadio: '#exportPlaylist-exportCsvRadio',
-            exportJsonRadio: '#exportPlaylist-exportJsonRadio',
-            exportTitleCheckbox: '#exportPlaylist-exportTitleCheckbox',
-            exportIdCheckbox: '#exportPlaylist-exportIdCheckbox',
-            exportUrlCheckbox: '#exportPlaylist-exportUrlCheckbox',
-            exportAuthorCheckbox: '#exportPlaylist-exportAuthorCheckbox',
-            exportDurationCheckbox: '#exportPlaylist-exportDurationCheckbox',
-            checkboxes: 'input[type=checkbox]',
-            radios: 'input[type=radio]'
+        ui: function() {
+            return {
+                exportCsvRadio: '#' + this.id + '-exportCsvRadio',
+                exportJsonRadio: '#' + this.id + '-exportJsonRadio',
+                exportTitleCheckbox: '#' + this.id + '-exportTitleCheckbox',
+                exportIdCheckbox: '#' + this.id + '-exportIdCheckbox',
+                exportUrlCheckbox: '#' + this.id + '-exportUrlCheckbox',
+                exportAuthorCheckbox: '#' + this.id + '-exportAuthorCheckbox',
+                exportDurationCheckbox: '#' + this.id + '-exportDurationCheckbox',
+                checkboxes: 'input[type=checkbox]',
+                radios: 'input[type=radio]'
+            };
         },
         
         events: {
@@ -45,8 +46,7 @@
             downloadableElement.click();
             
             Streamus.channels.notification.commands.trigger('show:notification', {
-                type: NotificationType.Success,
-                message: chrome.i18n.getMessage('playlistExportedSuccessfully')
+                message: chrome.i18n.getMessage('playlistExported')
             });
         },
         

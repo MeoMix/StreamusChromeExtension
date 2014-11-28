@@ -9,7 +9,7 @@
 ], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, PlaylistItemView, PlaylistItemsTemplate) {
     'use strict';
 
-    var PlaylistItemsView = Backbone.Marionette.CompositeView.extend({
+    var PlaylistItemsView = Marionette.CompositeView.extend({
         id: 'playlistItems',
         className: 'column u-flex--column u-flex--full',
         childViewContainer: '@ui.childContainer',
@@ -35,10 +35,12 @@
             wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
         },
         
-        ui: {
-            playlistEmptyMessage: '#playlistItems-playlistEmptyMessage',
-            childContainer: '#playlistItems-listItems',
-            showSearchLink: '#playlistItems-showSearchLink'
+        ui: function () {
+            return {
+                playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
+                childContainer: '#' + this.id + '-listItems',
+                showSearchLink: '#' + this.id + '-showSearchLink'
+            };
         },
         
         events: {

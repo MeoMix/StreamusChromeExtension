@@ -1,8 +1,7 @@
 ﻿define([
     'background/enum/chromeCommand',
-    'common/enum/notificationType',
     'common/enum/repeatButtonState'
-], function (ChromeCommand, NotificationType, RepeatButtonState) {
+], function (ChromeCommand, RepeatButtonState) {
     'use strict';
     
     var NextButton = Backbone.Model.extend({
@@ -43,7 +42,6 @@
 
                 if (!activatedStreamItem) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
-                        type: NotificationType.Error,
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('cantSkipToNextSong')
                     });

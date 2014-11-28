@@ -2,14 +2,6 @@
 @import "rangeInput";
 @import "transition";
 
-.volumeArea-volumeButton.is-muted {
-    color: @red--500;
-
-    &:hover {
-        color: @red--700;
-    }
-}
-
 .volumeArea:hover,
 .volumeArea:active {
     @expandedPanelHeight: 100px;
@@ -47,6 +39,8 @@
     //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
     will-change: opacity, height;
+    margin-left: 4px;
+    margin-right: 4px;
 
     // CSS triangle
     &:before {

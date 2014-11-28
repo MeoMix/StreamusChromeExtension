@@ -1,4 +1,4 @@
-﻿<div id='foregroundArea-loadingMessage' class='instruction is-showingSpinner u-alignTopThird hidden'>
+﻿<div id='foregroundArea-loadingMessage' class='instruction hidden'>
     <div class='instruction-header'>
         <%= loadingYouTubeMessage %>
     </div>
@@ -12,7 +12,7 @@
     </div>
 </div>
 
-<div id='foregroundArea-loadingFailedMessage' class='instruction u-alignTopThird hidden'>
+<div id='foregroundArea-loadingFailedMessage' class='instruction hidden'>
     <div class='instruction-header'>
         <%= loadingYouTubeFailedMessage %>
     </div>
@@ -23,10 +23,14 @@
     </div>
 </div>
 
-<div id='foregroundArea-leftPaneRegion' class='column column--wide u-floatLeft spinner--faded spinner--unclickable'></div>
-<div id='foregroundArea-rightPaneRegion' class='column column--thin u-floatRight spinner--faded spinner--unclickable'></div>
-<div id='foregroundArea-searchAreaRegion' class='spinner--faded spinner--unclickable panel panel--left panel--uncolored column column--wide u-transitionable transition--fast'></div>
-<div id='foregroundArea-playlistsAreaRegion' class='spinner--faded spinner--unclickable'></div>
+<div id="foregroundArea-appBarRegion" class="spinner--faded spinner--unclickable"></div>
+<div class="base spinner--faded spinner--unclickable">
+    <div id='foregroundArea-leftPaneRegion' class='column column--wide'></div>
+    <div id='foregroundArea-streamRegion' class='column column--thin'></div>
+    <div id='foregroundArea-searchAreaRegion' class='panel panel--left panel--uncolored column column--wide u-transitionable transition--fast'></div>
+    <div id='foregroundArea-playlistsAreaRegion'></div>
+</div>
+
 <div id='foregroundArea-promptRegion'></div>
-<div id='foregroundArea-notificationRegion' class='spinner--faded spinner--unclickable row row--short panel panel--top u-transitionable transition--veryFast'></div>
-<div id='foregroundArea-contextMenuRegion' class='spinner--faded spinner--unclickable column'></div>
+<div id='foregroundArea-notificationRegion' class='spinner--faded spinner--unclickable panel panel--bottom u-transitionable transition--veryFast'></div>
+<div id='foregroundArea-contextMenuRegion' class='column--subHeader spinner--faded spinner--unclickable column'></div>

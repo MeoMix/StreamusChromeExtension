@@ -7,9 +7,7 @@
 ], function (YouTubePlayerError, ErrorPromptView, GoogleSignInPromptView, LinkUserIdPromptView, UpdateStreamusPromptView) {
     'use strict';
 
-    var PromptRegion = Backbone.Marionette.Region.extend({
-        el: '#foregroundArea-promptRegion',
-        
+    var PromptRegion = Marionette.Region.extend({
         player: null,
         signInManager: null,
         

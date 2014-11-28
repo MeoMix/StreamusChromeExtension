@@ -1,4 +1,5 @@
-﻿define({
+﻿//  TODO: Can I turn these into strings?
+define({
     None: -1,
     Unknown: 0,
     YouTubePlaylist: 1,

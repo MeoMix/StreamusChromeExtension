@@ -3,9 +3,7 @@
 ], function (YouTubePlayerView) {
     'use strict';
 
-    var YouTubePlayerRegion = Backbone.Marionette.Region.extend({
-        el: '#backgroundArea-youTubePlayerRegion',
-
+    var YouTubePlayerRegion = Marionette.Region.extend({
         youTubePlayer: null,
 
         initialize: function (options) {

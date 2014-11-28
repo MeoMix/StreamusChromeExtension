@@ -1,6 +1,5 @@
 ﻿define([
     'common/enum/listItemType',
-    'common/enum/notificationType',
     'foreground/model/playlistAction',
     'foreground/view/listItemView',
     'foreground/view/listItemButton/addPlaylistButtonView',
@@ -9,11 +8,11 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, NotificationType, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var PlaylistView = ListItemView.extend({
-        className: ListItemView.prototype.className + ' playlist listItem--indented listItem--small',
+        className: ListItemView.prototype.className + ' playlist listItem--small',
         template: _.template(PlaylistTemplate),
         
         ui: _.extend({}, ListItemView.prototype.ui, {
@@ -129,15 +128,13 @@
             shareCode.copyUrl();
             
             Streamus.channels.notification.commands.trigger('show:notification', {
-                type: NotificationType.Success,
-                message: chrome.i18n.getMessage('urlCopiedToClipboardSuccessfully')
+                message: chrome.i18n.getMessage('urlCopied')
             });
         },
         
         _onGetShareCodeError: function () {
             Streamus.channels.notification.commands.trigger('show:notification', {
-                type: NotificationType.Error,
-                message: chrome.i18n.getMessage('failedTopCopyUrlToClipboard')
+                message: chrome.i18n.getMessage('copyFailed')
             });
 
             Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));

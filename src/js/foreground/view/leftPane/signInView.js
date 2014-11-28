@@ -3,8 +3,9 @@
 ], function (SignInTemplate) {
     'use strict';
 
-    var SignInView = Backbone.Marionette.ItemView.extend({
+    var SignInView = Marionette.ItemView.extend({
         id: 'signIn',
+        className: 'column u-flex--column',
         template: _.template(SignInTemplate),
         
         templateHelpers: {
@@ -14,12 +15,14 @@
             pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
         },
 
-        ui: {
-            signingInMessage: '#signIn-signingInMessage',
-            signInMessage: '#signIn-signInMessage',
-            signInFailedMessage: '#signIn-signInFailedMessage',
-            signInLink: '#signIn-signInLink',
-            signInRetryTimer: '#signIn-signInRetryTimer'
+        ui: function () {
+            return {
+                signingInMessage: '#' + this.id + '-signingInMessage',
+                signInMessage: '#' + this.id + '-signInMessage',
+                signInFailedMessage: '#' + this.id + '-signInFailedMessage',
+                signInLink: '#' + this.id + '-signInLink',
+                signInRetryTimer: '#' + this.id + '-signInRetryTimer'
+            };
         },
 
         events: {

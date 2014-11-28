@@ -9,7 +9,7 @@
 ], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SearchResultsTemplate) {
     'use strict';
 
-    var SearchResultsView = Backbone.Marionette.CompositeView.extend({
+    var SearchResultsView = Marionette.CompositeView.extend({
         id: 'searchResults',
         className: 'column u-flex--column u-flex--full',
         childViewContainer: '@ui.childContainer',
@@ -39,11 +39,13 @@
             trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
         },
 
-        ui: {
-            searchingMessage: '#searchResults-searchingMessage',
-            typeToSearchMessage: '#searchResults-typeToSearchMessage',
-            noResultsMessage: '#searchResults-noResultsMessage',
-            childContainer: '#searchResults-listItems'
+        ui: function () {
+            return {
+                searchingMessage: '#' + this.id + '-searchingMessage',
+                typeToSearchMessage: '#' + this.id + '-typeToSearchMessage',
+                noResultsMessage: '#' + this.id + '-noResultsMessage',
+                childContainer: '#' + this.id + '-listItems'
+            };
         },
         
         modelEvents: {

@@ -3,9 +3,7 @@
 ], function (LeftPaneView) {
     'use strict';
 
-    var LeftPaneRegion = Backbone.Marionette.Region.extend({
-        el: '#foregroundArea-leftPaneRegion',
-        
+    var LeftPaneRegion = Marionette.Region.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },

@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var ClipboardView = Backbone.Marionette.ItemView.extend({
+    var ClipboardView = Marionette.ItemView.extend({
         id: 'clipboard',
         tagName: 'textarea',
         template: false,

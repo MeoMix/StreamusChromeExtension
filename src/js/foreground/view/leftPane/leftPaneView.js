@@ -1,42 +1,22 @@
 ﻿define([
     'foreground/view/behavior/tooltip',
     'foreground/view/leftPane/activePlaylistAreaView',
-    'foreground/view/leftPane/playlistTitleView',
     'foreground/view/leftPane/signInView',
     'text!template/leftPane/leftPane.html'
-], function (Tooltip, ActivePlaylistAreaView, PlaylistTitleView, SignInView, LeftPaneTemplate) {
+], function (Tooltip, ActivePlaylistAreaView, SignInView, LeftPaneTemplate) {
     'use strict';
 
-    var LeftPaneView = Backbone.Marionette.LayoutView.extend({
+    var LeftPaneView = Marionette.LayoutView.extend({
         id: 'leftPane',
         className: 'leftPane column u-flex--column',
         template: _.template(LeftPaneTemplate),
-        
-        templateHelpers: {
-            showSearchMessage: chrome.i18n.getMessage('showSearch')
+
+        regions: function () {
+            return {
+                contentRegion: '#' + this.id + '-contentRegion'
+            };
         },
 
-        ui: {
-            showSearchButton: '#leftPane-showSearchButton',
-            showPlaylistsAreaButton: '#leftPane-showPlaylistsAreaButton'
-        },
-        
-        events: {
-            'click @ui.showSearchButton': '_onClickShowSearchButton',
-            'click @ui.showPlaylistsAreaButton:not(.disabled)': '_onClickShowPlaylistsAreaButton'
-        },
-
-        regions: {
-            playlistTitleRegion: '#leftPane-playlistTitleRegion',
-            contentRegion: '#leftPane-contentRegion'
-        },
-        
-        behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
-            }
-        },
-        
         signInManager: null,
         
         initialize: function () {
@@ -52,7 +32,6 @@
         onShow: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             this._updateRegions(signedInUser);
-            this._setShowPlaylistsAreaButtonState(signedInUser);
         },
         
         _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
@@ -63,7 +42,6 @@
             }
             
             this._updateRegions(signedInUser);
-            this._setShowPlaylistsAreaButtonState(signedInUser);
         },
         
         _updateRegions: function (signedInUser) {
@@ -81,10 +59,6 @@
                 model: activePlaylist,
                 collection: activePlaylist.get('items')
             }));
-            
-            this.playlistTitleRegion.show(new PlaylistTitleView({
-                model: activePlaylist
-            }));
         },
         
         _showSignInContent: function() {
@@ -95,8 +69,6 @@
                 this.contentRegion.show(new SignInView({
                     model: this.signInManager
                 }));
-
-                this.playlistTitleRegion.empty();
             }
         },
         
@@ -105,20 +77,6 @@
             if (active) {
                 this._updateRegions(this.signInManager.get('signedInUser'));
             }
-        },
-        
-        _onClickShowSearchButton: function () {
-            Streamus.channels.searchArea.commands.trigger('show:search');
-        },
-        
-        _onClickShowPlaylistsAreaButton: function () {
-            Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
-        },
-        
-        _setShowPlaylistsAreaButtonState: function (signedInUser) {
-            var signedOut = signedInUser === null;
-            var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
-            this.ui.showPlaylistsAreaButton.toggleClass('disabled', signedOut).attr('title', title);
         }
     });
 

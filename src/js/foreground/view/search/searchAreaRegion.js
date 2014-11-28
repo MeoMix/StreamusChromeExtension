@@ -3,14 +3,14 @@
 ], function (SearchView) {
     'use strict';
     //  TODO: SearchAreaRegion vs SearchView...
-    var SearchAreaRegion = Backbone.Marionette.Region.extend({
-        el: '#foregroundArea-searchAreaRegion',
+    var SearchAreaRegion = Marionette.Region.extend({
         settings: null,
         
         initialize: function () {
             this.settings = Streamus.backgroundPage.settings;
 
             this.listenTo(Streamus.channels.searchArea.commands, 'show:search', this._showSearch);
+            this.listenTo(Streamus.channels.searchArea.commands, 'hide:search', this._hideSearch);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
         },
         
@@ -35,6 +35,8 @@
         },
 
         _showSearch: function (options) {
+            Streamus.channels.searchArea.vent.trigger('showing');
+
             //  If the view should be visible when UI first loads then do not transition.
             if (options && options.instant) {
                 this.$el.addClass('is-instant');
@@ -45,6 +47,7 @@
         },
 
         _hideSearch: function () {
+            Streamus.channels.searchArea.vent.trigger('hiding');
             this.$el.removeClass('is-instant is-visible');
         }
     });

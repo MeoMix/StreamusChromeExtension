@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var YouTubePlayerView = Backbone.Marionette.ItemView.extend({
+    var YouTubePlayerView = Marionette.ItemView.extend({
         tagName: 'iframe',
         id: 'youtube-player',
         template: false,

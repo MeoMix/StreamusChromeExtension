@@ -2,67 +2,75 @@
 @import "fontSize";
 @import "lineHeight";
 @import "utility";
+@import "transition";
 
-button {
-    color: @black--a87;
+//  Wrap button elements in a containing element so that they can be centered without
+//  custom margin for every size of button.
+.button-container {
+    //  This fixes the fact that <button> elements are replaced-inline and have a minimum line-height.
+    //  https://developer.mozilla.org/en-US/docs/Web/CSS/line-height#Browser_compatibility
+    line-height: 0;
+}
 
-    i,
-    i:before,
-    i:after {
-        .u-clickable;
+.button--flat {
+    margin: 0 4px;
+    padding: 8px;
+    color: @blue--500;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-radius: 2px;
+    transition: background-color @transition-color-time @transition-easeOutSine;
+
+    &:hover:not(.disabled) {
+        background-color: @gray--hoverButton
     }
 
-    &:hover {
-        color: @black;
+    &:active:not(.disabled) {
+        background-color: @gray--activeButton
     }
+}
+
+.button--icon--primary {
+    opacity: 0.87;
+}
+
+.button--icon--secondary {
+    opacity: .54;
 
     &.is-enabled {
-        color: @blue--500;
-
-        &:hover {
-            color: @blue--700;
-        }
+        opacity: .87;
     }
-}
-
-.button--prompt {
-    padding: 0 5px;
-    margin: 10px 0;
-    height: 20px;
-    background-color: @black--a12;
-    border: 1px solid @black--a26;
-
-    &:hover {
-        border-color: @blue--500;
-        background-color: @blue--500;
-        color: @white;
-    }
-}
-
-.button--label {
-    .lineHeight-loose;
-    margin-left: 10px;
-}
-
-.button--label-icon {
-    margin-right: .5em
 }
 
 .button--icon {
-    .fontSize-large;
+    &.is-enabled {
+        fill: @blue--500;
+
+        &:hover {
+            fill: @blue--700;
+        }
+    }
+
+    &:hover {
+        opacity: 1;
+    }
+
+    &.disabled {
+        opacity: .26;
+    }
 }
 
 .button--large {
-    .lineHeight-looser;
-    width: 40px;
+    width: 48px;
+    height: 48px;
 }
 
 .button--medium {
-    .lineHeight-loose;
-    width: 30px;
+    width: 40px;
+    height: 40px;
 }
 
 .button--small {
-    .lineHeight-tight;
-    width: 25px;
+    width: 32px;
+    height: 32px;
 }

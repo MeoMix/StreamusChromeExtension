@@ -1,7 +1,11 @@
 ﻿<div class='grouping-row'>
-    <input type='text' id='createPlaylist-playlistTitle' class='textInput textInput--underlined js-submittable' placeholder='<%= requiredMessage %>: <%= titleLowerCaseMessage %>' value='<%= playlistMessage %> <%= playlistCount %>' maxlength='255'>
+    <input type='text' id='createPlaylist-title' class='textInput textInput--basic js-submittable' placeholder='<%= titleMessage %>' value='<%= playlistMessage %> <%= playlistCount %>' maxlength=<%= titleMaxLength %>>
+    <div class="textInput-hint textInput-characterCounter">
+        <span id="createPlaylist-title-characterCount">0</span> / <%= titleMaxLength %>
+    </div>
 </div>
 
 <div class='grouping-row'>
-    <input type='text' id='createPlaylist-youTubeSource' class='textInput textInput--underlined js-submittable' placeholder='<%= optionalMessage %>: <%= playlistLowerCaseMessage %> / <%= channelLowerCaseMessage %> <%= urlMessage %>'>
+    <input type='text' id='createPlaylist-dataSource' class='textInput textInput--basic js-submittable' placeholder='<%= playlistMessage %> <%= urlMessage %>'>
+    <div id="createPlaylist-dataSource-hint" class="textInput-hint"></div>
 </div>

@@ -25,12 +25,12 @@
 
             switch (this.get('state')) {
                 case RepeatButtonState.Disabled:
-                    nextState = RepeatButtonState.RepeatSong;
-                    break;
-                case RepeatButtonState.RepeatSong:
                     nextState = RepeatButtonState.RepeatStream;
                     break;
                 case RepeatButtonState.RepeatStream:
+                    nextState = RepeatButtonState.RepeatSong;
+                    break;
+                case RepeatButtonState.RepeatSong:
                     nextState = RepeatButtonState.Disabled;
                     break;
                 default:

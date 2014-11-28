@@ -1,40 +1,32 @@
-﻿@lightGray: rgb(235,235,235);
-@mediumLightGray: rgb(202,202,202);
-@mediumDarkGray: rgb(102,102,102);
-@darkGray: rgb(51,51,51);
+﻿@black: rgba(0, 0, 0, 1);
+@white: rgba(255, 255, 255, 1);
 
-
-@black: rgb(0,0,0);
-@white: rgb(255,255,255);
 //  Used for text:
-@black--a87: rgba(0, 0, 0, .87);
-@white--a100: rgba(255, 255, 255, 1);
+@dark--primary: rgba(0, 0, 0, .87);
 //  Used for secondary text:
-@black--a54: rgba(0, 0, 0, .54);
-@white--a70: rgba(255, 255, 255, .7);
-//  Used for text hints like in text fields and labels:
-@black--a26: rgba(0, 0, 0, .26);
-@white--a30: rgba(255, 255, 255, .3);
-//  Used for dividers/icons:
-@black--a12: rgba(0, 0, 0, .12);
-@white--a12: rgba(255, 255, 255, .12);
+@dark--secondary: rgba(0, 0, 0, .54);
+@light--secondary: rgba(255, 255, 255, .7);
+//  Use tertiary for text hints and disabled text.
+@dark--tertiary: rgba(0, 0, 0, .26);
+//  Use for dividers
+@dark--quaternary: rgba(0, 0, 0, .12);
+//  Use for :hover highlighting.
+@dark--quinary: rgba(0, 0, 0, .03);
 
+//  TODO: They don't say what color the tooltip should be -- only its opacity. So, I used the snackbar color.
+//  http://www.google.com/design/spec/components/tooltips.html#tooltips-usage
+@gray--tooltip: rgba(50, 50, 50, .9);
 
-@white-12: rgba(255, 255, 255, .0);
-@white-12: rgba(255, 255, 255, .100);
-@black-12: rgba(0, 0, 0, .5);
-@black-12: rgba(0, 0, 0, 1);
+//  http://www.google.com/design/spec/components/buttons.html#buttons-flat-raised-buttons
+@gray--hoverButton: rgba(153, 153, 153, .2);
+@gray--activeButton: rgba(153, 153, 153, .4);
 
-@blue--500: #2196F3;
-@blue--100: #BBDEFB;
-@blue--700: #1976D2;
+//  http://www.google.com/design/spec/components/snackbars-toasts.html#snackbars-toasts-specs
+@gray--snackbar: rgba(50, 50, 50, 1);
 
-@green--500: #4CAF50;
-@green--100: #C8E6C9;
-
-@red--500: #F44336;
-@red--100: #FFCDD2;
-@red--700: #D32F2F;
-
-@amber--500: #FFC107;
-@amber--100: #FFECB3;
+//  These colors are taken from https://inbox.google.com
+@blue--500: #4285f4;
+@blue--700: #2870ee;
+@green--500: #0f9d58;
+@red--500: #db4437;
+@amber--500: #eca403;

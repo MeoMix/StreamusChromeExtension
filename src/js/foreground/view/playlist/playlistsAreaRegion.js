@@ -3,14 +3,14 @@
 ], function (PlaylistsAreaView) {
     'use strict';
     
-    var PlaylistsAreaRegion = Backbone.Marionette.Region.extend({
-        el: '#foregroundArea-playlistsAreaRegion',
+    var PlaylistsAreaRegion = Marionette.Region.extend({
         signInManager: null,
         
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
+            this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
@@ -24,6 +24,10 @@
         
         _showPlaylistsArea: function () {
             this.currentView.show();
+        },
+        
+        _hidePlaylistsArea: function () {
+            this.currentView.hide();
         },
         
         //  Returns true if PlaylistsAreaView is currently shown

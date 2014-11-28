@@ -5,7 +5,7 @@
 define(function () {
     'use strict';
 
-    var Tooltip = Backbone.Marionette.Behavior.extend({
+    var Tooltip = Marionette.Behavior.extend({
         ui: {
             //  Children which need tooltips are decorated with the js-tooltipable class.
             tooltipable: '.js-tooltipable',
@@ -23,6 +23,7 @@ define(function () {
         },
         
         onShow: function () {
+            //  TODO: Elements which are flexible take a second to determine their appropriate height/width so can't run this immediately during onShow.
             this._setTooltips();
         },
         

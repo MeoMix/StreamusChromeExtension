@@ -4,7 +4,7 @@
 ], function (BackgroundArea, BackgroundAreaView) {
     'use strict';
     
-    var Application = Backbone.Marionette.Application.extend({
+    var Application = Marionette.Application.extend({
         localDebug: false,
         serverUrl: '',
         instanceId: '',

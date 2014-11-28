@@ -4,31 +4,34 @@
 ], function (DataSourceType, CreatePlaylistTemplate) {
     'use strict';
 
-    var CreatePlaylistView = Backbone.Marionette.ItemView.extend({
+    var CreatePlaylistView = Marionette.ItemView.extend({
         id: 'createPlaylist',
         template: _.template(CreatePlaylistTemplate),
+        //  TODO: Would also be nice to pull this from the DB instead, need to truncate DB column to 150.
+        titleMaxLength: 150,
         
         templateHelpers: function () {
             return {
-                requiredMessage: chrome.i18n.getMessage('required'),
-                titleLowerCaseMessage: chrome.i18n.getMessage('title').toLowerCase(),
-                optionalMessage: chrome.i18n.getMessage('optional'),
+                titleMessage: chrome.i18n.getMessage('title'),
                 playlistMessage: chrome.i18n.getMessage('playlist'),
-                playlistLowerCaseMessage: chrome.i18n.getMessage('playlist').toLowerCase(),
                 urlMessage: chrome.i18n.getMessage('url'),
-                channelLowerCaseMessage: chrome.i18n.getMessage('channel').toLowerCase(),
-                playlistCount: this.playlists.length
+                playlistCount: this.playlists.length,
+                titleMaxLength: this.titleMaxLength
             };
         },
         
-        ui: {
-            'playlistTitle': '#createPlaylist-playlistTitle',
-            'youTubeSource': '#createPlaylist-youTubeSource'
+        ui: function () {
+            return {
+                title: '#' + this.id + '-title',
+                titleCharacterCount: '#' + this.id + '-title-characterCount',
+                dataSource: '#' + this.id + '-dataSource',
+                dataSourceHint: '#' + this.id + '-dataSource-hint'
+            };
         },
 
         events: {
-            'input @ui.youTubeSource': '_onInputYouTubeSource',
-            'input @ui.playlistTitle': '_onInputPlaylistTitle'
+            'input @ui.title': '_onInputTitle',
+            'input @ui.dataSource': '_onInputDataSource'
         },
         
         playlists: null,
@@ -41,37 +44,47 @@
 
         onRender: function () {
             this._setDataSourceAsUserInput();
+            this._setTitleCharacterCount();
         },
 
         onShow: function () {
             //  Reset the value after focusing to focus without selecting.
-            this.ui.playlistTitle.focus().val(this.ui.playlistTitle.val());
+            this.ui.title.focus().val(this.ui.title.val());
         },
         
         createPlaylist: function() {
-            var dataSource = this.ui.youTubeSource.data('datasource');
-            var playlistName = this.ui.playlistTitle.val().trim();
+            var dataSource = this.ui.dataSource.data('datasource');
+            var trimmedTitle = this._getTrimmedTitle();
 
-            this.playlists.addPlaylistByDataSource(playlistName, dataSource);
+            this.playlists.addPlaylistByDataSource(trimmedTitle, dataSource);
         },
         
-        _onInputYouTubeSourceInput: function() {
+        _onInputDataSource: function() {
             this._debounceParseInput();
         },
         
-        _onInputPlaylistTitleInput: function () {
+        _onInputTitle: function () {
+            this._setTitleCharacterCount();
             this._validateTitle();
         },
         
-        //  Debounce for typing support so I know when typing has finished
+        _setTitleCharacterCount: function () {
+            var trimmedTitle = this._getTrimmedTitle();
+            this.ui.titleCharacterCount.text(trimmedTitle.length);
+        },
+        
+        //  Throttle for typing support so I don't continuously validate while typing
         _debounceParseInput: _.debounce(function () {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(this._parseInput.bind(this));
         }, 100),
         
+        _getTrimmedTitle: function () {
+            return this.ui.title.val().trim();
+        },
+        
         _parseInput: function () {
-            var youTubeUrl = this.ui.youTubeSource.val().trim();
-            this.ui.youTubeSource.removeData('datasource').removeClass('is-invalid is-valid');
+            var youTubeUrl = this.ui.dataSource.val().trim();
 
             if (youTubeUrl !== '') {
                 this._setDataSourceViaUrl(youTubeUrl);
@@ -82,8 +95,8 @@
         
         _validateTitle: function () {
             //  When the user submits - check to see if they provided a playlist name
-            var playlistTitle = this.ui.playlistTitle.val().trim();
-            this.ui.playlistTitle.toggleClass('is-invalid', playlistTitle === '');
+            var title = this._getTrimmedTitle();
+            this.ui.title.toggleClass('is-invalid', title.length === 0 || title.length > this.titleMaxLength);
         },
 
         _setDataSourceAsUserInput: function () {
@@ -91,7 +104,7 @@
                 type: DataSourceType.UserInput
             });
 
-            this.ui.youTubeSource.data('datasource', dataSource);
+            this.ui.dataSource.data('datasource', dataSource);
         },
         
         _setDataSourceViaUrl: function(url) {
@@ -108,8 +121,8 @@
         },
         
         _onParseUrlSuccess: function(dataSource) {
-            this.ui.youTubeSource.data('datasource', dataSource);
-
+            this.ui.dataSource.data('datasource', dataSource);
+            
             dataSource.getTitle({
                 success: this._onGetTitleSuccess.bind(this),
                 error: this._setErrorState.bind(this)
@@ -117,20 +130,20 @@
         },
         
         _onGetTitleSuccess: function(title) {
-            this.ui.playlistTitle.val(title);
+            this.ui.title.val(title);
             this._validateTitle();
-            this.ui.youTubeSource.addClass('is-valid');
+            this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
+            this.ui.dataSourceHint.text(chrome.i18n.getMessage('loadedPlaylist'));
         },
         
         _setErrorState: function() {
-            var originalValue = this.ui.playlistTitle.val();
-            this.ui.playlistTitle.data('original-value', originalValue).val(chrome.i18n.getMessage('errorRetrievingTitle'));
-            this.ui.youTubeSource.addClass('is-invalid');
+            this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
+            this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
         },
         
         _resetInputState: function() {
-            this.ui.youTubeSource.removeClass('is-invalid is-valid');
-            this.ui.playlistTitle.val(this.ui.playlistTitle.data('original-value'));
+            this.ui.dataSource.removeClass('is-invalid is-valid').removeData('datasource');
+            this.ui.dataSourceHint.text('');
             this._setDataSourceAsUserInput();
         }
     });

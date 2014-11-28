@@ -1,13 +1,23 @@
 ﻿@import "lineHeight";
+@import "utility";
 
 .timeArea {
     display: flex;
     align-items: center;
-    margin-bottom: 5px;
+    /*margin-bottom: 5px;*/
+    /*height: 48px;*/
+
 }
 
 .timeArea-label {
-    .lineHeight-base;
+    font-size: .9em;
+    line-height: 18px;
+    .u-textSecondary;
+    /*.lineHeight-base;*/
     width: 40px;
-    text-align: center;
+    /*text-align: center;*/
+}
+
+#timeArea-totalTimeLabel {
+    cursor: default;
 }

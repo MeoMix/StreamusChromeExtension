@@ -4,10 +4,11 @@
 ], function (ListItemType, Tooltip) {
     'use strict';
 
-    var ListItemButtonView = Backbone.Marionette.ItemView.extend({
+    var ListItemButtonView = Marionette.ItemView.extend({
         tagName: 'button',
         className: function () {
-            return 'js-tooltipable listItem-button button--icon ' + this._getSize();
+            //  TODO: Should probably use the same size icon for both..
+            return 'js-tooltipable listItem-button button--icon button--icon--secondary ' + this._getSize();
         },
         
         events: {

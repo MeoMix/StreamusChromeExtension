@@ -5,13 +5,12 @@
     'use strict';
     
     var ClearStreamPromptView = PromptView.extend({
-        contentText: chrome.i18n.getMessage('areYouSureYouWantToClearYourStream'),
+        contentText: chrome.i18n.getMessage('clearStreamQuestion'),
         
         stream: null,
         
         initialize: function () {
             this.model = new Prompt({
-                title: chrome.i18n.getMessage('areYouSure'),
                 reminderProperty: 'remindClearStream'
             });
 

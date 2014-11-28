@@ -1,0 +1,10 @@
+﻿<div id='timeArea-elapsedTimeLabel' class='timeArea-label js-tooltipable u-clickable'></div>
+
+<div class='rangeInput-wrapper rangeInput-wrapper--horizontal'>
+    <div id='timeArea-timeProgress' class='rangeInput-progress'></div>
+    <input id='timeArea-timeRange' class='rangeInput u-clickable' type='range' max="<%= totalTime %>">
+</div>
+
+<div id='timeArea-totalTimeLabel' class='timeArea-label js-tooltipable' title='<%- totalTimeMessage %>'>
+    <%= prettyTotalTime %>
+</div>

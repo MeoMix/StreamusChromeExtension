@@ -180,8 +180,8 @@
 		"message": "Are you sure you want to delete playlist",
 		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
 	},
-	"areYouSureYouWantToClearYourStream": {
-		"message": "Are you sure you want to clear your stream?"
+	"clearStreamQuestion": {
+		"message": "Clear stream?"
 	},
 	"typeToCreateOrFilterPlaylists": {
 		"message": "Type to create or filter playlists"
@@ -554,13 +554,13 @@
 	"activeSong": {
 		"message": "Active song"
 	},
-	"urlCopiedToClipboardSuccessfully": {
-		"message": "URL copied to clipboard successfully."
+	"urlCopied": {
+		"message": "URL copied"
 	},
-	"failedTopCopyUrlToClipboard": {
-		"message": "Failed to copy URL to clipboard."
+	"copyFailed": {
+		"message": "Copy failed"
 	},
-	"playlistExportedSuccessfully": {
+	"playlistExported": {
 		"message": "Playlist exported successfully."
 	},
 	"playing": {
@@ -571,5 +571,14 @@
 	},
 	"paused": {
 		"message": "Paused"
+	},
+	"cancel": {
+		"message": "Cancel"
+	},
+	"errorLoadingUrl": {
+		"message": "Error loading URL"
+	},
+	"loadedPlaylist": {
+		"message": "Loaded playlist"
 	}
 }

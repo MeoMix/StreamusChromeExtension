@@ -2,6 +2,13 @@
 
 .prompt {
     z-index: 2;
+
+    //  TODO: I don't feel great about this, but trying to mimic Google for now.
+    .grouping-row:first-of-type {
+        .textInput:first-of-type{
+            padding-top: 0;
+        }
+    }
 }
 
 .prompt-panel {
@@ -9,7 +16,7 @@
     top: 50%;
     will-change: transform, scale;
     transform: translate3d(-50%, -50%, 0) scale(.8);
-    min-width: 300px;
+    min-width: 240px;
     max-width: 500px;
 
     &.is-visible {
@@ -17,12 +24,23 @@
     }
 }
 
-//  TODO: This is inconsistent. How can I make this button look right?
-.prompt-closeButton {
-    margin-right: -5px;
+.prompt .contentBar--top {
+    display: none;
+}
+
+.prompt-contentRegion {
+    //  http://www.google.com/design/spec/components/dialogs.html#dialogs-specs
+    margin: 24px 24px 16px;
 }
 
 //  TODO: This is inconsistent, but having the box-shadow/border looks weird
 .prompt-contentBar--bottom {
     box-shadow: none;
+    margin: 8px 8px;
+
+    /* TODO: Fix. */
+    label {
+        flex: 1;
+        margin-left: 12px;
+    }
 }

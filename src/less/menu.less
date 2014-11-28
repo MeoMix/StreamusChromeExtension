@@ -5,14 +5,14 @@
 
 .menu {
     z-index: 1;
-    padding: 5px 0;
+    padding: 8px 0;
     opacity: 0;
     transition-property: opacity;
     transition-duration: @transition-easeOutSine;
     .transition--fast;
     will-change: opacity;
     pointer-events: none;
-
+    
     &.is-expanded {
         opacity: 1;
         pointer-events: all;
@@ -20,14 +20,14 @@
 }
 
 .menu-item {
-    .lineHeight-loose;
+    line-height: 36px;
     .u-textOverflowEllipsis;
     .u-clickable;
     max-width: 200px;
-    padding: 0 15px;
-    color: @black--a87;
+    padding: 0 16px;
+    color: @dark--primary;
 
     &:not(.disabled):hover {
-        background: @black--a12;
+        background: @dark--quinary;
     }
 }

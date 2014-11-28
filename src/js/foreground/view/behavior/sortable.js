@@ -4,7 +4,7 @@
 ], function (Direction, ListItemType) {
     'use strict';
 
-    var Sortable = Backbone.Marionette.Behavior.extend({
+    var Sortable = Marionette.Behavior.extend({
         placeholderClass: 'sortable-placeholder',
         isDraggingClass: 'is-dragging',
         
@@ -96,13 +96,16 @@
         },
         
         _stop: function (event, ui) {
+            console.log('stop');
             var childContainer = this.view.ui.childContainer;
 
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
+            console.log('allowMove:', allowMove);
             if (allowMove) {
-                this.view.once('GetMinRenderIndexReponse', function(response) {
+                this.view.once('GetMinRenderIndexResponse', function (response) {
+                    console.log('GetMinRenderIndexResponse');
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex);
                     
@@ -110,6 +113,7 @@
                 }.bind(this));
                 this.view.triggerMethod('GetMinRenderIndex');
             } else {
+                //  TODO: Use _.defer over setTimeout?
                 //  setTimeout allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
                 setTimeout(this._cleanup.bind(this));
             }
@@ -120,6 +124,7 @@
         },
         
         _cleanup: function () {
+            console.log('cleaning up');
             this.view.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
         },
         
@@ -133,9 +138,7 @@
                 placeholderIndex += 1;
             }
 
-            this.view.once('GetMinRenderIndexReponse', function (response) {
-                console.log("i'm going to add at index:", placeholderIndex + response.minRenderIndex);
-
+            this.view.once('GetMinRenderIndexResponse', function (response) {
                 this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
                     index: placeholderIndex + response.minRenderIndex
                 });

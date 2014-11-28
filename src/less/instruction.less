@@ -10,6 +10,7 @@
     .column;
     //  Contain the position: absolute instructions
     position: relative;
+    cursor: default;
 }
 
 .instruction {
@@ -17,19 +18,14 @@
     position: absolute;
     //  width: 100% so that text-align: center works properly with position: absolute
     width: 100%;
-    color: @black--a87;
+    color: @dark--primary;
     text-align: center;
-
-    //  NOTE: This is being used to keep left/right pane instructions aligned, but I do not feel great about the code.
-    @leftPaneMarginTop: 60px;
-    .leftPane & {
-        margin-top: @leftPaneMarginTop
-    }
-
-    .rightPane & {
-        //  -30px to align because of the additional row in contentBar--top
-        margin-top: @leftPaneMarginTop + -30px;
-    }
+    top: 33%;
+    transform: translateY(-50%);
+    //  Keep all instruction heights the same so that they stay aligned to each-other.
+    height: 60px;
+    //  NOTE: This fixes blur when translating on sub-pixel. Don't remove it.
+    -webkit-filter: drop-shadow(0 0 rgba(0, 0, 0, 0));
 }
 
 .instruction-header {

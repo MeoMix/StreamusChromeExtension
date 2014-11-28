@@ -8,7 +8,14 @@
             //  Need to set the ID for Backbone.LocalStorage
             id: 'TimeArea',
             showRemainingTime: false,
-            autoUpdate: true
+            autoUpdate: true,
+            totalTime: ''
+        },
+        
+        //  Don't want to save everything to localStorage -- only variables which need to be persisted.
+        whitelist: ['showRemainingTime'],
+        toJSON: function () {
+            return this.pick(this.whitelist);
         },
 
         initialize: function () {

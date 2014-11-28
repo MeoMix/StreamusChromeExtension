@@ -5,7 +5,7 @@
 ], function (Tooltip, PlaylistItemsView, ActivePlaylistAreaTemplate) {
     'use strict';
 
-    var ActivePlaylistAreaView = Backbone.Marionette.LayoutView.extend({
+    var ActivePlaylistAreaView = Marionette.LayoutView.extend({
         id: 'activePlaylistArea',
         className: 'column u-flex--column u-flex--full',
         template: _.template(ActivePlaylistAreaTemplate),
@@ -15,14 +15,18 @@
             playAllMessage: chrome.i18n.getMessage('playAll')
         },
         
-        regions: {
-            playlistItemsRegion: '#activePlaylistArea-playlistItemsRegion',
+        regions: function () {
+            return {
+                playlistItemsRegion: '#' + this.id + '-playlistItemsRegion'
+            };
         },
 
-        ui: {
-            playlistDetails: '#activePlaylistArea-playlistDetails',
-            playAllButton: '#activePlaylistArea-playAllButton',
-            addAllButton: '#activePlaylistArea-addAllButton'
+        ui: function () {
+            return {
+                playlistDetails: '#' + this.id + '-playlistDetails',
+                playAllButton: '#' + this.id + '-playAllButton',
+                addAllButton: '#' + this.id + '-addAllButton'
+            };
         },
 
         events: {

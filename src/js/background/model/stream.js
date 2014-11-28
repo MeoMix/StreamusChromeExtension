@@ -14,6 +14,7 @@
                 //  Need to set the ID for Backbone.LocalStorage
                 id: 'Stream',
                 items: new StreamItems(),
+                activeItem: null,
                 relatedSongsManager: new RelatedSongsManager(),
                 history: [],
                 player: null,
@@ -41,6 +42,8 @@
 
             var activeItem = this.get('items').getActiveItem();
             if (!_.isUndefined(activeItem)) {
+                //  TODO: Perhaps I could write activeItem to localStorage and convert it back from JSON to a model on initialize, but doing this for now.
+                this.set('activeItem', activeItem);
                 this.get('player').activateSong(activeItem.get('song'));
             }
         },
@@ -216,21 +219,32 @@
             var history = this.get('history');
             history = _.without(history, model.get('id'));
             this.save('history', history);
+
+            var isEmpty = collection.isEmpty();
             
-            if (model.get('active') && collection.length > 0) {
+            if (model.get('active') && !isEmpty) {
                 this.activateNext(options.index);
             }
             
-            this._stopPlayerIfEmpty();
+            if (isEmpty) {
+                this._cleanupOnItemsEmpty();
+            }
         },
         
-        _onItemsReset: function () {
+        _onItemsReset: function (collection) {
             this.save('history', []);
-            this._stopPlayerIfEmpty();
+
+            var isEmpty = collection.isEmpty();
+            if (isEmpty) {
+                this._cleanupOnItemsEmpty();
+            } else {
+                this.set('activeItem', collection.getActiveItem());
+            }
         },
         
         _onItemsChangeActive: function (model, active) {
             if (active) {
+                this.set('activeItem', model);
                 this._loadActiveItem(model);
             }
         },
@@ -272,14 +286,13 @@
             }
         },
         
-        _stopPlayerIfEmpty: function () {
-            if (this.get('items').length === 0) {
-                this.get('player').stop();
-            }
-        },
-        
         _loadActiveItem: function (activeItem) {
             this.get('player').activateSong(activeItem.get('song'));
+        },
+        
+        _cleanupOnItemsEmpty: function() {
+            this.set('activeItem', null);
+            this.get('player').stop();
         }
     });
 
