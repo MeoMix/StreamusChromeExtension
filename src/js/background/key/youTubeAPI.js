@@ -10,7 +10,7 @@ define(function () {
     //  Referers: Any referer allowed
     //  Activated on:	Apr 6, 2014 2:46 PM
     //  Activated by:	------------ – you
-    var key = 'API_KEY_MISSING';
+    var key = 'xxtest';
 
     if (key === 'API_KEY_MISSING') {
         console.error('YouTube API key is not present.');
