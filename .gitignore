@@ -1,6 +1,7 @@
 Deploy/
 Streamus *.zip
 Streamus v*/
+-key/
 
 ##################
 ## Node
