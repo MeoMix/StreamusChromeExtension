@@ -10,6 +10,9 @@ define(function () {
     //  Referers: Any referer allowed
     //  Activated on:	Apr 6, 2014 2:46 PM
     //  Activated by:	------------ – you
+    //  NOTE: Please do not commit changes to this file once downloaded. CommandS:
+    //  - Disable tracking: "git update-index --assume-unchanged src/js/background/key/youTubeAPI.js"
+    //  - Enable tracking: "git update-index --no-assume-unchanged src/js/background/key/youTubeAPI.js"
     var key = 'API_KEY_MISSING';
 
     if (key === 'API_KEY_MISSING') {
