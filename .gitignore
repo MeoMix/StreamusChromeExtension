@@ -1,7 +1,7 @@
 Deploy/
 Streamus *.zip
 Streamus v*/
-**/background/key/
+src/js/background/key/youTubeAPI.js
 
 ##################
 ## Node
