@@ -113,9 +113,8 @@
                 }.bind(this));
                 this.view.triggerMethod('GetMinRenderIndex');
             } else {
-                //  TODO: Use _.defer over setTimeout?
-                //  setTimeout allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
-                setTimeout(this._cleanup.bind(this));
+                //  _.defer allows for jQuery UI to finish interacting with the element. Without this, CSS animations do not run.
+                _.defer(this._cleanup.bind(this));
             }
 
             //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.

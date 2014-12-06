@@ -6,10 +6,12 @@
     'use strict';
     
     var SettingsPromptView = PromptView.extend({
+        id: 'settingsPrompt',
+
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('settings'),
-                showOkButton: false
+                submitButtonText: chrome.i18n.getMessage('save')
             });
 
             this.contentView = new SettingsView({
@@ -17,6 +19,10 @@
             });
             
             PromptView.prototype.initialize.apply(this, arguments);
+        },
+        
+        onSubmit: function() {
+            this.contentView.save();
         }
     });
 

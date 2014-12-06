@@ -5,14 +5,17 @@
     'use strict';
 
     var GoogleSignInPromptView = PromptView.extend({
-        contentText: chrome.i18n.getMessage('googleSignInMessage'),
-        
+        id: 'googleSignInPrompt',
         signInManager: null,
         
         initialize: function () {
             this.model =  new Prompt({
                 title: chrome.i18n.getMessage('signInToGoogle'),
                 reminderProperty: 'remindGoogleSignIn'
+            });
+            
+            this.contentView = new Marionette.ItemView({
+                template: _.template(chrome.i18n.getMessage('googleSignInMessage'))
             });
 
             this.signInManager = Streamus.backgroundPage.signInManager;

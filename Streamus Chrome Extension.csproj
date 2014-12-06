@@ -179,6 +179,7 @@
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
     <Content Include="src\js\foreground\model\adminMenuArea.js" />
+    <Content Include="src\js\foreground\model\checkbox.js" />
     <Content Include="src\js\foreground\model\clearStreamButton.js" />
     <Content Include="src\js\foreground\model\saveStreamButton.js" />
     <Content Include="src\js\foreground\model\playlistAction.js" />
@@ -190,6 +191,7 @@
     <Content Include="src\js\foreground\view\appBar\appBarView.js" />
     <Content Include="src\js\foreground\view\behavior\itemViewMultiSelect.js" />
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
+    <Content Include="src\js\foreground\view\element\checkboxView.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
@@ -350,10 +352,12 @@
     <Content Include="src\less\adminMenuArea.less" />
     <Content Include="src\less\boxShadow.less" />
     <Content Include="src\less\appBar.less" />
+    <Content Include="src\less\checkbox.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
     <Content Include="src\template\contextMenu\contextMenuItem.html" />
+    <Content Include="src\template\element\checkbox.html" />
     <Content Include="src\template\foregroundArea.html" />
     <Content Include="src\template\leftPane\playlistItems.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />

@@ -33,8 +33,8 @@
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _promptIfUpdateAvailable: function () {
             //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
-            //  TODO: Maybe this will be optional in the future if Google fixes it?
-            chrome.runtime.requestUpdateCheck(function () { });
+            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
+            chrome.runtime.requestUpdateCheck(_.noop);
         },
         
         //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
@@ -84,13 +84,13 @@
         _showPrompt: function (PromptView, options) {
             var promptView = new PromptView(options);
 
-            //  Sometimes checkbox reminders are in place which would indicate the view's OK event should run immediately instead of being shown to the user.
-            var reminderDisabled = promptView.reminderDisabled();
+            //  Sometimes checkbox reminders are in place which would indicate the view's onSubmit event should run immediately.
+            var reminderEnabled = promptView.isReminderEnabled();
 
-            if (reminderDisabled) {
-                promptView.onSubmit();
-            } else {
+            if (reminderEnabled) {
                 this.show(promptView);
+            } else {
+                promptView.onSubmit();
             }
         },
         

@@ -1,10 +1,12 @@
 ﻿define([
     'common/enum/youTubeSuggestedQuality',
+    'foreground/collection/checkboxes',
+    'foreground/view/element/checkboxView',
     'text!template/prompt/settings.html'
-], function (YouTubeSuggestedQuality, SettingsTemplate) {
+], function (YouTubeSuggestedQuality, Checkboxes, CheckboxView, SettingsTemplate) {
     'use strict';
 
-    var SettingsView = Marionette.ItemView.extend({
+    var SettingsView = Marionette.LayoutView.extend({
         id: 'settings',
         className: 'u-noWrap',
         template: _.template(SettingsTemplate),
@@ -15,43 +17,71 @@
             highestMessage: chrome.i18n.getMessage('highest'),
             autoMessage: chrome.i18n.getMessage('auto'),
             lowestMessage: chrome.i18n.getMessage('lowest'),
-            showTooltipsMessage: chrome.i18n.getMessage('showTooltips'),
-            alwaysOpenToSearchMessage: chrome.i18n.getMessage('alwaysOpenToSearch'),
-            alwaysOpenInTabMessage: chrome.i18n.getMessage('alwaysOpenInTab'),
             remindersMessage: chrome.i18n.getMessage('reminders'),
-            remindClearStreamMessage: chrome.i18n.getMessage('remindClearStream'),
-            remindDeletePlaylistMessage: chrome.i18n.getMessage('remindDeletePlaylist'),
-            remindLinkAccountMessage: chrome.i18n.getMessage('remindLinkAccount'),
-            remindGoogleSignInMessage: chrome.i18n.getMessage('remindGoogleSignIn'),
             YouTubeSuggestedQuality: YouTubeSuggestedQuality
         },
         
-        ui: {
-            checkboxes: 'input[type=checkbox]',
-            selects: 'select'
+        regions: function () {
+            return {
+                showTooltipsRegion: '#' + this.id + '-showTooltipsRegion',
+                openToSearchRegion: '#' + this.id + '-openToSearchRegion',
+                openInTabRegion: '#' + this.id + '-openInTabRegion',
+                remindClearStreamRegion: '#' + this.id + '-remindClearStreamRegion',
+                remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
+                remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
+                remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
+            };
         },
         
-        events: {
-            'change @ui.checkboxes': '_onChangeCheckbox',
-            'input @ui.selects': '_onInputSelect'
+        ui: function () {
+            return {
+                checkboxes: 'input[type=checkbox]',
+                selects: 'select',
+            
+                //  TODO: Naming length
+                youTubeSuggestedQualitySelect: '#' + this.id + '-youTubeSuggestedQualitySelect'         
+            };
         },
         
-        _onChangeCheckbox: function (event) {
-            var checkbox = $(event.target);
-            var property = checkbox.data('property');
-            var checked = checkbox.is(':checked');
-            this._saveProperty(property, checked);
+        checkboxes: null,
+        
+        initialize: function() {
+            this.checkboxes = new Checkboxes();
         },
         
-        _onInputSelect: function (event) {
-            var select = $(event.target);
-            var property = select.data('property');
-            var value = select.val();
-            this._saveProperty(property, value);
+        onShow: function () {
+            //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
+            this._showCheckbox('showTooltips');
+            this._showCheckbox('openToSearch');
+            this._showCheckbox('openInTab');
+            this._showCheckbox('remindClearStream');
+            this._showCheckbox('remindDeletePlaylist');
+            this._showCheckbox('remindLinkAccount');
+            this._showCheckbox('remindGoogleSignIn');
         },
         
-        _saveProperty: function(property, value) {
-            this.model.save(property, value);
+        _showCheckbox: function (propertyName) {
+            var checkbox = this.checkboxes.add({
+                labelText: chrome.i18n.getMessage(propertyName),
+                checked: this.model.get(propertyName),
+                property: propertyName
+            });
+
+            this[propertyName + 'Region'].show(new CheckboxView({
+                model: checkbox
+            }));
+        },
+        
+        save: function () {
+            var currentValues = {
+                youTubeSuggestedQuality: this.ui.youTubeSuggestedQualitySelect.val()
+            };
+
+            this.checkboxes.each(function (checkbox) {
+                currentValues[checkbox.get('property')] = checkbox.get('checked');
+            });
+
+            this.model.save(currentValues);
         }
     });
 

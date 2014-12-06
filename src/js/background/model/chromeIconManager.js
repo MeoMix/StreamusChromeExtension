@@ -22,11 +22,11 @@ define([
             this.listenTo(streamItems, 'change:active', this._onStreamItemsChangeActive);
 
             var settings = this.get('settings');
-            this.listenTo(settings, 'change:alwaysOpenInTab', this._onSettingsChangeAlwaysOpenInTab);
+            this.listenTo(settings, 'change:alwaysOpenInTab', this._onSettingsChangeOpenInTab);
 
             this._setTitle(streamItems.getActiveItem(), player.get('state'), player.get('volume'));
             this._setIcon(player.get('state'), player.get('muted'), player.get('volume'));
-            this._setPopup(settings.get('alwaysOpenInTab'));
+            this._setPopup(settings.get('openInTab'));
 
             chrome.browserAction.onClicked.addListener(this._onChromeBrowserActionClicked.bind(this));
         },
@@ -57,15 +57,14 @@ define([
             }
         },
         
-        _onSettingsChangeAlwaysOpenInTab: function (model, alwaysOpenInTab) {
-            console.log('alwaysOpenInTab:', alwaysOpenInTab);
-            this._setPopup(alwaysOpenInTab);
+        _onSettingsChangeOpenInTab: function (model, openInTab) {
+            this._setPopup(openInTab);
         },
         
         //  Disable the popup when opening in a tab so the foreground doesn't flicker as the tab is opening.
-        _setPopup: function (alwaysOpenInTab) {
+        _setPopup: function (openInTab) {
             chrome.browserAction.setPopup({
-                popup: alwaysOpenInTab ? '' : 'foreground.html'
+                popup: openInTab ? '' : 'foreground.html'
             });
         },
 

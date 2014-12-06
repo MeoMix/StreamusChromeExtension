@@ -5,6 +5,7 @@
     'use strict';
     
     var ErrorPromptView = PromptView.extend({
+        id: 'errorPrompt',
         player: null,
 
         initialize: function (options) {
@@ -14,7 +15,9 @@
 
             this.player = Streamus.backgroundPage.player;
 
-            this.contentText = options.text;
+            this.contentView = new Marionette.ItemView({
+                template: _.template(options.text)
+            });
 
             PromptView.prototype.initialize.apply(this, arguments);
 

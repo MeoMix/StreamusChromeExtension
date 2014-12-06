@@ -5,12 +5,16 @@
     'use strict';
 
     var UpdateStreamusPromptView = PromptView.extend({
-        contentText: chrome.i18n.getMessage('anUpdateToStreamusIsAvailable') + '. ' + chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate'),
+        id: 'updateStreamusPrompt',
 
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('updateRequired'),
-                okButtonText: chrome.i18n.getMessage('update')
+                submitButtonText: chrome.i18n.getMessage('update')
+            });
+
+            this.contentView = new Marionette.ItemView({
+                template: _.template(chrome.i18n.getMessage('anUpdateToStreamusIsAvailable') + '. ' + chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate'))
             });
 
             PromptView.prototype.initialize.apply(this, arguments);

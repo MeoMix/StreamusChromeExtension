@@ -70,6 +70,7 @@
 
 .listItem--medium {
     height: 52px;
+    padding-right: 16px;
 
     .listItem-content {
         padding: 6px 0px;
@@ -78,7 +79,6 @@
     .listItem-title {
         .fontSize-large;
         line-height: 22px;
-        padding-right: 16px;
     }
 
     .listItem-details {
@@ -93,6 +93,10 @@
         position: absolute;
         width: 4px;
     }
+
+     &:hover {
+         padding-right: 4px;
+     }
 }
 
 .listItem--small {
@@ -101,6 +105,7 @@
 
     .listItem-title {
         margin: auto 0;
+        margin-right: 16px;
     }
 
     .listItem-itemCount {
@@ -122,6 +127,10 @@
             color: @blue--500;
         }
     }
+    
+    &:hover {
+         padding-right: 8px;
+     }
 }
 
 .listItem-imageThumbnail {

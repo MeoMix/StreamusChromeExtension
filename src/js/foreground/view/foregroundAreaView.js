@@ -153,7 +153,8 @@
         
         //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
         _setHideTooltipsClass: function (showTooltips) {
-            this.$el.toggleClass('is-hidingTooltips', !showTooltips);
+            //  TODO: prefer this to be this.$el, but I need to be able to tell qtip to use foregroundArea as its container.
+            $('body').toggleClass('is-hidingTooltips', !showTooltips);
         },
 
         _startLoading: function () {

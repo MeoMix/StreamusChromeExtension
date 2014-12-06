@@ -1,40 +1,63 @@
 ﻿define([
+    'foreground/collection/checkboxes',
+    'foreground/view/element/checkboxView',
     'text!template/prompt/browserSettings.html'
-], function (BrowserSettingsTemplate) {
+], function (Checkboxes, CheckboxView, BrowserSettingsTemplate) {
     'use strict';
 
-    var BrowserSettingsView = Marionette.ItemView.extend({
+    var BrowserSettingsView = Marionette.LayoutView.extend({
         id: 'browserSettings',
         className: 'u-noWrap',
         template: _.template(BrowserSettingsTemplate),
         
         templateHelpers: {
             contextMenusMessage: chrome.i18n.getMessage('contextMenus'),
-            websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements'),
-            showOnTextSelectionMessage: chrome.i18n.getMessage('showOnTextSelection'),
-            showOnYouTubeLinksMessage: chrome.i18n.getMessage('showOnYouTubeLinks'),
-            showOnYouTubePagesMessage: chrome.i18n.getMessage('showOnYouTubePages'),
-            applyToYouTubeMessage: chrome.i18n.getMessage('applyToYouTube'),
-            applyToBeatportMessage: chrome.i18n.getMessage('applyToBeatport')
+            websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
         },
         
-        ui: {
-            checkboxes: 'input[type=checkbox]'
+        regions: function () {
+            return {
+                showTextSelectionContextMenuRegion: '#' + this.id + '-showTextSelectionContextMenuRegion',
+                showYouTubeLinkContextMenuRegion: '#' + this.id + '-showYouTubeLinkContextMenuRegion',
+                showYouTubePageContextMenuRegion: '#' + this.id + '-showYouTubePageContextMenuRegion',
+                enhanceYouTubeRegion: '#' + this.id + '-enhanceYouTubeRegion',
+                enhanceBeatportRegion: '#' + this.id + '-enhanceBeatportRegion',
+            };
         },
         
-        events: {
-            'change @ui.checkboxes': '_onChangeCheckbox'
+        initialize: function () {
+            this.checkboxes = new Checkboxes();
         },
         
-        _onChangeCheckbox: function (event) {
-            var checkbox = $(event.target);
-            var property = checkbox.data('property');
-            var checked = checkbox.is(':checked');
-            this._saveProperty(property, checked);
-        },
+        save: function() {
+            var currentValues = {};
 
-        _saveProperty: function (property, value) {
-            this.model.save(property, value);
+            this.checkboxes.each(function (checkbox) {
+                currentValues[checkbox.get('property')] = checkbox.get('checked');
+            });
+
+            this.model.save(currentValues);
+        },
+        
+        onShow: function () {
+            //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
+            this._showCheckbox('showTextSelectionContextMenu', 'textSelection');
+            this._showCheckbox('showYouTubeLinkContextMenu', 'youTubeLinks');
+            this._showCheckbox('showYouTubePageContextMenu', 'youTubePages');
+            this._showCheckbox('enhanceYouTube', 'youTube');
+            this._showCheckbox('enhanceBeatport', 'beatport');
+        },
+        
+        _showCheckbox: function (propertyName, message) {
+            var checkbox = this.checkboxes.add({
+                labelText: chrome.i18n.getMessage(message),
+                checked: this.model.get(propertyName),
+                property: propertyName
+            });
+
+            this[propertyName + 'Region'].show(new CheckboxView({
+                model: checkbox
+            }));
         }
     });
 

@@ -9,7 +9,7 @@
                 <label>
                     <%= songQualityMessage %>
                 
-                    <select data-property='youTubeSuggestedQuality'>
+                    <select id="settings-youTubeSuggestedQualitySelect" data-property='youTubeSuggestedQuality'>
                         <option value='<%= YouTubeSuggestedQuality.Highres %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Highres ? 'selected' : '' %>>
                             <%= highestMessage %>
                         </option>
@@ -23,22 +23,13 @@
                 </label>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='showTooltips' <%= showTooltips ? 'checked' : '' %>>
-                    <%= showTooltipsMessage %>
-                </label>
+                <div id='settings-showTooltipsRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='alwaysOpenToSearch' <%= alwaysOpenToSearch ? 'checked' : '' %> >
-                    <%= alwaysOpenToSearchMessage %>
-                </label>
+                <div id='settings-openToSearchRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='alwaysOpenInTab' <%= alwaysOpenInTab ? 'checked' : '' %> >
-                    <%= alwaysOpenInTabMessage %>
-                </label>
+                <div id='settings-openInTabRegion'></div>
             </li>
         </ul>
     </div>
@@ -49,30 +40,19 @@
         <%= remindersMessage %>
     </div>
     <div class='grouping-content'>
+        <div id='settings-remindersRegion'></div>
         <ul>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='remindClearStream' <%= remindClearStream ? 'checked' : '' %>>
-                    <%= remindClearStreamMessage %>
-                </label>
+                <div id='settings-remindClearStreamRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='remindDeletePlaylist' <%= remindDeletePlaylist ? 'checked' : '' %>>
-                    <%= remindDeletePlaylistMessage %>
-                </label>
+                <div id='settings-remindDeletePlaylistRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='remindLinkUserId' <%= remindLinkUserId ? 'checked' : '' %>>
-                    <%= remindLinkAccountMessage %>
-                </label>
+                <div id='settings-remindLinkAccountRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input type='checkbox' data-property='remindGoogleSignIn' <%= remindGoogleSignIn ? 'checked' : '' %>>
-                    <%= remindGoogleSignInMessage %>
-                </label>
+                <div id='settings-remindGoogleSignInRegion'></div>
             </li>
         </ul>
     </div>

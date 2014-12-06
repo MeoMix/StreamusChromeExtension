@@ -262,9 +262,6 @@
 	"signIn": {
 		"message": "Oturum Aç"
 	},
-	"dontRemindMe": {
-		"message": "Tekrar hatırlatma"
-	},
 	"reminders": {
 		"message": "Geçmiş"
 	},
@@ -389,9 +386,5 @@
 	},
 	"watchOnYouTube": {
 		"message": "Youtube'da oynat"
-	},
-	
-	"alwaysOpenToSearch": {
-		"message": "Arama her zaman açık"
 	}
 }

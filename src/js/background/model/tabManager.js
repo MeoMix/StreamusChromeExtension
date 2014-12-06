@@ -125,7 +125,7 @@
         },
         
         _highlightTabs: function (highlightInfo) {
-            //  NOTE: I reported the fact that this callback is mandatory here: https://code.google.com/p/chromium/issues/detail?id=417564
+            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
         }
     });

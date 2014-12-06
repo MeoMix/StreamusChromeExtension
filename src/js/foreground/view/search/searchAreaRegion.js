@@ -17,7 +17,7 @@
         _onForegroundAreaShown: function () {
             this._createSearchView();
 
-            if (this.settings.get('alwaysOpenToSearch')) {
+            if (this.settings.get('openToSearch')) {
                 this._showSearch({
                     instant: true
                 });

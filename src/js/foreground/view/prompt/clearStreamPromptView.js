@@ -5,13 +5,16 @@
     'use strict';
     
     var ClearStreamPromptView = PromptView.extend({
-        contentText: chrome.i18n.getMessage('clearStreamQuestion'),
-        
+        id: 'clearStreamPrompt',
         stream: null,
         
         initialize: function () {
             this.model = new Prompt({
                 reminderProperty: 'remindClearStream'
+            });
+
+            this.contentView = new Marionette.ItemView({
+                template: _.template(chrome.i18n.getMessage('clearStreamQuestion'))
             });
 
             this.stream = Streamus.backgroundPage.stream;

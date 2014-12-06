@@ -226,8 +226,8 @@
 	"playlists": {
 		"message": "Playlists"
 	},
-	"dontRemindMe": {
-		"message": "Don't remind me"
+	"remind": {
+		"message": "Remind"
 	},
 	"reminders": {
 		"message": "Reminders"
@@ -315,8 +315,8 @@
 	"pleaseWait": {
 		"message": "Please wait"
 	},
-	"alwaysOpenToSearch": {
-		"message": "Always open to search"
+	"openToSearch": {
+		"message": "Open to search"
 	},
 	"addAll": {
 		"message": "Add all"
@@ -444,8 +444,8 @@
 	"viewInTab": {
 		"message": "View in tab"
 	},
-	"alwaysOpenInTab": {
-		"message": "Always open in tab"
+	"openInTab": {
+		"message": "Open in tab"
 	},
 	"browserSettings": {
 		"message": "Browser settings"
@@ -456,20 +456,20 @@
 	"websiteEnhancements": {
 		"message": "Website enhancements"
 	},
-	"showOnTextSelection": {
-		"message": "Show on text selection"
+	"textSelection": {
+		"message": "Text selection"
 	},
-	"showOnYouTubeLinks": {
-		"message": "Show on YouTube links"
+	"youTubeLinks": {
+		"message": "YouTube links"
 	},
-	"showOnYouTubePages": {
-		"message": "Show on YouTube pages"
+	"youTubePages": {
+		"message": "YouTube pages"
 	},
-	"applyToYouTube": {
-		"message": "Apply to YouTube"
+	"youTube": {
+		"message": "YouTube"
 	},
-	"applyToBeatport": {
-		"message": "Apply to Beatport"
+	"beatport": {
+		"message": "Beatport"
 	},
 	"streamusBugApology": {
 		"message": "This is sometimes due to an issue in Streamus, but the song might be unplayable due to YouTube content settings. Try restarting if you think it's a bug."

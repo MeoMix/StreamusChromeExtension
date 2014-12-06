@@ -4,12 +4,16 @@
     var Prompt = Backbone.Model.extend({
         defaults: {
             title: '',
-            okButtonText: chrome.i18n.getMessage('ok'),
+            submitButtonText: chrome.i18n.getMessage('ok'),
             cancelButtonText: chrome.i18n.getMessage('cancel'),
-            showOkButton: true,
+            showSubmitButton: true,
             showCancelButton: true,
-            reminderProperty: false,
-            reminderText: chrome.i18n.getMessage('dontRemindMe')
+            reminderProperty: '',
+            reminderText: chrome.i18n.getMessage('remind')
+        },
+        
+        hasReminder: function() {
+            return this.get('reminderProperty') !== '';
         }
     });
 

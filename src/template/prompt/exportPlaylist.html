@@ -2,18 +2,7 @@
     <div class='grouping-header'><%= fileTypeMessage %></div>
     <div class='grouping-content'>
         <ul>
-            <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportCsvRadio' data-property='exportCsv' type='radio' name='export-type' value='csv' <%= exportCsv ? 'checked' : '' %> />
-                    <%= csvMessage %>
-                </label>
-            </li>
-            <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportJsonRadio' data-property='exportJson' type='radio' name='export-type' value='json' <%= exportJson ? 'checked' : '' %> />
-                    <%= jsonMessage %>
-                </label>
-            </li>
+            <div id='exportPlaylist-fileTypeRegion'></div>
         </ul>
     </div>
 </div>
@@ -23,34 +12,19 @@
     <div class='grouping-content'>
         <ul>
             <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportTitleCheckbox' data-property='exportTitle' type='checkbox' <%= exportTitle ? 'checked' : '' %> />
-                    <%= titleMessage %>
-                </label>
+                <div id='exportPlaylist-exportTitleRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportIdCheckbox' data-property='exportId' type='checkbox' <%= exportId ? 'checked' : '' %> />
-                    <%= idMessage %>
-                </label>
+                <div id='exportPlaylist-exportIdRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportUrlCheckbox' data-property='exportUrl' type='checkbox' <%= exportUrl ? 'checked' : '' %> />
-                    <%= urlMessage %>
-                </label>
+                <div id='exportPlaylist-exportUrlRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportAuthorCheckbox' data-property='exportAuthor' type='checkbox' <%= exportAuthor ? 'checked' : '' %> />
-                    <%= authorMessage %>
-                </label>
+                <div id='exportPlaylist-exportAuthorRegion'></div>
             </li>
             <li class='grouping-item'>
-                <label>
-                    <input id='exportPlaylist-exportDurationCheckbox' data-property='exportDuration' type='checkbox' <%= exportDuration ? 'checked' : '' %> />
-                    <%= durationMessage %>
-                </label>
+                <div id='exportPlaylist-exportDurationRegion'></div>
             </li>
         </ul>
     </div>

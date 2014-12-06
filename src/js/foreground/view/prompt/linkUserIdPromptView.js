@@ -5,14 +5,17 @@
     'use strict';
 
     var LinkUserIdPromptView = PromptView.extend({
-        contentText: chrome.i18n.getMessage('linkAccountMessage'),
-        
+        id: 'linkUserIdPrompt',
         signInManager: null,
 
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
                 reminderProperty: 'remindLinkUserId'
+            });
+            
+            this.contentView = new Marionette.ItemView({
+                template: _.template(chrome.i18n.getMessage('linkAccountMessage'))
             });
 
             this.signInManager = Streamus.backgroundPage.signInManager;

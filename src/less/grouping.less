@@ -1,4 +1,5 @@
-﻿@import "fontSize";
+﻿@import "color";
+@import "fontSize";
 @import "lineHeight";
 
 .grouping-column {
@@ -6,7 +7,7 @@
     vertical-align: top;
 
     &:not(:last-child) {
-        margin-right: 15px;
+        margin-right: 24px;
     }
 }
 
@@ -17,14 +18,15 @@
 }
 
 .grouping-header {
-    .fontSize-large;
-    .lineHeight-base;
+    font-size: 1.2em;
+    color: @dark--primary;
+    margin-bottom: 8px;
 }
 
 .grouping-content {
-    margin-left: 10px;
 }
 
 .grouping-item {
-    .lineHeight-base;
+    height: 36px;
+    line-height: 36px;
 }

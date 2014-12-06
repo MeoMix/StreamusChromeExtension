@@ -1,0 +1,49 @@
+﻿@import "color";
+
+radio-group {
+    outline: none;
+}
+
+radio-button {
+    cursor: pointer;
+    height: 36px;
+    line-height: 36px;
+    display: flex;
+    align-items: center;
+
+    &.is-checked {
+        .radio-on {
+            transform: scale(1.1);
+        }
+    }
+}
+
+.radio-container {
+    position: relative;
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.radio-state {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.radio-off {
+    border: solid 2px;
+    border-color: @dark--secondary;
+}
+
+.radio-on {
+    background-color: @green--500;
+    transform: scale(0);
+    transition: transform ease 0.28s;
+}
+
+.radio-label {
+    margin-left: 10px;
+}

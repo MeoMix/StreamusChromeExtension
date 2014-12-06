@@ -35,7 +35,7 @@
         },
         
         _showContextMenu: function (top, left) {
-            //  TODO: There's a bug in Marionette where this.$el.height/width return null on first use, so I'm using being inefficient here for now.
+            //  TODO: A bug in Marionette causes this.$el.height/width to be null on first use, https://github.com/marionettejs/backbone.marionette/issues/1971.
             var $this = $(this.el);
 
             this.contextMenu.set({

@@ -15,8 +15,8 @@
             remindDeletePlaylist: true,
             remindLinkUserId: true,
             remindGoogleSignIn: true,
-            alwaysOpenToSearch: false,
-            alwaysOpenInTab: false
+            openToSearch: false,
+            openInTab: false
         },
         
         initialize: function () {

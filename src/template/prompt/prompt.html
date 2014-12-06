@@ -1,37 +1,29 @@
-﻿<div id='prompt-panel' class='prompt-panel panel panel--uncolored u-transitionable transition--veryFast'>
+﻿<div id='<%= viewId + "-panel" %>' class='prompt-panel panel panel--uncolored u-transitionable transition--veryFast'>
     <div class='contentBar contentBar--top'>
         <span class='u-textOverflowEllipsis contentBar-content'>
             <%= title %>
         </span>
         
-        <button id='prompt-closeButton' class='prompt-closeButton button--icon button--large'>
+        <button id='<%= viewId + "-closeButton" %>' class='prompt-closeButton button--icon button--large'>
             <i class='fa fa-times'></i>
         </button>
     </div>
 
-    <div id='prompt-contentRegion' class='prompt-contentRegion'>
-    </div>
-    
-    <% if( showReminder || showOkButton ) { %>
+    <div id='<%= viewId + "-contentRegion" %>' class='prompt-contentRegion'></div>
+
     <div class='prompt-contentBar--bottom contentBar contentBar--bottom'>
-        <% if( showReminder ) { %>
-        <label>
-            <input id='prompt-reminderCheckbox' type='checkbox'>
-            <%= reminderText %>
-        </label>
-        <% } %>
+        <div id='<%= viewId + "-reminderRegion" %>'></div>
             
         <% if( showCancelButton ) { %>
-        <button id='prompt-cancelButton' class='button--flat'>
+        <button id='<%= viewId + "-cancelButton" %>' class='button--flat'>
             <%= cancelButtonText %>
         </button>
         <% } %>
             
-        <% if( showOkButton ) { %>
-        <button id='prompt-okButton' class='button--flat'>
-            <%= okButtonText %>
+        <% if( showSubmitButton ) { %>
+        <button id='<%= viewId + "-submitButton" %>' class='button--flat'>
+            <%= submitButtonText %>
         </button>
         <% } %>
     </div>
-    <% } %>
 </div>
