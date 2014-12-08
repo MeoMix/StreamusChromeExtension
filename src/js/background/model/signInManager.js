@@ -17,8 +17,8 @@
             signingInUser: null,
             signedInUser: null,
 
-            needPromptLinkUserId: false,
-            needPromptGoogleSignIn: false
+            needLinkUserId: false,
+            needGoogleSignIn: false
         },
 
         initialize: function () {
@@ -61,7 +61,7 @@
                 }.bind(this));
             }.bind(this));
             
-            this.set('needPromptLinkUserId', false);
+            this.set('needLinkUserId', false);
         },
         
         isSignedIn: function () {
@@ -278,14 +278,15 @@
                 callback(false);
             }
         },
-
+        //  TODO: Should this be needLinkUserId or needLinkAccount?
+        // TODO: function naming
         _promptLinkUserId: function () {
             //  Set a property indicating prompt is needed because UI might not be open when this method is ran so UI can't be shown immediately.
-            this.set('needPromptLinkUserId', true);
+            this.set('needLinkUserId', true);
         },
 
         _promptGoogleSignIn: function () {
-            this.set('needPromptGoogleSignIn', true);
+            this.set('needGoogleSignIn', true);
         }
     });
 

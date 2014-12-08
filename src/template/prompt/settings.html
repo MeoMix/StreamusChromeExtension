@@ -1,27 +1,10 @@
-﻿<div class='grouping-column'>
+﻿<div class='grouping'>
     <div class='grouping-header'>
         <%= generalMessage %>
     </div>
 
     <div class='grouping-content'>
         <ul>
-            <li class='grouping-item'>
-                <label>
-                    <%= songQualityMessage %>
-                
-                    <select id="settings-youTubeSuggestedQualitySelect" data-property='youTubeSuggestedQuality'>
-                        <option value='<%= YouTubeSuggestedQuality.Highres %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Highres ? 'selected' : '' %>>
-                            <%= highestMessage %>
-                        </option>
-                        <option value='<%= YouTubeSuggestedQuality.Default %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Default ? 'selected' : '' %>>
-                            <%= autoMessage %>
-                        </option>
-                        <option value='<%= YouTubeSuggestedQuality.Small %>' <%= youTubeSuggestedQuality === YouTubeSuggestedQuality.Small ? 'selected' : '' %>>
-                            <%= lowestMessage %>
-                        </option>
-                    </select>
-                </label>
-            </li>
             <li class='grouping-item'>
                 <div id='settings-showTooltipsRegion'></div>
             </li>
@@ -31,11 +14,36 @@
             <li class='grouping-item'>
                 <div id='settings-openInTabRegion'></div>
             </li>
+            <li class="listItem listItem--medium">
+                <div class="listItem-content">
+                    <div class="listItem-title u-textOverflowEllipsis js-textTooltipable">
+                        <%= songQualityMessage %>
+                    </div>
+
+                    <div class="listItem-details">
+                        Auto
+                    </div>
+                </div>
+            </li>
         </ul>
     </div>
 </div>
 
-<div class='grouping-column'>
+<!--<div class='grouping'>
+    <div class='grouping-header'>
+        <%= songQualityMessage %>
+    </div>
+
+    <div class='grouping-content'>
+        <ul>
+            <li class='grouping-item'>
+                <div id='settings-songQualityRegion'></div>
+            </li>
+        </ul>
+    </div>
+</div>-->
+
+<div class='grouping'>
     <div class='grouping-header'>
         <%= remindersMessage %>
     </div>

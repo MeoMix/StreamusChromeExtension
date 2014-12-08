@@ -7,13 +7,16 @@ radio-group {
 radio-button {
     cursor: pointer;
     height: 36px;
-    line-height: 36px;
     display: flex;
     align-items: center;
 
     &.is-checked {
         .radio-on {
-            transform: scale(1.1);
+            transform: scale(0.5);
+        }
+
+        .radio-off {
+            border-color: @green--500;
         }
     }
 }
@@ -36,6 +39,7 @@ radio-button {
 .radio-off {
     border: solid 2px;
     border-color: @dark--secondary;
+    transition: border-color ease 0.28s;
 }
 
 .radio-on {

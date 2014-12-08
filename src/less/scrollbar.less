@@ -1,25 +1,14 @@
 ﻿@import "color";
 
 ::-webkit-scrollbar {
-    height: 4px;
-    width: 8px;
+    width: 6px;
 }
 
-::-webkit-scrollbar-button:start:decrement,
-::-webkit-scrollbar-button:end:increment {
-     height: 0;
-}
-
-::-webkit-scrollbar-track-piece {
-    background-color: @white;
-    width: 8px;
-}
-
-::-webkit-scrollbar-thumb:vertical {
+::-webkit-scrollbar-thumb {
     background-color: @dark--quaternary;
-    height: 50px;
-}
-
-::-webkit-scrollbar-thumb:vertical:hover {
-    background-color: @dark--secondary;
+    min-height: 52px;
+     
+    &:hover {
+        background-color: @dark--secondary;
+    }
 }

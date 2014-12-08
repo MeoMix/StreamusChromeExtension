@@ -26,6 +26,10 @@
                 }));
             }
         },
+        
+        getCheckedValue: function() {
+            return this.get('buttons').getChecked().get('value');
+        }
     });
 
     return RadioGroup;

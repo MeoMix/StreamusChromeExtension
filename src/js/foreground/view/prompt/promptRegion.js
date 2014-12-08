@@ -18,8 +18,8 @@
             this.listenTo(Streamus.channels.prompt.commands, 'show:prompt', this._showPrompt);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
             this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
-            this.listenTo(this.signInManager, 'change:needPromptLinkUserId', this._onSignInManagerChangeNeedPromptLinkUserId);
-            this.listenTo(this.signInManager, 'change:needPromptGoogleSignIn', this._onSignInManagerChangeNeedPromptGoogleSignIn);
+            this.listenTo(this.signInManager, 'change:needLinkUserId', this._onSignInManagerChangeNeedLinkUserId);
+            this.listenTo(this.signInManager, 'change:needGoogleSignIn', this._onSignInManagerChangeNeedGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeRuntimeUpdateAvailable.bind(this));
         },
         
@@ -40,13 +40,13 @@
         //  If SignInManager indicates that sign-in state has changed and necessitates asking the user to link their account to Google, do so.
         //  This might happen while the foreground UI isn't open (most likely, in fact), so need to check state upon foreground UI opening.
         _promptIfNeedLinkUserId: function() {
-            if (this.signInManager.get('needPromptLinkUserId')) {
+            if (this.signInManager.get('needLinkUserId')) {
                 this._showLinkUserIdPrompt();
             }
         },
         
         _promptIfNeedGoogleSignIn: function() {
-            if (this.signInManager.get('needPromptGoogleSignIn')) {
+            if (this.signInManager.get('needGoogleSignIn')) {
                 this._showGoogleSignInPrompt();
             }
         },
@@ -55,14 +55,14 @@
             this._showUpdateStreamusPrompt();
         },
         
-        _onSignInManagerChangeNeedPromptLinkUserId: function (model, needPromptLinkUserId) {
-            if (needPromptLinkUserId) {
+        _onSignInManagerChangeNeedLinkUserId: function (model, needLinkUserId) {
+            if (needLinkUserId) {
                 this._showLinkUserIdPrompt();
             }
         },
         
-        _onSignInManagerChangeNeedPromptGoogleSignIn: function (model, needPromptGoogleSignIn) {
-            if (needPromptGoogleSignIn) {
+        _onSignInManagerChangeNeedGoogleSignIn: function (model, needGoogleSignIn) {
+            if (needGoogleSignIn) {
                 this._showGoogleSignInPrompt();
             }
         },

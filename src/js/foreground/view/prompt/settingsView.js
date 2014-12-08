@@ -1,9 +1,11 @@
 ﻿define([
-    'common/enum/youTubeSuggestedQuality',
+    'common/enum/songQuality',
     'foreground/collection/checkboxes',
+    'foreground/collection/radioGroups',
     'foreground/view/element/checkboxView',
+    'foreground/view/element/radioGroupView',
     'text!template/prompt/settings.html'
-], function (YouTubeSuggestedQuality, Checkboxes, CheckboxView, SettingsTemplate) {
+], function (SongQuality, Checkboxes, RadioGroups, CheckboxView, RadioGroupView, SettingsTemplate) {
     'use strict';
 
     var SettingsView = Marionette.LayoutView.extend({
@@ -14,15 +16,12 @@
         templateHelpers: {
             generalMessage: chrome.i18n.getMessage('general'),
             songQualityMessage: chrome.i18n.getMessage('songQuality'),
-            highestMessage: chrome.i18n.getMessage('highest'),
-            autoMessage: chrome.i18n.getMessage('auto'),
-            lowestMessage: chrome.i18n.getMessage('lowest'),
-            remindersMessage: chrome.i18n.getMessage('reminders'),
-            YouTubeSuggestedQuality: YouTubeSuggestedQuality
+            remindersMessage: chrome.i18n.getMessage('reminders')
         },
         
         regions: function () {
             return {
+                //songQualityRegion: '#' + this.id + '-songQualityRegion',
                 showTooltipsRegion: '#' + this.id + '-showTooltipsRegion',
                 openToSearchRegion: '#' + this.id + '-openToSearchRegion',
                 openInTabRegion: '#' + this.id + '-openInTabRegion',
@@ -32,32 +31,57 @@
                 remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
             };
         },
-        
-        ui: function () {
-            return {
-                checkboxes: 'input[type=checkbox]',
-                selects: 'select',
-            
-                //  TODO: Naming length
-                youTubeSuggestedQualitySelect: '#' + this.id + '-youTubeSuggestedQualitySelect'         
-            };
-        },
-        
+
+        radioGroups: null,
         checkboxes: null,
+        signInManager: null,
         
-        initialize: function() {
+        initialize: function () {
+            this.radioGroups = new RadioGroups();
             this.checkboxes = new Checkboxes();
+
+            this.signInManager = Streamus.backgroundPage.signInManager;
         },
         
         onShow: function () {
             //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
+            //this._showRadioGroup('songQuality', SongQuality);
+
             this._showCheckbox('showTooltips');
             this._showCheckbox('openToSearch');
             this._showCheckbox('openInTab');
             this._showCheckbox('remindClearStream');
             this._showCheckbox('remindDeletePlaylist');
-            this._showCheckbox('remindLinkAccount');
-            this._showCheckbox('remindGoogleSignIn');
+            
+            //  Once some states have been fulfilled there is no need to allow their reminders to be toggled because
+            //  the prompts which correspond to the reminders will not be shown.
+            if (this.signInManager.get('needLinkUserId')) {
+                this._showCheckbox('remindLinkAccount');
+            }
+
+            if (this.signInManager.get('needGoogleSignIn')) {
+                this._showCheckbox('remindGoogleSignIn');
+            }
+        },
+        
+        _showRadioGroup: function (propertyName, options) {
+            var buttons = _.map(options, function (value, key) {
+                return {
+                    checked: this.model.get(propertyName) === value,
+                    value: value,
+                    labelText: chrome.i18n.getMessage(key)
+                };
+            }, this);
+
+            var radioGroup = this.radioGroups.add({
+                property: propertyName,
+                buttons: buttons
+            });
+
+            this[propertyName + 'Region'].show(new RadioGroupView({
+                model: radioGroup,
+                collection: radioGroup.get('buttons')
+            }));
         },
         
         _showCheckbox: function (propertyName) {
@@ -73,12 +97,14 @@
         },
         
         save: function () {
-            var currentValues = {
-                youTubeSuggestedQuality: this.ui.youTubeSuggestedQualitySelect.val()
-            };
+            var currentValues = {};
 
             this.checkboxes.each(function (checkbox) {
                 currentValues[checkbox.get('property')] = checkbox.get('checked');
+            });
+            
+            this.radioGroups.each(function (radioGroup) {
+                currentValues[radioGroup.get('property')] = radioGroup.get('buttons').getChecked().get('value');
             });
 
             this.model.save(currentValues);

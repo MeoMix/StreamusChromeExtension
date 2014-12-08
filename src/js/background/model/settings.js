@@ -1,6 +1,6 @@
 ﻿define([
-    'common/enum/youTubeSuggestedQuality'
-], function (YouTubeSuggestedQuality) {
+    'common/enum/songQuality'
+], function (SongQuality) {
     'use strict';
 
     var Settings = Backbone.Model.extend({
@@ -9,7 +9,7 @@
         defaults: {
             //  Need to set the ID for Backbone.LocalStorage
             id: 'Settings',
-            youTubeSuggestedQuality: YouTubeSuggestedQuality.Default,
+            songQuality: SongQuality.Auto,
             showTooltips: true,
             remindClearStream: true,
             remindDeletePlaylist: true,

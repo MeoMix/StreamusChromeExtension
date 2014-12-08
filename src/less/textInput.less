@@ -57,10 +57,13 @@
 }
 
 .textInput-hint {
-    font-size: .9em;
+    //  TODO: I'm unsure how I want to style this. I don't want rows shifting and negative margin
+    //  confuses flexbox so I've set its height to 0 for now.
     height: 14px;
     margin-bottom: -14px;
     cursor: default;
+    color: @dark--secondary;
+    font-size: .9em;
 }
 
 .textInput-characterCounter {

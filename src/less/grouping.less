@@ -2,31 +2,22 @@
 @import "fontSize";
 @import "lineHeight";
 
-.grouping-column {
-    display: inline-block;
-    vertical-align: top;
-
-    &:not(:last-child) {
-        margin-right: 24px;
-    }
-}
-
-.grouping-row {
+.grouping {
     &:not(:last-child){
         margin-bottom: 10px;
     }
 }
 
 .grouping-header {
-    font-size: 1.2em;
-    color: @dark--primary;
+    color: @blue--500;
     margin-bottom: 8px;
+    font-weight: 600;
 }
 
 .grouping-content {
+    /*font-size: 1.1em;*/
 }
 
 .grouping-item {
-    height: 36px;
     line-height: 36px;
 }

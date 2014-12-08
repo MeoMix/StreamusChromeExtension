@@ -169,18 +169,26 @@
     <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
     <Content Include="src\js\background\key\youTubeAPI.js" />
+    <Content Include="src\js\common\enum\checkboxState.js" />
     <Content Include="src\js\common\enum\direction.js" />
+    <Content Include="src\js\common\enum\exportFileType.js" />
+    <Content Include="src\js\common\enum\songQuality.js" />
     <Content Include="src\js\common\enum\songType.js" />
-    <Content Include="src\js\common\enum\youTubeSuggestedQuality.js" />
+    <Content Include="src\js\common\enum\youTubeQuality.js" />
     <Content Include="src\js\common\enum\youTubeServiceType.js" />
     <Content Include="src\js\background\model\dataSource.js" />
     <Content Include="src\js\common\utility.js" />
     <Content Include="src\js\background\model\youTubeV3API.js" />
     <Content Include="src\js\common\requireConfig.js" />
     <Content Include="src\js\common\enum\listItemType.js" />
+    <Content Include="src\js\foreground\collection\checkboxes.js" />
+    <Content Include="src\js\foreground\collection\radioButtons.js" />
+    <Content Include="src\js\foreground\collection\radioGroups.js" />
     <Content Include="src\js\foreground\model\adminMenuArea.js" />
     <Content Include="src\js\foreground\model\checkbox.js" />
     <Content Include="src\js\foreground\model\clearStreamButton.js" />
+    <Content Include="src\js\foreground\model\radioButton.js" />
+    <Content Include="src\js\foreground\model\radioGroup.js" />
     <Content Include="src\js\foreground\model\saveStreamButton.js" />
     <Content Include="src\js\foreground\model\playlistAction.js" />
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
@@ -193,6 +201,8 @@
     <Content Include="src\js\foreground\view\behavior\tooltip.js" />
     <Content Include="src\js\foreground\view\element\checkboxView.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuRegion.js" />
+    <Content Include="src\js\foreground\view\element\radioButtonView.js" />
+    <Content Include="src\js\foreground\view\element\radioGroupView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
@@ -358,6 +368,8 @@
     <Content Include="src\template\backgroundArea.html" />
     <Content Include="src\template\contextMenu\contextMenuItem.html" />
     <Content Include="src\template\element\checkbox.html" />
+    <Content Include="src\template\element\radioButton.html" />
+    <Content Include="src\template\element\radioGroup.html" />
     <Content Include="src\template\foregroundArea.html" />
     <Content Include="src\template\leftPane\playlistItems.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />
@@ -432,6 +444,7 @@
     <Content Include="src\less\timeArea.less" />
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
+    <Content Include="src\less\radio.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />

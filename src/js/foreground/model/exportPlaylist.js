@@ -10,12 +10,7 @@
             //  Need to set id for Backbone.LocalStorage
             id: 'ExportPlaylist',
             playlist: null,
-            fileType: ExportFileType.Csv,
-            exportTitle: true,
-            exportId: true,
-            exportUrl: false,
-            exportAuthor: false,
-            exportDuration: false
+            fileType: ExportFileType.Csv
         },
         
         //  Don't want to save the playlist to localStorage -- only the configuration variables

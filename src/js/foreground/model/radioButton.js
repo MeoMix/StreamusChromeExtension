@@ -3,7 +3,8 @@
 
     var RadioButton = Backbone.Model.extend({
         checked: false,
-        labelText: ''
+        labelText: '',
+        value: ''
     });
 
     return RadioButton;

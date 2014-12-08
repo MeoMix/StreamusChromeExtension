@@ -1,7 +1,8 @@
 define([
     'background/enum/chromeCommand',
-    'common/enum/playerState'
-], function (ChromeCommand, PlayerState) {
+    'common/enum/playerState',
+    'common/enum/youTubeQuality'
+], function (ChromeCommand, PlayerState, YouTubeQuality) {
     'use strict';
 
     var Player = Backbone.Model.extend({
@@ -54,8 +55,7 @@ define([
             this.on('change:loading', this._onChangeLoading);
             this.on('change:state', this._onChangeState);
 
-            //  TODO: Probably change youTubeSuggestedQuality to just 'quality' since I'll want to use it for Beatport too.
-            this.listenTo(this.get('settings'), 'change:youTubeSuggestedQuality', this._onChangeSuggestedQuality);
+            this.listenTo(this.get('settings'), 'change:songQuality', this._onChangeSongQuality);
             this.listenTo(this.get('youTubePlayer'), 'change:ready', this._onYouTubePlayerChangeReady);
             this.listenTo(this.get('youTubePlayer'), 'change:state', this._onYouTubePlayerChangeState);
             this.listenTo(this.get('youTubePlayer'), 'youTubeError', this._onYouTubePlayerError);
@@ -79,10 +79,10 @@ define([
                 var videoOptions = {
                     videoId: song.get('id'),
                     startSeconds: timeInSeconds || 0,
-                    suggestedQuality: this.get('settings').get('youTubeSuggestedQuality')
+                    //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
+                    //  If it cannot, it will set its quality to the level most near suggested quality.
+                    suggestedQuality: YouTubeQuality.fromSongQuality(this.get('settings').get('songQuality'))
                 };
-
-                console.log('videooptions:', videoOptions);
 
                 //  TODO: I don't think I *always* want to keep the player going if a song is activated while one is playing, but maybe...
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
@@ -195,9 +195,10 @@ define([
             this.set('currentLoadAttempt', this.get('youTubePlayer').get('currentLoadAttempt'));
         },
 
-        //  Attempt to set playback quality to suggestedQuality or highest possible.
-        _onChangeSuggestedQuality: function (model, suggestedQuality) {
-            this.get('youTubePlayer').setPlaybackQuality(suggestedQuality);
+        //  Attempt to set playback quality to songQuality or highest possible.
+        _onChangeSongQuality: function (model, songQuality) {
+            var youTubeQuality = YouTubeQuality.fromSongQuality(songQuality);
+            this.get('youTubePlayer').setPlaybackQuality(youTubeQuality);
         },
         
         //  Update the volume whenever the UI modifies the volume property.
