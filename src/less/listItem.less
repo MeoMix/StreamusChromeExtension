@@ -10,6 +10,8 @@
     .column;
     margin: 8px 0;
     overflow-y: auto;
+    overflow: hidden;
+    position: relative;
 
     &:hover {
         will-change: scroll-position;
@@ -27,7 +29,7 @@
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
     //  NOTE: This is needed so that .spinner's margin: auto; doesn't cause odd overflow while spinning.
-    overflow: hidden;
+    overflow: hidden;   
 
     &:hover {
         background: @dark--quinary;

@@ -13,6 +13,7 @@
         'cocktail': 'thirdParty/cocktail',
         'googleAnalytics': 'thirdParty/googleAnalytics',
         'jquery': 'thirdParty/jquery',
+        'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
         'jquery.qtip': 'thirdParty/jquery.qtip',
         'jquery-ui': 'thirdParty/jquery-ui',
         'less': 'thirdParty/less',

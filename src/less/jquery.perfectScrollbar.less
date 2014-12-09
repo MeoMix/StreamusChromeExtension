@@ -1,0 +1,50 @@
+﻿@import "color";
+
+.ps-container {
+    &:hover .ps-scrollbar-y {
+        background-color: @dark--tertiary;
+    }
+
+    &.ps-active-y .ps-scrollbar-y-rail {
+        display: block;
+    }
+
+    &.is-mousedown {
+        pointer-events: none;
+    }
+}
+
+.ps-scrollbar-y,
+.ps-scrollbar-y-rail {
+    position: absolute;
+    transition: background-color .14s ease-out, width .14s ease-out;
+    border-radius: 4px;
+    background-color: @dark--tertiary;
+}
+
+.ps-scrollbar-y-rail {
+    display: none;
+    right: 0;
+    background-color: white;
+    width: 12px;
+
+    &:hover,
+    &:active {
+        .ps-scrollbar-y {
+            width: 8px;
+            background-color: @dark--secondary;
+        }
+    }
+}
+
+.ps-scrollbar-y {
+    width: 6px;
+}
+
+.ps-container .ps-scrollbar-y {
+    right: 2px;
+
+    &.is-clicked {
+        background-color: @dark--secondary;
+    }
+}

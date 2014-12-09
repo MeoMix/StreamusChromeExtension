@@ -334,6 +334,7 @@
     <Content Include="src\js\thirdParty\chai.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
+    <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\less.js" />
@@ -445,6 +446,7 @@
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
     <Content Include="src\less\radio.less" />
+    <Content Include="src\less\jquery.perfectScrollbar.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\font\fontawesome-webfont.eot" />

@@ -4,6 +4,7 @@
     'backbone.marionette',
     'googleAnalytics',
     'jquery',
+    'jquery.perfectScrollbar',
     'jquery.qtip',
     'jquery-ui',
     'less',

@@ -1,10 +1,11 @@
 ﻿define([
     'common/enum/listItemType',
+    'foreground/view/behavior/scrollable',
     'foreground/view/behavior/tooltip',
     'foreground/view/playlist/playlistView',
     'foreground/view/prompt/createPlaylistPromptView',
     'text!template/playlist/playlistsArea.html'
-], function (ListItemType, Tooltip, PlaylistView, CreatePlaylistPromptView, PlaylistsAreaTemplate) {
+], function (ListItemType, Scrollable, Tooltip, PlaylistView, CreatePlaylistPromptView, PlaylistsAreaTemplate) {
     'use strict';
 
     var PlaylistsAreaView = Marionette.CompositeView.extend({
@@ -50,6 +51,9 @@
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
+            },
+            Scrollable: {
+                behaviorClass: Scrollable
             }
         },
         

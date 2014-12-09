@@ -5,6 +5,7 @@
 
     var SlidingRender = Marionette.Behavior.extend({
         collectionEvents: {
+            //  TODO: Maybe it would be better to do onAddChild/onRemoveChild instead.
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove',
