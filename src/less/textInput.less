@@ -6,7 +6,7 @@
     transition: box-shadow @transition-color-time @transition-easeOutSine,
                 border @transition-color-time @transition-easeOutSine;
     width: 100%;
-    will-change: border, box-shadow;
+    //will-change: border, box-shadow;
     background-color: transparent;
 }
 
@@ -57,8 +57,7 @@
 }
 
 .textInput-hint {
-    //  TODO: I'm unsure how I want to style this. I don't want rows shifting and negative margin
-    //  confuses flexbox so I've set its height to 0 for now.
+    //  TODO: negative margin-bottom is bad practice, but I don't want content to shift, either.
     height: 14px;
     margin-bottom: -14px;
     cursor: default;

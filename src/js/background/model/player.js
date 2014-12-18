@@ -71,7 +71,6 @@ define([
         },
         
         activateSong: function (song, timeInSeconds) {
-            console.log('song/timeInSeconds', song, timeInSeconds);
             if (this.get('ready')) {
                 var playerState = this.get('state');
                 var playOnActivate = this.get('playOnActivate');
@@ -312,7 +311,6 @@ define([
         },
         
         _onYouTubePlayerChangeState: function (model, state) {
-            console.log('state change:', state);
             //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('state', state);
         },

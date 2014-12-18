@@ -11,7 +11,7 @@
 @checkbox-labelTransitionDuration: @checkbox-iconTransitionDuration * 2;
 @checkbox-labelTransitionProperties: color;
 
-.checkbox {
+checkbox {
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -65,11 +65,11 @@
 
     &:hover {
         .checkbox-icon {
-            will-change: @checkbox-iconTransitionProperties;
+            //will-change: @checkbox-iconTransitionProperties;
         }
 
         .checkbox-label {
-            will-change: @checkbox-labelTransitionProperties;
+            //will-change: @checkbox-labelTransitionProperties;
         }
     }
 }
@@ -106,7 +106,8 @@
 }
 
 .checkbox-label {
-    padding-left: 12px;
+    flex: 1;
+    margin-right: 12px;
     transition-property: @checkbox-labelTransitionProperties;
     transition-duration: @checkbox-labelTransitionDuration;
     transition-timing-function: ease-out;

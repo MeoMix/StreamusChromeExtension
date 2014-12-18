@@ -1,9 +1,11 @@
-﻿<div id='foregroundArea-loadingMessage' class='instruction hidden'>
+﻿    <div id='foregroundArea-loadingMessage' class='instruction hidden'>
     <div class='instruction-header'>
         <%= loadingYouTubeMessage %>
     </div>
     <div class='instruction-content'>
-        <span id='foregroundArea-loadAttemptMessage'><%= loadAttemptMessage %></span>
+        <span id='foregroundArea-loadAttemptMessage'>
+            <%= loadAttemptMessage %>
+        </span>
         <div>
             <span class='foregroundArea-reloadLink u-link lineHeight-base'>
                 <%= reloadMessage %>
@@ -33,4 +35,4 @@
 
 <div id='foregroundArea-promptRegion'></div>
 <div id='foregroundArea-notificationRegion' class='spinner--faded spinner--unclickable panel panel--bottom u-transitionable transition--veryFast'></div>
-<div id='foregroundArea-contextMenuRegion' class='column--subHeader spinner--faded spinner--unclickable column'></div>
+<div id='foregroundArea-contextMenuRegion' class='spinner--faded spinner--unclickable column'></div>

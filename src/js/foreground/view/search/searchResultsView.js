@@ -1,12 +1,13 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/view/behavior/collectionViewMultiSelect',
+    'foreground/view/behavior/scrollable',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/search/searchResultView',
     'text!template/search/searchResults.html'
-], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, SearchResultView, SearchResultsTemplate) {
+], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, SearchResultView, SearchResultsTemplate) {
     'use strict';
 
     var SearchResultsView = Marionette.CompositeView.extend({
@@ -62,6 +63,9 @@
         behaviors: {
             CollectionViewMultiSelect: {
                 behaviorClass: CollectionViewMultiSelect
+            },
+            Scrollable: {
+                behaviorClass: Scrollable
             },
             SlidingRender: {
                 behaviorClass: SlidingRender

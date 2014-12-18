@@ -4,17 +4,16 @@
     'use strict';
 
     var SlidingRender = Marionette.Behavior.extend({
+        ui: {
+            list: '.list'
+        },
+
         collectionEvents: {
-            //  TODO: Maybe it would be better to do onAddChild/onRemoveChild instead.
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove',
             'add': '_onCollectionAdd',
             'change:active': '_onCollectionChangeActive'
-        },
-        
-        ui: {
-            list: '.list'
         },
         
         //  Enables progressive rendering of children by keeping track of indices which are currently rendered.

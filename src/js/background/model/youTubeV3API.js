@@ -33,8 +33,6 @@
         search: function (options) {
             return this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
-                    console.log('searchResponse:', response);
-
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
@@ -42,7 +40,6 @@
                     this.getSongs({
                         songIds: songIds,
                         success: function (songs) {
-                            console.log('getSongs:', songs);
                             options.success({
                                 songs: songs, 
                                 nextPageToken: response.nextPageToken,

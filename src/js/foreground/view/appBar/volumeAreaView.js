@@ -87,22 +87,6 @@ define([
             }
         },
 
-        //  Return whichever font-awesome icon class is appropriate based on the current volume level.
-        _getVolumeIconClass: function (volume) {
-            var volumeIconClass = 'fa-volume-';
-
-            if (volume > 50) {
-                volumeIconClass += 'up';
-            }
-            else if (volume > 0) {
-                volumeIconClass += 'down';
-            } else {
-                volumeIconClass += 'off';
-            }
-            
-            return volumeIconClass;
-        },
-
         //  Adjust volume when user scrolls wheel while hovering over volume.
         _scrollVolume: function (delta) {
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);

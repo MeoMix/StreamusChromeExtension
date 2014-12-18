@@ -5,11 +5,9 @@
     'use strict';
 
     var CheckboxView = Marionette.ItemView.extend({
-        tagName: 'streamus-checkbox',
+        tagName: 'checkbox',
         className: function () {
-            var className = 'checkbox';
-            className += this.model.get('primary') ? ' primary' : ' secondary';
-            return className;
+            return this.model.get('primary') ? 'primary' : 'secondary';
         },
         template: _.template(CheckboxTemplate),
         

@@ -1,4 +1,4 @@
-﻿define([
+﻿    define([
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
     'foreground/view/listItemButton/addSongButtonView',

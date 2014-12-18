@@ -15,18 +15,15 @@
 .prompt-panel {
     left: 50%;
     top: 50%;
-    will-change: transform, scale;
-    transform: translate3d(-50%, -50%, 0) scale(.8);
+    //will-change: transform, scale;
+    transform: translate(-50%, -50%) scale(.8);
     min-width: 240px;
     max-width: 500px;
+    border-radius: 2px;
 
     &.is-visible {
-        transform: translate3d(-50%, -50%, 0) scale(1);
+        transform: translate(-50%, -50%) scale(1);
     }
-}
-
-.prompt .contentBar--top {
-    display: none;
 }
 
 .prompt-contentRegion {

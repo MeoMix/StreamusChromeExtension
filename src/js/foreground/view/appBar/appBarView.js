@@ -6,8 +6,9 @@
     'foreground/view/appBar/playPauseButtonView',
     'foreground/view/appBar/previousButtonView',
     'foreground/view/appBar/volumeAreaView',
+    'foreground/view/behavior/tooltip',
     'text!template/appBar/appBar.html'
-], function (AdminMenuArea, AdminMenuAreaView, NextButtonView, PlaylistTitleView, PlayPauseButtonView, PreviousButtonView, VolumeAreaView, AppBarTemplate) {
+], function (AdminMenuArea, AdminMenuAreaView, NextButtonView, PlaylistTitleView, PlayPauseButtonView, PreviousButtonView, VolumeAreaView, Tooltip, AppBarTemplate) {
     'use strict';
 
     var AppBarView = Marionette.LayoutView.extend({
@@ -51,6 +52,13 @@
             //  TODO: prefer to read from ViewModel state rather than rely on HTML state.
             'click @ui.showPlaylistsAreaButton:not(.disabled)': '_onClickShowPlaylistsAreaButton',
             'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
+        },
+        
+        behaviors: {
+            //  Needed for the 'not signed in' message on nav button.
+            Tooltip: {
+                behaviorClass: Tooltip
+            }
         },
 
         signInManager: null,

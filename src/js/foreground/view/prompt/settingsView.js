@@ -2,10 +2,12 @@
     'common/enum/songQuality',
     'foreground/collection/checkboxes',
     'foreground/collection/radioGroups',
+    'foreground/collection/switches',
     'foreground/view/element/checkboxView',
     'foreground/view/element/radioGroupView',
+    'foreground/view/element/switchView',
     'text!template/prompt/settings.html'
-], function (SongQuality, Checkboxes, RadioGroups, CheckboxView, RadioGroupView, SettingsTemplate) {
+], function (SongQuality, Checkboxes, RadioGroups, Switches, CheckboxView, RadioGroupView, SwitchView, SettingsTemplate) {
     'use strict';
 
     var SettingsView = Marionette.LayoutView.extend({
@@ -31,14 +33,16 @@
                 remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
             };
         },
-
-        radioGroups: null,
+        
         checkboxes: null,
+        radioGroups: null,
+        switches: null,
         signInManager: null,
         
         initialize: function () {
-            this.radioGroups = new RadioGroups();
             this.checkboxes = new Checkboxes();
+            this.radioGroups = new RadioGroups();
+            this.switches = new Switches();
 
             this.signInManager = Streamus.backgroundPage.signInManager;
         },
@@ -47,9 +51,9 @@
             //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
             //this._showRadioGroup('songQuality', SongQuality);
 
-            this._showCheckbox('showTooltips');
+            this._showSwitch('showTooltips');
             this._showCheckbox('openToSearch');
-            this._showCheckbox('openInTab');
+            this._showSwitch('openInTab');
             this._showCheckbox('remindClearStream');
             this._showCheckbox('remindDeletePlaylist');
             
@@ -96,6 +100,19 @@
             }));
         },
         
+        _showSwitch: function (propertyName) {
+            //  switch is a reserved keyword so suffix with model.
+            var switchModel = this.switches.add({
+                labelText: chrome.i18n.getMessage(propertyName),
+                checked: this.model.get(propertyName),
+                property: propertyName
+            });
+
+            this[propertyName + 'Region'].show(new SwitchView({
+                model: switchModel
+            }));
+        },
+        
         save: function () {
             var currentValues = {};
 
@@ -105,6 +122,10 @@
             
             this.radioGroups.each(function (radioGroup) {
                 currentValues[radioGroup.get('property')] = radioGroup.get('buttons').getChecked().get('value');
+            });
+
+            this.switches.each(function (switchModel) {
+                currentValues[switchModel.get('property')] = switchModel.get('checked');
             });
 
             this.model.save(currentValues);

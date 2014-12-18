@@ -24,8 +24,11 @@
     transform: translateY(-50%);
     //  Keep all instruction heights the same so that they stay aligned to each-other.
     height: 60px;
+    //  TODO: Re-confirm this. I can't seem to reproduce it.
     //  NOTE: This fixes blur when translating on sub-pixel. Don't remove it.
-    -webkit-filter: drop-shadow(0 0 rgba(0, 0, 0, 0));
+    //-webkit-filter: drop-shadow(0 0 rgba(0, 0, 0, 0));
+    //  Needed to position over .list which is relative due to perfectScrollbar
+    z-index: 1;
 }
 
 .instruction-header {

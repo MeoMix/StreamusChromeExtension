@@ -6,26 +6,61 @@
             list: '.list'
         },
         
+        collectionEvents: {
+            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
+            'add': '_onCollectionAdd',
+            'reset': '_onCollectionReset',
+            'remove': '_onCollectionRemove'
+        },
+        
+        initialize: function () {
+            //  Throttle updating the scrollbar because many events can come in at once, but only need to reflect
+            //  the final state / potentially small updates while events coming in.
+            //  Bound in initialize because if bound on the class then all views which implement Scrollable will
+            //  share the throttle timer.
+            this._throttleUpdateScrollbar = _.throttle(this._updateScrollbar.bind(this), 250);
+        },
+        
         onShow: function () {
+            return;
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
             this.ui.list.perfectScrollbar({
-                suppressScrollX: true
+                suppressScrollX: true,
+                //  52px because that is the height of 1 listItem--medium
+                minScrollbarLength: 52
             });
+            
+            //  When showing a SlidingRender collection which has an initial set of items,
+            //  need to call update after setting up perfectScrollbar to ensure that initial load of items is parsed.
+            _.defer(this._throttleUpdateScrollbar.bind(this));
         },
         
-        onAddChild: function () {
-            this._updateScrollbar();
+        _onCollectionAdd: function () {
+            this._throttleUpdateScrollbar();
         },
         
-        onRemoveChild: function () {
-            this._updateScrollbar();
+        _onCollectionReset: function () {
+            this._throttleUpdateScrollbar();
         },
+        
+        _onCollectionRemove: function() {
+            this._throttleUpdateScrollbar();
+        },
+        
+        _throttleUpdateScrollbar: null,
         
         _updateScrollbar: function () {
-            //  When the CollectionView is first initializing onAddChild/onRemoveChild can fire before perfectScrollbar has been initialized.
+            //  When the CollectionView is first initializing _updateScrollbar can fire before perfectScrollbar has been initialized.
             if (this.view._isShown) {
-                this.ui.list.perfectScrollbar('update');
+                //  This needs to be deferred because _onCollection events fire before the view is added or removed.
+                //  Don't bind to onChildAdd/onChildRemove because SlidingRender behavior doesn't run onChildAdd
+                //  once an ItemView exceeds the threshold, but the scrollbar height still needs to be updated.
+                //  Additionally, SlidingRender fires onChildAdd events when scrolling which causes lag when
+                //  the scrollbar does not need to be updated.
+                _.defer(function () {
+                    this.ui.list.perfectScrollbar('update');
+                }.bind(this));
             }
         }
     });

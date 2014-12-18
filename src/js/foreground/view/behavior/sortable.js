@@ -96,16 +96,13 @@
         },
         
         _stop: function (event, ui) {
-            console.log('stop');
             var childContainer = this.view.ui.childContainer;
 
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
-            console.log('allowMove:', allowMove);
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function (response) {
-                    console.log('GetMinRenderIndexResponse');
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex);
                     

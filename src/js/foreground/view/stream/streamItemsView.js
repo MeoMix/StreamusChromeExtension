@@ -1,12 +1,13 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/view/behavior/collectionViewMultiSelect',
+    'foreground/view/behavior/scrollable',
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
     'foreground/view/stream/streamItemView',
     'text!template/stream/streamItems.html'
-], function (ListItemType, CollectionViewMultiSelect, SlidingRender, Sortable, Tooltip, StreamItemView, StreamItemsTemplate) {
+], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, StreamItemView, StreamItemsTemplate) {
     'use strict';
 
     var StreamItemsView = Marionette.CompositeView.extend({
@@ -58,6 +59,9 @@
             CollectionViewMultiSelect: {
                 behaviorClass: CollectionViewMultiSelect
             },
+            Scrollable: {
+                behaviorClass: Scrollable
+            },
             SlidingRender: {
                 behaviorClass: SlidingRender
             },
@@ -96,17 +100,12 @@
         },
         
         _onActiveStreamItemAreaBeforeShow: function () {
+            //  TODO: Clean this up
             setTimeout(function () {
-
-                console.log('this.ui.childContainer height:', this.ui.childContainer.height(), this.$el.height());
-                
                 if (this.ui.childContainer.height() < this.$el.height()) {
                     this.ui.childContainer.addClass('is-heightRestricted');
                 }
-
-
             }.bind(this));
-
         },
         
         _onActiveStreamItemAreaShown: function () {

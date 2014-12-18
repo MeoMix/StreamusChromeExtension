@@ -38,7 +38,7 @@
     z-index: 1;
     //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
-    will-change: opacity, height;
+    //will-change: opacity, height;
     margin-left: 4px;
     margin-right: 4px;
 
@@ -62,7 +62,7 @@
         right: 0;
         opacity: 0;
         height: @rangeInputSize;
-        will-change: opacity, right, height;
+        //will-change: opacity, right, height;
         transition: 
             width @transitionTime @transition-easeOutSine, 
             right @transitionTime @transition-easeOutSine,

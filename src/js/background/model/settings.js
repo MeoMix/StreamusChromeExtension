@@ -15,6 +15,7 @@
             remindDeletePlaylist: true,
             remindLinkUserId: true,
             remindGoogleSignIn: true,
+            //  TODO: This will need to become a multi-option of either openToSearch, openToPlaylist or collapsed.
             openToSearch: false,
             openInTab: false
         },

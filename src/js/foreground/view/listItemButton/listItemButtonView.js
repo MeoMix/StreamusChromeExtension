@@ -25,26 +25,28 @@
         initialize: function () {
             //  Debounced to defend against accidental/spam clicking. Bound in initialize because
             //  the debounce timer will be shared between all ListItemButtonViews if bound before initialize.
-            this._doOnClickAction = _.debounce(function() {
-                if (!this.$el.hasClass('disabled')) {
-                    this.doOnClickAction();
-                }
-            }.bind(this), 1000, true);
+            this._debounceOnClickAction = _.debounce(this._doOnClickAction.bind(this), 1000, true);
         },
 
         _onClick: function () {
-            this._doOnClickAction();
+            this._debounceOnClickAction();
             //  Don't allow click to bubble up since handling click at this level.
             return false;
         },
         
         _onDblClick: function () {
-            this._doOnClickAction();
+            this._debounceOnClickAction();
             //  Don't allow dblClick to bubble up since handling click at this level.
             return false;
         },
+        
+        _debounceOnClickAction: null,
 
-        _doOnClickAction: null,
+        _doOnClickAction: function() {
+            if (!this.$el.hasClass('disabled')) {
+                this.doOnClickAction();
+            }
+        },
 
         _getSize: function () {
             var listItemType = this.model.get('listItemType');
