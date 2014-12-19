@@ -13,9 +13,9 @@ define(function () {
     //  NOTE: Please do not commit changes to this file once downloaded. CommandS:
     //  - Disable tracking: "git update-index --assume-unchanged src/js/background/key/youTubeAPI.js"
     //  - Enable tracking: "git update-index --no-assume-unchanged src/js/background/key/youTubeAPI.js"
-    var key = 'AIzaSyBiFPA1bhsEXakjqoiwiaaojRyAI8SsTAY';
+    var key = null;
 
-    if (key === 'API_KEY_MISSING') {
+    if (key === null) {
         console.error('YouTube API key is not present.');
     }
 
