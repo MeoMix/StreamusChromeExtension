@@ -158,9 +158,9 @@
         },
 
         _startLoading: function () {
-           // this.$el.addClass('is-showingSpinner');
+            this.$el.addClass('is-showingSpinner');
             this.ui.loadingFailedMessage.addClass('hidden');
-            //this.ui.loadingMessage.removeClass('hidden');
+            this.ui.loadingMessage.removeClass('hidden');
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
