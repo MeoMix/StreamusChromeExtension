@@ -22,7 +22,6 @@
         },
         
         onShow: function () {
-            return;
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
             this.ui.list.perfectScrollbar({
