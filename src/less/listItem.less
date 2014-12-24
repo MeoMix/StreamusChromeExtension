@@ -8,13 +8,9 @@
 
 .list {
     .column;
-    margin: 8px 0;
+    padding: 8px 0;
     overflow-y: hidden;
     position: relative;
-
-    &:hover {
-        //will-change: scroll-position;
-    }
 }
 
 .listItem {
@@ -87,13 +83,8 @@
         .u-textOverflowEllipsis;
     }
     
-     &.is-active:before {
-        content: "";
-        background-color: #4285f4;
-        height: 100%;
-        left: 0;
-        position: absolute;
-        width: 4px;
+     &.is-active .listItem-title {
+         color: @blue--500;
     }
 
      &:hover {
@@ -107,7 +98,6 @@
 
     .listItem-title {
         margin: auto 0;
-        margin-right: 16px;
     }
 
     .listItem-itemCount {
@@ -122,6 +112,9 @@
         margin: auto 0;
         text-align: center;
         height: 16px;
+        //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
+        //  and 0px of space before the click target. Can I be more consistent?
+        margin-left: 16px;
     }
 
     &.is-active {

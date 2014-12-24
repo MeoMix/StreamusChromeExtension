@@ -126,7 +126,8 @@
                 labelText: this.model.get('reminderText'),
                 //  Since a prompt will only ever be shown if reminder is needed it is safe to assume true.
                 checked: true,
-                property: this.model.get('reminderProperty')
+                property: this.model.get('reminderProperty'),
+                iconOnLeft: true
             });
 
             this.reminderRegion.show(new CheckboxView({

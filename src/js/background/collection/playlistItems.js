@@ -103,7 +103,7 @@
                         //  Call set to move attributes from parsedCreatedItem to matchingItemToCreate.
                         matchingNewItem.set(parsedNewItem);
                     }, this);
-
+                    
                     if (options && options.success) {
                         options.success();
                     }

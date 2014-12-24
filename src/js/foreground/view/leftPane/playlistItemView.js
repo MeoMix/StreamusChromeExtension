@@ -1,11 +1,12 @@
 ﻿define([
     'foreground/view/listItemView',
     'foreground/view/behavior/itemViewMultiSelect',
+    'foreground/view/element/spinnerView',
     'foreground/view/listItemButton/addSongButtonView',
     'foreground/view/listItemButton/deleteSongButtonView',
     'foreground/view/listItemButton/playSongButtonView',
     'text!template/leftPane/playlistItem.html'
-], function (ListItemView, ItemViewMultiSelect, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
+], function (ListItemView, ItemViewMultiSelect, SpinnerView, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
     'use strict';
 
     var PlaylistItemView = ListItemView.extend({
@@ -37,6 +38,11 @@
         },
         
         onRender: function () {
+            var spinnerView = new SpinnerView({
+                className: 'spinner--small overlay u-marginAuto'
+            });
+            this.spinnerRegion.show(spinnerView);
+
             this._setShowingSpinnerClass();
         },
         

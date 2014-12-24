@@ -49,15 +49,11 @@
         },
 
         _setState: function (enabled, playerState) {
-            this.$el
-                .toggleClass('disabled', !enabled)
-                .toggleClass('is-showingSpinner', playerState === PlayerState.Buffering);
+            this.$el.toggleClass('disabled', !enabled);
             
             //  TODO: jQuery doesn't support SVGs.
             this.ui.pauseIcon[0].classList.toggle('hidden', playerState !== PlayerState.Playing);
-            this.ui.playIcon[0].classList.toggle('hidden', playerState === PlayerState.Buffering || playerState === PlayerState.Playing);
-            //this.ui.pauseIcon.toggleClass('hidden', playerState !== PlayerState.Playing);
-            //this.ui.playIcon.toggleClass('hidden', playerState === PlayerState.Buffering || playerState === PlayerState.Playing);
+            this.ui.playIcon[0].classList.toggle('hidden',  playerState === PlayerState.Playing);
         }
     });
 

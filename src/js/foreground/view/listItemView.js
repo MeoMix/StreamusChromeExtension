@@ -25,7 +25,8 @@
         
         regions: function () {
             return {
-                buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion'
+                buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion',
+                spinnerRegion: '.' + ListItemView.prototype.className + '-spinnerRegion'
             };
         },
         
@@ -34,7 +35,7 @@
                 behaviorClass: Tooltip
             }
         },
-        
+
         _onContextMenu: function (event) {
             event.preventDefault();
             this.showContextMenu();

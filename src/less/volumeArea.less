@@ -2,6 +2,14 @@
 @import "rangeInput";
 @import "transition";
 
+.volumeArea {
+    //  TODO: This is to fix the fact that there's a small gap between the 48px button click target
+    //  and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
+    //  Is there a more elegant way to resolve this? I want the slidePanel to align with the AppBar and
+    //  I don't want to increase the hitbox of the volume icon.
+    padding: 4px 0;
+}
+
 .volumeArea:hover,
 .volumeArea:active {
     @expandedPanelHeight: 100px;

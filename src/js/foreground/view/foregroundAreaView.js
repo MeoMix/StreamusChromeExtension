@@ -1,6 +1,7 @@
 ﻿define([
     'foreground/view/appBar/appBarRegion',
     'foreground/view/contextMenu/contextMenuRegion',
+    'foreground/view/element/spinnerView',
     'foreground/view/leftPane/leftPaneRegion',
     'foreground/view/notification/notificationRegion',
     'foreground/view/playlist/playlistsAreaRegion',
@@ -8,7 +9,7 @@
     'foreground/view/search/searchAreaRegion',
     'foreground/view/stream/streamRegion',
     'text!template/foregroundArea.html'
-], function (AppBarRegion, ContextMenuRegion, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
+], function (AppBarRegion, ContextMenuRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
     'use strict';
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -43,6 +44,7 @@
 
         regions: function () {
             return {
+                spinnerRegion: '#' + this.id + '-spinnerRegion',
                 appBarRegion: {
                     el: '#' + this.id + '-appBarRegion',
                     regionClass: AppBarRegion
@@ -93,7 +95,11 @@
             window.onerror = this._onWindowError.bind(this);
         },
         
-        onRender: function() {
+        onRender: function () {
+            var spinnerView = new SpinnerView({
+                className: 'spinner--medium'
+            });
+            this.spinnerRegion.show(spinnerView);
             this._setHideTooltipsClass(this.settings.get('showTooltips'));
             this._checkPlayerLoading();
         },

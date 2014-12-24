@@ -161,12 +161,15 @@
                         songId: request.songId,
                         success: function (song) {
                             this.get(request.playlistId).get('items').addSongs(song);
-
+                            
+                            //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
+                            //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('songAdded'),
                                 message: song.get('title')
                             });
-
+                            
+                            //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
                             sendResponse({ result: 'success' });
                         }.bind(this),
                         error: function () {
@@ -211,7 +214,7 @@
                 this._onCreateSuccess(addedPlaylist, options);
             }
         },
-        
+        //  TODO: added vs created.
         _onCreateSuccess: function (addedPlaylist, options) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
@@ -221,6 +224,11 @@
                     id: addedPlaylist.get('id'),
                     title: addedPlaylist.get('title')
                 }
+            });
+            
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('playlistCreated'),
+                message: addedPlaylist.get('title')
             });
 
             this._setCanDelete(this.length > 1);

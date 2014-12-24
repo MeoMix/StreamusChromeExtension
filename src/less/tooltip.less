@@ -3,7 +3,11 @@
 @import "fontSize";
 
 .is-hidingTooltips .qtip {
-    .hidden;
+    //  Prefer this over .hidden because qtip shows tooltips when removing this class.
+    //  This is because it's checking to see if the tooltip is visible (which it is not) so it does not
+    //  clean up the tooltip. This achieves the same effect, but convinces qtip to clean itself up.
+    visibility: hidden;
+    pointer-events: none;
 }
 
 html .qtip {

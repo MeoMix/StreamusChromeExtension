@@ -1,7 +1,13 @@
-﻿<span class='checkbox-label'>
-    <%= labelText %>
-</span>
+﻿<% if(iconOnLeft){ %>
+    <span class="checkbox-icon"></span> 
 
-<div class='checkbox-innerContainer'>
-    <div class='checkbox-icon'></div>
-</div>
+    <label class='checkbox-label'>
+        <%= labelText %>
+    </label>
+<% } else { %>
+    <label class='checkbox-label'>
+        <%= labelText %>
+    </label>
+
+    <span class="checkbox-icon"></span> 
+<% } %>

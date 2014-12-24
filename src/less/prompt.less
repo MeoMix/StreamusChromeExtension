@@ -44,24 +44,12 @@
         line-height: 0px;
     }
 
-    .checkbox {
+    checkbox {
         padding: 8px;
         margin: 0 4px;
-        border-radius: 2px;
-        transition: background-color 0.2s cubic-bezier(0.39, 0.575, 0.565, 1);
 
-        &:hover:not(.disabled) {
-            background-color: @gray--hoverButton
-        }
-
-        &:active:not(.disabled) {
-            background-color: @gray--activeButton
-        }
-
-        &.is-checked {
-            .checkbox-label {
-                color: @green--500;
-            }
+        &.is-checked .checkbox-label {
+            color: @green--500;
         }
     }
 

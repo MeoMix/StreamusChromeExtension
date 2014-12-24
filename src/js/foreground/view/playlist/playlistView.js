@@ -1,6 +1,7 @@
 ﻿define([
     'common/enum/listItemType',
     'foreground/model/playlistAction',
+    'foreground/view/element/spinnerView',
     'foreground/view/listItemView',
     'foreground/view/listItemButton/addPlaylistButtonView',
     'foreground/view/listItemButton/deletePlaylistButtonView',
@@ -8,7 +9,7 @@
     'foreground/view/prompt/editPlaylistPromptView',
     'foreground/view/prompt/exportPlaylistPromptView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, PlaylistAction, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, PlaylistAction, SpinnerView, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
     'use strict';
 
     var PlaylistView = ListItemView.extend({
@@ -42,6 +43,11 @@
         },
         
         onRender: function () {
+            var spinnerView = new SpinnerView({
+                className: 'spinner--small overlay u-marginAuto'
+            });
+            this.spinnerRegion.show(spinnerView);
+
             this._setShowingSpinnerClass();
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);

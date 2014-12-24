@@ -5,9 +5,10 @@
     'foreground/view/behavior/slidingRender',
     'foreground/view/behavior/sortable',
     'foreground/view/behavior/tooltip',
+    'foreground/view/element/spinnerView',
     'foreground/view/search/searchResultView',
     'text!template/search/searchResults.html'
-], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, SearchResultView, SearchResultsTemplate) {
+], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, SpinnerView, SearchResultView, SearchResultsTemplate) {
     'use strict';
 
     var SearchResultsView = Marionette.CompositeView.extend({
@@ -19,8 +20,6 @@
         childViewOptions: function () {
             return {
                 type: this.childViewType,
-                test: this.ui.childContainer,
-                moo: this.childViewContainer,
                 parentId: this.ui.childContainer[0].id
             };
         },
@@ -45,7 +44,8 @@
                 searchingMessage: '#' + this.id + '-searchingMessage',
                 typeToSearchMessage: '#' + this.id + '-typeToSearchMessage',
                 noResultsMessage: '#' + this.id + '-noResultsMessage',
-                childContainer: '#' + this.id + '-listItems'
+                childContainer: '#' + this.id + '-listItems',
+                spinnerRegion: '#' + this.id + '-spinnerRegion'
             };
         },
         
@@ -80,6 +80,11 @@
         
         onRender: function() {
             this._toggleInstructions();
+            
+            //  TODO: Actually use a region to append here instead.
+            this.ui.spinnerRegion.append((new SpinnerView({
+                className: 'spinner--medium'
+            })).render().el);
         },
         
         _onChangeSearching: function () {

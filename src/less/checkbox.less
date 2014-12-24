@@ -1,114 +1,133 @@
 ﻿@import "color";
 
-//  Keep iconBoxSize an even value or unexpected behavior may occur.
-@checkbox-iconBoxSize: 16px;
-@checkbox-iconBorderWidth: 2px;
-//  Since box-sizing: border-box is being used innerBoxSize is different than boxSize.
-@checkbox-iconInnerBoxSize: (@checkbox-iconBoxSize - (@checkbox-iconBorderWidth * 2));
-@checkbox-iconTransitionDuration: .14s;
-@checkbox-iconTransitionProperties: transform, top, left, width, height;
-//  Multiply the label's transitionDuration by two because the icon transitions through two states
-@checkbox-labelTransitionDuration: @checkbox-iconTransitionDuration * 2;
-@checkbox-labelTransitionProperties: color;
+@checkbox-duration: .28s;
 
 checkbox {
     cursor: pointer;
     display: flex;
     align-items: center;
 
-    &.primary {
-        .checkbox-label {
-            color: @dark--primary;
-        }
+    &.primary .checkbox-label {
+        color: @dark--primary;
     }
 
-    &.secondary {
-        .checkbox-label {
-            color: @dark--secondary;
-        }
+    &.secondary .checkbox-label {
+        color: @dark--secondary;
     }
 
-    &.is-checked {
-        .checkbox-icon.box {
-            //  Add one to get an odd-number to center the Y-axis upon.
-            top: @checkbox-iconInnerBoxSize + 1;
-            //  Center the X-axis collapse point of icons when transitioning
-            left: @checkbox-iconInnerBoxSize / 2;
-            width: @checkbox-iconBorderWidth * 2;
-            height: @checkbox-iconBorderWidth * 2;
-            transform: rotate(45deg);
-        }
-
-        .checkbox-icon.checkmark {
-            top: -1 * (@checkbox-iconBorderWidth * 2);
-            //  Center the right-angle point of the checkmark along the X-axis
-            //  But also subtract the iconBorderWidth because checkmark isn't a square. It's more heavily-weighted
-            //  to its right-hand side. Thus, need to offset it to the left a bit to make it feel right.
-            left: @checkbox-iconBoxSize / 2 - @checkbox-iconBorderWidth;
-            width: @checkbox-iconBoxSize / 2;
-            //  Subtract one because checkmark does not show border on two sides which makes math odd-numbered.
-            height: @checkbox-iconBoxSize + (@checkbox-iconBorderWidth * 2) - 1;
-        }
+    &.iconOnLeft .checkbox-label {
+        margin-left: 12px;
     }
 
-    &.is-unchecked {
-        .checkbox-icon.checkmark {
-            //  Do NOT add one because checkmark does not display border on two edges which
-            //  makes it odd-numbered already.
-            top: @checkbox-iconInnerBoxSize;
-            //  Center the X-axis collapse point of icons when transitioning
-            left: @checkbox-iconInnerBoxSize / 2;
-            width: @checkbox-iconBorderWidth * 2;
-            height: @checkbox-iconBorderWidth * 2;
+    &.iconOnRight .checkbox-label {
+        margin-right: 12px;
+    }
+    
+    &.is-unchecked .checkbox-icon {
+      color: @dark--secondary;
+    }
+  
+    &.is-unchecking .checkbox-icon  {
+      color: @dark--secondary;
+      
+      &:before {
+        -webkit-animation: checkbox-off @checkbox-duration linear forwards;
+      }
+    }
+  
+    &.is-checked .checkbox-icon {
+        color: @green--500;
+
+        &:before {
+            box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px -12px 0 11px;
+            color: @green--500;
         }
     }
-
-    &:hover {
-        .checkbox-icon {
-            //will-change: @checkbox-iconTransitionProperties;
+  
+    &.is-checking .checkbox-icon {
+        color: @green--500;
+      
+        &:before {
+            -webkit-animation: checkbox-on @checkbox-duration linear forwards;
+            color: @green--500;
         }
-
-        .checkbox-label {
-            //will-change: @checkbox-labelTransitionProperties;
-        }
-    }
-}
-
-.checkbox-innerContainer {
-    position: relative;
-    width: @checkbox-iconBoxSize;
-    height: @checkbox-iconBoxSize;
-}
-
-.checkbox-icon {
-    position: absolute;
-    border: solid @checkbox-iconBorderWidth;
-    transition-property: @checkbox-iconTransitionProperties;
-    transition-duration: @checkbox-iconTransitionDuration;
-    transition-timing-function: ease-out;
-
-    &.checkmark {
-        border-top: none;
-        border-left: none;
-        transform: rotate(45deg);
-        border-color: @green--500;
-    }
-
-    &.box {
-        transform: rotate(0deg);
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        border-color: @dark--secondary;
-        border-radius: 2px;
     }
 }
 
 .checkbox-label {
     flex: 1;
-    margin-right: 12px;
-    transition-property: @checkbox-labelTransitionProperties;
-    transition-duration: @checkbox-labelTransitionDuration;
+    transition-property: color;
+    transition-duration: @checkbox-duration;
     transition-timing-function: ease-out;
+}
+
+.checkbox-icon {
+    transition-duration: @checkbox-duration;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid;
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+  
+    &:before {
+        position: absolute;
+        content: "";
+        transform: rotate(45deg);
+        display: block;
+        margin-top: -4px;
+        margin-left: 6px;
+    }
+}
+
+@-webkit-keyframes checkbox-on {
+    0% {
+        box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 15px 2px 0 11px;
+    }
+
+    33% {
+        box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px 2px 0 11px;
+    }
+
+    100% {
+        box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px -12px 0 11px;
+    }
+}
+
+@-webkit-keyframes checkbox-off {
+    0% {
+        box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px -12px 0 11px, 0 0 0 0 inset;
+    }
+  
+    33% {
+      box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 20px 2px 0 11px, 0 0 0 0 inset;
+    }
+  
+    50% {
+        transform: rotate(45deg);
+        margin-top: -4px;
+        margin-left: 6px;
+        width: 0px;
+        height: 0px;
+        box-shadow: 0 0 0 10px, 10px -10px 0 10px, 32px 0px 0 20px, 0px 32px 0 20px, -5px 5px 0 10px, 15px 2px 0 11px, 0 0 0 0 inset;
+    }
+  
+    51% {
+        transform: rotate(0deg);
+        margin-top: -2px;
+        margin-left: -2px;
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0px 0px 0 10px inset;
+    }
+
+    100% {
+        transform: rotate(0deg);
+        margin-top: -2px;
+        margin-left: -2px;
+        width: 20px;
+        height: 20px;
+        box-shadow: 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0 0 0 0, 0px 0px 0 0px inset;
+    }
 }

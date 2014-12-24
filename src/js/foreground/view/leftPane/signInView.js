@@ -1,9 +1,10 @@
 ﻿define([
+    'foreground/view/element/spinnerView',
     'text!template/leftPane/signIn.html'
-], function (SignInTemplate) {
+], function (SpinnerView, SignInTemplate) {
     'use strict';
 
-    var SignInView = Marionette.ItemView.extend({
+    var SignInView = Marionette.LayoutView.extend({
         id: 'signIn',
         className: 'column u-flex--column',
         template: _.template(SignInTemplate),
@@ -13,6 +14,12 @@
             signInMessage: chrome.i18n.getMessage('signIn'),
             signInFailedMessage: chrome.i18n.getMessage('signInFailed'),
             pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
+        },
+        
+        regions: function () {
+            return {
+                spinnerRegion: '#' + this.id + '-spinnerRegion'
+            };
         },
 
         ui: function () {
@@ -37,6 +44,11 @@
         
         onRender: function () {
             this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
+
+            var spinnerView = new SpinnerView({
+                className: 'spinner--medium'
+            });
+            this.spinnerRegion.show(spinnerView);
         },
         
         _onClickSignInLink: function () {

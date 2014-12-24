@@ -381,6 +381,9 @@
 	"songAdded": {
 		"message": "Song added"
 	},
+	"songsAdded": {
+		"message": "Songs added"
+	},
 	"addSong": {
 		"message": "Add song"
 	},
@@ -580,5 +583,8 @@
 	},
 	"loadedPlaylist": {
 		"message": "Loaded playlist"
+	},
+	"playlistCreated": {
+		"message": "Playlist created"
 	}
 }

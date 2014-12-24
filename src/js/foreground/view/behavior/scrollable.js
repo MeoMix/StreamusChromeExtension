@@ -27,7 +27,8 @@
             this.ui.list.perfectScrollbar({
                 suppressScrollX: true,
                 //  52px because that is the height of 1 listItem--medium
-                minScrollbarLength: 52
+                minScrollbarLength: 52,
+                includePadding: true
             });
             
             //  When showing a SlidingRender collection which has an initial set of items,
