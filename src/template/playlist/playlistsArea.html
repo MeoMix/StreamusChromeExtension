@@ -1,12 +1,11 @@
-﻿<div id='playlistsArea-overlay' class='overlay overlay--faded u-transitionable transition--veryFast'></div>
-<div id='playlistsArea-panel' class='panel panel--left panel--uncolored column u-flex--column column--thin u-transitionable transition--veryFast'>
+﻿<div id='<%= viewId %>-overlay' class='overlay overlay--faded u-transitionable transition--veryFast'></div>
+
+<div id='<%= viewId %>-panel' class='panel panel--left panel--uncolored column u-flex--column column--thin u-transitionable transition--veryFast'>
     <div class='instruction-wrapper'>
-        <div class='list'>
-            <ol id='playlistsArea-listItems'></ol>
-        </div>
+        <div id='<%= viewId %>-playlistsRegion'></div>
     </div>
     <div class='contentBar contentBar--bottom'>
-        <button id='playlistsArea-createPlaylistButton' class='button--flat'>
+        <button id='<%= viewId %>-createPlaylistButton' class='button--flat'>
             <%= createPlaylist %>
         </button>
     </div>

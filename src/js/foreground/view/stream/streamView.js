@@ -17,6 +17,15 @@
         id: 'stream',
         className: 'column u-flex--column',
         template: _.template(StreamTemplate),
+        
+        templateHelpers: function () {
+            return {
+                viewId: this.id,
+                emptyMessage: chrome.i18n.getMessage('streamEmpty'),
+                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
+            };
+        },
 
         regions: function () {
             return {
@@ -33,8 +42,30 @@
             };
         },
         
+        ui: function () {
+            return {
+                emptyMessage: '#' + this.id + '-emptyMessage',
+                showSearchLink: '#' + this.id + '-showSearchLink'
+            };
+        },
+        
+        events: {
+            'click @ui.showSearchLink': '_onClickShowSearchLink'
+        },
+        
         modelEvents: {
             'change:activeItem': '_onChangeActiveItem'
+        },
+        
+        onInitialize: function () {
+            var streamItems = this.model.get('items');
+            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
+            this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
+        },
+        
+        onRender: function () {
+            this._setState(this.model.get('items').isEmpty());
         },
         
         onShow: function () {
@@ -74,6 +105,10 @@
                 collection: this.model.get('items')
             }));
         },
+        
+        _onClickShowSearchLink: function () {
+            this._showSearch();
+        },
 
         _onChangeActiveItem: function (model, activeItem) {
             if (activeItem === null) {
@@ -83,6 +118,27 @@
                 var instant = model.previous('activeItem') !== null;
                 this.activeStreamItemRegion.showView(activeItem, instant);
             }
+        },
+        
+        _onStreamItemsAdd: function () {
+            this._setState(false);
+        },
+
+        _onStreamItemsRemove: function (model, collection) {
+            this._setState(collection.isEmpty());
+        },
+
+        _onStreamItemsReset: function (collection) {
+            this._setState(collection.isEmpty());
+        },
+        
+        //  Hide the empty message if there is anything in the collection
+        _setState: function (collectionEmpty) {
+            this.ui.emptyMessage.toggleClass('hidden', !collectionEmpty);
+        },
+
+        _showSearch: function () {
+            Streamus.channels.searchArea.commands.trigger('show:search');
         }
     });
 

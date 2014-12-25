@@ -1,13 +1,24 @@
-﻿<div id='activePlaylistArea-playlistItemsRegion' class='column u-flex--column u-flex--full'></div>
+﻿<div class='instruction-wrapper'>
+    <div id='<%= viewId %>-playlistEmptyMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= playlistEmptyMessage %>
+        </div>
+        <div class='instruction-content'>
+            <%= wouldYouLikeToMessage %> <span id='<%= viewId %>-showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
+        </div>
+    </div>
+    
+    <div id='<%= viewId %>-playlistItemsRegion' class='column u-flex--column u-flex--full'></div>
+</div>
 
 <div class='contentBar contentBar--bottom'>
-    <div id='activePlaylistArea-playlistDetails' class='u-lowercase u-textOverflowEllipsis u-textSecondary u-flex--full'></div>
+    <div id='<%= viewId %>-playlistDetails' class='u-lowercase u-textOverflowEllipsis u-textSecondary u-flex--full'></div>
 
-    <button id='activePlaylistArea-playAllButton' class='button--flat'>
+    <button id='<%= viewId %>-playAllButton' class='button--flat'>
         <%= playAllMessage %>
     </button>
 
-    <button id='activePlaylistArea-addAllButton' class='button--flat js-tooltipable'>
+    <button id='<%= viewId %>-addAllButton' class='button--flat js-tooltipable'>
         <%= addAllMessage %>
     </button>
 </div>

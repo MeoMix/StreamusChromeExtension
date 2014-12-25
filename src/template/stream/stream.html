@@ -1,13 +1,25 @@
-﻿<div id='stream-activeStreamItemRegion'></div>
-<div id='stream-streamItemsRegion' class='column u-flex--column u-flex--full'></div>
+﻿<div id='<%= viewId %>-activeStreamItemRegion'></div>
+
+<div class='instruction-wrapper'>
+    <div id='<%= viewId %>-emptyMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= emptyMessage %>
+        </div>
+        <div class='instruction-content'>
+            <%= whyNotAddASongFromAPlaylistOrMessage %> <span id='<%= viewId %>-showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
+        </div>
+    </div>
+
+    <div id='<%= viewId %>-streamItemsRegion' class='column u-flex--column u-flex--full'></div>
+</div>
 
 <div class='contentBar contentBar--bottom'>
     <div class='u-flex--full u-flex--row'>
-        <div id='stream-shuffleButtonRegion' class="button-container"></div>
-        <div id='stream-repeatButtonRegion' class="button-container"></div>
-        <div id='stream-radioButtonRegion' class="button-container"></div>
+        <div id='<%= viewId %>-shuffleButtonRegion' class="button-container"></div>
+        <div id='<%= viewId %>-repeatButtonRegion' class="button-container"></div>
+        <div id='<%= viewId %>-radioButtonRegion' class="button-container"></div>
     </div>
 
-    <div id='stream-saveStreamButtonRegion' class="button-container"></div>
-    <div id='stream-clearStreamButtonRegion' class="button-container"></div>
+    <div id='<%= viewId %>-saveStreamButtonRegion' class="button-container"></div>
+    <div id='<%= viewId %>-clearStreamButtonRegion' class="button-container"></div>
 </div>

@@ -162,7 +162,6 @@
     <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
     <Content Include="src\js\background\key\youTubeAPI.js" />
-    <Content Include="src\js\common\enum\checkboxState.js" />
     <Content Include="src\js\common\enum\direction.js" />
     <Content Include="src\js\common\enum\exportFileType.js" />
     <Content Include="src\js\common\enum\songQuality.js" />
@@ -201,10 +200,12 @@
     <Content Include="src\js\foreground\view\element\radioButtonView.js" />
     <Content Include="src\js\foreground\view\element\radioGroupView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemView.js" />
+    <Content Include="src\js\foreground\view\element\spinnerView.js" />
     <Content Include="src\js\foreground\view\element\switchView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
+    <Content Include="src\js\foreground\view\playlist\playlistsView.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\exportPlaylistView.js" />
@@ -353,7 +354,6 @@
     <Content Include="src\less\adminMenuArea.less" />
     <Content Include="src\less\boxShadow.less" />
     <Content Include="src\less\appBar.less" />
-    <Content Include="src\less\checkbox.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
@@ -362,10 +362,12 @@
     <Content Include="src\template\element\radioButton.html" />
     <Content Include="src\template\element\radioGroup.html" />
     <Content Include="src\template\element\simpleMenuItem.html" />
+    <Content Include="src\template\element\spinner.html" />
     <Content Include="src\template\element\switch.html" />
     <Content Include="src\template\foregroundArea.html" />
     <Content Include="src\template\leftPane\playlistItems.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />
+    <Content Include="src\template\playlist\playlists.html" />
     <Content Include="src\template\prompt\browserSettings.html" />
     <Content Include="src\template\prompt\exportPlaylist.html" />
     <Content Include="src\template\appBar\adminMenuArea.html" />
@@ -420,7 +422,6 @@
     <Content Include="src\less\selectize.less" />
     <Content Include="src\less\utility.less" />
     <Content Include="src\less\prompt.less" />
-    <Content Include="src\less\spinner.less" />
     <Content Include="src\less\notification.less" />
     <Content Include="src\less\tooltip.less" />
     <Content Include="src\less\rangeInput.less" />
@@ -439,6 +440,8 @@
     <Content Include="src\less\radio.less" />
     <Content Include="src\less\jquery.perfectScrollbar.less" />
     <Content Include="src\less\switch.less" />
+    <Content Include="src\less\checkbox.less" />
+    <Content Include="src\less\spinner.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

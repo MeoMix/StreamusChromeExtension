@@ -29,30 +29,11 @@
         },
         
         template: _.template(PlaylistItemsTemplate),
-        templateHelpers: {  
-            showSearchMessage: chrome.i18n.getMessage('showSearch'),
-            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-            playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-            wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
-        },
         
         ui: function () {
             return {
-                playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
-                childContainer: '#' + this.id + '-listItems',
-                showSearchLink: '#' + this.id + '-showSearchLink'
+                childContainer: '#' + this.id + '-listItems'
             };
-        },
-        
-        events: {
-            'click @ui.showSearchLink': '_onClickShowSearchLink'
-        },
-        
-        collectionEvents: {
-            //  Don't use _onCollection because it conflicts with Marionette functions.
-            'add': '_onPlaylistItemsAdd',
-            'remove': '_onPlaylistItemsRemove',
-            'reset': '_onPlaylistItemsReset'
         },
 
         behaviors: {
@@ -71,30 +52,6 @@
             Tooltip: {
                 behaviorClass: Tooltip
             }
-        },
-        
-        onRender: function () {
-            this._toggleInstructions(this.collection.isEmpty());
-        },
-        
-        _onPlaylistItemsAdd: function() {
-            this._toggleInstructions(false);
-        },
-        
-        _onPlaylistItemsRemove: function(model, collection) {
-            this._toggleInstructions(collection.isEmpty());
-        },
-        
-        _onPlaylistItemsReset: function (collection) {
-            this._toggleInstructions(collection.isEmpty());
-        },
-
-        _toggleInstructions: function (collectionEmpty) {
-            this.ui.playlistEmptyMessage.toggleClass('hidden', !collectionEmpty);
-        },
-
-        _onClickShowSearchLink: function () {
-            Streamus.channels.searchArea.commands.trigger('show:search');
         }
     });
 

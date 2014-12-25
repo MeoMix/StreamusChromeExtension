@@ -1,15 +1,42 @@
-﻿<div id='search-searchResultsRegion' class='column u-flex--column u-flex--full'></div>
+﻿<div class='instruction-wrapper'>
+    <div id='<%= viewId %>-typeToSearchMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= startTypingMessage %>
+        </div>
+        <div class='instruction-content'>
+            <%= resultsWillAppearAsYouSearchMessage %>.
+        </div>
+    </div>
+    
+    <div id='<%= viewId %>-searchingMessage' class='instruction is-showingSpinner'>
+        <div class='instruction-header'>
+            <%= searchingMessage %>...
+        </div>
+        <div id='<%= viewId %>-spinnerRegion'></div>
+    </div>
+
+    <div id='<%= viewId %>-noResultsMessage' class='instruction'>
+        <div class='instruction-header'>
+            <%= noResultsFoundMessage %>
+        </div>
+        <div class='instruction-content'>
+            <%= sorryAboutThatMessage %>. <%= trySearchingForSomethingElseMessage %>.
+        </div>
+    </div>
+    
+    <div id='<%= viewId %>-searchResultsRegion' class='column u-flex--column u-flex--full'></div>
+</div>
 
 <div class='contentBar contentBar--bottom'>
-    <button id='search-playSelectedButton' class='button--flat'>
+    <button id='<%= viewId %>-playSelectedButton' class='button--flat'>
         <%= playSelectedMessage %>
     </button>
         
-    <button id='search-addSelectedButton' class='button--flat'>
+    <button id='<%= viewId %>-addSelectedButton' class='button--flat'>
         <%= addSelectedMessage %>
     </button>
 
-    <button id='search-saveSelectedButton' class='button--flat'>
+    <button id='<%= viewId %>-saveSelectedButton' class='button--flat'>
         <%= saveSelectedMessage %>
     </button>
 </div>

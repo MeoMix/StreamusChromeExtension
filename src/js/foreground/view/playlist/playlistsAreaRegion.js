@@ -38,7 +38,7 @@
         _createPlaylistsAreaView: function (playlists) {
             if (!this._playlistsAreaViewExists()) {
                 var playlistsAreaView = new PlaylistsAreaView({
-                    collection: playlists
+                    playlists: playlists
                 });
 
                 this.show(playlistsAreaView);

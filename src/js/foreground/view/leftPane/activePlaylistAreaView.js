@@ -10,9 +10,16 @@
         className: 'column u-flex--column u-flex--full',
         template: _.template(ActivePlaylistAreaTemplate),
         
-        templateHelpers:{
-            addAllMessage: chrome.i18n.getMessage('addAll'),
-            playAllMessage: chrome.i18n.getMessage('playAll')
+        templateHelpers: function () {
+            return {
+                viewId: this.id,
+                addAllMessage: chrome.i18n.getMessage('addAll'),
+                playAllMessage: chrome.i18n.getMessage('playAll'),
+                playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
+                showSearchMessage: chrome.i18n.getMessage('showSearch'),
+                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+                wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
+            };
         },
         
         regions: function () {
@@ -23,6 +30,8 @@
 
         ui: function () {
             return {
+                playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
+                showSearchLink: '#' + this.id + '-showSearchLink',
                 playlistDetails: '#' + this.id + '-playlistDetails',
                 playAllButton: '#' + this.id + '-playAllButton',
                 addAllButton: '#' + this.id + '-addAllButton'
@@ -30,6 +39,7 @@
         },
 
         events: {
+            'click @ui.showSearchLink': '_onClickShowSearchLink',
             'click @ui.addAllButton:not(.disabled)': '_onClickAddAllButton',
             'click @ui.playAllButton:not(.disabled)': '_onClickPlayAllButton'
         },
@@ -57,12 +67,17 @@
         onRender: function () {
             this._toggleButtons();
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
+            this._toggleInstructions(this.model.get('items').isEmpty());
         },
         
         onShow: function () {
             this.playlistItemsRegion.show(new PlaylistItemsView({
                 collection: this.model.get('items')
             }));
+        },
+        
+        _onClickShowSearchLink: function () {
+            Streamus.channels.searchArea.commands.trigger('show:search');
         },
         
         _onStreamItemsAdd: function () {
@@ -80,16 +95,23 @@
         _onPlaylistItemsAdd: function(model, collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
+            this._toggleInstructions(false);
         },
         
         _onPlaylistItemsRemove: function (model, collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
+            this._toggleInstructions(collection.isEmpty());
         },
         
         _onPlaylistItemsReset: function (collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
+            this._toggleInstructions(collection.isEmpty());
+        },
+        
+        _toggleInstructions: function (collectionEmpty) {
+            this.ui.playlistEmptyMessage.toggleClass('hidden', !collectionEmpty);
         },
         
         _toggleButtons: function () {
