@@ -2,10 +2,6 @@
     'use strict';
 
     var Scrollable = Marionette.Behavior.extend({
-        ui: {
-            list: '.list'
-        },
-        
         collectionEvents: {
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'add': '_onCollectionAdd',
@@ -24,7 +20,7 @@
         onShow: function () {
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
-            this.ui.list.perfectScrollbar({
+            this.$el.perfectScrollbar({
                 suppressScrollX: true,
                 //  52px because that is the height of 1 listItem--medium
                 minScrollbarLength: 52,
@@ -59,7 +55,7 @@
                 //  Additionally, SlidingRender fires onChildAdd events when scrolling which causes lag when
                 //  the scrollbar does not need to be updated.
                 _.defer(function () {
-                    this.ui.list.perfectScrollbar('update');
+                    this.$el.perfectScrollbar('update');
                 }.bind(this));
             }
         }

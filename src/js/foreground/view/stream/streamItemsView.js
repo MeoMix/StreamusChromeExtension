@@ -12,7 +12,7 @@
 
     var StreamItemsView = Marionette.CompositeView.extend({
         id: 'streamItems',
-        className: 'column u-flex--column u-flex--full',
+        className: 'list',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         childViewType: ListItemType.StreamItem,
@@ -32,8 +32,7 @@
 
         ui: function () {
             return {
-                //  TODO: If this was a CollectionView this wouldn't be an issue...
-                //  NOTE: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
+                //  TODO: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
                 childContainer: '#' + this.id + '-listItems'
             };
         },

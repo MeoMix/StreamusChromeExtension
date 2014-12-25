@@ -31,7 +31,7 @@ spinner {
     width: 28px;
     height: 28px;
 
-    .circle {
+    .spinner-circle {
         border-width: 2px;
     }
 }
@@ -40,7 +40,7 @@ spinner {
     width: 16px;
     height: 16px;
 
-    .circle {
+    .spinner-circle {
         border-width: 1px;
     }
 }
@@ -210,7 +210,7 @@ spinner {
     }
 }
 
-.circle-clipper {
+.spinner-clipper {
     display: inline-block;
     position: relative;
     width: 50%;
@@ -219,12 +219,9 @@ spinner {
     border-color: inherit;
 }
 
-.circle-clipper .circle {
-    width: 200%;
-}
-
-.circle {
+.spinner-circle {
     height: 100%;
+    width: 200%;
     border-style: solid;
     border-color: inherit;
     border-bottom-color: transparent !important;
@@ -237,23 +234,17 @@ spinner {
     left: 0;
 }
 
-.circle-clipper.left .circle {
+.spinner-clipper--left .spinner-circle {
+    -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
     border-right-color: transparent !important;
     transform: rotate(129deg);
 }
 
-.circle-clipper.right .circle {
+.spinner-clipper--right .spinner-circle {
+    -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
     left: -100%;
     border-left-color: transparent !important;
     transform: rotate(-129deg);
-}
-
-.circle-clipper.left .circle {
-    -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
-}
-
-.circle-clipper.right .circle {
-    -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0.0, 0.2, 1) infinite both;
 }
 
 @-webkit-keyframes left-spin {
@@ -282,4 +273,24 @@ spinner {
     to {
         transform: rotate(-130deg);
     }
+}
+
+/**
+ * Patch the gap that appear between the two adjacent div.spinner-clipper while the
+ * spinner is rotating
+ */
+.spinner--patch{
+  position: absolute;
+  box-sizing: border-box;
+  top: 0;
+  left: 45%;
+  width: 10%;
+  height: 100%;
+  overflow: hidden;
+  border-color: inherit;
+}
+
+.spinner--patch .spinner-circle {
+  width: 1000%;
+  left: -450%;
 }

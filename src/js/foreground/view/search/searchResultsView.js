@@ -12,7 +12,7 @@
 
     var SearchResultsView = Marionette.CompositeView.extend({
         id: 'searchResults',
-        className: 'column u-flex--column u-flex--full',
+        className: 'list',
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
         childViewType: ListItemType.SearchResult,

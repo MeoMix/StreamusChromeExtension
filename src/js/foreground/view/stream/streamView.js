@@ -57,7 +57,7 @@
             'change:activeItem': '_onChangeActiveItem'
         },
         
-        onInitialize: function () {
+        initialize: function () {
             var streamItems = this.model.get('items');
             this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);

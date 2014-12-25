@@ -4,10 +4,6 @@
     'use strict';
 
     var SlidingRender = Marionette.Behavior.extend({
-        ui: {
-            list: '.list'
-        },
-
         collectionEvents: {
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
             'reset': '_onCollectionReset',
@@ -53,7 +49,7 @@
 
             var self = this;
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.ui.list.scroll(_.throttle(function () {
+            this.$el.scroll(_.throttle(function () {
                 self._setRenderedElements(this.scrollTop);
             }, 20));
         },
@@ -76,7 +72,7 @@
         
         //  Whenever the viewport height is changed -- adjust the items which are currently rendered to match
         _setViewportHeight: function () {
-            this.viewportHeight = this.ui.list.height();
+            this.viewportHeight = this.$el.height();
 
             //  Unload or load N items where N is the difference in viewport height.
             var currentMaxRenderIndex = this.maxRenderIndex;
@@ -301,7 +297,7 @@
         //  Returns true if an childView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
         _indexOverflowsTop: function (index) {
             var position = index * this.childViewHeight;
-            var scrollPosition = this.ui.list.scrollTop();
+            var scrollPosition = this.$el.scrollTop();
 
             var overflowsTop = position < scrollPosition;
 
@@ -311,7 +307,7 @@
         _indexOverflowsBottom: function (index) {
             //  Add one to index because want to get the bottom of the element and not the top.
             var position = (index + 1) * this.childViewHeight;
-            var scrollPosition = this.ui.list.scrollTop() + this.viewportHeight;
+            var scrollPosition = this.$el.scrollTop() + this.viewportHeight;
 
             var overflowsBottom = position > scrollPosition;
 
@@ -342,13 +338,13 @@
                     scrollTop = itemIndex * this.childViewHeight;
                 }
 
-                this.ui.list.scrollTop(scrollTop);
+                this.$el.scrollTop(scrollTop);
             }
         },
 
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
         _onCollectionReset: function () {
-            this.ui.list.scrollTop(0);
+            this.$el.scrollTop(0);
             this.lastScrollTop = 0;
 
             this.minRenderIndex = this._getMinRenderIndex(0);
@@ -367,7 +363,7 @@
 
                     //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
                     if (!rendered && this.minRenderIndex > 0) {
-                        this.ui.list.scrollTop(this.lastScrollTop - this.childViewHeight);
+                        this.$el.scrollTop(this.lastScrollTop - this.childViewHeight);
                     }
                 }
 

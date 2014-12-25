@@ -9,6 +9,7 @@
 
     var PlaylistsView = Marionette.CompositeView.extend({
         id: 'playlists',
+        className: 'list',
         template: _.template(PlaylistsTemplate),
         
         childView: PlaylistView,
