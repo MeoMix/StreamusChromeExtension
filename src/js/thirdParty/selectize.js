@@ -425,17 +425,17 @@
     };
 
     var DIACRITICS = {
-        'a': '[aÀÁÂÃÄÅàáâãäå]',
+        'a': '[aÀÁÂÃÄÅàáâãäåĀā]',
         'c': '[cÇçćĆčČ]',
         'd': '[dđĐďĎ]',
-        'e': '[eÈÉÊËèéêëěĚ]',
-        'i': '[iÌÍÎÏìíîï]',
+        'e': '[eÈÉÊËèéêëěĚĒē]',
+        'i': '[iÌÍÎÏìíîïĪī]',
         'n': '[nÑñňŇ]',
-        'o': '[oÒÓÔÕÕÖØòóôõöø]',
+        'o': '[oÒÓÔÕÕÖØòóôõöøŌō]',
         'r': '[rřŘ]',
         's': '[sŠš]',
         't': '[tťŤ]',
-        'u': '[uÙÚÛÜùúûüůŮ]',
+        'u': '[uÙÚÛÜùúûüůŮŪū]',
         'y': '[yŸÿýÝ]',
         'z': '[zŽž]'
     };
@@ -585,7 +585,7 @@
 }));
 
 /**
- * selectize.js (v0.10.1)
+ * selectize.js (v0.11.2)
  * Copyright (c) 2013 Brian Reavis & contributors
  *
  * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
@@ -726,10 +726,10 @@
 	 *   1         -> '1'
 	 *
 	 * @param {string} value
-	 * @returns {string}
+	 * @returns {string|null}
 	 */
     var hash_key = function (value) {
-        if (typeof value === 'undefined' || value === null) return '';
+        if (typeof value === 'undefined' || value === null) return null;
         if (typeof value === 'boolean') return value ? '1' : '0';
         return value + '';
     };
@@ -1053,7 +1053,8 @@
         input.selectize = self;
 
         // detect rtl environment
-        dir = window.getComputedStyle ? window.getComputedStyle(input, null).getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
+        var computedStyle = window.getComputedStyle && window.getComputedStyle(input, null);
+        dir = computedStyle ? computedStyle.getPropertyValue('direction') : input.currentStyle && input.currentStyle.direction;
         dir = dir || $input.parents('[dir]:first').attr('dir') || '';
 
         // setup default state
@@ -1114,16 +1115,6 @@
             self.settings.hideSelected = self.settings.mode === 'multi';
         }
 
-        if (self.settings.create) {
-            self.canCreate = function (input) {
-                var filter = self.settings.createFilter;
-                return input.length
-					&& (typeof filter !== 'function' || filter.apply(self, [input]))
-					&& (typeof filter !== 'string' || new RegExp(filter).test(input))
-					&& (!(filter instanceof RegExp) || filter.test(input));
-            };
-        }
-
         self.initializePlugins(self.settings.plugins);
         self.setupCallbacks();
         self.setupTemplates();
@@ -1173,8 +1164,12 @@
             $control = $('<div>').addClass(settings.inputClass).addClass('items').appendTo($wrapper);
             $control_input = $('<input type="text" autocomplete="off" />').appendTo($control).attr('tabindex', tab_index);
             $dropdown_parent = $(settings.dropdownParent || $wrapper);
-            $dropdown = $('<div>').addClass(settings.dropdownClass).addClass(classes).addClass(inputMode).hide().appendTo($dropdown_parent);
+            $dropdown = $('<div>').addClass(settings.dropdownClass).addClass(inputMode).hide().appendTo($dropdown_parent);
             $dropdown_content = $('<div>').addClass(settings.dropdownContentClass).appendTo($dropdown);
+
+            if (self.settings.copyClassesToDropdown) {
+                $dropdown.addClass(classes);
+            }
 
             $wrapper.css({
                 width: $input[0].style.width
@@ -1354,7 +1349,8 @@
                 'option_clear': 'onOptionClear',
                 'dropdown_open': 'onDropdownOpen',
                 'dropdown_close': 'onDropdownClose',
-                'type': 'onType'
+                'type': 'onType',
+                'load': 'onLoad'
             };
 
             for (key in callbacks) {
@@ -1403,7 +1399,6 @@
                     if (self.settings.mode === 'single') {
                         // toggle dropdown
                         self.isOpen ? self.close() : self.open();
-                        self.focus();
                     } else if (!defaultPrevented) {
                         self.setActiveItem(null);
                     }
@@ -1669,7 +1664,7 @@
                 self.createItem();
             } else {
                 value = $target.attr('data-value');
-                if (value) {
+                if (typeof value !== 'undefined') {
                     self.lastQuery = null;
                     self.setTextboxValue('');
                     self.addItem(value);
@@ -2027,7 +2022,7 @@
             }
 
             var self = this;
-            var query = self.$control_input.val();
+            var query = $.trim(self.$control_input.val());
             var results = self.search(query);
             var $dropdown_content = self.$dropdown_content;
             var active_before = self.$activeOption && hash_key(self.$activeOption.attr('data-value'));
@@ -2103,7 +2098,7 @@
             }
 
             // add create option
-            has_create_option = self.settings.create && self.canCreate(results.query);
+            has_create_option = self.canCreate(query);
             if (has_create_option) {
                 $dropdown_content.prepend(self.render('option_create', { input: query }));
                 $create = $($dropdown_content[0].childNodes[0]);
@@ -2160,7 +2155,7 @@
             }
 
             value = hash_key(data[self.settings.valueField]);
-            if (!value || self.options.hasOwnProperty(value)) return;
+            if (typeof value !== 'string' || self.options.hasOwnProperty(value)) return;
 
             self.userOptions[value] = true;
             self.options[value] = data;
@@ -2197,8 +2192,9 @@
             value_new = hash_key(data[self.settings.valueField]);
 
             // sanity checks
+            if (value === null) return;
             if (!self.options.hasOwnProperty(value)) return;
-            if (!value_new) throw new Error('Value must be set in option data');
+            if (typeof value_new !== 'string') throw new Error('Value must be set in option data');
 
             // update references
             if (value_new !== value) {
@@ -2230,6 +2226,9 @@
                 if ($item.hasClass('active')) $item_new.addClass('active');
                 $item.replaceWith($item_new);
             }
+
+            //invalidate last query because we might have updated the sortField
+            self.lastQuery = null;
 
             // update dropdown contents
             if (self.isOpen) {
@@ -2310,7 +2309,7 @@
         getElementWithValue: function (value, $els) {
             value = hash_key(value);
 
-            if (value) {
+            if (typeof value !== 'undefined' && value !== null) {
                 for (var i = 0, n = $els.length; i < n; i++) {
                     if ($els[i].getAttribute('data-value') === value) {
                         return $($els[i]);
@@ -2476,7 +2475,7 @@
 
                 if (!data || typeof data !== 'object') return;
                 var value = hash_key(data[self.settings.valueField]);
-                if (!value) return;
+                if (typeof value !== 'string') return;
 
                 self.setTextboxValue('');
                 self.addOption(data);
@@ -2527,8 +2526,7 @@
 		 */
         refreshClasses: function () {
             var self = this;
-            //  TODO: https://github.com/brianreavis/selectize.js/issues/468
-            var isFull = false; //self.isFull();
+            var isFull = self.isFull();
             var isLocked = self.isLocked;
 
             self.$wrapper
@@ -2993,8 +2991,24 @@
             } else {
                 delete self.renderCache[templateName];
             }
-        }
+        },
 
+        /**
+		 * Determines whether or not to display the
+		 * create item prompt, given a user input.
+		 *
+		 * @param {string} input
+		 * @return {boolean}
+		 */
+        canCreate: function (input) {
+            var self = this;
+            if (!self.settings.create) return false;
+            var filter = self.settings.createFilter;
+            return input.length
+				&& (typeof filter !== 'function' || filter.apply(self, [input]))
+				&& (typeof filter !== 'string' || new RegExp(filter).test(input))
+				&& (!(filter instanceof RegExp) || filter.test(input));
+        }
 
     });
 
@@ -3016,6 +3030,7 @@
         addPrecedence: false,
         selectOnTab: false,
         preload: false,
+        allowEmptyOption: false,
 
         scrollDuration: 60,
         loadThrottle: 300,
@@ -3039,6 +3054,8 @@
         dropdownContentClass: 'selectize-dropdown-content',
 
         dropdownParent: null,
+
+        copyClassesToDropdown: true,
 
         /*
 		load            : null, // function(query, callback) { ... }
@@ -3068,6 +3085,7 @@
         }
     };
 
+
     $.fn.selectize = function (settings_user) {
         var defaults = $.fn.selectize.defaults;
         var settings = $.extend({}, defaults, settings_user);
@@ -3086,7 +3104,7 @@
 		 */
         var init_textbox = function ($input, settings_element) {
             var i, n, values, option, value = $.trim($input.val() || '');
-            if (!value.length) return;
+            if (!settings.allowEmptyOption && !value.length) return;
 
             values = value.split(settings.delimiter);
             for (i = 0, n = values.length; i < n; i++) {
@@ -3124,7 +3142,7 @@
                 $option = $($option);
 
                 value = $option.attr('value') || '';
-                if (!value.length) return;
+                if (!value.length && !settings.allowEmptyOption) return;
 
                 // if the option already exists, it's probably been
                 // duplicated in another optgroup. in this case, push
@@ -3194,8 +3212,13 @@
             var instance;
             var $input = $(this);
             var tag_name = this.tagName.toLowerCase();
+            var placeholder = $input.attr('placeholder') || $input.attr('data-placeholder');
+            if (!placeholder && !settings.allowEmptyOption) {
+                placeholder = $input.children('option[value=""]').text();
+            }
+
             var settings_element = {
-                'placeholder': $input.children('option[value=""]').text() || $input.attr('placeholder'),
+                'placeholder': placeholder,
                 'options': {},
                 'optgroups': {},
                 'items': []

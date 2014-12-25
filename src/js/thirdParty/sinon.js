@@ -1,5 +1,5 @@
 /**
- * Sinon.JS 1.10.3, 2014/07/11
+ * Sinon.JS 1.12.2, 2014/12/12
  *
  * @author Christian Johansen (christian@cjohansen.no)
  * @author Contributors: https://github.com/cjohansen/Sinon.JS/blob/master/AUTHORS
@@ -33,992 +33,1640 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-this.sinon = (function () {
-    var samsam, formatio;
-    function define(mod, deps, fn) { if (mod == "samsam") { samsam = deps(); } else if (typeof fn === "function") { formatio = fn(samsam); } }
+(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], function () {
+      return (root.sinon = factory());
+    });
+  } else if (typeof exports === 'object') {
+    module.exports = factory();
+  } else {
+    root.sinon = factory();
+  }
+}(this, function () {
+  var samsam, formatio;
+  (function () {
+                function define(mod, deps, fn) {
+                  if (mod == "samsam") {
+                    samsam = deps();
+                  } else if (typeof deps === "function" && mod.length === 0) {
+                    lolex = deps();
+                  } else if (typeof fn === "function") {
+                    formatio = fn(samsam);
+                  }
+                }
     define.amd = {};
-    ((typeof define === "function" && define.amd && function (m) { define("samsam", m); }) ||
-     (typeof module === "object" &&
-          function (m) { module.exports = m(); }) || // Node
-     function (m) { this.samsam = m(); } // Browser globals
-    )(function () {
-        var o = Object.prototype;
-        var div = typeof document !== "undefined" && document.createElement("div");
+((typeof define === "function" && define.amd && function (m) { define("samsam", m); }) ||
+ (typeof module === "object" &&
+      function (m) { module.exports = m(); }) || // Node
+ function (m) { this.samsam = m(); } // Browser globals
+)(function () {
+    var o = Object.prototype;
+    var div = typeof document !== "undefined" && document.createElement("div");
 
-        function isNaN(value) {
-            // Unlike global isNaN, this avoids type coercion
-            // typeof check avoids IE host object issues, hat tip to
-            // lodash
-            var val = value; // JsLint thinks value !== value is "weird"
-            return typeof value === "number" && value !== val;
-        }
+    function isNaN(value) {
+        // Unlike global isNaN, this avoids type coercion
+        // typeof check avoids IE host object issues, hat tip to
+        // lodash
+        var val = value; // JsLint thinks value !== value is "weird"
+        return typeof value === "number" && value !== val;
+    }
 
-        function getClass(value) {
-            // Returns the internal [[Class]] by calling Object.prototype.toString
-            // with the provided value as this. Return value is a string, naming the
-            // internal class, e.g. "Array"
-            return o.toString.call(value).split(/[ \]]/)[1];
+    function getClass(value) {
+        // Returns the internal [[Class]] by calling Object.prototype.toString
+        // with the provided value as this. Return value is a string, naming the
+        // internal class, e.g. "Array"
+        return o.toString.call(value).split(/[ \]]/)[1];
+    }
+
+    /**
+     * @name samsam.isArguments
+     * @param Object object
+     *
+     * Returns ``true`` if ``object`` is an ``arguments`` object,
+     * ``false`` otherwise.
+     */
+    function isArguments(object) {
+        if (getClass(object) === 'Arguments') { return true; }
+        if (typeof object !== "object" || typeof object.length !== "number" ||
+                getClass(object) === "Array") {
+            return false;
         }
+        if (typeof object.callee == "function") { return true; }
+        try {
+            object[object.length] = 6;
+            delete object[object.length];
+        } catch (e) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * @name samsam.isElement
+     * @param Object object
+     *
+     * Returns ``true`` if ``object`` is a DOM element node. Unlike
+     * Underscore.js/lodash, this function will return ``false`` if ``object``
+     * is an *element-like* object, i.e. a regular object with a ``nodeType``
+     * property that holds the value ``1``.
+     */
+    function isElement(object) {
+        if (!object || object.nodeType !== 1 || !div) { return false; }
+        try {
+            object.appendChild(div);
+            object.removeChild(div);
+        } catch (e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * @name samsam.keys
+     * @param Object object
+     *
+     * Return an array of own property names.
+     */
+    function keys(object) {
+        var ks = [], prop;
+        for (prop in object) {
+            if (o.hasOwnProperty.call(object, prop)) { ks.push(prop); }
+        }
+        return ks;
+    }
+
+    /**
+     * @name samsam.isDate
+     * @param Object value
+     *
+     * Returns true if the object is a ``Date``, or *date-like*. Duck typing
+     * of date objects work by checking that the object has a ``getTime``
+     * function whose return value equals the return value from the object's
+     * ``valueOf``.
+     */
+    function isDate(value) {
+        return typeof value.getTime == "function" &&
+            value.getTime() == value.valueOf();
+    }
+
+    /**
+     * @name samsam.isNegZero
+     * @param Object value
+     *
+     * Returns ``true`` if ``value`` is ``-0``.
+     */
+    function isNegZero(value) {
+        return value === 0 && 1 / value === -Infinity;
+    }
+
+    /**
+     * @name samsam.equal
+     * @param Object obj1
+     * @param Object obj2
+     *
+     * Returns ``true`` if two objects are strictly equal. Compared to
+     * ``===`` there are two exceptions:
+     *
+     *   - NaN is considered equal to NaN
+     *   - -0 and +0 are not considered equal
+     */
+    function identical(obj1, obj2) {
+        if (obj1 === obj2 || (isNaN(obj1) && isNaN(obj2))) {
+            return obj1 !== 0 || isNegZero(obj1) === isNegZero(obj2);
+        }
+    }
+
+
+    /**
+     * @name samsam.deepEqual
+     * @param Object obj1
+     * @param Object obj2
+     *
+     * Deep equal comparison. Two values are "deep equal" if:
+     *
+     *   - They are equal, according to samsam.identical
+     *   - They are both date objects representing the same time
+     *   - They are both arrays containing elements that are all deepEqual
+     *   - They are objects with the same set of properties, and each property
+     *     in ``obj1`` is deepEqual to the corresponding property in ``obj2``
+     *
+     * Supports cyclic objects.
+     */
+    function deepEqualCyclic(obj1, obj2) {
+
+        // used for cyclic comparison
+        // contain already visited objects
+        var objects1 = [],
+            objects2 = [],
+        // contain pathes (position in the object structure)
+        // of the already visited objects
+        // indexes same as in objects arrays
+            paths1 = [],
+            paths2 = [],
+        // contains combinations of already compared objects
+        // in the manner: { "$1['ref']$2['ref']": true }
+            compared = {};
 
         /**
-         * @name samsam.isArguments
-         * @param Object object
-         *
-         * Returns ``true`` if ``object`` is an ``arguments`` object,
-         * ``false`` otherwise.
+         * used to check, if the value of a property is an object
+         * (cyclic logic is only needed for objects)
+         * only needed for cyclic logic
          */
-        function isArguments(object) {
-            if (typeof object !== "object" || typeof object.length !== "number" ||
-                    getClass(object) === "Array") {
-                return false;
-            }
-            if (typeof object.callee == "function") { return true; }
-            try {
-                object[object.length] = 6;
-                delete object[object.length];
-            } catch (e) {
+        function isObject(value) {
+
+            if (typeof value === 'object' && value !== null &&
+                    !(value instanceof Boolean) &&
+                    !(value instanceof Date)    &&
+                    !(value instanceof Number)  &&
+                    !(value instanceof RegExp)  &&
+                    !(value instanceof String)) {
+
                 return true;
             }
+
             return false;
         }
 
         /**
-         * @name samsam.isElement
-         * @param Object object
-         *
-         * Returns ``true`` if ``object`` is a DOM element node. Unlike
-         * Underscore.js/lodash, this function will return ``false`` if ``object``
-         * is an *element-like* object, i.e. a regular object with a ``nodeType``
-         * property that holds the value ``1``.
+         * returns the index of the given object in the
+         * given objects array, -1 if not contained
+         * only needed for cyclic logic
          */
-        function isElement(object) {
-            if (!object || object.nodeType !== 1 || !div) { return false; }
-            try {
-                object.appendChild(div);
-                object.removeChild(div);
-            } catch (e) {
-                return false;
+        function getIndex(objects, obj) {
+
+            var i;
+            for (i = 0; i < objects.length; i++) {
+                if (objects[i] === obj) {
+                    return i;
+                }
+            }
+
+            return -1;
+        }
+
+        // does the recursion for the deep equal check
+        return (function deepEqual(obj1, obj2, path1, path2) {
+            var type1 = typeof obj1;
+            var type2 = typeof obj2;
+
+            // == null also matches undefined
+            if (obj1 === obj2 ||
+                    isNaN(obj1) || isNaN(obj2) ||
+                    obj1 == null || obj2 == null ||
+                    type1 !== "object" || type2 !== "object") {
+
+                return identical(obj1, obj2);
+            }
+
+            // Elements are only equal if identical(expected, actual)
+            if (isElement(obj1) || isElement(obj2)) { return false; }
+
+            var isDate1 = isDate(obj1), isDate2 = isDate(obj2);
+            if (isDate1 || isDate2) {
+                if (!isDate1 || !isDate2 || obj1.getTime() !== obj2.getTime()) {
+                    return false;
+                }
+            }
+
+            if (obj1 instanceof RegExp && obj2 instanceof RegExp) {
+                if (obj1.toString() !== obj2.toString()) { return false; }
+            }
+
+            var class1 = getClass(obj1);
+            var class2 = getClass(obj2);
+            var keys1 = keys(obj1);
+            var keys2 = keys(obj2);
+
+            if (isArguments(obj1) || isArguments(obj2)) {
+                if (obj1.length !== obj2.length) { return false; }
+            } else {
+                if (type1 !== type2 || class1 !== class2 ||
+                        keys1.length !== keys2.length) {
+                    return false;
+                }
+            }
+
+            var key, i, l,
+                // following vars are used for the cyclic logic
+                value1, value2,
+                isObject1, isObject2,
+                index1, index2,
+                newPath1, newPath2;
+
+            for (i = 0, l = keys1.length; i < l; i++) {
+                key = keys1[i];
+                if (!o.hasOwnProperty.call(obj2, key)) {
+                    return false;
+                }
+
+                // Start of the cyclic logic
+
+                value1 = obj1[key];
+                value2 = obj2[key];
+
+                isObject1 = isObject(value1);
+                isObject2 = isObject(value2);
+
+                // determine, if the objects were already visited
+                // (it's faster to check for isObject first, than to
+                // get -1 from getIndex for non objects)
+                index1 = isObject1 ? getIndex(objects1, value1) : -1;
+                index2 = isObject2 ? getIndex(objects2, value2) : -1;
+
+                // determine the new pathes of the objects
+                // - for non cyclic objects the current path will be extended
+                //   by current property name
+                // - for cyclic objects the stored path is taken
+                newPath1 = index1 !== -1
+                    ? paths1[index1]
+                    : path1 + '[' + JSON.stringify(key) + ']';
+                newPath2 = index2 !== -1
+                    ? paths2[index2]
+                    : path2 + '[' + JSON.stringify(key) + ']';
+
+                // stop recursion if current objects are already compared
+                if (compared[newPath1 + newPath2]) {
+                    return true;
+                }
+
+                // remember the current objects and their pathes
+                if (index1 === -1 && isObject1) {
+                    objects1.push(value1);
+                    paths1.push(newPath1);
+                }
+                if (index2 === -1 && isObject2) {
+                    objects2.push(value2);
+                    paths2.push(newPath2);
+                }
+
+                // remember that the current objects are already compared
+                if (isObject1 && isObject2) {
+                    compared[newPath1 + newPath2] = true;
+                }
+
+                // End of cyclic logic
+
+                // neither value1 nor value2 is a cycle
+                // continue with next level
+                if (!deepEqual(value1, value2, newPath1, newPath2)) {
+                    return false;
+                }
+            }
+
+            return true;
+
+        }(obj1, obj2, '$1', '$2'));
+    }
+
+    var match;
+
+    function arrayContains(array, subset) {
+        if (subset.length === 0) { return true; }
+        var i, l, j, k;
+        for (i = 0, l = array.length; i < l; ++i) {
+            if (match(array[i], subset[0])) {
+                for (j = 0, k = subset.length; j < k; ++j) {
+                    if (!match(array[i + j], subset[j])) { return false; }
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * @name samsam.match
+     * @param Object object
+     * @param Object matcher
+     *
+     * Compare arbitrary value ``object`` with matcher.
+     */
+    match = function match(object, matcher) {
+        if (matcher && typeof matcher.test === "function") {
+            return matcher.test(object);
+        }
+
+        if (typeof matcher === "function") {
+            return matcher(object) === true;
+        }
+
+        if (typeof matcher === "string") {
+            matcher = matcher.toLowerCase();
+            var notNull = typeof object === "string" || !!object;
+            return notNull &&
+                (String(object)).toLowerCase().indexOf(matcher) >= 0;
+        }
+
+        if (typeof matcher === "number") {
+            return matcher === object;
+        }
+
+        if (typeof matcher === "boolean") {
+            return matcher === object;
+        }
+
+        if (typeof(matcher) === "undefined") {
+            return typeof(object) === "undefined";
+        }
+
+        if (matcher === null) {
+            return object === null;
+        }
+
+        if (getClass(object) === "Array" && getClass(matcher) === "Array") {
+            return arrayContains(object, matcher);
+        }
+
+        if (matcher && typeof matcher === "object") {
+            if (matcher === object) {
+                return true;
+            }
+            var prop;
+            for (prop in matcher) {
+                var value = object[prop];
+                if (typeof value === "undefined" &&
+                        typeof object.getAttribute === "function") {
+                    value = object.getAttribute(prop);
+                }
+                if (matcher[prop] === null || typeof matcher[prop] === 'undefined') {
+                    if (value !== matcher[prop]) {
+                        return false;
+                    }
+                } else if (typeof  value === "undefined" || !match(value, matcher[prop])) {
+                    return false;
+                }
             }
             return true;
         }
 
-        /**
-         * @name samsam.keys
-         * @param Object object
-         *
-         * Return an array of own property names.
-         */
-        function keys(object) {
-            var ks = [], prop;
-            for (prop in object) {
-                if (o.hasOwnProperty.call(object, prop)) { ks.push(prop); }
+        throw new Error("Matcher was not a string, a number, a " +
+                        "function, a boolean or an object");
+    };
+
+    return {
+        isArguments: isArguments,
+        isElement: isElement,
+        isDate: isDate,
+        isNegZero: isNegZero,
+        identical: identical,
+        deepEqual: deepEqualCyclic,
+        match: match,
+        keys: keys
+    };
+});
+((typeof define === "function" && define.amd && function (m) {
+    define("formatio", ["samsam"], m);
+}) || (typeof module === "object" && function (m) {
+    module.exports = m(require("samsam"));
+}) || function (m) { this.formatio = m(this.samsam); }
+)(function (samsam) {
+    
+    var formatio = {
+        excludeConstructors: ["Object", /^.$/],
+        quoteStrings: true,
+        limitChildrenCount: 0
+    };
+
+    var hasOwn = Object.prototype.hasOwnProperty;
+
+    var specialObjects = [];
+    if (typeof global !== "undefined") {
+        specialObjects.push({ object: global, value: "[object global]" });
+    }
+    if (typeof document !== "undefined") {
+        specialObjects.push({
+            object: document,
+            value: "[object HTMLDocument]"
+        });
+    }
+    if (typeof window !== "undefined") {
+        specialObjects.push({ object: window, value: "[object Window]" });
+    }
+
+    function functionName(func) {
+        if (!func) { return ""; }
+        if (func.displayName) { return func.displayName; }
+        if (func.name) { return func.name; }
+        var matches = func.toString().match(/function\s+([^\(]+)/m);
+        return (matches && matches[1]) || "";
+    }
+
+    function constructorName(f, object) {
+        var name = functionName(object && object.constructor);
+        var excludes = f.excludeConstructors ||
+                formatio.excludeConstructors || [];
+
+        var i, l;
+        for (i = 0, l = excludes.length; i < l; ++i) {
+            if (typeof excludes[i] === "string" && excludes[i] === name) {
+                return "";
+            } else if (excludes[i].test && excludes[i].test(name)) {
+                return "";
             }
-            return ks;
         }
 
-        /**
-         * @name samsam.isDate
-         * @param Object value
-         *
-         * Returns true if the object is a ``Date``, or *date-like*. Duck typing
-         * of date objects work by checking that the object has a ``getTime``
-         * function whose return value equals the return value from the object's
-         * ``valueOf``.
-         */
-        function isDate(value) {
-            return typeof value.getTime == "function" &&
-                value.getTime() == value.valueOf();
+        return name;
+    }
+
+    function isCircular(object, objects) {
+        if (typeof object !== "object") { return false; }
+        var i, l;
+        for (i = 0, l = objects.length; i < l; ++i) {
+            if (objects[i] === object) { return true; }
+        }
+        return false;
+    }
+
+    function ascii(f, object, processed, indent) {
+        if (typeof object === "string") {
+            var qs = f.quoteStrings;
+            var quote = typeof qs !== "boolean" || qs;
+            return processed || quote ? '"' + object + '"' : object;
         }
 
-        /**
-         * @name samsam.isNegZero
-         * @param Object value
-         *
-         * Returns ``true`` if ``value`` is ``-0``.
-         */
-        function isNegZero(value) {
-            return value === 0 && 1 / value === -Infinity;
+        if (typeof object === "function" && !(object instanceof RegExp)) {
+            return ascii.func(object);
         }
 
-        /**
-         * @name samsam.equal
-         * @param Object obj1
-         * @param Object obj2
-         *
-         * Returns ``true`` if two objects are strictly equal. Compared to
-         * ``===`` there are two exceptions:
-         *
-         *   - NaN is considered equal to NaN
-         *   - -0 and +0 are not considered equal
-         */
-        function identical(obj1, obj2) {
-            if (obj1 === obj2 || (isNaN(obj1) && isNaN(obj2))) {
-                return obj1 !== 0 || isNegZero(obj1) === isNegZero(obj2);
+        processed = processed || [];
+
+        if (isCircular(object, processed)) { return "[Circular]"; }
+
+        if (Object.prototype.toString.call(object) === "[object Array]") {
+            return ascii.array.call(f, object, processed);
+        }
+
+        if (!object) { return String((1/object) === -Infinity ? "-0" : object); }
+        if (samsam.isElement(object)) { return ascii.element(object); }
+
+        if (typeof object.toString === "function" &&
+                object.toString !== Object.prototype.toString) {
+            return object.toString();
+        }
+
+        var i, l;
+        for (i = 0, l = specialObjects.length; i < l; i++) {
+            if (object === specialObjects[i].object) {
+                return specialObjects[i].value;
             }
         }
 
+        return ascii.object.call(f, object, processed, indent);
+    }
 
-        /**
-         * @name samsam.deepEqual
-         * @param Object obj1
-         * @param Object obj2
-         *
-         * Deep equal comparison. Two values are "deep equal" if:
-         *
-         *   - They are equal, according to samsam.identical
-         *   - They are both date objects representing the same time
-         *   - They are both arrays containing elements that are all deepEqual
-         *   - They are objects with the same set of properties, and each property
-         *     in ``obj1`` is deepEqual to the corresponding property in ``obj2``
-         *
-         * Supports cyclic objects.
-         */
-        function deepEqualCyclic(obj1, obj2) {
+    ascii.func = function (func) {
+        return "function " + functionName(func) + "() {}";
+    };
 
-            // used for cyclic comparison
-            // contain already visited objects
-            var objects1 = [],
-                objects2 = [],
-            // contain pathes (position in the object structure)
-            // of the already visited objects
-            // indexes same as in objects arrays
-                paths1 = [],
-                paths2 = [],
-            // contains combinations of already compared objects
-            // in the manner: { "$1['ref']$2['ref']": true }
-                compared = {};
+    ascii.array = function (array, processed) {
+        processed = processed || [];
+        processed.push(array);
+        var pieces = [];
+        var i, l;
+        l = (this.limitChildrenCount > 0) ? 
+            Math.min(this.limitChildrenCount, array.length) : array.length;
 
-            /**
-             * used to check, if the value of a property is an object
-             * (cyclic logic is only needed for objects)
-             * only needed for cyclic logic
-             */
-            function isObject(value) {
+        for (i = 0; i < l; ++i) {
+            pieces.push(ascii(this, array[i], processed));
+        }
 
-                if (typeof value === 'object' && value !== null &&
-                        !(value instanceof Boolean) &&
-                        !(value instanceof Date) &&
-                        !(value instanceof Number) &&
-                        !(value instanceof RegExp) &&
-                        !(value instanceof String)) {
+        if(l < array.length)
+            pieces.push("[... " + (array.length - l) + " more elements]");
 
-                    return true;
+        return "[" + pieces.join(", ") + "]";
+    };
+
+    ascii.object = function (object, processed, indent) {
+        processed = processed || [];
+        processed.push(object);
+        indent = indent || 0;
+        var pieces = [], properties = samsam.keys(object).sort();
+        var length = 3;
+        var prop, str, obj, i, k, l;
+        l = (this.limitChildrenCount > 0) ? 
+            Math.min(this.limitChildrenCount, properties.length) : properties.length;
+
+        for (i = 0; i < l; ++i) {
+            prop = properties[i];
+            obj = object[prop];
+
+            if (isCircular(obj, processed)) {
+                str = "[Circular]";
+            } else {
+                str = ascii(this, obj, processed, indent + 2);
+            }
+
+            str = (/\s/.test(prop) ? '"' + prop + '"' : prop) + ": " + str;
+            length += str.length;
+            pieces.push(str);
+        }
+
+        var cons = constructorName(this, object);
+        var prefix = cons ? "[" + cons + "] " : "";
+        var is = "";
+        for (i = 0, k = indent; i < k; ++i) { is += " "; }
+
+        if(l < properties.length)
+            pieces.push("[... " + (properties.length - l) + " more elements]");
+
+        if (length + indent > 80) {
+            return prefix + "{\n  " + is + pieces.join(",\n  " + is) + "\n" +
+                is + "}";
+        }
+        return prefix + "{ " + pieces.join(", ") + " }";
+    };
+
+    ascii.element = function (element) {
+        var tagName = element.tagName.toLowerCase();
+        var attrs = element.attributes, attr, pairs = [], attrName, i, l, val;
+
+        for (i = 0, l = attrs.length; i < l; ++i) {
+            attr = attrs.item(i);
+            attrName = attr.nodeName.toLowerCase().replace("html:", "");
+            val = attr.nodeValue;
+            if (attrName !== "contenteditable" || val !== "inherit") {
+                if (!!val) { pairs.push(attrName + "=\"" + val + "\""); }
+            }
+        }
+
+        var formatted = "<" + tagName + (pairs.length > 0 ? " " : "");
+        var content = element.innerHTML;
+
+        if (content.length > 20) {
+            content = content.substr(0, 20) + "[...]";
+        }
+
+        var res = formatted + pairs.join(" ") + ">" + content +
+                "</" + tagName + ">";
+
+        return res.replace(/ contentEditable="inherit"/, "");
+    };
+
+    function Formatio(options) {
+        for (var opt in options) {
+            this[opt] = options[opt];
+        }
+    }
+
+    Formatio.prototype = {
+        functionName: functionName,
+
+        configure: function (options) {
+            return new Formatio(options);
+        },
+
+        constructorName: function (object) {
+            return constructorName(this, object);
+        },
+
+        ascii: function (object, processed, indent) {
+            return ascii(this, object, processed, indent);
+        }
+    };
+
+    return Formatio.prototype;
+});
+!function(e){if("object"==typeof exports&&"undefined"!=typeof module)module.exports=e();else if("function"==typeof define&&define.amd)define([],e);else{var f;"undefined"!=typeof window?f=window:"undefined"!=typeof global?f=global:"undefined"!=typeof self&&(f=self),f.lolex=e()}}(function(){var define,module,exports;return (function e(t,n,r){function s(o,u){if(!n[o]){if(!t[o]){var a=typeof require=="function"&&require;if(!u&&a)return a(o,!0);if(i)return i(o,!0);var f=new Error("Cannot find module '"+o+"'");throw f.code="MODULE_NOT_FOUND",f}var l=n[o]={exports:{}};t[o][0].call(l.exports,function(e){var n=t[o][1][e];return s(n?n:e)},l,l.exports,e,t,n,r)}return n[o].exports}var i=typeof require=="function"&&require;for(var o=0;o<r.length;o++)s(r[o]);return s})({1:[function(require,module,exports){
+(function (global){
+/*jslint eqeqeq: false, plusplus: false, evil: true, onevar: false, browser: true, forin: false*/
+/*global global*/
+/**
+ * @author Christian Johansen (christian@cjohansen.no) and contributors
+ * @license BSD
+ *
+ * Copyright (c) 2010-2014 Christian Johansen
+ */
+
+// node expects setTimeout/setInterval to return a fn object w/ .ref()/.unref()
+// browsers, a number.
+// see https://github.com/cjohansen/Sinon.JS/pull/436
+var timeoutResult = setTimeout(function() {}, 0);
+var addTimerReturnsObject = typeof timeoutResult === "object";
+clearTimeout(timeoutResult);
+
+var NativeDate = Date;
+var id = 1;
+
+/**
+ * Parse strings like "01:10:00" (meaning 1 hour, 10 minutes, 0 seconds) into
+ * number of milliseconds. This is used to support human-readable strings passed
+ * to clock.tick()
+ */
+function parseTime(str) {
+    if (!str) {
+        return 0;
+    }
+
+    var strings = str.split(":");
+    var l = strings.length, i = l;
+    var ms = 0, parsed;
+
+    if (l > 3 || !/^(\d\d:){0,2}\d\d?$/.test(str)) {
+        throw new Error("tick only understands numbers and 'h:m:s'");
+    }
+
+    while (i--) {
+        parsed = parseInt(strings[i], 10);
+
+        if (parsed >= 60) {
+            throw new Error("Invalid time " + str);
+        }
+
+        ms += parsed * Math.pow(60, (l - i - 1));
+    }
+
+    return ms * 1000;
+}
+
+/**
+ * Used to grok the `now` parameter to createClock.
+ */
+function getEpoch(epoch) {
+    if (!epoch) { return 0; }
+    if (typeof epoch.getTime === "function") { return epoch.getTime(); }
+    if (typeof epoch === "number") { return epoch; }
+    throw new TypeError("now should be milliseconds since UNIX epoch");
+}
+
+function inRange(from, to, timer) {
+    return timer && timer.callAt >= from && timer.callAt <= to;
+}
+
+function mirrorDateProperties(target, source) {
+    if (source.now) {
+        target.now = function now() {
+            return target.clock.now;
+        };
+    } else {
+        delete target.now;
+    }
+
+    if (source.toSource) {
+        target.toSource = function toSource() {
+            return source.toSource();
+        };
+    } else {
+        delete target.toSource;
+    }
+
+    target.toString = function toString() {
+        return source.toString();
+    };
+
+    target.prototype = source.prototype;
+    target.parse = source.parse;
+    target.UTC = source.UTC;
+    target.prototype.toUTCString = source.prototype.toUTCString;
+
+    for (var prop in source) {
+        if (source.hasOwnProperty(prop)) {
+            target[prop] = source[prop];
+        }
+    }
+
+    return target;
+}
+
+function createDate() {
+    function ClockDate(year, month, date, hour, minute, second, ms) {
+        // Defensive and verbose to avoid potential harm in passing
+        // explicit undefined when user does not pass argument
+        switch (arguments.length) {
+        case 0:
+            return new NativeDate(ClockDate.clock.now);
+        case 1:
+            return new NativeDate(year);
+        case 2:
+            return new NativeDate(year, month);
+        case 3:
+            return new NativeDate(year, month, date);
+        case 4:
+            return new NativeDate(year, month, date, hour);
+        case 5:
+            return new NativeDate(year, month, date, hour, minute);
+        case 6:
+            return new NativeDate(year, month, date, hour, minute, second);
+        default:
+            return new NativeDate(year, month, date, hour, minute, second, ms);
+        }
+    }
+
+    return mirrorDateProperties(ClockDate, NativeDate);
+}
+
+function addTimer(clock, timer) {
+    if (typeof timer.func === "undefined") {
+        throw new Error("Callback must be provided to timer calls");
+    }
+
+    if (!clock.timers) {
+        clock.timers = {};
+    }
+
+    timer.id = id++;
+    timer.createdAt = clock.now;
+    timer.callAt = clock.now + (timer.delay || 0);
+
+    clock.timers[timer.id] = timer;
+
+    if (addTimerReturnsObject) {
+        return {
+            id: timer.id,
+            ref: function() {},
+            unref: function() {}
+        };
+    }
+    else {
+        return timer.id;
+    }
+}
+
+function firstTimerInRange(clock, from, to) {
+    var timers = clock.timers, timer = null;
+
+    for (var id in timers) {
+        if (!inRange(from, to, timers[id])) {
+            continue;
+        }
+
+        if (!timer || ~compareTimers(timer, timers[id])) {
+            timer = timers[id];
+        }
+    }
+
+    return timer;
+}
+
+function compareTimers(a, b) {
+    // Sort first by absolute timing
+    if (a.callAt < b.callAt) {
+        return -1;
+    }
+    if (a.callAt > b.callAt) {
+        return 1;
+    }
+
+    // Sort next by immediate, immediate timers take precedence
+    if (a.immediate && !b.immediate) {
+        return -1;
+    }
+    if (!a.immediate && b.immediate) {
+        return 1;
+    }
+
+    // Sort next by creation time, earlier-created timers take precedence
+    if (a.createdAt < b.createdAt) {
+        return -1;
+    }
+    if (a.createdAt > b.createdAt) {
+        return 1;
+    }
+
+    // Sort next by id, lower-id timers take precedence
+    if (a.id < b.id) {
+        return -1;
+    }
+    if (a.id > b.id) {
+        return 1;
+    }
+
+    // As timer ids are unique, no fallback `0` is necessary
+}
+
+function callTimer(clock, timer) {
+    if (typeof timer.interval == "number") {
+        clock.timers[timer.id].callAt += timer.interval;
+    } else {
+        delete clock.timers[timer.id];
+    }
+
+    try {
+        if (typeof timer.func == "function") {
+            timer.func.apply(null, timer.args);
+        } else {
+            eval(timer.func);
+        }
+    } catch (e) {
+        var exception = e;
+    }
+
+    if (!clock.timers[timer.id]) {
+        if (exception) {
+            throw exception;
+        }
+        return;
+    }
+
+    if (exception) {
+        throw exception;
+    }
+}
+
+function uninstall(clock, target) {
+    var method;
+
+    for (var i = 0, l = clock.methods.length; i < l; i++) {
+        method = clock.methods[i];
+
+        if (target[method].hadOwnProperty) {
+            target[method] = clock["_" + method];
+        } else {
+            try {
+                delete target[method];
+            } catch (e) {}
+        }
+    }
+
+    // Prevent multiple executions which will completely remove these props
+    clock.methods = [];
+}
+
+function hijackMethod(target, method, clock) {
+    clock[method].hadOwnProperty = Object.prototype.hasOwnProperty.call(target, method);
+    clock["_" + method] = target[method];
+
+    if (method == "Date") {
+        var date = mirrorDateProperties(clock[method], target[method]);
+        target[method] = date;
+    } else {
+        target[method] = function () {
+            return clock[method].apply(clock, arguments);
+        };
+
+        for (var prop in clock[method]) {
+            if (clock[method].hasOwnProperty(prop)) {
+                target[method][prop] = clock[method][prop];
+            }
+        }
+    }
+
+    target[method].clock = clock;
+}
+
+var timers = {
+    setTimeout: setTimeout,
+    clearTimeout: clearTimeout,
+    setImmediate: (typeof setImmediate !== "undefined" ? setImmediate : undefined),
+    clearImmediate: (typeof clearImmediate !== "undefined" ? clearImmediate: undefined),
+    setInterval: setInterval,
+    clearInterval: clearInterval,
+    Date: Date
+};
+
+var keys = Object.keys || function (obj) {
+    var ks = [];
+    for (var key in obj) {
+        ks.push(key);
+    }
+    return ks;
+};
+
+exports.timers = timers;
+
+var createClock = exports.createClock = function (now) {
+    var clock = {
+        now: getEpoch(now),
+        timeouts: {},
+        Date: createDate()
+    };
+
+    clock.Date.clock = clock;
+
+    clock.setTimeout = function setTimeout(func, timeout) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 2),
+            delay: timeout
+        });
+    };
+
+    clock.clearTimeout = function clearTimeout(timerId) {
+        if (!timerId) {
+            // null appears to be allowed in most browsers, and appears to be
+            // relied upon by some libraries, like Bootstrap carousel
+            return;
+        }
+        if (!clock.timers) {
+            clock.timers = [];
+        }
+        // in Node, timerId is an object with .ref()/.unref(), and
+        // its .id field is the actual timer id.
+        if (typeof timerId === "object") {
+            timerId = timerId.id
+        }
+        if (timerId in clock.timers) {
+            delete clock.timers[timerId];
+        }
+    };
+
+    clock.setInterval = function setInterval(func, timeout) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 2),
+            delay: timeout,
+            interval: timeout
+        });
+    };
+
+    clock.clearInterval = function clearInterval(timerId) {
+        clock.clearTimeout(timerId);
+    };
+
+    clock.setImmediate = function setImmediate(func) {
+        return addTimer(clock, {
+            func: func,
+            args: Array.prototype.slice.call(arguments, 1),
+            immediate: true
+        });
+    };
+
+    clock.clearImmediate = function clearImmediate(timerId) {
+        clock.clearTimeout(timerId);
+    };
+
+    clock.tick = function tick(ms) {
+        ms = typeof ms == "number" ? ms : parseTime(ms);
+        var tickFrom = clock.now, tickTo = clock.now + ms, previous = clock.now;
+        var timer = firstTimerInRange(clock, tickFrom, tickTo);
+
+        var firstException;
+        while (timer && tickFrom <= tickTo) {
+            if (clock.timers[timer.id]) {
+                tickFrom = clock.now = timer.callAt;
+                try {
+                    callTimer(clock, timer);
+                } catch (e) {
+                    firstException = firstException || e;
                 }
+            }
 
+            timer = firstTimerInRange(clock, previous, tickTo);
+            previous = tickFrom;
+        }
+
+        clock.now = tickTo;
+
+        if (firstException) {
+            throw firstException;
+        }
+
+        return clock.now;
+    };
+
+    clock.reset = function reset() {
+        clock.timers = {};
+    };
+
+    return clock;
+};
+
+exports.install = function install(target, now, toFake) {
+    if (typeof target === "number") {
+        toFake = now;
+        now = target;
+        target = null;
+    }
+
+    if (!target) {
+        target = global;
+    }
+
+    var clock = createClock(now);
+
+    clock.uninstall = function () {
+        uninstall(clock, target);
+    };
+
+    clock.methods = toFake || [];
+
+    if (clock.methods.length === 0) {
+        clock.methods = keys(timers);
+    }
+
+    for (var i = 0, l = clock.methods.length; i < l; i++) {
+        hijackMethod(target, clock.methods[i], clock);
+    }
+
+    return clock;
+};
+
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}]},{},[1])(1)
+});
+  })();
+  var define;
+/**
+ * Sinon core utilities. For internal use only.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+var sinon = (function () {
+"use strict";
+
+    var sinon;
+    var isNode = typeof module !== "undefined" && module.exports && typeof require === "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        sinon = module.exports = require("./sinon/util/core");
+        require("./sinon/extend");
+        require("./sinon/typeOf");
+        require("./sinon/times_in_words");
+        require("./sinon/spy");
+        require("./sinon/call");
+        require("./sinon/behavior");
+        require("./sinon/stub");
+        require("./sinon/mock");
+        require("./sinon/collection");
+        require("./sinon/assert");
+        require("./sinon/sandbox");
+        require("./sinon/test");
+        require("./sinon/test_case");
+        require("./sinon/match");
+        require("./sinon/format");
+        require("./sinon/log_error");
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+        sinon = module.exports;
+    } else {
+        sinon = {};
+    }
+
+    return sinon;
+}());
+
+/**
+ * @depend ../../sinon.js
+ */
+/**
+ * Sinon core utilities. For internal use only.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function (sinon) {
+    var div = typeof document != "undefined" && document.createElement("div");
+    var hasOwn = Object.prototype.hasOwnProperty;
+
+    function isDOMNode(obj) {
+        var success = false;
+
+        try {
+            obj.appendChild(div);
+            success = div.parentNode == obj;
+        } catch (e) {
+            return false;
+        } finally {
+            try {
+                obj.removeChild(div);
+            } catch (e) {
+                // Remove failed, not much we can do about that
+            }
+        }
+
+        return success;
+    }
+
+    function isElement(obj) {
+        return div && obj && obj.nodeType === 1 && isDOMNode(obj);
+    }
+
+    function isFunction(obj) {
+        return typeof obj === "function" || !!(obj && obj.constructor && obj.call && obj.apply);
+    }
+
+    function isReallyNaN(val) {
+        return typeof val === "number" && isNaN(val);
+    }
+
+    function mirrorProperties(target, source) {
+        for (var prop in source) {
+            if (!hasOwn.call(target, prop)) {
+                target[prop] = source[prop];
+            }
+        }
+    }
+
+    function isRestorable(obj) {
+        return typeof obj === "function" && typeof obj.restore === "function" && obj.restore.sinon;
+    }
+
+    function makeApi(sinon) {
+        sinon.wrapMethod = function wrapMethod(object, property, method) {
+            if (!object) {
+                throw new TypeError("Should wrap property of object");
+            }
+
+            if (typeof method != "function") {
+                throw new TypeError("Method wrapper should be function");
+            }
+
+            var wrappedMethod = object[property],
+                error;
+
+            if (!isFunction(wrappedMethod)) {
+                error = new TypeError("Attempted to wrap " + (typeof wrappedMethod) + " property " +
+                                    property + " as function");
+            } else if (wrappedMethod.restore && wrappedMethod.restore.sinon) {
+                error = new TypeError("Attempted to wrap " + property + " which is already wrapped");
+            } else if (wrappedMethod.calledBefore) {
+                var verb = !!wrappedMethod.returns ? "stubbed" : "spied on";
+                error = new TypeError("Attempted to wrap " + property + " which is already " + verb);
+            }
+
+            if (error) {
+                if (wrappedMethod && wrappedMethod.stackTrace) {
+                    error.stack += "\n--------------\n" + wrappedMethod.stackTrace;
+                }
+                throw error;
+            }
+
+            // IE 8 does not support hasOwnProperty on the window object and Firefox has a problem
+            // when using hasOwn.call on objects from other frames.
+            var owned = object.hasOwnProperty ? object.hasOwnProperty(property) : hasOwn.call(object, property);
+            object[property] = method;
+            method.displayName = property;
+            // Set up a stack trace which can be used later to find what line of
+            // code the original method was created on.
+            method.stackTrace = (new Error("Stack Trace for original")).stack;
+
+            method.restore = function () {
+                // For prototype properties try to reset by delete first.
+                // If this fails (ex: localStorage on mobile safari) then force a reset
+                // via direct assignment.
+                if (!owned) {
+                    delete object[property];
+                }
+                if (object[property] === method) {
+                    object[property] = wrappedMethod;
+                }
+            };
+
+            method.restore.sinon = true;
+            mirrorProperties(method, wrappedMethod);
+
+            return method;
+        };
+
+        sinon.create = function create(proto) {
+            var F = function () {};
+            F.prototype = proto;
+            return new F();
+        };
+
+        sinon.deepEqual = function deepEqual(a, b) {
+            if (sinon.match && sinon.match.isMatcher(a)) {
+                return a.test(b);
+            }
+
+            if (typeof a != "object" || typeof b != "object") {
+                if (isReallyNaN(a) && isReallyNaN(b)) {
+                    return true;
+                } else {
+                    return a === b;
+                }
+            }
+
+            if (isElement(a) || isElement(b)) {
+                return a === b;
+            }
+
+            if (a === b) {
+                return true;
+            }
+
+            if ((a === null && b !== null) || (a !== null && b === null)) {
                 return false;
             }
 
-            /**
-             * returns the index of the given object in the
-             * given objects array, -1 if not contained
-             * only needed for cyclic logic
-             */
-            function getIndex(objects, obj) {
+            if (a instanceof RegExp && b instanceof RegExp) {
+                return (a.source === b.source) && (a.global === b.global) &&
+                    (a.ignoreCase === b.ignoreCase) && (a.multiline === b.multiline);
+            }
 
-                var i;
-                for (i = 0; i < objects.length; i++) {
-                    if (objects[i] === obj) {
-                        return i;
-                    }
+            var aString = Object.prototype.toString.call(a);
+            if (aString != Object.prototype.toString.call(b)) {
+                return false;
+            }
+
+            if (aString == "[object Date]") {
+                return a.valueOf() === b.valueOf();
+            }
+
+            var prop, aLength = 0, bLength = 0;
+
+            if (aString == "[object Array]" && a.length !== b.length) {
+                return false;
+            }
+
+            for (prop in a) {
+                aLength += 1;
+
+                if (!(prop in b)) {
+                    return false;
                 }
 
-                return -1;
-            }
-
-            // does the recursion for the deep equal check
-            return (function deepEqual(obj1, obj2, path1, path2) {
-                var type1 = typeof obj1;
-                var type2 = typeof obj2;
-
-                // == null also matches undefined
-                if (obj1 === obj2 ||
-                        isNaN(obj1) || isNaN(obj2) ||
-                        obj1 == null || obj2 == null ||
-                        type1 !== "object" || type2 !== "object") {
-
-                    return identical(obj1, obj2);
-                }
-
-                // Elements are only equal if identical(expected, actual)
-                if (isElement(obj1) || isElement(obj2)) { return false; }
-
-                var isDate1 = isDate(obj1), isDate2 = isDate(obj2);
-                if (isDate1 || isDate2) {
-                    if (!isDate1 || !isDate2 || obj1.getTime() !== obj2.getTime()) {
-                        return false;
-                    }
-                }
-
-                if (obj1 instanceof RegExp && obj2 instanceof RegExp) {
-                    if (obj1.toString() !== obj2.toString()) { return false; }
-                }
-
-                var class1 = getClass(obj1);
-                var class2 = getClass(obj2);
-                var keys1 = keys(obj1);
-                var keys2 = keys(obj2);
-
-                if (isArguments(obj1) || isArguments(obj2)) {
-                    if (obj1.length !== obj2.length) { return false; }
-                } else {
-                    if (type1 !== type2 || class1 !== class2 ||
-                            keys1.length !== keys2.length) {
-                        return false;
-                    }
-                }
-
-                var key, i, l,
-                    // following vars are used for the cyclic logic
-                    value1, value2,
-                    isObject1, isObject2,
-                    index1, index2,
-                    newPath1, newPath2;
-
-                for (i = 0, l = keys1.length; i < l; i++) {
-                    key = keys1[i];
-                    if (!o.hasOwnProperty.call(obj2, key)) {
-                        return false;
-                    }
-
-                    // Start of the cyclic logic
-
-                    value1 = obj1[key];
-                    value2 = obj2[key];
-
-                    isObject1 = isObject(value1);
-                    isObject2 = isObject(value2);
-
-                    // determine, if the objects were already visited
-                    // (it's faster to check for isObject first, than to
-                    // get -1 from getIndex for non objects)
-                    index1 = isObject1 ? getIndex(objects1, value1) : -1;
-                    index2 = isObject2 ? getIndex(objects2, value2) : -1;
-
-                    // determine the new pathes of the objects
-                    // - for non cyclic objects the current path will be extended
-                    //   by current property name
-                    // - for cyclic objects the stored path is taken
-                    newPath1 = index1 !== -1
-                        ? paths1[index1]
-                        : path1 + '[' + JSON.stringify(key) + ']';
-                    newPath2 = index2 !== -1
-                        ? paths2[index2]
-                        : path2 + '[' + JSON.stringify(key) + ']';
-
-                    // stop recursion if current objects are already compared
-                    if (compared[newPath1 + newPath2]) {
-                        return true;
-                    }
-
-                    // remember the current objects and their pathes
-                    if (index1 === -1 && isObject1) {
-                        objects1.push(value1);
-                        paths1.push(newPath1);
-                    }
-                    if (index2 === -1 && isObject2) {
-                        objects2.push(value2);
-                        paths2.push(newPath2);
-                    }
-
-                    // remember that the current objects are already compared
-                    if (isObject1 && isObject2) {
-                        compared[newPath1 + newPath2] = true;
-                    }
-
-                    // End of cyclic logic
-
-                    // neither value1 nor value2 is a cycle
-                    // continue with next level
-                    if (!deepEqual(value1, value2, newPath1, newPath2)) {
-                        return false;
-                    }
-                }
-
-                return true;
-
-            }(obj1, obj2, '$1', '$2'));
-        }
-
-        var match;
-
-        function arrayContains(array, subset) {
-            if (subset.length === 0) { return true; }
-            var i, l, j, k;
-            for (i = 0, l = array.length; i < l; ++i) {
-                if (match(array[i], subset[0])) {
-                    for (j = 0, k = subset.length; j < k; ++j) {
-                        if (!match(array[i + j], subset[j])) { return false; }
-                    }
-                    return true;
+                if (!deepEqual(a[prop], b[prop])) {
+                    return false;
                 }
             }
-            return false;
-        }
 
-        /**
-         * @name samsam.match
-         * @param Object object
-         * @param Object matcher
-         *
-         * Compare arbitrary value ``object`` with matcher.
-         */
-        match = function match(object, matcher) {
-            if (matcher && typeof matcher.test === "function") {
-                return matcher.test(object);
+            for (prop in b) {
+                bLength += 1;
             }
 
-            if (typeof matcher === "function") {
-                return matcher(object) === true;
-            }
-
-            if (typeof matcher === "string") {
-                matcher = matcher.toLowerCase();
-                var notNull = typeof object === "string" || !!object;
-                return notNull &&
-                    (String(object)).toLowerCase().indexOf(matcher) >= 0;
-            }
-
-            if (typeof matcher === "number") {
-                return matcher === object;
-            }
-
-            if (typeof matcher === "boolean") {
-                return matcher === object;
-            }
-
-            if (getClass(object) === "Array" && getClass(matcher) === "Array") {
-                return arrayContains(object, matcher);
-            }
-
-            if (matcher && typeof matcher === "object") {
-                var prop;
-                for (prop in matcher) {
-                    if (!match(object[prop], matcher[prop])) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            throw new Error("Matcher was not a string, a number, a " +
-                            "function, a boolean or an object");
+            return aLength == bLength;
         };
 
-        return {
-            isArguments: isArguments,
-            isElement: isElement,
-            isDate: isDate,
-            isNegZero: isNegZero,
-            identical: identical,
-            deepEqual: deepEqualCyclic,
-            match: match,
-            keys: keys
-        };
-    });
-    ((typeof define === "function" && define.amd && function (m) {
-        define("formatio", ["samsam"], m);
-    }) || (typeof module === "object" && function (m) {
-        module.exports = m(require("samsam"));
-    }) || function (m) { this.formatio = m(this.samsam); }
-    )(function (samsam) {
+        sinon.functionName = function functionName(func) {
+            var name = func.displayName || func.name;
 
-        var formatio = {
-            excludeConstructors: ["Object", /^.$/],
-            quoteStrings: true
-        };
-
-        var hasOwn = Object.prototype.hasOwnProperty;
-
-        var specialObjects = [];
-        if (typeof global !== "undefined") {
-            specialObjects.push({ object: global, value: "[object global]" });
-        }
-        if (typeof document !== "undefined") {
-            specialObjects.push({
-                object: document,
-                value: "[object HTMLDocument]"
-            });
-        }
-        if (typeof window !== "undefined") {
-            specialObjects.push({ object: window, value: "[object Window]" });
-        }
-
-        function functionName(func) {
-            if (!func) { return ""; }
-            if (func.displayName) { return func.displayName; }
-            if (func.name) { return func.name; }
-            var matches = func.toString().match(/function\s+([^\(]+)/m);
-            return (matches && matches[1]) || "";
-        }
-
-        function constructorName(f, object) {
-            var name = functionName(object && object.constructor);
-            var excludes = f.excludeConstructors ||
-                    formatio.excludeConstructors || [];
-
-            var i, l;
-            for (i = 0, l = excludes.length; i < l; ++i) {
-                if (typeof excludes[i] === "string" && excludes[i] === name) {
-                    return "";
-                } else if (excludes[i].test && excludes[i].test(name)) {
-                    return "";
-                }
+            // Use function decomposition as a last resort to get function
+            // name. Does not rely on function decomposition to work - if it
+            // doesn't debugging will be slightly less informative
+            // (i.e. toString will say 'spy' rather than 'myFunc').
+            if (!name) {
+                var matches = func.toString().match(/function ([^\s\(]+)/);
+                name = matches && matches[1];
             }
 
             return name;
-        }
-
-        function isCircular(object, objects) {
-            if (typeof object !== "object") { return false; }
-            var i, l;
-            for (i = 0, l = objects.length; i < l; ++i) {
-                if (objects[i] === object) { return true; }
-            }
-            return false;
-        }
-
-        function ascii(f, object, processed, indent) {
-            if (typeof object === "string") {
-                var qs = f.quoteStrings;
-                var quote = typeof qs !== "boolean" || qs;
-                return processed || quote ? '"' + object + '"' : object;
-            }
-
-            if (typeof object === "function" && !(object instanceof RegExp)) {
-                return ascii.func(object);
-            }
-
-            processed = processed || [];
-
-            if (isCircular(object, processed)) { return "[Circular]"; }
-
-            if (Object.prototype.toString.call(object) === "[object Array]") {
-                return ascii.array.call(f, object, processed);
-            }
-
-            if (!object) { return String((1 / object) === -Infinity ? "-0" : object); }
-            if (samsam.isElement(object)) { return ascii.element(object); }
-
-            if (typeof object.toString === "function" &&
-                    object.toString !== Object.prototype.toString) {
-                return object.toString();
-            }
-
-            var i, l;
-            for (i = 0, l = specialObjects.length; i < l; i++) {
-                if (object === specialObjects[i].object) {
-                    return specialObjects[i].value;
-                }
-            }
-
-            return ascii.object.call(f, object, processed, indent);
-        }
-
-        ascii.func = function (func) {
-            return "function " + functionName(func) + "() {}";
         };
 
-        ascii.array = function (array, processed) {
-            processed = processed || [];
-            processed.push(array);
-            var i, l, pieces = [];
-            for (i = 0, l = array.length; i < l; ++i) {
-                pieces.push(ascii(this, array[i], processed));
-            }
-            return "[" + pieces.join(", ") + "]";
-        };
+        sinon.functionToString = function toString() {
+            if (this.getCall && this.callCount) {
+                var thisValue, prop, i = this.callCount;
 
-        ascii.object = function (object, processed, indent) {
-            processed = processed || [];
-            processed.push(object);
-            indent = indent || 0;
-            var pieces = [], properties = samsam.keys(object).sort();
-            var length = 3;
-            var prop, str, obj, i, l;
+                while (i--) {
+                    thisValue = this.getCall(i).thisValue;
 
-            for (i = 0, l = properties.length; i < l; ++i) {
-                prop = properties[i];
-                obj = object[prop];
-
-                if (isCircular(obj, processed)) {
-                    str = "[Circular]";
-                } else {
-                    str = ascii(this, obj, processed, indent + 2);
-                }
-
-                str = (/\s/.test(prop) ? '"' + prop + '"' : prop) + ": " + str;
-                length += str.length;
-                pieces.push(str);
-            }
-
-            var cons = constructorName(this, object);
-            var prefix = cons ? "[" + cons + "] " : "";
-            var is = "";
-            for (i = 0, l = indent; i < l; ++i) { is += " "; }
-
-            if (length + indent > 80) {
-                return prefix + "{\n  " + is + pieces.join(",\n  " + is) + "\n" +
-                    is + "}";
-            }
-            return prefix + "{ " + pieces.join(", ") + " }";
-        };
-
-        ascii.element = function (element) {
-            var tagName = element.tagName.toLowerCase();
-            var attrs = element.attributes, attr, pairs = [], attrName, i, l, val;
-
-            for (i = 0, l = attrs.length; i < l; ++i) {
-                attr = attrs.item(i);
-                attrName = attr.nodeName.toLowerCase().replace("html:", "");
-                val = attr.nodeValue;
-                if (attrName !== "contenteditable" || val !== "inherit") {
-                    if (!!val) { pairs.push(attrName + "=\"" + val + "\""); }
-                }
-            }
-
-            var formatted = "<" + tagName + (pairs.length > 0 ? " " : "");
-            var content = element.innerHTML;
-
-            if (content.length > 20) {
-                content = content.substr(0, 20) + "[...]";
-            }
-
-            var res = formatted + pairs.join(" ") + ">" + content +
-                    "</" + tagName + ">";
-
-            return res.replace(/ contentEditable="inherit"/, "");
-        };
-
-        function Formatio(options) {
-            for (var opt in options) {
-                this[opt] = options[opt];
-            }
-        }
-
-        Formatio.prototype = {
-            functionName: functionName,
-
-            configure: function (options) {
-                return new Formatio(options);
-            },
-
-            constructorName: function (object) {
-                return constructorName(this, object);
-            },
-
-            ascii: function (object, processed, indent) {
-                return ascii(this, object, processed, indent);
-            }
-        };
-
-        return Formatio.prototype;
-    });
-    /*jslint eqeqeq: false, onevar: false, forin: true, nomen: false, regexp: false, plusplus: false*/
-    /*global module, require, __dirname, document*/
-    /**
-     * Sinon core utilities. For internal use only.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
-
-    var sinon = (function (formatio) {
-        var div = typeof document != "undefined" && document.createElement("div");
-        var hasOwn = Object.prototype.hasOwnProperty;
-
-        function isDOMNode(obj) {
-            var success = false;
-
-            try {
-                obj.appendChild(div);
-                success = div.parentNode == obj;
-            } catch (e) {
-                return false;
-            } finally {
-                try {
-                    obj.removeChild(div);
-                } catch (e) {
-                    // Remove failed, not much we can do about that
-                }
-            }
-
-            return success;
-        }
-
-        function isElement(obj) {
-            return div && obj && obj.nodeType === 1 && isDOMNode(obj);
-        }
-
-        function isFunction(obj) {
-            return typeof obj === "function" || !!(obj && obj.constructor && obj.call && obj.apply);
-        }
-
-        function isReallyNaN(val) {
-            return typeof val === 'number' && isNaN(val);
-        }
-
-        function mirrorProperties(target, source) {
-            for (var prop in source) {
-                if (!hasOwn.call(target, prop)) {
-                    target[prop] = source[prop];
-                }
-            }
-        }
-
-        function isRestorable(obj) {
-            return typeof obj === "function" && typeof obj.restore === "function" && obj.restore.sinon;
-        }
-
-        var sinon = {
-            wrapMethod: function wrapMethod(object, property, method) {
-                if (!object) {
-                    throw new TypeError("Should wrap property of object");
-                }
-
-                if (typeof method != "function") {
-                    throw new TypeError("Method wrapper should be function");
-                }
-
-                var wrappedMethod = object[property],
-                    error;
-
-                if (!isFunction(wrappedMethod)) {
-                    error = new TypeError("Attempted to wrap " + (typeof wrappedMethod) + " property " +
-                                        property + " as function");
-                } else if (wrappedMethod.restore && wrappedMethod.restore.sinon) {
-                    error = new TypeError("Attempted to wrap " + property + " which is already wrapped");
-                } else if (wrappedMethod.calledBefore) {
-                    var verb = !!wrappedMethod.returns ? "stubbed" : "spied on";
-                    error = new TypeError("Attempted to wrap " + property + " which is already " + verb);
-                }
-
-                if (error) {
-                    if (wrappedMethod && wrappedMethod._stack) {
-                        error.stack += '\n--------------\n' + wrappedMethod._stack;
-                    }
-                    throw error;
-                }
-
-                // IE 8 does not support hasOwnProperty on the window object and Firefox has a problem
-                // when using hasOwn.call on objects from other frames.
-                var owned = object.hasOwnProperty ? object.hasOwnProperty(property) : hasOwn.call(object, property);
-                object[property] = method;
-                method.displayName = property;
-                // Set up a stack trace which can be used later to find what line of
-                // code the original method was created on.
-                method._stack = (new Error('Stack Trace for original')).stack;
-
-                method.restore = function () {
-                    // For prototype properties try to reset by delete first.
-                    // If this fails (ex: localStorage on mobile safari) then force a reset
-                    // via direct assignment.
-                    if (!owned) {
-                        delete object[property];
-                    }
-                    if (object[property] === method) {
-                        object[property] = wrappedMethod;
-                    }
-                };
-
-                method.restore.sinon = true;
-                mirrorProperties(method, wrappedMethod);
-
-                return method;
-            },
-
-            extend: function extend(target) {
-                for (var i = 1, l = arguments.length; i < l; i += 1) {
-                    for (var prop in arguments[i]) {
-                        if (arguments[i].hasOwnProperty(prop)) {
-                            target[prop] = arguments[i][prop];
-                        }
-
-                        // DONT ENUM bug, only care about toString
-                        if (arguments[i].hasOwnProperty("toString") &&
-                            arguments[i].toString != target.toString) {
-                            target.toString = arguments[i].toString;
+                    for (prop in thisValue) {
+                        if (thisValue[prop] === this) {
+                            return prop;
                         }
                     }
                 }
+            }
 
-                return target;
-            },
+            return this.displayName || "sinon fake";
+        };
 
-            create: function create(proto) {
-                var F = function () { };
-                F.prototype = proto;
-                return new F();
-            },
+        sinon.getConfig = function (custom) {
+            var config = {};
+            custom = custom || {};
+            var defaults = sinon.defaultConfig;
 
-            deepEqual: function deepEqual(a, b) {
-                if (sinon.match && sinon.match.isMatcher(a)) {
-                    return a.test(b);
+            for (var prop in defaults) {
+                if (defaults.hasOwnProperty(prop)) {
+                    config[prop] = custom.hasOwnProperty(prop) ? custom[prop] : defaults[prop];
                 }
+            }
 
-                if (typeof a != 'object' || typeof b != 'object') {
-                    if (isReallyNaN(a) && isReallyNaN(b)) {
-                        return true;
-                    } else {
-                        return a === b;
-                    }
-                }
+            return config;
+        };
 
-                if (isElement(a) || isElement(b)) {
-                    return a === b;
-                }
+        sinon.defaultConfig = {
+            injectIntoThis: true,
+            injectInto: null,
+            properties: ["spy", "stub", "mock", "clock", "server", "requests"],
+            useFakeTimers: true,
+            useFakeServer: true
+        };
 
-                if (a === b) {
-                    return true;
-                }
+        sinon.timesInWords = function timesInWords(count) {
+            return count == 1 && "once" ||
+                count == 2 && "twice" ||
+                count == 3 && "thrice" ||
+                (count || 0) + " times";
+        };
 
-                if ((a === null && b !== null) || (a !== null && b === null)) {
+        sinon.calledInOrder = function (spies) {
+            for (var i = 1, l = spies.length; i < l; i++) {
+                if (!spies[i - 1].calledBefore(spies[i]) || !spies[i].called) {
                     return false;
                 }
-
-                if (a instanceof RegExp && b instanceof RegExp) {
-                    return (a.source === b.source) && (a.global === b.global) &&
-                      (a.ignoreCase === b.ignoreCase) && (a.multiline === b.multiline);
-                }
-
-                var aString = Object.prototype.toString.call(a);
-                if (aString != Object.prototype.toString.call(b)) {
-                    return false;
-                }
-
-                if (aString == "[object Date]") {
-                    return a.valueOf() === b.valueOf();
-                }
-
-                var prop, aLength = 0, bLength = 0;
-
-                if (aString == "[object Array]" && a.length !== b.length) {
-                    return false;
-                }
-
-                for (prop in a) {
-                    aLength += 1;
-
-                    if (!(prop in b)) {
-                        return false;
-                    }
-
-                    if (!deepEqual(a[prop], b[prop])) {
-                        return false;
-                    }
-                }
-
-                for (prop in b) {
-                    bLength += 1;
-                }
-
-                return aLength == bLength;
-            },
-
-            functionName: function functionName(func) {
-                var name = func.displayName || func.name;
-
-                // Use function decomposition as a last resort to get function
-                // name. Does not rely on function decomposition to work - if it
-                // doesn't debugging will be slightly less informative
-                // (i.e. toString will say 'spy' rather than 'myFunc').
-                if (!name) {
-                    var matches = func.toString().match(/function ([^\s\(]+)/);
-                    name = matches && matches[1];
-                }
-
-                return name;
-            },
-
-            functionToString: function toString() {
-                if (this.getCall && this.callCount) {
-                    var thisValue, prop, i = this.callCount;
-
-                    while (i--) {
-                        thisValue = this.getCall(i).thisValue;
-
-                        for (prop in thisValue) {
-                            if (thisValue[prop] === this) {
-                                return prop;
-                            }
-                        }
-                    }
-                }
-
-                return this.displayName || "sinon fake";
-            },
-
-            getConfig: function (custom) {
-                var config = {};
-                custom = custom || {};
-                var defaults = sinon.defaultConfig;
-
-                for (var prop in defaults) {
-                    if (defaults.hasOwnProperty(prop)) {
-                        config[prop] = custom.hasOwnProperty(prop) ? custom[prop] : defaults[prop];
-                    }
-                }
-
-                return config;
-            },
-
-            format: function (val) {
-                return "" + val;
-            },
-
-            defaultConfig: {
-                injectIntoThis: true,
-                injectInto: null,
-                properties: ["spy", "stub", "mock", "clock", "server", "requests"],
-                useFakeTimers: true,
-                useFakeServer: true
-            },
-
-            timesInWords: function timesInWords(count) {
-                return count == 1 && "once" ||
-                    count == 2 && "twice" ||
-                    count == 3 && "thrice" ||
-                    (count || 0) + " times";
-            },
-
-            calledInOrder: function (spies) {
-                for (var i = 1, l = spies.length; i < l; i++) {
-                    if (!spies[i - 1].calledBefore(spies[i]) || !spies[i].called) {
-                        return false;
-                    }
-                }
-
-                return true;
-            },
-
-            orderByFirstCall: function (spies) {
-                return spies.sort(function (a, b) {
-                    // uuid, won't ever be equal
-                    var aCall = a.getCall(0);
-                    var bCall = b.getCall(0);
-                    var aId = aCall && aCall.callId || -1;
-                    var bId = bCall && bCall.callId || -1;
-
-                    return aId < bId ? -1 : 1;
-                });
-            },
-
-            log: function () { },
-
-            logError: function (label, err) {
-                var msg = label + " threw exception: ";
-                sinon.log(msg + "[" + err.name + "] " + err.message);
-                if (err.stack) { sinon.log(err.stack); }
-
-                setTimeout(function () {
-                    err.message = msg + err.message;
-                    throw err;
-                }, 0);
-            },
-
-            typeOf: function (value) {
-                if (value === null) {
-                    return "null";
-                }
-                else if (value === undefined) {
-                    return "undefined";
-                }
-                var string = Object.prototype.toString.call(value);
-                return string.substring(8, string.length - 1).toLowerCase();
-            },
-
-            createStubInstance: function (constructor) {
-                if (typeof constructor !== "function") {
-                    throw new TypeError("The constructor should be a function.");
-                }
-                return sinon.stub(sinon.create(constructor.prototype));
-            },
-
-            restore: function (object) {
-                if (object !== null && typeof object === "object") {
-                    for (var prop in object) {
-                        if (isRestorable(object[prop])) {
-                            object[prop].restore();
-                        }
-                    }
-                }
-                else if (isRestorable(object)) {
-                    object.restore();
-                }
             }
+
+            return true;
         };
 
-        var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
-        var isAMD = typeof define === 'function' && typeof define.amd === 'object' && define.amd;
+        sinon.orderByFirstCall = function (spies) {
+            return spies.sort(function (a, b) {
+                // uuid, won't ever be equal
+                var aCall = a.getCall(0);
+                var bCall = b.getCall(0);
+                var aId = aCall && aCall.callId || -1;
+                var bId = bCall && bCall.callId || -1;
 
-        function makePublicAPI(require, exports, module) {
-            module.exports = sinon;
-            sinon.spy = require("./sinon/spy");
-            sinon.spyCall = require("./sinon/call");
-            sinon.behavior = require("./sinon/behavior");
-            sinon.stub = require("./sinon/stub");
-            sinon.mock = require("./sinon/mock");
-            sinon.collection = require("./sinon/collection");
-            sinon.assert = require("./sinon/assert");
-            sinon.sandbox = require("./sinon/sandbox");
-            sinon.test = require("./sinon/test");
-            sinon.testCase = require("./sinon/test_case");
-            sinon.match = require("./sinon/match");
-        }
+                return aId < bId ? -1 : 1;
+            });
+        };
 
-        if (isAMD) {
-            define(makePublicAPI);
-        } else if (isNode) {
-            try {
-                formatio = require("formatio");
-            } catch (e) { }
-            makePublicAPI(require, exports, module);
-        }
-
-        if (formatio) {
-            var formatter = formatio.configure({ quoteStrings: false });
-            sinon.format = function () {
-                return formatter.ascii.apply(formatter, arguments);
-            };
-        } else if (isNode) {
-            try {
-                var util = require("util");
-                sinon.format = function (value) {
-                    return typeof value == "object" && value.toString === Object.prototype.toString ? util.inspect(value) : value;
-                };
-            } catch (e) {
-                /* Node, but no util module - would be very old, but better safe than
-                 sorry */
+        sinon.createStubInstance = function (constructor) {
+            if (typeof constructor !== "function") {
+                throw new TypeError("The constructor should be a function.");
             }
-        }
+            return sinon.stub(sinon.create(constructor.prototype));
+        };
+
+        sinon.restore = function (object) {
+            if (object !== null && typeof object === "object") {
+                for (var prop in object) {
+                    if (isRestorable(object[prop])) {
+                        object[prop].restore();
+                    }
+                }
+            } else if (isRestorable(object)) {
+                object.restore();
+            }
+        };
 
         return sinon;
-    }(typeof formatio == "object" && formatio));
+    }
 
-    /* @depend ../sinon.js */
-    /*jslint eqeqeq: false, onevar: false, plusplus: false*/
-    /*global module, require, sinon*/
-    /**
-     * Match functions
-     *
-     * @author Maximilian Antoni (mail@maxantoni.de)
-     * @license BSD
-     *
-     * Copyright (c) 2012 Maximilian Antoni
-     */
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+    function loadDependencies(require, exports) {
+        makeApi(exports);
+    }
 
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend ../sinon.js
+ */
+
+(function (sinon) {
+    function makeApi(sinon) {
+
+        // Adapted from https://developer.mozilla.org/en/docs/ECMAScript_DontEnum_attribute#JScript_DontEnum_Bug
+        var hasDontEnumBug = (function () {
+            var obj = {
+                constructor: function () {
+                    return "0";
+                },
+                toString: function () {
+                    return "1";
+                },
+                valueOf: function () {
+                    return "2";
+                },
+                toLocaleString: function () {
+                    return "3";
+                },
+                prototype: function () {
+                    return "4";
+                },
+                isPrototypeOf: function () {
+                    return "5";
+                },
+                propertyIsEnumerable: function () {
+                    return "6";
+                },
+                hasOwnProperty: function () {
+                    return "7";
+                },
+                length: function () {
+                    return "8";
+                },
+                unique: function () {
+                    return "9"
+                }
+            };
+
+            var result = [];
+            for (var prop in obj) {
+                result.push(obj[prop]());
+            }
+            return result.join("") !== "0123456789";
+        })();
+
+        /* Public: Extend target in place with all (own) properties from sources in-order. Thus, last source will
+         *         override properties in previous sources.
+         *
+         * target - The Object to extend
+         * sources - Objects to copy properties from.
+         *
+         * Returns the extended target
+         */
+        function extend(target /*, sources */) {
+            var sources = Array.prototype.slice.call(arguments, 1),
+                source, i, prop;
+
+            for (i = 0; i < sources.length; i++) {
+                source = sources[i];
+
+                for (prop in source) {
+                    if (source.hasOwnProperty(prop)) {
+                        target[prop] = source[prop];
+                    }
+                }
+
+                // Make sure we copy (own) toString method even when in JScript with DontEnum bug
+                // See https://developer.mozilla.org/en/docs/ECMAScript_DontEnum_attribute#JScript_DontEnum_Bug
+                if (hasDontEnumBug && source.hasOwnProperty("toString") && source.toString !== target.toString) {
+                    target.toString = source.toString;
+                }
+            }
+
+            return target;
+        };
+
+        sinon.extend = extend;
+        return sinon.extend;
+    }
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend ../sinon.js
+ */
+
+(function (sinon) {
+    function makeApi(sinon) {
+
+        function timesInWords(count) {
+            switch (count) {
+                case 1:
+                    return "once";
+                case 2:
+                    return "twice";
+                case 3:
+                    return "thrice";
+                default:
+                    return (count || 0) + " times";
+            }
         }
 
-        if (!sinon) {
-            return;
-        }
+        sinon.timesInWords = timesInWords;
+        return sinon.timesInWords;
+    }
 
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend ../sinon.js
+ */
+/**
+ * Format functions
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2014 Christian Johansen
+ */
+
+(function (sinon, formatio) {
+    function makeApi(sinon) {
+        function typeOf(value) {
+            if (value === null) {
+                return "null";
+            } else if (value === undefined) {
+                return "undefined";
+            }
+            var string = Object.prototype.toString.call(value);
+            return string.substring(8, string.length - 1).toLowerCase();
+        };
+
+        sinon.typeOf = typeOf;
+        return sinon.typeOf;
+    }
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(
+    (typeof sinon == "object" && sinon || null),
+    (typeof formatio == "object" && formatio)
+));
+
+/**
+ * @depend util/core.js
+ * @depend typeOf.js
+ */
+/*jslint eqeqeq: false, onevar: false, plusplus: false*/
+/*global module, require, sinon*/
+/**
+ * Match functions
+ *
+ * @author Maximilian Antoni (mail@maxantoni.de)
+ * @license BSD
+ *
+ * Copyright (c) 2012 Maximilian Antoni
+ */
+
+(function (sinon) {
+    function makeApi(sinon) {
         function assertType(value, type, name) {
             var actual = sinon.typeOf(value);
             if (actual !== type) {
@@ -1095,59 +1743,59 @@ this.sinon = (function () {
             var m = sinon.create(matcher);
             var type = sinon.typeOf(expectation);
             switch (type) {
-                case "object":
-                    if (typeof expectation.test === "function") {
-                        m.test = function (actual) {
-                            return expectation.test(actual) === true;
-                        };
-                        m.message = "match(" + sinon.functionName(expectation.test) + ")";
-                        return m;
+            case "object":
+                if (typeof expectation.test === "function") {
+                    m.test = function (actual) {
+                        return expectation.test(actual) === true;
+                    };
+                    m.message = "match(" + sinon.functionName(expectation.test) + ")";
+                    return m;
+                }
+                var str = [];
+                for (var key in expectation) {
+                    if (expectation.hasOwnProperty(key)) {
+                        str.push(key + ": " + expectation[key]);
                     }
-                    var str = [];
-                    for (var key in expectation) {
-                        if (expectation.hasOwnProperty(key)) {
-                            str.push(key + ": " + expectation[key]);
-                        }
+                }
+                m.test = function (actual) {
+                    return matchObject(expectation, actual);
+                };
+                m.message = "match(" + str.join(", ") + ")";
+                break;
+            case "number":
+                m.test = function (actual) {
+                    return expectation == actual;
+                };
+                break;
+            case "string":
+                m.test = function (actual) {
+                    if (typeof actual !== "string") {
+                        return false;
                     }
-                    m.test = function (actual) {
-                        return matchObject(expectation, actual);
-                    };
-                    m.message = "match(" + str.join(", ") + ")";
-                    break;
-                case "number":
-                    m.test = function (actual) {
-                        return expectation == actual;
-                    };
-                    break;
-                case "string":
-                    m.test = function (actual) {
-                        if (typeof actual !== "string") {
-                            return false;
-                        }
-                        return actual.indexOf(expectation) !== -1;
-                    };
-                    m.message = "match(\"" + expectation + "\")";
-                    break;
-                case "regexp":
-                    m.test = function (actual) {
-                        if (typeof actual !== "string") {
-                            return false;
-                        }
-                        return expectation.test(actual);
-                    };
-                    break;
-                case "function":
-                    m.test = expectation;
-                    if (message) {
-                        m.message = message;
-                    } else {
-                        m.message = "match(" + sinon.functionName(expectation) + ")";
+                    return actual.indexOf(expectation) !== -1;
+                };
+                m.message = "match(\"" + expectation + "\")";
+                break;
+            case "regexp":
+                m.test = function (actual) {
+                    if (typeof actual !== "string") {
+                        return false;
                     }
-                    break;
-                default:
-                    m.test = function (actual) {
-                        return sinon.deepEqual(expectation, actual);
-                    };
+                    return expectation.test(actual);
+                };
+                break;
+            case "function":
+                m.test = expectation;
+                if (message) {
+                    m.message = message;
+                } else {
+                    m.message = "match(" + sinon.functionName(expectation) + ")";
+                }
+                break;
+            default:
+                m.test = function (actual) {
+                    return sinon.deepEqual(expectation, actual);
+                };
             }
             if (!m.message) {
                 m.message = "match(" + expectation + ")";
@@ -1233,41 +1881,134 @@ this.sinon = (function () {
         match.date = match.typeOf("date");
 
         sinon.match = match;
+        return match;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = match; });
-        } else if (commonJSModule) {
-            module.exports = match;
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend ../sinon.js
+ */
+/**
+ * Format functions
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2014 Christian Johansen
+ */
+
+(function (sinon, formatio) {
+    function makeApi(sinon) {
+        function valueFormatter(value) {
+            return "" + value;
         }
-    }(typeof sinon == "object" && sinon || null));
 
-    /**
-      * @depend ../sinon.js
-      * @depend match.js
-      */
-    /*jslint eqeqeq: false, onevar: false, plusplus: false*/
-    /*global module, require, sinon*/
-    /**
-      * Spy calls
-      *
-      * @author Christian Johansen (christian@cjohansen.no)
-      * @author Maximilian Antoni (mail@maxantoni.de)
-      * @license BSD
-      *
-      * Copyright (c) 2010-2013 Christian Johansen
-      * Copyright (c) 2013 Maximilian Antoni
-      */
+        function getFormatioFormatter() {
+            var formatter = formatio.configure({
+                    quoteStrings: false,
+                    limitChildrenCount: 250
+                });
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
+            function format() {
+                return formatter.ascii.apply(formatter, arguments);
+            };
+
+            return format;
         }
 
-        if (!sinon) {
-            return;
+        function getNodeFormatter(value) {
+            function format(value) {
+                return typeof value == "object" && value.toString === Object.prototype.toString ? util.inspect(value) : value;
+            };
+
+            try {
+                var util = require("util");
+            } catch (e) {
+                /* Node, but no util module - would be very old, but better safe than sorry */
+            }
+
+            return util ? format : valueFormatter;
         }
 
+        var isNode = typeof module !== "undefined" && module.exports && typeof require == "function",
+            formatter;
+
+        if (isNode) {
+            try {
+                formatio = require("formatio");
+            } catch (e) {}
+        }
+
+        if (formatio) {
+            formatter = getFormatioFormatter()
+        } else if (isNode) {
+            formatter = getNodeFormatter();
+        } else {
+            formatter = valueFormatter;
+        }
+
+        sinon.format = formatter;
+        return sinon.format;
+    }
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(
+    (typeof sinon == "object" && sinon || null),
+    (typeof formatio == "object" && formatio)
+));
+
+/**
+  * @depend util/core.js
+  * @depend match.js
+  * @depend format.js
+  */
+/**
+  * Spy calls
+  *
+  * @author Christian Johansen (christian@cjohansen.no)
+  * @author Maximilian Antoni (mail@maxantoni.de)
+  * @license BSD
+  *
+  * Copyright (c) 2010-2013 Christian Johansen
+  * Copyright (c) 2013 Maximilian Antoni
+  */
+
+(function (sinon) {
+    function makeApi(sinon) {
         function throwYieldError(proxy, text, args) {
             var msg = sinon.functionName(proxy) + text;
             if (args.length) {
@@ -1361,7 +2102,7 @@ this.sinon = (function () {
                 this.args[pos].apply(thisValue, args);
             },
 
-            "yield": function () {
+            yield: function () {
                 this.yieldOn.apply(this, [null].concat(slice.call(arguments, 0)));
             },
 
@@ -1437,43 +2178,50 @@ this.sinon = (function () {
         createSpyCall.toString = callProto.toString; // used by mocks
 
         sinon.spyCall = createSpyCall;
+        return createSpyCall;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = createSpyCall; });
-        } else if (commonJSModule) {
-            module.exports = createSpyCall;
-        }
-    }(typeof sinon == "object" && sinon || null));
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./match");
+        module.exports = makeApi(sinon);
+    }
 
-    /**
-      * @depend ../sinon.js
-      * @depend call.js
-      */
-    /*jslint eqeqeq: false, onevar: false, plusplus: false*/
-    /*global module, require, sinon*/
-    /**
-      * Spy functions
-      *
-      * @author Christian Johansen (christian@cjohansen.no)
-      * @license BSD
-      *
-      * Copyright (c) 2010-2013 Christian Johansen
-      */
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+/**
+  * @depend times_in_words.js
+  * @depend util/core.js
+  * @depend extend.js
+  * @depend call.js
+  * @depend format.js
+  */
+/**
+  * Spy functions
+  *
+  * @author Christian Johansen (christian@cjohansen.no)
+  * @license BSD
+  *
+  * Copyright (c) 2010-2013 Christian Johansen
+  */
+
+(function (sinon) {
+    function makeApi(sinon) {
         var push = Array.prototype.push;
         var slice = Array.prototype.slice;
         var callId = 0;
-
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
-
-        if (!sinon) {
-            return;
-        }
 
         function spy(object, property) {
             if (!property && typeof object == "function") {
@@ -1523,8 +2271,7 @@ this.sinon = (function () {
             if (func.length) {
                 eval("p = (function proxy(" + vars.substring(0, func.length * 2 - 1) +
                     ") { return p.invoke(func, this, slice.call(arguments)); });");
-            }
-            else {
+            } else {
                 p = function proxy() {
                     return p.invoke(func, this, slice.call(arguments));
                 };
@@ -1537,6 +2284,13 @@ this.sinon = (function () {
         // Public API
         var spyApi = {
             reset: function () {
+                if (this.invoking) {
+                    var err = new Error("Cannot reset Sinon function while invoking it. " +
+                                        "Move the call to .reset outside of the callback.");
+                    err.name = "InvalidResetException";
+                    throw err;
+                }
+
                 this.called = false;
                 this.notCalled = true;
                 this.calledOnce = false;
@@ -1578,7 +2332,7 @@ this.sinon = (function () {
                 proxy.prototype = func.prototype;
                 proxy.displayName = name || "spy";
                 proxy.toString = sinon.functionToString;
-                proxy._create = sinon.spy.create;
+                proxy.instantiateFake = sinon.spy.create;
                 proxy.id = "spy#" + uuid++;
 
                 return proxy;
@@ -1597,6 +2351,8 @@ this.sinon = (function () {
                 createCallProperties.call(this);
 
                 try {
+                    this.invoking = true;
+
                     if (matching) {
                         returnValue = matching.invoke(func, thisValue, args);
                     } else {
@@ -1604,11 +2360,13 @@ this.sinon = (function () {
                     }
 
                     var thisCall = this.getCall(this.callCount - 1);
-                    if (thisCall.calledWithNew() && typeof returnValue !== 'object') {
+                    if (thisCall.calledWithNew() && typeof returnValue !== "object") {
                         returnValue = thisValue;
                     }
                 } catch (e) {
                     exception = e;
+                } finally {
+                    delete this.invoking;
                 }
 
                 push.call(this.exceptions, exception);
@@ -1684,7 +2442,7 @@ this.sinon = (function () {
                 }
 
                 var original = this;
-                var fake = this._create();
+                var fake = this.instantiateFake();
                 fake.matchingAguments = args;
                 fake.parent = this;
                 push.call(this.fakes, fake);
@@ -1808,15 +2566,15 @@ this.sinon = (function () {
         });
 
         spyApi.formatters = {
-            "c": function (spy) {
+            c: function (spy) {
                 return sinon.timesInWords(spy.callCount);
             },
 
-            "n": function (spy) {
+            n: function (spy) {
                 return spy.toString();
             },
 
-            "C": function (spy) {
+            C: function (spy) {
                 var calls = [];
 
                 for (var i = 0, l = spy.callCount; i < l; ++i) {
@@ -1830,7 +2588,7 @@ this.sinon = (function () {
                 return calls.length > 0 ? "\n" + calls.join("\n") : "";
             },
 
-            "t": function (spy) {
+            t: function (spy) {
                 var objects = [];
 
                 for (var i = 0, l = spy.callCount; i < l; ++i) {
@@ -1856,91 +2614,96 @@ this.sinon = (function () {
         spy.spyCall = sinon.spyCall;
         sinon.spy = spy;
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = spy; });
-        } else if (commonJSModule) {
-            module.exports = spy;
+        return spy;
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./call");
+        module.exports = makeApi(sinon);
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend util/core.js
+ * @depend extend.js
+ */
+/**
+ * Stub behavior
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @author Tim Fischbach (mail@timfischbach.de)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function (sinon) {
+    var slice = Array.prototype.slice;
+    var join = Array.prototype.join;
+
+    var nextTick = (function () {
+        if (typeof process === "object" && typeof process.nextTick === "function") {
+            return process.nextTick;
+        } else if (typeof setImmediate === "function") {
+            return setImmediate;
+        } else {
+            return function (callback) {
+                setTimeout(callback, 0);
+            };
         }
-    }(typeof sinon == "object" && sinon || null));
+    })();
 
-    /**
-     * @depend ../sinon.js
-     */
-    /*jslint eqeqeq: false, onevar: false*/
-    /*global module, require, sinon, process, setImmediate, setTimeout*/
-    /**
-     * Stub behavior
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @author Tim Fischbach (mail@timfischbach.de)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
-
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
-
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
+    function throwsException(error, message) {
+        if (typeof error == "string") {
+            this.exception = new Error(message || "");
+            this.exception.name = error;
+        } else if (!error) {
+            this.exception = new Error("Error");
+        } else {
+            this.exception = error;
         }
 
-        if (!sinon) {
-            return;
-        }
+        return this;
+    }
 
-        var slice = Array.prototype.slice;
-        var join = Array.prototype.join;
-        var proto;
+    function getCallback(behavior, args) {
+        var callArgAt = behavior.callArgAt;
 
-        var nextTick = (function () {
-            if (typeof process === "object" && typeof process.nextTick === "function") {
-                return process.nextTick;
-            } else if (typeof setImmediate === "function") {
-                return setImmediate;
-            } else {
-                return function (callback) {
-                    setTimeout(callback, 0);
-                };
-            }
-        })();
+        if (callArgAt < 0) {
+            var callArgProp = behavior.callArgProp;
 
-        function throwsException(error, message) {
-            if (typeof error == "string") {
-                this.exception = new Error(message || "");
-                this.exception.name = error;
-            } else if (!error) {
-                this.exception = new Error("Error");
-            } else {
-                this.exception = error;
-            }
-
-            return this;
-        }
-
-        function getCallback(behavior, args) {
-            var callArgAt = behavior.callArgAt;
-
-            if (callArgAt < 0) {
-                var callArgProp = behavior.callArgProp;
-
-                for (var i = 0, l = args.length; i < l; ++i) {
-                    if (!callArgProp && typeof args[i] == "function") {
-                        return args[i];
-                    }
-
-                    if (callArgProp && args[i] &&
-                        typeof args[i][callArgProp] == "function") {
-                        return args[i][callArgProp];
-                    }
+            for (var i = 0, l = args.length; i < l; ++i) {
+                if (!callArgProp && typeof args[i] == "function") {
+                    return args[i];
                 }
 
-                return null;
+                if (callArgProp && args[i] &&
+                    typeof args[i][callArgProp] == "function") {
+                    return args[i][callArgProp];
+                }
             }
 
-            return args[callArgAt];
+            return null;
         }
 
+        return args[callArgAt];
+    }
+
+    function makeApi(sinon) {
         function getCallbackError(behavior, func, args) {
             if (behavior.callArgAt < 0) {
                 var msg;
@@ -1982,8 +2745,8 @@ this.sinon = (function () {
             }
         }
 
-        proto = {
-            create: function (stub) {
+        var proto = {
+            create: function create(stub) {
                 var behavior = sinon.extend({}, sinon.behavior);
                 delete behavior.create;
                 behavior.stub = stub;
@@ -1991,20 +2754,20 @@ this.sinon = (function () {
                 return behavior;
             },
 
-            isPresent: function () {
-                return (typeof this.callArgAt == 'number' ||
+            isPresent: function isPresent() {
+                return (typeof this.callArgAt == "number" ||
                         this.exception ||
-                        typeof this.returnArgAt == 'number' ||
+                        typeof this.returnArgAt == "number" ||
                         this.returnThis ||
                         this.returnValueDefined);
             },
 
-            invoke: function (context, args) {
+            invoke: function invoke(context, args) {
                 callCallback(this, args);
 
                 if (this.exception) {
                     throw this.exception;
-                } else if (typeof this.returnArgAt == 'number') {
+                } else if (typeof this.returnArgAt == "number") {
                     return args[this.returnArgAt];
                 } else if (this.returnThis) {
                     return context;
@@ -2013,25 +2776,25 @@ this.sinon = (function () {
                 return this.returnValue;
             },
 
-            onCall: function (index) {
+            onCall: function onCall(index) {
                 return this.stub.onCall(index);
             },
 
-            onFirstCall: function () {
+            onFirstCall: function onFirstCall() {
                 return this.stub.onFirstCall();
             },
 
-            onSecondCall: function () {
+            onSecondCall: function onSecondCall() {
                 return this.stub.onSecondCall();
             },
 
-            onThirdCall: function () {
+            onThirdCall: function onThirdCall() {
                 return this.stub.onThirdCall();
             },
 
-            withArgs: function (/* arguments */) {
-                throw new Error('Defining a stub by invoking "stub.onCall(...).withArgs(...)" is not supported. ' +
-                                'Use "stub.withArgs(...).onCall(...)" to define sequential behavior for calls with certain arguments.');
+            withArgs: function withArgs(/* arguments */) {
+                throw new Error("Defining a stub by invoking \"stub.onCall(...).withArgs(...)\" is not supported. " +
+                                "Use \"stub.withArgs(...).onCall(...)\" to define sequential behavior for calls with certain arguments.");
             },
 
             callsArg: function callsArg(pos) {
@@ -2144,8 +2907,7 @@ this.sinon = (function () {
                 return this;
             },
 
-
-            "throws": throwsException,
+            throws: throwsException,
             throwsException: throwsException,
 
             returns: function returns(value) {
@@ -2178,7 +2940,7 @@ this.sinon = (function () {
             if (proto.hasOwnProperty(method) &&
                 method.match(/^(callsArg|yields)/) &&
                 !method.match(/Async/)) {
-                proto[method + 'Async'] = (function (syncFnName) {
+                proto[method + "Async"] = (function (syncFnName) {
                     return function () {
                         var result = this[syncFnName].apply(this, arguments);
                         this.callbackAsync = true;
@@ -2189,41 +2951,45 @@ this.sinon = (function () {
         }
 
         sinon.behavior = proto;
+        return proto;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = proto; });
-        } else if (commonJSModule) {
-            module.exports = proto;
-        }
-    }(typeof sinon == "object" && sinon || null));
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    /**
-     * @depend ../sinon.js
-     * @depend spy.js
-     * @depend behavior.js
-     */
-    /*jslint eqeqeq: false, onevar: false*/
-    /*global module, require, sinon*/
-    /**
-     * Stub functions
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
 
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
+/**
+ * @depend util/core.js
+ * @depend extend.js
+ * @depend spy.js
+ * @depend behavior.js
+ */
+/**
+ * Stub functions
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
 
-        if (!sinon) {
-            return;
-        }
-
+(function (sinon) {
+    function makeApi(sinon) {
         function stub(object, property, func) {
             if (!!func && typeof func != "function") {
                 throw new TypeError("Custom stub should be function");
@@ -2269,128 +3035,129 @@ this.sinon = (function () {
 
         var uuid = 0;
 
-        sinon.extend(stub, (function () {
-            var proto = {
-                create: function create() {
-                    var functionStub = function () {
-                        return getCurrentBehavior(functionStub).invoke(this, arguments);
-                    };
+        var proto = {
+            create: function create() {
+                var functionStub = function () {
+                    return getCurrentBehavior(functionStub).invoke(this, arguments);
+                };
 
-                    functionStub.id = "stub#" + uuid++;
-                    var orig = functionStub;
-                    functionStub = sinon.spy.create(functionStub);
-                    functionStub.func = orig;
+                functionStub.id = "stub#" + uuid++;
+                var orig = functionStub;
+                functionStub = sinon.spy.create(functionStub);
+                functionStub.func = orig;
 
-                    sinon.extend(functionStub, stub);
-                    functionStub._create = sinon.stub.create;
-                    functionStub.displayName = "stub";
-                    functionStub.toString = sinon.functionToString;
+                sinon.extend(functionStub, stub);
+                functionStub.instantiateFake = sinon.stub.create;
+                functionStub.displayName = "stub";
+                functionStub.toString = sinon.functionToString;
 
-                    functionStub.defaultBehavior = null;
-                    functionStub.behaviors = [];
+                functionStub.defaultBehavior = null;
+                functionStub.behaviors = [];
 
-                    return functionStub;
-                },
+                return functionStub;
+            },
 
-                resetBehavior: function () {
-                    var i;
+            resetBehavior: function () {
+                var i;
 
-                    this.defaultBehavior = null;
-                    this.behaviors = [];
+                this.defaultBehavior = null;
+                this.behaviors = [];
 
-                    delete this.returnValue;
-                    delete this.returnArgAt;
-                    this.returnThis = false;
+                delete this.returnValue;
+                delete this.returnArgAt;
+                this.returnThis = false;
 
-                    if (this.fakes) {
-                        for (i = 0; i < this.fakes.length; i++) {
-                            this.fakes[i].resetBehavior();
-                        }
+                if (this.fakes) {
+                    for (i = 0; i < this.fakes.length; i++) {
+                        this.fakes[i].resetBehavior();
                     }
-                },
-
-                onCall: function (index) {
-                    if (!this.behaviors[index]) {
-                        this.behaviors[index] = sinon.behavior.create(this);
-                    }
-
-                    return this.behaviors[index];
-                },
-
-                onFirstCall: function () {
-                    return this.onCall(0);
-                },
-
-                onSecondCall: function () {
-                    return this.onCall(1);
-                },
-
-                onThirdCall: function () {
-                    return this.onCall(2);
                 }
-            };
+            },
 
-            for (var method in sinon.behavior) {
-                if (sinon.behavior.hasOwnProperty(method) &&
-                    !proto.hasOwnProperty(method) &&
-                    method != 'create' &&
-                    method != 'withArgs' &&
-                    method != 'invoke') {
-                    proto[method] = (function (behaviorMethod) {
-                        return function () {
-                            this.defaultBehavior = this.defaultBehavior || sinon.behavior.create(this);
-                            this.defaultBehavior[behaviorMethod].apply(this.defaultBehavior, arguments);
-                            return this;
-                        };
-                    }(method));
+            onCall: function onCall(index) {
+                if (!this.behaviors[index]) {
+                    this.behaviors[index] = sinon.behavior.create(this);
                 }
+
+                return this.behaviors[index];
+            },
+
+            onFirstCall: function onFirstCall() {
+                return this.onCall(0);
+            },
+
+            onSecondCall: function onSecondCall() {
+                return this.onCall(1);
+            },
+
+            onThirdCall: function onThirdCall() {
+                return this.onCall(2);
             }
+        };
 
-            return proto;
-        }()));
+        for (var method in sinon.behavior) {
+            if (sinon.behavior.hasOwnProperty(method) &&
+                !proto.hasOwnProperty(method) &&
+                method != "create" &&
+                method != "withArgs" &&
+                method != "invoke") {
+                proto[method] = (function (behaviorMethod) {
+                    return function () {
+                        this.defaultBehavior = this.defaultBehavior || sinon.behavior.create(this);
+                        this.defaultBehavior[behaviorMethod].apply(this.defaultBehavior, arguments);
+                        return this;
+                    };
+                }(method));
+            }
+        }
 
+        sinon.extend(stub, proto);
         sinon.stub = stub;
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = stub; });
-        } else if (commonJSModule) {
-            module.exports = stub;
-        }
-    }(typeof sinon == "object" && sinon || null));
+        return stub;
+    }
 
-    /**
-     * @depend ../sinon.js
-     * @depend stub.js
-     */
-    /*jslint eqeqeq: false, onevar: false, nomen: false*/
-    /*global module, require, sinon*/
-    /**
-     * Mock functions.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./behavior");
+        require("./spy");
+        module.exports = makeApi(sinon);
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend times_in_words.js
+ * @depend util/core.js
+ * @depend extend.js
+ * @depend stub.js
+ * @depend format.js
+ */
+/**
+ * Mock functions.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function (sinon) {
+    function makeApi(sinon) {
         var push = [].push;
-        var match;
-
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
-
-        if (!sinon) {
-            return;
-        }
-
-        match = sinon.match;
-
-        if (!match && commonJSModule) {
-            match = require("./match");
-        }
+        var match = sinon.match;
 
         function mock(object) {
             if (!object) {
@@ -2400,470 +3167,470 @@ this.sinon = (function () {
             return mock.create(object);
         }
 
-        sinon.mock = mock;
+        function each(collection, callback) {
+            if (!collection) {
+                return;
+            }
 
-        sinon.extend(mock, (function () {
-            function each(collection, callback) {
-                if (!collection) {
+            for (var i = 0, l = collection.length; i < l; i += 1) {
+                callback(collection[i]);
+            }
+        }
+
+        sinon.extend(mock, {
+            create: function create(object) {
+                if (!object) {
+                    throw new TypeError("object is null");
+                }
+
+                var mockObject = sinon.extend({}, mock);
+                mockObject.object = object;
+                delete mockObject.create;
+
+                return mockObject;
+            },
+
+            expects: function expects(method) {
+                if (!method) {
+                    throw new TypeError("method is falsy");
+                }
+
+                if (!this.expectations) {
+                    this.expectations = {};
+                    this.proxies = [];
+                }
+
+                if (!this.expectations[method]) {
+                    this.expectations[method] = [];
+                    var mockObject = this;
+
+                    sinon.wrapMethod(this.object, method, function () {
+                        return mockObject.invokeMethod(method, this, arguments);
+                    });
+
+                    push.call(this.proxies, method);
+                }
+
+                var expectation = sinon.expectation.create(method);
+                push.call(this.expectations[method], expectation);
+
+                return expectation;
+            },
+
+            restore: function restore() {
+                var object = this.object;
+
+                each(this.proxies, function (proxy) {
+                    if (typeof object[proxy].restore == "function") {
+                        object[proxy].restore();
+                    }
+                });
+            },
+
+            verify: function verify() {
+                var expectations = this.expectations || {};
+                var messages = [], met = [];
+
+                each(this.proxies, function (proxy) {
+                    each(expectations[proxy], function (expectation) {
+                        if (!expectation.met()) {
+                            push.call(messages, expectation.toString());
+                        } else {
+                            push.call(met, expectation.toString());
+                        }
+                    });
+                });
+
+                this.restore();
+
+                if (messages.length > 0) {
+                    sinon.expectation.fail(messages.concat(met).join("\n"));
+                } else if (met.length > 0) {
+                    sinon.expectation.pass(messages.concat(met).join("\n"));
+                }
+
+                return true;
+            },
+
+            invokeMethod: function invokeMethod(method, thisValue, args) {
+                var expectations = this.expectations && this.expectations[method];
+                var length = expectations && expectations.length || 0, i;
+
+                for (i = 0; i < length; i += 1) {
+                    if (!expectations[i].met() &&
+                        expectations[i].allowsCall(thisValue, args)) {
+                        return expectations[i].apply(thisValue, args);
+                    }
+                }
+
+                var messages = [], available, exhausted = 0;
+
+                for (i = 0; i < length; i += 1) {
+                    if (expectations[i].allowsCall(thisValue, args)) {
+                        available = available || expectations[i];
+                    } else {
+                        exhausted += 1;
+                    }
+                    push.call(messages, "    " + expectations[i].toString());
+                }
+
+                if (exhausted === 0) {
+                    return available.apply(thisValue, args);
+                }
+
+                messages.unshift("Unexpected call: " + sinon.spyCall.toString.call({
+                    proxy: method,
+                    args: args
+                }));
+
+                sinon.expectation.fail(messages.join("\n"));
+            }
+        });
+
+        var times = sinon.timesInWords;
+        var slice = Array.prototype.slice;
+
+        function callCountInWords(callCount) {
+            if (callCount == 0) {
+                return "never called";
+            } else {
+                return "called " + times(callCount);
+            }
+        }
+
+        function expectedCallCountInWords(expectation) {
+            var min = expectation.minCalls;
+            var max = expectation.maxCalls;
+
+            if (typeof min == "number" && typeof max == "number") {
+                var str = times(min);
+
+                if (min != max) {
+                    str = "at least " + str + " and at most " + times(max);
+                }
+
+                return str;
+            }
+
+            if (typeof min == "number") {
+                return "at least " + times(min);
+            }
+
+            return "at most " + times(max);
+        }
+
+        function receivedMinCalls(expectation) {
+            var hasMinLimit = typeof expectation.minCalls == "number";
+            return !hasMinLimit || expectation.callCount >= expectation.minCalls;
+        }
+
+        function receivedMaxCalls(expectation) {
+            if (typeof expectation.maxCalls != "number") {
+                return false;
+            }
+
+            return expectation.callCount == expectation.maxCalls;
+        }
+
+        function verifyMatcher(possibleMatcher, arg) {
+            if (match && match.isMatcher(possibleMatcher)) {
+                return possibleMatcher.test(arg);
+            } else {
+                return true;
+            }
+        }
+
+        sinon.expectation = {
+            minCalls: 1,
+            maxCalls: 1,
+
+            create: function create(methodName) {
+                var expectation = sinon.extend(sinon.stub.create(), sinon.expectation);
+                delete expectation.create;
+                expectation.method = methodName;
+
+                return expectation;
+            },
+
+            invoke: function invoke(func, thisValue, args) {
+                this.verifyCallAllowed(thisValue, args);
+
+                return sinon.spy.invoke.apply(this, arguments);
+            },
+
+            atLeast: function atLeast(num) {
+                if (typeof num != "number") {
+                    throw new TypeError("'" + num + "' is not number");
+                }
+
+                if (!this.limitsSet) {
+                    this.maxCalls = null;
+                    this.limitsSet = true;
+                }
+
+                this.minCalls = num;
+
+                return this;
+            },
+
+            atMost: function atMost(num) {
+                if (typeof num != "number") {
+                    throw new TypeError("'" + num + "' is not number");
+                }
+
+                if (!this.limitsSet) {
+                    this.minCalls = null;
+                    this.limitsSet = true;
+                }
+
+                this.maxCalls = num;
+
+                return this;
+            },
+
+            never: function never() {
+                return this.exactly(0);
+            },
+
+            once: function once() {
+                return this.exactly(1);
+            },
+
+            twice: function twice() {
+                return this.exactly(2);
+            },
+
+            thrice: function thrice() {
+                return this.exactly(3);
+            },
+
+            exactly: function exactly(num) {
+                if (typeof num != "number") {
+                    throw new TypeError("'" + num + "' is not a number");
+                }
+
+                this.atLeast(num);
+                return this.atMost(num);
+            },
+
+            met: function met() {
+                return !this.failed && receivedMinCalls(this);
+            },
+
+            verifyCallAllowed: function verifyCallAllowed(thisValue, args) {
+                if (receivedMaxCalls(this)) {
+                    this.failed = true;
+                    sinon.expectation.fail(this.method + " already called " + times(this.maxCalls));
+                }
+
+                if ("expectedThis" in this && this.expectedThis !== thisValue) {
+                    sinon.expectation.fail(this.method + " called with " + thisValue + " as thisValue, expected " +
+                        this.expectedThis);
+                }
+
+                if (!("expectedArguments" in this)) {
                     return;
                 }
 
-                for (var i = 0, l = collection.length; i < l; i += 1) {
-                    callback(collection[i]);
-                }
-            }
-
-            return {
-                create: function create(object) {
-                    if (!object) {
-                        throw new TypeError("object is null");
-                    }
-
-                    var mockObject = sinon.extend({}, mock);
-                    mockObject.object = object;
-                    delete mockObject.create;
-
-                    return mockObject;
-                },
-
-                expects: function expects(method) {
-                    if (!method) {
-                        throw new TypeError("method is falsy");
-                    }
-
-                    if (!this.expectations) {
-                        this.expectations = {};
-                        this.proxies = [];
-                    }
-
-                    if (!this.expectations[method]) {
-                        this.expectations[method] = [];
-                        var mockObject = this;
-
-                        sinon.wrapMethod(this.object, method, function () {
-                            return mockObject.invokeMethod(method, this, arguments);
-                        });
-
-                        push.call(this.proxies, method);
-                    }
-
-                    var expectation = sinon.expectation.create(method);
-                    push.call(this.expectations[method], expectation);
-
-                    return expectation;
-                },
-
-                restore: function restore() {
-                    var object = this.object;
-
-                    each(this.proxies, function (proxy) {
-                        if (typeof object[proxy].restore == "function") {
-                            object[proxy].restore();
-                        }
-                    });
-                },
-
-                verify: function verify() {
-                    var expectations = this.expectations || {};
-                    var messages = [], met = [];
-
-                    each(this.proxies, function (proxy) {
-                        each(expectations[proxy], function (expectation) {
-                            if (!expectation.met()) {
-                                push.call(messages, expectation.toString());
-                            } else {
-                                push.call(met, expectation.toString());
-                            }
-                        });
-                    });
-
-                    this.restore();
-
-                    if (messages.length > 0) {
-                        sinon.expectation.fail(messages.concat(met).join("\n"));
-                    } else {
-                        sinon.expectation.pass(messages.concat(met).join("\n"));
-                    }
-
-                    return true;
-                },
-
-                invokeMethod: function invokeMethod(method, thisValue, args) {
-                    var expectations = this.expectations && this.expectations[method];
-                    var length = expectations && expectations.length || 0, i;
-
-                    for (i = 0; i < length; i += 1) {
-                        if (!expectations[i].met() &&
-                            expectations[i].allowsCall(thisValue, args)) {
-                            return expectations[i].apply(thisValue, args);
-                        }
-                    }
-
-                    var messages = [], available, exhausted = 0;
-
-                    for (i = 0; i < length; i += 1) {
-                        if (expectations[i].allowsCall(thisValue, args)) {
-                            available = available || expectations[i];
-                        } else {
-                            exhausted += 1;
-                        }
-                        push.call(messages, "    " + expectations[i].toString());
-                    }
-
-                    if (exhausted === 0) {
-                        return available.apply(thisValue, args);
-                    }
-
-                    messages.unshift("Unexpected call: " + sinon.spyCall.toString.call({
-                        proxy: method,
-                        args: args
-                    }));
-
-                    sinon.expectation.fail(messages.join("\n"));
-                }
-            };
-        }()));
-
-        var times = sinon.timesInWords;
-
-        sinon.expectation = (function () {
-            var slice = Array.prototype.slice;
-            var _invoke = sinon.spy.invoke;
-
-            function callCountInWords(callCount) {
-                if (callCount == 0) {
-                    return "never called";
-                } else {
-                    return "called " + times(callCount);
-                }
-            }
-
-            function expectedCallCountInWords(expectation) {
-                var min = expectation.minCalls;
-                var max = expectation.maxCalls;
-
-                if (typeof min == "number" && typeof max == "number") {
-                    var str = times(min);
-
-                    if (min != max) {
-                        str = "at least " + str + " and at most " + times(max);
-                    }
-
-                    return str;
+                if (!args) {
+                    sinon.expectation.fail(this.method + " received no arguments, expected " +
+                        sinon.format(this.expectedArguments));
                 }
 
-                if (typeof min == "number") {
-                    return "at least " + times(min);
+                if (args.length < this.expectedArguments.length) {
+                    sinon.expectation.fail(this.method + " received too few arguments (" + sinon.format(args) +
+                        "), expected " + sinon.format(this.expectedArguments));
                 }
 
-                return "at most " + times(max);
-            }
+                if (this.expectsExactArgCount &&
+                    args.length != this.expectedArguments.length) {
+                    sinon.expectation.fail(this.method + " received too many arguments (" + sinon.format(args) +
+                        "), expected " + sinon.format(this.expectedArguments));
+                }
 
-            function receivedMinCalls(expectation) {
-                var hasMinLimit = typeof expectation.minCalls == "number";
-                return !hasMinLimit || expectation.callCount >= expectation.minCalls;
-            }
+                for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
 
-            function receivedMaxCalls(expectation) {
-                if (typeof expectation.maxCalls != "number") {
+                    if (!verifyMatcher(this.expectedArguments[i], args[i])) {
+                        sinon.expectation.fail(this.method + " received wrong arguments " + sinon.format(args) +
+                            ", didn't match " + this.expectedArguments.toString());
+                    }
+
+                    if (!sinon.deepEqual(this.expectedArguments[i], args[i])) {
+                        sinon.expectation.fail(this.method + " received wrong arguments " + sinon.format(args) +
+                            ", expected " + sinon.format(this.expectedArguments));
+                    }
+                }
+            },
+
+            allowsCall: function allowsCall(thisValue, args) {
+                if (this.met() && receivedMaxCalls(this)) {
                     return false;
                 }
 
-                return expectation.callCount == expectation.maxCalls;
-            }
+                if ("expectedThis" in this && this.expectedThis !== thisValue) {
+                    return false;
+                }
 
-            function verifyMatcher(possibleMatcher, arg) {
-                if (match && match.isMatcher(possibleMatcher)) {
-                    return possibleMatcher.test(arg);
+                if (!("expectedArguments" in this)) {
+                    return true;
+                }
+
+                args = args || [];
+
+                if (args.length < this.expectedArguments.length) {
+                    return false;
+                }
+
+                if (this.expectsExactArgCount &&
+                    args.length != this.expectedArguments.length) {
+                    return false;
+                }
+
+                for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
+                    if (!verifyMatcher(this.expectedArguments[i], args[i])) {
+                        return false;
+                    }
+
+                    if (!sinon.deepEqual(this.expectedArguments[i], args[i])) {
+                        return false;
+                    }
+                }
+
+                return true;
+            },
+
+            withArgs: function withArgs() {
+                this.expectedArguments = slice.call(arguments);
+                return this;
+            },
+
+            withExactArgs: function withExactArgs() {
+                this.withArgs.apply(this, arguments);
+                this.expectsExactArgCount = true;
+                return this;
+            },
+
+            on: function on(thisValue) {
+                this.expectedThis = thisValue;
+                return this;
+            },
+
+            toString: function () {
+                var args = (this.expectedArguments || []).slice();
+
+                if (!this.expectsExactArgCount) {
+                    push.call(args, "[...]");
+                }
+
+                var callStr = sinon.spyCall.toString.call({
+                    proxy: this.method || "anonymous mock expectation",
+                    args: args
+                });
+
+                var message = callStr.replace(", [...", "[, ...") + " " +
+                    expectedCallCountInWords(this);
+
+                if (this.met()) {
+                    return "Expectation met: " + message;
+                }
+
+                return "Expected " + message + " (" +
+                    callCountInWords(this.callCount) + ")";
+            },
+
+            verify: function verify() {
+                if (!this.met()) {
+                    sinon.expectation.fail(this.toString());
                 } else {
-                    return true;
+                    sinon.expectation.pass(this.toString());
                 }
+
+                return true;
+            },
+
+            pass: function pass(message) {
+                sinon.assert.pass(message);
+            },
+
+            fail: function fail(message) {
+                var exception = new Error(message);
+                exception.name = "ExpectationError";
+
+                throw exception;
             }
-
-            return {
-                minCalls: 1,
-                maxCalls: 1,
-
-                create: function create(methodName) {
-                    var expectation = sinon.extend(sinon.stub.create(), sinon.expectation);
-                    delete expectation.create;
-                    expectation.method = methodName;
-
-                    return expectation;
-                },
-
-                invoke: function invoke(func, thisValue, args) {
-                    this.verifyCallAllowed(thisValue, args);
-
-                    return _invoke.apply(this, arguments);
-                },
-
-                atLeast: function atLeast(num) {
-                    if (typeof num != "number") {
-                        throw new TypeError("'" + num + "' is not number");
-                    }
-
-                    if (!this.limitsSet) {
-                        this.maxCalls = null;
-                        this.limitsSet = true;
-                    }
-
-                    this.minCalls = num;
-
-                    return this;
-                },
-
-                atMost: function atMost(num) {
-                    if (typeof num != "number") {
-                        throw new TypeError("'" + num + "' is not number");
-                    }
-
-                    if (!this.limitsSet) {
-                        this.minCalls = null;
-                        this.limitsSet = true;
-                    }
-
-                    this.maxCalls = num;
-
-                    return this;
-                },
-
-                never: function never() {
-                    return this.exactly(0);
-                },
-
-                once: function once() {
-                    return this.exactly(1);
-                },
-
-                twice: function twice() {
-                    return this.exactly(2);
-                },
-
-                thrice: function thrice() {
-                    return this.exactly(3);
-                },
-
-                exactly: function exactly(num) {
-                    if (typeof num != "number") {
-                        throw new TypeError("'" + num + "' is not a number");
-                    }
-
-                    this.atLeast(num);
-                    return this.atMost(num);
-                },
-
-                met: function met() {
-                    return !this.failed && receivedMinCalls(this);
-                },
-
-                verifyCallAllowed: function verifyCallAllowed(thisValue, args) {
-                    if (receivedMaxCalls(this)) {
-                        this.failed = true;
-                        sinon.expectation.fail(this.method + " already called " + times(this.maxCalls));
-                    }
-
-                    if ("expectedThis" in this && this.expectedThis !== thisValue) {
-                        sinon.expectation.fail(this.method + " called with " + thisValue + " as thisValue, expected " +
-                            this.expectedThis);
-                    }
-
-                    if (!("expectedArguments" in this)) {
-                        return;
-                    }
-
-                    if (!args) {
-                        sinon.expectation.fail(this.method + " received no arguments, expected " +
-                            sinon.format(this.expectedArguments));
-                    }
-
-                    if (args.length < this.expectedArguments.length) {
-                        sinon.expectation.fail(this.method + " received too few arguments (" + sinon.format(args) +
-                            "), expected " + sinon.format(this.expectedArguments));
-                    }
-
-                    if (this.expectsExactArgCount &&
-                        args.length != this.expectedArguments.length) {
-                        sinon.expectation.fail(this.method + " received too many arguments (" + sinon.format(args) +
-                            "), expected " + sinon.format(this.expectedArguments));
-                    }
-
-                    for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
-
-                        if (!verifyMatcher(this.expectedArguments[i], args[i])) {
-                            sinon.expectation.fail(this.method + " received wrong arguments " + sinon.format(args) +
-                                ", didn't match " + this.expectedArguments.toString());
-                        }
-
-                        if (!sinon.deepEqual(this.expectedArguments[i], args[i])) {
-                            sinon.expectation.fail(this.method + " received wrong arguments " + sinon.format(args) +
-                                ", expected " + sinon.format(this.expectedArguments));
-                        }
-                    }
-                },
-
-                allowsCall: function allowsCall(thisValue, args) {
-                    if (this.met() && receivedMaxCalls(this)) {
-                        return false;
-                    }
-
-                    if ("expectedThis" in this && this.expectedThis !== thisValue) {
-                        return false;
-                    }
-
-                    if (!("expectedArguments" in this)) {
-                        return true;
-                    }
-
-                    args = args || [];
-
-                    if (args.length < this.expectedArguments.length) {
-                        return false;
-                    }
-
-                    if (this.expectsExactArgCount &&
-                        args.length != this.expectedArguments.length) {
-                        return false;
-                    }
-
-                    for (var i = 0, l = this.expectedArguments.length; i < l; i += 1) {
-                        if (!verifyMatcher(this.expectedArguments[i], args[i])) {
-                            return false;
-                        }
-
-                        if (!sinon.deepEqual(this.expectedArguments[i], args[i])) {
-                            return false;
-                        }
-                    }
-
-                    return true;
-                },
-
-                withArgs: function withArgs() {
-                    this.expectedArguments = slice.call(arguments);
-                    return this;
-                },
-
-                withExactArgs: function withExactArgs() {
-                    this.withArgs.apply(this, arguments);
-                    this.expectsExactArgCount = true;
-                    return this;
-                },
-
-                on: function on(thisValue) {
-                    this.expectedThis = thisValue;
-                    return this;
-                },
-
-                toString: function () {
-                    var args = (this.expectedArguments || []).slice();
-
-                    if (!this.expectsExactArgCount) {
-                        push.call(args, "[...]");
-                    }
-
-                    var callStr = sinon.spyCall.toString.call({
-                        proxy: this.method || "anonymous mock expectation",
-                        args: args
-                    });
-
-                    var message = callStr.replace(", [...", "[, ...") + " " +
-                        expectedCallCountInWords(this);
-
-                    if (this.met()) {
-                        return "Expectation met: " + message;
-                    }
-
-                    return "Expected " + message + " (" +
-                        callCountInWords(this.callCount) + ")";
-                },
-
-                verify: function verify() {
-                    if (!this.met()) {
-                        sinon.expectation.fail(this.toString());
-                    } else {
-                        sinon.expectation.pass(this.toString());
-                    }
-
-                    return true;
-                },
-
-                pass: function (message) {
-                    sinon.assert.pass(message);
-                },
-                fail: function (message) {
-                    var exception = new Error(message);
-                    exception.name = "ExpectationError";
-
-                    throw exception;
-                }
-            };
-        }());
+        };
 
         sinon.mock = mock;
+        return mock;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = mock; });
-        } else if (commonJSModule) {
-            module.exports = mock;
-        }
-    }(typeof sinon == "object" && sinon || null));
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    /**
-     * @depend ../sinon.js
-     * @depend stub.js
-     * @depend mock.js
-     */
-    /*jslint eqeqeq: false, onevar: false, forin: true*/
-    /*global module, require, sinon*/
-    /**
-     * Collections of stubs, spies and mocks.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./call");
+        require("./match");
+        require("./spy");
+        module.exports = makeApi(sinon);
+    }
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
-        var push = [].push;
-        var hasOwnProperty = Object.prototype.hasOwnProperty;
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
 
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
+/**
+ * @depend util/core.js
+ * @depend stub.js
+ * @depend mock.js
+ */
+/**
+ * Collections of stubs, spies and mocks.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
 
-        if (!sinon) {
-            return;
-        }
+(function (sinon) {
+    var push = [].push;
+    var hasOwnProperty = Object.prototype.hasOwnProperty;
 
-        function getFakes(fakeCollection) {
-            if (!fakeCollection.fakes) {
-                fakeCollection.fakes = [];
-            }
-
-            return fakeCollection.fakes;
-        }
-
-        function each(fakeCollection, method) {
-            var fakes = getFakes(fakeCollection);
-
-            for (var i = 0, l = fakes.length; i < l; i += 1) {
-                if (typeof fakes[i][method] == "function") {
-                    fakes[i][method]();
-                }
-            }
+    function getFakes(fakeCollection) {
+        if (!fakeCollection.fakes) {
+            fakeCollection.fakes = [];
         }
 
-        function compact(fakeCollection) {
-            var fakes = getFakes(fakeCollection);
-            var i = 0;
-            while (i < fakes.length) {
-                fakes.splice(i, 1);
+        return fakeCollection.fakes;
+    }
+
+    function each(fakeCollection, method) {
+        var fakes = getFakes(fakeCollection);
+
+        for (var i = 0, l = fakes.length; i < l; i += 1) {
+            if (typeof fakes[i][method] == "function") {
+                fakes[i][method]();
             }
         }
+    }
 
+    function compact(fakeCollection) {
+        var fakes = getFakes(fakeCollection);
+        var i = 0;
+        while (i < fakes.length) {
+            fakes.splice(i, 1);
+        }
+    }
+
+    function makeApi(sinon) {
         var collection = {
             verify: function resolve() {
                 each(this, "verify");
@@ -2872,6 +3639,10 @@ this.sinon = (function () {
             restore: function restore() {
                 each(this, "restore");
                 compact(this);
+            },
+
+            reset: function restore() {
+                each(this, "reset");
             },
 
             verifyAndRestore: function verifyAndRestore() {
@@ -2956,445 +3727,129 @@ this.sinon = (function () {
         };
 
         sinon.collection = collection;
-
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = collection; });
-        } else if (commonJSModule) {
-            module.exports = collection;
-        }
-    }(typeof sinon == "object" && sinon || null));
-
-    /*jslint eqeqeq: false, plusplus: false, evil: true, onevar: false, browser: true, forin: false*/
-    /*global module, require, window*/
-    /**
-     * Fake timer API
-     * setTimeout
-     * setInterval
-     * clearTimeout
-     * clearInterval
-     * tick
-     * reset
-     * Date
-     *
-     * Inspired by jsUnitMockTimeOut from JsUnit
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
-
-    if (typeof sinon == "undefined") {
-        var sinon = {};
+        return collection;
     }
 
-    (function (global) {
-        // node expects setTimeout/setInterval to return a fn object w/ .ref()/.unref()
-        // browsers, a number.
-        // see https://github.com/cjohansen/Sinon.JS/pull/436
-        var timeoutResult = setTimeout(function () { }, 0);
-        var addTimerReturnsObject = typeof timeoutResult === 'object';
-        clearTimeout(timeoutResult);
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-        var id = 1;
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./mock");
+        require("./spy");
+        require("./stub");
+        module.exports = makeApi(sinon);
+    }
 
-        function addTimer(args, recurring) {
-            if (args.length === 0) {
-                throw new Error("Function requires at least 1 parameter");
-            }
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
 
-            if (typeof args[0] === "undefined") {
-                throw new Error("Callback must be provided to timer calls");
-            }
+/*global lolex */
 
-            var toId = id++;
-            var delay = args[1] || 0;
+/**
+ * Fake timer API
+ * setTimeout
+ * setInterval
+ * clearTimeout
+ * clearInterval
+ * tick
+ * reset
+ * Date
+ *
+ * Inspired by jsUnitMockTimeOut from JsUnit
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
 
-            if (!this.timeouts) {
-                this.timeouts = {};
-            }
+if (typeof sinon == "undefined") {
+    var sinon = {};
+}
 
-            this.timeouts[toId] = {
-                id: toId,
-                func: args[0],
-                callAt: this.now + delay,
-                invokeArgs: Array.prototype.slice.call(args, 2)
-            };
+(function (global) {
+    function makeApi(sinon, lol) {
+        var llx = typeof lolex !== "undefined" ? lolex : lol;
 
-            if (recurring === true) {
-                this.timeouts[toId].interval = delay;
-            }
+        sinon.useFakeTimers = function () {
+            var now, methods = Array.prototype.slice.call(arguments);
 
-            if (addTimerReturnsObject) {
-                return {
-                    id: toId,
-                    ref: function () { },
-                    unref: function () { }
-                };
-            }
-            else {
-                return toId;
-            }
-        }
-
-        function parseTime(str) {
-            if (!str) {
-                return 0;
-            }
-
-            var strings = str.split(":");
-            var l = strings.length, i = l;
-            var ms = 0, parsed;
-
-            if (l > 3 || !/^(\d\d:){0,2}\d\d?$/.test(str)) {
-                throw new Error("tick only understands numbers and 'h:m:s'");
-            }
-
-            while (i--) {
-                parsed = parseInt(strings[i], 10);
-
-                if (parsed >= 60) {
-                    throw new Error("Invalid time " + str);
-                }
-
-                ms += parsed * Math.pow(60, (l - i - 1));
-            }
-
-            return ms * 1000;
-        }
-
-        function createObject(object) {
-            var newObject;
-
-            if (Object.create) {
-                newObject = Object.create(object);
+            if (typeof methods[0] === "string") {
+                now = 0;
             } else {
-                var F = function () { };
-                F.prototype = object;
-                newObject = new F();
+                now = methods.shift();
             }
 
-            newObject.Date.clock = newObject;
-            return newObject;
-        }
-
-        sinon.clock = {
-            now: 0,
-
-            create: function create(now) {
-                var clock = createObject(this);
-
-                if (typeof now == "number") {
-                    clock.now = now;
-                }
-
-                if (!!now && typeof now == "object") {
-                    throw new TypeError("now should be milliseconds since UNIX epoch");
-                }
-
-                return clock;
-            },
-
-            setTimeout: function setTimeout(callback, timeout) {
-                return addTimer.call(this, arguments, false);
-            },
-
-            clearTimeout: function clearTimeout(timerId) {
-                if (!timerId) {
-                    // null appears to be allowed in most browsers, and appears to be relied upon by some libraries, like Bootstrap carousel
-                    return;
-                }
-                if (!this.timeouts) {
-                    this.timeouts = [];
-                }
-                // in Node, timerId is an object with .ref()/.unref(), and
-                // its .id field is the actual timer id.
-                if (typeof timerId === 'object') {
-                    timerId = timerId.id
-                }
-                if (timerId in this.timeouts) {
-                    delete this.timeouts[timerId];
-                }
-            },
-
-            setInterval: function setInterval(callback, timeout) {
-                return addTimer.call(this, arguments, true);
-            },
-
-            clearInterval: function clearInterval(timerId) {
-                this.clearTimeout(timerId);
-            },
-
-            setImmediate: function setImmediate(callback) {
-                var passThruArgs = Array.prototype.slice.call(arguments, 1);
-
-                return addTimer.call(this, [callback, 0].concat(passThruArgs), false);
-            },
-
-            clearImmediate: function clearImmediate(timerId) {
-                this.clearTimeout(timerId);
-            },
-
-            tick: function tick(ms) {
-                ms = typeof ms == "number" ? ms : parseTime(ms);
-                var tickFrom = this.now, tickTo = this.now + ms, previous = this.now;
-                var timer = this.firstTimerInRange(tickFrom, tickTo);
-
-                var firstException;
-                while (timer && tickFrom <= tickTo) {
-                    if (this.timeouts[timer.id]) {
-                        tickFrom = this.now = timer.callAt;
-                        try {
-                            this.callTimer(timer);
-                        } catch (e) {
-                            firstException = firstException || e;
-                        }
-                    }
-
-                    timer = this.firstTimerInRange(previous, tickTo);
-                    previous = tickFrom;
-                }
-
-                this.now = tickTo;
-
-                if (firstException) {
-                    throw firstException;
-                }
-
-                return this.now;
-            },
-
-            firstTimerInRange: function (from, to) {
-                var timer, smallest = null, originalTimer;
-
-                for (var id in this.timeouts) {
-                    if (this.timeouts.hasOwnProperty(id)) {
-                        if (this.timeouts[id].callAt < from || this.timeouts[id].callAt > to) {
-                            continue;
-                        }
-
-                        if (smallest === null || this.timeouts[id].callAt < smallest) {
-                            originalTimer = this.timeouts[id];
-                            smallest = this.timeouts[id].callAt;
-
-                            timer = {
-                                func: this.timeouts[id].func,
-                                callAt: this.timeouts[id].callAt,
-                                interval: this.timeouts[id].interval,
-                                id: this.timeouts[id].id,
-                                invokeArgs: this.timeouts[id].invokeArgs
-                            };
-                        }
-                    }
-                }
-
-                return timer || null;
-            },
-
-            callTimer: function (timer) {
-                if (typeof timer.interval == "number") {
-                    this.timeouts[timer.id].callAt += timer.interval;
-                } else {
-                    delete this.timeouts[timer.id];
-                }
-
-                try {
-                    if (typeof timer.func == "function") {
-                        timer.func.apply(null, timer.invokeArgs);
-                    } else {
-                        eval(timer.func);
-                    }
-                } catch (e) {
-                    var exception = e;
-                }
-
-                if (!this.timeouts[timer.id]) {
-                    if (exception) {
-                        throw exception;
-                    }
-                    return;
-                }
-
-                if (exception) {
-                    throw exception;
-                }
-            },
-
-            reset: function reset() {
-                this.timeouts = {};
-            },
-
-            Date: (function () {
-                var NativeDate = Date;
-
-                function ClockDate(year, month, date, hour, minute, second, ms) {
-                    // Defensive and verbose to avoid potential harm in passing
-                    // explicit undefined when user does not pass argument
-                    switch (arguments.length) {
-                        case 0:
-                            return new NativeDate(ClockDate.clock.now);
-                        case 1:
-                            return new NativeDate(year);
-                        case 2:
-                            return new NativeDate(year, month);
-                        case 3:
-                            return new NativeDate(year, month, date);
-                        case 4:
-                            return new NativeDate(year, month, date, hour);
-                        case 5:
-                            return new NativeDate(year, month, date, hour, minute);
-                        case 6:
-                            return new NativeDate(year, month, date, hour, minute, second);
-                        default:
-                            return new NativeDate(year, month, date, hour, minute, second, ms);
-                    }
-                }
-
-                return mirrorDateProperties(ClockDate, NativeDate);
-            }())
-        };
-
-        function mirrorDateProperties(target, source) {
-            if (source.now) {
-                target.now = function now() {
-                    return target.clock.now;
-                };
-            } else {
-                delete target.now;
-            }
-
-            if (source.toSource) {
-                target.toSource = function toSource() {
-                    return source.toSource();
-                };
-            } else {
-                delete target.toSource;
-            }
-
-            target.toString = function toString() {
-                return source.toString();
-            };
-
-            target.prototype = source.prototype;
-            target.parse = source.parse;
-            target.UTC = source.UTC;
-            target.prototype.toUTCString = source.prototype.toUTCString;
-
-            for (var prop in source) {
-                if (source.hasOwnProperty(prop)) {
-                    target[prop] = source[prop];
-                }
-            }
-
-            return target;
-        }
-
-        var methods = ["Date", "setTimeout", "setInterval",
-                       "clearTimeout", "clearInterval"];
-
-        if (typeof global.setImmediate !== "undefined") {
-            methods.push("setImmediate");
-        }
-
-        if (typeof global.clearImmediate !== "undefined") {
-            methods.push("clearImmediate");
-        }
-
-        function restore() {
-            var method;
-
-            for (var i = 0, l = this.methods.length; i < l; i++) {
-                method = this.methods[i];
-
-                if (global[method].hadOwnProperty) {
-                    global[method] = this["_" + method];
-                } else {
-                    try {
-                        delete global[method];
-                    } catch (e) { }
-                }
-            }
-
-            // Prevent multiple executions which will completely remove these props
-            this.methods = [];
-        }
-
-        function stubGlobal(method, clock) {
-            clock[method].hadOwnProperty = Object.prototype.hasOwnProperty.call(global, method);
-            clock["_" + method] = global[method];
-
-            if (method == "Date") {
-                var date = mirrorDateProperties(clock[method], global[method]);
-                global[method] = date;
-            } else {
-                global[method] = function () {
-                    return clock[method].apply(clock, arguments);
-                };
-
-                for (var prop in clock[method]) {
-                    if (clock[method].hasOwnProperty(prop)) {
-                        global[method][prop] = clock[method][prop];
-                    }
-                }
-            }
-
-            global[method].clock = clock;
-        }
-
-        sinon.useFakeTimers = function useFakeTimers(now) {
-            var clock = sinon.clock.create(now);
-            clock.restore = restore;
-            clock.methods = Array.prototype.slice.call(arguments,
-                                                       typeof now == "number" ? 1 : 0);
-
-            if (clock.methods.length === 0) {
-                clock.methods = methods;
-            }
-
-            for (var i = 0, l = clock.methods.length; i < l; i++) {
-                stubGlobal(clock.methods[i], clock);
-            }
-
+            var clock = llx.install(now || 0, methods);
+            clock.restore = clock.uninstall;
             return clock;
         };
-    }(typeof global != "undefined" && typeof global !== "function" ? global : this));
 
-    sinon.timers = {
-        setTimeout: setTimeout,
-        clearTimeout: clearTimeout,
-        setImmediate: (typeof setImmediate !== "undefined" ? setImmediate : undefined),
-        clearImmediate: (typeof clearImmediate !== "undefined" ? clearImmediate : undefined),
-        setInterval: setInterval,
-        clearInterval: clearInterval,
-        Date: Date
-    };
+        sinon.clock = {
+            create: function (now) {
+                return llx.createClock(now);
+            }
+        };
 
-    if (typeof module !== 'undefined' && module.exports) {
+        sinon.timers = {
+            setTimeout: setTimeout,
+            clearTimeout: clearTimeout,
+            setImmediate: (typeof setImmediate !== "undefined" ? setImmediate : undefined),
+            clearImmediate: (typeof clearImmediate !== "undefined" ? clearImmediate : undefined),
+            setInterval: setInterval,
+            clearInterval: clearInterval,
+            Date: Date
+        };
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, epxorts, module) {
+        var sinon = require("./core");
+        makeApi(sinon, require("lolex"));
         module.exports = sinon;
     }
 
-    /*jslint eqeqeq: false, onevar: false*/
-    /*global sinon, module, require, ActiveXObject, XMLHttpRequest, DOMParser*/
-    /**
-     * Minimal Event interface implementation
-     *
-     * Original implementation by Sven Fuchs: https://gist.github.com/995028
-     * Modifications and tests by Christian Johansen.
-     *
-     * @author Sven Fuchs (svenfuchs@artweb-design.de)
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2011 Sven Fuchs, Christian Johansen
-     */
-
-    if (typeof sinon == "undefined") {
-        this.sinon = {};
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else {
+        makeApi(sinon);
     }
+}(typeof global != "undefined" && typeof global !== "function" ? global : this));
 
-    (function () {
-        var push = [].push;
+/**
+ * Minimal Event interface implementation
+ *
+ * Original implementation by Sven Fuchs: https://gist.github.com/995028
+ * Modifications and tests by Christian Johansen.
+ *
+ * @author Sven Fuchs (svenfuchs@artweb-design.de)
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2011 Sven Fuchs, Christian Johansen
+ */
 
+if (typeof sinon == "undefined") {
+    this.sinon = {};
+}
+
+(function () {
+    var push = [].push;
+
+    function makeApi(sinon) {
         sinon.Event = function Event(type, bubbles, cancelable, target) {
             this.initEvent(type, bubbles, cancelable, target);
         };
@@ -3407,7 +3862,7 @@ this.sinon = (function () {
                 this.target = target;
             },
 
-            stopPropagation: function () { },
+            stopPropagation: function () {},
 
             preventDefault: function () {
                 this.defaultPrevented = true;
@@ -3422,7 +3877,7 @@ this.sinon = (function () {
 
         sinon.ProgressEvent.prototype = new sinon.Event();
 
-        sinon.ProgressEvent.prototype.constructor = sinon.ProgressEvent;
+        sinon.ProgressEvent.prototype.constructor =  sinon.ProgressEvent;
 
         sinon.CustomEvent = function CustomEvent(type, customData, target) {
             this.initEvent(type, false, false, target);
@@ -3431,7 +3886,7 @@ this.sinon = (function () {
 
         sinon.CustomEvent.prototype = new sinon.Event();
 
-        sinon.CustomEvent.prototype.constructor = sinon.CustomEvent;
+        sinon.CustomEvent.prototype.constructor =  sinon.CustomEvent;
 
         sinon.EventTarget = {
             addEventListener: function addEventListener(event, listener) {
@@ -3465,249 +3920,421 @@ this.sinon = (function () {
                 return !!event.defaultPrevented;
             }
         };
-    }());
+    }
 
-    /**
-     * @depend ../../sinon.js
-     * @depend event.js
-     */
-    /*jslint eqeqeq: false, onevar: false*/
-    /*global sinon, module, require, ActiveXObject, XMLHttpRequest, DOMParser*/
-    /**
-     * Fake XMLHttpRequest object
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    // wrapper for global
-    (function (global) {
-        if (typeof sinon === "undefined") {
-            global.sinon = {};
-        }
+    function loadDependencies(require) {
+        var sinon = require("./core");
+        makeApi(sinon);
+    }
 
-        var supportsProgress = typeof ProgressEvent !== "undefined";
-        var supportsCustomEvent = typeof CustomEvent !== "undefined";
-        sinon.xhr = { XMLHttpRequest: global.XMLHttpRequest };
-        var xhr = sinon.xhr;
-        xhr.GlobalXMLHttpRequest = global.XMLHttpRequest;
-        xhr.GlobalActiveXObject = global.ActiveXObject;
-        xhr.supportsActiveX = typeof xhr.GlobalActiveXObject != "undefined";
-        xhr.supportsXHR = typeof xhr.GlobalXMLHttpRequest != "undefined";
-        xhr.workingXHR = xhr.supportsXHR ? xhr.GlobalXMLHttpRequest : xhr.supportsActiveX
-                                         ? function () { return new xhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0") } : false;
-        xhr.supportsCORS = xhr.supportsXHR && 'withCredentials' in (new sinon.xhr.GlobalXMLHttpRequest());
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require);
+    } else {
+        makeApi(sinon);
+    }
+}());
 
-        /*jsl:ignore*/
-        var unsafeHeaders = {
-            "Accept-Charset": true,
-            "Accept-Encoding": true,
-            "Connection": true,
-            "Content-Length": true,
-            "Cookie": true,
-            "Cookie2": true,
-            "Content-Transfer-Encoding": true,
-            "Date": true,
-            "Expect": true,
-            "Host": true,
-            "Keep-Alive": true,
-            "Referer": true,
-            "TE": true,
-            "Trailer": true,
-            "Transfer-Encoding": true,
-            "Upgrade": true,
-            "User-Agent": true,
-            "Via": true
-        };
-        /*jsl:end*/
+/**
+ * @depend ../sinon.js
+ */
+/**
+ * Logs errors
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2014 Christian Johansen
+ */
 
-        function FakeXMLHttpRequest() {
-            this.readyState = FakeXMLHttpRequest.UNSENT;
-            this.requestHeaders = {};
-            this.requestBody = null;
-            this.status = 0;
-            this.statusText = "";
-            this.upload = new UploadProgress();
-            if (sinon.xhr.supportsCORS) {
-                this.withCredentials = false;
+(function (sinon) {
+    // cache a reference to setTimeout, so that our reference won't be stubbed out
+    // when using fake timers and errors will still get logged
+    // https://github.com/cjohansen/Sinon.JS/issues/381
+    var realSetTimeout = setTimeout;
+
+    function makeApi(sinon) {
+
+        function log() {}
+
+        function logError(label, err) {
+            var msg = label + " threw exception: ";
+
+            sinon.log(msg + "[" + err.name + "] " + err.message);
+
+            if (err.stack) {
+                sinon.log(err.stack);
             }
 
-
-            var xhr = this;
-            var events = ["loadstart", "load", "abort", "loadend"];
-
-            function addEventListener(eventName) {
-                xhr.addEventListener(eventName, function (event) {
-                    var listener = xhr["on" + eventName];
-
-                    if (listener && typeof listener == "function") {
-                        listener.call(this, event);
-                    }
-                });
-            }
-
-            for (var i = events.length - 1; i >= 0; i--) {
-                addEventListener(events[i]);
-            }
-
-            if (typeof FakeXMLHttpRequest.onCreate == "function") {
-                FakeXMLHttpRequest.onCreate(this);
-            }
-        }
-
-        // An upload object is created for each
-        // FakeXMLHttpRequest and allows upload
-        // events to be simulated using uploadProgress
-        // and uploadError.
-        function UploadProgress() {
-            this.eventListeners = {
-                "progress": [],
-                "load": [],
-                "abort": [],
-                "error": []
-            }
-        }
-
-        UploadProgress.prototype.addEventListener = function (event, listener) {
-            this.eventListeners[event].push(listener);
+            logError.setTimeout(function () {
+                err.message = msg + err.message;
+                throw err;
+            }, 0);
         };
 
-        UploadProgress.prototype.removeEventListener = function (event, listener) {
-            var listeners = this.eventListeners[event] || [];
+        // wrap realSetTimeout with something we can stub in tests
+        logError.setTimeout = function (func, timeout) {
+            realSetTimeout(func, timeout);
+        }
 
-            for (var i = 0, l = listeners.length; i < l; ++i) {
-                if (listeners[i] == listener) {
-                    return listeners.splice(i, 1);
+        var exports = {};
+        exports.log = sinon.log = log;
+        exports.logError = sinon.logError = logError;
+
+        return exports;
+    }
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        module.exports = makeApi(sinon);
+    }
+
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend core.js
+ * @depend ../extend.js
+ * @depend event.js
+ * @depend ../log_error.js
+ */
+/**
+ * Fake XMLHttpRequest object
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function (global) {
+
+    var supportsProgress = typeof ProgressEvent !== "undefined";
+    var supportsCustomEvent = typeof CustomEvent !== "undefined";
+    var sinonXhr = { XMLHttpRequest: global.XMLHttpRequest };
+    sinonXhr.GlobalXMLHttpRequest = global.XMLHttpRequest;
+    sinonXhr.GlobalActiveXObject = global.ActiveXObject;
+    sinonXhr.supportsActiveX = typeof sinonXhr.GlobalActiveXObject != "undefined";
+    sinonXhr.supportsXHR = typeof sinonXhr.GlobalXMLHttpRequest != "undefined";
+    sinonXhr.workingXHR = sinonXhr.supportsXHR ? sinonXhr.GlobalXMLHttpRequest : sinonXhr.supportsActiveX
+                                     ? function () { return new sinonXhr.GlobalActiveXObject("MSXML2.XMLHTTP.3.0") } : false;
+    sinonXhr.supportsCORS = sinonXhr.supportsXHR && "withCredentials" in (new sinonXhr.GlobalXMLHttpRequest());
+
+    /*jsl:ignore*/
+    var unsafeHeaders = {
+        "Accept-Charset": true,
+        "Accept-Encoding": true,
+        Connection: true,
+        "Content-Length": true,
+        Cookie: true,
+        Cookie2: true,
+        "Content-Transfer-Encoding": true,
+        Date: true,
+        Expect: true,
+        Host: true,
+        "Keep-Alive": true,
+        Referer: true,
+        TE: true,
+        Trailer: true,
+        "Transfer-Encoding": true,
+        Upgrade: true,
+        "User-Agent": true,
+        Via: true
+    };
+    /*jsl:end*/
+
+    function FakeXMLHttpRequest() {
+        this.readyState = FakeXMLHttpRequest.UNSENT;
+        this.requestHeaders = {};
+        this.requestBody = null;
+        this.status = 0;
+        this.statusText = "";
+        this.upload = new UploadProgress();
+        if (sinonXhr.supportsCORS) {
+            this.withCredentials = false;
+        }
+
+        var xhr = this;
+        var events = ["loadstart", "load", "abort", "loadend"];
+
+        function addEventListener(eventName) {
+            xhr.addEventListener(eventName, function (event) {
+                var listener = xhr["on" + eventName];
+
+                if (listener && typeof listener == "function") {
+                    listener.call(this, event);
                 }
+            });
+        }
+
+        for (var i = events.length - 1; i >= 0; i--) {
+            addEventListener(events[i]);
+        }
+
+        if (typeof FakeXMLHttpRequest.onCreate == "function") {
+            FakeXMLHttpRequest.onCreate(this);
+        }
+    }
+
+    // An upload object is created for each
+    // FakeXMLHttpRequest and allows upload
+    // events to be simulated using uploadProgress
+    // and uploadError.
+    function UploadProgress() {
+        this.eventListeners = {
+            progress: [],
+            load: [],
+            abort: [],
+            error: []
+        }
+    }
+
+    UploadProgress.prototype.addEventListener = function addEventListener(event, listener) {
+        this.eventListeners[event].push(listener);
+    };
+
+    UploadProgress.prototype.removeEventListener = function removeEventListener(event, listener) {
+        var listeners = this.eventListeners[event] || [];
+
+        for (var i = 0, l = listeners.length; i < l; ++i) {
+            if (listeners[i] == listener) {
+                return listeners.splice(i, 1);
             }
-        };
+        }
+    };
 
-        UploadProgress.prototype.dispatchEvent = function (event) {
-            var listeners = this.eventListeners[event.type] || [];
+    UploadProgress.prototype.dispatchEvent = function dispatchEvent(event) {
+        var listeners = this.eventListeners[event.type] || [];
 
-            for (var i = 0, listener; (listener = listeners[i]) != null; i++) {
-                listener(event);
-            }
-        };
+        for (var i = 0, listener; (listener = listeners[i]) != null; i++) {
+            listener(event);
+        }
+    };
 
-        function verifyState(xhr) {
-            if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
-                throw new Error("INVALID_STATE_ERR");
-            }
+    function verifyState(xhr) {
+        if (xhr.readyState !== FakeXMLHttpRequest.OPENED) {
+            throw new Error("INVALID_STATE_ERR");
+        }
 
-            if (xhr.sendFlag) {
-                throw new Error("INVALID_STATE_ERR");
+        if (xhr.sendFlag) {
+            throw new Error("INVALID_STATE_ERR");
+        }
+    }
+
+    function getHeader(headers, header) {
+        header = header.toLowerCase();
+
+        for (var h in headers) {
+            if (h.toLowerCase() == header) {
+                return h;
             }
         }
 
-        // filtering to enable a white-list version of Sinon FakeXhr,
-        // where whitelisted requests are passed through to real XHR
-        function each(collection, callback) {
-            if (!collection) return;
-            for (var i = 0, l = collection.length; i < l; i += 1) {
-                callback(collection[i]);
+        return null;
+    }
+
+    // filtering to enable a white-list version of Sinon FakeXhr,
+    // where whitelisted requests are passed through to real XHR
+    function each(collection, callback) {
+        if (!collection) {
+            return;
+        }
+
+        for (var i = 0, l = collection.length; i < l; i += 1) {
+            callback(collection[i]);
+        }
+    }
+    function some(collection, callback) {
+        for (var index = 0; index < collection.length; index++) {
+            if (callback(collection[index]) === true) {
+                return true;
             }
         }
-        function some(collection, callback) {
-            for (var index = 0; index < collection.length; index++) {
-                if (callback(collection[index]) === true) return true;
-            }
-            return false;
+        return false;
+    }
+    // largest arity in XHR is 5 - XHR#open
+    var apply = function (obj, method, args) {
+        switch (args.length) {
+        case 0: return obj[method]();
+        case 1: return obj[method](args[0]);
+        case 2: return obj[method](args[0], args[1]);
+        case 3: return obj[method](args[0], args[1], args[2]);
+        case 4: return obj[method](args[0], args[1], args[2], args[3]);
+        case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
         }
-        // largest arity in XHR is 5 - XHR#open
-        var apply = function (obj, method, args) {
-            switch (args.length) {
-                case 0: return obj[method]();
-                case 1: return obj[method](args[0]);
-                case 2: return obj[method](args[0], args[1]);
-                case 3: return obj[method](args[0], args[1], args[2]);
-                case 4: return obj[method](args[0], args[1], args[2], args[3]);
-                case 5: return obj[method](args[0], args[1], args[2], args[3], args[4]);
-            }
-        };
+    };
 
-        FakeXMLHttpRequest.filters = [];
-        FakeXMLHttpRequest.addFilter = function (fn) {
-            this.filters.push(fn)
-        };
-        var IE6Re = /MSIE 6/;
-        FakeXMLHttpRequest.defake = function (fakeXhr, xhrArgs) {
-            var xhr = new sinon.xhr.workingXHR();
-            each(["open", "setRequestHeader", "send", "abort", "getResponseHeader",
-                  "getAllResponseHeaders", "addEventListener", "overrideMimeType", "removeEventListener"],
-                 function (method) {
-                     fakeXhr[method] = function () {
-                         return apply(xhr, method, arguments);
-                     };
-                 });
-
-            var copyAttrs = function (args) {
-                each(args, function (attr) {
-                    try {
-                        fakeXhr[attr] = xhr[attr]
-                    } catch (e) {
-                        if (!IE6Re.test(navigator.userAgent)) throw e;
-                    }
-                });
+    FakeXMLHttpRequest.filters = [];
+    FakeXMLHttpRequest.addFilter = function addFilter(fn) {
+        this.filters.push(fn)
+    };
+    var IE6Re = /MSIE 6/;
+    FakeXMLHttpRequest.defake = function defake(fakeXhr, xhrArgs) {
+        var xhr = new sinonXhr.workingXHR();
+        each([
+            "open",
+            "setRequestHeader",
+            "send",
+            "abort",
+            "getResponseHeader",
+            "getAllResponseHeaders",
+            "addEventListener",
+            "overrideMimeType",
+            "removeEventListener"
+        ], function (method) {
+            fakeXhr[method] = function () {
+                return apply(xhr, method, arguments);
             };
+        });
 
-            var stateChange = function () {
-                fakeXhr.readyState = xhr.readyState;
-                if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
-                    copyAttrs(["status", "statusText"]);
-                }
-                if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
-                    copyAttrs(["responseText"]);
-                }
-                if (xhr.readyState === FakeXMLHttpRequest.DONE) {
-                    copyAttrs(["responseXML"]);
-                }
-                if (fakeXhr.onreadystatechange) fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr });
-            };
-            if (xhr.addEventListener) {
-                for (var event in fakeXhr.eventListeners) {
-                    if (fakeXhr.eventListeners.hasOwnProperty(event)) {
-                        each(fakeXhr.eventListeners[event], function (handler) {
-                            xhr.addEventListener(event, handler);
-                        });
+        var copyAttrs = function (args) {
+            each(args, function (attr) {
+                try {
+                    fakeXhr[attr] = xhr[attr]
+                } catch (e) {
+                    if (!IE6Re.test(navigator.userAgent)) {
+                        throw e;
                     }
                 }
-                xhr.addEventListener("readystatechange", stateChange);
-            } else {
-                xhr.onreadystatechange = stateChange;
-            }
-            apply(xhr, "open", xhrArgs);
+            });
         };
-        FakeXMLHttpRequest.useFilters = false;
 
-        function verifyRequestOpened(xhr) {
-            if (xhr.readyState != FakeXMLHttpRequest.OPENED) {
-                throw new Error("INVALID_STATE_ERR - " + xhr.readyState);
+        var stateChange = function stateChange() {
+            fakeXhr.readyState = xhr.readyState;
+            if (xhr.readyState >= FakeXMLHttpRequest.HEADERS_RECEIVED) {
+                copyAttrs(["status", "statusText"]);
             }
+            if (xhr.readyState >= FakeXMLHttpRequest.LOADING) {
+                copyAttrs(["responseText", "response"]);
+            }
+            if (xhr.readyState === FakeXMLHttpRequest.DONE) {
+                copyAttrs(["responseXML"]);
+            }
+            if (fakeXhr.onreadystatechange) {
+                fakeXhr.onreadystatechange.call(fakeXhr, { target: fakeXhr });
+            }
+        };
+
+        if (xhr.addEventListener) {
+            for (var event in fakeXhr.eventListeners) {
+                if (fakeXhr.eventListeners.hasOwnProperty(event)) {
+                    each(fakeXhr.eventListeners[event], function (handler) {
+                        xhr.addEventListener(event, handler);
+                    });
+                }
+            }
+            xhr.addEventListener("readystatechange", stateChange);
+        } else {
+            xhr.onreadystatechange = stateChange;
+        }
+        apply(xhr, "open", xhrArgs);
+    };
+    FakeXMLHttpRequest.useFilters = false;
+
+    function verifyRequestOpened(xhr) {
+        if (xhr.readyState != FakeXMLHttpRequest.OPENED) {
+            throw new Error("INVALID_STATE_ERR - " + xhr.readyState);
+        }
+    }
+
+    function verifyRequestSent(xhr) {
+        if (xhr.readyState == FakeXMLHttpRequest.DONE) {
+            throw new Error("Request done");
+        }
+    }
+
+    function verifyHeadersReceived(xhr) {
+        if (xhr.async && xhr.readyState != FakeXMLHttpRequest.HEADERS_RECEIVED) {
+            throw new Error("No headers received");
+        }
+    }
+
+    function verifyResponseBodyType(body) {
+        if (typeof body != "string") {
+            var error = new Error("Attempted to respond to fake XMLHttpRequest with " +
+                                 body + ", which is not a string.");
+            error.name = "InvalidBodyException";
+            throw error;
+        }
+    }
+
+    FakeXMLHttpRequest.parseXML = function parseXML(text) {
+        var xmlDoc;
+
+        if (typeof DOMParser != "undefined") {
+            var parser = new DOMParser();
+            xmlDoc = parser.parseFromString(text, "text/xml");
+        } else {
+            xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
+            xmlDoc.async = "false";
+            xmlDoc.loadXML(text);
         }
 
-        function verifyRequestSent(xhr) {
-            if (xhr.readyState == FakeXMLHttpRequest.DONE) {
-                throw new Error("Request done");
-            }
-        }
+        return xmlDoc;
+    };
 
-        function verifyHeadersReceived(xhr) {
-            if (xhr.async && xhr.readyState != FakeXMLHttpRequest.HEADERS_RECEIVED) {
-                throw new Error("No headers received");
-            }
-        }
+    FakeXMLHttpRequest.statusCodes = {
+        100: "Continue",
+        101: "Switching Protocols",
+        200: "OK",
+        201: "Created",
+        202: "Accepted",
+        203: "Non-Authoritative Information",
+        204: "No Content",
+        205: "Reset Content",
+        206: "Partial Content",
+        207: "Multi-Status",
+        300: "Multiple Choice",
+        301: "Moved Permanently",
+        302: "Found",
+        303: "See Other",
+        304: "Not Modified",
+        305: "Use Proxy",
+        307: "Temporary Redirect",
+        400: "Bad Request",
+        401: "Unauthorized",
+        402: "Payment Required",
+        403: "Forbidden",
+        404: "Not Found",
+        405: "Method Not Allowed",
+        406: "Not Acceptable",
+        407: "Proxy Authentication Required",
+        408: "Request Timeout",
+        409: "Conflict",
+        410: "Gone",
+        411: "Length Required",
+        412: "Precondition Failed",
+        413: "Request Entity Too Large",
+        414: "Request-URI Too Long",
+        415: "Unsupported Media Type",
+        416: "Requested Range Not Satisfiable",
+        417: "Expectation Failed",
+        422: "Unprocessable Entity",
+        500: "Internal Server Error",
+        501: "Not Implemented",
+        502: "Bad Gateway",
+        503: "Service Unavailable",
+        504: "Gateway Timeout",
+        505: "HTTP Version Not Supported"
+    };
 
-        function verifyResponseBodyType(body) {
-            if (typeof body != "string") {
-                var error = new Error("Attempted to respond to fake XMLHttpRequest with " +
-                                     body + ", which is not a string.");
-                error.name = "InvalidBodyException";
-                throw error;
-            }
-        }
+    function makeApi(sinon) {
+        sinon.xhr = sinonXhr;
 
         sinon.extend(FakeXMLHttpRequest.prototype, sinon.EventTarget, {
             async: true,
@@ -3722,13 +4349,14 @@ this.sinon = (function () {
                 this.responseXML = null;
                 this.requestHeaders = {};
                 this.sendFlag = false;
-                if (sinon.FakeXMLHttpRequest.useFilters === true) {
+
+                if (FakeXMLHttpRequest.useFilters === true) {
                     var xhrArgs = arguments;
                     var defake = some(FakeXMLHttpRequest.filters, function (filter) {
                         return filter.apply(this, xhrArgs)
                     });
                     if (defake) {
-                        return sinon.FakeXMLHttpRequest.defake(this, arguments);
+                        return FakeXMLHttpRequest.defake(this, arguments);
                     }
                 }
                 this.readyStateChange(FakeXMLHttpRequest.OPENED);
@@ -3753,7 +4381,7 @@ this.sinon = (function () {
                         this.dispatchEvent(new sinon.Event("loadend", false, false, this));
                         this.upload.dispatchEvent(new sinon.Event("load", false, false, this));
                         if (supportsProgress) {
-                            this.upload.dispatchEvent(new sinon.ProgressEvent('progress', { loaded: 100, total: 100 }));
+                            this.upload.dispatchEvent(new sinon.ProgressEvent("progress", {loaded: 100, total: 100}));
                         }
                         break;
                 }
@@ -3796,9 +4424,10 @@ this.sinon = (function () {
                 verifyState(this);
 
                 if (!/^(get|head)$/i.test(this.method)) {
-                    if (this.requestHeaders["Content-Type"]) {
-                        var value = this.requestHeaders["Content-Type"].split(";");
-                        this.requestHeaders["Content-Type"] = value[0] + ";charset=utf-8";
+                    var contentType = getHeader(this.requestHeaders, "Content-Type");
+                    if (this.requestHeaders[contentType]) {
+                        var value = this.requestHeaders[contentType].split(";");
+                        this.requestHeaders[contentType] = value[0] + ";charset=utf-8";
                     } else {
                         this.requestHeaders["Content-Type"] = "text/plain;charset=utf-8";
                     }
@@ -3823,12 +4452,12 @@ this.sinon = (function () {
                 this.errorFlag = true;
                 this.requestHeaders = {};
 
-                if (this.readyState > sinon.FakeXMLHttpRequest.UNSENT && this.sendFlag) {
-                    this.readyStateChange(sinon.FakeXMLHttpRequest.DONE);
+                if (this.readyState > FakeXMLHttpRequest.UNSENT && this.sendFlag) {
+                    this.readyStateChange(FakeXMLHttpRequest.DONE);
                     this.sendFlag = false;
                 }
 
-                this.readyState = sinon.FakeXMLHttpRequest.UNSENT;
+                this.readyState = FakeXMLHttpRequest.UNSENT;
 
                 this.dispatchEvent(new sinon.Event("abort", false, false, this));
 
@@ -3848,15 +4477,9 @@ this.sinon = (function () {
                     return null;
                 }
 
-                header = header.toLowerCase();
+                header = getHeader(this.responseHeaders, header);
 
-                for (var h in this.responseHeaders) {
-                    if (h.toLowerCase() == header) {
-                        return this.responseHeaders[h];
-                    }
-                }
-
-                return null;
+                return this.responseHeaders[header] || null;
             },
 
             getAllResponseHeaders: function getAllResponseHeaders() {
@@ -3905,11 +4528,7 @@ this.sinon = (function () {
                     }
                 }
 
-                if (this.async) {
-                    this.readyStateChange(FakeXMLHttpRequest.DONE);
-                } else {
-                    this.readyState = FakeXMLHttpRequest.DONE;
-                }
+                this.readyStateChange(FakeXMLHttpRequest.DONE);
             },
 
             respond: function respond(status, headers, body) {
@@ -3927,7 +4546,7 @@ this.sinon = (function () {
 
             uploadError: function uploadError(error) {
                 if (supportsCustomEvent) {
-                    this.upload.dispatchEvent(new sinon.CustomEvent("error", { "detail": error }));
+                    this.upload.dispatchEvent(new sinon.CustomEvent("error", {detail: error}));
                 }
             }
         });
@@ -3940,186 +4559,144 @@ this.sinon = (function () {
             DONE: 4
         });
 
-        // Borrowed from JSpec
-        FakeXMLHttpRequest.parseXML = function parseXML(text) {
-            var xmlDoc;
-
-            if (typeof DOMParser != "undefined") {
-                var parser = new DOMParser();
-                xmlDoc = parser.parseFromString(text, "text/xml");
-            } else {
-                xmlDoc = new ActiveXObject("Microsoft.XMLDOM");
-                xmlDoc.async = "false";
-                xmlDoc.loadXML(text);
-            }
-
-            return xmlDoc;
-        };
-
-        FakeXMLHttpRequest.statusCodes = {
-            100: "Continue",
-            101: "Switching Protocols",
-            200: "OK",
-            201: "Created",
-            202: "Accepted",
-            203: "Non-Authoritative Information",
-            204: "No Content",
-            205: "Reset Content",
-            206: "Partial Content",
-            300: "Multiple Choice",
-            301: "Moved Permanently",
-            302: "Found",
-            303: "See Other",
-            304: "Not Modified",
-            305: "Use Proxy",
-            307: "Temporary Redirect",
-            400: "Bad Request",
-            401: "Unauthorized",
-            402: "Payment Required",
-            403: "Forbidden",
-            404: "Not Found",
-            405: "Method Not Allowed",
-            406: "Not Acceptable",
-            407: "Proxy Authentication Required",
-            408: "Request Timeout",
-            409: "Conflict",
-            410: "Gone",
-            411: "Length Required",
-            412: "Precondition Failed",
-            413: "Request Entity Too Large",
-            414: "Request-URI Too Long",
-            415: "Unsupported Media Type",
-            416: "Requested Range Not Satisfiable",
-            417: "Expectation Failed",
-            422: "Unprocessable Entity",
-            500: "Internal Server Error",
-            501: "Not Implemented",
-            502: "Bad Gateway",
-            503: "Service Unavailable",
-            504: "Gateway Timeout",
-            505: "HTTP Version Not Supported"
-        };
-
         sinon.useFakeXMLHttpRequest = function () {
-            sinon.FakeXMLHttpRequest.restore = function restore(keepOnCreate) {
-                if (xhr.supportsXHR) {
-                    global.XMLHttpRequest = xhr.GlobalXMLHttpRequest;
+            FakeXMLHttpRequest.restore = function restore(keepOnCreate) {
+                if (sinonXhr.supportsXHR) {
+                    global.XMLHttpRequest = sinonXhr.GlobalXMLHttpRequest;
                 }
 
-                if (xhr.supportsActiveX) {
-                    global.ActiveXObject = xhr.GlobalActiveXObject;
+                if (sinonXhr.supportsActiveX) {
+                    global.ActiveXObject = sinonXhr.GlobalActiveXObject;
                 }
 
-                delete sinon.FakeXMLHttpRequest.restore;
+                delete FakeXMLHttpRequest.restore;
 
                 if (keepOnCreate !== true) {
-                    delete sinon.FakeXMLHttpRequest.onCreate;
+                    delete FakeXMLHttpRequest.onCreate;
                 }
             };
-            if (xhr.supportsXHR) {
-                global.XMLHttpRequest = sinon.FakeXMLHttpRequest;
+            if (sinonXhr.supportsXHR) {
+                global.XMLHttpRequest = FakeXMLHttpRequest;
             }
 
-            if (xhr.supportsActiveX) {
+            if (sinonXhr.supportsActiveX) {
                 global.ActiveXObject = function ActiveXObject(objId) {
                     if (objId == "Microsoft.XMLHTTP" || /^Msxml2\.XMLHTTP/i.test(objId)) {
 
-                        return new sinon.FakeXMLHttpRequest();
+                        return new FakeXMLHttpRequest();
                     }
 
-                    return new xhr.GlobalActiveXObject(objId);
+                    return new sinonXhr.GlobalActiveXObject(objId);
                 };
             }
 
-            return sinon.FakeXMLHttpRequest;
+            return FakeXMLHttpRequest;
         };
 
         sinon.FakeXMLHttpRequest = FakeXMLHttpRequest;
+    }
 
-    })((function () { return typeof global === "object" ? global : this; })());
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    if (typeof module !== 'undefined' && module.exports) {
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./core");
+        require("./event");
+        makeApi(sinon);
         module.exports = sinon;
     }
 
-    /**
-     * @depend fake_xml_http_request.js
-     */
-    /*jslint eqeqeq: false, onevar: false, regexp: false, plusplus: false*/
-    /*global module, require, window*/
-    /**
-     * The Sinon "server" mimics a web server that receives requests from
-     * sinon.FakeXMLHttpRequest and provides an API to respond to those requests,
-     * both synchronously and asynchronously. To respond synchronuously, canned
-     * answers have to be provided upfront.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
-
-    if (typeof sinon == "undefined") {
-        var sinon = {};
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (typeof sinon === "undefined") {
+        return;
+    } else {
+        makeApi(sinon);
     }
 
-    sinon.fakeServer = (function () {
-        var push = [].push;
-        function F() { }
+})(typeof self !== "undefined" ? self : this);
 
-        function create(proto) {
-            F.prototype = proto;
-            return new F();
+/**
+ * @depend fake_xml_http_request.js
+ * @depend ../format.js
+ * @depend ../log_error.js
+ */
+/**
+ * The Sinon "server" mimics a web server that receives requests from
+ * sinon.FakeXMLHttpRequest and provides an API to respond to those requests,
+ * both synchronously and asynchronously. To respond synchronuously, canned
+ * answers have to be provided upfront.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+if (typeof sinon == "undefined") {
+    var sinon = {};
+}
+
+(function () {
+    var push = [].push;
+    function F() {}
+
+    function create(proto) {
+        F.prototype = proto;
+        return new F();
+    }
+
+    function responseArray(handler) {
+        var response = handler;
+
+        if (Object.prototype.toString.call(handler) != "[object Array]") {
+            response = [200, {}, handler];
         }
 
-        function responseArray(handler) {
-            var response = handler;
-
-            if (Object.prototype.toString.call(handler) != "[object Array]") {
-                response = [200, {}, handler];
-            }
-
-            if (typeof response[2] != "string") {
-                throw new TypeError("Fake server response body should be string, but was " +
-                                    typeof response[2]);
-            }
-
-            return response;
+        if (typeof response[2] != "string") {
+            throw new TypeError("Fake server response body should be string, but was " +
+                                typeof response[2]);
         }
 
-        var wloc = typeof window !== "undefined" ? window.location : {};
-        var rCurrLoc = new RegExp("^" + wloc.protocol + "//" + wloc.host);
+        return response;
+    }
 
-        function matchOne(response, reqMethod, reqUrl) {
-            var rmeth = response.method;
-            var matchMethod = !rmeth || rmeth.toLowerCase() == reqMethod.toLowerCase();
-            var url = response.url;
-            var matchUrl = !url || url == reqUrl || (typeof url.test == "function" && url.test(reqUrl));
+    var wloc = typeof window !== "undefined" ? window.location : {};
+    var rCurrLoc = new RegExp("^" + wloc.protocol + "//" + wloc.host);
 
-            return matchMethod && matchUrl;
+    function matchOne(response, reqMethod, reqUrl) {
+        var rmeth = response.method;
+        var matchMethod = !rmeth || rmeth.toLowerCase() == reqMethod.toLowerCase();
+        var url = response.url;
+        var matchUrl = !url || url == reqUrl || (typeof url.test == "function" && url.test(reqUrl));
+
+        return matchMethod && matchUrl;
+    }
+
+    function match(response, request) {
+        var requestUrl = request.url;
+
+        if (!/^https?:\/\//.test(requestUrl) || rCurrLoc.test(requestUrl)) {
+            requestUrl = requestUrl.replace(rCurrLoc, "");
         }
 
-        function match(response, request) {
-            var requestUrl = request.url;
-
-            if (!/^https?:\/\//.test(requestUrl) || rCurrLoc.test(requestUrl)) {
-                requestUrl = requestUrl.replace(rCurrLoc, "");
+        if (matchOne(response, this.getHTTPMethod(request), requestUrl)) {
+            if (typeof response.response == "function") {
+                var ru = response.url;
+                var args = [request].concat(ru && typeof ru.exec == "function" ? ru.exec(requestUrl).slice(1) : []);
+                return response.response.apply(response, args);
             }
 
-            if (matchOne(response, this.getHTTPMethod(request), requestUrl)) {
-                if (typeof response.response == "function") {
-                    var ru = response.url;
-                    var args = [request].concat(ru && typeof ru.exec == "function" ? ru.exec(requestUrl).slice(1) : []);
-                    return response.response.apply(response, args);
-                }
-
-                return true;
-            }
-
-            return false;
+            return true;
         }
 
-        return {
+        return false;
+    }
+
+    function makeApi(sinon) {
+        sinon.fakeServer = {
             create: function () {
                 var server = create(this);
                 this.xhr = sinon.useFakeXMLHttpRequest();
@@ -4171,10 +4748,10 @@ this.sinon = (function () {
                 }
             },
 
-            log: function (response, request) {
+            log: function log(response, request) {
                 var str;
 
-                str = "Request:\n" + sinon.format(request) + "\n\n";
+                str =  "Request:\n"  + sinon.format(request)  + "\n\n";
                 str += "Response:\n" + sinon.format(response) + "\n\n";
 
                 sinon.log(str);
@@ -4207,7 +4784,10 @@ this.sinon = (function () {
             },
 
             respond: function respond() {
-                if (arguments.length > 0) this.respondWith.apply(this, arguments);
+                if (arguments.length > 0) {
+                    this.respondWith.apply(this, arguments);
+                }
+
                 var queue = this.queue || [];
                 var requests = queue.splice(0, queue.length);
                 var request;
@@ -4235,7 +4815,7 @@ this.sinon = (function () {
                     }
 
                     if (request.readyState != 4) {
-                        sinon.fakeServer.log(response, request);
+                        this.log(response, request);
 
                         request.respond(response[0], response[1], response[2]);
                     }
@@ -4248,35 +4828,49 @@ this.sinon = (function () {
                 return this.xhr.restore && this.xhr.restore.apply(this.xhr, arguments);
             }
         };
-    }());
+    }
 
-    if (typeof module !== 'undefined' && module.exports) {
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./core");
+        require("./fake_xml_http_request");
+        makeApi(sinon);
         module.exports = sinon;
     }
 
-    /**
-     * @depend fake_server.js
-     * @depend fake_timers.js
-     */
-    /*jslint browser: true, eqeqeq: false, onevar: false*/
-    /*global sinon*/
-    /**
-     * Add-on for sinon.fakeServer that automatically handles a fake timer along with
-     * the FakeXMLHttpRequest. The direct inspiration for this add-on is jQuery
-     * 1.3.x, which does not use xhr object's onreadystatehandler at all - instead,
-     * it polls the object for completion with setInterval. Dispite the direct
-     * motivation, there is nothing jQuery-specific in this file, so it can be used
-     * in any environment where the ajax implementation depends on setInterval or
-     * setTimeout.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else {
+        makeApi(sinon);
+    }
+}());
 
-    (function () {
-        function Server() { }
+/**
+ * @depend fake_server.js
+ * @depend fake_timers.js
+ */
+/**
+ * Add-on for sinon.fakeServer that automatically handles a fake timer along with
+ * the FakeXMLHttpRequest. The direct inspiration for this add-on is jQuery
+ * 1.3.x, which does not use xhr object's onreadystatehandler at all - instead,
+ * it polls the object for completion with setInterval. Dispite the direct
+ * motivation, there is nothing jQuery-specific in this file, so it can be used
+ * in any environment where the ajax implementation depends on setInterval or
+ * setTimeout.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function () {
+    function makeApi(sinon) {
+        function Server() {}
         Server.prototype = sinon.fakeServer;
 
         sinon.fakeServerWithClock = new Server();
@@ -4335,32 +4929,46 @@ this.sinon = (function () {
 
             return sinon.fakeServer.restore.apply(this, arguments);
         };
-    }());
-
-    /**
-     * @depend ../sinon.js
-     * @depend collection.js
-     * @depend util/fake_timers.js
-     * @depend util/fake_server_with_clock.js
-     */
-    /*jslint eqeqeq: false, onevar: false, plusplus: false*/
-    /*global require, module*/
-    /**
-     * Manages fake collections as well as fake utilities such as Sinon's
-     * timers and fake XHR implementation in one convenient object.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
-
-    if (typeof module !== "undefined" && module.exports && typeof require == "function") {
-        var sinon = require("../sinon");
-        sinon.extend(sinon, require("./util/fake_timers"));
     }
 
-    (function () {
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require) {
+        var sinon = require("./core");
+        require("./fake_server");
+        require("./fake_timers");
+        makeApi(sinon);
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require);
+    } else {
+        makeApi(sinon);
+    }
+}());
+
+/**
+ * @depend util/core.js
+ * @depend extend.js
+ * @depend collection.js
+ * @depend util/fake_timers.js
+ * @depend util/fake_server_with_clock.js
+ */
+/**
+ * Manages fake collections as well as fake utilities such as Sinon's
+ * timers and fake XHR implementation in one convenient object.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function () {
+    function makeApi(sinon) {
         var push = [].push;
 
         function exposeValue(sandbox, config, key, value) {
@@ -4430,6 +5038,8 @@ this.sinon = (function () {
                     obj.requests = this.server.requests;
                 }
 
+                obj.match = sinon.match;
+
                 return obj;
             },
 
@@ -4469,46 +5079,55 @@ this.sinon = (function () {
                 }
 
                 return sandbox;
-            }
+            },
+
+            match: sinon.match
         });
 
         sinon.sandbox.useFakeXMLHttpRequest = sinon.sandbox.useFakeServer;
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = sinon.sandbox; });
-        } else if (typeof module !== 'undefined' && module.exports) {
-            module.exports = sinon.sandbox;
-        }
-    }());
+        return sinon.sandbox;
+    }
 
-    /**
-     * @depend ../sinon.js
-     * @depend stub.js
-     * @depend mock.js
-     * @depend sandbox.js
-     */
-    /*jslint eqeqeq: false, onevar: false, forin: true, plusplus: false*/
-    /*global module, require, sinon*/
-    /**
-     * Test function, sandboxes fakes
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./util/fake_server");
+        require("./util/fake_timers");
+        require("./collection");
+        module.exports = makeApi(sinon);
+    }
 
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}());
 
-        if (!sinon) {
-            return;
-        }
+/**
+ * @depend util/core.js
+ * @depend stub.js
+ * @depend mock.js
+ * @depend sandbox.js
+ */
+/**
+ * Test function, sandboxes fakes
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
 
+(function (sinon) {
+    function makeApi(sinon) {
         function test(callback) {
             var type = typeof callback;
 
@@ -4521,7 +5140,23 @@ this.sinon = (function () {
                 config.injectInto = config.injectIntoThis && this || config.injectInto;
                 var sandbox = sinon.sandbox.create(config);
                 var exception, result;
-                var args = Array.prototype.slice.call(arguments).concat(sandbox.args);
+                var doneIsWrapped = false;
+                var argumentsCopy = Array.prototype.slice.call(arguments);
+                if (argumentsCopy.length > 0 && typeof argumentsCopy[arguments.length - 1] == "function") {
+                    var oldDone = argumentsCopy[arguments.length - 1];
+                    argumentsCopy[arguments.length - 1] = function done(result) {
+                        if (result) {
+                            sandbox.restore();
+                            throw exception;
+                        } else {
+                            sandbox.verifyAndRestore();
+                        }
+                        oldDone(result);
+                    }
+                    doneIsWrapped = true;
+                }
+
+                var args = argumentsCopy.concat(sandbox.args);
 
                 try {
                     result = callback.apply(this, args);
@@ -4529,12 +5164,13 @@ this.sinon = (function () {
                     exception = e;
                 }
 
-                if (typeof exception !== "undefined") {
-                    sandbox.restore();
-                    throw exception;
-                }
-                else {
-                    sandbox.verifyAndRestore();
+                if (!doneIsWrapped) {
+                    if (typeof exception !== "undefined") {
+                        sandbox.restore();
+                        throw exception;
+                    } else {
+                        sandbox.verifyAndRestore();
+                    }
                 }
 
                 return result;
@@ -4558,66 +5194,70 @@ this.sinon = (function () {
         };
 
         sinon.test = test;
+        return test;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = test; });
-        } else if (commonJSModule) {
-            module.exports = test;
-        }
-    }(typeof sinon == "object" && sinon || null));
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    /**
-     * @depend ../sinon.js
-     * @depend test.js
-     */
-    /*jslint eqeqeq: false, onevar: false, eqeqeq: false*/
-    /*global module, require, sinon*/
-    /**
-     * Test case, sandboxes all test functions
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./sandbox");
+        module.exports = makeApi(sinon);
+    }
 
-    (function (sinon) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
 
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
+/**
+ * @depend util/core.js
+ * @depend test.js
+ */
+/**
+ * Test case, sandboxes all test functions
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
 
-        if (!sinon || !Object.prototype.hasOwnProperty) {
-            return;
-        }
+(function (sinon) {
+    function createTest(property, setUp, tearDown) {
+        return function () {
+            if (setUp) {
+                setUp.apply(this, arguments);
+            }
 
-        function createTest(property, setUp, tearDown) {
-            return function () {
-                if (setUp) {
-                    setUp.apply(this, arguments);
-                }
+            var exception, result;
 
-                var exception, result;
+            try {
+                result = property.apply(this, arguments);
+            } catch (e) {
+                exception = e;
+            }
 
-                try {
-                    result = property.apply(this, arguments);
-                } catch (e) {
-                    exception = e;
-                }
+            if (tearDown) {
+                tearDown.apply(this, arguments);
+            }
 
-                if (tearDown) {
-                    tearDown.apply(this, arguments);
-                }
+            if (exception) {
+                throw exception;
+            }
 
-                if (exception) {
-                    throw exception;
-                }
+            return result;
+        };
+    }
 
-                return result;
-            };
-        }
-
+    function makeApi(sinon) {
         function testCase(tests, prefix) {
             /*jsl:ignore*/
             if (!tests || typeof tests != "object") {
@@ -4657,41 +5297,49 @@ this.sinon = (function () {
         }
 
         sinon.testCase = testCase;
+        return testCase;
+    }
 
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = testCase; });
-        } else if (commonJSModule) {
-            module.exports = testCase;
-        }
-    }(typeof sinon == "object" && sinon || null));
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
 
-    /**
-     * @depend ../sinon.js
-     * @depend stub.js
-     */
-    /*jslint eqeqeq: false, onevar: false, nomen: false, plusplus: false*/
-    /*global module, require, sinon*/
-    /**
-     * Assertions matching the test spy retrieval interface.
-     *
-     * @author Christian Johansen (christian@cjohansen.no)
-     * @license BSD
-     *
-     * Copyright (c) 2010-2013 Christian Johansen
-     */
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./test");
+        module.exports = makeApi(sinon);
+    }
 
-    (function (sinon, global) {
-        var commonJSModule = typeof module !== "undefined" && module.exports && typeof require == "function";
-        var slice = Array.prototype.slice;
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+}(typeof sinon == "object" && sinon || null));
+
+/**
+ * @depend times_in_words.js
+ * @depend util/core.js
+ * @depend stub.js
+ * @depend format.js
+ */
+/**
+ * Assertions matching the test spy retrieval interface.
+ *
+ * @author Christian Johansen (christian@cjohansen.no)
+ * @license BSD
+ *
+ * Copyright (c) 2010-2013 Christian Johansen
+ */
+
+(function (sinon, global) {
+    var slice = Array.prototype.slice;
+
+    function makeApi(sinon) {
         var assert;
-
-        if (!sinon && commonJSModule) {
-            sinon = require("../sinon");
-        }
-
-        if (!sinon) {
-            return;
-        }
 
         function verifyIsStub() {
             var method;
@@ -4761,7 +5409,7 @@ this.sinon = (function () {
                 throw error;
             },
 
-            pass: function pass(assertion) { },
+            pass: function pass(assertion) {},
 
             callOrder: function assertCallOrder() {
                 verifyIsStub.apply(null, arguments);
@@ -4783,7 +5431,7 @@ this.sinon = (function () {
                     }
 
                     failAssertion(this, "expected " + expected + " to be " +
-                                  "called in order but were called as " + actual);
+                                "called in order but were called as " + actual);
                 } else {
                     assert.pass("callOrder");
                 }
@@ -4811,7 +5459,7 @@ this.sinon = (function () {
                 var includeFail = typeof o.includeFail == "undefined" || !!o.includeFail;
 
                 for (var method in this) {
-                    if (method != "export" && (includeFail || !/^(fail)/.test(method))) {
+                    if (method != "expose" && (includeFail || !/^(fail)/.test(method))) {
                         target[exposedName(prefix, method)] = this[method];
                     }
                 }
@@ -4836,7 +5484,7 @@ this.sinon = (function () {
 
         mirrorPropAsAssertion("called", "expected %n to have been called at least once but was never called");
         mirrorPropAsAssertion("notCalled", function (spy) { return !spy.called; },
-                              "expected %n to not have been called but was called %c%C");
+                            "expected %n to not have been called but was called %c%C");
         mirrorPropAsAssertion("calledOnce", "expected %n to be called once but was called %c%C");
         mirrorPropAsAssertion("calledTwice", "expected %n to be called twice but was called %c%C");
         mirrorPropAsAssertion("calledThrice", "expected %n to be called thrice but was called %c%C");
@@ -4856,35 +5504,53 @@ this.sinon = (function () {
         mirrorPropAsAssertion("alwaysThrew", "%n did not always throw exception%C");
 
         sinon.assert = assert;
-
-        if (typeof define === "function" && define.amd) {
-            define(["module"], function (module) { module.exports = assert; });
-        } else if (commonJSModule) {
-            module.exports = assert;
-        }
-    }(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : (typeof self != "undefined") ? self : global));
-
-    /**
-     * @depend ../../sinon.js
-     * @depend event.js
-     */
-    /*jslint eqeqeq: false, onevar: false*/
-    /*global sinon, module, require, XDomainRequest*/
-    /**
-     * Fake XDomainRequest object
-     */
-
-    if (typeof sinon == "undefined") {
-        this.sinon = {};
+        return assert;
     }
-    sinon.xdr = { XDomainRequest: this.XDomainRequest };
 
-    // wrapper for global
-    (function (global) {
-        var xdr = sinon.xdr;
-        xdr.GlobalXDomainRequest = global.XDomainRequest;
-        xdr.supportsXDR = typeof xdr.GlobalXDomainRequest != "undefined";
-        xdr.workingXDR = xdr.supportsXDR ? xdr.GlobalXDomainRequest : false;
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./util/core");
+        require("./match");
+        module.exports = makeApi(sinon);
+    }
+
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else if (!sinon) {
+        return;
+    } else {
+        makeApi(sinon);
+    }
+
+}(typeof sinon == "object" && sinon || null, typeof window != "undefined" ? window : (typeof self != "undefined") ? self : global));
+
+/**
+ * @depend core.js
+ * @depend ../extend.js
+ * @depend event.js
+ * @depend ../log_error.js
+ */
+/**
+ * Fake XDomainRequest object
+ */
+
+if (typeof sinon == "undefined") {
+    this.sinon = {};
+}
+
+// wrapper for global
+(function (global) {
+    var xdr = { XDomainRequest: global.XDomainRequest };
+    xdr.GlobalXDomainRequest = global.XDomainRequest;
+    xdr.supportsXDR = typeof xdr.GlobalXDomainRequest != "undefined";
+    xdr.workingXDR = xdr.supportsXDR ? xdr.GlobalXDomainRequest :  false;
+
+    function makeApi(sinon) {
+        sinon.xdr = xdr;
 
         function FakeXDomainRequest() {
             this.readyState = FakeXDomainRequest.UNSENT;
@@ -4920,7 +5586,7 @@ this.sinon = (function () {
         function verifyResponseBodyType(body) {
             if (typeof body != "string") {
                 var error = new Error("Attempted to respond to fake XDomainRequest with " +
-                                      body + ", which is not a string.");
+                                    body + ", which is not a string.");
                 error.name = "InvalidBodyException";
                 throw error;
             }
@@ -4939,29 +5605,27 @@ this.sinon = (function () {
 
             readyStateChange: function readyStateChange(state) {
                 this.readyState = state;
-                var eventName = '';
+                var eventName = "";
                 switch (this.readyState) {
-                    case FakeXDomainRequest.UNSENT:
-                        break;
-                    case FakeXDomainRequest.OPENED:
-                        break;
-                    case FakeXDomainRequest.LOADING:
-                        if (this.sendFlag) {
-                            //raise the progress event
-                            eventName = 'onprogress';
-                        }
-                        break;
-                    case FakeXDomainRequest.DONE:
-                        if (this.isTimeout) {
-                            eventName = 'ontimeout'
-                        }
-                        else if (this.errorFlag || (this.status < 200 || this.status > 299)) {
-                            eventName = 'onerror';
-                        }
-                        else {
-                            eventName = 'onload'
-                        }
-                        break;
+                case FakeXDomainRequest.UNSENT:
+                    break;
+                case FakeXDomainRequest.OPENED:
+                    break;
+                case FakeXDomainRequest.LOADING:
+                    if (this.sendFlag) {
+                        //raise the progress event
+                        eventName = "onprogress";
+                    }
+                    break;
+                case FakeXDomainRequest.DONE:
+                    if (this.isTimeout) {
+                        eventName = "ontimeout"
+                    } else if (this.errorFlag || (this.status < 200 || this.status > 299)) {
+                        eventName = "onerror";
+                    } else {
+                        eventName = "onload"
+                    }
+                    break;
                 }
 
                 // raising event (if defined)
@@ -5029,7 +5693,7 @@ this.sinon = (function () {
                 this.setResponseBody(body || "");
             },
 
-            simulatetimeout: function () {
+            simulatetimeout: function simulatetimeout() {
                 this.status = 0;
                 this.isTimeout = true;
                 // Access to this should actually throw an error
@@ -5045,7 +5709,7 @@ this.sinon = (function () {
             DONE: 4
         });
 
-        sinon.useFakeXDomainRequest = function () {
+        sinon.useFakeXDomainRequest = function useFakeXDomainRequest() {
             sinon.FakeXDomainRequest.restore = function restore(keepOnCreate) {
                 if (xdr.supportsXDR) {
                     global.XDomainRequest = xdr.GlobalXDomainRequest;
@@ -5064,11 +5728,26 @@ this.sinon = (function () {
         };
 
         sinon.FakeXDomainRequest = FakeXDomainRequest;
-    })(this);
+    }
 
-    if (typeof module == "object" && typeof require == "function") {
+    var isNode = typeof module !== "undefined" && module.exports && typeof require == "function";
+    var isAMD = typeof define === "function" && typeof define.amd === "object" && define.amd;
+
+    function loadDependencies(require, exports, module) {
+        var sinon = require("./core");
+        require("./event");
+        makeApi(sinon);
         module.exports = sinon;
     }
 
-    return sinon;
-}.call(typeof window != 'undefined' && window || {}));
+    if (isAMD) {
+        define(loadDependencies);
+    } else if (isNode) {
+        loadDependencies(require, module.exports, module);
+    } else {
+        makeApi(sinon);
+    }
+})(this);
+
+  return sinon;
+}));
