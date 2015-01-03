@@ -26,13 +26,15 @@
             this.on('change:signInFailed', this._onChangeSignInFailed);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
-            
-            this.signInWithGoogle();
         },
 
         signInWithGoogle: function () {
             if (this._canSignIn()) {
-                this._supportsGoogleSignIn() ? this._getGoogleUserInfo() : this._signIn();
+                if (this._supportsGoogleSignIn()) {
+                    this._getGoogleUserInfo();
+                } else {
+                    this._signIn();
+                }
             }
         },
 
@@ -127,6 +129,7 @@
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
 
+        //  TODO: It feels weird that this explicitly calls signIn - what if I want to get their info without signing in?
         //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
         _onGetProfileUserInfo: function (profileUserInfo) {
             this._signIn(profileUserInfo.id);
@@ -173,7 +176,11 @@
 
         //  https://developer.chrome.com/extensions/identity#event-onSignInChanged
         _onChromeIdentitySignInChanged: function (account, signedIn) {
-            signedIn ? this._signIn(account.id) : this._onChromeSignedOut(account.id);
+            if (signedIn) {
+                this._signIn(account.id);
+            } else {
+                this._onChromeSignedOut(account.id);
+            }
         },
 
         _onSignInSuccess: function () {

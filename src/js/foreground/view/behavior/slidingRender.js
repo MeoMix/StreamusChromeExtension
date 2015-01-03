@@ -17,12 +17,12 @@
         maxRenderIndex: -1,
 
         //  The height of a rendered childView in px. Including padding/margin.
-        childViewHeight: 52,
+        childViewHeight: 56,
         viewportHeight: -1,
         
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
-        threshold: 10,
+        threshold: 0,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -177,7 +177,7 @@
             this.lastScrollTop = scrollTop;
         },
         
-        _setHeightPaddingTop: function() {
+        _setHeightPaddingTop: function () {
             this._setPaddingTop();
             this._setHeight();
         },

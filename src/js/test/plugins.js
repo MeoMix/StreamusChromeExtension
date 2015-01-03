@@ -5,6 +5,7 @@
     'chai',
     'cocktail',
     'jquery',
+    'jquery.perfectScrollbar',
     'jquery.qtip',
     'jquery-ui',
     'underscore',
@@ -29,9 +30,14 @@
             global: Backbone.Wreqr.radio.channel('global'),
             prompt: Backbone.Wreqr.radio.channel('prompt'),
             notification: Backbone.Wreqr.radio.channel('notification'),
+            foreground: Backbone.Wreqr.radio.channel('foreground'),
             foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
             window: Backbone.Wreqr.radio.channel('window'),
             contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
+            playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
+            searchArea: Backbone.Wreqr.radio.channel('searchArea'),
+            activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
+            element: Backbone.Wreqr.radio.channel('element'),
             
             //  BACKGROUND:
             sync: Backbone.Wreqr.radio.channel('sync'),
@@ -41,7 +47,8 @@
             //notification: Backbone.Wreqr.radio.channel('notification'),
             backgroundArea: Backbone.Wreqr.radio.channel('backgroundArea'),
             clipboard: Backbone.Wreqr.radio.channel('clipboard'),
-            foreground: Backbone.Wreqr.radio.channel('foreground')
+            //foreground: Backbone.Wreqr.radio.channel('foreground'),
+            player: Backbone.Wreqr.radio.channel('player')
         },
         
         backgroundChannels: null,

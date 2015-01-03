@@ -176,6 +176,8 @@
     <Content Include="src\js\foreground\collection\checkboxes.js" />
     <Content Include="src\js\foreground\collection\radioButtons.js" />
     <Content Include="src\js\foreground\collection\radioGroups.js" />
+    <Content Include="src\js\foreground\collection\simpleListItems.js" />
+    <Content Include="src\js\foreground\collection\simpleMenuItems.js" />
     <Content Include="src\js\foreground\collection\switches.js" />
     <Content Include="src\js\foreground\model\adminMenuArea.js" />
     <Content Include="src\js\foreground\model\checkbox.js" />
@@ -187,6 +189,7 @@
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />
+    <Content Include="src\js\foreground\model\simpleListItem.js" />
     <Content Include="src\js\foreground\model\simpleMenuItem.js" />
     <Content Include="src\js\foreground\model\switch.js" />
     <Content Include="src\js\foreground\model\timeArea.js" />
@@ -199,7 +202,9 @@
     <Content Include="src\js\foreground\view\contextMenu\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\element\radioButtonView.js" />
     <Content Include="src\js\foreground\view\element\radioGroupView.js" />
+    <Content Include="src\js\foreground\view\element\simpleListItemView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemView.js" />
+    <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\element\spinnerView.js" />
     <Content Include="src\js\foreground\view\element\switchView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
@@ -211,6 +216,7 @@
     <Content Include="src\js\foreground\view\prompt\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\promptContentView.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemRegion.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
@@ -361,6 +367,7 @@
     <Content Include="src\template\element\checkbox.html" />
     <Content Include="src\template\element\radioButton.html" />
     <Content Include="src\template\element\radioGroup.html" />
+    <Content Include="src\template\element\simpleListItem.html" />
     <Content Include="src\template\element\simpleMenuItem.html" />
     <Content Include="src\template\element\spinner.html" />
     <Content Include="src\template\element\switch.html" />

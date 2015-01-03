@@ -119,7 +119,7 @@
             this.ui.playAllButton.toggleClass('disabled', isEmpty);
 
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-            this.ui.addAllButton.toggleClass('disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', duplicatesInfo.message);
+            this.ui.addAllButton.toggleClass('disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
         },
 
         _updatePlaylistDetails: function (displayInfo) {

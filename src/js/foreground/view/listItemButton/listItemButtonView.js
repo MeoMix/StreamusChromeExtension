@@ -1,14 +1,12 @@
 ﻿define([
-    'common/enum/listItemType',
     'foreground/view/behavior/tooltip'
-], function (ListItemType, Tooltip) {
+], function (Tooltip) {
     'use strict';
 
     var ListItemButtonView = Marionette.ItemView.extend({
         tagName: 'button',
         className: function () {
-            //  TODO: Should probably use the same size icon for both..
-            return 'js-tooltipable listItem-button button--icon button--icon--secondary ' + this._getSize();
+            return 'js-tooltipable listItem-button button--icon button--icon--secondary button--medium';
         },
         
         events: {
@@ -28,14 +26,19 @@
             this._debounceOnClickAction = _.debounce(this._doOnClickAction.bind(this), 1000, true);
         },
 
+        //  TODO: I actually do need to have these bubble up because global events don't fire.
         _onClick: function () {
             this._debounceOnClickAction();
+            //  Since returning false, need to announce the event happened here since root level won't know about it.
+            Streamus.channels.element.vent.trigger('click', event);
             //  Don't allow click to bubble up since handling click at this level.
             return false;
         },
         
         _onDblClick: function () {
             this._debounceOnClickAction();
+            //  Since returning false, need to announce the event happened here since root level won't know about it.
+            Streamus.channels.element.vent.trigger('click', event);
             //  Don't allow dblClick to bubble up since handling click at this level.
             return false;
         },
@@ -46,11 +49,6 @@
             if (!this.$el.hasClass('disabled')) {
                 this.doOnClickAction();
             }
-        },
-
-        _getSize: function () {
-            var listItemType = this.model.get('listItemType');
-            return listItemType === ListItemType.Playlist ? 'button--small' : 'button--medium';
         }
     });
 

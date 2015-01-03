@@ -49,6 +49,7 @@
         copyUrl: function () {
             var url = this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', url);
+            
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('urlCopied')
             });
@@ -57,6 +58,10 @@
         copyTitleAndUrl: function () {
             var titleAndUrl = this.get('title') + ' - ' + this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', titleAndUrl);
+            
+            Streamus.channels.notification.commands.trigger('show:notification', {
+                message: chrome.i18n.getMessage('urlCopied')
+            });
         },
         
         _onChangeId: function (model, id) {

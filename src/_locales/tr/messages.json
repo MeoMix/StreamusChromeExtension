@@ -345,9 +345,6 @@
 	"update": {
 		"message": "Güncelle"
 	},
-	"showTooltips": {
-		"message": "Açıklamaları göster"
-	},
 	"showVideoSearch": {
 		"message": "Video aramalarını göster"
 	},

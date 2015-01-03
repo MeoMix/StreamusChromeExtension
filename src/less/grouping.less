@@ -2,22 +2,28 @@
 @import "fontSize";
 @import "lineHeight";
 
-.grouping {
-    &:not(:last-child){
-        margin-bottom: 10px;
-    }
+//  It's important to use last-of-type with a <section class="grouping"> element because
+//  jQuery.perfectScrollbar injects additional <div> elements which conflict with last-child.
+.grouping:not(:last-of-type){
+    margin-bottom: 10px;
 }
 
 .grouping-header {
     color: @blue--500;
     margin-bottom: 8px;
     font-weight: 600;
-}
-
-.grouping-content {
-    /*font-size: 1.1em;*/
+    font-size: 13px;
+    line-height: 16px;
 }
 
 .grouping-item {
-    line-height: 36px;
+    font-size: 15px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+//  TODO: This is just a workaround for now to avoid UI changes to reminders which aren't shown.
+.grouping-item:empty {
+    display: none;
 }

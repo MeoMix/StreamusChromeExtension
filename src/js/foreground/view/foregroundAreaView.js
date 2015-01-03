@@ -87,7 +87,6 @@
             this.player = Streamus.backgroundPage.player;
             this.settings = Streamus.backgroundPage.settings;
 
-            this.listenTo(this.settings, 'change:showTooltips', this._onSettingsChangeShowTooltips);
             this.listenTo(this.player, 'change:loading', this._onPlayerChangeLoading);
             this.listenTo(this.player, 'change:currentLoadAttempt', this._onPlayerChangeCurrentLoadAttempt);
             window.onunload = this._onWindowUnload.bind(this);
@@ -96,11 +95,7 @@
         },
         
         onRender: function () {
-            var spinnerView = new SpinnerView({
-                className: 'spinner--medium'
-            });
-            this.spinnerRegion.show(spinnerView);
-            this._setHideTooltipsClass(this.settings.get('showTooltips'));
+            this.spinnerRegion.show(new SpinnerView());
             this._checkPlayerLoading();
         },
         
@@ -145,24 +140,18 @@
             Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
         },
 
-        _onSettingsChangeShowTooltips: function (model, showTooltips) {
-            this._setHideTooltipsClass(showTooltips);
-        },
-
         _onPlayerChangeLoading: function (model, loading) {
-            loading ? this._startLoading() : this._stopLoading();
+            if (loading) {
+                this._startLoading();
+            } else {
+                this._stopLoading();
+            }
         },
 
         _onPlayerChangeCurrentLoadAttempt: function () {
             this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
         },
         
-        //  Use some CSS to hide tooltips instead of trying to unbind/rebind all the event handlers.
-        _setHideTooltipsClass: function (showTooltips) {
-            //  TODO: prefer this to be this.$el, but I need to be able to tell qtip to use foregroundArea as its container.
-            $('body').toggleClass('is-hidingTooltips', !showTooltips);
-        },
-
         _startLoading: function () {
             this.$el.addClass('is-showingSpinner');
             this.ui.loadingFailedMessage.addClass('hidden');

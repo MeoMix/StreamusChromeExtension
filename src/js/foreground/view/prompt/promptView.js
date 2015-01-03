@@ -51,6 +51,16 @@
 
         onShow: function () {
             this.contentRegion.show(this.contentView);
+
+            //  TODO: Keep DRY w/ scrollable.
+            //  More info: https://github.com/noraesae/perfect-scrollbar
+            //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
+            this.contentView.$el.perfectScrollbar({
+                suppressScrollX: true,
+                //  56px because that is the height of 1 listItem--medium
+                minScrollbarLength: 56,
+                includePadding: true
+            });
             
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -104,8 +114,11 @@
         _transitionIn: function () {
             this.$el.addClass('is-visible');
             this.ui.panel.addClass('is-visible');
-        },
 
+            //  This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
+            this.triggerMethod('visible');
+        },
+        
         _transitionOut: function () {
             this.$el.on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');

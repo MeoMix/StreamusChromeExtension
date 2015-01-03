@@ -105,7 +105,12 @@ define([
         
         toggleState: function () {
             var playing = this.get('state') === PlayerState.Playing;
-            playing ? this.pause() : this.play();
+            
+            if (playing) {
+                this.pause();
+            } else {
+                this.play();
+            }
         },
         
         setVolume: function (volume) {
@@ -211,7 +216,7 @@ define([
         
         _onChangeMuted: function (model, muted) {
             if (this.get('ready')) {
-                muted ? this.get('youTubePlayer').mute() : this.get('youTubePlayer').unMute();
+                this.get('youTubePlayer').setMuted(muted);
             } else {
                 this.get('youTubePlayer').preload();
             }
@@ -231,8 +236,8 @@ define([
                 this.fetch();
                 //  These values need to be set explicitly because the 'change' event handler won't fire if localStorage value is the same as default.
                 this.get('youTubePlayer').setVolume(this.get('volume'));
-                this.get('muted') ? this.get('youTubePlayer').mute() : this.get('youTubePlayer').unMute();
-
+                this.get('youTubePlayer').setMuted(this.get('muted'));
+                
                 //  If an 'activateSong' command came in while the player was not ready, fulfill it now. 
                 var songToActivate = this.get('songToActivate');
                 if (songToActivate !== null) {

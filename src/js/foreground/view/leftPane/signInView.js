@@ -44,11 +44,7 @@
         
         onRender: function () {
             this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
-
-            var spinnerView = new SpinnerView({
-                className: 'spinner--medium'
-            });
-            this.spinnerRegion.show(spinnerView);
+            this.spinnerRegion.show(new SpinnerView());
         },
         
         _onClickSignInLink: function () {

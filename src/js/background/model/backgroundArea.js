@@ -58,6 +58,7 @@
 
             var tabManager = new TabManager();
             var signInManager = new SignInManager();
+            signInManager.signInWithGoogle();
 
             var search = new Search();
             

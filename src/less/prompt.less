@@ -15,10 +15,12 @@
 .prompt-panel {
     left: 50%;
     top: 50%;
-    //will-change: transform, scale;
     transform: translate(-50%, -50%) scale(.8);
-    min-width: 240px;
+    min-width: 260px;
     max-width: 500px;
+    max-height: 410px;
+    display: flex;
+    flex-direction: column;
     border-radius: 2px;
 
     &.is-visible {
@@ -27,10 +29,20 @@
 }
 
 .prompt-contentRegion {
+    display: flex;
+}
+
+.prompt-content {
+    flex: 1;
     //  http://www.google.com/design/spec/components/dialogs.html#dialogs-specs
-    margin: 24px 24px 16px;
+    margin-top: 24px;
+    margin-bottom: 16px;
+    padding: 0 24px;
     cursor: default;
     color: @dark--primary;
+    overflow: hidden;
+    position: relative;
+    font-size: 15px;
 }
 
 //  TODO: This is inconsistent, but having the box-shadow/border looks weird
@@ -47,9 +59,11 @@
     checkbox {
         padding: 8px;
         margin: 0 4px;
+        font-size: 14px;
 
+        &.is-checking .checkbox-label,
         &.is-checked .checkbox-label {
-            color: @green--500;
+            color: @blue--500;
         }
     }
 
@@ -57,4 +71,8 @@
         text-transform: uppercase;
         font-weight: 600;
     }
+}
+
+.prompt-reminderRegion {
+    flex: 1;
 }

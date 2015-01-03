@@ -51,7 +51,12 @@
         //  otherwise defer loading a widget until the API is ready.
         load: function () {
             var api = this.get('api');
-            api.get('ready') ? this._loadWidget() : api.load();
+            
+            if (api.get('ready')) {
+                this._loadWidget();
+            } else {
+                api.load();
+            }
         },
 
         stop: function () {
@@ -73,13 +78,13 @@
             //  https://developers.google.com/youtube/js_api_reference#seekTo
             youTubePlayerWidget.seekTo(timeInSeconds, true);
         },
-
-        mute: function () {
-            youTubePlayerWidget.mute();
-        },
-
-        unMute: function () {
-            youTubePlayerWidget.unMute();
+        
+        setMuted: function (muted) {
+            if (muted) {
+                youTubePlayerWidget.mute();
+            } else {
+                youTubePlayerWidget.unMute();
+            }
         },
 
         setVolume: function (volume) {

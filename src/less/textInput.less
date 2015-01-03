@@ -6,12 +6,11 @@
     transition: box-shadow @transition-color-time @transition-easeOutSine,
                 border @transition-color-time @transition-easeOutSine;
     width: 100%;
-    //will-change: border, box-shadow;
     background-color: transparent;
 }
 
 .textInput--search {
-    font-size: 1.1em;
+    font-size: 15px;
     border-bottom-color: rgba(255, 255, 255, .3);
 
     &::-webkit-input-placeholder {
@@ -57,12 +56,11 @@
 }
 
 .textInput-hint {
-    //  TODO: negative margin-bottom is bad practice, but I don't want content to shift, either.
-    height: 14px;
-    margin-bottom: -14px;
     cursor: default;
     color: @dark--secondary;
-    font-size: .9em;
+    font-size: 12px;
+    //  TODO: If I don't have this then text pushes content around when it appears which sucks.
+    height: 14px;
 }
 
 .textInput-characterCounter {

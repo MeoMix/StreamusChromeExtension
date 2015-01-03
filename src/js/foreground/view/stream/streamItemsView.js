@@ -22,7 +22,7 @@
                 parentId: this.ui.childContainer[0].id
             };
         },
-        
+
         //  Overwrite resortView to only render children as expected
         resortView: function () {
             this._renderChildren();
@@ -36,7 +36,7 @@
                 childContainer: '#' + this.id + '-listItems'
             };
         },
-        
+
         behaviors: {
             CollectionViewMultiSelect: {
                 behaviorClass: CollectionViewMultiSelect
@@ -54,31 +54,31 @@
                 behaviorClass: Tooltip
             }
         },
-        
+
         initialize: function () {
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'beforeShow', this._onActiveStreamItemAreaBeforeShow);
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'shown', this._onActiveStreamItemAreaShown);
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'hidden', this._onActiveStreamItemAreaHidden);
         },
-        
+
         _onActiveStreamItemAreaBeforeShow: function () {
             //  TODO: Clean this up
             setTimeout(function () {
-                if (this.ui.childContainer.height() < this.$el.height()) {
+                if (this.ui.childContainer.height() <= this.$el.height()) {
                     this.ui.childContainer.addClass('is-heightRestricted');
                 }
             }.bind(this));
         },
-        
+
         _onActiveStreamItemAreaShown: function () {
             this.ui.childContainer.removeClass('is-heightRestricted');
             this.triggerMethod('ListHeightUpdated');
         },
-        
+
         _onActiveStreamItemAreaHidden: function () {
             this.triggerMethod('ListHeightUpdated');
         }
     });
 
     return StreamItemsView;
-})
+});

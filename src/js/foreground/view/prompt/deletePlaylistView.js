@@ -1,9 +1,10 @@
 ﻿define([
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/deletePlaylist.html'
-], function (DeletePlaylistTemplate) {
+], function (PromptContentView, DeletePlaylistTemplate) {
     'use strict';
 
-    var DeletePlaylistView = Marionette.ItemView.extend({
+    var DeletePlaylistView = PromptContentView.extend({
         template: _.template(DeletePlaylistTemplate),
         
         templateHelpers: {

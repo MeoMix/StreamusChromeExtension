@@ -273,9 +273,6 @@
 	"update": {
 		"message": "Update"
 	},
-	"showTooltips": {
-		"message": "Show tooltips"
-	},
 	"wouldYouLikeTo": {
 		"message": "Would you like to"
 	},
@@ -411,8 +408,11 @@
 	"whyNotAddASongFromAPlaylistOr": {
 		"message": "Why not add a song from a playlist or"
 	},
-	"searchForAndPlay": {
-		"message": "Search for and Play"
+	"searchAndPlay": {
+		"message": "Search and Play"
+	},
+	"searchAndAdd": {
+		"message": "Search and Add"
 	},
 	"linkAccountToGoogle": {
 		"message": "Link account to Google?"
@@ -431,9 +431,6 @@
 	},
 	"remindGoogleSignIn": {
 		"message": "Remind Google sign in"
-	},
-	"donate": {
-		"message": "Donate"
 	},
 	"keyboardShortcuts": {
 		"message": "Keyboard shortcuts"

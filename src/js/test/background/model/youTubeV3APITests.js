@@ -319,9 +319,9 @@
             it('should return a list of playlist items', function (done) {
                 YouTubeV3API.getPlaylistSongs({
                     playlistId: 'FL_Gkp1Oa7e2a8NNaf5-KCpA',
-                    success: function (songs) {
-                        expect(songs).not.to.equal(null);
-                        expect(songs.length).to.equal(1);
+                    success: function (response) {
+                        expect(response).not.to.equal(null);
+                        expect(response.songs.length).to.equal(1);
                         done();
                     }
                 });

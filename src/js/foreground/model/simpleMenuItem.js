@@ -2,10 +2,10 @@
     'use strict';
 
     var SimpleMenuItem = Backbone.Model.extend({
-        defaults: function() {
-            return {
-                
-            };
+        defaults: {
+            text: '',
+            value: '',
+            selected: false
         }
     });
 

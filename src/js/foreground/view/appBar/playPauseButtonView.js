@@ -50,10 +50,10 @@
 
         _setState: function (enabled, playerState) {
             this.$el.toggleClass('disabled', !enabled);
-            
+
             //  TODO: jQuery doesn't support SVGs.
-            this.ui.pauseIcon[0].classList.toggle('hidden', playerState !== PlayerState.Playing);
-            this.ui.playIcon[0].classList.toggle('hidden',  playerState === PlayerState.Playing);
+            this.ui.pauseIcon[0].classList.toggle('hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
+            this.ui.playIcon[0].classList.toggle('hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
         }
     });
 

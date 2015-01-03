@@ -1,35 +1,38 @@
-﻿define({
-    baseUrl: 'js/',
-    enforceDefine: true,
+﻿define(function () {
+	'use strict';
 
-    paths: {
-        //  Paths:
-        'template': '../template',
+	require.config({
+		baseUrl: 'js/',
+		enforceDefine: true,
 
-        //  Third Party:
-        'backbone': 'thirdParty/backbone',
-        'backbone.localStorage': 'thirdParty/backbone.localStorage',
-        'backbone.marionette': 'thirdParty/backbone.marionette',
-        'cocktail': 'thirdParty/cocktail',
-        'googleAnalytics': 'thirdParty/googleAnalytics',
-        'jquery': 'thirdParty/jquery',
-        'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
-        'jquery.qtip': 'thirdParty/jquery.qtip',
-        'jquery-ui': 'thirdParty/jquery-ui',
-        'less': 'thirdParty/less',
-        //  Rename lodash to underscore since functionality equivilant but underscore is expected by other third party libraries.
-        'underscore': 'thirdParty/lodash',
-        'selectize': 'thirdParty/selectize',
-        'text': 'thirdParty/text'
-    },
+		paths: {
+			//  Paths:
+			'template': '../template',
 
-    shim: {
-        'googleAnalytics': {
-            deps: ['jquery'],
-            exports: 'ga'
-        },
-        'less': {
-            exports: 'window.less'
-        }
-    }
+			//  Third Party:
+			'backbone': 'thirdParty/backbone',
+			'backbone.localStorage': 'thirdParty/backbone.localStorage',
+			'backbone.marionette': 'thirdParty/backbone.marionette',
+			'cocktail': 'thirdParty/cocktail',
+			'googleAnalytics': 'thirdParty/googleAnalytics',
+			'jquery': 'thirdParty/jquery',
+			'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
+			'jquery.qtip': 'thirdParty/jquery.qtip',
+			'jquery-ui': 'thirdParty/jquery-ui',
+			'less': 'thirdParty/less',
+			//  Rename lodash to underscore since functionally equivilant but underscore is expected by other third party libraries.
+			'underscore': 'thirdParty/lodash',
+			'selectize': 'thirdParty/selectize',
+			'text': 'thirdParty/text'
+		},
+
+		shim: {
+			'googleAnalytics': {
+				exports: 'ga'
+			},
+			'less': {
+				exports: 'window.less'
+			}
+		}
+	});
 });

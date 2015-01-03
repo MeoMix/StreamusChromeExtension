@@ -5,9 +5,6 @@
         defaults: function () {
             return {
                 streamusForegroundUrl: 'chrome-extension://' + chrome.runtime.id + '/foreground.html',
-                donateUrl: 'https://streamus.com/#donate',
-                //  TODO: chrome.tabs can't match on fragment identifiers. Fix this once website is redone without using fragments for each page.
-                donateUrlPattern: '*://streamus.com/*',
                 keyboardShortcutsUrl: 'chrome://extensions/configureCommands',
                 youTubeUrlPatterns: ['*://*.youtube.com/watch?*', '*://*.youtu.be/*'],
                 beatportUrlPatterns: ['*://*.beatport.com/*']
@@ -43,11 +40,7 @@
         showStreamusTab: function () {
             this._showTab(this.get('streamusForegroundUrl'));
         },
-        
-        showDonateTab: function () {
-            this._showTab(this.get('donateUrlPattern'), this.get('donateUrl'));
-        },
-        
+
         showKeyboardShortcutsTab: function() {
             this._showTab(this.get('keyboardShortcutsUrl'));
         },

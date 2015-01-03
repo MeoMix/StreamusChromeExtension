@@ -1,8 +1,8 @@
-﻿<div id='<%= viewId + "-panel" %>' class='prompt-panel panel panel--uncolored u-transitionable transition--veryFast'>
+﻿<div id='<%= viewId + "-panel" %>' class='prompt-panel panel u-transitionable transition--veryFast'>
     <div id='<%= viewId + "-contentRegion" %>' class='prompt-contentRegion'></div>
 
     <div class='prompt-contentBar--bottom contentBar contentBar--bottom'>
-        <div id='<%= viewId + "-reminderRegion" %>'></div>
+        <div id='<%= viewId + "-reminderRegion" %>' class='prompt-reminderRegion'></div>
             
         <% if( showCancelButton ) { %>
         <button id='<%= viewId + "-cancelButton" %>' class='button--flat'>

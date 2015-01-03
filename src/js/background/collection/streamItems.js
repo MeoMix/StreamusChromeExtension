@@ -218,7 +218,7 @@
                     return sameSongId || sameCleanTitle;
                 });
 
-                return alreadyExistingItem == null;
+                return _.isUndefined(alreadyExistingItem);
             }, this);
 
             // Try to filter out 'playlist' songs, but if they all get filtered out then back out of this assumption.

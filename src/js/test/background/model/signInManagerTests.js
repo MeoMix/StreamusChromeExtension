@@ -44,7 +44,7 @@
                 it('the user should be signed in and should prompt to consider signing into Google Chrome', function () {
                     localStorage.removeItem('userId');
                     this.signInManager.signInWithGoogle();
-                    ensureSignedIn.call(this);
+                    ensureSignedIn(this.signInManager);
                 });
             });
 
@@ -52,19 +52,19 @@
                 it('the user should be signed should prompt to consider signing into Google Chrome', function () {
                     localStorage.setItem('userId', USER_ID);
                     this.signInManager.signInWithGoogle();
-                    ensureSignedIn.call(this);
+                    ensureSignedIn(this.signInManager);
                 });
             });
 
-            function ensureSignedIn() {
+            function ensureSignedIn(signInManager) {
                 //  Once to login, again for checking to see if should prompt to link to Google Account.
                 expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
-                expect(this.signInManager.get('signedInUser')).not.to.equal(null);
-                expect(this.signInManager._onSignInSuccess.calledOnce).to.equal(true);
+                expect(signInManager.get('signedInUser')).not.to.equal(null);
+                expect(signInManager._onSignInSuccess.calledOnce).to.equal(true);
                 //  Since the user isn't signed into Google Chrome we should prompt them to login so their data can be persisted across PCs.
-                expect(this.signInManager._promptGoogleSignIn.calledOnce).to.equal(true);
+                expect(signInManager._promptGoogleSignIn.calledOnce).to.equal(true);
                 //  Since the user isn't signed into Google Chrome, we should NOT prompt them to link their data because there's no ID to link to yet.
-                expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                expect(signInManager._promptLinkUserId.calledOnce).to.equal(false);
             }
         });
 
@@ -193,7 +193,7 @@
 
                     //  Since the new user can't be linked to the old user's data, but the new user already has a Google+ ID, use that Google+ ID in creating their account.
                     it('should create a new account and and link that account to the new user\'s account', function () {
-                        this.signInManager._onChromeSignInChanged({
+                        this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
                         }, true);
@@ -219,7 +219,7 @@
                     });
 
                     it('should swap to new account - old data is preserved in DB', function () {
-                        this.signInManager._onChromeSignInChanged({
+                        this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
                         }, true);
@@ -249,7 +249,7 @@
                     });
 
                     it('should prompt new user to link their account to the existing account', function () {
-                        this.signInManager._onChromeSignInChanged({
+                        this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
                         }, true);
@@ -296,7 +296,7 @@
                     });
 
                     it('should swap to new account - old data is lost', function () {
-                        this.signInManager._onChromeSignInChanged({
+                        this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
                         }, true);
@@ -340,7 +340,7 @@
                 });
 
                 it('should clear the current accounts data and create a new user', function () {
-                    this.signInManager._onChromeSignInChanged({
+                    this.signInManager._onChromeIdentitySignInChanged({
                         id: GOOGLE_PLUS_ID,
                         email: ''
                     }, false);
@@ -365,7 +365,7 @@
                 });
 
                 it('should take no action against the existing account - data is preserved', function () {
-                    this.signInManager._onChromeSignInChanged({
+                    this.signInManager._onChromeIdentitySignInChanged({
                         id: GOOGLE_PLUS_ID,
                         email: ''
                     }, false);

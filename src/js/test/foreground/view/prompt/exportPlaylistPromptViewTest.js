@@ -19,19 +19,21 @@
             this.view.destroy();
         });
 
-        it('should show', function () {
+        it('should show', function (done) {
             this.documentFragment.appendChild(this.view.render().el);
+            //  Wait before removing the element because destroying the view immediately causes race-condition error due to expectance of HTML presence in _transitionIn
+            this.view.onVisible = done;
             this.view.triggerMethod('show');
         });
         
         describe('onSubmit', function () {
             it('should export its playlist', function () {
-                sinon.stub(this.view.contentView, 'exportPlaylist');
+                sinon.stub(this.view.contentView, 'saveAndExport');
 
                 this.view.onSubmit();
-                expect(this.view.contentView.exportPlaylist.calledOnce).to.equal(true);
+                expect(this.view.contentView.saveAndExport.calledOnce).to.equal(true);
 
-                this.view.contentView.exportPlaylist.restore();
+                this.view.contentView.saveAndExport.restore();
             });
         });
     });

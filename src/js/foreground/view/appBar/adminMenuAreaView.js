@@ -14,7 +14,6 @@
             browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
             keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
             viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
-            donateMessage: chrome.i18n.getMessage('donate'),
             reloadMessage: chrome.i18n.getMessage('reload')
         },
         
@@ -25,7 +24,6 @@
                 settingsMenuItem: '#' + this.id + '-settingsMenuItem',
                 browserSettingsMenuItem: '#' + this.id + '-browserSettingsMenuItem',
                 viewInTabMenuItem: '#' + this.id + '-viewInTabMenuItem',
-                donateMenuItem: '#' + this.id + '-donateMenuItem',
                 keyboardShortcutsMenuItem: '#' + this.id + '-keyboardShortcutsMenuItem',
                 restartMenuItem: '#' + this.id + '-reloadMenuItem'
             };
@@ -37,7 +35,6 @@
             'click @ui.browserSettingsMenuItem': '_onClickBrowserSettingsMenuItem',
             'click @ui.keyboardShortcutsMenuItem': '_onClickKeyboardShortcutsMenuItem',
             'click @ui.viewInTabMenuItem': '_onClickViewInTabMenuItem',
-            'click @ui.donateMenuItem': '_onClickDonateMenuItem',
             'click @ui.restartMenuItem': '_onClickRestartMenuItem'
         },
         
@@ -74,10 +71,6 @@
             this.tabManager.showStreamusTab();
         },
         
-        _onClickDonateMenuItem: function() {
-            this.tabManager.showDonateTab();
-        },
-        
         _onClickRestartMenuItem: function () {
             chrome.runtime.reload();
         },
@@ -86,7 +79,7 @@
             this.model.set('menuShown', false);
         },
         
-        _onElementClick: function (event) {;
+        _onElementClick: function (event) {
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
             if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
                 this.model.set('menuShown', false);
@@ -94,15 +87,19 @@
         },
         
         _onChangeMenuShown: function (model, menuShown) {
-            menuShown ? this._showMenu() : this._hideMenu();
+            if (menuShown) {
+                this._showMenu();
+            } else {
+                this._hideMenu();
+            }
         },
         
         _showMenu: function () {
-            this.ui.menu.addClass('is-expanded');
+            this.ui.menu.addClass('is-visible');
         },
         
         _hideMenu: function () {
-            this.ui.menu.removeClass('is-expanded');
+            this.ui.menu.removeClass('is-visible');
         }
     });
 

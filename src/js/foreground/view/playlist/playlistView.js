@@ -13,7 +13,7 @@
     'use strict';
 
     var PlaylistView = ListItemView.extend({
-        className: ListItemView.prototype.className + ' playlist listItem--small',
+        className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
         template: _.template(PlaylistTemplate),
         
         ui: _.extend({}, ListItemView.prototype.ui, {
@@ -43,10 +43,9 @@
         },
         
         onRender: function () {
-            var spinnerView = new SpinnerView({
-                className: 'spinner--small overlay u-marginAuto'
-            });
-            this.spinnerRegion.show(spinnerView);
+            this.spinnerRegion.show(new SpinnerView({
+                className: 'overlay u-marginAuto'
+            }));
 
             this._setShowingSpinnerClass();
             this._setActiveClass(this.model.get('active'));

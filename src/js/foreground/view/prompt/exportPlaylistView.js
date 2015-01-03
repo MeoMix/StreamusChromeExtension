@@ -3,11 +3,12 @@
     'common/enum/exportFileType',
     'foreground/collection/radioGroups',
     'foreground/view/element/radioGroupView',
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/exportPlaylist.html'
-], function (Utility, ExportFileType, RadioGroups, RadioGroupView, ExportPlaylistTemplate) {
+], function (Utility, ExportFileType, RadioGroups, RadioGroupView, PromptContentView, ExportPlaylistTemplate) {
     'use strict';
 
-    var ExportPlaylistView = Marionette.LayoutView.extend({
+    var ExportPlaylistView = PromptContentView.extend({
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
         

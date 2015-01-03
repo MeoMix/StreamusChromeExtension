@@ -10,7 +10,6 @@
             //  Need to set the ID for Backbone.LocalStorage
             id: 'Settings',
             songQuality: SongQuality.Auto,
-            showTooltips: true,
             remindClearStream: true,
             remindDeletePlaylist: true,
             remindLinkUserId: true,

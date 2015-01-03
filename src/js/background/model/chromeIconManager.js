@@ -129,7 +129,7 @@ define([
         },
         
         _getIconBarCount: function(volume) {
-            return Math.ceil((volume / 25));;
+            return Math.ceil((volume / 25));
         }
     });
     

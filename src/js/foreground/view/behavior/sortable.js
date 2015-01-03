@@ -7,12 +7,13 @@
     var Sortable = Marionette.Behavior.extend({
         placeholderClass: 'sortable-placeholder',
         isDraggingClass: 'is-dragging',
-        
-        ui: {
-            list: '.list'
-        },
+        childViewHeight: 56,
         
         onRender: function () {
+            this.view.$el.scroll(_.throttle(function () {
+                this.view.ui.childContainer.sortable('refresh');
+            }.bind(this), 20));
+
             this.view.ui.childContainer.sortable(this._getSortableOptions());
         },
         
@@ -60,7 +61,7 @@
             }
             
             $('.' + this.placeholderClass).toggleClass('hidden', placeholderAdjacent);
-            
+
             this.view.ui.childContainer.sortable('refresh');
         },
         
@@ -97,14 +98,16 @@
         
         _stop: function (event, ui) {
             var childContainer = this.view.ui.childContainer;
-
+            var isParentNodeLost = ui.item[0].parentNode === null;
+            
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function (response) {
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
-                    this._moveItems(this.view.collection.selected(), dropIndex);
+                    
+                    this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
                     
                     this._cleanup();
                 }.bind(this));
@@ -115,13 +118,13 @@
             }
 
             //  Return false from stop to prevent jQuery UI from moving HTML for us - only need to prevent during copies and not during moves.
-            var removeHtmlElement = allowMove || ui.item[0].parentNode === null;
+            var removeHtmlElement = allowMove || isParentNodeLost;
             return removeHtmlElement;
         },
         
         _cleanup: function () {
-            console.log('cleaning up');
             this.view.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+            Streamus.channels.element.vent.trigger('drop');
         },
         
         _receive: function (event, ui) {
@@ -143,12 +146,6 @@
                 //  But, the index in the collection does not correspond to the index in the CollectionView -- that's simply the placeholderIndex. Not sure how to handle that.
                 //  I'd need to intercept the _onCollectionAdd event of Marionette, calculate the proper index, and pass bypass: true in, but not going to do that for now.
                 this.view.collection.sort();
-
-                //  Only announced 'drop' in 'receive' and not when moving item up/down its own collection because it feels weird to de-select when in same parent.
-                //  Delay announcing drop until after _stop has finished to let jQuery UI finish executing.
-                setTimeout(function () {
-                    Streamus.channels.element.vent.trigger('drop');
-                });
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');
         },
@@ -158,7 +155,7 @@
             this._decoratePlaceholder(ui);
         },
 
-        _moveItems: function (items, dropIndex) {
+        _moveItems: function (items, dropIndex, isParentNodeLost) {
             var moved = false;
             var itemsHandledBelowOrAtDropIndex = 0;
             var itemsHandled = 0;
@@ -175,6 +172,10 @@
             _.each(dropInfoList, function (dropInfo) {
                 var index = dropIndex;
                 var aboveDropIndex = dropInfo.itemIndex > dropIndex;
+
+                if (aboveDropIndex && isParentNodeLost) {
+                    index += 1;
+                }
 
                 //  Moving items below the drop index causes indices to shift with each move, but this is not the case with above the index.
                 if (aboveDropIndex) {
@@ -206,6 +207,15 @@
             //  If a move happened call sort without silent so that views can update accordingly.
             if (moved) {
                 this.view.collection.sort();
+            }
+
+            //  TODO: Is there a way to not need this work around? I can't see one.
+            //  The jquery UI helper can pushes out scrollTop past its max. In this scenario, need to tell the browser to 
+            //  re-calculate scrollTop because it's too large. Detect this by seeing that our scrollTop is not a valid, whole number of listItems.
+            var paddingTop = parseInt(this.view.ui.childContainer.css('padding-top'));
+            var height = this.view.ui.childContainer.height();
+            if ((height - paddingTop) / this.childViewHeight % 2 !== 0) {
+                //this.view.el.scrollTop -= 1;
             }
         },
         

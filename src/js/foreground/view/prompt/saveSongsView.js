@@ -1,9 +1,10 @@
 ﻿define([
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/saveSongs.html'
-], function (SaveSongsTemplate) {
+], function (PromptContentView, SaveSongsTemplate) {
     'use strict';
 
-    var SaveSongsView = Marionette.ItemView.extend({
+    var SaveSongsView = PromptContentView.extend({
         template: _.template(SaveSongsTemplate),
 
         templateHelpers: {

@@ -7,7 +7,8 @@ define([
 
     var ChromeContextMenusManager = Backbone.Model.extend({
         defaults: {
-            textSelectionId: -1,
+            textSelectionPlayId: -1,
+            textSelectionAddId: -1,
             youTubeLinkPlayId: -1,
             youTubeLinkAddId: -1,
             youTubeLinkSaveId: -1,
@@ -78,15 +79,27 @@ define([
         },
         
         _setTextSelection: function () {
-            this.get('browserSettings').get('showTextSelectionContextMenu') ? this._createTextSelection() : this._removeContextMenu('textSelectionId');
+            if (this.get('browserSettings').get('showTextSelectionContextMenu')) {
+                this._createTextSelection();
+            } else {
+                this._removeTextSelection();
+            }
         },
         
         _setYouTubeLinks: function () {
-            this.get('browserSettings').get('showYouTubeLinkContextMenu') ? this._createYouTubeLinks() : this._removeYouTubeLinks();
+            if (this.get('browserSettings').get('showYouTubeLinkContextMenu')) {
+                this._createYouTubeLinks();
+            } else {
+                this._removeYouTubeLinks();
+            }
         },
         
         _setYouTubePages: function () {
-            this.get('browserSettings').get('showYouTubePageContextMenu') ? this._createYouTubePages() : this._removeYouTubePages();
+            if (this.get('browserSettings').get('showYouTubePageContextMenu')) {
+                this._createYouTubePages();
+            } else {
+                this._removeYouTubePages();
+            }
         },
         
         _createYouTubeLinks: function() {
@@ -112,13 +125,20 @@ define([
         },
 
         _createTextSelection: function () {
-            var textSelectionId = chrome.contextMenus.create({
+            var textSelectionPlayId = chrome.contextMenus.create({
                 'contexts': ['selection'],
-                'title': chrome.i18n.getMessage('searchForAndPlay') + ' \'%s\'',
-                'onclick': this._onClickTextSelectionContextMenu.bind(this)
+                'title': chrome.i18n.getMessage('searchAndPlay') + ' \"%s\"',
+                'onclick': this._onClickTextSelectionContextMenu.bind(this, true)
+            });
+            
+            var textSelectionAddId = chrome.contextMenus.create({
+                'contexts': ['selection'],
+                'title': chrome.i18n.getMessage('searchAndAdd') + ' \"%s\"',
+                'onclick': this._onClickTextSelectionContextMenu.bind(this, false)
             });
 
-            this.set('textSelectionId', textSelectionId);
+            this.set('textSelectionPlayId', textSelectionPlayId);
+            this.set('textSelectionAddId', textSelectionAddId);
         },
         
         _removeYouTubeLinks: function() {
@@ -131,6 +151,11 @@ define([
             this._removeContextMenu('youTubePagePlayId');
             this._removeContextMenu('youTubePageAddId');
             this._removeContextMenu('youTubePageSaveId');
+        },
+        
+        _removeTextSelection: function () {
+            this._removeContextMenu('textSelectionPlayId');
+            this._removeContextMenu('textSelectionAddId');
         },
         
         _removeContextMenu: function (contextMenuIdPropertyName) {
@@ -206,12 +231,12 @@ define([
             return contextMenuOptions;
         },
         
-        _onClickTextSelectionContextMenu: function (onClickData) {
+        _onClickTextSelectionContextMenu: function (playOnAdd, onClickData) {
             YouTubeV3API.getSongByTitle({
                 title: onClickData.selectionText,
                 success: function (song) {
                     this.get('streamItems').addSongs(song, {
-                        playOnAdd: true
+                        playOnAdd: playOnAdd
                     });
                 }.bind(this)
             });

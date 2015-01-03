@@ -29,7 +29,6 @@
         },
         
         _onTransitionInComplete: function (event) {
-            console.log('shown!');
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
                 Streamus.channels.activeStreamItemArea.vent.trigger('shown');

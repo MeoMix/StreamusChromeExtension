@@ -1,7 +1,9 @@
 ﻿define(function() {
     'use strict';
     
+    //  TODO: Can this become a CollectionView?
     var ListItemButtonsView = Marionette.ItemView.extend({
+        className: 'listItem-buttons',
         template: false,
 
         //  Render a collection of button views to keep things DRY between various types of list-items:        

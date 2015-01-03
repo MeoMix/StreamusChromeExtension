@@ -9,7 +9,7 @@
     'use strict';
     
     var SearchResultView = ListItemView.extend({
-        className: ListItemView.prototype.className + ' search-result listItem--medium',
+        className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(SearchResultTemplate),
 
         buttonViews: [PlaySongButtonView, AddSongButtonView, SaveSongButtonView],

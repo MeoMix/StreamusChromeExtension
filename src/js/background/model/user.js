@@ -42,7 +42,12 @@ define([
         
         tryloadByUserId: function () {
             var userId = this._getLocalUserId();
-            userId === null ? this._create() : this._loadByUserId(userId);
+            
+            if (userId === null) {
+                this._create();
+            } else {
+                this._loadByUserId(userId);
+            }
         },
         
         //  A user is linked to a Google account if their GooglePlusId is not empty.

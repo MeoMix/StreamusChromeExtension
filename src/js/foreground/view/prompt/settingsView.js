@@ -3,28 +3,32 @@
     'foreground/collection/checkboxes',
     'foreground/collection/radioGroups',
     'foreground/collection/switches',
+    'foreground/collection/simpleListItems',
     'foreground/view/element/checkboxView',
     'foreground/view/element/radioGroupView',
+    'foreground/view/element/simpleListItemView',
     'foreground/view/element/switchView',
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/settings.html'
-], function (SongQuality, Checkboxes, RadioGroups, Switches, CheckboxView, RadioGroupView, SwitchView, SettingsTemplate) {
+], function (SongQuality, Checkboxes, RadioGroups, Switches, SimpleListItems, CheckboxView, RadioGroupView, SimpleListItemView, SwitchView, PromptContentView, SettingsTemplate) {
     'use strict';
 
-    var SettingsView = Marionette.LayoutView.extend({
+    var SettingsView = PromptContentView.extend({
         id: 'settings',
-        className: 'u-noWrap',
         template: _.template(SettingsTemplate),
         
-        templateHelpers: {
-            generalMessage: chrome.i18n.getMessage('general'),
-            songQualityMessage: chrome.i18n.getMessage('songQuality'),
-            remindersMessage: chrome.i18n.getMessage('reminders')
+        templateHelpers: function () {
+            return {
+                viewId: this.id,
+                generalMessage: chrome.i18n.getMessage('general'),
+                songQualityMessage: chrome.i18n.getMessage('songQuality'),
+                remindersMessage: chrome.i18n.getMessage('reminders')
+            };
         },
         
         regions: function () {
             return {
-                //songQualityRegion: '#' + this.id + '-songQualityRegion',
-                showTooltipsRegion: '#' + this.id + '-showTooltipsRegion',
+                songQualityRegion: '#' + this.id + '-songQualityRegion',
                 openToSearchRegion: '#' + this.id + '-openToSearchRegion',
                 openInTabRegion: '#' + this.id + '-openInTabRegion',
                 remindClearStreamRegion: '#' + this.id + '-remindClearStreamRegion',
@@ -37,22 +41,23 @@
         checkboxes: null,
         radioGroups: null,
         switches: null,
+        simpleListItems: null,
         signInManager: null,
         
         initialize: function () {
             this.checkboxes = new Checkboxes();
             this.radioGroups = new RadioGroups();
             this.switches = new Switches();
+            this.simpleListItems = new SimpleListItems();
 
             this.signInManager = Streamus.backgroundPage.signInManager;
         },
         
         onShow: function () {
             //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
-            //this._showRadioGroup('songQuality', SongQuality);
+            this._showSimpleListItem('songQuality', _.values(SongQuality));
 
-            this._showSwitch('showTooltips');
-            this._showCheckbox('openToSearch');
+            this._showSwitch('openToSearch');
             this._showSwitch('openInTab');
             this._showCheckbox('remindClearStream');
             this._showCheckbox('remindDeletePlaylist');
@@ -66,6 +71,18 @@
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showCheckbox('remindGoogleSignIn');
             }
+        },
+        
+        _showSimpleListItem: function (propertyName, options) {
+            var simpleListItem = this.simpleListItems.add({
+                property: propertyName,
+                value: this.model.get(propertyName),
+                options: options
+            });
+            
+            this[propertyName + 'Region'].show(new SimpleListItemView({
+                model: simpleListItem
+            }));
         },
         
         _showRadioGroup: function (propertyName, options) {
@@ -126,6 +143,10 @@
 
             this.switches.each(function (switchModel) {
                 currentValues[switchModel.get('property')] = switchModel.get('checked');
+            });
+
+            this.simpleListItems.each(function (simpleListItem) {
+                currentValues[simpleListItem.get('property')] = simpleListItem.get('value');
             });
 
             this.model.save(currentValues);

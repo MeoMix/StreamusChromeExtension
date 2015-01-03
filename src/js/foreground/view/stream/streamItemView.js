@@ -9,7 +9,7 @@
     'use strict';
 
     var StreamItemView = ListItemView.extend({
-        className: ListItemView.prototype.className + ' stream-item listItem--medium',
+        className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(StreamItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {

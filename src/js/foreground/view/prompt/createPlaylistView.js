@@ -1,10 +1,11 @@
 ﻿define([
     'common/enum/dataSourceType',
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/createPlaylist.html'
-], function (DataSourceType, CreatePlaylistTemplate) {
+], function (DataSourceType, PromptContentView, CreatePlaylistTemplate) {
     'use strict';
 
-    var CreatePlaylistView = Marionette.ItemView.extend({
+    var CreatePlaylistView = PromptContentView.extend({
         id: 'createPlaylist',
         template: _.template(CreatePlaylistTemplate),
         //  TODO: Would also be nice to pull this from the DB instead, need to truncate DB column to 150.

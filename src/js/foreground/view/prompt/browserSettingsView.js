@@ -1,13 +1,13 @@
 ﻿define([
     'foreground/collection/checkboxes',
     'foreground/view/element/checkboxView',
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/browserSettings.html'
-], function (Checkboxes, CheckboxView, BrowserSettingsTemplate) {
+], function (Checkboxes, CheckboxView, PromptContentView, BrowserSettingsTemplate) {
     'use strict';
 
-    var BrowserSettingsView = Marionette.LayoutView.extend({
+    var BrowserSettingsView = PromptContentView.extend({
         id: 'browserSettings',
-        className: 'u-noWrap',
         template: _.template(BrowserSettingsTemplate),
         
         templateHelpers: {

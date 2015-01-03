@@ -62,11 +62,6 @@ module.exports = function (grunt) {
 					console: true
 				},
 
-				//  Don't whine about == on null vs undefined, it's a bit pedantic..
-				"eqnull": true,
-				//  Allow bool ? func() : func()
-				"expr": true,
-
 				//	Don't validate third-party libraries
 				ignores: ['src/js/thirdParty/**/*.js']
 			}
@@ -341,8 +336,8 @@ module.exports = function (grunt) {
 		//  Don't remove this when testing debug deploy because server will throw CORS error
 		if (!isDebugDeploy) {
 			replacements.push({
-			    //	Remove permissions that're only needed for debugging.
-			    from: /".*localhost:.*,/g,
+				//	Remove permissions that're only needed for debugging.
+				from: /".*localhost:.*,/g,
 				to: ''
 			});
 		}

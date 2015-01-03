@@ -13,9 +13,12 @@
     position: relative;
 }
 
+.listItem--selectable:hover {
+    background: @dark--quinary;
+}
+
 .listItem {
     width: 100%;
-    /*padding: 5px;*/
     display: flex;
     transition: color @transition-color-time @transition-easeOutSine, 
                 background @transition-color-time @transition-easeOutSine,
@@ -23,35 +26,10 @@
 
     //  NOTE: This is needed so that .spinner is contained properly.
     position: relative;
-    //  NOTE: This is needed so that .spinner's margin: auto; doesn't cause odd overflow while spinning.
-    overflow: hidden;   
 
     &:hover {
-        background: @dark--quinary;
-
         .is-hiddenOnHover {
             .hidden;
-        }
-    }
-
-    &.is-selected {
-        color: @white;
-        background-color: @blue--500;
-
-        .listItem-button,
-        .listItem-details {
-            color: @light--secondary;
-        }
-        
-        .listItem-title,
-        .listItem-button:hover {
-            color: @white;
-        }
-
-        .listItem-spinner {
-            color: @white;
-            border-right-color: @white;
-            border-bottom-color: @white;
         }
     }
 
@@ -66,44 +44,62 @@
 }
 
 .listItem--medium {
-    height: 52px;
-    padding-right: 16px;
+    //  Be sure to keep childViewHeight in /behavior/slidingRender.js synced with this value.
+    height: 56px;
 
     .listItem-content {
-        padding: 6px 0px;
+        padding: 8px 0px;
+        padding-right: 16px;
+        flex: 1;
     }
 
     .listItem-title {
-        .fontSize-large;
+        font-size: 15px;
         line-height: 22px;
     }
 
     .listItem-details {
+        font-size: 13px;
         .u-textSecondary;
         .u-textOverflowEllipsis;
     }
     
-     &.is-active .listItem-title {
-         color: @blue--500;
-    }
+     &.is-active {
+          .listItem-title{
+            color: @blue--500;
+          }
 
-     &:hover {
-         padding-right: 4px;
-     }
+          .listItem-details {
+              color: fadeout(@blue--500, 13%);
+          }
+    }
 }
 
+.listItem--hasButtons:hover .listItem-content {
+    padding-right: 4px;
+}
+
+//  TODO: This styling is really for 'nav' and not just for 'small' but need to get it ironed out first.
 .listItem--small {
-    height: 36px;
-    padding: 0 16px;
+    height: 44px;
 
     .listItem-title {
         margin: auto 0;
+        font-size: 15px;
+        //font-weight: 600;
+    }
+
+    //  TODO: Instead of using different rules for listItem-content I should introduce rows.
+    .listItem-content {
+        display: flex;
+        flex: 1;
+        padding-left: 16px;
+        padding-right: 16px;
     }
 
     .listItem-itemCount {
-        .fontSize-small;
-        /*.lineHeight-tighter;*/
-        line-height: 16px;
+        font-size: 13px;
+        line-height: 18px;
         background-color: @dark--secondary;
         border-radius: 1em;
         color: @white;
@@ -111,7 +107,7 @@
         width: 30px;
         margin: auto 0;
         text-align: center;
-        height: 16px;
+        height: 18px;
         //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
         //  and 0px of space before the click target. Can I be more consistent?
         margin-left: 16px;
@@ -122,10 +118,6 @@
             color: @blue--500;
         }
     }
-    
-    &:hover {
-         padding-right: 8px;
-     }
 }
 
 .listItem-imageThumbnail {
@@ -136,16 +128,11 @@
     background-size: cover;
     border-radius: 50%;
     box-shadow: @boxShadow-outline;
-    margin: 6px 16px;
 }
 
 .listItem-title {
     color: @dark--primary;
     transition: color @transition-color-time @transition-easeOutSine;
-}
-
-.listItem-content {
-    flex: 1;
 }
 
 .listItem-details {
@@ -155,4 +142,30 @@
 .listItem-buttonsRegion {
     display: flex;
     align-items: center;
+}
+
+.listItem-buttons {
+    margin-right: 4px;
+}
+
+.listItem-checkboxRegion {
+    padding: 10px;
+}
+
+.listItem-leftContent {
+    width: 40px;
+    height: 40px;
+    margin: 8px 16px;
+
+    &.is-showingCheckbox {
+        .listItem-imageThumbnail {
+            .hidden;
+        }
+    }
+
+    &.is-showingThumbnail {
+        .listItem-checkboxRegion {
+            .hidden;
+        }
+    }
 }

@@ -1,9 +1,10 @@
 ﻿define([
+    'foreground/view/prompt/promptContentView',
     'text!template/prompt/editPlaylist.html'
-], function (EditPlaylistTemplate) {
+], function (PromptContentView, EditPlaylistTemplate) {
     'use strict';
 
-    var EditPlaylistView = Marionette.ItemView.extend({
+    var EditPlaylistView = PromptContentView.extend({
         id: 'editPlaylist',
         template: _.template(EditPlaylistTemplate),
         //  TODO: Not DRY w/ CreatePlaylistView -- pull from DB?

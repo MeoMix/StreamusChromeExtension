@@ -3,7 +3,7 @@
     'background/model/relatedSongsManager',
     'common/enum/playerState',
     'common/enum/repeatButtonState'
-], function(StreamItems, RelatedSongsManager, PlayerState, RepeatButtonState) {
+], function (StreamItems, RelatedSongsManager, PlayerState, RepeatButtonState) {
     'use strict';
 
     var Stream = Backbone.Model.extend({
@@ -23,13 +23,13 @@
                 repeatButton: null
             };
         },
-        
+
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['history'],
         toJSON: function () {
             return this.pick(this.whitelist);
         },
-        
+
         initialize: function () {
             this.listenTo(this.get('player'), 'change:state', this._onPlayerChangeState);
             this.listenTo(this.get('player'), 'youTubeError', this._onPlayerYouTubeError);
@@ -58,7 +58,7 @@
             var repeatButtonState = this.get('repeatButton').get('state');
             var items = this.get('items');
             var currentActiveItem = items.getActiveItem();
-            
+
             //  If removedActiveItemIndex is provided, RepeatButtonState.RepeatSong doesn't matter because the StreamItem was just deleted.
             if (_.isUndefined(removedActiveItemIndex) && repeatButtonState === RepeatButtonState.RepeatSong) {
                 nextItem = currentActiveItem;
@@ -107,8 +107,8 @@
 
                         nextItem = addedSongs[0];
                     }
-                    //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
-                    //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
+                        //  If the active item was deleted and there's nothing to advance forward to -- activate the previous item and pause.
+                        //  This should go AFTER radioEnabled check because it feels good to skip to the next one when deleting last with radio turned on.
                     else if (!_.isUndefined(removedActiveItemIndex)) {
                         items.last().save({ active: true });
                         this.get('player').pause();
@@ -123,13 +123,13 @@
                     nextItem.save({ active: true });
                 }
             }
-            
+
             //  Push the last active item into history when going forward:
             if (nextItem !== null && !_.isUndefined(currentActiveItem)) {
                 //  If the last item (sequentially) is removed and it was active, the previous item is activated.
                 //  This can cause a duplicate to be added to history if you just came from that item.
                 var history = this.get('history');
-                
+
                 if (history[0] !== currentActiveItem.get('id')) {
                     history.unshift(currentActiveItem.get('id'));
                     this.save('history', history);
@@ -138,7 +138,7 @@
 
             return nextItem;
         },
-        
+
         activatePrevious: function () {
             var previousStreamItem = this.getPrevious();
 
@@ -165,7 +165,7 @@
             }
 
             //  If nothing found by history -- rely on settings
-            if (previousStreamItem == null) {
+            if (previousStreamItem === null) {
                 var shuffleEnabled = this.get('shuffleButton').get('enabled');
                 var repeatButtonState = this.get('repeatButton').get('state');
                 var items = this.get('items');
@@ -192,14 +192,14 @@
 
             return previousStreamItem;
         },
-        
+
         clear: function () {
             //  Reset and clear instead of going through this.set() as a performance optimization
             var items = this.get('items');
             items.reset();
             items.localStorage._clear();
         },
-        
+
         //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
         _onItemsAdd: function (model) {
             if (model.get('relatedSongs').length === 0) {
@@ -209,28 +209,28 @@
                 });
             }
         },
-        
-        _onGetRelatedSongsSuccess: function(model, relatedSongs) {
+
+        _onGetRelatedSongsSuccess: function (model, relatedSongs) {
             model.get('relatedSongs').reset(relatedSongs.models);
             model.save();
         },
-        
+
         _onItemsRemove: function (model, collection, options) {
             var history = this.get('history');
             history = _.without(history, model.get('id'));
             this.save('history', history);
 
             var isEmpty = collection.isEmpty();
-            
+
             if (model.get('active') && !isEmpty) {
                 this.activateNext(options.index);
             }
-            
+
             if (isEmpty) {
                 this._cleanupOnItemsEmpty();
             }
         },
-        
+
         _onItemsReset: function (collection) {
             this.save('history', []);
 
@@ -241,7 +241,7 @@
                 this.set('activeItem', collection.getActiveItem());
             }
         },
-        
+
         _onItemsChangeActive: function (model, active) {
             if (active) {
                 this.set('activeItem', model);
@@ -285,16 +285,16 @@
                 Streamus.channels.error.commands.trigger('log:error', error);
             }
         },
-        
+
         _loadActiveItem: function (activeItem) {
             this.get('player').activateSong(activeItem.get('song'));
         },
-        
-        _cleanupOnItemsEmpty: function() {
+
+        _cleanupOnItemsEmpty: function () {
             this.set('activeItem', null);
             this.get('player').stop();
         }
     });
 
     return Stream;
-})
+});

@@ -1,6 +1,6 @@
 require([
     '../common/requireConfig'
-], function (requireConfig) {
+], function () {
     'use strict';
     
     //  Only log errors with less.
@@ -9,8 +9,6 @@ require([
         logLevel: 1
     };
 
-    require.config(requireConfig);
-    
     //  Load all of the plugins needed by the foreground:
     require(['foreground/plugins']);
 });

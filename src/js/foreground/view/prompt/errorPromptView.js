@@ -1,7 +1,8 @@
 ﻿define([
     'foreground/model/prompt',
+    'foreground/view/prompt/promptContentView',
     'foreground/view/prompt/promptView'
-], function (Prompt, PromptView) {
+], function (Prompt, PromptContentView, PromptView) {
     'use strict';
     
     var ErrorPromptView = PromptView.extend({
@@ -15,7 +16,7 @@
 
             this.player = Streamus.backgroundPage.player;
 
-            this.contentView = new Marionette.ItemView({
+            this.contentView = new PromptContentView({
                 template: _.template(options.text)
             });
 

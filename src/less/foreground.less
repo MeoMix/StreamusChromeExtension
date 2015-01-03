@@ -41,7 +41,7 @@ body {
     -webkit-user-select: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    font: 82.5% 'Roboto';
+    font: 13px 'Roboto';
     //  Default dimensions of Streamus as a browser extension
     width: 640px;
     height: 480px;
@@ -51,8 +51,8 @@ body {
     //  TODO: Would prefer to use -110% transform, but need to be able to shift StreamItems down the same amount.
     //  TODO: This should be like -68px so that the transition is moving at full velocity when it slides in,
     //  but doing so screws up the flex column because negative margin is bad for flexing.
-    margin-top: -62px;
-    height: 62px;
+    margin-top: -66px;
+    height: 66px;
 
     &.is-instant {
         transition: none;
@@ -62,7 +62,6 @@ body {
         margin-top: 0;
     }
     
-    //will-change: margin;
     transition-property: margin;
     transition-timing-function: @transition-easeOutSine;
     .transition--fast;
@@ -77,7 +76,7 @@ body {
 }
 
 #activeStreamItem-title {
-    font-size: 1.1em;
+    font-size: 15px;
     margin-top: 6px;
     line-height: 22px;
     cursor: default;
@@ -88,7 +87,8 @@ body {
 }
 
 .appBar-text {
-    font-size: 1.3em;
+    //  TODO: spec says 20px but seems too big
+    font-size: 17px;
     cursor: default;
 }
 
@@ -137,6 +137,7 @@ body {
 #activePlaylistArea-playlistDetails {
     margin: 0 12px;
     cursor: default;
+    font-size: 13px;
 }
 
 #streamItems {
@@ -148,16 +149,37 @@ body {
 }
 
 #foregroundArea-notificationRegion {
-    z-index: 1;
+    z-index: 2;
     //  TODO: bottom: 16px conflicts a bit with translateY -110%, but the opacity hides the issue so OK for now.
     left: 16px;
     bottom: 16px;
     opacity: 0;
-    //will-change: opacity, transform;
     transition-property: opacity, transform;
     transition-timing-function: @transition-easeOutSine;
+    border-radius: 2px;
 
     &.is-visible {
         opacity: 1;
+    }
+}
+
+#simpleMenuItems {
+    left: 0;
+}
+
+#playlistsArea-panel {
+    max-width: 400px;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: @dark--quaternary;
+    min-height: 52px;
+     
+    &:hover {
+        background-color: @dark--secondary;
     }
 }

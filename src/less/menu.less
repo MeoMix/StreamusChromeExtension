@@ -7,21 +7,23 @@
     z-index: 1;
     padding: 8px 0;
     opacity: 0;
-    transition-property: opacity;
-    transition-duration: @transition-easeOutSine;
-    .transition--fast;
-    //will-change: opacity;
+    //  TODO: These are conflicting with panel.
+    transition-property: opacity !important;
+    transition-timing-function: @transition-easeOutSine !important;
+    transition-duration: .14s;
     pointer-events: none;
     border-radius: 2px;
     
-    &.is-expanded {
+    &.is-visible {
         opacity: 1;
         pointer-events: all;
     }
 }
 
 .menu-item {
-    line-height: 36px;
+    //  TODO: Build this from listItem instead.
+    font-size: 15px;
+    line-height: 44px;
     .u-textOverflowEllipsis;
     .u-clickable;
     max-width: 200px;

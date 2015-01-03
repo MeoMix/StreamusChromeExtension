@@ -3,6 +3,7 @@
 ], function (RadioButtonTemplate) {
     'use strict';
 
+    //  TODO: Naming conflict with stream/radioButtonView
     var RadioButtonView = Marionette.ItemView.extend({
         tagName: 'radio-button',
         template: _.template(RadioButtonTemplate),

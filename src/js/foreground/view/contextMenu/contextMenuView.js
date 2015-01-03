@@ -6,7 +6,7 @@
     var ContextMenuView = Marionette.CompositeView.extend({
         id: 'context-menu',
         tagName: 'ul',
-        className: 'menu panel panel--uncolored',
+        className: 'menu panel',
         childView: ContextMenuItemView,
         template: _.template(),
         //  Used to determine whether context-menu display should flip as to not overflow container
@@ -27,12 +27,12 @@
                 left: offsetLeft
             });
             
-            this.$el.addClass('is-expanded');
+            this.$el.addClass('is-visible');
         },
         //  TODO: Move this logic to the ContextMenuRegion and use the same logic as in NotificationRegion.
         hide: function () {
             this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
-            this.$el.removeClass('is-expanded');
+            this.$el.removeClass('is-visible');
         },
         
         _onTransitionOutComplete: function () {

@@ -26,7 +26,8 @@
         regions: function () {
             return {
                 buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion',
-                spinnerRegion: '.' + ListItemView.prototype.className + '-spinnerRegion'
+                spinnerRegion: '.' + ListItemView.prototype.className + '-spinnerRegion',
+                checkboxRegion: '.' + ListItemView.prototype.className + '-checkboxRegion'
             };
         },
         

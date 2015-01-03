@@ -1,7 +1,8 @@
 ﻿define([
     'foreground/model/prompt',
+    'foreground/view/prompt/promptContentView',
     'foreground/view/prompt/promptView'
-], function (Prompt, PromptView) {
+], function (Prompt, PromptContentView, PromptView) {
     'use strict';
 
     var UpdateStreamusPromptView = PromptView.extend({
@@ -13,7 +14,7 @@
                 submitButtonText: chrome.i18n.getMessage('update')
             });
 
-            this.contentView = new Marionette.ItemView({
+            this.contentView = new PromptContentView({
                 template: _.template(chrome.i18n.getMessage('anUpdateToStreamusIsAvailable') + '. ' + chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate'))
             });
 

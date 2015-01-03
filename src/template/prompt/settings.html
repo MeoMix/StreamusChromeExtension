@@ -1,42 +1,27 @@
-﻿<div class='grouping'>
+﻿<section class='grouping'>
     <div class='grouping-header'>
         <%= generalMessage %>
     </div>
 
     <div class='grouping-content'>
         <ul>
-            <li id='settings-showTooltipsRegion' class='grouping-item'></li>
-            <li id='settings-openInTabRegion' class='grouping-item'></li>
-            <li id='settings-openToSearchRegion' class='grouping-item'></li>
-            <li id='settings-songQualityRegion' class='grouping-item'></li>
+            <li id='<%= viewId %>-openInTabRegion' class='grouping-item listItem listItem--small'></li>
+            <li id='<%= viewId %>-openToSearchRegion' class='grouping-item listItem listItem--small'></li>
+            <li id='<%= viewId %>-songQualityRegion' class='grouping-item'></li>
         </ul>
     </div>
-</div>
+</section>
 
-<!--<div class='grouping'>
-    <div class='grouping-header'>
-        <%= songQualityMessage %>
-    </div>
-
-    <div class='grouping-content'>
-        <ul>
-            <li class='grouping-item'>
-                <div id='settings-songQualityRegion'></div>
-            </li>
-        </ul>
-    </div>
-</div>-->
-
-<div class='grouping'>
+<section class='grouping'>
     <div class='grouping-header'>
         <%= remindersMessage %>
     </div>
     <div class='grouping-content'>
         <ul>
-            <li id='settings-remindClearStreamRegion' class='grouping-item'></li>
-            <li id='settings-remindDeletePlaylistRegion' class='grouping-item'></li>
-            <li id='settings-remindLinkAccountRegion' class='grouping-item'></li>
-            <li id='settings-remindGoogleSignInRegion' class='grouping-item'></li>
+            <li id='<%= viewId %>-remindClearStreamRegion' class='grouping-item listItem listItem--small'></li>
+            <li id='<%= viewId %>-remindDeletePlaylistRegion' class='grouping-item listItem listItem--small'></li>
+            <li id='<%= viewId %>-remindLinkAccountRegion' class='grouping-item listItem listItem--small'></li>
+            <li id='<%= viewId %>-remindGoogleSignInRegion' class='grouping-item listItem listItem--small'></li>
         </ul>
     </div>
-</div>
+</section>

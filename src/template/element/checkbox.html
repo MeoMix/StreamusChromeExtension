@@ -1,13 +1,17 @@
-﻿<% if(iconOnLeft){ %>
-    <span class="checkbox-icon"></span> 
-
-    <label class='checkbox-label'>
-        <%= labelText %>
-    </label>
+﻿<% if( labelText === '') { %>
+        <span class="checkbox-icon"></span> 
 <% } else { %>
-    <label class='checkbox-label'>
-        <%= labelText %>
-    </label>
+    <% if(iconOnLeft){ %>
+        <span class="checkbox-icon"></span> 
 
-    <span class="checkbox-icon"></span> 
+        <label class='checkbox-label'>
+            <%= labelText %>
+        </label>
+    <% } else { %>
+        <label class='checkbox-label'>
+            <%= labelText %>
+        </label>
+
+        <span class="checkbox-icon"></span> 
+    <% } %>
 <% } %>

@@ -15,9 +15,9 @@
             return {
                 viewId: this.id,
                 searchMessage: chrome.i18n.getMessage('search'),
-                saveSelectedMessage: chrome.i18n.getMessage('saveSelected'),
-                addSelectedMessage: chrome.i18n.getMessage('addSelected'),
-                playSelectedMessage: chrome.i18n.getMessage('playSelected'),
+                saveMessage: chrome.i18n.getMessage('save'),
+                addMessage: chrome.i18n.getMessage('add'),
+                playMessage: chrome.i18n.getMessage('play'),
                 notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
                 startTypingMessage: chrome.i18n.getMessage('startTyping'),
                 resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
@@ -92,9 +92,7 @@
                 collection: this.model.get('results')
             }));
             
-            this.spinnerRegion.show(new SpinnerView({
-                className: 'spinner--medium'
-            }));
+            this.spinnerRegion.show(new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.

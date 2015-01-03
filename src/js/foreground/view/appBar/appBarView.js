@@ -129,6 +129,7 @@
         
         _onClickShowSearchButton: function () {
             Streamus.channels.searchArea.commands.trigger('show:search');
+            Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
         },
         
         _onClickHideSearchButton: function () {
@@ -143,6 +144,7 @@
 
         _onClickShowPlaylistsAreaButton: function () {
             Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
+            Streamus.channels.searchArea.commands.trigger('hide:search');
         },
         
         _onClickHidePlaylistsAreaButton: function () {
@@ -164,6 +166,11 @@
             this.ui.hideSearchButton.removeClass('hidden');
             this.ui.playlistTitleRegion.addClass('hidden');
             this.ui.searchInputRegion.removeClass('hidden');
+            
+            //  TODO: Since search results aren't forgotten immediately i need to ensure that query matches search results.
+            //  However, it feels weird to have SearchResults populated with the UI not in-sync at the same time.
+            //  Doing it later allows me to not have to respond to the query getting cleared if search isn't shown in time, though.
+            this.ui.searchInput.val(Streamus.backgroundPage.search.get('query'));
             
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             //  This needs to be ran after makign the region visible because you can't focus an element which isn't visible.

@@ -9,7 +9,7 @@
         },
 
         events: {
-            'click @ui.listItem': '_onClickListItem',
+            'click @ui.listItem': '_onClickListItem'
         },
         
         initialize: function() {
@@ -39,9 +39,10 @@
         _onElementClick: function (event) {
             //  TODO: Checking for a string constant class like this is fragile.
             var clickedItem = $(event.target).closest('.js-listItem--multiSelect');
+            var isButtonClick = $(event.target).closest('.listItem-buttonsRegion').length !== 0;
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
 
-            if (listItemType !== this.view.childViewType) {
+            if (listItemType !== this.view.childViewType || isButtonClick) {
                 this._deselectCollection();
             }
         },
@@ -71,8 +72,9 @@
 
             var isSelectedAlready = modelToSelect.get('selected');
             //  When holding the ctrl key and clicking an already selected item -- the item becomes deselected.
-            modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
-
+            //modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
+            modelToSelect.set('selected', isSelectedAlready && !isDrag ? false : true);
+            
             //  When the shift key is pressed - select a block of search result items
             if (shiftKeyPressed) {
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
@@ -83,7 +85,7 @@
                 modelToSelect.set('firstSelected', true);
             } else if (!(isDrag && isSelectedAlready)) {
                 //  All other selections are lost unless dragging a group of items.
-                this.view.collection.deselectAllExcept(modelToSelect);
+                //this.view.collection.deselectAllExcept(modelToSelect);
             }
         },
         

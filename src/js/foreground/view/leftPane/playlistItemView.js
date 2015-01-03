@@ -10,7 +10,7 @@
     'use strict';
 
     var PlaylistItemView = ListItemView.extend({
-        className: ListItemView.prototype.className + ' playlist-item listItem--medium',
+        className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(PlaylistItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {
@@ -39,7 +39,7 @@
         
         onRender: function () {
             var spinnerView = new SpinnerView({
-                className: 'spinner--small overlay u-marginAuto'
+                className: 'overlay u-marginAuto'
             });
             this.spinnerRegion.show(spinnerView);
 
