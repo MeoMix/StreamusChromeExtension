@@ -76,3 +76,15 @@
 .prompt-reminderRegion {
     flex: 1;
 }
+
+//  TODO: I'd like to remove Selectize and implement it myself.
+//  Also, scrolling content is conflicting with this overflowing menu.
+#saveSongsPrompt .prompt-content {
+    overflow: initial;
+    position: static;
+
+    .ps-scrollbar-x-rail, 
+    .ps-scrollbar-y-rail {
+        display: none;
+    }
+}

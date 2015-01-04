@@ -106,9 +106,7 @@
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function (response) {
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
-                    
                     this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
-                    
                     this._cleanup();
                 }.bind(this));
                 this.view.triggerMethod('GetMinRenderIndex');
@@ -204,18 +202,13 @@
                 itemsHandled++;
             }, this);
             
-            //  If a move happened call sort without silent so that views can update accordingly.
+            
             if (moved) {
+                //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
-            }
-
-            //  TODO: Is there a way to not need this work around? I can't see one.
-            //  The jquery UI helper can pushes out scrollTop past its max. In this scenario, need to tell the browser to 
-            //  re-calculate scrollTop because it's too large. Detect this by seeing that our scrollTop is not a valid, whole number of listItems.
-            var paddingTop = parseInt(this.view.ui.childContainer.css('padding-top'));
-            var height = this.view.ui.childContainer.height();
-            if ((height - paddingTop) / this.childViewHeight % 2 !== 0) {
-                //this.view.el.scrollTop -= 1;
+                //  Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
+                //  then the scrollbar is not representing the correct height after the placeholder is removed.
+                this.view._behaviors[1]._updateScrollbar();
             }
         },
         

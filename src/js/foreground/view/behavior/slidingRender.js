@@ -22,7 +22,7 @@
         
         //  The number of items to render outside of the viewport. Helps with flickering because if
         //  only views which would be visible are rendered then they'd be visible while loading.
-        threshold: 0,
+        threshold: 10,
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
@@ -154,24 +154,30 @@
             }
 
             if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
-                this.minRenderIndex = minRenderIndex;
-                this.maxRenderIndex = maxRenderIndex;
 
-                if (itemsToAdd.length > 0) {
-                    var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
-                    if (direction === Direction.Down) {
-                        //  Items will be appended after oldMaxRenderIndex. 
-                        this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
-                    } else {
-                        this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
+                //  When drag-and-dropping an item to the end of a SlidingRender-enabled CollectionView, the 
+                //  drag-and-drop behavior will push the scrollTop to a length which is greater than the collection's length.
+                //  This causes rendering issues - so, safeguard against this happening and simply do not attempt to re-render in this scenario.
+                if (maxRenderIndex < this.view.collection.length) {
+                    this.minRenderIndex = minRenderIndex;
+                    this.maxRenderIndex = maxRenderIndex;
+
+                    if (itemsToAdd.length > 0) {
+                        var currentTotalRendered = (currentMaxRenderIndex - currentMinRenderIndex) + 1;
+                        if (direction === Direction.Down) {
+                            //  Items will be appended after oldMaxRenderIndex. 
+                            this._addItems(itemsToAdd, currentMaxRenderIndex + 1, currentTotalRendered, true);
+                        } else {
+                            this._addItems(itemsToAdd, minRenderIndex, currentTotalRendered, false);
+                        }
                     }
-                }
 
-                if (itemsToRemove.length > 0) {
-                    this._removeItems(itemsToRemove);
-                }
+                    if (itemsToRemove.length > 0) {
+                        this._removeItems(itemsToRemove);
+                    }
 
-                this._setHeightPaddingTop();
+                    this._setHeightPaddingTop();
+                }
             }
 
             this.lastScrollTop = scrollTop;
@@ -356,7 +362,7 @@
         _onCollectionRemove: function (item, collection, options) {
             //  I've wrapped this in a setTimeout because the CollectionView has yet to remove the model which is being removed from the collection.
             //  Because of this, _renderElementAtIndex has an off-by-one error due to the presence of the view whose model is being removed.
-            setTimeout(function() {
+            setTimeout(function () {
                 //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
                     var rendered = this._renderElementAtIndex(this.maxRenderIndex);
