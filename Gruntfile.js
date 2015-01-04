@@ -71,7 +71,7 @@ module.exports = function (grunt) {
 				expand: true,
 				ieCompat: false,
 				cwd: 'src/less/',
-				src: '*.less',
+				src: 'foreground.less',
 				dest: 'src/css',
 				ext: '.css'
 			}
@@ -169,18 +169,6 @@ module.exports = function (grunt) {
 			
 			grunt.task.run('update-src-manifest-version');
 		}
-	});
-	
-	grunt.registerTask('concat-foreground-css', 'Takes all the relevant CSS files for the foreground and concats them into one file.', function () {
-		grunt.config.set('concat', {
-			dist: {
-				//  Don't want the inject files just foreground css files
-				src: ['src/css/*.css', '!src/css/*Inject.css'],
-				dest: 'dist/css/foreground.css'
-			}
-		});
-		
-		grunt.task.run('concat');
 	});
 	
 	//	Update the manifest file's version number -- new version is being distributed and it is good to keep files all in sync.
