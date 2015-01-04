@@ -144,10 +144,8 @@ module.exports = function (grunt) {
 			grunt.option('version', version);
 		}
 
-		if (!isDebugDeploy) {
-			//  Linting is a bit annoying for test. Just ensure lint validation passes for production.
-			grunt.task.run('lint');
-		}
+		//  Ensure lint validation passes first and foremost. Clean code is important.
+		grunt.task.run('lint');
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
 		grunt.task.run('requirejs');
