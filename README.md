@@ -60,20 +60,21 @@ Third-Party Libraries
 
 Streamus utilizes several third-party libraries. Here's a list of those most prominent: 
 
-* [BackboneJS (v1.1.2)](http://backbonejs.org/)
-* [Backbone LocalStorage (v1.1.7)](https://github.com/jeromegn/Backbone.localStorage)
-* [Backbone MarionetteJS (v2.1.0)](http://marionettejs.com)
-* [Chai (v1.9.1)](http://chaijs.com/)
-* [jQuery (v2.1.1)](http://jquery.com/)
-* [jQuery UI (v1.11.0)](http://jqueryui.com/)
-* [jQuery qTip (v2.2.0-63-)](http://qtip2.com/)
-* [Less (v1.7.4)](http://lesscss.org)
-* [Lo-Dash (v2.4.1)](http://lodash.com/)
-* [Mocha (v1.21.3)](http://visionmedia.github.io/mocha/)
-* [RequireJS (v2.1.14)](http://requirejs.org/)
-* [Selectize (v0.10.1)](http://brianreavis.github.io/selectize.js/)
-* [Sinon (v1.10.3)](http://sinonjs.org/)
-* [Text (v2.0.12)](https://github.com/requirejs/text)
+* [BackboneJS](http://backbonejs.org/)
+* [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
+* [Backbone MarionetteJS)](http://marionettejs.com)
+* [Chai](http://chaijs.com/)
+* [jQuery](http://jquery.com/)
+* [jQuery UI](http://jqueryui.com/)
+* [jQuery Perfect Scrollbar](http://noraesae.github.io/perfect-scrollbar/)
+* [jQuery qTip](http://qtip2.com/)
+* [Less](http://lesscss.org)
+* [Lo-Dash](http://lodash.com/)
+* [Mocha](http://visionmedia.github.io/mocha/)
+* [RequireJS](http://requirejs.org/)
+* [Selectize)](http://brianreavis.github.io/selectize.js/)
+* [Sinon](http://sinonjs.org/)
+* [Text](https://github.com/requirejs/text)
 
 License
 =======

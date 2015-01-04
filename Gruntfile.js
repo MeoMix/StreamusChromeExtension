@@ -220,7 +220,7 @@ module.exports = function (grunt) {
 			inject: {
 				files: {
 					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/font-awesome.css', 'src/css/fontello.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
+					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
 				}
 			}
 		});
