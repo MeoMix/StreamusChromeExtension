@@ -148,21 +148,6 @@ body {
     }
 }
 
-#foregroundArea-notificationRegion {
-    z-index: 2;
-    //  TODO: bottom: 16px conflicts a bit with translateY -110%, but the opacity hides the issue so OK for now.
-    left: 16px;
-    bottom: 16px;
-    opacity: 0;
-    transition-property: opacity, transform;
-    transition-timing-function: @transition-easeOutSine;
-    border-radius: 2px;
-
-    &.is-visible {
-        opacity: 1;
-    }
-}
-
 #simpleMenuItems {
     left: 0;
 }

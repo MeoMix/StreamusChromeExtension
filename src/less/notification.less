@@ -2,13 +2,18 @@
 @import "fontSize";
 @import "lineHeight";
 
+#foregroundArea-notificationRegion {
+    //  TODO: bottom: 16px conflicts a bit with translateY -110%, but the opacity hides the issue so OK for now.
+    left: 16px;
+    bottom: 16px;
+}
+
 .notification {
     line-height: 48px;
-    bottom: 0;
     color: @white;
     cursor: default;
     //  http://www.google.com/design/spec/components/snackbars-toasts.html#snackbars-toasts-usage
-    background-color: #323232;
+    background-color: @gray--snackbar;
     font-size: 15px;
     padding: 0 24px;
     min-width: 288px;

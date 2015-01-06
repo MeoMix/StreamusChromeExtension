@@ -40,10 +40,11 @@
     //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
+    //  TODO: Gross. Be consistent with other panels.
     transition: opacity @transitionTime @transition-easeOutSine, 
                 height @transitionTime @transition-easeOutSine;
-    align-items: center;
     z-index: 1;
+    align-items: center;
     //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
     margin-left: 4px;
@@ -61,6 +62,7 @@
         margin: 0 auto;
         top: -1 * @panelWidth / 8;
         transform: rotate(45deg);
+        background-color: white;
     }
 
     .rangeInput {
@@ -69,10 +71,17 @@
         right: 0;
         opacity: 0;
         height: @rangeInputSize;
-        //will-change: opacity, right, height;
         transition: 
             width @transitionTime @transition-easeOutSine, 
             right @transitionTime @transition-easeOutSine,
             opacity @transitionTime @transition-easeOutSine;
     }
+}
+
+.volumeArea-slidePanel-content {
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
 }

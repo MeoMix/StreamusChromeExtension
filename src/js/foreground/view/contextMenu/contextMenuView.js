@@ -1,17 +1,30 @@
 ﻿define([
-    'foreground/view/contextMenu/contextMenuItemView'
-], function (ContextMenuItemView) {
+    'foreground/view/contextMenu/contextMenuItemView',
+    'text!template/contextMenu/contextMenu.html'
+], function (ContextMenuItemView, ContextMenuTemplate) {
     'use strict';
 
+    //  TODO: Refactor this to be a LayoutView with child CollectionView instead of a CompositeView.
     var ContextMenuView = Marionette.CompositeView.extend({
-        id: 'context-menu',
-        tagName: 'ul',
+        id: 'contextMenu',
         className: 'menu panel',
         childView: ContextMenuItemView,
-        template: _.template(),
-        //  Used to determine whether context-menu display should flip as to not overflow container
+        childViewContainer: '@ui.contextMenuItems',
+        template: _.template(ContextMenuTemplate),
+        templateHelpers: function () {
+            return {
+                viewId: this.id
+            };
+        },
+        //  Used to determine whether contextMenu display should flip as to not overflow container
         containerHeight: 0,
         containerWidth: 0,
+
+        ui: function () {
+            return {
+                contextMenuItems: '#' + this.id + '-contextMenuItems'
+            };
+        },
         
         initialize: function(options) {
             this.containerHeight = options.containerHeight;

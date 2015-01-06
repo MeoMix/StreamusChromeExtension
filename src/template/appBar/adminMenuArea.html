@@ -5,20 +5,25 @@
     </svg>
 </button>
 
-<ul id='adminMenuArea-menu' class='adminMenuArea-menu menu panel appBar-panel'>
-    <li id='adminMenuArea-settingsMenuItem' class='menu-item'>
-        <%= settingsMessage %>
-    </li>
-    <li id='adminMenuArea-browserSettingsMenuItem' class='menu-item'>
-        <%= browserSettingsMessage %>
-    </li>
-    <li id='adminMenuArea-keyboardShortcutsMenuItem' class='menu-item'>
-        <%= keyboardShortcutsMessage %>
-    </li>
-    <li id='adminMenuArea-viewInTabMenuItem' class='menu-item'>
-        <%= viewInTabMessage %>
-    </li>
-<!--    <li id='adminMenuArea-reloadMenuItem' class='menu-item'>
-        <%= reloadMessage %>
-    </li>-->
-</ul>
+<div id='adminMenuArea-menu' class='adminMenuArea-menu menu panel appBar-panel'>
+    <ul class='menu-items panel-content panel-content--fadeInOut panel-content--uncolored'>
+        <li id='adminMenuArea-settingsMenuItem' class='menu-item'>
+            <%= settingsMessage %>
+        </li>
+        <li id='adminMenuArea-browserSettingsMenuItem' class='menu-item'>
+            <%= browserSettingsMessage %>
+        </li>
+        <li id='adminMenuArea-keyboardShortcutsMenuItem' class='menu-item'>
+            <%= keyboardShortcutsMessage %>
+        </li>
+        <li id='adminMenuArea-viewInTabMenuItem' class='menu-item'>
+            <%= viewInTabMessage %>
+        </li>
+        <!--
+        I'll re-add this code once Google fixes the bug with chrome.runtime.reload
+        <li id='adminMenuArea-reloadMenuItem' class='menu-item'>
+            <%= reloadMessage %>
+        </li>
+        -->
+    </ul>
+</div>

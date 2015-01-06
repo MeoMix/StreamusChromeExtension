@@ -5,7 +5,7 @@
 
 	var NotificationView = Marionette.ItemView.extend({
 		id: 'notification',
-		className: 'notification',
+		className: 'notification panel-content panel-content--fadeInOut',
 		template: _.template(NotificationTemplate),
 
 		ui: function () {

@@ -4,22 +4,44 @@
 @import "boxShadow";
 
 .panel {
-    box-shadow: @boxShadow-elevation--low;
     position: absolute;
     transition-property: transform;
     transition-timing-function: @transition-easeOutSine;
     //  Necessary to make sure it covers .instruction
     z-index: 2;
-    //  Panels overlay other content so background-color cannot be transparent.
-    background-color: @white;
+    //  Don't allow interaction with panels until they are declared visible.
+    pointer-events: none;
 
     &.is-instant {
         transition: none;
     }
+
+    &.is-visible .panel-content--fadeInOut {
+        opacity: 1;
+        pointer-events: all;
+    }
+}
+
+.panel-content {
+    box-shadow: @boxShadow-elevation--low;
+}
+
+.panel-content--uncolored {
+    //  Panels overlay other content so background-color cannot be transparent.
+    //  Either describe the content as uncolored, so it will be white, or provide a custom color.
+    background-color: white;
+}
+
+.panel-content--fadeInOut {
+    opacity: 0;
+    transition-property: opacity;
+    transition-timing-function: inherit;
+    transition-duration: inherit;
 }
 
 .panel--left {
     transform: translateX(-110%);
+
     &.is-visible {
         transform: translateX(0);
     }
@@ -35,6 +57,7 @@
 
 .panel--bottom {
     transform: translateY(110%);
+    bottom: 0;
 
     &.is-visible {
         transform: translateY(0);

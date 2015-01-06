@@ -5,6 +5,7 @@
 ], function (SettingsPromptView, BrowserSettingsPromptView, AdminMenuAreaTemplate) {
     'use strict';
     
+    //  TODO: This doesn't close on right-click, but contextmenu does. Is that OK?
     var AdminMenuAreaView = Marionette.ItemView.extend({
         id: 'adminMenuArea',
         template: _.template(AdminMenuAreaTemplate),

@@ -8,7 +8,7 @@
 
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',
-        className: 'leftPane column u-flex--column u-flex--full',
+        className: 'leftPane column u-flex--column u-flex--full panel-content panel-content--uncolored',
         template: _.template(SearchTemplate),
         
         templateHelpers: function () {
