@@ -6,15 +6,15 @@
             <div id='<%= viewId + "-reminderRegion" %>' class='prompt-reminderRegion'></div>
             
             <% if( showCancelButton ) { %>
-            <button id='<%= viewId + "-cancelButton" %>' class='button--flat'>
+            <div id='<%= viewId + "-cancelButton" %>' class='button button--flat'>
                 <%= cancelButtonText %>
-            </button>
+            </div>
             <% } %>
             
             <% if( showSubmitButton ) { %>
-            <button id='<%= viewId + "-submitButton" %>' class='button--flat'>
+            <div id='<%= viewId + "-submitButton" %>' class='button button--flat'>
                 <%= submitButtonText %>
-            </button>
+            </div>
             <% } %>
         </div>
     </div>

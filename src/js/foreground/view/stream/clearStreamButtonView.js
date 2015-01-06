@@ -6,9 +6,8 @@
     'use strict';
 
     var ClearStreamButtonView = Marionette.ItemView.extend({
-        tagName: 'button',
         id: 'clearStreamButton',
-        className: 'button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ClearStreamButtonTemplate),
         
         events: {

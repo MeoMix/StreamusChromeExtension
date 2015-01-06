@@ -1,28 +1,48 @@
-﻿<button id='adminMenuArea-menuButton' class='button--icon button--icon--primary button--large'>
+﻿<div id='adminMenuArea-menuButton' class='button button--icon button--icon--primary button--large'>
     <svg width="24" height="24" viewBox="0 0 24 24">
         <path d="M0 0h24v24h-24z" fill="none"/>
         <path d="M12 8c1.1 0 2-.9 2-2s-.9-2-2-2-2 .9-2 2 .9 2 2 2zm0 2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2zm0 6c-1.1 0-2 .9-2 2s.9 2 2 2 2-.9 2-2-.9-2-2-2z"/>
     </svg>
-</button>
+</div>
 
 <div id='adminMenuArea-menu' class='adminMenuArea-menu menu panel appBar-panel'>
     <ul class='menu-items panel-content panel-content--fadeInOut panel-content--uncolored'>
-        <li id='adminMenuArea-settingsMenuItem' class='menu-item'>
-            <%= settingsMessage %>
+        <li id='adminMenuArea-settingsMenuItem' class='listItem listItem--small'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%= settingsMessage %>
+                </div>
+            </div>
         </li>
-        <li id='adminMenuArea-browserSettingsMenuItem' class='menu-item'>
-            <%= browserSettingsMessage %>
+        <li id='adminMenuArea-browserSettingsMenuItem' class='listItem listItem--small'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%= browserSettingsMessage %>
+                </div>
+            </div>
         </li>
-        <li id='adminMenuArea-keyboardShortcutsMenuItem' class='menu-item'>
-            <%= keyboardShortcutsMessage %>
+        <li id='adminMenuArea-keyboardShortcutsMenuItem' class='listItem listItem--small'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%= keyboardShortcutsMessage %>
+                </div>
+            </div>
         </li>
-        <li id='adminMenuArea-viewInTabMenuItem' class='menu-item'>
-            <%= viewInTabMessage %>
+        <li id='adminMenuArea-viewInTabMenuItem' class='listItem listItem--small'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%= viewInTabMessage %>
+                </div>
+            </div>
         </li>
         <!--
-        I'll re-add this code once Google fixes the bug with chrome.runtime.reload
-        <li id='adminMenuArea-reloadMenuItem' class='menu-item'>
-            <%= reloadMessage %>
+            I'll re-add this code once Google fixes the bug with chrome.runtime.reload
+        <li id='adminMenuArea-reloadMenuItem' class='menu-item listItem listItem--small'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%= reloadMessage %>
+                </div>
+            </div>
         </li>
         -->
     </ul>

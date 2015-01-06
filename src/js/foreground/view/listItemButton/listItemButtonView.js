@@ -4,9 +4,8 @@
     'use strict';
 
     var ListItemButtonView = Marionette.ItemView.extend({
-        tagName: 'button',
         className: function () {
-            return 'js-tooltipable listItem-button button--icon button--icon--secondary button--medium';
+            return 'js-tooltipable listItem-button button button--icon button--icon--secondary button--medium';
         },
         
         events: {

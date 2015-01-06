@@ -4,9 +4,8 @@
     'use strict';
 
     var PreviousButton = Marionette.ItemView.extend({
-        tagName: 'button',
         id: 'previousButton',
-        className: 'button--icon button--icon--primary button--large',
+        className: 'button button--icon button--icon--primary button--large',
         template: _.template(PreviousButtonTemplate),
         
         events: {

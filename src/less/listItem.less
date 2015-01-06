@@ -33,6 +33,10 @@
             .hidden;
         }
     }
+    
+    &:not(.disabled):hover {
+        background: @dark--quinary;
+    }
 
     &.is-active .listItem-itemCount {
         background-color: @blue--500;
@@ -134,6 +138,7 @@
 .listItem-title {
     color: @dark--primary;
     transition: color @transition-color-time @transition-easeOutSine;
+    .u-textOverflowEllipsis;
 }
 
 .listItem-details {

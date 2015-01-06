@@ -363,6 +363,7 @@
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
+    <Content Include="src\template\contextMenu\contextMenu.html" />
     <Content Include="src\template\contextMenu\contextMenuItem.html" />
     <Content Include="src\template\element\checkbox.html" />
     <Content Include="src\template\element\radioButton.html" />

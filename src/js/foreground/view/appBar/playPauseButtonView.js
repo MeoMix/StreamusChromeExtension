@@ -5,9 +5,8 @@
     'use strict';
 
     var PlayPauseButtonView = Marionette.ItemView.extend({
-        tagName: 'button',
         id: 'playPauseButton',
-        className: 'button--icon button--icon--primary button--large',
+        className: 'button button--icon button--icon--primary button--large',
         template: _.template(PlayPauseButtonTemplate),
         
         ui: function () {

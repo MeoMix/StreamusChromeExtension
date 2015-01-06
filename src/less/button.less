@@ -4,12 +4,11 @@
 @import "utility";
 @import "transition";
 
-//  Wrap button elements in a containing element so that they can be centered without
-//  custom margin for every size of button.
-.button-container {
-    //  This fixes the fact that <button> elements are replaced-inline and have a minimum line-height.
-    //  https://developer.mozilla.org/en-US/docs/Web/CSS/line-height#Browser_compatibility
-    line-height: 0;
+.button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    .u-clickable;
 }
 
 .button--flat {

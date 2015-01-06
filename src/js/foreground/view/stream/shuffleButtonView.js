@@ -5,9 +5,8 @@
     'use strict';
 
     var ShuffleButtonView = Marionette.ItemView.extend({
-        tagName: 'button',
         id: 'shuffleButton',
-        className: 'button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ShuffleButtonTemplate),
         
         events: {

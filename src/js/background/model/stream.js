@@ -159,16 +159,16 @@
         getPrevious: function () {
             var previousStreamItem = null;
             var history = this.get('history');
+            var items = this.get('items');
 
             if (history.length > 0) {
-                previousStreamItem = this.get(history[0]);
+                previousStreamItem = items.get(history[0]);
             }
 
             //  If nothing found by history -- rely on settings
             if (previousStreamItem === null) {
                 var shuffleEnabled = this.get('shuffleButton').get('enabled');
                 var repeatButtonState = this.get('repeatButton').get('state');
-                var items = this.get('items');
 
                 if (repeatButtonState === RepeatButtonState.RepeatSong) {
                     //  If repeating a single song just return whichever song is already currently active.

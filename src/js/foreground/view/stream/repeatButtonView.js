@@ -6,9 +6,8 @@
     'use strict';
 
     var RepeatButtonView = Marionette.ItemView.extend({
-        tagName: 'button',
         id: 'repeatButton',
-        className: 'button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(RepeatButtonTemplate),
         
         ui: function () {
