@@ -33,7 +33,7 @@
         notPlayedRecently: function () {
             return this.where({ playedRecently: false });
         },
-              
+        
         getBySong: function (song) {
             return this.find(function (streamItem) {
                 return streamItem.get('song').get('id') === song.get('id');
@@ -44,6 +44,7 @@
             var activeItem = this.getActiveItem();
             var activeSongId = activeItem.get('song').get('id');
 
+            //  TODO: It would be better to do 'now playing: ...' vs 'paused: ...' instead of 'active song', but StreamItems can't be in charge of that then.
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
                 title: chrome.i18n.getMessage('activeSong'),

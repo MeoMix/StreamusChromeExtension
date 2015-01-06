@@ -10,8 +10,8 @@
         },
         
         events: {
-            'mouseenter': '_onMouseEnter',
-            'mouseleave': '_onMouseLeave'
+            'mouseenter @ui.leftContent': '_onMouseEnterLeftContent',
+            'mouseleave @ui.leftContent': '_onMouseLeaveLeftContent'
         },
 
         modelEvents: {
@@ -21,17 +21,17 @@
         isMouseOver: false,
         checkbox: null,
         
-        initialize: function() {
-            this.checkbox = new Checkbox();
-            //this.listenTo(this.checkbox, 'change:checked', this._onCheckboxChangeChecked);
-        },
+        onRender: function () {
+            //  TODO: BUG https://github.com/marionettejs/backbone.marionette/issues/1579
+            this.checkbox = new Checkbox({
+                checked: this.view.model.get('selected')
+            });
 
-        onRender: function() {
             this.$el.addClass('js-listItem--multiSelect');
             this._setSelectedClass(this.view.model.get('selected'));
         },
         
-        _onMouseEnter: function () {
+        _onMouseEnterLeftContent: function () {
             this.isMouseOver = true;
             
             if (!this.view.model.get('selected')) {
@@ -44,7 +44,7 @@
             }
         },
         
-        _onMouseLeave: function () {
+        _onMouseLeaveLeftContent: function () {
             this.isMouseOver = false;
             
             if (!this.view.model.get('selected')) {
@@ -58,10 +58,6 @@
         _onChangeSelected: function (model, selected) {
             this._setSelectedClass(selected);
             this.checkbox.set('checked', selected);
-        },
-        
-        _onCheckboxChangeChecked: function (model, checked) {
-            this.view.model.set('selected', checked);
         },
 
         _setSelectedClass: function (selected) {

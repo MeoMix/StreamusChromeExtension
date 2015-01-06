@@ -18,6 +18,7 @@
 }
 
 .listItem {
+    cursor: pointer;
     width: 100%;
     display: flex;
     transition: color @transition-color-time @transition-easeOutSine, 
@@ -153,9 +154,10 @@
 }
 
 .listItem-leftContent {
-    width: 40px;
-    height: 40px;
-    margin: 8px 16px;
+    width: 48px;
+    height: 48px;
+    padding: 4px 4px;
+    margin: 4px 12px;
 
     &.is-showingCheckbox {
         .listItem-imageThumbnail {

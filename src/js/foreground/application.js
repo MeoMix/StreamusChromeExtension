@@ -27,27 +27,9 @@
         backgroundChannels: null,
         
         initialize: function () {
-            this._configureQtip();
             this._setBackgroundPage();
             this._setBackgroundChannels();
             this.on('start', this._onStart);
-        },
-
-        //  Configure qTip2's default behavior.
-        _configureQtip: function () {
-            $.extend($.fn.qtip.defaults.position, {
-                viewport: $(window),
-                my: 'top center',
-                at: 'bottom center',
-                adjust: $.extend($.fn.qtip.defaults.position.adjust, {
-                    y: 8,
-                    method: 'shift flipinvert'
-                })
-            });
-
-            $.extend($.fn.qtip.defaults.show, {
-                delay: 200
-            });
         },
         
         _setBackgroundPage: function () {

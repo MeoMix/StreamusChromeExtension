@@ -72,7 +72,8 @@
         },
         
         _onClickRestartMenuItem: function () {
-            chrome.runtime.reload();
+            //  BUG: https://code.google.com/p/chromium/issues/detail?id=225841
+            //Streamus.backgroundPage.chrome.runtime.reload();
         },
         
         _onElementDrag: function () {

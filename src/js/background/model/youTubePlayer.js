@@ -170,7 +170,7 @@
         
         //  Streamus could have disconnected from the API and failed to recover automatically.
         //  A good time to try recovering again is when the user is interacting the UI.
-        _onForegroundStarted: function() {
+        _onForegroundStarted: function () {
             if (!this.get('ready')) {
                 this.preload();
             }

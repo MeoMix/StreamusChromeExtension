@@ -55,7 +55,6 @@
         modelEvents: {
             'change:query': '_onChangeQuery',
             'change:searching': '_onChangeSearching'
-            //'change:query': '_onChangeQuery'
         },
 
         collectionEvents: {
@@ -99,10 +98,6 @@
         onVisible: function () {
             this.model.stopClearQueryTimer();
         },
-        
-        //_onChangeQuery: function (model, query) {
-        //    this.ui.searchInput.val(query);
-        //},
         
         _onSearchResultsChangeSelected: function () {
             this._toggleSelectedButtons();

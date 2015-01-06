@@ -33,11 +33,16 @@
 
 .button--icon--primary {
     opacity: 0.87;
+
+    &:hover {
+        opacity: 1;
+    }
 }
 
 .button--icon--secondary {
     opacity: .54;
 
+    &:hover,
     &.is-enabled {
         opacity: .87;
     }
@@ -50,10 +55,6 @@
         &:hover {
             fill: @blue--700;
         }
-    }
-
-    &:hover {
-        opacity: 1;
     }
 
     &.disabled {

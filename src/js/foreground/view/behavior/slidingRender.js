@@ -120,7 +120,7 @@
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;
             var currentMaxRenderIndex = this.maxRenderIndex;
-
+            
             //  Figure out the range of items which need to be rendered:
             var minRenderIndex = this._getMinRenderIndex(scrollTop);
             var maxRenderIndex = this._getMaxRenderIndex(scrollTop);
@@ -154,11 +154,10 @@
             }
 
             if (itemsToAdd.length > 0 || itemsToRemove.length > 0) {
-
                 //  When drag-and-dropping an item to the end of a SlidingRender-enabled CollectionView, the 
                 //  drag-and-drop behavior will push the scrollTop to a length which is greater than the collection's length.
                 //  This causes rendering issues - so, safeguard against this happening and simply do not attempt to re-render in this scenario.
-                if (maxRenderIndex < this.view.collection.length) {
+                if (maxRenderIndex < this.view.collection.length + this.threshold) {
                     this.minRenderIndex = minRenderIndex;
                     this.maxRenderIndex = maxRenderIndex;
 

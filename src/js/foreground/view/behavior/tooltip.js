@@ -4,6 +4,21 @@
 //  shown as a tooltip. The text tooltip will only be shown if the text is overflows the element.
 define(function () {
     'use strict';
+    
+    //  TODO: There might be a more elegant way to initialize these, but I definitely don't want to query for the window every time.
+    $.extend($.fn.qtip.defaults.position, {
+        viewport: $(window),
+        my: 'top center',
+        at: 'bottom center',
+        adjust: $.extend($.fn.qtip.defaults.position.adjust, {
+            y: 8,
+            method: 'shift flipinvert'
+        })
+    });
+
+    $.extend($.fn.qtip.defaults.show, {
+        delay: 200
+    });
 
     var Tooltip = Marionette.Behavior.extend({
         ui: {
