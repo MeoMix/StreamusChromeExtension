@@ -204,7 +204,7 @@
     <Content Include="src\js\foreground\view\element\radioGroupView.js" />
     <Content Include="src\js\foreground\view\element\simpleListItemView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemView.js" />
-    <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
+    <Content Include="src\js\foreground\view\element\simpleMenuView.js" />
     <Content Include="src\js\foreground\view\element\spinnerView.js" />
     <Content Include="src\js\foreground\view\element\switchView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
@@ -217,7 +217,6 @@
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptContentView.js" />
-    <Content Include="src\js\foreground\view\stream\activeStreamItemRegion.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
     <Content Include="src\js\foreground\view\appBar\nextButtonView.js" />
@@ -355,11 +354,12 @@
     <Content Include="src\less\font.less" />
     <Content Include="src\less\button.less" />
     <Content Include="src\less\contentBar.less" />
-    <Content Include="src\less\fontSize.less" />
-    <Content Include="src\less\column.less" />
+    <Content Include="src\less\flexColumn.less" />
     <Content Include="src\less\adminMenuArea.less" />
     <Content Include="src\less\boxShadow.less" />
     <Content Include="src\less\appBar.less" />
+    <Content Include="src\less\activeStreamItem.less" />
+    <Content Include="src\less\flexRow.less" />
     <None Include="src\less\foreground.less" />
     <Content Include="src\template\appBar\appBar.html" />
     <Content Include="src\template\backgroundArea.html" />
@@ -370,6 +370,7 @@
     <Content Include="src\template\element\radioGroup.html" />
     <Content Include="src\template\element\simpleListItem.html" />
     <Content Include="src\template\element\simpleMenuItem.html" />
+    <Content Include="src\template\element\simpleMenu.html" />
     <Content Include="src\template\element\spinner.html" />
     <Content Include="src\template\element\switch.html" />
     <Content Include="src\template\foregroundArea.html" />
@@ -441,7 +442,6 @@
     <Content Include="src\less\grouping.less" />
     <Content Include="src\less\instruction.less" />
     <Content Include="src\less\panel.less" />
-    <Content Include="src\less\lineHeight.less" />
     <Content Include="src\less\timeArea.less" />
     <Content Include="src\less\transition.less" />
     <Content Include="src\less\overlay.less" />
@@ -450,6 +450,8 @@
     <Content Include="src\less\switch.less" />
     <Content Include="src\less\checkbox.less" />
     <Content Include="src\less\spinner.less" />
+    <Content Include="src\less\navBar.less" />
+    <Content Include="src\less\text.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

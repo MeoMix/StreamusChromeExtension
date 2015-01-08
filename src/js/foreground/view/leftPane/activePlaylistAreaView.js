@@ -7,7 +7,7 @@
 
     var ActivePlaylistAreaView = Marionette.LayoutView.extend({
         id: 'activePlaylistArea',
-        className: 'column u-flex--column u-flex--full',
+        className: 'flexColumn',
         template: _.template(ActivePlaylistAreaTemplate),
         
         templateHelpers: function () {

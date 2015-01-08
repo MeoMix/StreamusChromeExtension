@@ -1,5 +1,4 @@
-﻿@import "lineHeight";
-@import "utility";
+﻿@import "color";
 
 .timeArea {
     display: flex;
@@ -7,11 +6,15 @@
 }
 
 .timeArea-label {
-    .u-textSecondary;
+    color: @dark--secondary;
+    //  TODO By specificing min-width instead of width I allow for hour-long tracks to push the size of the scrollbar inward.
+    //  However, it causes a weird flicker of pushing the view in on first load.
+    //min-width: 40px;
     width: 40px;
-    font-size: 13px;
+    font-size: 15px;
+    line-height: 22px;
 }
 
 #timeArea-totalTimeLabel {
-    cursor: default;
+    text-align: right;
 }

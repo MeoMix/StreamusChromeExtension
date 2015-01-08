@@ -1,16 +1,16 @@
 ﻿@import "color";
-
-.u-flex--column {
-    flex-direction: column;
-    display: flex;
-}
-
-.u-flex--row {
-    display: flex;
-}
+@import "boxShadow";
 
 .u-flex--full {
     flex: 1;
+}
+
+.u-relative {
+    position: relative;
+}
+
+.u-elevated {
+    z-index: 2;
 }
 
 .u-clickable {
@@ -19,6 +19,10 @@
 
 .u-lowercase {
     text-transform: lowercase;
+}
+
+.u-fullHeight {
+    height: 100%;
 }
 
 .u-link {
@@ -51,6 +55,14 @@
     &.is-visible {
         pointer-events: all;
     }
+}
+
+.u-bordered--left {
+    box-shadow: @boxShadow-divider--left;
+}
+
+.is-heightRestricted {
+    max-height: -webkit-max-content;
 }
 
 //  TODO: I don't know if these should be prefixed by u- or is-

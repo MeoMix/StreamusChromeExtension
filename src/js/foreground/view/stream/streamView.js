@@ -1,7 +1,6 @@
 ﻿define([
     'foreground/model/clearStreamButton',
     'foreground/model/saveStreamButton',
-    'foreground/view/stream/activeStreamItemRegion',
     'foreground/view/stream/activeStreamItemView',
     'foreground/view/stream/clearStreamButtonView',
     'foreground/view/stream/radioButtonView',
@@ -10,12 +9,12 @@
     'foreground/view/stream/shuffleButtonView',
     'foreground/view/stream/streamItemsView',
     'text!template/stream/stream.html'
-], function (ClearStreamButton, SaveStreamButton, ActiveStreamItemRegion, ActiveStreamItemView, ClearStreamButtonView, RadioButtonView, RepeatButtonView, SaveStreamButtonView, ShuffleButtonView, StreamItemsView, StreamTemplate) {
+], function (ClearStreamButton, SaveStreamButton, ActiveStreamItemView, ClearStreamButtonView, RadioButtonView, RepeatButtonView, SaveStreamButtonView, ShuffleButtonView, StreamItemsView, StreamTemplate) {
     'use strict';
     
     var StreamView = Marionette.LayoutView.extend({
         id: 'stream',
-        className: 'column u-flex--column',
+        className: 'flexColumn',
         template: _.template(StreamTemplate),
         
         templateHelpers: function () {
@@ -34,10 +33,7 @@
                 repeatButtonRegion: '#' + this.id + '-repeatButtonRegion',
                 saveStreamButtonRegion: '#' + this.id + '-saveStreamButtonRegion',
                 shuffleButtonRegion: '#' + this.id + '-shuffleButtonRegion',
-                activeStreamItemRegion: {
-                    el: '#' + this.id + '-activeStreamItemRegion',
-                    regionClass: ActiveStreamItemRegion
-                },
+                activeStreamItemRegion: '#' + this.id + '-activeStreamItemRegion',
                 streamItemsRegion: '#' + this.id + '-streamItemsRegion'
             };
         },
@@ -96,7 +92,7 @@
             
             var activeItem = this.model.get('activeItem');
             if (activeItem !== null) {
-                this.activeStreamItemRegion.showView(activeItem, true);
+                this._showActiveStreamItem(activeItem, true);
             }
             
             //  TODO: I don't think this is true now that I am not reliant on height in slidingRender. Unless it also matters for Tooltip?
@@ -112,11 +108,11 @@
 
         _onChangeActiveItem: function (model, activeItem) {
             if (activeItem === null) {
-                this.activeStreamItemRegion.hideView();
+                this.activeStreamItemRegion.currentView.hide();
             } else {
                 //  If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
                 var instant = model.previous('activeItem') !== null;
-                this.activeStreamItemRegion.showView(activeItem, instant);
+                this._showActiveStreamItem(activeItem, instant);
             }
         },
         
@@ -139,6 +135,13 @@
 
         _showSearch: function () {
             Streamus.channels.searchArea.commands.trigger('show:search');
+        },
+        
+        _showActiveStreamItem: function (activeStreamItem, instant) {
+            this.activeStreamItemRegion.show(new ActiveStreamItemView({
+                model: activeStreamItem,
+                instant: instant
+            }));
         }
     });
 

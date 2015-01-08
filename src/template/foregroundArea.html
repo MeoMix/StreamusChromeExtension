@@ -8,7 +8,7 @@
             <%= loadAttemptMessage %>
         </span>
         <div>
-            <span class='foregroundArea-reloadLink u-link lineHeight-base'>
+            <span class='foregroundArea-reloadLink u-link'>
                 <%= reloadMessage %>
             </span>  
         </div>
@@ -26,14 +26,14 @@
     </div>
 </div>
 
-<div id="foregroundArea-appBarRegion" class="spinner--faded spinner--unclickable"></div>
-<div class="base spinner--faded spinner--unclickable">
-    <div id='foregroundArea-leftPaneRegion' class='column column--wide'></div>
-    <div id='foregroundArea-streamRegion' class='column column--thin'></div>
-    <div id='foregroundArea-searchAreaRegion' class='panel panel--left column column--wide u-transitionable transition--fast'></div>
-    <div id='foregroundArea-playlistsAreaRegion'></div>
+<div id="foregroundArea-appBarRegion" class="u-elevated spinner--faded spinner--unclickable"></div>
+<div class="flexRow u-relative spinner--faded spinner--unclickable">
+    <div id='foregroundArea-leftPaneRegion' class='flexColumn--wide flexColumn'></div>
+    <div id='foregroundArea-streamRegion' class='flexColumn--thin flexColumn'></div>
+    <div id='foregroundArea-searchAreaRegion' class='panel panel--left column flexColumn--wide u-transitionable transition--fast flexColumn'></div>
+    <div id='foregroundArea-playlistsAreaRegion' class='flexColumn overlay'></div>
 </div>
 
-<div id='foregroundArea-promptRegion'></div>
+<div id='foregroundArea-promptRegion' class='overlay'></div>
 <div id='foregroundArea-notificationRegion' class='spinner--faded spinner--unclickable panel panel--bottom u-transitionable transition--veryFast'></div>
-<div id='foregroundArea-contextMenuRegion' class='spinner--faded spinner--unclickable column'></div>
+<div id='foregroundArea-contextMenuRegion' class='spinner--faded spinner--unclickable overlay'></div>

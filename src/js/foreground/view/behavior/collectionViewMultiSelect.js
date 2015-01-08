@@ -40,9 +40,11 @@
             //  TODO: Checking for a string constant class like this is fragile.
             var clickedItem = $(event.target).closest('.js-listItem--multiSelect');
             var isButtonClick = $(event.target).closest('.listItem-buttonsRegion').length !== 0;
+            //  TODO: I don't want to deselect when dragging scrollbar.. better options?
+            var isScrollbarClick = event.target === this.view.$el.parent()[0];
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
 
-            if (listItemType !== this.view.childViewType || isButtonClick) {
+            if (listItemType !== this.view.childViewType && !isScrollbarClick || isButtonClick) {
                 this._deselectCollection();
             }
         },

@@ -2,6 +2,7 @@
 @import "utility";
 @import "transition";
 @import "boxShadow";
+@import "flexColumn";
 
 .panel {
     position: absolute;
@@ -16,9 +17,21 @@
         transition: none;
     }
 
-    &.is-visible .panel-content--fadeInOut {
-        opacity: 1;
+    &.is-visible {
         pointer-events: all;
+
+        > .panel-content--fadeInOut {
+            opacity: 1;
+        }
+    }
+
+    //  Since panels are absoutely positioned - flexbox needs to be told height/width to flex properly.
+    &.flexColumn {
+        height: 100%;
+    }
+
+    &.flexRow {
+        width: 100%;
     }
 }
 

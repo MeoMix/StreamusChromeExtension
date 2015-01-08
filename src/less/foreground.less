@@ -1,18 +1,21 @@
 ﻿@import "normalize";
 @import "reset";
+@import "activeStreamItem";
 @import "adminMenuArea";
 @import "appBar";
 @import "boxShadow";
 @import "button";
 @import "checkbox";
 @import "contentBar";
-@import "column";
+@import "flexColumn";
+@import "flexRow";
 @import "font";
 @import "grouping";
 @import "instruction";
 @import "jquery.perfectScrollbar";
 @import "listItem";
 @import "menu";
+@import "navBar";
 @import "notification";
 @import "overlay";
 @import "panel";
@@ -23,6 +26,7 @@
 @import "sortable";
 @import "spinner";
 @import "switch";
+@import "text";
 @import "textInput";
 @import "timeArea";
 @import "tooltip";
@@ -45,113 +49,4 @@ body {
     //  Default dimensions of Streamus as a browser extension
     width: 640px;
     height: 480px;
-}
-
-#stream-activeStreamItemRegion {
-    //  TODO: Would prefer to use -110% transform, but need to be able to shift StreamItems down the same amount.
-    //  TODO: This should be like -68px so that the transition is moving at full velocity when it slides in,
-    //  but doing so screws up the flex column because negative margin is bad for flexing.
-    margin-top: -66px;
-    height: 66px;
-
-    &.is-instant {
-        transition: none;
-    }
-
-    &.is-visible {
-        margin-top: 0;
-    }
-    
-    transition-property: margin;
-    transition-timing-function: @transition-easeOutSine;
-    .transition--fast;
-    overflow: hidden;
-    box-shadow: @boxShadow-divider--bottom, @boxShadow-divider--left;
-}
-
-#activeStreamItem {
-    padding: 8px 16px;
-    color: rgba(0, 0, 0, 0.87);
-    width: 100%;
-}
-
-#activeStreamItem-title {
-    font-size: 15px;
-    margin-top: 6px;
-    line-height: 22px;
-    cursor: default;
-}
-
-#timeArea-totalTimeLabel {
-    text-align: right;
-}
-
-.appBar-text {
-    //  TODO: spec says 20px but seems too big
-    font-size: 17px;
-    cursor: default;
-}
-
-.appBar-content {
-    margin: auto 0;
-}
-
-#appBar-hidePlaylistsAreaButton,
-#appBar-showPlaylistsAreaButton {
-    margin-right: 20px;
-}
-
-#foregroundArea-appBarRegion {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 56px;
-    width: 100%;
-}
-
-.base {
-    position: absolute;
-    top: 56px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden;
-}
-
-#playlistsArea-panel,
-#foregroundArea-searchAreaRegion,
-#foregroundArea-streamRegion,
-#foregroundArea-leftPaneRegion {
-    position: absolute;
-    top: 0;
-}
-
-#foregroundArea-leftPaneRegion {
-    left: 0;
-}
-
-#foregroundArea-streamRegion {
-    right: 0;
-}
-
-#activePlaylistArea-playlistDetails {
-    margin: 0 12px;
-    cursor: default;
-    font-size: 13px;
-}
-
-#streamItems {
-    box-shadow: @boxShadow-divider--left;
-
-     #streamItems-listItems.is-heightRestricted {
-        max-height: -webkit-max-content;
-    }
-}
-
-#simpleMenuItems {
-    left: 0;
-}
-
-#playlistsArea-panel {
-    max-width: 400px;
 }

@@ -1,0 +1,21 @@
+﻿@import "utility";
+@import "overlay";
+
+@columnWidth--wide: 55;
+@columnWidth--thin: 45;
+
+.flexColumn {
+    flex-direction: column;
+    display: flex;
+    flex: 1;
+}
+
+.flexColumn--wide {
+    width: @columnWidth--wide * 1%;
+    flex: @columnWidth--wide;
+}
+
+.flexColumn--thin {
+    width: @columnWidth--thin * 1%;
+    flex: @columnWidth--thin;
+}

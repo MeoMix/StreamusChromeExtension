@@ -32,11 +32,6 @@
             _.defer(this._throttleUpdateScrollbar.bind(this));
         },
         
-        //  TODO: This sucks. I see a flicker of scrollbar when adding 2 items to the StreamItems list since it transitions in.
-        onListHeightUpdated: function () {
-            //this._updateScrollbar();
-        },
-        
         _onCollectionAdd: function () {
             this._throttleUpdateScrollbar();
         },

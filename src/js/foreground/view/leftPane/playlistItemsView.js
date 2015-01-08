@@ -12,7 +12,7 @@
 
     var PlaylistItemsView = Marionette.CompositeView.extend({
         id: 'playlistItems',
-        className: 'list',
+        className: 'list u-flex--full',
         childViewContainer: '@ui.childContainer',
         childView: PlaylistItemView,
         childViewType: ListItemType.PlaylistItem, 

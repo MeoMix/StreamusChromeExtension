@@ -1,13 +1,9 @@
 ﻿@import "color";
-@import "lineHeight";
-@import "fontSize";
 @import "utility";
-@import "column";
+@import "flexColumn";
 
 .instruction-wrapper {
-    .u-flex--full;
-    .u-flex--column;
-    .column;
+    .flexColumn;
     //  Contain the position: absolute instructions
     position: relative;
     cursor: default;
@@ -24,14 +20,14 @@
     transform: translateY(-50%);
     //  Keep all instruction heights the same so that they stay aligned to each-other.
     height: 60px;
-    //  Needed to position over .list which is relative due to perfectScrollbar
-    z-index: 1;
     padding: 0 16px;
+    //  Position over .list (which is relative due to perfectScrollbar) to enable clicking hyperlinks in instruction.
+    z-index: 1;
 }
 
 .instruction-header {
     font-size: 24px;
-    .lineHeight-looser;
+    line-height: 46px;
 }
 
 .instruction-content {

@@ -12,7 +12,7 @@
 
     var StreamItemsView = Marionette.CompositeView.extend({
         id: 'streamItems',
-        className: 'list',
+        className: 'list u-flex--full u-bordered--left',
         childViewContainer: '@ui.childContainer',
         childView: StreamItemView,
         childViewType: ListItemType.StreamItem,
@@ -60,10 +60,12 @@
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'shown', this._onActiveStreamItemAreaShown);
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'hidden', this._onActiveStreamItemAreaHidden);
         },
-
+        
         _onActiveStreamItemAreaBeforeShow: function () {
-            //  TODO: Clean this up
+            //  ChildContainer's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be shown.
             setTimeout(function () {
+                //  If the content isn't going to have a scrollbar later then add a class to ensure that 
+                //  a scrollbar doesn't shown for a second as the content transitions in.
                 if (this.ui.childContainer.height() <= this.$el.height()) {
                     this.ui.childContainer.addClass('is-heightRestricted');
                 }

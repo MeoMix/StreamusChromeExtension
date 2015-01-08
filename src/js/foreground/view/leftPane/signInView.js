@@ -6,7 +6,7 @@
 
     var SignInView = Marionette.LayoutView.extend({
         id: 'signIn',
-        className: 'column u-flex--column',
+        className: 'flexColumn',
         template: _.template(SignInTemplate),
         
         templateHelpers: {

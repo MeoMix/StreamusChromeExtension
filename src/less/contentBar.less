@@ -1,6 +1,5 @@
-﻿@import "fontSize";
-@import "lineHeight";
-@import "utility";
+﻿@import "flexRow";
+@import "color";
 @import "boxShadow";
 
 .contentBar {
@@ -23,7 +22,11 @@
     box-shadow: @boxShadow-divider--top;
 }
 
+.contentBar--bottom-text--left {
+    margin-left: 12px;
+}
+
 .contentBar-content {
     display: inline-flex;
-    .u-flex--full;
+    .flexRow;
 }

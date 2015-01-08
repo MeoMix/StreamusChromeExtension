@@ -1,13 +1,9 @@
 ﻿@import "color";
-@import "lineHeight";
-@import "fontSize";
 @import "utility";
 @import "transition";
-@import "column";
 @import "boxShadow";
 
 .list {
-    .column;
     padding: 8px 0;
     overflow-y: hidden;
     position: relative;
@@ -34,7 +30,8 @@
         }
     }
     
-    &:not(.disabled):hover {
+    //  TODO: Not all things should highlight.
+    &:not(.disabled):not(.grouping-item):not(.simpleListItem):hover {
         background: @dark--quinary;
     }
 
@@ -91,7 +88,6 @@
     .listItem-title {
         margin: auto 0;
         font-size: 15px;
-        //font-weight: 600;
     }
 
     //  TODO: Instead of using different rules for listItem-content I should introduce rows.
@@ -103,7 +99,6 @@
     }
 
     .listItem-itemCount {
-        font-size: 13px;
         line-height: 18px;
         background-color: @dark--secondary;
         border-radius: 1em;
@@ -112,7 +107,8 @@
         width: 30px;
         margin: auto 0;
         text-align: center;
-        height: 18px;
+        //  If this is an even number then the 13px font-size looks off-by-one px.
+        height: 17px;
         //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
         //  and 0px of space before the click target. Can I be more consistent?
         margin-left: 16px;

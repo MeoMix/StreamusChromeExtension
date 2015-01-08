@@ -5,7 +5,7 @@
     'use strict';
 
     var PlaylistTitleView = Marionette.ItemView.extend({
-        className: 'appBar-text appBar-content u-textOverflowEllipsis js-textTooltipable',
+        className: 'appBar-text text u-textOverflowEllipsis js-textTooltipable',
         template: _.template(PlaylistTitleTemplate),
 
         modelEvents: {

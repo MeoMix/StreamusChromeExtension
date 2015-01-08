@@ -8,7 +8,7 @@
 
     var LeftPaneView = Marionette.LayoutView.extend({
         id: 'leftPane',
-        className: 'leftPane column u-flex--column',
+        className: 'leftPane flexColumn',
         template: _.template(LeftPaneTemplate),
 
         regions: function () {

@@ -14,7 +14,7 @@
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
         id: 'foregroundArea',
-        className: 'column',
+        className: 'flexColumn u-fullHeight',
         template: _.template(ForegroundAreaTemplate),
         
         templateHelpers: function () {

@@ -3,17 +3,14 @@
 @import "transition";
 
 .volumeArea {
-    //  TODO: This is to fix the fact that there's a small gap between the 48px button click target
+    //  This fixes the fact that there's a small gap between the 48px button click target
     //  and the slidePanel. If the user's mouse goes over that area then the slidePanel collapses.
-    //  Is there a more elegant way to resolve this? I want the slidePanel to align with the AppBar and
-    //  I don't want to increase the hitbox of the volume icon.
     padding: 4px 0;
 }
 
 .volumeArea:hover,
 .volumeArea:active {
     @expandedPanelHeight: 100px;
-    // TODO: I don't like using transitionDelay.
     @transitionDelay: .2s;
 
     .volumeArea-slidePanel {
@@ -37,10 +34,8 @@
     @panelWidth: 40px;
     @transitionTime: 250ms;
     width: @panelWidth;
-    //  IMPORTANT: This height:0 is REQUIRED because transitions do not work when height is auto.
     height: 0;
     opacity: 0;
-    //  TODO: Gross. Be consistent with other panels.
     transition: opacity @transitionTime @transition-easeOutSine, 
                 height @transitionTime @transition-easeOutSine;
     z-index: 1;

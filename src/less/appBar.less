@@ -1,25 +1,34 @@
-﻿.appBar-panel {
-    /* I want appBar panels to align with the appbar itself. Since the buttons are 40px in height, need 4px to align.*/
+﻿@import "flexColumn";
+
+.appBar-panel {
+    //  Panels shown via elements in the AppBar should align to the AppBar itself.
+    //  Since buttons are 48px at AppBar is 56px, need 4px to align.
     margin-top: 4px;
 }
 
-//  TODO: Refactor & keep % in-sync with column width.
-.appBar-content--left {
-    width: 55%;
+.appBar-content {
     display: flex;
     align-items: center;
-    /*padding-right: 4px;*/
+}
+
+.appBar-content--left {
+    width: @columnWidth--wide * 1%;
 }
 
 .appBar-content--right {
-    width: 45%;
-    display: flex;
-    align-items: center;
-    /*padding-left: 4px;*/
+    width: @columnWidth--thin * 1%;
 }
 
 .appBar-controls {
     display: flex;
     flex: 1;
     justify-content: center;
+}
+
+.appBar-text {
+    font-size: 17px;
+}
+
+.appBar-navButton {
+    margin-right: 20px;
 }

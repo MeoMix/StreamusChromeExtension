@@ -1,9 +1,9 @@
 ﻿//  Reset.less: Custom resets for Streamus' UI which aren't provided by Normalize.less
-input:focus, 
-button:focus,
-select:focus {
-    outline: none 
-}
+*, 
+*:before, 
+*:after {
+    box-sizing: border-box;
+ }
 
 ul,
 ol,
@@ -11,35 +11,4 @@ li {
     margin: 0;
     padding: 0;
     list-style: none;   
-}
-
-//  Keep these inputs aligned more properly with their labels.
-input[type="checkbox"], 
-input[type="radio"] {
-    vertical-align: middle;
-    position: relative;
-    bottom: 1px;
-}
-
-*, 
-*:before, 
-*:after {
-    box-sizing: border-box;
- }
-
-//  These are always interactable so it is safe to set their cursor back to pointer/text.
-input[type="checkbox"], 
-label, 
-select {
-    cursor: pointer;
-}
-
-input[type="text"] {
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom-width: 1px;
-    //  TODO: This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
-    //  I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
-    padding: 8px 0 7px 0;
 }

@@ -1,13 +1,28 @@
 ﻿define([
-    'foreground/view/element/simpleMenuItemView'
-], function (SimpleMenuItemView) {
+    'foreground/view/element/simpleMenuItemView',
+    'text!template/element/simpleMenu.html'
+], function (SimpleMenuItemView, SimpleMenuTemplate) {
     'use strict';
 
-    var SimpleMenuItemsView = Marionette.CollectionView.extend({
-        id: 'simpleMenuItems',
+    var SimpleMenuView = Marionette.CompositeView.extend({
+        id: 'simpleMenu',
         className: 'panel menu',
-        template: _.template(''),
+        template: _.template(SimpleMenuTemplate),
+        templateHelpers: function () {
+            return {
+                viewId: this.id
+            };
+        },
+
         childView: SimpleMenuItemView,
+        childViewContainer: '@ui.simpleMenuItems',
+        
+        ui: function () {
+            return {
+                simpleMenuItems: '#' + this.id + '-simpleMenuItems',
+                panelContent: '#' + this.id + '-panelContent'
+            };
+        },
         
         triggers: {
             'click': 'click:simpleMenuItem'
@@ -19,13 +34,13 @@
             this.listItemHeight = options.listItemHeight;
         },
         
-        onShow: function() {
+        onShow: function () {
             this._centerSelected();
             this.$el.addClass('is-visible');
         },
         
         hide: function () {
-            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.ui.panelContent.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
 		
@@ -44,5 +59,5 @@
         }
     });
 
-    return SimpleMenuItemsView;
+    return SimpleMenuView;
 });

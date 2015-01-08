@@ -7,6 +7,14 @@
                 border @transition-color-time @transition-easeOutSine;
     width: 100%;
     background-color: transparent;
+    outline: none;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-bottom-width: 1px;
+    //  TODO: This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
+    //  I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
+    padding: 8px 0 7px 0;
 }
 
 .textInput--search {
@@ -59,7 +67,6 @@
     cursor: default;
     color: @dark--secondary;
     font-size: 12px;
-    //  TODO: If I don't have this then text pushes content around when it appears which sucks.
     height: 14px;
 }
 

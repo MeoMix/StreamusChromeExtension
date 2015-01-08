@@ -107,7 +107,7 @@ define([
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = this.player.get('state');
 
-            if (state == PlayerState.Playing || state == PlayerState.Paused) {
+            if (state === PlayerState.Playing || state === PlayerState.Paused || state === PlayerState.SongCued) {
                 this.model.set('autoUpdate', true);
             }
         },
