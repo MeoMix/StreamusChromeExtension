@@ -72,7 +72,6 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [Lo-Dash](http://lodash.com/)
 * [Mocha](http://visionmedia.github.io/mocha/)
 * [RequireJS](http://requirejs.org/)
-* [Selectize)](http://brianreavis.github.io/selectize.js/)
 * [Sinon](http://sinonjs.org/)
 * [Text](https://github.com/requirejs/text)
 

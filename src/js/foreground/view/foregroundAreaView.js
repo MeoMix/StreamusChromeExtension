@@ -6,10 +6,11 @@
     'foreground/view/notification/notificationRegion',
     'foreground/view/playlist/playlistsAreaRegion',
     'foreground/view/prompt/promptRegion',
+    'foreground/view/saveSongs/saveSongsRegion',
     'foreground/view/search/searchAreaRegion',
     'foreground/view/stream/streamRegion',
     'text!template/foregroundArea.html'
-], function (AppBarRegion, ContextMenuRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
+], function (AppBarRegion, ContextMenuRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SaveSongsRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
     'use strict';
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -68,6 +69,10 @@
                 searchAreaRegion: {
                     el: '#' + this.id + '-searchAreaRegion',
                     regionClass: SearchAreaRegion
+                },
+                saveSongsRegion: {
+                    el: '#' + this.id + '-saveSongsRegion',
+                    regionClass: SaveSongsRegion
                 },
                 playlistsAreaRegion: {
                     el: '#' + this.id + '-playlistsAreaRegion',

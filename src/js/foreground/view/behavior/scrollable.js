@@ -32,6 +32,11 @@
             _.defer(this._throttleUpdateScrollbar.bind(this));
         },
         
+        onUpdateScrollbar: function () {
+            console.log('notified');
+            this._throttleUpdateScrollbar();
+        },
+        
         _onCollectionAdd: function () {
             this._throttleUpdateScrollbar();
         },
@@ -40,8 +45,9 @@
             this._throttleUpdateScrollbar();
         },
         
-        _onCollectionRemove: function() {
-            this._throttleUpdateScrollbar();
+        _onCollectionRemove: function () {
+            //  This needs to be deferred because SlidingRender's onCollectionRemove logic is deferred.
+            _.defer(this._throttleUpdateScrollbar.bind(this));
         },
         
         _throttleUpdateScrollbar: null,

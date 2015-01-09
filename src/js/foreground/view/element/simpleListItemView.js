@@ -1,9 +1,10 @@
 ﻿//  TODO: I'd like to figure out better naming conventions for this.
 define([
     'foreground/collection/simpleMenuItems',
+    'foreground/model/simpleMenu',
     'foreground/view/element/simpleMenuView',
     'text!template/element/simpleListItem.html'
-], function (SimpleMenuItems, SimpleMenuView, SimpleListItemTemplate) {
+], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, SimpleListItemTemplate) {
     'use strict';
 
     var SimpleListItemView = Marionette.LayoutView.extend({
@@ -41,10 +42,6 @@ define([
             'change:value': '_onChangeValue'
         },
         
-        initialize: function() {
-            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
-        },
-        
         onRender: function () {
             this._setPrettyValue(this.model.get('value'));
         },
@@ -73,17 +70,18 @@ define([
                     };
                 }, this));
 
-                var simpleMenuView = new SimpleMenuView({
-                    collection: simpleMenuItems,
-                    listItemHeight: this.$el.height()
-                });
-
-                //  TODO: I don't think I am cleaning up my event handlers properly here, but I don't see an elegant way to do it.
-                this.listenTo(simpleMenuView, 'click:simpleMenuItem', this._onClickSimpleMenuItem);
-
                 //  Since I'm building this inside of a click event and click events can close the prompt I need to let the event finish before showing the menu
                 //  otherwise it'll close immediately.
                 _.defer(function () {
+                    var simpleMenuView = new SimpleMenuView({
+                        collection: simpleMenuItems,
+                        model: new SimpleMenu(),
+                        listItemHeight: this.$el.height()
+                    });
+
+                    //  TODO: I don't think I am cleaning up my event handlers properly here, but I don't see an elegant way to do it.
+                    this.listenTo(simpleMenuView, 'click:simpleMenuItem', this._onClickSimpleMenuItem);
+
                     this.simpleMenuRegion.show(simpleMenuView);
                 }.bind(this));
             }
@@ -92,15 +90,6 @@ define([
         _onClickSimpleMenuItem: function (eventArgs) {
             var selectedItem = eventArgs.collection.findWhere({ selected: true });
             this.model.set('value', selectedItem.get('value'));
-
-            this.simpleMenuRegion.currentView.hide();
-        },
-        
-        _onElementClick: function () {
-            //  TODO: Maybe better to bind/unbind instead of checking for existence.
-            if (!_.isUndefined(this.simpleMenuRegion.currentView)) {
-                this.simpleMenuRegion.currentView.hide();
-            }
         }
     });
 

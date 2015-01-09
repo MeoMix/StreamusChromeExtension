@@ -15,8 +15,6 @@
     'test/foreground/view/prompt/linkUserIdPromptViewTest',
     'test/foreground/view/prompt/promptRegionTest',
     'test/foreground/view/prompt/promptViewTest',
-    'test/foreground/view/prompt/saveSongsPromptViewTest',
-    'test/foreground/view/prompt/saveSongsViewTest',
     'test/foreground/view/prompt/settingsPromptViewTest',
     'test/foreground/view/prompt/settingsViewTest',
     'test/foreground/view/prompt/updateStreamusPromptViewTest'

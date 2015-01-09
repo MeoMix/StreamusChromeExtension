@@ -17,7 +17,9 @@
                 playlistMessage: chrome.i18n.getMessage('playlist'),
                 urlMessage: chrome.i18n.getMessage('url'),
                 playlistCount: this.playlists.length,
-                titleMaxLength: this.titleMaxLength
+                titleMaxLength: this.titleMaxLength,
+                //  If the playlist is not already being created with songs then allow for importing of songs.
+                showDataSource: this.songs.length === 0
             };
         },
         
@@ -37,8 +39,10 @@
         
         playlists: null,
         dataSourceManager: null,
+        songs: [],
         
-        initialize: function() {
+        initialize: function (options) {
+            this.songs = options && options.songs ? options.songs : this.songs;
             this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
             this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
         },
@@ -53,11 +57,15 @@
             this.ui.title.focus().val(this.ui.title.val());
         },
         
-        createPlaylist: function() {
-            var dataSource = this.ui.dataSource.data('datasource');
+        createPlaylist: function () {
             var trimmedTitle = this._getTrimmedTitle();
-
-            this.playlists.addPlaylistByDataSource(trimmedTitle, dataSource);
+            
+            if (this.songs.length > 0) {
+                this.playlists.addPlaylistWithSongs(trimmedTitle, this.songs);
+            } else {
+                var dataSource = this.ui.dataSource.data('datasource');
+                this.playlists.addPlaylistByDataSource(trimmedTitle, dataSource);
+            }
         },
         
         _onInputDataSource: function() {

@@ -1,8 +1,7 @@
 ﻿define([
     'foreground/view/behavior/tooltip',
-    'foreground/view/prompt/saveSongsPromptView',
     'text!template/stream/saveStreamButton.html'
-], function (Tooltip, SaveSongsPromptView, SaveStreamButtonTemplate) {
+], function (Tooltip, SaveStreamButtonTemplate) {
     'use strict';
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
@@ -43,9 +42,18 @@
         },
 
         _showSaveSongsPrompt: function (songs) {
-            Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
-                songs: songs
-            });
+            //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
+            _.defer(function () {
+                var offset = this.$el.offset();
+
+                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                    //  TODO: Weird coupling.
+                    playlists: Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists'),
+                    songs: songs,
+                    top: offset.top,
+                    left: offset.left
+                });
+            }.bind(this));
         }
     });
 

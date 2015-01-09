@@ -21,7 +21,8 @@
             playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
             searchArea: Backbone.Wreqr.radio.channel('searchArea'),
             activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
-            element: Backbone.Wreqr.radio.channel('element')
+            element: Backbone.Wreqr.radio.channel('element'),
+            saveSongs: Backbone.Wreqr.radio.channel('saveSongs')
         },
         
         backgroundChannels: null,

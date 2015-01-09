@@ -10,7 +10,6 @@
     'jquery-ui',
     'underscore',
     'mocha',
-    'selectize',
     'sinon'
 ], function (Backbone, BackboneLocalStorage, Marionette, chai, Cocktail) {
 

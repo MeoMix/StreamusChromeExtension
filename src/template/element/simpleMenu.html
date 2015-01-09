@@ -1,3 +1,13 @@
-﻿<div id='<%= viewId %>-panelContent' class='panel-content panel-content--uncolored panel-content--fadeInOut'>
+﻿<div id='<%= viewId %>-panelContent' class='menu-items panel-content panel-content--uncolored panel-content--fadeInOut'>
     <div id='<%= viewId %>-simpleMenuItems'></div>
+    
+    <% if(fixedMenuItemTitle !== '') { %>
+        <div id='<%= viewId %>-fixedMenuItem' class='listItem listItem--small listItem--selectable u-bordered--top'>
+            <div class='listItem-content'>
+                <div class='listItem-title'>
+                    <%- fixedMenuItemTitle %>
+                </div>
+            </div>
+        </div>
+    <% } %>
 </div>

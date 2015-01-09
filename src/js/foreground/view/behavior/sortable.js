@@ -38,6 +38,7 @@
                 tolerance: 'pointer',
                 receive: this._receive.bind(this),
                 over: this._over.bind(this),
+                out: this._out.bind(this),
                 beforeStop: this._beforeStop.bind(this)
             };
 
@@ -63,6 +64,9 @@
             $('.' + this.placeholderClass).toggleClass('hidden', placeholderAdjacent);
 
             this.view.ui.childContainer.sortable('refresh');
+
+            //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+            this.view.triggerMethod('UpdateScrollbar');
         },
         
         _start: function (event, ui) {
@@ -151,6 +155,14 @@
         _over: function (event, ui) {
             this._overrideSortableItem(ui);
             this._decoratePlaceholder(ui);
+            
+            //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+            this.view.triggerMethod('UpdateScrollbar');
+        },
+        
+        _out: function() {
+            //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
+            this.view.triggerMethod('UpdateScrollbar');
         },
 
         _moveItems: function (items, dropIndex, isParentNodeLost) {

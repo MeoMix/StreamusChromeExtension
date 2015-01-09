@@ -1,9 +1,8 @@
 ﻿define([
     'foreground/view/element/spinnerView',
-    'foreground/view/prompt/saveSongsPromptView',
     'foreground/view/search/searchResultsView',
     'text!template/search/search.html'
-], function (SpinnerView, SaveSongsPromptView, SearchResultsView, SearchTemplate) {
+], function (SpinnerView, SearchResultsView, SearchTemplate) {
     'use strict';
 
     var SearchView = Marionette.LayoutView.extend({
@@ -171,9 +170,17 @@
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
 
             if (!disabled) {
-                Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
-                    songs: this.collection.getSelectedSongs()
-                });
+                //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
+                _.defer(function () {
+                    var offset = this.ui.saveSelectedButton.offset();
+
+                    Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                        playlists: this.signInManager.get('signedInUser').get('playlists'),
+                        songs: this.collection.getSelectedSongs(),
+                        top: offset.top,
+                        left: offset.left
+                    });
+                }.bind(this));
             }
         },
 

@@ -8,13 +8,15 @@
     var CreatePlaylistPromptView = PromptView.extend({
         id: 'createPlaylistPrompt',
 
-        initialize: function () {
+        initialize: function (options) {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('createPlaylist'),
                 submitButtonText: chrome.i18n.getMessage('create')
             });
 
-            this.contentView = new CreatePlaylistView();
+            this.contentView = new CreatePlaylistView({
+                songs: options && options.songs ? options.songs : []
+            });
             
             PromptView.prototype.initialize.apply(this, arguments);
         }, 

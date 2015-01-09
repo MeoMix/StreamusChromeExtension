@@ -1,8 +1,7 @@
 ﻿define([
     'foreground/view/listItemButton/listItemButtonView',
-    'foreground/view/prompt/saveSongsPromptView',
     'text!template/listItemButton/saveListItemButton.html'
-], function (ListItemButtonView, SaveSongsPromptView, SaveListItemButtonTemplate) {
+], function (ListItemButtonView, SaveListItemButtonTemplate) {
     'use strict';
 
     var SaveSongButtonView = ListItemButtonView.extend({
@@ -22,9 +21,17 @@
         },
 
         doOnClickAction: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', SaveSongsPromptView, {
-                songs: [this.model.get('song')]
-            });
+            //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
+            _.defer(function() {
+                var offset = this.$el.offset();
+
+                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                    playlists: this.signInManager.get('signedInUser').get('playlists'),
+                    songs: [this.model.get('song')],
+                    top: offset.top,
+                    left: offset.left
+                });
+            }.bind(this));
         },
         
         _onSignInManagerChangeSignedInUser: function() {

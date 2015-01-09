@@ -206,7 +206,7 @@ module.exports = function (grunt) {
 			inject: {
 				files: {
 					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
-					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/selectize.css', 'src/css/selectize.default.css', 'src/css/jquery.qtip.css']
+					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/jquery.qtip.css']
 				}
 			}
 		});
@@ -284,12 +284,6 @@ module.exports = function (grunt) {
 					to: ''
 				}, {
 					from: '<link href=css/jquery.qtip.css rel=stylesheet>',
-					to: ''
-				}, {
-					from: '<link href=css/selectize.default.css rel=stylesheet>',
-					to: ''
-				}, {
-					from: '<link href=css/selectize.css rel=stylesheet>',
 					to: ''
 				}]
 			}

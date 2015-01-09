@@ -8,8 +8,7 @@
     'jquery.qtip',
     'jquery-ui',
     'less',
-    'underscore',
-    'selectize'
+    'underscore'
 ], function () {
     'use strict';
     
