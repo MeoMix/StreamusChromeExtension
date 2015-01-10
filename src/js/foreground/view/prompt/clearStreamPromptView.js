@@ -24,7 +24,7 @@
         },
         
         onSubmit: function () {
-            this.stream.clear();
+            this.stream.get('items').clear();
         }
     });
 

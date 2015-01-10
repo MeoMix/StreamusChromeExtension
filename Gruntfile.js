@@ -3,7 +3,6 @@
 //	Type grunt to run the default method, or "grunt paramater" to run a specific method.
 //
 //	Options:
-//		*	grunt lint: Display linter errors about the project
 //      *   grunt deploy: Pass a version to creat dist .zip. Otherwise, test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
 //
 //	See here for more information: http://gruntjs.com/sample-gruntfile
@@ -13,32 +12,6 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		//	Read project settings from package.json in order to be able to reference the properties with grunt.
 		pkg: grunt.file.readJSON('package.json'),
-		//	Tasks:
-		concat: {
-			//  NOTE: Careful not to define separator as semi-colon here. It will error out on font-awesome CSS.
-			options: {
-				stripBanners: true
-			}
-		},
-		htmlmin: {
-			dist: {
-				options: {
-					removeComments: true,
-					collapseWhitespace: true,
-					collapseBooleanAttributes: true,
-					removeAttributeQuotes: true,
-					removeRedundantAttributes: true,
-					useShortDoctype: true,
-					removeEmptyAttributes: true,
-					removeOptionalTags: true
-				},
-				expand: true,
-				cwd: 'dist',
-				dest: 'dist/',
-				//  Don't minify template files becuase they can't be reliably parsed w/ javascript injected.
-				src: ['**/*.html', '!**/template/**']
-			}
-		},
 		//  Compress image sizes and move to dist folder
 		imagemin: {
 			dynamic: {
@@ -72,7 +45,7 @@ module.exports = function (grunt) {
 				ieCompat: false,
 				cwd: 'src/less/',
 				src: 'foreground.less',
-				dest: 'src/css',
+				dest: 'dist/css',
 				ext: '.css'
 			}
 		},
@@ -102,15 +75,13 @@ module.exports = function (grunt) {
 						name: 'foreground/application',
 						exclude: ['foreground/main']
 					}],
-					//  Skip optimizins javascript because there's no load benefit for an extension and it makes error debugging hard.
+					//  Skip optimizins because there's no load benefit for an extension and it makes error debugging hard.
 					optimize: 'none',
-					//  Skip CSS optimizations in RequireJS step -- handle with cssmin because it supports multiple CSS files.
 					optimizeCss: 'none',
 					preserveLicenseComments: false,
 					//  Don't leave a copy of the file if it has been concatenated into a larger one.
 					removeCombined: true,
-					//  Skip files which start with a . or end in vs-doc.js as well as CSS because it is handled by cssmin
-					fileExclusionRegExp: /^\.|vsdoc.js$|jasmine.js|jasmine-html.js|.css$|Web|Web.Debug|Web.Release/
+					fileExclusionRegExp: /^\.|vsdoc.js$|.css$/
 				}
 
 			}
@@ -120,17 +91,12 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-concat');
 	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-cssmin');
 	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-htmlmin');
 	grunt.loadNpmTasks('grunt-contrib-imagemin');
 	grunt.loadNpmTasks('grunt-contrib-jshint');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-contrib-uglify');
 	grunt.loadNpmTasks('grunt-text-replace');
-
-	grunt.registerTask('lint', ['jshint']);
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
@@ -145,7 +111,7 @@ module.exports = function (grunt) {
 		}
 
 		//  Ensure lint validation passes first and foremost. Clean code is important.
-		grunt.task.run('lint');
+		grunt.task.run('jshint');
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
 		grunt.task.run('requirejs');
@@ -155,16 +121,14 @@ module.exports = function (grunt) {
 			grunt.task.run('remove-key-from-manifest');
 		}
 
-		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-uglify-injected-javascript', 'less', 'concat-cssmin-css', 'htmlmin', 'update-css-references', 'imagemin', 'update-require-config-paths', 'transform-injected-js', 'cleanup-src-folder', 'cleanup-dist-folder');
+		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-injected-javascript', 'copy-injected-css', 'less', 'update-css-references', 'imagemin', 'update-require-config-paths', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
 		if (!isDebugDeploy) {
 			//  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
 			grunt.task.run('update-dist-manifest-version');
-
 			grunt.task.run('prep-chrome-distribution');
 			grunt.task.run('prep-opera-distribution');
-			
 			grunt.task.run('update-src-manifest-version');
 		}
 	});
@@ -201,21 +165,8 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-	grunt.registerTask('concat-cssmin-css', 'minify and concatinate css for efficiency', function () {
-		grunt.config.set('cssmin', {
-			inject: {
-				files: {
-					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css'],
-					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/jquery.qtip.css']
-				}
-			}
-		});
-
-		grunt.task.run('cssmin');
-	});
-
-	grunt.registerTask('concat-uglify-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concat/uglified', function () {
-		grunt.config.set('uglify', {
+	grunt.registerTask('concat-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concatted', function () {
+		grunt.config.set('concat', {
 			inject: {
 				files: {
 					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
@@ -227,7 +178,19 @@ module.exports = function (grunt) {
 			}
 		});
 		
-		grunt.task.run('uglify');
+		grunt.task.run('concat');
+	});
+	
+	grunt.registerTask('copy-injected-css', 'copies injected css from src to dist folder', function () {
+		grunt.config.set('copy', {
+			inject: {
+				files: {
+					'dist/css/beatportInject.css': ['src/css/beatportInject.css']
+				}
+			}
+		});
+
+		grunt.task.run('copy');
 	});
 
 	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
@@ -247,10 +210,6 @@ module.exports = function (grunt) {
 		grunt.file.delete('dist/build.txt');
 	});
 	
-	grunt.registerTask('cleanup-src-folder', 'removes the less->css files', function () {
-		grunt.file.delete('src/css/foreground.css');
-	});
-
 	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
 		grunt.config.set('replace', {
 			removeDebuggingKeys: {
@@ -267,24 +226,20 @@ module.exports = function (grunt) {
 		grunt.task.run('replace');
 	});
 
-	grunt.registerTask('update-css-references', 'replace less reference in foreground with minified deploy ready version and remove other css references since they all get bundled', function() {
+	grunt.registerTask('update-css-references', 'replace less reference in foreground with css', function() {
 		grunt.config.set('replace', {
-			removeDebuggingKeys: {
+			replaceLessReferences: {
 				src: ['dist/foreground.html'],
 				overwrite: true,
 				replacements: [{
-					//  Change all main files paths to requireConfig for to be accurate for deployment.
-					from: '<link href=less/foreground.less rel=stylesheet/less>',
-					to: '<link href=css/foreground.min.css rel=stylesheet>'
+					from: 'less/',
+					to: 'css/'
 				}, {
-					from: '<link href=css/font-awesome.css rel=stylesheet>',
-					to: ''
+					from: '.less',
+					to: '.css'
 				}, {
-					from: '<link href=css/fontello.css rel=stylesheet>',
-					to: ''
-				}, {
-					from: '<link href=css/jquery.qtip.css rel=stylesheet>',
-					to: ''
+					from: 'stylesheet/less',
+					to: 'stylesheet'
 				}]
 			}
 		});
@@ -342,26 +297,7 @@ module.exports = function (grunt) {
 				}, {
 					from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
 					to: '"js": ["js/inject/beatportInject.js"]'
-				}, {
-					from: 'css/beatportInject.css',
-					to: 'css/beatportInject.min.css'
 				}])
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	grunt.registerTask('transform-injected-js', 'transform inject files so that they reference minified versions of css', function() {
-		grunt.config.set('replace', {
-			transformSettings: {
-				src: ['dist/js/inject/beatportInject.js', 'dist/js/inject/youTubeInject.js'],
-				overwrite: true,
-				replacements: [{
-					//	Find the line that references beatportInject and change it to a minified reference.
-					from: 'css/beatportInject.css',
-					to: 'css/beatportInject.min.css'
-				}]
 			}
 		});
 

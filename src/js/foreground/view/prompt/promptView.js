@@ -174,6 +174,11 @@
         },
         
         _hide: function () {
+            //  TODO: This is just a patch for now. Some dialogs you don't want to run onSubmit for but you also don't want to always be reminded.
+            if (this.model.get('alwaysSaveReminder')) {
+                this._saveReminderState();
+            }
+
             this._transitionOut();
         }
     });

@@ -193,13 +193,6 @@
             return previousStreamItem;
         },
 
-        clear: function () {
-            //  Reset and clear instead of going through this.set() as a performance optimization
-            var items = this.get('items');
-            items.reset();
-            items.localStorage._clear();
-        },
-
         //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
         _onItemsAdd: function (model) {
             if (model.get('relatedSongs').length === 0) {

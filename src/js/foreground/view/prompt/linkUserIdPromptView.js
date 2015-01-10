@@ -12,7 +12,8 @@
         initialize: function () {
             this.model = new Prompt({
                 title: chrome.i18n.getMessage('linkAccountToGoogle'),
-                reminderProperty: 'remindLinkUserId'
+                reminderProperty: 'remindLinkUserId',
+                alwaysSaveReminder: true
             });
             
             this.contentView = new PromptContentView({

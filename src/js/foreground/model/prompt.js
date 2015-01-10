@@ -9,7 +9,8 @@
             showSubmitButton: true,
             showCancelButton: true,
             reminderProperty: '',
-            reminderText: chrome.i18n.getMessage('remind')
+            reminderText: chrome.i18n.getMessage('remind'),
+            alwaysSaveReminder: false
         },
         
         hasReminder: function() {

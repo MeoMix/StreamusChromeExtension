@@ -14,7 +14,7 @@
             settingsMessage: chrome.i18n.getMessage('settings'),
             browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
             keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
-            viewInTabMessage: chrome.i18n.getMessage('viewInTab'),
+            openInTabMessage: chrome.i18n.getMessage('openInTab'),
             reloadMessage: chrome.i18n.getMessage('reload')
         },
         
@@ -24,7 +24,7 @@
                 menu: '#' + this.id + '-menu',
                 settingsMenuItem: '#' + this.id + '-settingsMenuItem',
                 browserSettingsMenuItem: '#' + this.id + '-browserSettingsMenuItem',
-                viewInTabMenuItem: '#' + this.id + '-viewInTabMenuItem',
+                openInTabMenuItem: '#' + this.id + '-openInTabMenuItem',
                 keyboardShortcutsMenuItem: '#' + this.id + '-keyboardShortcutsMenuItem',
                 restartMenuItem: '#' + this.id + '-reloadMenuItem'
             };
@@ -35,7 +35,7 @@
             'click @ui.settingsMenuItem': '_onClickSettingsMenuItem',
             'click @ui.browserSettingsMenuItem': '_onClickBrowserSettingsMenuItem',
             'click @ui.keyboardShortcutsMenuItem': '_onClickKeyboardShortcutsMenuItem',
-            'click @ui.viewInTabMenuItem': '_onClickViewInTabMenuItem',
+            'click @ui.openInTabMenuItem': '_onClickOpenInTabMenuItem',
             'click @ui.restartMenuItem': '_onClickRestartMenuItem'
         },
         
@@ -68,7 +68,7 @@
             this.tabManager.showKeyboardShortcutsTab();
         },
         
-        _onClickViewInTabMenuItem: function() {
+        _onClickOpenInTabMenuItem: function () {
             this.tabManager.showStreamusTab();
         },
         

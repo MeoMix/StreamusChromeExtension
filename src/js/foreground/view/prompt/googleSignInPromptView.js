@@ -12,7 +12,8 @@
         initialize: function () {
             this.model =  new Prompt({
                 title: chrome.i18n.getMessage('signInToGoogle'),
-                reminderProperty: 'remindGoogleSignIn'
+                reminderProperty: 'remindGoogleSignIn',
+                alwaysSaveReminder: true
             });
             
             this.contentView = new PromptContentView({

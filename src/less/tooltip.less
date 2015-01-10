@@ -1,19 +1,19 @@
 ﻿@import "color";
 @import "utility";
+@import "boxShadow";
 
-html .qtip {
-    min-width: 0 !important;
+.qtip {
     //  Prevent pointer events on tooltips so that user can't misclick when
     //  right-clicking on a listItem that is showing its context menu.
     pointer-events: none;
+	position: absolute;
+	display: none;
+	max-width: 280px;
+	box-shadow: @boxShadow-elevation--low;
+    font-size: 13px;
+    line-height: 16px;
     border-radius: 2px;
     color: white;
     background-color: @gray--tooltip;
-    border: none;
-    font-size: 13px;
-    line-height: 16px;
-}
-
-html .qtip-content {
-    padding: 5px 8px !important;
+    padding: 5px 8px;
 }

@@ -43,7 +43,14 @@
         },
         
         _showClearStreamPrompt: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', ClearStreamPromptView);
+            var streamItems = this.model.get('streamItems');
+
+            //  When deleting only a single StreamItem it is not necessary to prompt because it's not a very dangerous action.
+            if (streamItems.length === 1) {
+                streamItems.clear();
+            } else {
+                Streamus.channels.prompt.commands.trigger('show:prompt', ClearStreamPromptView);
+            }
         }
     });
 

@@ -26,6 +26,12 @@
             this.fetch();
         },
         
+        clear: function () {
+            //  Reset and clear instead of going through this.set() as a performance optimization
+            this.reset();
+            this.localStorage._clear();
+        },
+        
         getActiveItem: function () {
             return this.findWhere({ active: true });
         },

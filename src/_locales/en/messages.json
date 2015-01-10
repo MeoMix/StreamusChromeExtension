@@ -398,8 +398,8 @@
 	"exportPlaylist": {
 		"message": "Export playlist"
 	},
-	"viewInTab": {
-		"message": "View in tab"
+	"openInTab": {
+		"message": "Open in tab"
 	},
 	"openInTab": {
 		"message": "Open in tab"
