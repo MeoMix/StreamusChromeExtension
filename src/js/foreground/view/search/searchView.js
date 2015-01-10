@@ -22,7 +22,7 @@
                 resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
                 searchingMessage: chrome.i18n.getMessage('searching'),
                 noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-                sorryAboutThatMessage: chrome.i18n.getMessage('sorryAboutThat'),
+                //  trySearchingForOtherSongs?
                 trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
             };
         },

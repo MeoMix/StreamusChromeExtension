@@ -1,7 +1,6 @@
 ﻿{
 	"extensionName": {
-		"message": "Streamus™ (Beta!)",
-		"description": "The name of the extension"
+		"message": "Streamus"
 	},
 	"extensionDescription" : {
 		"message": "Streamus turns YouTube into the music player you always wanted."
@@ -28,16 +27,10 @@
 		"message": "Copy title - URL"
 	},
 	"delete": {
-		"message": "Delete",
-		"description": "Just the singular word, as seen on a button."
-	},
-	"banUntilClear": {
-		"message": "Ban until clear",
-		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
+		"message": "Delete"
 	},
 	"clearStream": {
-		"message": "Clear stream",
-		"description": "An action -- empty the stream of items"
+		"message": "Clear stream"
 	},
 	"saveStream": {
 		"message": "Save stream"
@@ -45,14 +38,11 @@
 	"addToStreamus": {
 		"message": "Add to Streamus"
 	},
-	"selectPlaylist": {
-		"message": "Select playlist"
-	},
 	"youTubePlayerErrorInvalidParameter": {
-		"message": "The request contains an invalid parameter value."
+		"message": "Request contains an invalid parameter."
 	},
 	"youTubePlayerErrorSongNotFound": {
-		"message": "Song requested is not found. This occurs when a song has been removed or it has been marked as private."
+		"message": "Song has been removed or marked private."
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
 		"message": "Requested song unable to be played."
@@ -60,16 +50,14 @@
 	"errorEncountered": {
 		"message": "An error was encountered."
 	},
-	"working": {
-		"message": "Working",
-		"description": "An action -- Streamus is working/processing something"
+	"saving": {
+		"message": "Saving"
 	},
 	"newPlaylist": {
 		"message": "New playlist"
 	},
 	"installed": {
-		"message": "Installed",
-		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
+		"message": "Installed"
 	},
 	"repeatDisabled": {
 		"message": "Repeat disabled"
@@ -102,25 +90,19 @@
 		"message": "Total time"
 	},
 	"highest": {
-		"message": "Highest",
-		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
+		"message": "Highest"
 	},
 	"auto": {
-		"message": "Auto",
-		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
+		"message": "Auto"
 	},
 	"lowest": {
-		"message": "Lowest",
-		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
+		"message": "Lowest"
 	},
 	"addedSuccessfully": {
 		"message": "Added successfully"
 	},
-	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
-		"message": "An issue was encountered while adding your playlist. Check the URL?"
-	},
-	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
-		"message": "Streamus is taking a long time to load. Reloading may help."
+	"failedToAddPlaylist": {
+		"message": "Failed to add playlist"
 	},
 	"reload": {
 		"message": "Reload"
@@ -177,8 +159,7 @@
 		"message": "Are you sure?"
 	},
 	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Are you sure you want to delete playlist",
-		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
+		"message": "Are you sure you want to delete playlist"
 	},
 	"clearStreamQuestion": {
 		"message": "Clear stream?"
@@ -198,27 +179,11 @@
 	"deletePlaylist": {
 		"message": "Delete playlist"
 	},
-	"item": {
-		"message": "Item"
-	},
-	"items": {
-		"message": "Items"
-	},
-	"to": {
-		"message": "To"
-	},
 	"title": {
 		"message": "Title"
 	},
-	"required": {
-		"message": "Required"
-	},
-	"optional": {
-		"message": "Optional"
-	},
 	"channel": {
-		"message": "Channel",
-		"description": "A noun -- as in a YouTube channel of music"
+		"message": "Channel"
 	},
 	"url": {
 		"message": "URL"
@@ -233,12 +198,10 @@
 		"message": "Reminders"
 	},
 	"remindClearStream": {
-		"message": "Remind clear stream",
-		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'"
+		"message": "Remind clear stream"
 	},
 	"remindDeletePlaylist": {
-		"message": "Remind delete playlist",
-		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
+		"message": "Remind delete playlist"
 	},
 	"minute": {
 		"message": "Minute"
@@ -276,9 +239,6 @@
 	"wouldYouLikeTo": {
 		"message": "Would you like to"
 	},
-	"hd": {
-		"message": "HD"
-	},
 	"general": {
 		"message": "General"
 	},
@@ -287,9 +247,6 @@
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Results will appear as you search"
-	},
-	"sorryAboutThat": {
-		"message": "Sorry about that"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Try searching for something else"
@@ -418,7 +375,7 @@
 		"message": "Link account to Google?"
 	},
 	"linkAccountMessage": {
-		"message": "You're signed into Google, but you haven't linked your account to Streamus. You'll be able to access playlists from any computer if you link these accounts. Would you like to?"
+		"message": "You haven't linked your Chrome account to Streamus. You'll be able to access playlists from any computer if you link these accounts. Would you like to?"
 	},
 	"remindLinkAccount": {
 		"message": "Remind link account"
@@ -471,9 +428,6 @@
 	"beatport": {
 		"message": "Beatport"
 	},
-	"streamusBugApology": {
-		"message": "This is sometimes due to an issue in Streamus, but the song might be unplayable due to YouTube content settings. Try restarting if you think it's a bug."
-	},
 	"fileType": {
 		"message": "File type"
 	},
@@ -482,18 +436,6 @@
 	},
 	"json": {
 		"message": "JSON"
-	},
-	"include": {
-		"message": "Include"
-	},
-	"id": {
-		"message": "Id"
-	},
-	"author": {
-		"message": "Author"
-	},
-	"duration": {
-		"message": "Duration"
 	},
 	"failedToFindSong": {
 		"message": "Failed to find song"

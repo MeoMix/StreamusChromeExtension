@@ -65,6 +65,10 @@
         },
         
         onShow: function () {
+            this.streamItemsRegion.show(new StreamItemsView({
+                collection: this.model.get('items')
+            }));
+
             this.shuffleButtonRegion.show(new ShuffleButtonView({
                 model: Streamus.backgroundPage.shuffleButton
             }));
@@ -95,11 +99,7 @@
                 this._showActiveStreamItem(activeItem, true);
             }
             
-            //  TODO: I don't think this is true now that I am not reliant on height in slidingRender. Unless it also matters for Tooltip?
-            //  IMPORTANT: This needs to be appended LAST because flexbox calculations require everything to be in place.
-            this.streamItemsRegion.show(new StreamItemsView({
-                collection: this.model.get('items')
-            }));
+
         },
         
         _onClickShowSearchLink: function () {

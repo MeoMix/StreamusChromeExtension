@@ -31,10 +31,6 @@
 		"message": "Deletar",
 		"description": "Just the singular word, as seen on a button."
 	},
-	"banUntilClear": {
-		"message": "Banir até limpar",
-		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
-	},
 	"clearStream": {
 		"message": "Limpar stream",
 		"description": "An action -- empty the stream of items"
@@ -45,15 +41,8 @@
 	"addToStreamus": {
 		"message": "Adicionar ao Streamus"
 	},
-	"selectPlaylist": {
-		"message": "Selecionar playlist"
-	},
 	"errorEncountered": {
 		"message": "Um erro foi encontrado."
-	},
-	"working": {
-		"message": "Processando",
-		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "Nova playlist"
@@ -109,9 +98,6 @@
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Um erro foi encontrado ao adicionar a playlist. Checar a URL?"
-	},
-	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
-		"message": "Streamus está demorando muito para carregar. Recarregar pode ajudar."
 	},
 	"reload": {
 		"message": "Recarregar"
@@ -275,9 +261,6 @@
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Os resultados vão aparecer conforme você digita"
-	},
-	"sorryAboutThat": {
-		"message": "Desculpe-nos"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Tente procurar por outra coisa"

@@ -31,10 +31,6 @@
 		"message": "Odstrani",
 		"description": "Just the singular word, as seen on a button."
 	},
-	"banUntilClear": {
-		"message": "Blokiral dokler ni počiščeno",
-		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
-	},
 	"clearStream": {
 		"message": "Počisti stream",
 		"description": "An action -- empty the stream of items"
@@ -45,15 +41,8 @@
 	"addToStreamus": {
 		"message": "Dodaj v Streamus"
 	},
-	"selectPlaylist": {
-		"message": "Izberi seznam predvajanja"
-	},
 	"errorEncountered": {
 		"message": "Prišlo je do napake."
-	},
-	"working": {
-		"message": "Delam…",
-		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "Nov seznam predvajanja"
@@ -275,9 +264,6 @@
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Rezultati se bodo prikazali medtem ko iščete"
-	},
-	"sorryAboutThat": {
-		"message": "Oprostite za to"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Poskusite iskati nekaj drugega"

@@ -31,10 +31,6 @@
 		"message": "Eliminar",
 		"description": "Just the singular word, as seen on a button."
 	},
-	"banUntilClear": {
-		"message": "No mostrar hasta que la lista de reproducción esté vacía",
-		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
-	},
 	"clearStream": {
 		"message": "Vaciar lista",
 		"description": "An action -- empty the stream of items"
@@ -45,15 +41,8 @@
 	"addToStreamus": {
 		"message": "Añadir a Streamus"
 	},
-	"selectPlaylist": {
-		"message": "Seleccionar lista"
-	},
 	"errorEncountered": {
 		"message": "Se ha producido un error."
-	},
-	"working": {
-		"message": "Procesando",
-		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "Nueva lista"
@@ -272,9 +261,6 @@
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Los resultados aparecerán a medida que busques"
-	},
-	"sorryAboutThat": {
-		"message": "Lo sentimos"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Prueba a buscar alguna otra cosa"

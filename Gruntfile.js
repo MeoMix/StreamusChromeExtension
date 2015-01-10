@@ -205,7 +205,7 @@ module.exports = function (grunt) {
 		grunt.config.set('cssmin', {
 			inject: {
 				files: {
-					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css', 'src/css/jquery.qtip.css'],
+					'dist/css/beatportInject.min.css': ['src/css/beatportInject.css'],
 					'dist/css/foreground.min.css': ['src/css/foreground.css', 'src/css/jquery.qtip.css']
 				}
 			}
@@ -218,7 +218,7 @@ module.exports = function (grunt) {
 		grunt.config.set('uglify', {
 			inject: {
 				files: {
-					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/jquery.qtip.js', 'src/js/inject/beatportInject.js'],
+					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
 					'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
 					'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
 					'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
@@ -340,15 +340,11 @@ module.exports = function (grunt) {
 					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
 					to: '"js": ["js/inject/streamusInject.js"]'
 				}, {
-					from: '"js": ["js/thirdParty/jquery.js", "js/thirdParty/jquery.qtip.js", "js/inject/beatportInject.js"]',
+					from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
 					to: '"js": ["js/inject/beatportInject.js"]'
 				}, {
 					from: 'css/beatportInject.css',
 					to: 'css/beatportInject.min.css'
-				}, {
-					//  Remove jquery.qtip.css because it has been combined into beatportInject.min.css for deployment.
-					from: '"css/jquery.qtip.css",',
-					to: ''
 				}])
 			}
 		});
@@ -448,6 +444,7 @@ module.exports = function (grunt) {
 		grunt.config.set('clean', [operaLocalesDirectory + 'de', operaLocalesDirectory + 'es', operaLocalesDirectory + 'pt_BR', operaLocalesDirectory + 'sl', operaLocalesDirectory + 'tr']);
 		grunt.task.run('clean');
 
+		grunt.file.delete(operaLocalesDirectory + 'cs');
 		grunt.file.delete(operaLocalesDirectory + 'de');
 		grunt.file.delete(operaLocalesDirectory + 'es');
 		grunt.file.delete(operaLocalesDirectory + 'pt_BR');

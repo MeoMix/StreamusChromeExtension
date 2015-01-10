@@ -41,11 +41,3 @@ div.top-download-row .playWrapper {
 .play-queue{
     overflow: visible !important;
 }
-
-/* TODO: It would be nice to have beatportInject be LESS so it could use tooltip.less/color.less*/
-.qtip {
-    min-width: 0 !important;
-    border-color: rgb(235,235,235) !important;
-    color: rgb(102,102,102) !important;
-    background-color: rgb(255,255,255) !important;
-}

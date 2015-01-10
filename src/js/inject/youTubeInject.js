@@ -120,12 +120,13 @@ $(function () {
 				'margin-top': '-2px'
 			},
 			click: function () {
-				$(this).val(chrome.i18n.getMessage('working') + '...').attr('disabled', true);
+				$(this).val(chrome.i18n.getMessage('saving') + '...').attr('disabled', true);
 
 				chrome.runtime.sendMessage({
 					method: "addYouTubeSongByIdToPlaylist",
 					playlistId: $('#playlistSelect').val(),
-					songId: $('.video-stream').data('youtube-id')
+					//  IMPORTANT: Do not use .data() as it will cache the value. Changing to a new YouTube song will then reutrn old information.
+					songId: $('.video-stream').attr('data-youtube-id')
 				}, function () {
 					$(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));
 				}.bind(this));

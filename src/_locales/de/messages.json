@@ -31,10 +31,6 @@
             "message": "Lösche",
             "description": "Nur das einzelne Wort, wie auf dem Button zu sehen."
     },
-    "banUntilClear": {
-            "message": "Bannen bis zum Löschen",
-            "description": "Bannen bedeutet kein Zeigen/keine Auswahl bis der Stream wieder gelöscht wird."
-    },
     "clearStream": {
             "message": "Lösche Stream",
             "description": "Leere den Stream -- alle Einträge löschen"
@@ -45,15 +41,8 @@
     "addToStreamus": {
             "message": "Hinzufügen zu Streamus"
     },
-    "selectPlaylist": {
-            "message": "Wähle Playlist"
-    },
     "errorEncountered": {
             "message": "Ein Fehler wurde festgestellt."
-    },
-    "working": {
-            "message": "Arbeite",
-            "description": "Streamus arbeitet an etwas"
     },
     "newPlaylist": {
             "message": "Neue Playlist"
@@ -106,9 +95,6 @@
     },
     "anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
             "message": "Ein Problem wurde entdeckt während dem hinzufügen der Playlist. URL überprüfen?"
-    },
-    "streamusIsTakingALongTimeToLoadReloadingMayHelp": {
-            "message": "Streamus braucht sehr lange zum laden. Aktualisieren könnte helfen."
     },
     "reload": {
             "message": "Aktualisieren"
@@ -272,9 +258,6 @@
     },
     "resultsWillAppearAsYouSearch": {
             "message": "Ergebnisse erscheinen während der Eingabe"
-    },
-    "sorryAboutThat": {
-            "message": "Das tut uns leid"
     },
     "trySearchingForSomethingElse": {
             "message": "Versuche nach etwas Anderem zu suchen"

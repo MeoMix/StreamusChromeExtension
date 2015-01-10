@@ -33,7 +33,6 @@
         },
         
         onUpdateScrollbar: function () {
-            console.log('notified');
             this._throttleUpdateScrollbar();
         },
         

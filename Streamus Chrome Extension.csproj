@@ -47,8 +47,6 @@
     <Content Include="src\background.html" />
     <Content Include="src\css\jquery.qtip.css" />
     <Content Include="src\css\mocha.css" />
-    <Content Include="src\css\selectize.css" />
-    <Content Include="src\css\selectize.default.css" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\green_0bar_19.png" />
     <Content Include="src\img\green_0bar_38.png" />
@@ -190,6 +188,7 @@
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />
     <Content Include="src\js\foreground\model\simpleListItem.js" />
+    <Content Include="src\js\foreground\model\simpleMenu.js" />
     <Content Include="src\js\foreground\model\simpleMenuItem.js" />
     <Content Include="src\js\foreground\model\switch.js" />
     <Content Include="src\js\foreground\model\timeArea.js" />
@@ -217,6 +216,7 @@
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptContentView.js" />
+    <Content Include="src\js\foreground\view\saveSongs\saveSongsRegion.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
     <Content Include="src\js\foreground\view\appBar\nextButtonView.js" />
@@ -262,8 +262,6 @@
     <Content Include="src\js\foreground\view\listItemView.js" />
     <Content Include="src\js\foreground\view\prompt\clearStreamPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\settingsPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\saveSongsPromptView.js" />
-    <Content Include="src\js\foreground\view\prompt\saveSongsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deleteSongButtonView.js" />
     <Content Include="src\js\foreground\view\prompt\updateStreamusPromptView.js" />
     <Content Include="src\js\foreground\view\listItemButton\saveSongButtonView.js" />
@@ -318,8 +316,6 @@
     <Content Include="src\js\test\foreground\view\prompt\promptRegionTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\promptTestModule.js" />
     <Content Include="src\js\test\foreground\view\prompt\promptViewTest.js" />
-    <Content Include="src\js\test\foreground\view\prompt\saveSongsPromptViewTest.js" />
-    <Content Include="src\js\test\foreground\view\prompt\saveSongsViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\updateStreamusPromptViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\settingsViewTest.js" />
     <Content Include="src\js\test\foreground\view\prompt\settingsPromptViewTest.js" />
@@ -341,7 +337,6 @@
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\mocha.js" />
     <Content Include="src\js\thirdParty\require.js" />
-    <Content Include="src\js\thirdParty\selectize.js" />
     <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <Content Include="src\css\beatportInject.css" />
@@ -428,7 +423,6 @@
     <Content Include="src\_locales\tr\messages.json" />
     <Content Include="src\less\normalize.less" />
     <Content Include="src\less\reset.less" />
-    <Content Include="src\less\selectize.less" />
     <Content Include="src\less\utility.less" />
     <Content Include="src\less\prompt.less" />
     <Content Include="src\less\notification.less" />

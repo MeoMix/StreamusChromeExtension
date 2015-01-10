@@ -46,26 +46,10 @@ $(function () {
             href: chrome.extension.getURL(beatportCssUrl)
         });
         streamusBeatportCss.appendTo('head');
-        
-        //  The beatport CSS url changes during deployment and there's no need to try and load another CSS file because it has been combined into one.
-        if (beatportCssUrl.indexOf('min') === -1) {
-            var qtipBeatportCss = $("<link>", {
-                rel: "stylesheet",
-                type: "text/css",
-                id: 'qtip-beatport-css',
-                href: chrome.extension.getURL('css/jquery.qtip.css')
-            });
-            qtipBeatportCss.appendTo('head');
-        }
     }
     
     function removeCss() {
         $('#streamus-beatport-css').remove();
-
-        var qtipCss = $('#qtip-beatport-css');
-        if (qtipCss.length > 0) {
-            qtipCss.remove();
-        }
     }
 
     function removeHtml() {
@@ -202,11 +186,6 @@ function buildAndAppendButtonBeforeSelector(selectorToAppendBefore, trackName, t
     var streamusLogoIcon = buildStreamusLogoIcon();
 
     selectorToAppendBefore.before(streamusPlayButton.add(streamusLogoIcon));
-    streamusPlayButton.qtip({
-        style: {
-            classes: 'qtip-light qtip-shadow'
-        }
-    });
 }
 
 function appendPlayAllButtonBeforeSelector(selector) {
@@ -236,11 +215,6 @@ function appendPlayAllButtonBeforeSelector(selector) {
     var streamusLogoIcon = buildStreamusLogoIcon();
     
     selectorToAppendBefore.before(streamusPlayAllButton.add(streamusLogoIcon));
-    streamusPlayAllButton.qtip({
-        style: {
-            classes: 'qtip-light qtip-shadow'
-        }
-    });
 }
 
 function buildStreamusLogoIcon() {

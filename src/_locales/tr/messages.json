@@ -58,10 +58,6 @@
 		"message": "Sil",
 		"description": "Just the singular word, as seen on a button."
 	},
-	"banUntilClear": {
-		"message": "Ban until clear",
-		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
-	},
 	"clearStream": {
 		"message": "Listeyi temizle",
 		"description": "An action -- empty the stream of items"
@@ -72,9 +68,6 @@
 	"addToStreamus": {
 		"message": "Akışa ekle"
 	},
-	"selectPlaylist": {
-		"message": "Liste seç"
-	},
 	"videoAddSuccess": {
 		"message": "Video başarıyla akışa eklendi"
 	},
@@ -83,10 +76,6 @@
 	},
 	"addVideo": {
 		"message": "Video ekle"
-	},
-	"working": {
-		"message": "Çalışıyor",
-		"description": "An action -- Streamus is working/processing something"
 	},
 	"newPlaylist": {
 		"message": "Yeni Liste"
@@ -148,9 +137,6 @@
 	},
 	"exitFullScreen": {
 		"message": "Exit full screen"
-	},
-	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
-		"message": " Streamus yüklenmesi uzun zaman alıyor. Yeniden yükleme yardımcı olabilir."
 	},
 	"reload": {
 		"message": "Yenile"
@@ -374,9 +360,6 @@
 	},
 	"resultsWillAppearAsYouSearch": {
 		"message": "Arama sonuçları görüntülenirs"
-	},
-	"sorryAboutThat": {
-		"message": "Kusura bakma"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Aramayı tekrar dene"
