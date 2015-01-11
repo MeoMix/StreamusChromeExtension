@@ -26,7 +26,7 @@
         },
         
         onSubmit: function () {
-            this.signInManager.set('needPromptGoogleSignIn', false);
+            this.signInManager.set('needGoogleSignIn', false);
         }
     });
 

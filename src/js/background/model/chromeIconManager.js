@@ -22,7 +22,7 @@ define([
             this.listenTo(streamItems, 'change:active', this._onStreamItemsChangeActive);
 
             var settings = this.get('settings');
-            this.listenTo(settings, 'change:alwaysOpenInTab', this._onSettingsChangeOpenInTab);
+            this.listenTo(settings, 'change:openInTab', this._onSettingsChangeOpenInTab);
 
             this._setTitle(streamItems.getActiveItem(), player.get('state'), player.get('volume'));
             this._setIcon(player.get('state'), player.get('muted'), player.get('volume'));

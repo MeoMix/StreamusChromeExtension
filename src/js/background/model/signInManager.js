@@ -80,10 +80,10 @@
             this.set('signingInUser', signingInUser);
 
             if (this._supportsGoogleSignIn() && !signingInUser.linkedToGoogle()) {
-                this._promptGoogleSignIn(googlePlusId);
+                this._promptGoogleSignIn();
             } else {
                 //  If the user signs out and then signs back in without restarting Streamus then shouldn't promtp them to sign in.
-                this.set('needPromptGoogleSignIn', false);
+                this.set('needGoogleSignIn', false);
             }
 
             this._listenUserLoadEvents(signingInUser);

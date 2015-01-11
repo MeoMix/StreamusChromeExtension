@@ -24,8 +24,14 @@
         },
         
         initialize: function () {
+            this._cleanMessage();
             this._dropUrlPrefix();
             this._setStack();
+        },
+        
+        //  The first part of the message just tells me an error was thrown, no need to know that.
+        _cleanMessage: function () {
+            this.set('message', this.get('message').replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', ''));
         },
         
         //  The first part of the URL is always the same and not very interesting. Drop it off.

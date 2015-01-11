@@ -64,7 +64,8 @@
         },
         
         _onChangeId: function (model, id) {
-            this.$el.data('id', id);
+            //  I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
+            this.$el.data('id', id).attr('id', id);
         },
         
         _onChangeActive: function (model, active) {

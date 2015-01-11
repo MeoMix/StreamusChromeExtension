@@ -52,9 +52,9 @@
         _onClickListItem: function (event) {
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.view.collection.get(id);
-            
+
             if (_.isUndefined(modelToSelect)) {
-                var error = new Error('modelToSelect undefined. id: ' + id + ' collection length: ' + this.view.collection.length);
+                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + event.currentTarget + ' target: ' + event.target);
                 Streamus.backgroundChannels.error.commands.trigger('log:error', error);
             }
 
@@ -112,7 +112,14 @@
             });
 
             //  Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
-            collection.at(firstSelectedIndex).set('firstSelected', true);
+            var modelToSelect = collection.at(firstSelectedIndex);
+
+            if (_.isUndefined(modelToSelect)) {
+                var error = new Error('modelToSelect undefined. firstSelectedIndex: ' + firstSelectedIndex + ' selectedIndex: ' + selectedIndex + ' length: ' + collection.length);
+                Streamus.backgroundChannels.error.commands.trigger('log:error', error);
+            }
+
+            modelToSelect.set('firstSelected', true);
         }
     });
 

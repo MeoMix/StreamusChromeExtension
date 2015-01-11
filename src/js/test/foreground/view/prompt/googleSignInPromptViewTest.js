@@ -26,7 +26,7 @@
 
                 this.view.onSubmit();
                 expect(Streamus.backgroundPage.signInManager.set.calledOnce).to.equal(true);
-                expect(Streamus.backgroundPage.signInManager.set.calledWith('needPromptGoogleSignIn', false)).to.equal(true);
+                expect(Streamus.backgroundPage.signInManager.set.calledWith('needGoogleSignIn', false)).to.equal(true);
 
                 Streamus.backgroundPage.signInManager.set.restore();
             });

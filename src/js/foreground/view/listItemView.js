@@ -9,8 +9,11 @@
         className: 'listItem',
         
         attributes: function () {
+            //  Store the clientId on the view until the model has been saved successfully.
+            var id = this.model.isNew() ? this.model.cid : this.model.get('id');
+
             return {
-                'data-id': this.model.get('id'),
+                'data-id': id,
                 'data-type': this.options.type,
                 //  When a view is unloaded by slidingRender logic it loses track of its parent. This is able to be used to get a reference to it.
                 'data-parentid': this.options.parentId

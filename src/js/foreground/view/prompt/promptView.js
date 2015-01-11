@@ -112,6 +112,7 @@
         },
         
         _transitionIn: function () {
+            //  TODO: If this view is destroyed and then _transitionIn runs, this.ui.panel isn't set.
             this.$el.addClass('is-visible');
             this.ui.panel.addClass('is-visible');
 

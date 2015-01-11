@@ -135,7 +135,8 @@ define([
 
             this.set({
                 loadedSong: null,
-                currentTime: 0
+                currentTime: 0,
+                state: PlayerState.Unstarted
             });
         },
 

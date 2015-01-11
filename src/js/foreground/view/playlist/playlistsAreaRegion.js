@@ -27,7 +27,10 @@
         },
         
         _hidePlaylistsArea: function () {
-            this.currentView.hide();
+            //  A hide command can be emitted by the application when the user is not signed in. In this scenario, currentView doesn't exist.
+            if (this._playlistsAreaViewExists()) {
+                this.currentView.hide();
+            }
         },
         
         //  Returns true if PlaylistsAreaView is currently shown

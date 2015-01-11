@@ -364,9 +364,6 @@ module.exports = function (grunt) {
 				replacements: [{
 					from: '"background",',
 					to: ''
-				}, {
-					from: '"notifications",',
-					to: ''
 				}]
 			}
 		});
