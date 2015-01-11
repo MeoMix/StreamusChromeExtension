@@ -16,7 +16,7 @@
             "message": "Zufallswiedergabe (Aus/An) schalten"
     },
     "toggleRepeatCommandDescription": {
-            "message": "Zwischen wiederholen umschalten"
+            "message": "Wiederholen (Aus/An) schalten"
     },
     "save": {
             "message": "Speichern"
@@ -25,10 +25,10 @@
             "message": "Kopiere URL"
     },
     "copyTitleAndUrl": {
-            "message": "Kopiere Titel - URL"
+            "message": "Kopiere Titel und URL"
     },
     "delete": {
-            "message": "Lösche",
+            "message": "Löschen",
             "description": "Nur das einzelne Wort, wie auf dem Button zu sehen."
     },
     "clearStream": {
@@ -148,11 +148,11 @@
             "message": "Bist du sicher?"
     },
     "areYouSureYouWantToDeletePlaylist": {
-            "message": "Bist du sioher das du folgende Playlist löschen möchtest:",
+            "message": "Bist du sicher dass du folgende Playlist löschen möchtest:",
             "description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
     },
     "areYouSureYouWantToClearYourStream": {
-            "message": "Bist du sicher das du den Stream löschen möchtest?"
+            "message": "Bist du sicher dass du den Stream löschen möchtest?"
     },
     "typeToCreateOrFilterPlaylists": {
             "message": "Tippen zum Erstellen oder Filtern von Playlists"
@@ -224,7 +224,7 @@
             "message": "Tage"
     },
     "errorRetrievingTitle": {
-            "message": "Fehler beim holen des Titels"        
+            "message": "Fehler beim Holen des Titels"        
     },
     "keyboardCommandFailure": {
             "message": "Eingabe fehlerhaft"
@@ -266,12 +266,12 @@
             "message": "Auf YouTube ansehen"
     },
 	"addAll": {
-		"message": "Add all"
+		"message": "Alle hinzufügen"
 	},
 	"addSelected": {
-		"message": "Add selected"
+		"message": "Ausgewählte hinzufügen"
 	},
 	"addPlaylist": {
-		"message": "Add playlist"
+		"message": "Playlist hinzufügen"
 	}
 }
