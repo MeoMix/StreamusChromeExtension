@@ -66,9 +66,10 @@
                 this._showReminder();
             }
             
+            //  TODO: I think I prefer requestAnimationFrame, but maybe it's introducing a bug because it can run even after the UI closes? Unsure. Trying _.defer for now.
             //  Transition only after successfully requesting an animation frame because the browser needs a moment to acknowledge the existence of
             //  the DOM element before its class is modified. Otherwise, the element will be created with the state rather than transitioning to it.
-            window.requestAnimationFrame(this._transitionIn.bind(this));
+            _.defer(this._transitionIn.bind(this));
         },
         
         //  Unless a prompt specifically implements reminderProperty it is assumed that reminder is enabled and the prompt be shown when asked.

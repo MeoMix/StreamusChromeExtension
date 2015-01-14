@@ -46,6 +46,11 @@
                 this.set('activeItem', activeItem);
                 this.get('player').activateSong(activeItem.get('song'));
             }
+
+            //  Ensure that localStorage data is valid
+            this.get('items').each(function(streamItem) {
+                this._ensureHasRelatedSongs(streamItem);
+            }, this);
         },
 
         //  TODO: Function is way too big.
@@ -195,17 +200,16 @@
 
         //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
         _onItemsAdd: function (model) {
-            if (model.get('relatedSongs').length === 0) {
-                this.get('relatedSongsManager').getRelatedSongs({
-                    songId: model.get('song').get('id'),
-                    success: this._onGetRelatedSongsSuccess.bind(this, model)
-                });
-            }
+            this._ensureHasRelatedSongs(model);
         },
 
         _onGetRelatedSongsSuccess: function (model, relatedSongs) {
-            model.get('relatedSongs').reset(relatedSongs.models);
-            model.save();
+            //  The model could have been removed from the collection while the request was still in flight. 
+            //  If this happened, just discard the data instead of trying to update the model.
+            if (this.get('items').get(model)) {
+                model.get('relatedSongs').reset(relatedSongs.models);
+                model.save();
+            }
         },
 
         _onItemsRemove: function (model, collection, options) {
@@ -258,20 +262,24 @@
             }
         },
 
+        //  TODO: Really needs to be reworked.
         _onPlayerYouTubeError: function (model, youTubeError) {
+            console.log('onError');
             if (this.get('items').length > 0) {
-                model.set('playOnActivate', true);
+                //model.set('playOnActivate', false);
                 //  TODO: It would be better if I could get the next item instead of having to activate it automatically.
-                var nextItem = this.activateNext();
+                //var nextItem = this.activateNext();
 
-                if (nextItem === null) {
-                    model.set('playOnActivate', false);
+                //console.log('nextItem:', nextItem);
 
-                    //  TODO: Once I refactoring activateNext and have better ways of handling errors then I can re-enable this, but infinite looping for now sucks.
-                    //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
-                    //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
-                    //model.activateSong(this.get('items').getActiveItem().get('song'));
-                }
+                //if (nextItem === null) {
+                //    model.set('playOnActivate', false);
+
+                //    //  TODO: Once I refactoring activateNext and have better ways of handling errors then I can re-enable this, but infinite looping for now sucks.
+                //    //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
+                //    //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
+                //    //model.activateSong(this.get('items').getActiveItem().get('song'));
+                //}
             } else {
                 //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
                 var error = new Error('Error ' + youTubeError + ' happened while StreamItems was empty.');
@@ -286,6 +294,17 @@
         _cleanupOnItemsEmpty: function () {
             this.set('activeItem', null);
             this.get('player').stop();
+        },
+        
+        //  When StreamItems are added or loaded from localStorage, they might not have relatedSongs. This can happen for a number of reasons.
+        //  If the JSON in localStorage is out of date, if a network request failed, etc. So, try loading relatedSongs again if not found.
+        _ensureHasRelatedSongs: function(streamItem) {
+            if (streamItem.get('relatedSongs').length === 0) {
+                this.get('relatedSongsManager').getRelatedSongs({
+                    songId: streamItem.get('song').get('id'),
+                    success: this._onGetRelatedSongsSuccess.bind(this, streamItem)
+                });
+            }
         }
     });
 

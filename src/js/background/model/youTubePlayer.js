@@ -118,6 +118,7 @@
         },
 
         _onYouTubePlayerReady: function () {
+            //  TODO: It's apparently possible for youTubePlayerWidget.setVolume to be undefined at this point in time. How can I reproduce?
             //  It's important to set ready to true before loading to false otherwise it looks like YouTubePlayer failed to load properly.
             this.set('ready', true);
             this.set('loading', false);

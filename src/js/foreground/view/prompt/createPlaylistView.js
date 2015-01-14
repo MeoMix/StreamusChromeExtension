@@ -123,31 +123,40 @@
                 parseVideo: false
             });
 
+            //  TODO: I suspect that binding to events emitted from dataSource would be better than success/error handlers
+            //  as then I have a way to prevent running the callback when the view is destroyed.
             dataSource.parseUrl({
                 success: this._onParseUrlSuccess.bind(this, dataSource),
                 error: this._setErrorState.bind(this)
             });
         },
         
-        _onParseUrlSuccess: function(dataSource) {
-            this.ui.dataSource.data('datasource', dataSource);
-            
-            dataSource.getTitle({
-                success: this._onGetTitleSuccess.bind(this),
-                error: this._setErrorState.bind(this)
-            });
+        _onParseUrlSuccess: function (dataSource) {
+            if (!this.isDestroyed) {
+                this.ui.dataSource.data('datasource', dataSource);
+
+                dataSource.getTitle({
+                    success: this._onGetTitleSuccess.bind(this),
+                    error: this._setErrorState.bind(this)
+                });
+            }
         },
         
-        _onGetTitleSuccess: function(title) {
-            this.ui.title.val(title);
-            this._validateTitle();
-            this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
-            this.ui.dataSourceHint.text(chrome.i18n.getMessage('loadedPlaylist'));
+        _onGetTitleSuccess: function (title) {
+            if (!this.isDestroyed) {
+                this.ui.title.val(title);
+                this._validateTitle();
+                this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
+                this.ui.dataSourceHint.text(chrome.i18n.getMessage('loadedPlaylist'));
+            }
         },
         
-        _setErrorState: function() {
-            this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
-            this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
+        _setErrorState: function () {
+            if (!this.isDestroyed) {
+                console.log('this.ui.dataSourceHint', this.ui.dataSourceHint);
+                this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
+                this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
+            }
         },
         
         _resetInputState: function() {

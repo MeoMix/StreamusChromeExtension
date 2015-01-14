@@ -86,7 +86,8 @@
                 this.set('needGoogleSignIn', false);
             }
 
-            this._listenUserLoadEvents(signingInUser);
+            this.listenTo(signingInUser, 'loadSuccess', this._onSignInSuccess.bind(this, signingInUser));
+            this.listenTo(signingInUser, 'loadError', this._onSignInError.bind(this, signingInUser));
 
             //  If the account doesn't have a Google+ ID -- try logging in by localStorage ID.
             if (!signingInUser.linkedToGoogle()) {
@@ -111,11 +112,6 @@
                     }
                 }.bind(this));
             }
-        },
-
-        _listenUserLoadEvents: function (user) {
-            this.listenToOnce(user, 'loadSuccess', this._onSignInSuccess);
-            this.listenToOnce(user, 'loadError', this._onSignInError);
         },
 
         //  getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
@@ -183,13 +179,12 @@
             }
         },
 
-        _onSignInSuccess: function () {
-            var signingInUser = this.get('signingInUser');
+        _onSignInSuccess: function (signingInUser) {
             this._setSignedInUser(signingInUser);
         },
 
-        _onSignInError: function (error) {
-            this.stopListening(this.get('signingInUser'));
+        _onSignInError: function (signingInUser, error) {
+            this.stopListening(signingInUser);
             this.set('signingInUser', null);
 
             console.error(error);
@@ -197,10 +192,10 @@
             this.set('signInFailed', true);
         },
 
-        _setSignedInUser: function (user) {
-            this.stopListening(user);
+        _setSignedInUser: function (signingInUser) {
+            this.stopListening(signingInUser);
 
-            this.set('signedInUser', user);
+            this.set('signedInUser', signingInUser);
             this.set('signingInUser', null);
 
             //  Announce that user has signedIn so managers can use it to fetch data.

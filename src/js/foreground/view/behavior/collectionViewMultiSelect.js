@@ -54,8 +54,9 @@
             var modelToSelect = this.view.collection.get(id);
 
             if (_.isUndefined(modelToSelect)) {
-                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + event.currentTarget + ' target: ' + event.target);
+                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + JSON.stringify(event.currentTarget) + ' target: ' + JSON.stringify(event.target));
                 Streamus.backgroundChannels.error.commands.trigger('log:error', error);
+                return;
             }
 
             this._setSelected({

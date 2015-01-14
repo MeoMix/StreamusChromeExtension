@@ -11,7 +11,8 @@
 
         initialize: function (options) {
             this.model = new Prompt({
-                title: chrome.i18n.getMessage('errorEncountered')
+                title: chrome.i18n.getMessage('errorEncountered'),
+                showCancelButton: false
             });
 
             this.player = Streamus.backgroundPage.player;
@@ -25,7 +26,7 @@
             //  TODO: I can probably remove this at some point once errors aren't happening.
             var loadedSong = this.player.get('loadedSong');
             var loadedSongId = loadedSong ? loadedSong.get('id') : '';
-            var error = new Error("Error: " + options.error + ", loadedSongId:" + loadedSongId + " " + options.text);
+            var error = new Error("Error: " + options.error + ", loadedSongId:" + loadedSongId + " " + options.text + ' headers: ' + JSON.stringify(Streamus.backgroundPage.window.debugSentHeaders));
             Streamus.backgroundChannels.error.commands.trigger('log:error', error);
         }
     });

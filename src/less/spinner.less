@@ -3,7 +3,8 @@
 //  Fade out other elements when the spinner is showing.
 //  TODO: This doesn't quite make sense here. Sometimes I want to fade out without the spinner showing.
 .is-showingSpinner {
-    > .spinner--unclickable {
+    > .spinner--unclickable,
+    > .spinner--unclickable * {
         pointer-events: none;
     }
 

@@ -32,11 +32,17 @@
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
             //  which will break chrome's .removeListener method which expects a named function in order to work properly.
             this._onChromeWebRequestBeforeSendHeaders = this._onChromeWebRequestBeforeSendHeaders.bind(this);
+            this._onChromeWebRequestSendHeaders = this._onChromeWebRequestSendHeaders.bind(this);
             this._onChromeWebRequestCompleted = this._onChromeWebRequestCompleted.bind(this);
 
             chrome.webRequest.onBeforeSendHeaders.addListener(this._onChromeWebRequestBeforeSendHeaders, {
                 urls: [this.model.get('youTubeEmbedUrl')]
             }, ['blocking', 'requestHeaders']);
+            
+            //  Ensure that a Referrer was actually attached and sent. Other extensions could prevent this from happening.
+            chrome.webRequest.onSendHeaders.addListener(this._onChromeWebRequestSendHeaders, {
+                urls: [this.model.get('youTubeEmbedUrl')]
+            }, ['requestHeaders']);
             
             chrome.webRequest.onCompleted.addListener(this._onChromeWebRequestCompleted, {
                 urls: [this.model.get('youTubeEmbedUrl')],
@@ -46,20 +52,15 @@
         
         onBeforeDestroy: function () {
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onChromeWebRequestBeforeSendHeaders);
+            chrome.webRequest.onSendHeaders.removeListener(this._onChromeWebRequestSendHeaders);
             chrome.webRequest.onCompleted.removeListener(this._onChromeWebRequestCompleted);
         },
         
-        //  Force the HTML5 player without having to get the user to opt-in to the YouTube trial.
-        //  Benefits include faster loading, less CPU usage, and no crashing
-        //  Also, add a Referer to the request because Chrome extensions don't have one (where a website would). 
-        //  Without a Referer - YouTube will reject most of the requests to play music.
+        //  Add a Referer to requests because Chrome extensions don't implicitly have one.
+        //  Without a Referer - YouTube will reject most requests to play music.
         _onChromeWebRequestBeforeSendHeaders: function (info) {
-            //  Bypass YouTube's embedded player content restrictions by provided a value for Referer.
-            var refererRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
-                return requestHeader.name === 'Referer';
-            });
-
-            var referer = info.url.substring(0, info.url.indexOf('/embed/'));
+            var refererRequestHeader = this._getRefererHeader(info.requestHeaders);
+            var referer = 'https://www.youtube.com/';
 
             if (_.isUndefined(refererRequestHeader)) {
                 info.requestHeaders.push({
@@ -70,28 +71,25 @@
                 refererRequestHeader.value = referer;
             }
 
-            //  Make Streamus look like an iPhone to guarantee the html5 player shows up even if YouTube has an ad.
-            var userAgentRequestHeader = _.find(info.requestHeaders, function (requestHeader) {
-                return requestHeader.name === 'User-Agent';
-            });
+            return { requestHeaders: info.requestHeaders };
+        },
+        
+        //  Log what referers are actually getting sent to help with debugging errors.
+        _onChromeWebRequestSendHeaders: function (info) {
+            var refererRequestHeader = this._getRefererHeader(info.requestHeaders);
+            var referer = _.isUndefined(refererRequestHeader) ? 'none' : refererRequestHeader.value;
 
-            var iPhoneUserAgent = 'Mozilla/5.0 (iPhone; U; CPU iPhone OS 4_3_2 like Mac OS X; en-us) AppleWebKit/533.17.9 (KHTML, like Gecko) Version/5.0.2 Mobile/8H7 Safari/6533.18.5';
-            if (userAgentRequestHeader === undefined) {
-                info.requestHeaders.push({
-                    name: 'User-Agent',
-                    value: iPhoneUserAgent
-                });
-            } else {
-                userAgentRequestHeader.value = iPhoneUserAgent;
+            if (!window.debugSentHeaders) {
+                window.debugSentHeaders = [];
             }
 
-            return { requestHeaders: info.requestHeaders };
+            window.debugSentHeaders.push(referer);
         },
         
         //  Only load YouTube's API once the iframe has been built successfully.
         //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
         //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
-        _onChromeWebRequestCompleted: function () {
+        _onChromeWebRequestCompleted: function (a) {
             chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
             this.webRequestCompleted = true;
             this._checkLoadModel();
@@ -106,6 +104,14 @@
         _onLoad: function () {
             this.loaded = true;
             this._checkLoadModel();
+        },
+        
+        _getRefererHeader: function(requestHeaders) {
+            var refererRequestHeader = _.find(requestHeaders, function (requestHeader) {
+                return requestHeader.name === 'Referer';
+            });
+
+            return refererRequestHeader;
         }
     });
 

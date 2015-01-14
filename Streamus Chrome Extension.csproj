@@ -45,7 +45,6 @@
   <ItemGroup>
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
-    <Content Include="src\css\jquery.qtip.css" />
     <Content Include="src\css\mocha.css" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\green_0bar_19.png" />
@@ -250,7 +249,6 @@
     <Content Include="src\js\foreground\model\contextMenu.js" />
     <Content Include="src\js\foreground\model\prompt.js" />
     <Content Include="src\js\foreground\model\contextMenuItem.js" />
-    <Content Include="src\js\foreground\model\saveSongs.js" />
     <Content Include="src\js\background\model\search.js" />
     <Content Include="src\js\foreground\plugins.js" />
     <Content Include="src\js\foreground\view\behavior\slidingRender.js" />
@@ -340,7 +338,6 @@
     <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <Content Include="src\css\beatportInject.css" />
-    <Content Include="src\css\youTubeInject.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Bold.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />
