@@ -153,7 +153,6 @@
         
         _setErrorState: function () {
             if (!this.isDestroyed) {
-                console.log('this.ui.dataSourceHint', this.ui.dataSourceHint);
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
                 this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
             }

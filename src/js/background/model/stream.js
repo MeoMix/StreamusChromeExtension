@@ -264,13 +264,10 @@
 
         //  TODO: Really needs to be reworked.
         _onPlayerYouTubeError: function (model, youTubeError) {
-            console.log('onError');
             if (this.get('items').length > 0) {
                 //model.set('playOnActivate', false);
                 //  TODO: It would be better if I could get the next item instead of having to activate it automatically.
                 //var nextItem = this.activateNext();
-
-                //console.log('nextItem:', nextItem);
 
                 //if (nextItem === null) {
                 //    model.set('playOnActivate', false);
