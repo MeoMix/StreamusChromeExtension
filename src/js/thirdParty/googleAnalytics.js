@@ -9,6 +9,10 @@
 })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
 
 ga('create', 'UA-32334126-1', 'auto');
+//  Bug: UA doesn't work out of the box with Chrome extensions.
+//  https://code.google.com/p/analytics-issues/issues/detail?id=312
+//  http://stackoverflow.com/questions/16135000/how-do-you-integrate-universal-analytics-in-to-chrome-extensions
+ga('set', 'checkProtocolTask', function () {});
 ga('require', 'displayfeatures');
 ga('require', 'linkid', 'linkid.js');
 ga('send', 'pageview');

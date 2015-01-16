@@ -9,13 +9,13 @@
 		"message": "Streamus: Simple, streaming music."
 	},
 	"toggleRadioCommandDescription": {
-		"message": "Toggle (off/on) the radio"
+		"message": "Radio off/on"
 	},
 	"toggleShuffleCommandDescription": {
-		"message": "Toggle (off/on) shuffling"
+		"message": "Shuffle off/on"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Toggle repeating"
+		"message": "Repeat off/all/single"
 	},
 	"save": {
 		"message": "Save"
@@ -303,7 +303,7 @@
 		"message": "Decrease volume"
 	},
 	"showActiveSongCommandDescription": {
-		"message": "Show active song"
+		"message": "Show song details"
 	},
     "saveSong": {
 		"message": "Save song"
@@ -312,22 +312,22 @@
 		"message": "Save songs"
 	},
 	"nextSongCommandDescription": {
-		"message": "Go to the next song in the stream"
+		"message": "Next song"
 	},
 	"previousSongCommandDescription": {
-		"message": "Go to the previous song in the stream"
+		"message": "Previous song"
 	},
 	"toggleSongCommandDescription": {
-		"message": "Toggle (play/pause) the current song"
+		"message": "Play/pause song"
 	},
 	"deleteSongCommandDescription": {
-		"message": "Remove the current song from the stream"
+		"message": "Delete song"
 	},
 	"copySongURLCommandDescription": {
-		"message": "Copy the current song's URL"
+		"message": "Copy song's URL"
 	},
 	"copySongTitleURLCommandDescription": {
-		"message": "Copy the current song's title and URL"
+		"message": "Copy song's title and URL"
 	},
 	"deleteSong": {
 		"message": "Delete song"
