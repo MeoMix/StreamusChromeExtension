@@ -1,17 +1,17 @@
-﻿define([
-    'foreground/view/appBar/appBarRegion',
-    'foreground/view/contextMenu/contextMenuRegion',
-    'foreground/view/dialog/dialogRegion',
-    'foreground/view/element/spinnerView',
-    'foreground/view/leftPane/leftPaneRegion',
-    'foreground/view/notification/notificationRegion',
-    'foreground/view/playlist/playlistsAreaRegion',
-    'foreground/view/saveSongs/saveSongsRegion',
-    'foreground/view/search/searchAreaRegion',
-    'foreground/view/stream/streamRegion',
-    'text!template/foregroundArea.html'
-], function (AppBarRegion, ContextMenuRegion, DialogRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, SaveSongsRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+    
+    var AppBarRegion = require('foreground/view/appBar/appBarRegion');
+    var ContextMenuRegion = require('foreground/view/contextMenu/contextMenuRegion');
+    var DialogRegion = require('foreground/view/dialog/dialogRegion');
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
+    var NotificationRegion = require('foreground/view/notification/notificationRegion');
+    var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
+    var SaveSongsRegion = require('foreground/view/saveSongs/saveSongsRegion');
+    var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
+    var StreamRegion = require('foreground/view/stream/streamRegion');
+    var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
         id: 'foregroundArea',
