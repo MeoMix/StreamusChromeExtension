@@ -19,7 +19,7 @@
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "lint": "grunt jshint"
+    "test": "grunt jshint"
   },
   "repository": {
     "type": "git",
