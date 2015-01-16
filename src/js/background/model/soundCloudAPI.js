@@ -2,6 +2,7 @@
 ], function () {
     'use strict';
 
+
     var SoundCloudAPI = Backbone.Model.extend({
         initialize: function () {
             //this._loadSoundManager();
@@ -33,11 +34,10 @@
                 //    //sound.play();
                 //});
             //}.bind(this), 4000);
-
-
         },
-        
-        _loadSoundManager: function() {
+
+        _loadSoundManager: function () {
+            /* jshint ignore:start */
             /** @license
    *
    * SoundManager 2: JavaScript Sound for the Web
@@ -2884,13 +2884,7 @@
 
                                     }
 
-                                }/* else {
-
-          // sm2._wD('_onTimer: Warn for "'+s.id+'": '+(!s._a?'Could not find element. ':'')+(s.playState === 0?'playState bad, 0?':'playState = '+s.playState+', OK'));
-
-          return false;
-
-        }*/
+                                }
 
                                 return isNew;
 
@@ -6113,9 +6107,12 @@
                 }
 
             }(window));
+            
+            /* jshint ignore:end */
         },
 
         _loadApi: function () {
+            /* jshint ignore:start */
             var Recorder = {
                 swfObject: null,
                 _callbacks: {},
@@ -8058,6 +8055,7 @@
                     }
                 }))
             }.call(this);
+            /* jshint ignore:end */
         }
     });
 
