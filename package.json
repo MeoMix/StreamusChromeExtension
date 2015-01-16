@@ -19,7 +19,7 @@
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "grunt jshint"
   },
   "repository": {
     "type": "git",
