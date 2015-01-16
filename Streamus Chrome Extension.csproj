@@ -115,6 +115,7 @@
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
     <Content Include="src\js\background\model\relatedSongsManager.js" />
+    <Content Include="src\js\background\model\soundCloudAPI.js" />
     <Content Include="src\js\background\model\stream.js" />
     <Content Include="src\js\background\view\backgroundAreaView.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
@@ -443,6 +444,7 @@
     <Content Include="src\less\spinner.less" />
     <Content Include="src\less\navBar.less" />
     <Content Include="src\less\text.less" />
+    <Content Include="src\_locales\cs\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

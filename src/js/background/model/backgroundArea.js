@@ -6,10 +6,12 @@
     'background/model/chromeOmniboxManager',
     'background/model/clientErrorManager',
     'background/model/dataSourceManager',
+    'background/model/debugManager',
     'background/model/player',
     'background/model/search',
     'background/model/settings',
     'background/model/signInManager',
+    'background/model/soundCloudAPI',
     'background/model/stream',
     'background/model/syncManager',
     'background/model/tabManager',
@@ -20,12 +22,13 @@
     'background/model/buttons/radioButton',
     'background/model/buttons/repeatButton',
     'background/model/buttons/shuffleButton'
-], function (BrowserSettings, ChromeContextMenusManager, ChromeIconManager, ChromeNotificationsManager, ChromeOmniboxManager, ClientErrorManager, DataSourceManager, Player, Search, Settings, SignInManager, Stream, SyncManager, TabManager, YouTubePlayer, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton) {
+], function (BrowserSettings, ChromeContextMenusManager, ChromeIconManager, ChromeNotificationsManager, ChromeOmniboxManager, ClientErrorManager, DataSourceManager, DebugManager, Player, Search, Settings, SignInManager, SoundCloudAPI, Stream, SyncManager, TabManager, YouTubePlayer, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton) {
     'use strict';
 
     var BackgroundArea = Backbone.Model.extend({
         defaults: {
             youTubePlayer: null,
+            debugManager: null,
             foregroundUnloadTimeout: null
         },
 
@@ -34,6 +37,9 @@
             this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
 
+            var debugManager = new DebugManager();
+            this.set('debugManager', debugManager);
+            
             var browserSettings = new BrowserSettings();
             var settings = new Settings();
 
@@ -42,7 +48,8 @@
 
             var player = new Player({
                 settings: settings,
-                youTubePlayer: youTubePlayer
+                youTubePlayer: youTubePlayer,
+                debugManager: debugManager
             });
             
             var radioButton = new RadioButton();
@@ -61,6 +68,8 @@
             signInManager.signInWithGoogle();
 
             var search = new Search();
+
+            var soundCloudAPI = new SoundCloudAPI();
             
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: browserSettings,
@@ -111,6 +120,7 @@
 
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.browserSettings = browserSettings;
+            window.debugManager = debugManager;
             window.tabManager = tabManager;
             window.signInManager = signInManager;
             window.settings = settings;

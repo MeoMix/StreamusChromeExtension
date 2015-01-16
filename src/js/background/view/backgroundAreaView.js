@@ -14,7 +14,8 @@
                 youTubePlayerRegion: {
                     el: '#' + this.id + '-youTubePlayerRegion',
                     regionClass: YouTubePlayerRegion,
-                    youTubePlayer: options.model.get('youTubePlayer')
+                    youTubePlayer: options.model.get('youTubePlayer'),
+                    debugManager: options.model.get('debugManager')
                 },
                 clipboardRegion: {
                     el: '#' + this.id + '-clipboardRegion',

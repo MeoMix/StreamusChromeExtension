@@ -37,7 +37,8 @@ define([
                 refreshAlarmName: 'refreshAlarm_' + _.now(),
 
                 settings: null,
-                youTubePlayer: null
+                youTubePlayer: null,
+                debugManager: null
             };
         },
         
@@ -290,6 +291,10 @@ define([
             if (!_.isUndefined(message.error)) {
                 var error = new Error(message.error);
                 Streamus.channels.error.commands.trigger('log:error', error);
+            }
+            
+            if (!_.isUndefined(message.flashLoaded)) {
+                this.get('debugManager').set('flashLoaded', message.flashLoaded);
             }
         },
 

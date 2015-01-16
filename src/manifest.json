@@ -90,7 +90,7 @@
 			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]
 		}
 	],
-	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/; object-src 'self'",
+	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/ https://connect.soundcloud.com/;  object-src 'self' https://connect.soundcloud.com/",
 	"homepage_url": "http://streamus.com",
 	"incognito": "spanning",
     "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",

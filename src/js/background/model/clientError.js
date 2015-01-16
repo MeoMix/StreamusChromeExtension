@@ -52,7 +52,7 @@
                 }
             }
 
-            this.set('stack', stack.replace('Error ', '').trim());
+            this.set('stack', stack.replace('Error: ', '').trim());
         },
         
         _getBrowserVersion: function() {

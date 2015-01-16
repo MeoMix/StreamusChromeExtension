@@ -1,19 +1,22 @@
 ﻿define([
     'common/enum/youTubePlayerError',
     'foreground/view/prompt/errorPromptView',
+    'foreground/view/prompt/flashLoadedPromptView',
     'foreground/view/prompt/googleSignInPromptView',
     'foreground/view/prompt/linkUserIdPromptView',
     'foreground/view/prompt/updateStreamusPromptView'
-], function (YouTubePlayerError, ErrorPromptView, GoogleSignInPromptView, LinkUserIdPromptView, UpdateStreamusPromptView) {
+], function (YouTubePlayerError, ErrorPromptView, FlashLoadedPromptView, GoogleSignInPromptView, LinkUserIdPromptView, UpdateStreamusPromptView) {
     'use strict';
 
     var PromptRegion = Marionette.Region.extend({
         player: null,
         signInManager: null,
+        debugManager: null,
         
         initialize: function () {
             this.player = Streamus.backgroundPage.player;
             this.signInManager = Streamus.backgroundPage.signInManager;
+            this.debugManager = Streamus.backgroundPage.debugManager;
 
             this.listenTo(Streamus.channels.prompt.commands, 'show:prompt', this._showPrompt);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
@@ -27,6 +30,7 @@
             this._promptIfNeedGoogleSignIn();
             this._promptIfNeedLinkUserId();
             this._promptIfUpdateAvailable();
+            this._promptIfFlashLoaded();
         },
 
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
@@ -48,6 +52,12 @@
         _promptIfNeedGoogleSignIn: function() {
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showGoogleSignInPrompt();
+            }
+        },
+        
+        _promptIfFlashLoaded: function () {
+            if (this.debugManager.get('flashLoaded')) {
+                this._showFlashLoadedPrompt();
             }
         },
         
@@ -79,6 +89,10 @@
         //  Display a prompt to the user indicating that they should restart Streamus because an update has been downloaded.
         _showUpdateStreamusPrompt: function () {
             this._showPrompt(UpdateStreamusPromptView);
+        },
+        
+        _showFlashLoadedPrompt: function() {
+            this._showPrompt(FlashLoadedPromptView);
         },
         
         _showPrompt: function (PromptView, options) {

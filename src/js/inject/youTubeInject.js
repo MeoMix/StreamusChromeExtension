@@ -1,7 +1,7 @@
 //  This code runs on YouTube pages.
 $(function () {
-	'use strict';
-
+    'use strict';
+    
 	var enhanceYouTube = false;
 	var injectData = {
 		canEnhance: false,

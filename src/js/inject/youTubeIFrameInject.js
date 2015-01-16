@@ -11,6 +11,10 @@ $(function () {
         });
 
         var monitorVideoStream = function () {
+            youTubeIFrameConnectRequestPort.postMessage({
+                flashLoaded: false
+            });
+
             var lastPostedTime = null;
 
             videoStream.on('loadstart', function() {
@@ -48,26 +52,41 @@ $(function () {
 
         //  Monitor the video for change of src so that background can mimic player.
         var videoStream = $('.video-stream');
+        var flashStream = $('embed[type="application/x-shockwave-flash"]');
 
         //  If failed to find the videoStream -- keep searching for a bit. Opera loads too early and I guess this might be possible in Chrome, too.
         if (videoStream.length === 0) {
-            var findVideoStreamInterval = setInterval(function () {
-                if (triesRemaining <= 0) {
-                    youTubeIFrameConnectRequestPort.postMessage({
-                        error: 'video-stream not found, readystate:' + document.readyState + ' ' + errorsEncountered + JSON.stringify(navigator.plugins) + document.body.innerHTML
-                    });
-                    clearInterval(findVideoStreamInterval);
-                } else {
-                    videoStream = $('.video-stream');
+            if (flashStream.length > 0) {
+                youTubeIFrameConnectRequestPort.postMessage({
+                    flashLoaded: true
+                });
+            } else {
+                var findVideoStreamInterval = setInterval(function () {
+                    if (triesRemaining <= 0) {
 
-                    if (videoStream.length > 0) {
                         clearInterval(findVideoStreamInterval);
-                        monitorVideoStream();
-                    }
-                }
+                        youTubeIFrameConnectRequestPort.postMessage({
+                            error: 'video-stream not found, readystate:' + document.readyState + ' ' + errorsEncountered
+                        });
+                    } else {
+                        videoStream = $('.video-stream');
+                        flashStream = $('embed[type="application/x-shockwave-flash"]');
 
-                triesRemaining--;
-            }, 200);
+                        if (videoStream.length > 0) {
+                            clearInterval(findVideoStreamInterval);
+                            monitorVideoStream();
+                        }
+                        else if (flashStream.length > 0) {
+                            youTubeIFrameConnectRequestPort.postMessage({
+                                flashLoaded: true
+                            });
+                            clearInterval(findVideoStreamInterval);
+                        }
+                    }
+
+                    triesRemaining--;
+                }, 200);
+            }
         } else {
             monitorVideoStream();
         }
