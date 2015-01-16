@@ -65,7 +65,7 @@
             //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
             //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
             if (!(this.contentRegion.currentView instanceof SignInView)) {
-                //  Otherwise, allow the user to sign in by showing a sign in prompt.
+                //  Otherwise, allow the user to sign in by showing a link to sign in.
                 this.contentRegion.show(new SignInView({
                     model: this.signInManager
                 }));

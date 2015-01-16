@@ -462,7 +462,7 @@ chrome = {
     },
     downloads: {
         acceptDanger: function (downloadId, callback) {
-            ///<summary>Prompt the user to accept a dangerous download. Does not automatically accept dangerous downloads. If the download is accepted, then an onChanged event will fire, otherwise nothing will happen. When all the data is fetched into a temporary file and either the download is not dangerous or the danger has been accepted, then the temporary file is renamed to the target filename, the |state| changes to 'complete', and onChanged fires.</summary>
+            ///<summary>Dialog the user to accept a dangerous download. Does not automatically accept dangerous downloads. If the download is accepted, then an onChanged event will fire, otherwise nothing will happen. When all the data is fetched into a temporary file and either the download is not dangerous or the danger has been accepted, then the temporary file is renamed to the target filename, the |state| changes to 'complete', and onChanged fires.</summary>
             ///<param name='downloadId' type='integer'>None</param> 
             ///<param name='callback' type='function'> (optional) function() {...} ;</param>
         },

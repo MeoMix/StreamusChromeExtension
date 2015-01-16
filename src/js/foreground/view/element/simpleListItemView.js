@@ -70,7 +70,7 @@ define([
                     };
                 }, this));
 
-                //  Since I'm building this inside of a click event and click events can close the prompt I need to let the event finish before showing the menu
+                //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
                 //  otherwise it'll close immediately.
                 _.defer(function () {
                     var simpleMenuView = new SimpleMenuView({

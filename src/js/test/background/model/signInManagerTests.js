@@ -27,21 +27,21 @@
                     }]
                 });
 
-                sinon.spy(this.signInManager, '_promptGoogleSignIn');
-                sinon.spy(this.signInManager, '_promptLinkUserId');
+                sinon.spy(this.signInManager, '_needGoogleSignIn');
+                sinon.spy(this.signInManager, '_needLinkUserId');
                 sinon.spy(this.signInManager, '_onSignInSuccess');
             });
 
             afterEach(function () {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
-                this.signInManager._promptGoogleSignIn.restore();
-                this.signInManager._promptLinkUserId.restore();
+                this.signInManager._needGoogleSignIn.restore();
+                this.signInManager._needLinkUserId.restore();
                 this.signInManager._onSignInSuccess.restore();
             });
 
             describe('when signing in as a new user', function () {
-                it('the user should be signed in and should prompt to consider signing into Google Chrome', function () {
+                it('the user should be signed in and should show a dialog to consider signing into Google Chrome', function () {
                     localStorage.removeItem('userId');
                     this.signInManager.signInWithGoogle();
                     ensureSignedIn(this.signInManager);
@@ -49,7 +49,7 @@
             });
 
             describe('when signing in as an existing user', function () {
-                it('the user should be signed should prompt to consider signing into Google Chrome', function () {
+                it('the user should be signed should show a dialog to consider signing into Google Chrome', function () {
                     localStorage.setItem('userId', USER_ID);
                     this.signInManager.signInWithGoogle();
                     ensureSignedIn(this.signInManager);
@@ -57,14 +57,14 @@
             });
 
             function ensureSignedIn(signInManager) {
-                //  Once to login, again for checking to see if should prompt to link to Google Account.
+                //  Once to login, again for checking to see if should show a dialog to link to Google Account.
                 expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
                 expect(signInManager.get('signedInUser')).not.to.equal(null);
                 expect(signInManager._onSignInSuccess.calledOnce).to.equal(true);
-                //  Since the user isn't signed into Google Chrome we should prompt them to login so their data can be persisted across PCs.
-                expect(signInManager._promptGoogleSignIn.calledOnce).to.equal(true);
-                //  Since the user isn't signed into Google Chrome, we should NOT prompt them to link their data because there's no ID to link to yet.
-                expect(signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                //  Since the user isn't signed into Google Chrome we should show a dialog them to login so their data can be persisted across PCs.
+                expect(signInManager._needGoogleSignIn.calledOnce).to.equal(true);
+                //  Since the user isn't signed into Google Chrome, we should NOT show a dialog them to link their data because there's no ID to link to yet.
+                expect(signInManager._needLinkUserId.calledOnce).to.equal(false);
             }
         });
 
@@ -78,15 +78,15 @@
                     email: ''
                 });
 
-                sinon.spy(this.signInManager, '_promptGoogleSignIn');
-                sinon.spy(this.signInManager, '_promptLinkUserId');
+                sinon.spy(this.signInManager, '_needGoogleSignIn');
+                sinon.spy(this.signInManager, '_needLinkUserId');
             });
 
             afterEach(function () {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
-                this.signInManager._promptGoogleSignIn.restore();
-                this.signInManager._promptLinkUserId.restore();
+                this.signInManager._needGoogleSignIn.restore();
+                this.signInManager._needLinkUserId.restore();
             });
 
             describe('when signing in as a new user', function () {
@@ -106,12 +106,12 @@
                 it('should be created as a new user and should be linked to Google Chrome account', function () {
                     localStorage.removeItem('userId');
                     this.signInManager.signInWithGoogle();
-                    //  Once to login, again for checking to see if should prompt to link to Google Account.
+                    //  Once to login, again for checking to see if should show a dialog to link to Google Account.
                     expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
-                    //  Since the user is signed into Google Chrome we should not prompt them to login.
-                    expect(this.signInManager._promptGoogleSignIn.calledOnce).to.equal(false);
-                    //  Since the user is signed into Google Chrome, but their data is already linked, should not prompt them to link.
-                    expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                    //  Since the user is signed into Google Chrome we should not show a dialog them to login.
+                    expect(this.signInManager._needGoogleSignIn.calledOnce).to.equal(false);
+                    //  Since the user is signed into Google Chrome, but their data is already linked, should not show a dialog them to link.
+                    expect(this.signInManager._needLinkUserId.calledOnce).to.equal(false);
                 });
             });
 
@@ -130,16 +130,16 @@
                         });
                 });
 
-                it('user data should be preserved and should prompt to consider linking account to Google Chrome', function () {
+                it('user data should be preserved and should show a dialog to consider linking account to Google Chrome', function () {
                     localStorage.setItem('userId', USER_ID);
                     this.signInManager.signInWithGoogle();
 
-                    //  Once to login, again for checking to see if should prompt to link to Google Account.
+                    //  Once to login, again for checking to see if should show a dialog to link to Google Account.
                     expect(chrome.identity.getProfileUserInfo.calledTwice).to.equal(true);
-                    //  Since the user is signed into Google Chrome we should not prompt them to login.
-                    expect(this.signInManager._promptGoogleSignIn.calledOnce).to.equal(false);
-                    //  Since the user is signed into Google Chrome and their data is not linked -- prompt to link the account
-                    expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(true);
+                    //  Since the user is signed into Google Chrome we should not show a dialog them to login.
+                    expect(this.signInManager._needGoogleSignIn.calledOnce).to.equal(false);
+                    //  Since the user is signed into Google Chrome and their data is not linked -- show a dialog to link the account
+                    expect(this.signInManager._needLinkUserId.calledOnce).to.equal(true);
                 });
             });
         });
@@ -156,12 +156,12 @@
                     email: ''
                 });
 
-                sinon.spy(this.signInManager, '_promptLinkUserId');
+                sinon.spy(this.signInManager, '_needLinkUserId');
             });
 
             afterEach(function () {
                 chrome.identity.getProfileUserInfo.restore();
-                this.signInManager._promptLinkUserId.restore();
+                this.signInManager._needLinkUserId.restore();
                 $.ajax.restore();
             });
 
@@ -199,7 +199,7 @@
                         }, true);
 
                         //  New user's account is already linked to Google.
-                        expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                        expect(this.signInManager._needLinkUserId.calledOnce).to.equal(false);
                     });
                 });
 
@@ -225,7 +225,7 @@
                         }, true);
 
                         //  New user's account is already linked to Google.
-                        expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                        expect(this.signInManager._needLinkUserId.calledOnce).to.equal(false);
                     });
                 });
             });
@@ -248,14 +248,14 @@
                             .onFirstCall().yieldsTo('success', false);
                     });
 
-                    it('should prompt new user to link their account to the existing account', function () {
+                    it('should show a dialog new user to link their account to the existing account', function () {
                         this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
                         }, true);
 
-                        //  Prompt the user to confirm that the account they just signed in with is the one they want to use to link to the currently existing data.
-                        expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(true);
+                        //  Dialog the user to confirm that the account they just signed in with is the one they want to use to link to the currently existing data.
+                        expect(this.signInManager._needLinkUserId.calledOnce).to.equal(true);
                     });
 
                     it('should merge new user account with existing account if both share the same GooglePlusId', function() {
@@ -301,8 +301,8 @@
                             email: ''
                         }, true);
 
-                        //  Don't prompt the user to link accounts because we've just swapped to their new account, no linking necessary.
-                        expect(this.signInManager._promptLinkUserId.calledOnce).to.equal(false);
+                        //  Don't show a dialog the user to link accounts because we've just swapped to their new account, no linking necessary.
+                        expect(this.signInManager._needLinkUserId.calledOnce).to.equal(false);
                     });
                 });
             });

@@ -6,10 +6,10 @@
     'foreground/view/listItemButton/addPlaylistButtonView',
     'foreground/view/listItemButton/deletePlaylistButtonView',
     'foreground/view/listItemButton/playPlaylistButtonView',
-    'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/view/prompt/exportPlaylistPromptView',
+    'foreground/view/dialog/editPlaylistDialogView',
+    'foreground/view/dialog/exportPlaylistDialogView',
     'text!template/playlist/playlist.html'
-], function (ListItemType, PlaylistAction, SpinnerView, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+], function (ListItemType, PlaylistAction, SpinnerView, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistDialogView, ExportPlaylistDialogView, PlaylistTemplate) {
     'use strict';
 
     var PlaylistView = ListItemView.extend({
@@ -57,7 +57,7 @@
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('edit'),
-                onClick: this._showEditPlaylistPrompt.bind(this)
+                onClick: this._showEditPlaylistDialog.bind(this)
             }, {
                 //  No point in sharing an empty playlist.
                 disabled: isEmpty,
@@ -67,7 +67,7 @@
                 //  No point in exporting an empty playlist.
                 disabled: isEmpty,
                 text: chrome.i18n.getMessage('export'),
-                onClick: this._showExportPlaylistPrompt.bind(this)
+                onClick: this._showExportPlaylistDialog.bind(this)
             }]);
         },
         
@@ -145,14 +145,14 @@
             Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));
         },
         
-        _showEditPlaylistPrompt: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', EditPlaylistPromptView, {
+        _showEditPlaylistDialog: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
                 playlist: this.model
             });
         },
         
-        _showExportPlaylistPrompt: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', ExportPlaylistPromptView, {
+        _showExportPlaylistDialog: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
                 playlist: this.model
             });
         },

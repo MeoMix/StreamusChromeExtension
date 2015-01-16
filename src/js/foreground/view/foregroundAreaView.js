@@ -1,16 +1,16 @@
 ﻿define([
     'foreground/view/appBar/appBarRegion',
     'foreground/view/contextMenu/contextMenuRegion',
+    'foreground/view/dialog/dialogRegion',
     'foreground/view/element/spinnerView',
     'foreground/view/leftPane/leftPaneRegion',
     'foreground/view/notification/notificationRegion',
     'foreground/view/playlist/playlistsAreaRegion',
-    'foreground/view/prompt/promptRegion',
     'foreground/view/saveSongs/saveSongsRegion',
     'foreground/view/search/searchAreaRegion',
     'foreground/view/stream/streamRegion',
     'text!template/foregroundArea.html'
-], function (AppBarRegion, ContextMenuRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SaveSongsRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
+], function (AppBarRegion, ContextMenuRegion, DialogRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, SaveSongsRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
     'use strict';
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -50,9 +50,9 @@
                     el: '#' + this.id + '-appBarRegion',
                     regionClass: AppBarRegion
                 },
-                promptRegion: {
-                    el: '#' + this.id + '-promptRegion',
-                    regionClass: PromptRegion
+                dialogRegion: {
+                    el: '#' + this.id + '-dialogRegion',
+                    regionClass: DialogRegion
                 },
                 notificationRegion: {
                     el: '#' + this.id + '-notificationRegion',

@@ -103,7 +103,7 @@
         },
 
         _onClickSaveSelectedButton: function() {
-            this._showSaveSelectedPrompt();
+            this._showSaveSelectedDialog();
         },
         
         _onClickAddSelectedButton: function () {
@@ -166,7 +166,7 @@
             this.streamItems.addSongs(this.collection.getSelectedSongs());
         },
 
-        _showSaveSelectedPrompt: function () {
+        _showSaveSelectedDialog: function () {
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
 
             if (!disabled) {

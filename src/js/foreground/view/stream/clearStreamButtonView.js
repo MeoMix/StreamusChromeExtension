@@ -1,8 +1,8 @@
 ﻿define([
     'foreground/view/behavior/tooltip',
-    'foreground/view/prompt/clearStreamPromptView',
+    'foreground/view/dialog/clearStreamDialogView',
     'text!template/stream/clearStreamButton.html'
-], function (Tooltip, ClearStreamPromptView, ClearStreamButtonTemplate) {
+], function (Tooltip, ClearStreamDialogView, ClearStreamButtonTemplate) {
     'use strict';
 
     var ClearStreamButtonView = Marionette.ItemView.extend({
@@ -30,7 +30,7 @@
         
         _onClick: function () {
             if (this.model.get('enabled')) {
-                this._showClearStreamPrompt();
+                this._showClearStreamDialog();
             }
         },
         
@@ -42,14 +42,14 @@
             this.$el.toggleClass('disabled', !enabled).attr('title', stateMessage);
         },
         
-        _showClearStreamPrompt: function () {
+        _showClearStreamDialog: function () {
             var streamItems = this.model.get('streamItems');
 
-            //  When deleting only a single StreamItem it is not necessary to prompt because it's not a very dangerous action.
+            //  When deleting only a single StreamItem it is not necessary to show a dialog because it's not a very dangerous action.
             if (streamItems.length === 1) {
                 streamItems.clear();
             } else {
-                Streamus.channels.prompt.commands.trigger('show:prompt', ClearStreamPromptView);
+                Streamus.channels.dialog.commands.trigger('show:dialog', ClearStreamDialogView);
             }
         }
     });

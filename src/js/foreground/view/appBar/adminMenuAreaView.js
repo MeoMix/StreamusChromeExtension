@@ -1,8 +1,8 @@
 ﻿define([
-    'foreground/view/prompt/settingsPromptView',
-    'foreground/view/prompt/browserSettingsPromptView',
+    'foreground/view/dialog/settingsDialogView',
+    'foreground/view/dialog/browserSettingsDialogView',
     'text!template/appBar/adminMenuArea.html'
-], function (SettingsPromptView, BrowserSettingsPromptView, AdminMenuAreaTemplate) {
+], function (SettingsDialogView, BrowserSettingsDialogView, AdminMenuAreaTemplate) {
     'use strict';
     
     //  TODO: This doesn't close on right-click, but contextmenu does. Is that OK?
@@ -57,11 +57,11 @@
         },
         
         _onClickSettingsMenuItem: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', SettingsPromptView);
+            Streamus.channels.dialog.commands.trigger('show:dialog', SettingsDialogView);
         },
         
         _onClickBrowserSettingsMenuItem: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', BrowserSettingsPromptView);
+            Streamus.channels.dialog.commands.trigger('show:dialog', BrowserSettingsDialogView);
         },
         
         _onClickKeyboardShortcutsMenuItem: function() {

@@ -3,8 +3,8 @@ define([
     'foreground/collection/simpleMenuItems',
     'foreground/model/simpleMenu',
     'foreground/view/element/simpleMenuView',
-    'foreground/view/prompt/createPlaylistPromptView'
-], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, CreatePlaylistPromptView) {
+    'foreground/view/dialog/createPlaylistDialogView'
+], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, CreatePlaylistDialogView) {
     'use strict';
 
     var SaveSongsRegion = Marionette.Region.extend({
@@ -50,7 +50,7 @@ define([
         },
 
         _onClickFixedMenuItem: function (songs) {
-            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView, {
+            Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
                 songs: songs
             });
         },

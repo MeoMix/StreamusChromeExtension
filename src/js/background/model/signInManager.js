@@ -80,7 +80,7 @@
             this.set('signingInUser', signingInUser);
 
             if (this._supportsGoogleSignIn() && !signingInUser.linkedToGoogle()) {
-                this._promptGoogleSignIn();
+                this._needGoogleSignIn();
             } else {
                 //  If the user signs out and then signs back in without restarting Streamus then shouldn't promtp them to sign in.
                 this.set('needGoogleSignIn', false);
@@ -102,7 +102,8 @@
                         //  Otherwise, consider the fact that there might be existing account data which could be lost if sign-in occurs.
                         var signedInUser = this.get('signedInUser');
 
-                        //  If the signed in account is not linked to Google then information will be lost if the user account is loaded. So, prompt to link data instead of overwriting.
+                        //  If the signed in account is not linked to Google then information will be lost if the user account is loaded.
+                        //  So, mark that user data needs to be linked instead of overwriting.
                         if (signedInUser !== null && !signedInUser.linkedToGoogle()) {
                             this._setSignedInUser(signedInUser);
                         } else {
@@ -203,7 +204,7 @@
 
             this._shouldLinkUserId(function (shouldLinkUserId) {
                 if (shouldLinkUserId) {
-                    this._promptLinkUserId();
+                    this._needLinkUserId();
                 }
             }.bind(this));
         },
@@ -280,14 +281,12 @@
                 callback(false);
             }
         },
-        //  TODO: Should this be needLinkUserId or needLinkAccount?
-        // TODO: function naming
-        _promptLinkUserId: function () {
-            //  Set a property indicating prompt is needed because UI might not be open when this method is ran so UI can't be shown immediately.
+        //  TODO: Just set this properties manually instead of via function.
+        _needLinkUserId: function () {
             this.set('needLinkUserId', true);
         },
 
-        _promptGoogleSignIn: function () {
+        _needGoogleSignIn: function () {
             this.set('needGoogleSignIn', true);
         }
     });

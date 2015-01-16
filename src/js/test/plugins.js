@@ -27,7 +27,7 @@
         //  TODO: Not sure how I am going to handle background/foreground channels.
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),
-            prompt: Backbone.Wreqr.radio.channel('prompt'),
+            dialog: Backbone.Wreqr.radio.channel('dialog'),
             notification: Backbone.Wreqr.radio.channel('notification'),
             foreground: Backbone.Wreqr.radio.channel('foreground'),
             foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),

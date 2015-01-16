@@ -1,9 +1,9 @@
 ﻿define([
     'foreground/model/playlistAction',
     'foreground/view/listItemButton/listItemButtonView',
-    'foreground/view/prompt/deletePlaylistPromptView',
+    'foreground/view/dialog/deletePlaylistDialogView',
     'text!template/listItemButton/deleteListItemButton.html'
-], function (PlaylistAction, ListItemButtonView, DeletePlaylistPromptView, DeleteListItemButtonTemplate) {
+], function (PlaylistAction, ListItemButtonView, DeletePlaylistDialogView, DeleteListItemButtonTemplate) {
     'use strict';
 
     var DeletePlaylistButtonView = ListItemButtonView.extend({
