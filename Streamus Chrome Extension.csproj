@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="false" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,6 @@
     <ProjectGuid>{2EAC119F-E979-44B7-BCF6-0B477BE94B8F}</ProjectGuid>
     <ProjectTypeGuids>{E3E379DF-F4C6-4180-9B81-6769533ABE47};{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Streamus_Chrome_Extension</RootNamespace>
     <AssemblyName>Streamus Chrome Extension</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
@@ -25,7 +24,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>.\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -40,9 +39,8 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Folder Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
+    <Content Include=".gitattributes" />
+    <Content Include=".gitignore" />
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
     <Content Include="src\css\mocha.css" />
@@ -114,6 +112,7 @@
     <Content Include="src\js\background\mixin\collectionUniqueSong.js" />
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
+    <Content Include="src\js\background\model\debugManager.js" />
     <Content Include="src\js\background\model\relatedSongsManager.js" />
     <Content Include="src\js\background\model\soundCloudAPI.js" />
     <Content Include="src\js\background\model\stream.js" />
@@ -215,6 +214,7 @@
     <Content Include="src\js\foreground\view\prompt\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\prompt\browserSettingsPromptView.js" />
+    <Content Include="src\js\foreground\view\prompt\flashLoadedPromptView.js" />
     <Content Include="src\js\foreground\view\prompt\promptContentView.js" />
     <Content Include="src\js\foreground\view\saveSongs\saveSongsRegion.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
@@ -342,6 +342,8 @@
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Bold.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />
+    <Content Include=".travis.yml" />
+    <Content Include="LICENSE" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />
