@@ -1,7 +1,7 @@
-﻿define([
-    'common/enum/direction'
-], function (Direction) {
+﻿define(function (require) {
     'use strict';
+
+    var Direction = require('common/enum/direction');
 
     var SlidingRender = Marionette.Behavior.extend({
         collectionEvents: {

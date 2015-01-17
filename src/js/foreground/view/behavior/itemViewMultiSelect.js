@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/model/checkbox',
-    'foreground/view/element/checkboxView'
-], function (Checkbox, CheckboxView) {
+﻿define(function (require) {
     'use strict';
+
+    var Checkbox = require('foreground/model/checkbox');
+    var CheckboxView = require('foreground/view/element/checkboxView');
 
     var ItemViewMultiSelect = Marionette.Behavior.extend({
         ui: {

@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/appBar/nextButton.html'
-], function (NextButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var NextButtonTemplate = require('text!template/appBar/nextButton.html');
 
     var NextButtonView = Marionette.ItemView.extend({
         id: 'nextButton',

@@ -1,12 +1,12 @@
-﻿define([
-    'common/utility',
-    'common/enum/exportFileType',
-    'foreground/collection/radioGroups',
-    'foreground/view/element/radioGroupView',
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/exportPlaylist.html'
-], function (Utility, ExportFileType, RadioGroups, RadioGroupView, DialogContentView, ExportPlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Utility = require('common/utility');
+    var ExportFileType = require('common/enum/exportFileType');
+    var RadioGroups = require('foreground/collection/radioGroups');
+    var RadioGroupView = require('foreground/view/element/radioGroupView');
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var ExportPlaylistTemplate = require('text!template/dialog/exportPlaylist.html');
 
     var ExportPlaylistView = DialogContentView.extend({
         id: 'exportPlaylist',

@@ -1,14 +1,14 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/view/behavior/collectionViewMultiSelect',
-    'foreground/view/behavior/scrollable',
-    'foreground/view/behavior/slidingRender',
-    'foreground/view/behavior/sortable',
-    'foreground/view/behavior/tooltip',
-    'foreground/view/stream/streamItemView',
-    'text!template/stream/streamItems.html'
-], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, StreamItemView, StreamItemsTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemType = require('common/enum/listItemType');
+    var CollectionViewMultiSelect = require('foreground/view/behavior/collectionViewMultiSelect');
+    var Scrollable = require('foreground/view/behavior/scrollable');
+    var SlidingRender = require('foreground/view/behavior/slidingRender');
+    var Sortable = require('foreground/view/behavior/sortable');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var StreamItemView = require('foreground/view/stream/streamItemView');
+    var StreamItemsTemplate = require('text!template/stream/streamItems.html');
 
     var StreamItemsView = Marionette.CompositeView.extend({
         id: 'streamItems',

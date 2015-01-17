@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/element/radioButton.html'
-], function (RadioButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var RadioButtonTemplate = require('text!template/element/radioButton.html');
 
     //  TODO: Naming conflict with stream/radioButtonView
     var RadioButtonView = Marionette.ItemView.extend({

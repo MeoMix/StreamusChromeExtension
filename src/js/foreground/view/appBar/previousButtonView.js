@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/appBar/previousButton.html'
-], function (PreviousButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PreviousButtonTemplate = require('text!template/appBar/previousButton.html');
 
     var PreviousButton = Marionette.ItemView.extend({
         id: 'previousButton',

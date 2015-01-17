@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/model/radioGroup'
-], function (RadioGroup) {
+﻿define(function () {
     'use strict';
+
+    var RadioGroup = require('foreground/model/radioGroup');
 
     var RadioGroups = Backbone.Collection.extend({
         model: RadioGroup,

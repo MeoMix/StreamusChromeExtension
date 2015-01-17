@@ -1,10 +1,10 @@
-﻿define([
-    'foreground/model/exportPlaylist',
-    'foreground/model/dialog',
-    'foreground/view/dialog/exportPlaylistView',
-    'foreground/view/dialog/dialogView'
-], function (ExportPlaylist, Dialog, ExportPlaylistView, DialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var ExportPlaylist = require('foreground/model/exportPlaylist');
+    var Dialog = require('foreground/model/dialog');
+    var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
+    var DialogView = require('foreground/view/dialog/dialogView');
     
     var ExportPlaylistDialogView = DialogView.extend({
         id: 'exportPlaylistDialog',

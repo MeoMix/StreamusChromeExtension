@@ -1,8 +1,8 @@
-﻿define([
-    'background/mixin/collectionMultiSelect',
-    'background/model/searchResult'
-], function (CollectionMultiSelect, SearchResult) {
+﻿define(function (require) {
     'use strict';
+
+    var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
+    var SearchResult = require('background/model/searchResult');
     
     var SearchResults = Backbone.Collection.extend({
         model: SearchResult,

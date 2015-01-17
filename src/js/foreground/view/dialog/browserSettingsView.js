@@ -1,10 +1,10 @@
-﻿define([
-    'foreground/collection/checkboxes',
-    'foreground/view/element/checkboxView',
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/browserSettings.html'
-], function (Checkboxes, CheckboxView, DialogContentView, BrowserSettingsTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Checkboxes = require('foreground/collection/checkboxes');
+    var CheckboxView = require('foreground/view/element/checkboxView');
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var BrowserSettingsTemplate = require('text!template/dialog/browserSettings.html');
 
     var BrowserSettingsView = DialogContentView.extend({
         id: 'browserSettings',

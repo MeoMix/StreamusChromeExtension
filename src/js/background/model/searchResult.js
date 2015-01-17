@@ -1,7 +1,7 @@
-﻿define([
-    'common/enum/listItemType'
-], function (ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemType = require('common/enum/listItemType');
 
     var SearchResult = Backbone.Model.extend({
         defaults: function() {

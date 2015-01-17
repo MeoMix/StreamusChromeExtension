@@ -1,9 +1,9 @@
-﻿define([
-    'background/view/youTubePlayerRegion',
-    'background/view/clipboardRegion',
-    'text!template/backgroundArea.html'
-], function (YouTubePlayerRegion, ClipboardRegion, BackgroundAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubePlayerRegion = require('background/view/youTubePlayerRegion');
+    var ClipboardRegion = require('background/view/clipboardRegion');
+    var BackgroundAreaTemplate = require('text!template/backgroundArea.html');
 
     var BackgroundAreaView = Marionette.LayoutView.extend({
         id: 'backgroundArea',

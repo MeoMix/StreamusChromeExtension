@@ -1,12 +1,12 @@
-﻿define([
-    'foreground/view/listItemView',
-    'foreground/view/behavior/itemViewMultiSelect',
-    'foreground/view/listItemButton/deleteSongButtonView',
-    'foreground/view/listItemButton/playSongButtonView',
-    'foreground/view/listItemButton/saveSongButtonView',
-    'text!template/stream/streamItem.html'
-], function (ListItemView, ItemViewMultiSelect, DeleteSongButtonView, PlaySongButtonView, SaveSongButtonView, StreamItemTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemView = require('foreground/view/listItemView');
+    var ItemViewMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
+    var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
+    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
+    var StreamItemTemplate = require('text!template/stream/streamItem.html');
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',

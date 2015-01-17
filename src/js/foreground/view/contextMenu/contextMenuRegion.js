@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/model/contextMenu',
-    'foreground/view/contextMenu/contextMenuView'
-], function (ContextMenu, ContextMenuView) {
+﻿define(function (require) {
     'use strict';
+
+    var ContextMenu = require('foreground/model/contextMenu');
+    var ContextMenuView = require('foreground/view/contextMenu/contextMenuView');
 
     var ContextMenuRegion = Marionette.Region.extend({
         contextMenu: null,

@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/element/spinnerView',
-    'foreground/view/search/searchResultsView',
-    'text!template/search/search.html'
-], function (SpinnerView, SearchResultsView, SearchTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var SearchResultsView = require('foreground/view/search/searchResultsView');
+    var SearchTemplate = require('text!template/search/search.html');
 
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',

@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'foreground/view/leftPane/playlistItemsView',
-    'text!template/leftPane/activePlaylistArea.html'
-], function (Tooltip, PlaylistItemsView, ActivePlaylistAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
+    var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
 
     var ActivePlaylistAreaView = Marionette.LayoutView.extend({
         id: 'activePlaylistArea',

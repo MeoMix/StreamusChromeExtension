@@ -1,13 +1,13 @@
-﻿define([
-    'background/enum/syncActionType',
-    'background/mixin/collectionMultiSelect',
-    'background/mixin/collectionSequence',
-    'background/mixin/collectionUniqueSong',
-    'background/model/playlistItem',
-    'common/enum/listItemType',
-    'common/utility'
-], function (SyncActionType, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, PlaylistItem, ListItemType, Utility) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActionType = require('background/enum/syncActionType');
+    var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
+    var CollectionSequence = require('background/mixin/collectionSequence');
+    var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
+    var PlaylistItem = require('background/model/playlistItem');
+    var ListItemType = require('common/enum/listItemType');
+    var Utility = require('common/utility');
 
     var PlaylistItems = Backbone.Collection.extend({
         model: PlaylistItem,

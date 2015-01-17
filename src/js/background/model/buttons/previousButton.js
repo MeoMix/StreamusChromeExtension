@@ -1,7 +1,7 @@
-﻿define([
-    'background/enum/chromeCommand'
-], function (ChromeCommand) {
+﻿define(function (require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
     
     var PreviousButton = Backbone.Model.extend({
         defaults: {

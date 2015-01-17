@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/foregroundAreaView'
-], function (ForegroundAreaView) {
+﻿define(function (require) {
     'use strict';
+
+    var ForegroundAreaView = require('foreground/view/foregroundAreaView');
 
     var Application = Marionette.Application.extend({
         backgroundPage: null,

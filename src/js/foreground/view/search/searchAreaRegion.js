@@ -1,7 +1,8 @@
-﻿define([
-    'foreground/view/search/searchView'
-], function (SearchView) {
+﻿define(function (require) {
     'use strict';
+
+    var SearchView = require('foreground/view/search/searchView');
+
     //  TODO: SearchAreaRegion vs SearchView...
     var SearchAreaRegion = Marionette.Region.extend({
         settings: null,

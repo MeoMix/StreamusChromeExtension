@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/deletePlaylist.html'
-], function (DialogContentView, DeletePlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DeletePlaylistTemplate = require('text!template/dialog/deletePlaylist.html');
 
     var DeletePlaylistView = DialogContentView.extend({
         template: _.template(DeletePlaylistTemplate),

@@ -1,15 +1,14 @@
-//  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
-//  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
-define([
-    'background/collection/playlistItems',
-    'background/enum/syncActionType',
-    'background/model/playlistItem',
-    'background/model/shareCode',
-    'background/model/youTubeV3API',
-    'common/enum/listItemType'
-], function (PlaylistItems, SyncActionType, PlaylistItem, ShareCode, YouTubeV3API, ListItemType) {
+define(function (require) {
     'use strict';
 
+    var PlaylistItems = require('background/collection/playlistItems');
+    var SyncActionType = require('background/enum/syncActionType');
+    var ShareCode = require('background/model/shareCode');
+    var YouTubeV3API = require('background/model/youTubeV3API');
+    var ListItemType = require('common/enum/listItemType');
+    
+    //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
+    //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
     var Playlist = Backbone.Model.extend({
         defaults: {
             id: null,

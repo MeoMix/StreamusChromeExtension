@@ -1,7 +1,7 @@
-﻿define([
-    'background/enum/chromeCommand'
-], function (ChromeCommand) {
+﻿define(function (require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
     
     var PlayPauseButton = Backbone.Model.extend({
         defaults: {

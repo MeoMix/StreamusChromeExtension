@@ -1,10 +1,9 @@
-﻿define([
-    'foreground/model/playlistAction',
-    'foreground/view/listItemButton/listItemButtonView',
-    'foreground/view/dialog/deletePlaylistDialogView',
-    'text!template/listItemButton/deleteListItemButton.html'
-], function (PlaylistAction, ListItemButtonView, DeletePlaylistDialogView, DeleteListItemButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistAction = require('foreground/model/playlistAction');
+    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
 
     var DeletePlaylistButtonView = ListItemButtonView.extend({
         template: _.template(DeleteListItemButtonTemplate),

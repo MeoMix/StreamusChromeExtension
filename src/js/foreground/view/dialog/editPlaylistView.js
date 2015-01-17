@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/editPlaylist.html'
-], function (DialogContentView, EditPlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var EditPlaylistTemplate = require('text!template/dialog/editPlaylist.html');
 
     var EditPlaylistView = DialogContentView.extend({
         id: 'editPlaylist',

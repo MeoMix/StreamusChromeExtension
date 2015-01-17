@@ -1,9 +1,9 @@
-﻿define([
-    'common/enum/repeatButtonState',
-    'foreground/view/behavior/tooltip',
-    'text!template/stream/repeatButton.html'
-], function (RepeatButtonState, Tooltip, RepeatButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var RepeatButtonState = require('common/enum/repeatButtonState');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var RepeatButtonTemplate = require('text!template/stream/repeatButton.html');
 
     var RepeatButtonView = Marionette.ItemView.extend({
         id: 'repeatButton',

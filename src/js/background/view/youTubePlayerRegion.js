@@ -1,7 +1,7 @@
-﻿define([
-	'background/view/youTubePlayerView'
-], function (YouTubePlayerView) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubePlayerView = require('background/view/youTubePlayerView');
 
     var YouTubePlayerRegion = Marionette.Region.extend({
         youTubePlayer: null,

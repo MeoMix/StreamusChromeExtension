@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/playlist/playlistsView',
-    'foreground/view/dialog/createPlaylistDialogView',
-    'text!template/playlist/playlistsArea.html'
-], function (PlaylistsView, CreatePlaylistDialogView, PlaylistsAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistsView = require('foreground/view/playlist/playlistsView');
+    var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+    var PlaylistsAreaTemplate = require('text!template/playlist/playlistsArea.html');
 
     var PlaylistsAreaView = Marionette.LayoutView.extend({
         id: 'playlistsArea',

@@ -1,12 +1,12 @@
-﻿    define([
-    'foreground/view/listItemView',
-    'foreground/view/behavior/itemViewMultiSelect',
-    'foreground/view/listItemButton/addSongButtonView',
-    'foreground/view/listItemButton/playSongButtonView',
-    'foreground/view/listItemButton/saveSongButtonView',
-    'text!template/search/searchResult.html'
-], function (ListItemView, ItemViewMultiSelect, AddSongButtonView, PlaySongButtonView, SaveSongButtonView, SearchResultTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemView = require('foreground/view/listItemView');
+    var ItemViewMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
+    var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
+    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
+    var SearchResultTemplate = require('text!template/search/searchResult.html');
     
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',

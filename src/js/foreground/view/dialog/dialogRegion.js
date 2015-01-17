@@ -1,12 +1,12 @@
-﻿define([
-    'common/enum/youTubePlayerError',
-    'foreground/view/dialog/errorDialogView',
-    'foreground/view/dialog/flashLoadedDialogView',
-    'foreground/view/dialog/googleSignInDialogView',
-    'foreground/view/dialog/linkUserIdDialogView',
-    'foreground/view/dialog/updateStreamusDialogView'
-], function (YouTubePlayerError, ErrorDialogView, FlashLoadedDialogView, GoogleSignInDialogView, LinkUserIdDialogView, UpdateStreamusDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubePlayerError = require('common/enum/youTubePlayerError');
+    var ErrorDialogView = require('foreground/view/dialog/errorDialogView');
+    var FlashLoadedDialogView = require('foreground/view/dialog/flashLoadedDialogView');
+    var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
+    var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
+    var UpdateStreamusDialogView = require('foreground/view/dialog/updateStreamusDialogView');
 
     var DialogRegion = Marionette.Region.extend({
         player: null,

@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/element/simpleMenuItemView',
-    'text!template/element/simpleMenu.html'
-], function (SimpleMenuItemView, SimpleMenuTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
+    var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
 
     var SimpleMenuView = Marionette.CompositeView.extend({
         id: 'simpleMenu',

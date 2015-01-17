@@ -1,16 +1,16 @@
-﻿define([
-    'foreground/model/clearStreamButton',
-    'foreground/model/saveStreamButton',
-    'foreground/view/stream/activeStreamItemView',
-    'foreground/view/stream/clearStreamButtonView',
-    'foreground/view/stream/radioButtonView',
-    'foreground/view/stream/repeatButtonView',
-    'foreground/view/stream/saveStreamButtonView',
-    'foreground/view/stream/shuffleButtonView',
-    'foreground/view/stream/streamItemsView',
-    'text!template/stream/stream.html'
-], function (ClearStreamButton, SaveStreamButton, ActiveStreamItemView, ClearStreamButtonView, RadioButtonView, RepeatButtonView, SaveStreamButtonView, ShuffleButtonView, StreamItemsView, StreamTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ClearStreamButton = require('foreground/model/clearStreamButton');
+    var SaveStreamButton = require('foreground/model/saveStreamButton');
+    var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
+    var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
+    var RadioButtonView = require('foreground/view/stream/radioButtonView');
+    var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
+    var SaveStreamButtonView = require('foreground/view/stream/saveStreamButtonView');
+    var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
+    var StreamItemsView = require('foreground/view/stream/streamItemsView');
+    var StreamTemplate = require('text!template/stream/stream.html');
     
     var StreamView = Marionette.LayoutView.extend({
         id: 'stream',

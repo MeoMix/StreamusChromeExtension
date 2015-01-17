@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/checkbox',
-    'foreground/view/element/checkboxView',
-    'text!template/dialog/dialog.html'
-], function (Checkbox, CheckboxView, DialogTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Checkbox = require('foreground/model/checkbox');
+    var CheckboxView = require('foreground/view/element/checkboxView');
+    var DialogTemplate = require('text!template/dialog/dialog.html');
 
     var DialogView = Marionette.LayoutView.extend({
         className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',

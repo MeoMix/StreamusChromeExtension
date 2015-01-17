@@ -1,14 +1,11 @@
 ﻿define([
-    'backbone',
     'backbone.localStorage',
     'backbone.marionette',
     'googleAnalytics',
-    'jquery',
     'jquery.perfectScrollbar',
     'jquery.qtip',
     'jquery-ui',
-    'less',
-    'underscore'
+    'less'
 ], function () {
     'use strict';
     

@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/stream/streamView'
-], function (StreamView) {
+﻿define(function (require) {
     'use strict';
+
+    var StreamView = require('foreground/view/stream/streamView');
     
     var StreamRegion = Marionette.Region.extend({
         initialize: function() {

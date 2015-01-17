@@ -1,14 +1,14 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/view/behavior/collectionViewMultiSelect',
-    'foreground/view/behavior/scrollable',
-    'foreground/view/behavior/slidingRender',
-    'foreground/view/behavior/sortable',
-    'foreground/view/behavior/tooltip',
-    'foreground/view/search/searchResultView',
-    'text!template/search/searchResults.html'
-], function (ListItemType, CollectionViewMultiSelect, Scrollable, SlidingRender, Sortable, Tooltip, SearchResultView, SearchResultsTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemType = require('common/enum/listItemType');
+    var CollectionViewMultiSelect = require('foreground/view/behavior/collectionViewMultiSelect');
+    var Scrollable = require('foreground/view/behavior/scrollable');
+    var SlidingRender = require('foreground/view/behavior/slidingRender');
+    var Sortable = require('foreground/view/behavior/sortable');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var SearchResultView = require('foreground/view/search/searchResultView');
+    var SearchResultsTemplate = require('text!template/search/searchResults.html');
 
     var SearchResultsView = Marionette.CompositeView.extend({
         id: 'searchResults',

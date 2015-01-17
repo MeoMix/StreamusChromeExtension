@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/dialog/settingsDialogView',
-    'foreground/view/dialog/browserSettingsDialogView',
-    'text!template/appBar/adminMenuArea.html'
-], function (SettingsDialogView, BrowserSettingsDialogView, AdminMenuAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
+    var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
+    var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
     
     //  TODO: This doesn't close on right-click, but contextmenu does. Is that OK?
     var AdminMenuAreaView = Marionette.ItemView.extend({

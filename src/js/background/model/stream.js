@@ -1,10 +1,10 @@
-﻿define([
-    'background/collection/streamItems',
-    'background/model/relatedSongsManager',
-    'common/enum/playerState',
-    'common/enum/repeatButtonState'
-], function (StreamItems, RelatedSongsManager, PlayerState, RepeatButtonState) {
+﻿define(function (require) {
     'use strict';
+
+    var StreamItems = require('background/collection/streamItems');
+    var RelatedSongsManager = require('background/model/relatedSongsManager');
+    var PlayerState = require('common/enum/playerState');
+    var RepeatButtonState = require('common/enum/repeatButtonState');
 
     var Stream = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Stream'),

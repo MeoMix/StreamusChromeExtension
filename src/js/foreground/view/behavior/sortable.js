@@ -1,8 +1,7 @@
-﻿define([
-    'common/enum/direction',
-    'common/enum/listItemType'
-], function (Direction, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemType = require('common/enum/listItemType');
 
     var Sortable = Marionette.Behavior.extend({
         placeholderClass: 'sortable-placeholder',

@@ -1,13 +1,13 @@
-﻿define([
-    'foreground/view/listItemView',
-    'foreground/view/behavior/itemViewMultiSelect',
-    'foreground/view/element/spinnerView',
-    'foreground/view/listItemButton/addSongButtonView',
-    'foreground/view/listItemButton/deleteSongButtonView',
-    'foreground/view/listItemButton/playSongButtonView',
-    'text!template/leftPane/playlistItem.html'
-], function (ListItemView, ItemViewMultiSelect, SpinnerView, AddSongButtonView, DeleteSongButtonView, PlaySongButtonView, PlaylistItemTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemView = require('foreground/view/listItemView');
+    var ItemViewMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
+    var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
+    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',

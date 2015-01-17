@@ -1,10 +1,10 @@
-﻿define([
-    'foreground/model/timeArea',
-    'foreground/view/behavior/tooltip',
-    'foreground/view/stream/timeAreaView',
-    'text!template/stream/activeStreamItem.html'
-], function (TimeArea, Tooltip, TimeAreaView, ActiveStreamItemTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var TimeArea = require('foreground/model/timeArea');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var TimeAreaView = require('foreground/view/stream/timeAreaView');
+    var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
         id: 'activeStreamItem',

@@ -1,17 +1,17 @@
-﻿define([
-    'common/enum/songQuality',
-    'foreground/collection/checkboxes',
-    'foreground/collection/radioGroups',
-    'foreground/collection/switches',
-    'foreground/collection/simpleListItems',
-    'foreground/view/element/checkboxView',
-    'foreground/view/element/radioGroupView',
-    'foreground/view/element/simpleListItemView',
-    'foreground/view/element/switchView',
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/settings.html'
-], function (SongQuality, Checkboxes, RadioGroups, Switches, SimpleListItems, CheckboxView, RadioGroupView, SimpleListItemView, SwitchView, DialogContentView, SettingsTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SongQuality = require('common/enum/songQuality');
+    var Checkboxes = require('foreground/collection/checkboxes');
+    var RadioGroups = require('foreground/collection/radioGroups');
+    var Switches = require('foreground/collection/switches');
+    var SimpleListItems = require('foreground/collection/simpleListItems');
+    var CheckboxView = require('foreground/view/element/checkboxView');
+    var RadioGroupView = require('foreground/view/element/radioGroupView');
+    var SimpleListItemView = require('foreground/view/element/simpleListItemView');
+    var SwitchView = require('foreground/view/element/switchView');
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var SettingsTemplate = require('text!template/dialog/settings.html');
 
     var SettingsView = DialogContentView.extend({
         id: 'settings',

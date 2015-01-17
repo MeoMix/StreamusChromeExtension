@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'text!template/stream/saveStreamButton.html'
-], function (Tooltip, SaveStreamButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',

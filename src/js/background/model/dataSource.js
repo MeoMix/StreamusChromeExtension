@@ -1,9 +1,9 @@
-﻿define([
-    'background/model/youTubeV3API',
-    'common/enum/dataSourceType',
-    'common/enum/youTubeServiceType'
-], function (YouTubeV3API, DataSourceType, YouTubeServiceType) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubeV3API = require('background/model/youTubeV3API');
+    var DataSourceType = require('common/enum/dataSourceType');
+    var YouTubeServiceType = require('common/enum/youTubeServiceType');
 
     var DataSource = Backbone.Model.extend({
         defaults: {

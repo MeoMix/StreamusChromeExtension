@@ -1,16 +1,14 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/model/playlistAction',
-    'foreground/view/element/spinnerView',
-    'foreground/view/listItemView',
-    'foreground/view/listItemButton/addPlaylistButtonView',
-    'foreground/view/listItemButton/deletePlaylistButtonView',
-    'foreground/view/listItemButton/playPlaylistButtonView',
-    'foreground/view/dialog/editPlaylistDialogView',
-    'foreground/view/dialog/exportPlaylistDialogView',
-    'text!template/playlist/playlist.html'
-], function (ListItemType, PlaylistAction, SpinnerView, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistDialogView, ExportPlaylistDialogView, PlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var ListItemView = require('foreground/view/listItemView');
+    var AddPlaylistButtonView = require('foreground/view/listItemButton/addPlaylistButtonView');
+    var DeletePlaylistButtonView = require('foreground/view/listItemButton/deletePlaylistButtonView');
+    var PlayPlaylistButtonView = require('foreground/view/listItemButton/playPlaylistButtonView');
+    var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
+    var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
+    var PlaylistTemplate = require('text!template/playlist/playlist.html');
 
     var PlaylistView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',

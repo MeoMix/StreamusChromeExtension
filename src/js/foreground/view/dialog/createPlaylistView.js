@@ -1,9 +1,9 @@
-﻿define([
-    'common/enum/dataSourceType',
-    'foreground/view/dialog/dialogContentView',
-    'text!template/dialog/createPlaylist.html'
-], function (DataSourceType, DialogContentView, CreatePlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var DataSourceType = require('common/enum/dataSourceType');
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var CreatePlaylistTemplate = require('text!template/dialog/createPlaylist.html');
 
     var CreatePlaylistView = DialogContentView.extend({
         id: 'createPlaylist',

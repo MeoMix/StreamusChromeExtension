@@ -1,9 +1,7 @@
-//  VolumeView represents the mute/unmute button as well as the volume slider.
-//  Interacting with these controls will affect the muted state and volume of the YouTube player.
-define([
-    'text!template/appBar/volumeArea.html'
-], function (VolumeAreaTemplate) {
+define(function () {
     'use strict';
+
+    var VolumeAreaTemplate = require('text!template/appBar/volumeArea.html');
 
     var VolumeAreaView = Marionette.ItemView.extend({
         id: 'volumeArea',

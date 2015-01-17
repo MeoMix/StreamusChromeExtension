@@ -1,11 +1,11 @@
-﻿define([
-    'background/enum/syncActionType',
-    'background/mixin/collectionSequence',
-    'background/model/playlist',
-    'background/model/youTubeV3API',
-    'common/enum/listItemType'
-], function (SyncActionType, CollectionSequence, Playlist, YouTubeV3API, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActionType = require('background/enum/syncActionType');
+    var CollectionSequence = require('background/mixin/collectionSequence');
+    var Playlist = require('background/model/playlist');
+    var YouTubeV3API = require('background/model/youTubeV3API');
+    var ListItemType = require('common/enum/listItemType');
 
     var Playlists = Backbone.Collection.extend({
         model: Playlist,

@@ -1,12 +1,12 @@
-﻿//  Displays streamus search suggestions and allows instant playing in the stream
-define([
-    'background/collection/songs',
-    'background/enum/omniboxModifiers',
-    'background/model/youTubeV3API',
-    'common/utility'
-], function (Songs, OmniboxModifiers, YouTubeV3API, Utility) {
+﻿define(function (require) {
     'use strict';
 
+    var Songs = require('background/collection/songs');
+    var OmniboxModifiers = require('background/enum/omniboxModifiers');
+    var YouTubeV3API = require('background/model/youTubeV3API');
+    var Utility = require('common/utility');
+
+    //  Displays streamus search suggestions and allows instant playing in the stream
     var ChromeOmniboxManager = Backbone.Model.extend({
         defaults: function () {
             return {

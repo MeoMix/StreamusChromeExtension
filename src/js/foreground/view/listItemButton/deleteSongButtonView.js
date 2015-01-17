@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/listItemButton/listItemButtonView',
-    'text!template/listItemButton/deleteListItemButton.html'
-], function (ListItemButtonView, DeleteListItemButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
 
     var DeleteSongButtonView = ListItemButtonView.extend({
         template: _.template(DeleteListItemButtonTemplate),

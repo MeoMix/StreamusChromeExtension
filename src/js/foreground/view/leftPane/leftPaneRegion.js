@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/leftPane/leftPaneView'
-], function (LeftPaneView) {
+﻿define(function (require) {
     'use strict';
+
+    var LeftPaneView = require('foreground/view/leftPane/leftPaneView');
 
     var LeftPaneRegion = Marionette.Region.extend({
         initialize: function() {

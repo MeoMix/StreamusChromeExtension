@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/element/checkbox.html'
-], function (CheckboxTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var CheckboxTemplate = require('text!template/element/checkbox.html');
 
     var CheckboxView = Marionette.ItemView.extend({
         tagName: 'checkbox',

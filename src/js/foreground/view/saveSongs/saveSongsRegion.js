@@ -1,11 +1,11 @@
 ﻿//  TODO: This is too specific of a usecase, I'd like to expand upon it in the future and make it generic, maybe combine it with ContextMenu if possible.
-define([
-    'foreground/collection/simpleMenuItems',
-    'foreground/model/simpleMenu',
-    'foreground/view/element/simpleMenuView',
-    'foreground/view/dialog/createPlaylistDialogView'
-], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, CreatePlaylistDialogView) {
+define(function (require) {
     'use strict';
+
+    var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu');
+    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
     var SaveSongsRegion = Marionette.Region.extend({
         initialize: function() {

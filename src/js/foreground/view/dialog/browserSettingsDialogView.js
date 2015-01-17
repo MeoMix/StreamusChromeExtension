@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/dialog',
-    'foreground/view/dialog/browserSettingsView',
-    'foreground/view/dialog/dialogView'
-], function (Dialog, BrowserSettingsView, DialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var Dialog = require('foreground/model/dialog');
+    var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
+    var DialogView = require('foreground/view/dialog/dialogView');
 
     var BrowserSettingsDialogView = DialogView.extend({
         id: 'browserSettingsDialog',

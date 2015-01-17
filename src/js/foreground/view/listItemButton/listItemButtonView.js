@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/behavior/tooltip'
-], function (Tooltip) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
 
     var ListItemButtonView = Marionette.ItemView.extend({
         className: function () {

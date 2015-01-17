@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/dialog',
-    'foreground/view/dialog/dialogContentView',
-    'foreground/view/dialog/dialogView'
-], function (Dialog, DialogContentView, DialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var Dialog = require('foreground/model/dialog');
+    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogView = require('foreground/view/dialog/dialogView');
 
     var UpdateStreamusDialogView = DialogView.extend({
         id: 'updateStreamusDialog',

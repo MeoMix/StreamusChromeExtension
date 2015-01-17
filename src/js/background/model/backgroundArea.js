@@ -1,29 +1,29 @@
-﻿define([
-    'background/model/browserSettings',
-    'background/model/chromeContextMenusManager',
-    'background/model/chromeIconManager',
-    'background/model/chromeNotificationsManager',
-    'background/model/chromeOmniboxManager',
-    'background/model/clientErrorManager',
-    'background/model/dataSourceManager',
-    'background/model/debugManager',
-    'background/model/player',
-    'background/model/search',
-    'background/model/settings',
-    'background/model/signInManager',
-    'background/model/soundCloudAPI',
-    'background/model/stream',
-    'background/model/syncManager',
-    'background/model/tabManager',
-    'background/model/youTubePlayer',
-    'background/model/buttons/nextButton',
-    'background/model/buttons/playPauseButton',
-    'background/model/buttons/previousButton',
-    'background/model/buttons/radioButton',
-    'background/model/buttons/repeatButton',
-    'background/model/buttons/shuffleButton'
-], function (BrowserSettings, ChromeContextMenusManager, ChromeIconManager, ChromeNotificationsManager, ChromeOmniboxManager, ClientErrorManager, DataSourceManager, DebugManager, Player, Search, Settings, SignInManager, SoundCloudAPI, Stream, SyncManager, TabManager, YouTubePlayer, NextButton, PlayPauseButton, PreviousButton, RadioButton, RepeatButton, ShuffleButton) {
+﻿define(function (require) {
     'use strict';
+
+    var BrowserSettings = require('background/model/browserSettings');
+    var ChromeContextMenusManager = require('background/model/chromeContextMenusManager');
+    var ChromeIconManager = require('background/model/chromeIconManager');
+    var ChromeNotificationsManager = require('background/model/chromeNotificationsManager');
+    var ChromeOmniboxManager = require('background/model/chromeOmniboxManager');
+    var ClientErrorManager = require('background/model/clientErrorManager');
+    var DataSourceManager = require('background/model/dataSourceManager');
+    var DebugManager = require('background/model/debugManager');
+    var Player = require('background/model/player');
+    var Search = require('background/model/search');
+    var Settings = require('background/model/settings');
+    var SignInManager = require('background/model/signInManager');
+    var SoundCloudAPI = require('background/model/soundCloudAPI');
+    var Stream = require('background/model/stream');
+    var SyncManager = require('background/model/syncManager');
+    var TabManager = require('background/model/tabManager');
+    var YouTubePlayer = require('background/model/youTubePlayer');
+    var NextButton = require('background/model/buttons/nextButton');
+    var PlayPauseButton = require('background/model/buttons/playPauseButton');
+    var PreviousButton = require('background/model/buttons/previousButton');
+    var RadioButton = require('background/model/buttons/radioButton');
+    var RepeatButton = require('background/model/buttons/repeatButton');
+    var ShuffleButton = require('background/model/buttons/shuffleButton');
 
     var BackgroundArea = Backbone.Model.extend({
         defaults: {

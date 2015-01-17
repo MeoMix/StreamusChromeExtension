@@ -1,7 +1,7 @@
-﻿define([
-    'background/enum/syncActionType'
-],function (SyncActionType) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActionType = require('background/enum/syncActionType');
 
     var BrowserSettings = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('BrowserSettings'),

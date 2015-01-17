@@ -1,10 +1,9 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'foreground/view/leftPane/activePlaylistAreaView',
-    'foreground/view/leftPane/signInView',
-    'text!template/leftPane/leftPane.html'
-], function (Tooltip, ActivePlaylistAreaView, SignInView, LeftPaneTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
+    var SignInView = require('foreground/view/leftPane/signInView');
+    var LeftPaneTemplate = require('text!template/leftPane/leftPane.html');
 
     var LeftPaneView = Marionette.LayoutView.extend({
         id: 'leftPane',

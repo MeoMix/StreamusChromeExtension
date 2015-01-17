@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/deletePlaylistDialogView'
-], function (DeletePlaylistDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var DeletePlaylistDialogView = require('foreground/view/dialog/deletePlaylistDialogView');
 
     var PlaylistAction = Backbone.Model.extend({
         defaults: {

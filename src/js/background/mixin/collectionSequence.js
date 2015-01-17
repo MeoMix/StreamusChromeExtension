@@ -1,9 +1,9 @@
 ﻿//  Entities which need to keep track of their sequence in order to be ordered properly
 //  while also maintaing efficiency with CRUD operations.
-define([
-    'common/enum/direction'
-], function (Direction) {
+define(function (require) {
     'use strict';
+
+    var Direction = require('common/enum/direction');
 
     return {
         comparator: 'sequence',

@@ -1,7 +1,7 @@
-﻿define([
-	'background/view/clipboardView'
-], function (ClipboardView) {
+﻿define(function (require) {
     'use strict';
+
+    var ClipboardView = require('background/view/clipboardView');
 
     var ClipboardRegion = Marionette.Region.extend({
         initialize: function () {

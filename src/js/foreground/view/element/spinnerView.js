@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/element/spinner.html'
-], function (SpinnerTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerTemplate = require('text!template/element/spinner.html');
 
     var SpinnerView = Marionette.ItemView.extend({
         tagName: 'spinner',

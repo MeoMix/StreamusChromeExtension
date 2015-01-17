@@ -1,11 +1,11 @@
 ﻿//  TODO: I'd like to figure out better naming conventions for this.
-define([
-    'foreground/collection/simpleMenuItems',
-    'foreground/model/simpleMenu',
-    'foreground/view/element/simpleMenuView',
-    'text!template/element/simpleListItem.html'
-], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, SimpleListItemTemplate) {
+define(function (require) {
     'use strict';
+
+    var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu');
+    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
         //id: function () {

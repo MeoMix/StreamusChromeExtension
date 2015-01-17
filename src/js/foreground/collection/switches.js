@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/model/switch'
-], function (Switch) {
+﻿define(function (require) {
     'use strict';
+
+    var Switch = require('foreground/model/switch');
 
     var Switches = Backbone.Collection.extend({
         model: Switch

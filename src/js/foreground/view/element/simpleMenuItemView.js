@@ -1,7 +1,7 @@
-﻿define([
-    'text!template/element/simpleMenuItem.html'
-], function (SimpleMenuItemTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SimpleMenuItemTemplate = require('text!template/element/simpleMenuItem.html');
 
     var SimpleMenuItemView = Marionette.LayoutView.extend({
         className: 'listItem listItem--small listItem--selectable',

@@ -1,9 +1,9 @@
-﻿define([
-    'background/enum/syncActionType',
-    'background/model/song',
-    'common/enum/listItemType'
-], function (SyncActionType, Song, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActionType = require('background/enum/syncActionType');
+    var Song = require('background/model/song');
+    var ListItemType = require('common/enum/listItemType');
     
     var PlaylistItem = Backbone.Model.extend({
         defaults: {

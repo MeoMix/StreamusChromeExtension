@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'foreground/view/dialog/clearStreamDialogView',
-    'text!template/stream/clearStreamButton.html'
-], function (Tooltip, ClearStreamDialogView, ClearStreamButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
+    var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
 
     var ClearStreamButtonView = Marionette.ItemView.extend({
         id: 'clearStreamButton',

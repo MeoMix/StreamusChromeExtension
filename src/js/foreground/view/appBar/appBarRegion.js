@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/appBar/appBarView'
-], function (AppBarView) {
+﻿define(function (require) {
     'use strict';
+
+    var AppBarView = require('foreground/view/appBar/appBarView');
 
     var AppBarRegion = Marionette.Region.extend({
         initialize: function () {

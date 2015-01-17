@@ -1,8 +1,8 @@
-﻿define([
-    'background/model/youTubePlayerAPI',
-    'common/enum/youTubePlayerError'
-], function (YouTubePlayerAPI, YouTubePlayerError) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubePlayerAPI = require('background/model/youTubePlayerAPI');
+    var YouTubePlayerError = require('common/enum/youTubePlayerError');
 
     //  This is the actual YouTube Player API widget housed within the iframe.
     var youTubePlayerWidget = null;

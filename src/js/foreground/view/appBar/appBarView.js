@@ -1,15 +1,15 @@
-﻿define([
-    'foreground/model/adminMenuArea',
-    'foreground/view/appBar/adminMenuAreaView',
-    'foreground/view/appBar/nextButtonView',
-    'foreground/view/appBar/playlistTitleView',
-    'foreground/view/appBar/playPauseButtonView',
-    'foreground/view/appBar/previousButtonView',
-    'foreground/view/appBar/volumeAreaView',
-    'foreground/view/behavior/tooltip',
-    'text!template/appBar/appBar.html'
-], function (AdminMenuArea, AdminMenuAreaView, NextButtonView, PlaylistTitleView, PlayPauseButtonView, PreviousButtonView, VolumeAreaView, Tooltip, AppBarTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var AdminMenuArea = require('foreground/model/adminMenuArea');
+    var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
+    var NextButtonView = require('foreground/view/appBar/nextButtonView');
+    var PlaylistTitleView = require('foreground/view/appBar/playlistTitleView');
+    var PlayPauseButtonView = require('foreground/view/appBar/playPauseButtonView');
+    var PreviousButtonView = require('foreground/view/appBar/previousButtonView');
+    var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var AppBarTemplate = require('text!template/appBar/appBar.html');
 
     var AppBarView = Marionette.LayoutView.extend({
         id: 'appBar',

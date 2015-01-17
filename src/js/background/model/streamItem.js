@@ -1,9 +1,9 @@
-﻿define([
-    'background/collection/songs',
-    'background/model/song',
-    'common/enum/listItemType'
-], function (Songs, Song, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var Songs = require('background/collection/songs');
+    var Song = require('background/model/song');
+    var ListItemType = require('common/enum/listItemType');
    
     var StreamItem = Backbone.Model.extend({
         defaults: function () {

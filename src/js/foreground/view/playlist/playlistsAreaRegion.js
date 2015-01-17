@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/playlist/playlistsAreaView'
-], function (PlaylistsAreaView) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistsAreaView = require('foreground/view/playlist/playlistsAreaView');
     
     var PlaylistsAreaRegion = Marionette.Region.extend({
         signInManager: null,

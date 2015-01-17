@@ -1,7 +1,7 @@
-﻿define([
-    'background/model/user'
-], function (User) {
+﻿define(function (require) {
     'use strict';
+
+    var User = require('background/model/user');
 
     //  Wait 30 seconds before allowing signing in attempts. Prevents spamming the server with sign-in requests.
     var SIGN_IN_FAILURE_WAIT_TIME = 30;

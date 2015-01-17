@@ -1,7 +1,7 @@
-﻿define([
-    'common/enum/exportFileType'
-], function (ExportFileType) {
+﻿define(function (require) {
     'use strict';
+
+    var ExportFileType = require('common/enum/exportFileType');
 
     var ExportPlaylist = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('ExportPlaylist'),

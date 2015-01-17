@@ -1,7 +1,5 @@
-﻿define([
-], function () {
+﻿define(function () {
     'use strict';
-
 
     var SoundCloudAPI = Backbone.Model.extend({
         initialize: function () {

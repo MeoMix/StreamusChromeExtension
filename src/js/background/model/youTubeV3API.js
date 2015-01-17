@@ -1,12 +1,11 @@
-﻿define([
-    'background/collection/songs',
-    'background/key/youTubeAPI',
-    'background/model/song',
-    'common/enum/songType',
-    'common/enum/youTubeServiceType',
-    'common/utility'
-], function (Songs, YouTubeAPIKey, Song, SongType, YouTubeServiceType, Utility) {
+﻿define(function (require) {
     'use strict';
+
+    var Songs = require('background/collection/songs');
+    var YouTubeAPIKey = require('background/key/youTubeAPI');
+    var SongType = require('common/enum/songType');
+    var YouTubeServiceType = require('common/enum/youTubeServiceType');
+    var Utility = require('common/utility');
 
     var YouTubeV3API = Backbone.Model.extend({
         //  Performs a search and then grabs the first item and returns its title

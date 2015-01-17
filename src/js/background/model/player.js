@@ -1,9 +1,9 @@
-define([
-    'background/enum/chromeCommand',
-    'common/enum/playerState',
-    'common/enum/youTubeQuality'
-], function (ChromeCommand, PlayerState, YouTubeQuality) {
+define(function (require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
+    var PlayerState = require('common/enum/playerState');
+    var YouTubeQuality = require('common/enum/youTubeQuality');
 
     var Player = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Player'),

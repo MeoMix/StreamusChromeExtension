@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/dialog',
-    'foreground/view/dialog/createPlaylistView',
-    'foreground/view/dialog/dialogView'
-], function (Dialog, CreatePlaylistView, DialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var Dialog = require('foreground/model/dialog');
+    var CreatePlaylistView = require('foreground/view/dialog/createPlaylistView');
+    var DialogView = require('foreground/view/dialog/dialogView');
     
     var CreatePlaylistDialogView = DialogView.extend({
         id: 'createPlaylistDialog',

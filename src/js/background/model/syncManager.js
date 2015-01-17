@@ -1,7 +1,7 @@
-﻿define([
-    'background/collection/syncActions'
-], function (SyncActions) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActions = require('background/collection/syncActions');
 
     //  60000ms = 1 minute
     var SYNC_WRITE_TIMEOUT_DELAY = 60000;

@@ -1,11 +1,11 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/view/behavior/scrollable',
-    'foreground/view/behavior/tooltip',
-    'foreground/view/playlist/playlistView',
-    'text!template/playlist/playlists.html'
-], function (ListItemType, Scrollable, Tooltip, PlaylistView, PlaylistsTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemType = require('common/enum/listItemType');
+    var Scrollable = require('foreground/view/behavior/scrollable');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var PlaylistView = require('foreground/view/playlist/playlistView');
+    var PlaylistsTemplate = require('text!template/playlist/playlists.html');
 
     var PlaylistsView = Marionette.CompositeView.extend({
         id: 'playlists',

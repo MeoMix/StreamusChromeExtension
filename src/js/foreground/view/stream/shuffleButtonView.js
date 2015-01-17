@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'text!template/stream/shuffleButton.html'
-], function (Tooltip, ShuffleButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var ShuffleButtonTemplate = require('text!template/stream/shuffleButton.html');
 
     var ShuffleButtonView = Marionette.ItemView.extend({
         id: 'shuffleButton',
