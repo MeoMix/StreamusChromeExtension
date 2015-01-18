@@ -1,8 +1,8 @@
-define(function () {
+define(function (require) {
     'use strict';
 
     var VolumeAreaTemplate = require('text!template/appBar/volumeArea.html');
-
+ 
     var VolumeAreaView = Marionette.ItemView.extend({
         id: 'volumeArea',
         className: 'volumeArea',

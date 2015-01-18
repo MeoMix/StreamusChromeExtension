@@ -5,10 +5,10 @@
 
     var ClipboardRegion = Marionette.Region.extend({
         initialize: function () {
-            this.listenTo(Streamus.channels.backgroundArea.vent, 'shown', this._onBackgroundAreaShown);
+            this.listenTo(Streamus.channels.backgroundArea.vent, 'attached', this._onBackgroundAreaAttached);
         },
 
-        _onBackgroundAreaShown: function () {
+        _onBackgroundAreaAttached: function () {
             this._showClipboardView();
         },
 

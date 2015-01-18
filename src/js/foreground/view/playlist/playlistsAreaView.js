@@ -43,7 +43,7 @@
             this.playlists = options.playlists;
         },
         
-        onShow: function () {
+        onRender: function () {
             var playlistsView = new PlaylistsView({
                 collection: this.playlists
             });

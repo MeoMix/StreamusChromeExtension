@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function (require) {
     'use strict';
 
     var RadioButton = require('foreground/model/radioButton');

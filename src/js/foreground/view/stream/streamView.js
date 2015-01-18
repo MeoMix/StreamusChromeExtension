@@ -62,9 +62,7 @@
         
         onRender: function () {
             this._setState(this.model.get('items').isEmpty());
-        },
-        
-        onShow: function () {
+            
             this.streamItemsRegion.show(new StreamItemsView({
                 collection: this.model.get('items')
             }));
@@ -72,15 +70,15 @@
             this.shuffleButtonRegion.show(new ShuffleButtonView({
                 model: Streamus.backgroundPage.shuffleButton
             }));
-            
+
             this.repeatButtonRegion.show(new RepeatButtonView({
                 model: Streamus.backgroundPage.repeatButton
             }));
-            
+
             this.radioButtonRegion.show(new RadioButtonView({
                 model: Streamus.backgroundPage.radioButton
             }));
-            
+
             this.clearStreamButtonRegion.show(new ClearStreamButtonView({
                 model: new ClearStreamButton({
                     streamItems: this.model.get('items')
@@ -93,13 +91,11 @@
                     signInManager: Streamus.backgroundPage.signInManager
                 })
             }));
-            
+
             var activeItem = this.model.get('activeItem');
             if (activeItem !== null) {
                 this._showActiveStreamItem(activeItem, true);
             }
-            
-
         },
         
         _onClickShowSearchLink: function () {

@@ -74,7 +74,7 @@
                 //  TODO: It doesn't make sense that the Stream cycles indefinitely through shuffled songs without RepeatStream enabled.
                 //  All songs will be played recently if there's only one item because it just finished playing.
                 if (eligibleItems.length > 0) {
-                    nextItem = _.shuffle(eligibleItems)[0];
+                    nextItem = _.sample(eligibleItems);
                     nextItem.save({ active: true });
                 }
             } else {
@@ -180,7 +180,7 @@
                     previousStreamItem = items.getActiveItem() || null;
                 } else if (shuffleEnabled) {
                     //  If shuffle is enabled and there's nothing in history -- grab a random song which hasn't been played recently.
-                    previousStreamItem = _.shuffle(items.notPlayedRecently())[0] || null;
+                    previousStreamItem = _.sample(items.notPlayedRecently()) || null;
                 } else {
                     //  Activate the previous item by index. Potentially loop around to the back.
                     var activeItemIndex = items.indexOf(items.getActiveItem());

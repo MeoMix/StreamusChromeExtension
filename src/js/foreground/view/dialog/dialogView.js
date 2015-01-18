@@ -48,10 +48,16 @@
         initialize: function () {
             this.settings = Streamus.backgroundPage.settings;
         },
-
-        onShow: function () {
+        
+        onRender: function() {
             this.contentRegion.show(this.contentView);
+            
+            if (this.model.hasReminder()) {
+                this._showReminder();
+            }
+        },
 
+        onAttach: function () {
             //  TODO: Keep DRY w/ scrollable.
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
@@ -61,11 +67,7 @@
                 minScrollbarLength: 56,
                 includePadding: true
             });
-            
-            if (this.model.hasReminder()) {
-                this._showReminder();
-            }
-            
+
             //  TODO: I think I prefer requestAnimationFrame, but maybe it's introducing a bug because it can run even after the UI closes? Unsure. Trying _.defer for now.
             //  Transition only after successfully requesting an animation frame because the browser needs a moment to acknowledge the existence of
             //  the DOM element before its class is modified. Otherwise, the element will be created with the state rather than transitioning to it.

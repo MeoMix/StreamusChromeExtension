@@ -37,7 +37,7 @@
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
         },
         
-        onShow: function () {
+        onAttach: function () {
             this._ensureSelectedIsVisible();
             
             if (this.listItemHeight > 0) {

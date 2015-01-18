@@ -37,7 +37,7 @@
             this.radioGroups = new RadioGroups();
         },
         
-        onShow: function () {
+        onRender: function () {
             this._showRadioGroup('fileType', ExportFileType);
         },
         

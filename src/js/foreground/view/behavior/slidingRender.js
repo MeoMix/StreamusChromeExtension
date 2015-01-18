@@ -35,9 +35,14 @@
             this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
         },
         
-        onShow: function () {
-            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
+        onRender: function () {
+            //  It's important to set minRenderIndex before onAttach because if a view triggers ListHeightUpdated during its
+            //  onAttach then SlidingRender will call _setViewportHeight before minRenderIndex has been set.
             this.minRenderIndex = this._getMinRenderIndex(0);
+        },
+        
+        onAttach: function () {
+            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
             this._setViewportHeight();
 
             //  If the collection implements getActiveItem - scroll to the active item.
@@ -79,7 +84,7 @@
 
             var newMaxRenderIndex = this._getMaxRenderIndex(this.lastScrollTop);
             var indexDifference = currentMaxRenderIndex - newMaxRenderIndex;
-            
+
             //  Be sure to update before potentially adding items or else they won't render.
             this.maxRenderIndex = newMaxRenderIndex;
             if (indexDifference > 0) {

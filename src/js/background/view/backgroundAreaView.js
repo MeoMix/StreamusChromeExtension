@@ -24,8 +24,8 @@
             };
         },
 
-        onShow: function () {
-            Streamus.channels.backgroundArea.vent.trigger('shown');
+        onAttach: function () {
+            Streamus.channels.backgroundArea.vent.trigger('attached');
         }
     });
 

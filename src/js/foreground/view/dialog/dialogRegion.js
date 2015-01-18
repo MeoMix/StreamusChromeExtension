@@ -19,14 +19,14 @@
             this.debugManager = Streamus.backgroundPage.debugManager;
 
             this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
             this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
             this.listenTo(this.signInManager, 'change:needLinkUserId', this._onSignInManagerChangeNeedLinkUserId);
             this.listenTo(this.signInManager, 'change:needGoogleSignIn', this._onSignInManagerChangeNeedGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeRuntimeUpdateAvailable.bind(this));
         },
         
-        _onForegroundAreaShown: function () {
+        _onForegroundAreaRendered: function () {
             this._showDialogIfNeedGoogleSignIn();
             this._showDialogIfNeedLinkUserId();
             this._showDialogIfUpdateAvailable();

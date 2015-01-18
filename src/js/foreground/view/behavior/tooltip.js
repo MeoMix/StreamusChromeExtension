@@ -37,7 +37,7 @@ define(function () {
             });
         },
         
-        onShow: function () {
+        onAttach: function () {
             //  TODO: Elements which are flexible take a second to determine their appropriate height/width so can't run this immediately during onShow.
             this._setTooltips();
         },

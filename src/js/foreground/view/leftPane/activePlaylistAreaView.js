@@ -68,9 +68,7 @@
             this._toggleButtons();
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
             this._toggleInstructions(this.model.get('items').isEmpty());
-        },
-        
-        onShow: function () {
+            
             this.playlistItemsRegion.show(new PlaylistItemsView({
                 collection: this.model.get('items')
             }));

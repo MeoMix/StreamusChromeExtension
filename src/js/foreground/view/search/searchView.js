@@ -81,9 +81,7 @@
         onRender: function () {
             this._toggleSelectedButtons();
             this._toggleInstructions();
-        },
-        
-        onShow: function () {
+            
             this.searchResultsRegion.show(new SearchResultsView({
                 //  TODO: SearchResultsView shouldn't have to be dependent on model
                 model: this.model,

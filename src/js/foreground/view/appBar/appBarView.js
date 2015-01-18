@@ -80,14 +80,11 @@
         onRender: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             this._setShowPlaylistsAreaButtonState(signedInUser);
-        },
-        
-        onShow: function() {
-            var signedInUser = this.signInManager.get('signedInUser');
+
             if (signedInUser !== null) {
                 this._setPlaylistTitleRegion(signedInUser);
             }
-            
+
             this.volumeAreaRegion.show(new VolumeAreaView());
 
             this.adminMenuAreaRegion.show(new AdminMenuAreaView({

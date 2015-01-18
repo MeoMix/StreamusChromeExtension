@@ -28,7 +28,7 @@
             }
         },
         
-        onShow: function () {
+        onRender: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             this._updateRegions(signedInUser);
         },

@@ -31,7 +31,7 @@
             this.containerWidth = options.containerWidth;
         },
 
-        onShow: function () {
+        onAttach: function () {
             var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.outerHeight(), this.containerHeight);
             var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.outerWidth(), this.containerWidth);
 

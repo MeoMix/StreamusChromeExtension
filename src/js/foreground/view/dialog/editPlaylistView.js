@@ -32,7 +32,7 @@
             this._setTitleCharacterCount();
         },
         
-        onShow: function () {
+        onAttach: function () {
             this._focusInput();
         },
      

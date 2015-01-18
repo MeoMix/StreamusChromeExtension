@@ -47,39 +47,39 @@
             return {
                 spinnerRegion: '#' + this.id + '-spinnerRegion',
                 appBarRegion: {
-                    el: '#' + this.id + '-appBarRegion',
+                    selector: '#' + this.id + '-appBarRegion',
                     regionClass: AppBarRegion
                 },
                 dialogRegion: {
-                    el: '#' + this.id + '-dialogRegion',
+                    selector: '#' + this.id + '-dialogRegion',
                     regionClass: DialogRegion
                 },
                 notificationRegion: {
-                    el: '#' + this.id + '-notificationRegion',
+                    selector: '#' + this.id + '-notificationRegion',
                     regionClass: NotificationRegion
                 },
                 contextMenuRegion: {
-                    el: '#' + this.id + '-contextMenuRegion',
+                    selector: '#' + this.id + '-contextMenuRegion',
                     regionClass: ContextMenuRegion
                 },
                 leftPaneRegion: {
-                    el: '#' + this.id + '-leftPaneRegion',
+                    selector: '#' + this.id + '-leftPaneRegion',
                     regionClass: LeftPaneRegion
                 },
                 searchAreaRegion: {
-                    el: '#' + this.id + '-searchAreaRegion',
+                    selector: '#' + this.id + '-searchAreaRegion',
                     regionClass: SearchAreaRegion
                 },
                 saveSongsRegion: {
-                    el: '#' + this.id + '-saveSongsRegion',
+                    selector: '#' + this.id + '-saveSongsRegion',
                     regionClass: SaveSongsRegion
                 },
                 playlistsAreaRegion: {
-                    el: '#' + this.id + '-playlistsAreaRegion',
+                    selector: '#' + this.id + '-playlistsAreaRegion',
                     regionClass: PlaylistsAreaRegion
                 },
                 streamRegion: {
-                    el: '#' + this.id + '-streamRegion',
+                    selector: '#' + this.id + '-streamRegion',
                     regionClass: StreamRegion
                 }
             };
@@ -102,10 +102,8 @@
         onRender: function () {
             this.spinnerRegion.show(new SpinnerView());
             this._checkPlayerLoading();
-        },
-        
-        onShow: function () {
-            Streamus.channels.foregroundArea.vent.trigger('shown');
+            
+            Streamus.channels.foregroundArea.vent.trigger('rendered');
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views

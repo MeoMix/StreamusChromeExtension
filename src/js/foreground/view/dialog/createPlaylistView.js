@@ -52,7 +52,7 @@
             this._setTitleCharacterCount();
         },
 
-        onShow: function () {
+        onAttach: function () {
             //  Reset the value after focusing to focus without selecting.
             this.ui.title.focus().val(this.ui.title.val());
         },
