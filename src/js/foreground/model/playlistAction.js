@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/prompt/deletePlaylistPromptView'
-], function (DeletePlaylistPromptView) {
+﻿define(function (require) {
     'use strict';
+
+    var DeletePlaylistDialogView = require('foreground/view/dialog/deletePlaylistDialogView');
 
     var PlaylistAction = Backbone.Model.extend({
         defaults: {
@@ -13,12 +13,12 @@
             if (this.get('playlist').get('items').length === 0) {
                 this.get('playlist').destroy();
             } else {
-                this._showDeletePlaylistPrompt();
+                this._showDeletePlaylistDialog();
             }
         },
         
-        _showDeletePlaylistPrompt: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', DeletePlaylistPromptView, {
+        _showDeletePlaylistDialog: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', DeletePlaylistDialogView, {
                 playlist: this.get('playlist')
             });
         }

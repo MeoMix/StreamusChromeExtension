@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/element/spinnerView',
-    'text!template/leftPane/signIn.html'
-], function (SpinnerView, SignInTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var SignInTemplate = require('text!template/leftPane/signIn.html');
 
     var SignInView = Marionette.LayoutView.extend({
         id: 'signIn',

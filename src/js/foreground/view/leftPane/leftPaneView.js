@@ -1,10 +1,9 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'foreground/view/leftPane/activePlaylistAreaView',
-    'foreground/view/leftPane/signInView',
-    'text!template/leftPane/leftPane.html'
-], function (Tooltip, ActivePlaylistAreaView, SignInView, LeftPaneTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
+    var SignInView = require('foreground/view/leftPane/signInView');
+    var LeftPaneTemplate = require('text!template/leftPane/leftPane.html');
 
     var LeftPaneView = Marionette.LayoutView.extend({
         id: 'leftPane',
@@ -29,7 +28,7 @@
             }
         },
         
-        onShow: function () {
+        onRender: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             this._updateRegions(signedInUser);
         },
@@ -65,7 +64,7 @@
             //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
             //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
             if (!(this.contentRegion.currentView instanceof SignInView)) {
-                //  Otherwise, allow the user to sign in by showing a sign in prompt.
+                //  Otherwise, allow the user to sign in by showing a link to sign in.
                 this.contentRegion.show(new SignInView({
                     model: this.signInManager
                 }));

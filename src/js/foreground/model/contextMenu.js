@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/collection/contextMenuItems'
-], function (ContextMenuItems) {
+﻿define(function (require) {
     'use strict';
+
+    var ContextMenuItems = require('foreground/collection/contextMenuItems');
 
     var ContextMenu = Backbone.Model.extend({
         defaults: function() {

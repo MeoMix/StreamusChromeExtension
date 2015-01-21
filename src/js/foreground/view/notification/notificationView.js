@@ -1,7 +1,7 @@
-﻿define([
-	'text!template/notification/notification.html'
-], function (NotificationTemplate) {
-	'use strict';
+﻿define(function (require) {
+    'use strict';
+
+    var NotificationTemplate = require('text!template/notification/notification.html');
 
 	var NotificationView = Marionette.ItemView.extend({
 		id: 'notification',

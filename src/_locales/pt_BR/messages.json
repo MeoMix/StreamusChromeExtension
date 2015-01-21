@@ -1,7 +1,6 @@
 ﻿{
 	"extensionName": {
-		"message": "Streamus™ (Beta!)",
-		"description": "The name of the extension"
+		"message": "Streamus™"
 	},
 	"extensionDescription" : {
 		"message": "Streamus transforma o YouTube em o player de música que você sempre quis."

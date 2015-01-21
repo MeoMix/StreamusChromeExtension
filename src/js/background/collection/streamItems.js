@@ -1,12 +1,12 @@
-﻿define([
-    'background/enum/chromeCommand',
-    'background/mixin/collectionMultiSelect',
-    'background/mixin/collectionSequence',
-    'background/mixin/collectionUniqueSong',
-    'background/model/streamItem',
-    'background/model/youTubeV3API'
-], function (ChromeCommand, CollectionMultiSelect, CollectionSequence, CollectionUniqueSong, StreamItem, YouTubeV3API) {
+﻿define(function (require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
+    var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
+    var CollectionSequence = require('background/mixin/collectionSequence');
+    var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
+    var StreamItem = require('background/model/streamItem');
+    var YouTubeV3API = require('background/model/youTubeV3API');
     
     var StreamItems = Backbone.Collection.extend({
         model: StreamItem,

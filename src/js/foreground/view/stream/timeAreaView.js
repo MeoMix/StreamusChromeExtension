@@ -1,11 +1,10 @@
-﻿//  A progress bar which shows the elapsed time as compared to the total time of the current song.
-define([
-    'common/enum/playerState',
-    'common/utility',
-    'foreground/view/behavior/tooltip',
-    'text!template/stream/timeArea.html'
-], function (PlayerState, Utility, Tooltip, TimeAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PlayerState = require('common/enum/playerState');
+    var Utility = require('common/utility');
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var TimeAreaTemplate = require('text!template/stream/timeArea.html');
 
     var TimeAreaView = Marionette.ItemView.extend({
         id: 'timeArea',

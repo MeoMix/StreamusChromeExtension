@@ -2,14 +2,12 @@
     'use strict';
 
     var SimpleListItem = Backbone.Model.extend({
-        defaults: {
-            property: '',
-            value: '',
-            options: []
-        },
-        
-        initialize: function() {
-            
+        defaults: function () {
+            return {
+                property: '',
+                value: '',
+                options: []
+            };
         }
     });
 

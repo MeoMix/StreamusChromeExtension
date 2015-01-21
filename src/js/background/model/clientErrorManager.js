@@ -1,7 +1,7 @@
-﻿define([
-    'background/collection/clientErrors'
-], function (ClientErrors) {
+﻿define(function (require) {
     'use strict';
+
+    var ClientErrors = require('background/collection/clientErrors');
 
     var ClientErrorManager = Backbone.Model.extend({
         defaults: function () {

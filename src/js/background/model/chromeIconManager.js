@@ -1,8 +1,7 @@
-﻿//  Handles setting and managing the Streamus icon state.
-define([
-    'common/enum/playerState'
-], function (PlayerState) {
+﻿define(function (require) {
     'use strict';
+
+    var PlayerState = require('common/enum/playerState');
 
     var ChromeIconManager = Backbone.Model.extend({
         defaults: {

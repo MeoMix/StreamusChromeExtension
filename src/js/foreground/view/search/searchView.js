@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/element/spinnerView',
-    'foreground/view/search/searchResultsView',
-    'text!template/search/search.html'
-], function (SpinnerView, SearchResultsView, SearchTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var SearchResultsView = require('foreground/view/search/searchResultsView');
+    var SearchTemplate = require('text!template/search/search.html');
 
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',
@@ -81,9 +81,7 @@
         onRender: function () {
             this._toggleSelectedButtons();
             this._toggleInstructions();
-        },
-        
-        onShow: function () {
+            
             this.searchResultsRegion.show(new SearchResultsView({
                 //  TODO: SearchResultsView shouldn't have to be dependent on model
                 model: this.model,
@@ -103,7 +101,7 @@
         },
 
         _onClickSaveSelectedButton: function() {
-            this._showSaveSelectedPrompt();
+            this._showSaveSelectedDialog();
         },
         
         _onClickAddSelectedButton: function () {
@@ -166,7 +164,7 @@
             this.streamItems.addSongs(this.collection.getSelectedSongs());
         },
 
-        _showSaveSelectedPrompt: function () {
+        _showSaveSelectedDialog: function () {
             var disabled = this.ui.saveSelectedButton.hasClass('disabled');
 
             if (!disabled) {

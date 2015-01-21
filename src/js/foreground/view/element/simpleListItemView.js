@@ -1,11 +1,11 @@
 ﻿//  TODO: I'd like to figure out better naming conventions for this.
-define([
-    'foreground/collection/simpleMenuItems',
-    'foreground/model/simpleMenu',
-    'foreground/view/element/simpleMenuView',
-    'text!template/element/simpleListItem.html'
-], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, SimpleListItemTemplate) {
+define(function (require) {
     'use strict';
+
+    var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu');
+    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
         //id: function () {
@@ -70,7 +70,7 @@ define([
                     };
                 }, this));
 
-                //  Since I'm building this inside of a click event and click events can close the prompt I need to let the event finish before showing the menu
+                //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
                 //  otherwise it'll close immediately.
                 _.defer(function () {
                     var simpleMenuView = new SimpleMenuView({

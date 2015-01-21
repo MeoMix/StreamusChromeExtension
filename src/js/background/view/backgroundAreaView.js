@@ -1,9 +1,9 @@
-﻿define([
-    'background/view/youTubePlayerRegion',
-    'background/view/clipboardRegion',
-    'text!template/backgroundArea.html'
-], function (YouTubePlayerRegion, ClipboardRegion, BackgroundAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubePlayerRegion = require('background/view/youTubePlayerRegion');
+    var ClipboardRegion = require('background/view/clipboardRegion');
+    var BackgroundAreaTemplate = require('text!template/backgroundArea.html');
 
     var BackgroundAreaView = Marionette.LayoutView.extend({
         id: 'backgroundArea',
@@ -14,7 +14,8 @@
                 youTubePlayerRegion: {
                     el: '#' + this.id + '-youTubePlayerRegion',
                     regionClass: YouTubePlayerRegion,
-                    youTubePlayer: options.model.get('youTubePlayer')
+                    youTubePlayer: options.model.get('youTubePlayer'),
+                    debugManager: options.model.get('debugManager')
                 },
                 clipboardRegion: {
                     el: '#' + this.id + '-clipboardRegion',
@@ -23,8 +24,8 @@
             };
         },
 
-        onShow: function () {
-            Streamus.channels.backgroundArea.vent.trigger('shown');
+        onAttach: function () {
+            Streamus.channels.backgroundArea.vent.trigger('attached');
         }
     });
 

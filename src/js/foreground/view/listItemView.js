@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'foreground/view/listItemButton/listItemButtonsView'
-], function (Tooltip, ListItemButtonsView) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var ListItemButtonsView = require('foreground/view/listItemButton/listItemButtonsView');
 
     var ListItemView = Marionette.LayoutView.extend({
         tagName: 'li',

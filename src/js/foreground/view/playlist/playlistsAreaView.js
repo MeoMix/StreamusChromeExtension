@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/view/playlist/playlistsView',
-    'foreground/view/prompt/createPlaylistPromptView',
-    'text!template/playlist/playlistsArea.html'
-], function (PlaylistsView, CreatePlaylistPromptView, PlaylistsAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistsView = require('foreground/view/playlist/playlistsView');
+    var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
+    var PlaylistsAreaTemplate = require('text!template/playlist/playlistsArea.html');
 
     var PlaylistsAreaView = Marionette.LayoutView.extend({
         id: 'playlistsArea',
@@ -43,7 +43,7 @@
             this.playlists = options.playlists;
         },
         
-        onShow: function () {
+        onRender: function () {
             var playlistsView = new PlaylistsView({
                 collection: this.playlists
             });
@@ -72,7 +72,7 @@
         },
         
         _onClickCreatePlaylistButton: function () {
-            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView);
+            Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
         },
  
         //  Whenever a playlist is double-clicked it will become active and the menu should hide itself.

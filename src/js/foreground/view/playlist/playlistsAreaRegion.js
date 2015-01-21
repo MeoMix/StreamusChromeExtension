@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/playlist/playlistsAreaView'
-], function (PlaylistsAreaView) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistsAreaView = require('foreground/view/playlist/playlistsAreaView');
     
     var PlaylistsAreaRegion = Marionette.Region.extend({
         signInManager: null,
@@ -11,11 +11,11 @@
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
             this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'shown', this._onForegroundAreaShown);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
         
-        _onForegroundAreaShown: function () {
+        _onForegroundAreaRendered: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));

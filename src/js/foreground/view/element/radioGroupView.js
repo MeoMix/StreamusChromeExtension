@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/element/radioButtonView',
-    'text!template/element/radioGroup.html'
-], function (RadioButtonView, RadioGroupTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var RadioButtonView = require('foreground/view/element/radioButtonView');
+    var RadioGroupTemplate = require('text!template/element/radioGroup.html');
 
     var RadioGroupView = Marionette.CompositeView.extend({
         tagName: 'radio-group',

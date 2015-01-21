@@ -1,9 +1,8 @@
-﻿//  A model which interfaces with the chrome.contextMenus API to generate context menus when clicking on YouTube pages or links.
-define([
-    'background/model/dataSource',
-    'background/model/youTubeV3API'
-], function (DataSource, YouTubeV3API) {
+﻿define(function (require) {
     'use strict';
+    
+    var DataSource = require('background/model/dataSource');
+    var YouTubeV3API = require('background/model/youTubeV3API');
 
     var ChromeContextMenusManager = Backbone.Model.extend({
         defaults: {

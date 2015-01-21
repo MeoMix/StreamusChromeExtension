@@ -1,8 +1,8 @@
-﻿define([
-    'background/enum/chromeCommand',
-    'common/enum/repeatButtonState'
-], function (ChromeCommand, RepeatButtonState) {
+﻿define(function (require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
+    var RepeatButtonState = require('common/enum/repeatButtonState');
     
     var NextButton = Backbone.Model.extend({
         defaults: {

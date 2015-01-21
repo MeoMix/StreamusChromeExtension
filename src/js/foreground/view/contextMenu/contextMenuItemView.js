@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'text!template/contextMenu/contextMenuItem.html'
-], function (Tooltip, ContextMenuItemTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var ContextMenuItemTemplate = require('text!template/contextMenu/contextMenuItem.html');
 
     var ContextMenuItemView = Marionette.ItemView.extend({
         tagName: 'li',

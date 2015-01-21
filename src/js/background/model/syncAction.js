@@ -1,8 +1,8 @@
-﻿define([
-    'background/enum/syncActionType',
-    'common/enum/listItemType'
-], function (SyncActionType, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var SyncActionType = require('background/enum/syncActionType');
+    var ListItemType = require('common/enum/listItemType');
 
     var SyncAction = Backbone.Model.extend({
         defaults: {

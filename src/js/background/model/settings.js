@@ -1,7 +1,7 @@
-﻿define([
-    'common/enum/songQuality'
-], function (SongQuality) {
+﻿define(function (require) {
     'use strict';
+
+    var SongQuality = require('common/enum/songQuality');
 
     var Settings = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Settings'),

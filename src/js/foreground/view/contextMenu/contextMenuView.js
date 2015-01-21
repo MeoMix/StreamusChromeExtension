@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/contextMenu/contextMenuItemView',
-    'text!template/contextMenu/contextMenu.html'
-], function (ContextMenuItemView, ContextMenuTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ContextMenuItemView = require('foreground/view/contextMenu/contextMenuItemView');
+    var ContextMenuTemplate = require('text!template/contextMenu/contextMenu.html');
 
     //  TODO: Refactor this to be a LayoutView with child CollectionView instead of a CompositeView.
     var ContextMenuView = Marionette.CompositeView.extend({
@@ -31,7 +31,7 @@
             this.containerWidth = options.containerWidth;
         },
 
-        onShow: function () {
+        onAttach: function () {
             var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.outerHeight(), this.containerHeight);
             var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.outerWidth(), this.containerWidth);
 

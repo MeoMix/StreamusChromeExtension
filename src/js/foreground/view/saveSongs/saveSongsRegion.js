@@ -1,11 +1,11 @@
 ﻿//  TODO: This is too specific of a usecase, I'd like to expand upon it in the future and make it generic, maybe combine it with ContextMenu if possible.
-define([
-    'foreground/collection/simpleMenuItems',
-    'foreground/model/simpleMenu',
-    'foreground/view/element/simpleMenuView',
-    'foreground/view/prompt/createPlaylistPromptView'
-], function (SimpleMenuItems, SimpleMenu, SimpleMenuView, CreatePlaylistPromptView) {
+define(function (require) {
     'use strict';
+
+    var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
+    var SimpleMenu = require('foreground/model/simpleMenu');
+    var SimpleMenuView = require('foreground/view/element/simpleMenuView');
+    var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
     var SaveSongsRegion = Marionette.Region.extend({
         initialize: function() {
@@ -50,7 +50,7 @@ define([
         },
 
         _onClickFixedMenuItem: function (songs) {
-            Streamus.channels.prompt.commands.trigger('show:prompt', CreatePlaylistPromptView, {
+            Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
                 songs: songs
             });
         },

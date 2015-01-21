@@ -1,8 +1,8 @@
-﻿define([
-    'background/model/backgroundArea',
-    'background/view/backgroundAreaView'
-], function (BackgroundArea, BackgroundAreaView) {
+﻿define(function (require) {
     'use strict';
+
+    var BackgroundArea = require('background/model/backgroundArea');
+    var BackgroundAreaView = require('background/view/backgroundAreaView');
     
     var Application = Marionette.Application.extend({
         localDebug: false,

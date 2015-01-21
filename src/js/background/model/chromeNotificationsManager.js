@@ -1,11 +1,11 @@
-﻿//  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
-//  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
-//  Permissions: "notifications" 
-//  Note: This API is currently available on ChromeOS, Windows, and Mac.
-//  URL: https://developer.chrome.com/extensions/notifications
-define(function () {
+﻿define(function () {
     'use strict';
 
+    //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
+    //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
+    //  Permissions: "notifications" 
+    //  Note: This API is currently available on ChromeOS, Windows, and Mac.
+    //  URL: https://developer.chrome.com/extensions/notifications
     var ChromeNotificationsManager = Backbone.Model.extend({
         defaults: {
             shownNotificationId: '',

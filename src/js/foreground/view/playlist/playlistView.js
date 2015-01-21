@@ -1,16 +1,14 @@
-﻿define([
-    'common/enum/listItemType',
-    'foreground/model/playlistAction',
-    'foreground/view/element/spinnerView',
-    'foreground/view/listItemView',
-    'foreground/view/listItemButton/addPlaylistButtonView',
-    'foreground/view/listItemButton/deletePlaylistButtonView',
-    'foreground/view/listItemButton/playPlaylistButtonView',
-    'foreground/view/prompt/editPlaylistPromptView',
-    'foreground/view/prompt/exportPlaylistPromptView',
-    'text!template/playlist/playlist.html'
-], function (ListItemType, PlaylistAction, SpinnerView, ListItemView, AddPlaylistButtonView, DeletePlaylistButtonView, PlayPlaylistButtonView, EditPlaylistPromptView, ExportPlaylistPromptView, PlaylistTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var ListItemView = require('foreground/view/listItemView');
+    var AddPlaylistButtonView = require('foreground/view/listItemButton/addPlaylistButtonView');
+    var DeletePlaylistButtonView = require('foreground/view/listItemButton/deletePlaylistButtonView');
+    var PlayPlaylistButtonView = require('foreground/view/listItemButton/playPlaylistButtonView');
+    var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
+    var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
+    var PlaylistTemplate = require('text!template/playlist/playlist.html');
 
     var PlaylistView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
@@ -57,7 +55,7 @@
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('edit'),
-                onClick: this._showEditPlaylistPrompt.bind(this)
+                onClick: this._showEditPlaylistDialog.bind(this)
             }, {
                 //  No point in sharing an empty playlist.
                 disabled: isEmpty,
@@ -67,7 +65,7 @@
                 //  No point in exporting an empty playlist.
                 disabled: isEmpty,
                 text: chrome.i18n.getMessage('export'),
-                onClick: this._showExportPlaylistPrompt.bind(this)
+                onClick: this._showExportPlaylistDialog.bind(this)
             }]);
         },
         
@@ -145,14 +143,14 @@
             Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));
         },
         
-        _showEditPlaylistPrompt: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', EditPlaylistPromptView, {
+        _showEditPlaylistDialog: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
                 playlist: this.model
             });
         },
         
-        _showExportPlaylistPrompt: function() {
-            Streamus.channels.prompt.commands.trigger('show:prompt', ExportPlaylistPromptView, {
+        _showExportPlaylistDialog: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
                 playlist: this.model
             });
         },

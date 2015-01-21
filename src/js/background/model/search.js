@@ -1,9 +1,9 @@
-﻿define([
-    'background/collection/searchResults',
-    'background/model/dataSource',
-    'background/model/youTubeV3API'
-], function (SearchResults, DataSource, YouTubeV3API) {
+﻿define(function (require) {
     'use strict';
+
+    var SearchResults = require('background/collection/searchResults');
+    var DataSource = require('background/model/dataSource');
+    var YouTubeV3API = require('background/model/youTubeV3API');
 
     var Search = Backbone.Model.extend({
         defaults: function () {

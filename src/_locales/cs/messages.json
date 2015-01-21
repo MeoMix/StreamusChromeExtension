@@ -1,6 +1,7 @@
 ﻿{
 	"extensionName": {
-		"message": "Streamus™ (Beta!)"
+		"message": "Streamus™",
+		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
 		"message": "Streamus je hudební přehrávač vyhledávající z YouTube."
@@ -27,13 +28,16 @@
 		"message": "Kopírovat název a URL"
 	},
 	"delete": {
-		"message": "Smazat"
+		"message": "Smazat",
+		"description": "Just the singular word, as seen on a button."
 	},
 	"banUntilClear": {
-		"message": "Zakázat do vyčištění"
+		"message": "Zakázat do vyčištění",
+		"description": "Ban means don't allow showing/selection, remove semi-permanently. Clear is synonymous with empty."
 	},
 	"clearStream": {
-		"message": "Smazat frontu"
+		"message": "Smazat frontu",
+		"description": "An action -- empty the stream of items"
 	},
 	"saveStream": {
 		"message": "Uložit frontu"
@@ -56,11 +60,16 @@
 	"errorEncountered": {
 		"message": "Vyskytl se problém."
 	},
+	"working": {
+		"message": "Zpracovávání",
+		"description": "An action -- Streamus is working/processing something"
+	},
 	"newPlaylist": {
 		"message": "Nový seznam"
 	},
 	"installed": {
-		"message": "Nainstalováno"
+		"message": "Nainstalováno",
+		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
 	"repeatDisabled": {
 		"message": "Opakování vypnuto"
@@ -93,19 +102,22 @@
 		"message": "Celkový čas"
 	},
 	"highest": {
-		"message": "Nejvyšší"
+		"message": "Nejvyšší",
+		"description": "Descriptor for top tier quality, 100% highest audio quality. Seen in a drop-down."
 	},
 	"auto": {
-		"message": "Automatická"
+		"message": "Automatická",
+		"description": "Descriptor for automatic quality selection. Seen in a drop-down."
 	},
 	"lowest": {
-		"message": "Nejnižší"
+		"message": "Nejnižší",
+		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
 	},
 	"addedSuccessfully": {
 		"message": "Přidání úspěšné"
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
-		"message": "An issue was encountered while adding your playlist. Check the URL?"
+		"message": "Nastala chyba při přidávání seznamu. Ověřit URL?"
 	},
 	"streamusIsTakingALongTimeToLoadReloadingMayHelp": {
 		"message": "Streamus načítá příliš dlouho. Zkuste Streamus restartovat."
@@ -165,7 +177,8 @@
 		"message": "Opravdu?"
 	},
 	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Opravdu chcete smazat seznam?"
+		"message": "Opravdu chcete smazat seznam?",
+		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
 	},
 	"clearStreamQuestion": {
 		"message": "Vyčistit frontu?"
@@ -204,7 +217,8 @@
 		"message": "Volitelné"
 	},
 	"channel": {
-		"message": "Kanál"
+		"message": "Kanál",
+		"description": "A noun -- as in a YouTube channel of music"
 	},
 	"url": {
 		"message": "URL"
@@ -219,10 +233,12 @@
 		"message": "Připomínky"
 	},
 	"remindClearStream": {
-		"message": "Připomenout prázdnou frontu"
+		"message": "Připomenout prázdnou frontu",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind clear stream'"
 	},
 	"remindDeletePlaylist": {
-		"message": "Připomenout smazaný seznam"
+		"message": "Připomenout smazaný seznam",
+		"description": "This is a bit of a sentence fragment. It is used as part of a list of reminders. e.g. 'Reminders:  - Remind delete playlist'"
 	},
 	"minute": {
 		"message": "Minuta"
@@ -405,7 +421,7 @@
 		"message": "Jste přihlášeni ke svému Google účtu, ale není přepojen se Streamusem. Pokud chcete mít přístup k seznamům z jakéhokoliv zařízení, musíte účet propojit. Chcete to udělat nyní?"
 	},
 	"remindLinkAccount": {
-		"message": "Remind link account"
+		"message": "Připomenout propojení účtu"
 	},
 	"signInToGoogle": {
 		"message": "Přihlásit se k účtu Google"
@@ -414,7 +430,7 @@
 		"message": "Nejspíš nejste přihlášeni k účtu Google. Pokud se přihlásíte, seznamy ze Streamusu budou dostupné z jakéhokoliv zařízení."
 	},
 	"remindGoogleSignIn": {
-		"message": "Remind Google sign in"
+		"message": "Připomenout přihlášení k účtu google"
 	},
 	"keyboardShortcuts": {
 		"message": "Klávesové zkratky"
@@ -486,7 +502,7 @@
 		"message": "Hledání stop selhalo"
 	},
 	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
-		"message": "An issue was encountered while attempting to find song with URL:"
+		"message": "Nastala chyba při vyhledávání stopy podle URL:"
 	},
 	"loadingYouTube": {
 		"message": "Načítání YouTube"

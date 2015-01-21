@@ -327,7 +327,7 @@ module.exports = function (grunt) {
 		grunt.config.set('compress', {
 			dist: {
 				options: {
-					archive: 'Streamus v' + grunt.option('version') + '/chrome/' + 'Streamus v' + grunt.option('version') + '.zip'
+					archive: 'release/Streamus v' + grunt.option('version') + '/chrome/' + 'Streamus v' + grunt.option('version') + '.zip'
 				},
 				files: [{
 					src: ['**'],
@@ -343,7 +343,7 @@ module.exports = function (grunt) {
 
 	grunt.registerTask('prep-opera-distribution', '', function() {
 		//  Copy the distribution folder into opera directory.
-		var operaDirectory = 'Streamus v' + grunt.option('version') + '/opera';
+		var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
 
 		grunt.config.set('copy', {
 			files: {
@@ -388,7 +388,7 @@ module.exports = function (grunt) {
 		grunt.config.set('compress', {
 			dist: {
 				options: {
-					archive: 'Streamus v' + grunt.option('version') + '/opera/' + 'Streamus v' + grunt.option('version') + '.zip'
+					archive: 'release/Streamus v' + grunt.option('version') + '/opera/' + 'Streamus v' + grunt.option('version') + '.zip'
 				},
 				files: [{
 					src: ['**'],

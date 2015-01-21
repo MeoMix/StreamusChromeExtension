@@ -1,7 +1,7 @@
-﻿define([
-    'background/model/clientError'
-], function (ClientError) {
+﻿define(function (require) {
     'use strict';
+
+    var ClientError = require('background/model/clientError');
 
     var ClientErrors = Backbone.Collection.extend({
         model: ClientError,

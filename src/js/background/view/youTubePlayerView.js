@@ -25,8 +25,11 @@
         events: {
             'load': '_onLoad'
         },
+        
+        debugManager: null,
 
-        initialize: function () {
+        initialize: function (options) {
+            this.debugManager = options.debugManager;
             this.model.set('iframeId', this.el.id);
 
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
@@ -70,7 +73,7 @@
             } else {
                 refererRequestHeader.value = referer;
             }
-
+            
             return { requestHeaders: info.requestHeaders };
         },
         
@@ -79,11 +82,7 @@
             var refererRequestHeader = this._getRefererHeader(info.requestHeaders);
             var referer = _.isUndefined(refererRequestHeader) ? 'none' : refererRequestHeader.value;
 
-            if (!window.debugSentHeaders) {
-                window.debugSentHeaders = [];
-            }
-
-            window.debugSentHeaders.push(referer);
+            this.debugManager.get('youTubeIFrameReferers').push(referer);
         },
         
         //  Only load YouTube's API once the iframe has been built successfully.

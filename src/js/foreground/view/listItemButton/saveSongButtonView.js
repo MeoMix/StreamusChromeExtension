@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/listItemButton/listItemButtonView',
-    'text!template/listItemButton/saveListItemButton.html'
-], function (ListItemButtonView, SaveListItemButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
+    var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
 
     var SaveSongButtonView = ListItemButtonView.extend({
         template: _.template(SaveListItemButtonTemplate),

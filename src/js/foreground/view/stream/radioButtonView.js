@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/behavior/tooltip',
-    'text!template/stream/radioButton.html'
-], function (Tooltip, RadioButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var Tooltip = require('foreground/view/behavior/tooltip');
+    var RadioButtonTemplate = require('text!template/stream/radioButton.html');
 
     var RadioButtonView = Marionette.ItemView.extend({
         id: 'radioButton',

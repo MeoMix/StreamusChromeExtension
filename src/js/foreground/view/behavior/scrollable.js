@@ -17,7 +17,7 @@
             this._throttleUpdateScrollbar = _.throttle(this._updateScrollbar.bind(this), 250);
         },
         
-        onShow: function () {
+        onAttach: function () {
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
             this.$el.perfectScrollbar({

@@ -1,17 +1,17 @@
-﻿define([
-    'foreground/view/appBar/appBarRegion',
-    'foreground/view/contextMenu/contextMenuRegion',
-    'foreground/view/element/spinnerView',
-    'foreground/view/leftPane/leftPaneRegion',
-    'foreground/view/notification/notificationRegion',
-    'foreground/view/playlist/playlistsAreaRegion',
-    'foreground/view/prompt/promptRegion',
-    'foreground/view/saveSongs/saveSongsRegion',
-    'foreground/view/search/searchAreaRegion',
-    'foreground/view/stream/streamRegion',
-    'text!template/foregroundArea.html'
-], function (AppBarRegion, ContextMenuRegion, SpinnerView, LeftPaneRegion, NotificationRegion, PlaylistsAreaRegion, PromptRegion, SaveSongsRegion, SearchAreaRegion, StreamRegion, ForegroundAreaTemplate) {
+﻿define(function (require) {
     'use strict';
+    
+    var AppBarRegion = require('foreground/view/appBar/appBarRegion');
+    var ContextMenuRegion = require('foreground/view/contextMenu/contextMenuRegion');
+    var DialogRegion = require('foreground/view/dialog/dialogRegion');
+    var SpinnerView = require('foreground/view/element/spinnerView');
+    var LeftPaneRegion = require('foreground/view/leftPane/leftPaneRegion');
+    var NotificationRegion = require('foreground/view/notification/notificationRegion');
+    var PlaylistsAreaRegion = require('foreground/view/playlist/playlistsAreaRegion');
+    var SaveSongsRegion = require('foreground/view/saveSongs/saveSongsRegion');
+    var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
+    var StreamRegion = require('foreground/view/stream/streamRegion');
+    var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
         id: 'foregroundArea',
@@ -47,39 +47,39 @@
             return {
                 spinnerRegion: '#' + this.id + '-spinnerRegion',
                 appBarRegion: {
-                    el: '#' + this.id + '-appBarRegion',
+                    selector: '#' + this.id + '-appBarRegion',
                     regionClass: AppBarRegion
                 },
-                promptRegion: {
-                    el: '#' + this.id + '-promptRegion',
-                    regionClass: PromptRegion
+                dialogRegion: {
+                    selector: '#' + this.id + '-dialogRegion',
+                    regionClass: DialogRegion
                 },
                 notificationRegion: {
-                    el: '#' + this.id + '-notificationRegion',
+                    selector: '#' + this.id + '-notificationRegion',
                     regionClass: NotificationRegion
                 },
                 contextMenuRegion: {
-                    el: '#' + this.id + '-contextMenuRegion',
+                    selector: '#' + this.id + '-contextMenuRegion',
                     regionClass: ContextMenuRegion
                 },
                 leftPaneRegion: {
-                    el: '#' + this.id + '-leftPaneRegion',
+                    selector: '#' + this.id + '-leftPaneRegion',
                     regionClass: LeftPaneRegion
                 },
                 searchAreaRegion: {
-                    el: '#' + this.id + '-searchAreaRegion',
+                    selector: '#' + this.id + '-searchAreaRegion',
                     regionClass: SearchAreaRegion
                 },
                 saveSongsRegion: {
-                    el: '#' + this.id + '-saveSongsRegion',
+                    selector: '#' + this.id + '-saveSongsRegion',
                     regionClass: SaveSongsRegion
                 },
                 playlistsAreaRegion: {
-                    el: '#' + this.id + '-playlistsAreaRegion',
+                    selector: '#' + this.id + '-playlistsAreaRegion',
                     regionClass: PlaylistsAreaRegion
                 },
                 streamRegion: {
-                    el: '#' + this.id + '-streamRegion',
+                    selector: '#' + this.id + '-streamRegion',
                     regionClass: StreamRegion
                 }
             };
@@ -102,10 +102,8 @@
         onRender: function () {
             this.spinnerRegion.show(new SpinnerView());
             this._checkPlayerLoading();
-        },
-        
-        onShow: function () {
-            Streamus.channels.foregroundArea.vent.trigger('shown');
+            
+            Streamus.channels.foregroundArea.vent.trigger('rendered');
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views

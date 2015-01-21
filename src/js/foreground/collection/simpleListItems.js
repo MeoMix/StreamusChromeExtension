@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/model/simpleListItem'
-], function (SimpleListItem) {
+﻿define(function (require) {
     'use strict';
+
+    var SimpleListItem = require('foreground/model/simpleListItem');
 
     var SimpleListItems = Backbone.Collection.extend({
         model: SimpleListItem

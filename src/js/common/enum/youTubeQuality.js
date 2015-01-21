@@ -1,13 +1,14 @@
-﻿define([
-    'common/enum/songQuality'
-], function (SongQuality) {
+﻿define(function (require) {
     'use strict';
+
+    var SongQuality = require('common/enum/songQuality');
 
     var YouTubeQuality = {
         Highres: 'highres',
         Default: 'default',
         Small: 'small',
 
+        //  TODO: Remove this. It's a bad idea.
         fromSongQuality: function (songQuality) {
             var youTubeQuality = YouTubeQuality.Default;
             

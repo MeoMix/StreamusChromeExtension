@@ -1,5 +1,5 @@
 ﻿define([
-    'test/foreground/view/prompt/promptTestModule',
+    'test/foreground/view/dialog/dialogTestModule',
     'test/background/model/clientErrorManagerTest',
     'test/background/collection/playlistsTests',
     //'test/background/model/syncManagerTests',

@@ -1,7 +1,7 @@
-define([
-    'background/collection/playlists'
-], function (Playlists) {
+define(function (require) {
     'use strict';
+
+    var Playlists = require('background/collection/playlists');
 
     var User = Backbone.Model.extend({
         defaults: {

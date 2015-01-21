@@ -1,8 +1,8 @@
-﻿define([
-    'common/enum/playerState',
-    'text!template/appBar/playPauseButton.html'
-], function (PlayerState, PlayPauseButtonTemplate) {
+﻿define(function (require) {
     'use strict';
+
+    var PlayerState = require('common/enum/playerState');
+    var PlayPauseButtonTemplate = require('text!template/appBar/playPauseButton.html');
 
     var PlayPauseButtonView = Marionette.ItemView.extend({
         id: 'playPauseButton',
