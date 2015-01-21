@@ -62,7 +62,31 @@
 			"description": "__MSG_showActiveSongCommandDescription__"
 		},
 		"_execute_browser_action": {
-		}
+		},
+        "next": {
+           "description": "Play Next Track",
+           "global": true,
+           "suggested_key": {
+              "default": "MediaNextTrack",
+              "mac": "MediaNextTrack"
+           }
+        },
+        "play-pause": {
+           "description": "Play/Pause Active Audio",
+           "global": true,
+           "suggested_key": {
+              "default": "MediaPlayPause",
+              "mac": "MediaPlayPause"
+           }
+        },
+        "prev": {
+           "description": "Play Previous Track",
+           "global": true,
+           "suggested_key": {
+              "default": "MediaPrevTrack",
+              "mac": "MediaPrevTrack"
+           }
+        }
 	},
 	"content_scripts": [
 		{
