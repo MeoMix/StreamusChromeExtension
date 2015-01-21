@@ -62,7 +62,7 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 
 * [BackboneJS](http://backbonejs.org/)
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
-* [Backbone MarionetteJS)](http://marionettejs.com)
+* [Backbone MarionetteJS](http://marionettejs.com)
 * [Chai](http://chaijs.com/)
 * [jQuery](http://jquery.com/)
 * [jQuery UI](http://jqueryui.com/)

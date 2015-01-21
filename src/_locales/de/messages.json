@@ -148,7 +148,7 @@
     },
     "areYouSureYouWantToDeletePlaylist": {
             "message": "Bist du sicher dass du folgende Playlist löschen möchtest:",
-            "description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
+            "description": "Wiederholte Abfrage, um zu bestätigen, dass der Löschvorgang der Playlist gewollt ist."
     },
     "areYouSureYouWantToClearYourStream": {
             "message": "Bist du sicher dass du den Stream löschen möchtest?"
@@ -188,7 +188,7 @@
     },
     "channel": {
             "message": "Kanal",
-            "description": "A noun -- as in a YouTube channel of music"
+            "description": "Der Youtube Kanal eines Benutzers"
     },
     "url": {
             "message": "URL"
@@ -245,6 +245,9 @@
     },
     "wouldYouLikeTo": {
             "message": "Möchtest du"
+    },
+    "searchForSongs": {
+    		"message": "nach Liedern suchen"
     },
     "hd": {
             "message": "HD"
