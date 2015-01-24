@@ -126,7 +126,7 @@ $(function () {
 					method: "addYouTubeSongByIdToPlaylist",
 					playlistId: $('#playlistSelect').val(),
 					//  IMPORTANT: Do not use .data() as it will cache the value. Changing to a new YouTube song will then reutrn old information.
-					songId: $('.video-stream').attr('data-youtube-id')
+					songId: $('[data-video-id]').attr('data-video-id')
 				}, function () {
 					$(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));
 				}.bind(this));
