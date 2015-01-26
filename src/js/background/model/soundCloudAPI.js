@@ -11,8 +11,6 @@
 
             //setTimeout(function () {
                 //this._loadApi();
-                //console.log('building it');
-                //console.log('go!');
                 //SC.initialize({
                 //    client_id: 'e38164a7fbd5f459453565c733aed7b7'
                 //});
@@ -23,13 +21,9 @@
                 //    offset: 0,
                 //    embeddable_by: 'all'
                 //    }, function (tracks) {
-                //    console.log(tracks);
-                //});
-
-                // stream track id 293
+            //});
                 //SC.stream("/tracks/293", function (sound) {
-                //    console.log('received track:', sound);
-                //    //sound.play();
+                //    sound.play();
                 //});
             //}.bind(this), 4000);
         },
@@ -5245,8 +5239,6 @@
 
                         }
 
-                        console.log('hi');
-
                         if (sm2.html5Only) {
 
                             // 100% HTML5 mode
@@ -5728,8 +5720,6 @@
                     };
 
                     initComplete = function (bNoDisable) {
-                        console.log('initComplete');
-
                         if (didInit) {
                             return false;
                         }
@@ -5831,9 +5821,7 @@
                         function cleanup() {
                             event.remove(window, 'load', sm2.beginDelayedInit);
                         }
-
-                        console.log('here');
-
+                        
                         if (sm2.html5Only) {
                             if (!didInit) {
                                 // we don't need no steenking flash!
@@ -7505,7 +7493,7 @@
                             v = query[k];
                             uri.query[k] = v
                         }
-                        console.log('preparing request uri');
+
                         if (uri.isRelative()) {
                             uri.host = this.hostname("api");
                             uri.scheme = "https";
@@ -7632,15 +7620,12 @@
                         },
                         _getDialogIdFromWindow: function (window) {
                             var id, loc;
-                            console.log('getting dialog id from window');
                             loc = new SC.URI(window.location, {
                                 decodeQuery: true,
                                 decodeFragment: true
                             });
                             id = loc.query.state || loc.fragment.state;
-                            console.log('id', id);
                             if (this._isDialogId(id)) {
-                                console.log('returning it');
                                 return id
                             } else {
                                 return null
@@ -7692,7 +7677,6 @@
                                 if (uri == null) {
                                     uri = new SC.URI(SC._baseUrl)
                                 }
-                                console.log('building');
                                 uri.scheme = window.location.protocol.slice(0, -1);
                                 uri.path += SC._dialogsPath + "/" + this.name + "/";
                                 uri.fragment = {
@@ -7946,7 +7930,6 @@
                     }
                 });
                 SC.Loader.registerPackage(new SC.Loader.Package("recording", function () {
-                    console.log('recording');
                     if (Recorder.flashInterface()) {
                         return SC.Loader.packages.recording.setReady()
                     } else {

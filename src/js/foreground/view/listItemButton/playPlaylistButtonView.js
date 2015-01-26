@@ -45,7 +45,7 @@
         },
         
         _setState: function (isEmpty) {
-            this.$el.toggleClass('disabled', isEmpty);
+            this.$el.toggleClass('is-disabled', isEmpty);
 
             var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
             this.$el.attr('title', title);

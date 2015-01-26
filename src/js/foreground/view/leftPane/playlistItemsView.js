@@ -6,7 +6,6 @@
     var Scrollable = require('foreground/view/behavior/scrollable');
     var SlidingRender = require('foreground/view/behavior/slidingRender');
     var Sortable = require('foreground/view/behavior/sortable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
     var PlaylistItemView = require('foreground/view/leftPane/playlistItemView');
     var PlaylistItemsTemplate = require('text!template/leftPane/playlistItems.html');
 
@@ -43,14 +42,11 @@
             Scrollable: {
                 behaviorClass: Scrollable
             },
-            //SlidingRender: {
-            //    behaviorClass: SlidingRender
-            //},
+            SlidingRender: {
+                behaviorClass: SlidingRender
+            },
             Sortable: {
                 behaviorClass: Sortable
-            },
-            Tooltip: {
-                behaviorClass: Tooltip
             }
         }
     });

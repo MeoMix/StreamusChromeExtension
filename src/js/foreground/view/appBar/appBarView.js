@@ -15,9 +15,12 @@
         id: 'appBar',
         template: _.template(AppBarTemplate),
         
-        templateHelpers: {
-            showSearchMessage: chrome.i18n.getMessage('showSearch'),
-            searchMessage: chrome.i18n.getMessage('search')
+        templateHelpers: function () {
+            return {
+                searchQuery: this.search.get('query'),
+                showSearchMessage: chrome.i18n.getMessage('showSearch'),
+                searchMessage: chrome.i18n.getMessage('search')
+            };
         },
         
         regions: function () {
@@ -40,6 +43,7 @@
                 showPlaylistsAreaButton: '#' + this.id + '-showPlaylistsAreaButton',
                 hidePlaylistsAreaButton: '#' + this.id + '-hidePlaylistsAreaButton',
                 //  TODO: I don't like regions being manipulated in UI they should be stateless.
+                //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
                 playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
                 searchInputRegion: '#' + this.id + '-searchInputRegion'
             };
@@ -50,7 +54,7 @@
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
             'input @ui.searchInput': '_onInputSearchInput',
             //  TODO: prefer to read from ViewModel state rather than rely on HTML state.
-            'click @ui.showPlaylistsAreaButton:not(.disabled)': '_onClickShowPlaylistsAreaButton',
+            'click @ui.showPlaylistsAreaButton:not(.is-disabled)': '_onClickShowPlaylistsAreaButton',
             'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
         },
         
@@ -62,10 +66,15 @@
         },
 
         signInManager: null,
+        search: null,
 
         initialize: function () {
             this.signInManager = Streamus.backgroundPage.signInManager;
+            this.search = Streamus.backgroundPage.search;
+
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
+            this.listenTo(this.search, 'change:query', this._onSearchChangeQuery);
+
             this.listenTo(Streamus.channels.playlistsArea.vent, 'hiding', this._onPlaylistsAreaHiding);
             this.listenTo(Streamus.channels.playlistsArea.vent, 'showing', this._onPlaylistsAreaShowing);
             this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
@@ -102,6 +111,24 @@
             this.nextButtonRegion.show(new NextButtonView({
                 model: Streamus.backgroundPage.nextButton
             }));
+        },
+        
+        onAttach: function () {
+            //  TODO: It would be better to read this state from a viewmodel rather than hitting the DOM.
+            //  Needs to be ran in onAttach as well as when the search is showing because 'showing' event can trigger when view is rendering rather than attached.
+            if (this.ui.searchInput.is(':visible')) {
+                this._focusSearchInput();
+            }
+        },
+        
+        _onSearchChangeQuery: function (model, query) {
+            var searchInputElement = this.ui.searchInput[0];
+            var selectionStart = searchInputElement.selectionStart;
+            var selectionEnd = searchInputElement.selectionEnd;
+            this.ui.searchInput.val(query);
+            
+            //  Preserve the selection range which is lost after modifying val
+            searchInputElement.setSelectionRange(selectionStart, selectionEnd);
         },
         
         _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
@@ -149,36 +176,29 @@
         },
         
         _onPlaylistsAreaShowing: function() {
-            this.ui.showPlaylistsAreaButton.addClass('hidden');
-            this.ui.hidePlaylistsAreaButton.removeClass('hidden');
+            this.ui.showPlaylistsAreaButton.addClass('is-hidden');
+            this.ui.hidePlaylistsAreaButton.removeClass('is-hidden');
         },
         
         _onPlaylistsAreaHiding: function () {
-            this.ui.showPlaylistsAreaButton.removeClass('hidden');
-            this.ui.hidePlaylistsAreaButton.addClass('hidden');
+            this.ui.showPlaylistsAreaButton.removeClass('is-hidden');
+            this.ui.hidePlaylistsAreaButton.addClass('is-hidden');
         },
         
         _onSearchAreaShowing: function () {
-            this.ui.showSearchButton.addClass('hidden');
-            this.ui.hideSearchButton.removeClass('hidden');
-            this.ui.playlistTitleRegion.addClass('hidden');
-            this.ui.searchInputRegion.removeClass('hidden');
-            
-            //  TODO: Since search results aren't forgotten immediately i need to ensure that query matches search results.
-            //  However, it feels weird to have SearchResults populated with the UI not in-sync at the same time.
-            //  Doing it later allows me to not have to respond to the query getting cleared if search isn't shown in time, though.
-            this.ui.searchInput.val(Streamus.backgroundPage.search.get('query'));
-            
-            //  Reset val after focusing to prevent selecting the text while maintaining focus.
-            //  This needs to be ran after makign the region visible because you can't focus an element which isn't visible.
-            this.ui.searchInput.focus().val(this.ui.searchInput.val());
+            this.ui.showSearchButton.addClass('is-hidden');
+            this.ui.hideSearchButton.removeClass('is-hidden');
+            this.ui.playlistTitleRegion.addClass('is-hidden');
+            this.ui.searchInputRegion.removeClass('is-hidden');
+
+            this._focusSearchInput();
         },
         
         _onSearchAreaHiding: function() {
-            this.ui.showSearchButton.removeClass('hidden');
-            this.ui.hideSearchButton.addClass('hidden');
-            this.ui.playlistTitleRegion.removeClass('hidden');
-            this.ui.searchInputRegion.addClass('hidden');
+            this.ui.showSearchButton.removeClass('is-hidden');
+            this.ui.hideSearchButton.addClass('is-hidden');
+            this.ui.playlistTitleRegion.removeClass('is-hidden');
+            this.ui.searchInputRegion.addClass('is-hidden');
         },
         
         _setPlaylistTitleRegion: function (signedInUser) {
@@ -190,7 +210,13 @@
         _setShowPlaylistsAreaButtonState: function (signedInUser) {
             var signedOut = signedInUser === null;
             var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
-            this.ui.showPlaylistsAreaButton.toggleClass('disabled', signedOut).attr('title', title);
+            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', signedOut).attr('title', title);
+        },
+        
+        _focusSearchInput: function() {
+            //  Reset val after focusing to prevent selecting the text while maintaining focus.
+            //  This needs to be ran after makign the region visible because you can't focus an element which isn't visible.
+            this.ui.searchInput.focus().val(this.ui.searchInput.val());
         }
     });
 

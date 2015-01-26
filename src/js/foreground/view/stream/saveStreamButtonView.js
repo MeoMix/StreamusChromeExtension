@@ -29,7 +29,7 @@
 
         _onClick: function () {
             if (this.model.get('enabled')) {
-                this._showSaveSongsDialog(this.model.get('streamItems').pluck('song'));
+                this._showSaveSongsSimpleMenu(this.model.get('streamItems').pluck('song'));
             }
         },
 
@@ -38,10 +38,10 @@
         },
 
         _setState: function (enabled, stateMessage) {
-            this.$el.toggleClass('disabled', !enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
         },
 
-        _showSaveSongsDialog: function (songs) {
+        _showSaveSongsSimpleMenu: function (songs) {
             //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
             _.defer(function () {
                 var offset = this.$el.offset();

@@ -68,20 +68,20 @@ define(function (require) {
         },
         
         _setVolumeIcon: function (volume, muted) {
-            //  TODO: jQuery doesn't support SVGs.
-            this.ui.volumeIconUp[0].classList.add('hidden');
-            this.ui.volumeIconDown[0].classList.add('hidden');
-            this.ui.volumeIconOff[0].classList.add('hidden');
-            this.ui.volumeIconMute[0].classList.add('hidden');
+            //  jQuery doesn't support SVGs.
+            this.ui.volumeIconUp[0].classList.add('is-hidden');
+            this.ui.volumeIconDown[0].classList.add('is-hidden');
+            this.ui.volumeIconOff[0].classList.add('is-hidden');
+            this.ui.volumeIconMute[0].classList.add('is-hidden');
             
             if (muted) {
-                this.ui.volumeIconMute[0].classList.remove('hidden');
+                this.ui.volumeIconMute[0].classList.remove('is-hidden');
             } else if(volume > 50) {
-                this.ui.volumeIconUp[0].classList.remove('hidden');
+                this.ui.volumeIconUp[0].classList.remove('is-hidden');
             } else if (volume > 0) {
-                this.ui.volumeIconDown[0].classList.remove('hidden');
+                this.ui.volumeIconDown[0].classList.remove('is-hidden');
             } else {
-                this.ui.volumeIconOff[0].classList.remove('hidden');
+                this.ui.volumeIconOff[0].classList.remove('is-hidden');
             }
         },
 

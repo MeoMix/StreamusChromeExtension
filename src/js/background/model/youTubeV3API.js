@@ -62,6 +62,7 @@
                 fields: 'nextPageToken, items/id/videoId',
                 //  I don't think it's a good idea to filter out results based on safeSearch for music.
                 safeSearch: 'none'
+                //  TODO: videoEmbeddable and videoSyndicated might be useful filters. Need to test.
             });
         },
         
@@ -179,7 +180,8 @@
 
                     if (_.isUndefined(response.items)) {
                         if (options.error) {
-                            var errorMessage = options.songIds.length > 1 ? chrome.i18n.getMessage('failedToFindSongs') : chrome.i18n.getMessage('failedToFindSong');
+                            var isSingleSong = options.songIds.length === 1;
+                            var errorMessage = chrome.i18n.getMessage(isSingleSong ? 'failedToFindSong' : 'failedToFindSongs');
                             options.error(errorMessage);
                         }
                     } else {
@@ -207,7 +209,7 @@
             return this._doRequest(options.serviceType, {
                 success: function (response) {
                     if (response.items.length === 0) {
-                        options.error(chrome.i18n.getMessage('errorRetrievingTitle'));
+                        options.error(chrome.i18n.getMessage('errorLoadingTitle'));
                     } else {
                         options.success(response.items[0].snippet.title);
                     }

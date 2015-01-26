@@ -27,7 +27,8 @@
 
             var stateMessage;
             if (signedIn) {
-                stateMessage = this.get('enabled') ? chrome.i18n.getMessage('saveStream') : chrome.i18n.getMessage('streamEmpty');
+                var isEnabled = this.get('enabled');
+                stateMessage = chrome.i18n.getMessage(isEnabled ? 'saveStream' : 'streamEmpty');
             } else {
                 stateMessage = chrome.i18n.getMessage('notSignedIn');
             }

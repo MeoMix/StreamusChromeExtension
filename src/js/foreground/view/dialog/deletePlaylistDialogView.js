@@ -10,7 +10,6 @@
 
         initialize: function (options) {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('deletePlaylist'),
                 submitButtonText: chrome.i18n.getMessage('delete'),
                 reminderProperty: 'remindDeletePlaylist'
             });

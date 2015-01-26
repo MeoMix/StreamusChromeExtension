@@ -69,9 +69,9 @@
 
         //  Set the visibility of any visible text messages.
         _toggleBigText: function (signingIn, signInFailed) {
-            this.ui.signInFailedMessage.toggleClass('hidden', !signInFailed);
-            this.ui.signingInMessage.toggleClass('hidden', !signingIn);
-            this.ui.signInMessage.toggleClass('hidden', signingIn || signInFailed);
+            this.ui.signInFailedMessage.toggleClass('is-hidden', !signInFailed);
+            this.ui.signingInMessage.toggleClass('is-hidden', !signingIn);
+            this.ui.signInMessage.toggleClass('is-hidden', signingIn || signInFailed);
         },
 
         _signIn: function () {

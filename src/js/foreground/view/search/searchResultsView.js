@@ -43,9 +43,9 @@
             Scrollable: {
                 behaviorClass: Scrollable
             },
-            //SlidingRender: {
-            //    behaviorClass: SlidingRender
-            //},
+            SlidingRender: {
+                behaviorClass: SlidingRender
+            },
             Sortable: {
                 behaviorClass: Sortable
             },

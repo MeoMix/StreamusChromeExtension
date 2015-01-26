@@ -11,7 +11,6 @@
         
         initialize: function () {
             this.model =  new Dialog({
-                title: chrome.i18n.getMessage('signInToGoogle'),
                 reminderProperty: 'remindGoogleSignIn',
                 alwaysSaveReminder: true
             });

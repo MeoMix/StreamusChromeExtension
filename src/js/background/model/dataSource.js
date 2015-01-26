@@ -92,8 +92,7 @@
                         success: options.success,
                         error: function () {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                title: chrome.i18n.getMessage('failedToFindSong'),
-                                message: chrome.i18n.getMessage('anIssueWasEncounteredWhileAttemptingToFindSongWithUrl') + ' ' + this.get('url')
+                                title: chrome.i18n.getMessage('failedToFindSong')
                             });
 
                             if (options.error) options.error();

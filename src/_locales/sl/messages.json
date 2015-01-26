@@ -4,10 +4,7 @@
 		"description": "Ime razširitve"
 	},
 	"extensionDescription" : {
-		"message": "Streamus spremeni YouTube v predvajalnik glasbe, ki ste ga vedno želeli."
-	},
-	"extensionTitle": {
-		"message": "Streamus: Preprosto, predvajanje glasbe."
+		"message": "Preprosto, predvajanje glasbe."
 	},
 	"toggleRadioCommandDescription": {
 		"message": "Stikalo (izključeno/vključeno) radio"
@@ -44,32 +41,29 @@
 	"errorEncountered": {
 		"message": "Prišlo je do napake."
 	},
-	"newPlaylist": {
-		"message": "Nov seznam predvajanja"
-	},
 	"installed": {
 		"message": "Nameščeno",
 		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
-	"repeatDisabled": {
+	"repeatOff": {
 		"message": "Ponavljanje onemogočeno"
 	},
 	"repeatSong": {
 		"message": "Ponovi posnetek"
 	},
-	"repeatStream": {
+	"repeatAll": {
 		"message": "Ponovi stream"
 	},
-	"radioEnabled": {
+	"radioOn": {
 		"message": "Radio omogočen"
 	},
-	"radioDisabled": {
+	"radioOff": {
 		"message": "Radio onemogočen"
 	},
-	"shufflingEnabled": {
+	"shufflingOn": {
 		"message": "Naključno predvajanje omogočeno"
 	},
-	"shufflingDisabled": {
+	"shufflingOff": {
 		"message": " Naključno predvajanje onemogočeno "
 	},
 	"elapsedTime": {
@@ -92,9 +86,6 @@
 	"lowest": {
 		"message": "Najnižja",
 		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
-	},
-	"addedSuccessfully": {
-		"message": "Uspešno dodano"
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Prišlo je do težave pri dodajanju vašega seznama predvajanja. Preverite URL?"
@@ -126,14 +117,11 @@
 	"clearStream": {
 		"message": "Počisti stream"
 	},
-	"reloadStreamus": {
-		"message": "Ponovno naloži Streamus"
-	},
 	"createPlaylist": {
 		"message": "Ustvari seznam predvajanja"
 	},
 	"ok": {
-		"message": "OK"
+		"message": "Ok"
 	},
 	"playlist": {
 		"message": "Seznam predvajanja"
@@ -150,27 +138,11 @@
 	"cantDeleteLastPlaylist": {
 		"message": "Ne morem izbrisati zadnjega seznama predvajanja"
 	},
-	"areYouSure": {
-		"message": "Ste prepričani?"
-	},
-	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Ste prepričani, da želite izbrisati seznam predvajanja",
-		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
-	},
-	"areYouSureYouWantToClearYourStream": {
-		"message": "Ste prepričani, da želite počistiti vaš stream?"
-	},
-	"typeToCreateOrFilterPlaylists": {
-		"message": "Pišite, da ustvarite ali filtrirajte sezname predvajanja"
-	},
 	"play": {
 		"message": "Predvajaj"
 	},
 	"add": {
 		"message": "Dodaj"
-	},
-	"editPlaylist": {
-		"message": "Uredi seznam predvajanja"
 	},
 	"deletePlaylist": {
 		"message": "Izbriši sezname predvajanja"
@@ -192,10 +164,6 @@
 	},
 	"optional": {
 		"message": "Opcijsko"
-	},
-	"channel": {
-		"message": "Kanal",
-		"description": "A noun -- as in a YouTube channel of music"
 	},
 	"url": {
 		"message": "povezava"
@@ -229,7 +197,7 @@
 	"days": {
 		"message": "Dni"
 	},
-	"errorRetrievingTitle": {
+	"errorLoadingTitle": {
 		"message": "Napaka pri pridobivanju naslova"	
 	},
 	"keyboardCommandFailure": {
@@ -240,9 +208,6 @@
 	},
 	"playlistEmpty": {
 		"message": "Seznam predvajanja je prazen"
-	},
-	"playPlaylist": {
-		"message": "Predvajaj seznam predvajanja"
 	},
 	"create": {
 		"message": "Ustvari"
@@ -271,14 +236,10 @@
 	"watchOnYouTube": {
 		"message": "Oglej si na YouTube"
 	},
-
 	"addAll": {
 		"message": "Dodaj vse"
 	},
 	"addSelected": {
 		"message": "Dodaj izbrano"
-	},
-	"addPlaylist": {
-		"message": "Dodaj seznam predvajanja"
 	}
 }

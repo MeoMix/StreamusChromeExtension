@@ -48,12 +48,12 @@
         },
 
         _setState: function (enabled, playerState) {
-            this.$el.toggleClass('disabled', !enabled);
+            this.$el.toggleClass('is-disabled', !enabled);
 
-            //  TODO: There's a difference between buffering and about to play and buffering and going to be paused afterward. How to tell the difference?
-            //  TODO: jQuery doesn't support SVGs.
-            this.ui.pauseIcon[0].classList.toggle('hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
-            this.ui.playIcon[0].classList.toggle('hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
+            //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?
+            //  jQuery does not support <svg>
+            this.ui.pauseIcon[0].classList.toggle('is-hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
+            this.ui.playIcon[0].classList.toggle('is-hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
         }
     });
 

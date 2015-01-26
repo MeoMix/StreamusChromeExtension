@@ -29,7 +29,7 @@
         },
         
         _setState: function (enabled) {
-            this.$el.toggleClass('disabled', !enabled);
+            this.$el.toggleClass('is-disabled', !enabled);
         }
     });
 

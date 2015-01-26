@@ -43,7 +43,7 @@
             //  TODO: I don't want to deselect when dragging scrollbar.. better options?
             var isScrollbarClick = event.target === this.view.$el.parent()[0];
             var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-
+            
             if (listItemType !== this.view.childViewType && !isScrollbarClick || isButtonClick) {
                 this._deselectCollection();
             }

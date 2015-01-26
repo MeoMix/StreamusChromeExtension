@@ -147,7 +147,7 @@
                 this.ui.title.val(title);
                 this._validateTitle();
                 this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
-                this.ui.dataSourceHint.text(chrome.i18n.getMessage('loadedPlaylist'));
+                this.ui.dataSourceHint.text(chrome.i18n.getMessage('playlistLoaded'));
             }
         },
         

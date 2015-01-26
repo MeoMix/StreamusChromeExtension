@@ -45,15 +45,14 @@
         onAttach: function () {
             //  If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
             if (this.instant) {
-                //  TODO: make this be 'visible' rather than 'shown' cuz its not accurate.
                 this.$el.addClass('is-visible');
-                Streamus.channels.activeStreamItemArea.vent.trigger('shown');
+                Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             } else {
                 _.defer(function () {
                     this.$el.addClass('is-visible');
                 }.bind(this));
 
-                Streamus.channels.activeStreamItemArea.vent.trigger('beforeShow');
+                Streamus.channels.activeStreamItemArea.vent.trigger('beforeVisible');
             }
         },
 
@@ -65,14 +64,14 @@
         _onTransitionInComplete: function (event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
-                Streamus.channels.activeStreamItemArea.vent.trigger('shown');
+                Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             }
         },
 
         _onTransitionOutComplete: function (event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
-                Streamus.channels.activeStreamItemArea.vent.trigger('hidden');
+                Streamus.channels.activeStreamItemArea.vent.trigger('is-hidden');
                 this.destroy();
             }
         }

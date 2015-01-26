@@ -109,12 +109,10 @@
             var text = chrome.i18n.getMessage('errorEncountered');
 
             switch (youTubeError) {
-                case YouTubePlayerError.InvalidParameter:
-                    text = chrome.i18n.getMessage('youTubePlayerErrorInvalidParameter');
-                    break;
                 case YouTubePlayerError.VideoNotFound:
                     text = chrome.i18n.getMessage('youTubePlayerErrorSongNotFound');
                     break;
+                case YouTubePlayerError.InvalidParameter:
                 case YouTubePlayerError.NoPlayEmbedded:
                 case YouTubePlayerError.NoPlayEmbedded2:
                     text = chrome.i18n.getMessage('youTubePlayerErrorNoPlayEmbedded');

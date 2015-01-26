@@ -39,7 +39,7 @@
         },
         
         _setState: function (enabled, stateMessage) {
-            this.$el.toggleClass('disabled', !enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
         },
         
         _showClearStreamDialog: function () {

@@ -15,7 +15,6 @@
             this.player = Streamus.backgroundPage.player;
             
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('errorEncountered'),
                 showCancelButton: false
             });
 

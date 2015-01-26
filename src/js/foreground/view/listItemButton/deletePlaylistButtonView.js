@@ -36,7 +36,7 @@
                 title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
             }
 
-            this.$el.toggleClass('disabled', !canDelete).attr('title', title);
+            this.$el.toggleClass('is-disabled', !canDelete).attr('title', title);
         }
     });
 

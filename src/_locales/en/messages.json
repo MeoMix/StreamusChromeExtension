@@ -2,11 +2,8 @@
 	"extensionName": {
 		"message": "Streamus"
 	},
-	"extensionDescription" : {
-		"message": "Streamus turns YouTube into the music player you always wanted."
-	},
-	"extensionTitle": {
-		"message": "Streamus: Simple, streaming music."
+	"extensionDescription": {
+		"message": "Simple, streaming music."
 	},
 	"toggleRadioCommandDescription": {
 		"message": "Radio off/on"
@@ -15,7 +12,34 @@
 		"message": "Shuffle off/on"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Repeat off/all/single"
+		"message": "Repeat off/all songs/current song"
+	},
+	"increaseVolumeCommandDescription": {
+		"message": "Increase volume"
+	},
+	"decreaseVolumeCommandDescription": {
+		"message": "Decrease volume"
+	},
+	"showActiveSongCommandDescription": {
+		"message": "Show song details"
+	},
+	"nextSongCommandDescription": {
+		"message": "Next song"
+	},
+	"previousSongCommandDescription": {
+		"message": "Previous song"
+	},
+	"toggleSongCommandDescription": {
+		"message": "Play/pause song"
+	},
+	"deleteSongCommandDescription": {
+		"message": "Delete song"
+	},
+	"copySongURLCommandDescription": {
+		"message": "Copy song's URL"
+	},
+	"copySongTitleURLCommandDescription": {
+		"message": "Copy song's title and URL"
 	},
 	"save": {
 		"message": "Save"
@@ -24,7 +48,7 @@
 		"message": "Copy URL"
 	},
 	"copyTitleAndUrl": {
-		"message": "Copy title - URL"
+		"message": "Copy title and URL"
 	},
 	"delete": {
 		"message": "Delete"
@@ -38,14 +62,11 @@
 	"addToStreamus": {
 		"message": "Add to Streamus"
 	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "Request contains an invalid parameter."
-	},
 	"youTubePlayerErrorSongNotFound": {
 		"message": "Song has been removed or marked private."
 	},
 	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Requested song unable to be played."
+		"message": "Song unable to be played."
 	},
 	"errorEncountered": {
 		"message": "An error was encountered."
@@ -53,32 +74,29 @@
 	"saving": {
 		"message": "Saving"
 	},
-	"newPlaylist": {
-		"message": "New playlist"
-	},
 	"installed": {
 		"message": "Installed"
 	},
-	"repeatDisabled": {
-		"message": "Repeat disabled"
+	"repeatOff": {
+		"message": "Repeat off"
 	},
-	"repeatSongEnabled": {
-		"message": "Repeat song enabled"
+	"repeatSong": {
+		"message": "Repeat song"
 	},
-	"repeatStreamEnabled": {
-		"message": "Repeat stream enabled"
+	"repeatAll": {
+		"message": "Repeat all"
 	},
-	"radioEnabled": {
-		"message": "Radio enabled"
+	"radioOn": {
+		"message": "Radio on"
 	},
-	"radioDisabled": {
-		"message": "Radio disabled"
+	"radioOff": {
+		"message": "Radio off"
 	},
-	"shufflingEnabled": {
-		"message": "Shuffling enabled"
+	"shufflingOn": {
+		"message": "Shuffling on"
 	},
-	"shufflingDisabled": {
-		"message": "Shuffling disabled"
+	"shufflingOff": {
+		"message": "Shuffling off"
 	},
 	"elapsedTime": {
 		"message": "Elapsed time"
@@ -98,17 +116,17 @@
 	"lowest": {
 		"message": "Lowest"
 	},
-	"addedSuccessfully": {
-		"message": "Added successfully"
-	},
-	"failedToAddPlaylist": {
-		"message": "Failed to add playlist"
-	},
 	"reload": {
 		"message": "Reload"
 	},
 	"playAll": {
 		"message": "Play all"
+	},
+	"addAll": {
+		"message": "Add all"
+	},
+	"addSelected": {
+		"message": "Add selected"
 	},
 	"playSelected": {
 		"message": "Play selected"
@@ -128,14 +146,11 @@
 	"clearStream": {
 		"message": "Clear stream"
 	},
-	"reloadStreamus": {
-		"message": "Reload Streamus"
-	},
 	"createPlaylist": {
 		"message": "Create playlist"
 	},
 	"ok": {
-		"message": "OK"
+		"message": "Ok"
 	},
 	"playlist": {
 		"message": "Playlist"
@@ -149,23 +164,11 @@
 	"edit": {
 		"message": "Edit"
 	},
-	"deletePlaylist": {
-		"message": "Delete playlist"
-	},
 	"cantDeleteLastPlaylist": {
 		"message": "Can't delete last playlist"
 	},
-	"areYouSure": {
-		"message": "Are you sure?"
-	},
-	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Are you sure you want to delete playlist"
-	},
 	"clearStreamQuestion": {
 		"message": "Clear stream?"
-	},
-	"typeToCreateOrFilterPlaylists": {
-		"message": "Type to create or filter playlists"
 	},
 	"play": {
 		"message": "Play"
@@ -173,17 +176,8 @@
 	"add": {
 		"message": "Add"
 	},
-	"editPlaylist": {
-		"message": "Edit playlist"
-	},
-	"deletePlaylist": {
-		"message": "Delete playlist"
-	},
 	"title": {
 		"message": "Title"
-	},
-	"channel": {
-		"message": "Channel"
 	},
 	"url": {
 		"message": "URL"
@@ -215,8 +209,8 @@
 	"days": {
 		"message": "Days"
 	},
-	"errorRetrievingTitle": {
-		"message": "Error retrieving title"	
+	"errorLoadingTitle": {
+		"message": "Error loading title"	
 	},
 	"keyboardCommandFailure": {
 		"message": "Keyboard command failure"
@@ -226,9 +220,6 @@
 	},
 	"playlistEmpty": {
 		"message": "Playlist empty"
-	},
-	"playPlaylist": {
-		"message": "Play playlist"
 	},
 	"create": {
 		"message": "Create"
@@ -246,10 +237,10 @@
 		"message": "Start typing"
 	},
 	"resultsWillAppearAsYouSearch": {
-		"message": "Results will appear as you search"
+		"message": "Results will appear as you search."
 	},
 	"trySearchingForSomethingElse": {
-		"message": "Try searching for something else"
+		"message": "Try searching for something else."
 	},
 	"watchOnYouTube": {
 		"message": "Watch on YouTube"
@@ -272,23 +263,8 @@
 	"openToSearch": {
 		"message": "Open to search"
 	},
-	"addAll": {
-		"message": "Add all"
-	},
-	"addSelected": {
-		"message": "Add selected"
-	},
-	"addPlaylist": {
-		"message": "Add playlist"
-	},
-	"anUpdateToStreamusIsAvailable": {
-		"message": "An update to Streamus is available"
-	},
-	"pleaseClickUpdateToReloadAndApplyTheUpdate": {
-		"message": "Please click update to reload and apply the update"
-	},
-	"updateRequired": {
-		"message": "Update required"
+	"anUpdateIsAvailable": {
+		"message": "An update is available"
 	},
 	"pressEnterToPlay": {
 		"message": "Press enter to play"
@@ -296,47 +272,8 @@
 	"volume": {
 		"message": "Volume"
 	},
-	"increaseVolumeCommandDescription": {
-		"message": "Increase volume"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "Decrease volume"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "Show song details"
-	},
-    "saveSong": {
-		"message": "Save song"
-	},
-	"saveSongs": {
-		"message": "Save songs"
-	},
-	"nextSongCommandDescription": {
-		"message": "Next song"
-	},
-	"previousSongCommandDescription": {
-		"message": "Previous song"
-	},
-	"toggleSongCommandDescription": {
-		"message": "Play/pause song"
-	},
-	"deleteSongCommandDescription": {
-		"message": "Delete song"
-	},
-	"copySongURLCommandDescription": {
-		"message": "Copy song's URL"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "Copy song's title and URL"
-	},
-	"deleteSong": {
-		"message": "Delete song"
-	},
 	"songAdded": {
 		"message": "Song added"
-	},
-	"songsAdded": {
-		"message": "Songs added"
 	},
 	"addSong": {
 		"message": "Add song"
@@ -363,7 +300,8 @@
 		"message": "Song quality"
 	},
 	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Why not add a song from a playlist or"
+		"message": "Why not add a song from a playlist or",
+		"description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
 	},
 	"searchAndPlay": {
 		"message": "Search and Play"
@@ -371,20 +309,15 @@
 	"searchAndAdd": {
 		"message": "Search and Add"
 	},
-	"linkAccountToGoogle": {
-		"message": "Link account to Google?"
+	"linkAccountsMessage": {
+		"message": "Streamus isn't linked to your Chrome account. Your playlists will be available on other computers if you link your accounts."
 	},
-	"linkAccountMessage": {
-		"message": "You haven't linked your Chrome account to Streamus. You'll be able to access playlists from any computer if you link these accounts. Would you like to?"
-	},
-	"remindLinkAccount": {
-		"message": "Remind link account"
-	},
-	"signInToGoogle": {
-		"message": "Sign in to Google"
+	"link": {
+		"message": "Link",
+		"description": "This is 'Link' as in 'Link my account'"
 	},
 	"googleSignInMessage": {
-		"message": "It looks like you're not signed into Google. If you were, your Streamus playlists would be accessible from any computer."
+		"message": "You're not signed into Chrome. Your playlists are only available on this computer."
 	},
 	"remindGoogleSignIn": {
 		"message": "Remind Google sign in"
@@ -394,12 +327,6 @@
 	},
 	"export": {
 		"message": "Export"
-	},
-	"exportPlaylist": {
-		"message": "Export playlist"
-	},
-	"openInTab": {
-		"message": "Open in tab"
 	},
 	"openInTab": {
 		"message": "Open in tab"
@@ -442,9 +369,6 @@
 	},
 	"failedToFindSongs": {
 		"message": "Failed to find songs"
-	},
-	"anIssueWasEncounteredWhileAttemptingToFindSongWithUrl": {
-		"message": "An issue was encountered while attempting to find song with URL:"
 	},
 	"loadingYouTube": {
 		"message": "Loading YouTube"
@@ -520,10 +444,18 @@
 	"errorLoadingUrl": {
 		"message": "Error loading URL"
 	},
-	"loadedPlaylist": {
-		"message": "Loaded playlist"
+	"playlistLoaded": {
+		"message": "Playlist loaded"
 	},
 	"playlistCreated": {
 		"message": "Playlist created"
+	},
+	"extensionConflict": {
+		"message": "Another extension, or other issue, has forced YouTube to use Flash.$lineBreak$ Streamus will not work properly until that extension is disabled, or the issue is resolved, and Streamus is restarted.",
+		"placeholders": {
+			"lineBreak": {
+				"content": "$1"
+			}
+		}
 	}
 }

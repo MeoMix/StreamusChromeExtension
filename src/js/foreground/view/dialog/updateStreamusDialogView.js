@@ -10,12 +10,11 @@
 
         initialize: function () {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('updateRequired'),
                 submitButtonText: chrome.i18n.getMessage('update')
             });
 
             this.contentView = new DialogContentView({
-                template: _.template(chrome.i18n.getMessage('anUpdateToStreamusIsAvailable') + '. ' + chrome.i18n.getMessage('pleaseClickUpdateToReloadAndApplyTheUpdate'))
+                template: _.template(chrome.i18n.getMessage('anUpdateIsAvailable'))
             });
 
             DialogView.prototype.initialize.apply(this, arguments);

@@ -77,7 +77,7 @@
                     enabled = true;
                 }
                     //  You can always continue if radio is enabled or if repeating is enabled
-                else if (radioEnabled || repeatButtonState !== RepeatButtonState.Disabled) {
+                else if (radioEnabled || repeatButtonState !== RepeatButtonState.Off) {
                     enabled = true;
                 } else {
                     //  Enable only if there are more items to skip to.

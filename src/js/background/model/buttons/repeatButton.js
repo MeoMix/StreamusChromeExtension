@@ -10,7 +10,7 @@
         defaults: {
             //  Need to set the ID for Backbone.LocalStorage
             id: 'RepeatButton',
-            state: RepeatButtonState.Disabled
+            state: RepeatButtonState.Off
         },
         
         initialize: function () {
@@ -24,14 +24,14 @@
             var nextState = null;
 
             switch (this.get('state')) {
-                case RepeatButtonState.Disabled:
-                    nextState = RepeatButtonState.RepeatStream;
+                case RepeatButtonState.Off:
+                    nextState = RepeatButtonState.RepeatAll;
                     break;
-                case RepeatButtonState.RepeatStream:
+                case RepeatButtonState.RepeatAll:
                     nextState = RepeatButtonState.RepeatSong;
                     break;
                 case RepeatButtonState.RepeatSong:
-                    nextState = RepeatButtonState.Disabled;
+                    nextState = RepeatButtonState.Off;
                     break;
                 default:
                     console.error("Unhandled repeatButtonState:", this.state);
@@ -46,14 +46,14 @@
         getStateMessage: function () {
             var message = '';
             switch (this.get('state')) {
-                case RepeatButtonState.Disabled:
-                    message = chrome.i18n.getMessage('repeatDisabled');
+                case RepeatButtonState.Off:
+                    message = chrome.i18n.getMessage('repeatOff');
                     break;
                 case RepeatButtonState.RepeatSong:
-                    message = chrome.i18n.getMessage('repeatSongEnabled');
+                    message = chrome.i18n.getMessage('repeatSong');
                     break;
-                case RepeatButtonState.RepeatStream:
-                    message = chrome.i18n.getMessage('repeatStreamEnabled');
+                case RepeatButtonState.RepeatAll:
+                    message = chrome.i18n.getMessage('repeatAll');
             }
             
             return message;

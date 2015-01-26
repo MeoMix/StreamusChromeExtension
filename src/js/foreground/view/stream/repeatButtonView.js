@@ -44,14 +44,14 @@
         },
         
         _setState: function (state, stateMessage) {
-            //  The button is considered enabled if it is anything but disabled.
-            var enabled = state !== RepeatButtonState.Disabled;
+            //  The button is considered enabled if it is anything but off.
+            var enabled = state !== RepeatButtonState.Off;
 
             this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
             
-            //  TODO: SVG element and JQuery don't work well together.
-            this.ui.repeatOneIcon[0].classList.toggle('hidden', state !== RepeatButtonState.RepeatSong);
-            this.ui.repeatIcon[0].classList.toggle('hidden', state === RepeatButtonState.RepeatSong);
+            //  jQuery does not support <svg>
+            this.ui.repeatOneIcon[0].classList.toggle('is-hidden', state !== RepeatButtonState.RepeatSong);
+            this.ui.repeatIcon[0].classList.toggle('is-hidden', state === RepeatButtonState.RepeatSong);
         },
     });
 

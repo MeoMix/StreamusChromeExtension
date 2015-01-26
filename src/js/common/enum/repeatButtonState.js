@@ -1,5 +1,5 @@
 ﻿define({
-    Disabled: 0,
+    Off: 0,
     RepeatSong: 1,
-    RepeatStream: 2
+    RepeatAll: 2
 });

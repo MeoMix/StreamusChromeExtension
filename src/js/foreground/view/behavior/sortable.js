@@ -29,7 +29,7 @@
                 delay: 100,
                 //  NOTE: THIS IS A CUSTOM MODIFICATION TO JQUERY UI. Prevent hiding dragged views.
                 hideOnDrag: false,
-                placeholder: this.placeholderClass + ' listItem listItem--medium hidden',
+                placeholder: this.placeholderClass + ' listItem listItem--medium is-hidden',
                 helper: this._helper.bind(this),
                 change: this._change.bind(this),
                 start: this._start.bind(this),
@@ -60,7 +60,7 @@
                 placeholderAdjacent = ui.placeholder.next().data('id') === draggedModelId || ui.placeholder.prev().data('id') === draggedModelId;
             }
             
-            $('.' + this.placeholderClass).toggleClass('hidden', placeholderAdjacent);
+            $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
 
             this.view.ui.childContainer.sortable('refresh');
 

@@ -5,7 +5,6 @@
     var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
     var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
     
-    //  TODO: This doesn't close on right-click, but contextmenu does. Is that OK?
     var AdminMenuAreaView = Marionette.ItemView.extend({
         id: 'adminMenuArea',
         template: _.template(AdminMenuAreaTemplate),

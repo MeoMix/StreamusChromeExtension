@@ -68,9 +68,6 @@
                 includePadding: true
             });
 
-            //  TODO: I think I prefer requestAnimationFrame, but maybe it's introducing a bug because it can run even after the UI closes? Unsure. Trying _.defer for now.
-            //  Transition only after successfully requesting an animation frame because the browser needs a moment to acknowledge the existence of
-            //  the DOM element before its class is modified. Otherwise, the element will be created with the state rather than transitioning to it.
             _.defer(this._transitionIn.bind(this));
         },
         
@@ -115,12 +112,13 @@
         },
         
         _transitionIn: function () {
-            //  TODO: If this view is destroyed and then _transitionIn runs, this.ui.panel isn't set.
-            this.$el.addClass('is-visible');
-            this.ui.panel.addClass('is-visible');
+            if (!this.isDestroyed) {
+                this.$el.addClass('is-visible');
+                this.ui.panel.addClass('is-visible');
 
-            //  This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
-            this.triggerMethod('visible');
+                //  This hook is useful because _transitionIn is called via requestAnimationFrame. So, when onShow finishes, the view isn't fully visible yet.
+                this.triggerMethod('visible');
+            }
         },
         
         _transitionOut: function () {

@@ -8,6 +8,7 @@
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
     var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
+    var Tooltip = require('foreground/view/behavior/tooltip');
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -24,6 +25,9 @@
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
             ItemViewMultiSelect: {
                 behaviorClass: ItemViewMultiSelect
+            },
+            Tooltip: {
+                behaviorClass: Tooltip
             }
         }),
         

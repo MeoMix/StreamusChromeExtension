@@ -78,10 +78,11 @@
                 this._startSeeking();
             }
         },
-        //  TODO: This runs even if onMouseDownTimeRange did not run.
+ 
         _onMouseUpTimeRange: function (event) {
             //  1 is primary mouse button, usually left
-            if (event.which === 1) {
+            //  It's important to check seeking here because onMouseUp can run even if onMouseDown did not fire.
+            if (event.which === 1 && this.model.get('seeking')) {
                 this._seekToCurrentTime();
             }
         },
@@ -99,7 +100,7 @@
         },
 
         _startSeeking: function () {
-            this.model.set('autoUpdate', false);
+            this.model.set('seeking', true);
         },
         
         _stopSeeking: function () {
@@ -107,7 +108,7 @@
             var state = this.player.get('state');
 
             if (state === PlayerState.Playing || state === PlayerState.Paused || state === PlayerState.SongCued) {
-                this.model.set('autoUpdate', true);
+                this.model.set('seeking', false);
             }
         },
 
@@ -129,7 +130,7 @@
         },
         
         _setElapsedTimeLabelTitle: function (showRemainingTime) {
-            var title = showRemainingTime ? chrome.i18n.getMessage('remainingTime') : chrome.i18n.getMessage('elapsedTime');
+            var title = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
             this.ui.elapsedTimeLabel.attr('title', title);
         },
 
@@ -139,7 +140,9 @@
         },
 
         _updateCurrentTime: function (currentTime) {
-            if (this.model.get('autoUpdate')) {
+            var seeking = this.model.get('seeking');
+            //  If the time changes while user is seeking then do not update the view because user's input should override it.
+            if (!seeking) {
                 this._setCurrentTime(currentTime);
             }
         },

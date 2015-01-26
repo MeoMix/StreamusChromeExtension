@@ -26,12 +26,12 @@
 
     &:hover {
         .is-hiddenOnHover {
-            .hidden;
+            .is-hidden;
         }
     }
     
     //  TODO: Not all things should highlight.
-    &:not(.disabled):not(.grouping-item):not(.simpleListItem):hover {
+    &:not(.is-disabled):not(.grouping-item):not(.simpleListItem):hover {
         background: @dark--quinary;
     }
 
@@ -81,7 +81,6 @@
     padding-right: 4px;
 }
 
-//  TODO: This styling is really for 'nav' and not just for 'small' but need to get it ironed out first.
 .listItem--small {
     height: 44px;
 
@@ -162,13 +161,13 @@
 
     &.is-showingCheckbox {
         .listItem-imageThumbnail {
-            .hidden;
+            .is-hidden;
         }
     }
 
     &.is-showingThumbnail {
         .listItem-checkboxRegion {
-            .hidden;
+            .is-hidden;
         }
     }
 }

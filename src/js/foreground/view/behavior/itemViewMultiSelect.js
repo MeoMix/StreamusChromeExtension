@@ -21,12 +21,14 @@
         isMouseOver: false,
         checkbox: null,
         
-        onRender: function () {
-            //  TODO: BUG https://github.com/marionettejs/backbone.marionette/issues/1579
+        initialize: function () {
             this.checkbox = new Checkbox({
-                checked: this.view.model.get('selected')
+                //  TODO: I cannot access this.view.model in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
+                checked: this.view.options.model.get('selected')
             });
-
+        },
+        
+        onRender: function () {
             this.$el.addClass('js-listItem--multiSelect');
             this._setSelectedClass(this.view.model.get('selected'));
         },

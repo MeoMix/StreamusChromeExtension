@@ -92,7 +92,7 @@
 
                 //  Activate the next item by index. Potentially go back one if deleting last item.
                 if (nextItemIndex === items.length) {
-                    if (repeatButtonState === RepeatButtonState.RepeatStream) {
+                    if (repeatButtonState === RepeatButtonState.RepeatAll) {
                         nextItem = items.first();
 
                         //  Looped back to the front but that item was already active (only 1 in playlist during a skip), resend activated trigger.
@@ -186,7 +186,7 @@
                     var activeItemIndex = items.indexOf(items.getActiveItem());
 
                     if (activeItemIndex === 0) {
-                        if (repeatButtonState === RepeatButtonState.RepeatStream) {
+                        if (repeatButtonState === RepeatButtonState.RepeatAll) {
                             previousStreamItem = items.last() || null;
                         }
                     } else {

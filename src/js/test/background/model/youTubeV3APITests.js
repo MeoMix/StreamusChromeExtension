@@ -283,7 +283,7 @@
                     serviceType: YouTubeServiceType.Playlists,
                     id: 'Sharthstone/playlists',
                     error: function (response) {
-                        expect(response).to.equal(chrome.i18n.getMessage('errorRetrievingTitle'));
+                        expect(response).to.equal(chrome.i18n.getMessage('errorLoadingTitle'));
                         done();
                     }
                 });

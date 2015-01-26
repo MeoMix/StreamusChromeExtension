@@ -126,7 +126,7 @@
         
         //  Hide the empty message if there is anything in the collection
         _setState: function (collectionEmpty) {
-            this.ui.emptyMessage.toggleClass('hidden', !collectionEmpty);
+            this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },
 
         _showSearch: function () {

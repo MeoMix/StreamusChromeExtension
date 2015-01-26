@@ -10,7 +10,6 @@
 
         initialize: function () {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('settings'),
                 submitButtonText: chrome.i18n.getMessage('save')
             });
 

@@ -10,7 +10,6 @@
 
         initialize: function (options) {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('editPlaylist'),
                 submitButtonText: chrome.i18n.getMessage('update')
             });
 

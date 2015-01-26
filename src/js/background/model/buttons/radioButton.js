@@ -26,7 +26,9 @@
         },
         
         getStateMessage: function () {
-            return this.get('enabled') ? chrome.i18n.getMessage('radioEnabled') : chrome.i18n.getMessage('radioDisabled');
+            var isEnabled = this.get('enabled');
+            var stateMessage = chrome.i18n.getMessage(isEnabled ? 'radioOn' : 'radioOff');
+            return stateMessage;
         },
         
         _onChromeCommandsCommand: function (command) {

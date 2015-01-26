@@ -8,7 +8,7 @@
         tagName: 'li',
         className: function () {
             var className = 'listItem listItem--small js-tooltipable';
-            className += this.model.get('disabled') ? ' disabled' : '';
+            className += this.model.get('disabled') ? ' is-disabled' : '';
             return className;
         },
         template: _.template(ContextMenuItemTemplate),

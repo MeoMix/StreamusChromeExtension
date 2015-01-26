@@ -13,7 +13,7 @@ define(function (require) {
         defaults: {
             id: null,
             userId: null,
-            title: chrome.i18n.getMessage('newPlaylist'),
+            title: '',
             //  This is set to a PlaylistItemsCollection once the playlist has an ID.
             items: null,
             dataSource: null,

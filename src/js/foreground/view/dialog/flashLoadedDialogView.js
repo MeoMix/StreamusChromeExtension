@@ -14,8 +14,7 @@
             });
 
             this.contentView = new DialogContentView({
-                //  TODO: i18n
-                template: _.template('Another extension has forced YouTube to use Flash.</br></br> Streamus will not work properly until that extension is disabled and Streamus is restarted.')
+                template: _.template(chrome.i18n.getMessage('extensionConflict', ['</br></br>']))
             });
 
             DialogView.prototype.initialize.apply(this, arguments);

@@ -56,13 +56,13 @@
         },
 
         initialize: function () {
-            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'beforeShow', this._onActiveStreamItemAreaBeforeShow);
-            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'shown', this._onActiveStreamItemAreaShown);
+            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'beforeVisible', this._onActiveStreamItemAreaBeforeVisible);
+            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'visible', this._onActiveStreamItemAreaVisible);
             this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'hidden', this._onActiveStreamItemAreaHidden);
         },
         
-        _onActiveStreamItemAreaBeforeShow: function () {
-            //  ChildContainer's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be shown.
+        _onActiveStreamItemAreaBeforeVisible: function () {
+            //  ChildContainer's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be visible.
             setTimeout(function () {
                 //  If the content isn't going to have a scrollbar later then add a class to ensure that 
                 //  a scrollbar doesn't shown for a second as the content transitions in.
@@ -72,7 +72,7 @@
             }.bind(this));
         },
 
-        _onActiveStreamItemAreaShown: function () {
+        _onActiveStreamItemAreaVisible: function () {
             this.ui.childContainer.removeClass('is-heightRestricted');
             this.triggerMethod('ListHeightUpdated');
         },

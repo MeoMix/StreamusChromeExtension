@@ -105,7 +105,6 @@
             var song = item.get('song');
 
             var exportedItem = {
-                //  TODO: Maybe just get item title instead so when renaming is supported I return renamed value rather than initial? Or both?
                 title: song.get('title'),
                 id: song.get('id'),
                 url: song.get('url'),

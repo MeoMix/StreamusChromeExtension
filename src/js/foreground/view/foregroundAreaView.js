@@ -157,19 +157,19 @@
         
         _startLoading: function () {
             this.$el.addClass('is-showingSpinner');
-            this.ui.loadingFailedMessage.addClass('hidden');
-            this.ui.loadingMessage.removeClass('hidden');
+            this.ui.loadingFailedMessage.addClass('is-hidden');
+            this.ui.loadingMessage.removeClass('is-hidden');
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
         _stopLoading: function () {
-            this.ui.loadingMessage.addClass('hidden');
+            this.ui.loadingMessage.addClass('is-hidden');
 
             if (this.player.get('ready')) {
                 this.$el.removeClass('is-showingSpinner');
-                this.ui.loadingFailedMessage.addClass('hidden');
+                this.ui.loadingFailedMessage.addClass('is-hidden');
             } else {
-                this.ui.loadingFailedMessage.removeClass('hidden');
+                this.ui.loadingFailedMessage.removeClass('is-hidden');
             }
         },
 

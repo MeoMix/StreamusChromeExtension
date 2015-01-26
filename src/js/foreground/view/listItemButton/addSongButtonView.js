@@ -42,7 +42,7 @@
         _setState: function () {
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('song'));
            
-            this.$el.toggleClass('disabled', duplicatesInfo.allDuplicates);
+            this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
 
             var title = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
             this.$el.attr('title', title);

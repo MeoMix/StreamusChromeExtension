@@ -11,13 +11,13 @@
 
         initialize: function () {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('linkAccountToGoogle'),
                 reminderProperty: 'remindLinkUserId',
+                submitButtonText: chrome.i18n.getMessage('link'),
                 alwaysSaveReminder: true
             });
             
             this.contentView = new DialogContentView({
-                template: _.template(chrome.i18n.getMessage('linkAccountMessage'))
+                template: _.template(chrome.i18n.getMessage('linkAccountsMessage'))
             });
 
             this.signInManager = Streamus.backgroundPage.signInManager;

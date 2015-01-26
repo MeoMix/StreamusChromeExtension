@@ -10,8 +10,7 @@
 }
 
 .u-elevated {
-    //  TODO: 3 is needed because want to display over panels.
-    z-index: 2;
+    z-index: 3;
 }
 
 .u-clickable {
@@ -66,18 +65,19 @@
     box-shadow: @boxShadow-divider--top;
 }
 
+//  Utility classes which are prefixed with is- indicate that they can be added or removed via JavaScript.
+
 .is-heightRestricted {
     max-height: -webkit-max-content;
 }
 
-//  TODO: I don't know if these should be prefixed by u- or is-
-.hidden {
+.is-hidden {
     //  Use important to ensure that hidden always takes precedence.
     display: none !important;
 }
 
 //  It's important to use a class and not the disabled attribute because tooltips stop working on disabled elements.
-.disabled {
+.is-disabled {
     color: @dark--tertiary !important;
     cursor: default !important;
 

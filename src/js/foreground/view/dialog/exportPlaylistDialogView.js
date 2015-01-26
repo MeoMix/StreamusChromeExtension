@@ -11,7 +11,6 @@
 
         initialize: function (options) {
             this.model = new Dialog({
-                title: chrome.i18n.getMessage('exportPlaylist'),
                 submitButtonText: chrome.i18n.getMessage('export')
             });
 

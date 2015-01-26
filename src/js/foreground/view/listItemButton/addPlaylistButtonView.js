@@ -56,7 +56,7 @@
             var empty = playlistItems.length === 0;
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(playlistItems.pluck('song'));
 
-            this.$el.toggleClass('disabled', empty || duplicatesInfo.allDuplicates);
+            this.$el.toggleClass('is-disabled', empty || duplicatesInfo.allDuplicates);
 
             var title = chrome.i18n.getMessage('add');
             

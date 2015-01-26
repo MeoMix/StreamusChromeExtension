@@ -37,8 +37,8 @@ define(function () {
             });
         },
         
-        onAttach: function () {
-            //  TODO: Elements which are flexible take a second to determine their appropriate height/width so can't run this immediately during onShow.
+        //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
+        onShow: function () {
             this._setTooltips();
         },
         

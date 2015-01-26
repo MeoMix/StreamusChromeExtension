@@ -49,3 +49,9 @@ body {
     width: 640px;
     height: 480px;
 }
+
+//  TODO: This is needed because the prompt overlay wants to cover everything, but 
+//  other overlays, like in the Playlists area, don't want to cover the AppBar.
+#foregroundArea-dialogRegion {
+    z-index: 3;
+}

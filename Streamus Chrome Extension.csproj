@@ -375,7 +375,6 @@
     <Content Include="src\template\dialog\exportPlaylist.html" />
     <Content Include="src\template\appBar\adminMenuArea.html" />
     <Content Include="src\template\notification\notification.html" />
-    <Content Include="src\template\dialog\saveSongs.html" />
     <Content Include="src\template\listItemButton\deleteListItemButton.html" />
     <Content Include="src\template\listItemButton\saveListItemButton.html" />
     <Content Include="src\template\listItemButton\playListItemButton.html" />

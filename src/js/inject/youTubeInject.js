@@ -120,12 +120,13 @@ $(function () {
 				'margin-top': '-2px'
 			},
 			click: function () {
-				$(this).val(chrome.i18n.getMessage('saving') + '...').attr('disabled', true);
+				$(this).val(chrome.i18n.getMessage('saving')).attr('disabled', true);
 
 				chrome.runtime.sendMessage({
 					method: "addYouTubeSongByIdToPlaylist",
 					playlistId: $('#playlistSelect').val(),
-					//  IMPORTANT: Do not use .data() as it will cache the value. Changing to a new YouTube song will then reutrn old information.
+				    //  IMPORTANT: Do not use .data() as it will cache the value. Changing to a new YouTube song will then reutrn old information.
+					//  TODO: Probably just parse out of URL? Seems less fragile.
 					songId: $('[data-video-id]').attr('data-video-id')
 				}, function () {
 					$(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));

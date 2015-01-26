@@ -4,10 +4,7 @@
 		"description": "The name of the extension"
 	},
 	"extensionDescription" : {
-		"message": "Streamus aranan YouTube müzik çaları.."
-	},
-	"extensionTitle": {
-		"message": "Streamus: Basit müzik akışı.."
+		"message": "Basit müzik akışı"
 	},
 	"nextVideoCommandDescription": {
 		"message": "Akıştaki bir sonraki video'a git"
@@ -77,32 +74,29 @@
 	"addVideo": {
 		"message": "Video ekle"
 	},
-	"newPlaylist": {
-		"message": "Yeni Liste"
-	},
 	"installed": {
 		"message": "Yüklendi",
 		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
-	"repeatDisabled": {
+	"repeatOff": {
 		"message": "Tekrar kapalı"
 	},
-	"repeatVideo": {
+	"repeatSong": {
 		"message": "Video tekrar"
 	},
-	"repeatStream": {
+	"repeatAll": {
 		"message": "Akış tekrar"
 	},
-	"radioEnabled": {
+	"radioOn": {
 		"message": "Radyo açık"
 	},
-	"radioDisabled": {
+	"radioOff": {
 		"message": "Radyo kapalı"
 	},
-	"shufflingEnabled": {
+	"shufflingOn": {
 		"message": "Rastgele açık"
 	},
-	"shufflingDisabled": {
+	"shufflingOff": {
 		"message": "Rastgele kapalı"
 	},
 	"elapsedTime": {
@@ -125,9 +119,6 @@
 	"lowest": {
 		"message": "Düşük",
 		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
-	},
-	"addedSuccessfully": {
-		"message": "Ekleme başarılı.."
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Çalma listenizi eklerken bir sorun ile karşılaşıldı.URL'yi kontrol edin?"
@@ -162,9 +153,6 @@
 	"clearStream": {
 		"message": "Akışı temizle"
 	},
-	"reloadStreamus": {
-		"message": "Streamus'ı yenile"
-	},
 	"createPlaylist": {
 		"message": "Liste oluştur"
 	},
@@ -186,19 +174,6 @@
 	"cantDeleteLastPlaylist": {
 		"message": "Son çalma listenizi silemezsiniz"
 	},
-	"areYouSure": {
-		"message": "Emin misiniz?"
-	},
-	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Listesinizi silmek istediğinizden emin misiniz?",
-		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
-	},
-	"areYouSureYouWantToClearYourStream": {
-		"message": "Akışı temizlemek istediğinizden emin misiniz?"
-	},
-	"typeToCreateOrFilterPlaylists": {
-		"message": "Çalma listeleri oluşturmak veya filtrelemek için yazın"
-	},
 	"saveVideo": {
 		"message": "Video Kaydet"
 	},
@@ -210,9 +185,6 @@
 	},
 	"add": {
 		"message": "Ekle"
-	},
-	"editPlaylist": {
-		"message": "Listeyi Düzenle"
 	},
 	"deletePlaylist": {
 		"message": "Listeyi Sil"
@@ -234,10 +206,6 @@
 	},
 	"optional": {
 		"message": "İsteğe bağlı"
-	},
-	"channel": {
-		"message": "Kanal",
-		"description": "A noun -- as in a YouTube channel of music"
 	},
 	"url": {
 		"message": "Adres"
@@ -277,11 +245,8 @@
 	"days": {
 		"message": "Günler"
 	},
-	"errorRetrievingTitle": {
+	"errorLoadingTitle": {
 		"message": "Başlığı geri alırken hata oldu"	
-	},
-	"youTubePlayerErrorInvalidParameter": {
-		"message": "Isteği geçersiz bir parametre değeri içeriyor. Eğer video kimliği böyle bir ünlem işareti veya yıldız gibi geçersiz karakterler içeriyorsa, 11 karakterler, ya da olmayan bir video kimliği belirtirseniz, bu hata oluşur."
 	},
 	"youTubePlayerErrorVideoNotFound": {
 		"message": "Istenen video bulunamadı. Bir video kaldırılmış ya da özel olarak işaretlenmiş olabilir"
@@ -318,9 +283,6 @@
 	},
 	"enqueuePlaylist": {
 		"message": "Sıradaki liste"
-	},
-	"playPlaylist": {
-		"message": "Listeyi oynar"
 	},
 	"enqueueAll": {
 		"message": "Sıradakilerin Hepsi"

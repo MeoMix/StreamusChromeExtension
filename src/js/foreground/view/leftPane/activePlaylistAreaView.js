@@ -40,8 +40,8 @@
 
         events: {
             'click @ui.showSearchLink': '_onClickShowSearchLink',
-            'click @ui.addAllButton:not(.disabled)': '_onClickAddAllButton',
-            'click @ui.playAllButton:not(.disabled)': '_onClickPlayAllButton'
+            'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
+            'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
         },
         
         behaviors: {
@@ -109,15 +109,15 @@
         },
         
         _toggleInstructions: function (collectionEmpty) {
-            this.ui.playlistEmptyMessage.toggleClass('hidden', !collectionEmpty);
+            this.ui.playlistEmptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },
         
         _toggleButtons: function () {
             var isEmpty = this.model.get('items').isEmpty();
-            this.ui.playAllButton.toggleClass('disabled', isEmpty);
+            this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-            this.ui.addAllButton.toggleClass('disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
+            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
         },
 
         _updatePlaylistDetails: function (displayInfo) {

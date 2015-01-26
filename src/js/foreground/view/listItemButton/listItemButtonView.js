@@ -45,7 +45,7 @@
         _debounceOnClickAction: null,
 
         _doOnClickAction: function() {
-            if (!this.$el.hasClass('disabled')) {
+            if (!this.$el.hasClass('is-disabled')) {
                 this.doOnClickAction();
             }
         }

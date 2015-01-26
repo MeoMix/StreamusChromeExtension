@@ -3,10 +3,7 @@
 		"message": "Streamus™"
 	},
 	"extensionDescription" : {
-		"message": "Streamus transforma o YouTube em o player de música que você sempre quis."
-	},
-	"extensionTitle": {
-		"message": "Streamus: Streaming de música simples."
+		"message": "Streaming de música simples."
 	},
 	"toggleRadioCommandDescription": {
 		"message": "Alternar (desligado/ligado) o rádio"
@@ -43,32 +40,29 @@
 	"errorEncountered": {
 		"message": "Um erro foi encontrado."
 	},
-	"newPlaylist": {
-		"message": "Nova playlist"
-	},
 	"installed": {
 		"message": "Instalado",
 		"description": "Descriptor on a button, the state of Streamus is now 'installed'"
 	},
-	"repeatDisabled": {
+	"repeatOff": {
 		"message": "Repeat desativado"
 	},
 	"repeatSong": {
 		"message": "Repetir vídeo"
 	},
-	"repeatStream": {
+	"repeatAll": {
 		"message": "Repetir stream"
 	},
-	"radioEnabled": {
+	"radioOn": {
 		"message": "Radio ativado"
 	},
-	"radioDisabled": {
+	"radioOff": {
 		"message": "Radio desativado"
 	},
-	"shufflingEnabled": {
+	"shufflingOn": {
 		"message": "Aleatório ativado"
 	},
-	"shufflingDisabled": {
+	"shufflingOff": {
 		"message": "Aleatório desativado"
 	},
 	"elapsedTime": {
@@ -91,9 +85,6 @@
 	"lowest": {
 		"message": "Mais baixa",
 		"description": "Descriptor for lowest quality selection. Seen in a drop-down."
-	},
-	"addedSuccessfully": {
-		"message": "Adicionado com sucesso"
 	},
 	"anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
 		"message": "Um erro foi encontrado ao adicionar a playlist. Checar a URL?"
@@ -122,9 +113,6 @@
 	"clearStream": {
 		"message": "Limpar stream"
 	},
-	"reloadStreamus": {
-		"message": "Recarregar Streamus"
-	},
 	"createPlaylist": {
 		"message": "Criar playlist"
 	},
@@ -146,27 +134,11 @@
 	"cantDeleteLastPlaylist": {
 		"message": "Não foi possível deletar a última playlist"
 	},
-	"areYouSure": {
-		"message": "Você tem certeza?"
-	},
-	"areYouSureYouWantToDeletePlaylist": {
-		"message": "Você tem certeza que deseja deletar a playlist",
-		"description": "This looks like a bit of a sentence fragment, but there's a playlist title which comes afterwards"
-	},
-	"areYouSureYouWantToClearYourStream": {
-		"message": "Você tem certeza que você quer limpar este stream?"
-	},
-	"typeToCreateOrFilterPlaylists": {
-		"message": "Digite para criar ou filtrar playlists"
-	},
 	"play": {
 		"message": "Play"
 	},
 	"add": {
 		"message": "Adicionar"
-	},
-	"editPlaylist": {
-		"message": "Editar playlist"
 	},
 	"deletePlaylist": {
 		"message": "Deletar playlist"
@@ -188,10 +160,6 @@
 	},
 	"optional": {
 		"message": "Opcional"
-	},
-	"channel": {
-		"message": "Canal",
-		"description": "A noun -- as in a YouTube channel of music"
 	},
 	"url": {
 		"message": "URL"
@@ -225,7 +193,7 @@
 	"days": {
 		"message": "Dias"
 	},
-	"errorRetrievingTitle": {
+	"errorLoadingTitle": {
 		"message": "Erro ao recuperar o título"	
 	},
 	"keyboardCommandFailure": {
@@ -236,9 +204,6 @@
 	},
 	"playlistEmpty": {
 		"message": "Playlist vazia"
-	},
-	"playPlaylist": {
-		"message": "Tocar playlist"
 	},
 	"create": {
 		"message": "Criar"
@@ -267,14 +232,10 @@
 	"watchOnYouTube": {
 		"message": "Assistir no YouTube"
 	},
-
 	"addAll": {
 		"message": "Add all"
 	},
 	"addSelected": {
 		"message": "Add selected"
-	},
-	"addPlaylist": {
-		"message": "Add playlist"
 	}
 }

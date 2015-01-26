@@ -67,7 +67,7 @@
             var prettyTimeWithWords = Utility.prettyPrintTimeWithWords(totalItemsDuration);
 
             var songs = this.pluck('song');
-            var songString = songs.length === 1 ? chrome.i18n.getMessage('song') : chrome.i18n.getMessage('songs');
+            var songString = chrome.i18n.getMessage(songs.length === 1 ? 'song' : 'songs');
 
             var displayInfo = songs.length + ' ' + songString + ', ' + prettyTimeWithWords;
             return displayInfo;

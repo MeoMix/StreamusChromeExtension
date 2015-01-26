@@ -34,7 +34,7 @@
         },
         
         triggers: {
-            'dblclick @ui.childContainer': 'dblclick:childContainer'
+            'click @ui.childContainer': 'click:childContainer'
         },
 
         behaviors: {

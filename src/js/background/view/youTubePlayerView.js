@@ -88,7 +88,7 @@
         //  Only load YouTube's API once the iframe has been built successfully.
         //  If Internet is lagging or disconnected then _onWebRequestCompleted will not fire.
         //  Even if the Internet is working properly, it's possible to try and load the API before CORS is ready to allow postMessages.
-        _onChromeWebRequestCompleted: function (a) {
+        _onChromeWebRequestCompleted: function () {
             chrome.webRequest.onCompleted.removeListener(this._onWebRequestCompleted);
             this.webRequestCompleted = true;
             this._checkLoadModel();

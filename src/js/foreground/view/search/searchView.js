@@ -5,6 +5,7 @@
     var SearchResultsView = require('foreground/view/search/searchResultsView');
     var SearchTemplate = require('text!template/search/search.html');
 
+    //  TODO: I feel like this should be called searchResultsArea
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',
         className: 'leftPane flexColumn panel-content panel-content--uncolored',
@@ -22,7 +23,6 @@
                 resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
                 searchingMessage: chrome.i18n.getMessage('searching'),
                 noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-                //  trySearchingForOtherSongs?
                 trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
             };
         },
@@ -46,9 +46,10 @@
         },
         
         events: {
-            'click @ui.playSelectedButton:not(.disabled)': '_onClickPlaySelectedButton',
-            'click @ui.addSelectedButton:not(.disabled)': '_onClickAddSelectedButton',
-            'click @ui.saveSelectedButton:not(.disabled)': '_onClickSaveSelectedButton'
+            //  TODO: Quit checking class like this.
+            'click @ui.playSelectedButton:not(.is-disabled)': '_onClickPlaySelectedButton',
+            'click @ui.addSelectedButton:not(.is-disabled)': '_onClickAddSelectedButton',
+            'click @ui.saveSelectedButton:not(.is-disabled)': '_onClickSaveSelectedButton'
         },
 
         modelEvents: {
@@ -83,8 +84,6 @@
             this._toggleInstructions();
             
             this.searchResultsRegion.show(new SearchResultsView({
-                //  TODO: SearchResultsView shouldn't have to be dependent on model
-                model: this.model,
                 collection: this.model.get('results')
             }));
             
@@ -101,7 +100,7 @@
         },
 
         _onClickSaveSelectedButton: function() {
-            this._showSaveSelectedDialog();
+            this._showSaveSelectedSimpleMenu();
         },
         
         _onClickAddSelectedButton: function () {
@@ -142,16 +141,15 @@
         },
 
         _toggleSaveSelected: function () {
-            var signedOut = this.signInManager.get('signedInUser') === null;
-            var noResultsSelected = this.collection.selected().length === 0;
-            this.ui.saveSelectedButton.toggleClass('disabled', signedOut || noResultsSelected);
+            var canSaveSelected = this._canSaveSelected();
+            this.ui.saveSelectedButton.toggleClass('is-disabled', !canSaveSelected);
         },
 
         _toggleSelectedButtons: function () {
             this._toggleSaveSelected();
             var noResultsSelected = this.collection.selected().length === 0;
-            this.ui.playSelectedButton.toggleClass('disabled', noResultsSelected);
-            this.ui.addSelectedButton.toggleClass('disabled', noResultsSelected);
+            this.ui.playSelectedButton.toggleClass('is-disabled', noResultsSelected);
+            this.ui.addSelectedButton.toggleClass('is-disabled', noResultsSelected);
         },
 
         _playSelected: function () {
@@ -164,22 +162,33 @@
             this.streamItems.addSongs(this.collection.getSelectedSongs());
         },
 
-        _showSaveSelectedDialog: function () {
-            var disabled = this.ui.saveSelectedButton.hasClass('disabled');
+        _showSaveSelectedSimpleMenu: function () {
+            var canSaveSelected = this._canSaveSelected();
 
-            if (!disabled) {
+            if (canSaveSelected) {
+                //  Need to get this outside of _.defer because selections will be lost by the time function runs.
+                var selectedSongs = this.collection.getSelectedSongs();
+                
+                //  TODO: I'm kind of feeling like this should be the job of the simpleMenu instead.
                 //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
                 _.defer(function () {
                     var offset = this.ui.saveSelectedButton.offset();
 
                     Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
                         playlists: this.signInManager.get('signedInUser').get('playlists'),
-                        songs: this.collection.getSelectedSongs(),
+                        songs: selectedSongs,
                         top: offset.top,
                         left: offset.left
                     });
                 }.bind(this));
             }
+        },
+        
+        _canSaveSelected: function () {
+            var signedIn = this.signInManager.get('signedInUser') !== null;
+            var resultsSelected = this.collection.selected().length > 0;
+
+            return signedIn && resultsSelected;
         },
 
         //  Set the visibility of any visible text messages.
@@ -189,15 +198,15 @@
             //  Hide the search message when there is no search in progress
             //  If the search is in progress and the first 50 results have already been returned, also hide the message.
             var searching = this.model.get('searching');
-            this.ui.searchingMessage.toggleClass('hidden', !searching || hasSearchResults);
+            this.ui.searchingMessage.toggleClass('is-hidden', !searching || hasSearchResults);
 
             //  Hide the type to search message once user has typed something.
             var hasSearchQuery = this.model.hasQuery();
-            this.ui.typeToSearchMessage.toggleClass('hidden', hasSearchQuery);
+            this.ui.typeToSearchMessage.toggleClass('is-hidden', hasSearchQuery);
 
             //  Only show no results when all other options are exhausted and user has interacted.
             var hideNoResults = hasSearchResults || searching || !hasSearchQuery;
-            this.ui.noResultsMessage.toggleClass('hidden', hideNoResults);
+            this.ui.noResultsMessage.toggleClass('is-hidden', hideNoResults);
         }
     });
 

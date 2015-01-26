@@ -50,7 +50,7 @@
 
             this.playlistsRegion.show(playlistsView);
             // TODO: This also feels kind of weird.
-            this.listenTo(playlistsView, 'dblclick:childContainer', this._onDblClickChildContainer);
+            this.listenTo(playlistsView, 'click:childContainer', this._onClickChildContainer);
         },
         
         show: function () {
@@ -75,8 +75,8 @@
             Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
         },
  
-        //  Whenever a playlist is double-clicked it will become active and the menu should hide itself.
-        _onDblClickChildContainer: function () {
+        //  Whenever a playlist is clicked it will become active and the menu should hide itself.
+        _onClickChildContainer: function () {
             this.hide();
         }
     });

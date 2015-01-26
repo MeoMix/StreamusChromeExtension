@@ -3,10 +3,7 @@
             "message": "Streamus™"
     },
     "extensionDescription" : {
-            "message": "Streamus macht YouTube zu dem Musikplayer den du schon immer wolltest. Streamus macht streamen über YouTube erfrischend einfach."
-    },
-    "extensionTitle": {
-            "message": "Streamus: Musik streamen, auf einfache Art."
+            "message": "Musik streamen, auf einfache Art."
     },
     "toggleRadioCommandDescription": {
             "message": "Das Radio (Aus/An) schalten"
@@ -43,29 +40,26 @@
     "errorEncountered": {
             "message": "Ein Fehler wurde festgestellt."
     },
-    "newPlaylist": {
-            "message": "Neue Playlist"
-    },
     "installed": {
             "message": "Installiert",
             "description": "Bedeutet das Streamus 'Installiert' wurde"
     },
-    "repeatDisabled": {
+    "repeatOff": {
             "message": "Wiederholen deaktiviert"
     },
     "repeatStream": {
             "message": "Wiederhole Stream"
     },
-    "radioEnabled": {
+    "radioOn": {
             "message": "Radio aktiviert"
     },
-    "radioDisabled": {
+    "radioOff": {
             "message": "Radio deaktiviert"
     },
-    "shufflingEnabled": {
+    "shufflingOn": {
             "message": "Zufallswiedergabe aktiviert"
     },
-    "shufflingDisabled": {
+    "shufflingOff": {
             "message": "Zufallswiedergabe deaktiviert"
     },
     "elapsedTime": {
@@ -88,9 +82,6 @@
     "lowest": {
             "message": "Niedrigste",
             "description": "Beschreibung für niedrigste Qualitätsauswahl. Zu sehen in einem Drop-down Menü."
-    },
-    "addedSuccessfully": {
-            "message": "Erfolgreich hinzugefügt"
     },
     "anIssueWasEncounteredWhileAddingYourPlaylistCheckTheUrl": {
             "message": "Ein Problem wurde entdeckt während dem hinzufügen der Playlist. URL überprüfen?"
@@ -119,9 +110,6 @@
     "clearStream": {
             "message": "Lösche Stream"
     },
-    "reloadStreamus": {
-            "message": "Aktualisiere Streamus"
-    },
     "createPlaylist": {
             "message": "Erstelle Playlist"
     },
@@ -137,36 +125,14 @@
     "edit": {
             "message": "Bearbeiten"
     },
-    "deletePlaylist": {
-            "message": "Lösche Playlist"
-    },
     "cantDeleteLastPlaylist": {
             "message": "Kann letzte Playlist nicht löschen"
-    },
-    "areYouSure": {
-            "message": "Bist du sicher?"
-    },
-    "areYouSureYouWantToDeletePlaylist": {
-            "message": "Bist du sicher dass du folgende Playlist löschen möchtest:",
-            "description": "Wiederholte Abfrage, um zu bestätigen, dass der Löschvorgang der Playlist gewollt ist."
-    },
-    "areYouSureYouWantToClearYourStream": {
-            "message": "Bist du sicher dass du den Stream löschen möchtest?"
-    },
-    "typeToCreateOrFilterPlaylists": {
-            "message": "Tippen zum Erstellen oder Filtern von Playlists"
     },
     "play": {
             "message": "Abspielen"
     },
     "add": {
             "message": "Hinzufügen"
-    },
-    "editPlaylist": {
-            "message": "Bearbeite Playlist"
-    },
-    "deletePlaylist": {
-            "message": "Lösche Playlist"
     },
     "item": {
             "message": "Eintrag"
@@ -185,10 +151,6 @@
     },
     "optional": {
             "message": "Optional"
-    },
-    "channel": {
-            "message": "Kanal",
-            "description": "Der Youtube Kanal eines Benutzers"
     },
     "url": {
             "message": "URL"
@@ -222,7 +184,7 @@
     "days": {
             "message": "Tage"
     },
-    "errorRetrievingTitle": {
+    "errorLoadingTitle": {
             "message": "Fehler beim Holen des Titels"        
     },
     "keyboardCommandFailure": {
@@ -233,9 +195,6 @@
     },
     "playlistEmpty": {
             "message": "Playlist leer"
-    },
-    "playPlaylist": {
-            "message": "Playlist wiedergeben"
     },
     "create": {
             "message": "Erstelle"
@@ -272,8 +231,5 @@
 	},
 	"addSelected": {
 		"message": "Ausgewählte hinzufügen"
-	},
-	"addPlaylist": {
-		"message": "Playlist hinzufügen"
 	}
 }

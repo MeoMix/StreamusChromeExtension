@@ -19,7 +19,8 @@
         },
         
         getStateMessage: function () {
-            var stateMessage = this.get('enabled') ? chrome.i18n.getMessage('clearStream') : chrome.i18n.getMessage('streamEmpty');
+            var isEnabled = this.get('enabled');
+            var stateMessage = chrome.i18n.getMessage(isEnabled ? 'clearStream' : 'streamEmpty');
             return stateMessage;
         },
         
