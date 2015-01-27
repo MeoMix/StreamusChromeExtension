@@ -168,7 +168,7 @@
 		"message": "Playlists"
 	},
 	"signIn": {
-		"message": "Sign in"
+		"message": "Entrar"
 	},
 	"reminders": {
 		"message": "Lembretes"
@@ -233,9 +233,9 @@
 		"message": "Assistir no YouTube"
 	},
 	"addAll": {
-		"message": "Add all"
+		"message": "Adicionar todos"
 	},
 	"addSelected": {
-		"message": "Add selected"
+		"message": "Adicionar selecionados"
 	}
 }
