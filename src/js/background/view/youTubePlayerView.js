@@ -18,7 +18,7 @@
                 title: 'YouTube player',
                 width: 640,
                 height: 360,
-                src: 'https://www.youtube.com/embed/?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id
+                src: 'https://www.youtube.com/embed/J1Ol6M0d9sg?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id
             };
         },
         
@@ -38,17 +38,19 @@
             this._onChromeWebRequestSendHeaders = this._onChromeWebRequestSendHeaders.bind(this);
             this._onChromeWebRequestCompleted = this._onChromeWebRequestCompleted.bind(this);
 
+            var iframeUrlPattern = '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id;
+
             chrome.webRequest.onBeforeSendHeaders.addListener(this._onChromeWebRequestBeforeSendHeaders, {
-                urls: [this.model.get('youTubeEmbedUrl')]
+                urls: [iframeUrlPattern]
             }, ['blocking', 'requestHeaders']);
             
             //  Ensure that a Referrer was actually attached and sent. Other extensions could prevent this from happening.
             chrome.webRequest.onSendHeaders.addListener(this._onChromeWebRequestSendHeaders, {
-                urls: [this.model.get('youTubeEmbedUrl')]
+                urls: [iframeUrlPattern]
             }, ['requestHeaders']);
             
             chrome.webRequest.onCompleted.addListener(this._onChromeWebRequestCompleted, {
-                urls: [this.model.get('youTubeEmbedUrl')],
+                urls: [iframeUrlPattern],
                 types: ['sub_frame']
             });
         },
