@@ -19,11 +19,11 @@
     border-radius: 2px;
     transition: background-color @transition-color-time @transition-easeOutSine;
 
-    &:hover:not(.disabled) {
+    &:hover:not(.is-disabled) {
         background-color: @gray--hoverButton
     }
 
-    &:active:not(.disabled) {
+    &:active:not(.is-disabled) {
         background-color: @gray--activeButton
     }
 }
