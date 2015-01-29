@@ -107,6 +107,10 @@
                 } else {
                     //  TODO: I need to notify the user that this fallback happened.
                     var songToActivate = this.getBySong(songs[0]);
+                    
+                    if (_.isUndefined(songToActivate)) {
+                        throw new Error("songToActivate undefined:" + songs.length + ' ' + JSON.stringify(songs[0]));
+                    }
 
                     if (songToActivate.get('active')) {
                         songToActivate.trigger('change:active', songToActivate, true);

@@ -6,8 +6,10 @@
     
     var SearchResults = Backbone.Collection.extend({
         model: SearchResult,
-        
         mixins: [CollectionMultiSelect],
+        //  SearchResults are unable to be destroyed by 'Delete' actions because they don't exist in a mutable collection.
+        isImmutable: true,
+        userFriendlyName: chrome.i18n.getMessage('searchResults'),
         
         addSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);
@@ -21,12 +23,6 @@
             this.reset(searchResults);
         },
 
-        //  Returns the underlying Songs of the selected SearchResults.
-        getSelectedSongs: function() {
-            return _.map(this.selected(), function (searchResult) {
-                return searchResult.get('song');
-            });
-        },
         //  TODO: Maybe return non-JSON? Would that make this shorter?
         _songsAsSearchResults: function(songs) {
             var searchResults = [];

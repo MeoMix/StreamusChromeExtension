@@ -61,8 +61,8 @@
                 q: options.text.trim(),
                 fields: 'nextPageToken, items/id/videoId',
                 //  I don't think it's a good idea to filter out results based on safeSearch for music.
-                safeSearch: 'none'
-                //  TODO: videoEmbeddable and videoSyndicated might be useful filters. Need to test.
+                safeSearch: 'none',
+                videoEmbeddable: 'true'
             });
         },
         
@@ -165,7 +165,8 @@
                 maxResults: options.maxResults || 5,
                 //  If the relatedToVideoId parameter has been supplied, type must be video.
                 type: 'video',
-                fields: 'items/id/videoId'
+                fields: 'items/id/videoId',
+                videoEmbeddable: 'true'
             });
         },
         
@@ -185,17 +186,23 @@
                             options.error(errorMessage);
                         }
                     } else {
-                        var songs = this._itemListToSongs(response.items);
+                        //  Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
+                        //  TODO: Notify the user that this has happened.
+                        var embeddableItems = _.filter(response.items, function (item) {
+                            return item.status.embeddable;
+                        });
+
+                        var songs = this._itemListToSongs(embeddableItems);
                         options.success(songs);
                     }
                 }.bind(this),
                 error: options.error,
                 complete: options.complete
             }, {
-                part: 'contentDetails, snippet',
+                part: 'contentDetails, snippet, status',
                 maxResults: 50,
                 id: options.songIds.join(','),
-                fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle'
+                fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle, items/status/embeddable'
             });
         },
         

@@ -52,9 +52,9 @@
         _onClickListItem: function (event) {
             var id = $(event.currentTarget).data('id');
             var modelToSelect = this.view.collection.get(id);
-
+            
             if (_.isUndefined(modelToSelect)) {
-                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + JSON.stringify(event.currentTarget) + ' target: ' + JSON.stringify(event.target));
+                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + event.currentTarget.innerHTML + ' target: ' + event.target.innerHTML);
                 Streamus.backgroundChannels.error.commands.trigger('log:error', error);
                 return;
             }
@@ -74,21 +74,18 @@
             var isDrag = options.drag || false;
 
             var isSelectedAlready = modelToSelect.get('selected');
-            //  When holding the ctrl key and clicking an already selected item -- the item becomes deselected.
-            //modelToSelect.set('selected', (ctrlKeyPressed && isSelectedAlready) ? false : true);
-            modelToSelect.set('selected', isSelectedAlready && !isDrag ? false : true);
-            
-            //  When the shift key is pressed - select a block of search result items
+
+            //  It's important to check shiftKeyPressed because selectGroup relies on firstSelected which will be undefined if modelToSelect is deselected
+            //  when it was also the firstSelected. i.e. hold shift, group select 0-3, then hold shift, select 0. 0 is set to selected: false, 1-2 are still selected, no firstSelected.
+            modelToSelect.set('selected', isSelectedAlready && !shiftKeyPressed && !isDrag ? false : true);
+
             if (shiftKeyPressed) {
+                //  When the shift key is pressed - select a block of search result items
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
                 this._selectGroup(selectedIndex);
             } else if (ctrlKeyPressed) {
-                //  Using the ctrl key to select an item resets firstSelect (which is a special scenario)
-                //  but doesn't lose the other selected items.
+                //  Using the ctrl key to select an item resets firstSelect but doesn't lose the other selected items.
                 modelToSelect.set('firstSelected', true);
-            } else if (!(isDrag && isSelectedAlready)) {
-                //  All other selections are lost unless dragging a group of items.
-                //this.view.collection.deselectAllExcept(modelToSelect);
             }
         },
         
@@ -113,14 +110,7 @@
             });
 
             //  Holding the shift key is a bit of a special case. User expects the first item highlighted to be the 'firstSelected' and not the clicked.
-            var modelToSelect = collection.at(firstSelectedIndex);
-
-            if (_.isUndefined(modelToSelect)) {
-                var error = new Error('modelToSelect undefined. firstSelectedIndex: ' + firstSelectedIndex + ' selectedIndex: ' + selectedIndex + ' length: ' + collection.length);
-                Streamus.backgroundChannels.error.commands.trigger('log:error', error);
-            }
-
-            modelToSelect.set('firstSelected', true);
+            collection.at(firstSelectedIndex).set('firstSelected', true);
         }
     });
 

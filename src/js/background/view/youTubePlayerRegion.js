@@ -5,12 +5,10 @@
 
     var YouTubePlayerRegion = Marionette.Region.extend({
         youTubePlayer: null,
-        debugManager: null,
 
         initialize: function (options) {
             this.youTubePlayer = options.youTubePlayer;
-            this.debugManager = options.debugManager;
-            
+
             this.listenTo(Streamus.channels.backgroundArea.vent, 'attached', this._onBackgroundAreaAttached);
             this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
             this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
@@ -26,8 +24,7 @@
 
         _showYouTubePlayerView: function () {
             var youTubePlayerView = new YouTubePlayerView({
-                model: this.youTubePlayer,
-                debugManager: this.debugManager
+                model: this.youTubePlayer
             });
             
             this.show(youTubePlayerView);

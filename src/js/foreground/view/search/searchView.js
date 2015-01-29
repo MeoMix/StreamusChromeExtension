@@ -169,18 +169,14 @@
                 //  Need to get this outside of _.defer because selections will be lost by the time function runs.
                 var selectedSongs = this.collection.getSelectedSongs();
                 
-                //  TODO: I'm kind of feeling like this should be the job of the simpleMenu instead.
-                //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
-                _.defer(function () {
-                    var offset = this.ui.saveSelectedButton.offset();
+                var offset = this.ui.saveSelectedButton.offset();
 
-                    Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                        playlists: this.signInManager.get('signedInUser').get('playlists'),
-                        songs: selectedSongs,
-                        top: offset.top,
-                        left: offset.left
-                    });
-                }.bind(this));
+                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                    playlists: this.signInManager.get('signedInUser').get('playlists'),
+                    songs: selectedSongs,
+                    top: offset.top,
+                    left: offset.left
+                });
             }
         },
         

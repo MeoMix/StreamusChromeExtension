@@ -66,7 +66,7 @@ $(function () {
 
                         clearInterval(findVideoStreamInterval);
                         youTubeIFrameConnectRequestPort.postMessage({
-                            error: 'video-stream not found, readystate:' + document.readyState + ' ' + errorsEncountered
+                            error: 'video-stream not found, readystate:' + document.readyState + ' ' + errorsEncountered + ' flash: ' + flashStream.length
                         });
                     } else {
                         videoStream = $('.video-stream');

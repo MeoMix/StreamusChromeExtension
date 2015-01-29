@@ -185,6 +185,7 @@
     <Content Include="src\js\foreground\model\exportPlaylist.js" />
     <Content Include="src\js\foreground\model\notification.js" />
     <Content Include="src\js\background\model\tabManager.js" />
+    <Content Include="src\js\foreground\model\selectionBar.js" />
     <Content Include="src\js\foreground\model\simpleListItem.js" />
     <Content Include="src\js\foreground\model\simpleMenu.js" />
     <Content Include="src\js\foreground\model\simpleMenuItem.js" />
@@ -216,6 +217,8 @@
     <Content Include="src\js\foreground\view\dialog\flashLoadedDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\dialogContentView.js" />
     <Content Include="src\js\foreground\view\saveSongs\saveSongsRegion.js" />
+    <Content Include="src\js\foreground\view\selectionBar\selectionBarRegion.js" />
+    <Content Include="src\js\foreground\view\selectionBar\selectionBarView.js" />
     <Content Include="src\js\foreground\view\stream\activeStreamItemView.js" />
     <Content Include="src\js\foreground\view\stream\clearStreamButtonView.js" />
     <Content Include="src\js\foreground\view\appBar\nextButtonView.js" />
@@ -388,6 +391,7 @@
     <Content Include="src\template\dialog\dialog.html" />
     <Content Include="src\template\playlist\playlist.html" />
     <Content Include="src\template\leftPane\playlistItem.html" />
+    <Content Include="src\template\selectionBar\selectionBar.html" />
     <Content Include="src\template\stream\activeStreamItem.html" />
     <Content Include="src\template\stream\clearStreamButton.html" />
     <Content Include="src\template\appBar\nextButton.html" />

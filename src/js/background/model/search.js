@@ -103,6 +103,8 @@
             YouTubeV3API.getSong({
                 songId: songId,
                 success: this._trySetResults.bind(this, trimmedQuery),
+                //  TODO: handle error
+                error: _.noop,
                 complete: this._onSearchComplete.bind(this)
             });
         },
@@ -112,6 +114,8 @@
             YouTubeV3API.getPlaylistSongs({
                 playlistId: playlistId,
                 success: this._onGetPlaylistSongsSuccess.bind(this, trimmedQuery, playlistId),
+                //  TODO: handle error
+                error: _.noop,
                 complete: this._onSearchComplete.bind(this)
             });
         },

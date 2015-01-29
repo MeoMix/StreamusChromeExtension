@@ -26,16 +26,12 @@
             'load': '_onLoad'
         },
         
-        debugManager: null,
-
-        initialize: function (options) {
-            this.debugManager = options.debugManager;
+        initialize: function () {
             this.model.set('iframeId', this.el.id);
 
             //  IMPORTANT: I need to bind like this and not just use .bind(this) inline because bind returns a new, anonymous function
             //  which will break chrome's .removeListener method which expects a named function in order to work properly.
             this._onChromeWebRequestBeforeSendHeaders = this._onChromeWebRequestBeforeSendHeaders.bind(this);
-            this._onChromeWebRequestSendHeaders = this._onChromeWebRequestSendHeaders.bind(this);
             this._onChromeWebRequestCompleted = this._onChromeWebRequestCompleted.bind(this);
 
             var iframeUrlPattern = '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id;
@@ -43,11 +39,6 @@
             chrome.webRequest.onBeforeSendHeaders.addListener(this._onChromeWebRequestBeforeSendHeaders, {
                 urls: [iframeUrlPattern]
             }, ['blocking', 'requestHeaders']);
-            
-            //  Ensure that a Referrer was actually attached and sent. Other extensions could prevent this from happening.
-            chrome.webRequest.onSendHeaders.addListener(this._onChromeWebRequestSendHeaders, {
-                urls: [iframeUrlPattern]
-            }, ['requestHeaders']);
             
             chrome.webRequest.onCompleted.addListener(this._onChromeWebRequestCompleted, {
                 urls: [iframeUrlPattern],
@@ -57,7 +48,6 @@
         
         onBeforeDestroy: function () {
             chrome.webRequest.onBeforeSendHeaders.removeListener(this._onChromeWebRequestBeforeSendHeaders);
-            chrome.webRequest.onSendHeaders.removeListener(this._onChromeWebRequestSendHeaders);
             chrome.webRequest.onCompleted.removeListener(this._onChromeWebRequestCompleted);
         },
         
@@ -77,14 +67,6 @@
             }
             
             return { requestHeaders: info.requestHeaders };
-        },
-        
-        //  Log what referers are actually getting sent to help with debugging errors.
-        _onChromeWebRequestSendHeaders: function (info) {
-            var refererRequestHeader = this._getRefererHeader(info.requestHeaders);
-            var referer = _.isUndefined(refererRequestHeader) ? 'none' : refererRequestHeader.value;
-
-            this.debugManager.get('youTubeIFrameReferers').push(referer);
         },
         
         //  Only load YouTube's API once the iframe has been built successfully.

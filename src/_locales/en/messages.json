@@ -457,5 +457,28 @@
 				"content": "$1"
 			}
 		}
+	},
+	"searchResults": {
+		"message": "Search results"
+	},
+	"collectionCantBeDeleted": {
+		"message": "$collectionName$ can't be deleted",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ selected",
+		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
 	}
 }

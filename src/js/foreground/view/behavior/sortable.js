@@ -103,6 +103,7 @@
             var childContainer = this.view.ui.childContainer;
             var isParentNodeLost = ui.item[0].parentNode === null;
             
+            //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
