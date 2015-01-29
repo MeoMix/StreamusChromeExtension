@@ -39,7 +39,8 @@ define(function () {
         
         //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
         onShow: function () {
-            this._setTooltips();
+            //  Defer this because can't measure until onAttach has fired which isn't guaranteed with onShow.
+            _.defer(this._setTooltips.bind(this));
         },
         
         onBeforeDestroy: function () {
@@ -54,24 +55,27 @@ define(function () {
         },
         
         _setTooltips: function () {
-            //  Decorate the view itself
-            if (this._isTextTooltipableElement(this.$el)) {
-                this._decorateTextTooltipable(this.$el);
-            } else if (this._isTooltipableElement(this.$el)) {
-                this._decorateTooltipable(this.$el);
-            }
+            //  Important to check since _setTooltips can be called through defer.
+            if (!this.view.isDestroyed) {
+                //  Decorate the view itself
+                if (this._isTextTooltipableElement(this.$el)) {
+                    this._decorateTextTooltipable(this.$el);
+                } else if (this._isTooltipableElement(this.$el)) {
+                    this._decorateTooltipable(this.$el);
+                }
 
-            //  Decorate child views
-            if (this.ui.tooltipable.length > 0) {
-                _.each(this.ui.tooltipable, function(tooltipable) {
-                    this._decorateTooltipable($(tooltipable));
-                }, this);
-            }
+                //  Decorate child views
+                if (this.ui.tooltipable.length > 0) {
+                    _.each(this.ui.tooltipable, function (tooltipable) {
+                        this._decorateTooltipable($(tooltipable));
+                    }, this);
+                }
 
-            if (this.ui.textTooltipable.length > 0) {
-                _.each(this.ui.textTooltipable, function (textTooltipable) {
-                    this._decorateTextTooltipable($(textTooltipable));
-                }, this);
+                if (this.ui.textTooltipable.length > 0) {
+                    _.each(this.ui.textTooltipable, function (textTooltipable) {
+                        this._decorateTextTooltipable($(textTooltipable));
+                    }, this);
+                }
             }
         },
         
