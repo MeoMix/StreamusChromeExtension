@@ -380,6 +380,7 @@ module.exports = function (grunt) {
 			operaLocalesDirectory + 'es',
 			operaLocalesDirectory + 'pt_BR',
 			operaLocalesDirectory + 'sl',
+			operaLocalesDirectory + 'sv_SE',
 			operaLocalesDirectory + 'tr'
 		]);
 		grunt.task.run('clean');

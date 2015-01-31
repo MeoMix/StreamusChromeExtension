@@ -417,6 +417,7 @@
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\pt_BR\messages.json" />
+    <Content Include="src\_locales\se_SV\messages.json" />
     <Content Include="src\_locales\de\messages.json" />
     <Content Include="src\_locales\tr\messages.json" />
     <Content Include="src\less\normalize.less" />
