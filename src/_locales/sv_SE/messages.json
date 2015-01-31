@@ -1,0 +1,462 @@
+
+{
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Simple, streaming music."
+    },
+    "toggleRadioCommandDescription": {
+        "message": "Radio på/av"
+    },
+    "toggleShuffleCommandDescription": {
+        "message": "Shuffle på/av"
+    },
+    "toggleRepeatCommandDescription": {
+        "message": "Upprepa av/alla låt/nuvarande låt"
+    },
+    "increaseVolumeCommandDescription": {
+        "message": "Öka volym"
+    },
+    "decreaseVolumeCommandDescription": {
+        "message": "Sänk volym"
+    },
+    "showActiveSongCommandDescription": {
+        "message": "Visa låtinformation"
+    },
+    "nextSongCommandDescription": {
+        "message": "Nästa låt"
+    },
+    "previousSongCommandDescription": {
+        "message": "Föregående låt"
+    },
+    "toggleSongCommandDescription": {
+        "message": "Spela/pausa låt"
+    },
+    "deleteSongCommandDescription": {
+        "message": "Ta bort låt"
+    },
+    "copySongURLCommandDescription": {
+        "message": "Kopiera låt-URL"
+    },
+    "copySongTitleURLCommandDescription": {
+        "message": "Kopiera låttitel och URL"
+    },
+    "save": {
+        "message": "Spara"
+    },
+    "copyUrl": {
+        "message": "Kopiera URL"
+    },
+    "copyTitleAndUrl": {
+        "message": "Kopiera titel och URL"
+    },
+    "delete": {
+        "message": "Ta bort"
+    },
+    "clearStream": {
+        "message": "Töm stream"
+    },
+    "saveStream": {
+        "message": "Spara stream"
+    },
+    "addToStreamus": {
+        "message": "Lägg till i Streamus"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Låt har tagits bort eller markeras som privat."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Låten kunde inte spelas."
+    },
+    "errorEncountered": {
+        "message": "Ett fel uppstod."
+    },
+    "saving": {
+        "message": "Sparar"
+    },
+    "installed": {
+        "message": "Installerad"
+    },
+    "repeatOff": {
+        "message": "Upprepa av"
+    },
+    "repeatSong": {
+        "message": "Upprepa låt"
+    },
+    "repeatAll": {
+        "message": "Upprepa alla"
+    },
+    "radioOn": {
+        "message": "Radio på"
+    },
+    "radioOff": {
+        "message": "Radio av"
+    },
+    "shufflingOn": {
+        "message": "Shuffling på"
+    },
+    "shufflingOff": {
+        "message": "Shuffling av"
+    },
+    "elapsedTime": {
+        "message": "Förbrukad tid"
+    },
+    "remainingTime": {
+        "message": "Återstående tid"
+    },
+    "totalTime": {
+        "message": "Total tid"
+    },
+    "highest": {
+        "message": "Högsta"
+    },
+    "auto": {
+        "message": "Auto"
+    },
+    "lowest": {
+        "message": "Lägsta"
+    },
+    "reload": {
+        "message": "Uppdatera"
+    },
+    "playAll": {
+        "message": "Spela alla"
+    },
+    "addAll": {
+        "message": "Lägg till alla"
+    },
+    "addSelected": {
+        "message": "Lägg till valda"
+    },
+    "playSelected": {
+        "message": "Spela valda"
+    },
+    "saveSelected": {
+        "message": "Spara valda"
+    },
+    "search": {
+        "message": "Sök"
+    },
+    "searching": {
+        "message": "Söker"
+    },
+    "noResultsFound": {
+        "message": "Inga resultat hittades"
+    },
+    "clearStream": {
+        "message": "Töm stream"
+    },
+    "createPlaylist": {
+        "message": "Skapa spellista"
+    },
+    "ok": {
+        "message": "Ok"
+    },
+    "playlist": {
+        "message": "Spellista"
+    },
+    "stream": {
+        "message": "Stream"
+    },
+    "settings": {
+        "message": "Inställningar"
+    },
+    "edit": {
+        "message": "Ändra"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Kan inte ta bort sista spellistan"
+    },
+    "clearStreamQuestion": {
+        "message": "Tömma stream?"
+    },
+    "play": {
+        "message": "Spela"
+    },
+    "add": {
+        "message": "Lägg till"
+    },
+    "title": {
+        "message": "Titel"
+    },
+    "url": {
+        "message": "URL"
+    },
+    "playlists": {
+        "message": "Spellistor"
+    },
+    "remind": {
+        "message": "Påminnelse"
+    },
+    "reminders": {
+        "message": "Påminelser"
+    },
+    "remindClearStream": {
+        "message": "Påminn om att tömma stream"
+    },
+    "remindDeletePlaylist": {
+        "message": "Påminn om att ta bort spellista"
+    },
+    "minute": {
+        "message": "Minut"
+    },
+    "minutes": {
+        "message": "Minuter"
+    },
+    "hours": {
+        "message": "Timmar"
+    },
+    "days": {
+        "message": "Dagar"
+    },
+    "errorLoadingTitle": {
+        "message": "Fel vid inladdning av titeln"
+    },
+    "keyboardCommandFailure": {
+        "message": "Tangentbordskommando misslyckandes"
+    },
+    "streamEmpty": {
+        "message": "Stream tom"
+    },
+    "playlistEmpty": {
+        "message": "Spellista tom"
+    },
+    "create": {
+        "message": "Skapa"
+    },
+    "update": {
+        "message": "Uppdatera"
+    },
+    "wouldYouLikeTo": {
+        "message": "Skulle du vilja"
+    },
+    "general": {
+        "message": "Allmänt"
+    },
+    "startTyping": {
+        "message": "Börja skriva"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Resultat kommer visas när du söker."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Försök att söka efter något annat."
+    },
+    "watchOnYouTube": {
+        "message": "Kolla på YouTube"
+    },
+    "notSignedIn": {
+        "message": "Ej inloggad"
+    },
+    "signingIn": {
+        "message": "Loggar in"
+    },
+    "signIn": {
+        "message": "Logga in"
+    },
+    "signInFailed": {
+        "message": "Inloggningen misslyckades."
+    },
+    "pleaseWait": {
+        "message": "Vänta"
+    },
+    "openToSearch": {
+        "message": "Öppna för att söka"
+    },
+    "anUpdateIsAvailable": {
+        "message": "En uppdatering finns tillgänglig"
+    },
+    "pressEnterToPlay": {
+        "message": "Tryck enter för att spela"
+    },
+    "volume": {
+        "message": "Volym"
+    },
+    "songAdded": {
+        "message": "Låt tillagd"
+    },
+    "addSong": {
+        "message": "Lägg till låt"
+    },
+    "song": {
+        "message": "Låt"
+    },
+    "songs": {
+        "message": "Låtar"
+    },
+    "cantSkipToNextSong": {
+        "message": "Kan inte hoppa till nästa låt"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Kan inte gå tillbaka till föregående låt"
+    },
+    "cantToggleSong": {
+        "message": "Kan inte växla låt"
+    },
+    "searchForSongs": {
+        "message": "Sök efter låtar"
+    },
+    "songQuality": {
+        "message": "Låtkvalite"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Varför inte lägga till en låt från en spellista eller sök efter låtar?",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Sök och spela"
+    },
+    "searchAndAdd": {
+        "message": "Sök och lägg till"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus är inte länkat till ditt Chrome-konto. Dina spellistor kommer finnas tillgänglig på andra datorer om du ansluter ditt Chrome-konto"
+    },
+    "link": {
+        "message": "Länk",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "Du är inte inloggad i Chrome. Dina spellistor är endast tillgängliga på den här datorn."
+    },
+    "remindGoogleSignIn": {
+        "message": "Påminn om Google inloggning"
+    },
+    "keyboardShortcuts": {
+        "message": "Kortkommandon"
+    },
+    "export": {
+        "message": "Exportera"
+    },
+    "openInTab": {
+        "message": "Öppna i flik"
+    },
+    "browserSettings": {
+        "message": "Webbläsarinställningar"
+    },
+    "contextMenus": {
+        "message": "Snabbmenyer"
+    },
+    "websiteEnhancements": {
+        "message": "Webbplatsförbättringar"
+    },
+    "textSelection": {
+        "message": "Markera text"
+    },
+    "youTubeLinks": {
+        "message": "YouTube länkar"
+    },
+    "youTubePages": {
+        "message": "YouTube sidor"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Filtyp"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Det gick inte att hitta låten"
+    },
+    "failedToFindSongs": {
+        "message": "Det gick inte att hitta låtarna"
+    },
+    "loadingYouTube": {
+        "message": "Laddar YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Kunde inte ladda YouTube"
+    },
+    "loadAttempt": {
+        "message": "Försök $currentLoadAttempt$ av $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "Låten finns redan i $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Alla låtarna finns redan i $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ av $draggedSongCount$ låtar är redan tillagda i collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "activeSong": {
+        "message": "Aktiv låt"
+    },
+    "urlCopied": {
+        "message": "URL kopierad"
+    },
+    "copyFailed": {
+        "message": "Kopiering misslyckades"
+    },
+    "playlistExported": {
+        "message": "Exportering av spellista lyckades."
+    },
+    "playing": {
+        "message": "Spelar"
+    },
+    "buffering": {
+        "message": "Buffring"
+    },
+    "paused": {
+        "message": "Pausad"
+    },
+    "cancel": {
+        "message": "Avbryt"
+    },
+    "errorLoadingUrl": {
+        "message": "Fel vid inladdning av URL"
+    },
+    "playlistLoaded": {
+        "message": "Spellista tillagd"
+    },
+    "playlistCreated": {
+        "message": "Spellista skapad"
+    },
+    "extensionConflict": {
+        "message": "Ett tillägg, eller annat problem, har tvingat YouTube att använda Flash.$lineBreak$Streamus kommer inte fungera korrekt förrän tillägget är avstängt, eller problemet är löst, och Stremus har startas om.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    }
+}
