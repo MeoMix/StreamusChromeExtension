@@ -1,20 +1,12 @@
-﻿define(function (require) {
+﻿define(function () {
     'use strict';
 
-    var ListItemType = require('common/enum/listItemType');
-
     var CollectionViewMultiSelect = Marionette.Behavior.extend({
-        ui: {
-            listItem: '.listItem'
-        },
-
-        events: {
-            'click @ui.listItem': '_onClickListItem'
-        },
-        
         initialize: function() {
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
             this.listenTo(Streamus.channels.element.vent, 'drop', this._onElementDrop);
+            this.listenTo(Streamus.channels.listItem.vent, 'selected', this._onListItemSelected);
+            this.listenTo(Streamus.channels.listItem.commands, 'deselect:collection', this._deselectCollection);
         },
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
@@ -23,9 +15,14 @@
             this._setSelected({
                 modelToSelect: options.item,
                 shiftKey: event.shiftKey,
-                ctrlKey: event.ctrlKey,
                 drag: true
             });
+        },
+        
+        _onListItemSelected: function (options) {
+            if (this.view.childViewType !== options.listItemType) {
+                this._deselectCollection();
+            }
         },
         
         _onElementDrop: function () {
@@ -36,41 +33,25 @@
             this.view.collection.deselectAll();
         },
         
-        _onElementClick: function (event) {
-            //  TODO: Checking for a string constant class like this is fragile.
-            var clickedItem = $(event.target).closest('.js-listItem--multiSelect');
-            var isButtonClick = $(event.target).closest('.listItem-buttonsRegion').length !== 0;
-            //  TODO: I don't want to deselect when dragging scrollbar.. better options?
-            var isScrollbarClick = event.target === this.view.$el.parent()[0];
-            var listItemType = clickedItem.length > 0 ? clickedItem.data('type') : ListItemType.None;
-            
-            if (listItemType !== this.view.childViewType && !isScrollbarClick || isButtonClick) {
-                this._deselectCollection();
-            }
-        },
-        
-        _onClickListItem: function (event) {
-            var id = $(event.currentTarget).data('id');
-            var modelToSelect = this.view.collection.get(id);
-            
-            if (_.isUndefined(modelToSelect)) {
-                var error = new Error('modelToSelect undefined. id: ' + id + ' currentTarget: ' + event.currentTarget.innerHTML + ' target: ' + event.target.innerHTML);
-                Streamus.backgroundChannels.error.commands.trigger('log:error', error);
-                return;
-            }
-
+        //  TODO: This function name sucks. Waiting on issues from Marionette:
+        //  - https://github.com/marionettejs/backbone.marionette/issues/2235
+        //  - https://github.com/marionettejs/backbone.marionette/issues/2236
+        onChildviewClickLeftContent: function (childView, options) {
             this._setSelected({
-                shiftKey: event.shiftKey,
-                ctrlKey: event.ctrlKey,
-                modelToSelect: modelToSelect
+                shiftKey: options.shiftKey,
+                modelToSelect: options.model
             });
+
+            //  Since returning false, need to announce the event happened here since root level won't know about it.
+            Streamus.channels.element.vent.trigger('click', event);
+            //  Don't allow to bubble up since handling click at this level.
+            return false;
         },
         
         _setSelected: function (options) {
             var modelToSelect = options.modelToSelect;
 
             var shiftKeyPressed = options.shiftKey || false;
-            var ctrlKeyPressed = options.ctrlKey || false;
             var isDrag = options.drag || false;
 
             var isSelectedAlready = modelToSelect.get('selected');
@@ -83,10 +64,11 @@
                 //  When the shift key is pressed - select a block of search result items
                 var selectedIndex = this.view.collection.indexOf(modelToSelect);
                 this._selectGroup(selectedIndex);
-            } else if (ctrlKeyPressed) {
-                //  Using the ctrl key to select an item resets firstSelect but doesn't lose the other selected items.
-                modelToSelect.set('firstSelected', true);
             }
+
+            Streamus.channels.listItem.vent.trigger('selected', {
+                listItemType: modelToSelect.get('listItemType')
+            });
         },
         
         _selectGroup: function (selectedIndex) {

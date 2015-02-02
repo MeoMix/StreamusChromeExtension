@@ -16,6 +16,13 @@
             this.add(searchResults);
         },
         
+        //  Returns the collection of SearchResults' underlying songs.
+        getSongs: function () {
+            return this.map(function (model) {
+                return model.get('song');
+            });
+        },
+        
         //  Reset the collection's values by mapping a single or list of Song objects into
         //  JSON objects which will be instantiated by Backbone.
         resetSongs: function (songs) {

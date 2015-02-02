@@ -56,6 +56,7 @@ define(function (require) {
             this._ensureItemsCollection();
             this.on('change:title', this._onChangeTitle);
             this.on('change:sequence', this._onChangeSequence);
+            this.on('change:active', this._onChangeActive);
         },
         
         getShareCode: function(options) {
@@ -111,6 +112,12 @@ define(function (require) {
                     pageToken: nextPageToken,
                     success: this._onGetPlaylistSongsSuccess.bind(this)
                 });
+            }
+        },
+        
+        _onChangeActive: function (model, active) {
+            if (!active) {
+                this.deselectAll();
             }
         },
         

@@ -3,16 +3,16 @@
 
     var SelectionBar = Backbone.Model.extend({
         defaults: {
-            activeCollection: null,
-            canAdd: false,
-            canDelete: false,
-            canSave: false,
-            canPlay: false
+            activeCollection: null
+            //canAdd: false,
+            //canDelete: false,
+            //canSave: false,
+            //canPlay: false
         },
         
         initialize: function () {
-            this._setState(this.get('activeCollection'));
-            this.on('change:activeCollection', this._onChangeActiveCollection);
+            //this._setState(this.get('activeCollection'));
+            //this.on('change:activeCollection', this._onChangeActiveCollection);
         },
         
         _onChangeActiveCollection: function(model, activeCollection) {

@@ -25,7 +25,8 @@
                 addButton: '#' + this.id + '-addButton',
                 saveButton: '#' + this.id + '-saveButton',
                 deleteButton: '#' + this.id + '-deleteButton',
-                selectionCountText: '#' + this.id + '-selectionCountText'
+                selectionCountText: '#' + this.id + '-selectionCountText',
+                clearButton: '#' + this.id + '-clearButton'
             };
         },
         
@@ -33,7 +34,8 @@
             'click @ui.playButton': '_onClickPlayButton',
             'click @ui.addButton': '_onClickAddButton',
             'click @ui.saveButton': '_onClickSaveButton',
-            'click @ui.deleteButton': '_onClickDeleteButton'
+            'click @ui.deleteButton': '_onClickDeleteButton',
+            'click @ui.clearButton': '_onClickClearButton'
         },
         
         behaviors: {
@@ -51,6 +53,12 @@
             'remove': '_onMultiSelectCollectionRemove'
         },
         
+        streamItemsEvents: {
+            'add': '_onStreamItemsAdd',
+            'remove': '_onStreamItemsRemove',
+            'reset': '_onStreamItemsReset'
+        },
+        
         playlistsEvents: {
             'change:active': '_onPlaylistsChangeActive'
         },
@@ -60,6 +68,7 @@
             this.searchResults = Streamus.backgroundPage.search.get('results');
             this.signInManager = Streamus.backgroundPage.signInManager;
 
+            Marionette.bindEntityEvents(this, this.streamItems, this.streamItemsEvents);
             Marionette.bindEntityEvents(this, this.streamItems, this.multiSelectCollectionEvents);
             Marionette.bindEntityEvents(this, this.searchResults, this.multiSelectCollectionEvents);
 
@@ -77,17 +86,33 @@
             this._setButtonStates();
         },
         
-        _onClickPlayButton: function () {
-            var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
-            
-            this.streamItems.addSongs(selectedSongs, {
-                playOnAdd: true
-            });
+        _onClickClearButton: function () {
+            Streamus.channels.listItem.commands.trigger('deselect:collection');
         },
         
-        _onClickAddButton: function() {
-            var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
-            this.streamItems.addSongs(selectedSongs);
+        _onClickPlayButton: function () {
+            var canPlay = this._canPlay();
+            
+            if (canPlay) {
+                var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
+
+                this.streamItems.addSongs(selectedSongs, {
+                    playOnAdd: true
+                });
+                
+                Streamus.channels.listItem.commands.trigger('deselect:collection');
+            }
+        },
+        
+        _onClickAddButton: function () {
+            var canAdd = this._canAdd();
+            
+            if (canAdd) {
+                var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
+                this.streamItems.addSongs(selectedSongs);
+                
+                Streamus.channels.listItem.commands.trigger('deselect:collection');
+            }
         },
         
         _onClickSaveButton: function() {
@@ -102,17 +127,32 @@
                     top: offset.top,
                     left: offset.left
                 });
+
+                //  Don't deselect collections immediately when the button is clicked because more actions are needed.
+                //  If the user decides to not use the simple menu then don't de-select, either.
+                this.listenTo(Streamus.channels.simpleMenu.vent, 'clicked:item', this._onSimpleMenuClickedItem);
+                this.listenTo(Streamus.channels.simpleMenu.vent, 'hidden', this._onSimpleMenuHidden);
             }
         },
         
         _onClickDeleteButton: function() {
             //  TODO: Implement undo since I've opted to not show a dialog.
-            var canDelete = true;
+            var canDelete = this._canDelete();
             
             if (canDelete) {
                 var selectedModels = this.model.get('activeCollection').selected();
                 _.invoke(selectedModels, 'destroy');
+                
+                Streamus.channels.listItem.commands.trigger('deselect:collection');
             }
+        },
+        
+        _onSimpleMenuClickedItem: function () {
+            Streamus.channels.listItem.commands.trigger('deselect:collection');
+        },
+
+        _onSimpleMenuHidden: function () {
+            this.stopListening(Streamus.channels.simpleMenu.vent);
         },
         
         //  Keep track of which multi-select collection is currently holding selected items
@@ -127,6 +167,19 @@
             this._setActiveCollection(collection, false);
             this._setSelectionCountText();
             this._setButtonStates();
+        },
+        
+        _onStreamItemsAdd: function () {
+            console.log('hi');
+            this._setAddButtonState(this.model.get('activeCollection'));
+        },
+        
+        _onStreamItemsRemove: function() {
+            this._setAddButtonState(this.model.get('activeCollection'));
+        },
+        
+        _onStreamItemsReset: function () {
+            this._setAddButtonState(this.model.get('activeCollection'));
         },
         
         //  Bind/unbind listeners as appropriate whenever the active playlist changes.
@@ -197,15 +250,26 @@
             var isSignedIn = this.signInManager.get('signedInUser') !== null;
             this.ui.saveButton.toggleClass('is-disabled', !activeCollectionExists && isSignedIn);
 
+            this._setDeleteButtonState(activeCollection);
+            this._setAddButtonState(activeCollection);
+        },
+        
+        _setDeleteButtonState: function (activeCollection) {
+            var activeCollectionExists = activeCollection !== null;
+
             //  Delete is disabled if the user is selecting search results
             var canDelete = activeCollectionExists && !activeCollection.isImmutable;
             var deleteTitle = '';
-            
+
             if (!canDelete && activeCollectionExists) {
                 deleteTitle = chrome.i18n.getMessage('collectionCantBeDeleted', [activeCollection.userFriendlyName]);
             }
 
             this.ui.deleteButton.toggleClass('is-disabled', !canDelete).attr('title', deleteTitle);
+        },
+        
+        _setAddButtonState: function (activeCollection) {
+            var activeCollectionExists = activeCollection !== null;
 
             //  Add is disabled if all selected songs are already in the stream.
             //  A warning tooltip is shown if some of the selected songs are already in the stream.
@@ -217,19 +281,42 @@
                 canAdd = !duplicatesInfo.allDuplicates;
                 addTitle = duplicatesInfo.message;
             }
-            
+
             this.ui.addButton.toggleClass('is-disabled', !canAdd).attr('title', addTitle);
         },
         
+        _canPlay: function () {
+            var activeCollection = this.model.get('activeCollection');
+            var activeCollectionExists = activeCollection !== null;
+
+            return activeCollectionExists;
+        },
+        
+        //  TODO: Super messy, prefer to store on model, but tricky due dependencies on signInManager/streamItems.
         _canDelete: function () {
-            return activeCollection !== null && !activeCollection.isImmutable;
+            var activeCollection = this.model.get('activeCollection');
+            var activeCollectionExists = activeCollection !== null;
+            return activeCollectionExists && !activeCollection.isImmutable;
         },
         
         _canSave: function () {
-            var signedIn = this.signInManager.get('signedInUser') !== null;
+            var isSignedIn = this.signInManager.get('signedInUser') !== null;
             var activeCollectionExists = this.model.get('activeCollection') !== null;
             
-            return signedIn && activeCollectionExists;
+            return isSignedIn && activeCollectionExists;
+        },
+        
+        _canAdd: function() {
+            var activeCollection = this.model.get('activeCollection');
+            var activeCollectionExists = activeCollection !== null;
+            var canAdd = activeCollectionExists;
+
+            if (canAdd) {
+                var duplicatesInfo = this.streamItems.getDuplicatesInfo(activeCollection.getSelectedSongs());
+                canAdd = !duplicatesInfo.allDuplicates;
+            }
+
+            return canAdd;
         }
     });
 

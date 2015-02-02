@@ -15,9 +15,9 @@
             return {
                 viewId: this.id,
                 searchMessage: chrome.i18n.getMessage('search'),
-                saveMessage: chrome.i18n.getMessage('save'),
-                addMessage: chrome.i18n.getMessage('add'),
-                playMessage: chrome.i18n.getMessage('play'),
+                saveAllMessage: chrome.i18n.getMessage('saveAll'),
+                addAllMessage: chrome.i18n.getMessage('addAll'),
+                playAllMessage: chrome.i18n.getMessage('playAll'),
                 notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
                 startTypingMessage: chrome.i18n.getMessage('startTyping'),
                 resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
@@ -36,9 +36,9 @@
         
         ui: function () {
             return {
-                playSelectedButton: '#' + this.id + '-playSelectedButton',
-                saveSelectedButton: '#' + this.id + '-saveSelectedButton',
-                addSelectedButton: '#' + this.id + '-addSelectedButton',
+                playAllButton: '#' + this.id + '-playAllButton',
+                saveAllButton: '#' + this.id + '-saveAllButton',
+                addAllButton: '#' + this.id + '-addAllButton',
                 searchingMessage: '#' + this.id + '-searchingMessage',
                 typeToSearchMessage: '#' + this.id + '-typeToSearchMessage',
                 noResultsMessage: '#' + this.id + '-noResultsMessage'
@@ -47,9 +47,9 @@
         
         events: {
             //  TODO: Quit checking class like this.
-            'click @ui.playSelectedButton:not(.is-disabled)': '_onClickPlaySelectedButton',
-            'click @ui.addSelectedButton:not(.is-disabled)': '_onClickAddSelectedButton',
-            'click @ui.saveSelectedButton:not(.is-disabled)': '_onClickSaveSelectedButton'
+            'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton',
+            'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
+            'click @ui.saveAllButton:not(.is-disabled)': '_onClickSaveAllButton'
         },
 
         modelEvents: {
@@ -58,7 +58,9 @@
         },
 
         collectionEvents: {
-            'change:selected': '_onSearchResultsChangeSelected'
+            'add': '_onSearchResultsAdd',
+            'remove': '_onSearchResultsRemove',
+            'reset': '_onSearchResultsReset'
         },
         
         transitionDuration: 4000,
@@ -71,16 +73,10 @@
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(Streamus.channels.searchArea.commands, 'search', this._search);
-
-            var searchResults = this.model.get('results');
-
-            this.listenTo(searchResults, 'add', this._onSearchResultsAdd);
-            this.listenTo(searchResults, 'remove', this._onSearchResultsRemove);
-            this.listenTo(searchResults, 'reset', this._onSearchResultsReset);
         },
  
         onRender: function () {
-            this._toggleSelectedButtons();
+            this._setButtonStates();
             this._toggleInstructions();
             
             this.searchResultsRegion.show(new SearchResultsView({
@@ -94,25 +90,23 @@
         onVisible: function () {
             this.model.stopClearQueryTimer();
         },
-        
-        _onSearchResultsChangeSelected: function () {
-            this._toggleSelectedButtons();
-        },
 
-        _onClickSaveSelectedButton: function() {
+        _onClickSaveAllButton: function() {
             this._showSaveSelectedSimpleMenu();
         },
         
-        _onClickAddSelectedButton: function () {
-            this._addSelected();
+        _onClickAddAllButton: function () {
+            this.streamItems.addSongs(this.collection.getSongs());
         },
         
-        _onClickPlaySelectedButton: function () {
-            this._playSelected();
+        _onClickPlayAllButton: function () {
+            this.streamItems.addSongs(this.collection.getSongs(), {
+                playOnAdd: true
+            });
         },
         
         _onSignInManagerChangeSignedInUser: function() {
-            this._toggleSaveSelected();
+            this._setSaveAllButtonState();
         },
 
         _onChangeSearching: function () {
@@ -125,14 +119,17 @@
 
         _onSearchResultsReset: function () {
             this._toggleInstructions();
+            this._setButtonStates();
         },
         
         _onSearchResultsAdd: function () {
             this._toggleInstructions();
+            this._setButtonStates();
         },
         
         _onSearchResultsRemove: function () {
             this._toggleInstructions();
+            this._setButtonStates();
         },
 
         //  Searches youtube for song results based on the given text.
@@ -140,51 +137,38 @@
             this.model.set('query', options.query);
         },
 
-        _toggleSaveSelected: function () {
-            var canSaveSelected = this._canSaveSelected();
-            this.ui.saveSelectedButton.toggleClass('is-disabled', !canSaveSelected);
+        _setSaveAllButtonState: function () {
+            var canSave = this._canSave();
+            this.ui.saveAllButton.toggleClass('is-disabled', !canSave);
         },
 
-        _toggleSelectedButtons: function () {
-            this._toggleSaveSelected();
-            var noResultsSelected = this.collection.selected().length === 0;
-            this.ui.playSelectedButton.toggleClass('is-disabled', noResultsSelected);
-            this.ui.addSelectedButton.toggleClass('is-disabled', noResultsSelected);
-        },
-
-        _playSelected: function () {
-            this.streamItems.addSongs(this.collection.getSelectedSongs(), {
-                playOnAdd: true
-            });
-        },
-
-        _addSelected: function () {
-            this.streamItems.addSongs(this.collection.getSelectedSongs());
+        _setButtonStates: function () {
+            this._setSaveAllButtonState();
+            var isEmpty = this.collection.isEmpty();
+            this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
+            this.ui.addAllButton.toggleClass('is-disabled', isEmpty);
         },
 
         _showSaveSelectedSimpleMenu: function () {
-            var canSaveSelected = this._canSaveSelected();
+            var canSave = this._canSave();
 
-            if (canSaveSelected) {
-                //  Need to get this outside of _.defer because selections will be lost by the time function runs.
-                var selectedSongs = this.collection.getSelectedSongs();
-                
-                var offset = this.ui.saveSelectedButton.offset();
+            if (canSave) {
+                var offset = this.ui.saveAllButton.offset();
 
                 Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
                     playlists: this.signInManager.get('signedInUser').get('playlists'),
-                    songs: selectedSongs,
+                    songs: this.collection.getSongs(),
                     top: offset.top,
                     left: offset.left
                 });
             }
         },
         
-        _canSaveSelected: function () {
+        _canSave: function () {
             var signedIn = this.signInManager.get('signedInUser') !== null;
-            var resultsSelected = this.collection.selected().length > 0;
+            var isEmpty = this.collection.isEmpty();
 
-            return signedIn && resultsSelected;
+            return signedIn && !isEmpty;
         },
 
         //  Set the visibility of any visible text messages.

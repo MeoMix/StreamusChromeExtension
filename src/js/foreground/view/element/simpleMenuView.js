@@ -60,25 +60,28 @@
         },
         
         hide: function () {
+            Streamus.channels.simpleMenu.vent.trigger('hidden');
             this.ui.panelContent.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
         
-        _onClickSimpleMenuItems: function() {
+        _onClickSimpleMenuItems: function () {
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
                 model: this.model,
                 collection: this.collection
             });
+            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
         
-        _onClickFixedMenuItem: function() {
+        _onClickFixedMenuItem: function () {
             this.triggerMethod('click:fixedMenuItem', {
                 view: this,
                 model: this.model,
                 collection: this.collection
             });
+            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
 		
@@ -101,8 +104,12 @@
                 var selectedView = this.children.find(function (child) {
                     return child.model === selectedItem;
                 });
-                
-                selectedView.el.scrollIntoView();
+
+                //  Center element in list if possible.
+                var offsetTop = selectedView.el.offsetTop;
+                var centerHeight = selectedView.$el.height() / 2;
+                var center = offsetTop - (this.ui.simpleMenuItems.innerHeight() / 2) + centerHeight;
+                this.ui.simpleMenuItems[0].scrollTop = center;
             }
         },
         

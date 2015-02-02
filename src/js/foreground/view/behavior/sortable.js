@@ -72,7 +72,6 @@
             Streamus.channels.element.vent.trigger('drag');
             this.view.triggerMethod('ItemDragged', {
                 item: this.view.collection.get(ui.item.data('id')),
-                ctrlKey: event.ctrlKey,
                 shiftKey: event.shiftKey
             });
             
