@@ -115,12 +115,6 @@ define(function (require) {
             }
         },
         
-        _onChangeActive: function (model, active) {
-            if (!active) {
-                this.deselectAll();
-            }
-        },
-        
         _onChangeTitle: function(model, title, options) {
             this._emitYouTubeTabUpdateEvent({
                 id: model.get('id'),
