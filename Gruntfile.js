@@ -98,6 +98,8 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
 
+    var _ = require('lodash');
+
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
 		var isDebugDeploy = version === undefined;
@@ -112,6 +114,8 @@ module.exports = function (grunt) {
 
 		//  Ensure lint validation passes first and foremost. Clean code is important.
 		grunt.task.run('jshint');
+	    //  Make sure our _locales aren't out of date.
+	    grunt.task.run('diffLocales');
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
 		grunt.task.run('requirejs');
@@ -398,5 +402,27 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('compress');
+	});
+    
+    //  TODO: look for non-unique keys
+	grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
+	    var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
+	    var englishKeys = _.keys(englishJson);
+
+	    grunt.file.recurse('src/_locales/', function (abspath, rootdir, subdir) {
+	        var json = grunt.file.readJSON(abspath);
+	        var keys = _.keys(json);
+	        
+	        var missingEnglishKeys = _.difference(englishKeys, keys);
+	        var extraNonEnglishKeys = _.difference(keys, englishKeys);
+
+	        if (missingEnglishKeys.length > 0) {
+	            grunt.log.error(subdir + ' is missing keys: ' + missingEnglishKeys);
+	        }
+
+	        if (extraNonEnglishKeys.length > 0) {
+	            grunt.log.error(subdir + ' has extra keys: ' + missingEnglishKeys);
+	        }
+	    });
 	});
 };
