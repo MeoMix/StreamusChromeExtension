@@ -18,7 +18,7 @@ define(function (require) {
             _.defer(function () {
                 var simpleMenuItems = new SimpleMenuItems(options.playlists.map(function (playlist) {
                     return {
-                        selected: playlist.get('active'),
+                        active: playlist.get('active'),
                         text: playlist.get('title'),
                         value: playlist.get('id')
                     };
@@ -48,8 +48,8 @@ define(function (require) {
         },
         
         _onClickSimpleMenuItem: function (playlists, songs, eventArgs) {
-            var selectedItem = eventArgs.collection.findWhere({ selected: true });
-            var playlist = playlists.get(selectedItem.get('value'));
+            var activeItem = eventArgs.collection.getActive();
+            var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },
 

@@ -5,14 +5,18 @@
     var BackgroundAreaView = require('background/view/backgroundAreaView');
     
     var Application = Marionette.Application.extend({
+        //  Set this flag to true to enable localhost server & debugging flags.
         localDebug: false,
+        //  The URL to which AJAX requests are sent. localhost for debugging or cloud server in production.
         serverUrl: '',
+        //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
         instanceId: '',
         
         regions: {
             backgroundAreaRegion: '#backgroundAreaRegion'
         },
         
+        //  All the channels used for global event communication across the page
         channels: {
             sync: Backbone.Wreqr.radio.channel('sync'),
             tab: Backbone.Wreqr.radio.channel('tab'),
@@ -38,8 +42,7 @@
         _setServerUrl: function () {
             this.serverUrl = this.localDebug ? 'http://localhost:7969/' : 'https://aws-server.streamus.com/Streamus/';
         },
-        
-        //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
+
         _setInstanceId: function () {
             var instanceId = localStorage.getItem('instanceId');
             

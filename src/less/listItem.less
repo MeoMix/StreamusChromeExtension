@@ -35,8 +35,18 @@
         background: @dark--quinary;
     }
 
-    &.is-active .listItem-itemCount {
-        background-color: @blue--500;
+    &.is-active {
+        .listItem-title{
+            color: @blue--500;
+        }
+
+        .listItem-details {
+            color: fadeout(@blue--500, 13%);
+        }
+
+        .listItem-itemCount {
+            background-color: @blue--500;
+        }
     }
 }
 
@@ -64,16 +74,6 @@
         font-size: 13px;
         .u-textSecondary;
         .u-textOverflowEllipsis;
-    }
-    
-     &.is-active {
-          .listItem-title{
-            color: @blue--500;
-          }
-
-          .listItem-details {
-              color: fadeout(@blue--500, 13%);
-          }
     }
 }
 
@@ -111,12 +111,6 @@
         //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
         //  and 0px of space before the click target. Can I be more consistent?
         margin-left: 16px;
-    }
-
-    &.is-active {
-        .listItem-title {
-            color: @blue--500;
-        }
     }
 }
 

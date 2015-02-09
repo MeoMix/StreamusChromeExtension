@@ -16,7 +16,6 @@
                 titleMessage: chrome.i18n.getMessage('title'),
                 playlistMessage: chrome.i18n.getMessage('playlist'),
                 urlMessage: chrome.i18n.getMessage('url'),
-                playlistCount: this.playlists.length,
                 titleMaxLength: this.titleMaxLength,
                 //  If the playlist is not already being created with songs then allow for importing of songs.
                 showDataSource: this.songs.length === 0
@@ -50,6 +49,7 @@
         onRender: function () {
             this._setDataSourceAsUserInput();
             this._setTitleCharacterCount();
+            this._validateTitle();
         },
 
         onAttach: function () {

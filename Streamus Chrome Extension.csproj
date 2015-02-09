@@ -420,9 +420,7 @@
     <Content Include="src\template\search\searchResults.html" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />
-    <Content Include="src\_locales\pt_BR\messages.json" />
     <Content Include="src\_locales\de\messages.json" />
-    <Content Include="src\_locales\tr\messages.json" />
     <Content Include="src\less\normalize.less" />
     <Content Include="src\less\reset.less" />
     <Content Include="src\less\utility.less" />
@@ -448,13 +446,13 @@
     <Content Include="src\less\spinner.less" />
     <Content Include="src\less\navBar.less" />
     <Content Include="src\less\text.less" />
-    <Content Include="src\_locales\cs\messages.json" />
+    <Content Include="src\_locales\fr\messages.json" />
+    <Content Include="src\_locales\nl\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />
     <Content Include="src\_locales\en\messages.json" />
     <Content Include="src\_locales\es\messages.json" />
-    <Content Include="src\_locales\sl\messages.json" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

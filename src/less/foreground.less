@@ -48,6 +48,8 @@ body {
     //  Default dimensions of Streamus as a browser extension
     width: 640px;
     height: 480px;
+    //  Ensure that elements which are transformed outside the viewport don't cause overflow.
+    overflow: hidden;
 }
 
 //  TODO: This is needed because the prompt overlay wants to cover everything, but 

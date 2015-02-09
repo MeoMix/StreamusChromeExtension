@@ -239,8 +239,8 @@
                 placeholderText = duplicatesInfo.message;
             }
 
-            var placeholderTextElement = $('<div>', {
-                'class': 'u-marginAuto fontSize-large',
+            var placeholderTextElement = $('<span>', {
+                'class': 'u-marginAuto',
                 text: placeholderText
             });
 

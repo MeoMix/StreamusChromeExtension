@@ -38,10 +38,10 @@
         },
         
         onAttach: function () {
-            this._ensureSelectedIsVisible();
+            this._ensureActiveIsVisible();
             
             if (this.listItemHeight > 0) {
-                this._centerSelected();
+                this._centerActive();
             }
 
             _.defer(function() {
@@ -96,27 +96,27 @@
             }
         },
         
-        //  Adjust the scrollTop of the view to ensure that the selected item is shown.
-        _ensureSelectedIsVisible: function () {
-            var selectedItem = this.collection.getSelected();
+        //  Adjust the scrollTop of the view to ensure that the active item is shown.
+        _ensureActiveIsVisible: function () {
+            var activeItem = this.collection.getActive();
             
-            if (!_.isUndefined(selectedItem)) {
-                var selectedView = this.children.find(function (child) {
-                    return child.model === selectedItem;
+            if (!_.isUndefined(activeItem)) {
+                var activeView = this.children.find(function (child) {
+                    return child.model === activeItem;
                 });
 
                 //  Center element in list if possible.
-                var offsetTop = selectedView.el.offsetTop;
-                var centerHeight = selectedView.$el.height() / 2;
+                var offsetTop = activeView.el.offsetTop;
+                var centerHeight = activeView.$el.height() / 2;
                 var center = offsetTop - (this.ui.simpleMenuItems.innerHeight() / 2) + centerHeight;
                 this.ui.simpleMenuItems[0].scrollTop = center;
             }
         },
         
-        //  When showing this view over a ListItem, center the view's selected item over the ListItem.
-        _centerSelected: function () {
-            //  Adjust the top position of the view based on which item is selected.
-            var index = this.collection.indexOf(this.collection.getSelected());
+        //  When showing this view over a ListItem, center the view's active item over the ListItem.
+        _centerActive: function () {
+            //  Adjust the top position of the view based on which item is active.
+            var index = this.collection.indexOf(this.collection.getActive());
             
             var childHeight = this.children.first().$el.height();
             var offset = -1 * index * childHeight;

@@ -64,7 +64,7 @@ define(function (require) {
                 var options = this.model.get('options');
                 var simpleMenuItems = new SimpleMenuItems(_.map(options, function (option) {
                     return {
-                        selected: this.model.get('value') === option,
+                        active: this.model.get('value') === option,
                         text: chrome.i18n.getMessage(option),
                         value: option
                     };
@@ -88,8 +88,8 @@ define(function (require) {
         },
         
         _onClickSimpleMenuItem: function (eventArgs) {
-            var selectedItem = eventArgs.collection.findWhere({ selected: true });
-            this.model.set('value', selectedItem.get('value'));
+            var activeItem = eventArgs.collection.getActive();
+            this.model.set('value', activeItem.get('value'));
         }
     });
 

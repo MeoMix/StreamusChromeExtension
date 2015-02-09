@@ -95,8 +95,9 @@
 			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
 		},
 		{
-			"matches": ["*://*.beatport.com/*"],
-			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]
+			"matches": ["*://*.pro.beatport.com/*"],
+			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"],
+			"css": ["css/beatportInject.css"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
@@ -117,10 +118,5 @@
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*"
-	],
-	"web_accessible_resources": [
-		"css/beatportInject.css",
-		"img/streamus_icon14_0bars.png",
-		"img/streamus_icon16.png"
 	]
 }
