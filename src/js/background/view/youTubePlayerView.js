@@ -18,7 +18,7 @@
                 title: 'YouTube player',
                 width: 640,
                 height: 360,
-                src: 'https://www.youtube.com/embed/J1Ol6M0d9sg?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id
+                src: 'https://www.youtube.com/embed/J1Ol6M0d9sg?enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id
             };
         },
         
@@ -38,7 +38,7 @@
             this._onChromeWebRequestSendHeaders = this._onChromeWebRequestSendHeaders.bind(this);
             this._onChromeWebRequestCompleted = this._onChromeWebRequestCompleted.bind(this);
 
-            var iframeUrlPattern = '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id;
+            var iframeUrlPattern = '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id;
 
             chrome.webRequest.onBeforeSendHeaders.addListener(this._onChromeWebRequestBeforeSendHeaders, {
                 urls: [iframeUrlPattern]

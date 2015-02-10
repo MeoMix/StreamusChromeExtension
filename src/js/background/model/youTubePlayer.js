@@ -20,7 +20,7 @@
                 iframeId: '',
                 //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
                 //  TODO: Keep this DRY with other area + leave comment for manifest.json.
-                youTubeEmbedUrl: '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension:\\\\' + chrome.runtime.id,
+                youTubeEmbedUrl: '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id,
                 //  Wait 6 seconds before each load attempt so that total time elapsed is one minute
                 maxLoadAttempts: 10,
                 loadAttemptDelay: 6000,
