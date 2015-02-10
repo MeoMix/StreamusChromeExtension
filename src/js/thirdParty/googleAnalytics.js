@@ -15,4 +15,3 @@ ga('create', 'UA-32334126-1', 'auto');
 ga('set', 'checkProtocolTask', function () {});
 ga('require', 'displayfeatures');
 ga('require', 'linkid', 'linkid.js');
-ga('send', 'pageview');

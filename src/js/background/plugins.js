@@ -7,6 +7,7 @@
     'use strict';
 
     Cocktail.patch(Backbone);
+    ga('send', 'pageview', '/background.html');
 
     //  Finally, load the application:
     require(['background/application']);

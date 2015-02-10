@@ -9,6 +9,8 @@
 ], function () {
     'use strict';
     
+    ga('send', 'pageview', '/foreground.html');
+    
     //  Finally, load the application which will initialize the foreground:
     require(['foreground/application']);
 });
