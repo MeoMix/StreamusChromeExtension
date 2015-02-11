@@ -1,6 +1,8 @@
 # Streamus
 dist
 release
+src/js/background/key/*.js
+!src/js/background/key/*.example.js
 
 # Node
 node_modules

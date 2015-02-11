@@ -44,11 +44,11 @@
         },
 
         _setInstanceId: function () {
-            var instanceId = localStorage.getItem('instanceId');
+            var instanceId = window.localStorage.getItem('instanceId');
             
             if (instanceId === null) {
                 instanceId = 'instance_' + _.now();
-                localStorage.setItem('instanceId', instanceId);
+                window.localStorage.setItem('instanceId', instanceId);
             }
 
             this.instanceId = instanceId;

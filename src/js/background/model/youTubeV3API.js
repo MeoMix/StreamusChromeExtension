@@ -2,7 +2,7 @@
     'use strict';
 
     var Songs = require('background/collection/songs');
-    var YouTubeAPIKey = require('background/key/youTubeAPI');
+    var YouTubeAPIKey = require('background/key/youTubeAPIKey');
     var SongType = require('common/enum/songType');
     var YouTubeServiceType = require('common/enum/youTubeServiceType');
     var Utility = require('common/utility');
