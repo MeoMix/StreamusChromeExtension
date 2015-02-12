@@ -16,11 +16,13 @@ Development
 2. Enabled developer mode by checking the 'Developer mode' checkbox. This will introduce several new buttons to the chrome://extensions page
 3. Click the button 'Load unpacked extension...'
 4. Select the directory '/Streamus Chrome Extension/src/'
-5. Streamus is now loaded and ready for development.
+5. Streamus is now loaded and can be developed upon.
 
-**NOTE:**
-Unless you're running an instance of the Streamus Server you will need to ensure that localDebug is set to **false**. This property can be configured by editing 'src/js/background/application.js'.
-User login functionality may not work if the production Streamus Server is out of date, but all local functionality will continue to function.
+**API KEYS:**
+You will need to modify the example key files located in the 'js/background/key/' directory. Production keys are not committed to GitHub.
+
+**SERVER SETTINGS:**
+Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at 'src/js/background/application.js'.
 
 Testing
 ------
