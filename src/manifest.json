@@ -115,6 +115,7 @@
 		"notifications",
 		"storage",
 		"identity",
+		"identity.email",
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*"
