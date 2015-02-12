@@ -93,7 +93,9 @@
                 streamItems: stream.get('items')
             });
             
-            var clientErrorManager = new ClientErrorManager();
+            var clientErrorManager = new ClientErrorManager({
+                signInManager: signInManager
+            });
 
             var syncManager = new SyncManager();
 
