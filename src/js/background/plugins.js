@@ -1,10 +1,11 @@
-﻿define([
-    'cocktail',
-    'backbone.marionette',
-    'backbone.localStorage',
-    'googleAnalytics'
-], function (Cocktail) {
+﻿define(function (require) {
     'use strict';
+    
+    //  TODO: Assign these to variables?
+    require('backbone.marionette');
+    require('backbone.localStorage');
+    require('googleAnalytics');
+    var Cocktail = require('cocktail');
 
     Cocktail.patch(Backbone);
     ga('send', 'pageview', '/background.html');

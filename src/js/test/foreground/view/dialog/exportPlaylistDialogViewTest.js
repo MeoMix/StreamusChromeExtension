@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/exportPlaylist',
-    'foreground/view/dialog/exportPlaylistDialogView',
-    'test/testUtility'
-], function (ExportPlaylist, ExportPlaylistDialogView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var ExportPlaylist = require('foreground/model/exportPlaylist');
+    var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
+    var TestUtility = require('test/testUtility');
 
     describe('ExportPlaylistDialogView', function () {
         beforeEach(function () {

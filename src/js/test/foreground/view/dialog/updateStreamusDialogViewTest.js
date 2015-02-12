@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/updateStreamusDialogView'
-], function (UpdateStreamusDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var UpdateStreamusDialogView = require('foreground/view/dialog/updateStreamusDialogView');
 
     describe('UpdateStreamusDialogView', function () {
         beforeEach(function () {

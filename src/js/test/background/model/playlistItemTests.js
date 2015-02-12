@@ -1,8 +1,8 @@
-﻿define([
-    'background/model/playlistItem',
-    'test/testUtility'
-], function (PlaylistItem, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistItem = require('background/model/playlistItem');
+    var TestUtility = require('test/testUtility');
 
     describe('PlaylistItem', function () {
         it('Should set its title properly when being created with a Song object', function () {

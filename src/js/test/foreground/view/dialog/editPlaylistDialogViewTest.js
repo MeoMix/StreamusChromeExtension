@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/editPlaylistDialogView',
-    'test/testUtility'
-], function (EditPlaylistDialogView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
+    var TestUtility = require('test/testUtility');
 
     describe('EditPlaylistDialogView', function () {
         beforeEach(function () {

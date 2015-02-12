@@ -1,7 +1,7 @@
-﻿define([
-    'background/model/user'
-], function (User) {
+﻿define(function (require) {
     'use strict';
+
+    var User = require('background/model/user');
 
     describe('User', function () {
         var USER_ID = '1111-1111-1111-1111';

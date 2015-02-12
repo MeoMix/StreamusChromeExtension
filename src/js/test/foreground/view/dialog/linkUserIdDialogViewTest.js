@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/linkUserIdDialogView'
-], function (LinkUserIdDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
 
     describe('LinkUserIdDialogView', function () {
         beforeEach(function () {

@@ -1,17 +1,16 @@
-﻿define([
-    'backbone',
-    'backbone.localStorage',
-    'backbone.marionette',
-    'chai',
-    'cocktail',
-    'jquery',
-    'jquery.perfectScrollbar',
-    'jquery.qtip',
-    'jquery-ui',
-    'underscore',
-    'mocha',
-    'sinon'
-], function (Backbone, BackboneLocalStorage, Marionette, chai, Cocktail) {
+﻿define(function (require) {
+    'use strict';
+    
+    require('backbone.marionette');
+    require('backbone.localStorage');
+    require('jquery.perfectScrollbar');
+    require('jquery.qtip');
+    require('jquery-ui');
+    require('mocha');
+    require('chai');
+    require('sinon');
+    
+    var Cocktail = require('cocktail');
 
     window.expect = chai.expect;
     window.mocha.setup('bdd');

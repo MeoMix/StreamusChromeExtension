@@ -1,9 +1,9 @@
-﻿define([
-    'background/model/dataSource',
-    'background/model/youTubeV3API',
-    'common/enum/dataSourceType'
-], function (DataSource, YouTubeV3API, DataSourceType) {
+﻿define(function (require) {
     'use strict';
+
+    var DataSource = require('background/model/dataSource');
+    var YouTubeV3API = require('background/model/youTubeV3API');
+    var DataSourceType = require('common/enum/dataSourceType');
 
     describe('DataSource', function () {
         var expectDataSource = function (dataSource, expectations) {

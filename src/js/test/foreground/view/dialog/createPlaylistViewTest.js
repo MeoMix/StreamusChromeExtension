@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/createPlaylistView'
-], function (CreatePlaylistView) {
+﻿define(function (require) {
     'use strict';
+
+    var CreatePlaylistView = require('foreground/view/dialog/createPlaylistView');
 
     describe('CreatePlaylistView', function () {
         beforeEach(function () {

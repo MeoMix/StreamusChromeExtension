@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/clearStreamDialogView'
-], function (ClearStreamDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
 
     describe('ClearStreamDialogView', function () {
         beforeEach(function () {

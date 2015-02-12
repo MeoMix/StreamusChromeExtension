@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/errorDialogView'
-], function (ErrorDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var ErrorDialogView = require('foreground/view/dialog/errorDialogView');
 
     describe('ErrorDialogView', function () {
         beforeEach(function () {

@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/googleSignInDialogView'
-], function (GoogleSignInDialogView) {
+﻿define(function (require) {
     'use strict';
+
+    var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
 
     describe('GoogleSignInDialogView', function () {
         beforeEach(function () {

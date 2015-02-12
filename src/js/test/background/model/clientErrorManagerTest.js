@@ -1,7 +1,7 @@
-﻿define([
-   'background/model/clientErrorManager'
-], function (ClientErrorManager) {
+﻿define(function (require) {
     'use strict';
+
+    var ClientErrorManager = require('background/model/clientErrorManager');
 
     describe('ClientErrorManager', function () {
         beforeEach(function () {

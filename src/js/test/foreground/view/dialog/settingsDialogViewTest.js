@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/settingsDialogView'
-], function(SettingsDialogView) {
+﻿define(function(require) {
     'use strict';
+
+    var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
 
     describe('SettingsDialogView', function () {
         beforeEach(function () {

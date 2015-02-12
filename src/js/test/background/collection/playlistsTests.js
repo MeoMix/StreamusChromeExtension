@@ -1,13 +1,13 @@
-﻿define([
-    'background/collection/playlists',
-    'background/collection/syncActions',
-    'background/model/playlist',
-    'background/model/syncAction',
-    'background/model/syncManager',
-    'common/enum/listItemType',
-    'test/testUtility'
-], function (Playlists, SyncActions, Playlist, SyncAction, SyncManager, SyncActionType, ListItemType) {
+﻿define(function (require) {
     'use strict';
+
+    var Playlists = require('background/collection/playlists');
+    var SyncActions = require('background/collection/syncActions');
+    var Playlist = require('background/model/playlist');
+    var SyncAction = require('background/model/syncAction');
+    var SyncManager = require('background/model/syncManager');
+    var SyncActionType = require('common/enum/listItemType');
+    var ListItemType = require('test/testUtility');
 
     describe('Playlists', function () {
         var PLAYLIST_TITLE = 'Playlist 0000';

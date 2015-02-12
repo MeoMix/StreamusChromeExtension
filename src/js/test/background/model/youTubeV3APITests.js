@@ -1,8 +1,8 @@
-﻿define([
-    'background/enum/youTubeServiceType',
-    'background/model/youTubeV3API'
-], function (YouTubeServiceType, YouTubeV3API) {
+﻿define(function (require) {
     'use strict';
+
+    var YouTubeServiceType = require('background/enum/youTubeServiceType');
+    var YouTubeV3API = require('background/model/youTubeV3API');
     
     describe('YouTubeV3API', function () {
         describe('when asked to get a list of information involving both available and unavailable songs', function () {
