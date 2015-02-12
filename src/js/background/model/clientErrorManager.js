@@ -11,6 +11,7 @@
                     arch: '',
                     nacl_arch: ''
                 },
+                language: '',
                 signInManager: null,
                 reportedErrors: new ClientErrors()
             };

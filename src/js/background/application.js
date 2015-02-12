@@ -40,7 +40,7 @@
         },
 
         _setServerUrl: function () {
-            this.serverUrl = this.localDebug ? 'http://localhost:7969/' : 'https://aws-server.streamus.com/Streamus/';
+            this.serverUrl = this.localDebug ? 'http://localhost:39853/' : 'https://aws-server.streamus.com/Streamus/';
         },
 
         _setInstanceId: function () {

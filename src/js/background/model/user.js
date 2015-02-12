@@ -7,7 +7,8 @@ define(function (require) {
         defaults: {
             id: null,
             googlePlusId: '',
-            playlists: null
+            playlists: null,
+            language: ''
         },
         
         urlRoot: function() {
@@ -128,8 +129,18 @@ define(function (require) {
         
         _onLoadSuccess: function() {
             this._ensurePlaylistsCollection();
+            this._setLanguage();
             localStorage.setItem('userId', this.get('id'));
             this.trigger('loadSuccess');
+        },
+        
+        _setLanguage: function () {
+            var language = chrome.i18n.getUILanguage();
+            console.log('language?', language);
+            //if (this.get('language') !== language) {
+                console.log('saving');
+                this.save({ language: language }, { patch: true });
+            //
         }
     });
 
