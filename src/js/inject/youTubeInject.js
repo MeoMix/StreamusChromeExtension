@@ -145,7 +145,8 @@ $(function () {
 			for (var i = 0; i < playlists.length; i++) {
 				$('<option>', {
 					value: playlists[i].id,
-					text: playlists[i].title
+					text: playlists[i].title,
+					selected: playlists[i].active
 				}).appendTo($('#playlistSelect'));
 			}
 		});
