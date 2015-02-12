@@ -167,9 +167,6 @@
             dataSource = new DataSource({ type: DataSourceType.None });
             expect(dataSource.isYouTubePlaylist()).to.equal(false);
 
-            dataSource = new DataSource({ type: DataSourceType.Unknown });
-            expect(dataSource.isYouTubePlaylist()).to.equal(false);
-            
             dataSource = new DataSource({ type: DataSourceType.UserInput });
             expect(dataSource.isYouTubePlaylist()).to.equal(false);
         });

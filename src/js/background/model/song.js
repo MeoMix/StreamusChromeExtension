@@ -1,7 +1,7 @@
 ﻿define(function (require) {
     'use strict';
     
-    var SongType = require('common/enum/songType');
+    var SongType = require('background/enum/songType');
     var Utility = require('common/utility');
 
     var Song = Backbone.Model.extend({

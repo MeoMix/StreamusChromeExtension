@@ -3,8 +3,8 @@
 
     var Songs = require('background/collection/songs');
     var YouTubeAPIKey = require('background/key/youTubeAPIKey');
-    var SongType = require('common/enum/songType');
-    var YouTubeServiceType = require('common/enum/youTubeServiceType');
+    var SongType = require('background/enum/songType');
+    var YouTubeServiceType = require('background/enum/youTubeServiceType');
     var Utility = require('common/utility');
 
     var YouTubeV3API = Backbone.Model.extend({

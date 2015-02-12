@@ -3,7 +3,7 @@
 
     var YouTubeV3API = require('background/model/youTubeV3API');
     var DataSourceType = require('common/enum/dataSourceType');
-    var YouTubeServiceType = require('common/enum/youTubeServiceType');
+    var YouTubeServiceType = require('background/enum/youTubeServiceType');
 
     var DataSource = Backbone.Model.extend({
         defaults: {

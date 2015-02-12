@@ -5,7 +5,7 @@
     'background/model/playlist',
     'background/model/playlistItem',
     'common/enum/listItemType',
-    'common/enum/songType'
+    'background/enum/songType'
 ], function (SyncActions, SyncActionType, SyncManager, Playlist, PlaylistItem, ListItemType, SongType) {
     'use strict';
 

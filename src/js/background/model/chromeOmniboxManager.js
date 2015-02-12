@@ -2,7 +2,7 @@
     'use strict';
 
     var Songs = require('background/collection/songs');
-    var OmniboxModifiers = require('background/enum/omniboxModifiers');
+    var OmniboxModifier = require('background/enum/omniboxModifier');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var Utility = require('common/utility');
 
@@ -13,7 +13,7 @@
                 suggestedSongs: new Songs(),
                 searchRequest: null,
                 modifiers: [],
-                validModifiers: [OmniboxModifiers.Add],
+                validModifiers: [OmniboxModifier.Add],
                 streamItems: null
             };
         },
@@ -75,7 +75,7 @@
                 pickedSong = this.get('suggestedSongs').first();
             }
 
-            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
+            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifier.Add);
             var playOnAdd = addOnlyModifierExists ? false : true;
 
             this.get('streamItems').addSongs(pickedSong, {
