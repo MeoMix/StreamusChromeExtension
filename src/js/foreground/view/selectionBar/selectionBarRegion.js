@@ -19,7 +19,6 @@
         },
         
         _onSelectionBarChangeActiveCollection: function (model, activeCollection) {
-            console.log('activeCollection:', activeCollection);
             this.$el.toggleClass('is-visible', activeCollection !== null);
         }
     });

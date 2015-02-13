@@ -326,7 +326,6 @@ define(function (require) {
         _onYouTubePlayerChangeState: function (model, youTubePlayerState) {
             //  TODO: This will need to be smarter w/ SoundCloud support.
             var playerState = this._getPlayerState(youTubePlayerState);
-            console.log('playerState:', playerState);
             this.set('state', playerState);
         },
         

@@ -170,7 +170,6 @@
         },
         
         _onStreamItemsAdd: function () {
-            console.log('hi');
             this._setAddButtonState(this.model.get('activeCollection'));
         },
         
