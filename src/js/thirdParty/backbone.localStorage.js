@@ -1,7 +1,7 @@
-﻿//  TODO: Note that I have modified this file to support "patch", but it's treated as a full-update for now.
+﻿//  NOTE: I HAVE MODIFIED THIS FILE TO ADD THE "patch" KEYWORD. PATCH IS TREATED AS A FULL UPDATE.
 /**
  * Backbone localStorage Adapter
- * Version 1.1.16
+ * Version 1.1.7
  *
  * https://github.com/jeromegn/Backbone.localStorage
  */
@@ -22,6 +22,9 @@
     // persistence. Models are given GUIDS, and saved into a JSON object. Simple
     // as that.
 
+    // Hold reference to Underscore.js and Backbone.js in the closure in order
+    // to make things work even if they are removed from the global namespace
+
     // Generate four random hex digits.
     function S4() {
         return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
@@ -31,10 +34,6 @@
     function guid() {
         return (S4() + S4() + "-" + S4() + "-" + S4() + "-" + S4() + "-" + S4() + S4() + S4());
     };
-
-    function isObject(item) {
-        return item === Object(item);
-    }
 
     function contains(array, item) {
         var i = array.length;
@@ -47,12 +46,6 @@
         return obj;
     }
 
-    function result(object, property) {
-        if (object == null) return void 0;
-        var value = object[property];
-        return (typeof value === 'function') ? object[property]() : value;
-    }
-
     // Our Store is represented by a single JS object in *localStorage*. Create it
     // with a meaningful name, like the name you'd give a table.
     // window.Store is deprectated, use Backbone.LocalStorage instead
@@ -63,7 +56,7 @@
         this.name = name;
         this.serializer = serializer || {
             serialize: function (item) {
-                return isObject(item) ? JSON.stringify(item) : item;
+                return _.isObject(item) ? JSON.stringify(item) : item;
             },
             // fix for "illegal access" error on Android when JSON.parse is passed null
             deserialize: function (data) {
@@ -84,30 +77,31 @@
         // Add a model, giving it a (hopefully)-unique GUID, if it doesn't already
         // have an id of it's own.
         create: function (model) {
-            if (!model.id && model.id !== 0) {
+            if (!model.id) {
                 model.id = guid();
                 model.set(model.idAttribute, model.id);
             }
-            this.localStorage().setItem(this._itemName(model.id), this.serializer.serialize(model));
+
+            this.localStorage().setItem(this.name + "-" + model.id, this.serializer.serialize(model));
             this.records.push(model.id.toString());
             this.save();
-            return this.find(model);
+            return this.find(model) !== false;
         },
 
         // Update a model by replacing its copy in `this.data`.
         update: function (model) {
-            this.localStorage().setItem(this._itemName(model.id), this.serializer.serialize(model));
+            this.localStorage().setItem(this.name + "-" + model.id, this.serializer.serialize(model));
             var modelId = model.id.toString();
             if (!contains(this.records, modelId)) {
                 this.records.push(modelId);
                 this.save();
             }
-            return this.find(model);
+            return this.find(model) !== false;
         },
 
         // Retrieve a model from `this.data` by id.
         find: function (model) {
-            return this.serializer.deserialize(this.localStorage().getItem(this._itemName(model.id)));
+            return this.serializer.deserialize(this.localStorage().getItem(this.name + "-" + model.id));
         },
 
         // Return the array of all models currently in storage.
@@ -115,7 +109,7 @@
             var result = [];
             for (var i = 0, id, data; i < this.records.length; i++) {
                 id = this.records[i];
-                data = this.serializer.deserialize(this.localStorage().getItem(this._itemName(id)));
+                data = this.serializer.deserialize(this.localStorage().getItem(this.name + "-" + id));
                 if (data != null) result.push(data);
             }
             return result;
@@ -123,7 +117,9 @@
 
         // Delete a model from `this.data`, returning it.
         destroy: function (model) {
-            this.localStorage().removeItem(this._itemName(model.id));
+            if (model.isNew())
+                return false
+            this.localStorage().removeItem(this.name + "-" + model.id);
             var modelId = model.id.toString();
             for (var i = 0, id; i < this.records.length; i++) {
                 if (this.records[i] === modelId) {
@@ -159,10 +155,6 @@
         // Size of localStorage.
         _storageSize: function () {
             return this.localStorage().length;
-        },
-
-        _itemName: function (id) {
-            return this.name + "-" + id;
         }
 
     });
@@ -171,7 +163,7 @@
     // *localStorage* property, which should be an instance of `Store`.
     // window.Store.sync and Backbone.localSync is deprecated, use Backbone.LocalStorage.sync instead
     Backbone.LocalStorage.sync = window.Store.sync = Backbone.localSync = function (method, model, options) {
-        var store = result(model, 'localStorage') || result(model.collection, 'localStorage');
+        var store = model.localStorage || model.collection.localStorage;
 
         var resp, errorMessage;
         //If $ is having Deferred - use it.
@@ -180,7 +172,6 @@
           (Backbone.Deferred && Backbone.Deferred());
 
         try {
-
             switch (method) {
                 case "read":
                     resp = model.id != undefined ? store.find(model) : store.findAll();
@@ -240,10 +231,8 @@
 
     Backbone.ajaxSync = Backbone.sync;
 
-    Backbone.getSyncMethod = function (model, options) {
-        var forceAjaxSync = options && options.ajaxSync;
-
-        if (!forceAjaxSync && (result(model, 'localStorage') || result(model.collection, 'localStorage'))) {
+    Backbone.getSyncMethod = function (model) {
+        if (model.localStorage || (model.collection && model.collection.localStorage)) {
             return Backbone.localSync;
         }
 
@@ -253,7 +242,7 @@
     // Override 'Backbone.sync' to default to localSync,
     // the original 'Backbone.sync' is still available in 'Backbone.ajaxSync'
     Backbone.sync = function (method, model, options) {
-        return Backbone.getSyncMethod(model, options).apply(this, [method, model, options]);
+        return Backbone.getSyncMethod(model).apply(this, [method, model, options]);
     };
 
     return Backbone.LocalStorage;
