@@ -88,10 +88,10 @@
     <Content Include="src\img\svg\ic_shuffle_18px.svg" />
     <Content Include="src\img\svg\ic_skip_next_24px.svg" />
     <Content Include="src\img\svg\ic_skip_previous_24px.svg" />
-    <Content Include="src\img\svg\ic_volume_down_18px.svg" />
-    <Content Include="src\img\svg\ic_volume_off_18px.svg" />
-    <Content Include="src\img\svg\ic_volume_mute_18px.svg" />
-    <Content Include="src\img\svg\ic_volume_up_18px.svg" />
+    <Content Include="src\img\svg\ic_volume_down_24px.svg" />
+    <Content Include="src\img\svg\ic_volume_mute_24px.svg" />
+    <Content Include="src\img\svg\ic_volume_off_24px.svg" />
+    <Content Include="src\img\svg\ic_volume_up_24px.svg" />
     <Content Include="src\img\yellow_0bar_19.png" />
     <Content Include="src\img\yellow_0bar_38.png" />
     <Content Include="src\img\yellow_1bar_19.png" />
@@ -106,7 +106,7 @@
     <Content Include="src\js\background\collection\clientErrors.js" />
     <Content Include="src\js\background\collection\songs.js" />
     <Content Include="src\js\background\enum\chromeCommand.js" />
-    <Content Include="src\js\background\enum\omniboxModifiers.js" />
+    <Content Include="src\js\background\enum\omniboxModifier.js" />
     <Content Include="src\js\background\mixin\collectionUniqueSong.js" />
     <Content Include="src\js\background\model\backgroundArea.js" />
     <Content Include="src\js\background\model\dataSourceManager.js" />
@@ -156,13 +156,14 @@
     <Content Include="src\js\background\view\clipboardView.js" />
     <Content Include="src\js\background\view\youTubePlayerRegion.js" />
     <Content Include="src\js\background\view\youTubePlayerView.js" />
-    <Content Include="src\js\background\key\youTubeAPI.js" />
+    <Content Include="src\js\background\key\youTubeAPIKey.js" />
     <Content Include="src\js\common\enum\direction.js" />
     <Content Include="src\js\common\enum\exportFileType.js" />
+    <Content Include="src\js\common\enum\playerState.js" />
     <Content Include="src\js\common\enum\songQuality.js" />
-    <Content Include="src\js\common\enum\songType.js" />
-    <Content Include="src\js\common\enum\youTubeQuality.js" />
-    <Content Include="src\js\common\enum\youTubeServiceType.js" />
+    <Content Include="src\js\background\enum\songType.js" />
+    <Content Include="src\js\background\enum\youTubeQuality.js" />
+    <Content Include="src\js\background\enum\youTubeServiceType.js" />
     <Content Include="src\js\background\model\dataSource.js" />
     <Content Include="src\js\common\utility.js" />
     <Content Include="src\js\background\model\youTubeV3API.js" />
@@ -241,7 +242,7 @@
     <Content Include="src\js\foreground\view\stream\streamRegion.js" />
     <Content Include="src\js\foreground\view\dialog\settingsView.js" />
     <Content Include="src\js\common\enum\dataSourceType.js" />
-    <Content Include="src\js\common\enum\playerState.js" />
+    <Content Include="src\js\background\enum\youTubePlayerState.js" />
     <Content Include="src\js\common\enum\repeatButtonState.js" />
     <Content Include="src\js\common\enum\youTubePlayerError.js" />
     <Content Include="src\js\foreground\application.js" />
@@ -345,6 +346,7 @@
     <Content Include="src\font\Roboto-Regular.ttf" />
     <Content Include=".travis.yml" />
     <Content Include="LICENSE" />
+    <Content Include="src\js\background\key\youTubeAPIKey.js.example" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />
@@ -420,7 +422,6 @@
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\de\messages.json" />
-    <Content Include="src\less\normalize.less" />
     <Content Include="src\less\reset.less" />
     <Content Include="src\less\utility.less" />
     <Content Include="src\less\dialog.less" />
@@ -447,6 +448,7 @@
     <Content Include="src\less\text.less" />
     <Content Include="src\_locales\fr\messages.json" />
     <Content Include="src\_locales\nl\messages.json" />
+    <Content Include="src\less\selectionBar.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

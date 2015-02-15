@@ -4,18 +4,18 @@
 
 .button {
     display: inline-flex;
+    .u-clickable;
     align-items: center;
     justify-content: center;
-    .u-clickable;
 }
 
 .button--flat {
-    font-size: 14px;
-    margin: 0 4px;
     padding: 8px;
+    margin: 0 4px;
+    font-size: 14px;
+    font-weight: 600;
     color: @blue--500;
     text-transform: uppercase;
-    font-weight: 600;
     border-radius: 2px;
     transition: background-color @transition-color-time @transition-easeOutSine;
 

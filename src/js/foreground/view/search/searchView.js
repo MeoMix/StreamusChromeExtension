@@ -8,7 +8,7 @@
     //  TODO: I feel like this should be called searchResultsArea
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',
-        className: 'leftPane flexColumn panel-content panel-content--uncolored',
+        className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
         template: _.template(SearchTemplate),
         
         templateHelpers: function () {

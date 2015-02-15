@@ -49,6 +49,16 @@ module.exports = function (grunt) {
 				ext: '.css'
 			}
 		},
+		recess: {
+		    dist: {
+		        src: 'src/less/foreground.less',
+		        options: {
+		            //  TODO: Remove these hopefully
+		            noUniversalSelectors: false,
+		            strictPropertyOrder: false
+		        }
+		    }
+		},
 		requirejs: {
 			production: {
 				options: {
@@ -97,6 +107,7 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-recess');
 
     var _ = require('lodash');
 

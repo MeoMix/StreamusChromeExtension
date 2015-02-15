@@ -6,8 +6,8 @@
     var CheckboxView = Marionette.ItemView.extend({
         tagName: 'checkbox',
         className: function () {
-            var className = this.model.get('primary') ? 'primary' : 'secondary';
-            className += this.model.get('iconOnLeft') ? ' iconOnLeft' : ' iconOnRight';
+            var className = this.model.get('primary') ? 'checkbox--primary' : 'checkbox--secondary';
+            className += this.model.get('iconOnLeft') ? ' checkbox--leftIcon' : ' checkbox--rightIcon';
             return className;
         },
         template: _.template(CheckboxTemplate),

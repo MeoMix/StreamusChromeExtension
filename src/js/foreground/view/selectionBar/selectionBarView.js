@@ -6,7 +6,7 @@
 
     var SelectionBarView = Marionette.ItemView.extend({
         id: 'selectionBar',
-        className: 'panel-content panel-content--uncolored',
+        className: 'selectionBar panel-content panel-content--uncolored',
         template: _.template(SelectionBarTemplate),
         
         templateHelpers: function () {
@@ -68,9 +68,9 @@
             this.searchResults = Streamus.backgroundPage.search.get('results');
             this.signInManager = Streamus.backgroundPage.signInManager;
 
-            Marionette.bindEntityEvents(this, this.streamItems, this.streamItemsEvents);
-            Marionette.bindEntityEvents(this, this.streamItems, this.multiSelectCollectionEvents);
-            Marionette.bindEntityEvents(this, this.searchResults, this.multiSelectCollectionEvents);
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
+            this.bindEntityEvents(this.streamItems, this.multiSelectCollectionEvents);
+            this.bindEntityEvents(this.searchResults, this.multiSelectCollectionEvents);
 
             //  If user is currently signed in then listen to their activePlaylist's selection events.
             var signedInUser = this.signInManager.get('signedInUser');
@@ -184,9 +184,9 @@
         //  Bind/unbind listeners as appropriate whenever the active playlist changes.
         _onPlaylistsChangeActive: function (model, active) {
             if (active) {
-                Marionette.bindEntityEvents(this, model.get('items'), this.multiSelectCollectionEvents);
+                this.bindEntityEvents(model.get('items'), this.multiSelectCollectionEvents);
             } else {
-                Marionette.unbindEntityEvents(this, model.get('items'), this.multiSelectCollectionEvents);
+                this.unbindEntityEvents(model.get('items'), this.multiSelectCollectionEvents);
             }
         },
         
@@ -220,13 +220,13 @@
         //  Bind or unbind entity events to a user's playlists and activePlaylist's items.
         //  Useful for when a user is signing in/out.
         _setUserBindings: function (user, isBinding) {
-            var bindingAction = isBinding ? Marionette.bindEntityEvents : Marionette.unbindEntityEvents;
+            var bindingAction = isBinding ? this.bindEntityEvents : this.unbindEntityEvents;
 
             var playlists = user.get('playlists');
-            bindingAction(this, playlists, this.playlistsEvents);
+            bindingAction.call(this, playlists, this.playlistsEvents);
 
             var playlistItems = playlists.getActivePlaylist().get('items');
-            bindingAction(this, playlistItems, this.multiSelectCollectionEvents);
+            bindingAction.call(this, playlistItems, this.multiSelectCollectionEvents);
         },
         
         //  Update the text which shows how many songs are currently selected

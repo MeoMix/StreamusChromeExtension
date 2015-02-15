@@ -8,6 +8,7 @@
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
         id: 'activeStreamItem',
+        className: 'activeStreamItem',
         template: _.template(ActiveStreamItemTemplate),
 
         regions: function () {

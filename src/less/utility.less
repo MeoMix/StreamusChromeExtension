@@ -10,7 +10,8 @@
 }
 
 .u-elevated {
-    z-index: 3;
+    //  TODO: This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
+    z-index: 3 !important;
 }
 
 .u-clickable {
@@ -25,10 +26,18 @@
     height: 100%;
 }
 
-.u-link {
-    .u-clickable;
-    color: @blue--500;
+.u-fullWidth {
+    width: 100%;
+}
 
+.u-textAlignRight {
+    text-align: right;
+}
+
+.u-link {
+    color: @blue--500;
+    .u-clickable;
+    
     &:hover {
         color: @blue--700;
     }
@@ -45,8 +54,8 @@
 }
 
 .u-textSecondary {
-    color: @dark--secondary;
     line-height: 18px;
+    color: @dark--secondary;
 }
 
 .u-transitionable {

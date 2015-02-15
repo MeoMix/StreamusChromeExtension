@@ -6,12 +6,12 @@
 
 .panel {
     position: absolute;
-    transition-property: transform;
-    transition-timing-function: @transition-easeOutSine;
     //  Necessary to make sure it covers .instruction
     z-index: 2;
     //  Don't allow interaction with panels until they are declared visible.
     pointer-events: none;
+    transition-property: transform;
+    transition-timing-function: @transition-easeOutSine;
 
     &.is-instant {
         transition: none;
@@ -23,15 +23,6 @@
         > .panel-content--fadeInOut {
             opacity: 1;
         }
-    }
-
-    //  Since panels are absoutely positioned - flexbox needs to be told height/width to flex properly.
-    &.flexColumn {
-        height: 100%;
-    }
-
-    &.flexRow {
-        width: 100%;
     }
 }
 
@@ -47,14 +38,14 @@
 
 .panel-content--fadeInOut {
     opacity: 0;
+    transition-duration: inherit;
     transition-property: opacity;
     transition-timing-function: inherit;
-    transition-duration: inherit;
 }
 
 .panel--left {
-    transform: translateX(-110%);
     left: 0;
+    transform: translateX(-110%);
 
     &.is-visible {
         transform: translateX(0);
@@ -62,8 +53,8 @@
 }
 
 .panel--bottom {
-    transform: translateY(110%);
     bottom: 0;
+    transform: translateY(110%);
 
     &.is-visible {
         transform: translateY(0);

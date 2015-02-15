@@ -6,14 +6,14 @@
 //  Although, if that's the case, I should use perfect squares instead (.32s)
 switch {
     display: flex;
-    align-items: center;
     cursor: pointer;
+    align-items: center;
 }
 
 .switch-label {
-    flex: 1;
     margin-right: 12px;
     cursor: pointer;
+    flex: 1;
 }
 
 .switch-icon {
@@ -28,8 +28,8 @@ switch {
         background-color: fadeout(@blue--500, 50%);
 
         &:after {
-            background-color: @blue--500;
             left: 15px;
+            background-color: @blue--500;
         }
     }
 
@@ -37,20 +37,20 @@ switch {
         background-color: @dark--tertiary;
 
         &:after {
-            background-color: @gray--50;
             left: -5px;
+            background-color: @gray--50;
         }
     }
 }
 
 .switch-icon:after {
-    content: "";
+    position: relative;
+    top: -2px;
     display: inline-block;
     width: 20px;
     height: 20px;
     border-radius: 50%;
-    position: relative;
+    content: "";
     box-shadow: @boxShadow-elevation--low;
-    top: -2px;
     transition: left 0.28s ease, background 0.28s ease;
 }

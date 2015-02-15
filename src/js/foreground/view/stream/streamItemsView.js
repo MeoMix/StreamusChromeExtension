@@ -54,11 +54,15 @@
                 behaviorClass: Tooltip
             }
         },
+        
+        activeStreamItemAreaEvents: {
+            'beforeVisible': '_onActiveStreamItemAreaBeforeVisible',
+            'visible': '_onActiveStreamItemAreaVisible',
+            'hidden': '_onActiveStreamItemAreaHidden'
+        },
 
         initialize: function () {
-            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'beforeVisible', this._onActiveStreamItemAreaBeforeVisible);
-            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'visible', this._onActiveStreamItemAreaVisible);
-            this.listenTo(Streamus.channels.activeStreamItemArea.vent, 'hidden', this._onActiveStreamItemAreaHidden);
+            this.bindEntityEvents(Streamus.channels.activeStreamItemArea.vent, this.activeStreamItemAreaEvents);
         },
         
         _onActiveStreamItemAreaBeforeVisible: function () {

@@ -13,13 +13,13 @@
 }
 
 .dialog-panel {
-    left: 50%;
     top: 50%;
-    transform: translate(-50%, -50%) scale(.8);
-    min-width: 260px;
+    left: 50%;
+    display: flex;
     max-width: 500px;
     max-height: 410px;
-    display: flex;
+    min-width: 260px;
+    transform: translate(-50%, -50%) scale(.8);
     flex-direction: column;
 
     &.is-visible {
@@ -28,8 +28,8 @@
 }
 
 .dialog-panel-content {
-    border-radius: 2px;
     display: flex;
+    border-radius: 2px;
     flex-direction: column;
 }
 
@@ -38,21 +38,20 @@
 }
 
 .dialog-content {
-    flex: 1;
+    position: relative;
+    padding: 0 24px;
     //  http://www.google.com/design/spec/components/dialogs.html#dialogs-specs
     margin-top: 24px;
     margin-bottom: 16px;
-    padding: 0 24px;
-    cursor: default;
-    color: @dark--primary;
     overflow: hidden;
-    position: relative;
     font-size: 15px;
+    color: @dark--primary;
+    cursor: default;
+    flex: 1;
 }
 
 //  TODO: This is inconsistent, but having the box-shadow/border looks weird
 .dialog-contentBar--bottom {
-    box-shadow: none;
     margin: 8px 8px;
 
     checkbox {
@@ -67,7 +66,7 @@
     }
 
     .checkbox-label {
-        text-transform: uppercase;
         font-weight: 600;
+        text-transform: uppercase;
     }
 }

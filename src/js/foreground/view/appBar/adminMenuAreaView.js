@@ -44,11 +44,14 @@
 
         tabManager: null,
         
+        elementEvents: {
+            'drag': '_onElementDrag',
+            'click': '_onElementClick'
+        },
+        
         initialize: function () {
             this.tabManager = Streamus.backgroundPage.tabManager;
-            
-            this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
-            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+            this.bindEntityEvents(Streamus.channels.element.vent, this.elementEvents);
         },
         
         _onClickMenuButton: function () {
@@ -80,6 +83,7 @@
         },
         
         _onElementClick: function (event) {
+            console.log('hi');
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
             if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
                 this.model.set('menuShown', false);

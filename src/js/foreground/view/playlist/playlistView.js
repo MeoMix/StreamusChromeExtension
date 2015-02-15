@@ -33,11 +33,14 @@
         
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
         
+        playlistItemsEvents: {
+            'add': '_onPlaylistItemsAdd',
+            'remove': '_onPlaylistItemsRemove',
+            'reset': '_onPlaylistItemsReset'
+        },
+        
         initialize: function () {
-            var playlistItems = this.model.get('items');
-            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
-            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
-            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
+            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
         },
         
         onRender: function () {

@@ -23,8 +23,7 @@
             return {
                 timeProgress: '#' + this.id + '-timeProgress',
                 timeRange: '#' + this.id + '-timeRange',
-                elapsedTimeLabel: '#' + this.id + '-elapsedTimeLabel',
-                totalTimeLabel: '#' + this.id + '-totalTimeLabel'
+                elapsedTimeLabel: '#' + this.id + '-elapsedTimeLabel'
             };
         },
 
@@ -45,12 +44,16 @@
         streamItems: null,
         player: null,
         
+        playerEvents: {
+            'change:currentTime': '_onPlayerChangeCurrentTime',
+            'change:state': '_onPlayerChangeState'
+        },
+        
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.player = Streamus.backgroundPage.player;
-
-            this.listenTo(this.player, 'change:currentTime', this._onPlayerChangeCurrentTime);
-            this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
+            
+            this.bindEntityEvents(this.player, this.playerEvents);
         },
 
         onRender: function () {

@@ -53,11 +53,14 @@
             'change:activeItem': '_onChangeActiveItem'
         },
         
+        streamItemsEvents: {
+            'add': '_onStreamItemsAdd',
+            'remove': '_onStreamItemsRemove',
+            'reset': '_onStreamItemsReset'
+        },
+        
         initialize: function () {
-            var streamItems = this.model.get('items');
-            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
-            this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
-            this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
+            this.bindEntityEvents(this.model.get('items'), this.streamItemsEvents);
         },
         
         onRender: function () {
