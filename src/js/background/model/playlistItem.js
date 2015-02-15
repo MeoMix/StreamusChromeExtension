@@ -17,10 +17,6 @@
             listItemType: ListItemType.PlaylistItem
         },
         
-        urlRoot: function () {
-            return Streamus.serverUrl + 'PlaylistItem/';
-        },
-        
         parse: function (playlistItemDto) {
             //  Patch requests do not return information.
             if (!_.isUndefined(playlistItemDto)) {

@@ -24,10 +24,6 @@ define(function (require) {
             //  Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
-
-        urlRoot: function() {
-            return Streamus.serverUrl + 'Playlist/';
-        },
             
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.

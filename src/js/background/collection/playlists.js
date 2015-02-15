@@ -13,6 +13,10 @@
         
         mixins: [CollectionSequence],
         
+        url: function() {
+            return Streamus.serverUrl + 'Playlist/';
+        },
+        
         initialize: function (models, options) {
             this.userId = options.userId;
             

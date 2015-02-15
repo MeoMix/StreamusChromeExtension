@@ -15,6 +15,10 @@
         userFriendlyName: chrome.i18n.getMessage('playlist'),
         mixins: [CollectionMultiSelect, CollectionSequence, CollectionUniqueSong],
         
+        url: function () {
+            return Streamus.serverUrl + 'PlaylistItem/';
+        },
+        
         initialize: function (models, options) {
             if (!_.isUndefined(options)) {
                 this.playlistId = options.playlistId;
