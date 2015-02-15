@@ -3,9 +3,13 @@
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
+    var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveSongButtonView = ListItemButtonView.extend({
         template: _.template(SaveListItemButtonTemplate),
+        templateHelpers: {
+            saveIcon: _.template(SaveIconTemplate)()
+        },
 
         signInManager: null,
 

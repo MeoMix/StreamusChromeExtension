@@ -10,6 +10,8 @@
     var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
     var Tooltip = require('foreground/view/behavior/tooltip');
     var AppBarTemplate = require('text!template/appBar/appBar.html');
+    var MenuIconTemplate = require('text!template/icon/menuIcon_24.svg');
+    var SearchIconTemplate = require('text!template/icon/searchIcon_24.svg');
 
     var AppBarView = Marionette.LayoutView.extend({
         id: 'appBar',
@@ -19,7 +21,9 @@
             return {
                 searchQuery: this.search.get('query'),
                 showSearchMessage: chrome.i18n.getMessage('showSearch'),
-                searchMessage: chrome.i18n.getMessage('search')
+                searchMessage: chrome.i18n.getMessage('search'),
+                menuIcon: _.template(MenuIconTemplate)(),
+                searchIcon: _.template(SearchIconTemplate)()
             };
         },
         

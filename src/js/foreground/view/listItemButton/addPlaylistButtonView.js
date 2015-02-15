@@ -3,9 +3,13 @@
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
+    var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
     var AddPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(AddListItemButtonTemplate),
+        templateHelpers: {
+            addIcon: _.template(AddIconTemplate)()
+        },
         
         streamItems: null,
         

@@ -28,6 +28,23 @@
     }
 }
 
+.button--icon {
+    //  Ensure that wrapping <svg> doesn't increase height of button
+    line-height: 0;
+
+    &.is-enabled {
+        fill: @blue--500;
+
+        &:hover {
+            fill: @blue--700;
+        }
+    }
+
+    &.is-disabled {
+        opacity: .26;
+    }
+}
+
 .button--icon--primary {
     opacity: 0.87;
 
@@ -42,20 +59,6 @@
     &:hover,
     &.is-enabled {
         opacity: .87;
-    }
-}
-
-.button--icon {
-    &.is-enabled {
-        fill: @blue--500;
-
-        &:hover {
-            fill: @blue--700;
-        }
-    }
-
-    &.is-disabled {
-        opacity: .26;
     }
 }
 

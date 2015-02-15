@@ -4,6 +4,7 @@
     var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
     var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
     var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
+    var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
     
     var AdminMenuAreaView = Marionette.ItemView.extend({
         id: 'adminMenuArea',
@@ -14,7 +15,8 @@
             browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
             keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
             openInTabMessage: chrome.i18n.getMessage('openInTab'),
-            reloadMessage: chrome.i18n.getMessage('reload')
+            reloadMessage: chrome.i18n.getMessage('reload'),
+            settingsIcon: SettingsIcon
         },
         
         ui: function () {
@@ -83,7 +85,6 @@
         },
         
         _onElementClick: function (event) {
-            console.log('hi');
             //  If the user clicks anywhere on the page except for this menu button -- hide the menu.
             if ($(event.target).closest(this.ui.menuButton.selector).length === 0) {
                 this.model.set('menuShown', false);

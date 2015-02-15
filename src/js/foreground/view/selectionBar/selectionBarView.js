@@ -3,6 +3,7 @@
     
     var Tooltip = require('foreground/view/behavior/tooltip');
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
+    var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
     var SelectionBarView = Marionette.ItemView.extend({
         id: 'selectionBar',
@@ -15,7 +16,8 @@
                 playMessage: chrome.i18n.getMessage('play'),
                 addMessage: chrome.i18n.getMessage('add'),
                 saveMessage: chrome.i18n.getMessage('save'),
-                deleteMessage: chrome.i18n.getMessage('delete')
+                deleteMessage: chrome.i18n.getMessage('delete'),
+                closeIcon: _.template(CloseIconTemplate)()
             };
         },
         

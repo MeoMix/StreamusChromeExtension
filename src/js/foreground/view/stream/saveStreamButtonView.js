@@ -3,11 +3,15 @@
 
     var Tooltip = require('foreground/view/behavior/tooltip');
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
+    var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(SaveStreamButtonTemplate),
+        templateHelpers: {
+            saveIcon: _.template(SaveIconTemplate)()
+        },
 
         events: {
             'click': '_onClick',

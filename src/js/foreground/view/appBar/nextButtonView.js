@@ -2,11 +2,15 @@
     'use strict';
 
     var NextButtonTemplate = require('text!template/appBar/nextButton.html');
+    var NextIconTemplate = require('text!template/icon/nextIcon_24.svg');
 
     var NextButtonView = Marionette.ItemView.extend({
         id: 'nextButton',
         className: 'button button--icon button--icon--primary button--large',
         template: _.template(NextButtonTemplate),
+        templateHelpers: {
+            nextIcon: _.template(NextIconTemplate)()
+        },
 
         events: {
             'click': '_onClick'

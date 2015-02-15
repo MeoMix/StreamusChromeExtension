@@ -2,11 +2,15 @@
     'use strict';
 
     var PreviousButtonTemplate = require('text!template/appBar/previousButton.html');
+    var PreviousIconTemplate = require('text!template/icon/previousIcon_24.svg');
 
     var PreviousButton = Marionette.ItemView.extend({
         id: 'previousButton',
         className: 'button button--icon button--icon--primary button--large',
         template: _.template(PreviousButtonTemplate),
+        templateHelpers: {
+            previousIcon: _.template(PreviousIconTemplate)()
+        },
         
         events: {
             'click': '_onClick'
