@@ -48,6 +48,17 @@
             Sortable: {
                 behaviorClass: Sortable
             }
+        },
+        
+        initialize: function () {
+            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
+
+            this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
+        },
+
+        //  Don't maintain selected results after showing SearchArea because this view won't be visible.
+        _onSearchAreaShowing: function () {
+            this.triggerMethod('DeselectCollection');
         }
     });
 

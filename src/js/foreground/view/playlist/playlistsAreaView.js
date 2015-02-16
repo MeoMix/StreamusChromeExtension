@@ -38,6 +38,7 @@
         },
         
         playlists: null,
+
         //  TODO: This feels weird...
         initialize: function (options) {
             this.playlists = options.playlists;

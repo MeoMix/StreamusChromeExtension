@@ -19,6 +19,10 @@
             });
         },
         
+        onDeselectCollection: function () {
+            this._deselectCollection();
+        },
+        
         _onListItemSelected: function (options) {
             if (this.view.childViewType !== options.listItemType) {
                 this._deselectCollection();
