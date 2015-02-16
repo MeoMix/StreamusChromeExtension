@@ -10,6 +10,7 @@
     var DataSourceManager = require('background/model/dataSourceManager');
     var DebugManager = require('background/model/debugManager');
     var Player = require('background/model/player');
+    var PlaylistsViewModel = require('background/viewModel/playlistsViewModel');
     var Search = require('background/model/search');
     var Settings = require('background/model/settings');
     var SignInManager = require('background/model/signInManager');
@@ -120,6 +121,8 @@
 
             var dataSourceManager = new DataSourceManager();
 
+            var playlistsViewModel = new PlaylistsViewModel();
+
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.browserSettings = browserSettings;
             window.debugManager = debugManager;
@@ -136,6 +139,7 @@
             window.search = search;
             window.player = player;
             window.dataSourceManager = dataSourceManager;
+            window.playlistsViewModel = playlistsViewModel;
         },
         
         _onForegroundStarted: function () {

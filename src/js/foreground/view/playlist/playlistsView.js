@@ -33,6 +33,10 @@
             };
         },
         
+        events: {
+            'scroll': '_onScroll'
+        },
+        
         triggers: {
             'click @ui.childContainer': 'click:childContainer'
         },
@@ -46,8 +50,22 @@
             }
         },
         
+        viewModel: null,
+        
+        initialize: function () {
+            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
+        },
+        
         onRender: function () {
             this.ui.childContainer.sortable(this._getSortableOptions());
+        },
+        
+        onAttach: function() {
+            this.el.scrollTop = this.viewModel.get('scrollTop');
+        },
+        
+        _onScroll: function () {
+            this.viewModel.set('scrollTop', this.el.scrollTop);
         },
         
         _getSortableOptions: function () {
