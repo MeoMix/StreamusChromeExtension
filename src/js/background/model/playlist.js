@@ -50,6 +50,8 @@ define(function (require) {
         
         initialize: function () {
             this._ensureItemsCollection();
+            this._setActivePlaylistListeners(this.get('active'));
+            
             this.on('change:title', this._onChangeTitle);
             this.on('change:sequence', this._onChangeSequence);
             this.on('change:active', this._onChangeActive);
@@ -131,6 +133,14 @@ define(function (require) {
             }
         },
         
+        _onChangeActive: function (model, active) {
+            this._setActivePlaylistListeners(active);
+
+            if (!active) {
+                this.get('items').deselectAll();
+            }
+        },
+        
         //  Notify all open YouTube tabs that a playlist has been renamed.
         _emitYouTubeTabUpdateEvent: function (data) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {
@@ -149,6 +159,41 @@ define(function (require) {
                     name: propertyName,
                     value: propertyValue
                 }
+            });
+        },
+        
+        _setActivePlaylistListeners: function(active) {
+            if (active) {
+                this.listenTo(Streamus.channels.activePlaylist.commands, 'save:song', this._saveSong);
+            } else {
+                this.stopListening(Streamus.channels.activePlaylist.commands);
+            }
+        },
+        
+        _saveSong: function (song) {
+            var duplicatesInfo = this.get('items').getDuplicatesInfo(song);
+            
+            if (duplicatesInfo.allDuplicates) {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                    title: duplicatesInfo.message
+                });
+            } else {
+                this.get('items').addSongs(song, {
+                    success: this._onSaveSongsSuccess.bind(this, song),
+                    error: this._onSaveSongsError.bind(this)
+                });
+            }
+        },
+        
+        _onSaveSongsSuccess: function (savedSong) {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('songSavedToPlaylist', [savedSong.get('title'), this.get('title')])
+            });
+        },
+        
+        _onSaveSongsError: function() {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('errorEncountered')
             });
         },
         

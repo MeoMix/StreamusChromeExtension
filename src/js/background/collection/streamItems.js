@@ -262,24 +262,30 @@
         },
         
         _onChromeCommandsCommand: function (command) {
-            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl) {
+            //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
+            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveActiveSong) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('streamEmpty')
                     });
                 } else {
-                    if (command === ChromeCommand.ShowActiveSong) {
-                        this.showActiveNotification();
-                    }
-                    else if (command === ChromeCommand.DeleteSongFromStream) {
-                        this.getActiveItem().destroy();
-                    }
-                    else if (command === ChromeCommand.CopySongUrl) {
-                        this.getActiveItem().get('song').copyUrl();
-                    }
-                    else if (command === ChromeCommand.CopySongTitleAndUrl) {
-                        this.getActiveItem().get('song').copyTitleAndUrl();
+                    switch(command) {
+                        case ChromeCommand.ShowActiveSong:
+                            this.showActiveNotification();
+                            break;
+                        case ChromeCommand.DeleteSongFromStream:
+                            this.getActiveItem().destroy();
+                            break;
+                        case ChromeCommand.CopySongUrl:
+                            this.getActiveItem().get('song').copyUrl();
+                            break;
+                        case ChromeCommand.CopySongTitleAndUrl:
+                            this.getActiveItem().get('song').copyTitleAndUrl();
+                            break;
+                        case ChromeCommand.SaveActiveSong:
+                            Streamus.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
+                            break;
                     }
                 }
             }

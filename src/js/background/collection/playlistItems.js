@@ -28,6 +28,7 @@
             this.on('remove', this._onRemove);
         },
 
+        //  TODO: Rename to saveSongs
         addSongs: function (songs, options) {
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];

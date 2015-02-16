@@ -483,5 +483,19 @@
 	},
 	"saveAll": {
 		"message": "Save all"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Save song"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ saved to $playlistTitle$",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
 	}
 }
