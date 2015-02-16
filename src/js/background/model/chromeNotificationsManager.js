@@ -1,6 +1,6 @@
 ﻿define(function () {
     'use strict';
-
+    
     //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
     //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
     //  Permissions: "notifications" 
@@ -17,7 +17,8 @@
                 //  iconUrl is required -- if none given, default to Streamus' icon.
                 iconUrl: 'img/streamus_icon128.png'
             },
-            tabManager: null
+            tabManager: null,
+            settings: null
         },
         
         initialize: function () {
@@ -35,7 +36,7 @@
             if (!foregroundActive) {
                 var chromeNotificationOptions = _.pick(notificationOptions, ['message', 'title', 'iconUrl']);
     
-                if (this._canUseNotificationsApi()) {
+                if (this._notificationsEnabled() ) {
                     chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
                 } else {
                     Streamus.channels.error.commands.trigger('log:error', new Error('ChromeNotificationsManager cannot use notifications api'));
@@ -49,8 +50,8 @@
             }
         },
         
-        _canUseNotificationsApi: function() {
-            return !_.isUndefined(chrome.notifications);
+        _notificationsEnabled: function () {
+            return !_.isUndefined(chrome.notifications) && this.get('settings').get('desktopNotificationsEnabled');
         },
         
         _createNotification: function (options) {

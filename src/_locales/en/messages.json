@@ -417,8 +417,8 @@
 			}
 		}
 	},
-	"activeSong": {
-		"message": "Active song"
+	"currentSong": {
+		"message": "Current song"
 	},
 	"urlCopied": {
 		"message": "URL copied"
@@ -497,5 +497,11 @@
 				"content": "$2"
 			}
 		}
+	},
+	"desktopNotifications": {
+		"message": "Desktop notifications"
+	},
+	"showNotifications": {
+		"message": "Show notifications"
 	}
 }

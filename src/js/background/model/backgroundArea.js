@@ -87,7 +87,8 @@
             });
             
             var chromeNotificationsManager = new ChromeNotificationsManager({
-                tabManager: tabManager
+                tabManager: tabManager,
+                settings: settings
             });
             
             var chromeOmniboxManager = new ChromeOmniboxManager({

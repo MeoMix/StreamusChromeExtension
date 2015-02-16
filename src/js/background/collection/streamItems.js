@@ -50,11 +50,9 @@
             var activeItem = this.getActiveItem();
             var activeSongId = activeItem.get('song').get('id');
 
-            //  TODO: It would be better to do 'now playing: ...' vs 'paused: ...' instead of 'active song', but StreamItems can't be in charge of that then.
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
-                title: chrome.i18n.getMessage('activeSong'),
-                message: activeItem.get('title')
+                title: activeItem.get('title')
             });
         },
         

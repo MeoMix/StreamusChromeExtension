@@ -22,7 +22,8 @@
                 viewId: this.id,
                 generalMessage: chrome.i18n.getMessage('general'),
                 songQualityMessage: chrome.i18n.getMessage('songQuality'),
-                remindersMessage: chrome.i18n.getMessage('reminders')
+                remindersMessage: chrome.i18n.getMessage('reminders'),
+                desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
             };
         },
         
@@ -35,6 +36,7 @@
                 remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
                 remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
                 remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
+                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion'
             };
         },
         
@@ -71,6 +73,8 @@
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showCheckbox('remindGoogleSignIn');
             }
+
+            this._showSwitch('desktopNotificationsEnabled', 'showNotifications');
         },
         
         _showSimpleListItem: function (propertyName, options) {
@@ -117,10 +121,10 @@
             }));
         },
         
-        _showSwitch: function (propertyName) {
+        _showSwitch: function (propertyName, labelKey) {
             //  switch is a reserved keyword so suffix with model.
             var switchModel = this.switches.add({
-                labelText: chrome.i18n.getMessage(propertyName),
+                labelText: chrome.i18n.getMessage(_.isUndefined(labelKey) ? propertyName : labelKey),
                 checked: this.model.get(propertyName),
                 property: propertyName
             });
