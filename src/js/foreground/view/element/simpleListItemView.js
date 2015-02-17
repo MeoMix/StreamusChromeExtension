@@ -16,7 +16,7 @@ define(function (require) {
         
         templateHelpers: function () {
             return {
-                title: chrome.i18n.getMessage(this.model.get('property')),
+                title: chrome.i18n.getMessage(this.model.get('labelKey')),
                 viewId: 'simpleListItem'
             };
         },

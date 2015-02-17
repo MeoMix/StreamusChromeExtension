@@ -504,8 +504,8 @@
 	"showNotifications": {
 		"message": "Show notifications"
 	},
-	"desktopNotificationDuration": {
-		"message": "Duration"
+	"notificationDuration": {
+		"message": "Notification duration"
 	},
 	"oneSecond": {
 		"message": "One second"

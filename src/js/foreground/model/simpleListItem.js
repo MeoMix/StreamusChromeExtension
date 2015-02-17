@@ -5,6 +5,7 @@
         defaults: function () {
             return {
                 property: '',
+                labelKey: '',
                 value: '',
                 options: []
             };
