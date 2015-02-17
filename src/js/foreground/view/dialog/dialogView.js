@@ -35,7 +35,8 @@
         },
 
         events: {
-            'click': '_onClick',
+            'mousedown': '_onMouseDown',
+            'mouseup': '_onMouseUp',
             'click @ui.closeButton': '_onClickCloseButton',
             'click @ui.cancelButton': '_onClickCancelButton',
             'click @ui.submitButton': '_onClickSubmitButton',
@@ -44,6 +45,7 @@
 
         settings: null,
         reminderCheckbox: null,
+        mouseDownTarget: null,
         
         initialize: function () {
             this.settings = Streamus.backgroundPage.settings;
@@ -85,11 +87,20 @@
         
         onSubmit: _.noop,
 
-        //  If the user clicks the 'dark' area outside the panel -- hide the panel.
-        _onClick: function (event) {
-            if (event.target == event.currentTarget) {
+        //  TODO: Propagate this logic throughout application. It's more complex, but it's correct UX.
+        //  If the user clicks on the darkened area then close the dialog.
+        //  Use onMouseDown and onMouseUp because the user can click down on the scrollbar and drag their mouse such that it is over
+        //  the darkened panel. This will cause an incorrect close because they didn't click on the dark panel.
+        _onMouseDown: function (event) {
+            this.mouseDownTarget = event.target;
+        },
+        
+        _onMouseUp: function (event) {
+            if (this.mouseDownTarget === event.currentTarget && event.currentTarget === event.target) {
                 this._hide();
             }
+
+            this.mouseDownTarget = null;
         },
         
         _onClickCloseButton: function () {

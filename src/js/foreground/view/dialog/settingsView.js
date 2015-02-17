@@ -2,6 +2,7 @@
     'use strict';
 
     var SongQuality = require('common/enum/songQuality');
+    var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
     var Checkboxes = require('foreground/collection/checkboxes');
     var RadioGroups = require('foreground/collection/radioGroups');
     var Switches = require('foreground/collection/switches');
@@ -36,7 +37,8 @@
                 remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
                 remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
                 remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
-                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion'
+                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion',
+                desktopNotificationDurationRegion: '#' + this.id + '-desktopNotificationDurationRegion'
             };
         },
         
@@ -75,6 +77,7 @@
             }
 
             this._showSwitch('desktopNotificationsEnabled', 'showNotifications');
+            this._showSimpleListItem('desktopNotificationDuration', _.values(DesktopNotificationDurations));
         },
         
         _showSimpleListItem: function (propertyName, options) {

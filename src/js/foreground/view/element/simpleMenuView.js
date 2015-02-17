@@ -113,6 +113,7 @@
             }
         },
         
+        //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
         //  When showing this view over a ListItem, center the view's active item over the ListItem.
         _centerActive: function () {
             //  Adjust the top position of the view based on which item is active.
@@ -120,9 +121,16 @@
             
             var childHeight = this.children.first().$el.height();
             var offset = -1 * index * childHeight;
-            var centering = (this.listItemHeight - childHeight) / 2;
-            //  Subtract 4 because of padding at the top of this.
-            this.$el.css('top', offset + centering - 4);
+            
+            //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
+            var scrollTop = this.ui.simpleMenuItems[0].scrollTop;
+            offset += scrollTop;
+            
+            //  Now center the item over its ListItem
+            var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
+            var centering = (this.listItemHeight - childHeight - paddingTop) / 2;
+
+            this.$el.css('top', offset + centering);
         }
     });
 

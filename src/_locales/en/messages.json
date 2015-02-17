@@ -503,5 +503,26 @@
 	},
 	"showNotifications": {
 		"message": "Show notifications"
+	},
+	"desktopNotificationDuration": {
+		"message": "Duration"
+	},
+	"oneSecond": {
+		"message": "One second"
+	},
+	"twoSeconds": {
+		"message": "Two seconds"
+	},
+	"threeSeconds": {
+		"message": "Three seconds"
+	},
+	"fourSeconds": {
+		"message": "Four seconds"
+	},
+	"fiveSeconds": {
+		"message": "Five seconds"
+	},
+	"tenSeconds": {
+		"message": "Ten seconds"
 	}
 }
