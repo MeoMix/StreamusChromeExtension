@@ -122,6 +122,7 @@ $(function () {
 			click: function () {
 				$(this).val(chrome.i18n.getMessage('saving')).attr('disabled', true);
 
+                //  Parse the current song's ID out of the YouTube page. The shortlink seems like a reasonable location since it's likely to not change and is simple to work with.
 				var shortlink = $('[rel=shortlink]').attr('href');
 				var songId = shortlink.slice(shortlink.lastIndexOf('/') + 1);
 
