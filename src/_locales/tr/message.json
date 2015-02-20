@@ -1,0 +1,525 @@
+{
+	"extensionName": {
+		"message": "Streamus"
+	},
+	"extensionDescription": {
+		"message": "Basit, müzik aracı.."
+	},
+	"toggleRadioCommandDescription": {
+		"message": "Radyo kapalı/açık"
+	},
+	"toggleShuffleCommandDescription": {
+		"message": "Rastgele kapalı/açık"
+	},
+	"toggleRepeatCommandDescription": {
+		"message": "Tekrar kapalı/hepsi şarkılar/aktif şarkı"
+	},
+	"increaseVolumeCommandDescription": {
+		"message": "Sesi Artır"
+	},
+	"decreaseVolumeCommandDescription": {
+		"message": "Sesi Azalt"
+	},
+	"showActiveSongCommandDescription": {
+		"message": "Şarkı Detaylarını Göster"
+	},
+	"nextSongCommandDescription": {
+		"message": "Sonraki Şarkı"
+	},
+	"previousSongCommandDescription": {
+		"message": "Önceki Şarkı"
+	},
+	"toggleSongCommandDescription": {
+		"message": "Başlat/Durdur Şarkıyı"
+	},
+	"deleteSongCommandDescription": {
+		"message": "Şarkıyı Sil"
+	},
+	"copySongURLCommandDescription": {
+		"message": "Şarkı Adresini Kopyala"
+	},
+	"copySongTitleURLCommandDescription": {
+		"message": "Şarkı Adı ve Adresini Kopyala"
+	},
+	"save": {
+		"message": "Kaydet"
+	},
+	"copyUrl": {
+		"message": "Adresi Kopyala"
+	},
+	"copyTitleAndUrl": {
+		"message": "Şarkı Adı ve Adresini Kopyala"
+	},
+	"delete": {
+		"message": "Sil"
+	},
+	"clearStream": {
+		"message": "Akışı Temizle"
+	},
+	"saveStream": {
+		"message": "Akışı Kaydet"
+	},
+	"addToStreamus": {
+		"message": "Add to Streamus"
+	},
+	"youTubePlayerErrorSongNotFound": {
+		"message": "Şarkı Kaldırılmış yada gizlenmiş."
+	},
+	"youTubePlayerErrorNoPlayEmbedded": {
+		"message": "Şarkı Oynatılamıyor"
+	},
+	"errorEncountered": {
+		"message": "Bir Sorun Gerçekleşti"
+	},
+	"saving": {
+		"message": "Kaydediliyor"
+	},
+	"installed": {
+		"message": "Yüklendi"
+	},
+	"repeatOff": {
+		"message": "Tekrar Kapalı"
+	},
+	"repeatSong": {
+		"message": "Şarkıyı Tekrarla"
+	},
+	"repeatAll": {
+		"message": "Hepsini Tekrarla"
+	},
+	"radioOn": {
+		"message": "Radyo Açık"
+	},
+	"radioOff": {
+		"message": "Radyo Kapalı"
+	},
+	"shufflingOn": {
+		"message": "Rastgele Açık"
+	},
+	"shufflingOff": {
+		"message": "Rastgele Kapalı"
+	},
+	"elapsedTime": {
+		"message": "Geçen Zaman"
+	},
+	"remainingTime": {
+		"message": "Kalan Zaman"
+	},
+	"totalTime": {
+		"message": "Toplam Zama"
+	},
+	"highest": {
+		"message": "Kaliteli"
+	},
+	"auto": {
+		"message": "Normal"
+	},
+	"lowest": {
+		"message": "Düşül"
+	},
+	"reload": {
+		"message": "Yenile"
+	},
+	"playAll": {
+		"message": "Hepsini Oynat"
+	},
+	"addAll": {
+		"message": "Hepsini Ekle"
+	},
+	"addSelected": {
+		"message": "Seçilenleri Ekle"
+	},
+	"playSelected": {
+		"message": "Seçileni Oynat"
+	},
+	"saveSelected": {
+		"message": "Seçileni Kaydet"
+	},
+	"search": {
+		"message": "Arama"
+	},
+	"searching": {
+		"message": "Aranıyor"
+	},
+	"noResultsFound": {
+		"message": "Hiçbir Sonuç Bulunamadı"
+	},
+	"clearStream": {
+		"message": "Akışı Temizle"
+	},
+	"createPlaylist": {
+		"message": "Oynatma Listesi Oluştur"
+	},
+	"ok": {
+		"message": "Tamam"
+	},
+	"playlist": {
+		"message": "Oynatma Listesi"
+	},
+	"stream": {
+		"message": "Akış"
+	},
+	"settings": {
+		"message": "Ayarlar"
+	},
+	"edit": {
+		"message": "Düzenle"
+	},
+	"cantDeleteLastPlaylist": {
+		"message": "Son Oynatma Listesi Silinemiyor"
+	},
+	"clearStreamQuestion": {
+		"message": "Akışı Temizlemek istediğine emin misin?"
+	},
+	"play": {
+		"message": "Başlat"
+	},
+	"add": {
+		"message": "Ekle"
+	},
+	"title": {
+		"message": "Başlık"
+	},
+	"url": {
+		"message": "Adres"
+	},
+	"playlists": {
+		"message": "Oynatma Listeleri"
+	},
+	"remind": {
+		"message": "Hatırlatma"
+	},
+	"reminders": {
+		"message": "Hatırlatmalar"
+	},
+	"remindClearStream": {
+		"message": "Akışı Temizlerken Hatırlar"
+	},
+	"remindDeletePlaylist": {
+		"message": "Oynatma Listesini Silerken Hatırlat"
+	},
+	"minute": {
+		"message": "dakika"
+	},
+	"minutes": {
+		"message": "dakikalar"
+	},
+	"hours": {
+		"message": "Saatler"
+	},
+	"days": {
+		"message": "Günler"
+	},
+	"errorLoadingTitle": {
+		"message": "Yükleme Hatası Başlığı"	
+	},
+	"keyboardCommandFailure": {
+		"message": "Klavye Komutu Hatası"
+	},
+	"streamEmpty": {
+		"message": "Akış Boş"
+	},
+	"playlistEmpty": {
+		"message": "Oynatma Listesi Boş"
+	},
+	"create": {
+		"message": "Oluştur"
+	},
+	"update": {
+		"message": "Güncelle"
+	},
+	"wouldYouLikeTo": {
+		"message": "Would you like to"
+	},
+	"general": {
+		"message": "Genel"
+	},
+	"startTyping": {
+		"message": "Yazmaya Başlayın"
+	},
+	"resultsWillAppearAsYouSearch": {
+		"message": "Aradığınız sonuçlar listelenecek"
+	},
+	"trySearchingForSomethingElse": {
+		"message": "Başka birşey aramayı deneyin."
+	},
+	"watchOnYouTube": {
+		"message": "Youtube'da izle"
+	},
+	"notSignedIn": {
+		"message": "Oturum kapalı"
+	},
+	"signingIn": {
+		"message": "Giriş Yapın"
+	},
+	"signIn": {
+		"message": "Giriş Yap"
+	},
+	"signInFailed": {
+		"message": "Oturum açma başarısız"
+	},
+	"pleaseWait": {
+		"message": "Lütfen Bekleyin"
+	},
+	"openToSearch": {
+		"message": "Aramayı Aç"
+	},
+	"anUpdateIsAvailable": {
+		"message": "Güncelleme Mevcut"
+	},
+	"pressEnterToPlay": {
+		"message": "Enter'a basarak başlatın"
+	},
+	"volume": {
+		"message": "Ses"
+	},
+	"songAdded": {
+		"message": "Şarkı Eklendi"
+	},
+	"addSong": {
+		"message": "Şarkı Ekle"
+	},
+	"song": {
+		"message": "Şarkı"
+	},
+	"songs": {
+		"message": "Şarkılar"
+	},
+	"cantSkipToNextSong": {
+		"message": "Sonraki şarkıya geçilemiyor"
+	},
+	"cantGoBackToPreviousSong": {
+		"message": "Önceki şarkıya geçilemiyor"
+	},
+	"cantToggleSong": {
+		"message": "Şarkı değiştirilemiyr"
+	},
+	"searchForSongs": {
+		"message": "Şarkı ara"
+	},
+	"songQuality": {
+		"message": "Şarkı Kalitesi"
+	},
+	"whyNotAddASongFromAPlaylistOr": {
+		"message": "Bu Şarkı neden eklenemedi",
+		"description": "Oynama listesinden yada Arama sonuçlarından neden şarkı eklenemedi"
+	},
+	"searchAndPlay": {
+		"message": "Ara ve Başlat"
+	},
+	"searchAndAdd": {
+		"message": "Ara ve Ekle"
+	},
+	"linkAccountsMessage": {
+		"message": "Streamus Chrome hesabınızla bağlı değil.Farklı Chrome oturumlarında oynatma listelerinize ulaşabilmek için oturum açın"
+	},
+	"link": {
+		"message": "Hesap",
+		"description": "Bu 'Hesap' chrome 'Hesabımla' bağlantılı"
+	},
+	"googleSignInMessage": {
+		"message": "Chrome'da oturum açılı değil.Bu bilgisayarda oynatma listelerine ulaşılamıyor."
+	},
+	"remindGoogleSignIn": {
+		"message": "Google Oturumu Açmayı Hatırlat"
+	},
+	"keyboardShortcuts": {
+		"message": "Klavye Kısayolları"
+	},
+	"export": {
+		"message": "Dışarı Çıkart"
+	},
+	"openInTab": {
+		"message": "Sekmede Aç"
+	},
+	"browserSettings": {
+		"message": "Tarayıcı Ayarları"
+	},
+	"contextMenus": {
+		"message": "Açılır Menü"
+	},
+	"websiteEnhancements": {
+		"message": "Website Geliştirmeleri"
+	},
+	"textSelection": {
+		"message": "Yazı Seçimleri"
+	},
+	"youTubeLinks": {
+		"message": "YouTube Adresleri"
+	},
+	"youTubePages": {
+		"message": "YouTube Sayfaları"
+	},
+	"youTube": {
+		"message": "YouTube"
+	},
+	"beatport": {
+		"message": "Beatport"
+	},
+	"fileType": {
+		"message": "Dosya Türü"
+	},
+	"csv":{
+		"message": "CSV"
+	},
+	"json": {
+		"message": "JSON"
+	},
+	"failedToFindSong": {
+		"message": "Şarkı bulma başarız oldu"
+	},
+	"failedToFindSongs": {
+		"message": "Şarkılar bulma başarız oldu"
+	},
+	"loadingYouTube": {
+		"message": "YouTube Açılıyor"
+	},
+	"loadingYouTubeFailed": {
+		"message": "YouTube Açılışı başarısız oldu"
+	},
+	"loadAttempt": {
+		"message": "Deneme $currentLoadAttempt$ arasında $maxLoadAttempts$",
+		"placeholders": {
+			"currentLoadAttempt": {
+				"content": "$1"
+			},
+			"maxLoadAttempts": {
+				"content": "$2"
+			}
+		}
+	},
+	"songAlreadyInCollection": {
+		"message": "Şarkı $collectionName$ içerisinde ",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"allSongsAlreadyInCollection": {
+		"message": "Tüm Şarkılar $collectionName$ içerişinde",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"songsAlreadyInCollection": {
+		"message": "$duplicateSongCount$ ve $draggedSongCount$ arasındaki şarkılar $collectionName$  içerisinde",
+		"placeholders": {
+			"duplicateSongCount": {
+				"content": "$1"
+			},
+			"draggedSongCount": {
+				"content": "$2"
+			},
+			"collectionName": {
+				"content": "$3"
+			}
+		}
+	},
+	"urlCopied": {
+		"message": "Adres kopyalandı"
+	},
+	"copyFailed": {
+		"message": "Kopyalama Başarısız"
+	},
+	"playlistExported": {
+		"message": "Oynatma Listesi Başarıyla Dışarı Çıkartıldı"
+	},
+	"playing": {
+		"message": "Oynatılıyor"
+	},
+	"buffering": {
+		"message": "Yükleniyor"
+	},
+	"paused": {
+		"message": "Durduruldu"
+	},
+	"cancel": {
+		"message": "İptal"
+	},
+	"errorLoadingUrl": {
+		"message": "Adres Yüklenemedi"
+	},
+	"playlistLoaded": {
+		"message": "Liste Yüklendi"
+	},
+	"playlistCreated": {
+		"message": "Oynatma Listesi Oluşturuldu"
+	},
+	"extensionConflict": {
+		"message": "Başka bir eklenti,yada başka bir hata, şu youtube hatasını oluşturdu .$lineBreak$ hata düzeltilene kadar streamus devre dışı, yada hatalar giderilene kadar, ve Streamus yeniden başlatılıyor.",
+		"placeholders": {
+			"lineBreak": {
+				"content": "$1"
+			}
+		}
+	},
+	"searchResults": {
+		"message": "Arama Sonuçları"
+	},
+	"collectionCantBeDeleted": {
+		"message": "$collectionName$ silenemiyor",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ seçildi",
+		"description": "0 Şarkı seçildi, 1 Şarkı seçildi, yada 2 Şarkı seçildi",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
+	},
+	"saveAll": {
+		"message": "Hepsini Kaydet"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Şarkıyı Kaydet"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ $playlistTitle$ içerisine eklendi",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Masaüstü Bildirimleri"
+	},
+	"showNotifications": {
+		"message": "Bildirimleri Göster"
+	},
+	"notificationDuration": {
+		"message": "Bildirim Süresi"
+	},
+	"oneSecond": {
+		"message": "Bir Saniye"
+	},
+	"twoSeconds": {
+		"message": "İki Saniye"
+	},
+	"threeSeconds": {
+		"message": "Üç Saniye"
+	},
+	"fourSeconds": {
+		"message": "Dört Saniye"
+	},
+	"fiveSeconds": {
+		"message": "Beş Saniye"
+	},
+	"tenSeconds": {
+		"message": "On Saniye"
+	}
+}
