@@ -483,5 +483,46 @@
 	},
 	"saveAll": {
 		"message": "Alle speichern"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Song speichern"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ in $playlistTitle$ gespeichert",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Desktop-Benachrichtigungen"
+	},
+	"showNotifications": {
+		"message": "Zeige Benachrichtigungen"
+	},
+	"notificationDuration": {
+		"message": "Benachrichtigungsdauer"
+	},
+	"oneSecond": {
+		"message": "Eine Sekunde"
+	},
+	"twoSeconds": {
+		"message": "Zwei Sekunden"
+	},
+	"threeSeconds": {
+		"message": "Drei Sekunden"
+	},
+	"fourSeconds": {
+		"message": "Vier Sekunden"
+	},
+	"fiveSeconds": {
+		"message": "Fünf Sekunden"
+	},
+	"tenSeconds": {
+		"message": "Zehn Sekunden"
 	}
 }
