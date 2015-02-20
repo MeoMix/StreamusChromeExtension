@@ -9,10 +9,10 @@
 		"message": "Radio uit/aan"
 	},
 	"toggleShuffleCommandDescription": {
-		"message": "Shuffle uit/on"
+		"message": "Shuffle uit/aan"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Herhalen uit/alle liedjes/huidige nummer"
+		"message": "Herhalen uit/alle nummers/huidige nummer"
 	},
 	"increaseVolumeCommandDescription": {
 		"message": "Volume hoger"
@@ -21,7 +21,7 @@
 		"message": "Volume lager"
 	},
 	"showActiveSongCommandDescription": {
-		"message": "Show song details"
+		"message": "Toon details van dit nummer"
 	},
 	"nextSongCommandDescription": {
 		"message": "Volgende nummer"
@@ -93,10 +93,10 @@
 		"message": "Radio uit"
 	},
 	"shufflingOn": {
-		"message": "Shuffling aan"
+		"message": "Shuffle aan"
 	},
 	"shufflingOff": {
-		"message": "Shuffling uit"
+		"message": "Shuffle uit"
 	},
 	"elapsedTime": {
 		"message": "Tijd verstreken"
@@ -168,7 +168,7 @@
 		"message": "Kan laatste afspeellijst niet verwijderen"
 	},
 	"clearStreamQuestion": {
-		"message": "stream leegmaken?"
+		"message": "Stream leegmaken?"
 	},
 	"play": {
 		"message": "Speel"
@@ -297,7 +297,7 @@
 		"message": "Zoek naar nummers"
 	},
 	"songQuality": {
-		"message": "Nummer kwaliteit"
+		"message": "Kwaliteit nummers"
 	},
 	"whyNotAddASongFromAPlaylistOr": {
 		"message": "Voeg een nummer uit een afspeellijst toe of",
@@ -457,5 +457,72 @@
 				"content": "$1"
 			}
 		}
+	},
+	"searchResults": {
+		"message": "Zoek resultaten"
+	},
+	"collectionCantBeDeleted": {
+		"message": "$collectionName$ kan niet worden verwijderd",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ geselecteerd",
+		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
+	},
+	"saveAll": {
+		"message": "Bewaar alles"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Bewaar nummer"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ opgeslagen in $playlistTitle$",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Bureaubladmeldingen"
+	},
+	"showNotifications": {
+		"message": "Geef Bureaubladmeldingen weer"
+	},
+	"notificationDuration": {
+		"message": "Duur bureaubladmeldingen"
+	},
+	"oneSecond": {
+		"message": "Een seconde"
+	},
+	"twoSeconds": {
+		"message": "Twee seconden"
+	},
+	"threeSeconds": {
+		"message": "Drie seconden"
+	},
+	"fourSeconds": {
+		"message": "Vier seconden"
+	},
+	"fiveSeconds": {
+		"message": "Vijf seconden"
+	},
+	"tenSeconds": {
+		"message": "Tien seconden"
 	}
 }
