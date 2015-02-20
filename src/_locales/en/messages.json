@@ -417,9 +417,6 @@
 			}
 		}
 	},
-	"currentSong": {
-		"message": "Current song"
-	},
 	"urlCopied": {
 		"message": "URL copied"
 	},
