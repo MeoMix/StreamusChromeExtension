@@ -457,5 +457,72 @@
 				"content": "$1"
 			}
 		}
+	},
+        "searchResults": {
+		"message": "Resultados de la búsqueda"
+	},
+	"collectionCantBeDeleted": {
+		"message": "$collectionName$ no puede ser borrada",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ seleccionada",
+		"description": "Esto puede ser 0 canciones seleccionadas, 1 canción seleccionada, o 2 canciones seleccionadas",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
+	},
+	"saveAll": {
+		"message": "Guardar todo"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Guardar canción"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ guardada en $playlistTitle$",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Notificaciones de escritorio"
+	},
+	"showNotifications": {
+		"message": "Mostrar notificaciones"
+	},
+	"notificationDuration": {
+		"message": "Duración de las notificaciones"
+	},
+	"oneSecond": {
+		"message": "Un segundo"
+	},
+	"twoSeconds": {
+		"message": "Dos segundos"
+	},
+	"threeSeconds": {
+		"message": "Tres segundos"
+	},
+	"fourSeconds": {
+		"message": "Cuatro segundos"
+	},
+	"fiveSeconds": {
+		"message": "Cinco segundos"
+	},
+	"tenSeconds": {
+		"message": "Diez segundos"
 	}
 }
