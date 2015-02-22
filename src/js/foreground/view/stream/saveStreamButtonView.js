@@ -49,8 +49,6 @@
             var offset = this.$el.offset();
 
             Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                //  TODO: Weird coupling.
-                playlists: Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists'),
                 songs: songs,
                 top: offset.top,
                 left: offset.left

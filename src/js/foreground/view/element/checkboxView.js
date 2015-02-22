@@ -31,7 +31,7 @@
         },
         
         _onIconWebkitAnimationEnd: function () {
-            //  TODO: It would be nice to not check for a class here, but when I change to use Web Animation API I'll be able to read from that instead.
+            //  TODO: Prefer not to use hasClass.
             if (this.$el.hasClass('is-checking')) {
                 this.$el.removeClass('is-checking');
                 this.$el.addClass('is-checked');

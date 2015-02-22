@@ -20,7 +20,5 @@
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        //  TODO: There's a lot more to test here.
     });
 });

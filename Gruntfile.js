@@ -415,7 +415,6 @@ module.exports = function (grunt) {
 		grunt.task.run('compress');
 	});
     
-    //  TODO: look for non-unique keys
 	grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
 	    var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
 	    var englishKeys = _.keys(englishJson);
@@ -428,11 +427,11 @@ module.exports = function (grunt) {
 	        var extraNonEnglishKeys = _.difference(keys, englishKeys);
 
 	        if (missingEnglishKeys.length > 0) {
-	            grunt.log.error(subdir + ' is missing keys: ' + missingEnglishKeys);
+	            grunt.log.error('The translation for ' + subdir + ' is missing keys: \n-  ' + missingEnglishKeys.join('\n-  '));
 	        }
 
 	        if (extraNonEnglishKeys.length > 0) {
-	            grunt.log.error(subdir + ' has extra keys: ' + missingEnglishKeys);
+	            grunt.log.error('The translation for ' + subdir + ' has extra keys: \n-  ' + extraNonEnglishKeys.join('\n-  '));
 	        }
 	    });
 	});

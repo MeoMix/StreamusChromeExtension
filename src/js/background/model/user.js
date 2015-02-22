@@ -70,7 +70,7 @@ define(function (require) {
         
         _getLocalUserId: function () {
             var userId = localStorage.getItem('userId');
-            
+
             //  NOTE: This is a bit of legacy code. Originally was calling toJSON on all objects written to localStorage, so quotes might exist.
             if (userId !== null) {
                 userId = userId.replace(/"/g, '');
@@ -81,7 +81,10 @@ define(function (require) {
         
         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
         _create: function () {
-            this.save({}, {
+            this.save({
+                //  Save the language here upon creation because the user is clearly unknown and it'll save a PATCH request by knowing language on creation.
+                language: chrome.i18n.getUILanguage()
+            }, {
                 success: this._onLoadSuccess.bind(this),
                 error: this._onLoadError.bind(this)
             });

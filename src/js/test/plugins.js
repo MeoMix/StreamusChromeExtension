@@ -7,7 +7,7 @@
     require('jquery.qtip');
     require('jquery-ui');
     require('mocha');
-    require('chai');
+    var chai = require('chai');
     require('sinon');
     
     var Cocktail = require('cocktail');
@@ -46,7 +46,8 @@
             backgroundArea: Backbone.Wreqr.radio.channel('backgroundArea'),
             clipboard: Backbone.Wreqr.radio.channel('clipboard'),
             //foreground: Backbone.Wreqr.radio.channel('foreground'),
-            player: Backbone.Wreqr.radio.channel('player')
+            player: Backbone.Wreqr.radio.channel('player'),
+            activePlaylist: Backbone.Wreqr.radio.channel('activePlaylist')
         },
         
         backgroundChannels: null,

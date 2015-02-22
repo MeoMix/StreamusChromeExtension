@@ -18,6 +18,11 @@
 
         describe('when trying to load by user id', function () {
             beforeEach(function () {
+                sinon.spy(this.user, '_create');
+                sinon.spy(this.user, '_loadByUserId');
+            });
+
+            it('should use _create if no user id is in localStorage', function () {
                 sinon.stub($, 'ajax').yieldsTo('success', {
                     id: USER_ID,
                     googlePlusId: GOOGLE_PLUS_ID,
@@ -25,12 +30,7 @@
                         active: false
                     }]
                 });
-                
-                sinon.spy(this.user, '_create');
-                sinon.spy(this.user, '_loadByUserId');
-            });
 
-            it('should use _create if no user id is in localStorage', function () {
                 localStorage.removeItem('userId');
                 this.user.tryloadByUserId();
                 
@@ -39,11 +39,38 @@
                 ensureUserState.call(this, this.user);
             });
             
-            it('should use _loadByUserId if a user id is in localStorage', function () {
+            it('should use _loadByUserId if a user id is in localStorage and not send a PATCH request to update language if language is current', function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    id: USER_ID,
+                    googlePlusId: GOOGLE_PLUS_ID,
+                    language: chrome.i18n.getUILanguage(),
+                    playlists: [{
+                        active: false
+                    }]
+                });
+
                 localStorage.setItem('userId', USER_ID);
                 this.user.tryloadByUserId();
                 expect(this.user._loadByUserId.calledOnce).to.equal(true);
+                //  AJAX will be called twice if there's no language set.
                 expect($.ajax.calledOnce).to.equal(true);
+                ensureUserState.call(this, this.user);
+            });
+            
+            it('should use _loadByUserId if a user id is in localStorage and send a PATCH request to update language if language is unknown', function () {
+                sinon.stub($, 'ajax').yieldsTo('success', {
+                    id: USER_ID,
+                    googlePlusId: GOOGLE_PLUS_ID,
+                    playlists: [{
+                        active: false
+                    }]
+                });
+
+                localStorage.setItem('userId', USER_ID);
+                this.user.tryloadByUserId();
+                expect(this.user._loadByUserId.calledOnce).to.equal(true);
+                //  AJAX will be called twice if there's no language set.
+                expect($.ajax.calledTwice).to.equal(true);
                 ensureUserState.call(this, this.user);
             });
 
@@ -61,6 +88,7 @@
                         .onFirstCall().yieldsTo('success', {
                             id: USER_ID,
                             googlePlusId: GOOGLE_PLUS_ID,
+                            language: chrome.i18n.getUILanguage(),
                             playlists: [{
                                 active: false
                             }]

@@ -19,10 +19,8 @@
             this.view.destroy();
         });
 
-        it('should show', function (done) {
+        it('should show', function () {
             this.documentFragment.appendChild(this.view.render().el);
-            //  Wait before removing the element because destroying the view immediately causes race-condition error due to expectance of HTML presence in _transitionIn
-            this.view.onVisible = done;
             this.view.triggerMethod('show');
         });
         

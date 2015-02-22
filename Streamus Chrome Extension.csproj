@@ -314,9 +314,6 @@
     <Content Include="src\js\test\foreground\view\dialog\exportPlaylistViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\googleSignInDialogViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\linkUserIdDialogViewTest.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogRegionTest.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogTestModule.js" />
-    <Content Include="src\js\test\foreground\view\dialog\dialogViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\updateStreamusDialogViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\settingsViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\settingsDialogViewTest.js" />
@@ -449,6 +446,7 @@
     <Content Include="src\_locales\fr\messages.json" />
     <Content Include="src\_locales\nl\messages.json" />
     <Content Include="src\less\selectionBar.less" />
+    <Content Include="src\_locales\tr\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

@@ -69,9 +69,7 @@
             return {
                 promise: activeJqXHR,
                 abort: function () {
-                    console.log('trying to abort');
                     if (activeJqXHR !== null) {
-                        console.log('aborting!');
                         activeJqXHR.abort();
                     }
                 }

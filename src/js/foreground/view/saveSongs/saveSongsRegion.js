@@ -8,7 +8,10 @@ define(function (require) {
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
     var SaveSongsRegion = Marionette.Region.extend({
-        initialize: function() {
+        signInManager: null,
+
+        initialize: function () {
+            this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(Streamus.channels.saveSongs.commands, 'show:simpleMenu', this._showSimpleMenu);
         },
         
@@ -16,7 +19,9 @@ define(function (require) {
             //  Wrap the logic for showing a simpleMenu in defer to allow 'click' event to fully propagate before showing the view.
             //  This ensure that a click event which spawned the simpleMenu does not also trigger the closing of the menu 
             _.defer(function () {
-                var simpleMenuItems = new SimpleMenuItems(options.playlists.map(function (playlist) {
+                var playlists = this.signInManager.get('signedInUser').get('playlists');
+
+                var simpleMenuItems = new SimpleMenuItems(playlists.map(function (playlist) {
                     return {
                         active: playlist.get('active'),
                         text: playlist.get('title'),
@@ -31,7 +36,7 @@ define(function (require) {
                     })
                 });
 
-                simpleMenuView.on('click:simpleMenuItem', this._onClickSimpleMenuItem.bind(this, options.playlists, options.songs));
+                simpleMenuView.on('click:simpleMenuItem', this._onClickSimpleMenuItem.bind(this, playlists, options.songs));
                 simpleMenuView.on('click:fixedMenuItem', this._onClickFixedMenuItem.bind(this, options.songs));
 
                 this.show(simpleMenuView);

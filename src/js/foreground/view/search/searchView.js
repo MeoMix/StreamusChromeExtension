@@ -156,7 +156,6 @@
                 var offset = this.ui.saveAllButton.offset();
 
                 Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                    playlists: this.signInManager.get('signedInUser').get('playlists'),
                     songs: this.collection.getSongs(),
                     top: offset.top,
                     left: offset.left
