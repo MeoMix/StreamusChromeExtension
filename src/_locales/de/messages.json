@@ -521,5 +521,8 @@
 	},
 	"tenSeconds": {
 		"message": "Zehn Sekunden"
+	},
+	"playlistUrl": {
+		"message": "Playlist URL"
 	}
 }

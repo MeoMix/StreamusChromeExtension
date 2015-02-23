@@ -521,5 +521,8 @@
 	},
 	"tenSeconds": {
 		"message": "Ti sekunder"
+	},
+	"playlistUrl": {
+		"message": "Spilleliste nettadresse"
 	}
 }

@@ -14,8 +14,7 @@
         templateHelpers: function () {
             return {
                 titleMessage: chrome.i18n.getMessage('title'),
-                playlistMessage: chrome.i18n.getMessage('playlist'),
-                urlMessage: chrome.i18n.getMessage('url'),
+                playlistUrlMessage: chrome.i18n.getMessage('playlistUrl'),
                 titleMaxLength: this.titleMaxLength,
                 //  If the playlist is not already being created with songs then allow for importing of songs.
                 showDataSource: this.songs.length === 0

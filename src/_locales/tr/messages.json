@@ -525,5 +525,8 @@
 	},
 	"tenSeconds": {
 		"message": "On saniye"
+	},
+	"playlistUrl": {
+		"message": "Oynatma Listesi Adresi"
 	}
 }

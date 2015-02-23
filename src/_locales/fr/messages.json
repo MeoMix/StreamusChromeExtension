@@ -123,16 +123,16 @@
 		"message": "Tout lire"
 	},
 	"addAll": {
-		"message": "Tout ajouter"
+		"message": "Tout ajouter à la file d'attente"
 	},
 	"addSelected": {
-		"message": "Ajouter la sélection"
+		"message": "Ajouter la sélection à la file d'attente"
 	},
 	"playSelected": {
 		"message": "Lire la sélection"
 	},
 	"saveSelected": {
-		"message": "Lire la sélection"
+		"message": "Enregistrer la sélection"
 	},
 	"search": {
 		"message": "Rechercher"
@@ -174,7 +174,7 @@
 		"message": "Lire"
 	},
 	"add": {
-		"message": "Ajouter"
+		"message": "Ajouter à la file d'attente"
 	},
 	"title": {
 		"message": "Titre"
@@ -192,10 +192,10 @@
 		"message": "Avertissements"
 	},
 	"remindClearStream": {
-		"message": "M'avertir quand j'efface la file d'attente"
+		"message": "M'avertir quand j'efface une file d'attente"
 	},
 	"remindDeletePlaylist": {
-		"message": "M'avertir quand j'efface la playlist"
+		"message": "M'avertir quand j'efface une playlist"
 	},
 	"minute": {
 		"message": "Minute"
@@ -276,7 +276,7 @@
 		"message": "Morceau ajouté"
 	},
 	"addSong": {
-		"message": "Ajouter le morceau"
+		"message": "Ajouter le morceau à la file d'attente"
 	},
 	"song": {
 		"message": "Morceau"
@@ -404,7 +404,7 @@
 		}
 	},
 	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ sur $draggedSongCount$ morceaux sont déjà présents dans $collectionName$",
+		"message": "$duplicateSongCount$ morceaux sur $draggedSongCount$ sont déjà présents dans $collectionName$",
 		"placeholders": {
 			"duplicateSongCount": {
 				"content": "$1"
@@ -416,6 +416,9 @@
 				"content": "$3"
 			}
 		}
+	},
+	"activeSong": {
+		"message": "Morceau en cours de lecture"
 	},
 	"urlCopied": {
 		"message": "URL copiée"
@@ -454,5 +457,64 @@
 				"content": "$1"
 			}
 		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ sélectionné(s)",
+		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
+	},
+	"saveAll": {
+		"message": "Tout ajouter à une playlist"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Ajouter le morceau à une playlist"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ ajouté à $playlistTitle$",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Notifications de bureau"
+	},
+	"showNotifications": {
+		"message": "Afficher les notifications"
+	},
+	"notificationDuration": {
+		"message": "Durée des notifications"
+	},
+	"oneSecond": {
+		"message": "Une seconde"
+	},
+	"twoSeconds": {
+		"message": "Deux secondes"
+	},
+	"threeSeconds": {
+		"message": "Trois secondes"
+	},
+	"fourSeconds": {
+		"message": "Quatre secondes"
+	},
+	"fiveSeconds": {
+		"message": "Cinq secondes"
+	},
+	"tenSeconds": {
+		"message": "Dix secondes"
+	},
+	"playlistUrl": {
+		"message": "URL de la playlist"
 	}
 }
