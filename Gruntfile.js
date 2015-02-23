@@ -141,8 +141,12 @@ module.exports = function (grunt) {
 		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-injected-javascript', 'copy-injected-css', 'less', 'update-css-references', 'imagemin', 'update-require-config-paths', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
-		if (!isDebugDeploy) {
-			//  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
+		if (isDebugDeploy) {
+		    grunt.task.run('prep-chrome-distribution');
+		    grunt.task.run('prep-opera-distribution');
+	    }
+	    else {
+	        //  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
 			grunt.task.run('update-dist-manifest-version');
 			grunt.task.run('prep-chrome-distribution');
 			grunt.task.run('prep-opera-distribution');
@@ -359,38 +363,40 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('prep-opera-distribution', '', function() {
-		//  Copy the distribution folder into opera directory.
-		var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
+	    //  Copy the distribution folder into opera directory.
+	    var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
 
-		grunt.config.set('copy', {
-			files: {
-				cwd: 'dist/',
-				src: '**/*',
-				dest: operaDirectory,
-				expand: true
-			}
-		});
+	    grunt.config.set('copy', {
+	        files: {
+	            cwd: 'dist/',
+	            src: '**/*',
+	            dest: operaDirectory,
+	            expand: true
+	        }
+	    });
 
-		grunt.task.run('copy');
+	    grunt.task.run('copy');
 
-		//  Remove background and notifications from manifest as they aren't available in opera yet.
-		grunt.config.set('replace', {
-			removeDebuggingKeys: {
-				src: [operaDirectory + '/manifest.json'],
-				overwrite: true,
-				replacements: [{
-					from: '"background",',
-					to: ''
-				}]
-			}
-		});
+	    //  Remove background and notifications from manifest as they aren't available in opera yet.
+	    grunt.config.set('replace', {
+	        removeDebuggingKeys: {
+	            src: [operaDirectory + '/manifest.json'],
+	            overwrite: true,
+	            replacements: [{
+	                from: '"background",',
+	                to: ''
+	            }]
+	        }
+	    });
 
-		grunt.task.run('replace');
+	    grunt.task.run('replace');
 
-		var operaLocalesDirectory = operaDirectory + '/_locales/';
+	    var operaLocalesDirectory = operaDirectory + '/_locales/';
 
-		//  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
-	    grunt.config.set('clean', [operaLocalesDirectory + '**', '!' + operaLocalesDirectory + 'en']);
+	    //  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
+	    grunt.config.set('clean', {
+	        nonEnglishLocales: [operaLocalesDirectory + '*', '!' + operaLocalesDirectory + 'en']
+	    });
 		grunt.task.run('clean');
 		
 		//  There's no need to cleanup any old version because this will overwrite if it exists.
