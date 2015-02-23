@@ -18,7 +18,6 @@
         
         //  All the channels used for global event communication across the page
         channels: {
-            sync: Backbone.Wreqr.radio.channel('sync'),
             tab: Backbone.Wreqr.radio.channel('tab'),
             error: Backbone.Wreqr.radio.channel('error'),
             backgroundNotification: Backbone.Wreqr.radio.channel('backgroundNotification'),
