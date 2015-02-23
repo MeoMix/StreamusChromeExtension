@@ -14,7 +14,6 @@
     var Search = require('background/model/search');
     var Settings = require('background/model/settings');
     var SignInManager = require('background/model/signInManager');
-    var SoundCloudAPI = require('background/model/soundCloudAPI');
     var Stream = require('background/model/stream');
     var SyncManager = require('background/model/syncManager');
     var TabManager = require('background/model/tabManager');
@@ -70,8 +69,6 @@
 
             var search = new Search();
 
-            var soundCloudAPI = new SoundCloudAPI();
-            
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: browserSettings,
                 tabManager: tabManager,

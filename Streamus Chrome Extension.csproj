@@ -112,7 +112,6 @@
     <Content Include="src\js\background\model\dataSourceManager.js" />
     <Content Include="src\js\background\model\debugManager.js" />
     <Content Include="src\js\background\model\relatedSongsManager.js" />
-    <Content Include="src\js\background\model\soundCloudAPI.js" />
     <Content Include="src\js\background\model\stream.js" />
     <Content Include="src\js\background\view\backgroundAreaView.js" />
     <Content Include="src\js\background\collection\playlistItems.js" />
