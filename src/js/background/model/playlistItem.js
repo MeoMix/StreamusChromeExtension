@@ -1,7 +1,6 @@
 ﻿define(function (require) {
     'use strict';
 
-    var SyncActionType = require('background/enum/syncActionType');
     var Song = require('background/model/song');
     var ListItemType = require('common/enum/listItemType');
     
@@ -44,7 +43,6 @@
 
         initialize: function () {
             this._ensureSongModel();
-            this.on('change:sequence', this._onChangeSequence);
         },
         
         //  Return the attributes needed to sync this object across chrome.storage.sync
@@ -64,15 +62,6 @@
                 //  Silent because song is just being properly set.
                 this.set('song', new Song(song), { silent: true });
             }
-        },
-        
-        _onChangeSequence: function (model, sequence) {
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.PlaylistItem,
-                syncActionType: SyncActionType.Updated,
-                property: 'sequence',
-                model: model
-            });
         }
     });
 

@@ -6,7 +6,7 @@
 
     var Song = Backbone.Model.extend({
         defaults: {
-            //  ID is either a YouTube Video ID or a SoundCloud Song ID.
+            //  ID is a YouTube Video ID
             id: '',
             //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
             title: '',

@@ -319,23 +319,19 @@ define(function (require) {
         },
         
         _onYouTubePlayerChangeReady: function (model, ready) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('ready', ready);
         },
         
         _onYouTubePlayerChangeState: function (model, youTubePlayerState) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             var playerState = this._getPlayerState(youTubePlayerState);
             this.set('state', playerState);
         },
         
         _onYouTubePlayerChangeLoading: function (model, loading) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('loading', loading);
         },
         
         _onYouTubePlayerChangeCurrentLoadAttempt: function (model, currentLoadAttempt) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
         

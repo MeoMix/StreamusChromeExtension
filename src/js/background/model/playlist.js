@@ -53,7 +53,6 @@ define(function (require) {
             this._setActivePlaylistListeners(this.get('active'));
             
             this.on('change:title', this._onChangeTitle);
-            this.on('change:sequence', this._onChangeSequence);
             this.on('change:active', this._onChangeActive);
         },
         
@@ -113,24 +112,13 @@ define(function (require) {
             }
         },
         
-        _onChangeTitle: function(model, title, options) {
+        _onChangeTitle: function(model, title) {
             this._emitYouTubeTabUpdateEvent({
                 id: model.get('id'),
                 title: title
             });
-            
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this.save({ title: title }, { patch: true });
-                this._emitSyncUpdateEvent(model, 'title', title);
-            }
-        },
 
-        _onChangeSequence: function (model, sequence, options) {
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncUpdateEvent(model, 'sequence', sequence);
-            }
+            this.save({ title: title }, { patch: true });
         },
         
         _onChangeActive: function (model, active) {
@@ -147,18 +135,6 @@ define(function (require) {
                 event: SyncActionType.Updated,
                 type: ListItemType.Playlist,
                 data: data
-            });
-        },
-        
-        _emitSyncUpdateEvent: function (playlist, propertyName, propertyValue) {
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Updated,
-                modelId: playlist.get('id'),
-                property: {
-                    name: propertyName,
-                    value: propertyValue
-                }
             });
         },
         

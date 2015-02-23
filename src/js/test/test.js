@@ -2,8 +2,6 @@
     'use strict';
 
     var ClientErrorManagerTest = require('test/background/model/clientErrorManagerTest');
-    var PlaylistsTests = require('test/background/collection/playlistsTests');
-    //var SyncManagerTests = require('test/background/model/syncManagerTests');
     var UserTests = require('test/background/model/userTests');
     var SignInManagerTests = require('test/background/model/signInManagerTests');
     var PlaylistItemsTests = require('test/background/model/playlistItemsTests');
