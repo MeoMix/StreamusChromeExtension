@@ -12,7 +12,7 @@
 		"message": "Rastgele kapalı/açık"
 	},
 	"toggleRepeatCommandDescription": {
-		"message": "Tekrar kapalı/hepsi şarkılar/aktif şarkı"
+		"message": "Tekrarlama kapalı/hepsi şarkılar/aktif şarkı"
 	},
 	"increaseVolumeCommandDescription": {
 		"message": "Sesi Artır"
@@ -30,7 +30,7 @@
 		"message": "Önceki Şarkı"
 	},
 	"toggleSongCommandDescription": {
-		"message": "Başlat/Durdur Şarkıyı"
+		"message": "Şarkıyı Başlat/Durdur"
 	},
 	"deleteSongCommandDescription": {
 		"message": "Şarkıyı Sil"
@@ -48,7 +48,7 @@
 		"message": "Adresi Kopyala"
 	},
 	"copyTitleAndUrl": {
-		"message": "Şarkı Adı ve Adresini Kopyala"
+		"message": "Şarkı Adını ve Adresini Kopyala"
 	},
 	"delete": {
 		"message": "Sil"
@@ -60,7 +60,7 @@
 		"message": "Akışı Kaydet"
 	},
 	"addToStreamus": {
-		"message": "Add to Streamus"
+		"message": "Streamus'a ekle"
 	},
 	"youTubePlayerErrorSongNotFound": {
 		"message": "Şarkı Kaldırılmış yada gizlenmiş."
@@ -69,7 +69,8 @@
 		"message": "Şarkı Oynatılamıyor"
 	},
 	"errorEncountered": {
-		"message": "Bir Sorun Gerçekleşti"
+		"message": "Bir sorunla karşılaşıldı"
+
 	},
 	"saving": {
 		"message": "Kaydediliyor"
@@ -78,7 +79,7 @@
 		"message": "Yüklendi"
 	},
 	"repeatOff": {
-		"message": "Tekrar Kapalı"
+		"message": "Tekrarlama Kapalı"
 	},
 	"repeatSong": {
 		"message": "Şarkıyı Tekrarla"
@@ -114,7 +115,7 @@
 		"message": "Normal"
 	},
 	"lowest": {
-		"message": "Düşül"
+		"message": "Düşük"
 	},
 	"reload": {
 		"message": "Yenile"
@@ -189,19 +190,19 @@
 		"message": "Hatırlatma"
 	},
 	"reminders": {
-		"message": "Hatırlatmalar"
+		"message": "Hatırlatıcılar"
 	},
 	"remindClearStream": {
-		"message": "Akışı Temizlerken Hatırlar"
+		"message": "Akışı Temizlerken Hatırlat"
 	},
 	"remindDeletePlaylist": {
 		"message": "Oynatma Listesini Silerken Hatırlat"
 	},
 	"minute": {
-		"message": "dakika"
+		"message": "Dakika"
 	},
 	"minutes": {
-		"message": "dakikalar"
+		"message": "Dakikalar"
 	},
 	"hours": {
 		"message": "Saatler"
@@ -210,10 +211,10 @@
 		"message": "Günler"
 	},
 	"errorLoadingTitle": {
-		"message": "Yükleme Hatası Başlığı"	
+		"message": "Başlığı yüklerken hata "	
 	},
 	"keyboardCommandFailure": {
-		"message": "Klavye Komutu Hatası"
+		"message": "Klavye komutu hatası"
 	},
 	"streamEmpty": {
 		"message": "Akış Boş"
@@ -228,7 +229,7 @@
 		"message": "Güncelle"
 	},
 	"wouldYouLikeTo": {
-		"message": "Would you like to"
+		"message": "İster misiniz"
 	},
 	"general": {
 		"message": "Genel"
@@ -237,7 +238,7 @@
 		"message": "Yazmaya Başlayın"
 	},
 	"resultsWillAppearAsYouSearch": {
-		"message": "Aradığınız sonuçlar listelenecek"
+		"message": "Siz yazdıkça sonuçlar listelenecek"
 	},
 	"trySearchingForSomethingElse": {
 		"message": "Başka birşey aramayı deneyin."
@@ -249,7 +250,7 @@
 		"message": "Oturum kapalı"
 	},
 	"signingIn": {
-		"message": "Giriş Yapın"
+		"message": "Giriş Yapılıyor"
 	},
 	"signIn": {
 		"message": "Giriş Yap"
@@ -258,10 +259,11 @@
 		"message": "Oturum açma başarısız"
 	},
 	"pleaseWait": {
-		"message": "Lütfen Bekleyin"
+		"message": "Lütfen bekleyin"
 	},
 	"openToSearch": {
-		"message": "Aramayı Aç"
+		"message": "Arama yapmak için açın"
+
 	},
 	"anUpdateIsAvailable": {
 		"message": "Güncelleme Mevcut"
@@ -291,20 +293,21 @@
 		"message": "Önceki şarkıya geçilemiyor"
 	},
 	"cantToggleSong": {
-		"message": "Şarkı değiştirilemiyr"
+		"message": "Şarkı değiştirilemiyor"
 	},
 	"searchForSongs": {
 		"message": "Şarkı ara"
 	},
 	"songQuality": {
-		"message": "Şarkı Kalitesi"
+		"message": "Şarkı kalitesi"
 	},
 	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Bu Şarkı neden eklenemedi",
+		"message": "Oynatma listesinden ya da arama sonuçlarından şarkı ekleyebilirsiniz",
+
 		"description": "Oynama listesinden yada Arama sonuçlarından neden şarkı eklenemedi"
 	},
 	"searchAndPlay": {
-		"message": "Ara ve Başlat"
+		"message": "Ara ve Oynat"
 	},
 	"searchAndAdd": {
 		"message": "Ara ve Ekle"
@@ -317,16 +320,16 @@
 		"description": "Bu 'Hesap' chrome 'Hesabımla' bağlantılı"
 	},
 	"googleSignInMessage": {
-		"message": "Chrome'da oturum açılı değil.Bu bilgisayarda oynatma listelerine ulaşılamıyor."
+		"message": "Chrome'da oturum açılı değil.Oynatma listelerine yalnız bu bilgisayarda ulaşılabilir."
 	},
 	"remindGoogleSignIn": {
 		"message": "Google Oturumu Açmayı Hatırlat"
 	},
 	"keyboardShortcuts": {
-		"message": "Klavye Kısayolları"
+		"message": "Klavye kısayolları"
 	},
 	"export": {
-		"message": "Dışarı Çıkart"
+		"message": "Aktar"
 	},
 	"openInTab": {
 		"message": "Sekmede Aç"
@@ -338,7 +341,7 @@
 		"message": "Açılır Menü"
 	},
 	"websiteEnhancements": {
-		"message": "Website Geliştirmeleri"
+		"message": "Website Pekiştirmeleri"
 	},
 	"textSelection": {
 		"message": "Yazı Seçimleri"
@@ -365,19 +368,19 @@
 		"message": "JSON"
 	},
 	"failedToFindSong": {
-		"message": "Şarkı bulma başarız oldu"
+		"message": "Şarkı bulunamadı"
 	},
 	"failedToFindSongs": {
-		"message": "Şarkılar bulma başarız oldu"
+		"message": "Şarkılar bulunamadı"
 	},
 	"loadingYouTube": {
-		"message": "YouTube Açılıyor"
+		"message": "YouTube yükleniyor"
 	},
 	"loadingYouTubeFailed": {
 		"message": "YouTube Açılışı başarısız oldu"
 	},
 	"loadAttempt": {
-		"message": "Deneme $currentLoadAttempt$ arasında $maxLoadAttempts$",
+		"message": "$maxLoadAttempts$ denemeden $currentLoadAttempt$.si",
 		"placeholders": {
 			"currentLoadAttempt": {
 				"content": "$1"
@@ -396,7 +399,7 @@
 		}
 	},
 	"allSongsAlreadyInCollection": {
-		"message": "Tüm Şarkılar $collectionName$ içerişinde",
+		"message": "Tüm Şarkılar $collectionName$ içerisinde",
 		"placeholders": {
 			"collectionName": {
 				"content": "$1"
@@ -404,7 +407,7 @@
 		}
 	},
 	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ ve $draggedSongCount$ arasındaki şarkılar $collectionName$  içerisinde",
+		"message": "$draggedSongCount$ şarkının $duplicateSongCount$ tanesi zaten $collectionName$  içerisinde",
 		"placeholders": {
 			"duplicateSongCount": {
 				"content": "$1"
@@ -421,34 +424,35 @@
 		"message": "Adres kopyalandı"
 	},
 	"copyFailed": {
-		"message": "Kopyalama Başarısız"
+		"message": "Kopyalama başarısız"
 	},
 	"playlistExported": {
-		"message": "Oynatma Listesi Başarıyla Dışarı Çıkartıldı"
+		"message": "Oynatma Listesi başarıyla aktarıldı"
 	},
 	"playing": {
 		"message": "Oynatılıyor"
 	},
 	"buffering": {
-		"message": "Yükleniyor"
+		"message": "Ara belleğe alınıyor"
+
 	},
 	"paused": {
-		"message": "Durduruldu"
+		"message": "Duraklatıldı"
 	},
 	"cancel": {
 		"message": "İptal"
 	},
 	"errorLoadingUrl": {
-		"message": "Adres Yüklenemedi"
+		"message": "Adres yüklenemedi"
 	},
 	"playlistLoaded": {
-		"message": "Liste Yüklendi"
+		"message": "Oynatma listesi yüklendi"
 	},
 	"playlistCreated": {
-		"message": "Oynatma Listesi Oluşturuldu"
+		"message": "Oynatma listesi oluşturuldu"
 	},
 	"extensionConflict": {
-		"message": "Başka bir eklenti,yada başka bir hata, şu youtube hatasını oluşturdu .$lineBreak$ hata düzeltilene kadar streamus devre dışı, yada hatalar giderilene kadar, ve Streamus yeniden başlatılıyor.",
+		"message": "Başka bir eklenti ya da başka bir işlem şu Youtube hatasını oluşturdu .$lineBreak$ ilgili eklenti devredışı bırakılıp ya da hata düzeltilip Streamus yeniden başlatılına kadar, Streamus devre dışı bırakıldı ",
 		"placeholders": {
 			"lineBreak": {
 				"content": "$1"
@@ -496,30 +500,30 @@
 		}
 	},
 	"desktopNotifications": {
-		"message": "Masaüstü Bildirimleri"
+		"message": "Masaüstü bildirimleri"
 	},
 	"showNotifications": {
-		"message": "Bildirimleri Göster"
+		"message": "Bildirimleri göster"
 	},
 	"notificationDuration": {
-		"message": "Bildirim Süresi"
+		"message": "Bildirim süresi"
 	},
 	"oneSecond": {
-		"message": "Bir Saniye"
+		"message": "Bir saniye"
 	},
 	"twoSeconds": {
-		"message": "İki Saniye"
+		"message": "İki saniye"
 	},
 	"threeSeconds": {
-		"message": "Üç Saniye"
+		"message": "Üç saniye"
 	},
 	"fourSeconds": {
-		"message": "Dört Saniye"
+		"message": "Dört saniye"
 	},
 	"fiveSeconds": {
-		"message": "Beş Saniye"
+		"message": "Beş saniye"
 	},
 	"tenSeconds": {
-		"message": "On Saniye"
+		"message": "On saniye"
 	}
 }

@@ -388,12 +388,15 @@ module.exports = function (grunt) {
 		var operaLocalesDirectory = operaDirectory + '/_locales/';
 
 		//  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
-		//	Can't delete a full directory -- clean them up.
+	    //	Can't delete a full directory -- clean them up.
+	    //  TODO: Make this more generic so I don't have to constantly update it.
 		grunt.config.set('clean', [
 			operaLocalesDirectory + 'de',
 			operaLocalesDirectory + 'es',
 			operaLocalesDirectory + 'fr',
-			operaLocalesDirectory + 'nl'
+			operaLocalesDirectory + 'nl',
+		    operaLocalesDirectory + 'no',
+		    operaLocalesDirectory + 'tr'
 		]);
 		grunt.task.run('clean');
 		
