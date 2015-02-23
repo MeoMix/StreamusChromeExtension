@@ -435,5 +435,6 @@ module.exports = function (grunt) {
 	grunt.registerTask('test', 'Ran by TravisCI', function () {
 	    grunt.task.run('diffLocales');
 	    grunt.task.run('jshint');
+	    grunt.task.run('recess');
 	});
 };
