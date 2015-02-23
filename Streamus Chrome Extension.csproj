@@ -119,7 +119,6 @@
     <Content Include="src\js\background\collection\playlists.js" />
     <Content Include="src\js\background\collection\streamItems.js" />
     <Content Include="src\js\background\collection\searchResults.js" />
-    <Content Include="src\js\background\collection\syncActions.js" />
     <Content Include="src\js\background\enum\syncActionType.js" />
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\collectionMultiSelect.js" />
@@ -143,8 +142,6 @@
     <Content Include="src\js\background\model\shareCode.js" />
     <Content Include="src\js\background\model\signInManager.js" />
     <Content Include="src\js\background\model\streamItem.js" />
-    <Content Include="src\js\background\model\syncAction.js" />
-    <Content Include="src\js\background\model\syncManager.js" />
     <Content Include="src\js\background\model\user.js" />
     <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
@@ -295,10 +292,8 @@
     <Content Include="src\js\inject\streamusShareInject.js" />
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
-    <Content Include="src\js\test\background\collection\playlistsTests.js" />
     <Content Include="src\js\test\background\model\clientErrorManagerTest.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
-    <Content Include="src\js\test\background\model\syncManagerTests.js" />
     <Content Include="src\js\test\background\model\userTests.js" />
     <Content Include="src\js\test\foreground\view\dialog\browserSettingsDialogViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\browserSettingsViewTest.js" />

@@ -25,11 +25,6 @@
             this.on('remove', this._onRemove);
             this.on('change:active', this._onChangeActive);
             this.on('reset', this._onReset);
-
-            var syncEventChannel = this._getSyncEventChannel();
-            this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
-            this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
-            this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
         },
         
         getActivePlaylist: function () {
@@ -97,36 +92,7 @@
                 }
             });
         },
-        
-        //  TODO: I don't think this should know about syncAction it should just be given the data.
-        _addBySyncAction: function (syncAction) {
-            var playlistOptions = _.extend({
-                id: syncAction.get('modelId'),
-                userId: this.userId
-            }, syncAction.get('modelAttributes'));
 
-            this.add(playlistOptions, {
-                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
-                sync: true
-            });
-        },
-        
-        _removeBySyncAction: function (syncAction) {
-            var playlist = this.get(syncAction.get('modelId'));
-            this.remove(playlist, {
-                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
-                sync: true
-            });
-        },
-        
-        _updateBySyncAction: function(syncAction) {
-            var playlist = this.get(syncAction.get('modelId'));
-
-            playlist.set(syncAction.property.name, syncAction.property.value, {
-                sync: true
-            });
-        },
-        
         _deactivateAllExcept: function (changedPlaylist) {
             this.each(function (playlist) {
                 if (playlist !== changedPlaylist) {
@@ -219,7 +185,7 @@
             }
         },
         //  TODO: added vs created.
-        _onCreateSuccess: function (addedPlaylist, options) {
+        _onCreateSuccess: function (addedPlaylist) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Added,
@@ -236,11 +202,6 @@
             });
 
             this._setCanDelete(this.length > 1);
-
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncAddEvent(addedPlaylist);
-            }
         },
         
         //  Whenever a playlist is removed, if it was selected, select the next playlist.
@@ -265,40 +226,10 @@
                     id: removedPlaylist.get('id')
                 }
             });
-            
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncRemoveEvent(removedPlaylist);
-            }
         },
         
         _activateByIndex: function (index) {
             this.at(index).set('active', true);
-        },
-        
-        _emitSyncAddEvent: function (playlist) {
-            //  TODO: Standardize the pattern for emitting triggers via sync.
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Added,
-                modelId: playlist.get('id'),
-                modelAttributes: playlist.getSyncAttributes()
-            });
-        },
-        
-        _emitSyncRemoveEvent: function (playlist) {
-            //  TODO: Standardize the pattern for emitting triggers via sync.
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Removed,
-                modelId: playlist.get('id')
-            });
-        },
-
-        //  TODO: Make a custom radio emitter which can give this channel out.
-        _getSyncEventChannel: function () {
-            //  TODO: Uhhhh this seems bad.
-            return Backbone.Wreqr.radio.channel('sync-' + ListItemType.Playlist).vent;
         }
     });
 

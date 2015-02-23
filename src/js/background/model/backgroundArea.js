@@ -16,7 +16,6 @@
     var SignInManager = require('background/model/signInManager');
     var SoundCloudAPI = require('background/model/soundCloudAPI');
     var Stream = require('background/model/stream');
-    var SyncManager = require('background/model/syncManager');
     var TabManager = require('background/model/tabManager');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var NextButton = require('background/model/buttons/nextButton');
@@ -98,8 +97,6 @@
             var clientErrorManager = new ClientErrorManager({
                 signInManager: signInManager
             });
-
-            var syncManager = new SyncManager();
 
             var nextButton = new NextButton({
                 stream: stream,

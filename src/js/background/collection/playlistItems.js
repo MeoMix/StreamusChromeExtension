@@ -1,12 +1,10 @@
 ﻿define(function (require) {
     'use strict';
 
-    var SyncActionType = require('background/enum/syncActionType');
     var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
     var CollectionSequence = require('background/mixin/collectionSequence');
     var CollectionUniqueSong = require('background/mixin/collectionUniqueSong');
     var PlaylistItem = require('background/model/playlistItem');
-    var ListItemType = require('common/enum/listItemType');
     var Utility = require('common/utility');
 
     var PlaylistItems = Backbone.Collection.extend({
@@ -23,9 +21,6 @@
             if (!_.isUndefined(options)) {
                 this.playlistId = options.playlistId;
             }
-            
-            this.on('add', this._onAdd);
-            this.on('remove', this._onRemove);
         },
 
         //  TODO: Rename to saveSongs
@@ -120,22 +115,6 @@
         _getBySongId: function (songId) {
             return this.find(function (playlistItem) {
                 return playlistItem.get('song').get('id') === songId;
-            });
-        },
-        
-        _onAdd: function (addedPlaylistItem) {
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.PlaylistItem,
-                syncActionType: SyncActionType.Added,
-                model: addedPlaylistItem
-            });
-        },
-        
-        _onRemove: function(removedPlaylistItem) {
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Removed,
-                model: removedPlaylistItem
             });
         }
     });
