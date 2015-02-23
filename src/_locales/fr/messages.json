@@ -417,9 +417,6 @@
 			}
 		}
 	},
-	"activeSong": {
-		"message": "Morceau en cours de lecture"
-	},
 	"urlCopied": {
 		"message": "URL copiée"
 	},
@@ -454,6 +451,17 @@
 		"message": "Une extension ou un problème a forcé YouTube à utiliser Flash.$lineBreak$ Streamus ne fonctionnera pas correctement tant que l’extension restera activée ou que le problème ne sera pas résolu. Vous devrez ensuite redémarrer Streamus.",
 		"placeholders": {
 			"lineBreak": {
+				"content": "$1"
+			}
+		}
+	},
+	"searchResults": {
+		"message": "Rechercher résultat"
+	},
+	"collectionCantBeDeleted": {
+		"message": "Suppression de $collectionName$ impossible",
+		"placeholders": {
+			"collectionName": {
 				"content": "$1"
 			}
 		}

@@ -24,7 +24,7 @@
   },
   "main": "Gruntfile.js",
   "scripts": {
-    "test": "grunt jshint"
+    "test": "grunt test"
   },
   "repository": {
     "type": "git",
