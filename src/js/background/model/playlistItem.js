@@ -45,15 +45,6 @@
             this._ensureSongModel();
         },
         
-        //  Return the attributes needed to sync this object across chrome.storage.sync
-        getSyncAttributes: function() {
-            return {
-                title: this.get('title'),
-                sequence: this.get('sequence'),
-                song: this.get('song').getSyncAttributes()
-            };
-        },
-        
         _ensureSongModel: function() {
             var song = this.get('song');
 

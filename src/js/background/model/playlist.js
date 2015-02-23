@@ -77,16 +77,7 @@ define(function (require) {
                 success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
-        
-        //  Return the attributes needed to sync this object across chrome.storage.sync
-        getSyncAttributes: function () {
-            return {
-                title: this.get('title'),
-                active: this.get('active'),
-                sequence: this.get('sequence')
-            };
-        },
-        
+
         isLoading: function () {
             return this.has('dataSource') && !this.get('dataSourceLoaded');
         },

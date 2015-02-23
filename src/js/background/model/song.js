@@ -36,16 +36,6 @@
             this.on('change:id', this._onChangeId);
         },
         
-        getSyncAttributes: function () {
-            return {
-                id: this.get('id'),
-                title: this.get('title'),
-                author: this.get('author'),
-                duration: this.get('duration'),
-                type: this.get('type')
-            };
-        },
-        
         copyUrl: function () {
             var url = this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', url);
