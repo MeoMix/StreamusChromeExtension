@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development)](https://travis-ci.org/MeoMix/StreamusChromeExtension)
+
 Streamus™
 =========
 
