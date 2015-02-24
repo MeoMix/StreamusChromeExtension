@@ -1,8 +1,10 @@
-[![Build Status](https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development)](https://travis-ci.org/MeoMix/StreamusChromeExtension)
-Streamus™
-=========
-
-A Google Chrome extension which allows users to search & add songs to playlists, share playlists with others, and discover new songs.
+<h1 align="center">Streamus</h1>
+<p align="center">The most popular Chrome extension YouTube music player</p>
+<p align="center">
+  <a title='Build Status' href="https://travis-ci.org/MeoMix/StreamusChromeExtension">
+    <img src='https://secure.travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=development' />
+  </a>
+</p>
 
 Overview
 ========
