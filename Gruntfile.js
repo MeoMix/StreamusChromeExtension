@@ -118,7 +118,8 @@ module.exports = function (grunt) {
 
 		//	Update version number in manifest.json:
 		if (isDebugDeploy) {
-			grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
+		    grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
+		    grunt.option('version', 'Debug');
 		} else {
 			grunt.option('version', version);
 		}
@@ -215,18 +216,16 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
-		if (grunt.file.exists('dist/template')) {
-			//	Can't delete a full directory -- clean it up.
-			grunt.config.set('clean', ['dist/template', 'dist/less']);
-			grunt.task.run('clean');
-			grunt.file.delete('dist/template');
-			grunt.file.delete('dist/less');
-			grunt.file.delete('dist/js/thirdParty/mocha.js');
-			grunt.file.delete('dist/js/thirdParty/chai.js');
-			grunt.file.delete('dist/js/thirdParty/sinon.js');
-			grunt.file.delete('dist/js/test');
-			grunt.file.delete('dist/test.html');
-		}
+		//	Can't delete a full directory -- clean it up.
+		grunt.config.set('clean', ['dist/template', 'dist/less', 'dist/js/background/key']);
+		grunt.task.run('clean');
+		grunt.file.delete('dist/template');
+		grunt.file.delete('dist/less');
+		grunt.file.delete('dist/js/thirdParty/mocha.js');
+		grunt.file.delete('dist/js/thirdParty/chai.js');
+		grunt.file.delete('dist/js/thirdParty/sinon.js');
+		grunt.file.delete('dist/js/test');
+		grunt.file.delete('dist/test.html');
 
 		grunt.file.delete('dist/build.txt');
 	});
