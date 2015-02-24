@@ -3,11 +3,18 @@
 
     var PlayerState = require('common/enum/playerState');
     var PlayPauseButtonTemplate = require('text!template/appBar/playPauseButton.html');
+    var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
+    var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');
 
     var PlayPauseButtonView = Marionette.ItemView.extend({
         id: 'playPauseButton',
         className: 'button button--icon button--icon--primary button--large',
         template: _.template(PlayPauseButtonTemplate),
+        
+        templateHelpers: {
+            pauseIcon: _.template(PauseIconTemplate)(),
+            playIcon: _.template(PlayIconTemplate)()
+        },
         
         ui: function () {
             return {
@@ -51,9 +58,8 @@
             this.$el.toggleClass('is-disabled', !enabled);
 
             //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?
-            //  jQuery does not support <svg>
-            this.ui.pauseIcon[0].classList.toggle('is-hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
-            this.ui.playIcon[0].classList.toggle('is-hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
+            this.ui.pauseIcon.toggleClass('is-hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
+            this.ui.playIcon.toggleClass('is-hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
         }
     });
 

@@ -8,44 +8,53 @@ define(function (require) {
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
     var SaveSongsRegion = Marionette.Region.extend({
-        initialize: function() {
+        signInManager: null,
+
+        initialize: function () {
+            this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(Streamus.channels.saveSongs.commands, 'show:simpleMenu', this._showSimpleMenu);
         },
         
         _showSimpleMenu: function (options) {
-            var simpleMenuItems = new SimpleMenuItems(options.playlists.map(function (playlist) {
-                return {
-                    selected: playlist.get('active'),
-                    text: playlist.get('title'),
-                    value: playlist.get('id')
-                };
-            }));
+            //  Wrap the logic for showing a simpleMenu in defer to allow 'click' event to fully propagate before showing the view.
+            //  This ensure that a click event which spawned the simpleMenu does not also trigger the closing of the menu 
+            _.defer(function () {
+                var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-            var simpleMenuView = new SimpleMenuView({
-                collection: simpleMenuItems,
-                model: new SimpleMenu({
-                    fixedMenuItemTitle: chrome.i18n.getMessage('createPlaylist')
-                })
-            });
+                var simpleMenuItems = new SimpleMenuItems(playlists.map(function (playlist) {
+                    return {
+                        active: playlist.get('active'),
+                        text: playlist.get('title'),
+                        value: playlist.get('id')
+                    };
+                }));
 
-            simpleMenuView.on('click:simpleMenuItem', this._onClickSimpleMenuItem.bind(this, options.playlists, options.songs));
-            simpleMenuView.on('click:fixedMenuItem', this._onClickFixedMenuItem.bind(this, options.songs));
+                var simpleMenuView = new SimpleMenuView({
+                    collection: simpleMenuItems,
+                    model: new SimpleMenu({
+                        fixedMenuItemTitle: chrome.i18n.getMessage('createPlaylist')
+                    })
+                });
 
-            this.show(simpleMenuView);
-            
-            //  TODO: Maybe it's better to position completely over the button on flip? Would need a bit more math.
-            var offsetTop = this._ensureOffset(options.top, simpleMenuView.$el.outerHeight(), this.$el.height());
-            var offsetLeft = this._ensureOffset(options.left, simpleMenuView.$el.outerWidth(), this.$el.width());
+                simpleMenuView.on('click:simpleMenuItem', this._onClickSimpleMenuItem.bind(this, playlists, options.songs));
+                simpleMenuView.on('click:fixedMenuItem', this._onClickFixedMenuItem.bind(this, options.songs));
 
-            simpleMenuView.$el.offset({
-                top: offsetTop,
-                left: offsetLeft
-            });
+                this.show(simpleMenuView);
+
+                //  TODO: Maybe it's better to position completely over the button on flip? Would need a bit more math.
+                var offsetTop = this._ensureOffset(options.top, simpleMenuView.$el.outerHeight(), this.$el.height());
+                var offsetLeft = this._ensureOffset(options.left, simpleMenuView.$el.outerWidth(), this.$el.width());
+
+                simpleMenuView.$el.offset({
+                    top: offsetTop,
+                    left: offsetLeft
+                });
+            }.bind(this));
         },
         
         _onClickSimpleMenuItem: function (playlists, songs, eventArgs) {
-            var selectedItem = eventArgs.collection.findWhere({ selected: true });
-            var playlist = playlists.get(selectedItem.get('value'));
+            var activeItem = eventArgs.collection.getActive();
+            var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },
 

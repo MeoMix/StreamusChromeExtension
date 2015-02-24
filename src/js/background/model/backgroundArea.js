@@ -10,12 +10,11 @@
     var DataSourceManager = require('background/model/dataSourceManager');
     var DebugManager = require('background/model/debugManager');
     var Player = require('background/model/player');
+    var PlaylistsViewModel = require('background/viewModel/playlistsViewModel');
     var Search = require('background/model/search');
     var Settings = require('background/model/settings');
     var SignInManager = require('background/model/signInManager');
-    var SoundCloudAPI = require('background/model/soundCloudAPI');
     var Stream = require('background/model/stream');
-    var SyncManager = require('background/model/syncManager');
     var TabManager = require('background/model/tabManager');
     var YouTubePlayer = require('background/model/youTubePlayer');
     var NextButton = require('background/model/buttons/nextButton');
@@ -69,8 +68,6 @@
 
             var search = new Search();
 
-            var soundCloudAPI = new SoundCloudAPI();
-            
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: browserSettings,
                 tabManager: tabManager,
@@ -86,16 +83,17 @@
             });
             
             var chromeNotificationsManager = new ChromeNotificationsManager({
-                tabManager: tabManager
+                tabManager: tabManager,
+                settings: settings
             });
             
             var chromeOmniboxManager = new ChromeOmniboxManager({
                 streamItems: stream.get('items')
             });
             
-            var clientErrorManager = new ClientErrorManager();
-
-            var syncManager = new SyncManager();
+            var clientErrorManager = new ClientErrorManager({
+                signInManager: signInManager
+            });
 
             var nextButton = new NextButton({
                 stream: stream,
@@ -118,6 +116,8 @@
 
             var dataSourceManager = new DataSourceManager();
 
+            var playlistsViewModel = new PlaylistsViewModel();
+
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.browserSettings = browserSettings;
             window.debugManager = debugManager;
@@ -134,6 +134,7 @@
             window.search = search;
             window.player = player;
             window.dataSourceManager = dataSourceManager;
+            window.playlistsViewModel = playlistsViewModel;
         },
         
         _onForegroundStarted: function () {

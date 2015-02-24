@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/exportPlaylist',
-    'foreground/view/dialog/exportPlaylistDialogView',
-    'test/testUtility'
-], function (ExportPlaylist, ExportPlaylistDialogView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var ExportPlaylist = require('foreground/model/exportPlaylist');
+    var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
+    var TestUtility = require('test/testUtility');
 
     describe('ExportPlaylistDialogView', function () {
         beforeEach(function () {
@@ -19,10 +19,8 @@
             this.view.destroy();
         });
 
-        it('should show', function (done) {
+        it('should show', function () {
             this.documentFragment.appendChild(this.view.render().el);
-            //  Wait before removing the element because destroying the view immediately causes race-condition error due to expectance of HTML presence in _transitionIn
-            this.view.onVisible = done;
             this.view.triggerMethod('show');
         });
         

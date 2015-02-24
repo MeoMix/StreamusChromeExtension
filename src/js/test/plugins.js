@@ -1,17 +1,16 @@
-﻿define([
-    'backbone',
-    'backbone.localStorage',
-    'backbone.marionette',
-    'chai',
-    'cocktail',
-    'jquery',
-    'jquery.perfectScrollbar',
-    'jquery.qtip',
-    'jquery-ui',
-    'underscore',
-    'mocha',
-    'sinon'
-], function (Backbone, BackboneLocalStorage, Marionette, chai, Cocktail) {
+﻿define(function (require) {
+    'use strict';
+    
+    require('backbone.marionette');
+    require('backbone.localStorage');
+    require('jquery.perfectScrollbar');
+    require('jquery.qtip');
+    require('jquery-ui');
+    require('mocha');
+    var chai = require('chai');
+    require('sinon');
+    
+    var Cocktail = require('cocktail');
 
     window.expect = chai.expect;
     window.mocha.setup('bdd');
@@ -39,7 +38,6 @@
             element: Backbone.Wreqr.radio.channel('element'),
             
             //  BACKGROUND:
-            sync: Backbone.Wreqr.radio.channel('sync'),
             tab: Backbone.Wreqr.radio.channel('tab'),
             error: Backbone.Wreqr.radio.channel('error'),
             backgroundNotification: Backbone.Wreqr.radio.channel('backgroundNotification'),
@@ -47,7 +45,8 @@
             backgroundArea: Backbone.Wreqr.radio.channel('backgroundArea'),
             clipboard: Backbone.Wreqr.radio.channel('clipboard'),
             //foreground: Backbone.Wreqr.radio.channel('foreground'),
-            player: Backbone.Wreqr.radio.channel('player')
+            player: Backbone.Wreqr.radio.channel('player'),
+            activePlaylist: Backbone.Wreqr.radio.channel('activePlaylist')
         },
         
         backgroundChannels: null,

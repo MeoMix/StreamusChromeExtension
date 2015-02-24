@@ -4,6 +4,7 @@
     var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
     var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
     var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
+    var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
     
     var AdminMenuAreaView = Marionette.ItemView.extend({
         id: 'adminMenuArea',
@@ -14,7 +15,8 @@
             browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
             keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
             openInTabMessage: chrome.i18n.getMessage('openInTab'),
-            reloadMessage: chrome.i18n.getMessage('reload')
+            reloadMessage: chrome.i18n.getMessage('reload'),
+            settingsIcon: SettingsIcon
         },
         
         ui: function () {
@@ -44,11 +46,14 @@
 
         tabManager: null,
         
+        elementEvents: {
+            'drag': '_onElementDrag',
+            'click': '_onElementClick'
+        },
+        
         initialize: function () {
             this.tabManager = Streamus.backgroundPage.tabManager;
-            
-            this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
-            this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
+            this.bindEntityEvents(Streamus.channels.element.vent, this.elementEvents);
         },
         
         _onClickMenuButton: function () {

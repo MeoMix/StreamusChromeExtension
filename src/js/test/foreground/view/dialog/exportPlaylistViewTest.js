@@ -1,9 +1,9 @@
-﻿define([
-    'foreground/model/exportPlaylist',
-    'foreground/view/dialog/exportPlaylistView',
-    'test/testUtility'
-], function (ExportPlaylist, ExportPlaylistView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var ExportPlaylist = require('foreground/model/exportPlaylist');
+    var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
+    var TestUtility = require('test/testUtility');
 
     describe('ExportPlaylistView', function () {
         beforeEach(function () {
@@ -23,7 +23,5 @@
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        //  TODO: There's a lot more to test here.
     });
 });

@@ -1,7 +1,7 @@
-﻿define([
-    'common/utility'
-], function (Utility) {
+﻿define(function (require) {
     'use strict';
+
+    var Utility = require('common/utility');
     
     describe('Utility', function () {
         it('Should be able to convert ISO8061 Duration to Seconds', function () {

@@ -2,7 +2,7 @@
     'use strict';
 
     var Songs = require('background/collection/songs');
-    var OmniboxModifiers = require('background/enum/omniboxModifiers');
+    var OmniboxModifier = require('background/enum/omniboxModifier');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var Utility = require('common/utility');
 
@@ -11,9 +11,9 @@
         defaults: function () {
             return {
                 suggestedSongs: new Songs(),
-                searchJqXhr: null,
+                searchRequest: null,
                 modifiers: [],
-                validModifiers: [OmniboxModifiers.Add],
+                validModifiers: [OmniboxModifier.Add],
                 streamItems: null
             };
         },
@@ -41,25 +41,25 @@
                 suggest([]);
             } else {
                 //  Do not display results if searchText was modified while searching, abort old request.
-                var previousSearchJqXhr = this.get('searchJqXhr');
+                var previousSearchRequest = this.get('searchRequest');
 
-                if (previousSearchJqXhr) {
-                    previousSearchJqXhr.abort();
-                    this.set('searchJqXhr', null);
+                if (previousSearchRequest !== null) {
+                    previousSearchRequest.abort();
+                    this.set('searchRequest', null);
                 }
 
                 var modifiers = this._getModifiers(searchText);
                 this.set('modifiers', modifiers);
                 searchText = this._trimModifiers(searchText, modifiers);
 
-                var searchJqXhr = YouTubeV3API.search({
+                var searchRequest = YouTubeV3API.search({
                     text: searchText,
                     //  Omnibox can only show 6 results
                     maxResults: 6,
                     success: this._onSearchResponse.bind(this, suggest, searchText)
                 });
 
-                this.set('searchJqXhr', searchJqXhr);
+                this.set('searchRequest', searchRequest);
             }
         },
         
@@ -75,7 +75,7 @@
                 pickedSong = this.get('suggestedSongs').first();
             }
 
-            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifiers.Add);
+            var addOnlyModifierExists = _.contains(this.get('modifiers'), OmniboxModifier.Add);
             var playOnAdd = addOnlyModifierExists ? false : true;
 
             this.get('streamItems').addSongs(pickedSong, {
@@ -115,7 +115,7 @@
         },
         
         _onSearchResponse: function (suggest, searchText, searchResponse) {
-            this.set('searchJqXhr', null);
+            this.set('searchRequest', null);
 
             var suggestions = this._buildSuggestions(searchResponse.songs, searchText);
             suggest(suggestions);

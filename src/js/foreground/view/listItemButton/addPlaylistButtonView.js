@@ -3,22 +3,32 @@
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
+    var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
     var AddPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(AddListItemButtonTemplate),
+        templateHelpers: {
+            addIcon: _.template(AddIconTemplate)()
+        },
         
         streamItems: null,
+        
+        streamItemsEvents: {
+            'add': '_onStreamItemsAdd',
+            'remove': '_onStreamItemsRemove',
+            'reset': '_onStreamItemsReset'
+        },
+        
+        playlistItemsEvents: {
+            'add': '_onPlaylistItemsAdd',
+            'remove': '_onPlaylistItemsRemove',
+            'reset': '_onPlaylistItemsReset'
+        },
 
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
-            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
-            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
-            
-            var playlistItems = this.model.get('items');
-            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
-            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
-            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
+            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
 
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },

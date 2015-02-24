@@ -12,17 +12,17 @@
 .instruction {
     //  position: absolute so that .list near instructions isn't bumped down to support drag-and-drop behavior
     position: absolute;
-    //  width: 100% so that text-align: center works properly with position: absolute
-    width: 100%;
-    color: @dark--primary;
-    text-align: center;
     top: 33%;
-    transform: translateY(-50%);
+    //  Position over .list (which is relative due to perfectScrollbar) to enable clicking hyperlinks in instruction.
+    z-index: 1;
+    //  Width: 100% so that text-align: center works properly with position: absolute
+    width: 100%;
     //  Keep all instruction heights the same so that they stay aligned to each-other.
     height: 60px;
     padding: 0 16px;
-    //  Position over .list (which is relative due to perfectScrollbar) to enable clicking hyperlinks in instruction.
-    z-index: 1;
+    color: @dark--primary;
+    text-align: center;
+    transform: translateY(-50%);
 }
 
 .instruction-header {

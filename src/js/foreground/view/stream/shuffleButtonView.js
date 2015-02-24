@@ -3,11 +3,15 @@
 
     var Tooltip = require('foreground/view/behavior/tooltip');
     var ShuffleButtonTemplate = require('text!template/stream/shuffleButton.html');
+    var ShuffleIconTemplate = require('text!template/icon/shuffleIcon_18.svg');
 
     var ShuffleButtonView = Marionette.ItemView.extend({
         id: 'shuffleButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ShuffleButtonTemplate),
+        templateHelpers: {
+            shuffleIcon: _.template(ShuffleIconTemplate)()
+        },
         
         events: {
             'click': '_onClick'

@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/editPlaylistDialogView',
-    'test/testUtility'
-], function (EditPlaylistDialogView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var EditPlaylistDialogView = require('foreground/view/dialog/editPlaylistDialogView');
+    var TestUtility = require('test/testUtility');
 
     describe('EditPlaylistDialogView', function () {
         beforeEach(function () {
@@ -16,10 +16,8 @@
             this.view.destroy();
         });
 
-        it('should show', function (done) {
+        it('should show', function () {
             this.documentFragment.appendChild(this.view.render().el);
-            //  Wait before removing the element because destroying the view immediately causes race-condition error due to expectance of HTML presence in _transitionIn
-            this.view.onVisible = done;
             this.view.triggerMethod('show');
         });
 

@@ -4,29 +4,30 @@
 
 .contentBar {
     display: flex;
-    justify-content: flex-end;
     padding: 0 4px;
     align-items: center;
+    justify-content: flex-end;
+}
+
+.contentBar-navButton {
+    margin-right: 20px;
+}
+
+.contentBar-title {
+    font-size: 17px;
 }
 
 .contentBar--top {
     height: 56px;
-    box-shadow: @boxShadow-elevation--low;
-    background-color: @blue--500;
-    fill: white;
     color: white;
+    fill: white;
+    background-color: @blue--500;
 }
 
 .contentBar--bottom {
     height: 48px;
-    box-shadow: @boxShadow-divider--top;
 }
 
 .contentBar--bottom-text--left {
     margin-left: 12px;
-}
-
-.contentBar-content {
-    display: inline-flex;
-    .flexRow;
 }

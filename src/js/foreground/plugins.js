@@ -1,13 +1,16 @@
-﻿define([
-    'backbone.localStorage',
-    'backbone.marionette',
-    'googleAnalytics',
-    'jquery.perfectScrollbar',
-    'jquery.qtip',
-    'jquery-ui',
-    'less'
-], function () {
+﻿define(function (require) {
     'use strict';
+    
+    //  TODO: Assign these to variables?
+    require('backbone.marionette');
+    require('backbone.localStorage');
+    require('googleAnalytics');
+    require('jquery.perfectScrollbar');
+    require('jquery.qtip');
+    require('jquery-ui');
+    require('less');
+    
+    ga('send', 'pageview', '/foreground.html');
     
     //  Finally, load the application which will initialize the foreground:
     require(['foreground/application']);

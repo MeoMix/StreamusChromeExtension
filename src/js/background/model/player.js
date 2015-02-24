@@ -3,7 +3,9 @@ define(function (require) {
 
     var ChromeCommand = require('background/enum/chromeCommand');
     var PlayerState = require('common/enum/playerState');
-    var YouTubeQuality = require('common/enum/youTubeQuality');
+    var YouTubePlayerState = require('background/enum/youTubePlayerState');
+    var YouTubeQuality = require('background/enum/youTubeQuality');
+    var SongQuality = require('common/enum/songQuality');
 
     var Player = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Player'),
@@ -81,7 +83,7 @@ define(function (require) {
                     startSeconds: timeInSeconds || 0,
                     //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
                     //  If it cannot, it will set its quality to the level most near suggested quality.
-                    suggestedQuality: YouTubeQuality.fromSongQuality(this.get('settings').get('songQuality'))
+                    suggestedQuality: this._getYouTubeQuality(this.get('settings').get('songQuality'))
                 };
 
                 //  TODO: I don't think I *always* want to keep the player going if a song is activated while one is playing, but maybe...
@@ -203,7 +205,7 @@ define(function (require) {
 
         //  Attempt to set playback quality to songQuality or highest possible.
         _onChangeSongQuality: function (model, songQuality) {
-            var youTubeQuality = YouTubeQuality.fromSongQuality(songQuality);
+            var youTubeQuality = this._getYouTubeQuality(songQuality);
             this.get('youTubePlayer').setPlaybackQuality(youTubeQuality);
         },
         
@@ -317,22 +319,19 @@ define(function (require) {
         },
         
         _onYouTubePlayerChangeReady: function (model, ready) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('ready', ready);
         },
         
-        _onYouTubePlayerChangeState: function (model, state) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
-            this.set('state', state);
+        _onYouTubePlayerChangeState: function (model, youTubePlayerState) {
+            var playerState = this._getPlayerState(youTubePlayerState);
+            this.set('state', playerState);
         },
         
         _onYouTubePlayerChangeLoading: function (model, loading) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('loading', loading);
         },
         
         _onYouTubePlayerChangeCurrentLoadAttempt: function (model, currentLoadAttempt) {
-            //  TODO: This will need to be smarter w/ SoundCloud support.
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
         
@@ -364,6 +363,59 @@ define(function (require) {
         
         _playOnActivate: function (playOnActivate) {
             this.set('playOnActivate', playOnActivate);
+        },
+        
+        //  Maps a SongQuality enumeration value to the corresponding YouTubeQuality enumeration value.
+        _getYouTubeQuality: function (songQuality) {
+            var youTubeQuality = YouTubeQuality.Default;
+
+            switch (songQuality) {
+                case SongQuality.Highest:
+                    youTubeQuality = YouTubeQuality.Highres;
+                    break;
+                case SongQuality.Auto:
+                    youTubeQuality = YouTubeQuality.Default;
+                    break;
+                case SongQuality.Lowest:
+                    youTubeQuality = YouTubeQuality.Small;
+                    break;
+                default:
+                    console.error('Unhandled SongQuality: ', songQuality);
+                    break;
+            }
+
+            return youTubeQuality;
+        },
+        
+        //  Maps a YouTubePlayerState enumeration value to the corresponding PlayerState enumeration value.
+        _getPlayerState: function(youTubePlayerState) {
+            var playerState;
+
+            switch (youTubePlayerState) {
+                case YouTubePlayerState.Unstarted:
+                    playerState = PlayerState.Unstarted;
+                    break;
+                case YouTubePlayerState.Ended:
+                    playerState = PlayerState.Ended;
+                    break;
+                case YouTubePlayerState.Playing:
+                    playerState = PlayerState.Playing;
+                    break;
+                case YouTubePlayerState.Paused:
+                    playerState = PlayerState.Paused;
+                    break;
+                case YouTubePlayerState.Buffering:
+                    playerState = PlayerState.Buffering;
+                    break;
+                //  TODO: I think that SongCued should map to Paused because Streamus doesn't really care about SongCued at all.
+                case YouTubePlayerState.SongCued:
+                    playerState = PlayerState.SongCued;
+                    break;
+                default:
+                    throw new Error("Unmapped YouTubePlayerState:" + youTubePlayerState);
+            }
+
+            return playerState;
         }
     });
 

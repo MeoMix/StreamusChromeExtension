@@ -13,7 +13,8 @@
                 operatingSystem: '',
                 architecture: '',
                 stack: '',
-                error: null
+                error: null,
+                userId: ''
             };
         },
         

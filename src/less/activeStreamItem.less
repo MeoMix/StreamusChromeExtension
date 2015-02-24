@@ -2,13 +2,17 @@
 @import "transition";
 @import "boxShadow";
 
-#activeStreamItem {
+.activeStreamItem {
+    height: 72px;
     padding: 8px 16px;
-    color: @dark--primary;
-
     //  TODO: Would prefer to use -110% transform, but need to be able to shift StreamItems down the same amount.
     //  72px is the height of activeStreamItem.
     margin-top: -72px;
+    color: @dark--primary;
+    box-shadow: @boxShadow-divider--bottom, @boxShadow-divider--left;
+    .transition--fast;
+    transition-property: margin;
+    transition-timing-function: @transition-easeOutSine;
 
     &.is-instant {
         transition: none;
@@ -17,14 +21,10 @@
     &.is-visible {
         margin-top: 0;
     }
-    
-    transition-property: margin;
-    transition-timing-function: @transition-easeOutSine;
-    .transition--fast;
-    box-shadow: @boxShadow-divider--bottom, @boxShadow-divider--left;
 }
 
-#activeStreamItem-title {
+//  TODO: This should be able to be generalized.
+.activeStreamItem-title {
     font-size: 17px;
     line-height: 34px;
 }

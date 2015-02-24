@@ -328,6 +328,7 @@
             return index >= this.minRenderIndex && index <= this.maxRenderIndex;
         },
         
+        //  TODO: An animation on this would be nice.
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         _scrollToItem: function (item) {
             var itemIndex = this.view.collection.indexOf(item);
@@ -364,6 +365,7 @@
         },
         
         _onCollectionRemove: function (item, collection, options) {
+            //  TODO: just modify the index in anticipation of the view being removed rather than wrapping in a setTimeout.
             //  I've wrapped this in a setTimeout because the CollectionView has yet to remove the model which is being removed from the collection.
             //  Because of this, _renderElementAtIndex has an off-by-one error due to the presence of the view whose model is being removed.
             setTimeout(function () {

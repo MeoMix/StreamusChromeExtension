@@ -3,20 +3,26 @@
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var PlayListItemButtonTemplate = require('text!template/listItemButton/playListItemButton.html');
+    var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
 
     var PlayPlaylistButtonView = ListItemButtonView.extend({
         template: _.template(PlayListItemButtonTemplate),
+        templateHelpers: {
+            playIcon: _.template(PlayIconTemplate)()
+        },
         
         streamItems: null,
+        
+        playlistItemsEvents: {
+            'add': '_onPlaylistItemsAdd',
+            'remove': '_onPlaylistItemsRemove',
+            'reset': '_onPlaylistItemsReset'
+        },
 
         initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
+            this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
 
-            var playlistItems = this.model.get('items');
-            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
-            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
-            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
-            
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
         

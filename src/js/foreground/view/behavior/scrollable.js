@@ -14,7 +14,7 @@
             //  the final state / potentially small updates while events coming in.
             //  Bound in initialize because if bound on the class then all views which implement Scrollable will
             //  share the throttle timer.
-            this._throttleUpdateScrollbar = _.throttle(this._updateScrollbar.bind(this), 250);
+            this._throttleUpdateScrollbar = _.throttle(this._updateScrollbar.bind(this), 20);
         },
         
         onAttach: function () {
@@ -45,6 +45,7 @@
         },
         
         _onCollectionRemove: function () {
+            //  TODO: This is poor design. How can I fix this?
             //  This needs to be deferred because SlidingRender's onCollectionRemove logic is deferred.
             _.defer(this._throttleUpdateScrollbar.bind(this));
         },

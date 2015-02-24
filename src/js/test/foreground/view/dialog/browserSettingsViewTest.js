@@ -1,7 +1,7 @@
-﻿define([
-    'foreground/view/dialog/browserSettingsView'
-], function (BrowserSettingsView) {
+﻿define(function (require) {
     'use strict';
+
+    var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
 
     describe('BrowserSettingsView', function () {
         beforeEach(function () {

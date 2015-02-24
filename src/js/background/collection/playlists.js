@@ -13,6 +13,10 @@
         
         mixins: [CollectionSequence],
         
+        url: function() {
+            return Streamus.serverUrl + 'Playlist/';
+        },
+        
         initialize: function (models, options) {
             this.userId = options.userId;
             
@@ -21,11 +25,6 @@
             this.on('remove', this._onRemove);
             this.on('change:active', this._onChangeActive);
             this.on('reset', this._onReset);
-
-            var syncEventChannel = this._getSyncEventChannel();
-            this.listenTo(syncEventChannel, SyncActionType.Added, this._addBySyncAction);
-            this.listenTo(syncEventChannel, SyncActionType.Removed, this._removeBySyncAction);
-            this.listenTo(syncEventChannel, SyncActionType.Updated, this._updateBySyncAction);
         },
         
         getActivePlaylist: function () {
@@ -93,36 +92,7 @@
                 }
             });
         },
-        
-        //  TODO: I don't think this should know about syncAction it should just be given the data.
-        _addBySyncAction: function (syncAction) {
-            var playlistOptions = _.extend({
-                id: syncAction.get('modelId'),
-                userId: this.userId
-            }, syncAction.get('modelAttributes'));
 
-            this.add(playlistOptions, {
-                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
-                sync: true
-            });
-        },
-        
-        _removeBySyncAction: function (syncAction) {
-            var playlist = this.get(syncAction.get('modelId'));
-            this.remove(playlist, {
-                //  Pass a custom sync option to know that the add is occurring from a cross-pc sync 
-                sync: true
-            });
-        },
-        
-        _updateBySyncAction: function(syncAction) {
-            var playlist = this.get(syncAction.get('modelId'));
-
-            playlist.set(syncAction.property.name, syncAction.property.value, {
-                sync: true
-            });
-        },
-        
         _deactivateAllExcept: function (changedPlaylist) {
             this.each(function (playlist) {
                 if (playlist !== changedPlaylist) {
@@ -139,7 +109,7 @@
         _onReset: function() {
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-                var activePlaylistId = localStorage.getItem('activePlaylistId');
+                var activePlaylistId = window.localStorage.getItem('activePlaylistId');
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
@@ -193,7 +163,7 @@
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
-                localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+                window.localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
         
@@ -215,7 +185,7 @@
             }
         },
         //  TODO: added vs created.
-        _onCreateSuccess: function (addedPlaylist, options) {
+        _onCreateSuccess: function (addedPlaylist) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Added,
@@ -232,18 +202,13 @@
             });
 
             this._setCanDelete(this.length > 1);
-
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncAddEvent(addedPlaylist);
-            }
         },
         
         //  Whenever a playlist is removed, if it was selected, select the next playlist.
         _onRemove: function (removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {
                 //  Clear local storage of the active playlist if it gets removed.
-                localStorage.setItem('activePlaylistId', null);
+                window.localStorage.setItem('activePlaylistId', null);
                 //  If the index of the item removed was the last one in the list, activate previous.
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);
@@ -261,40 +226,10 @@
                     id: removedPlaylist.get('id')
                 }
             });
-            
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncRemoveEvent(removedPlaylist);
-            }
         },
         
         _activateByIndex: function (index) {
             this.at(index).set('active', true);
-        },
-        
-        _emitSyncAddEvent: function (playlist) {
-            //  TODO: Standardize the pattern for emitting triggers via sync.
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Added,
-                modelId: playlist.get('id'),
-                modelAttributes: playlist.getSyncAttributes()
-            });
-        },
-        
-        _emitSyncRemoveEvent: function (playlist) {
-            //  TODO: Standardize the pattern for emitting triggers via sync.
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Removed,
-                modelId: playlist.get('id')
-            });
-        },
-
-        //  TODO: Make a custom radio emitter which can give this channel out.
-        _getSyncEventChannel: function () {
-            //  TODO: Uhhhh this seems bad.
-            return Backbone.Wreqr.radio.channel('sync-' + ListItemType.Playlist).vent;
         }
     });
 

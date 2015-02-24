@@ -417,9 +417,6 @@
 			}
 		}
 	},
-	"activeSong": {
-		"message": "Active song"
-	},
 	"urlCopied": {
 		"message": "URL copied"
 	},
@@ -457,5 +454,75 @@
 				"content": "$1"
 			}
 		}
+	},
+	"searchResults": {
+		"message": "Search results"
+	},
+	"collectionCantBeDeleted": {
+		"message": "$collectionName$ can't be deleted",
+		"placeholders": {
+			"collectionName": {
+				"content": "$1"
+			}
+		}
+	},
+	"collectionSelected": {
+		"message": "$count$ $collectionName$ selected",
+		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+		"placeholders": {
+			"count": {
+				"content": "$1"
+			},
+			"collectionName": {
+				"content": "$2"
+			}
+		}
+	},
+	"saveAll": {
+		"message": "Save all"
+	},
+	"saveActiveSongCommandDescription": {
+		"message": "Save song"
+	},
+	"songSavedToPlaylist": {
+		"message": "$songTitle$ saved to $playlistTitle$",
+		"placeholders": {
+			"songTitle": {
+				"content": "$1"
+			},
+			"playlistTitle": {
+				"content": "$2"
+			}
+		}
+	},
+	"desktopNotifications": {
+		"message": "Desktop notifications"
+	},
+	"showNotifications": {
+		"message": "Show notifications"
+	},
+	"notificationDuration": {
+		"message": "Notification duration"
+	},
+	"oneSecond": {
+		"message": "One second"
+	},
+	"twoSeconds": {
+		"message": "Two seconds"
+	},
+	"threeSeconds": {
+		"message": "Three seconds"
+	},
+	"fourSeconds": {
+		"message": "Four seconds"
+	},
+	"fiveSeconds": {
+		"message": "Five seconds"
+	},
+	"tenSeconds": {
+		"message": "Ten seconds"
+	},
+	"playlistUrl": {
+		"message": "Playlist URL"
 	}
 }

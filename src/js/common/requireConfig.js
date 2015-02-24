@@ -27,7 +27,7 @@
 
 		shim: {
 			'googleAnalytics': {
-				exports: 'ga'
+				exports: 'window.ga'
 			},
 			'less': {
 				exports: 'window.less'

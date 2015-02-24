@@ -4,11 +4,15 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
     var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
+    var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
     var ClearStreamButtonView = Marionette.ItemView.extend({
         id: 'clearStreamButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ClearStreamButtonTemplate),
+        templateHelpers: {
+            deleteIcon: _.template(DeleteIconTemplate)()
+        },
         
         events: {
             'click': '_onClick',

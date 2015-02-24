@@ -1,11 +1,11 @@
 ﻿<section class='grouping'>
-    <input type='text' id='createPlaylist-title' class='textInput textInput--basic js-submittable' placeholder='<%= titleMessage %>' value='<%= playlistMessage %> <%= playlistCount %>' maxlength=<%= titleMaxLength %>>
+    <input type='text' id='createPlaylist-title' class='textInput textInput--basic js-submittable' placeholder='<%= titleMessage %>' maxlength=<%= titleMaxLength %>>
     <div class="textInput-hint textInput-characterCounter">
         <span id="createPlaylist-title-characterCount">0</span> / <%= titleMaxLength %>
     </div>
 </section>
 
 <section class='grouping <%= showDataSource ? "" : "is-hidden" %>'>
-    <input type='text' id='createPlaylist-dataSource' class='textInput textInput--basic js-submittable' placeholder='<%= playlistMessage %> <%= urlMessage %>'>
+    <input type='text' id='createPlaylist-dataSource' class='textInput textInput--basic js-submittable' placeholder='<%= playlistUrlMessage %>'>
     <div id="createPlaylist-dataSource-hint" class="textInput-hint"></div>
 </section>

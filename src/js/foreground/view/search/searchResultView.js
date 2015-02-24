@@ -2,7 +2,7 @@
     'use strict';
 
     var ListItemView = require('foreground/view/listItemView');
-    var ItemViewMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
+    var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
@@ -19,8 +19,8 @@
         }),
         
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
-            ItemViewMultiSelect: {
-                behaviorClass: ItemViewMultiSelect
+            ListItemMultiSelect: {
+                behaviorClass: ListItemMultiSelect
             }
         }),
         

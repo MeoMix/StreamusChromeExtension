@@ -3,9 +3,13 @@
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var SaveListItemButtonTemplate = require('text!template/listItemButton/saveListItemButton.html');
+    var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveSongButtonView = ListItemButtonView.extend({
         template: _.template(SaveListItemButtonTemplate),
+        templateHelpers: {
+            saveIcon: _.template(SaveIconTemplate)()
+        },
 
         signInManager: null,
 
@@ -21,17 +25,13 @@
         },
 
         doOnClickAction: function () {
-            //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
-            _.defer(function() {
-                var offset = this.$el.offset();
+            var offset = this.$el.offset();
 
-                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                    playlists: this.signInManager.get('signedInUser').get('playlists'),
-                    songs: [this.model.get('song')],
-                    top: offset.top,
-                    left: offset.left
-                });
-            }.bind(this));
+            Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                songs: [this.model.get('song')],
+                top: offset.top,
+                left: offset.left
+            });
         },
         
         _onSignInManagerChangeSignedInUser: function() {

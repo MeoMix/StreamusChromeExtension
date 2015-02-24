@@ -24,10 +24,6 @@ define(function (require) {
             //  Only allowed to delete a playlist if more than 1 exists.
             canDelete: false
         },
-
-        urlRoot: function() {
-            return Streamus.serverUrl + 'Playlist/';
-        },
             
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
@@ -54,8 +50,10 @@ define(function (require) {
         
         initialize: function () {
             this._ensureItemsCollection();
+            this._setActivePlaylistListeners(this.get('active'));
+            
             this.on('change:title', this._onChangeTitle);
-            this.on('change:sequence', this._onChangeSequence);
+            this.on('change:active', this._onChangeActive);
         },
         
         getShareCode: function(options) {
@@ -79,16 +77,7 @@ define(function (require) {
                 success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
-        
-        //  Return the attributes needed to sync this object across chrome.storage.sync
-        getSyncAttributes: function () {
-            return {
-                title: this.get('title'),
-                active: this.get('active'),
-                sequence: this.get('sequence')
-            };
-        },
-        
+
         isLoading: function () {
             return this.has('dataSource') && !this.get('dataSourceLoaded');
         },
@@ -114,23 +103,20 @@ define(function (require) {
             }
         },
         
-        _onChangeTitle: function(model, title, options) {
+        _onChangeTitle: function(model, title) {
             this._emitYouTubeTabUpdateEvent({
                 id: model.get('id'),
                 title: title
             });
-            
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this.save({ title: title }, { patch: true });
-                this._emitSyncUpdateEvent(model, 'title', title);
-            }
-        },
 
-        _onChangeSequence: function (model, sequence, options) {
-            var fromSyncEvent = options && options.sync;
-            if (!fromSyncEvent) {
-                this._emitSyncUpdateEvent(model, 'sequence', sequence);
+            this.save({ title: title }, { patch: true });
+        },
+        
+        _onChangeActive: function (model, active) {
+            this._setActivePlaylistListeners(active);
+
+            if (!active) {
+                this.get('items').deselectAll();
             }
         },
         
@@ -143,15 +129,38 @@ define(function (require) {
             });
         },
         
-        _emitSyncUpdateEvent: function (playlist, propertyName, propertyValue) {
-            Streamus.channels.sync.vent.trigger('sync', {
-                listItemType: ListItemType.Playlist,
-                syncActionType: SyncActionType.Updated,
-                modelId: playlist.get('id'),
-                property: {
-                    name: propertyName,
-                    value: propertyValue
-                }
+        _setActivePlaylistListeners: function(active) {
+            if (active) {
+                this.listenTo(Streamus.channels.activePlaylist.commands, 'save:song', this._saveSong);
+            } else {
+                this.stopListening(Streamus.channels.activePlaylist.commands);
+            }
+        },
+        
+        _saveSong: function (song) {
+            var duplicatesInfo = this.get('items').getDuplicatesInfo(song);
+            
+            if (duplicatesInfo.allDuplicates) {
+                Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                    title: duplicatesInfo.message
+                });
+            } else {
+                this.get('items').addSongs(song, {
+                    success: this._onSaveSongsSuccess.bind(this, song),
+                    error: this._onSaveSongsError.bind(this)
+                });
+            }
+        },
+        
+        _onSaveSongsSuccess: function (savedSong) {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('songSavedToPlaylist', [savedSong.get('title'), this.get('title')])
+            });
+        },
+        
+        _onSaveSongsError: function() {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('errorEncountered')
             });
         },
         

@@ -3,11 +3,15 @@
 
     var Tooltip = require('foreground/view/behavior/tooltip');
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
+    var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(SaveStreamButtonTemplate),
+        templateHelpers: {
+            saveIcon: _.template(SaveIconTemplate)()
+        },
 
         events: {
             'click': '_onClick',
@@ -42,18 +46,13 @@
         },
 
         _showSaveSongsSimpleMenu: function (songs) {
-            //  Defer the click event because showing a simpleMenu while a click event is mid-propagation will cause the simpleMenu to close immediately.
-            _.defer(function () {
-                var offset = this.$el.offset();
+            var offset = this.$el.offset();
 
-                Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                    //  TODO: Weird coupling.
-                    playlists: Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists'),
-                    songs: songs,
-                    top: offset.top,
-                    left: offset.left
-                });
-            }.bind(this));
+            Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
+                songs: songs,
+                top: offset.top,
+                left: offset.left
+            });
         }
     });
 

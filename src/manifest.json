@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.168",
+	"version": "0.169",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -70,6 +70,9 @@
 		"showActiveSong": {
 			"description": "__MSG_showActiveSongCommandDescription__"
 		},
+		"saveActiveSong": {
+			"description": "__MSG_saveActiveSongCommandDescription__"
+		},
 		"_execute_browser_action": {
 		}
 	},
@@ -95,8 +98,9 @@
 			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
 		},
 		{
-			"matches": ["*://*.beatport.com/*"],
-			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]
+			"matches": ["*://*.pro.beatport.com/*"],
+			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"],
+			"css": ["css/beatportInject.css"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
@@ -114,13 +118,9 @@
 		"notifications",
 		"storage",
 		"identity",
+		"identity.email",
 		"webRequest",
 		"webRequestBlocking",
 		"*://*.youtube.com/*"
-	],
-	"web_accessible_resources": [
-		"css/beatportInject.css",
-		"img/streamus_icon14_0bars.png",
-		"img/streamus_icon16.png"
 	]
 }

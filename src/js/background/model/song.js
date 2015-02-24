@@ -1,12 +1,12 @@
 ﻿define(function (require) {
     'use strict';
     
-    var SongType = require('common/enum/songType');
+    var SongType = require('background/enum/songType');
     var Utility = require('common/utility');
 
     var Song = Backbone.Model.extend({
         defaults: {
-            //  ID is either a YouTube Video ID or a SoundCloud Song ID.
+            //  ID is a YouTube Video ID
             id: '',
             //  Title is immutable. PlaylistItem might support editing the title, but applied to the PlaylistItem and not to Song.
             title: '',
@@ -34,16 +34,6 @@
             this.on('change:duration', this._onChangeDuration);
             this.on('change:title', this._onChangeTitle);
             this.on('change:id', this._onChangeId);
-        },
-        
-        getSyncAttributes: function () {
-            return {
-                id: this.get('id'),
-                title: this.get('title'),
-                author: this.get('author'),
-                duration: this.get('duration'),
-                type: this.get('type')
-            };
         },
         
         copyUrl: function () {

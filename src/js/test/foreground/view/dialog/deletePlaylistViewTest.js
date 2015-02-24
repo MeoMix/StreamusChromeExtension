@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/deletePlaylistView',
-    'test/testUtility'
-], function (DeletePlaylistView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var DeletePlaylistView = require('foreground/view/dialog/deletePlaylistView');
+    var TestUtility = require('test/testUtility');
 
     describe('DeletePlaylistView', function () {
         beforeEach(function () {

@@ -2,19 +2,20 @@
 
 //  This is the jQuery UI draggable object that shows # of items being dragged
 .sortable-selectedItemsCount {
-    //  Overide jQuery UI's width/height settings.
-    height: auto !important;
+    position: absolute;
+    //  !important is being used to override jQuery UI's width/height settings
     width: auto !important;
-    background-color: @gray--tooltip;
+    height: auto !important;
+    padding: 2px 8px;
     font-weight: 600;
     color: @white;
-    border-radius: 18px;
     text-align: center;
-    padding: 2px 8px;
-    position: absolute;
+    background-color: @gray--tooltip;
+    border-radius: 18px;
 }
 
 .sortable-placeholder {
+    font-size: 15px;
     color: white;
     background: @dark--quinary;
 

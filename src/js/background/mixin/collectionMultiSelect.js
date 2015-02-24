@@ -35,6 +35,13 @@
     firstSelected: function () {
         return this.findWhere({ firstSelected: true });
     },
+    
+    //  Returns the underlying Songs of the collection.
+    getSelectedSongs: function () {
+        return _.map(this.selected(), function (selectedItem) {
+            return selectedItem.get('song');
+        });
+    },
 
     _onChangeSelected: function (model, selected) {
         //  Whenever only one model is selected -- it becomes the first one to be selected.

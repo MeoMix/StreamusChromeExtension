@@ -11,6 +11,7 @@
     var SaveSongsRegion = require('foreground/view/saveSongs/saveSongsRegion');
     var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
+    var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -81,19 +82,27 @@
                 streamRegion: {
                     selector: '#' + this.id + '-streamRegion',
                     regionClass: StreamRegion
+                },
+                selectionBarRegion: {
+                    selector: '#' + this.id + '-selectionBarRegion',
+                    regionClass: SelectionBarRegion
                 }
             };
         },
         
         player: null,
         settings: null,
+        
+        playerEvents: {
+            'change:loading': '_onPlayerChangeLoading',
+            'change:currentLoadAttempt': '_onPlayerChangeCurrentLoadAttempt'
+        },
 
         initialize: function () {
             this.player = Streamus.backgroundPage.player;
             this.settings = Streamus.backgroundPage.settings;
-
-            this.listenTo(this.player, 'change:loading', this._onPlayerChangeLoading);
-            this.listenTo(this.player, 'change:currentLoadAttempt', this._onPlayerChangeCurrentLoadAttempt);
+            this.bindEntityEvents(this.player, this.playerEvents);
+            
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);

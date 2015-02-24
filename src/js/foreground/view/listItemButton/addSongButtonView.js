@@ -3,17 +3,24 @@
     
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var AddListItemButtonTemplate = require('text!template/listItemButton/addListItemButton.html');
+    var AddIconTemplate = require('text!template/icon/addIcon_18.svg');
 
     var AddSongButtonView = ListItemButtonView.extend({
         template: _.template(AddListItemButtonTemplate),
+        templateHelpers: {
+            addIcon: _.template(AddIconTemplate)()
+        },
         
         streamItems: null,
+        streamItemsEvents: {
+            'add': '_onStreamItemsAdd',
+            'remove': '_onStreamItemsRemove',
+            'reset': '_onStreamItemsReset'
+        },
         
-        initialize: function() {
+        initialize: function () {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
-            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
-            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
             
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },

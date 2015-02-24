@@ -1,6 +1,7 @@
 ﻿//  These values are synced with manifest.json's commands declaration.
 define({
     ShowActiveSong: 'showActiveSong',
+    SaveActiveSong: 'saveActiveSong',
     DeleteSongFromStream: 'deleteSongFromStream',
     CopySongUrl: 'copySongUrl',
     CopySongTitleAndUrl: 'copySongTitleAndUrl',

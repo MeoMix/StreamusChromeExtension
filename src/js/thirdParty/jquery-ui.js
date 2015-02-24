@@ -1,3 +1,4 @@
+//  TODO: This file has been heavily modified. Please diff with v1.11.2 before upgrading to future versions if needed.
 /*! jQuery UI - v1.11.2 - 2014-10-25
 * http://jqueryui.com
 * Includes: core.js, widget.js, mouse.js, position.js, sortable.js

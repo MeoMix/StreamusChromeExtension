@@ -3,11 +3,15 @@
 
     var Tooltip = require('foreground/view/behavior/tooltip');
     var RadioButtonTemplate = require('text!template/stream/radioButton.html');
+    var RadioIconTemplate = require('text!template/icon/radioIcon_18.svg');
 
     var RadioButtonView = Marionette.ItemView.extend({
         id: 'radioButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(RadioButtonTemplate),
+        templateHelpers: {
+            radioIcon: _.template(RadioIconTemplate)()
+        },
 
         events: {
             'click': '_onClick'

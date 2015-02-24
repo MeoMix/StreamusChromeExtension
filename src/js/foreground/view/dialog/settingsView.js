@@ -2,6 +2,7 @@
     'use strict';
 
     var SongQuality = require('common/enum/songQuality');
+    var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
     var Checkboxes = require('foreground/collection/checkboxes');
     var RadioGroups = require('foreground/collection/radioGroups');
     var Switches = require('foreground/collection/switches');
@@ -22,7 +23,8 @@
                 viewId: this.id,
                 generalMessage: chrome.i18n.getMessage('general'),
                 songQualityMessage: chrome.i18n.getMessage('songQuality'),
-                remindersMessage: chrome.i18n.getMessage('reminders')
+                remindersMessage: chrome.i18n.getMessage('reminders'),
+                desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
             };
         },
         
@@ -35,6 +37,8 @@
                 remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
                 remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
                 remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
+                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion',
+                desktopNotificationDurationRegion: '#' + this.id + '-desktopNotificationDurationRegion'
             };
         },
         
@@ -55,7 +59,10 @@
         
         onRender: function () {
             //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
-            this._showSimpleListItem('songQuality', _.values(SongQuality));
+            this._showSimpleListItem({
+                propertyName: 'songQuality', 
+                options: _.values(SongQuality)
+            });
 
             this._showSwitch('openToSearch');
             this._showSwitch('openInTab');
@@ -71,13 +78,23 @@
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showCheckbox('remindGoogleSignIn');
             }
+
+            this._showSwitch('desktopNotificationsEnabled', 'showNotifications');
+            this._showSimpleListItem({
+                propertyName: 'desktopNotificationDuration',
+                labelKey: 'notificationDuration',
+                options: _.values(DesktopNotificationDurations)
+            });
         },
         
-        _showSimpleListItem: function (propertyName, options) {
+        _showSimpleListItem: function (options) {
+            var propertyName = options.propertyName;
+
             var simpleListItem = this.simpleListItems.add({
-                property: propertyName,
+                property: options.propertyName,
+                labelKey: _.isUndefined(options.labelKey) ? propertyName: options.labelKey,
                 value: this.model.get(propertyName),
-                options: options
+                options: options.options
             });
             
             this[propertyName + 'Region'].show(new SimpleListItemView({
@@ -117,10 +134,10 @@
             }));
         },
         
-        _showSwitch: function (propertyName) {
+        _showSwitch: function (propertyName, labelKey) {
             //  switch is a reserved keyword so suffix with model.
             var switchModel = this.switches.add({
-                labelText: chrome.i18n.getMessage(propertyName),
+                labelText: chrome.i18n.getMessage(_.isUndefined(labelKey) ? propertyName : labelKey),
                 checked: this.model.get(propertyName),
                 property: propertyName
             });

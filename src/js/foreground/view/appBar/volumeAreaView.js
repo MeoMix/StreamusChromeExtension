@@ -2,11 +2,22 @@ define(function (require) {
     'use strict';
 
     var VolumeAreaTemplate = require('text!template/appBar/volumeArea.html');
- 
+    var VolumeUpIconTemplate = require('text!template/icon/volumeUpIcon_24.svg');
+    var VolumeDownIconTemplate = require('text!template/icon/volumeDownIcon_24.svg');
+    var VolumeOffIconTemplate = require('text!template/icon/volumeOffIcon_24.svg');
+    var VolumeMuteIconTemplate = require('text!template/icon/volumeMuteIcon_24.svg');
+
     var VolumeAreaView = Marionette.ItemView.extend({
         id: 'volumeArea',
         className: 'volumeArea',
         template: _.template(VolumeAreaTemplate),
+        
+        templateHelpers: {
+            volumeUpIcon: _.template(VolumeUpIconTemplate)(),
+            volumeDownIcon: _.template(VolumeDownIconTemplate)(),
+            volumeOffIcon: _.template(VolumeOffIconTemplate)(),
+            volumeMuteIcon: _.template(VolumeMuteIconTemplate)()
+        },
         
         ui: function () {
             return {
@@ -68,21 +79,10 @@ define(function (require) {
         },
         
         _setVolumeIcon: function (volume, muted) {
-            //  jQuery doesn't support SVGs.
-            this.ui.volumeIconUp[0].classList.add('is-hidden');
-            this.ui.volumeIconDown[0].classList.add('is-hidden');
-            this.ui.volumeIconOff[0].classList.add('is-hidden');
-            this.ui.volumeIconMute[0].classList.add('is-hidden');
-            
-            if (muted) {
-                this.ui.volumeIconMute[0].classList.remove('is-hidden');
-            } else if(volume > 50) {
-                this.ui.volumeIconUp[0].classList.remove('is-hidden');
-            } else if (volume > 0) {
-                this.ui.volumeIconDown[0].classList.remove('is-hidden');
-            } else {
-                this.ui.volumeIconOff[0].classList.remove('is-hidden');
-            }
+            this.ui.volumeIconUp.toggleClass('is-hidden', muted || volume <= 50);
+            this.ui.volumeIconDown.toggleClass('is-hidden', muted || volume > 50 || volume === 0);
+            this.ui.volumeIconOff.toggleClass('is-hidden', muted || volume !== 0);
+            this.ui.volumeIconMute.toggleClass('is-hidden', !muted);
         },
 
         //  Adjust volume when user scrolls wheel while hovering over volume.

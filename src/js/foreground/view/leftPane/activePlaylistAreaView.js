@@ -121,7 +121,7 @@
         },
 
         _updatePlaylistDetails: function (displayInfo) {
-            this.ui.playlistDetails.text(displayInfo);
+            this.ui.playlistDetails.text(displayInfo).attr('title', displayInfo);
         },
 
         _onClickAddAllButton: function () {

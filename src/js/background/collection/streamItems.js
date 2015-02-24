@@ -50,11 +50,9 @@
             var activeItem = this.getActiveItem();
             var activeSongId = activeItem.get('song').get('id');
 
-            //  TODO: It would be better to do 'now playing: ...' vs 'paused: ...' instead of 'active song', but StreamItems can't be in charge of that then.
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 iconUrl: 'https://img.youtube.com/vi/' + activeSongId + '/default.jpg',
-                title: chrome.i18n.getMessage('activeSong'),
-                message: activeItem.get('title')
+                title: activeItem.get('title')
             });
         },
         
@@ -107,6 +105,10 @@
                 } else {
                     //  TODO: I need to notify the user that this fallback happened.
                     var songToActivate = this.getBySong(songs[0]);
+                    
+                    if (_.isUndefined(songToActivate)) {
+                        throw new Error("songToActivate undefined:" + songs.length + ' ' + JSON.stringify(songs[0]));
+                    }
 
                     if (songToActivate.get('active')) {
                         songToActivate.trigger('change:active', songToActivate, true);
@@ -258,24 +260,30 @@
         },
         
         _onChromeCommandsCommand: function (command) {
-            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl) {
+            //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
+            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveActiveSong) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
                         message: chrome.i18n.getMessage('streamEmpty')
                     });
                 } else {
-                    if (command === ChromeCommand.ShowActiveSong) {
-                        this.showActiveNotification();
-                    }
-                    else if (command === ChromeCommand.DeleteSongFromStream) {
-                        this.getActiveItem().destroy();
-                    }
-                    else if (command === ChromeCommand.CopySongUrl) {
-                        this.getActiveItem().get('song').copyUrl();
-                    }
-                    else if (command === ChromeCommand.CopySongTitleAndUrl) {
-                        this.getActiveItem().get('song').copyTitleAndUrl();
+                    switch(command) {
+                        case ChromeCommand.ShowActiveSong:
+                            this.showActiveNotification();
+                            break;
+                        case ChromeCommand.DeleteSongFromStream:
+                            this.getActiveItem().destroy();
+                            break;
+                        case ChromeCommand.CopySongUrl:
+                            this.getActiveItem().get('song').copyUrl();
+                            break;
+                        case ChromeCommand.CopySongTitleAndUrl:
+                            this.getActiveItem().get('song').copyTitleAndUrl();
+                            break;
+                        case ChromeCommand.SaveActiveSong:
+                            Streamus.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
+                            break;
                     }
                 }
             }

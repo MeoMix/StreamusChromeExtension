@@ -1,8 +1,8 @@
-﻿define([
-    'background/model/signInManager',
-    'background/model/user'
-], function (SignInManager, User) {
+﻿define(function (require) {
     'use strict';
+
+    var SignInManager = require('background/model/signInManager');
+    var User = require('background/model/user');
 
     describe('SignInManager', function () {
         beforeEach(function () {

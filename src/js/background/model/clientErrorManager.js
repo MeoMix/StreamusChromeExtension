@@ -11,6 +11,8 @@
                     arch: '',
                     nacl_arch: ''
                 },
+                language: '',
+                signInManager: null,
                 reportedErrors: new ClientErrors()
             };
         },
@@ -45,13 +47,16 @@
                 return;
             }
 
+            var signedInUser = this.get('signInManager').get('signedInUser');
+
             this.get('reportedErrors').create({
                 message: message,
                 url: url,
                 lineNumber: lineNumber,
                 operatingSystem: this.get('platformInfo').os,
                 architecture: this.get('platformInfo').arch,
-                error: error
+                error: error,
+                userId: signedInUser === null ? '' : signedInUser.get('id')
             });
         }
     });

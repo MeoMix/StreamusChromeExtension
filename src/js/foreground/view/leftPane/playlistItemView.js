@@ -2,7 +2,7 @@
     'use strict';
 
     var ListItemView = require('foreground/view/listItemView');
-    var ItemViewMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
+    var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var SpinnerView = require('foreground/view/element/spinnerView');
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
@@ -23,8 +23,8 @@
         },
         
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
-            ItemViewMultiSelect: {
-                behaviorClass: ItemViewMultiSelect
+            ListItemMultiSelect: {
+                behaviorClass: ListItemMultiSelect
             },
             Tooltip: {
                 behaviorClass: Tooltip

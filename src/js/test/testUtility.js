@@ -1,14 +1,14 @@
-﻿define([
-    'background/model/song',
-    'background/model/playlist',
-    'background/model/playlistItem'
-], function(Song, Playlist, PlaylistItem) {
+﻿define(function(require) {
     'use strict';
 
-    return {
+    var Song = require('background/model/song');
+    var Playlist = require('background/model/playlist');
+    var PlaylistItem = require('background/model/playlistItem');
+
+    var TestUtility = {
         songIdLength: 7,
-        
-        _getUniqueId: function(idLength) {
+
+        _getUniqueId: function (idLength) {
             var text = "";
             var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
@@ -20,7 +20,7 @@
 
         getSongArray: function (length) {
             var songArray = [];
-            
+
             for (var i = 0; i < length; i++) {
                 songArray.push(this.buildSong(this._getUniqueId(this.songIdLength)));
             }
@@ -40,12 +40,12 @@
         },
 
         //  Construct a basic Song object fit for general testing.
-        buildSong: function(idOverride) {
+        buildSong: function (idOverride) {
             return new Song(this.getRawSong(idOverride));
         },
 
         //  Construct a basic PlaylistItem object fit for general testing.
-        buildPlaylistItem: function() {
+        buildPlaylistItem: function () {
             var song = this.buildSong();
 
             return new PlaylistItem({
@@ -53,11 +53,13 @@
                 title: song.get('title')
             });
         },
-        
-        buildPlaylist: function() {
+
+        buildPlaylist: function () {
             return new Playlist({
                 title: 'Playlist'
             });
         }
     };
+
+    return TestUtility;
 });

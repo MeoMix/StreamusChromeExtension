@@ -1,8 +1,8 @@
-﻿define([
-    'foreground/view/dialog/editPlaylistView',
-    'test/testUtility'
-], function (EditPlaylistView, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var EditPlaylistView = require('foreground/view/dialog/editPlaylistView');
+    var TestUtility = require('test/testUtility');
 
     describe('EditPlaylistView', function () {
         beforeEach(function () {
@@ -20,7 +20,5 @@
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        //  TODO: There's a lot more to test here.
     });
 });

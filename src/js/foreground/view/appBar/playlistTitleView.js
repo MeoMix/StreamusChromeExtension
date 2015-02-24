@@ -5,7 +5,7 @@
     var PlaylistTitleTemplate = require('text!template/appBar/playlistTitle.html');
 
     var PlaylistTitleView = Marionette.ItemView.extend({
-        className: 'appBar-text text u-textOverflowEllipsis js-textTooltipable',
+        className: 'contentBar-title text u-textOverflowEllipsis js-textTooltipable',
         template: _.template(PlaylistTitleTemplate),
 
         modelEvents: {

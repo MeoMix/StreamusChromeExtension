@@ -7,32 +7,27 @@
         model: SimpleMenuItem,
         
         initialize: function() {
-            this.on('change:selected', this._onChangeSelected);
+            this.on('change:active', this._onChangeActive);
         },
         
-        getSelected: function() {
-            return this.findWhere({ selected: true });
+        getActive: function() {
+            return this.findWhere({ active: true });
         },
         
-        //  Enforce that only one model can be selected at a time by deselecting all other models when one becomes selected.
-        _onChangeSelected: function(model, selected) {
-            if (selected) {
-                this._deselectAllExcept(model);
+        //  Enforce that only one model can be active at a time by deactivating all other models when one becomes active.
+        _onChangeActive: function (model, active) {
+            if (active) {
+                this._deactivateAllExcept(model);
             }
         },
         
-        _deselectAllExcept: function (selectedModel) {
-            var selectedModels = this._getSelectedList();
-
-            _.each(selectedModels, function (model) {
-                if (model !== selectedModel) {
-                    model.set('selected', false);
+        //  Ensure only one menu item can be active at a time.
+        _deactivateAllExcept: function (changedModel) {
+            this.each(function (model) {
+                if (model !== changedModel) {
+                    model.set('active', false);
                 }
             });
-        },
-        
-        _getSelectedList: function () {
-            return this.where({ selected: true });
         }
     });
 

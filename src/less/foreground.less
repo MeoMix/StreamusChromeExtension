@@ -1,5 +1,4 @@
-﻿@import "normalize";
-@import "reset";
+﻿@import "reset";
 @import "activeStreamItem";
 @import "adminMenuArea";
 @import "appBar";
@@ -22,6 +21,7 @@
 @import "panel";
 @import "radio";
 @import "rangeInput";
+@import "selectionBar";
 @import "sortable";
 @import "spinner";
 @import "switch";
@@ -31,7 +31,7 @@
 @import "tooltip";
 @import "volumeArea";
 
-//  Force UI to full size if Streamus has been loaded into a tab by detecting min-width/height greater than maximum extension width/height.
+//  Force UI to full size if Streamus has been loaded into a tab by detecting min-width/min-height greater than maximum extension width/height.
 @media (min-width:650px) and (min-height:490px) {
     html,
     body {
@@ -41,17 +41,14 @@
 }
 
 body {
-    -webkit-user-select: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    font: 13px 'Roboto';
     //  Default dimensions of Streamus as a browser extension
     width: 640px;
     height: 480px;
-}
-
-//  TODO: This is needed because the prompt overlay wants to cover everything, but 
-//  other overlays, like in the Playlists area, don't want to cover the AppBar.
-#foregroundArea-dialogRegion {
-    z-index: 3;
+    margin: 0;
+    //  Ensure that elements which are transformed outside the viewport don't cause overflow.
+    overflow: hidden;
+    font: 13px 'Roboto';
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -webkit-user-select: none;
 }

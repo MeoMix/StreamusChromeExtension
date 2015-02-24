@@ -11,8 +11,10 @@
     <div id='<%= viewId %>-playlistItemsRegion' class='flexColumn'></div>
 </div>
 
-<div class='contentBar contentBar--bottom'>
-    <div id='<%= viewId %>-playlistDetails' class='contentBar--bottom-text--left u-lowercase u-textOverflowEllipsis text u-textSecondary flexRow'></div>
+<div class='contentBar contentBar--bottom u-bordered--top'>
+    <div class='contentBar--bottom-text--left flexRow'>
+        <div id='<%= viewId %>-playlistDetails' class=' u-lowercase u-textOverflowEllipsis text u-textSecondary js-textTooltipable'></div>
+    </div>
 
     <div id='<%= viewId %>-playAllButton' class='button button--flat'>
         <%= playAllMessage %>

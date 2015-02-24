@@ -38,10 +38,10 @@
         },
         
         onAttach: function () {
-            this._ensureSelectedIsVisible();
+            this._ensureActiveIsVisible();
             
             if (this.listItemHeight > 0) {
-                this._centerSelected();
+                this._centerActive();
             }
 
             _.defer(function() {
@@ -60,25 +60,28 @@
         },
         
         hide: function () {
+            Streamus.channels.simpleMenu.vent.trigger('hidden');
             this.ui.panelContent.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
         
-        _onClickSimpleMenuItems: function() {
+        _onClickSimpleMenuItems: function () {
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
                 model: this.model,
                 collection: this.collection
             });
+            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
         
-        _onClickFixedMenuItem: function() {
+        _onClickFixedMenuItem: function () {
             this.triggerMethod('click:fixedMenuItem', {
                 view: this,
                 model: this.model,
                 collection: this.collection
             });
+            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
 		
@@ -93,29 +96,41 @@
             }
         },
         
-        //  Adjust the scrollTop of the view to ensure that the selected item is shown.
-        _ensureSelectedIsVisible: function () {
-            var selectedItem = this.collection.getSelected();
+        //  Adjust the scrollTop of the view to ensure that the active item is shown.
+        _ensureActiveIsVisible: function () {
+            var activeItem = this.collection.getActive();
             
-            if (!_.isUndefined(selectedItem)) {
-                var selectedView = this.children.find(function (child) {
-                    return child.model === selectedItem;
+            if (!_.isUndefined(activeItem)) {
+                var activeView = this.children.find(function (child) {
+                    return child.model === activeItem;
                 });
-                
-                selectedView.el.scrollIntoView();
+
+                //  Center element in list if possible.
+                var offsetTop = activeView.el.offsetTop;
+                var centerHeight = activeView.$el.height() / 2;
+                var center = offsetTop - (this.ui.simpleMenuItems.innerHeight() / 2) + centerHeight;
+                this.ui.simpleMenuItems[0].scrollTop = center;
             }
         },
         
-        //  When showing this view over a ListItem, center the view's selected item over the ListItem.
-        _centerSelected: function () {
-            //  Adjust the top position of the view based on which item is selected.
-            var index = this.collection.indexOf(this.collection.getSelected());
+        //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
+        //  When showing this view over a ListItem, center the view's active item over the ListItem.
+        _centerActive: function () {
+            //  Adjust the top position of the view based on which item is active.
+            var index = this.collection.indexOf(this.collection.getActive());
             
             var childHeight = this.children.first().$el.height();
             var offset = -1 * index * childHeight;
-            var centering = (this.listItemHeight - childHeight) / 2;
-            //  Subtract 4 because of padding at the top of this.
-            this.$el.css('top', offset + centering - 4);
+            
+            //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
+            var scrollTop = this.ui.simpleMenuItems[0].scrollTop;
+            offset += scrollTop;
+            
+            //  Now center the item over its ListItem
+            var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
+            var centering = (this.listItemHeight - childHeight - paddingTop) / 2;
+
+            this.$el.css('top', offset + centering);
         }
     });
 

@@ -1,7 +1,7 @@
-﻿define([
-    'background/model/relatedSongsManager'
-], function (RelatedSongsManager) {
+﻿define(function (require) {
     'use strict';
+
+    var RelatedSongsManager = require('background/model/relatedSongsManager');
 
     describe('RelatedSongsManager', function () {
         beforeEach(function () {
@@ -14,37 +14,14 @@
         });
 
         it('Should be able to get a queue requests for related song information', function () {
-            var requests = [{
-                songId: 'btDPtzCGNTE',
-                success: function(){}
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }, {
-                songId: 'btDPtzCGNTE',
-                success: function () { }
-            }];
+            var requests = [];
+            
+            for (var count = 0; count < 10; count++) {
+                requests.push({
+                    songId: 'btDPtzCGNTE',
+                    success: _.noop
+                });
+            }
 
             _.each(requests, function (request) {
                 this.relatedSongsManager.getRelatedSongs(request);

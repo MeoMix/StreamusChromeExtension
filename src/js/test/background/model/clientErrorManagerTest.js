@@ -1,11 +1,14 @@
-﻿define([
-   'background/model/clientErrorManager'
-], function (ClientErrorManager) {
+﻿define(function (require) {
     'use strict';
+
+    var ClientErrorManager = require('background/model/clientErrorManager');
+    var SignInManager = require('background/model/signInManager');
 
     describe('ClientErrorManager', function () {
         beforeEach(function () {
-            this.clientErrorManager = new ClientErrorManager();
+            this.clientErrorManager = new ClientErrorManager({
+                signInManager: new SignInManager()
+            });
             this.reportedErrors = this.clientErrorManager.get('reportedErrors');
             sinon.stub(this.reportedErrors.model.prototype, 'sync');
         });

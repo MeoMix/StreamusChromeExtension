@@ -1,11 +1,11 @@
 ﻿<div id='<%= viewId %>-overlay' class='overlay overlay--faded u-transitionable transition--veryFast'></div>
 
-<div id='<%= viewId %>-panel' class='navBar panel panel--left flexColumn flexColumn--thin u-transitionable transition--veryFast'>
+<div id='<%= viewId %>-panel' class='navBar panel panel--left flexColumn flexColumn--thin u-fullHeight u-transitionable transition--veryFast'>
     <div class='flexColumn panel-content panel-content--uncolored'>
         <div class='instruction-wrapper'>
             <div id='<%= viewId %>-playlistsRegion' class='flexColumn'></div>
         </div>
-        <div class='contentBar contentBar--bottom'>
+        <div class='contentBar contentBar--bottom u-bordered--top'>
             <div id='<%= viewId %>-createPlaylistButton' class='button button--flat'>
                 <%= createPlaylist %>
             </div>

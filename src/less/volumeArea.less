@@ -15,15 +15,15 @@
 
     .volumeArea-slidePanel {
         height: @expandedPanelHeight;
-        opacity: 1;
         pointer-events: all;
+        opacity: 1;
         transition-delay: @transitionDelay;
     }
 
     .rangeInput {
         @volumeRangeSize: @expandedPanelHeight - (@rangeInputMargin * 2);
-        width: @volumeRangeSize;
         right: -@volumeRangeSize;
+        width: @volumeRangeSize;
         opacity: 1;
         transition-delay: @transitionDelay;
     }
@@ -33,39 +33,38 @@
 .volumeArea-slidePanel {
     @panelWidth: 40px;
     @transitionTime: 250ms;
+    z-index: 1;
     width: @panelWidth;
     height: 0;
-    opacity: 0;
-    transition: opacity @transitionTime @transition-easeOutSine, 
-                height @transitionTime @transition-easeOutSine;
-    z-index: 1;
-    align-items: center;
+    margin-right: 4px;
+    margin-left: 4px;
     //  Prevent hover events from firing on children when it isn't visible.
     pointer-events: none;
-    margin-left: 4px;
-    margin-right: 4px;
+    opacity: 0;
+    align-items: center;
+    transition: opacity @transitionTime @transition-easeOutSine, 
+                height @transitionTime @transition-easeOutSine;
 
     // CSS triangle
     &:before {
-        content: ' ';
+        position: absolute;
+        top: -1 * @panelWidth / 8;
+        right: 0;
+        left: 0;
         width: @panelWidth / 4;
         height: @panelWidth / 4;
-        background-color: inherit;
-        position: absolute;
-        left: 0;
-        right: 0;
         margin: 0 auto;
-        top: -1 * @panelWidth / 8;
-        transform: rotate(45deg);
         background-color: white;
+        content: ' ';
+        transform: rotate(45deg);
     }
 
     .rangeInput {
         //  These values need to be explicitly set because element has been rotated so can't rely on width/height: 100%
-        width: 0;
         right: 0;
-        opacity: 0;
+        width: 0;
         height: @rangeInputSize;
+        opacity: 0;
         transition: 
             width @transitionTime @transition-easeOutSine, 
             right @transitionTime @transition-easeOutSine,
@@ -76,7 +75,7 @@
 .volumeArea-slidePanel-content {
     width: 100%;
     height: 100%;
-    align-items: center;
-    border-bottom-left-radius: 2px;
     border-bottom-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    align-items: center;
 }

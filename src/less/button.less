@@ -4,27 +4,44 @@
 
 .button {
     display: inline-flex;
+    .u-clickable;
     align-items: center;
     justify-content: center;
-    .u-clickable;
 }
 
 .button--flat {
-    font-size: 14px;
-    margin: 0 4px;
     padding: 8px;
+    margin: 0 4px;
+    font-size: 14px;
+    font-weight: 600;
     color: @blue--500;
     text-transform: uppercase;
-    font-weight: 600;
     border-radius: 2px;
     transition: background-color @transition-color-time @transition-easeOutSine;
 
-    &:hover:not(.disabled) {
+    &:hover:not(.is-disabled) {
         background-color: @gray--hoverButton
     }
 
-    &:active:not(.disabled) {
+    &:active:not(.is-disabled) {
         background-color: @gray--activeButton
+    }
+}
+
+.button--icon {
+    //  Ensure that wrapping <svg> doesn't increase height of button
+    line-height: 0;
+
+    &.is-enabled {
+        fill: @blue--500;
+
+        &:hover {
+            fill: @blue--700;
+        }
+    }
+
+    &.is-disabled {
+        opacity: .26;
     }
 }
 
@@ -42,20 +59,6 @@
     &:hover,
     &.is-enabled {
         opacity: .87;
-    }
-}
-
-.button--icon {
-    &.is-enabled {
-        fill: @blue--500;
-
-        &:hover {
-            fill: @blue--700;
-        }
-    }
-
-    &.is-disabled {
-        opacity: .26;
     }
 }
 

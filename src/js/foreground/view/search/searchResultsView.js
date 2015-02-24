@@ -52,6 +52,17 @@
             Tooltip: {
                 behaviorClass: Tooltip
             }
+        },
+
+        initialize: function () {
+            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
+
+            this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
+        },
+
+        //  Don't maintain selected results after closing the view because the view won't be visible.
+        _onSearchAreaHiding: function () {
+            this.triggerMethod('DeselectCollection');
         }
     });
 

@@ -1,8 +1,8 @@
-﻿define([
-    'background/collection/playlistItems',
-    'test/testUtility'
-], function (PlaylistItems, TestUtility) {
+﻿define(function (require) {
     'use strict';
+
+    var PlaylistItems = require('background/collection/playlistItems');
+    var TestUtility = require('test/testUtility');
 
     describe('PlaylistItems', function () {
         it('Should not be able to contain duplicates by id', function () {

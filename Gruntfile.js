@@ -49,6 +49,16 @@ module.exports = function (grunt) {
 				ext: '.css'
 			}
 		},
+		recess: {
+		    dist: {
+		        src: 'src/less/foreground.less',
+		        options: {
+		            //  TODO: Remove these hopefully
+		            noUniversalSelectors: false,
+		            strictPropertyOrder: false
+		        }
+		    }
+		},
 		requirejs: {
 			production: {
 				options: {
@@ -97,6 +107,9 @@ module.exports = function (grunt) {
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-contrib-requirejs');
 	grunt.loadNpmTasks('grunt-text-replace');
+    grunt.loadNpmTasks('grunt-recess');
+
+    var _ = require('lodash');
 
 	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
 	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
@@ -105,13 +118,18 @@ module.exports = function (grunt) {
 
 		//	Update version number in manifest.json:
 		if (isDebugDeploy) {
-			grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
+		    grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
+		    grunt.option('version', 'Debug');
 		} else {
 			grunt.option('version', version);
 		}
 
-		//  Ensure lint validation passes first and foremost. Clean code is important.
+		//  Lint JS
 		grunt.task.run('jshint');
+	    //  Lint LESS/CSS
+		grunt.task.run('recess');
+	    //  Make sure _locales aren't out of date.
+		grunt.task.run('diffLocales');
 		
 		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
 		grunt.task.run('requirejs');
@@ -124,8 +142,12 @@ module.exports = function (grunt) {
 		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-injected-javascript', 'copy-injected-css', 'less', 'update-css-references', 'imagemin', 'update-require-config-paths', 'cleanup-dist-folder');
 		
 		//  Spit out a zip and update manifest file version if not a test.
-		if (!isDebugDeploy) {
-			//  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
+		if (isDebugDeploy) {
+		    grunt.task.run('prep-chrome-distribution');
+		    grunt.task.run('prep-opera-distribution');
+	    }
+	    else {
+	        //  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
 			grunt.task.run('update-dist-manifest-version');
 			grunt.task.run('prep-chrome-distribution');
 			grunt.task.run('prep-opera-distribution');
@@ -194,18 +216,16 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
-		if (grunt.file.exists('dist/template')) {
-			//	Can't delete a full directory -- clean it up.
-			grunt.config.set('clean', ['dist/template', 'dist/less']);
-			grunt.task.run('clean');
-			grunt.file.delete('dist/template');
-			grunt.file.delete('dist/less');
-			grunt.file.delete('dist/js/thirdParty/mocha.js');
-			grunt.file.delete('dist/js/thirdParty/chai.js');
-			grunt.file.delete('dist/js/thirdParty/sinon.js');
-			grunt.file.delete('dist/js/test');
-			grunt.file.delete('dist/test.html');
-		}
+		//	Can't delete a full directory -- clean it up.
+		grunt.config.set('clean', ['dist/template', 'dist/less', 'dist/js/background/key']);
+		grunt.task.run('clean');
+		grunt.file.delete('dist/template');
+		grunt.file.delete('dist/less');
+		grunt.file.delete('dist/js/thirdParty/mocha.js');
+		grunt.file.delete('dist/js/thirdParty/chai.js');
+		grunt.file.delete('dist/js/thirdParty/sinon.js');
+		grunt.file.delete('dist/js/test');
+		grunt.file.delete('dist/test.html');
 
 		grunt.file.delete('dist/build.txt');
 	});
@@ -342,46 +362,40 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('prep-opera-distribution', '', function() {
-		//  Copy the distribution folder into opera directory.
-		var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
+	    //  Copy the distribution folder into opera directory.
+	    var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
 
-		grunt.config.set('copy', {
-			files: {
-				cwd: 'dist/',
-				src: '**/*',
-				dest: operaDirectory,
-				expand: true
-			}
-		});
+	    grunt.config.set('copy', {
+	        files: {
+	            cwd: 'dist/',
+	            src: '**/*',
+	            dest: operaDirectory,
+	            expand: true
+	        }
+	    });
 
-		grunt.task.run('copy');
+	    grunt.task.run('copy');
 
-		//  Remove background and notifications from manifest as they aren't available in opera yet.
-		grunt.config.set('replace', {
-			removeDebuggingKeys: {
-				src: [operaDirectory + '/manifest.json'],
-				overwrite: true,
-				replacements: [{
-					from: '"background",',
-					to: ''
-				}]
-			}
-		});
+	    //  Remove background and notifications from manifest as they aren't available in opera yet.
+	    grunt.config.set('replace', {
+	        removeDebuggingKeys: {
+	            src: [operaDirectory + '/manifest.json'],
+	            overwrite: true,
+	            replacements: [{
+	                from: '"background",',
+	                to: ''
+	            }]
+	        }
+	    });
 
-		grunt.task.run('replace');
+	    grunt.task.run('replace');
 
-		var operaLocalesDirectory = operaDirectory + '/_locales/';
+	    var operaLocalesDirectory = operaDirectory + '/_locales/';
 
-		//  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
-		//	Can't delete a full directory -- clean them up.
-		grunt.config.set('clean', [
-			operaLocalesDirectory + 'cs',
-			operaLocalesDirectory + 'de',
-			operaLocalesDirectory + 'es',
-			operaLocalesDirectory + 'pt_BR',
-			operaLocalesDirectory + 'sl',
-			operaLocalesDirectory + 'tr'
-		]);
+	    //  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
+	    grunt.config.set('clean', {
+	        nonEnglishLocales: [operaLocalesDirectory + '*', '!' + operaLocalesDirectory + 'en']
+	    });
 		grunt.task.run('clean');
 		
 		//  There's no need to cleanup any old version because this will overwrite if it exists.
@@ -400,5 +414,32 @@ module.exports = function (grunt) {
 		});
 
 		grunt.task.run('compress');
+	});
+    
+	grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
+	    var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
+	    var englishKeys = _.keys(englishJson);
+
+	    grunt.file.recurse('src/_locales/', function (abspath, rootdir, subdir) {
+	        var json = grunt.file.readJSON(abspath);
+	        var keys = _.keys(json);
+	        
+	        var missingEnglishKeys = _.difference(englishKeys, keys);
+	        var extraNonEnglishKeys = _.difference(keys, englishKeys);
+
+	        if (missingEnglishKeys.length > 0) {
+	            grunt.log.error('The translation for ' + subdir + ' is missing keys: \n-  ' + missingEnglishKeys.join('\n-  '));
+	        }
+
+	        if (extraNonEnglishKeys.length > 0) {
+	            grunt.log.error('The translation for ' + subdir + ' has extra keys: \n-  ' + extraNonEnglishKeys.join('\n-  '));
+	        }
+	    });
+	});
+
+	grunt.registerTask('test', 'Ran by TravisCI', function () {
+	    grunt.task.run('diffLocales');
+	    grunt.task.run('jshint');
+	    grunt.task.run('recess');
 	});
 };

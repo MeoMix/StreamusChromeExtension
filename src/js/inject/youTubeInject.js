@@ -122,12 +122,14 @@ $(function () {
 			click: function () {
 				$(this).val(chrome.i18n.getMessage('saving')).attr('disabled', true);
 
+                //  Parse the current song's ID out of the YouTube page. The shortlink seems like a reasonable location since it's likely to not change and is simple to work with.
+				var shortlink = $('[rel=shortlink]').attr('href');
+				var songId = shortlink.slice(shortlink.lastIndexOf('/') + 1);
+
 				chrome.runtime.sendMessage({
 					method: "addYouTubeSongByIdToPlaylist",
 					playlistId: $('#playlistSelect').val(),
-				    //  IMPORTANT: Do not use .data() as it will cache the value. Changing to a new YouTube song will then reutrn old information.
-					//  TODO: Probably just parse out of URL? Seems less fragile.
-					songId: $('[data-video-id]').attr('data-video-id')
+					songId: songId
 				}, function () {
 					$(this).removeAttr('disabled').val(chrome.i18n.getMessage('addSong'));
 				}.bind(this));
@@ -145,7 +147,8 @@ $(function () {
 			for (var i = 0; i < playlists.length; i++) {
 				$('<option>', {
 					value: playlists[i].id,
-					text: playlists[i].title
+					text: playlists[i].title,
+					selected: playlists[i].active
 				}).appendTo($('#playlistSelect'));
 			}
 		});

@@ -3,18 +3,20 @@
 @import "boxShadow";
 
 .textInput {
-    transition: box-shadow @transition-color-time @transition-easeOutSine,
-                border @transition-color-time @transition-easeOutSine;
     width: 100%;
-    background-color: transparent;
-    outline: none;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    border-bottom-width: 1px;
     //  TODO: This needs to be 7px because of 1px border-bottom, otherwise I get into odd-pixel math.
     //  I need 1px border-bottom due to a bug in Chrome: http://stackoverflow.com/questions/26951053/jumpy-transition-when-only-modifying-box-shadow-looks-fine-with-box-shadow-bo
     padding: 8px 0 7px 0;
+    font: inherit;
+    color: inherit;
+    background-color: transparent;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    border-bottom-width: 1px;
+    outline: none;
+    transition: box-shadow @transition-color-time @transition-easeOutSine,
+                border @transition-color-time @transition-easeOutSine;
 }
 
 .textInput--search {
@@ -64,10 +66,10 @@
 }
 
 .textInput-hint {
-    cursor: default;
-    color: @dark--secondary;
-    font-size: 12px;
     height: 14px;
+    font-size: 12px;
+    color: @dark--secondary;
+    cursor: default;
 }
 
 .textInput-characterCounter {

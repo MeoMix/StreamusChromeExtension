@@ -2,9 +2,9 @@
     'use strict';
 
     var Songs = require('background/collection/songs');
-    var YouTubeAPIKey = require('background/key/youTubeAPI');
-    var SongType = require('common/enum/songType');
-    var YouTubeServiceType = require('common/enum/youTubeServiceType');
+    var YouTubeAPIKey = require('background/key/youTubeAPIKey');
+    var SongType = require('background/enum/songType');
+    var YouTubeServiceType = require('background/enum/youTubeServiceType');
     var Utility = require('common/utility');
 
     var YouTubeV3API = Backbone.Model.extend({
@@ -30,15 +30,17 @@
         //  Performs a search of YouTube with the provided text and returns a list of playable songs (<= max-results)
         //  Expects options: { maxResults: integer, text: string, fields: string, success: function, error: function }
         search: function (options) {
-            return this._doRequest(YouTubeServiceType.Search, {
+            var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
                     var songIds = _.map(response.items, function (item) {
                         return item.id.videoId;
                     });
                     
-                    this.getSongs({
+                    activeJqXHR = this.getSongs({
                         songIds: songIds,
                         success: function (songs) {
+                            activeJqXHR = null;
+                            
                             options.success({
                                 songs: songs, 
                                 nextPageToken: response.nextPageToken,
@@ -54,16 +56,24 @@
                 }
             }, {
                 part: 'id',
-                //  Probably set this to its default of video/playlist/channel at some point.
                 type: 'video',
                 maxResults: options.maxResults || 50,
                 pageToken: options.pageToken || '',
                 q: options.text.trim(),
                 fields: 'nextPageToken, items/id/videoId',
                 //  I don't think it's a good idea to filter out results based on safeSearch for music.
-                safeSearch: 'none'
-                //  TODO: videoEmbeddable and videoSyndicated might be useful filters. Need to test.
+                safeSearch: 'none',
+                videoEmbeddable: 'true'
             });
+
+            return {
+                promise: activeJqXHR,
+                abort: function () {
+                    if (activeJqXHR !== null) {
+                        activeJqXHR.abort();
+                    }
+                }
+            };
         },
         
         getChannelUploadsPlaylistId: function (options) {
@@ -105,15 +115,17 @@
 
         //  Returns the results of a request for a segment of a channel, playlist, or other dataSource.
         getPlaylistSongs: function (options) {
-            return this._doRequest(YouTubeServiceType.PlaylistItems, {
+            var activeJqXHR = this._doRequest(YouTubeServiceType.PlaylistItems, {
                 success: function (response) {
                     var songIds = _.map(response.items, function (item) {
                         return item.contentDetails.videoId;
                     });
 
-                    this.getSongs({
+                    activeJqXHR = this.getSongs({
                         songIds: songIds,
                         success: function (songs) {
+                            activeJqXHR = null;
+
                             options.success({
                                 songs: songs,
                                 nextPageToken: response.nextPageToken,
@@ -134,10 +146,19 @@
                 pageToken: options.pageToken || '',
                 fields: 'nextPageToken, items/contentDetails/videoId'
             });
+            
+            return {
+                promise: activeJqXHR,
+                abort: function () {
+                    if (activeJqXHR !== null) {
+                        activeJqXHR.abort();
+                    }
+                }
+            };
         },
 
         getRelatedSongs: function (options) {
-            return this._doRequest(YouTubeServiceType.Search, {
+            var activeJqXHR = this._doRequest(YouTubeServiceType.Search, {
                 success: function (response) {
                     //  It is possible to receive no response if a song was removed from YouTube but is still known to Streamus.
                     if (!response) {
@@ -148,14 +169,17 @@
                         return item.id.videoId;
                     });
 
-                    this.getSongs({
+                    activeJqXHR = this.getSongs({
                         songIds: songIds,
-                        success: options.success,
+                        success: function (songs) {
+                            activeJqXHR = null;
+                            options.success(songs);
+                        },
                         error: options.error,
                         complete: options.complete
                     });
                 }.bind(this),
-                error: function(error) {
+                error: function (error) {
                     if (options.error) options.error(error);
                     if (options.complete) options.complete();
                 }
@@ -165,8 +189,18 @@
                 maxResults: options.maxResults || 5,
                 //  If the relatedToVideoId parameter has been supplied, type must be video.
                 type: 'video',
-                fields: 'items/id/videoId'
+                fields: 'items/id/videoId',
+                videoEmbeddable: 'true'
             });
+            
+            return {
+                promise: activeJqXHR,
+                abort: function () {
+                    if (activeJqXHR !== null) {
+                        activeJqXHR.abort();
+                    }
+                }
+            };
         },
         
         //  Converts a list of YouTube song ids into actual video information by querying YouTube with the list of ids.
@@ -185,21 +219,26 @@
                             options.error(errorMessage);
                         }
                     } else {
-                        var songs = this._itemListToSongs(response.items);
+                        //  Filter out videos which have marked themselves as not able to be embedded since they won't be able to be played in Streamus.
+                        //  TODO: Notify the user that this has happened.
+                        var embeddableItems = _.filter(response.items, function (item) {
+                            return item.status.embeddable;
+                        });
+
+                        var songs = this._itemListToSongs(embeddableItems);
                         options.success(songs);
                     }
                 }.bind(this),
                 error: options.error,
                 complete: options.complete
             }, {
-                part: 'contentDetails, snippet',
+                part: 'contentDetails, snippet, status',
                 maxResults: 50,
                 id: options.songIds.join(','),
-                fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle'
+                fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle, items/status/embeddable'
             });
         },
         
-        //  Expects options: { channelId: string, success: function, error: function };
         getTitle: function (options) {
             var ajaxDataOptions = _.extend({
                 part: 'snippet',

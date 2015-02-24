@@ -4,9 +4,9 @@
 @import "boxShadow";
 
 .list {
+    position: relative;
     padding: 8px 0;
     overflow-y: hidden;
-    position: relative;
 }
 
 .listItem--selectable:hover {
@@ -14,15 +14,14 @@
 }
 
 .listItem {
-    cursor: pointer;
-    width: 100%;
+    //  NOTE: This is needed so that .spinner is contained properly.
+    position: relative;
     display: flex;
+    width: 100%;
+    cursor: pointer;
     transition: color @transition-color-time @transition-easeOutSine, 
                 background @transition-color-time @transition-easeOutSine,
                 opacity @transition-color-time @transition-easeOutSine;
-
-    //  NOTE: This is needed so that .spinner is contained properly.
-    position: relative;
 
     &:hover {
         .is-hiddenOnHover {
@@ -35,8 +34,18 @@
         background: @dark--quinary;
     }
 
-    &.is-active .listItem-itemCount {
-        background-color: @blue--500;
+    &.is-active {
+        .listItem-title{
+            color: @blue--500;
+        }
+
+        .listItem-details {
+            color: fadeout(@blue--500, 13%);
+        }
+
+        .listItem-itemCount {
+            background-color: @blue--500;
+        }
     }
 }
 
@@ -50,7 +59,7 @@
     height: 56px;
 
     .listItem-content {
-        padding: 8px 0px;
+        padding: 8px 0;
         padding-right: 16px;
         flex: 1;
     }
@@ -61,19 +70,9 @@
     }
 
     .listItem-details {
-        font-size: 13px;
         .u-textSecondary;
         .u-textOverflowEllipsis;
-    }
-    
-     &.is-active {
-          .listItem-title{
-            color: @blue--500;
-          }
-
-          .listItem-details {
-              color: fadeout(@blue--500, 13%);
-          }
+        font-size: 13px;
     }
 }
 
@@ -92,48 +91,42 @@
     //  TODO: Instead of using different rules for listItem-content I should introduce rows.
     .listItem-content {
         display: flex;
-        flex: 1;
-        padding-left: 16px;
         padding-right: 16px;
+        padding-left: 16px;
+        flex: 1;
     }
 
     .listItem-itemCount {
-        line-height: 18px;
-        background-color: @dark--secondary;
-        border-radius: 1em;
-        color: @white;
-        font-weight: 600;
         width: 30px;
-        margin: auto 0;
-        text-align: center;
-        //  If this is an even number then the 13px font-size looks off-by-one px.
+        //  NOTE: If this is an even number then the 13px font-size looks off-by-one px.
         height: 17px;
+        margin: auto 0;
         //  TODO: This is 16px, but the buttons shown only have 11px of whitespace before the icon
         //  and 0px of space before the click target. Can I be more consistent?
         margin-left: 16px;
-    }
-
-    &.is-active {
-        .listItem-title {
-            color: @blue--500;
-        }
+        font-weight: 600;
+        line-height: 18px;
+        color: @white;
+        text-align: center;
+        background-color: @dark--secondary;
+        border-radius: 1em;
     }
 }
 
 .listItem-imageThumbnail {
-    background-repeat: no-repeat;
-    height: 40px;
     width: 40px;
+    height: 40px;
     background-position : 50% 50%;
+    background-repeat: no-repeat;
     background-size: cover;
     border-radius: 50%;
     box-shadow: @boxShadow-outline;
 }
 
 .listItem-title {
+    .u-textOverflowEllipsis;
     color: @dark--primary;
     transition: color @transition-color-time @transition-easeOutSine;
-    .u-textOverflowEllipsis;
 }
 
 .listItem-details {

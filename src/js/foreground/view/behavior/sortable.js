@@ -72,7 +72,6 @@
             Streamus.channels.element.vent.trigger('drag');
             this.view.triggerMethod('ItemDragged', {
                 item: this.view.collection.get(ui.item.data('id')),
-                ctrlKey: event.ctrlKey,
                 shiftKey: event.shiftKey
             });
             
@@ -103,6 +102,7 @@
             var childContainer = this.view.ui.childContainer;
             var isParentNodeLost = ui.item[0].parentNode === null;
             
+            //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
@@ -217,6 +217,7 @@
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
+                //  TODO: Trigger an event which causes the scrollbar to update instead.
                 //  Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
                 //  then the scrollbar is not representing the correct height after the placeholder is removed.
                 this.view._behaviors[1]._updateScrollbar();
@@ -239,8 +240,8 @@
                 placeholderText = duplicatesInfo.message;
             }
 
-            var placeholderTextElement = $('<div>', {
-                'class': 'u-marginAuto fontSize-large',
+            var placeholderTextElement = $('<span>', {
+                'class': 'u-marginAuto',
                 text: placeholderText
             });
 

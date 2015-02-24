@@ -1,6 +1,8 @@
-﻿define(function () {
+﻿define(function (require) {
     'use strict';
 
+    var DesktopNotificationDuration = require('common/enum/desktopNotificationDuration');
+    
     //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
     //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
     //  Permissions: "notifications" 
@@ -15,9 +17,12 @@
                 title: '',
                 message: '',
                 //  iconUrl is required -- if none given, default to Streamus' icon.
-                iconUrl: 'img/streamus_icon128.png'
+                iconUrl: 'img/streamus_icon128.png',
+                //  Priority 0 is a 7-second notification by default and priority 1-2 allows for 25 seconds
+                priority: 1
             },
-            tabManager: null
+            tabManager: null,
+            settings: null
         },
         
         initialize: function () {
@@ -35,7 +40,7 @@
             if (!foregroundActive) {
                 var chromeNotificationOptions = _.pick(notificationOptions, ['message', 'title', 'iconUrl']);
     
-                if (this._canUseNotificationsApi()) {
+                if (this._notificationsEnabled() ) {
                     chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
                 } else {
                     Streamus.channels.error.commands.trigger('log:error', new Error('ChromeNotificationsManager cannot use notifications api'));
@@ -49,8 +54,8 @@
             }
         },
         
-        _canUseNotificationsApi: function() {
-            return !_.isUndefined(chrome.notifications);
+        _notificationsEnabled: function () {
+            return !_.isUndefined(chrome.notifications) && this.get('settings').get('desktopNotificationsEnabled');
         },
         
         _createNotification: function (options) {
@@ -88,8 +93,9 @@
             this.set('closeNotificationTimeout', null);
         },
         
-        _setCloseNotificationTimeout: function() {
-            var closeNotificationTimeout = setTimeout(this._onCloseNotificationTimeout.bind(this), 3000);
+        _setCloseNotificationTimeout: function () {
+            var notificationDuration = this._getNotificationDuration(this.get('settings').get('desktopNotificationDuration'));
+            var closeNotificationTimeout = setTimeout(this._onCloseNotificationTimeout.bind(this), notificationDuration);
             this.set('closeNotificationTimeout', closeNotificationTimeout);
         },
         
@@ -103,6 +109,36 @@
             } else {
                 callback(true);
             }
+        },
+        
+        //  Converts the DesktopNotificationDuration enum into milliseconds for use in setTimeout.
+        _getNotificationDuration: function (desktopNotificationDuration) {
+            var notificationDuration;
+
+            switch(desktopNotificationDuration) {
+                case DesktopNotificationDuration.OneSecond:
+                    notificationDuration = 1000;
+                    break;
+                case DesktopNotificationDuration.TwoSeconds:
+                    notificationDuration = 2000;
+                    break;
+                case DesktopNotificationDuration.ThreeSeconds:
+                    notificationDuration = 3000;
+                    break;
+                case DesktopNotificationDuration.FourSeconds:
+                    notificationDuration = 4000;
+                    break;
+                case DesktopNotificationDuration.FiveSeconds:
+                    notificationDuration = 5000;
+                    break;
+                case DesktopNotificationDuration.TenSeconds:
+                    notificationDuration = 10000;
+                    break;
+                default:
+                    throw new Error('Unhandled DesktopNotificationDuration: ' + desktopNotificationDuration);
+            }
+
+            return notificationDuration;
         }
     });
 

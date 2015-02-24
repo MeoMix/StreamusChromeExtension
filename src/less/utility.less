@@ -9,8 +9,22 @@
     position: relative;
 }
 
-.u-elevated {
+//  TODO: Fix these up
+.u-zIndex--3 {
     z-index: 3;
+}
+
+.u-elevated {
+    //  TODO: This important is needed because foregroundArea-dialogRegion's panel property is overriding w/ z-index: 2
+    z-index: 4 !important;
+}
+
+.u-zIndex--5 {
+    z-index: 5;
+}
+
+.u-zIndex--6 {
+    z-index: 6;
 }
 
 .u-clickable {
@@ -25,10 +39,18 @@
     height: 100%;
 }
 
-.u-link {
-    .u-clickable;
-    color: @blue--500;
+.u-fullWidth {
+    width: 100%;
+}
 
+.u-textAlignRight {
+    text-align: right;
+}
+
+.u-link {
+    color: @blue--500;
+    .u-clickable;
+    
     &:hover {
         color: @blue--700;
     }
@@ -45,8 +67,8 @@
 }
 
 .u-textSecondary {
-    color: @dark--secondary;
     line-height: 18px;
+    color: @dark--secondary;
 }
 
 .u-transitionable {
@@ -63,6 +85,10 @@
 
 .u-bordered--top {
     box-shadow: @boxShadow-divider--top;
+}
+
+.u-shadowed--low {
+    box-shadow: @boxShadow-elevation--low;
 }
 
 //  Utility classes which are prefixed with is- indicate that they can be added or removed via JavaScript.
