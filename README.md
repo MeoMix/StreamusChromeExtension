@@ -2,7 +2,7 @@
 <p align="center">The most popular Chrome extension YouTube music player</p>
 <p align="center">
   <a title='Build Status' href="https://travis-ci.org/MeoMix/StreamusChromeExtension">
-    <img src='https://secure.travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=development' />
+    <img src='https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development' />
   </a>
 </p>
 
