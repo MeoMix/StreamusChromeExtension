@@ -297,7 +297,6 @@
     <Content Include="src\js\test\background\collection\playlistsTests.js" />
     <Content Include="src\js\test\background\model\clientErrorManagerTest.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
-    <Content Include="src\js\test\background\model\syncManagerTests.js" />
     <Content Include="src\js\test\background\model\userTests.js" />
     <Content Include="src\js\test\foreground\view\dialog\browserSettingsDialogViewTest.js" />
     <Content Include="src\js\test\foreground\view\dialog\browserSettingsViewTest.js" />
