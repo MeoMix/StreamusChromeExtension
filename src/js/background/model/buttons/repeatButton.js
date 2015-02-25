@@ -17,36 +17,21 @@
             //  Load from Backbone.LocalStorage
             this.fetch();
 			
-			//  Since the RepeatButtonState enum changed from a number to a string -- people's localStorage data could be out-of-date.
-			//  Patch this issue for a few versions (written in v0.169):
-			switch(this.get('state')){
-				case 0:
-				case "0":
-					this.set('state', RepeatButtonState.Off);
-					break;
-				case 1:
-				case "1":
-					this.set('state', RepeatButtonState.RepeatSong);
-					break;
-				case 2:
-				case "2":
-					this.set('state', RepeatButtonState.RepeatAll);
-					break;
-			}
-            
             //  TODO: Legacy support, remove in a few patches after v0.169
-            switch(this.get('state')) {
+            switch (this.get('state')) {
+                case null:
+                case undefined:
                 case 0:
                 case "0":
-                    this.set('state', RepeatButtonState.Off);
+                    this.save('state', RepeatButtonState.Off);
                     break;
                 case 1:
                 case "1":
-                    this.set('state', RepeatButtonState.RepeatSong);
+                    this.save('state', RepeatButtonState.RepeatSong);
                     break;
                 case 2:
                 case "2":
-                    this.set('state', RepeatButtonState.RepeatAll);
+                    this.save('state', RepeatButtonState.RepeatAll);
                     break;
             }
             
