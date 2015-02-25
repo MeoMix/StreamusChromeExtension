@@ -35,6 +35,22 @@
                     break;
             }
             
+            //  TODO: Legacy support, remove in a few patches after v0.169
+            switch(this.get('state')) {
+                case 0:
+                case "0":
+                    this.set('state', RepeatButtonState.Off);
+                    break;
+                case 1:
+                case "1":
+                    this.set('state', RepeatButtonState.RepeatSong);
+                    break;
+                case 2:
+                case "2":
+                    this.set('state', RepeatButtonState.RepeatAll);
+                    break;
+            }
+            
             chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
         },
         
