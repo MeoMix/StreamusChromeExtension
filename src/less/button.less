@@ -48,7 +48,7 @@
 .button--icon--primary {
     opacity: 0.87;
 
-    &:hover {
+    &:hover:not(.is-disabled) {
         opacity: 1;
     }
 }
@@ -56,7 +56,7 @@
 .button--icon--secondary {
     opacity: .54;
 
-    &:hover,
+    &:hover:not(.is-disabled),
     &.is-enabled {
         opacity: .87;
     }
