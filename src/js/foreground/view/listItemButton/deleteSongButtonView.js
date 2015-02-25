@@ -17,6 +17,9 @@
         
         initialize: function() {
             ListItemButtonView.prototype.initialize.apply(this, arguments);
+
+            //  Ensure that the user isn't able to destroy the model more than once.
+            this.doOnClickAction = _.once(this.doOnClickAction);
         },
         
         doOnClickAction: function () {
