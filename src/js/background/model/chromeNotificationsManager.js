@@ -42,8 +42,6 @@
     
                 if (this._notificationsEnabled() ) {
                     chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
-                } else {
-                    Streamus.channels.error.commands.trigger('log:error', new Error('ChromeNotificationsManager cannot use notifications api'));
                 }
             }
         },

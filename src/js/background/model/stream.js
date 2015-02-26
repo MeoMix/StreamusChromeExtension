@@ -247,18 +247,22 @@
         },
 
         _onPlayerChangeState: function (model, state) {
-            if (state === PlayerState.Ended) {
-                //  TODO: I need to be able to check whether there's an active item or not before calling activateNext.
-                model.set('playOnActivate', true);
-                var nextItem = this.activateNext();
+            //  Since the player's state is dependent on asynchronous actions it's important to ensure that
+            //  the Stream is still in a valid state when an event comes in. The user could've removed songs after an event started to arrive.
+            if (!this.get('items').isEmpty()) {
+                if (state === PlayerState.Ended) {
+                    //  TODO: I need to be able to check whether there's an active item or not before calling activateNext.
+                    model.set('playOnActivate', true);
+                    var nextItem = this.activateNext();
 
-                if (nextItem === null) {
-                    model.set('playOnActivate', false);
+                    if (nextItem === null) {
+                        model.set('playOnActivate', false);
+                    }
                 }
-            }
-            else if (state === PlayerState.Playing) {
-                //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
-                this.get('items').showActiveNotification();
+                else if (state === PlayerState.Playing) {
+                    //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
+                    this.get('items').showActiveNotification();
+                }
             }
         },
 

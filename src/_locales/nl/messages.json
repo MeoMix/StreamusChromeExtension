@@ -51,7 +51,7 @@
 		"message": "Kopieer titel en URL"
 	},
 	"delete": {
-		"message": "Verwijder"
+		"message": "Verwijderen"
 	},
 	"clearStream": {
 		"message": "Leeg deze stream"
@@ -120,10 +120,10 @@
 		"message": "Herlaad"
 	},
 	"playAll": {
-		"message": "Speel alles"
+		"message": "Speel af"
 	},
 	"addAll": {
-		"message": "Voeg alles toe"
+		"message": "Voeg toe"
 	},
 	"addSelected": {
 		"message": "Voeg geselecteerde toe"
@@ -147,7 +147,7 @@
 		"message": "Leeg stream"
 	},
 	"createPlaylist": {
-		"message": "Maak een afspeellijst"
+		"message": "Nieuwe afspeellijst"
 	},
 	"ok": {
 		"message": "Ok"
@@ -171,7 +171,7 @@
 		"message": "Stream leegmaken?"
 	},
 	"play": {
-		"message": "Speel"
+		"message": "Speel af"
 	},
 	"add": {
 		"message": "Voeg toe"
@@ -204,7 +204,7 @@
 		"message": "Minuten"
 	},
 	"hours": {
-		"message": "Uren"
+		"message": "Uur"
 	},
 	"days": {
 		"message": "Dagen"

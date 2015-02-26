@@ -142,8 +142,6 @@
     <Content Include="src\js\background\model\shareCode.js" />
     <Content Include="src\js\background\model\signInManager.js" />
     <Content Include="src\js\background\model\streamItem.js" />
-    <Content Include="src\js\background\model\syncAction.js" />
-    <Content Include="src\js\background\model\syncManager.js" />
     <Content Include="src\js\background\model\user.js" />
     <Content Include="src\js\background\model\song.js" />
     <Content Include="src\js\background\model\searchResult.js" />
@@ -446,6 +444,7 @@
     <Content Include="src\less\selectionBar.less" />
     <Content Include="src\_locales\tr\messages.json" />
     <Content Include="src\_locales\no\messages.json" />
+    <Content Include="src\_locales\cs\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />
