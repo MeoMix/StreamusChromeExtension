@@ -1,17 +1,25 @@
 ﻿/*jslint node: true*/
-//	Provides methods which may be executed from the command prompt by being in this files cwd.
-//	Type grunt to run the default method, or "grunt paramater" to run a specific method.
-//
 //	Options:
-//      *   grunt deploy: Pass a version to creat dist .zip. Otherwise, test production without updating manifest version or creating a .zip/linting, just walk through normal steps.
-//
-//	See here for more information: http://gruntjs.com/sample-gruntfile
+//    * grunt: Lint JavaScript, LESS, and _locales
+//    * grunt build: Build a test release
+//    * grunt build --newVersion=x.xxx: Build a release  
 'use strict';
 
+var _ = require('lodash');
+
 module.exports = function (grunt) {
+
+    require('load-grunt-tasks')(grunt);
+
+    var version = grunt.option('newVersion') || 'Debug';
+    var isDebug = !grunt.option('newVersion');
+    var releaseDirectory = 'release/Streamus v' + version;
+    var chromeReleaseDirectory = releaseDirectory + '/chrome/';
+    var operaReleaseDirectory = releaseDirectory + '/opera/';
+    
 	grunt.initConfig({
 		//	Read project settings from package.json in order to be able to reference the properties with grunt.
-		pkg: grunt.file.readJSON('package.json'),
+	    pkg: grunt.file.readJSON('package.json'),
 		//  Compress image sizes and move to dist folder
 		imagemin: {
 			dynamic: {
@@ -26,7 +34,7 @@ module.exports = function (grunt) {
 		//	Improve code quality by applying a code-quality check with jshint
 		jshint: {
 			//	Files to analyze: 
-			files: ['Gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
+			javascript: ['Gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
 			
 			options: {
 				//	Override JSHint defaults for the extension
@@ -49,11 +57,11 @@ module.exports = function (grunt) {
 				ext: '.css'
 			}
 		},
+		//  Ensure LESS code-quality by comparing it against Twitter's ruleset.
 		recess: {
-		    dist: {
+		    foreground: {
 		        src: 'src/less/foreground.less',
 		        options: {
-		            //  TODO: Remove these hopefully
 		            noUniversalSelectors: false,
 		            strictPropertyOrder: false
 		        }
@@ -95,327 +103,188 @@ module.exports = function (grunt) {
 				}
 
 			}
+		},
+		replace: {
+		    //  TODO: Compact these
+		    //  Update the version in manifest.json with the provided version
+		    distManifestVersion: {
+		        src: ['dist/manifest.json'],
+		        overwrite: true,
+		        replacements: [{
+		            from: /"version": "\d{0,3}.\d{0,3}"/,
+		            to: '"version": "' + version + '"'
+		        }]
+		    },
+		    srcManifestVersion: {
+		        src: ['src/manifest.json'],
+		        overwrite: true,
+		        replacements: [{
+		            from: /"version": "\d{0,3}.\d{0,3}"/,
+		            to: '"version": "' + version + '"'
+		        }]
+		    },
+		    //  Replace path to requireConfig so that it can be found in a production environment
+		    requireConfigPath: {
+		        src: ['dist/js/**/main.js'],
+		        overwrite: true,
+		        replacements: [{
+		            from: '../common/requireConfig',
+		            to: 'common/requireConfig'
+		        }]
+		    },
+		    //  Replace references to LESS stylesheets to CSS stylesheets
+		    lessReferences: {
+		        src: ['dist/foreground.html'],
+		        overwrite: true,
+		        replacements: [{
+		            from: 'less/',
+		            to: 'css/'
+		        }, {
+		            from: '.less',
+		            to: '.css'
+		        }, {
+		            from: 'stylesheet/less',
+		            to: 'stylesheet'
+		        }]
+		    },
+		    //  Not all permissions supported on Chrome are supported on Opera. Remove them from manifest.json when building a release.
+		    invalidOperaPermissions: {
+		        src: [operaReleaseDirectory + '/manifest.json'],
+		        overwrite: true,
+		        replacements: [{
+		            from: '"background",',
+		            to: ''
+		        }, {
+		            from: '"identity.email",',
+		            to: ''
+		        }]
+		    },
+		    //  Ensure that the localDebug flag is not set to true when building a release.
+		    localDebug: {
+		        src: ['dist/js/background/background.js'],
+		        overwrite: true,
+		        replacements: [{
+		            //	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
+		            from: 'localDebug: true',
+		            to: 'localDebug: false'
+		        }]
+		    },
+		    //  Replace debugging and non-concatenated file references in manifest.json
+		    transformManifest: {
+		        src: ['dist/manifest.json'],
+		        overwrite: true,
+		        replacements: [{
+		            from: /".*localhost:.*,/g,
+		            to: function (match) {
+		                //  Don't remove debug permissions when testing because server will throw CORS errors.
+		                return isDebug ? match : '';
+		            }
+		        }, {
+		            //  Transform inject javascript to reference uglified/concat versions for production.
+		            from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
+		            to: '"js": ["js/inject/youTubeIFrameInject.js"]'
+		        }, {
+		            from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
+		            to: '"js": ["js/inject/youTubeInject.js"]'
+		        }, {
+		            from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
+		            to: '"js": ["js/inject/streamusShareInject.js"]'
+		        }, {
+		            from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
+		            to: '"js": ["js/inject/streamusInject.js"]'
+		        }, {
+		            from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
+		            to: '"js": ["js/inject/beatportInject.js"]'
+		        }]
+		    }
+		},
+		compress: {
+		    //  TODO: Can I keep this more DRY?
+		    //	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
+		    chrome: {
+		        options: {
+		            archive: chromeReleaseDirectory + 'Streamus v' + version + '.zip'
+		        },
+		        files: [{
+		            expand: true,
+		            cwd: chromeReleaseDirectory,
+		            src: ['**']
+		        }]
+		    },
+		    opera: {
+		        options: {
+		            archive: operaReleaseDirectory + 'Streamus v' + version + '.zip'
+		        },
+		        files: [{
+		            expand: true,
+		            cwd: operaReleaseDirectory,
+		            src: ['**']
+		        }]
+		    }
+		},
+		clean: {
+		    //  Remove all non-English translations from the _locales folder in Opera because they have stricter translation requirements than what I'm willing to fulfill.
+		    operaLocales: {
+		        files: [{
+		            expand: true,
+		            cwd: operaReleaseDirectory + '/_locales/',
+		            src: ['*', '!/en']
+		        }]
+		    },
+		    //  Cleanup the dist folder of files which don't need to be pushed to production.
+		    dist: {
+		        files: [{
+		            expand: true,
+		            cwd: 'dist/',
+		            src: ['template', 'less', 'js/test', 'test.html', 'build.txt', 'js/background/key', 'js/thirdParty/*', '!js/thirdParty/require.js']
+		        }]
+		    }
+		},
+		copy: {
+		    distToOpera: {
+		        expand: true,
+		        cwd: 'dist/',
+		        src: '**/*',
+		        dest: operaReleaseDirectory
+		    },
+		    distToChrome: {
+		        expand: true,
+		        cwd: 'dist/',
+		        src: '**/*',
+		        dest: chromeReleaseDirectory
+		    },
+		    //  Copy CSS files from src to dist since they aren't moved with the less task
+		    injectedCss: {
+		        'dist/css/beatportInject.css': ['src/css/beatportInject.css']
+		    }
+		},
+		concat: {
+		    //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
+		    injectedJs: {
+		        'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
+		        'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
+		        'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
+		        'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
+		        'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+		    }
 		}
 	});
 
-	grunt.loadNpmTasks('grunt-contrib-clean');
-	grunt.loadNpmTasks('grunt-contrib-concat');
-	grunt.loadNpmTasks('grunt-contrib-copy');
-	grunt.loadNpmTasks('grunt-contrib-compress');
-	grunt.loadNpmTasks('grunt-contrib-imagemin');
-	grunt.loadNpmTasks('grunt-contrib-jshint');
-	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-contrib-requirejs');
-	grunt.loadNpmTasks('grunt-text-replace');
-    grunt.loadNpmTasks('grunt-recess');
+	grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function () {
+        //  Ensure tests pass before performing any sort of bundling.
+		//  It's necessary to run requireJS before other steps because it will overwrite replace:transformManifest.
+		grunt.task.run('test', 'requirejs');
+		grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'copy:injectedCss', 'less', 'replace:lessReferences', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
 
-    var _ = require('lodash');
-
-	//	Generate a versioned zip file after transforming relevant files to production-ready versions.
-	grunt.registerTask('deploy', 'Transform and copy extension to /dist folder and generate a dist-ready .zip file. If no version passed, just test', function (version) {
-		var isDebugDeploy = version === undefined;
-		grunt.config.set('isDebugDeploy', isDebugDeploy);
-
-		//	Update version number in manifest.json:
-		if (isDebugDeploy) {
-		    grunt.log.write('NOTICE: version is undefined, running as debug deploy and not production. To run as production, pass version. e.g.: deploy:0.98');
-		    grunt.option('version', 'Debug');
-		} else {
-			grunt.option('version', version);
-		}
-
-		//  Lint JS
-		grunt.task.run('jshint');
-	    //  Lint LESS/CSS
-		grunt.task.run('recess');
-	    //  Make sure _locales aren't out of date.
-		grunt.task.run('diffLocales');
-		
-		//  It's necessary to run requireJS first because it will overwrite manifest-transform.
-		grunt.task.run('requirejs');
-		
-		if (!isDebugDeploy) {
-			//  Leave the debug key in for testing, but it has to be removed for deployment to the web store
-			grunt.task.run('remove-key-from-manifest');
-		}
-
-		grunt.task.run('manifest-transform', 'disable-localDebug', 'concat-injected-javascript', 'copy-injected-css', 'less', 'update-css-references', 'imagemin', 'update-require-config-paths', 'cleanup-dist-folder');
-		
-		//  Spit out a zip and update manifest file version if not a test.
-		if (isDebugDeploy) {
-		    grunt.task.run('prep-chrome-distribution');
-		    grunt.task.run('prep-opera-distribution');
-	    }
-	    else {
-	        //  Update the version of Streamus since we're actually deploying it and not just testing Grunt.
-			grunt.task.run('update-dist-manifest-version');
-			grunt.task.run('prep-chrome-distribution');
-			grunt.task.run('prep-opera-distribution');
-			grunt.task.run('update-src-manifest-version');
-		}
-	});
-	
-	//	Update the manifest file's version number -- new version is being distributed and it is good to keep files all in sync.
-	grunt.registerTask('update-dist-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
-		grunt.config.set('replace', {
-			updateManifestVersion: {
-				src: ['dist/manifest.json'],
-				overwrite: true,
-				replacements: [{
-					from: /"version": "\d{0,3}.\d{0,3}"/,
-					to: '"version": "' + grunt.option('version') + '"'
-				}]
-			}
-		});
-		
-		grunt.task.run('replace');
-	});
-	
-	//	Update the manifest file's version number -- new version is being distributed and it is good to keep files all in sync.
-	grunt.registerTask('update-src-manifest-version', 'updates the manifest version to the to-be latest distributed version', function () {
-		grunt.config.set('replace', {
-			updateManifestVersion: {
-				src: ['src/manifest.json'],
-				overwrite: true,
-				replacements: [{
-					from: /"version": "\d{0,3}.\d{0,3}"/,
-					to: '"version": "' + grunt.option('version') + '"'
-				}]
-			}
-		});
-		
-		grunt.task.run('replace');
+		grunt.task.run('replace:distManifestVersion');
+		grunt.task.run('copy:distToChrome', 'compress:chrome');
+		grunt.task.run('copy:distToOpera', 'replace:invalidOperaPermissions', 'clean:operaLocales', 'compress:opera');
+	    
+		if (!isDebug) {
+            grunt.task.run('replace:srcManifestVersion');
+        }
 	});
 
-	grunt.registerTask('concat-injected-javascript', 'injected javascript files don\'t use requireJS so they have to be manually concatted', function () {
-		grunt.config.set('concat', {
-			inject: {
-				files: {
-					'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
-					'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
-					'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
-					'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
-					'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
-				}
-			}
-		});
-		
-		grunt.task.run('concat');
-	});
-	
-	grunt.registerTask('copy-injected-css', 'copies injected css from src to dist folder', function () {
-		grunt.config.set('copy', {
-			inject: {
-				files: {
-					'dist/css/beatportInject.css': ['src/css/beatportInject.css']
-				}
-			}
-		});
-
-		grunt.task.run('copy');
-	});
-
-	grunt.registerTask('cleanup-dist-folder', 'removes the template folder since it was inlined into javascript and deletes build.txt', function () {
-		//	Can't delete a full directory -- clean it up.
-		grunt.config.set('clean', ['dist/template', 'dist/less', 'dist/js/background/key']);
-		grunt.task.run('clean');
-		grunt.file.delete('dist/template');
-		grunt.file.delete('dist/less');
-		grunt.file.delete('dist/js/thirdParty/mocha.js');
-		grunt.file.delete('dist/js/thirdParty/chai.js');
-		grunt.file.delete('dist/js/thirdParty/sinon.js');
-		grunt.file.delete('dist/js/test');
-		grunt.file.delete('dist/test.html');
-
-		grunt.file.delete('dist/build.txt');
-	});
-	
-	grunt.registerTask('update-require-config-paths', 'changes the paths for require config so they work for deployment', function () {
-		grunt.config.set('replace', {
-			removeDebuggingKeys: {
-				src: ['dist/js/**/main.js'],
-				overwrite: true,
-				replacements: [{
-					//  Change all main files paths to requireConfig for to be accurate for deployment.
-					from: '../common/requireConfig',
-					to: 'common/requireConfig'
-				}]
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	grunt.registerTask('update-css-references', 'replace less reference in foreground with css', function() {
-		grunt.config.set('replace', {
-			replaceLessReferences: {
-				src: ['dist/foreground.html'],
-				overwrite: true,
-				replacements: [{
-					from: 'less/',
-					to: 'css/'
-				}, {
-					from: '.less',
-					to: '.css'
-				}, {
-					from: 'stylesheet/less',
-					to: 'stylesheet'
-				}]
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	grunt.registerTask('remove-key-from-manifest', 'removes the key from manifest, separate because needed for testing deployment', function() {
-		grunt.config.set('replace', {
-			removeDebuggingKeys: {
-				src: ['dist/manifest.json'],
-				overwrite: true,
-				replacements: [{
-					//	Remove manifest key -- can't upload to Chrome Web Store if this entry exists in manifest.json, but helps with debugging.
-					from: /"key".*/,
-					to: ''
-				}]
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	//	Remove debugging information from the manifest file
-	grunt.registerTask('manifest-transform', 'removes debugging info from the manifest.json', function () {
-		var isDebugDeploy = grunt.config.get('isDebugDeploy');
-		var replacements = [];
-		
-		//  Don't remove this when testing debug deploy because server will throw CORS error
-		if (!isDebugDeploy) {
-			replacements.push({
-				//	Remove permissions that're only needed for debugging.
-				from: /".*localhost:.*,/g,
-				to: ''
-			});
-		}
-
-		grunt.config.set('replace', {
-			removeDebuggingKeys: {
-				src: ['dist/manifest.json'],
-				overwrite: true,
-				replacements: replacements.concat([{
-					//  Transform inject javascript to reference uglified/concat versions for deployment.
-					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
-					to: '"js": ["js/inject/youTubeIFrameInject.js"]'
-				}, {
-					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
-					to: '"js": ["js/inject/youTubeInject.js"]'
-				}, {
-					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
-					to: '"js": ["js/inject/streamusShareInject.js"]'
-				}, {
-					from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
-					to: '"js": ["js/inject/streamusInject.js"]'
-				}, {
-					from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
-					to: '"js": ["js/inject/beatportInject.js"]'
-				}])
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	//	Remove debugging information from the JavaScript
-	grunt.registerTask('disable-localDebug', 'ensure debugging flag is turned off', function () {
-		grunt.config.set('replace', {
-			transformSettings: {
-				src: ['dist/js/background/background.js'],
-				overwrite: true,
-				replacements: [{
-					//	Find the line that looks like: "localDebug: true" and set it to false. Local debugging is for development only.
-					from: 'localDebug: true',
-					to: 'localDebug: false'
-				}]
-			}
-		});
-
-		grunt.task.run('replace');
-	});
-
-	//	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
-	grunt.registerTask('prep-chrome-distribution', 'compress the files which are ready to be uploaded to the Chrome Web Store into a .zip', function () {
-		//  There's no need to cleanup any old version because this will overwrite if it exists.
-		grunt.config.set('compress', {
-			dist: {
-				options: {
-					archive: 'release/Streamus v' + grunt.option('version') + '/chrome/' + 'Streamus v' + grunt.option('version') + '.zip'
-				},
-				files: [{
-					src: ['**'],
-					dest: '',
-					cwd: 'dist/',
-					expand: true
-				}]
-			}
-		});
-
-		grunt.task.run('compress');
-	});
-
-	grunt.registerTask('prep-opera-distribution', '', function() {
-	    //  Copy the distribution folder into opera directory.
-	    var operaDirectory = 'release/Streamus v' + grunt.option('version') + '/opera';
-
-	    grunt.config.set('copy', {
-	        files: {
-	            cwd: 'dist/',
-	            src: '**/*',
-	            dest: operaDirectory,
-	            expand: true
-	        }
-	    });
-
-	    grunt.task.run('copy');
-
-	    //  Remove background and notifications from manifest as they aren't available in opera yet.
-	    grunt.config.set('replace', {
-	        removeDebuggingKeys: {
-	            src: [operaDirectory + '/manifest.json'],
-	            overwrite: true,
-	            replacements: [{
-	                from: '"background",',
-	                to: ''
-	            }]
-	        }
-	    });
-
-	    grunt.task.run('replace');
-
-	    var operaLocalesDirectory = operaDirectory + '/_locales/';
-
-	    //  Delete all non-english translations for Opera because they have stricter translation policies I don't care about complying with.
-	    grunt.config.set('clean', {
-	        nonEnglishLocales: [operaLocalesDirectory + '*', '!' + operaLocalesDirectory + 'en']
-	    });
-		grunt.task.run('clean');
-		
-		//  There's no need to cleanup any old version because this will overwrite if it exists.
-		grunt.config.set('compress', {
-			dist: {
-				options: {
-					archive: 'release/Streamus v' + grunt.option('version') + '/opera/' + 'Streamus v' + grunt.option('version') + '.zip'
-				},
-				files: [{
-					src: ['**'],
-					dest: '',
-					cwd: operaDirectory,
-					expand: true
-				}]
-			}
-		});
-
-		grunt.task.run('compress');
-	});
-    
 	grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
 	    var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
 	    var englishKeys = _.keys(englishJson);
@@ -437,9 +306,7 @@ module.exports = function (grunt) {
 	    });
 	});
 
-	grunt.registerTask('test', 'Ran by TravisCI', function () {
-	    grunt.task.run('diffLocales');
-	    grunt.task.run('jshint');
-	    grunt.task.run('recess');
-	});
+	grunt.registerTask('default', 'An alias task for running tests.', ['test']);
+
+    grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess']);
 };
