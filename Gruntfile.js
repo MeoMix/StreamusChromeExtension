@@ -21,6 +21,12 @@ module.exports = function (grunt) {
     grunt.initConfig({
         //	Read project settings from package.json in order to be able to reference the properties with grunt.
         pkg: grunt.file.readJSON('package.json'),
+        
+        meta: {
+            //  Set this value dynamically to inform other packages where to write information.
+            releaseDirectory: ''
+        },
+
         //  TODO: I could compress SVGs, too.
         //  Compress image sizes and move to dist folder
         imagemin: {
@@ -84,37 +90,29 @@ module.exports = function (grunt) {
             production: {
                 //  All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
                 options: {
-                    //  TODO: findNestedDependencies ?
                     appDir: 'src',
-                    dir: 'dist/',
-                    //  Inlines the text for any text! dependencies, to avoid the separate
-                    //  async XMLHttpRequest calls to load those dependencies.
-                    inlineText: true,
-                    stubModules: ['text'],
-                    useStrict: true,
                     mainConfigFile: 'src/js/common/requireConfig.js',
-                    //  List the modules that will be optimized. All their immediate and deep
-                    //  dependencies will be included in the module's file when the build is done
-                    modules: [{
-                        name: 'background/main',
-                        include: ['background/plugins']
-                    }, {
-                        name: 'background/application',
-                        exclude: ['background/main']
-                    }, {
-                        name: 'foreground/main',
-                        include: ['foreground/plugins']
-                    }, {
-                        name: 'foreground/application',
-                        exclude: ['foreground/main']
-                    }],
+                    dir: 'dist/',
                     //  Skip optimizins because there's no load benefit for an extension and it makes error debugging hard.
                     optimize: 'none',
                     optimizeCss: 'none',
-                    preserveLicenseComments: false,
+                    //  Inlines the text for any text! dependencies, to avoid the separate
+                    //  async XMLHttpRequest calls to load those dependencies.
+                    inlineText: true,
+                    useStrict: true,
+                    stubModules: ['text'],
+                    findNestedDependencies: true,
                     //  Don't leave a copy of the file if it has been concatenated into a larger one.
                     removeCombined: true,
-                    fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
+                    //  List the modules that will be optimized. All their immediate and deep
+                    //  dependencies will be included in the module's file when the build is done
+                    modules: [{
+                        name: 'background/main'
+                    }, {
+                        name: 'foreground/main'
+                    }],
+                    fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/,
+                    preserveLicenseComments: false
                 }
             }
         },
@@ -149,9 +147,9 @@ module.exports = function (grunt) {
                     to: 'css'
                 }]
             },
-            //  Not all permissions supported on Chrome are supported on Opera. Remove them from manifest.json when building a release.
-            invalidOperaPermissions: {
-                src: [operaReleaseDirectory + '/manifest.json'],
+            //  Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
+            invalidPermissions: {
+                src: ['<%= meta.releaseDirectory %>/manifest.json'],
                 overwrite: true,
                 replacements: [{
                     from: '"background",',
@@ -206,21 +204,21 @@ module.exports = function (grunt) {
                 options: {
                     //  Set this before calling the task.
                     directory: '',
-                    archive: '<%= compress.release.options.directory %>' + 'Streamus v' + version + '.zip'
+                    archive: '<%= meta.releaseDirectory %>Streamus v' + version + '.zip'
                 },
                 files: [{
                     expand: true,
-                    cwd: '<%= compress.release.options.directory %>',
+                    cwd: '<%= meta.releaseDirectory %>',
                     src: ['**']
                 }]
             }
         },
         clean: {
-            //  Remove all non-English translations from the _locales folder in Opera because they have stricter translation requirements than what I'm willing to fulfill.
-            operaLocales: {
+            //  Remove all non-English translations from the _locales folder (in Opera) because translation requirements are stricter than what I'm willing to fulfill.
+            locales: {
                 files: [{
                     expand: true,
-                    cwd: operaReleaseDirectory + '/_locales/',
+                    cwd: '<%= meta.releaseDirectory %>/_locales/',
                     src: ['*', '!/en']
                 }]
             },
@@ -235,28 +233,24 @@ module.exports = function (grunt) {
             }
         },
         copy: {
-            distToOpera: {
+            release: {
                 expand: true,
                 cwd: 'dist/',
                 src: '**/*',
-                dest: operaReleaseDirectory
-            },
-            distToChrome: {
-                expand: true,
-                cwd: 'dist/',
-                src: '**/*',
-                dest: chromeReleaseDirectory
+                dest: '<%= meta.releaseDirectory %>'
             }
         },
         concat: {
             //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
             //  TODO: Can I keep this code more DRY?
             injectedJs: {
-                'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
-                'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
-                'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
-                'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
-                'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+                files: {
+                    'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
+                    'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
+                    'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
+                    'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
+                    'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+                }
             }
         }
     });
@@ -275,12 +269,12 @@ module.exports = function (grunt) {
         grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'replace:lessReferences', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
         
         //  Build chrome release
-        grunt.config.set('compress.release.options.directory', chromeReleaseDirectory);
-        grunt.task.run('copy:distToChrome', 'compress:release');
+        grunt.config.set('meta.releaseDirectory', chromeReleaseDirectory);
+        grunt.task.run('copy:release', 'compress:release');
         
         //  Build opera release
-        grunt.config.set('compress.release.options.directory', operaReleaseDirectory);
-        grunt.task.run('copy:distToOpera', 'replace:invalidOperaPermissions', 'clean:operaLocales', 'compress:release');
+        grunt.config.set('meta.releaseDirectory', operaReleaseDirectory);
+        grunt.task.run('copy:release', 'replace:invalidPermissions', 'clean:locales', 'compress:release');
     });
 
     grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
