@@ -19,7 +19,7 @@
         
         onAttach: function () {
             //  More info: https://github.com/noraesae/perfect-scrollbar
-            //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
+            //  This needs to be ran during onAttach for perfectScrollbar to do its math properly.
             this.$el.perfectScrollbar({
                 suppressScrollX: true,
                 //  56px because that is the height of 1 listItem--medium

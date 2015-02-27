@@ -2,7 +2,7 @@
 //	Options:
 //    * grunt: Lint JavaScript, LESS, and _locales
 //    * grunt build: Build a test release
-//    * grunt build --newVersion=x.xxx: Build a release  
+//    * grunt build --newVersion="vx.xxx": Build a release  
 'use strict';
 
 var _ = require('lodash');
@@ -12,8 +12,10 @@ module.exports = function (grunt) {
     require('load-grunt-tasks')(grunt);
 
     //  Setup environment variables before initializing config so that initConfig can use the variables.
-    var version = grunt.option('newVersion') || 'Debug';
-    var isDebug = !grunt.option('newVersion');
+    var versionParameter = grunt.option('newVersion');
+    //  Strip out v because need to pass a string to grunt or else trailing zeros get dropped (i.e. can't provide --newVersion=0.170, interpreted as 0.17)
+    var version = _.isUndefined(versionParameter) ? 'Debug' : versionParameter.replace('v', '');
+    var isDebug = !versionParameter;
     var releaseDirectory = 'release/Streamus v' + version;
     var chromeReleaseDirectory = releaseDirectory + '/chrome/';
     var operaReleaseDirectory = releaseDirectory + '/opera/';
@@ -25,7 +27,6 @@ module.exports = function (grunt) {
             //  Set this value dynamically to inform other packages where to write information.
             releaseDirectory: ''
         },
-        //  TODO: I could compress SVGs, too.
         //  Compress image sizes and move to dist folder
         imagemin: {
             files: {
@@ -41,13 +42,17 @@ module.exports = function (grunt) {
             options: {
                 camelcase: true,
                 immed: true,
-                //  TODO: refactor beatportInject so I can enable this.
-                //latedef: true,
+                latedef: true,
                 newcap: true,
                 nonew: true,
                 quotmark: 'single',
                 jquery: true,
-                //  TODO: maxparams, maxdepth, maxcyclomaticcomplexity, maxlen
+                //  TODO: Reduce these values.
+                maxparams: 5,
+                maxdepth: 4,
+                maxstatements: 44,
+                maxcomplexity: 13,
+                maxlen: 90001,
                 //	Don't validate third-party libraries
                 ignores: ['src/js/thirdParty/**/*.js']
             },
@@ -105,9 +110,11 @@ module.exports = function (grunt) {
                     //  List the modules that will be optimized. All their immediate and deep
                     //  dependencies will be included in the module's file when the build is done
                     modules: [{
-                        name: 'background/main'
+                        name: 'background/main',
+                        insertRequire: ['background/main']
                     }, {
-                        name: 'foreground/main'
+                        name: 'foreground/main',
+                        insertRequire: ['foreground/main']
                     }],
                     fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/,
                     preserveLicenseComments: false
@@ -115,22 +122,13 @@ module.exports = function (grunt) {
             }
         },
         replace: {
-            //  Update the version in manifest.json with the provided version
-            manifestVersion: {
-                src: ['src/manifest.json'],
+            //  Update the version in manifest.json and package.json with the provided version
+            updateVersion: {
+                src: ['src/manifest.json', 'package.json'],
                 overwrite: true,
                 replacements: [{
                     from: /"version": "\d{0,3}.\d{0,3}"/,
                     to: '"version": "' + version + '"'
-                }]
-            },
-            //  Replace path to requireConfig so that it can be found in a production environment
-            requireConfigPath: {
-                src: ['dist/js/**/main.js'],
-                overwrite: true,
-                replacements: [{
-                    from: '../common/requireConfig',
-                    to: 'common/requireConfig'
                 }]
             },
             //  Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
@@ -227,7 +225,6 @@ module.exports = function (grunt) {
         },
         concat: {
             //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
-            //  TODO: Can I keep this code more DRY?
             injectedJs: {
                 files: {
                     'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
@@ -253,14 +250,11 @@ module.exports = function (grunt) {
         //  Ensure tests pass before performing any sort of bundling.
         grunt.task.run('test');
         
-        //  TODO: This should also update package.json
         if (!isDebug) {
-            grunt.task.run('replace:manifestVersion');
+            grunt.task.run('replace:updateVersion');
         }
 
-        //  It's necessary to run requireJS before other steps because it will overwrite replace:transformManifest.
-        grunt.task.run('requirejs');
-        grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
+        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'clean:dist');
         
         //  Build chrome release
         grunt.config.set('meta.releaseDirectory', chromeReleaseDirectory);

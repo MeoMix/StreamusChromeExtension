@@ -1,4 +1,4 @@
-require([
+define([
     '../common/requireConfig'
 ], function () {
     'use strict';
