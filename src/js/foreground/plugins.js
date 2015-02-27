@@ -8,7 +8,6 @@
     require('jquery.perfectScrollbar');
     require('jquery.qtip');
     require('jquery-ui');
-    require('less');
     
     ga('send', 'pageview', '/foreground.html');
     

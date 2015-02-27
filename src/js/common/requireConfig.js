@@ -19,7 +19,6 @@
 			'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
 			'jquery.qtip': 'thirdParty/jquery.qtip',
 			'jquery-ui': 'thirdParty/jquery-ui',
-			'less': 'thirdParty/less',
 			//  Rename lodash to underscore since functionally equivilant but underscore is expected by other third party libraries.
 			'underscore': 'thirdParty/lodash',
 			'text': 'thirdParty/text'
@@ -28,9 +27,6 @@
 		shim: {
 			'googleAnalytics': {
 				exports: 'window.ga'
-			},
-			'less': {
-				exports: 'window.less'
 			}
 		}
 	});

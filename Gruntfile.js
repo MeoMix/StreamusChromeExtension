@@ -21,12 +21,10 @@ module.exports = function (grunt) {
     grunt.initConfig({
         //	Read project settings from package.json in order to be able to reference the properties with grunt.
         pkg: grunt.file.readJSON('package.json'),
-        
         meta: {
             //  Set this value dynamically to inform other packages where to write information.
             releaseDirectory: ''
         },
-
         //  TODO: I could compress SVGs, too.
         //  Compress image sizes and move to dist folder
         imagemin: {
@@ -71,7 +69,7 @@ module.exports = function (grunt) {
                 ieCompat: false,
                 cwd: 'src/less/',
                 src: 'foreground.less',
-                dest: 'dist/css',
+                dest: 'src/css',
                 ext: '.css'
             }
         },
@@ -133,18 +131,6 @@ module.exports = function (grunt) {
                 replacements: [{
                     from: '../common/requireConfig',
                     to: 'common/requireConfig'
-                }]
-            },
-            //  Replace references to LESS stylesheets to CSS stylesheets
-            lessReferences: {
-                src: ['dist/foreground.html'],
-                overwrite: true,
-                replacements: [{
-                    from: 'stylesheet/less',
-                    to: 'stylesheet'
-                }, {
-                    from: 'less',
-                    to: 'css'
                 }]
             },
             //  Not all Chrome permissions supported on other browsers (Opera). Remove them from manifest.json when building a release.
@@ -227,7 +213,6 @@ module.exports = function (grunt) {
                 files: [{
                     expand: true,
                     cwd: 'dist/',
-                    //  TODO: Prevent copying template through requirejs config
                     src: ['template', 'build.txt']
                 }]
             }
@@ -252,6 +237,15 @@ module.exports = function (grunt) {
                     'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
                 }
             }
+        },
+        watch: {
+            less: {
+                options: {
+                    nospawn: true
+                },
+                files: ['src/less/*'],
+                tasks: ['less']
+            }
         }
     });
 
@@ -266,7 +260,7 @@ module.exports = function (grunt) {
 
         //  It's necessary to run requireJS before other steps because it will overwrite replace:transformManifest.
         grunt.task.run('requirejs');
-        grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'replace:lessReferences', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
+        grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
         
         //  Build chrome release
         grunt.config.set('meta.releaseDirectory', chromeReleaseDirectory);

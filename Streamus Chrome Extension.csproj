@@ -42,7 +42,8 @@
     <Content Include=".gitignore" />
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
-    <Content Include="src\css\mocha.css" />
+    <Content Include="src\css\foreground.css" />
+    <Content Include="src\css\test\mocha.css" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\green_0bar_19.png" />
     <Content Include="src\img\green_0bar_38.png" />
@@ -72,6 +73,9 @@
     <Content Include="src\img\streamus_icon48.png" />
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\js\background\viewModel\playlistsViewModel.js" />
+    <Content Include="src\js\thirdParty\test\chai.js" />
+    <Content Include="src\js\thirdParty\test\mocha.js" />
+    <Content Include="src\js\thirdParty\test\sinon.js" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
     <Content Include="src\template\icon\menuIcon_24.svg" />
@@ -321,17 +325,13 @@
     <Content Include="README.md" />
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
-    <Content Include="src\js\thirdParty\chai.js" />
     <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
-    <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
-    <Content Include="src\js\thirdParty\mocha.js" />
     <Content Include="src\js\thirdParty\require.js" />
-    <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <Content Include="src\css\beatportInject.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
