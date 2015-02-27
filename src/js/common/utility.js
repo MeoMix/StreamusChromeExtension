@@ -13,11 +13,11 @@
 
         //  Ensure two-digits for small numbers
         if (minutes < 10) {
-            minutes = "0" + minutes;
+            minutes = '0' + minutes;
         }
 
         if (remainingSeconds < 10) {
-            remainingSeconds = "0" + remainingSeconds;
+            remainingSeconds = '0' + remainingSeconds;
         }
 
         var timeString = minutes + ':' + remainingSeconds;
@@ -80,7 +80,7 @@
 
     //  http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
     escapeRegExp: function(string) {
-        var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
         return escapedString;
     },
 

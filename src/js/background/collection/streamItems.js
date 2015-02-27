@@ -61,7 +61,7 @@
             var relatedSong = relatedSongs[_.random(relatedSongs.length - 1)] || null;
 
             if (relatedSong === null) {
-                throw new Error("No related song found:" + JSON.stringify(this));
+                throw new Error('No related song found:' + JSON.stringify(this));
             }
 
             return relatedSong;
@@ -107,7 +107,7 @@
                     var songToActivate = this.getBySong(songs[0]);
                     
                     if (_.isUndefined(songToActivate)) {
-                        throw new Error("songToActivate undefined:" + songs.length + ' ' + JSON.stringify(songs[0]));
+                        throw new Error('songToActivate undefined:' + songs.length + ' ' + JSON.stringify(songs[0]));
                     }
 
                     if (songToActivate.get('active')) {
@@ -157,7 +157,7 @@
                         title: request.query,
                         playOnAdd: true,
                         error: function(error) {
-                            console.error("Failed to add song by title: " + request.query, error);
+                            console.error('Failed to add song by title: ' + request.query, error);
                         }
                     });
                     break;
@@ -175,7 +175,7 @@
                     title: title,
                     playOnAdd: playOnAdd,
                     error: function (error) {
-                        console.error("Failed to add song by title: " + title, error);
+                        console.error('Failed to add song by title: ' + title, error);
                     },
                     complete: this._addByTitleList.bind(this, false, titleList)
                 });

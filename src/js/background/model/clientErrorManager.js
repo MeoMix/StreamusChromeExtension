@@ -8,8 +8,7 @@
             return {
                 platformInfo: {
                     os: '',
-                    arch: '',
-                    nacl_arch: ''
+                    arch: ''
                 },
                 language: '',
                 signInManager: null,

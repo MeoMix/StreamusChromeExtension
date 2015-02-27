@@ -28,8 +28,7 @@
             if (!this.debugManager.get('flashLoaded')) {
                 var loadedSong = this.player.get('loadedSong');
                 var loadedSongId = loadedSong ? loadedSong.get('id') : '';
-                var referers = JSON.stringify(this.debugManager.get('youTubeIFrameReferers'));
-                var error = new Error("Error: " + options.error + ", loadedSongId:" + loadedSongId + ' headers: ' + referers);
+                var error = new Error('Error: ' + options.error + ', loadedSongId:' + loadedSongId);
                 Streamus.backgroundChannels.error.commands.trigger('log:error', error);
             }
         }

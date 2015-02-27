@@ -126,10 +126,10 @@
                 this.get('suggestedSongs').add(song);
 
                 var safeTitle = _.escape(song.get('title'));
-                var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), "i");
+                var textStyleRegExp = new RegExp(Utility.escapeRegExp(text), 'i');
                 var styledTitle = safeTitle.replace(textStyleRegExp, '<match>$&</match>');
 
-                var description = '<dim>' + song.get('prettyDuration') + "</dim>  " + styledTitle;
+                var description = '<dim>' + song.get('prettyDuration') + '</dim>  ' + styledTitle;
 
                 return {
                     content: song.get('url'),

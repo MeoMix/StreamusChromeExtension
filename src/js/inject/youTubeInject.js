@@ -35,9 +35,9 @@ $(function () {
 				}
 			});
 
-			observer.observe(document.querySelector("body"), {
+			observer.observe(document.querySelector('body'), {
 				attributes: true,
-				attributeFilter: ["class"]
+				attributeFilter: ['class']
 			});
 
 			enhanceYouTube = true;
@@ -90,7 +90,7 @@ $(function () {
 			'class': 'yt-uix-button yt-uix-button-size-default yt-uix-button-primary',
 			click: function() {
 				chrome.runtime.sendMessage({
-					method: "signIn"
+				    method: 'signIn'
 				});
 			}
 		}));
@@ -127,7 +127,7 @@ $(function () {
 				var songId = shortlink.slice(shortlink.lastIndexOf('/') + 1);
 
 				chrome.runtime.sendMessage({
-					method: "addYouTubeSongByIdToPlaylist",
+				    method: 'addYouTubeSongByIdToPlaylist',
 					playlistId: $('#playlistSelect').val(),
 					songId: songId
 				}, function () {
@@ -138,7 +138,7 @@ $(function () {
 	}
 	
 	function getPlaylistsAndSetSelectOptions() {
-		chrome.runtime.sendMessage({ method: "getPlaylists" }, function (getPlaylistsResponse) {
+	    chrome.runtime.sendMessage({ method: 'getPlaylists' }, function (getPlaylistsResponse) {
 			var playlists = getPlaylistsResponse.playlists;
 
 			$('#select-playlist-button').addClass('yt-uix-button-toggled');

@@ -11,6 +11,7 @@ module.exports = function (grunt) {
 
     require('load-grunt-tasks')(grunt);
 
+    //  Setup environment variables before initializing config so that initConfig can use the variables.
     var version = grunt.option('newVersion') || 'Debug';
     var isDebug = !grunt.option('newVersion');
     var releaseDirectory = 'release/Streamus v' + version;
@@ -20,34 +21,45 @@ module.exports = function (grunt) {
 	grunt.initConfig({
 		//	Read project settings from package.json in order to be able to reference the properties with grunt.
 	    pkg: grunt.file.readJSON('package.json'),
+	    //  TODO: I could compress SVGs, too.
 		//  Compress image sizes and move to dist folder
 		imagemin: {
-			dynamic: {
-				files: [{
-					expand: true,
-					cwd: 'dist/img',
-					src: ['**/*.{png,jpg,gif}'],
-					dest: 'dist/img/'
-				}]
+			files: {
+				expand: true,
+				cwd: 'dist/img',
+				src: ['**/*.{png,jpg,gif}'],
+				dest: 'dist/img/'
 			}
 		},
 		//	Improve code quality by applying a code-quality check with jshint
 		jshint: {
-			//	Files to analyze: 
-			javascript: ['Gruntfile.js', 'src/js/**/*.js', 'test/js/**/*.js'],
-			
-			options: {
-				//	Override JSHint defaults for the extension
-				globals: {
-					jQuery: true,
-					console: true
-				},
-
-				//	Don't validate third-party libraries
-				ignores: ['src/js/thirdParty/**/*.js']
-			}
+		    //  A full list of options and their defaults here: https://github.com/jshint/jshint/blob/master/examples/.jshintrc
+		    options: {
+		        camelcase: true,
+		        immed: true,
+		        //  TODO: refactor beatportInject so I can enable this.
+		        //latedef: true,
+		        newcap: true,
+		        nonew: true,
+		        quotmark: 'single',
+		        jquery: true,
+		        //  TODO: maxparams, maxdepth, maxcyclomaticcomplexity, maxlen
+		        //	Don't validate third-party libraries
+		        ignores: ['src/js/thirdParty/**/*.js']
+		    },
+		    
+			files: ['Gruntfile.js', 'src/js/**/*.js'],
 		},
+	    //  Compile LESS to CSS
 		less: {
+		    options: {
+		        ieCompat: false,
+		        compress: true,
+		        strictImports: true,
+		        strictMath: true,
+		        strictUnits: true
+		    },
+
 			files: {
 				expand: true,
 				ieCompat: false,
@@ -57,7 +69,8 @@ module.exports = function (grunt) {
 				ext: '.css'
 			}
 		},
-		//  Ensure LESS code-quality by comparing it against Twitter's ruleset.
+	    //  Ensure LESS code-quality by comparing it against Twitter's ruleset.
+	    //  Using a slightly modified version which has support for modern browser properties
 		recess: {
 		    foreground: {
 		        src: 'src/less/foreground.less',
@@ -68,8 +81,10 @@ module.exports = function (grunt) {
 		    }
 		},
 		requirejs: {
-			production: {
-				options: {
+		    production: {
+		        //  All r.js options can be found here: https://github.com/jrburke/r.js/blob/master/build/example.build.js
+		        options: {
+		            //  TODO: findNestedDependencies ?
 					appDir: 'src',
 					dir: 'dist/',
 					//  Inlines the text for any text! dependencies, to avoid the separate
@@ -99,23 +114,13 @@ module.exports = function (grunt) {
 					preserveLicenseComments: false,
 					//  Don't leave a copy of the file if it has been concatenated into a larger one.
 					removeCombined: true,
-					fileExclusionRegExp: /^\.|vsdoc.js$|.css$/
+					fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
 				}
-
 			}
 		},
 		replace: {
-		    //  TODO: Compact these
 		    //  Update the version in manifest.json with the provided version
-		    distManifestVersion: {
-		        src: ['dist/manifest.json'],
-		        overwrite: true,
-		        replacements: [{
-		            from: /"version": "\d{0,3}.\d{0,3}"/,
-		            to: '"version": "' + version + '"'
-		        }]
-		    },
-		    srcManifestVersion: {
+		    manifestVersion: {
 		        src: ['src/manifest.json'],
 		        overwrite: true,
 		        replacements: [{
@@ -137,14 +142,11 @@ module.exports = function (grunt) {
 		        src: ['dist/foreground.html'],
 		        overwrite: true,
 		        replacements: [{
-		            from: 'less/',
-		            to: 'css/'
-		        }, {
-		            from: '.less',
-		            to: '.css'
-		        }, {
 		            from: 'stylesheet/less',
 		            to: 'stylesheet'
+		        }, {
+		            from: 'less',
+		            to: 'css'
 		        }]
 		    },
 		    //  Not all permissions supported on Chrome are supported on Opera. Remove them from manifest.json when building a release.
@@ -199,25 +201,16 @@ module.exports = function (grunt) {
 		    }
 		},
 		compress: {
-		    //  TODO: Can I keep this more DRY?
-		    //	Zip up the distribution folder and give it a build name. The folder can then be uploaded to the Chrome Web Store.
-		    chrome: {
+		    //	Zip up browser-specific folders which are ready for release. The .zip file is then uploaded to the appropriate store
+		    release: {
 		        options: {
-		            archive: chromeReleaseDirectory + 'Streamus v' + version + '.zip'
+		            //  Set this before calling the task.
+		            directory: '',
+		            archive: '<%= compress.release.options.directory %>' + 'Streamus v' + version + '.zip'
 		        },
 		        files: [{
 		            expand: true,
-		            cwd: chromeReleaseDirectory,
-		            src: ['**']
-		        }]
-		    },
-		    opera: {
-		        options: {
-		            archive: operaReleaseDirectory + 'Streamus v' + version + '.zip'
-		        },
-		        files: [{
-		            expand: true,
-		            cwd: operaReleaseDirectory,
+		            cwd: '<%= compress.release.options.directory %>',
 		            src: ['**']
 		        }]
 		    }
@@ -236,7 +229,8 @@ module.exports = function (grunt) {
 		        files: [{
 		            expand: true,
 		            cwd: 'dist/',
-		            src: ['template', 'less', 'js/test', 'test.html', 'build.txt', 'js/background/key', 'js/thirdParty/*', '!js/thirdParty/require.js']
+		            //  TODO: Prevent copying template through requirejs config
+		            src: ['template', 'build.txt']
 		        }]
 		    }
 		},
@@ -252,14 +246,11 @@ module.exports = function (grunt) {
 		        cwd: 'dist/',
 		        src: '**/*',
 		        dest: chromeReleaseDirectory
-		    },
-		    //  Copy CSS files from src to dist since they aren't moved with the less task
-		    injectedCss: {
-		        'dist/css/beatportInject.css': ['src/css/beatportInject.css']
 		    }
 		},
 		concat: {
 		    //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
+		    //  TODO: Can I keep this code more DRY?
 		    injectedJs: {
 		        'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
 		        'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
@@ -271,18 +262,25 @@ module.exports = function (grunt) {
 	});
 
 	grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function () {
-        //  Ensure tests pass before performing any sort of bundling.
-		//  It's necessary to run requireJS before other steps because it will overwrite replace:transformManifest.
-		grunt.task.run('test', 'requirejs');
-		grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'copy:injectedCss', 'less', 'replace:lessReferences', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
-
-		grunt.task.run('replace:distManifestVersion');
-		grunt.task.run('copy:distToChrome', 'compress:chrome');
-		grunt.task.run('copy:distToOpera', 'replace:invalidOperaPermissions', 'clean:operaLocales', 'compress:opera');
+	    //  Ensure tests pass before performing any sort of bundling.
+	    grunt.task.run('test');
 	    
-		if (!isDebug) {
-            grunt.task.run('replace:srcManifestVersion');
-        }
+        //  TODO: This should also update package.json
+	    if (!isDebug) {
+	        grunt.task.run('replace:manifestVersion');
+	    }
+
+		//  It's necessary to run requireJS before other steps because it will overwrite replace:transformManifest.
+		grunt.task.run('requirejs');
+		grunt.task.run('replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'replace:lessReferences', 'imagemin', 'replace:requireConfigPath', 'clean:dist');
+	    
+        //  Build chrome release
+	    grunt.config.set('compress.release.options.directory', chromeReleaseDirectory);
+	    grunt.task.run('copy:distToChrome', 'compress:release');
+	    
+        //  Build opera release
+	    grunt.config.set('compress.release.options.directory', operaReleaseDirectory);
+		grunt.task.run('copy:distToOpera', 'replace:invalidOperaPermissions', 'clean:operaLocales', 'compress:release');
 	});
 
 	grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {

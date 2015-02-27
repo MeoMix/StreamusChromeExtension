@@ -98,7 +98,7 @@
         },
         
         _isForegroundActive: function (callback) {
-            var foreground = chrome.extension.getViews({ type: "popup" });
+            var foreground = chrome.extension.getViews({ type: 'popup' });
 
             if (foreground.length === 0) {
                 this.get('tabManager').isStreamusTabActive(function (streamusTabActive) {

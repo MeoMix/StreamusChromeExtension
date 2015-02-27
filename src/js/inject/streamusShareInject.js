@@ -18,7 +18,7 @@ $(function () {
 
     if (indicator === 'playlist' && shareCodeShortId.length === 12 && urlFriendlyEntityTitle.length > 0) {
         chrome.runtime.sendMessage({
-            method: "addPlaylistByShareData",
+            method: 'addPlaylistByShareData',
             shareCodeShortId: shareCodeShortId,
             urlFriendlyEntityTitle: urlFriendlyEntityTitle
         }, function (response) {

@@ -120,7 +120,7 @@ define(function (require) {
         },
         
         _onLoadByGooglePlusIdSuccess: function(userDto) {
-            if (userDto === null) throw new Error("UserDTO should always be returned here.");
+            if (userDto === null) throw new Error('UserDTO should always be returned here.');
 
             this.set(userDto);
             this._onLoadSuccess();

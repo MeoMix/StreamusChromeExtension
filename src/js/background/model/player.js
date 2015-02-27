@@ -412,7 +412,7 @@ define(function (require) {
                     playerState = PlayerState.SongCued;
                     break;
                 default:
-                    throw new Error("Unmapped YouTubePlayerState:" + youTubePlayerState);
+                    throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);
             }
 
             return playerState;
