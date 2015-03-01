@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemView = require('foreground/view/listItemView');
@@ -17,11 +17,11 @@
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'
         }),
-        
+
         modelEvents: {
             'change:id': '_onChangeId'
         },
-        
+
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
             ListItemMultiSelect: {
                 behaviorClass: ListItemMultiSelect
@@ -30,9 +30,9 @@
                 behaviorClass: Tooltip
             }
         }),
-        
+
         buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteSongButtonView],
-        
+
         streamItems: null,
         player: null,
 
@@ -40,8 +40,8 @@
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.player = Streamus.backgroundPage.player;
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             var spinnerView = new SpinnerView({
                 className: 'overlay u-marginAuto'
             });
@@ -49,8 +49,8 @@
 
             this._setShowingSpinnerClass();
         },
-        
-        showContextMenu: function () {
+
+        showContextMenu: function() {
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('copyUrl'),
                 onClick: this._copyUrl.bind(this)
@@ -62,41 +62,41 @@
                 onClick: this._watchOnYouTube.bind(this)
             }]);
         },
-        
-        _onDblClick: function () {
+
+        _onDblClick: function() {
             this._playInStream();
         },
-        
-        _onChangeId: function (model, id) {
+
+        _onChangeId: function(model, id) {
             this._setDataId(id);
             this._setShowingSpinnerClass();
         },
         
         //  If the playlistItem hasn't been successfully saved to the server -- show a spinner over the UI.
-        _setShowingSpinnerClass: function () {
+        _setShowingSpinnerClass: function() {
             this.$el.toggleClass('is-showingSpinner', this.model.isNew());
         },
-        
-        _setDataId: function (id) {
+
+        _setDataId: function(id) {
             //  I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
             this.$el.data('id', id).attr('id', id);
         },
-        
-        _copyUrl: function () {
+
+        _copyUrl: function() {
             this.model.get('song').copyUrl();
         },
-        
-        _copyTitleAndUrl: function () {
+
+        _copyTitleAndUrl: function() {
             this.model.get('song').copyTitleAndUrl();
         },
-        
-        _playInStream: function () {
+
+        _playInStream: function() {
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
         },
-        
-        _watchOnYouTube: function () {
+
+        _watchOnYouTube: function() {
             this.player.watchInTab(this.model.get('song'));
         }
     });

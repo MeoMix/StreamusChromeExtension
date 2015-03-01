@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
@@ -10,47 +10,47 @@
         templateHelpers: {
             playIcon: _.template(PlayIconTemplate)()
         },
-        
+
         streamItems: null,
-        
+
         playlistItemsEvents: {
             'add': '_onPlaylistItemsAdd',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
 
-        initialize: function () {
+        initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
 
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
-        
+
         onRender: function() {
             this._setState(this.model.get('items').isEmpty());
         },
-        
-        doOnClickAction: function () {
+
+        doOnClickAction: function() {
             var songs = this.model.get('items').pluck('song');
 
             this.streamItems.addSongs(songs, {
                 playOnAdd: true
             });
         },
-        
-        _onPlaylistItemsAdd: function () {
+
+        _onPlaylistItemsAdd: function() {
             this._setState(false);
         },
 
-        _onPlaylistItemsRemove: function (model, collection) {
+        _onPlaylistItemsRemove: function(model, collection) {
             this._setState(collection.isEmpty());
         },
 
-        _onPlaylistItemsReset: function (collection) {
+        _onPlaylistItemsReset: function(collection) {
             this._setState(collection.isEmpty());
         },
-        
-        _setState: function (isEmpty) {
+
+        _setState: function(isEmpty) {
             this.$el.toggleClass('is-disabled', isEmpty);
 
             var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');

@@ -1,13 +1,13 @@
 ﻿define(function() {
     'use strict';
-    
+
     //  TODO: Can this become a CollectionView?
     var ListItemButtonsView = Marionette.ItemView.extend({
         className: 'listItem-buttons',
         template: false,
 
         //  Render a collection of button views to keep things DRY between various types of list-items:        
-        onRender: function () {
+        onRender: function() {
             var documentFragment = document.createDocumentFragment();
             this.shownButtonViews = [];
 
@@ -23,9 +23,9 @@
 
             this.$el.append(documentFragment);
         },
-        
-        onBeforeDestroy: function () {
-            _.each(this.shownButtonViews, function (shownButtonView) {
+
+        onBeforeDestroy: function() {
+            _.each(this.shownButtonViews, function(shownButtonView) {
                 shownButtonView.destroy();
             });
             this.shownButtonViews.length = 0;

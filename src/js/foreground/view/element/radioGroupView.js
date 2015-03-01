@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var RadioButtonView = require('foreground/view/element/radioButtonView');
@@ -9,27 +9,26 @@
         template: _.template(RadioGroupTemplate),
         childViewContainer: '@ui.buttons',
         childView: RadioButtonView,
-        
+
         attributes: {
             tabIndex: 0
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 //  TODO: Naming isn't dynamic.
                 buttons: '.radio-buttons'
             };
         },
-        
+
         events: {
             'keydown': '_onKeyDown'
         },
-        
-        _onKeyDown: function (event) {
+
+        _onKeyDown: function(event) {
             if (event.keyCode === 37 || event.keyCode === 38) {
                 this.collection.checkPrevious();
-            }
-            else if (event.keyCode === 39 || event.keyCode === 40) {
+            } else if (event.keyCode === 39 || event.keyCode === 40) {
                 this.collection.checkNext();
             }
         }

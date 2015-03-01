@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var LeftPaneView = require('foreground/view/leftPane/leftPaneView');
@@ -7,8 +7,8 @@
         initialize: function() {
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
         },
-        
-        _onForegroundAreaRendered: function () {
+
+        _onForegroundAreaRendered: function() {
             this.show(new LeftPaneView());
         }
     });
