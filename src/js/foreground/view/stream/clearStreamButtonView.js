@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -13,40 +13,40 @@
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
         },
-        
+
         events: {
             'click': '_onClick',
         },
-        
+
         modelEvents: {
             'change:enabled': '_onChangeEnabled'
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
-        
+
         onRender: function() {
             this._setState(this.model.get('enabled'), this.model.getStateMessage());
         },
-        
-        _onClick: function () {
+
+        _onClick: function() {
             if (this.model.get('enabled')) {
                 this._showClearStreamDialog();
             }
         },
-        
-        _onChangeEnabled: function (model, enabled) {
+
+        _onChangeEnabled: function(model, enabled) {
             this._setState(enabled, model.getStateMessage());
         },
-        
-        _setState: function (enabled, stateMessage) {
+
+        _setState: function(enabled, stateMessage) {
             this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
         },
-        
-        _showClearStreamDialog: function () {
+
+        _showClearStreamDialog: function() {
             var streamItems = this.model.get('streamItems');
 
             //  When deleting only a single StreamItem it is not necessary to show a dialog because it's not a very dangerous action.

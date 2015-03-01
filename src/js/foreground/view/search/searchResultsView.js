@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemType = require('common/enum/listItemType');
@@ -16,7 +16,7 @@
         childViewContainer: '@ui.childContainer',
         childView: SearchResultView,
         childViewType: ListItemType.SearchResult,
-        childViewOptions: function () {
+        childViewOptions: function() {
             return {
                 type: this.childViewType,
                 parentId: this.ui.childContainer[0].id
@@ -24,18 +24,18 @@
         },
 
         //  Overwrite resortView to only render children as expected
-        resortView: function () {
+        resortView: function() {
             this._renderChildren();
         },
-        
+
         template: _.template(SearchResultsTemplate),
 
-        ui: function () {
+        ui: function() {
             return {
                 childContainer: '#' + this.id + '-listItems'
             };
         },
-        
+
         behaviors: {
             CollectionViewMultiSelect: {
                 behaviorClass: CollectionViewMultiSelect
@@ -54,14 +54,14 @@
             }
         },
 
-        initialize: function () {
+        initialize: function() {
             this.viewModel = Streamus.backgroundPage.playlistsViewModel;
 
             this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
         },
 
         //  Don't maintain selected results after closing the view because the view won't be visible.
-        _onSearchAreaHiding: function () {
+        _onSearchAreaHiding: function() {
             this.triggerMethod('DeselectCollection');
         }
     });

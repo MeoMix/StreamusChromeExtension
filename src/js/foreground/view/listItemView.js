@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -7,8 +7,8 @@
     var ListItemView = Marionette.LayoutView.extend({
         tagName: 'li',
         className: 'listItem',
-        
-        attributes: function () {
+
+        attributes: function() {
             //  Store the clientId on the view until the model has been saved successfully.
             var id = this.model.isNew() ? this.model.cid : this.model.get('id');
 
@@ -25,34 +25,34 @@
             'mouseenter': '_onMouseEnter',
             'mouseleave': '_onMouseLeave'
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion',
                 spinnerRegion: '.' + ListItemView.prototype.className + '-spinnerRegion',
                 checkboxRegion: '.' + ListItemView.prototype.className + '-checkboxRegion'
             };
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
 
-        _onContextMenu: function (event) {
+        _onContextMenu: function(event) {
             event.preventDefault();
             this.showContextMenu();
         },
-        
-        _onMouseEnter: function () {
+
+        _onMouseEnter: function() {
             this.buttonsRegion.show(new ListItemButtonsView({
                 model: this.model,
                 buttonViews: this.buttonViews
             }));
         },
 
-        _onMouseLeave: function () {
+        _onMouseLeave: function() {
             this.buttonsRegion.empty();
         }
     });

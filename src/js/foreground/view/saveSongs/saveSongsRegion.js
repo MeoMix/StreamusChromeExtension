@@ -1,5 +1,5 @@
 ﻿//  TODO: This is too specific of a usecase, I'd like to expand upon it in the future and make it generic, maybe combine it with ContextMenu if possible.
-define(function (require) {
+define(function(require) {
     'use strict';
 
     var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
@@ -10,18 +10,18 @@ define(function (require) {
     var SaveSongsRegion = Marionette.Region.extend({
         signInManager: null,
 
-        initialize: function () {
+        initialize: function() {
             this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(Streamus.channels.saveSongs.commands, 'show:simpleMenu', this._showSimpleMenu);
         },
-        
-        _showSimpleMenu: function (options) {
+
+        _showSimpleMenu: function(options) {
             //  Wrap the logic for showing a simpleMenu in defer to allow 'click' event to fully propagate before showing the view.
             //  This ensure that a click event which spawned the simpleMenu does not also trigger the closing of the menu 
-            _.defer(function () {
+            _.defer(function() {
                 var playlists = this.signInManager.get('signedInUser').get('playlists');
 
-                var simpleMenuItems = new SimpleMenuItems(playlists.map(function (playlist) {
+                var simpleMenuItems = new SimpleMenuItems(playlists.map(function(playlist) {
                     return {
                         active: playlist.get('active'),
                         text: playlist.get('title'),
@@ -51,14 +51,14 @@ define(function (require) {
                 });
             }.bind(this));
         },
-        
-        _onClickSimpleMenuItem: function (playlists, songs, eventArgs) {
+
+        _onClickSimpleMenuItem: function(playlists, songs, eventArgs) {
             var activeItem = eventArgs.collection.getActive();
             var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },
 
-        _onClickFixedMenuItem: function (songs) {
+        _onClickFixedMenuItem: function(songs) {
             Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView, {
                 songs: songs
             });
@@ -66,7 +66,7 @@ define(function (require) {
 
         //  TODO: Keep DRY w/ contextmenu
         //  Prevent displaying ContextMenu outside of viewport by ensuring its offsets are valid.
-        _ensureOffset: function (offset, elementDimension, containerDimension) {
+        _ensureOffset: function(offset, elementDimension, containerDimension) {
             var ensuredOffset = offset;
             var needsFlip = offset + elementDimension > containerDimension;
 

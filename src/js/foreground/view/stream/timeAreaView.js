@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var PlayerState = require('common/enum/playerState');
@@ -10,7 +10,7 @@
         id: 'timeArea',
         className: 'timeArea',
         template: _.template(TimeAreaTemplate),
-        templateHelpers: function () {
+        templateHelpers: function() {
             return {
                 totalTimeMessage: chrome.i18n.getMessage('totalTime'),
                 //  TODO: I don't want totalTime written to localStorage which means I exclude it from the JSON serialization, but I need it in my template..
@@ -18,8 +18,8 @@
                 prettyTotalTime: Utility.prettyPrintTime(this.model.get('totalTime'))
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 timeProgress: '#' + this.id + '-timeProgress',
                 timeRange: '#' + this.id + '-timeRange',
@@ -40,33 +40,33 @@
                 behaviorClass: Tooltip
             }
         },
-        
+
         streamItems: null,
         player: null,
-        
+
         playerEvents: {
             'change:currentTime': '_onPlayerChangeCurrentTime',
             'change:state': '_onPlayerChangeState'
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.player = Streamus.backgroundPage.player;
-            
+
             this.bindEntityEvents(this.player, this.playerEvents);
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setCurrentTime(this.player.get('currentTime'));
             this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
         },
-        
+
         _onInputTimeRange: function() {
             this._updateTimeProgress();
         },
         
         //  Allow the user to manual time change by click or scroll.
-        _onWheelTimeRange: function (event) {
+        _onWheelTimeRange: function(event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             var currentTime = parseInt(this.ui.timeRange.val());
 
@@ -74,39 +74,39 @@
 
             this.player.seekTo(currentTime + delta);
         },
-        
-        _onMouseDownTimeRange: function (event) {
+
+        _onMouseDownTimeRange: function(event) {
             //  1 is primary mouse button, usually left
             if (event.which === 1) {
                 this._startSeeking();
             }
         },
- 
-        _onMouseUpTimeRange: function (event) {
+
+        _onMouseUpTimeRange: function(event) {
             //  1 is primary mouse button, usually left
             //  It's important to check seeking here because onMouseUp can run even if onMouseDown did not fire.
             if (event.which === 1 && this.model.get('seeking')) {
                 this._seekToCurrentTime();
             }
         },
-        
-        _onClickElapsedTimeLabel: function () {
+
+        _onClickElapsedTimeLabel: function() {
             this._toggleShowRemainingTime();
         },
-        
-        _onPlayerChangeState: function () {
+
+        _onPlayerChangeState: function() {
             this._stopSeeking();
         },
-        
-        _onPlayerChangeCurrentTime: function (model, currentTime) {
+
+        _onPlayerChangeCurrentTime: function(model, currentTime) {
             this._updateCurrentTime(currentTime);
         },
 
-        _startSeeking: function () {
+        _startSeeking: function() {
             this.model.set('seeking', true);
         },
-        
-        _stopSeeking: function () {
+
+        _stopSeeking: function() {
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = this.player.get('state');
 
@@ -115,13 +115,13 @@
             }
         },
 
-        _seekToCurrentTime: function () {
+        _seekToCurrentTime: function() {
             //  Bind to progressBar mouse-up to support dragging as well as clicking.
             //  I don't want to send a message until drag ends, so mouseup works nicely. 
             var currentTime = parseInt(this.ui.timeRange.val());
             this.player.seekTo(currentTime);
         },
-        
+
         _toggleShowRemainingTime: function() {
             var showRemainingTime = this.model.get('showRemainingTime');
             //  Toggle showRemainingTime and then read the new state and apply it.
@@ -131,18 +131,18 @@
 
             this._updateTimeProgress();
         },
-        
-        _setElapsedTimeLabelTitle: function (showRemainingTime) {
+
+        _setElapsedTimeLabelTitle: function(showRemainingTime) {
             var title = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
             this.ui.elapsedTimeLabel.attr('title', title);
         },
 
-        _setCurrentTime: function (currentTime) {
+        _setCurrentTime: function(currentTime) {
             this.ui.timeRange.val(currentTime);
             this._updateTimeProgress();
         },
 
-        _updateCurrentTime: function (currentTime) {
+        _updateCurrentTime: function(currentTime) {
             var seeking = this.model.get('seeking');
             //  If the time changes while user is seeking then do not update the view because user's input should override it.
             if (!seeking) {
@@ -154,14 +154,14 @@
         //  Keep separate from render because render is based on the player's values and updateProgress is based on the progress bar's values.
         //  This is an important distinction because when the user is dragging the progress bar -- the player won't be updating -- but progress bar
         //  values need to be re-rendered.
-        _updateTimeProgress: function () {
+        _updateTimeProgress: function() {
             var currentTime = parseInt(this.ui.timeRange.val());
             var totalTime = parseInt(this.ui.timeRange.prop('max'));
 
             //  Don't divide by 0.
             var progressPercent = totalTime === 0 ? 0 : currentTime * 100 / totalTime;
             this.ui.timeProgress.width(progressPercent + '%');
-            
+
             if (this.model.get('showRemainingTime')) {
                 //  Calculate the remaining time from the current time and show that instead.
                 var remainingTime = totalTime - currentTime;

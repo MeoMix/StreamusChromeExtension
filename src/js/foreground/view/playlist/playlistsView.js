@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemType = require('common/enum/listItemType');
@@ -11,11 +11,11 @@
         id: 'playlists',
         className: 'list u-flex--full',
         template: _.template(PlaylistsTemplate),
-        
+
         childView: PlaylistView,
         childViewContainer: '@ui.childContainer',
         childViewType: ListItemType.Playlist,
-        childViewOptions: function () {
+        childViewOptions: function() {
             return {
                 type: this.childViewType,
                 parentId: this.ui.childContainer[0].id
@@ -23,20 +23,20 @@
         },
 
         //  Overwrite resortView to only render children as expected
-        resortView: function () {
+        resortView: function() {
             this._renderChildren();
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 childContainer: '#' + this.id + '-listItems'
             };
         },
-        
+
         events: {
             'scroll': '_onScroll'
         },
-        
+
         triggers: {
             'click @ui.childContainer': 'click:childContainer'
         },
@@ -49,26 +49,26 @@
                 behaviorClass: Scrollable
             }
         },
-        
+
         viewModel: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.viewModel = Streamus.backgroundPage.playlistsViewModel;
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this.ui.childContainer.sortable(this._getSortableOptions());
         },
-        
+
         onAttach: function() {
             this.el.scrollTop = this.viewModel.get('scrollTop');
         },
-        
-        _onScroll: function () {
+
+        _onScroll: function() {
             this.viewModel.set('scrollTop', this.el.scrollTop);
         },
-        
-        _getSortableOptions: function () {
+
+        _getSortableOptions: function() {
             var sortableOptions = {
                 axis: 'y',
                 delay: 100,
@@ -81,12 +81,12 @@
             return sortableOptions;
         },
 
-        _onSortableStart: function () {
+        _onSortableStart: function() {
             Streamus.channels.element.vent.trigger('drag');
         },
 
         //  Whenever a playlist is moved visually -- update corresponding model with new information.
-        _onSortableUpdate: function (event, ui) {
+        _onSortableUpdate: function(event, ui) {
             this.collection.moveToIndex(ui.item.data('id'), ui.item.index());
         }
     });

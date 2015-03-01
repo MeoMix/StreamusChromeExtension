@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SelectionBar = require('foreground/model/selectionBar');
@@ -8,8 +8,8 @@
         initialize: function() {
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
         },
-        
-        _onForegroundAreaRendered: function () {
+
+        _onForegroundAreaRendered: function() {
             var selectionBar = new SelectionBar();
             this.show(new SelectionBarView({
                 model: selectionBar
@@ -17,8 +17,8 @@
 
             this.listenTo(selectionBar, 'change:activeCollection', this._onSelectionBarChangeActiveCollection);
         },
-        
-        _onSelectionBarChangeActiveCollection: function (model, activeCollection) {
+
+        _onSelectionBarChangeActiveCollection: function(model, activeCollection) {
             this.$el.toggleClass('is-visible', activeCollection !== null);
         }
     });

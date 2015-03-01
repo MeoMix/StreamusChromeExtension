@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SpinnerView = require('foreground/view/element/spinnerView');
@@ -10,8 +10,8 @@
         id: 'search',
         className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
         template: _.template(SearchTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 searchMessage: chrome.i18n.getMessage('search'),
@@ -27,14 +27,14 @@
             };
         },
 
-        regions: function () {
+        regions: function() {
             return {
                 searchResultsRegion: '#' + this.id + '-searchResultsRegion',
                 spinnerRegion: '#' + this.id + '-spinnerRegion'
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 playAllButton: '#' + this.id + '-playAllButton',
                 saveAllButton: '#' + this.id + '-saveAllButton',
@@ -44,7 +44,7 @@
                 noResultsMessage: '#' + this.id + '-noResultsMessage'
             };
         },
-        
+
         events: {
             //  TODO: Quit checking class like this.
             'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton',
@@ -62,94 +62,94 @@
             'remove': '_onSearchResultsRemove',
             'reset': '_onSearchResultsReset'
         },
-        
+
         transitionDuration: 4000,
         streamItems: null,
         signInManager: null,
 
-        initialize: function () {
+        initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(Streamus.channels.searchArea.commands, 'search', this._search);
         },
- 
-        onRender: function () {
+
+        onRender: function() {
             this._setButtonStates();
             this._toggleInstructions();
-            
+
             this.searchResultsRegion.show(new SearchResultsView({
                 collection: this.model.get('results')
             }));
-            
+
             this.spinnerRegion.show(new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.
-        onVisible: function () {
+        onVisible: function() {
             this.model.stopClearQueryTimer();
         },
 
         _onClickSaveAllButton: function() {
             this._showSaveSelectedSimpleMenu();
         },
-        
-        _onClickAddAllButton: function () {
+
+        _onClickAddAllButton: function() {
             this.streamItems.addSongs(this.collection.getSongs());
         },
-        
-        _onClickPlayAllButton: function () {
+
+        _onClickPlayAllButton: function() {
             this.streamItems.addSongs(this.collection.getSongs(), {
                 playOnAdd: true
             });
         },
-        
+
         _onSignInManagerChangeSignedInUser: function() {
             this._setSaveAllButtonState();
         },
 
-        _onChangeSearching: function () {
+        _onChangeSearching: function() {
             this._toggleInstructions();
         },
 
-        _onChangeQuery: function () {
+        _onChangeQuery: function() {
             this._toggleInstructions();
         },
 
-        _onSearchResultsReset: function () {
+        _onSearchResultsReset: function() {
             this._toggleInstructions();
             this._setButtonStates();
         },
-        
-        _onSearchResultsAdd: function () {
+
+        _onSearchResultsAdd: function() {
             this._toggleInstructions();
             this._setButtonStates();
         },
-        
-        _onSearchResultsRemove: function () {
+
+        _onSearchResultsRemove: function() {
             this._toggleInstructions();
             this._setButtonStates();
         },
 
         //  Searches youtube for song results based on the given text.
-        _search: function (options) {
+        _search: function(options) {
             this.model.set('query', options.query);
         },
 
-        _setSaveAllButtonState: function () {
+        _setSaveAllButtonState: function() {
             var canSave = this._canSave();
             this.ui.saveAllButton.toggleClass('is-disabled', !canSave);
         },
 
-        _setButtonStates: function () {
+        _setButtonStates: function() {
             this._setSaveAllButtonState();
             var isEmpty = this.collection.isEmpty();
             this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
             this.ui.addAllButton.toggleClass('is-disabled', isEmpty);
         },
 
-        _showSaveSelectedSimpleMenu: function () {
+        _showSaveSelectedSimpleMenu: function() {
             var canSave = this._canSave();
 
             if (canSave) {
@@ -162,8 +162,8 @@
                 });
             }
         },
-        
-        _canSave: function () {
+
+        _canSave: function() {
             var signedIn = this.signInManager.get('signedInUser') !== null;
             var isEmpty = this.collection.isEmpty();
 
@@ -171,7 +171,7 @@
         },
 
         //  Set the visibility of any visible text messages.
-        _toggleInstructions: function () {
+        _toggleInstructions: function() {
             var hasSearchResults = this.collection.length > 0;
 
             //  Hide the search message when there is no search in progress
