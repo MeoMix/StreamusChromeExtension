@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Songs = require('background/collection/songs');
@@ -8,7 +8,7 @@
 
     //  Displays streamus search suggestions and allows instant playing in the stream
     var ChromeOmniboxManager = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
                 suggestedSongs: new Songs(),
                 searchRequest: null,
@@ -17,19 +17,19 @@
                 streamItems: null
             };
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             chrome.omnibox.setDefaultSuggestion({
                 //  TODO: Inform user that @add will cause add to happen.
                 description: chrome.i18n.getMessage('pressEnterToPlay')
             });
-            
+
             //  User has started a keyword input session by typing the extension's keyword. This is guaranteed to be sent exactly once per input session, and before any onInputChanged events.
             chrome.omnibox.onInputChanged.addListener(this._onChromeOmniboxInputChanged.bind(this));
             chrome.omnibox.onInputEntered.addListener(this._onChromeOmniboxInputEntered.bind(this));
         },
-        
-        _onChromeOmniboxInputChanged: function (text, suggest) {
+
+        _onChromeOmniboxInputChanged: function(text, suggest) {
             //  Clear suggestedSongs
             this.get('suggestedSongs').reset();
 
@@ -62,10 +62,10 @@
                 this.set('searchRequest', searchRequest);
             }
         },
-        
-        _onChromeOmniboxInputEntered: function (text) {
+
+        _onChromeOmniboxInputEntered: function(text) {
             //  Find the cached song data by url
-            var pickedSong = this.get('suggestedSongs').find(function (song) {
+            var pickedSong = this.get('suggestedSongs').find(function(song) {
                 return song.get('url') === text;
             });
 
@@ -89,14 +89,14 @@
                 });
             }
         },
-        
-        _getModifiers: function (text) {
+
+        _getModifiers: function(text) {
             var validModifiers = this.get('validModifiers');
             var usedModifiers = [];
 
-            _.each(validModifiers, function (modifier) {
+            _.each(validModifiers, function(modifier) {
                 var indexOfModifier = text.indexOf('@' + modifier);
-                
+
                 if (indexOfModifier !== -1) {
                     usedModifiers.push(modifier);
                 }
@@ -104,25 +104,25 @@
 
             return usedModifiers;
         },
-        
-        _trimModifiers: function (text, modifiers) {
-            _.each(modifiers, function (modifier) {
+
+        _trimModifiers: function(text, modifiers) {
+            _.each(modifiers, function(modifier) {
                 var regexp = new RegExp('@' + modifier, 'gi');
                 text = text.replace(regexp, '');
             });
 
             return text.trim();
         },
-        
-        _onSearchResponse: function (suggest, searchText, searchResponse) {
+
+        _onSearchResponse: function(suggest, searchText, searchResponse) {
             this.set('searchRequest', null);
 
             var suggestions = this._buildSuggestions(searchResponse.songs, searchText);
             suggest(suggestions);
         },
 
-        _buildSuggestions: function (songs, text) {
-            var suggestions = songs.map(function (song) {
+        _buildSuggestions: function(songs, text) {
+            var suggestions = songs.map(function(song) {
                 this.get('suggestedSongs').add(song);
 
                 var safeTitle = _.escape(song.get('title'));

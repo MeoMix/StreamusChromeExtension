@@ -1,6 +1,6 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
-    
+
     var DataSource = require('background/model/dataSource');
     var YouTubeV3API = require('background/model/youTubeV3API');
 
@@ -20,11 +20,11 @@
             signInManager: null
         },
 
-        initialize: function () {
+        initialize: function() {
             this._setTextSelection();
             this._setYouTubeLinks();
             this._setYouTubePages();
-            
+
             this.listenTo(this.get('browserSettings'), 'change:showTextSelectionContextMenu', this._onBrowserSettingsChangeShowTextSelectionContextMenu);
             this.listenTo(this.get('browserSettings'), 'change:showYouTubeLinkContextMenu', this._onBrowserSettingsChangeShowYouTubeLinkContextMenu);
             this.listenTo(this.get('browserSettings'), 'change:showYouTubePageContextMenu', this._onBrowserSettingsChangeShowYouTubePageContextMenu);
@@ -35,20 +35,20 @@
                 this.listenTo(signedInUser.get('playlists'), 'add', this._onPlaylistsAdd);
             }
         },
-        
+
         _onBrowserSettingsChangeShowTextSelectionContextMenu: function() {
             this._setTextSelection();
         },
-        
+
         _onBrowserSettingsChangeShowYouTubeLinkContextMenu: function() {
             this._setYouTubeLinks();
         },
-        
+
         _onBrowserSettingsChangeShowYouTubePageContextMenu: function() {
             this._setYouTubePages();
         },
-        
-        _onPlaylistsAdd: function (model) {
+
+        _onPlaylistsAdd: function(model) {
             if (this.get('browserSettings').get('showYouTubeLinkContextMenu')) {
                 this._createPlaylistContextMenu(this._getContextMenuOptions(true), this.get('youTubeLinkSaveId'), model);
             }
@@ -57,11 +57,11 @@
                 this._createPlaylistContextMenu(this._getContextMenuOptions(false), this.get('youTubePageSaveId'), model);
             }
         },
-        
-        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser === null) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
-                
+
                 this._removeContextMenu('youTubeLinkSaveId');
                 this._removeContextMenu('youTubePageSaveId');
             } else {
@@ -76,31 +76,31 @@
                 }
             }
         },
-        
-        _setTextSelection: function () {
+
+        _setTextSelection: function() {
             if (this.get('browserSettings').get('showTextSelectionContextMenu')) {
                 this._createTextSelection();
             } else {
                 this._removeTextSelection();
             }
         },
-        
-        _setYouTubeLinks: function () {
+
+        _setYouTubeLinks: function() {
             if (this.get('browserSettings').get('showYouTubeLinkContextMenu')) {
                 this._createYouTubeLinks();
             } else {
                 this._removeYouTubeLinks();
             }
         },
-        
-        _setYouTubePages: function () {
+
+        _setYouTubePages: function() {
             if (this.get('browserSettings').get('showYouTubePageContextMenu')) {
                 this._createYouTubePages();
             } else {
                 this._removeYouTubePages();
             }
         },
-        
+
         _createYouTubeLinks: function() {
             var contextMenuOptions = this._getContextMenuOptions(true);
 
@@ -112,7 +112,7 @@
             }
         },
 
-        _createYouTubePages: function () {
+        _createYouTubePages: function() {
             var contextMenuOptions = this._getContextMenuOptions(false);
 
             this.set('youTubePagePlayId', this._createPlayContextMenu(contextMenuOptions));
@@ -123,13 +123,13 @@
             }
         },
 
-        _createTextSelection: function () {
+        _createTextSelection: function() {
             var textSelectionPlayId = chrome.contextMenus.create({
                 'contexts': ['selection'],
                 'title': chrome.i18n.getMessage('searchAndPlay') + ' \"%s\"',
                 'onclick': this._onClickTextSelectionContextMenu.bind(this, true)
             });
-            
+
             var textSelectionAddId = chrome.contextMenus.create({
                 'contexts': ['selection'],
                 'title': chrome.i18n.getMessage('searchAndAdd') + ' \"%s\"',
@@ -139,25 +139,25 @@
             this.set('textSelectionPlayId', textSelectionPlayId);
             this.set('textSelectionAddId', textSelectionAddId);
         },
-        
+
         _removeYouTubeLinks: function() {
             this._removeContextMenu('youTubeLinkPlayId');
             this._removeContextMenu('youTubeLinkAddId');
             this._removeContextMenu('youTubeLinkSaveId');
         },
-        
-        _removeYouTubePages: function () {
+
+        _removeYouTubePages: function() {
             this._removeContextMenu('youTubePagePlayId');
             this._removeContextMenu('youTubePageAddId');
             this._removeContextMenu('youTubePageSaveId');
         },
-        
-        _removeTextSelection: function () {
+
+        _removeTextSelection: function() {
             this._removeContextMenu('textSelectionPlayId');
             this._removeContextMenu('textSelectionAddId');
         },
-        
-        _removeContextMenu: function (contextMenuIdPropertyName) {
+
+        _removeContextMenu: function(contextMenuIdPropertyName) {
             var contextMenuId = this.get(contextMenuIdPropertyName);
 
             if (contextMenuId !== -1) {
@@ -165,7 +165,7 @@
                 this.set(contextMenuIdPropertyName, -1);
             }
         },
-        
+
         _createPlayContextMenu: function(contextMenuOptions) {
             var playId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('play'),
@@ -174,7 +174,7 @@
 
             return playId;
         },
-        
+
         _createAddContextMenu: function(contextMenuOptions) {
             var addId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': chrome.i18n.getMessage('add'),
@@ -183,7 +183,7 @@
 
             return addId;
         },
-        
+
         _createSaveContextMenu: function(contextMenuOptions) {
             //  Create a sub menu item to hold playlists
             var saveContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
@@ -191,7 +191,7 @@
             }));
 
             //  Create menu items for each playlist
-            this.get('signInManager').get('signedInUser').get('playlists').each(function (playlist) {
+            this.get('signInManager').get('signedInUser').get('playlists').each(function(playlist) {
                 this._createPlaylistContextMenu(contextMenuOptions, saveContextMenuId, playlist);
             }.bind(this));
 
@@ -199,7 +199,7 @@
         },
         
         //  Whenever a playlist context menu is clicked -- add the related song to that playlist.
-        _createPlaylistContextMenu: function (contextMenuOptions, parentId, playlist) {
+        _createPlaylistContextMenu: function(contextMenuOptions, parentId, playlist) {
             var playlistContextMenuId = chrome.contextMenus.create(_.extend({}, contextMenuOptions, {
                 'title': playlist.get('title'),
                 'parentId': parentId,
@@ -207,18 +207,18 @@
             }));
 
             //  Update context menu items whenever the playlist's data changes (renamed or deleted)
-            this.listenTo(playlist, 'change:title', function () {
+            this.listenTo(playlist, 'change:title', function() {
                 chrome.contextMenus.update(playlistContextMenuId, {
                     'title': playlist.get('title')
                 });
             });
 
-            this.listenTo(playlist, 'destroy', function () {
+            this.listenTo(playlist, 'destroy', function() {
                 chrome.contextMenus.remove(playlistContextMenuId);
             });
         },
 
-        _getContextMenuOptions: function (isLink) {
+        _getContextMenuOptions: function(isLink) {
             var urlPatterns = this.get('tabManager').get('youTubeUrlPatterns');
 
             var contextMenuOptions = {
@@ -229,48 +229,48 @@
 
             return contextMenuOptions;
         },
-        
-        _onClickTextSelectionContextMenu: function (playOnAdd, onClickData) {
+
+        _onClickTextSelectionContextMenu: function(playOnAdd, onClickData) {
             YouTubeV3API.getSongByTitle({
                 title: onClickData.selectionText,
-                success: function (song) {
+                success: function(song) {
                     this.get('streamItems').addSongs(song, {
                         playOnAdd: playOnAdd
                     });
                 }.bind(this)
             });
         },
-        
+
         _onClickPlayContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
             var dataSource = new DataSource({ url: url });
-            
+
             dataSource.getSong({
-                success: function (song) {
+                success: function(song) {
                     this.get('streamItems').addSongs(song, {
                         playOnAdd: true
                     });
                 }.bind(this)
             });
         },
-        
+
         _onClickAddContextMenu: function(onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
 
             var dataSource = new DataSource({ url: url });
             dataSource.getSong({
-                success: function (song) {
+                success: function(song) {
                     this.get('streamItems').addSongs(song);
                 }.bind(this)
             });
         },
-        
+
         _onClickSaveContextMenu: function(playlist, onClickData) {
             var url = onClickData.linkUrl || onClickData.pageUrl;
-            
+
             var dataSource = new DataSource({ url: url });
             dataSource.getSong({
-                success: function (song) {
+                success: function(song) {
                     playlist.get('items').addSongs(song);
                 }
             });

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var YouTubeV3API = require('background/model/youTubeV3API');
@@ -20,10 +20,12 @@
         //  Take the URL given to the dataSource and parse it for relevant information.
         //  If the URL is for a Playlist -- just get the title and set the ID. If it's a Channel,
         //  need to fetch the Channel's Uploads playlist first.
-        parseUrl: function (options) {
+        parseUrl: function(options) {
             var url = this.get('url');
-            if (url === '') throw new Error('URL expected to be set');
-            
+            if (url === '') {
+                throw new Error('URL expected to be set');
+            }
+
             var dataSourceId;
 
             //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
@@ -83,19 +85,21 @@
                 options.success();
             }
         },
-        
-        getSong: function (options) {
+
+        getSong: function(options) {
             this.parseUrl({
-                success: function () {
+                success: function() {
                     YouTubeV3API.getSong({
                         songId: this.get('id'),
                         success: options.success,
-                        error: function () {
+                        error: function() {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('failedToFindSong')
                             });
 
-                            if (options.error) options.error();
+                            if (options.error) {
+                                options.error();
+                            }
                         }
                     });
                 }.bind(this)
@@ -103,16 +107,16 @@
         },
 
         //  These dataSourceTypes require going out to a server and collecting a list of information in order to be created.
-        isYouTubePlaylist: function () {
+        isYouTubePlaylist: function() {
             return this.get('type') === DataSourceType.YouTubePlaylist;
         },
-        
-        isYouTubeVideo: function () {
+
+        isYouTubeVideo: function() {
             return this.get('type') === DataSourceType.YouTubeVideo;
         },
         
         //  Expects options: { success: function, error: function }
-        getTitle: function (options) {
+        getTitle: function(options) {
             //  If the title has already been fetched from the URL -- return the cached one.
             if (this.get('title') !== '') {
                 options.success(this.get('title'));
@@ -122,7 +126,7 @@
             YouTubeV3API.getTitle({
                 serviceType: YouTubeServiceType.Playlists,
                 id: this.get('id'),
-                success: function (title) {
+                success: function(title) {
                     this.set('title', title);
                     options.success(title);
                 }.bind(this),
@@ -132,7 +136,7 @@
         
         //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
         //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
-        _parseYouTubeSongIdFromUrl: function (url) {
+        _parseYouTubeSongIdFromUrl: function(url) {
             var songId = '';
 
             var match = url.match(/^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|watch\?.*?\&v=)([^#\&\?]*).*/);
@@ -144,10 +148,10 @@
         },
         
         //  Find a YouTube Channel or Playlist ID by looking through the URL for the given identifier.
-        _parseIdFromUrlWithIdentifiers: function (url, identifiers) {
+        _parseIdFromUrlWithIdentifiers: function(url, identifiers) {
             var id = '';
-            
-            _.each(identifiers, function (identifier) {
+
+            _.each(identifiers, function(identifier) {
                 var urlTokens = url.split(identifier);
 
                 if (urlTokens.length > 1) {
@@ -162,7 +166,7 @@
                     if (indexOfSlash !== -1) {
                         id = id.substring(0, indexOfSlash);
                     }
-                    
+
                     var indexOfPound = id.indexOf('#');
                     if (indexOfPound !== -1) {
                         id = id.substring(0, indexOfPound);
@@ -172,7 +176,7 @@
 
             return id;
         },
-        
+
         _idIsUsername: function() {
             var indexOfUser = this.get('url').indexOf('/user/');
             return indexOfUser != -1;

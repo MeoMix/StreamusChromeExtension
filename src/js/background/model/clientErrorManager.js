@@ -1,10 +1,10 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ClientErrors = require('background/collection/clientErrors');
 
     var ClientErrorManager = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
                 platformInfo: {
                     os: '',
@@ -16,7 +16,7 @@
             };
         },
 
-        initialize: function () {
+        initialize: function() {
             chrome.runtime.getPlatformInfo(this._onChromeRuntimeGetPlatformInfo.bind(this));
             window.onerror = this._onWindowError.bind(this);
             this.listenTo(Streamus.channels.error.commands, 'log:error', this._logError);
@@ -28,19 +28,19 @@
             console.warn('Debugging enabled; Message:' + message);
         },
 
-        _onChromeRuntimeGetPlatformInfo: function (platformInfo) {
+        _onChromeRuntimeGetPlatformInfo: function(platformInfo) {
             this.set('platformInfo', platformInfo);
         },
 
-        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
+        _onWindowError: function(message, url, lineNumber, columnNumber, error) {
             this._createClientError(message, url, lineNumber, error);
         },
-        
+
         _logError: function(error) {
             this._createClientError(error.message, '', 0, error);
         },
-        
-        _createClientError: function (message, url, lineNumber, error) {
+
+        _createClientError: function(message, url, lineNumber, error) {
             if (Streamus.localDebug && !Streamus.testing) {
                 this._warnDebugEnabled(message);
                 return;

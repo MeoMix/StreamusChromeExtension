@@ -1,9 +1,9 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Song = require('background/model/song');
     var ListItemType = require('common/enum/listItemType');
-    
+
     var PlaylistItem = Backbone.Model.extend({
         defaults: {
             id: null,
@@ -15,8 +15,8 @@
             song: null,
             listItemType: ListItemType.PlaylistItem
         },
-        
-        parse: function (playlistItemDto) {
+
+        parse: function(playlistItemDto) {
             //  Patch requests do not return information.
             if (!_.isUndefined(playlistItemDto)) {
                 //  Convert C# Guid.Empty into BackboneJS null
@@ -33,18 +33,18 @@
 
             return playlistItemDto;
         },
-        
-        toJSON: function () {
+
+        toJSON: function() {
             //  Backbone Model's toJSON doesn't automatically send cid across, but I want it for re-mapping collections after server saves.
             var json = Backbone.Model.prototype.toJSON.apply(this, arguments);
             json.cid = this.cid;
             return json;
         },
 
-        initialize: function () {
+        initialize: function() {
             this._ensureSongModel();
         },
-        
+
         _ensureSongModel: function() {
             var song = this.get('song');
 
