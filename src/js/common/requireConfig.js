@@ -1,33 +1,33 @@
-﻿define(function () {
-	'use strict';
+﻿define(function() {
+    'use strict';
 
-	require.config({
-		baseUrl: 'js/',
-		enforceDefine: true,
+    require.config({
+        baseUrl: 'js/',
+        enforceDefine: true,
 
-		paths: {
-			//  Paths:
-			'template': '../template',
+        paths: {
+            //  Paths:
+            'template': '../template',
 
-			//  Third Party:
-			'backbone': 'thirdParty/backbone',
-			'backbone.localStorage': 'thirdParty/backbone.localStorage',
-			'backbone.marionette': 'thirdParty/backbone.marionette',
-			'cocktail': 'thirdParty/cocktail',
-			'googleAnalytics': 'thirdParty/googleAnalytics',
-			'jquery': 'thirdParty/jquery',
-			'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
-			'jquery.qtip': 'thirdParty/jquery.qtip',
-			'jquery-ui': 'thirdParty/jquery-ui',
-			//  Rename lodash to underscore since functionally equivilant but underscore is expected by other third party libraries.
-			'underscore': 'thirdParty/lodash',
-			'text': 'thirdParty/text'
-		},
+            //  Third Party:
+            'backbone': 'thirdParty/backbone',
+            'backbone.localStorage': 'thirdParty/backbone.localStorage',
+            'backbone.marionette': 'thirdParty/backbone.marionette',
+            'cocktail': 'thirdParty/cocktail',
+            'googleAnalytics': 'thirdParty/googleAnalytics',
+            'jquery': 'thirdParty/jquery',
+            'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
+            'jquery.qtip': 'thirdParty/jquery.qtip',
+            'jquery-ui': 'thirdParty/jquery-ui',
+            //  Rename lodash to underscore since functionally equivilant but underscore is expected by other third party libraries.
+            'underscore': 'thirdParty/lodash',
+            'text': 'thirdParty/text'
+        },
 
-		shim: {
-			'googleAnalytics': {
-				exports: 'window.ga'
-			}
-		}
-	});
+        shim: {
+            'googleAnalytics': {
+                exports: 'window.ga'
+            }
+        }
+    });
 });

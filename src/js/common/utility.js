@@ -93,7 +93,9 @@
             var line = '';
             for (var index in array[i]) {
                 var csval = array[i][index];
-                if (line !== '') line += ',';
+                if (line !== '') {
+                    line += ',';
+                }
 
                 if (/("|,|\n)/.test(csval)) {
                     // enclose value in double quotes, escaping any pre-existing
@@ -110,7 +112,7 @@
     },
     
     //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
-    iso8061DurationToSeconds: function (isoDuration) {
+    iso8061DurationToSeconds: function(isoDuration) {
         var hoursMatch = isoDuration.match(/(\d+)H/);
         var hours = parseInt(hoursMatch ? hoursMatch[1] : 0);
 

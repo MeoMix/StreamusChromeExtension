@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var AdminMenuArea = require('foreground/model/adminMenuArea');
@@ -17,8 +17,8 @@
     var AppBarView = Marionette.LayoutView.extend({
         id: 'appBar',
         template: _.template(AppBarTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 searchQuery: this.search.get('query'),
                 showSearchMessage: chrome.i18n.getMessage('showSearch'),
@@ -28,8 +28,8 @@
                 closeIcon: _.template(CloseIconTemplate)()
             };
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 //  TODO: Maybe move into its own region because it's getting complicated to tell whether user is signed in or not to load playlist title.
                 playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
@@ -40,8 +40,8 @@
                 nextButtonRegion: '#' + this.id + '-nextButtonRegion'
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 searchInput: '#' + this.id + '-searchInput',
                 showSearchButton: '#' + this.id + '-showSearchButton',
@@ -54,7 +54,7 @@
                 searchInputRegion: '#' + this.id + '-searchInputRegion'
             };
         },
-        
+
         events: {
             'click @ui.showSearchButton': '_onClickShowSearchButton',
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
@@ -63,7 +63,7 @@
             'click @ui.showPlaylistsAreaButton:not(.is-disabled)': '_onClickShowPlaylistsAreaButton',
             'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
         },
-        
+
         behaviors: {
             //  Needed for the 'not signed in' message on nav button.
             Tooltip: {
@@ -74,7 +74,7 @@
         signInManager: null,
         search: null,
 
-        initialize: function () {
+        initialize: function() {
             this.signInManager = Streamus.backgroundPage.signInManager;
             this.search = Streamus.backgroundPage.search;
 
@@ -91,8 +91,8 @@
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
             }
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             var signedInUser = this.signInManager.get('signedInUser');
             this._setShowPlaylistsAreaButtonState(signedInUser);
 
@@ -118,26 +118,26 @@
                 model: Streamus.backgroundPage.nextButton
             }));
         },
-        
-        onAttach: function () {
+
+        onAttach: function() {
             //  TODO: It would be better to read this state from a viewmodel rather than hitting the DOM.
             //  Needs to be ran in onAttach as well as when the search is showing because 'showing' event can trigger when view is rendering rather than attached.
             if (this.ui.searchInput.is(':visible')) {
                 this._focusSearchInput();
             }
         },
-        
-        _onSearchChangeQuery: function (model, query) {
+
+        _onSearchChangeQuery: function(model, query) {
             var searchInputElement = this.ui.searchInput[0];
             var selectionStart = searchInputElement.selectionStart;
             var selectionEnd = searchInputElement.selectionEnd;
             this.ui.searchInput.val(query);
-            
+
             //  Preserve the selection range which is lost after modifying val
             searchInputElement.setSelectionRange(selectionStart, selectionEnd);
         },
-        
-        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser === null) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
                 this.playlistTitleRegion.empty();
@@ -148,50 +148,50 @@
 
             this._setShowPlaylistsAreaButtonState(signedInUser);
         },
-        
-        _onPlaylistsChangeActive: function (model, active) {
+
+        _onPlaylistsChangeActive: function(model, active) {
             if (active) {
                 this.playlistTitleRegion.show(new PlaylistTitleView({
                     model: model
                 }));
             }
         },
-        
-        _onClickShowSearchButton: function () {
+
+        _onClickShowSearchButton: function() {
             Streamus.channels.searchArea.commands.trigger('show:search');
             Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
         },
-        
-        _onClickHideSearchButton: function () {
+
+        _onClickHideSearchButton: function() {
             Streamus.channels.searchArea.commands.trigger('hide:search');
         },
-        
+
         _onInputSearchInput: function() {
             Streamus.channels.searchArea.commands.trigger('search', {
                 query: this.ui.searchInput.val()
             });
         },
 
-        _onClickShowPlaylistsAreaButton: function () {
+        _onClickShowPlaylistsAreaButton: function() {
             Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
             Streamus.channels.searchArea.commands.trigger('hide:search');
         },
-        
-        _onClickHidePlaylistsAreaButton: function () {
+
+        _onClickHidePlaylistsAreaButton: function() {
             Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
         },
-        
+
         _onPlaylistsAreaShowing: function() {
             this.ui.showPlaylistsAreaButton.addClass('is-hidden');
             this.ui.hidePlaylistsAreaButton.removeClass('is-hidden');
         },
-        
-        _onPlaylistsAreaHiding: function () {
+
+        _onPlaylistsAreaHiding: function() {
             this.ui.showPlaylistsAreaButton.removeClass('is-hidden');
             this.ui.hidePlaylistsAreaButton.addClass('is-hidden');
         },
-        
-        _onSearchAreaShowing: function () {
+
+        _onSearchAreaShowing: function() {
             this.ui.showSearchButton.addClass('is-hidden');
             this.ui.hideSearchButton.removeClass('is-hidden');
             this.ui.playlistTitleRegion.addClass('is-hidden');
@@ -199,26 +199,26 @@
 
             this._focusSearchInput();
         },
-        
+
         _onSearchAreaHiding: function() {
             this.ui.showSearchButton.removeClass('is-hidden');
             this.ui.hideSearchButton.addClass('is-hidden');
             this.ui.playlistTitleRegion.removeClass('is-hidden');
             this.ui.searchInputRegion.addClass('is-hidden');
         },
-        
-        _setPlaylistTitleRegion: function (signedInUser) {
+
+        _setPlaylistTitleRegion: function(signedInUser) {
             this.playlistTitleRegion.show(new PlaylistTitleView({
                 model: signedInUser.get('playlists').getActivePlaylist()
             }));
         },
 
-        _setShowPlaylistsAreaButtonState: function (signedInUser) {
+        _setShowPlaylistsAreaButtonState: function(signedInUser) {
             var signedOut = signedInUser === null;
             var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
             this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', signedOut).attr('title', title);
         },
-        
+
         _focusSearchInput: function() {
             //  Reset val after focusing to prevent selecting the text while maintaining focus.
             //  This needs to be ran after makign the region visible because you can't focus an element which isn't visible.

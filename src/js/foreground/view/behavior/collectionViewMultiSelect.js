@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var CollectionViewMultiSelect = Marionette.Behavior.extend({
@@ -11,36 +11,36 @@
         
         //  Whenever an item is dragged - ensure it is selected because click event doesn't happen
         //  when performing a drag operation. It doesn't feel right to use mousedown instead of click.
-        onItemDragged: function (options) {
+        onItemDragged: function(options) {
             this._setSelected({
                 modelToSelect: options.item,
                 shiftKey: event.shiftKey,
                 drag: true
             });
         },
-        
-        onDeselectCollection: function () {
+
+        onDeselectCollection: function() {
             this._deselectCollection();
         },
-        
-        _onListItemSelected: function (options) {
+
+        _onListItemSelected: function(options) {
             if (this.view.childViewType !== options.listItemType) {
                 this._deselectCollection();
             }
         },
-        
-        _onElementDrop: function () {
+
+        _onElementDrop: function() {
             this._deselectCollection();
         },
-        
-        _deselectCollection: function () {
+
+        _deselectCollection: function() {
             this.view.collection.deselectAll();
         },
         
         //  TODO: This function name sucks. Waiting on issues from Marionette:
         //  - https://github.com/marionettejs/backbone.marionette/issues/2235
         //  - https://github.com/marionettejs/backbone.marionette/issues/2236
-        onChildviewClickLeftContent: function (childView, options) {
+        onChildviewClickLeftContent: function(childView, options) {
             this._setSelected({
                 shiftKey: options.shiftKey,
                 modelToSelect: options.model
@@ -51,8 +51,8 @@
             //  Don't allow to bubble up since handling click at this level.
             return false;
         },
-        
-        _setSelected: function (options) {
+
+        _setSelected: function(options) {
             var modelToSelect = options.modelToSelect;
 
             var shiftKeyPressed = options.shiftKey || false;
@@ -74,8 +74,8 @@
                 listItemType: modelToSelect.get('listItemType')
             });
         },
-        
-        _selectGroup: function (selectedIndex) {
+
+        _selectGroup: function(selectedIndex) {
             var firstSelectedIndex = 0;
             var collection = this.view.collection;
 
@@ -88,7 +88,7 @@
             }
 
             //  Select all items between the selected item and the firstSelected item.
-            collection.each(function (model, index) {
+            collection.each(function(model, index) {
                 var isBetweenAbove = index <= selectedIndex && index >= firstSelectedIndex;
                 var isBetweenBelow = index >= selectedIndex && index <= firstSelectedIndex;
 
