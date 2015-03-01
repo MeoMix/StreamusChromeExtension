@@ -16,9 +16,9 @@ module.exports = function (grunt) {
     //  Strip out v because need to pass a string to grunt or else trailing zeros get dropped (i.e. can't provide --newVersion=0.170, interpreted as 0.17)
     var version = _.isUndefined(versionParameter) ? 'Debug' : versionParameter.replace('v', '');
     var isDebug = !versionParameter;
-    var releaseDirectory = 'release/Streamus v' + version;
-    var chromeReleaseDirectory = releaseDirectory + '/chrome/';
-    var operaReleaseDirectory = releaseDirectory + '/opera/';
+    var baseReleaseDirectory = 'release/Streamus v' + version;
+    var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
+    var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
     
     grunt.initConfig({
         //	Read project settings from package.json in order to be able to reference the properties with grunt.
@@ -47,8 +47,8 @@ module.exports = function (grunt) {
                 nonew: true,
                 quotmark: 'single',
                 jquery: true,
-                //  TODO: Reduce these values.
                 maxparams: 5,
+                //  TODO: Reduce these values.
                 maxdepth: 4,
                 maxstatements: 44,
                 maxcomplexity: 13,
@@ -186,8 +186,6 @@ module.exports = function (grunt) {
             //	Zip up browser-specific folders which are ready for release. The .zip file is then uploaded to the appropriate store
             release: {
                 options: {
-                    //  Set this before calling the task.
-                    directory: '',
                     archive: '<%= meta.releaseDirectory %>Streamus v' + version + '.zip'
                 },
                 files: [{
@@ -257,12 +255,9 @@ module.exports = function (grunt) {
         grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'clean:dist');
         
         //  Build chrome release
-        grunt.config.set('meta.releaseDirectory', chromeReleaseDirectory);
-        grunt.task.run('copy:release', 'compress:release');
-        
+        grunt.task.run('compressRelease:' + chromeReleaseDirectory);
         //  Build opera release
-        grunt.config.set('meta.releaseDirectory', operaReleaseDirectory);
-        grunt.task.run('copy:release', 'replace:invalidPermissions', 'clean:locales', 'compress:release');
+        grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
     });
 
     grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
@@ -289,4 +284,15 @@ module.exports = function (grunt) {
     grunt.registerTask('default', 'An alias task for running tests.', ['test']);
 
     grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess']);
+    
+    grunt.registerTask('compressRelease', 'A synchronous wrapper around compress:release', function (releaseDirectory, sanitize) {
+        grunt.config.set('meta.releaseDirectory', releaseDirectory);
+        grunt.task.run('copy:release');
+
+        if (sanitize) {
+            grunt.task.run('replace:invalidPermissions', 'clean:locales');
+        }
+
+        grunt.task.run('compress:release');
+    });
 };
