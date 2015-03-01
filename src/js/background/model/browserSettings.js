@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SyncActionType = require('background/enum/syncActionType');
@@ -17,16 +17,16 @@
             enhanceBeatport: true
         },
 
-        initialize: function () {
+        initialize: function() {
             //  Load from Backbone.LocalStorage
             this.fetch();
-            
+
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             this.on('change:enhanceYouTube', this._onChangeEnhanceYouTube);
             this.on('change:enhanceBeatport', this._onChangeEnhanceBeatport);
         },
-        
-        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
+
+        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             switch (request.method) {
                 case 'getBeatportInjectData':
                     sendResponse({
@@ -41,14 +41,14 @@
                     break;
             }
         },
-        
-        _onChangeEnhanceYouTube: function (model, enhanceYouTube) {
+
+        _onChangeEnhanceYouTube: function(model, enhanceYouTube) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: enhanceYouTube ? 'enhance-on' : 'enhance-off'
             });
         },
-        
-        _onChangeEnhanceBeatport: function (model, enhanceBeatport) {
+
+        _onChangeEnhanceBeatport: function(model, enhanceBeatport) {
             Streamus.channels.tab.commands.trigger('notify:beatport', {
                 event: enhanceBeatport ? 'enhance-on' : 'enhance-off'
             });

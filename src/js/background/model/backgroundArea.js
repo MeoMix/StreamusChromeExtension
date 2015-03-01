@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var BrowserSettings = require('background/model/browserSettings');
@@ -31,14 +31,14 @@
             foregroundUnloadTimeout: null
         },
 
-        initialize: function () {
+        initialize: function() {
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
 
             var debugManager = new DebugManager();
             this.set('debugManager', debugManager);
-            
+
             var browserSettings = new BrowserSettings();
             var settings = new Settings();
 
@@ -50,7 +50,7 @@
                 youTubePlayer: youTubePlayer,
                 debugManager: debugManager
             });
-            
+
             var radioButton = new RadioButton();
             var shuffleButton = new ShuffleButton();
             var repeatButton = new RepeatButton();
@@ -74,23 +74,23 @@
                 signInManager: signInManager,
                 streamItems: stream.get('items')
             });
-            
+
             var chromeIconManager = new ChromeIconManager({
                 player: player,
                 streamItems: stream.get('items'),
                 settings: settings,
                 tabManager: tabManager
             });
-            
+
             var chromeNotificationsManager = new ChromeNotificationsManager({
                 tabManager: tabManager,
                 settings: settings
             });
-            
+
             var chromeOmniboxManager = new ChromeOmniboxManager({
                 streamItems: stream.get('items')
             });
-            
+
             var clientErrorManager = new ClientErrorManager({
                 signInManager: signInManager
             });
@@ -136,29 +136,29 @@
             window.dataSourceManager = dataSourceManager;
             window.playlistsViewModel = playlistsViewModel;
         },
-        
-        _onForegroundStarted: function () {
+
+        _onForegroundStarted: function() {
             if (this.get('foregroundUnloadTimeout') !== null) {
                 Streamus.channels.error.commands.trigger('log:error', new Error('Foreground was re-opened before timeout exceeded!'));
             }
 
             this._clearForegroundUnloadTimeout();
         },
-        
+
         _onForegroundBeginUnload: function() {
             var foregroundUnloadTimeout = setTimeout(this._onForegroundUnloadTimeoutExceeded.bind(this), 500);
             this.set('foregroundUnloadTimeout', foregroundUnloadTimeout);
         },
-        
-        _onForegroundUnloadTimeoutExceeded: function () {
+
+        _onForegroundUnloadTimeoutExceeded: function() {
             Streamus.channels.error.commands.trigger('log:error', new Error('Foreground failed to unload properly!'));
             this._clearForegroundUnloadTimeout();
         },
-        
-        _onForegroundEndUnload: function () {
+
+        _onForegroundEndUnload: function() {
             this._clearForegroundUnloadTimeout();
         },
-        
+
         _clearForegroundUnloadTimeout: function() {
             clearTimeout(this.get('foregroundUnloadTimeout'));
             this.set('foregroundUnloadTimeout', null);
