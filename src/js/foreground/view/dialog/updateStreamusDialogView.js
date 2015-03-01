@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
@@ -8,7 +8,7 @@
     var UpdateStreamusDialogView = DialogView.extend({
         id: 'updateStreamusDialog',
 
-        initialize: function () {
+        initialize: function() {
             this.model = new Dialog({
                 submitButtonText: chrome.i18n.getMessage('update')
             });
@@ -20,7 +20,7 @@
             DialogView.prototype.initialize.apply(this, arguments);
         },
 
-        onSubmit: function () {
+        onSubmit: function() {
             chrome.runtime.reload();
         }
     });

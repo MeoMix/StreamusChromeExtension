@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ContextMenuItemView = require('foreground/view/contextMenu/contextMenuItemView');
@@ -11,7 +11,7 @@
         childView: ContextMenuItemView,
         childViewContainer: '@ui.contextMenuItems',
         template: _.template(ContextMenuTemplate),
-        templateHelpers: function () {
+        templateHelpers: function() {
             return {
                 viewId: this.id
             };
@@ -20,18 +20,18 @@
         containerHeight: 0,
         containerWidth: 0,
 
-        ui: function () {
+        ui: function() {
             return {
                 contextMenuItems: '#' + this.id + '-contextMenuItems'
             };
         },
-        
+
         initialize: function(options) {
             this.containerHeight = options.containerHeight;
             this.containerWidth = options.containerWidth;
         },
 
-        onAttach: function () {
+        onAttach: function() {
             var offsetTop = this._ensureOffset(this.model.get('top'), this.$el.outerHeight(), this.containerHeight);
             var offsetLeft = this._ensureOffset(this.model.get('left'), this.$el.outerWidth(), this.containerWidth);
 
@@ -39,16 +39,16 @@
                 top: offsetTop,
                 left: offsetLeft
             });
-            
+
             this.$el.addClass('is-visible');
         },
         //  TODO: Move this logic to the ContextMenuRegion and use the same logic as in NotificationRegion.
-        hide: function () {
+        hide: function() {
             this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
-        
-        _onTransitionOutComplete: function () {
+
+        _onTransitionOutComplete: function() {
             this.model.get('items').reset();
             this.destroy();
         },

@@ -1,15 +1,15 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var DialogView = require('foreground/view/dialog/dialogView');
-    
+
     var ClearStreamDialogView = DialogView.extend({
         id: 'clearStreamDialog',
         stream: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.model = new Dialog({
                 reminderProperty: 'remindClearStream'
             });
@@ -22,8 +22,8 @@
 
             DialogView.prototype.initialize.apply(this, arguments);
         },
-        
-        onSubmit: function () {
+
+        onSubmit: function() {
             this.stream.get('items').clear();
         }
     });

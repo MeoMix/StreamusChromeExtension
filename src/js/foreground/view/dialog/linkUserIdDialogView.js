@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
@@ -9,23 +9,23 @@
         id: 'linkUserIdDialog',
         signInManager: null,
 
-        initialize: function () {
+        initialize: function() {
             this.model = new Dialog({
                 reminderProperty: 'remindLinkUserId',
                 submitButtonText: chrome.i18n.getMessage('link'),
                 alwaysSaveReminder: true
             });
-            
+
             this.contentView = new DialogContentView({
                 template: _.template(chrome.i18n.getMessage('linkAccountsMessage'))
             });
 
             this.signInManager = Streamus.backgroundPage.signInManager;
-            
+
             DialogView.prototype.initialize.apply(this, arguments);
         },
 
-        onSubmit: function () {
+        onSubmit: function() {
             this.signInManager.saveGooglePlusId();
         }
     });

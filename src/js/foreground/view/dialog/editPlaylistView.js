@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
@@ -10,14 +10,14 @@
         //  TODO: Not DRY w/ CreatePlaylistView -- pull from DB?
         titleMaxLength: 150,
 
-        templateHelpers: function () {
+        templateHelpers: function() {
             return {
                 titleMessage: chrome.i18n.getMessage('title'),
                 titleMaxLength: this.titleMaxLength
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 title: '#' + this.id + '-title',
                 titleCharacterCount: '#' + this.id + '-title-characterCount'
@@ -27,41 +27,41 @@
         events: {
             'input @ui.title': '_onInputTitle'
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this._setTitleCharacterCount();
         },
-        
-        onAttach: function () {
+
+        onAttach: function() {
             this._focusInput();
         },
-     
-        editPlaylist: function () {
+
+        editPlaylist: function() {
             var trimmedTitle = this._getTrimmedTitle();
             this.model.set('title', trimmedTitle);
         },
-        
-        _setTitleCharacterCount: function () {
+
+        _setTitleCharacterCount: function() {
             var trimmedTitle = this._getTrimmedTitle();
             this.ui.titleCharacterCount.text(trimmedTitle.length);
         },
-        
-        _onInputTitle: function () {
+
+        _onInputTitle: function() {
             this._setTitleCharacterCount();
             this._validateTitle();
         },
-        
-        _focusInput: function () {
+
+        _focusInput: function() {
             //  Reset val to prevent text from becoming highlighted.
             this.ui.title.focus().val(this.ui.title.val());
         },
-        
-        _validateTitle: function () {
+
+        _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var trimmedTitle = this._getTrimmedTitle();
             this.ui.title.toggleClass('is-invalid', trimmedTitle === '');
         },
-        
+
         _getTrimmedTitle: function() {
             return this.ui.title.val().trim();
         }

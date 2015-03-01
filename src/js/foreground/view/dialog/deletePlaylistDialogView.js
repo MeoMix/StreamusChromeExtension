@@ -1,14 +1,14 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
     var DeletePlaylistView = require('foreground/view/dialog/deletePlaylistView');
     var DialogView = require('foreground/view/dialog/dialogView');
-    
+
     var DeletePlaylistDialogView = DialogView.extend({
         id: 'deletePlaylistDialog',
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.model = new Dialog({
                 submitButtonText: chrome.i18n.getMessage('delete'),
                 reminderProperty: 'remindDeletePlaylist'
@@ -20,8 +20,8 @@
 
             DialogView.prototype.initialize.apply(this, arguments);
         },
-        
-        onSubmit: function () {
+
+        onSubmit: function() {
             this.contentView.deletePlaylist();
         }
     });
