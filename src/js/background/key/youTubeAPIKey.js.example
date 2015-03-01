@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     //  Google API's Simple API Access Key.
     //  Production key is omitted from GitHub for security.
     

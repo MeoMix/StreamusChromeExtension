@@ -1,31 +1,31 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var CollectionMultiSelect = require('background/mixin/collectionMultiSelect');
     var SearchResult = require('background/model/searchResult');
-    
+
     var SearchResults = Backbone.Collection.extend({
         model: SearchResult,
         mixins: [CollectionMultiSelect],
         //  SearchResults are unable to be destroyed by 'Delete' actions because they don't exist in a mutable collection.
         isImmutable: true,
         userFriendlyName: chrome.i18n.getMessage('searchResults'),
-        
+
         addSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);
             this.add(searchResults);
         },
         
         //  Returns the collection of SearchResults' underlying songs.
-        getSongs: function () {
-            return this.map(function (model) {
+        getSongs: function() {
+            return this.map(function(model) {
                 return model.get('song');
             });
         },
         
         //  Reset the collection's values by mapping a single or list of Song objects into
         //  JSON objects which will be instantiated by Backbone.
-        resetSongs: function (songs) {
+        resetSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);
             this.reset(searchResults);
         },
@@ -35,14 +35,14 @@
             var searchResults = [];
 
             if (songs instanceof Backbone.Collection) {
-                searchResults = songs.map(function (song) {
+                searchResults = songs.map(function(song) {
                     return {
                         song: song,
                         title: song.get('title')
                     };
                 });
             } else if (_.isArray(songs)) {
-                searchResults = _.map(songs, function (song) {
+                searchResults = _.map(songs, function(song) {
                     return {
                         song: song,
                         title: song.get('title')

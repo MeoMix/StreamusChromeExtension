@@ -1,10 +1,10 @@
 ﻿define({
-    initialize: function () {
+    initialize: function() {
         //  Stub out the default implementation of add with one which enforces uniqueness based on song id.
         this.add = this._add;
     },
-    
-    getDuplicatesInfo: function (songs) {
+
+    getDuplicatesInfo: function(songs) {
         songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
         var duplicates = _.filter(songs, this._hasSong.bind(this));
@@ -20,8 +20,7 @@
             } else {
                 message = chrome.i18n.getMessage('allSongsAlreadyInCollection', [collectionName]);
             }
-        }
-        else if (someDuplicates) {
+        } else if (someDuplicates) {
             message = chrome.i18n.getMessage('songsAlreadyInCollection', [duplicates.length, songs.length, collectionName]);
         }
 
@@ -33,13 +32,12 @@
     },
 
     //  Prevent models from being added to the collection if the model's song is not unique to the collection.
-    _add: function (models, options) {
+    _add: function(models, options) {
         var preparedModels;
 
         if (models instanceof Backbone.Collection) {
             preparedModels = models.map(this._prepareModelToAdd.bind(this));
-        }
-        else if (_.isArray(models)) {
+        } else if (_.isArray(models)) {
             preparedModels = _.map(models, this._prepareModelToAdd.bind(this));
         } else if (!_.isNull(models) && !_.isUndefined(models)) {
             preparedModels = this._prepareModelToAdd(models);
@@ -52,7 +50,7 @@
     },
 
     //  NOTE: The function _prepareModel is reserved by Backbone.
-    _prepareModelToAdd: function (model) {
+    _prepareModelToAdd: function(model) {
         //  If an existing model was not found then just use the given reference.
         var preparedModel = model;
         var existingModel = this._getExistingModel(model);
@@ -67,18 +65,18 @@
     },
     
     //  Try to find an existing model in the collection based on the given model's song's id.
-    _getExistingModel: function (model) {
+    _getExistingModel: function(model) {
         var songId = model instanceof Backbone.Model ? model.get('song').get('id') : model.song.id;
         var existingModel = this._getBySongId(songId);
         return existingModel;
     },
 
-    _clone: function (model) {
+    _clone: function(model) {
         return model instanceof Backbone.Model ? model.clone() : _.clone(model);
     },
     
     //  Set attributes's id or cid to the model's id or cid to prevent attributes from being added to the collection.
-    _copyId: function (preparedModel, existingModel) {
+    _copyId: function(preparedModel, existingModel) {
         if (existingModel.has('id')) {
             if (preparedModel instanceof Backbone.Model) {
                 preparedModel.set('id', existingModel.get('id'), { silent: true });
@@ -89,14 +87,14 @@
             preparedModel.cid = existingModel.cid;
         }
     },
-    
-    _getBySongId: function (songId) {
-        return this.find(function (model) {
+
+    _getBySongId: function(songId) {
+        return this.find(function(model) {
             return model.get('song').get('id') === songId;
         });
     },
-    
-    _hasSong: function (song) {
+
+    _hasSong: function(song) {
         return !_.isUndefined(this._getBySongId(song.get('id')));
     }
 });

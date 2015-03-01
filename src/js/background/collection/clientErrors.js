@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ClientError = require('background/model/clientError');
@@ -9,8 +9,8 @@
             return Streamus.serverUrl + 'ClientError/';
         },
         //  Don't allow duplicate ClientErrors by stack + lineNumber. 
-        add: function (addedClientError) {
-            var isDuplicate = this.any(function (clientError) {
+        add: function(addedClientError) {
+            var isDuplicate = this.any(function(clientError) {
                 var lineNumberDuplicate = clientError.get('lineNumber') === addedClientError.get('lineNumber');
                 var stackDuplicate = clientError.get('stack') === addedClientError.get('stack');
 

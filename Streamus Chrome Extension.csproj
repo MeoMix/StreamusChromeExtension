@@ -122,7 +122,6 @@
     <Content Include="src\js\background\collection\playlists.js" />
     <Content Include="src\js\background\collection\streamItems.js" />
     <Content Include="src\js\background\collection\searchResults.js" />
-    <Content Include="src\js\background\collection\syncActions.js" />
     <Content Include="src\js\background\enum\syncActionType.js" />
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\collectionMultiSelect.js" />

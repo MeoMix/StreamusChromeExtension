@@ -1,6 +1,6 @@
 ﻿//  Entities which need to keep track of their sequence in order to be ordered properly
 //  while also maintaing efficiency with CRUD operations.
-define(function (require) {
+define(function(require) {
     'use strict';
 
     var Direction = require('common/enum/direction');
@@ -8,9 +8,9 @@ define(function (require) {
     return {
         comparator: 'sequence',
 
-        moveToIndex: function (modelId, index, options) {
+        moveToIndex: function(modelId, index, options) {
             options = _.isUndefined(options) ? {} : options;
-            
+
             var model = this.get(modelId);
             var currentIndex = this.indexOf(model);
             var moveResult = {
@@ -32,7 +32,7 @@ define(function (require) {
             return moveResult;
         },
 
-        getSequenceFromIndexDuringMove: function (index, direction) {
+        getSequenceFromIndexDuringMove: function(index, direction) {
             var sequenceIncrement = 10000;
             var lowSequence;
             var highSequence;
@@ -60,7 +60,7 @@ define(function (require) {
 
         //  Return what sequence number would be necessary to be at the given index   
         //  If skippedModelId is given then it will be skipped (useful when moving an item already in collection)
-        getSequenceFromIndex: function (index) {
+        getSequenceFromIndex: function(index) {
             var sequence;
             var sequenceIncrement = 10000;
 
@@ -72,7 +72,7 @@ define(function (require) {
                 if (index > 0) {
                     lowSequence = this.at(index - 1).get('sequence');
                 }
-                
+
                 //  highSequence is either the next models' sequence or the maximum sequence + (sequenceIncrement * 2)
                 var highSequence;
                 if (index < this.length) {
@@ -87,7 +87,7 @@ define(function (require) {
             return sequence;
         },
 
-        _getMaxHighSequence: function (sequenceIncrement) {
+        _getMaxHighSequence: function(sequenceIncrement) {
             var maxHighSequence = this.at(this.length - 1).get('sequence') + (sequenceIncrement * 2);
             return maxHighSequence;
         }

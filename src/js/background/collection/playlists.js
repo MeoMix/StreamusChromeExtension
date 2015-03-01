@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SyncActionType = require('background/enum/syncActionType');
@@ -10,29 +10,29 @@
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
         userId: null,
-        
+
         mixins: [CollectionSequence],
-        
+
         url: function() {
             return Streamus.serverUrl + 'Playlist/';
         },
-        
-        initialize: function (models, options) {
+
+        initialize: function(models, options) {
             this.userId = options.userId;
-            
+
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             this.on('add', this._onAdd);
             this.on('remove', this._onRemove);
             this.on('change:active', this._onChangeActive);
             this.on('reset', this._onReset);
         },
-        
-        getActivePlaylist: function () {
+
+        getActivePlaylist: function() {
             return this.findWhere({ active: true });
         },
 
         //  Expects options: { shortId, urlFriendlyEntityTitle, success, error };
-        addPlaylistByShareData: function (options) {
+        addPlaylistByShareData: function(options) {
             $.ajax({
                 type: 'POST',
                 url: Streamus.serverUrl + 'Playlist/CreateCopyByShareCode',
@@ -41,7 +41,7 @@
                     urlFriendlyEntityTitle: options.urlFriendlyEntityTitle,
                     userId: this.userId
                 },
-                success: function (playlistDto) {
+                success: function(playlistDto) {
                     //  Add and convert back from JSON to Backbone object.
                     var playlist = this.add(playlistDto);
                     options.success(playlist);
@@ -49,10 +49,10 @@
                 error: options.error
             });
         },
-        
-        addPlaylistWithSongs: function (playlistTitle, songs) {
+
+        addPlaylistWithSongs: function(playlistTitle, songs) {
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
-            var playlistItems = _.map(songs, function (song) {
+            var playlistItems = _.map(songs, function(song) {
                 return {
                     title: song.get('title'),
                     song: song
@@ -72,7 +72,7 @@
             });
         },
 
-        addPlaylistByDataSource: function (playlistTitle, dataSource) {
+        addPlaylistByDataSource: function(playlistTitle, dataSource) {
             this.create({
                 title: playlistTitle,
                 userId: this.userId,
@@ -82,30 +82,30 @@
                 //  If a playlist is being created with a YouTube Playlist URL then that URL will need to be imported into the playlist.
                 dataSourceLoaded: !dataSource.isYouTubePlaylist()
             }, {
-                success: function (playlist) {
+                success: function(playlist) {
                     if (!playlist.get('dataSourceLoaded')) {
                         playlist.loadDataSource();
                     }
                 },
-                error: function (model) {
+                error: function(model) {
                     model.trigger('createError');
                 }
             });
         },
 
-        _deactivateAllExcept: function (changedPlaylist) {
-            this.each(function (playlist) {
+        _deactivateAllExcept: function(changedPlaylist) {
+            this.each(function(playlist) {
                 if (playlist !== changedPlaylist) {
                     playlist.set('active', false);
                 }
             });
         },
-        
-        _setCanDelete: function (canDelete) {
+
+        _setCanDelete: function(canDelete) {
             //  Playlists can only be deleted if there's >1 playlist existing because I don't want to leave the user with 0 playlists.
             this.invoke('set', 'canDelete', canDelete);
         },
-        
+
         _onReset: function() {
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
@@ -118,8 +118,8 @@
 
             this._setCanDelete(this.length > 1);
         },
-        
-        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
+
+        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {
@@ -129,20 +129,20 @@
                 case 'addYouTubeSongByIdToPlaylist':
                     YouTubeV3API.getSong({
                         songId: request.songId,
-                        success: function (song) {
+                        success: function(song) {
                             this.get(request.playlistId).get('items').addSongs(song);
-                            
+
                             //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
                             //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('songAdded'),
                                 message: song.get('title')
                             });
-                            
+
                             //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
                             sendResponse({ result: 'success' });
                         }.bind(this),
-                        error: function () {
+                        error: function() {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                                 title: chrome.i18n.getMessage('errorEncountered')
                             });
@@ -158,25 +158,25 @@
             //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
             return sendAsynchronousResponse;
         },
-        
-        _onChangeActive: function (changedPlaylist, active) {
+
+        _onChangeActive: function(changedPlaylist, active) {
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
                 window.localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
-        
-        _onAdd: function (addedPlaylist, collection, options) {
+
+        _onAdd: function(addedPlaylist, collection, options) {
             //  Add events fire before the playlist is successfully saved to the server so that the UI can show a saving indicator.
             //  This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
             if (addedPlaylist.isNew()) {
-                this.listenToOnce(addedPlaylist, 'createError', function () {
+                this.listenToOnce(addedPlaylist, 'createError', function() {
                     //  TODO: Do something with this error.
                     this.stopListening(addedPlaylist, 'change:id');
                 });
 
-                this.listenToOnce(addedPlaylist, 'change:id', function () {
+                this.listenToOnce(addedPlaylist, 'change:id', function() {
                     this.stopListening(addedPlaylist, 'createError');
                     this._onCreateSuccess(addedPlaylist, options);
                 });
@@ -185,7 +185,7 @@
             }
         },
         //  TODO: added vs created.
-        _onCreateSuccess: function (addedPlaylist) {
+        _onCreateSuccess: function(addedPlaylist) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Added,
@@ -195,7 +195,7 @@
                     title: addedPlaylist.get('title')
                 }
             });
-            
+
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 title: chrome.i18n.getMessage('playlistCreated'),
                 message: addedPlaylist.get('title')
@@ -205,7 +205,7 @@
         },
         
         //  Whenever a playlist is removed, if it was selected, select the next playlist.
-        _onRemove: function (removedPlaylist, collection, options) {
+        _onRemove: function(removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {
                 //  Clear local storage of the active playlist if it gets removed.
                 window.localStorage.setItem('activePlaylistId', null);
@@ -213,11 +213,11 @@
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);
             }
-            
+
             if (this.length === 1) {
                 this._setCanDelete(false);
             }
-            
+
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Removed,
@@ -227,8 +227,8 @@
                 }
             });
         },
-        
-        _activateByIndex: function (index) {
+
+        _activateByIndex: function(index) {
             this.at(index).set('active', true);
         }
     });
