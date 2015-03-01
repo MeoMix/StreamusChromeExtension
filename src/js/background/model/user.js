@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
     'use strict';
 
     var Playlists = require('background/collection/playlists');
@@ -10,12 +10,12 @@ define(function (require) {
             playlists: null,
             language: ''
         },
-        
+
         urlRoot: function() {
             return Streamus.serverUrl + 'User/';
         },
 
-        loadByGooglePlusId: function () {
+        loadByGooglePlusId: function() {
             $.ajax({
                 url: Streamus.serverUrl + 'User/GetByGooglePlusId',
                 contentType: 'application/json; charset=utf-8',
@@ -40,10 +40,10 @@ define(function (require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
-        tryloadByUserId: function () {
+
+        tryloadByUserId: function() {
             var userId = this._getLocalUserId();
-            
+
             if (userId === null) {
                 this._create();
             } else {
@@ -52,10 +52,10 @@ define(function (require) {
         },
         
         //  A user is linked to a Google account if their GooglePlusId is not empty.
-        linkedToGoogle: function () {
+        linkedToGoogle: function() {
             return this.get('googlePlusId') !== '';
         },
-        
+
         hasLinkedGoogleAccount: function(callback) {
             $.ajax({
                 url: Streamus.serverUrl + 'User/HasLinkedGoogleAccount',
@@ -67,8 +67,8 @@ define(function (require) {
                 error: this._onLoadError.bind(this)
             });
         },
-        
-        _getLocalUserId: function () {
+
+        _getLocalUserId: function() {
             var userId = localStorage.getItem('userId');
 
             //  NOTE: This is a bit of legacy code. Originally was calling toJSON on all objects written to localStorage, so quotes might exist.
@@ -80,7 +80,7 @@ define(function (require) {
         },
         
         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.
-        _create: function () {
+        _create: function() {
             this.save({
                 //  Save the language here upon creation because the user is clearly unknown and it'll save a PATCH request by knowing language on creation.
                 language: chrome.i18n.getUILanguage()
@@ -92,7 +92,7 @@ define(function (require) {
         
         //  Loads user data by ID from the server, writes the ID to client-side storage locations
         //  for future loading and then announces that the user has been loaded.
-        _loadByUserId: function (userId) {
+        _loadByUserId: function(userId) {
             this.set('id', userId);
 
             this.fetch({
@@ -102,7 +102,7 @@ define(function (require) {
         },
         
         //  Set playlists as a Backbone.Collection from the JSON received from the server.
-        _ensurePlaylistsCollection: function () {
+        _ensurePlaylistsCollection: function() {
             var playlists = this.get('playlists');
 
             //  Need to convert playlists array to Backbone.Collection
@@ -118,26 +118,28 @@ define(function (require) {
                 this.get('playlists').reset(playlists);
             }
         },
-        
+
         _onLoadByGooglePlusIdSuccess: function(userDto) {
-            if (userDto === null) throw new Error('UserDTO should always be returned here.');
+            if (userDto === null) {
+                throw new Error('UserDTO should always be returned here.');
+            }
 
             this.set(userDto);
             this._onLoadSuccess();
         },
-        
-        _onLoadError: function (error) {
+
+        _onLoadError: function(error) {
             this.trigger('loadError', error);
         },
-        
+
         _onLoadSuccess: function() {
             this._ensurePlaylistsCollection();
             this._setLanguage();
             localStorage.setItem('userId', this.get('id'));
             this.trigger('loadSuccess');
         },
-        
-        _setLanguage: function () {
+
+        _setLanguage: function() {
             var language = chrome.i18n.getUILanguage();
             if (this.get('language') !== language) {
                 this.save({ language: language }, { patch: true });

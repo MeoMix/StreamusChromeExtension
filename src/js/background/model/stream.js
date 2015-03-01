@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var StreamItems = require('background/collection/streamItems');
@@ -9,7 +9,7 @@
     var Stream = Backbone.Model.extend({
         localStorage: new Backbone.LocalStorage('Stream'),
 
-        defaults: function () {
+        defaults: function() {
             return {
                 //  Need to set the ID for Backbone.LocalStorage
                 id: 'Stream',
@@ -26,11 +26,11 @@
 
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         whitelist: ['history'],
-        toJSON: function () {
+        toJSON: function() {
             return this.pick(this.whitelist);
         },
 
-        initialize: function () {
+        initialize: function() {
             this.listenTo(this.get('player'), 'change:state', this._onPlayerChangeState);
             this.listenTo(this.get('player'), 'youTubeError', this._onPlayerYouTubeError);
             this.listenTo(this.get('items'), 'add', this._onItemsAdd);
@@ -55,7 +55,7 @@
 
         //  TODO: Function is way too big.
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
-        activateNext: function (removedActiveItemIndex) {
+        activateNext: function(removedActiveItemIndex) {
             var nextItem = null;
 
             var shuffleEnabled = this.get('shuffleButton').get('enabled');
@@ -101,8 +101,7 @@
                         } else {
                             nextItem.save({ active: true });
                         }
-                    }
-                    else if (radioEnabled) {
+                    } else if (radioEnabled) {
                         var randomRelatedSong = items.getRandomRelatedSong();
 
                         var addedSongs = items.addSongs(randomRelatedSong, {
@@ -117,8 +116,7 @@
                     else if (!_.isUndefined(removedActiveItemIndex)) {
                         items.last().save({ active: true });
                         this.get('player').pause();
-                    }
-                    else {
+                    } else {
                         //  Otherwise, activate the first item in the playlist and then pause the player because playlist looping shouldn't continue.
                         items.first().save({ active: true });
                         this.get('player').pause();
@@ -144,7 +142,7 @@
             return nextItem;
         },
 
-        activatePrevious: function () {
+        activatePrevious: function() {
             var previousStreamItem = this.getPrevious();
 
             //  When repeating a song -- it'll already be active, but still need to trigger a change:active event so program will respond.
@@ -161,7 +159,7 @@
         },
 
         //  Return the previous item or null without affecting the history.
-        getPrevious: function () {
+        getPrevious: function() {
             var previousStreamItem = null;
             var history = this.get('history');
             var items = this.get('items');
@@ -199,11 +197,11 @@
         },
 
         //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.
-        _onItemsAdd: function (model) {
+        _onItemsAdd: function(model) {
             this._ensureHasRelatedSongs(model);
         },
 
-        _onGetRelatedSongsSuccess: function (model, relatedSongs) {
+        _onGetRelatedSongsSuccess: function(model, relatedSongs) {
             //  The model could have been removed from the collection while the request was still in flight. 
             //  If this happened, just discard the data instead of trying to update the model.
             if (this.get('items').get(model)) {
@@ -212,7 +210,7 @@
             }
         },
 
-        _onItemsRemove: function (model, collection, options) {
+        _onItemsRemove: function(model, collection, options) {
             var history = this.get('history');
             history = _.without(history, model.get('id'));
             this.save('history', history);
@@ -228,7 +226,7 @@
             }
         },
 
-        _onItemsReset: function (collection) {
+        _onItemsReset: function(collection) {
             this.save('history', []);
 
             var isEmpty = collection.isEmpty();
@@ -239,14 +237,14 @@
             }
         },
 
-        _onItemsChangeActive: function (model, active) {
+        _onItemsChangeActive: function(model, active) {
             if (active) {
                 this.set('activeItem', model);
                 this._loadActiveItem(model);
             }
         },
 
-        _onPlayerChangeState: function (model, state) {
+        _onPlayerChangeState: function(model, state) {
             //  Since the player's state is dependent on asynchronous actions it's important to ensure that
             //  the Stream is still in a valid state when an event comes in. The user could've removed songs after an event started to arrive.
             if (!this.get('items').isEmpty()) {
@@ -258,8 +256,7 @@
                     if (nextItem === null) {
                         model.set('playOnActivate', false);
                     }
-                }
-                else if (state === PlayerState.Playing) {
+                } else if (state === PlayerState.Playing) {
                     //  Only display notifications if the foreground isn't active -- either through the extension popup or as a URL tab
                     this.get('items').showActiveNotification();
                 }
@@ -267,7 +264,7 @@
         },
 
         //  TODO: Really needs to be reworked.
-        _onPlayerYouTubeError: function (model, youTubeError) {
+        _onPlayerYouTubeError: function(model, youTubeError) {
             if (this.get('items').length > 0) {
                 //model.set('playOnActivate', false);
                 //  TODO: It would be better if I could get the next item instead of having to activate it automatically.
@@ -288,11 +285,11 @@
             }
         },
 
-        _loadActiveItem: function (activeItem) {
+        _loadActiveItem: function(activeItem) {
             this.get('player').activateSong(activeItem.get('song'));
         },
 
-        _cleanupOnItemsEmpty: function () {
+        _cleanupOnItemsEmpty: function() {
             this.set('activeItem', null);
             this.get('player').stop();
         },

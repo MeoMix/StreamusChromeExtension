@@ -1,6 +1,6 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
-    
+
     var SongType = require('background/enum/songType');
     var Utility = require('common/utility');
 
@@ -25,8 +25,8 @@
         sync: function() {
             return false;
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this._setPrettyDuration(this.get('duration'));
             this._setCleanTitle(this.get('title'));
             this._setUrl(this.get('id'));
@@ -35,48 +35,48 @@
             this.on('change:title', this._onChangeTitle);
             this.on('change:id', this._onChangeId);
         },
-        
-        copyUrl: function () {
+
+        copyUrl: function() {
             var url = this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', url);
-            
+
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('urlCopied')
             });
         },
-        
-        copyTitleAndUrl: function () {
+
+        copyTitleAndUrl: function() {
             var titleAndUrl = this.get('title') + ' - ' + this.get('url');
             Streamus.channels.clipboard.commands.trigger('copy:text', titleAndUrl);
-            
+
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('urlCopied')
             });
         },
-        
-        _onChangeId: function (model, id) {
+
+        _onChangeId: function(model, id) {
             this._setUrl(id);
         },
-        
+
         _onChangeTitle: function(model, title) {
             this._setCleanTitle(title);
         },
-        
+
         _onChangeDuration: function(model, duration) {
             this._setPrettyDuration(duration);
         },
         
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency
-        _setPrettyDuration: function (duration) {
+        _setPrettyDuration: function(duration) {
             this.set('prettyDuration', Utility.prettyPrintTime(duration));
         },
         
         //  Useful for comparisons and other searching.
-        _setCleanTitle: function (title) {
+        _setCleanTitle: function(title) {
             this.set('cleanTitle', Utility.cleanTitle(title));
         },
-        
-        _setUrl: function (id) {
+
+        _setUrl: function(id) {
             this.set('url', 'https://youtu.be/' + id);
         }
     });

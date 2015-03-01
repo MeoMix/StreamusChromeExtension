@@ -1,12 +1,12 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Songs = require('background/collection/songs');
     var Song = require('background/model/song');
     var ListItemType = require('common/enum/listItemType');
-   
+
     var StreamItem = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
                 id: null,
                 song: null,
@@ -24,11 +24,11 @@
         
         //  Don't want to save everything to localStorage -- only variables which need to be persisted.
         blacklist: ['selected', 'firstSelected'],
-        toJSON: function () {
+        toJSON: function() {
             return this.omit(this.blacklist);
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this._ensureSongModel();
             this._ensureRelatedSongsCollection();
             this.on('change:active', this._onChangeActive);
@@ -43,8 +43,8 @@
                 this.set('song', new Song(song), { silent: true });
             }
         },
-        
-        _ensureRelatedSongsCollection: function () {
+
+        _ensureRelatedSongsCollection: function() {
             var relatedSongs = this.get('relatedSongs');
 
             //  Need to convert relatedSongs array to Backbone.Collection

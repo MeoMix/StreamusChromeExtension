@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var YouTubePlayerAPI = require('background/model/youTubePlayerAPI');
@@ -6,7 +6,7 @@
 
     //  This is the actual YouTube Player API widget housed within the iframe.
     var youTubePlayerWidget = null;
-    
+
     //  This value is 1 because it is displayed visually.
     //  'Load attempt: 0' does not make sense to non-programmers.
     var _initialLoadAttempt = 1;
@@ -28,8 +28,8 @@
                 loadAttemptInterval: null
             };
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.listenTo(this.get('api'), 'change:ready', this._onApiChangeReady);
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted);
             this.on('change:loading', this._onChangeLoading);
@@ -37,7 +37,7 @@
         
         //  Preload is used to indicate that an attempt to load YouTube's API is hopefully going to come soon. However, if the iframe
         //  holding YouTube's API fails to load then load will not be called. If the iframe does load successfully then load will be called.
-        preload: function () {
+        preload: function() {
             if (!this.get('loading')) {
                 //  Ensure the widget is null for debugging purposes. 
                 //  Being able to tell the difference between a widget API method failing and the widget itself not being ready is important.
@@ -50,9 +50,9 @@
         
         //  Loading a widget requires the widget's API be ready first. Ensure that the API is loaded
         //  otherwise defer loading a widget until the API is ready.
-        load: function () {
+        load: function() {
             var api = this.get('api');
-            
+
             if (api.get('ready')) {
                 this._loadWidget();
             } else {
@@ -60,27 +60,27 @@
             }
         },
 
-        stop: function () {
+        stop: function() {
             youTubePlayerWidget.stopVideo();
         },
 
-        pause: function () {
+        pause: function() {
             youTubePlayerWidget.pauseVideo();
         },
 
-        play: function () {
+        play: function() {
             youTubePlayerWidget.playVideo();
         },
 
-        seekTo: function (timeInSeconds) {
+        seekTo: function(timeInSeconds) {
             //  Always pass allowSeekAhead: true to the seekTo method.
             //  If this value is not provided and the user seeks to the end of a song while paused 
             //  the player will enter into a bad state of 'ended -> playing.' 
             //  https://developers.google.com/youtube/js_api_reference#seekTo
             youTubePlayerWidget.seekTo(timeInSeconds, true);
         },
-        
-        setMuted: function (muted) {
+
+        setMuted: function(muted) {
             if (muted) {
                 youTubePlayerWidget.mute();
             } else {
@@ -88,25 +88,25 @@
             }
         },
 
-        setVolume: function (volume) {
+        setVolume: function(volume) {
             youTubePlayerWidget.setVolume(volume);
         },
 
         //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
         //  If it cannot, it will set its quality to the level most near suggested quality.
-        setPlaybackQuality: function (suggestedQuality) {
+        setPlaybackQuality: function(suggestedQuality) {
             youTubePlayerWidget.setPlaybackQuality(suggestedQuality);
         },
 
-        loadVideoById: function (videoOptions) {
+        loadVideoById: function(videoOptions) {
             youTubePlayerWidget.loadVideoById(videoOptions);
         },
 
-        cueVideoById: function (videoOptions) {
+        cueVideoById: function(videoOptions) {
             youTubePlayerWidget.cueVideoById(videoOptions);
         },
 
-        _loadWidget: function () {
+        _loadWidget: function() {
             //  YouTube's API creates the window.YT object with which widgets can be created.
             //  https://developers.google.com/youtube/iframe_api_reference#Loading_a_Video_Player
             youTubePlayerWidget = new window.YT.Player(this.get('iframeId'), {
@@ -118,20 +118,20 @@
             });
         },
 
-        _onYouTubePlayerReady: function () {
+        _onYouTubePlayerReady: function() {
             //  TODO: It's apparently possible for youTubePlayerWidget.setVolume to be undefined at this point in time. How can I reproduce?
             //  It's important to set ready to true before loading to false otherwise it looks like YouTubePlayer failed to load properly.
             this.set('ready', true);
             this.set('loading', false);
         },
 
-        _onYouTubePlayerStateChange: function (state) {
+        _onYouTubePlayerStateChange: function(state) {
             //  Pass 'this' as the first parameter to match the event signature of a Backbone.Model change event.
             this.trigger('change:state', this, state.data);
         },
 
         //  Emit errors so the foreground so can notify the user.
-        _onYouTubePlayerError: function (error) {
+        _onYouTubePlayerError: function(error) {
             //  If the error is really bad then attempt to recover rather than reflecting the error throughout the program.
             if (error.data === YouTubePlayerError.ReallyBad) {
                 this.preload();
@@ -140,13 +140,13 @@
             }
         },
 
-        _onApiChangeReady: function (model, ready) {
+        _onApiChangeReady: function(model, ready) {
             if (ready) {
                 this._loadWidget();
             }
         },
-        
-        _onChangeLoading: function (model, loading) {
+
+        _onChangeLoading: function(model, loading) {
             this.set('currentLoadAttempt', _initialLoadAttempt);
             var loadAttemptInterval = null;
 
@@ -156,13 +156,13 @@
             } else {
                 clearInterval(this.get('loadAttemptInterval'));
             }
-            
+
             this.set('loadAttemptInterval', loadAttemptInterval);
         },
-        
-        _onLoadAttemptDelayExceeded: function () {
+
+        _onLoadAttemptDelayExceeded: function() {
             var currentLoadAttempt = this.get('currentLoadAttempt');
-                    
+
             if (currentLoadAttempt === this.get('maxLoadAttempts')) {
                 this.set('loading', false);
             } else {
@@ -172,7 +172,7 @@
         
         //  Streamus could have disconnected from the API and failed to recover automatically.
         //  A good time to try recovering again is when the user is interacting the UI.
-        _onForegroundStarted: function () {
+        _onForegroundStarted: function() {
             if (!this.get('ready')) {
                 this.preload();
             }

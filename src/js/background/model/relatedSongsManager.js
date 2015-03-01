@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var YouTubeV3API = require('background/model/youTubeV3API');
@@ -29,7 +29,7 @@
                 this.get('requestOptionsQueue').push(options);
             }
         },
-        
+
         _onGetRelatedSongsSuccess: function(callback, relatedSongs) {
             this._decrementRequestCount();
             callback(relatedSongs);
@@ -44,11 +44,11 @@
                 this.getRelatedSongs(requestOptions);
             }
         },
-        
-        _incrementRequestCount: function () {
+
+        _incrementRequestCount: function() {
             this.set('currentRequestCount', this.get('currentRequestCount') + 1);
         },
-        
+
         _decrementRequestCount: function() {
             this.set('currentRequestCount', this.get('currentRequestCount') - 1);
         },

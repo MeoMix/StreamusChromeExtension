@@ -1,4 +1,4 @@
-define(function () {
+define(function() {
     'use strict';
 
     var ShareCode = Backbone.Model.extend({
@@ -9,11 +9,11 @@ define(function () {
             shortId: null,
             urlFriendlyEntityTitle: ''
         },
-        
+
         urlRoot: function() {
             return Streamus.serverUrl + 'ShareCode/';
         },
-        
+
         copyUrl: function() {
             var shortId = this.get('shortId');
             var urlFriendlyEntityTitle = this.get('urlFriendlyEntityTitle');

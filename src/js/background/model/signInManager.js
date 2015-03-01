@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var User = require('background/model/user');
@@ -21,14 +21,14 @@
             needGoogleSignIn: false
         },
 
-        initialize: function () {
+        initialize: function() {
             this.on('change:signedInUser', this._onChangeSignedInUser);
             this.on('change:signInFailed', this._onChangeSignInFailed);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
         },
 
-        signInWithGoogle: function () {
+        signInWithGoogle: function() {
             if (this._canSignIn()) {
                 if (this._supportsGoogleSignIn()) {
                     this._getGoogleUserInfo();
@@ -38,21 +38,23 @@
             }
         },
 
-        signOut: function () {
+        signOut: function() {
             if (this.get('signedInUser') !== null) {
                 localStorage.removeItem('userId');
                 this.set('signedInUser', null);
             }
         },
-        
-        saveGooglePlusId: function () {
-            chrome.identity.getProfileUserInfo(function (profileUserInfo) {
-                if (profileUserInfo.id === '') throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
+
+        saveGooglePlusId: function() {
+            chrome.identity.getProfileUserInfo(function(profileUserInfo) {
+                if (profileUserInfo.id === '') {
+                    throw new Error('saveGooglePlusId should only be called when a googlePlusId is known to exist');
+                }
 
                 var signedInUser = this.get('signedInUser');
                 signedInUser.set('googlePlusId', profileUserInfo.id);
 
-                signedInUser.hasLinkedGoogleAccount(function (hasLinkedGoogleAccount) {
+                signedInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
                     //  If the account is already know to the database -- merge this account with it and then load existing account w/ merged data.
                     if (hasLinkedGoogleAccount) {
                         signedInUser.mergeByGooglePlusId();
@@ -62,15 +64,15 @@
                     }
                 }.bind(this));
             }.bind(this));
-            
+
             this.set('needLinkUserId', false);
         },
-        
-        isSignedIn: function () {
+
+        isSignedIn: function() {
             return this.get('signedInUser') !== null;
         },
 
-        _signIn: function (googlePlusId) {
+        _signIn: function(googlePlusId) {
             this.set('signingIn', true);
 
             var signingInUser = new User({
@@ -94,7 +96,7 @@
                 signingInUser.tryloadByUserId();
             } else {
                 //  If the account does have a Google+ ID -- the account might be known to the database or it might not, check.
-                signingInUser.hasLinkedGoogleAccount(function (hasLinkedGoogleAccount) {
+                signingInUser.hasLinkedGoogleAccount(function(hasLinkedGoogleAccount) {
                     //  If the account is known to the database -- load it.
                     if (hasLinkedGoogleAccount) {
                         signingInUser.loadByGooglePlusId();
@@ -116,41 +118,41 @@
         },
 
         //  getProfileUserInfo is only supported in Chrome v37 for Win/Macs currently.
-        _supportsGoogleSignIn: function () {
+        _supportsGoogleSignIn: function() {
             //  chrome.identity.getProfileUserInfo is defined in Opera, but throws an error if called. I've reported the issue to them.
             var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
             return !_.isUndefined(chrome.identity.getProfileUserInfo) && !isOpera;
         },
 
-        _getGoogleUserInfo: function () {
+        _getGoogleUserInfo: function() {
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
 
         //  TODO: It feels weird that this explicitly calls signIn - what if I want to get their info without signing in?
         //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
-        _onGetProfileUserInfo: function (profileUserInfo) {
+        _onGetProfileUserInfo: function(profileUserInfo) {
             this._signIn(profileUserInfo.id);
         },
 
-        _onChangeSignedInUser: function (model, signedInUser) {
+        _onChangeSignedInUser: function(model, signedInUser) {
             //  Send a message to open YouTube tabs that Streamus has signed in and their HTML needs to update.
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: signedInUser !== null ? 'signed-in' : 'signed-out'
             });
         },
 
-        _onChangeSignInFailed: function (model, signInFailed) {
+        _onChangeSignInFailed: function(model, signInFailed) {
             if (signInFailed) {
                 this._onSignInFailed();
             }
         },
 
-        _onSignInFailed: function () {
+        _onSignInFailed: function() {
             clearInterval(this.get('signInRetryInterval'));
             this.set('signInRetryInterval', setInterval(this._doSignInRetryTimerIntervalTick.bind(this), 1000));
         },
 
-        _doSignInRetryTimerIntervalTick: function () {
+        _doSignInRetryTimerIntervalTick: function() {
             var signInRetryTimer = this.get('signInRetryTimer');
             this.set('signInRetryTimer', signInRetryTimer - 1);
 
@@ -159,20 +161,20 @@
             }
         },
 
-        _resetSignInRetryTimer: function () {
+        _resetSignInRetryTimer: function() {
             clearInterval(this.get('signInRetryInterval'));
             this.set('signInRetryTimer', SIGN_IN_FAILURE_WAIT_TIME);
             this.set('signInFailed', false);
         },
 
-        _canSignIn: function () {
+        _canSignIn: function() {
             //  Signing in is only allowed if no user is currently signed in, not in the process of being signed in and if not waiting for signInFailure timer.
             var canSignIn = this.get('signedInUser') === null && !this.get('signingIn') && !this.get('signInFailed');
             return canSignIn;
         },
 
         //  https://developer.chrome.com/extensions/identity#event-onSignInChanged
-        _onChromeIdentitySignInChanged: function (account, signedIn) {
+        _onChromeIdentitySignInChanged: function(account, signedIn) {
             if (signedIn) {
                 this._signIn(account.id);
             } else {
@@ -180,11 +182,11 @@
             }
         },
 
-        _onSignInSuccess: function (signingInUser) {
+        _onSignInSuccess: function(signingInUser) {
             this._setSignedInUser(signingInUser);
         },
 
-        _onSignInError: function (signingInUser, error) {
+        _onSignInError: function(signingInUser, error) {
             this.stopListening(signingInUser);
             this.set('signingInUser', null);
 
@@ -193,7 +195,7 @@
             this.set('signInFailed', true);
         },
 
-        _setSignedInUser: function (signingInUser) {
+        _setSignedInUser: function(signingInUser) {
             this.stopListening(signingInUser);
 
             this.set('signedInUser', signingInUser);
@@ -202,7 +204,7 @@
             //  Announce that user has signedIn so managers can use it to fetch data.
             this.set('signingIn', false);
 
-            this._shouldLinkUserId(function (shouldLinkUserId) {
+            this._shouldLinkUserId(function(shouldLinkUserId) {
                 if (shouldLinkUserId) {
                     this._needLinkUserId();
                 }
@@ -211,14 +213,14 @@
 
         //  When the active Chrome user signs out, check to see if it's linked to the current Streamus user.
         //  If so, unload the current Streamus user and re-create as a non-chrome user.
-        _onChromeSignedOut: function (googlePlusId) {
+        _onChromeSignedOut: function(googlePlusId) {
             if (googlePlusId === this.get('signedInUser').get('googlePlusId')) {
                 this.signOut();
                 this.signInWithGoogle();
             }
         },
 
-        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
+        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             var sendAsynchronousResponse = false;
 
             switch (request.method) {
@@ -233,7 +235,7 @@
                 case 'addPlaylistByShareData':
                     if (this._canSignIn()) {
                         //  TODO: What if sign in fails?
-                        this.once('change:signedInUser', function () {
+                        this.once('change:signedInUser', function() {
                             this._handleAddSharedPlaylistRequest(request, sendResponse);
                         });
 
@@ -245,23 +247,23 @@
                     sendAsynchronousResponse = true;
                     break;
             }
-            
+
             //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
             return sendAsynchronousResponse;
         },
 
-        _handleAddSharedPlaylistRequest: function (request, sendResponse) {
+        _handleAddSharedPlaylistRequest: function(request, sendResponse) {
             //  TODO: Probably house this logic on signedInUser or on playlists?
             this.get('signedInUser').get('playlists').addPlaylistByShareData({
                 shortId: request.shareCodeShortId,
                 urlFriendlyEntityTitle: request.urlFriendlyEntityTitle,
-                success: function (playlist) {
+                success: function(playlist) {
                     sendResponse({
                         result: 'success',
                         playlistTitle: playlist.get('title')
                     });
                 },
-                error: function (error) {
+                error: function(error) {
                     sendResponse({
                         result: 'error',
                         error: error
@@ -270,9 +272,9 @@
             });
         },
 
-        _shouldLinkUserId: function (callback) {
+        _shouldLinkUserId: function(callback) {
             if (this._supportsGoogleSignIn()) {
-                chrome.identity.getProfileUserInfo(function (profileUserInfo) {
+                chrome.identity.getProfileUserInfo(function(profileUserInfo) {
                     var signedInToChrome = profileUserInfo.id !== '';
                     var accountLinked = this.get('signedInUser').linkedToGoogle();
                     callback(signedInToChrome && !accountLinked);
@@ -282,11 +284,11 @@
             }
         },
         //  TODO: Just set this properties manually instead of via function.
-        _needLinkUserId: function () {
+        _needLinkUserId: function() {
             this.set('needLinkUserId', true);
         },
 
-        _needGoogleSignIn: function () {
+        _needGoogleSignIn: function() {
             this.set('needGoogleSignIn', true);
         }
     });
