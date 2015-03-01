@@ -1,10 +1,10 @@
 ﻿//  This code runs on all streamus.com domains.
-$(function () {
+$(function() {
     'use strict';
 
     //  Disable the install Streamus button when visiting the website after it has already been installed.
     var installButton = $('#installButton');
-    
+
     if (installButton.length > 0) {
         installButton
             .attr('disabled', true)

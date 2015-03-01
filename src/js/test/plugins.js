@@ -1,6 +1,6 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
-    
+
     require('backbone.marionette');
     require('backbone.localStorage');
     require('jquery.perfectScrollbar');
@@ -9,14 +9,14 @@
     require('mocha');
     var chai = require('chai');
     require('sinon');
-    
+
     var Cocktail = require('cocktail');
 
     window.expect = chai.expect;
     window.mocha.setup('bdd');
 
     Cocktail.patch(Backbone);
-    
+
     //  TODO: This is necessary for tests to work, but how can I make the original one reusable?
     var Application = Marionette.Application.extend({
         localDebug: true,
@@ -48,35 +48,35 @@
             player: Backbone.Wreqr.radio.channel('player'),
             activePlaylist: Backbone.Wreqr.radio.channel('activePlaylist')
         },
-        
+
         backgroundChannels: null,
 
-        initialize: function () {
+        initialize: function() {
             this._setServerUrl();
             this._setBackgroundPage();
             this._setBackgroundChannels();
             this.on('start', this._runTests);
         },
 
-        _setServerUrl: function () {
+        _setServerUrl: function() {
             this.serverUrl = this.localDebug ? 'http://localhost:28029/' : 'https://aws-server.streamus.com/Streamus/';
         },
-        
+
         _setBackgroundPage: function() {
             this.backgroundPage = chrome.extension.getBackgroundPage();
         },
-        
-        _setBackgroundChannels: function () {
+
+        _setBackgroundChannels: function() {
             this.backgroundChannels = {
                 error: this.backgroundPage.Backbone.Wreqr.radio.channel('error'),
                 notification: this.backgroundPage.Backbone.Wreqr.radio.channel('notification'),
                 foreground: this.backgroundPage.Backbone.Wreqr.radio.channel('foreground')
             };
         },
-        
-        _runTests: function () {
+
+        _runTests: function() {
             //  Finally, load the tests:
-            require(['test/test'], function () {
+            require(['test/test'], function() {
                 window.mocha.run();
             });
         }

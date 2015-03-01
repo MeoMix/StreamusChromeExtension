@@ -1,8 +1,8 @@
-﻿require([
+﻿define([
     '../common/requireConfig'
-], function () {
+], function() {
     'use strict';
-    
+
     //  It didn't make sense to put testing information into requireConfig.
     //  So, I mix it into the config object here.
     requirejs.s.contexts._.config.paths.chai = 'thirdParty/test/chai';

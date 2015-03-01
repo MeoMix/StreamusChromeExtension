@@ -1,14 +1,14 @@
 ﻿//  This code runs on pro.beatport.com domains.
-$(function () {
+$(function() {
     'use strict';
-    
+
     var isCodeInjected = false;
     var injectData = {
         canEnhance: false
     };
 
     //  Find out whether Streamus settings are configured to allow modifying Beatport's HTML.
-    chrome.runtime.sendMessage({ method: 'getBeatportInjectData' }, function (beatportInjectData) {
+    chrome.runtime.sendMessage({ method: 'getBeatportInjectData' }, function(beatportInjectData) {
         injectData = beatportInjectData;
 
         if (injectData.canEnhance) {
@@ -16,9 +16,9 @@ $(function () {
             isCodeInjected = true;
         }
     });
-    
+
     //  Listen for Streamus settings changing and toggle injected code.
-    chrome.runtime.onMessage.addListener(function (request) {
+    chrome.runtime.onMessage.addListener(function(request) {
         if (isCodeInjected) {
             if (request.event === 'enhance-off') {
                 toggleInjectedCode(false);
@@ -30,17 +30,17 @@ $(function () {
                 isCodeInjected = true;
             }
         }
-    });
-    
+    });    
 
     //  Pass enable: true in to enable Streamus icons. Pass enable: false in to disable Streamus icons and revert back to original Beatport functionality.
+
     function toggleStreamusIcons(enable) {
         //  Work within a container because bucket-items are scattered throughout Beatport pages.
         //  Use class*= selector to keep query generic enough to be used across all Beatport pages.
         var container = $('.bucket[class*=tracks]');
 
         var tracks = container.find('.bucket-items .bucket-item');
-        tracks.each(function () {
+        tracks.each(function() {
             var button = $(this).find('[class*=track-play]');
 
             if (enable) {
@@ -48,7 +48,7 @@ $(function () {
                 //  Query will look like "primaryTitle remix artist1 artist2"
                 var primaryTitle = $(this).find('[class*=track-primary-title]').text();
                 var remix = $(this).find('[class*=track-remixed]').text();
-                var artists = $(this).find('[class*=track-artists] a').map(function () {
+                var artists = $(this).find('[class*=track-artists] a').map(function() {
                     return $(this).text();
                 }).get().join(' ');
 
@@ -58,7 +58,7 @@ $(function () {
                 button.addClass('streamus-button');
                 button.data('streamus-query', query);
                 //  Namespace the click event so that it can be removed easily in the future.
-                button.on('click.streamus', function () {
+                button.on('click.streamus', function() {
                     chrome.runtime.sendMessage({
                         method: 'searchAndStreamByQuery',
                         query: $(this).data('streamus-query')
@@ -81,9 +81,9 @@ $(function () {
         if (enable) {
             playAllButton.addClass('streamus-button');
             //  Namespace the click event so that it can be removed easily in the future.
-            playAllButton.on('click.streamus', function () {
+            playAllButton.on('click.streamus', function() {
                 //  Grab all the stored queries from playTrack buttons.
-                var queries = tracks.find('.streamus-button').map(function () {
+                var queries = tracks.find('.streamus-button').map(function() {
                     return $(this).data('streamus-query');
                 });
 
@@ -103,6 +103,7 @@ $(function () {
 
     //  When the user clicks a link on Beatport - the page doesn't reload since Beatport is a single-page application.
     //  So, monitor the URL for changes and, when detected, re-inject code.
+
     function toggleMonitorPageChange(enable) {
         var checkUrlInterval = null;
 
@@ -111,14 +112,14 @@ $(function () {
             var pollingFrequency = 1000; //  Check every 1s
 
             //  Filter out streamus links because they obviously can't take the user anywhere.
-            $(document).on('click.streamus', 'a[href]', function () {
+            $(document).on('click.streamus', 'a[href]', function() {
                 var clickedLinkHref = $(this).attr('href');
 
                 //  Stop any previous checks
                 clearInterval(checkUrlInterval);
 
                 //  Wait for browser to load and check occassionally until the URL matches or we give up.
-                checkUrlInterval = setInterval(function () {
+                checkUrlInterval = setInterval(function() {
                     var currentLocationHref = window.location.href;
 
                     //  If they clicked something like /top-100, url will be beatport.com/top-100 so need to match both ways
@@ -142,7 +143,7 @@ $(function () {
             clearInterval(checkUrlInterval);
         }
     }
-    
+
     function toggleInjectedCode(enable) {
         toggleStreamusIcons(enable);
         toggleMonitorPageChange(enable);

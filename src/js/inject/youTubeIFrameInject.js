@@ -1,16 +1,16 @@
 ﻿var errorsEncountered = '';
-window.onerror = function (error) {
+window.onerror = function(error) {
     errorsEncountered += error + ' ';
 };
 
-$(function () {
+$(function() {
     //  Only run against our intended iFrame -- not embedded YouTube iframes on other pages.
     if (window.name === 'youtube-player') {
         var youTubeIFrameConnectRequestPort = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'
         });
 
-        var monitorVideoStream = function () {
+        var monitorVideoStream = function() {
             youTubeIFrameConnectRequestPort.postMessage({
                 flashLoaded: false
             });
@@ -23,7 +23,7 @@ $(function () {
 
             //  TimeUpdate has awesome resolution, but we only display to the nearest second.
             //  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
-            videoStream.on('timeupdate', function () {
+            videoStream.on('timeupdate', function() {
                 var currentTime = Math.ceil(this.currentTime);
 
                 if (currentTime !== lastPostedTime) {
@@ -35,13 +35,13 @@ $(function () {
                 }
             });
 
-            videoStream.on('seeking', function () {
+            videoStream.on('seeking', function() {
                 youTubeIFrameConnectRequestPort.postMessage({
                     seeking: true
                 });
             });
 
-            videoStream.on('seeked', function () {
+            videoStream.on('seeked', function() {
                 youTubeIFrameConnectRequestPort.postMessage({
                     seeking: false
                 });
@@ -61,7 +61,7 @@ $(function () {
                     flashLoaded: true
                 });
             } else {
-                var findVideoStreamInterval = setInterval(function () {
+                var findVideoStreamInterval = setInterval(function() {
                     if (triesRemaining <= 0) {
 
                         clearInterval(findVideoStreamInterval);
@@ -75,8 +75,7 @@ $(function () {
                         if (videoStream.length > 0) {
                             clearInterval(findVideoStreamInterval);
                             monitorVideoStream();
-                        }
-                        else if (flashStream.length > 0) {
+                        } else if (flashStream.length > 0) {
                             youTubeIFrameConnectRequestPort.postMessage({
                                 flashLoaded: true
                             });

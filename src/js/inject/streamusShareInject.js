@@ -1,7 +1,7 @@
 //  This code only runs on the share.streamus.com sub-domain.
-$(function () {
+$(function() {
     'use strict';
-    
+
     var streamusNotInstalledWarning = $('.streamusNotInstalledWarning');
 
     if (streamusNotInstalledWarning.length > 0) {
@@ -10,7 +10,7 @@ $(function () {
 
     var currentUrl = document.URL;
     var urlSections = currentUrl.split('/');
-    
+
     //  The last section of the URL should be the sharecode and the second to last section should be the indicator of playlist or stream.
     var indicator = urlSections[urlSections.length - 3];
     var shareCodeShortId = urlSections[urlSections.length - 2];
@@ -21,10 +21,10 @@ $(function () {
             method: 'addPlaylistByShareData',
             shareCodeShortId: shareCodeShortId,
             urlFriendlyEntityTitle: urlFriendlyEntityTitle
-        }, function (response) {
+        }, function(response) {
             var isSuccess = response.result === 'success';
             var resultText = chrome.i18n.getMessage(isSuccess ? 'playlistCreated' : 'errorEncountered');
-            
+
             $('hr').last().before($('<h3>', {
                 text: resultText,
                 'class': 'jumbotron'
