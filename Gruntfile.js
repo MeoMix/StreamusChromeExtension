@@ -7,7 +7,7 @@
 
 var _ = require('lodash');
 
-module.exports = function (grunt) {
+module.exports = function(grunt) {
 
     require('load-grunt-tasks')(grunt);
 
@@ -19,7 +19,7 @@ module.exports = function (grunt) {
     var baseReleaseDirectory = 'release/Streamus v' + version;
     var chromeReleaseDirectory = baseReleaseDirectory + '/chrome/';
     var operaReleaseDirectory = baseReleaseDirectory + '/opera/';
-    
+
     grunt.initConfig({
         //	Read project settings from package.json in order to be able to reference the properties with grunt.
         pkg: grunt.file.readJSON('package.json'),
@@ -56,7 +56,7 @@ module.exports = function (grunt) {
                 //	Don't validate third-party libraries
                 ignores: ['src/js/thirdParty/**/*.js']
             },
-            
+
             files: ['Gruntfile.js', 'src/js/**/*.js'],
         },
         //  Compile LESS to CSS
@@ -159,7 +159,7 @@ module.exports = function (grunt) {
                 overwrite: true,
                 replacements: [{
                     from: /".*localhost:.*,/g,
-                    to: function (match) {
+                    to: function(match) {
                         //  Don't remove debug permissions when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
@@ -244,30 +244,30 @@ module.exports = function (grunt) {
         }
     });
 
-    grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function () {
+    grunt.registerTask('build', 'Build release and place .zip files in /release directory.', function() {
         //  Ensure tests pass before performing any sort of bundling.
         grunt.task.run('test');
-        
+
         if (!isDebug) {
             grunt.task.run('replace:updateVersion');
         }
 
         grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'clean:dist');
-        
+
         //  Build chrome release
         grunt.task.run('compressRelease:' + chromeReleaseDirectory);
         //  Build opera release
         grunt.task.run('compressRelease:' + operaReleaseDirectory + ':sanitize=true');
     });
 
-    grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function () {
+    grunt.registerTask('diffLocales', 'ensure that all of the message.json files located under _locales are in-sync with the English version', function() {
         var englishJson = grunt.file.readJSON('src/_locales/en/messages.json');
         var englishKeys = _.keys(englishJson);
 
-        grunt.file.recurse('src/_locales/', function (abspath, rootdir, subdir) {
+        grunt.file.recurse('src/_locales/', function(abspath, rootdir, subdir) {
             var json = grunt.file.readJSON(abspath);
             var keys = _.keys(json);
-            
+
             var missingEnglishKeys = _.difference(englishKeys, keys);
             var extraNonEnglishKeys = _.difference(keys, englishKeys);
 
@@ -284,8 +284,8 @@ module.exports = function (grunt) {
     grunt.registerTask('default', 'An alias task for running tests.', ['test']);
 
     grunt.registerTask('test', 'Run tests and code-quality analysis', ['diffLocales', 'jshint', 'recess']);
-    
-    grunt.registerTask('compressRelease', 'A synchronous wrapper around compress:release', function (releaseDirectory, sanitize) {
+
+    grunt.registerTask('compressRelease', 'A synchronous wrapper around compress:release', function(releaseDirectory, sanitize) {
         grunt.config.set('meta.releaseDirectory', releaseDirectory);
         grunt.task.run('copy:release');
 

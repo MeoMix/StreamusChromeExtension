@@ -22,6 +22,10 @@
                 }
             };
         },
+        
+        initialize: function() {
+            this.model.get('analyticsManager').sendPageView('/background.html');
+        },
 
         onAttach: function() {
             Streamus.channels.backgroundArea.vent.trigger('attached');

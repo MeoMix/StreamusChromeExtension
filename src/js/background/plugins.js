@@ -1,18 +1,16 @@
 ﻿define(function(require) {
     'use strict';
 
-    //  TODO: Assign these to variables?
     require('backbone.marionette');
     require('backbone.localStorage');
-    require('googleAnalytics');
     var Cocktail = require('cocktail');
 
     Cocktail.patch(Backbone);
-    ga('send', 'pageview', '/background.html');
 
     //  Some sensitive data is not committed to GitHub. Use an example file to help others and provide detection of incomplete setup.
     requirejs.onError = function(error) {
         var headerWritten = false;
+        console.log('error:', error);
 
         error.requireModules.forEach(function(requireModule) {
             if (requireModule.indexOf('background/key/') !== -1) {

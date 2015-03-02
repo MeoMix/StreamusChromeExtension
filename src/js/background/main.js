@@ -1,9 +1,15 @@
-﻿define([
-    '../common/requireConfig'
-], function() {
+﻿define(['../common/requireConfig'], function(requireConfig) {
     'use strict';
+    //  Mix extra properties into requireConfig as necessary.
+    requireConfig.paths['cocktail'] = 'thirdParty/cocktail';
+    
+    requireConfig.shim['https://www.google-analytics.com/analytics.js'] = {
+        exports: 'window.ga'
+    };
+    
+    //  Setup the configuration needed to use requireJS
+    require.config(requireConfig);
 
-    //  TODO: Does.. this actually do what I think? Isn't this sugar syntax so it always loads randomly?
-    //  Then, load all of the plugins needed by the background:
+    //  Then, load all of the plugins needed:
     require(['background/plugins']);
 });

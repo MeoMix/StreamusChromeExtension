@@ -1,6 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
+    var AnalyticsManager = require('background/model/analyticsManager');
     var BrowserSettings = require('background/model/browserSettings');
     var ChromeContextMenusManager = require('background/model/chromeContextMenusManager');
     var ChromeIconManager = require('background/model/chromeIconManager');
@@ -28,6 +29,7 @@
         defaults: {
             youTubePlayer: null,
             debugManager: null,
+            analyticsManager: null,
             foregroundUnloadTimeout: null
         },
 
@@ -117,8 +119,11 @@
             var dataSourceManager = new DataSourceManager();
 
             var playlistsViewModel = new PlaylistsViewModel();
+            var analyticsManager = new AnalyticsManager();
+            this.set('analyticsManager', analyticsManager);
 
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+            window.analyticsManager = analyticsManager;
             window.browserSettings = browserSettings;
             window.debugManager = debugManager;
             window.tabManager = tabManager;

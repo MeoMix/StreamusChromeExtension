@@ -72,6 +72,7 @@
     <Content Include="src\img\streamus_icon38.png" />
     <Content Include="src\img\streamus_icon48.png" />
     <Content Include="src\img\streamus_icon_white19.png" />
+    <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\background\viewModel\playlistsViewModel.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />

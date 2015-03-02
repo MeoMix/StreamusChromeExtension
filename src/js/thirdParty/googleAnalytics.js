@@ -1,17 +1,36 @@
 //  The Google Analytics code has been slightly modified to work within the extension environment. 
 //  See this link for more information regarding GA and Chrome Extensions: https://developer.chrome.com/extensions/tut_analytics
 //  See this link for more information regarduing Universal Analytics: https://developers.google.com/analytics/devguides/collection/analyticsjs/
-(function (i, s, o, g, r, a, m) {
-    i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
-        (i[r].q = i[r].q || []).push(arguments);
-    }, i[r].l = 1 * new Date(); a = s.createElement(o),
-    m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m);
-})(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+define(function(require) {
+    'use strict';
+    // Setup temporary Google Analytics objects.
+    window.GoogleAnalyticsObject = "ga";
+    window.ga = function() {
+        (window.ga.q = window.ga.q || []).push(arguments);
+    };
+    window.ga.l = 1 * new Date();
 
-ga('create', 'UA-32334126-1', 'auto');
-//  Bug: UA doesn't work out of the box with Chrome extensions.
-//  https://code.google.com/p/analytics-issues/issues/detail?id=312
-//  http://stackoverflow.com/questions/16135000/how-do-you-integrate-universal-analytics-in-to-chrome-extensions
-ga('set', 'checkProtocolTask', function () {});
-ga('require', 'displayfeatures');
-ga('require', 'linkid', 'linkid.js');
+    // Immediately add a pageview event to the queue.
+    window.ga('create', 'UA-32334126-1', 'auto');
+    //  Bug: UA doesn't work out of the box with Chrome extensions.
+    //  https://code.google.com/p/analytics-issues/issues/detail?id=312
+    //  http://stackoverflow.com/questions/16135000/how-do-you-integrate-universal-analytics-in-to-chrome-extensions
+    window.ga('set', 'checkProtocolTask', function() {
+    });
+    window.ga('require', 'displayfeatures');
+    window.ga('require', 'linkid', 'linkid.js');
+
+    // Create a function that wraps `window.ga`.
+    // This allows dependant modules to use `window.ga` without knowingly
+    // programming against a global object.
+    var module = function() {
+        window.ga.apply(this, arguments);
+    };
+
+    // Asynchronously load Google Analytics, letting it take over our `window.ga`
+    // object after it loads. This allows us to add events to `window.ga` even
+    // before the library has fully loaded.
+    require(["https://www.google-analytics.com/analytics.js"]);
+
+    return module;
+});

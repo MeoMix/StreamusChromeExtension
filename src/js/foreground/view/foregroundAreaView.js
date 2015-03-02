@@ -106,6 +106,8 @@
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);
+
+            Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
         },
 
         onRender: function() {
