@@ -1,15 +1,15 @@
 ﻿define(['../common/requireConfig'], function(requireConfig) {
     'use strict';
     //  Mix extra properties into requireConfig as necessary.
-    requireConfig.paths['chai'] = 'thirdParty/test/chai';
-    requireConfig.paths['mocha'] = 'thirdParty/test/mocha';
-    requireConfig.paths['sinon'] = 'thirdParty/test/sinon';
+    requireConfig.paths.chai = 'thirdParty/test/chai';
+    requireConfig.paths.mocha = 'thirdParty/test/mocha';
+    requireConfig.paths.sinon = 'thirdParty/test/sinon';
 
-    requireConfig.shim['mocha'] = {
+    requireConfig.shim.mocha = {
         exports: 'window.mocha'
     };
 
-    requireConfig.shim['sinon'] = {
+    requireConfig.shim.sinon = {
         exports: 'window.sinon'
     };
 

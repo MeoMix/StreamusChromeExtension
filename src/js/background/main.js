@@ -1,7 +1,7 @@
 ﻿define(['../common/requireConfig'], function(requireConfig) {
     'use strict';
     //  Mix extra properties into requireConfig as necessary.
-    requireConfig.paths['cocktail'] = 'thirdParty/cocktail';
+    requireConfig.paths.cocktail = 'thirdParty/cocktail';
     
     requireConfig.shim['https://www.google-analytics.com/analytics.js'] = {
         exports: 'window.ga'

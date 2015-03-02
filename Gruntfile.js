@@ -50,7 +50,7 @@ module.exports = function(grunt) {
                 maxparams: 5,
                 //  TODO: Reduce these values.
                 maxdepth: 4,
-                maxstatements: 44,
+                maxstatements: 50,
                 maxcomplexity: 13,
                 maxlen: 90001,
                 //	Don't validate third-party libraries
