@@ -42,7 +42,7 @@ define(function(require) {
         },
 
         tryloadByUserId: function() {
-            var userId = this._getLocalUserId();
+            var userId = window.localStorage.getItem('userId');
 
             if (userId === null) {
                 this._create();
@@ -66,17 +66,6 @@ define(function(require) {
                 success: callback,
                 error: this._onLoadError.bind(this)
             });
-        },
-
-        _getLocalUserId: function() {
-            var userId = localStorage.getItem('userId');
-
-            //  NOTE: This is a bit of legacy code. Originally was calling toJSON on all objects written to localStorage, so quotes might exist.
-            if (userId !== null) {
-                userId = userId.replace(/"/g, '');
-            }
-
-            return userId;
         },
         
         //  No stored ID found at any client storage spot. Create a new user and use the returned user object.

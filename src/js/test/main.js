@@ -5,6 +5,7 @@
     requireConfig.paths.mocha = 'thirdParty/test/mocha';
     requireConfig.paths.sinon = 'thirdParty/test/sinon';
 
+    requireConfig.shim = requireConfig.shim || {};
     requireConfig.shim.mocha = {
         exports: 'window.mocha'
     };
