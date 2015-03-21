@@ -192,7 +192,7 @@
         },
 
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
-        _setPaddingTop: function() {
+        _setPaddingTop: function () {
             this.view.ui.childContainer.css('padding-top', this._getPaddingTop());
         },
 

@@ -21,6 +21,7 @@
             cleanTitle: ''
         },
         
+        //  TODO: Needed?
         //  Song is never saved to the server -- it gets flattened into a PlaylistItem
         sync: function() {
             return false;
@@ -31,6 +32,7 @@
             this._setCleanTitle(this.get('title'));
             this._setUrl(this.get('id'));
 
+            //  TODO: Why can song values even change?
             this.on('change:duration', this._onChangeDuration);
             this.on('change:title', this._onChangeTitle);
             this.on('change:id', this._onChangeId);

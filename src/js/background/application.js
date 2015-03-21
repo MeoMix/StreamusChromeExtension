@@ -6,7 +6,7 @@
 
     var Application = Marionette.Application.extend({
         //  Set this flag to true to enable localhost server & debugging flags.
-        localDebug: false,
+        localDebug: true,
         //  The URL to which AJAX requests are sent. localhost for debugging or cloud server in production.
         serverUrl: '',
         //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.

@@ -25,6 +25,7 @@
             this.on('change:signedInUser', this._onChangeSignedInUser);
             this.on('change:signInFailed', this._onChangeSignInFailed);
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
+            chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
             chrome.identity.onSignInChanged.addListener(this._onChromeIdentitySignInChanged.bind(this));
         },
 
@@ -220,9 +221,7 @@
             }
         },
 
-        _onChromeRuntimeMessage: function(request, sender, sendResponse) {
-            var sendAsynchronousResponse = false;
-
+        _onChromeRuntimeMessage: function (request, sender, sendResponse) {
             switch (request.method) {
                 case 'getSignedInState':
                     sendResponse({
@@ -232,16 +231,23 @@
                 case 'signIn':
                     this.signInWithGoogle();
                     break;
-                case 'addPlaylistByShareData':
+            }
+        },
+        
+        _onChromeRuntimeMessageExternal: function (request, sender, sendResponse) {
+            var sendAsynchronousResponse = false;
+
+            switch (request.method) {
+                case 'copyPlaylist':
                     if (this._canSignIn()) {
                         //  TODO: What if sign in fails?
-                        this.once('change:signedInUser', function() {
-                            this._handleAddSharedPlaylistRequest(request, sendResponse);
+                        this.once('change:signedInUser', function () {
+                            this._handleCopyPlaylistRequest(request, sendResponse);
                         });
 
                         this.signInWithGoogle();
                     } else {
-                        this._handleAddSharedPlaylistRequest(request, sendResponse);
+                        this._handleCopyPlaylistRequest(request, sendResponse);
                     }
 
                     sendAsynchronousResponse = true;
@@ -252,15 +258,13 @@
             return sendAsynchronousResponse;
         },
 
-        _handleAddSharedPlaylistRequest: function(request, sendResponse) {
+        _handleCopyPlaylistRequest: function (request, sendResponse) {
             //  TODO: Probably house this logic on signedInUser or on playlists?
-            this.get('signedInUser').get('playlists').addPlaylistByShareData({
-                shortId: request.shareCodeShortId,
-                urlFriendlyEntityTitle: request.urlFriendlyEntityTitle,
-                success: function(playlist) {
+            this.get('signedInUser').get('playlists').copyPlaylist({
+                playlistId: request.playlistId,
+                success: function() {
                     sendResponse({
-                        result: 'success',
-                        playlistTitle: playlist.get('title')
+                        result: 'success'
                     });
                 },
                 error: function(error) {

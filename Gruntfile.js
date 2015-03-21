@@ -71,10 +71,9 @@ module.exports = function(grunt) {
 
             files: {
                 expand: true,
-                ieCompat: false,
                 cwd: 'src/less/',
                 src: 'foreground.less',
-                dest: 'src/css',
+                dest: 'src/css/',
                 ext: '.css'
             }
         },
@@ -96,7 +95,7 @@ module.exports = function(grunt) {
                     appDir: 'src',
                     mainConfigFile: 'src/js/common/requireConfig.js',
                     dir: 'dist/',
-                    //  Skip optimizins because there's no load benefit for an extension and it makes error debugging hard.
+                    //  Skip optimizing because there's no load benefit for an extension and it makes error debugging hard.
                     optimize: 'none',
                     optimizeCss: 'none',
                     //  Inlines the text for any text! dependencies, to avoid the separate
@@ -105,8 +104,6 @@ module.exports = function(grunt) {
                     useStrict: true,
                     stubModules: ['text'],
                     findNestedDependencies: true,
-                    //  Don't leave a copy of the file if it has been concatenated into a larger one.
-                    removeCombined: true,
                     //  List the modules that will be optimized. All their immediate and deep
                     //  dependencies will be included in the module's file when the build is done
                     modules: [{
@@ -116,8 +113,9 @@ module.exports = function(grunt) {
                         name: 'foreground/main',
                         insertRequire: ['foreground/main']
                     }],
-                    fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/,
-                    preserveLicenseComments: false
+                    //  Don't leave a copy of the file if it has been concatenated into a larger one.
+                    removeCombined: true,
+                    fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
                 }
             }
         },
@@ -164,6 +162,10 @@ module.exports = function(grunt) {
                         return isDebug ? match : '';
                     }
                 }, {
+                    //  Remove manifest key because it can't be uploaded to the web store, but it's helpful to have in debugging to keep the extension ID stable.
+                    from: /"key".*/,
+                    to: ''
+                },{
                     //  Transform inject javascript to reference uglified/concat versions for production.
                     from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
                     to: '"js": ["js/inject/youTubeIFrameInject.js"]'

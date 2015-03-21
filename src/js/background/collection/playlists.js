@@ -31,14 +31,13 @@
             return this.findWhere({ active: true });
         },
 
-        //  Expects options: { shortId, urlFriendlyEntityTitle, success, error };
-        addPlaylistByShareData: function(options) {
+        //  Expects options: { playlistId, success, error };
+        copyPlaylist: function(options) {
             $.ajax({
                 type: 'POST',
-                url: Streamus.serverUrl + 'Playlist/CreateCopyByShareCode',
+                url: Streamus.serverUrl + 'Playlist/Copy',
                 data: {
-                    shortId: options.shortId,
-                    urlFriendlyEntityTitle: options.urlFriendlyEntityTitle,
+                    playlistId: options.playlistId,
                     userId: this.userId
                 },
                 success: function(playlistDto) {

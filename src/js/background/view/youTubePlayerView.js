@@ -86,7 +86,7 @@
 
                     //  Failed to find any preferences, so provide full pref string
                     if (prefStartIndex === -1) {
-                        cookieRequestHeader.value = cookieValue + ' PREF=' + html5PrefValue + ';';
+                        cookieRequestHeader.value = cookieValue + '; PREF=' + html5PrefValue + ';';
                     } else {
                         var prefEndIndex = cookieValue.indexOf(';', prefStartIndex);
 

@@ -37,6 +37,7 @@
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+            chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
             var debugManager = new DebugManager();
             this.set('debugManager', debugManager);
@@ -167,6 +168,15 @@
         _clearForegroundUnloadTimeout: function() {
             clearTimeout(this.get('foregroundUnloadTimeout'));
             this.set('foregroundUnloadTimeout', null);
+        },
+        
+        //  Allow external websites to ping the extension to find out whether the extension is installed or not
+        _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
+            if (request.message === 'isInstalled') {
+                sendResponse({
+                    isInstalled: true
+                });
+            }
         }
     });
 
