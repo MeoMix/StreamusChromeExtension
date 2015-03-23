@@ -1,3 +1,15 @@
+v0.172
+======
+
+- Refactored Gruntfile.js completely so that it is much more concise and elegant.
+- Removed the references to 'localhost' in manifest.json. Server now supports CORS requests and expects the Streamus' extension ID.
+- Updated locales for several languages.
+- Enforcing tighter code quality across the entire extension based on analysis of popular GitHub repository coding standards.
+- Removed two required permissions for injecting JavaScript into Streamus' website. Instead, Streamus will respond to messages from the website.
+- Sharing playlists no longer occurs on share.streamus.com. Instead, it can be found at streamus.com/share
+- Removed some legacy code for handling older style of user stored in localStorage
+- Tightened linting for LESS and JSHint
+
 v0.169
 ======
 
