@@ -95,7 +95,7 @@
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
 	"externally_connectable": {
-		"matches": ["*://*.streamus.com/*", "*://localhost*"]
+		"matches": ["*://*.streamus.com/*"]
 	},
 	"homepage_url": "http://streamus.com",
 	"incognito": "spanning",
@@ -105,7 +105,6 @@
 	"omnibox": { "keyword" : "streamus" }, 
 	"permissions": [
 	    "alarms",
-	    "*://localhost*",
 	    "contextMenus",
 		"background",
 		"notifications",

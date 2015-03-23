@@ -104,6 +104,8 @@ module.exports = function(grunt) {
                     useStrict: true,
                     stubModules: ['text'],
                     findNestedDependencies: true,
+                    //  Don't leave a copy of the file if it has been concatenated into a larger one.
+                    removeCombined: true,
                     //  List the modules that will be optimized. All their immediate and deep
                     //  dependencies will be included in the module's file when the build is done
                     modules: [{
@@ -113,8 +115,6 @@ module.exports = function(grunt) {
                         name: 'foreground/main',
                         insertRequire: ['foreground/main']
                     }],
-                    //  Don't leave a copy of the file if it has been concatenated into a larger one.
-                    removeCombined: true,
                     fileExclusionRegExp: /^\.|vsdoc.js$|\.example$|test|test.html|less$/
                 }
             }
@@ -156,21 +156,12 @@ module.exports = function(grunt) {
                 src: ['dist/manifest.json'],
                 overwrite: true,
                 replacements: [{
-                    from: /".*localhost.*,/g,
-                    to: function(match) {
-                        //  Don't remove debug permissions when testing because server will throw CORS errors.
-                        return isDebug ? match : '';
-                    }
-                }, {
-                    from: /, ".*localhost.*"/g,
-                    to: function(match) {
-                        //  Don't remove debug permissions when testing because server will throw CORS errors.
-                        return isDebug ? match : '';
-                    }
-                }, {
                     //  Remove manifest key because it can't be uploaded to the web store, but it's helpful to have in debugging to keep the extension ID stable.
                     from: /"key".*/,
-                    to: ''
+                    to: function(match) {
+                        //  Don't remove key when testing because server will throw CORS errors.
+                        return isDebug ? match : '';
+                    }
                 },{
                     //  Transform inject javascript to reference uglified/concat versions for production.
                     from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
@@ -178,12 +169,6 @@ module.exports = function(grunt) {
                 }, {
                     from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
                     to: '"js": ["js/inject/youTubeInject.js"]'
-                }, {
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]',
-                    to: '"js": ["js/inject/streamusShareInject.js"]'
-                }, {
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]',
-                    to: '"js": ["js/inject/streamusInject.js"]'
                 }, {
                     from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
                     to: '"js": ["js/inject/beatportInject.js"]'
@@ -234,8 +219,6 @@ module.exports = function(grunt) {
             injectedJs: {
                 files: {
                     'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
-                    'dist/js/inject/streamusInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusInject.js'],
-                    'dist/js/inject/streamusShareInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/streamusShareInject.js'],
                     'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
                     'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
                 }

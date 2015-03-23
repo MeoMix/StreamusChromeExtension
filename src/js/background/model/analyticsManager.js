@@ -17,7 +17,6 @@
             };
             window.ga.l = 1 * new Date();
 
-            // Immediately add a pageview event to the queue.
             window.ga('create', 'UA-32334126-1', 'auto');
             //  Bug: UA doesn't work out of the box with Chrome extensions.
             //  https://code.google.com/p/analytics-issues/issues/detail?id=312
