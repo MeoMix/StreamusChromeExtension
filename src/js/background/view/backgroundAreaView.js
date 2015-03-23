@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var YouTubePlayerRegion = require('background/view/youTubePlayerRegion');
@@ -8,8 +8,8 @@
     var BackgroundAreaView = Marionette.LayoutView.extend({
         id: 'backgroundArea',
         template: _.template(BackgroundAreaTemplate),
-        
-        regions: function (options) {
+
+        regions: function(options) {
             return {
                 youTubePlayerRegion: {
                     el: '#' + this.id + '-youTubePlayerRegion',
@@ -19,11 +19,15 @@
                 clipboardRegion: {
                     el: '#' + this.id + '-clipboardRegion',
                     regionClass: ClipboardRegion
-                }              
+                }
             };
         },
+        
+        initialize: function() {
+            this.model.get('analyticsManager').sendPageView('/background.html');
+        },
 
-        onAttach: function () {
+        onAttach: function() {
             Streamus.channels.backgroundArea.vent.trigger('attached');
         }
     });

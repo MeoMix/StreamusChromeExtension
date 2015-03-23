@@ -21,7 +21,7 @@
     }
 
     .rangeInput {
-        @volumeRangeSize: @expandedPanelHeight - (@rangeInputMargin * 2);
+        @volumeRangeSize: (@expandedPanelHeight - (@rangeInputMargin * 2));
         right: -@volumeRangeSize;
         width: @volumeRangeSize;
         opacity: 1;
@@ -48,11 +48,11 @@
     // CSS triangle
     &:before {
         position: absolute;
-        top: -1 * @panelWidth / 8;
+        top: (-1 * (@panelWidth / 8));
         right: 0;
         left: 0;
-        width: @panelWidth / 4;
-        height: @panelWidth / 4;
+        width: (@panelWidth / 4);
+        height: (@panelWidth / 4);
         margin: 0 auto;
         background-color: white;
         content: ' ';

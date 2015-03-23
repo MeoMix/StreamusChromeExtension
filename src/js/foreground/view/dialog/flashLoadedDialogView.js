@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
@@ -8,7 +8,7 @@
     var FlashLoadedDialogView = DialogView.extend({
         id: 'flashLoadedDialog',
 
-        initialize: function () {
+        initialize: function() {
             this.model = new Dialog({
                 showCancelButton: false
             });

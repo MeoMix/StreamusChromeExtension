@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var RepeatButtonState = require('common/enum/repeatButtonState');
@@ -11,46 +11,46 @@
         id: 'repeatButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(RepeatButtonTemplate),
-        
+
         templateHelpers: {
             repeatIcon: _.template(RepeatIconTemplate)(),
             repeatOneIcon: _.template(RepeatOneIconTemplate)()
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 repeatIcon: '#' + this.id + '-repeatIcon',
                 repeatOneIcon: '#' + this.id + '-repeatOneIcon'
             };
         },
-        
+
         events: {
             'click': '_onClick'
         },
-        
+
         modelEvents: {
             'change:state': '_onChangeState'
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setState(this.model.get('state'), this.model.getStateMessage());
         },
-        
-        _onClick: function () {
+
+        _onClick: function() {
             this.model.toggleRepeatState();
         },
-        
+
         _onChangeState: function(model, state) {
             this._setState(state, model.getStateMessage());
         },
-        
-        _setState: function (state, stateMessage) {
+
+        _setState: function(state, stateMessage) {
             //  The button is considered enabled if it is anything but off.
             var enabled = state !== RepeatButtonState.Off;
 

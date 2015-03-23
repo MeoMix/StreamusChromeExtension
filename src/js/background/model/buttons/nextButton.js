@@ -1,9 +1,9 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ChromeCommand = require('background/enum/chromeCommand');
     var RepeatButtonState = require('common/enum/repeatButtonState');
-    
+
     var NextButton = Backbone.Model.extend({
         defaults: {
             enabled: false,
@@ -13,7 +13,7 @@
             repeatButton: null,
         },
 
-        initialize: function () {
+        initialize: function() {
             //  TODO: There's a LOT of things to listen to here. Once Stream can tell me its nextItem I should be able to clean this up easier.
             this.listenTo(this.get('stream').get('items'), 'add remove reset change:active', this._setEnabled);
             this.listenTo(this.get('radioButton'), 'change:enabled', this._onRadioButtonChangeEnabled);
@@ -25,7 +25,7 @@
         },
         
         //  Prevent spamming by only allowing a next click once every 100ms.
-        tryActivateNextStreamItem: _.debounce(function () {
+        tryActivateNextStreamItem: _.debounce(function() {
             var activatedNextItem = false;
 
             if (this.get('enabled')) {
@@ -35,8 +35,8 @@
 
             return activatedNextItem;
         }, 100, true),
-        
-        _onChromeCommandsCommand: function (command) {
+
+        _onChromeCommandsCommand: function(command) {
             if (command === ChromeCommand.NextSong) {
                 var activatedStreamItem = this.tryActivateNextStreamItem();
 
@@ -48,20 +48,20 @@
                 }
             }
         },
-        
-        _onRepeatButtonChangeState: function () {
+
+        _onRepeatButtonChangeState: function() {
             this._setEnabled();
         },
-        
+
         _onShuffleButtonChangeEnabled: function() {
             this._setEnabled();
         },
-        
+
         _onRadioButtonChangeEnabled: function() {
             this._setEnabled();
         },
-        
-        _setEnabled: function () {
+
+        _setEnabled: function() {
             var enabled = false;
 
             var streamItems = this.get('stream').get('items');

@@ -1,19 +1,19 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SignInManager = require('background/model/signInManager');
     var User = require('background/model/user');
 
-    describe('SignInManager', function () {
-        beforeEach(function () {
+    describe('SignInManager', function() {
+        beforeEach(function() {
             this.signInManager = new SignInManager();
         });
 
-        describe('when not signed into Google Chrome ', function () {
+        describe('when not signed into Google Chrome ', function() {
             var USER_ID = '1111-1111-1111-1111';
             var GOOGLE_PLUS_ID = '';
 
-            beforeEach(function () {
+            beforeEach(function() {
                 sinon.stub(chrome.identity, 'getProfileUserInfo').yields({
                     id: GOOGLE_PLUS_ID,
                     email: ''
@@ -32,7 +32,7 @@
                 sinon.spy(this.signInManager, '_onSignInSuccess');
             });
 
-            afterEach(function () {
+            afterEach(function() {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
                 this.signInManager._needGoogleSignIn.restore();
@@ -40,16 +40,16 @@
                 this.signInManager._onSignInSuccess.restore();
             });
 
-            describe('when signing in as a new user', function () {
-                it('the user should be signed in and should show a dialog to consider signing into Google Chrome', function () {
+            describe('when signing in as a new user', function() {
+                it('the user should be signed in and should show a dialog to consider signing into Google Chrome', function() {
                     localStorage.removeItem('userId');
                     this.signInManager.signInWithGoogle();
                     ensureSignedIn(this.signInManager);
                 });
             });
 
-            describe('when signing in as an existing user', function () {
-                it('the user should be signed should show a dialog to consider signing into Google Chrome', function () {
+            describe('when signing in as an existing user', function() {
+                it('the user should be signed should show a dialog to consider signing into Google Chrome', function() {
                     localStorage.setItem('userId', USER_ID);
                     this.signInManager.signInWithGoogle();
                     ensureSignedIn(this.signInManager);
@@ -68,11 +68,11 @@
             }
         });
 
-        describe('when signed into Google Chrome', function () {
+        describe('when signed into Google Chrome', function() {
             var USER_ID = '1111-1111-1111-1111';
             var GOOGLE_PLUS_ID = '111111111';
 
-            beforeEach(function () {
+            beforeEach(function() {
                 sinon.stub(chrome.identity, 'getProfileUserInfo').yields({
                     id: GOOGLE_PLUS_ID,
                     email: ''
@@ -82,15 +82,15 @@
                 sinon.spy(this.signInManager, '_needLinkUserId');
             });
 
-            afterEach(function () {
+            afterEach(function() {
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
                 this.signInManager._needGoogleSignIn.restore();
                 this.signInManager._needLinkUserId.restore();
             });
 
-            describe('when signing in as a new user', function () {
-                beforeEach(function () {
+            describe('when signing in as a new user', function() {
+                beforeEach(function() {
                     sinon.stub($, 'ajax')
                         //  Return null because instantiating a new user (doesn't exist in database when trying to find by GooglePlusId
                         .onFirstCall().yieldsTo('success', null)
@@ -103,7 +103,7 @@
                         });
                 });
 
-                it('should be created as a new user and should be linked to Google Chrome account', function () {
+                it('should be created as a new user and should be linked to Google Chrome account', function() {
                     localStorage.removeItem('userId');
                     this.signInManager.signInWithGoogle();
                     //  Once to login, again for checking to see if should show a dialog to link to Google Account.
@@ -115,8 +115,8 @@
                 });
             });
 
-            describe('when signing in as an existing user', function () {
-                beforeEach(function () {
+            describe('when signing in as an existing user', function() {
+                beforeEach(function() {
                     sinon.stub($, 'ajax')
                         //  Return nothing because Google ID hasn't been linked to user yet.
                         .onFirstCall().yieldsTo('success', null)
@@ -130,7 +130,7 @@
                         });
                 });
 
-                it('user data should be preserved and should show a dialog to consider linking account to Google Chrome', function () {
+                it('user data should be preserved and should show a dialog to consider linking account to Google Chrome', function() {
                     localStorage.setItem('userId', USER_ID);
                     this.signInManager.signInWithGoogle();
 
@@ -144,13 +144,13 @@
             });
         });
 
-        describe('when data is loaded and signing into Google Chrome event has triggered', function () {
+        describe('when data is loaded and signing into Google Chrome event has triggered', function() {
             var OLD_USER_ID = '1111-1111-1111-1111';
             var NEW_USER_ID = '2222-2222-2222-2222';
             var OLD_GOOGLE_PLUS_ID = '111111111';
             var NEW_GOOGLE_PLUS_ID = '222222222';
 
-            beforeEach(function () {
+            beforeEach(function() {
                 sinon.stub(chrome.identity, 'getProfileUserInfo').yields({
                     id: NEW_GOOGLE_PLUS_ID,
                     email: ''
@@ -159,14 +159,14 @@
                 sinon.spy(this.signInManager, '_needLinkUserId');
             });
 
-            afterEach(function () {
+            afterEach(function() {
                 chrome.identity.getProfileUserInfo.restore();
                 this.signInManager._needLinkUserId.restore();
                 $.ajax.restore();
             });
 
-            describe('when account already linked to Google', function () {
-                beforeEach(function () {
+            describe('when account already linked to Google', function() {
+                beforeEach(function() {
                     localStorage.removeItem('userId');
 
                     //  Account already linked to Google:
@@ -176,8 +176,8 @@
                     }));
                 });
 
-                describe('when new user is not linked to Google', function () {
-                    beforeEach(function () {
+                describe('when new user is not linked to Google', function() {
+                    beforeEach(function() {
                         sinon.stub($, 'ajax')
                             //  Return false on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
                             .onFirstCall().yieldsTo('success', false)
@@ -192,7 +192,7 @@
                     });
 
                     //  Since the new user can't be linked to the old user's data, but the new user already has a Google+ ID, use that Google+ ID in creating their account.
-                    it('should create a new account and and link that account to the new user\'s account', function () {
+                    it('should create a new account and and link that account to the new user\'s account', function() {
                         this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
@@ -203,8 +203,8 @@
                     });
                 });
 
-                describe('when new user is already linked to Google', function () {
-                    beforeEach(function () {
+                describe('when new user is already linked to Google', function() {
+                    beforeEach(function() {
                         sinon.stub($, 'ajax')
                             //  Return true on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                             .onFirstCall().yieldsTo('success', true)
@@ -218,7 +218,7 @@
                             });
                     });
 
-                    it('should swap to new account - old data is preserved in DB', function () {
+                    it('should swap to new account - old data is preserved in DB', function() {
                         this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
@@ -230,8 +230,8 @@
                 });
             });
 
-            describe('when current user\'s account is not linked to Google', function () {
-                beforeEach(function () {
+            describe('when current user\'s account is not linked to Google', function() {
+                beforeEach(function() {
                     localStorage.removeItem('userId');
 
                     //  Currently signed in user's account is not linked to Google:
@@ -241,14 +241,14 @@
                     }));
                 });
 
-                describe('when new user\'s account is not linked to Google', function () {
-                    beforeEach(function () {
+                describe('when new user\'s account is not linked to Google', function() {
+                    beforeEach(function() {
                         sinon.stub($, 'ajax')
                             //  Return false on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID isn't linked to an existing account
                             .onFirstCall().yieldsTo('success', false);
                     });
 
-                    it('should show a dialog new user to link their account to the existing account', function () {
+                    it('should show a dialog new user to link their account to the existing account', function() {
                         this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
@@ -271,8 +271,8 @@
                         signedInUser.mergeByGooglePlusId.restore();
                         signedInUser.hasLinkedGoogleAccount.restore();
                     });
-                    
-                    it('should patch new user account with GooglePlusID if no other account shares GooglePlusId', function () {
+
+                    it('should patch new user account with GooglePlusID if no other account shares GooglePlusId', function() {
                         var signedInUser = this.signInManager.get('signedInUser');
 
                         sinon.stub(signedInUser, 'hasLinkedGoogleAccount').yields(false);
@@ -282,20 +282,20 @@
 
                         expect(signedInUser.sync.calledOnce).to.equal(true);
                         expect(signedInUser.sync.calledWith('patch')).to.equal(true);
-                        
+
                         signedInUser.sync.restore();
                         signedInUser.hasLinkedGoogleAccount.restore();
                     });
                 });
 
-                describe('when new user is already linked to Google', function () {
-                    beforeEach(function () {
+                describe('when new user is already linked to Google', function() {
+                    beforeEach(function() {
                         sinon.stub($, 'ajax')
                             //  Return true on first AJAX request to hasLinkedGoogleAccount because NEW_GOOGE_PLUS_ID is linked to an existing account
                             .onFirstCall().yieldsTo('success', true);
                     });
 
-                    it('should swap to new account - old data is lost', function () {
+                    it('should swap to new account - old data is lost', function() {
                         this.signInManager._onChromeIdentitySignInChanged({
                             id: NEW_GOOGLE_PLUS_ID,
                             email: ''
@@ -308,11 +308,11 @@
             });
         });
 
-        describe('when data is loaded and signing out of Google Chrome event has triggered', function () {
+        describe('when data is loaded and signing out of Google Chrome event has triggered', function() {
             var USER_ID = '1111-1111-1111-1111';
             var GOOGLE_PLUS_ID = '111111111';
 
-            beforeEach(function () {
+            beforeEach(function() {
                 sinon.spy(this.signInManager, 'signOut');
                 sinon.stub(chrome.identity, 'getProfileUserInfo').yields({
                     id: USER_ID,
@@ -322,14 +322,14 @@
                 sinon.stub($, 'ajax');
             });
 
-            afterEach(function () {
+            afterEach(function() {
                 this.signInManager.signOut.restore();
                 chrome.identity.getProfileUserInfo.restore();
                 $.ajax.restore();
             });
 
-            describe('when account is already linked to Google', function () {
-                beforeEach(function () {
+            describe('when account is already linked to Google', function() {
+                beforeEach(function() {
                     //  Currently signed in user's account is not linked to Google:
                     this.signInManager.set('signedInUser', new User({
                         googlePlusId: GOOGLE_PLUS_ID,
@@ -339,7 +339,7 @@
                     sinon.spy(this.signInManager, 'signInWithGoogle');
                 });
 
-                it('should clear the current accounts data and create a new user', function () {
+                it('should clear the current accounts data and create a new user', function() {
                     this.signInManager._onChromeIdentitySignInChanged({
                         id: GOOGLE_PLUS_ID,
                         email: ''
@@ -350,13 +350,13 @@
                     expect(this.signInManager.signInWithGoogle.calledOnce).to.equal(true);
                 });
 
-                afterEach(function () {
+                afterEach(function() {
                     this.signInManager.signInWithGoogle.restore();
                 });
             });
 
-            describe('when account is not linked to Google', function () {
-                beforeEach(function () {
+            describe('when account is not linked to Google', function() {
+                beforeEach(function() {
                     //  Currently signed in user's account is not linked to Google:
                     this.signInManager.set('signedInUser', new User({
                         googlePlusId: '',
@@ -364,7 +364,7 @@
                     }));
                 });
 
-                it('should take no action against the existing account - data is preserved', function () {
+                it('should take no action against the existing account - data is preserved', function() {
                     this.signInManager._onChromeIdentitySignInChanged({
                         id: GOOGLE_PLUS_ID,
                         email: ''

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var PlaylistAction = require('foreground/model/playlistAction');
@@ -11,29 +11,29 @@
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
         },
-        
+
         attributes: {
             title: chrome.i18n.getMessage('delete')
         },
 
-        initialize: function () {
+        initialize: function() {
             this._setState();
-            
+
             ListItemButtonView.prototype.initialize.apply(this, arguments);
-            
+
             //  Ensure that the user isn't able to destroy the model more than once.
             this.doOnClickAction = _.once(this.doOnClickAction);
         },
-        
-        doOnClickAction: function () {
+
+        doOnClickAction: function() {
             var playlistAction = new PlaylistAction({
                 playlist: this.model
             });
 
             playlistAction.deletePlaylist();
         },
-        
-        _setState: function () {
+
+        _setState: function() {
             var canDelete = this.model.get('canDelete');
 
             var title;

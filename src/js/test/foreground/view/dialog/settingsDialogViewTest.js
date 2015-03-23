@@ -3,23 +3,23 @@
 
     var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
 
-    describe('SettingsDialogView', function () {
-        beforeEach(function () {
+    describe('SettingsDialogView', function() {
+        beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new SettingsDialogView();
         });
 
-        afterEach(function () {
+        afterEach(function() {
             this.view.destroy();
         });
 
-        it('should show', function () {
+        it('should show', function() {
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        describe('onSubmit', function () {
-            it('should save configured settings', function () {
+
+        describe('onSubmit', function() {
+            it('should save configured settings', function() {
                 sinon.stub(this.view.contentView, 'save');
 
                 this.view.onSubmit();

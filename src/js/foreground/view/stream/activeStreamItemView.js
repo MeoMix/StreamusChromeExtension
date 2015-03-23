@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var TimeArea = require('foreground/model/timeArea');
@@ -11,7 +11,7 @@
         className: 'activeStreamItem',
         template: _.template(ActiveStreamItemTemplate),
 
-        regions: function () {
+        regions: function() {
             return {
                 timeAreaRegion: '#' + this.id + '-timeAreaRegion'
             };
@@ -25,17 +25,17 @@
 
         instant: false,
 
-        initialize: function (options) {
+        initialize: function(options) {
             this.instant = options.instant;
         },
 
-        onRender: function () {
+        onRender: function() {
             if (this.instant) {
                 this.$el.addClass('is-instant');
             } else {
                 this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
             }
-            
+
             this.timeAreaRegion.show(new TimeAreaView({
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')
@@ -43,13 +43,13 @@
             }));
         },
 
-        onAttach: function () {
+        onAttach: function() {
             //  If the view is shown instantly then there is no transition to wait for, so announce shown immediately.
             if (this.instant) {
                 this.$el.addClass('is-visible');
                 Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             } else {
-                _.defer(function () {
+                _.defer(function() {
                     this.$el.addClass('is-visible');
                 }.bind(this));
 
@@ -57,19 +57,19 @@
             }
         },
 
-        hide: function () {
+        hide: function() {
             this.$el.on('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-instant is-visible');
         },
 
-        _onTransitionInComplete: function (event) {
+        _onTransitionInComplete: function(event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
                 Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             }
         },
 
-        _onTransitionOutComplete: function (event) {
+        _onTransitionOutComplete: function(event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
                 Streamus.channels.activeStreamItemArea.vent.trigger('is-hidden');

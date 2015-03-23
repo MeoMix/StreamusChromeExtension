@@ -8,17 +8,18 @@
     var TestUtility = {
         songIdLength: 7,
 
-        _getUniqueId: function (idLength) {
-            var text = "";
-            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        _getUniqueId: function(idLength) {
+            var text = '';
+            var possible = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
 
-            for (var i = 0; i < idLength; i++)
+            for (var i = 0; i < idLength; i++) {
                 text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
 
             return text;
         },
 
-        getSongArray: function (length) {
+        getSongArray: function(length) {
             var songArray = [];
 
             for (var i = 0; i < length; i++) {
@@ -28,7 +29,7 @@
             return songArray;
         },
 
-        getRawSong: function (idOverride) {
+        getRawSong: function(idOverride) {
             var id = _.isUndefined(idOverride) ? 'M7lc1UVf-VE' : idOverride;
 
             return {
@@ -40,12 +41,12 @@
         },
 
         //  Construct a basic Song object fit for general testing.
-        buildSong: function (idOverride) {
+        buildSong: function(idOverride) {
             return new Song(this.getRawSong(idOverride));
         },
 
         //  Construct a basic PlaylistItem object fit for general testing.
-        buildPlaylistItem: function () {
+        buildPlaylistItem: function() {
             var song = this.buildSong();
 
             return new PlaylistItem({
@@ -54,7 +55,7 @@
             });
         },
 
-        buildPlaylist: function () {
+        buildPlaylist: function() {
             return new Playlist({
                 title: 'Playlist'
             });

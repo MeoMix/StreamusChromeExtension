@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var PlaylistsView = require('foreground/view/playlist/playlistsView');
@@ -9,20 +9,20 @@
         id: 'playlistsArea',
         className: 'flexColumn',
         template: _.template(PlaylistsAreaTemplate),
-        templateHelpers: function () {
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 createPlaylist: chrome.i18n.getMessage('createPlaylist')
             };
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 playlistsRegion: '#' + this.id + '-playlistsRegion'
             };
         },
 
-        ui: function () {
+        ui: function() {
             return {
                 transitionable: '.u-transitionable',
                 overlay: '#' + this.id + '-overlay',
@@ -36,15 +36,15 @@
             'click @ui.hideButton': '_onClickHideButton',
             'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton'
         },
-        
+
         playlists: null,
 
         //  TODO: This feels weird...
-        initialize: function (options) {
+        initialize: function(options) {
             this.playlists = options.playlists;
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             var playlistsView = new PlaylistsView({
                 collection: this.playlists
             });
@@ -53,13 +53,13 @@
             // TODO: This also feels kind of weird.
             this.listenTo(playlistsView, 'click:childContainer', this._onClickChildContainer);
         },
-        
-        show: function () {
+
+        show: function() {
             Streamus.channels.playlistsArea.vent.trigger('showing');
             this.ui.transitionable.addClass('is-visible');
         },
-        
-        hide: function () {
+
+        hide: function() {
             Streamus.channels.playlistsArea.vent.trigger('hiding');
             this.ui.transitionable.removeClass('is-visible');
         },
@@ -68,16 +68,16 @@
             this.hide();
         },
 
-        _onClickOverlay: function () {
+        _onClickOverlay: function() {
             this.hide();
         },
-        
-        _onClickCreatePlaylistButton: function () {
+
+        _onClickCreatePlaylistButton: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', CreatePlaylistDialogView);
         },
  
         //  Whenever a playlist is clicked it will become active and the menu should hide itself.
-        _onClickChildContainer: function () {
+        _onClickChildContainer: function() {
             this.hide();
         }
     });

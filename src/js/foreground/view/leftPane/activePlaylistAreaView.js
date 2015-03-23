@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -9,8 +9,8 @@
         id: 'activePlaylistArea',
         className: 'flexColumn',
         template: _.template(ActivePlaylistAreaTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 addAllMessage: chrome.i18n.getMessage('addAll'),
@@ -21,14 +21,14 @@
                 wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
             };
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 playlistItemsRegion: '#' + this.id + '-playlistItemsRegion'
             };
         },
 
-        ui: function () {
+        ui: function() {
             return {
                 playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
                 showSearchLink: '#' + this.id + '-showSearchLink',
@@ -43,15 +43,15 @@
             'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
             'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
-        
+
         streamItems: null,
-        
+
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
@@ -64,55 +64,55 @@
             this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
         },
 
-        onRender: function () {
+        onRender: function() {
             this._toggleButtons();
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
             this._toggleInstructions(this.model.get('items').isEmpty());
-            
+
             this.playlistItemsRegion.show(new PlaylistItemsView({
                 collection: this.model.get('items')
             }));
         },
-        
-        _onClickShowSearchLink: function () {
+
+        _onClickShowSearchLink: function() {
             Streamus.channels.searchArea.commands.trigger('show:search');
         },
-        
-        _onStreamItemsAdd: function () {
+
+        _onStreamItemsAdd: function() {
             this._toggleButtons();
         },
-        
+
         _onStreamItemsRemove: function() {
             this._toggleButtons();
         },
-        
-        _onStreamItemsReset: function () {
+
+        _onStreamItemsReset: function() {
             this._toggleButtons();
         },
-        
+
         _onPlaylistItemsAdd: function(model, collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
             this._toggleInstructions(false);
         },
-        
-        _onPlaylistItemsRemove: function (model, collection) {
+
+        _onPlaylistItemsRemove: function(model, collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
             this._toggleInstructions(collection.isEmpty());
         },
-        
-        _onPlaylistItemsReset: function (collection) {
+
+        _onPlaylistItemsReset: function(collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
             this._toggleInstructions(collection.isEmpty());
         },
-        
-        _toggleInstructions: function (collectionEmpty) {
+
+        _toggleInstructions: function(collectionEmpty) {
             this.ui.playlistEmptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },
-        
-        _toggleButtons: function () {
+
+        _toggleButtons: function() {
             var isEmpty = this.model.get('items').isEmpty();
             this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
@@ -120,15 +120,15 @@
             this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
         },
 
-        _updatePlaylistDetails: function (displayInfo) {
+        _updatePlaylistDetails: function(displayInfo) {
             this.ui.playlistDetails.text(displayInfo).attr('title', displayInfo);
         },
 
-        _onClickAddAllButton: function () {
+        _onClickAddAllButton: function() {
             this.streamItems.addSongs(this.model.get('items').pluck('song'));
         },
-        
-        _onClickPlayAllButton: function () {
+
+        _onClickPlayAllButton: function() {
             this.streamItems.addSongs(this.model.get('items').pluck('song'), {
                 playOnAdd: true
             });

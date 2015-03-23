@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ClearStreamButton = require('foreground/model/clearStreamButton');
@@ -11,13 +11,13 @@
     var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
     var StreamItemsView = require('foreground/view/stream/streamItemsView');
     var StreamTemplate = require('text!template/stream/stream.html');
-    
+
     var StreamView = Marionette.LayoutView.extend({
         id: 'stream',
         className: 'flexColumn',
         template: _.template(StreamTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 emptyMessage: chrome.i18n.getMessage('streamEmpty'),
@@ -26,7 +26,7 @@
             };
         },
 
-        regions: function () {
+        regions: function() {
             return {
                 clearStreamButtonRegion: '#' + this.id + '-clearStreamButtonRegion',
                 radioButtonRegion: '#' + this.id + '-radioButtonRegion',
@@ -37,35 +37,35 @@
                 streamItemsRegion: '#' + this.id + '-streamItemsRegion'
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 emptyMessage: '#' + this.id + '-emptyMessage',
                 showSearchLink: '#' + this.id + '-showSearchLink'
             };
         },
-        
+
         events: {
             'click @ui.showSearchLink': '_onClickShowSearchLink'
         },
-        
+
         modelEvents: {
             'change:activeItem': '_onChangeActiveItem'
         },
-        
+
         streamItemsEvents: {
             'add': '_onStreamItemsAdd',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.bindEntityEvents(this.model.get('items'), this.streamItemsEvents);
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this._setState(this.model.get('items').isEmpty());
-            
+
             this.streamItemsRegion.show(new StreamItemsView({
                 collection: this.model.get('items')
             }));
@@ -87,7 +87,7 @@
                     streamItems: this.model.get('items')
                 })
             }));
-            
+
             this.saveStreamButtonRegion.show(new SaveStreamButtonView({
                 model: new SaveStreamButton({
                     streamItems: this.model.get('items'),
@@ -100,12 +100,12 @@
                 this._showActiveStreamItem(activeItem, true);
             }
         },
-        
-        _onClickShowSearchLink: function () {
+
+        _onClickShowSearchLink: function() {
             this._showSearch();
         },
 
-        _onChangeActiveItem: function (model, activeItem) {
+        _onChangeActiveItem: function(model, activeItem) {
             if (activeItem === null) {
                 this.activeStreamItemRegion.currentView.hide();
             } else {
@@ -114,29 +114,29 @@
                 this._showActiveStreamItem(activeItem, instant);
             }
         },
-        
-        _onStreamItemsAdd: function () {
+
+        _onStreamItemsAdd: function() {
             this._setState(false);
         },
 
-        _onStreamItemsRemove: function (model, collection) {
+        _onStreamItemsRemove: function(model, collection) {
             this._setState(collection.isEmpty());
         },
 
-        _onStreamItemsReset: function (collection) {
+        _onStreamItemsReset: function(collection) {
             this._setState(collection.isEmpty());
         },
         
         //  Hide the empty message if there is anything in the collection
-        _setState: function (collectionEmpty) {
+        _setState: function(collectionEmpty) {
             this.ui.emptyMessage.toggleClass('is-hidden', !collectionEmpty);
         },
 
-        _showSearch: function () {
+        _showSearch: function() {
             Streamus.channels.searchArea.commands.trigger('show:search');
         },
-        
-        _showActiveStreamItem: function (activeStreamItem, instant) {
+
+        _showActiveStreamItem: function(activeStreamItem, instant) {
             this.activeStreamItemRegion.show(new ActiveStreamItemView({
                 model: activeStreamItem,
                 instant: instant

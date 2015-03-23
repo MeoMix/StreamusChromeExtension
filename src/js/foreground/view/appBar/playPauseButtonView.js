@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var PlayerState = require('common/enum/playerState');
@@ -10,19 +10,19 @@
         id: 'playPauseButton',
         className: 'button button--icon button--icon--primary button--large',
         template: _.template(PlayPauseButtonTemplate),
-        
+
         templateHelpers: {
             pauseIcon: _.template(PauseIconTemplate)(),
             playIcon: _.template(PlayIconTemplate)()
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 playIcon: '#' + this.id + '-playIcon',
                 pauseIcon: '#' + this.id + '-pauseIcon'
             };
         },
-        
+
         events: {
             'click': '_onClick'
         },
@@ -30,31 +30,31 @@
         modelEvents: {
             'change:enabled': '_onChangeEnabled'
         },
-        
+
         player: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setState(this.model.get('enabled'), this.player.get('state'));
         },
 
-        _onClick: function () {
+        _onClick: function() {
             this.model.tryTogglePlayerState();
         },
 
-        _onChangeEnabled: function (model, enabled) {
+        _onChangeEnabled: function(model, enabled) {
             this._setState(enabled, this.player.get('state'));
         },
-        
-        _onPlayerChangeState: function (model, state) {
+
+        _onPlayerChangeState: function(model, state) {
             this._setState(this.model.get('enabled'), state);
         },
 
-        _setState: function (enabled, playerState) {
+        _setState: function(enabled, playerState) {
             this.$el.toggleClass('is-disabled', !enabled);
 
             //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?

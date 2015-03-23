@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SongQuality = require('common/enum/songQuality');
@@ -20,12 +20,12 @@
             desktopNotificationsEnabled: true,
             desktopNotificationDuration: DesktopNotificationDuration.ThreeSeconds
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             //  Load from Backbone.LocalStorage
             this.fetch();
         }
     });
-    
+
     return Settings;
 });

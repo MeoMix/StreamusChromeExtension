@@ -1,9 +1,9 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var BackgroundArea = require('background/model/backgroundArea');
     var BackgroundAreaView = require('background/view/backgroundAreaView');
-    
+
     var Application = Marionette.Application.extend({
         //  Set this flag to true to enable localhost server & debugging flags.
         localDebug: false,
@@ -11,7 +11,7 @@
         serverUrl: '',
         //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
         instanceId: '',
-        
+
         regions: {
             backgroundAreaRegion: '#backgroundAreaRegion'
         },
@@ -34,18 +34,18 @@
             this._setInstanceId();
             this.on('start', this._onStart);
         },
-        
-        _onStart: function () {
+
+        _onStart: function() {
             this._showBackground();
         },
 
-        _setServerUrl: function () {
+        _setServerUrl: function() {
             this.serverUrl = this.localDebug ? 'http://localhost:39853/' : 'https://aws-server.streamus.com/Streamus/';
         },
 
-        _setInstanceId: function () {
+        _setInstanceId: function() {
             var instanceId = window.localStorage.getItem('instanceId');
-            
+
             if (instanceId === null) {
                 instanceId = 'instance_' + _.now();
                 window.localStorage.setItem('instanceId', instanceId);
@@ -54,7 +54,7 @@
             this.instanceId = instanceId;
         },
 
-        _showBackground: function () {
+        _showBackground: function() {
             this.backgroundAreaRegion.show(new BackgroundAreaView({
                 model: new BackgroundArea()
             }));

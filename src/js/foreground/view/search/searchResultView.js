@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemView = require('foreground/view/listItemView');
@@ -7,32 +7,32 @@
     var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
-    
+
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(SearchResultTemplate),
 
         buttonViews: [PlaySongButtonView, AddSongButtonView, SaveSongButtonView],
-        
+
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'
         }),
-        
+
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
             ListItemMultiSelect: {
                 behaviorClass: ListItemMultiSelect
             }
         }),
-        
+
         streamItems: null,
         player: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.player = Streamus.backgroundPage.player;
         },
-        
-        showContextMenu: function () {
+
+        showContextMenu: function() {
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('copyUrl'),
                 onClick: this._copyUrl.bind(this)
@@ -44,26 +44,26 @@
                 onClick: this._watchOnYouTube.bind(this)
             }]);
         },
-        
-        _onDblClick: function () {
+
+        _onDblClick: function() {
             this._playInStream();
         },
 
-        _playInStream: function () {
+        _playInStream: function() {
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
         },
-        
-        _copyUrl: function () {
+
+        _copyUrl: function() {
             this.model.get('song').copyUrl();
         },
 
-        _copyTitleAndUrl: function () {
+        _copyTitleAndUrl: function() {
             this.model.get('song').copyTitleAndUrl();
         },
 
-        _watchOnYouTube: function () {
+        _watchOnYouTube: function() {
             this.player.watchInTab(this.model.get('song'));
         }
     });

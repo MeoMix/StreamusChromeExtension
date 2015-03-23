@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -11,22 +11,22 @@
         modelEvents: {
             'change:title': '_onChangeTitle'
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this._setTitle(this.model.get('title'));
         },
-        
-        _onChangeTitle: function () {
+
+        _onChangeTitle: function() {
             this.render();
         },
-        
-        _setTitle: function (title) {
+
+        _setTitle: function(title) {
             this.$el.attr('title', title);
         }
     });

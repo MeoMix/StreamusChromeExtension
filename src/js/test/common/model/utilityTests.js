@@ -1,10 +1,10 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Utility = require('common/utility');
-    
-    describe('Utility', function () {
-        it('Should be able to convert ISO8061 Duration to Seconds', function () {
+
+    describe('Utility', function() {
+        it('Should be able to convert ISO8061 Duration to Seconds', function() {
             expect(Utility.iso8061DurationToSeconds('PT0H0M0S')).to.equal(0);
             expect(Utility.iso8061DurationToSeconds('PT0H0M1S')).to.equal(1);
             expect(Utility.iso8061DurationToSeconds('PT0H0M60S')).to.equal(60);
@@ -47,4 +47,3 @@
         });
     });
 });
-

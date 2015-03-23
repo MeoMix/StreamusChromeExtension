@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemType = require('common/enum/listItemType');
@@ -7,15 +7,15 @@
         placeholderClass: 'sortable-placeholder',
         isDraggingClass: 'is-dragging',
         childViewHeight: 56,
-        
-        onRender: function () {
-            this.view.$el.scroll(_.throttle(function () {
+
+        onRender: function() {
+            this.view.$el.scroll(_.throttle(function() {
                 this.view.ui.childContainer.sortable('refresh');
             }.bind(this), 20));
 
             this.view.ui.childContainer.sortable(this._getSortableOptions());
         },
-        
+
         _getSortableOptions: function() {
             var sortableOptions = {
                 //  Append to body so that the placeholder appears above all other elements instead of under when dragging between regions.
@@ -43,14 +43,14 @@
 
             return sortableOptions;
         },
-        
-        _helper: function () {
+
+        _helper: function() {
             return $('<span>', {
                 'class': 'sortable-selectedItemsCount'
             });
         },
-        
-        _change: function (event, ui) {
+
+        _change: function(event, ui) {
             var placeholderAdjacent = false;
             //  When dragging an element up/down its own list -- hide the sortable helper around the element being dragged.
             var draggedItems = this.view.collection.selected();
@@ -59,7 +59,7 @@
                 var draggedModelId = draggedItems[0].get('id');
                 placeholderAdjacent = ui.placeholder.next().data('id') === draggedModelId || ui.placeholder.prev().data('id') === draggedModelId;
             }
-            
+
             $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
 
             this.view.ui.childContainer.sortable('refresh');
@@ -67,19 +67,19 @@
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
         },
-        
-        _start: function (event, ui) {
+
+        _start: function(event, ui) {
             Streamus.channels.element.vent.trigger('drag');
             this.view.triggerMethod('ItemDragged', {
                 item: this.view.collection.get(ui.item.data('id')),
                 shiftKey: event.shiftKey
             });
-            
+
             //  Set helper text here, not in helper, because dragStart may select a search result.
             var selectedItems = this.view.collection.selected();
             ui.helper.text(selectedItems.length);
 
-            var draggedSongs = _.map(selectedItems, function (item) {
+            var draggedSongs = _.map(selectedItems, function(item) {
                 return item.get('song');
             });
 
@@ -91,23 +91,23 @@
         },
         
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
-        _beforeStop: function (event, ui) {
+        _beforeStop: function(event, ui) {
             //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
             this.view.ui.childContainer.data({
                 placeholderIndex: ui.placeholder.index() - 1
             });
         },
-        
-        _stop: function (event, ui) {
+
+        _stop: function(event, ui) {
             var childContainer = this.view.ui.childContainer;
             var isParentNodeLost = ui.item[0].parentNode === null;
-            
+
             //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
             if (allowMove) {
-                this.view.once('GetMinRenderIndexResponse', function (response) {
+                this.view.once('GetMinRenderIndexResponse', function(response) {
                     var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
                     this._cleanup();
@@ -122,13 +122,13 @@
             var removeHtmlElement = allowMove || isParentNodeLost;
             return removeHtmlElement;
         },
-        
-        _cleanup: function () {
+
+        _cleanup: function() {
             this.view.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
             Streamus.channels.element.vent.trigger('drop');
         },
-        
-        _receive: function (event, ui) {
+
+        _receive: function(event, ui) {
             //  If the parentNode does not exist then slidingRender has removed the HTML element which means the HTML element is not above the placeholder and I need to +1.
             //  This only applies for receiving and not for sorting elements within the parent list, so don't do this logic in onBeforeStop because it's not clear
             //  if sort or receive is happening.
@@ -138,11 +138,11 @@
                 placeholderIndex += 1;
             }
 
-            this.view.once('GetMinRenderIndexResponse', function (response) {
+            this.view.once('GetMinRenderIndexResponse', function(response) {
                 this.view.collection.addSongs(ui.sender.data('draggedSongs'), {
                     index: placeholderIndex + response.minRenderIndex
                 });
-                
+
                 //  TODO: Since I provided the index that the item would be inserted at in the collection, the collection does not resort.
                 //  But, the index in the collection does not correspond to the index in the CollectionView -- that's simply the placeholderIndex. Not sure how to handle that.
                 //  I'd need to intercept the _onCollectionAdd event of Marionette, calculate the proper index, and pass bypass: true in, but not going to do that for now.
@@ -150,35 +150,35 @@
             }.bind(this));
             this.view.triggerMethod('GetMinRenderIndex');
         },
-        
-        _over: function (event, ui) {
+
+        _over: function(event, ui) {
             this._overrideSortableItem(ui);
             this._decoratePlaceholder(ui);
-            
+
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
         },
-        
+
         _out: function() {
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
         },
 
-        _moveItems: function (items, dropIndex, isParentNodeLost) {
+        _moveItems: function(items, dropIndex, isParentNodeLost) {
             var moved = false;
             var itemsHandledBelowOrAtDropIndex = 0;
             var itemsHandled = 0;
 
             //  Capture the indices of the items being moved before actually moving them because sorts on the collection will
             //  change indices during each iteration.
-            var dropInfoList = _.map(items, function (item) {
+            var dropInfoList = _.map(items, function(item) {
                 return {
                     itemId: item.get('id'),
                     itemIndex: this.view.collection.indexOf(item)
                 };
             }, this);
 
-            _.each(dropInfoList, function (dropInfo) {
+            _.each(dropInfoList, function(dropInfo) {
                 var index = dropIndex;
                 var aboveDropIndex = dropInfo.itemIndex > dropIndex;
 
@@ -195,7 +195,7 @@
                         index -= (itemsHandledBelowOrAtDropIndex - 1);
                     }
                 }
-                
+
                 //  Pass silent: true to moveToIndex because we might be looping over many items in which case I don't want to refresh the view repeatedly.
                 var moveResult = this.view.collection.moveToIndex(dropInfo.itemId, index, {
                     silent: true
@@ -205,14 +205,13 @@
                 if (moveResult.moved) {
                     moved = true;
                 }
-                
+
                 if (!aboveDropIndex) {
                     itemsHandledBelowOrAtDropIndex += 1;
                 }
 
                 itemsHandled++;
-            }, this);
-            
+            }, this);            
             
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
@@ -223,12 +222,12 @@
                 this.view._behaviors[1]._updateScrollbar();
             }
         },
-        
-        _decoratePlaceholder: function (ui) {
+
+        _decoratePlaceholder: function(ui) {
             var notDroppable = false;
             var warnDroppable = false;
             var placeholderText = '';
-            
+
             var overOtherCollection = this.view.childViewType !== ui.item.data('type');
             if (overOtherCollection) {
                 //  Decorate the placeholder to indicate songs can't be copied.
@@ -254,10 +253,10 @@
         //  Override jQuery UI's sortableItem to allow a dragged item to scroll another sortable collection.
         //  Need to re-call method on start to ensure that dragging still works inside normal parent collection, too.
         // http://stackoverflow.com/questions/11025470/jquery-ui-sortable-scrolling-jsfiddle-example
-        _overrideSortableItem: function (ui) {
+        _overrideSortableItem: function(ui) {
             var placeholderParent = ui.placeholder.parent().parent();
             var sortableItem = ui.item.data('sortableItem');
-            
+
             //  If the item being sorted has been unloaded by slidingRender behavior then sortableItem will be unavailable.
             //  In this scenario, fall back to the more expensive query of getting a reference to the sortable instance via its parent's ID.
             if (_.isUndefined(sortableItem)) {

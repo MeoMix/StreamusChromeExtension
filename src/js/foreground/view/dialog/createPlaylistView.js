@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var DataSourceType = require('common/enum/dataSourceType');
@@ -10,8 +10,8 @@
         template: _.template(CreatePlaylistTemplate),
         //  TODO: Would also be nice to pull this from the DB instead, need to truncate DB column to 150.
         titleMaxLength: 150,
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 titleMessage: chrome.i18n.getMessage('title'),
                 playlistUrlMessage: chrome.i18n.getMessage('playlistUrl'),
@@ -20,8 +20,8 @@
                 showDataSource: this.songs.length === 0
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 title: '#' + this.id + '-title',
                 titleCharacterCount: '#' + this.id + '-title-characterCount',
@@ -34,31 +34,31 @@
             'input @ui.title': '_onInputTitle',
             'input @ui.dataSource': '_onInputDataSource'
         },
-        
+
         playlists: null,
         dataSourceManager: null,
         songs: [],
-        
-        initialize: function (options) {
+
+        initialize: function(options) {
             this.songs = options && options.songs ? options.songs : this.songs;
             this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
             this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setDataSourceAsUserInput();
             this._setTitleCharacterCount();
             this._validateTitle();
         },
 
-        onAttach: function () {
+        onAttach: function() {
             //  Reset the value after focusing to focus without selecting.
             this.ui.title.focus().val(this.ui.title.val());
         },
-        
-        createPlaylist: function () {
+
+        createPlaylist: function() {
             var trimmedTitle = this._getTrimmedTitle();
-            
+
             if (this.songs.length > 0) {
                 this.playlists.addPlaylistWithSongs(trimmedTitle, this.songs);
             } else {
@@ -66,32 +66,32 @@
                 this.playlists.addPlaylistByDataSource(trimmedTitle, dataSource);
             }
         },
-        
+
         _onInputDataSource: function() {
             this._debounceParseInput();
         },
-        
-        _onInputTitle: function () {
+
+        _onInputTitle: function() {
             this._setTitleCharacterCount();
             this._validateTitle();
         },
-        
-        _setTitleCharacterCount: function () {
+
+        _setTitleCharacterCount: function() {
             var trimmedTitle = this._getTrimmedTitle();
             this.ui.titleCharacterCount.text(trimmedTitle.length);
         },
         
         //  Throttle for typing support so I don't continuously validate while typing
-        _debounceParseInput: _.debounce(function () {
+        _debounceParseInput: _.debounce(function() {
             //  Wrap in a setTimeout to let drop event finish (no real noticeable lag but keeps things DRY easier)
             setTimeout(this._parseInput.bind(this));
         }, 100),
-        
-        _getTrimmedTitle: function () {
+
+        _getTrimmedTitle: function() {
             return this.ui.title.val().trim();
         },
-        
-        _parseInput: function () {
+
+        _parseInput: function() {
             var youTubeUrl = this.ui.dataSource.val().trim();
 
             if (youTubeUrl !== '') {
@@ -100,21 +100,21 @@
                 this._resetInputState();
             }
         },
-        
-        _validateTitle: function () {
+
+        _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var title = this._getTrimmedTitle();
             this.ui.title.toggleClass('is-invalid', title.length === 0 || title.length > this.titleMaxLength);
         },
 
-        _setDataSourceAsUserInput: function () {
+        _setDataSourceAsUserInput: function() {
             var dataSource = this.dataSourceManager.getDataSource({
                 type: DataSourceType.UserInput
             });
 
             this.ui.dataSource.data('datasource', dataSource);
         },
-        
+
         _setDataSourceViaUrl: function(url) {
             //  Check validity of URL and represent validity via invalid class.
             var dataSource = this.dataSourceManager.getDataSource({
@@ -129,8 +129,8 @@
                 error: this._setErrorState.bind(this)
             });
         },
-        
-        _onParseUrlSuccess: function (dataSource) {
+
+        _onParseUrlSuccess: function(dataSource) {
             if (!this.isDestroyed) {
                 this.ui.dataSource.data('datasource', dataSource);
 
@@ -140,8 +140,8 @@
                 });
             }
         },
-        
-        _onGetTitleSuccess: function (title) {
+
+        _onGetTitleSuccess: function(title) {
             if (!this.isDestroyed) {
                 this.ui.title.val(title);
                 this._validateTitle();
@@ -149,14 +149,14 @@
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('playlistLoaded'));
             }
         },
-        
-        _setErrorState: function () {
+
+        _setErrorState: function() {
             if (!this.isDestroyed) {
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
                 this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
             }
         },
-        
+
         _resetInputState: function() {
             this.ui.dataSource.removeClass('is-invalid is-valid').removeData('datasource');
             this.ui.dataSourceHint.text('');

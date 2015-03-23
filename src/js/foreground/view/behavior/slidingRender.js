@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Direction = require('common/enum/direction');
@@ -26,22 +26,22 @@
 
         //  Keep track of where user is scrolling from to determine direction and amount changed.
         lastScrollTop: 0,
-        
-        initialize: function () {
+
+        initialize: function() {
             //  IMPORTANT: Stub out the view's implementation of addChild with the slidingRender version.
             this.view.addChild = this._addChild.bind(this);
             this.view.showCollection = this._showCollection.bind(this);
-            
+
             this.listenTo(Streamus.channels.window.vent, 'resize', this._onWindowResize);
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             //  It's important to set minRenderIndex before onAttach because if a view triggers ListHeightUpdated during its
             //  onAttach then SlidingRender will call _setViewportHeight before minRenderIndex has been set.
             this.minRenderIndex = this._getMinRenderIndex(0);
         },
-        
-        onAttach: function () {
+
+        onAttach: function() {
             //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
             this._setViewportHeight();
 
@@ -54,29 +54,29 @@
 
             var self = this;
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.$el.scroll(_.throttle(function () {
+            this.$el.scroll(_.throttle(function() {
                 self._setRenderedElements(this.scrollTop);
             }, 20));
         },
         
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external
         //  event requests the min render index -- return it!
-        onGetMinRenderIndex: function () {
+        onGetMinRenderIndex: function() {
             this.view.triggerMethod('GetMinRenderIndexResponse', {
                 minRenderIndex: this.minRenderIndex
             });
         },
-        
-        onListHeightUpdated: function () {
+
+        onListHeightUpdated: function() {
             this._setViewportHeight();
         },
-        
-        _onWindowResize: function () {
+
+        _onWindowResize: function() {
             this._setViewportHeight();
         },
         
         //  Whenever the viewport height is changed -- adjust the items which are currently rendered to match
-        _setViewportHeight: function () {
+        _setViewportHeight: function() {
             this.viewportHeight = this.$el.height();
 
             //  Unload or load N items where N is the difference in viewport height.
@@ -93,20 +93,19 @@
                 if (this.view.collection.length > currentMaxRenderIndex) {
                     this._removeItemsByIndex(currentMaxRenderIndex, indexDifference);
                 }
-            }
-            else if (indexDifference < 0) {
+            } else if (indexDifference < 0) {
                 //  Load N items
-                for (var count = 0; count < Math.abs(indexDifference) ; count++) {
+                for (var count = 0; count < Math.abs(indexDifference); count++) {
                     this._renderElementAtIndex(currentMaxRenderIndex + 1 + count);
                 }
             }
-            
+
             this._setHeightPaddingTop();
         },
 
         //  When deleting an element from a list it's important to render the next element (if any) since
         //  positions change when removing.
-        _renderElementAtIndex: function (index) {
+        _renderElementAtIndex: function(index) {
             var rendered = false;
 
             if (this.view.collection.length > index) {
@@ -121,11 +120,11 @@
             return rendered;
         },
 
-        _setRenderedElements: function (scrollTop) {
+        _setRenderedElements: function(scrollTop) {
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;
             var currentMaxRenderIndex = this.maxRenderIndex;
-            
+
             //  Figure out the range of items which need to be rendered:
             var minRenderIndex = this._getMinRenderIndex(scrollTop);
             var maxRenderIndex = this._getMaxRenderIndex(scrollTop);
@@ -186,8 +185,8 @@
 
             this.lastScrollTop = scrollTop;
         },
-        
-        _setHeightPaddingTop: function () {
+
+        _setHeightPaddingTop: function() {
             this._setPaddingTop();
             this._setHeight();
         },
@@ -197,13 +196,13 @@
             this.view.ui.childContainer.css('padding-top', this._getPaddingTop());
         },
 
-        _getPaddingTop: function () {
+        _getPaddingTop: function() {
             return this.minRenderIndex * this.childViewHeight;
         },
 
         //  Set the elements height calculated from the number of potential items rendered into it.
         //  Necessary because items are lazy-appended for performance, but scrollbar size changing not desired.
-        _setHeight: function () {
+        _setHeight: function() {
             //  Subtracting minRenderIndex is important because of how CSS renders the element. If you don't subtract minRenderIndex
             //  then the rendered items will push up the height of the element by minRenderIndex * childViewHeight.
             var height = (this.view.collection.length - this.minRenderIndex) * this.childViewHeight;
@@ -216,13 +215,13 @@
             this.view.ui.childContainer.height(height);
         },
 
-        _addItems: function (models, indexOffset, currentTotalRendered, isAddingToEnd) {
+        _addItems: function(models, indexOffset, currentTotalRendered, isAddingToEnd) {
             var skippedCount = 0;
 
             var ChildView;
-            _.each(models, function (model, index) {
+            _.each(models, function(model, index) {
                 ChildView = this.view.getChildView(model);
-                
+
                 var shouldAdd = this._indexWithinRenderRange(index + indexOffset);
 
                 if (shouldAdd) {
@@ -241,7 +240,7 @@
         },
         
         //  Remove N items from the end of the render item list.
-        _removeItemsByIndex: function (startIndex, countToRemove) {
+        _removeItemsByIndex: function(startIndex, countToRemove) {
             for (var index = 0; index < countToRemove; index++) {
                 var item = this.view.collection.at(startIndex - index);
                 var childView = this.view.children.findByModel(item);
@@ -249,8 +248,8 @@
             }
         },
 
-        _removeItems: function (models) {
-            _.each(models, function (model) {
+        _removeItems: function(models) {
+            _.each(models, function(model) {
                 var childView = this.view.children.findByModel(model);
 
                 this.view.removeChildView(childView);
@@ -259,10 +258,10 @@
         
         //  Overridden Marionette's internal method to loop through collection and show each child view.
         //  BUG: https://github.com/marionettejs/backbone.marionette/issues/2021
-        _showCollection: function () {
+        _showCollection: function() {
             var viewIndex = 0;
             var ChildView;
-            this.view.collection.each(function (child, index) {
+            this.view.collection.each(function(child, index) {
                 ChildView = this.view.getChildView(child);
 
                 if (this._indexWithinRenderRange(index)) {
@@ -275,21 +274,21 @@
         //  The bypass flag is set when shouldAdd has already been determined elsewhere. 
         //  This is necessary because sometimes the view's model's index in its collection is different than the view's index in the collectionview.
         //  In this scenario the index has already been corrected before _addChild is called so the index isn't a valid indicator of whether the view should be added.
-        _addChild: function (child, ChildView, index, bypass) {
+        _addChild: function(child, ChildView, index, bypass) {
             var shouldAdd = false;
 
             if (this.minRenderIndex > -1 && this.maxRenderIndex > -1) {
                 shouldAdd = bypass || this._indexWithinRenderRange(index);
             }
-            
+
             if (shouldAdd) {
                 return Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
         },
 
-        _getMinRenderIndex: function (scrollTop) {
+        _getMinRenderIndex: function(scrollTop) {
             var minRenderIndex = Math.floor(scrollTop / this.childViewHeight) - this.threshold;
-            
+
             if (minRenderIndex < 0) {
                 minRenderIndex = 0;
             }
@@ -297,7 +296,7 @@
             return minRenderIndex;
         },
 
-        _getMaxRenderIndex: function (scrollTop) {
+        _getMaxRenderIndex: function(scrollTop) {
             //  Subtract 1 to make math 'inclusive' instead of 'exclusive'
             var maxRenderIndex = Math.ceil((scrollTop / this.childViewHeight) + (this.viewportHeight / this.childViewHeight)) - 1 + this.threshold;
 
@@ -305,7 +304,7 @@
         },
 
         //  Returns true if an childView at the given index would not be fully visible -- part of it rendering out of the top of the viewport.
-        _indexOverflowsTop: function (index) {
+        _indexOverflowsTop: function(index) {
             var position = index * this.childViewHeight;
             var scrollPosition = this.$el.scrollTop();
 
@@ -314,7 +313,7 @@
             return overflowsTop;
         },
 
-        _indexOverflowsBottom: function (index) {
+        _indexOverflowsBottom: function(index) {
             //  Add one to index because want to get the bottom of the element and not the top.
             var position = (index + 1) * this.childViewHeight;
             var scrollPosition = this.$el.scrollTop() + this.viewportHeight;
@@ -324,13 +323,13 @@
             return overflowsBottom;
         },
 
-        _indexWithinRenderRange: function (index) {
+        _indexWithinRenderRange: function(index) {
             return index >= this.minRenderIndex && index <= this.maxRenderIndex;
         },
         
         //  TODO: An animation on this would be nice.
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
-        _scrollToItem: function (item) {
+        _scrollToItem: function(item) {
             var itemIndex = this.view.collection.indexOf(item);
 
             var overflowsTop = this._indexOverflowsTop(itemIndex);
@@ -344,8 +343,7 @@
                 if (overflowsBottom) {
                     //  Add 1 to index because want the bottom of the element and not the top.
                     scrollTop = (itemIndex + 1) * this.childViewHeight - this.viewportHeight;
-                }
-                else if (overflowsTop) {
+                } else if (overflowsTop) {
                     scrollTop = itemIndex * this.childViewHeight;
                 }
 
@@ -354,7 +352,7 @@
         },
 
         //  Reset min/max, scrollTop, paddingTop and height to their default values.
-        _onCollectionReset: function () {
+        _onCollectionReset: function() {
             this.$el.scrollTop(0);
             this.lastScrollTop = 0;
 
@@ -363,12 +361,12 @@
 
             this._setHeightPaddingTop();
         },
-        
-        _onCollectionRemove: function (item, collection, options) {
+
+        _onCollectionRemove: function(item, collection, options) {
             //  TODO: just modify the index in anticipation of the view being removed rather than wrapping in a setTimeout.
             //  I've wrapped this in a setTimeout because the CollectionView has yet to remove the model which is being removed from the collection.
             //  Because of this, _renderElementAtIndex has an off-by-one error due to the presence of the view whose model is being removed.
-            setTimeout(function () {
+            setTimeout(function() {
                 //  When a rendered view is lost - render the next one since there's a spot in the viewport
                 if (this._indexWithinRenderRange(options.index)) {
                     var rendered = this._renderElementAtIndex(this.maxRenderIndex);
@@ -382,8 +380,8 @@
                 this._setHeightPaddingTop();
             }.bind(this));
         },
-        
-        _onCollectionAdd: function (item, collection) {
+
+        _onCollectionAdd: function(item, collection) {
             var index = collection.indexOf(item);
 
             var indexWithinRenderRange = this._indexWithinRenderRange(index);
@@ -401,8 +399,8 @@
 
             this._setHeightPaddingTop();
         },
-        
-        _onCollectionChangeActive: function (item, active) {
+
+        _onCollectionChangeActive: function(item, active) {
             if (active) {
                 this._scrollToItem(item);
             }

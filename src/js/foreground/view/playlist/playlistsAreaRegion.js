@@ -1,12 +1,12 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var PlaylistsAreaView = require('foreground/view/playlist/playlistsAreaView');
-    
+
     var PlaylistsAreaRegion = Marionette.Region.extend({
         signInManager: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.signInManager = Streamus.backgroundPage.signInManager;
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
@@ -14,19 +14,19 @@
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
-        
-        _onForegroundAreaRendered: function () {
+
+        _onForegroundAreaRendered: function() {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
             }
         },
-        
-        _showPlaylistsArea: function () {
+
+        _showPlaylistsArea: function() {
             this.currentView.show();
         },
-        
-        _hidePlaylistsArea: function () {
+
+        _hidePlaylistsArea: function() {
             //  A hide command can be emitted by the application when the user is not signed in. In this scenario, currentView doesn't exist.
             if (this._playlistsAreaViewExists()) {
                 this.currentView.hide();
@@ -34,11 +34,11 @@
         },
         
         //  Returns true if PlaylistsAreaView is currently shown
-        _playlistsAreaViewExists: function () {
+        _playlistsAreaViewExists: function() {
             return !_.isUndefined(this.currentView) && this.currentView instanceof PlaylistsAreaView;
         },
-        
-        _createPlaylistsAreaView: function (playlists) {
+
+        _createPlaylistsAreaView: function(playlists) {
             if (!this._playlistsAreaViewExists()) {
                 var playlistsAreaView = new PlaylistsAreaView({
                     playlists: playlists
@@ -49,7 +49,7 @@
         },
         
         //  Don't allow this view to be shown if the user is not signed in.
-        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser !== null) {
                 this.empty();
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));

@@ -1,15 +1,15 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ForegroundAreaView = require('foreground/view/foregroundAreaView');
 
     var Application = Marionette.Application.extend({
         backgroundPage: null,
-        
+
         regions: {
             foregroundAreaRegion: '#foregroundAreaRegion'
         },
-        
+
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),
             dialog: Backbone.Wreqr.radio.channel('dialog'),
@@ -26,20 +26,20 @@
             listItem: Backbone.Wreqr.radio.channel('listItem'),
             simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu')
         },
-        
+
         backgroundChannels: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this._setBackgroundPage();
             this._setBackgroundChannels();
             this.on('start', this._onStart);
         },
-        
-        _setBackgroundPage: function () {
+
+        _setBackgroundPage: function() {
             this.backgroundPage = chrome.extension.getBackgroundPage();
         },
-        
-        _setBackgroundChannels: function () {
+
+        _setBackgroundChannels: function() {
             this.backgroundChannels = {
                 error: this.backgroundPage.Backbone.Wreqr.radio.channel('error'),
                 notification: this.backgroundPage.Backbone.Wreqr.radio.channel('notification'),
@@ -47,16 +47,16 @@
             };
         },
 
-        _onStart: function () {
+        _onStart: function() {
             Streamus.backgroundChannels.foreground.vent.trigger('started');
             this._showForegroundArea();
         },
-        
-        _showForegroundArea: function () {
+
+        _showForegroundArea: function() {
             this.foregroundAreaRegion.show(new ForegroundAreaView());
         }
     });
-    
+
     $(function() {
         var streamus = new Application();
         window.Streamus = streamus;

@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
     'use strict';
 
     var VolumeAreaTemplate = require('text!template/appBar/volumeArea.html');
@@ -11,15 +11,15 @@ define(function (require) {
         id: 'volumeArea',
         className: 'volumeArea',
         template: _.template(VolumeAreaTemplate),
-        
+
         templateHelpers: {
             volumeUpIcon: _.template(VolumeUpIconTemplate)(),
             volumeDownIcon: _.template(VolumeDownIconTemplate)(),
             volumeOffIcon: _.template(VolumeOffIconTemplate)(),
             volumeMuteIcon: _.template(VolumeMuteIconTemplate)()
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 volumeProgress: '#' + this.id + '-volumeProgress',
                 volumeRange: '#' + this.id + '-volumeRange',
@@ -39,46 +39,46 @@ define(function (require) {
         },
 
         player: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.player = Streamus.backgroundPage.player;
 
             this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
             this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);
         },
 
-        onRender: function () {
+        onRender: function() {
             var volume = this.player.get('volume');
             this._setVolumeProgress(volume);
-            
+
             var muted = this.player.get('muted');
             this._setVolumeIcon(volume, muted);
         },
-        
+
         _onInputVolumeRange: function() {
             this._setVolume();
         },
-        
+
         _onClickVolumeButton: function() {
             this._toggleMute();
         },
-        
-        _onWheel: function (event) {
+
+        _onWheel: function(event) {
             var delta = event.originalEvent.wheelDeltaY / 120;
             this._scrollVolume(delta);
         },
 
-        _setVolume: function () {
+        _setVolume: function() {
             var volume = parseInt(this.ui.volumeRange.val());
             this.player.setVolume(volume);
         },
-        
-        _setVolumeProgress: function (volume) {
+
+        _setVolumeProgress: function(volume) {
             this.ui.volumeRange.val(volume);
             this.ui.volumeProgress.height(volume + '%');
         },
-        
-        _setVolumeIcon: function (volume, muted) {
+
+        _setVolumeIcon: function(volume, muted) {
             this.ui.volumeIconUp.toggleClass('is-hidden', muted || volume <= 50);
             this.ui.volumeIconDown.toggleClass('is-hidden', muted || volume > 50 || volume === 0);
             this.ui.volumeIconOff.toggleClass('is-hidden', muted || volume !== 0);
@@ -86,7 +86,7 @@ define(function (require) {
         },
 
         //  Adjust volume when user scrolls wheel while hovering over volume.
-        _scrollVolume: function (delta) {
+        _scrollVolume: function(delta) {
             var volume = parseInt(this.ui.volumeRange.val()) + (delta * 3);
 
             if (volume > 100) {
@@ -100,19 +100,19 @@ define(function (require) {
             this.player.setVolume(volume);
         },
 
-        _toggleMute: function () {
+        _toggleMute: function() {
             var isMuted = this.player.get('muted');
             this.player.save({
                 muted: !isMuted
             });
         },
 
-        _onPlayerChangeVolume: function (model, volume) {
+        _onPlayerChangeVolume: function(model, volume) {
             this._setVolumeProgress(volume);
             this._setVolumeIcon(volume, model.get('muted'));
         },
-        
-        _onPlayerChangeMuted: function (model, muted) {
+
+        _onPlayerChangeMuted: function(model, muted) {
             this._setVolumeIcon(model.get('volume'), muted);
         }
     });

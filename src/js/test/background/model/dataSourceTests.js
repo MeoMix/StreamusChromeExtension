@@ -1,18 +1,18 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var DataSource = require('background/model/dataSource');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var DataSourceType = require('common/enum/dataSourceType');
 
-    describe('DataSource', function () {
-        var expectDataSource = function (dataSource, expectations) {
+    describe('DataSource', function() {
+        var expectDataSource = function(dataSource, expectations) {
             expectations = expectations || {};
             expect(dataSource.get('id')).to.equal(expectations.id === undefined ? dataSource.defaults.id : expectations.id);
             expect(dataSource.get('type')).to.equal(expectations.type === undefined ? dataSource.defaults.type : expectations.type);
         };
-        
-        it('Should initialize properly', function () {
+
+        it('Should initialize properly', function() {
             expectDataSource(new DataSource());
         });
 
@@ -20,7 +20,7 @@
             it('should handle ?list= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=PL63F0C78739B09958' });
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'PL63F0C78739B09958',
                             type: DataSourceType.YouTubePlaylist
@@ -47,11 +47,11 @@
             });
         });
 
-        describe('when parsing YouTube Favorites URLs', function () {
-            it('should handle ?list= URLs', function (done) {
+        describe('when parsing YouTube Favorites URLs', function() {
+            it('should handle ?list= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=FL-SyDtP6JOvHZVcRrZrXnyA' });
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'FL-SyDtP6JOvHZVcRrZrXnyA',
                             type: DataSourceType.YouTubePlaylist
@@ -61,12 +61,12 @@
                     }
                 });
             });
-            
-            it('should handle ?p= URLs', function (done) {
+
+            it('should handle ?p= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=FL-SyDtP6JOvHZVcRrZrXnyA' });
 
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'FL-SyDtP6JOvHZVcRrZrXnyA',
                             type: DataSourceType.YouTubePlaylist
@@ -77,12 +77,12 @@
                 });
             });
         });
-        
-        describe('when parsing YouTube Channel Uploads URLs', function () {
-            it('should handle ?list= URLs', function (done) {
+
+        describe('when parsing YouTube Channel Uploads URLs', function() {
+            it('should handle ?list= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=UU-e1BqfubuSdFPHauQwZmlg' });
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'UU-e1BqfubuSdFPHauQwZmlg',
                             type: DataSourceType.YouTubePlaylist
@@ -93,11 +93,11 @@
                 });
             });
 
-            it('should handle ?p= URLs', function (done) {
+            it('should handle ?p= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=UU-e1BqfubuSdFPHauQwZmlg' });
 
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'UU-e1BqfubuSdFPHauQwZmlg',
                             type: DataSourceType.YouTubePlaylist
@@ -110,10 +110,10 @@
         });
 
         describe('when parsing YouTube Auto-Generated Playlist URLs', function() {
-            it('should handle ?list= URLs', function (done) {
+            it('should handle ?list= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?p=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH' });
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                             type: DataSourceType.YouTubePlaylist
@@ -124,11 +124,11 @@
                 });
             });
 
-            it('should handle ?p= URLs', function (done) {
+            it('should handle ?p= URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/playlist?list=ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH' });
 
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                             type: DataSourceType.YouTubePlaylist
@@ -140,7 +140,7 @@
             });
         });
 
-        it('should get the title of a parsable URL', function (done) {
+        it('should get the title of a parsable URL', function(done) {
             var dataSource = new DataSource({
                 url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA'
             });
@@ -149,7 +149,7 @@
             sinon.stub(YouTubeV3API, 'getTitle').yieldsTo('success', channelTitle);
 
             dataSource.getTitle({
-                success: function (title) {
+                success: function(title) {
                     expect(title).to.equal(channelTitle);
                     expect(dataSource.get('title')).to.equal(channelTitle);
                     done();
@@ -159,8 +159,8 @@
 
             YouTubeV3API.getTitle.restore();
         });
-        
-        it('Should be able to successfully indicate whether it isYouTubePlaylist', function () {
+
+        it('Should be able to successfully indicate whether it isYouTubePlaylist', function() {
             var dataSource = new DataSource({ type: DataSourceType.YouTubePlaylist });
             expect(dataSource.isYouTubePlaylist()).to.equal(true);
 
@@ -171,7 +171,7 @@
             expect(dataSource.isYouTubePlaylist()).to.equal(false);
         });
 
-        it('Should be able to parse a YouTube song id from a variety of URL patterns', function () {
+        it('Should be able to parse a YouTube song id from a variety of URL patterns', function() {
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?v=6od4WeaWDcs')).to.equal('6od4WeaWDcs');
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KCayu0E')).to.equal('3sg6KCayu0E');
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://www.youtube.com/watch?feature=youtu.be&v=aKpLrmQsS_M')).to.equal('aKpLrmQsS_M');
@@ -182,8 +182,8 @@
             expect((new DataSource())._parseYouTubeSongIdFromUrl('http://youtu.be/3sg6KaaCau0E')).to.equal('');
         });
 
-        describe('when parsing YouTube Channel URLs', function () {
-            it('should handle /channel/ URLs', function (done) {
+        describe('when parsing YouTube Channel URLs', function() {
+            it('should handle /channel/ URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/channel/UCXIyz409s7bNWVcM-vjfdVA' });
 
                 sinon.stub(YouTubeV3API, 'getChannelUploadsPlaylistId').yieldsTo('success', {
@@ -191,7 +191,7 @@
                 });
 
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'UUXIyz409s7bNWVcM-vjfdVA',
                             type: DataSourceType.YouTubePlaylist
@@ -204,7 +204,7 @@
                 YouTubeV3API.getChannelUploadsPlaylistId.restore();
             });
 
-            it('should handle /user/ URLs', function (done) {
+            it('should handle /user/ URLs', function(done) {
                 var dataSource = new DataSource({ url: 'http://www.youtube.com/user/majesticcasual' });
 
                 sinon.stub(YouTubeV3API, 'getChannelUploadsPlaylistId').yieldsTo('success', {
@@ -212,7 +212,7 @@
                 });
 
                 dataSource.parseUrl({
-                    success: function () {
+                    success: function() {
                         expectDataSource(dataSource, {
                             id: 'UUXIyz409s7bNWVcM-vjfdVA',
                             type: DataSourceType.YouTubePlaylist
@@ -221,10 +221,9 @@
                         done();
                     }
                 });
-                
+
                 YouTubeV3API.getChannelUploadsPlaylistId.restore();
             });
         });
     });
 });
-

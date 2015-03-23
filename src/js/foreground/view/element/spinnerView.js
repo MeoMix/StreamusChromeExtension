@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SpinnerTemplate = require('text!template/element/spinner.html');

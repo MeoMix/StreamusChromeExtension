@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -27,19 +27,19 @@
             }
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setState(this.model.get('enabled'), this.model.getStateMessage());
         },
 
-        _onClick: function () {
+        _onClick: function() {
             this.model.toggleEnabled();
         },
 
-        _onChangeEnabled: function (model, enabled) {
+        _onChangeEnabled: function(model, enabled) {
             this._setState(enabled, model.getStateMessage());
         },
 
-        _setState: function (enabled, stateMessage) {
+        _setState: function(enabled, stateMessage) {
             this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
         }
     });

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
@@ -13,10 +13,10 @@
 
         signInManager: null,
 
-        initialize: function () {
+        initialize: function() {
             this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-            
+
             ListItemButtonView.prototype.initialize.apply(this, arguments);
         },
 
@@ -24,7 +24,7 @@
             this._setState();
         },
 
-        doOnClickAction: function () {
+        doOnClickAction: function() {
             var offset = this.$el.offset();
 
             Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
@@ -33,12 +33,12 @@
                 left: offset.left
             });
         },
-        
+
         _onSignInManagerChangeSignedInUser: function() {
             this._setState();
         },
-        
-        _setState: function () {
+
+        _setState: function() {
             var signedIn = this.signInManager.get('signedInUser') !== null;
 
             var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');

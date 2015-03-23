@@ -1,6 +1,7 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
+    var AnalyticsManager = require('background/model/analyticsManager');
     var BrowserSettings = require('background/model/browserSettings');
     var ChromeContextMenusManager = require('background/model/chromeContextMenusManager');
     var ChromeIconManager = require('background/model/chromeIconManager');
@@ -28,17 +29,19 @@
         defaults: {
             youTubePlayer: null,
             debugManager: null,
+            analyticsManager: null,
             foregroundUnloadTimeout: null
         },
 
-        initialize: function () {
+        initialize: function() {
             this.listenTo(Streamus.channels.foreground.vent, 'started', this._onForegroundStarted.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload.bind(this));
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
+            chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
             var debugManager = new DebugManager();
             this.set('debugManager', debugManager);
-            
+
             var browserSettings = new BrowserSettings();
             var settings = new Settings();
 
@@ -50,7 +53,7 @@
                 youTubePlayer: youTubePlayer,
                 debugManager: debugManager
             });
-            
+
             var radioButton = new RadioButton();
             var shuffleButton = new ShuffleButton();
             var repeatButton = new RepeatButton();
@@ -74,23 +77,23 @@
                 signInManager: signInManager,
                 streamItems: stream.get('items')
             });
-            
+
             var chromeIconManager = new ChromeIconManager({
                 player: player,
                 streamItems: stream.get('items'),
                 settings: settings,
                 tabManager: tabManager
             });
-            
+
             var chromeNotificationsManager = new ChromeNotificationsManager({
                 tabManager: tabManager,
                 settings: settings
             });
-            
+
             var chromeOmniboxManager = new ChromeOmniboxManager({
                 streamItems: stream.get('items')
             });
-            
+
             var clientErrorManager = new ClientErrorManager({
                 signInManager: signInManager
             });
@@ -117,8 +120,11 @@
             var dataSourceManager = new DataSourceManager();
 
             var playlistsViewModel = new PlaylistsViewModel();
+            var analyticsManager = new AnalyticsManager();
+            this.set('analyticsManager', analyticsManager);
 
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+            window.analyticsManager = analyticsManager;
             window.browserSettings = browserSettings;
             window.debugManager = debugManager;
             window.tabManager = tabManager;
@@ -136,32 +142,41 @@
             window.dataSourceManager = dataSourceManager;
             window.playlistsViewModel = playlistsViewModel;
         },
-        
-        _onForegroundStarted: function () {
+
+        _onForegroundStarted: function() {
             if (this.get('foregroundUnloadTimeout') !== null) {
                 Streamus.channels.error.commands.trigger('log:error', new Error('Foreground was re-opened before timeout exceeded!'));
             }
 
             this._clearForegroundUnloadTimeout();
         },
-        
+
         _onForegroundBeginUnload: function() {
             var foregroundUnloadTimeout = setTimeout(this._onForegroundUnloadTimeoutExceeded.bind(this), 500);
             this.set('foregroundUnloadTimeout', foregroundUnloadTimeout);
         },
-        
-        _onForegroundUnloadTimeoutExceeded: function () {
+
+        _onForegroundUnloadTimeoutExceeded: function() {
             Streamus.channels.error.commands.trigger('log:error', new Error('Foreground failed to unload properly!'));
             this._clearForegroundUnloadTimeout();
         },
-        
-        _onForegroundEndUnload: function () {
+
+        _onForegroundEndUnload: function() {
             this._clearForegroundUnloadTimeout();
         },
-        
+
         _clearForegroundUnloadTimeout: function() {
             clearTimeout(this.get('foregroundUnloadTimeout'));
             this.set('foregroundUnloadTimeout', null);
+        },
+        
+        //  Allow external websites to ping the extension to find out whether the extension is installed or not
+        _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
+            if (request.message === 'isInstalled') {
+                sendResponse({
+                    isInstalled: true
+                });
+            }
         }
     });
 

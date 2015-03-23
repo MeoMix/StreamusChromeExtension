@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
@@ -8,7 +8,7 @@
         id: 'simpleMenu',
         className: 'panel menu',
         template: _.template(SimpleMenuTemplate),
-        templateHelpers: function () {
+        templateHelpers: function() {
             return {
                 viewId: this.id
             };
@@ -16,30 +16,30 @@
 
         childView: SimpleMenuItemView,
         childViewContainer: '@ui.simpleMenuItems',
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 simpleMenuItems: '#' + this.id + '-simpleMenuItems',
                 fixedMenuItem: '#' + this.id + '-fixedMenuItem',
                 panelContent: '#' + this.id + '-panelContent'
             };
         },
-        
+
         events: {
             'click @ui.simpleMenuItems': '_onClickSimpleMenuItems',
             'click @ui.fixedMenuItem': '_onClickFixedMenuItem'
         },
-        
+
         listItemHeight: 0,
-        
+
         initialize: function(options) {
             this.listItemHeight = options && options.listItemHeight ? options.listItemHeight : this.listItemHeight;
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
         },
-        
-        onAttach: function () {
+
+        onAttach: function() {
             this._ensureActiveIsVisible();
-            
+
             if (this.listItemHeight > 0) {
                 this._centerActive();
             }
@@ -47,7 +47,7 @@
             _.defer(function() {
                 this.$el.addClass('is-visible');
             }.bind(this));
-            
+
             //  TODO: Keep DRY w/ scrollable.
             //  More info: https://github.com/noraesae/perfect-scrollbar
             //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
@@ -58,14 +58,14 @@
                 includePadding: true
             });
         },
-        
-        hide: function () {
+
+        hide: function() {
             Streamus.channels.simpleMenu.vent.trigger('hidden');
             this.ui.panelContent.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
-        
-        _onClickSimpleMenuItems: function () {
+
+        _onClickSimpleMenuItems: function() {
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
                 model: this.model,
@@ -74,8 +74,8 @@
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
-        
-        _onClickFixedMenuItem: function () {
+
+        _onClickFixedMenuItem: function() {
             this.triggerMethod('click:fixedMenuItem', {
                 view: this,
                 model: this.model,
@@ -84,12 +84,12 @@
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
         },
-		
-        _onTransitionOutComplete: function () {
+
+        _onTransitionOutComplete: function() {
             this.destroy();
         },
-        
-        _onElementClick: function (event) {
+
+        _onElementClick: function(event) {
             //  This target will show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
             if (event.target !== this.ui.panelContent[0]) {
                 this.hide();
@@ -97,11 +97,11 @@
         },
         
         //  Adjust the scrollTop of the view to ensure that the active item is shown.
-        _ensureActiveIsVisible: function () {
+        _ensureActiveIsVisible: function() {
             var activeItem = this.collection.getActive();
-            
+
             if (!_.isUndefined(activeItem)) {
-                var activeView = this.children.find(function (child) {
+                var activeView = this.children.find(function(child) {
                     return child.model === activeItem;
                 });
 
@@ -115,17 +115,17 @@
         
         //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
         //  When showing this view over a ListItem, center the view's active item over the ListItem.
-        _centerActive: function () {
+        _centerActive: function() {
             //  Adjust the top position of the view based on which item is active.
             var index = this.collection.indexOf(this.collection.getActive());
-            
+
             var childHeight = this.children.first().$el.height();
             var offset = -1 * index * childHeight;
-            
+
             //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
             var scrollTop = this.ui.simpleMenuItems[0].scrollTop;
             offset += scrollTop;
-            
+
             //  Now center the item over its ListItem
             var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
             var centering = (this.listItemHeight - childHeight - paddingTop) / 2;

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemType = require('common/enum/listItemType');
@@ -14,8 +14,8 @@
         className: 'list u-flex--full',
         childViewContainer: '@ui.childContainer',
         childView: PlaylistItemView,
-        childViewType: ListItemType.PlaylistItem, 
-        childViewOptions: function () {
+        childViewType: ListItemType.PlaylistItem,
+        childViewOptions: function() {
             return {
                 type: this.childViewType,
                 parentId: this.ui.childContainer[0].id
@@ -23,13 +23,13 @@
         },
 
         //  Overwrite resortView to only render children as expected
-        resortView: function () {
+        resortView: function() {
             this._renderChildren();
         },
-        
+
         template: _.template(PlaylistItemsTemplate),
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 childContainer: '#' + this.id + '-listItems'
             };
@@ -49,15 +49,19 @@
                 behaviorClass: Sortable
             }
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.viewModel = Streamus.backgroundPage.playlistsViewModel;
 
             this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
+
+            setTimeout(function () {
+                console.log('hallo', this.$childViewContainer);
+            }.bind(this), 3000);
         },
 
         //  Don't maintain selected results after showing SearchArea because this view won't be visible.
-        _onSearchAreaShowing: function () {
+        _onSearchAreaShowing: function() {
             this.triggerMethod('DeselectCollection');
         }
     });

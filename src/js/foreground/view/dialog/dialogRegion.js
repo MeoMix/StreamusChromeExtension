@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var YouTubePlayerError = require('common/enum/youTubePlayerError');
@@ -12,8 +12,8 @@
         player: null,
         signInManager: null,
         debugManager: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.signInManager = Streamus.backgroundPage.signInManager;
             this.debugManager = Streamus.backgroundPage.debugManager;
@@ -25,8 +25,8 @@
             this.listenTo(this.signInManager, 'change:needGoogleSignIn', this._onSignInManagerChangeNeedGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeRuntimeUpdateAvailable.bind(this));
         },
-        
-        _onForegroundAreaRendered: function () {
+
+        _onForegroundAreaRendered: function() {
             this._showDialogIfNeedGoogleSignIn();
             this._showDialogIfNeedLinkUserId();
             this._showDialogIfUpdateAvailable();
@@ -35,7 +35,7 @@
 
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
-        _showDialogIfUpdateAvailable: function () {
+        _showDialogIfUpdateAvailable: function() {
             //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
             //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.runtime.requestUpdateCheck(_.noop);
@@ -48,46 +48,46 @@
                 this._showLinkUserIdDialog();
             }
         },
-        
+
         _showDialogIfNeedGoogleSignIn: function() {
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showGoogleSignInDialog();
             }
         },
-        
-        _showDialogIfFlashLoaded: function () {
+
+        _showDialogIfFlashLoaded: function() {
             if (this.debugManager.get('flashLoaded')) {
                 this._showDialog(FlashLoadedDialogView);
             }
         },
         
         //  Notify user that they should restart Streamus because an update has been downloaded.
-        _onChromeRuntimeUpdateAvailable: function () {
+        _onChromeRuntimeUpdateAvailable: function() {
             this._showDialog(UpdateStreamusDialogView);
         },
-        
-        _onSignInManagerChangeNeedLinkUserId: function (model, needLinkUserId) {
+
+        _onSignInManagerChangeNeedLinkUserId: function(model, needLinkUserId) {
             if (needLinkUserId) {
                 this._showLinkUserIdDialog();
             }
         },
-        
-        _onSignInManagerChangeNeedGoogleSignIn: function (model, needGoogleSignIn) {
+
+        _onSignInManagerChangeNeedGoogleSignIn: function(model, needGoogleSignIn) {
             if (needGoogleSignIn) {
                 this._showGoogleSignInDialog();
             }
         },
         
         //  Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
-        _showLinkUserIdDialog: function () {
+        _showLinkUserIdDialog: function() {
             this._showDialog(LinkUserIdDialogView);
         },
-        
-        _showGoogleSignInDialog: function () {
+
+        _showGoogleSignInDialog: function() {
             this._showDialog(GoogleSignInDialogView);
         },
-        
-        _showDialog: function (DialogView, options) {
+
+        _showDialog: function(DialogView, options) {
             var dialogView = new DialogView(options);
 
             //  Sometimes checkbox reminders are in place which would indicate the view's onSubmit event should run immediately.
@@ -99,13 +99,13 @@
                 dialogView.onSubmit();
             }
         },
-        
-        _onPlayerYouTubeError: function (model, youTubeError) {
+
+        _onPlayerYouTubeError: function(model, youTubeError) {
             this._showYouTubeErrorDialog(youTubeError);
         },
         
         //  Notify user that YouTube's API has emitted an error
-        _showYouTubeErrorDialog: function (youTubeError) {
+        _showYouTubeErrorDialog: function(youTubeError) {
             var text = chrome.i18n.getMessage('errorEncountered');
 
             switch (youTubeError) {

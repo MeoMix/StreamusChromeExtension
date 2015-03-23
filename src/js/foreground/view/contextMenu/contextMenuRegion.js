@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ContextMenu = require('foreground/model/contextMenu');
@@ -7,19 +7,19 @@
     var ContextMenuRegion = Marionette.Region.extend({
         contextMenu: null,
 
-        initialize: function () {
+        initialize: function() {
             this.contextMenu = new ContextMenu();
-            
+
             this.listenTo(Streamus.channels.element.vent, 'drag', this._onElementDrag);
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
             this.listenTo(Streamus.channels.element.vent, 'contextMenu', this._onElementContextMenu);
         },
-        
-        _onElementDrag: function () {
+
+        _onElementDrag: function() {
             this._hideContextMenu();
         },
-        
-        _onElementClick: function () {
+
+        _onElementClick: function() {
             this._hideContextMenu();
         },
         
@@ -33,8 +33,8 @@
                 this._hideContextMenu();
             }
         },
-        
-        _showContextMenu: function (top, left) {
+
+        _showContextMenu: function(top, left) {
             //  TODO: A bug in Marionette causes this.$el.height/width to be null on first use, https://github.com/marionettejs/backbone.marionette/issues/1971.
             var $this = $(this.el);
 
@@ -50,8 +50,8 @@
                 containerWidth: $this.width()
             }));
         },
-        
-        _hideContextMenu: function () {
+
+        _hideContextMenu: function() {
             if (this.currentView) {
                 this.currentView.hide();
             }

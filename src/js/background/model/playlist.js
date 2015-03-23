@@ -1,4 +1,4 @@
-define(function (require) {
+define(function(require) {
     'use strict';
 
     var PlaylistItems = require('background/collection/playlistItems');
@@ -6,7 +6,7 @@ define(function (require) {
     var ShareCode = require('background/model/shareCode');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var ListItemType = require('common/enum/listItemType');
-    
+
     //  Playlist holds a collection of PlaylistItems as well as properties pertaining to a playlist.
     //  Provides methods to work with PlaylistItems such as getting, removing, updating, etc..
     var Playlist = Backbone.Model.extend({
@@ -27,7 +27,7 @@ define(function (require) {
             
         //  Convert data which is sent from the server back to a proper Backbone.Model.
         //  Need to recreate submodels as Backbone.Models else they will just be regular Objects.
-        parse: function (playlistDto) {
+        parse: function(playlistDto) {
             //  Patch requests do not return information.
             if (!_.isUndefined(playlistDto)) {
                 //  Convert C# Guid.Empty into BackboneJS null
@@ -47,22 +47,22 @@ define(function (require) {
 
             return playlistDto;
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this._ensureItemsCollection();
             this._setActivePlaylistListeners(this.get('active'));
-            
+
             this.on('change:title', this._onChangeTitle);
             this.on('change:active', this._onChangeActive);
         },
-        
+
         getShareCode: function(options) {
             $.ajax({
                 url: Streamus.serverUrl + 'ShareCode/GetShareCode',
                 data: {
                     playlistId: this.get('id')
                 },
-                success: function (shareCodeJson) {
+                success: function(shareCodeJson) {
                     var shareCode = new ShareCode(shareCodeJson);
                     options.success(shareCode);
                 },
@@ -71,29 +71,28 @@ define(function (require) {
         },
         
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
-        loadDataSource: function () {
+        loadDataSource: function() {
             YouTubeV3API.getPlaylistSongs({
                 playlistId: this.get('dataSource').get('id'),
                 success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
 
-        isLoading: function () {
+        isLoading: function() {
             return this.has('dataSource') && !this.get('dataSourceLoaded');
         },
-        
-        _onGetPlaylistSongsSuccess: function (response) {
+
+        _onGetPlaylistSongsSuccess: function(response) {
             //  Periodicially send bursts of packets to the server and trigger visual update.
             this.get('items').addSongs(response.songs, {
                 success: this._onAddSongsByDataSourceSuccess.bind(this, response.nextPageToken)
             });
         },
 
-        _onAddSongsByDataSourceSuccess: function (nextPageToken) {
+        _onAddSongsByDataSourceSuccess: function(nextPageToken) {
             if (_.isUndefined(nextPageToken)) {
                 this.set('dataSourceLoaded', true);
-            }
-            else {
+            } else {
                 //  Request next batch of data by iteration once addItems has succeeded.
                 YouTubeV3API.getPlaylistSongs({
                     playlistId: this.get('dataSource').get('id'),
@@ -102,7 +101,7 @@ define(function (require) {
                 });
             }
         },
-        
+
         _onChangeTitle: function(model, title) {
             this._emitYouTubeTabUpdateEvent({
                 id: model.get('id'),
@@ -111,8 +110,8 @@ define(function (require) {
 
             this.save({ title: title }, { patch: true });
         },
-        
-        _onChangeActive: function (model, active) {
+
+        _onChangeActive: function(model, active) {
             this._setActivePlaylistListeners(active);
 
             if (!active) {
@@ -121,14 +120,14 @@ define(function (require) {
         },
         
         //  Notify all open YouTube tabs that a playlist has been renamed.
-        _emitYouTubeTabUpdateEvent: function (data) {
+        _emitYouTubeTabUpdateEvent: function(data) {
             Streamus.channels.tab.commands.trigger('notify:youTube', {
                 event: SyncActionType.Updated,
                 type: ListItemType.Playlist,
                 data: data
             });
         },
-        
+
         _setActivePlaylistListeners: function(active) {
             if (active) {
                 this.listenTo(Streamus.channels.activePlaylist.commands, 'save:song', this._saveSong);
@@ -136,10 +135,10 @@ define(function (require) {
                 this.stopListening(Streamus.channels.activePlaylist.commands);
             }
         },
-        
-        _saveSong: function (song) {
+
+        _saveSong: function(song) {
             var duplicatesInfo = this.get('items').getDuplicatesInfo(song);
-            
+
             if (duplicatesInfo.allDuplicates) {
                 Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                     title: duplicatesInfo.message
@@ -151,19 +150,19 @@ define(function (require) {
                 });
             }
         },
-        
-        _onSaveSongsSuccess: function (savedSong) {
+
+        _onSaveSongsSuccess: function(savedSong) {
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 title: chrome.i18n.getMessage('songSavedToPlaylist', [savedSong.get('title'), this.get('title')])
             });
         },
-        
+
         _onSaveSongsError: function() {
             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
                 title: chrome.i18n.getMessage('errorEncountered')
             });
         },
-        
+
         _ensureItemsCollection: function() {
             var items = this.get('items');
 

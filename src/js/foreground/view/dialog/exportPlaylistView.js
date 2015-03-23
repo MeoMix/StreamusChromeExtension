@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Utility = require('common/utility');
@@ -11,43 +11,43 @@
     var ExportPlaylistView = DialogContentView.extend({
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
-        
+
         templateHelpers: {
             fileTypeMessage: chrome.i18n.getMessage('fileType'),
             csvMessage: chrome.i18n.getMessage('csv'),
             jsonMessage: chrome.i18n.getMessage('json')
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 fileTypeRegion: '#' + this.id + '-fileTypeRegion'
             };
         },
-        
+
         ui: function() {
             return {
                 exportCsvRadio: '#' + this.id + '-exportCsvRadio',
                 exportJsonRadio: '#' + this.id + '-exportJsonRadio'
             };
         },
-        
+
         radioGroups: null,
 
-        initialize: function () {
+        initialize: function() {
             this.radioGroups = new RadioGroups();
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this._showRadioGroup('fileType', ExportFileType);
         },
-        
-        saveAndExport: function () {
+
+        saveAndExport: function() {
             this._save();
             this._export();
         },
-        
-        _showRadioGroup: function (propertyName, options) {
-            var buttons = _.map(options, function (value, key) {
+
+        _showRadioGroup: function(propertyName, options) {
+            var buttons = _.map(options, function(value, key) {
                 return {
                     checked: this.model.get(propertyName) === value,
                     value: value,
@@ -65,17 +65,17 @@
                 collection: radioGroup.get('buttons')
             }));
         },
-        
+
         _save: function() {
             var currentValues = {};
 
-            this.radioGroups.each(function (radioGroup) {
+            this.radioGroups.each(function(radioGroup) {
                 currentValues[radioGroup.get('property')] = radioGroup.get('buttons').getChecked().get('value');
             });
 
             this.model.save(currentValues);
         },
-        
+
         _export: function() {
             var downloadableElement = document.createElement('a');
             downloadableElement.setAttribute('href', 'data:' + this._getMimeType() + ';charset=utf-8,' + encodeURIComponent(this._getFileText()));
@@ -91,7 +91,7 @@
             var itemsToExport = this.model.get('playlist').get('items').map(this._mapAsExportedItem.bind(this));
             var json = JSON.stringify(itemsToExport);
             var fileText;
-            
+
             if (this._isExportingAsCsv()) {
                 fileText = Utility.jsonToCsv(json);
             } else {
@@ -100,8 +100,8 @@
 
             return fileText;
         },
-        
-        _mapAsExportedItem: function (item) {
+
+        _mapAsExportedItem: function(item) {
             var song = item.get('song');
 
             var exportedItem = {
@@ -115,21 +115,21 @@
 
             return exportedItem;
         },
-        
-        _getFileName: function () {
+
+        _getFileName: function() {
             var fileName = this.model.get('playlist').get('title');
             fileName += this._isExportingAsJson() ? '.json' : '.txt';
             return fileName;
         },
-        
-        _getMimeType: function () {
+
+        _getMimeType: function() {
             return this._isExportingAsJson() ? 'application/json' : 'text/plain';
         },
 
-        _isExportingAsJson: function () {
+        _isExportingAsJson: function() {
             return this.radioGroups.getByProperty('fileType').getCheckedValue() === ExportFileType.Json;
         },
-        
+
         _isExportingAsCsv: function() {
             return this.radioGroups.getByProperty('fileType').getCheckedValue() === ExportFileType.Csv;
         }

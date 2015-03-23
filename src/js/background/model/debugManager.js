@@ -2,9 +2,8 @@
     'use strict';
 
     var DebugManager = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
-                youTubeIFrameReferers: [],
                 flashLoaded: false
             };
         }

@@ -2,7 +2,7 @@
 	"manifest_version": 2,
 	"name": "__MSG_extensionName__",
 	"short_name": "Streamus",
-	"version": "0.170",
+	"version": "0.172",
 
     "default_locale": "en",
 	"description": "__MSG_extensionDescription__",
@@ -88,31 +88,23 @@
 			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
 		},
 		{
-			"matches": ["*://*.share.streamus.com/*"],
-			"run_at": "document_start",
-			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusShareInject.js"]
-		},
-		{
-			"matches": ["*://*.streamus.com/*"],
-			"run_at": "document_start",
-			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/streamusInject.js"]
-		},
-		{
 			"matches": ["*://*.pro.beatport.com/*"],
 			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"],
 			"css": ["css/beatportInject.css"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
+	"externally_connectable": {
+		"matches": ["*://*.streamus.com/*"]
+	},
 	"homepage_url": "http://streamus.com",
 	"incognito": "spanning",
-    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",
+	"key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",
 	"minimum_chrome_version": "37",
 	"offline_enabled": false,
 	"omnibox": { "keyword" : "streamus" }, 
 	"permissions": [
 	    "alarms",
-	    "http://localhost:28029/Streamus/",
 	    "contextMenus",
 		"background",
 		"notifications",

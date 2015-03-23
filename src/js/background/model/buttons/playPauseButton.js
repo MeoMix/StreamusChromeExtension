@@ -1,8 +1,8 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ChromeCommand = require('background/enum/chromeCommand');
-    
+
     var PlayPauseButton = Backbone.Model.extend({
         defaults: {
             enabled: false,
@@ -10,7 +10,7 @@
             streamItems: null,
         },
 
-        initialize: function () {
+        initialize: function() {
             var streamItems = this.get('streamItems');
             this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
@@ -21,15 +21,15 @@
         },
         
         //  Only allow changing once every 100ms to preent spamming.
-        tryTogglePlayerState: _.debounce(function () {
+        tryTogglePlayerState: _.debounce(function() {
             if (this.get('enabled')) {
                 this.get('player').toggleState();
             }
 
             return this.get('enabled');
         }, 100, true),
-        
-        _onChromeCommandsCommand: function (command) {
+
+        _onChromeCommandsCommand: function(command) {
             if (command === ChromeCommand.ToggleSong) {
                 var didTogglePlayerState = this.tryTogglePlayerState();
 
@@ -41,23 +41,23 @@
                 }
             }
         },
-        
+
         _onStreamItemsAdd: function() {
             this._toggleEnabled(false);
         },
-        
+
         _onStreamItemsRemove: function(model, collection) {
             this._toggleEnabled(collection.isEmpty());
         },
-        
+
         _onStreamItemsReset: function(collection) {
             this._toggleEnabled(collection.isEmpty());
         },
-        
-        _toggleEnabled: function (streamItemsEmpty) {
+
+        _toggleEnabled: function(streamItemsEmpty) {
             this.set('enabled', !streamItemsEmpty);
         }
     });
-    
+
     return PlayPauseButton;
 });

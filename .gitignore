@@ -4,6 +4,10 @@ release
 src/js/background/key/*.js
 !src/js/background/key/*.example.js
 
+# Injected CSS isn't compiled from LESS, but all other CSS is compiled with LESS. Commit the LESS file rather than the CSS
+src/css/*.css
+!src/css/*Inject.css
+
 # Node
 node_modules
 

@@ -1,6 +1,6 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
-    
+
     var AppBarRegion = require('foreground/view/appBar/appBarRegion');
     var ContextMenuRegion = require('foreground/view/contextMenu/contextMenuRegion');
     var DialogRegion = require('foreground/view/dialog/dialogRegion');
@@ -18,8 +18,8 @@
         id: 'foregroundArea',
         className: 'flexColumn u-fullHeight',
         template: _.template(ForegroundAreaTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 loadingYouTubeMessage: chrome.i18n.getMessage('loadingYouTube'),
                 loadingYouTubeFailedMessage: chrome.i18n.getMessage('loadingYouTubeFailed'),
@@ -34,8 +34,8 @@
             'contextmenu': '_onContextMenu',
             'click @ui.reloadLink': '_onClickReloadLink'
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
                 loadingMessage: '#' + this.id + '-loadingMessage',
                 loadingFailedMessage: '#' + this.id + '-loadingFailedMessage',
@@ -44,7 +44,7 @@
             };
         },
 
-        regions: function () {
+        regions: function() {
             return {
                 spinnerRegion: '#' + this.id + '-spinnerRegion',
                 appBarRegion: {
@@ -89,50 +89,52 @@
                 }
             };
         },
-        
+
         player: null,
         settings: null,
-        
+
         playerEvents: {
             'change:loading': '_onPlayerChangeLoading',
             'change:currentLoadAttempt': '_onPlayerChangeCurrentLoadAttempt'
         },
 
-        initialize: function () {
+        initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.settings = Streamus.backgroundPage.settings;
             this.bindEntityEvents(this.player, this.playerEvents);
-            
+
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);
+
+            Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this.spinnerRegion.show(new SpinnerView());
             this._checkPlayerLoading();
-            
+
             Streamus.channels.foregroundArea.vent.trigger('rendered');
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
-        _onClick: function (event) {
+        _onClick: function(event) {
             Streamus.channels.element.vent.trigger('click', event);
         },
 
-        _onContextMenu: function (event) {
+        _onContextMenu: function(event) {
             Streamus.channels.element.vent.trigger('contextMenu', event);
         },
 
-        _onMouseDown: function () {
+        _onMouseDown: function() {
             Streamus.channels.element.vent.trigger('mouseDown', event);
         },
 
-        _onClickReloadLink: function () {
+        _onClickReloadLink: function() {
             chrome.runtime.reload();
         },
-        
-        _onWindowResize: function () {
+
+        _onWindowResize: function() {
             Streamus.channels.window.vent.trigger('resize', {
                 height: this.$el.height(),
                 width: this.$el.width()
@@ -140,7 +142,7 @@
         },
 
         //  Destroy the foreground to perform memory management / unbind event listeners. Memory leaks will be introduced if this doesn't happen.
-        _onWindowUnload: function () {
+        _onWindowUnload: function() {
             Streamus.channels.foreground.vent.trigger('beginUnload');
             Streamus.backgroundChannels.foreground.vent.trigger('beginUnload');
             this.destroy();
@@ -148,11 +150,11 @@
             Streamus.backgroundChannels.foreground.vent.trigger('endUnload');
         },
 
-        _onWindowError: function (message, url, lineNumber, columnNumber, error) {
+        _onWindowError: function(message, url, lineNumber, columnNumber, error) {
             Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
         },
 
-        _onPlayerChangeLoading: function (model, loading) {
+        _onPlayerChangeLoading: function(model, loading) {
             if (loading) {
                 this._startLoading();
             } else {
@@ -160,18 +162,18 @@
             }
         },
 
-        _onPlayerChangeCurrentLoadAttempt: function () {
+        _onPlayerChangeCurrentLoadAttempt: function() {
             this.ui.loadAttemptMessage.text(this._getLoadAttemptMessage());
         },
-        
-        _startLoading: function () {
+
+        _startLoading: function() {
             this.$el.addClass('is-showingSpinner');
             this.ui.loadingFailedMessage.addClass('is-hidden');
             this.ui.loadingMessage.removeClass('is-hidden');
         },
         
         //  Set the foreground's view state to indicate that user interactions are OK once the player is ready.
-        _stopLoading: function () {
+        _stopLoading: function() {
             this.ui.loadingMessage.addClass('is-hidden');
 
             if (this.player.get('ready')) {
@@ -182,12 +184,12 @@
             }
         },
 
-        _checkPlayerLoading: function () {
+        _checkPlayerLoading: function() {
             if (this.player.get('loading')) {
                 this._startLoading();
             }
         },
-        
+
         _getLoadAttemptMessage: function() {
             return chrome.i18n.getMessage('loadAttempt', [this.player.get('currentLoadAttempt'), this.player.get('maxLoadAttempts')]);
         }

@@ -1,8 +1,8 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var DesktopNotificationDuration = require('common/enum/desktopNotificationDuration');
-    
+
     //  Use the chrome.notifications API to create rich notifications using templates and show these notifications to users in the system tray.
     //  Availability: Stable since Chrome 28, but getPermissionLevel since Chrome 32
     //  Permissions: "notifications" 
@@ -24,39 +24,39 @@
             tabManager: null,
             settings: null
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.listenTo(Streamus.channels.notification.commands, 'show:notification', this._showNotification);
             //  Background notifications will only show up via desktop notification, normal notification commands will be rendered in the UI if it is open.
             this.listenTo(Streamus.channels.backgroundNotification.commands, 'show:notification', this._showNotification);
         },
-        
-        _showNotification: function (notificationOptions) {
+
+        _showNotification: function(notificationOptions) {
             //  Pass along the notification to the foreground if it's open. Otherwise, use desktop notifications to notify the user.
             this._isForegroundActive(this._onIsForegroundActiveResponse.bind(this, notificationOptions));
         },
-                
-        _onIsForegroundActiveResponse: function (notificationOptions, foregroundActive) {
+
+        _onIsForegroundActiveResponse: function(notificationOptions, foregroundActive) {
             if (!foregroundActive) {
                 var chromeNotificationOptions = _.pick(notificationOptions, ['message', 'title', 'iconUrl']);
-    
-                if (this._notificationsEnabled() ) {
+
+                if (this._notificationsEnabled()) {
                     chrome.notifications.getPermissionLevel(this._onGetPermissionLevel.bind(this, chromeNotificationOptions));
                 }
             }
         },
-        
-        _onGetPermissionLevel: function (options, permissionLevel) {
+
+        _onGetPermissionLevel: function(options, permissionLevel) {
             if (permissionLevel === 'granted') {
                 this._createNotification(options);
             }
         },
-        
-        _notificationsEnabled: function () {
+
+        _notificationsEnabled: function() {
             return !_.isUndefined(chrome.notifications) && this.get('settings').get('desktopNotificationsEnabled');
         },
-        
-        _createNotification: function (options) {
+
+        _createNotification: function(options) {
             this._clearCloseNotificationTimeout();
 
             var notificationOptions = _.extend({}, this.get('defaultNotificationOptions'), options);
@@ -65,11 +65,11 @@
 
             this._setCloseNotificationTimeout();
         },
-        
+
         _onNotificationCreate: function(notificationId) {
             this.set('shownNotificationId', notificationId);
         },
-        
+
         _onCloseNotificationTimeout: function() {
             var shownNotificationId = this.get('shownNotificationId');
 
@@ -77,31 +77,31 @@
                 this._clearNotification(shownNotificationId);
             }
         },
-        
+
         _onNotificationClear: function() {
             this.set('shownNotificationId', '');
         },
-        
+
         _clearNotification: function(notificationId) {
             chrome.notifications.clear(notificationId, this._onNotificationClear.bind(this));
         },
-        
+
         _clearCloseNotificationTimeout: function() {
             clearTimeout(this.get('closeNotificationTimeout'));
             this.set('closeNotificationTimeout', null);
         },
-        
-        _setCloseNotificationTimeout: function () {
+
+        _setCloseNotificationTimeout: function() {
             var notificationDuration = this._getNotificationDuration(this.get('settings').get('desktopNotificationDuration'));
             var closeNotificationTimeout = setTimeout(this._onCloseNotificationTimeout.bind(this), notificationDuration);
             this.set('closeNotificationTimeout', closeNotificationTimeout);
         },
-        
-        _isForegroundActive: function (callback) {
-            var foreground = chrome.extension.getViews({ type: "popup" });
+
+        _isForegroundActive: function(callback) {
+            var foreground = chrome.extension.getViews({ type: 'popup' });
 
             if (foreground.length === 0) {
-                this.get('tabManager').isStreamusTabActive(function (streamusTabActive) {
+                this.get('tabManager').isStreamusTabActive(function(streamusTabActive) {
                     callback(streamusTabActive);
                 });
             } else {
@@ -110,10 +110,10 @@
         },
         
         //  Converts the DesktopNotificationDuration enum into milliseconds for use in setTimeout.
-        _getNotificationDuration: function (desktopNotificationDuration) {
+        _getNotificationDuration: function(desktopNotificationDuration) {
             var notificationDuration;
 
-            switch(desktopNotificationDuration) {
+            switch (desktopNotificationDuration) {
                 case DesktopNotificationDuration.OneSecond:
                     notificationDuration = 1000;
                     break;

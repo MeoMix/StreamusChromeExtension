@@ -1,4 +1,4 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
 
     var ClipboardView = Marionette.ItemView.extend({
@@ -6,7 +6,7 @@
         tagName: 'textarea',
         template: false,
 
-        initialize: function () {
+        initialize: function() {
             this.listenTo(Streamus.channels.clipboard.commands, 'copy:text', this._copyText);
         },
         

@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SpinnerView = require('foreground/view/element/spinnerView');
@@ -13,10 +13,10 @@
     var PlaylistView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
         template: _.template(PlaylistTemplate),
-        
+
         ui: _.extend({}, ListItemView.prototype.ui, {
             title: '.listItem-title',
-            itemCount: '.listItem-itemCount'  
+            itemCount: '.listItem-itemCount'
         }),
 
         events: _.extend({}, ListItemView.prototype.events, {
@@ -30,20 +30,20 @@
             'change:active': '_onChangeActive',
             'change:id': '_onChangeId'
         },
-        
+
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
-        
+
         playlistItemsEvents: {
             'add': '_onPlaylistItemsAdd',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this.spinnerRegion.show(new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
@@ -52,8 +52,8 @@
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
         },
-        
-        showContextMenu: function () {
+
+        showContextMenu: function() {
             var isEmpty = this.model.get('items').isEmpty();
 
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
@@ -71,98 +71,98 @@
                 onClick: this._showExportPlaylistDialog.bind(this)
             }]);
         },
-        
-        _onChangeTitle: function (model, title) {
+
+        _onChangeTitle: function(model, title) {
             this.ui.title.text(title).attr('title', title);
         },
-        
-        _onChangeDataSourceLoaded: function () {
+
+        _onChangeDataSourceLoaded: function() {
             this._setShowingSpinnerClass();
         },
-        
-        _onChangeId: function () {
+
+        _onChangeId: function() {
             this._setShowingSpinnerClass();
         },
-        
-        _onChangeActive: function (model, active) {
+
+        _onChangeActive: function(model, active) {
             this._setActiveClass(active);
         },
-        
-        _setShowingSpinnerClass: function () {
+
+        _setShowingSpinnerClass: function() {
             var loading = this.model.isLoading();
             var saving = this.model.isNew();
             this.$el.toggleClass('is-showingSpinner', loading || saving);
         },
-        
-        _setActiveClass: function (active) {
+
+        _setActiveClass: function(active) {
             this.$el.toggleClass('is-active', active);
         },
-        
-        _onPlaylistItemsAdd: function (model, collection) {
+
+        _onPlaylistItemsAdd: function(model, collection) {
             this._setItemCount(collection.length);
         },
 
-        _onPlaylistItemsRemove: function (model, collection) {
+        _onPlaylistItemsRemove: function(model, collection) {
             this._setItemCount(collection.length);
         },
 
-        _onPlaylistItemsReset: function (collection) {
+        _onPlaylistItemsReset: function(collection) {
             this._setItemCount(collection.length);
         },
-        
-        _setItemCount: function (itemCount) {
+
+        _setItemCount: function(itemCount) {
             //  Format the number if it is too large.
             if (itemCount >= 1000) {
                 itemCount = Math.floor(itemCount / 1000) + 'K';
             }
-            
+
             this.ui.itemCount.text(itemCount);
         },
-        
-        _activate: function () {
+
+        _activate: function() {
             this.model.set('active', true);
         },
-        
+
         _copyPlaylistUrl: function() {
             this.model.getShareCode({
                 success: this._onGetShareCodeSuccess,
                 error: this._onGetShareCodeError
             });
         },
-        
-        _onGetShareCodeSuccess: function (shareCode) {
+
+        _onGetShareCodeSuccess: function(shareCode) {
             shareCode.copyUrl();
-            
+
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('urlCopied')
             });
         },
-        
-        _onGetShareCodeError: function () {
+
+        _onGetShareCodeError: function() {
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('copyFailed')
             });
 
             Streamus.backgroundChannels.error.commands.trigger('log:error', new Error('Failed to get sharecode; ' + ' playlist: ' + this.model.get('id')));
         },
-        
+
         _showEditPlaylistDialog: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', EditPlaylistDialogView, {
                 playlist: this.model
             });
         },
-        
+
         _showExportPlaylistDialog: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', ExportPlaylistDialogView, {
                 playlist: this.model
             });
         },
-        
-        _onClick: function () {
+
+        _onClick: function() {
             this._activate();
         },
-        
-        _onDblClick: function () {
+
+        _onDblClick: function() {
             this._activate();
         }
     });

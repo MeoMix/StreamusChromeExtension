@@ -1,6 +1,6 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
-    
+
     var Tooltip = require('foreground/view/behavior/tooltip');
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
@@ -9,8 +9,8 @@
         id: 'selectionBar',
         className: 'selectionBar panel-content panel-content--uncolored',
         template: _.template(SelectionBarTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 playMessage: chrome.i18n.getMessage('play'),
@@ -20,10 +20,10 @@
                 closeIcon: _.template(CloseIconTemplate)()
             };
         },
-        
-        ui: function () {
+
+        ui: function() {
             return {
-                playButton: '#'+ this.id + '-playButton',
+                playButton: '#' + this.id + '-playButton',
                 addButton: '#' + this.id + '-addButton',
                 saveButton: '#' + this.id + '-saveButton',
                 deleteButton: '#' + this.id + '-deleteButton',
@@ -31,7 +31,7 @@
                 clearButton: '#' + this.id + '-clearButton'
             };
         },
-        
+
         events: {
             'click @ui.playButton': '_onClickPlayButton',
             'click @ui.addButton': '_onClickAddButton',
@@ -39,32 +39,32 @@
             'click @ui.deleteButton': '_onClickDeleteButton',
             'click @ui.clearButton': '_onClickClearButton'
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
-        
+
         streamItems: null,
         searchResults: null,
         signInManager: null,
-        
+
         multiSelectCollectionEvents: {
             'change:selected': '_onMultiSelectCollectionChangeSelected',
             'remove': '_onMultiSelectCollectionRemove'
         },
-        
+
         streamItemsEvents: {
             'add': '_onStreamItemsAdd',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
-        
+
         playlistsEvents: {
             'change:active': '_onPlaylistsChangeActive'
         },
-        
+
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
             this.searchResults = Streamus.backgroundPage.search.get('results');
@@ -79,44 +79,44 @@
             if (signedInUser !== null) {
                 this._setUserBindings(signedInUser, true);
             }
-            
+
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             this._setSelectionCountText();
             this._setButtonStates();
         },
-        
-        _onClickClearButton: function () {
+
+        _onClickClearButton: function() {
             Streamus.channels.listItem.commands.trigger('deselect:collection');
         },
-        
-        _onClickPlayButton: function () {
+
+        _onClickPlayButton: function() {
             var canPlay = this._canPlay();
-            
+
             if (canPlay) {
                 var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
 
                 this.streamItems.addSongs(selectedSongs, {
                     playOnAdd: true
                 });
-                
+
                 Streamus.channels.listItem.commands.trigger('deselect:collection');
             }
         },
-        
-        _onClickAddButton: function () {
+
+        _onClickAddButton: function() {
             var canAdd = this._canAdd();
-            
+
             if (canAdd) {
                 var selectedSongs = this.model.get('activeCollection').getSelectedSongs();
                 this.streamItems.addSongs(selectedSongs);
-                
+
                 Streamus.channels.listItem.commands.trigger('deselect:collection');
             }
         },
-        
+
         _onClickSaveButton: function() {
             var canSave = this._canSave();
 
@@ -135,55 +135,55 @@
                 this.listenTo(Streamus.channels.simpleMenu.vent, 'hidden', this._onSimpleMenuHidden);
             }
         },
-        
+
         _onClickDeleteButton: function() {
             //  TODO: Implement undo since I've opted to not show a dialog.
             var canDelete = this._canDelete();
-            
+
             if (canDelete) {
                 var selectedModels = this.model.get('activeCollection').selected();
                 _.invoke(selectedModels, 'destroy');
-                
+
                 Streamus.channels.listItem.commands.trigger('deselect:collection');
             }
         },
-        
-        _onSimpleMenuClickedItem: function () {
+
+        _onSimpleMenuClickedItem: function() {
             Streamus.channels.listItem.commands.trigger('deselect:collection');
         },
 
-        _onSimpleMenuHidden: function () {
+        _onSimpleMenuHidden: function() {
             this.stopListening(Streamus.channels.simpleMenu.vent);
         },
         
         //  Keep track of which multi-select collection is currently holding selected items
-        _onMultiSelectCollectionChangeSelected: function (model, selected) {
+        _onMultiSelectCollectionChangeSelected: function(model, selected) {
             this._setActiveCollection(model.collection, selected);
             this._setSelectionCountText();
             this._setButtonStates();
         },
         
         //  If a selected model is removed from a collection then a 'change:selected' event does not fire.
-        _onMultiSelectCollectionRemove: function (model, collection) {
+        _onMultiSelectCollectionRemove: function(model, collection) {
             this._setActiveCollection(collection, false);
             this._setSelectionCountText();
             this._setButtonStates();
         },
-        
-        _onStreamItemsAdd: function () {
+
+        _onStreamItemsAdd: function() {
             this._setAddButtonState(this.model.get('activeCollection'));
         },
-        
+
         _onStreamItemsRemove: function() {
             this._setAddButtonState(this.model.get('activeCollection'));
         },
-        
-        _onStreamItemsReset: function () {
+
+        _onStreamItemsReset: function() {
             this._setAddButtonState(this.model.get('activeCollection'));
         },
         
         //  Bind/unbind listeners as appropriate whenever the active playlist changes.
-        _onPlaylistsChangeActive: function (model, active) {
+        _onPlaylistsChangeActive: function(model, active) {
             if (active) {
                 this.bindEntityEvents(model.get('items'), this.multiSelectCollectionEvents);
             } else {
@@ -192,7 +192,7 @@
         },
         
         //  Bind/unbind listeners as appropriate whenver the signedInUser changes.
-        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser === null) {
                 this._setUserBindings(model.previous('signedInUser'), false);
             } else {
@@ -201,7 +201,7 @@
         },
         
         //  Keep track of which collection currently has selected songs by handling selection & deselection events.
-        _setActiveCollection: function (collection, isSelecting) {
+        _setActiveCollection: function(collection, isSelecting) {
             var hasSelectedItems = collection.selected().length > 0;
 
             if (hasSelectedItems) {
@@ -212,15 +212,14 @@
                 if (isSelecting) {
                     this.model.set('activeCollection', collection);
                 }
-            }
-            else if (this.model.get('activeCollection') === collection) {
+            } else if (this.model.get('activeCollection') === collection) {
                 this.model.set('activeCollection', null);
             }
         },
         
         //  Bind or unbind entity events to a user's playlists and activePlaylist's items.
         //  Useful for when a user is signing in/out.
-        _setUserBindings: function (user, isBinding) {
+        _setUserBindings: function(user, isBinding) {
             var bindingAction = isBinding ? this.bindEntityEvents : this.unbindEntityEvents;
 
             var playlists = user.get('playlists');
@@ -231,17 +230,17 @@
         },
         
         //  Update the text which shows how many songs are currently selected
-        _setSelectionCountText: function () {
+        _setSelectionCountText: function() {
             var activeCollection = this.model.get('activeCollection');
             var activeCollectionExists = activeCollection !== null;
             var songCount = activeCollectionExists ? activeCollection.selected().length : 0;
-            
+
             var selectionCountText = chrome.i18n.getMessage('collectionSelected', [songCount, chrome.i18n.getMessage(songCount === 1 ? 'song' : 'songs')]);
             this.ui.selectionCountText.html(selectionCountText);
         },
         
         //  Set buttons to disabled when transitioning the view out as well as handle specific scenarios for each button
-        _setButtonStates: function () {
+        _setButtonStates: function() {
             var activeCollection = this.model.get('activeCollection');
             var activeCollectionExists = activeCollection !== null;
 
@@ -253,8 +252,8 @@
             this._setDeleteButtonState(activeCollection);
             this._setAddButtonState(activeCollection);
         },
-        
-        _setDeleteButtonState: function (activeCollection) {
+
+        _setDeleteButtonState: function(activeCollection) {
             var activeCollectionExists = activeCollection !== null;
 
             //  Delete is disabled if the user is selecting search results
@@ -267,8 +266,8 @@
 
             this.ui.deleteButton.toggleClass('is-disabled', !canDelete).attr('title', deleteTitle);
         },
-        
-        _setAddButtonState: function (activeCollection) {
+
+        _setAddButtonState: function(activeCollection) {
             var activeCollectionExists = activeCollection !== null;
 
             //  Add is disabled if all selected songs are already in the stream.
@@ -284,8 +283,8 @@
 
             this.ui.addButton.toggleClass('is-disabled', !canAdd).attr('title', addTitle);
         },
-        
-        _canPlay: function () {
+
+        _canPlay: function() {
             var activeCollection = this.model.get('activeCollection');
             var activeCollectionExists = activeCollection !== null;
 
@@ -293,19 +292,19 @@
         },
         
         //  TODO: Super messy, prefer to store on model, but tricky due dependencies on signInManager/streamItems.
-        _canDelete: function () {
+        _canDelete: function() {
             var activeCollection = this.model.get('activeCollection');
             var activeCollectionExists = activeCollection !== null;
             return activeCollectionExists && !activeCollection.isImmutable;
         },
-        
-        _canSave: function () {
+
+        _canSave: function() {
             var isSignedIn = this.signInManager.get('signedInUser') !== null;
             var activeCollectionExists = this.model.get('activeCollection') !== null;
-            
+
             return isSignedIn && activeCollectionExists;
         },
-        
+
         _canAdd: function() {
             var activeCollection = this.model.get('activeCollection');
             var activeCollectionExists = activeCollection !== null;

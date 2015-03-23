@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Tooltip = require('foreground/view/behavior/tooltip');
@@ -6,7 +6,7 @@
 
     var ContextMenuItemView = Marionette.ItemView.extend({
         tagName: 'li',
-        className: function () {
+        className: function() {
             var className = 'listItem listItem--small js-tooltipable';
             className += this.model.get('disabled') ? ' is-disabled' : '';
             return className;
@@ -17,25 +17,25 @@
             'click': '_onClick',
         },
 
-        attributes: function () {
+        attributes: function() {
             return {
                 title: this.model.get('title')
             };
         },
-        
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
             }
         },
 
-        _onClick: function () {
+        _onClick: function() {
             var enabled = !this.model.get('disabled');
 
             if (enabled) {
                 this.model.get('onClick')();
             }
-            
+
             //  Return false to prevent the view from closing which emulates how native, disabled contextMenu views work when clicked.
             return enabled;
         }

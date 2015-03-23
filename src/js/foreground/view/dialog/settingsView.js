@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var SongQuality = require('common/enum/songQuality');
@@ -17,8 +17,8 @@
     var SettingsView = DialogContentView.extend({
         id: 'settings',
         template: _.template(SettingsTemplate),
-        
-        templateHelpers: function () {
+
+        templateHelpers: function() {
             return {
                 viewId: this.id,
                 generalMessage: chrome.i18n.getMessage('general'),
@@ -27,8 +27,8 @@
                 desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
             };
         },
-        
-        regions: function () {
+
+        regions: function() {
             return {
                 songQualityRegion: '#' + this.id + '-songQualityRegion',
                 openToSearchRegion: '#' + this.id + '-openToSearchRegion',
@@ -41,14 +41,14 @@
                 desktopNotificationDurationRegion: '#' + this.id + '-desktopNotificationDurationRegion'
             };
         },
-        
+
         checkboxes: null,
         radioGroups: null,
         switches: null,
         simpleListItems: null,
         signInManager: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.checkboxes = new Checkboxes();
             this.radioGroups = new RadioGroups();
             this.switches = new Switches();
@@ -56,11 +56,11 @@
 
             this.signInManager = Streamus.backgroundPage.signInManager;
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
             this._showSimpleListItem({
-                propertyName: 'songQuality', 
+                propertyName: 'songQuality',
                 options: _.values(SongQuality)
             });
 
@@ -68,7 +68,7 @@
             this._showSwitch('openInTab');
             this._showCheckbox('remindClearStream');
             this._showCheckbox('remindDeletePlaylist');
-            
+
             //  Once some states have been fulfilled there is no need to allow their reminders to be toggled because
             //  the dialogs which correspond to the reminders will not be shown.
             if (this.signInManager.get('needLinkUserId')) {
@@ -86,24 +86,24 @@
                 options: _.values(DesktopNotificationDurations)
             });
         },
-        
-        _showSimpleListItem: function (options) {
+
+        _showSimpleListItem: function(options) {
             var propertyName = options.propertyName;
 
             var simpleListItem = this.simpleListItems.add({
                 property: options.propertyName,
-                labelKey: _.isUndefined(options.labelKey) ? propertyName: options.labelKey,
+                labelKey: _.isUndefined(options.labelKey) ? propertyName : options.labelKey,
                 value: this.model.get(propertyName),
                 options: options.options
             });
-            
+
             this[propertyName + 'Region'].show(new SimpleListItemView({
                 model: simpleListItem
             }));
         },
-        
-        _showRadioGroup: function (propertyName, options) {
-            var buttons = _.map(options, function (value, key) {
+
+        _showRadioGroup: function(propertyName, options) {
+            var buttons = _.map(options, function(value, key) {
                 return {
                     checked: this.model.get(propertyName) === value,
                     value: value,
@@ -121,8 +121,8 @@
                 collection: radioGroup.get('buttons')
             }));
         },
-        
-        _showCheckbox: function (propertyName) {
+
+        _showCheckbox: function(propertyName) {
             var checkbox = this.checkboxes.add({
                 labelText: chrome.i18n.getMessage(propertyName),
                 checked: this.model.get(propertyName),
@@ -133,8 +133,8 @@
                 model: checkbox
             }));
         },
-        
-        _showSwitch: function (propertyName, labelKey) {
+
+        _showSwitch: function(propertyName, labelKey) {
             //  switch is a reserved keyword so suffix with model.
             var switchModel = this.switches.add({
                 labelText: chrome.i18n.getMessage(_.isUndefined(labelKey) ? propertyName : labelKey),
@@ -146,23 +146,23 @@
                 model: switchModel
             }));
         },
-        
-        save: function () {
+
+        save: function() {
             var currentValues = {};
 
-            this.checkboxes.each(function (checkbox) {
+            this.checkboxes.each(function(checkbox) {
                 currentValues[checkbox.get('property')] = checkbox.get('checked');
             });
-            
-            this.radioGroups.each(function (radioGroup) {
+
+            this.radioGroups.each(function(radioGroup) {
                 currentValues[radioGroup.get('property')] = radioGroup.get('buttons').getChecked().get('value');
             });
 
-            this.switches.each(function (switchModel) {
+            this.switches.each(function(switchModel) {
                 currentValues[switchModel.get('property')] = switchModel.get('checked');
             });
 
-            this.simpleListItems.each(function (simpleListItem) {
+            this.simpleListItems.each(function(simpleListItem) {
                 currentValues[simpleListItem.get('property')] = simpleListItem.get('value');
             });
 

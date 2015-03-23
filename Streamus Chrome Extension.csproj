@@ -42,7 +42,8 @@
     <Content Include=".gitignore" />
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
-    <Content Include="src\css\mocha.css" />
+    <Content Include="src\css\foreground.css" />
+    <Content Include="src\css\test\mocha.css" />
     <Content Include="src\foreground.html" />
     <Content Include="src\img\green_0bar_19.png" />
     <Content Include="src\img\green_0bar_38.png" />
@@ -71,7 +72,18 @@
     <Content Include="src\img\streamus_icon38.png" />
     <Content Include="src\img\streamus_icon48.png" />
     <Content Include="src\img\streamus_icon_white19.png" />
+    <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\background\viewModel\playlistsViewModel.js" />
+    <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
+    <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
+    <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
+    <Content Include="src\js\foreground\view\leftPane\leftPaneView.js" />
+    <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
+    <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
+    <Content Include="src\js\foreground\view\leftPane\signInView.js" />
+    <Content Include="src\js\thirdParty\test\chai.js" />
+    <Content Include="src\js\thirdParty\test\mocha.js" />
+    <Content Include="src\js\thirdParty\test\sinon.js" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
     <Content Include="src\template\icon\menuIcon_24.svg" />
@@ -118,7 +130,6 @@
     <Content Include="src\js\background\collection\playlists.js" />
     <Content Include="src\js\background\collection\streamItems.js" />
     <Content Include="src\js\background\collection\searchResults.js" />
-    <Content Include="src\js\background\collection\syncActions.js" />
     <Content Include="src\js\background\enum\syncActionType.js" />
     <Content Include="src\js\background\main.js" />
     <Content Include="src\js\background\mixin\collectionMultiSelect.js" />
@@ -202,14 +213,12 @@
     <Content Include="src\js\foreground\view\element\simpleMenuView.js" />
     <Content Include="src\js\foreground\view\element\spinnerView.js" />
     <Content Include="src\js\foreground\view\element\switchView.js" />
-    <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\addPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\listItemButton\deletePlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsView.js" />
     <Content Include="src\js\foreground\view\dialog\browserSettingsView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\exportPlaylistView.js" />
-    <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\dialog\browserSettingsDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\flashLoadedDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\dialogContentView.js" />
@@ -263,11 +272,7 @@
     <Content Include="src\js\foreground\view\listItemButton\deleteSongButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\updateStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\listItemButton\saveSongButtonView.js" />
-    <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\appBar\playlistTitleView.js" />
-    <Content Include="src\js\foreground\view\leftPane\leftPaneView.js" />
-    <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
-    <Content Include="src\js\foreground\view\leftPane\signInView.js" />
     <Content Include="src\js\foreground\view\listItemButton\playSongButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistView.js" />
@@ -288,8 +293,6 @@
     <Content Include="src\js\foreground\view\search\searchResultView.js" />
     <Content Include="src\js\foreground\view\search\searchView.js" />
     <Content Include="src\js\inject\beatportInject.js" />
-    <Content Include="src\js\inject\streamusInject.js" />
-    <Content Include="src\js\inject\streamusShareInject.js" />
     <Content Include="src\js\inject\youTubeIFrameInject.js" />
     <Content Include="src\js\inject\youTubeInject.js" />
     <Content Include="src\js\test\background\collection\playlistsTests.js" />
@@ -318,20 +321,17 @@
     <Content Include="src\js\test\background\model\playlistItemsTests.js" />
     <Content Include="src\js\thirdParty\cocktail.js" />
     <Content Include="src\js\thirdParty\backbone.js" />
-    <Content Include="README.md" />
+    <Content Include="README.md">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
-    <Content Include="src\js\thirdParty\chai.js" />
-    <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
-    <Content Include="src\js\thirdParty\less.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
-    <Content Include="src\js\thirdParty\mocha.js" />
     <Content Include="src\js\thirdParty\require.js" />
-    <Content Include="src\js\thirdParty\sinon.js" />
     <Content Include="src\js\thirdParty\text.js" />
     <Content Include="src\css\beatportInject.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
@@ -340,6 +340,7 @@
     <Content Include=".travis.yml" />
     <Content Include="LICENSE" />
     <Content Include="src\js\background\key\youTubeAPIKey.js.example" />
+    <Content Include="changelog.md" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />
@@ -445,6 +446,8 @@
     <Content Include="src\_locales\tr\messages.json" />
     <Content Include="src\_locales\no\messages.json" />
     <Content Include="src\_locales\cs\messages.json" />
+    <Content Include="src\_locales\ko\messages.json" />
+    <Content Include="src\_locales\ro\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

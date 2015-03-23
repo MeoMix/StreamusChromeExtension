@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ClientErrorManagerTest = require('test/background/model/clientErrorManagerTest');
@@ -10,7 +10,7 @@
     var DataSourceTests = require('test/background/model/dataSourceTests');
     var UtilityTests = require('test/common/model/utilityTests');
     var YouTubeV3APITests = require('test/background/model/youTubeV3APITests');
-    
+
     var BrowserSettingsDialogViewTest = require('test/foreground/view/dialog/browserSettingsDialogViewTest');
     var BrowserSettingsViewTest = require('test/foreground/view/dialog/browserSettingsViewTest');
     var ClearStreamDialogViewTest = require('test/foreground/view/dialog/clearStreamDialogViewTest');

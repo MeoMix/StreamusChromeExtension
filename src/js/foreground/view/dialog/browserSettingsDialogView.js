@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var Dialog = require('foreground/model/dialog');
@@ -8,19 +8,19 @@
     var BrowserSettingsDialogView = DialogView.extend({
         id: 'browserSettingsDialog',
 
-        initialize: function () {
+        initialize: function() {
             this.model = new Dialog({
                 submitButtonText: chrome.i18n.getMessage('save')
             });
 
             this.contentView = new BrowserSettingsView({
                 model: Streamus.backgroundPage.browserSettings
-            }); 
+            });
 
             DialogView.prototype.initialize.apply(this, arguments);
         },
 
-        onSubmit: function () {
+        onSubmit: function() {
             this.contentView.save();
         }
     });

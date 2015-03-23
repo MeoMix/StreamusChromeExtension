@@ -1,8 +1,8 @@
-﻿define(function () {
+﻿define(function() {
     'use strict';
-    
+
     var ClientError = Backbone.Model.extend({
-        defaults: function () {
+        defaults: function() {
             return {
                 instanceId: Streamus.instanceId,
                 message: '',
@@ -20,26 +20,26 @@
         
         //  Don't save error because stack is a better representation of error.
         blacklist: ['error'],
-        toJSON: function () {
+        toJSON: function() {
             return this.omit(this.blacklist);
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             this._cleanMessage();
             this._dropUrlPrefix();
             this._setStack();
         },
         
         //  The first part of the message just tells me an error was thrown, no need to know that.
-        _cleanMessage: function () {
+        _cleanMessage: function() {
             this.set('message', this.get('message').replace('Uncaught Error: ', '').replace('Uncaught TypeError: ', ''));
         },
         
         //  The first part of the URL is always the same and not very interesting. Drop it off.
-        _dropUrlPrefix: function () {
+        _dropUrlPrefix: function() {
             this.set('url', this.get('url').replace('chrome-extension://' + chrome.runtime.id + '/', ''));
         },
-        
+
         _setStack: function() {
             var stack = '';
             var error = this.get('error');
@@ -55,7 +55,7 @@
 
             this.set('stack', stack.replace('Error: ', '').trim());
         },
-        
+
         _getBrowserVersion: function() {
             var browserVersion = '';
 
@@ -68,6 +68,6 @@
             return browserVersion;
         }
     });
-    
+
     return ClientError;
 });

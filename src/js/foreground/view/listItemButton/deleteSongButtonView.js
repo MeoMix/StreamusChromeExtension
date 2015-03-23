@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
@@ -10,19 +10,19 @@
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
         },
-        
+
         attributes: {
             title: chrome.i18n.getMessage('delete')
         },
-        
+
         initialize: function() {
             ListItemButtonView.prototype.initialize.apply(this, arguments);
 
             //  Ensure that the user isn't able to destroy the model more than once.
             this.doOnClickAction = _.once(this.doOnClickAction);
         },
-        
-        doOnClickAction: function () {
+
+        doOnClickAction: function() {
             this.model.destroy();
         }
     });

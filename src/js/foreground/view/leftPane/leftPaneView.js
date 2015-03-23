@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ActivePlaylistAreaView = require('foreground/view/leftPane/activePlaylistAreaView');
@@ -10,40 +10,40 @@
         className: 'leftPane flexColumn',
         template: _.template(LeftPaneTemplate),
 
-        regions: function () {
+        regions: function() {
             return {
                 contentRegion: '#' + this.id + '-contentRegion'
             };
         },
 
         signInManager: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.signInManager = Streamus.backgroundPage.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-            
+
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
             }
         },
-        
-        onRender: function () {
+
+        onRender: function() {
             var signedInUser = this.signInManager.get('signedInUser');
             this._updateRegions(signedInUser);
         },
-        
-        _onSignInManagerChangeSignedInUser: function (model, signedInUser) {
+
+        _onSignInManagerChangeSignedInUser: function(model, signedInUser) {
             if (signedInUser === null) {
                 this.stopListening(model.previous('signedInUser').get('playlists'));
             } else {
                 this.listenTo(signedInUser.get('playlists'), 'change:active', this._onPlaylistsChangeActive);
             }
-            
+
             this._updateRegions(signedInUser);
         },
-        
-        _updateRegions: function (signedInUser) {
+
+        _updateRegions: function(signedInUser) {
             if (signedInUser !== null) {
                 var activePlaylist = signedInUser.get('playlists').getActivePlaylist();
                 this._showActivePlaylistContent(activePlaylist);
@@ -53,13 +53,13 @@
         },
         
         //  If the user is signed in -- show the user's active playlist items / information.
-        _showActivePlaylistContent: function (activePlaylist) {
+        _showActivePlaylistContent: function(activePlaylist) {
             this.contentRegion.show(new ActivePlaylistAreaView({
                 model: activePlaylist,
                 collection: activePlaylist.get('items')
             }));
         },
-        
+
         _showSignInContent: function() {
             //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
             //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
@@ -70,8 +70,8 @@
                 }));
             }
         },
-        
-        _onPlaylistsChangeActive: function (model, active) {
+
+        _onPlaylistsChangeActive: function(model, active) {
             //  Don't call updateRegions when a playlist is de-activated because don't want to redraw twice -- expensive!
             if (active) {
                 this._updateRegions(this.signInManager.get('signedInUser'));

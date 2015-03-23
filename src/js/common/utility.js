@@ -13,11 +13,11 @@
 
         //  Ensure two-digits for small numbers
         if (minutes < 10) {
-            minutes = "0" + minutes;
+            minutes = '0' + minutes;
         }
 
         if (remainingSeconds < 10) {
-            remainingSeconds = "0" + remainingSeconds;
+            remainingSeconds = '0' + remainingSeconds;
         }
 
         var timeString = minutes + ':' + remainingSeconds;
@@ -80,7 +80,7 @@
 
     //  http://stackoverflow.com/questions/3446170/escape-string-for-use-in-javascript-regex
     escapeRegExp: function(string) {
-        var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
+        var escapedString = string.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
         return escapedString;
     },
 
@@ -93,7 +93,9 @@
             var line = '';
             for (var index in array[i]) {
                 var csval = array[i][index];
-                if (line !== '') line += ',';
+                if (line !== '') {
+                    line += ',';
+                }
 
                 if (/("|,|\n)/.test(csval)) {
                     // enclose value in double quotes, escaping any pre-existing
@@ -110,7 +112,7 @@
     },
     
     //  Converts an ISO8061 format (i.e: PT1H3M52S) to numeric representation in seconds.
-    iso8061DurationToSeconds: function (isoDuration) {
+    iso8061DurationToSeconds: function(isoDuration) {
         var hoursMatch = isoDuration.match(/(\d+)H/);
         var hours = parseInt(hoursMatch ? hoursMatch[1] : 0);
 

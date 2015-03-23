@@ -1,12 +1,12 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ExportPlaylist = require('foreground/model/exportPlaylist');
     var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
     var TestUtility = require('test/testUtility');
 
-    describe('ExportPlaylistDialogView', function () {
-        beforeEach(function () {
+    describe('ExportPlaylistDialogView', function() {
+        beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new ExportPlaylistDialogView({
                 model: new ExportPlaylist({
@@ -15,17 +15,17 @@
             });
         });
 
-        afterEach(function () {
+        afterEach(function() {
             this.view.destroy();
         });
 
-        it('should show', function () {
+        it('should show', function() {
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        describe('onSubmit', function () {
-            it('should export its playlist', function () {
+
+        describe('onSubmit', function() {
+            it('should export its playlist', function() {
                 sinon.stub(this.view.contentView, 'saveAndExport');
 
                 this.view.onSubmit();

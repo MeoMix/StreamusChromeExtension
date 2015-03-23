@@ -1,25 +1,25 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
 
-    describe('GoogleSignInDialogView', function () {
-        beforeEach(function () {
+    describe('GoogleSignInDialogView', function() {
+        beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new GoogleSignInDialogView();
         });
 
-        afterEach(function () {
+        afterEach(function() {
             this.view.destroy();
         });
 
-        it('should show', function () {
+        it('should show', function() {
             this.documentFragment.appendChild(this.view.render().el);
             this.view.triggerMethod('show');
         });
-        
-        describe('onSubmit', function () {
-            it('should tell SignInManager not to notify again', function () {
+
+        describe('onSubmit', function() {
+            it('should tell SignInManager not to notify again', function() {
                 sinon.stub(Streamus.backgroundPage.signInManager, 'set');
 
                 this.view.onSubmit();

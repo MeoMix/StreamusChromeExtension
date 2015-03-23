@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function(require) {
     'use strict';
 
     var ListItemView = require('foreground/view/listItemView');
@@ -15,33 +15,33 @@
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'
         }),
-        
+
         modelEvents: {
             'change:id': '_onChangeId',
             'change:active': '_onChangeActive'
         },
-        
+
         behaviors: _.extend({}, ListItemView.prototype.behaviors, {
             ListItemMultiSelect: {
                 behaviorClass: ListItemMultiSelect
             }
         }),
-        
+
         buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
-        
+
         player: null,
         playPauseButton: null,
-        
-        initialize: function () {
+
+        initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.playPauseButton = Streamus.backgroundPage.playPauseButton;
         },
 
-        onRender: function () {
+        onRender: function() {
             this._setActiveClass(this.model.get('active'));
         },
-        
-        showContextMenu: function () {
+
+        showContextMenu: function() {
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('copyUrl'),
                 onClick: this._copyUrl.bind(this)
@@ -53,8 +53,8 @@
                 onClick: this._watchOnYouTube.bind(this)
             }]);
         },
-       
-        _onDblClick: function () {
+
+        _onDblClick: function() {
             if (this.model.get('active')) {
                 this.playPauseButton.tryTogglePlayerState();
             } else {
@@ -62,30 +62,30 @@
                 this.model.save({ active: true });
             }
         },
-        
-        _onChangeId: function (model, id) {
+
+        _onChangeId: function(model, id) {
             //  I'm not 100% positive I need to set both here, but .data() is cached in jQuery and .attr() is on the view, so seems good to keep both up to date.
             this.$el.data('id', id).attr('id', id);
         },
-        
-        _onChangeActive: function (model, active) {
+
+        _onChangeActive: function(model, active) {
             this._setActiveClass(active);
         },
 
         //  Force the view to reflect the model's active class. It's important to do this here, and not through render always, because
         //  render will cause the lazy-loaded image to be reset.
-        _setActiveClass: function (active) {
+        _setActiveClass: function(active) {
             this.$el.toggleClass('is-active', active);
         },
 
-        _copyUrl: function () {
+        _copyUrl: function() {
             this.model.get('song').copyUrl();
         },
 
-        _copyTitleAndUrl: function () {
+        _copyTitleAndUrl: function() {
             this.model.get('song').copyTitleAndUrl();
         },
-        _watchOnYouTube: function () {
+        _watchOnYouTube: function() {
             this.player.watchInTab(this.model.get('song'));
         }
     });

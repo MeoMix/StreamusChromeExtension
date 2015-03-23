@@ -2,9 +2,9 @@
 //  if it has a title. It will also apply tooltips to child elements if they have the js-tooltipable or
 //  js-textTooltipable class. The js-textTooltipable class assumes that the element's text is to be conditionally
 //  shown as a tooltip. The text tooltip will only be shown if the text is overflows the element.
-define(function () {
+define(function() {
     'use strict';
-    
+
     //  TODO: There might be a more elegant way to initialize these, but I definitely don't want to query for the window every time.
     $.extend($.fn.qtip.defaults.position, {
         viewport: $(window),
@@ -27,24 +27,24 @@ define(function () {
             //  Children which need tooltips, but also need to take into account overflowing, are decorated with the js-textTooltipable class.
             textTooltipable: '.js-textTooltipable'
         },
-        
-        initialize: function () {
+
+        initialize: function() {
             //  Give Tooltip an array property of titleMutationObservers: https://github.com/jashkenas/backbone/issues/1442
             //  Mutation observers are used to track changes to js-textTooltipable elements. If the text
             //  is modified then its overflowing state needs to be re-evaluated. 
             _.extend(this, {
-                 titleMutationObservers: []
+                titleMutationObservers: []
             });
         },
         
         //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
-        onShow: function () {
+        onShow: function() {
             //  Defer this because can't measure until onAttach has fired which isn't guaranteed with onShow.
             _.defer(this._setTooltips.bind(this));
         },
-        
-        onBeforeDestroy: function () {
-            _.each(this.titleMutationObservers, function (titleMutationObserver) {
+
+        onBeforeDestroy: function() {
+            _.each(this.titleMutationObservers, function(titleMutationObserver) {
                 titleMutationObserver.disconnect();
             });
             this.titleMutationObservers.length = 0;
@@ -53,8 +53,8 @@ define(function () {
             this._destroy(this.ui.tooltipable);
             this._destroy(this.ui.textTooltipable);
         },
-        
-        _setTooltips: function () {
+
+        _setTooltips: function() {
             //  Important to check since _setTooltips can be called through defer.
             if (!this.view.isDestroyed) {
                 //  Decorate the view itself
@@ -66,24 +66,24 @@ define(function () {
 
                 //  Decorate child views
                 if (this.ui.tooltipable.length > 0) {
-                    _.each(this.ui.tooltipable, function (tooltipable) {
+                    _.each(this.ui.tooltipable, function(tooltipable) {
                         this._decorateTooltipable($(tooltipable));
                     }, this);
                 }
 
                 if (this.ui.textTooltipable.length > 0) {
-                    _.each(this.ui.textTooltipable, function (textTooltipable) {
+                    _.each(this.ui.textTooltipable, function(textTooltipable) {
                         this._decorateTextTooltipable($(textTooltipable));
                     }, this);
                 }
             }
         },
-        
+
         _decorateTooltipable: function(tooltipableElement) {
             this._applyQtip(tooltipableElement);
             this._setTitleMutationObserver(tooltipableElement, false);
         },
-        
+
         _decorateTextTooltipable: function(textTooltipableElement) {
             this._setTitleTooltip(textTooltipableElement, true);
             this._setTitleMutationObserver(textTooltipableElement, true);
@@ -93,15 +93,15 @@ define(function () {
         _isTextTooltipableElement: function(element) {
             return element.hasClass('js-textTooltipable');
         },
-        
-        _isTooltipableElement: function (element) {
+
+        _isTooltipableElement: function(element) {
             return element.hasClass('js-tooltipable');
         },
         
         //  Whenever an element's title changes -- need to re-check to see if a title exists / if the element is overflowing and apply/remove the tooltip accordingly.
-        _setTitleMutationObserver: function (element, checkOverflow) {
-            var titleMutationObserver = new window.MutationObserver(function (mutations) {
-                mutations.forEach(function (mutation) {
+        _setTitleMutationObserver: function(element, checkOverflow) {
+            var titleMutationObserver = new window.MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
                     var oldTitle = mutation.attributeName === 'title' ? mutation.oldValue : undefined;
                     this._setTitleTooltip(element, checkOverflow, oldTitle);
                 }.bind(this));
@@ -117,8 +117,8 @@ define(function () {
 
             this.titleMutationObservers.push(titleMutationObserver);
         },
-        
-        _setTitleTooltip: function (element, checkOverflow, oldTitle) {
+
+        _setTitleTooltip: function(element, checkOverflow, oldTitle) {
             if (checkOverflow) {
                 //  Only show the tooltip if the title is overflowing.
                 var textOverflows = element[0].offsetWidth < element[0].scrollWidth;
@@ -145,14 +145,14 @@ define(function () {
                 }
             }
         },
-        
+
         _applyQtip: function(element) {
             element.qtip();
         },
         
         //  Unbind qTip to allow the GC to clean-up everything.
         //  Memory leak will happen if this is not called.
-        _destroy: function (element) {
+        _destroy: function(element) {
             element.qtip('destroy', true);
         }
     });
