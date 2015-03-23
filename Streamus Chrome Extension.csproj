@@ -326,7 +326,6 @@
     </Content>
     <Content Include="src\js\thirdParty\backbone.localStorage.js" />
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
-    <Content Include="src\js\thirdParty\googleAnalytics.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
     <Content Include="src\js\thirdParty\jquery.qtip.js" />
