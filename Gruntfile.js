@@ -156,7 +156,13 @@ module.exports = function(grunt) {
                 src: ['dist/manifest.json'],
                 overwrite: true,
                 replacements: [{
-                    from: /".*localhost:.*,/g,
+                    from: /".*localhost.*,/g,
+                    to: function(match) {
+                        //  Don't remove debug permissions when testing because server will throw CORS errors.
+                        return isDebug ? match : '';
+                    }
+                }, {
+                    from: /, ".*localhost.*"/g,
                     to: function(match) {
                         //  Don't remove debug permissions when testing because server will throw CORS errors.
                         return isDebug ? match : '';
