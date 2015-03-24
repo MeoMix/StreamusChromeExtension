@@ -194,7 +194,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= meta.releaseDirectory %>/_locales/',
-                    src: ['*', '!/en']
+                    src: ['*', '!en']
                 }]
             },
             //  Cleanup the dist folder of files which don't need to be pushed to production.
