@@ -6,6 +6,7 @@
     var Playlist = require('background/model/playlist');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var ListItemType = require('common/enum/listItemType');
+    var DataSource = require('background/model/dataSource');
 
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
@@ -125,21 +126,36 @@
                 case 'getPlaylists':
                     sendResponse({ playlists: this });
                     break;
-                case 'addYouTubeSongByIdToPlaylist':
-                    YouTubeV3API.getSong({
-                        songId: request.songId,
-                        success: function(song) {
-                            this.get(request.playlistId).get('items').addSongs(song);
+                case 'addSongByUrlToPlaylist':
+                    var dataSource = new DataSource({
+                        url: request.url
+                    });
 
-                            //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
-                            //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
-                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                title: chrome.i18n.getMessage('songAdded'),
-                                message: song.get('title')
+                    dataSource.parseUrl({
+                        success: function() {
+                            YouTubeV3API.getSong({
+                                songId: dataSource.get('id'),
+                                success: function(song) {
+                                    this.get(request.playlistId).get('items').addSongs(song);
+
+                                    //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
+                                    //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
+                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                        title: chrome.i18n.getMessage('songAdded'),
+                                        message: song.get('title')
+                                    });
+
+                                    //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
+                                    sendResponse({ result: 'success' });
+                                }.bind(this),
+                                error: function() {
+                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                        title: chrome.i18n.getMessage('errorEncountered')
+                                    });
+
+                                    sendResponse({ result: 'error' });
+                                }
                             });
-
-                            //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
-                            sendResponse({ result: 'success' });
                         }.bind(this),
                         error: function() {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {

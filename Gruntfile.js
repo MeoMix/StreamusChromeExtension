@@ -57,7 +57,7 @@ module.exports = function(grunt) {
                 ignores: ['src/js/thirdParty/**/*.js']
             },
 
-            files: ['Gruntfile.js', 'src/js/**/*.js'],
+            files: ['src/js/**/*.js'],
         },
         //  Compile LESS to CSS
         less: {

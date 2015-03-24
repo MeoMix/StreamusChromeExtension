@@ -61,9 +61,7 @@
         }
     });
 
-    $(function() {
-        var streamus = new Application();
-        window.Streamus = streamus;
-        streamus.start();
-    });
+    var streamus = new Application();
+    window.Streamus = streamus;
+    streamus.start();
 });
