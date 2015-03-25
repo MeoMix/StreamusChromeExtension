@@ -4,7 +4,7 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var ListItemButtonsView = require('foreground/view/listItemButton/listItemButtonsView');
 
-    var ListItemView = Marionette.LayoutView.extend({
+    var ListItemView = MarionetteForeground.LayoutView.extend({
         tagName: 'li',
         className: 'listItem',
 

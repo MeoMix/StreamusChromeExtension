@@ -3,7 +3,7 @@
 
     var PlaylistsAreaView = require('foreground/view/playlist/playlistsAreaView');
 
-    var PlaylistsAreaRegion = Marionette.Region.extend({
+    var PlaylistsAreaRegion = MarionetteForeground.Region.extend({
         signInManager: null,
 
         initialize: function() {

@@ -1,9 +1,9 @@
 ﻿define(function() {
     'use strict';
 
-    var Scrollable = Marionette.Behavior.extend({
+    var Scrollable = MarionetteForeground.Behavior.extend({
         collectionEvents: {
-            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
+            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in MarionetteForeground.
             'add:completed': '_onCollectionAddCompleted',
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove'

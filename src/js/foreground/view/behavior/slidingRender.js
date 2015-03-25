@@ -3,9 +3,9 @@
 
     var Direction = require('common/enum/direction');
 
-    var SlidingRender = Marionette.Behavior.extend({
+    var SlidingRender = MarionetteForeground.Behavior.extend({
         collectionEvents: {
-            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
+            //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in MarionetteForeground.
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove',
             'add': '_onCollectionAdd',
@@ -260,7 +260,7 @@
         },
         
         //  Overridden Marionette's internal method to loop through collection and show each child view.
-        //  BUG: https://github.com/marionettejs/backbone.marionette/issues/2021
+        //  BUG: https://github.com/marionettejs/BackboneForeground.marionette/issues/2021
         _showCollection: function() {
             var viewIndex = 0;
             var ChildView;
@@ -285,7 +285,7 @@
             }
 
             if (shouldAdd) {
-                return Marionette.CompositeView.prototype.addChild.apply(this.view, arguments);
+                return MarionetteForeground.CompositeView.prototype.addChild.apply(this.view, arguments);
             }
         },
 

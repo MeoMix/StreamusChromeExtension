@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var Switch = Backbone.Model.extend({
+    var Switch = BackboneForeground.Model.extend({
         defaults: {
             checked: false,
             labelText: '',

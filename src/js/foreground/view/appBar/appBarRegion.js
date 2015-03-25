@@ -3,7 +3,7 @@
 
     var AppBarView = require('foreground/view/appBar/appBarView');
 
-    var AppBarRegion = Marionette.Region.extend({
+    var AppBarRegion = MarionetteForeground.Region.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
         },

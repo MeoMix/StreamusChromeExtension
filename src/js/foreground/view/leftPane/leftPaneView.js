@@ -5,7 +5,7 @@
     var SignInView = require('foreground/view/leftPane/signInView');
     var LeftPaneTemplate = require('text!template/leftPane/leftPane.html');
 
-    var LeftPaneView = Marionette.LayoutView.extend({
+    var LeftPaneView = MarionetteForeground.LayoutView.extend({
         id: 'leftPane',
         className: 'leftPane flexColumn',
         template: _.template(LeftPaneTemplate),

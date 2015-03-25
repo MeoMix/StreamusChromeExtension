@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var ContextMenuItem = Backbone.Model.extend({
+    var ContextMenuItem = BackboneForeground.Model.extend({
         defaults:  {
             text: '',
             disabled: false,

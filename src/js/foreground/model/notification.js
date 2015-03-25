@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var Notification = Backbone.Model.extend({
+    var Notification = BackboneForeground.Model.extend({
         defaults: {
             message: ''
         }

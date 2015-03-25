@@ -3,11 +3,11 @@
 
     var ExportFileType = require('common/enum/exportFileType');
 
-    var ExportPlaylist = Backbone.Model.extend({
-        localStorage: new Backbone.LocalStorage('ExportPlaylist'),
+    var ExportPlaylist = BackboneForeground.Model.extend({
+        localStorage: new BackboneForeground.LocalStorage('ExportPlaylist'),
 
         defaults: {
-            //  Need to set id for Backbone.LocalStorage
+            //  Need to set id for BackboneForeground.LocalStorage
             id: 'ExportPlaylist',
             playlist: null,
             fileType: ExportFileType.Csv
@@ -20,7 +20,7 @@
         },
         
         initialize: function () {
-            //  Load from Backbone.LocalStorage
+            //  Load from BackboneForeground.LocalStorage
             this.fetch();
         }
     });

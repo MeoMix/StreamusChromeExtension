@@ -5,7 +5,7 @@
     var RadioButtonTemplate = require('text!template/stream/radioButton.html');
     var RadioIconTemplate = require('text!template/icon/radioIcon_18.svg');
 
-    var RadioButtonView = Marionette.ItemView.extend({
+    var RadioButtonView = MarionetteForeground.ItemView.extend({
         id: 'radioButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(RadioButtonTemplate),

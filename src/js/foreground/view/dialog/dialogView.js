@@ -5,7 +5,7 @@
     var CheckboxView = require('foreground/view/element/checkboxView');
     var DialogTemplate = require('text!template/dialog/dialog.html');
 
-    var DialogView = Marionette.LayoutView.extend({
+    var DialogView = MarionetteForeground.LayoutView.extend({
         className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',
         template: _.template(DialogTemplate),
         templateHelpers: function() {

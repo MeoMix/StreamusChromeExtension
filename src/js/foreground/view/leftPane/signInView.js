@@ -4,7 +4,7 @@
     var SpinnerView = require('foreground/view/element/spinnerView');
     var SignInTemplate = require('text!template/leftPane/signIn.html');
 
-    var SignInView = Marionette.LayoutView.extend({
+    var SignInView = MarionetteForeground.LayoutView.extend({
         id: 'signIn',
         className: 'flexColumn',
         template: _.template(SignInTemplate),

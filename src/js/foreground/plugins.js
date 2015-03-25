@@ -1,12 +1,21 @@
 ﻿define(function(require) {
     'use strict';
 
-    require('backbone.marionette');
-    require('backbone.localStorage');
+    var jQuery = require('jquery');
     require('jquery.perfectScrollbar');
     require('jquery.qtip');
     require('jquery-ui');
 
-    //  Finally, load the application which will initialize the foreground:
-    require(['foreground/application']);
+    chrome.extension.getBackgroundPage().setForeground(jQuery, document);
+
+    chrome.extension.getBackgroundPage().showForeground($('#foregroundArea'));
+
+    //require('BackboneForeground.marionette');
+    //require('BackboneForeground.localStorage');
+    //require('jquery.perfectScrollbar');
+    //require('jquery.qtip');
+    //require('jquery-ui');
+
+    ////  Finally, load the application which will initialize the foreground:
+    //require(['foreground/application']);
 });

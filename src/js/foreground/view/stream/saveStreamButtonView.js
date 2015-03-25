@@ -5,7 +5,7 @@
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
-    var SaveStreamButtonView = Marionette.ItemView.extend({
+    var SaveStreamButtonView = MarionetteForeground.ItemView.extend({
         id: 'saveStreamButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(SaveStreamButtonTemplate),

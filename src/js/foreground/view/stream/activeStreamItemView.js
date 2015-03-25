@@ -6,7 +6,7 @@
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
 
-    var ActiveStreamItemView = Marionette.LayoutView.extend({
+    var ActiveStreamItemView = MarionetteForeground.LayoutView.extend({
         id: 'activeStreamItem',
         className: 'activeStreamItem',
         template: _.template(ActiveStreamItemTemplate),

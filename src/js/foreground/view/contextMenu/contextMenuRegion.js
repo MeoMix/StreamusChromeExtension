@@ -4,7 +4,7 @@
     var ContextMenu = require('foreground/model/contextMenu');
     var ContextMenuView = require('foreground/view/contextMenu/contextMenuView');
 
-    var ContextMenuRegion = Marionette.Region.extend({
+    var ContextMenuRegion = MarionetteForeground.Region.extend({
         contextMenu: null,
 
         initialize: function() {
@@ -35,7 +35,7 @@
         },
 
         _showContextMenu: function(top, left) {
-            //  TODO: A bug in Marionette causes this.$el.height/width to be null on first use, https://github.com/marionettejs/backbone.marionette/issues/1971.
+            //  TODO: A bug in Marionette causes this.$el.height/width to be null on first use, https://github.com/marionettejs/BackboneForeground.marionette/issues/1971.
             var $this = $(this.el);
 
             this.contextMenu.set({

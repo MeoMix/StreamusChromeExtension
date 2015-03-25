@@ -7,7 +7,7 @@ define(function(require) {
     var VolumeOffIconTemplate = require('text!template/icon/volumeOffIcon_24.svg');
     var VolumeMuteIconTemplate = require('text!template/icon/volumeMuteIcon_24.svg');
 
-    var VolumeAreaView = Marionette.ItemView.extend({
+    var VolumeAreaView = MarionetteForeground.ItemView.extend({
         id: 'volumeArea',
         className: 'volumeArea',
         template: _.template(VolumeAreaTemplate),

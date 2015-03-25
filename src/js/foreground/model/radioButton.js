@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var RadioButton = Backbone.Model.extend({
+    var RadioButton = BackboneForeground.Model.extend({
         checked: false,
         labelText: '',
         value: ''

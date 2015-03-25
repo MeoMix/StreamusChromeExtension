@@ -3,7 +3,7 @@
 
     var Tooltip = require('foreground/view/behavior/tooltip');
 
-    var ListItemButtonView = Marionette.ItemView.extend({
+    var ListItemButtonView = MarionetteForeground.ItemView.extend({
         className: function() {
             return 'js-tooltipable listItem-button button button--icon button--icon--secondary button--medium';
         },

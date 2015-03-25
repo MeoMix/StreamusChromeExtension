@@ -4,7 +4,7 @@
     var SelectionBar = require('foreground/model/selectionBar');
     var SelectionBarView = require('foreground/view/selectionBar/selectionBarView');
 
-    var SelectionBarRegion = Marionette.Region.extend({
+    var SelectionBarRegion = MarionetteForeground.Region.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
         },

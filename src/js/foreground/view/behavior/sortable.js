@@ -3,7 +3,7 @@
 
     var ListItemType = require('common/enum/listItemType');
 
-    var Sortable = Marionette.Behavior.extend({
+    var Sortable = MarionetteForeground.Behavior.extend({
         placeholderClass: 'sortable-placeholder',
         isDraggingClass: 'is-dragging',
         childViewHeight: 56,

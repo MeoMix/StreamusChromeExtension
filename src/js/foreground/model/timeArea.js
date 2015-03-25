@@ -1,11 +1,11 @@
 ﻿define(function () {
     'use strict';
 
-    var TimeArea = Backbone.Model.extend({
-        localStorage: new Backbone.LocalStorage('TimeArea'),
+    var TimeArea = BackboneForeground.Model.extend({
+        localStorage: new BackboneForeground.LocalStorage('TimeArea'),
 
         defaults: {
-            //  Need to set the ID for Backbone.LocalStorage
+            //  Need to set the ID for BackboneForeground.LocalStorage
             id: 'TimeArea',
             showRemainingTime: false,
             seeking: false,
@@ -19,7 +19,7 @@
         },
 
         initialize: function () {
-            //  Load from Backbone.LocalStorage
+            //  Load from BackboneForeground.LocalStorage
             this.fetch();
         }
     });

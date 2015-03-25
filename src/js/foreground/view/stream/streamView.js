@@ -12,7 +12,7 @@
     var StreamItemsView = require('foreground/view/stream/streamItemsView');
     var StreamTemplate = require('text!template/stream/stream.html');
 
-    var StreamView = Marionette.LayoutView.extend({
+    var StreamView = MarionetteForeground.LayoutView.extend({
         id: 'stream',
         className: 'flexColumn',
         template: _.template(StreamTemplate),

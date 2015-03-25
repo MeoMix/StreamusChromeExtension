@@ -3,7 +3,7 @@
 
     var RadioButton = require('foreground/model/radioButton');
 
-    var RadioButtons = Backbone.Collection.extend({
+    var RadioButtons = BackboneForeground.Collection.extend({
         model: RadioButton,
         
         initialize: function () {

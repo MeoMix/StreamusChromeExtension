@@ -14,7 +14,7 @@
     var SearchIconTemplate = require('text!template/icon/searchIcon_24.svg');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
-    var AppBarView = Marionette.LayoutView.extend({
+    var AppBarView = MarionetteForeground.LayoutView.extend({
         id: 'appBar',
         template: _.template(AppBarTemplate),
 

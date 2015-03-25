@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var SimpleMenuItem = Backbone.Model.extend({
+    var SimpleMenuItem = BackboneForeground.Model.extend({
         defaults: {
             text: '',
             value: '',

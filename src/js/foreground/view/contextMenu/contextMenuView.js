@@ -5,7 +5,7 @@
     var ContextMenuTemplate = require('text!template/contextMenu/contextMenu.html');
 
     //  TODO: Refactor this to be a LayoutView with child CollectionView instead of a CompositeView.
-    var ContextMenuView = Marionette.CompositeView.extend({
+    var ContextMenuView = MarionetteForeground.CompositeView.extend({
         id: 'contextMenu',
         className: 'menu panel',
         childView: ContextMenuItemView,

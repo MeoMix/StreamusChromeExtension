@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var SaveStreamButton = Backbone.Model.extend({
+    var SaveStreamButton = BackboneForeground.Model.extend({
         defaults: {
             enabled: false,
             streamItems: null,

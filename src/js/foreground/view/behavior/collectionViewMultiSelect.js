@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var CollectionViewMultiSelect = Marionette.Behavior.extend({
+    var CollectionViewMultiSelect = MarionetteForeground.Behavior.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
             this.listenTo(Streamus.channels.element.vent, 'drop', this._onElementDrop);
@@ -38,8 +38,8 @@
         },
         
         //  TODO: This function name sucks. Waiting on issues from Marionette:
-        //  - https://github.com/marionettejs/backbone.marionette/issues/2235
-        //  - https://github.com/marionettejs/backbone.marionette/issues/2236
+        //  - https://github.com/marionettejs/BackboneForeground.marionette/issues/2235
+        //  - https://github.com/marionettejs/BackboneForeground.marionette/issues/2236
         onChildviewClickLeftContent: function(childView, options) {
             this._setSelected({
                 shiftKey: options.shiftKey,

@@ -3,7 +3,7 @@
 
     var SimpleMenuItem = require('foreground/model/simpleMenuItem');
 
-    var SimpleMenuItems = Backbone.Collection.extend({
+    var SimpleMenuItems = BackboneForeground.Collection.extend({
         model: SimpleMenuItem,
         
         initialize: function() {

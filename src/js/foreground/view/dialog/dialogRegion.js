@@ -8,7 +8,7 @@
     var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
     var UpdateStreamusDialogView = require('foreground/view/dialog/updateStreamusDialogView');
 
-    var DialogRegion = Marionette.Region.extend({
+    var DialogRegion = MarionetteForeground.Region.extend({
         player: null,
         signInManager: null,
         debugManager: null,

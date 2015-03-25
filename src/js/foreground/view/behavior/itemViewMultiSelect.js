@@ -4,7 +4,7 @@
     var Checkbox = require('foreground/model/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
 
-    var ItemViewMultiSelect = Marionette.Behavior.extend({
+    var ItemViewMultiSelect = MarionetteForeground.Behavior.extend({
         ui: {
             leftContent: '.listItem-leftContent'
         },
@@ -25,7 +25,7 @@
 
         initialize: function() {
             this.checkbox = new Checkbox({
-                //  TODO: I cannot access this.view.model in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
+                //  TODO: I cannot access this.view.model in initialize from a behavior. https://github.com/marionettejs/BackboneForeground.marionette/issues/1579
                 checked: this.view.options.model.get('selected')
             });
         },

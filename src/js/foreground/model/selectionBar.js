@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var SelectionBar = Backbone.Model.extend({
+    var SelectionBar = BackboneForeground.Model.extend({
         defaults: {
             activeCollection: null
             //canAdd: false,

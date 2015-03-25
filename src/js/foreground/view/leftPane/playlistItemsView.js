@@ -9,7 +9,7 @@
     var PlaylistItemView = require('foreground/view/leftPane/playlistItemView');
     var PlaylistItemsTemplate = require('text!template/leftPane/playlistItems.html');
 
-    var PlaylistItemsView = Marionette.CompositeView.extend({
+    var PlaylistItemsView = MarionetteForeground.CompositeView.extend({
         id: 'playlistItems',
         className: 'list u-flex--full',
         childViewContainer: '@ui.childContainer',

@@ -7,7 +7,7 @@
     var PlaylistView = require('foreground/view/playlist/playlistView');
     var PlaylistsTemplate = require('text!template/playlist/playlists.html');
 
-    var PlaylistsView = Marionette.CompositeView.extend({
+    var PlaylistsView = MarionetteForeground.CompositeView.extend({
         id: 'playlists',
         className: 'list u-flex--full',
         template: _.template(PlaylistsTemplate),

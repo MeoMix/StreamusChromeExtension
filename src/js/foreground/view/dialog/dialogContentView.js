@@ -2,7 +2,7 @@
     'use strict';
 
     //  TODO: Prefer using a Behavior instead of inheritance.
-    var DialogContentView = Marionette.LayoutView.extend({
+    var DialogContentView = MarionetteForeground.LayoutView.extend({
         className: 'dialog-content'
     });
 

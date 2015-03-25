@@ -3,7 +3,7 @@
 
     var DeletePlaylistDialogView = require('foreground/view/dialog/deletePlaylistDialogView');
 
-    var PlaylistAction = Backbone.Model.extend({
+    var PlaylistAction = BackboneForeground.Model.extend({
         defaults: {
             playlist: null
         },

@@ -3,7 +3,7 @@
 
     var Switch = require('foreground/model/switch');
 
-    var Switches = Backbone.Collection.extend({
+    var Switches = BackboneForeground.Collection.extend({
         model: Switch
     });
 

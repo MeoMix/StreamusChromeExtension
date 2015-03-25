@@ -3,7 +3,7 @@
 
     var RadioButtons = require('foreground/collection/radioButtons');
 
-    var RadioGroup = Backbone.Model.extend({
+    var RadioGroup = BackboneForeground.Model.extend({
         defaults: {
             //  Often times a radio group has a 1:1 relationship with a model property.
             //  Linking that property to its radio group allows working with a collection of radio groups more easily.
@@ -18,8 +18,8 @@
         _ensureButtonsCollection: function () {
             var buttons = this.get('buttons');
 
-            //  Need to convert buttons array to Backbone.Collection
-            if (!(buttons instanceof Backbone.Collection)) {
+            //  Need to convert buttons array to BackboneForeground.Collection
+            if (!(buttons instanceof BackboneForeground.Collection)) {
                 //  Silent because buttons is just being properly set.
                 this.set('buttons', new RadioButtons(buttons, {
                     silent: true

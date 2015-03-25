@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
     
-    var Dialog = Backbone.Model.extend({
+    var Dialog = BackboneForeground.Model.extend({
         defaults: {
             title: '',
             submitButtonText: chrome.i18n.getMessage('ok'),

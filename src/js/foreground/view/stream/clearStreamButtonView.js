@@ -6,7 +6,7 @@
     var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
-    var ClearStreamButtonView = Marionette.ItemView.extend({
+    var ClearStreamButtonView = MarionetteForeground.ItemView.extend({
         id: 'clearStreamButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ClearStreamButtonTemplate),

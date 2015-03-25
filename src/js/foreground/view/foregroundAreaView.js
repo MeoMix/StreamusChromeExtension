@@ -14,9 +14,8 @@
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
-    var ForegroundAreaView = Marionette.LayoutView.extend({
+    var ForegroundAreaView = MarionetteForeground.LayoutView.extend({
         id: 'foregroundArea',
-        el: '#foregroundArea',
         className: 'flexColumn u-fullHeight',
         template: _.template(ForegroundAreaTemplate),
 

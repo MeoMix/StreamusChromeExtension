@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var Checkbox = Backbone.Model.extend({
+    var Checkbox = BackboneForeground.Model.extend({
         defaults: {
             //  Primary checkboxes are colored more boldly than secondary.
             primary: true,

@@ -30,8 +30,11 @@ define(function() {
 
             //  Third Party:
             'backbone': 'thirdParty/backbone',
+            'backbone.foreground': 'thirdParty/backbone.foreground',
             'backbone.localStorage': 'thirdParty/backbone.localStorage',
+            'backbone.localStorage.foreground': 'thirdParty/backbone.localStorage.foreground',
             'backbone.marionette': 'thirdParty/backbone.marionette',
+            'backbone.marionette.foreground': 'thirdParty/backbone.marionette.foreground',
             'cocktail': 'thirdParty/cocktail',
             'jquery': 'thirdParty/jquery',
             'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',

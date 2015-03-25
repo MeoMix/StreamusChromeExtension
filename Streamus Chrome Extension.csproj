@@ -81,6 +81,8 @@
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
+    <Content Include="src\js\thirdParty\backbone.marionette.foreground.js" />
+    <Content Include="src\js\thirdParty\backbone.foreground.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />

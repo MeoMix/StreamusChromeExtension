@@ -3,7 +3,7 @@
 
     var SimpleListItem = require('foreground/model/simpleListItem');
 
-    var SimpleListItems = Backbone.Collection.extend({
+    var SimpleListItems = BackboneForeground.Collection.extend({
         model: SimpleListItem
     });
 

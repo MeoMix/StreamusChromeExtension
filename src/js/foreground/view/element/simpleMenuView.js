@@ -4,7 +4,7 @@
     var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
     var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
 
-    var SimpleMenuView = Marionette.CompositeView.extend({
+    var SimpleMenuView = MarionetteForeground.CompositeView.extend({
         id: 'simpleMenu',
         className: 'panel menu',
         template: _.template(SimpleMenuTemplate),

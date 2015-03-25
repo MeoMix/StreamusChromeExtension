@@ -3,7 +3,7 @@
 
     var ContextMenuItem = require('foreground/model/contextMenuItem');
 
-    var ContextMenuItems = Backbone.Collection.extend({
+    var ContextMenuItems = BackboneForeground.Collection.extend({
         model: ContextMenuItem
     });
 

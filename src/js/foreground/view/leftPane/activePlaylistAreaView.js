@@ -5,7 +5,7 @@
     var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
     var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
 
-    var ActivePlaylistAreaView = Marionette.LayoutView.extend({
+    var ActivePlaylistAreaView = MarionetteForeground.LayoutView.extend({
         id: 'activePlaylistArea',
         className: 'flexColumn',
         template: _.template(ActivePlaylistAreaTemplate),

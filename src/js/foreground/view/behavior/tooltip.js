@@ -20,7 +20,7 @@ define(function() {
         delay: 200
     });
 
-    var Tooltip = Marionette.Behavior.extend({
+    var Tooltip = MarionetteForeground.Behavior.extend({
         ui: {
             //  Children which need tooltips are decorated with the js-tooltipable class.
             tooltipable: '.js-tooltipable',
@@ -37,7 +37,7 @@ define(function() {
             });
         },
         
-        //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
+        //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/BackboneForeground.marionette/issues/2209
         onShow: function() {
             //  Defer this because can't measure until onAttach has fired which isn't guaranteed with onShow.
             //  Also, there's no reason to run the logic right as a view is shown because the tooltip won't be visible until onHover.

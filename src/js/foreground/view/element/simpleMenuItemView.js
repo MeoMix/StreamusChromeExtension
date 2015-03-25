@@ -3,7 +3,7 @@
 
     var SimpleMenuItemTemplate = require('text!template/element/simpleMenuItem.html');
 
-    var SimpleMenuItemView = Marionette.LayoutView.extend({
+    var SimpleMenuItemView = MarionetteForeground.LayoutView.extend({
         className: 'listItem listItem--small listItem--selectable',
         template: _.template(SimpleMenuItemTemplate),
 

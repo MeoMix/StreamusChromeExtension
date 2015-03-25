@@ -6,7 +6,7 @@
     var SearchTemplate = require('text!template/search/search.html');
 
     //  TODO: I feel like this should be called searchResultsArea
-    var SearchView = Marionette.LayoutView.extend({
+    var SearchView = MarionetteForeground.LayoutView.extend({
         id: 'search',
         className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
         template: _.template(SearchTemplate),

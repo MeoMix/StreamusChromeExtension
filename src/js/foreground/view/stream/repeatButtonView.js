@@ -7,7 +7,7 @@
     var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
     var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
 
-    var RepeatButtonView = Marionette.ItemView.extend({
+    var RepeatButtonView = MarionetteForeground.ItemView.extend({
         id: 'repeatButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(RepeatButtonTemplate),

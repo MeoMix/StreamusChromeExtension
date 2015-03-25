@@ -3,6 +3,7 @@
 
     var BackgroundArea = require('background/model/backgroundArea');
     var BackgroundAreaView = require('background/view/backgroundAreaView');
+    var ForegroundAreaView = require('foreground/view/foregroundAreaView');
 
     var Application = Marionette.Application.extend({
         //  Set this flag to true to enable localhost server & debugging flags.
@@ -16,6 +17,8 @@
             backgroundAreaRegion: '#backgroundAreaRegion'
         },
         
+        backgroundPage: window,
+        
         //  All the channels used for global event communication across the page
         channels: {
             tab: Backbone.Wreqr.radio.channel('tab'),
@@ -26,13 +29,38 @@
             clipboard: Backbone.Wreqr.radio.channel('clipboard'),
             foreground: Backbone.Wreqr.radio.channel('foreground'),
             player: Backbone.Wreqr.radio.channel('player'),
-            activePlaylist: Backbone.Wreqr.radio.channel('activePlaylist')
+            activePlaylist: Backbone.Wreqr.radio.channel('activePlaylist'),
+            global: Backbone.Wreqr.radio.channel('global'),
+            dialog: Backbone.Wreqr.radio.channel('dialog'),
+            foregroundArea: Backbone.Wreqr.radio.channel('foregroundArea'),
+            window: Backbone.Wreqr.radio.channel('window'),
+            contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
+            playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
+            searchArea: Backbone.Wreqr.radio.channel('searchArea'),
+            activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
+            element: Backbone.Wreqr.radio.channel('element'),
+            saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),
+            listItem: Backbone.Wreqr.radio.channel('listItem'),
+            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu')
+        },
+        
+        backgroundChannels: {
+            error: Backbone.Wreqr.radio.channel('error'),
+            notification: Backbone.Wreqr.radio.channel('notification'),
+            foreground: Backbone.Wreqr.radio.channel('foreground')
         },
 
         initialize: function() {
             this._setServerUrl();
             this._setInstanceId();
-            this.on('start', this._onStart);
+            this.on('start', this._onStart);            
+
+            window.showForeground = function(foregroundElement) {
+                var foregroundAreaView = new ForegroundAreaView({
+                    el: foregroundElement
+                });
+                foregroundAreaView.render();
+            };
         },
 
         _onStart: function() {

@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var SimpleMenu = Backbone.Model.extend({
+    var SimpleMenu = BackboneForeground.Model.extend({
         defaults: {
             fixedMenuItemTitle: ''
         }

@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var SimpleListItem = Backbone.Model.extend({
+    var SimpleListItem = BackboneForeground.Model.extend({
         defaults: function () {
             return {
                 property: '',

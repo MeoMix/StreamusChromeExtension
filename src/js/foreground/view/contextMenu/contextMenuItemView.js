@@ -4,7 +4,7 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var ContextMenuItemTemplate = require('text!template/contextMenu/contextMenuItem.html');
 
-    var ContextMenuItemView = Marionette.ItemView.extend({
+    var ContextMenuItemView = MarionetteForeground.ItemView.extend({
         tagName: 'li',
         className: function() {
             var className = 'listItem listItem--small js-tooltipable';

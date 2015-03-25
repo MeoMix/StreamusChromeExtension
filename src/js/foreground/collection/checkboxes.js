@@ -3,7 +3,7 @@
 
     var Checkbox = require('foreground/model/checkbox');
 
-    var Checkboxes = Backbone.Collection.extend({
+    var Checkboxes = BackboneForeground.Collection.extend({
         model: Checkbox,
         
         isChecked: function (property) {

@@ -5,7 +5,7 @@
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
     var PlaylistsAreaTemplate = require('text!template/playlist/playlistsArea.html');
 
-    var PlaylistsAreaView = Marionette.LayoutView.extend({
+    var PlaylistsAreaView = MarionetteForeground.LayoutView.extend({
         id: 'playlistsArea',
         className: 'flexColumn',
         template: _.template(PlaylistsAreaTemplate),

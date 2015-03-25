@@ -5,7 +5,7 @@
     var ShuffleButtonTemplate = require('text!template/stream/shuffleButton.html');
     var ShuffleIconTemplate = require('text!template/icon/shuffleIcon_18.svg');
 
-    var ShuffleButtonView = Marionette.ItemView.extend({
+    var ShuffleButtonView = MarionetteForeground.ItemView.extend({
         id: 'shuffleButton',
         className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
         template: _.template(ShuffleButtonTemplate),

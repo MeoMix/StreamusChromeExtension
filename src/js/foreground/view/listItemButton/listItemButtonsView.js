@@ -2,7 +2,7 @@
     'use strict';
 
     //  TODO: Can this become a CollectionView?
-    var ListItemButtonsView = Marionette.ItemView.extend({
+    var ListItemButtonsView = MarionetteForeground.ItemView.extend({
         className: 'listItem-buttons',
         template: false,
 

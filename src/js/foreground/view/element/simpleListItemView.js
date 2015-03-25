@@ -7,7 +7,7 @@ define(function(require) {
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
     var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
-    var SimpleListItemView = Marionette.LayoutView.extend({
+    var SimpleListItemView = MarionetteForeground.LayoutView.extend({
         //id: function () {
         //    return _.uniqueId('simpleListItem_');
         //},

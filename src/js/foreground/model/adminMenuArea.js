@@ -1,7 +1,7 @@
 ﻿define(function() {
     'use strict';
 
-    var AdminMenuArea = Backbone.Model.extend({
+    var AdminMenuArea = BackboneForeground.Model.extend({
         defaults: {
             menuShown: false
         }

@@ -6,7 +6,7 @@
     var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
     var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
 
-    var AdminMenuAreaView = Marionette.ItemView.extend({
+    var AdminMenuAreaView = MarionetteForeground.ItemView.extend({
         id: 'adminMenuArea',
         template: _.template(AdminMenuAreaTemplate),
 

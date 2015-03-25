@@ -3,7 +3,7 @@
 
     var RadioGroup = require('foreground/model/radioGroup');
 
-    var RadioGroups = Backbone.Collection.extend({
+    var RadioGroups = BackboneForeground.Collection.extend({
         model: RadioGroup,
         
         getByProperty: function(property) {

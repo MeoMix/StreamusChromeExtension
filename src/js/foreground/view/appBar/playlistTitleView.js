@@ -4,7 +4,7 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var PlaylistTitleTemplate = require('text!template/appBar/playlistTitle.html');
 
-    var PlaylistTitleView = Marionette.ItemView.extend({
+    var PlaylistTitleView = MarionetteForeground.ItemView.extend({
         className: 'contentBar-title text u-textOverflowEllipsis js-textTooltipable',
         template: _.template(PlaylistTitleTemplate),
 

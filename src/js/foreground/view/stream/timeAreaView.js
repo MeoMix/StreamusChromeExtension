@@ -6,7 +6,7 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var TimeAreaTemplate = require('text!template/stream/timeArea.html');
 
-    var TimeAreaView = Marionette.ItemView.extend({
+    var TimeAreaView = MarionetteForeground.ItemView.extend({
         id: 'timeArea',
         className: 'timeArea',
         template: _.template(TimeAreaTemplate),

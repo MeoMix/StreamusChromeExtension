@@ -3,7 +3,7 @@
 
     var LeftPaneView = require('foreground/view/leftPane/leftPaneView');
 
-    var LeftPaneRegion = Marionette.Region.extend({
+    var LeftPaneRegion = MarionetteForeground.Region.extend({
         settings: null,
 
         initialize: function() {

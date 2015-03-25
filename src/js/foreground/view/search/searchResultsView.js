@@ -10,7 +10,7 @@
     var SearchResultView = require('foreground/view/search/searchResultView');
     var SearchResultsTemplate = require('text!template/search/searchResults.html');
 
-    var SearchResultsView = Marionette.CompositeView.extend({
+    var SearchResultsView = MarionetteForeground.CompositeView.extend({
         id: 'searchResults',
         className: 'list u-flex--full',
         childViewContainer: '@ui.childContainer',

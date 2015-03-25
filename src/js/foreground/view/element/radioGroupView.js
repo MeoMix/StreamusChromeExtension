@@ -4,7 +4,7 @@
     var RadioButtonView = require('foreground/view/element/radioButtonView');
     var RadioGroupTemplate = require('text!template/element/radioGroup.html');
 
-    var RadioGroupView = Marionette.CompositeView.extend({
+    var RadioGroupView = MarionetteForeground.CompositeView.extend({
         tagName: 'radio-group',
         template: _.template(RadioGroupTemplate),
         childViewContainer: '@ui.buttons',

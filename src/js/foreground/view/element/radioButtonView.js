@@ -4,7 +4,7 @@
     var RadioButtonTemplate = require('text!template/element/radioButton.html');
 
     //  TODO: Naming conflict with stream/radioButtonView
-    var RadioButtonView = Marionette.ItemView.extend({
+    var RadioButtonView = MarionetteForeground.ItemView.extend({
         tagName: 'radio-button',
         template: _.template(RadioButtonTemplate),
 

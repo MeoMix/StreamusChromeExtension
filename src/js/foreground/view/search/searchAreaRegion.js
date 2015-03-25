@@ -4,7 +4,7 @@
     var SearchView = require('foreground/view/search/searchView');
 
     //  TODO: SearchAreaRegion vs SearchView...
-    var SearchAreaRegion = Marionette.Region.extend({
+    var SearchAreaRegion = MarionetteForeground.Region.extend({
         settings: null,
 
         initialize: function() {

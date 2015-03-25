@@ -7,7 +7,7 @@ define(function(require) {
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
 
-    var SaveSongsRegion = Marionette.Region.extend({
+    var SaveSongsRegion = MarionetteForeground.Region.extend({
         signInManager: null,
 
         initialize: function() {

@@ -5,7 +5,7 @@
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
-    var SelectionBarView = Marionette.ItemView.extend({
+    var SelectionBarView = MarionetteForeground.ItemView.extend({
         id: 'selectionBar',
         className: 'selectionBar panel-content panel-content--uncolored',
         template: _.template(SelectionBarTemplate),

@@ -1,7 +1,7 @@
 ﻿define(function () {
     'use strict';
 
-    var ClearStreamButton = Backbone.Model.extend({
+    var ClearStreamButton = BackboneForeground.Model.extend({
         defaults: {
             enabled: false,
             streamItems: null
