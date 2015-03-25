@@ -3,6 +3,7 @@
 
     var ForegroundAreaView = require('foreground/view/foregroundAreaView');
 
+    var Application = MarionetteForeground.Application.extend({
         backgroundPage: null,
 
         channels: {
