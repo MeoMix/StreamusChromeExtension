@@ -54,7 +54,7 @@
         },
 
         streamItemsEvents: {
-            'add': '_onStreamItemsAdd',
+            'add:completed': '_onStreamItemsAddCompleted',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
@@ -115,8 +115,8 @@
             }
         },
 
-        _onStreamItemsAdd: function() {
-            this._setState(false);
+        _onStreamItemsAddCompleted: function(collection) {
+            this._setState(collection.isEmpty());
         },
 
         _onStreamItemsRemove: function(model, collection) {

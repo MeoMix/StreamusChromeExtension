@@ -34,7 +34,7 @@
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
 
         playlistItemsEvents: {
-            'add': '_onPlaylistItemsAdd',
+            'add:completed': '_onPlaylistItemsAddCompleted',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
@@ -98,7 +98,7 @@
             this.$el.toggleClass('is-active', active);
         },
 
-        _onPlaylistItemsAdd: function(model, collection) {
+        _onPlaylistItemsAddCompleted: function(collection) {
             this._setItemCount(collection.length);
         },
 

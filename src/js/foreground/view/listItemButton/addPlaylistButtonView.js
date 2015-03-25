@@ -14,13 +14,13 @@
         streamItems: null,
 
         streamItemsEvents: {
-            'add': '_onStreamItemsAdd',
+            'add:completed': '_onStreamItemsAddCompleted',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
 
         playlistItemsEvents: {
-            'add': '_onPlaylistItemsAdd',
+            'add:completed': '_onPlaylistItemsAddCompleted',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
@@ -37,7 +37,7 @@
             this._setState();
         },
 
-        _onPlaylistItemsAdd: function() {
+        _onPlaylistItemsAddCompleted: function() {
             this._setState();
         },
 
@@ -49,7 +49,7 @@
             this._setState();
         },
 
-        _onStreamItemsAdd: function() {
+        _onStreamItemsAddCompleted: function() {
             this._setState();
         },
 

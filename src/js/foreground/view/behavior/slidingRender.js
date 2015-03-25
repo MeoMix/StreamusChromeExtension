@@ -9,6 +9,7 @@
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove',
             'add': '_onCollectionAdd',
+            'add:completed': '_onCollectionAddCompleted',
             'change:active': '_onCollectionChangeActive'
         },
         
@@ -383,7 +384,6 @@
 
         _onCollectionAdd: function(item, collection) {
             var index = collection.indexOf(item);
-
             var indexWithinRenderRange = this._indexWithinRenderRange(index);
 
             //  Subtract 1 from collection.length because, for instance, if our collection has 8 items in it
@@ -396,7 +396,9 @@
                 //  Adding one because I want to grab the item which is outside maxRenderIndex. maxRenderIndex is inclusive.
                 this._removeItemsByIndex(this.maxRenderIndex + 1, 1);
             }
-
+        },
+        
+        _onCollectionAddCompleted: function() {
             this._setHeightPaddingTop();
         },
 

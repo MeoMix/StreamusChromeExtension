@@ -58,7 +58,7 @@
         },
 
         collectionEvents: {
-            'add': '_onSearchResultsAdd',
+            'add:completed': '_onSearchResultsAddCompleted',
             'remove': '_onSearchResultsRemove',
             'reset': '_onSearchResultsReset'
         },
@@ -122,7 +122,7 @@
             this._setButtonStates();
         },
 
-        _onSearchResultsAdd: function() {
+        _onSearchResultsAddCompleted: function() {
             this._toggleInstructions();
             this._setButtonStates();
         },

@@ -14,6 +14,12 @@
         addSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);
             this.add(searchResults);
+            
+            if (searchResults.length > 0) {
+                //  Emit a custom event signaling items have been added. 
+                //  Useful for not responding to add until all items have been added.
+                this.trigger('add:completed', this);
+            }
         },
         
         //  Returns the collection of SearchResults' underlying songs.

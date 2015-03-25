@@ -98,6 +98,12 @@
                     index++;
                 }
             }, this);
+            
+            if (createdStreamItems.length > 0) {
+                //  Emit a custom event signaling items have been added. 
+                //  Useful for not responding to add until all items have been added.
+                this.trigger('add:completed', this);
+            }
 
             if (options.playOnAdd || options.markFirstActive) {
                 if (createdStreamItems.length > 0) {

@@ -4,7 +4,7 @@
     var Scrollable = Marionette.Behavior.extend({
         collectionEvents: {
             //  IMPORTANT: These method names are valid in Behavior but NOT in CompositeView or CollectionView; clashes with _onCollectionAdd and _onCollectionRemove in Marionette.
-            'add': '_onCollectionAdd',
+            'add:completed': '_onCollectionAddCompleted',
             'reset': '_onCollectionReset',
             'remove': '_onCollectionRemove'
         },
@@ -36,7 +36,7 @@
             this._throttleUpdateScrollbar();
         },
 
-        _onCollectionAdd: function() {
+        _onCollectionAddCompleted: function() {
             this._throttleUpdateScrollbar();
         },
 

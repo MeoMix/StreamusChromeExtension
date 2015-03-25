@@ -12,7 +12,7 @@
 
         initialize: function() {
             var streamItems = this.get('streamItems');
-            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(streamItems, 'add:completed', this._onStreamItemsAddCompleted);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
             this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
             chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
@@ -42,8 +42,8 @@
             }
         },
 
-        _onStreamItemsAdd: function() {
-            this._toggleEnabled(false);
+        _onStreamItemsAddCompleted: function(collection) {
+            this._toggleEnabled(collection.isEmpty());
         },
 
         _onStreamItemsRemove: function(model, collection) {

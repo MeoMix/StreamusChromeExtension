@@ -10,7 +10,7 @@
         initialize: function () {
             var streamItems = this.get('streamItems');
 
-            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(streamItems, 'add:completed', this._onStreamItemsAddCompleted);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
             this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
             this.listenTo(Streamus.channels.foreground.vent, 'beginUnload', this._onForegroundBeginUnload);
@@ -24,8 +24,8 @@
             return stateMessage;
         },
         
-        _onStreamItemsAdd: function () {
-            this.set('enabled', true);
+        _onStreamItemsAddCompleted: function(collection) {
+            this.set('enabled', !collection.isEmpty());
         },
 
         _onStreamItemsRemove: function (model, collection) {

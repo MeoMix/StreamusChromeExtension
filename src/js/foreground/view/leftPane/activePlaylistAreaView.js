@@ -43,7 +43,7 @@
             'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
             'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
         },
-
+        
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
@@ -51,17 +51,25 @@
         },
 
         streamItems: null,
+        
+        streamItemsEvents: {
+            'add:completed': '_onStreamItemsAddCompleted',
+            'remove': '_onStreamItemsRemove',
+            'reset': '_onStreamItemsReset'
+        },
+        
+        playlistItemsEvents: {
+            'add:completed': '_onPlaylistItemsAddCompleted',
+            'remove': '_onPlaylistItemsRemove',
+            'reset': '_onPlaylistItemsReset'
+        },
 
         initialize: function() {
             this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.listenTo(this.streamItems, 'add', this._onStreamItemsAdd);
-            this.listenTo(this.streamItems, 'remove', this._onStreamItemsRemove);
-            this.listenTo(this.streamItems, 'reset', this._onStreamItemsReset);
+            this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
 
             var playlistItems = this.model.get('items');
-            this.listenTo(playlistItems, 'add', this._onPlaylistItemsAdd);
-            this.listenTo(playlistItems, 'remove', this._onPlaylistItemsRemove);
-            this.listenTo(playlistItems, 'reset', this._onPlaylistItemsReset);
+            this.bindEntityEvents(playlistItems, this.playlistItemsEvents);
         },
 
         onRender: function() {
@@ -78,7 +86,7 @@
             Streamus.channels.searchArea.commands.trigger('show:search');
         },
 
-        _onStreamItemsAdd: function() {
+        _onStreamItemsAddCompleted: function() {
             this._toggleButtons();
         },
 
@@ -90,7 +98,7 @@
             this._toggleButtons();
         },
 
-        _onPlaylistItemsAdd: function(model, collection) {
+        _onPlaylistItemsAddCompleted: function(collection) {
             this._toggleButtons();
             this._updatePlaylistDetails(collection.getDisplayInfo());
             this._toggleInstructions(false);
