@@ -43,21 +43,23 @@
         },
 
         onAttach: function() {
-            //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
-            this._setViewportHeight();
+            window.requestAnimationFrame(function() {
+                //  Allow N items to be rendered initially where N is how many items need to cover the viewport.
+                this._setViewportHeight();
 
-            //  If the collection implements getActiveItem - scroll to the active item.
-            if (this.view.collection.getActiveItem) {
-                if (this.view.collection.length > 0) {
-                    this._scrollToItem(this.view.collection.getActiveItem());
+                //  If the collection implements getActiveItem - scroll to the active item.
+                if (this.view.collection.getActiveItem) {
+                    if (this.view.collection.length > 0) {
+                        this._scrollToItem(this.view.collection.getActiveItem());
+                    }
                 }
-            }
 
-            var self = this;
-            //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.$el.scroll(_.throttle(function() {
-                self._setRenderedElements(this.scrollTop);
-            }, 20));
+                var self = this;
+                //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
+                this.$el.scroll(_.throttle(function() {
+                    self._setRenderedElements(this.scrollTop);
+                }, 20));
+            }.bind(this));
         },
         
         //  jQuery UI's sortable needs to be able to know the minimum rendered index. Whenever an external

@@ -119,14 +119,6 @@
             }));
         },
 
-        onAttach: function() {
-            //  TODO: It would be better to read this state from a viewmodel rather than hitting the DOM.
-            //  Needs to be ran in onAttach as well as when the search is showing because 'showing' event can trigger when view is rendering rather than attached.
-            if (this.ui.searchInput.is(':visible')) {
-                this._focusSearchInput();
-            }
-        },
-
         _onSearchChangeQuery: function(model, query) {
             var searchInputElement = this.ui.searchInput[0];
             var selectionStart = searchInputElement.selectionStart;

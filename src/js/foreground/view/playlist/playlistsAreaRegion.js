@@ -18,7 +18,12 @@
         _onForegroundAreaRendered: function() {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
-                this._createPlaylistsAreaView(signedInUser.get('playlists'));
+                //  PlaylistsAreaView isn't initially visible, but transitions in.
+                //  So, defer creating the view so that initial loadtime isn't increased, but
+                //  also cache the rendered view before it is needed so that transition performance does not suffer.
+                window.requestAnimationFrame(function() {
+                    this._createPlaylistsAreaView(signedInUser.get('playlists'));
+                }.bind(this));
             }
         },
 

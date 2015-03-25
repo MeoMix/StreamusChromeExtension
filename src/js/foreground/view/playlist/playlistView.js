@@ -14,10 +14,10 @@
         className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
         template: _.template(PlaylistTemplate),
 
-        ui: _.extend({}, ListItemView.prototype.ui, {
+        ui: {
             title: '.listItem-title',
             itemCount: '.listItem-itemCount'
-        }),
+        },
 
         events: _.extend({}, ListItemView.prototype.events, {
             'click': '_onClick',
@@ -44,6 +44,7 @@
         },
 
         onRender: function() {
+            //  TODO: Don't incur this load unless needed.
             this.spinnerRegion.show(new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));

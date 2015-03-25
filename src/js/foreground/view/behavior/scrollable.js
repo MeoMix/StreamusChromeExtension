@@ -18,18 +18,20 @@
         },
 
         onAttach: function() {
-            //  More info: https://github.com/noraesae/perfect-scrollbar
-            //  This needs to be ran during onAttach for perfectScrollbar to do its math properly.
-            this.$el.perfectScrollbar({
-                suppressScrollX: true,
-                //  56px because that is the height of 1 listItem--medium
-                minScrollbarLength: 56,
-                includePadding: true
-            });
+            window.requestAnimationFrame(function() {
+                //  More info: https://github.com/noraesae/perfect-scrollbar
+                //  This needs to be ran during onAttach for perfectScrollbar to do its math properly.
+                this.$el.perfectScrollbar({
+                    suppressScrollX: true,
+                    //  56px because that is the height of 1 listItem--medium
+                    minScrollbarLength: 56,
+                    includePadding: true
+                });
 
-            //  When showing a SlidingRender collection which has an initial set of items,
-            //  need to call update after setting up perfectScrollbar to ensure that initial load of items is parsed.
-            _.defer(this._throttleUpdateScrollbar.bind(this));
+                //  When showing a SlidingRender collection which has an initial set of items,
+                //  need to call update after setting up perfectScrollbar to ensure that initial load of items is parsed.
+                _.defer(this._throttleUpdateScrollbar.bind(this));
+            }.bind(this));
         },
 
         onUpdateScrollbar: function() {

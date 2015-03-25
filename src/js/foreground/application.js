@@ -6,10 +6,6 @@
     var Application = Marionette.Application.extend({
         backgroundPage: null,
 
-        regions: {
-            foregroundAreaRegion: '#foregroundAreaRegion'
-        },
-
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),
             dialog: Backbone.Wreqr.radio.channel('dialog'),
@@ -53,7 +49,8 @@
         },
 
         _showForegroundArea: function() {
-            this.foregroundAreaRegion.show(new ForegroundAreaView());
+            var foregroundAreaView = new ForegroundAreaView();
+            foregroundAreaView.render();
         }
     });
 

@@ -40,7 +40,10 @@ define(function() {
         //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
         onShow: function() {
             //  Defer this because can't measure until onAttach has fired which isn't guaranteed with onShow.
-            _.defer(this._setTooltips.bind(this));
+            //  Also, there's no reason to run the logic right as a view is shown because the tooltip won't be visible until onHover.
+            window.requestAnimationFrame(function() {
+                this._setTooltips();
+            }.bind(this));
         },
 
         onBeforeDestroy: function() {

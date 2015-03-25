@@ -9,11 +9,14 @@
         childViewHeight: 56,
 
         onRender: function() {
-            this.view.$el.scroll(_.throttle(function() {
-                this.view.ui.childContainer.sortable('refresh');
-            }.bind(this), 20));
-
-            this.view.ui.childContainer.sortable(this._getSortableOptions());
+            //  There's no need to incur this load immediately because sortable logic can only happen once the view is usable.
+            window.requestAnimationFrame(function() {
+                this.view.ui.childContainer.sortable(this._getSortableOptions());
+                
+                this.view.$el.scroll(_.throttle(function() {
+                    this.view.ui.childContainer.sortable('refresh');
+                }.bind(this), 20));
+            }.bind(this));
         },
 
         _getSortableOptions: function() {

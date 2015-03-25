@@ -16,12 +16,18 @@
         },
 
         _onForegroundAreaRendered: function() {
-            this._createSearchView();
-
             if (this.settings.get('openToSearch')) {
+                this._createSearchView();
+
                 this._showSearch({
                     instant: true
                 });
+            } else {
+                //  If the search view isn't going to be shown right off the bat then it's OK to defer loading the view for a frame so that 
+                //  the initial load time of the application isn't impacted.
+                window.requestAnimationFrame(function() {
+                    this._createSearchView();
+                }.bind(this));
             }
         },
 
