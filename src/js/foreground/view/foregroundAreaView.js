@@ -104,6 +104,7 @@
             this.settings = Streamus.backgroundPage.settings;
             this.bindEntityEvents(this.player, this.playerEvents);
 
+            //  TODO: Pretty sure I should not be assigning like this.
             window.onunload = this._onWindowUnload.bind(this);
             window.onresize = this._onWindowResize.bind(this);
             window.onerror = this._onWindowError.bind(this);

@@ -15,26 +15,15 @@ $(function() {
                 flashLoaded: false
             });
 
-            var lastPostedTime = null;
-
-            videoStream.on('loadstart', function() {
-                lastPostedTime = null;
-            });
-
             //  TimeUpdate has awesome resolution, but we only display to the nearest second.
             //  So, round currentTime and only send a message when the rounded value has changed, not the actual value.
             videoStream.on('timeupdate', function() {
-                var currentTime = Math.ceil(this.currentTime);
-
-                if (currentTime !== lastPostedTime) {
-                    youTubeIFrameConnectRequestPort.postMessage({
-                        currentTime: currentTime
-                    });
-
-                    lastPostedTime = currentTime;
-                }
+                youTubeIFrameConnectRequestPort.postMessage({
+                    currentTime: this.currentTime
+                });
             });
 
+            //  TODO: I forget why I need this.
             videoStream.on('seeking', function() {
                 youTubeIFrameConnectRequestPort.postMessage({
                     seeking: true

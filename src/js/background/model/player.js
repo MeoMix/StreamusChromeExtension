@@ -15,6 +15,8 @@ define(function(require) {
                 //  Need to set the ID for Backbone.LocalStorage
                 id: 'Player',
                 //  Returns the elapsed time of the currently loaded song. Returns 0 if no song is playing
+                //  High-precision is sync'ed with the <video> element, regular is rounded up to the nearest second.
+                currentTimeHighPrecision: 0,
                 currentTime: 0,
                 //  API will fire a 'ready' event after initialization which indicates the player can now respond accept commands
                 ready: false,
@@ -98,6 +100,7 @@ define(function(require) {
                     //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
                     //  but until the song actually loads -- current time isn't set.
                     currentTime: timeInSeconds || 0,
+                    currentTimeHighPrecision: timeInSeconds || 0,
                     playOnActivate: false,
                     songToActivate: null
                 });
@@ -138,6 +141,7 @@ define(function(require) {
             this.set({
                 loadedSong: null,
                 currentTime: 0,
+                currentTimeHighPrecision: 0,
                 state: PlayerState.Unstarted
             });
         },
@@ -167,7 +171,10 @@ define(function(require) {
                     this.get('youTubePlayer').seekTo(timeInSeconds);
                 }
             } else {
-                this.set('currentTime', timeInSeconds);
+                this.set({
+                    currentTime: timeInSeconds,
+                    currentTimeHighPrecision: timeInSeconds
+                });
             }
         },
 
@@ -272,7 +279,10 @@ define(function(require) {
         _onYouTubeIFrameMessage: function(message) {
             //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
             if (!_.isUndefined(message.currentTime)) {
-                this.set('currentTime', message.currentTime);
+                this.set({
+                    currentTimeHighPrecision: message.currentTime,
+                    currentTime: Math.ceil(message.currentTime)
+                });
             }
 
             //  YouTube's API for seeking/buffering doesn't fire events reliably.
