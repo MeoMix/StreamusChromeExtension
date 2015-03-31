@@ -103,11 +103,15 @@
             this.player = Streamus.backgroundPage.player;
             this.settings = Streamus.backgroundPage.settings;
             this.bindEntityEvents(this.player, this.playerEvents);
+            
+            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            this._onWindowUnload = this._onWindowUnload.bind(this);
+            this._onWindowResize = this._onWindowResize.bind(this);
+            this._onWindowError = this._onWindowError.bind(this);
 
-            //  TODO: Pretty sure I should not be assigning like this.
-            window.onunload = this._onWindowUnload.bind(this);
-            window.onresize = this._onWindowResize.bind(this);
-            window.onerror = this._onWindowError.bind(this);
+            window.addEventListener('unload', this._onWindowUnload);
+            window.addEventListener('resize', this._onWindowResize);
+            window.addEventListener('error', this._onWindowError);
 
             Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
         },
