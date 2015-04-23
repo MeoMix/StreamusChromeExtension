@@ -3,6 +3,7 @@
 //  and attempts to listen for interesting events on the <video> itself. If the <video> element
 //  is not found then it will poll for its existence for a few seconds before emitting an error.
 document.addEventListener('DOMContentLoaded', function() {
+    'use strict';
     //  Record any errors emitted by YouTube
     this.errors = [];
     //  The port used for external communication w/ the extension.

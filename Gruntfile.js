@@ -162,10 +162,6 @@ module.exports = function(grunt) {
                         //  Don't remove key when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
-                },{
-                    //  Transform inject javascript to reference uglified/concat versions for production.
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
-                    to: '"js": ["js/inject/youTubeIFrameInject.js"]'
                 }, {
                     from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
                     to: '"js": ["js/inject/youTubeInject.js"]'
