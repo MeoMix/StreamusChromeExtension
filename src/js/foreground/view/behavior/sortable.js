@@ -7,16 +7,25 @@
         placeholderClass: 'sortable-placeholder',
         isDraggingClass: 'is-dragging',
         childViewHeight: 56,
+        isDecorated: false,
 
-        onRender: function() {
-            //  There's no need to incur this load immediately because sortable logic can only happen once the view is usable.
-            window.requestAnimationFrame(function() {
+        events: {
+            'mouseenter': '_onMouseEnter'
+        },
+
+        _onMouseEnter: function () {
+            //  There's no reason to take this perf hit unless the user is actually going to use sortable logic.
+            //  So, only run it once the user could potentially need to do so.
+            //  TODO: Perhaps it would be better to emit an 'idle' event from the App once critical content is loaded and then this logic could run.
+            if (!this.isDecorated) {
+                this.isDecorated = true;
+
                 this.view.ui.childContainer.sortable(this._getSortableOptions());
-                
+
                 this.view.$el.scroll(_.throttle(function() {
                     this.view.ui.childContainer.sortable('refresh');
                 }.bind(this), 20));
-            }.bind(this));
+            }
         },
 
         _getSortableOptions: function() {

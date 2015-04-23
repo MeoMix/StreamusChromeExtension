@@ -6,10 +6,10 @@
 
     var SelectionBarRegion = Marionette.Region.extend({
         initialize: function() {
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
         },
 
-        _onForegroundAreaRendered: function() {
+        _onForegroundAreaIdle: function() {
             var selectionBar = new SelectionBar();
             this.show(new SelectionBarView({
                 model: selectionBar

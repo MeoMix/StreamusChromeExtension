@@ -29,7 +29,7 @@
 
         isStreamusTabOpen: function(callback) {
             var queryInfo = {
-                url: this.get('streamusForegroundUrl'),
+                url: this.get('streamusForegroundUrl')
             };
 
             this._queryTabs(queryInfo, function(tabs) {
@@ -46,11 +46,11 @@
         },
 
         _notifyYouTube: function(data) {
-            this.messageYouTubeTabs(data);
+            this.messageTabs(this.get('youTubeUrlPatterns'), data);
         },
 
         _notifyBeatport: function(data) {
-            this.messageBeatportTabs(data);
+            this.messageTabs(this.get('beatportUrlPatterns'), data);
         },
 
         _showTab: function(urlPattern, url) {
@@ -85,24 +85,10 @@
         },
         
         //  This is sufficient to message all tabs as well as popped-out windows which aren't tabs.
-        messageYouTubeTabs: function(message) {
-            _.each(this.get('youTubeUrlPatterns'), function(youTubeUrlPattern) {
+        messageTabs: function(urlPatterns, message) {
+            _.each(urlPatterns, function(urlPattern) {
                 var queryInfo = {
-                    url: youTubeUrlPattern
-                };
-
-                this._queryTabs(queryInfo, function(tabs) {
-                    _.each(tabs, function(tab) {
-                        chrome.tabs.sendMessage(tab.id, message);
-                    });
-                });
-            }, this);
-        },
-
-        messageBeatportTabs: function(message) {
-            _.each(this.get('beatportUrlPatterns'), function(beatportUrlPattern) {
-                var queryInfo = {
-                    url: beatportUrlPattern
+                    url: urlPattern
                 };
 
                 this._queryTabs(queryInfo, function(tabs) {

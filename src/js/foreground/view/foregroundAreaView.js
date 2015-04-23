@@ -121,6 +121,12 @@
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');
+
+            //  After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
+            //  Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
+            setTimeout(function() {
+                Streamus.channels.foregroundArea.vent.trigger('idle');
+            }.bind(this), 500);
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views

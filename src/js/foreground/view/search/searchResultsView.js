@@ -55,8 +55,6 @@
         },
 
         initialize: function() {
-            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
-
             this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
         },
 

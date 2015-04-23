@@ -11,19 +11,17 @@
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
             this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
 
-        _onForegroundAreaRendered: function() {
+        //  PlaylistsAreaView isn't initially visible. So, it is OK to defer creation until idle.
+        //  This ensures that initial rendering performance isn't hurt, but also allows for the view to be cached before needed.
+        //  Caching the view allows for a snappier response when animating.
+        _onForegroundAreaIdle: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
-                //  PlaylistsAreaView isn't initially visible, but transitions in.
-                //  So, defer creating the view so that initial loadtime isn't increased, but
-                //  also cache the rendered view before it is needed so that transition performance does not suffer.
-                window.requestAnimationFrame(function() {
-                    this._createPlaylistsAreaView(signedInUser.get('playlists'));
-                }.bind(this));
+                this._createPlaylistsAreaView(signedInUser.get('playlists'));
             }
         },
 

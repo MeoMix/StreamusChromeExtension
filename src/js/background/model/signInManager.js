@@ -252,6 +252,12 @@
 
                     sendAsynchronousResponse = true;
                     break;
+                case 'isUserLoaded':
+                    //  TODO: Maybe this should also be able to sign in a user since I'm going to poll isUserLoaded and if nobody is signing in then why continue to poll?
+                    sendResponse({
+                        isUserLoaded: this.get('signedInUser') !== null
+                    });
+                    break;
             }
 
             //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).

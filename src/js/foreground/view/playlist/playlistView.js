@@ -50,6 +50,7 @@
             }));
 
             this._setShowingSpinnerClass();
+            //  TODO: Ensure that when adding a new item its scrolled into view.
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
         },

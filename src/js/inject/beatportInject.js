@@ -1,5 +1,5 @@
 ﻿//  This code runs on pro.beatport.com domains.
-$(function() {
+(function() {
     'use strict';
 
     var isCodeInjected = false;
@@ -30,7 +30,7 @@ $(function() {
                 isCodeInjected = true;
             }
         }
-    });    
+    });
 
     //  Pass enable: true in to enable Streamus icons. Pass enable: false in to disable Streamus icons and revert back to original Beatport functionality.
 
@@ -148,4 +148,4 @@ $(function() {
         toggleStreamusIcons(enable);
         toggleMonitorPageChange(enable);
     }
-});
+})();

@@ -9,9 +9,7 @@
     var ChromeOmniboxManager = require('background/model/chromeOmniboxManager');
     var ClientErrorManager = require('background/model/clientErrorManager');
     var DataSourceManager = require('background/model/dataSourceManager');
-    var DebugManager = require('background/model/debugManager');
     var Player = require('background/model/player');
-    var PlaylistsViewModel = require('background/viewModel/playlistsViewModel');
     var Search = require('background/model/search');
     var Settings = require('background/model/settings');
     var SignInManager = require('background/model/signInManager');
@@ -28,7 +26,6 @@
     var BackgroundArea = Backbone.Model.extend({
         defaults: {
             youTubePlayer: null,
-            debugManager: null,
             analyticsManager: null,
             foregroundUnloadTimeout: null
         },
@@ -39,9 +36,6 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
-            var debugManager = new DebugManager();
-            this.set('debugManager', debugManager);
-
             var browserSettings = new BrowserSettings();
             var settings = new Settings();
 
@@ -50,8 +44,7 @@
 
             var player = new Player({
                 settings: settings,
-                youTubePlayer: youTubePlayer,
-                debugManager: debugManager
+                youTubePlayer: youTubePlayer
             });
 
             var radioButton = new RadioButton();
@@ -119,14 +112,12 @@
 
             var dataSourceManager = new DataSourceManager();
 
-            var playlistsViewModel = new PlaylistsViewModel();
             var analyticsManager = new AnalyticsManager();
             this.set('analyticsManager', analyticsManager);
 
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.analyticsManager = analyticsManager;
             window.browserSettings = browserSettings;
-            window.debugManager = debugManager;
             window.tabManager = tabManager;
             window.signInManager = signInManager;
             window.settings = settings;
@@ -140,7 +131,6 @@
             window.search = search;
             window.player = player;
             window.dataSourceManager = dataSourceManager;
-            window.playlistsViewModel = playlistsViewModel;
         },
 
         _onForegroundStarted: function() {

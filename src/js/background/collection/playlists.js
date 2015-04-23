@@ -44,6 +44,7 @@
                 success: function(playlistDto) {
                     //  Add and convert back from JSON to Backbone object.
                     var playlist = this.add(playlistDto);
+                    playlist.set('active', true);
                     options.success(playlist);
                 }.bind(this),
                 error: options.error
@@ -66,6 +67,10 @@
                 sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
             }, {
+                success: function(playlist) {
+                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    playlist.set('active', true);
+                },
                 error: function(model) {
                     model.trigger('createError');
                 }
@@ -83,6 +88,9 @@
                 dataSourceLoaded: !dataSource.isYouTubePlaylist()
             }, {
                 success: function(playlist) {
+                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    playlist.set('active', true);
+
                     if (!playlist.get('dataSourceLoaded')) {
                         playlist.loadDataSource();
                     }

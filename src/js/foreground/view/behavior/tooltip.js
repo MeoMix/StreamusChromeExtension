@@ -28,6 +28,12 @@ define(function() {
             textTooltipable: '.js-textTooltipable'
         },
 
+        isDecorated: false,
+
+        events: {
+            'mouseenter': '_onMouseEnter'
+        },
+
         initialize: function() {
             //  Give Tooltip an array property of titleMutationObservers: https://github.com/jashkenas/backbone/issues/1442
             //  Mutation observers are used to track changes to js-textTooltipable elements. If the text
@@ -36,17 +42,8 @@ define(function() {
                 titleMutationObservers: []
             });
         },
-        
-        //  TODO: There's a bug in Marionette where onAttach doesn't fire for CollectionView items on re-render: https://github.com/marionettejs/backbone.marionette/issues/2209
-        onShow: function() {
-            //  Defer this because can't measure until onAttach has fired which isn't guaranteed with onShow.
-            //  Also, there's no reason to run the logic right as a view is shown because the tooltip won't be visible until onHover.
-            window.requestAnimationFrame(function() {
-                this._setTooltips();
-            }.bind(this));
-        },
 
-        onBeforeDestroy: function() {
+        onBeforeDestroy: function () {
             _.each(this.titleMutationObservers, function(titleMutationObserver) {
                 titleMutationObserver.disconnect();
             });
@@ -55,6 +52,14 @@ define(function() {
             this._destroy(this.$el);
             this._destroy(this.ui.tooltipable);
             this._destroy(this.ui.textTooltipable);
+        },
+
+        _onMouseEnter: function () {
+            //  Defer applying tooltips until absolutely necessary for rendering performance.
+            if (!this.isDecorated) {
+                this.isDecorated = true;
+                this._setTooltips();
+            }
         },
 
         _setTooltips: function() {

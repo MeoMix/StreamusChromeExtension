@@ -9,16 +9,19 @@
         initialize: function() {
             this.settings = Streamus.backgroundPage.settings;
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
         },
 
         _onForegroundAreaRendered: function() {
-            //  If Streamus is going to show search immediately then its OK to defer loading this view for a frame
-            //  to improve performance because it won't be visible.
+            if (!this.settings.get('openToSearch')) {
+                this.show(new LeftPaneView());
+            }
+        },
+
+        _onForegroundAreaIdle: function() {
+            //  If search is being shown immediately then its OK to defer loading to improve initial
+            //  load performance.
             if (this.settings.get('openToSearch')) {
-                window.requestAnimationFrame(function() {
-                    this.show(new LeftPaneView());
-                }.bind(this));
-            } else {
                 this.show(new LeftPaneView());
             }
         }

@@ -51,8 +51,6 @@
         },
 
         initialize: function() {
-            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
-
             this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
         },
 

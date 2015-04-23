@@ -13,6 +13,7 @@
             this.listenTo(Streamus.channels.searchArea.commands, 'show:search', this._showSearch);
             this.listenTo(Streamus.channels.searchArea.commands, 'hide:search', this._hideSearch);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
         },
 
         _onForegroundAreaRendered: function() {
@@ -22,12 +23,14 @@
                 this._showSearch({
                     instant: true
                 });
-            } else {
-                //  If the search view isn't going to be shown right off the bat then it's OK to defer loading the view for a frame so that 
-                //  the initial load time of the application isn't impacted.
-                window.requestAnimationFrame(function() {
-                    this._createSearchView();
-                }.bind(this));
+            }
+        },
+
+        _onForegroundAreaIdle: function() {
+            //  If the search view isn't going to be shown right off the bat then it's OK to defer loading until idle so that 
+            //  the initial load time of the application isn't impacted.
+            if (!this.settings.get('openToSearch')) {
+                this._createSearchView();
             }
         },
 

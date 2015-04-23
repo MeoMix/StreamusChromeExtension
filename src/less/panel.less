@@ -10,6 +10,7 @@
     z-index: 2;
     //  Don't allow interaction with panels until they are declared visible.
     pointer-events: none;
+    will-change: transform;
     transition-property: transform;
     transition-timing-function: @transition-easeOutSine;
 
@@ -41,6 +42,7 @@
     transition-duration: inherit;
     transition-property: opacity;
     transition-timing-function: inherit;
+    will-change: opacity;
 }
 
 .panel--left {
