@@ -11,18 +11,18 @@ document.addEventListener('DOMContentLoaded', function() {
     this.videoStream = null;
 
     //  This is a heavy-handed approach for ensuring that Streamus will *always* be given an HTML5 player by YouTube if at all possible.
-    //  By overloading the canPlayType and forcing it to return 'probably' - YouTube will always assume that the browser can handle HTML5 video.
-    //  This *is* the case, but sometimes other extensions or browsers (i.e. Slimjet) mess with the canPlayType prototype and prevent YouTube from loading HTML5.
-    //  If Flash loads then Streamus is doomed. So, it's OK to be heavy-handed and potentially break stuff because the options are either "make it work" or "broken."
+    //  By overloading canPlayType and forcing it to return 'probably' - YouTube will always assume that the browser can handle HTML5 video.
+    //  Since Streamus only runs in browsers which support HTML5 video - canPlayType technically should always return 'probably'.
+    //  However, sometimes other extensions or custom browsers (i.e. Slimjet) mess with the canPlayType prototype and prevent YouTube from loading HTML5.
+    //  If Flash loads then Streamus is doomed. So, it's OK to be heavy-handed and potentially break stuff because the options are either "make it work" or "already broken"
     this.patchVideoCanPlayType = function() {
         var script = document.createElement('script');
         script.innerHTML = 'HTMLMediaElement.prototype.canPlayType = function() { return "probably"; };';
         document.head.appendChild(script);
     }.bind(this);
 
-    //  Append a script to the page which will intercept YouTube's server requests
-    //  and send messages out of the iframe with details about those requests.
-    //  Needs to be an injected script because contentscripts are in a different sandbox than appended scripts.
+    //  Append a script to the page which will intercept YouTube's server requests and post messages out of the iframe with details about those requests.
+    //  Needs to be an injected script because content scripts are sandboxed in such a way that they do not share variables with appended scripts.
     this.injectInterceptorScript = function() {
         var interceptorScript = document.createElement('script');
         interceptorScript.src = chrome.runtime.getURL('js/inject/interceptor.js');
