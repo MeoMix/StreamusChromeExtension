@@ -1,4 +1,8 @@
-﻿document.addEventListener('DOMContentLoaded', function() {
+﻿//  This code is injected into YouTube's video iframe before any of their scripts have loaded.
+//  It forces YouTube to use the HTML5 video player, hooks into requests sent from their server,
+//  and attempts to listen for interesting events on the <video> itself. If the <video> element
+//  is not found then it will poll for its existence for a few seconds before emitting an error.
+document.addEventListener('DOMContentLoaded', function() {
     //  Record any errors emitted by YouTube
     this.errors = [];
     //  The port used for external communication w/ the extension.
@@ -25,6 +29,7 @@
         document.head.appendChild(interceptorScript);
     }.bind(this);
 
+    //  Attach event listeners to the <video> element.
     this.monitorVideoStream = function() {
         var lastPostedCurrentTime = null;
 
@@ -58,6 +63,7 @@
         }.bind(this));
     }.bind(this);
 
+    //  Create the port needed to communicate with the parent extension.
     this.initializePort = function() {
         this.port = chrome.runtime.connect({
             name: 'youTubeIFrameConnectRequest'
@@ -121,6 +127,7 @@
         }.bind(this), loadAttemptInterval);
     }.bind(this);
 
+    //  If YouTube errors out for any reason - record the error so that it can be communicated to the extension.
     this.onWindowError = function(message) {
         this.errors.push(message);
     }.bind(this);
