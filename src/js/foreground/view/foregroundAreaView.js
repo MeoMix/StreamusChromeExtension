@@ -117,7 +117,7 @@
         },
 
         onRender: function() {
-            this.spinnerRegion.show(new SpinnerView());
+            this.showChildView('spinnerRegion', new SpinnerView());
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');

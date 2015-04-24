@@ -196,7 +196,7 @@
 
         //  Adjust padding-top to properly position relative items inside of list since not all items are rendered.
         _setPaddingTop: function () {
-            this.view.ui.childContainer.css('padding-top', this._getPaddingTop());
+            this.ui.childContainer.css('padding-top', this._getPaddingTop());
         },
 
         _getPaddingTop: function() {
@@ -215,7 +215,7 @@
                 height = this.viewportHeight;
             }
 
-            this.view.ui.childContainer.height(height);
+            this.ui.childContainer.height(height);
         },
 
         _addItems: function(models, indexOffset, currentTotalRendered, isAddingToEnd) {

@@ -11,10 +11,6 @@
         serverUrl: '',
         //  A unique identifier for this Streamus instance. Useful for telling logs apart without a signed in user.
         instanceId: '',
-
-        regions: {
-            backgroundAreaRegion: '#backgroundAreaRegion'
-        },
         
         //  All the channels used for global event communication across the page
         channels: {
@@ -36,7 +32,7 @@
         },
 
         _onStart: function() {
-            this._showBackground();
+            this._showBackgroundArea();
         },
 
         _setServerUrl: function() {
@@ -54,10 +50,12 @@
             this.instanceId = instanceId;
         },
 
-        _showBackground: function() {
-            this.backgroundAreaRegion.show(new BackgroundAreaView({
+        _showBackgroundArea: function() {
+            var backgroundAreaView = new BackgroundAreaView({
                 model: new BackgroundArea()
-            }));
+            });
+
+            backgroundAreaView.render();
         }
     });
 

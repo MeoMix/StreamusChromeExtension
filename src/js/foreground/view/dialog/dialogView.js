@@ -52,7 +52,7 @@
         },
 
         onRender: function() {
-            this.contentRegion.show(this.contentView);
+            this.showChildView('contentRegion', this.contentView);
 
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -156,7 +156,7 @@
                 iconOnLeft: true
             });
 
-            this.reminderRegion.show(new CheckboxView({
+            this.showChildView('reminderRegion', new CheckboxView({
                 id: this.id + '-reminderCheckbox',
                 model: this.reminderCheckbox
             }));

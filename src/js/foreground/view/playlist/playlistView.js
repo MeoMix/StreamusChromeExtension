@@ -45,7 +45,7 @@
 
         onRender: function() {
             //  TODO: Don't incur this load unless needed.
-            this.spinnerRegion.show(new SpinnerView({
+            this.showChildView('spinnerRegion', new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
 

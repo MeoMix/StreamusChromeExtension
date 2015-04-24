@@ -79,11 +79,11 @@
             this._setButtonStates();
             this._toggleInstructions();
 
-            this.searchResultsRegion.show(new SearchResultsView({
+            this.showChildView('searchResultsRegion', new SearchResultsView({
                 collection: this.model.get('results')
             }));
 
-            this.spinnerRegion.show(new SpinnerView());
+            this.showChildView('spinnerRegion', new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.

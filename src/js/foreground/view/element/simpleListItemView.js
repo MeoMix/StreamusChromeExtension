@@ -42,6 +42,10 @@ define(function(require) {
             'change:value': '_onChangeValue'
         },
 
+        childEvents: {
+            'click:simpleMenuItem': '_onClickSimpleMenuItem'
+        },
+
         onRender: function() {
             this._setPrettyValue(this.model.get('value'));
         },
@@ -60,7 +64,7 @@ define(function(require) {
 
         _openSimpleMenu: function() {
             //  If the list item is clicked while the menu is open do not re-open it.
-            if (_.isUndefined(this.simpleMenuRegion.currentView)) {
+            if (_.isUndefined(this.getChildView('simpleMenuRegion'))) {
                 var options = this.model.get('options');
                 var simpleMenuItems = new SimpleMenuItems(_.map(options, function(option) {
                     return {
@@ -73,16 +77,11 @@ define(function(require) {
                 //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
                 //  otherwise it'll close immediately.
                 _.defer(function() {
-                    var simpleMenuView = new SimpleMenuView({
+                    this.showChildView('simpleMenuRegion', new SimpleMenuView({
                         collection: simpleMenuItems,
                         model: new SimpleMenu(),
                         listItemHeight: this.$el.height()
-                    });
-
-                    //  TODO: I don't think I am cleaning up my event handlers properly here, but I don't see an elegant way to do it.
-                    this.listenTo(simpleMenuView, 'click:simpleMenuItem', this._onClickSimpleMenuItem);
-
-                    this.simpleMenuRegion.show(simpleMenuView);
+                    }));
                 }.bind(this));
             }
         },

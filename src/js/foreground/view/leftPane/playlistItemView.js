@@ -42,10 +42,9 @@
         },
 
         onRender: function() {
-            var spinnerView = new SpinnerView({
+            this.showChildView('spinnerRegion', new SpinnerView({
                 className: 'overlay u-marginAuto'
-            });
-            this.spinnerRegion.show(spinnerView);
+            }));
 
             this._setShowingSpinnerClass();
         },

@@ -20,10 +20,10 @@
             if (!this.isDecorated) {
                 this.isDecorated = true;
 
-                this.view.ui.childContainer.sortable(this._getSortableOptions());
+                this.ui.childContainer.sortable(this._getSortableOptions());
 
-                this.view.$el.scroll(_.throttle(function() {
-                    this.view.ui.childContainer.sortable('refresh');
+                this.$el.scroll(_.throttle(function() {
+                    this.ui.childContainer.sortable('refresh');
                 }.bind(this), 20));
             }
         },
@@ -74,7 +74,7 @@
 
             $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
 
-            this.view.ui.childContainer.sortable('refresh');
+            this.ui.childContainer.sortable('refresh');
 
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
@@ -95,7 +95,7 @@
                 return item.get('song');
             });
 
-            this.view.ui.childContainer.addClass(this.isDraggingClass).data({
+            this.ui.childContainer.addClass(this.isDraggingClass).data({
                 draggedSongs: draggedSongs
             });
 
@@ -105,22 +105,21 @@
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
         _beforeStop: function(event, ui) {
             //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
-            this.view.ui.childContainer.data({
+            this.ui.childContainer.data({
                 placeholderIndex: ui.placeholder.index() - 1
             });
         },
 
         _stop: function(event, ui) {
-            var childContainer = this.view.ui.childContainer;
             var isParentNodeLost = ui.item[0].parentNode === null;
 
             //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
-            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && childContainer.is(':hover');
+            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.childContainer.is(':hover');
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function(response) {
-                    var dropIndex = childContainer.data('placeholderIndex') + response.minRenderIndex;
+                    var dropIndex = this.ui.childContainer.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
                     this._cleanup();
                 }.bind(this));
@@ -136,7 +135,7 @@
         },
 
         _cleanup: function() {
-            this.view.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+            this.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
             Streamus.channels.element.vent.trigger('drop');
         },
 

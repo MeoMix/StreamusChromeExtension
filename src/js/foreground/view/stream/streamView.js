@@ -66,29 +66,29 @@
         onRender: function() {
             this._setState(this.model.get('items').isEmpty());
 
-            this.streamItemsRegion.show(new StreamItemsView({
+            this.showChildView('streamItemsRegion', new StreamItemsView({
                 collection: this.model.get('items')
             }));
 
-            this.shuffleButtonRegion.show(new ShuffleButtonView({
+            this.showChildView('shuffleButtonRegion', new ShuffleButtonView({
                 model: Streamus.backgroundPage.shuffleButton
             }));
 
-            this.repeatButtonRegion.show(new RepeatButtonView({
+            this.showChildView('repeatButtonRegion',new RepeatButtonView({
                 model: Streamus.backgroundPage.repeatButton
             }));
 
-            this.radioButtonRegion.show(new RadioButtonView({
+            this.showChildView('radioButtonRegion',new RadioButtonView({
                 model: Streamus.backgroundPage.radioButton
             }));
 
-            this.clearStreamButtonRegion.show(new ClearStreamButtonView({
+            this.showChildView('clearStreamButtonRegion',new ClearStreamButtonView({
                 model: new ClearStreamButton({
                     streamItems: this.model.get('items')
                 })
             }));
 
-            this.saveStreamButtonRegion.show(new SaveStreamButtonView({
+            this.showChildView('saveStreamButtonRegion', new SaveStreamButtonView({
                 model: new SaveStreamButton({
                     streamItems: this.model.get('items'),
                     signInManager: Streamus.backgroundPage.signInManager
@@ -107,7 +107,7 @@
 
         _onChangeActiveItem: function(model, activeItem) {
             if (activeItem === null) {
-                this.activeStreamItemRegion.currentView.hide();
+                this.getChildView('activeStreamItemRegion').hide();
             } else {
                 //  If there was already an activeItem shown then do not need to transition in the new view because one is already fully visible.
                 var instant = model.previous('activeItem') !== null;
@@ -137,7 +137,7 @@
         },
 
         _showActiveStreamItem: function(activeStreamItem, instant) {
-            this.activeStreamItemRegion.show(new ActiveStreamItemView({
+            this.showChildView('activeStreamItemRegion', new ActiveStreamItemView({
                 model: activeStreamItem,
                 instant: instant
             }));

@@ -36,7 +36,7 @@
                 this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
             }
 
-            this.timeAreaRegion.show(new TimeAreaView({
+            this.showChildView('timeAreaRegion', new TimeAreaView({
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')
                 })

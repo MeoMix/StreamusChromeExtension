@@ -57,7 +57,7 @@
                 this.ui.leftContent.addClass('is-showingCheckbox');
                 this.ui.leftContent.removeClass('is-showingThumbnail');
 
-                this.view.checkboxRegion.show(new CheckboxView({
+                this.view.showChildView('checkboxRegion', new CheckboxView({
                     model: this.checkbox
                 }));
             }
@@ -87,7 +87,7 @@
                 this.ui.leftContent.toggleClass('is-showingThumbnail', !selected);
 
                 if (selected) {
-                    this.view.checkboxRegion.show(new CheckboxView({
+                    this.view.showChildView('checkboxRegion', new CheckboxView({
                         model: this.checkbox
                     }));
                 }

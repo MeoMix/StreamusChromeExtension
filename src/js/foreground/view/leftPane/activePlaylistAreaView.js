@@ -77,7 +77,7 @@
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
             this._toggleInstructions(this.model.get('items').isEmpty());
 
-            this.playlistItemsRegion.show(new PlaylistItemsView({
+            this.showChildView('playlistItemsRegion', new PlaylistItemsView({
                 collection: this.model.get('items')
             }));
         },
