@@ -163,7 +163,7 @@ module.exports = function(grunt) {
                         return isDebug ? match : '';
                     }
                 }, {
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
+                    from: '"js": ["js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
                     to: '"js": ["js/inject/youTubeInject.js"]'
                 }, {
                     from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',

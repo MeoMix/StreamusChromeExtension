@@ -88,7 +88,7 @@
 		{
 			"matches": ["*://*.youtube.com/*"],
 			"run_at": "document_start",
-			"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
+			"js": ["js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
 		},
 		{
 			"matches": ["*://*.pro.beatport.com/*"],
