@@ -16,7 +16,6 @@
         _onMouseEnter: function () {
             //  There's no reason to take this perf hit unless the user is actually going to use sortable logic.
             //  So, only run it once the user could potentially need to do so.
-            //  TODO: Perhaps it would be better to emit an 'idle' event from the App once critical content is loaded and then this logic could run.
             if (!this.isDecorated) {
                 this.isDecorated = true;
 
