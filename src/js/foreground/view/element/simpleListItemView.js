@@ -78,7 +78,7 @@ define(function(require) {
                 //  otherwise it'll close immediately.
                 _.defer(function() {
                     this.showChildView('simpleMenuRegion', new SimpleMenuView({
-                        collection: simpleMenuItems,
+                        simpleMenuItems: simpleMenuItems,
                         model: new SimpleMenu(),
                         listItemHeight: this.$el.height()
                     }));
@@ -87,7 +87,7 @@ define(function(require) {
         },
 
         _onClickSimpleMenuItem: function(eventArgs) {
-            var activeItem = eventArgs.collection.getActive();
+            var activeItem = eventArgs.simpleMenuItems.getActive();
             this.model.set('value', activeItem.get('value'));
         }
     });

@@ -30,7 +30,7 @@ define(function(require) {
                 }));
 
                 var simpleMenuView = new SimpleMenuView({
-                    collection: simpleMenuItems,
+                    simpleMenuItems: simpleMenuItems,
                     model: new SimpleMenu({
                         fixedMenuItemTitle: chrome.i18n.getMessage('createPlaylist')
                     })
@@ -53,7 +53,7 @@ define(function(require) {
         },
 
         _onClickSimpleMenuItem: function(playlists, songs, eventArgs) {
-            var activeItem = eventArgs.collection.getActive();
+            var activeItem = eventArgs.simpleMenuItems.getActive();
             var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },

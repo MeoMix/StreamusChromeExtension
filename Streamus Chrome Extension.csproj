@@ -74,6 +74,7 @@
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
+    <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneView.js" />

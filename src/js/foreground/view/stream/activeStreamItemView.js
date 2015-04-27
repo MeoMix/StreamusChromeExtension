@@ -72,7 +72,7 @@
         _onTransitionOutComplete: function(event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
-                Streamus.channels.activeStreamItemArea.vent.trigger('is-hidden');
+                Streamus.channels.activeStreamItemArea.vent.trigger('hidden');
                 this.destroy();
             }
         }

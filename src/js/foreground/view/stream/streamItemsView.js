@@ -42,7 +42,8 @@
                 behaviorClass: CollectionViewMultiSelect
             },
             Scrollable: {
-                behaviorClass: Scrollable
+                behaviorClass: Scrollable,
+                implementsSlidingRender: true
             },
             SlidingRender: {
                 behaviorClass: SlidingRender
@@ -82,6 +83,7 @@
         },
 
         _onActiveStreamItemAreaHidden: function() {
+            console.log('_onActiveStreamItemAreaHidden');
             this.triggerMethod('ListHeightUpdated');
         }
     });

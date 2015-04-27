@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SimpleMenuItemView = require('foreground/view/element/simpleMenuItemView');
+    var SimpleMenuItemsView = require('foreground/view/element/simpleMenuItemsView');
     var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
 
-    var SimpleMenuView = Marionette.CompositeView.extend({
+    var SimpleMenuView = Marionette.LayoutView.extend({
         id: 'simpleMenu',
         className: 'panel menu',
         template: _.template(SimpleMenuTemplate),
@@ -14,12 +14,16 @@
             };
         },
 
-        childView: SimpleMenuItemView,
-        childViewContainer: '@ui.simpleMenuItems',
+        regions: function() {
+            return {
+                simpleMenuItemsRegion: '#' + this.id + '-simpleMenuItemsRegion'
+            };
+        },
 
         ui: function() {
             return {
-                simpleMenuItems: '#' + this.id + '-simpleMenuItems',
+                //  TODO: This is weird. Maybe bubble the click event up or something.
+                simpleMenuItems: '.menu-simpleItems',
                 fixedMenuItem: '#' + this.id + '-fixedMenuItem',
                 panelContent: '#' + this.id + '-panelContent'
             };
@@ -31,14 +35,25 @@
         },
 
         listItemHeight: 0,
+        simpleMenuItems: null,
 
         initialize: function(options) {
+            //  TODO: Feels weird to bubble this down?
+            this.simpleMenuItems = options && options.simpleMenuItems;
             this.listItemHeight = options && options.listItemHeight ? options.listItemHeight : this.listItemHeight;
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
         },
 
+        onRender: function() {
+            this.showChildView('simpleMenuItemsRegion', new SimpleMenuItemsView({
+                collection: this.simpleMenuItems,
+                listItemHeight: this.listItemHeight
+            }));
+        },
+
         onAttach: function() {
-            this._ensureActiveIsVisible();
+            //  This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
+            this.getChildView('simpleMenuItemsRegion').ensureActiveIsVisible();
 
             if (this.listItemHeight > 0) {
                 this._centerActive();
@@ -47,16 +62,6 @@
             _.defer(function() {
                 this.$el.addClass('is-visible');
             }.bind(this));
-
-            //  TODO: Keep DRY w/ scrollable.
-            //  More info: https://github.com/noraesae/perfect-scrollbar
-            //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
-            this.ui.simpleMenuItems.perfectScrollbar({
-                suppressScrollX: true,
-                //  44px because that is the height of 1 listItem--small
-                minScrollbarLength: 44,
-                includePadding: true
-            });
         },
 
         hide: function() {
@@ -69,7 +74,7 @@
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
                 model: this.model,
-                collection: this.collection
+                collection: this.simpleMenuItems
             });
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
@@ -79,7 +84,7 @@
             this.triggerMethod('click:fixedMenuItem', {
                 view: this,
                 model: this.model,
-                collection: this.collection
+                collection: this.simpleMenuItems
             });
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
@@ -90,40 +95,24 @@
         },
 
         _onElementClick: function(event) {
-            //  This target will show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
-            if (event.target !== this.ui.panelContent[0]) {
+            //  These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
+            if (event.target !== this.getRegion('simpleMenuItemsRegion').el) {
                 this.hide();
             }
         },
-        
-        //  Adjust the scrollTop of the view to ensure that the active item is shown.
-        _ensureActiveIsVisible: function() {
-            var activeItem = this.collection.getActive();
 
-            if (!_.isUndefined(activeItem)) {
-                var activeView = this.children.find(function(child) {
-                    return child.model === activeItem;
-                });
-
-                //  Center element in list if possible.
-                var offsetTop = activeView.el.offsetTop;
-                var centerHeight = activeView.$el.height() / 2;
-                var center = offsetTop - (this.ui.simpleMenuItems.innerHeight() / 2) + centerHeight;
-                this.ui.simpleMenuItems[0].scrollTop = center;
-            }
-        },
-        
         //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
         //  When showing this view over a ListItem, center the view's active item over the ListItem.
         _centerActive: function() {
             //  Adjust the top position of the view based on which item is active.
-            var index = this.collection.indexOf(this.collection.getActive());
+            var index = this.simpleMenuItems.indexOf(this.simpleMenuItems.getActive());
 
-            var childHeight = this.children.first().$el.height();
+            //  TODO: This feels weirdly coupled.
+            var childHeight = this.getChildView('simpleMenuItemsRegion').children.first().$el.height();
             var offset = -1 * index * childHeight;
 
             //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
-            var scrollTop = this.ui.simpleMenuItems[0].scrollTop;
+            var scrollTop = this.getChildView('simpleMenuItemsRegion').el.scrollTop;
             offset += scrollTop;
 
             //  Now center the item over its ListItem

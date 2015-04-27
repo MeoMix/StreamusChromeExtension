@@ -60,16 +60,6 @@
         },
 
         onAttach: function() {
-            //  TODO: Keep DRY w/ scrollable.
-            //  More info: https://github.com/noraesae/perfect-scrollbar
-            //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
-            this.contentView.$el.perfectScrollbar({
-                suppressScrollX: true,
-                //  56px because that is the height of 1 listItem--medium
-                minScrollbarLength: 56,
-                includePadding: true
-            });
-
             _.defer(this._transitionIn.bind(this));
         },
         
