@@ -52,8 +52,8 @@ Supported Functionality
 * Desktop notifications of currently playing video
 * Customizable keyboard shortcuts
 * Sharing of playlists via URL
-* Enhancement of YouTube video pages with injected HTML
-* Enhancement of Beatport Top 10/100 pages with injected HTML
+* Enhancement of YouTube video pages with button for adding songs to playlists
+* Enhancement of Beatport with Streamus buttons for listening to full songs
 
 Usage Demo
 ========

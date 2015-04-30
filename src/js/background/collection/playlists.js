@@ -215,7 +215,8 @@
                 type: ListItemType.Playlist,
                 data: {
                     id: addedPlaylist.get('id'),
-                    title: addedPlaylist.get('title')
+                    title: addedPlaylist.get('title'),
+                    active: addedPlaylist.get('active')
                 }
             });
 

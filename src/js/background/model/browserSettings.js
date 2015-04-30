@@ -38,12 +38,12 @@
 
         _onChromeRuntimeMessage: function(request, sender, sendResponse) {
             switch (request.method) {
-                case 'getBeatportInjectData':
+                case 'getBeatportContentScriptData':
                     sendResponse({
                         canEnhance: this.get('enhanceBeatport')
                     });
                     break;
-                case 'getYouTubeInjectData':
+                case 'getYouTubeContentScriptData':
                     sendResponse({
                         canEnhance: this.get('enhanceYouTube'),
                         SyncActionType: SyncActionType
@@ -103,7 +103,8 @@
         
         _notifyTab: function(tabType, enhance) {
             Streamus.channels.tab.commands.trigger('notify:' + tabType, {
-                event: enhance ? 'enhance-on' : 'enhance-off'
+                action: 'toggleContentScript',
+                value: enhance
             });
         }
     });

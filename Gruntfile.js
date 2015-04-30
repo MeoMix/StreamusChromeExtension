@@ -162,12 +162,6 @@ module.exports = function(grunt) {
                         //  Don't remove key when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
-                }, {
-                    from: '"js": ["js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
-                    to: '"js": ["js/inject/youTubeInject.js"]'
-                }, {
-                    from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
-                    to: '"js": ["js/inject/beatportInject.js"]'
                 }]
             }
         },
@@ -211,12 +205,13 @@ module.exports = function(grunt) {
             }
         },
         concat: {
-            //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
-            injectedJs: {
+            //  TODO: This isn't really a concat anymore. Just a copy operation.
+            //  Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
+            contentScripts: {
                 files: {
-                    'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
-                    'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
-                    'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+                    'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
+                    'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js'],
+                    'dist/js/contentScript/youTubeIFrame.js': ['src/js/contentScript/youTubeIFrame.js']
                 }
             }
         },
@@ -239,7 +234,7 @@ module.exports = function(grunt) {
             grunt.task.run('replace:updateVersion');
         }
 
-        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'clean:dist');
+        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:contentScripts', 'less', 'imagemin', 'clean:dist');
 
         //  Build chrome release
         grunt.task.run('compressRelease:' + chromeReleaseDirectory);

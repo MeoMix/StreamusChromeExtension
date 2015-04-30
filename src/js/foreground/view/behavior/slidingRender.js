@@ -268,7 +268,7 @@
         },
 
         _filter: function(child, index) {
-            return this._indexWithinRenderRange(index);;
+            return this._indexWithinRenderRange(index);
         },
 
         _getMinRenderIndex: function(scrollTop) {

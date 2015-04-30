@@ -1,8 +1,8 @@
-.streamus-button,
-.streamus-button:hover {
+.streamusButton,
+.streamusButton:hover {
     color: rgb(15,157,88) !important;
 }
 
-.streamus-button:hover {
+.streamusButton:hover {
     text-shadow: 0 0 15px rgba(15,157,88,0.6) !important;
 }

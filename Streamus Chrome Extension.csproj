@@ -42,6 +42,7 @@
     <Content Include=".gitignore" />
     <Content Include="Gruntfile.js" />
     <Content Include="src\background.html" />
+    <Content Include="src\css\contentScript\youTube.css" />
     <Content Include="src\css\foreground.css" />
     <Content Include="src\css\test\mocha.css" />
     <Content Include="src\foreground.html" />
@@ -74,6 +75,7 @@
     <Content Include="src\img\streamus_icon_white19.png" />
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
+    <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
@@ -290,9 +292,9 @@
     <Content Include="src\js\foreground\view\search\searchResultsView.js" />
     <Content Include="src\js\foreground\view\search\searchResultView.js" />
     <Content Include="src\js\foreground\view\search\searchView.js" />
-    <Content Include="src\js\inject\beatportInject.js" />
-    <Content Include="src\js\inject\youTubeIFrameInject.js" />
-    <Content Include="src\js\inject\youTubeInject.js" />
+    <Content Include="src\js\contentScript\beatport.js" />
+    <Content Include="src\js\contentScript\youTubeIFrame.js" />
+    <Content Include="src\js\contentScript\youTube.js" />
     <Content Include="src\js\test\background\collection\playlistsTests.js" />
     <Content Include="src\js\test\background\model\clientErrorManagerTest.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
@@ -331,7 +333,7 @@
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\require.js" />
     <Content Include="src\js\thirdParty\text.js" />
-    <Content Include="src\css\beatportInject.css" />
+    <Content Include="src\css\contentScript\beatport.css" />
     <Content Include="src\font\Roboto-Medium.ttf" />
     <Content Include="src\font\Roboto-Bold.ttf" />
     <Content Include="src\font\Roboto-Regular.ttf" />

@@ -81,19 +81,20 @@
 			"matches": ["*://*.youtube.com/embed/*streamus=1*"],
 			//  all_frames needs to be set to true because the url is loaded into an iframe
 			"all_frames": true,
-			//  inject at document_start to allow time to setup code before youtube's scripts execute.
+			//  run at document_start to allow time to setup code before youtube's scripts execute.
 			"run_at": "document_start",
-			"js": ["js/inject/youTubeIFrameInject.js"]
+			"js": ["js/contentScript/youTubeIFrame.js"]
 		},
 		{
 			"matches": ["*://*.youtube.com/*"],
 			"run_at": "document_start",
-			"js": ["js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]
+			"js": ["js/contentScript/youTube.js"],
+			"css": ["css/contentScript/youTube.css"]
 		},
 		{
 			"matches": ["*://*.pro.beatport.com/*"],
-			"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"],
-			"css": ["css/beatportInject.css"]
+			"js": ["js/contentScript/beatport.js"],
+			"css": ["css/contentScript/beatport.css"]
 		}
 	],
 	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",

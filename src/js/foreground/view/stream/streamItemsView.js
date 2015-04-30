@@ -83,7 +83,6 @@
         },
 
         _onActiveStreamItemAreaHidden: function() {
-            console.log('_onActiveStreamItemAreaHidden');
             this.triggerMethod('ListHeightUpdated');
         }
     });

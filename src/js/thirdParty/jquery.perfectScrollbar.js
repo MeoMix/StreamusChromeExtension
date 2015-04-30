@@ -864,7 +864,7 @@
 
       var supportsTouch = (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
       var supportsIePointer = window.navigator.msMaxTouchPoints !== null;
-
+ 
       function initialize() {
         updateGeometry();
         bindScrollHandler();
