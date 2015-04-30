@@ -54,11 +54,12 @@ define(function() {
             this._destroy(this.ui.textTooltipable);
         },
 
-        _onMouseEnter: function () {
+        _onMouseEnter: function() {
             //  Defer applying tooltips until absolutely necessary for rendering performance.
             if (!this.isDecorated) {
                 this.isDecorated = true;
-                this._setTooltips();
+                //  Wrap in a RAF to allow for :hover effects to take place which might affect whether textTooltipable overflows or not.
+                requestAnimationFrame(this._setTooltips.bind(this));
             }
         },
 
