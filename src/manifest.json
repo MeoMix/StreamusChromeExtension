@@ -1,81 +1,84 @@
 {
-	"manifest_version": 2,
-	"name": "__MSG_extensionName__",
-	"short_name": "Streamus",
-	"version": "0.172",
+    "manifest_version": 2,
+    "name": "__MSG_extensionName__",
+    "short_name": "Streamus",
+    "version": "0.172",
 
     "default_locale": "en",
-	"description": "__MSG_extensionDescription__",
-	"icons": {
-	    "16": "img/streamus_icon16.png",
-		"48": "img/streamus_icon48.png",
-		"128": "img/streamus_icon128.png"
-	},
+    "description": "__MSG_extensionDescription__",
+    "icons": {
+        "16": "img/streamus_icon16.png",
+        "48": "img/streamus_icon48.png",
+        "128": "img/streamus_icon128.png"
+    },
 
-	"browser_action": {
-		"default_icon": {
-			"19": "img/yellow_2bar_19.png",
-			"38": "img/yellow_2bar_38.png"
-		},
-		"default_popup": "foreground.html"
-	},
+    "browser_action": {
+        "default_icon": {
+            "19": "img/yellow_2bar_19.png",
+            "38": "img/yellow_2bar_38.png"
+        },
+        "default_popup": "foreground.html"
+    },
 
-	"author": "Sean Anderson",
-	"background": {
-		"page": "background.html"
-	},
+    "author": "Sean Anderson",
+    "background": {
+        "page": "background.html"
+    },
     "commands": {
-		"nextSong": {
-			"suggested_key": {
-				"default": "MediaNextTrack"
-			},
-			"description": "__MSG_nextSongCommandDescription__"
-		},
-		"previousSong": {
-			"suggested_key": {
-				"default": "MediaPrevTrack"
-			},
-			"description": "__MSG_previousSongCommandDescription__"
-		},
-		"toggleSong": {
-			"suggested_key": {
-				"default": "MediaPlayPause"
-			},
-			"description": "__MSG_toggleSongCommandDescription__"
-		},
-		"deleteSongFromStream": {
-			"description": "__MSG_deleteSongCommandDescription__"
-		},
-		"copySongUrl": {
-			"description": "__MSG_copySongUrlCommandDescription__"
-		},
-		"copySongTitleAndUrl": {
-			"description": "__MSG_copySongTitleUrlCommandDescription__"
-		},
-		"toggleRadio": {
-			"description": "__MSG_toggleRadioCommandDescription__"
-		},
-		"toggleShuffle": {
-			"description": "__MSG_toggleShuffleCommandDescription__"
-		},
-		"toggleRepeat": {
-			"description": "__MSG_toggleRepeatCommandDescription__"
-		},
-		"increaseVolume": {
-			"description": "__MSG_increaseVolumeCommandDescription__"
-		},
-		"decreaseVolume": {
-			"description": "__MSG_decreaseVolumeCommandDescription__"
-		},
-		"showActiveSong": {
-			"description": "__MSG_showActiveSongCommandDescription__"
-		},
-		"saveActiveSong": {
-			"description": "__MSG_saveActiveSongCommandDescription__"
-		},
-		"_execute_browser_action": {
-		}
-	},
+        "nextSong": {
+            "suggested_key": {
+                "default": "MediaNextTrack"
+            },
+            "description": "__MSG_nextSongCommandDescription__"
+        },
+        "previousSong": {
+            "suggested_key": {
+                "default": "MediaPrevTrack"
+            },
+            "description": "__MSG_previousSongCommandDescription__"
+        },
+        "toggleSong": {
+            "suggested_key": {
+                "default": "MediaPlayPause"
+            },
+            "description": "__MSG_toggleSongCommandDescription__"
+        },
+        "deleteSongFromStream": {
+            "description": "__MSG_deleteSongCommandDescription__"
+        },
+        "copySongUrl": {
+            "description": "__MSG_copySongUrlCommandDescription__"
+        },
+        "copySongTitleAndUrl": {
+            "description": "__MSG_copySongTitleUrlCommandDescription__"
+        },
+        "toggleRadio": {
+            "description": "__MSG_toggleRadioCommandDescription__"
+        },
+        "toggleShuffle": {
+            "description": "__MSG_toggleShuffleCommandDescription__"
+        },
+        "toggleRepeat": {
+            "description": "__MSG_toggleRepeatCommandDescription__"
+        },
+        "increaseVolume": {
+            "description": "__MSG_increaseVolumeCommandDescription__"
+        },
+        "decreaseVolume": {
+            "description": "__MSG_decreaseVolumeCommandDescription__"
+        },
+        "showActiveSong": {
+            "description": "__MSG_showActiveSongCommandDescription__"
+        },
+        "saveActiveSong": {
+            "description": "__MSG_saveActiveSongCommandDescription__"
+        },
+        "openInTab": { 
+            "description":  "__MSG_openInTab__"
+        },
+        "_execute_browser_action": {
+        }
+    },
 	"content_scripts": [
 		{
 			"matches": ["*://*.youtube.com/embed/*streamus=1*"],

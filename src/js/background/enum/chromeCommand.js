@@ -12,5 +12,6 @@ define({
     ToggleRepeat: 'toggleRepeat',
     ToggleShuffle: 'toggleShuffle',
     IncreaseVolume: 'increaseVolume',
-    DecreaseVolume: 'decreaseVolume'
+    DecreaseVolume: 'decreaseVolume',
+    OpenInTab: 'openInTab'
 });

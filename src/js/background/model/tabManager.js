@@ -1,5 +1,7 @@
-﻿define(function() {
+﻿define(function(require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
 
     var TabManager = Backbone.Model.extend({
         defaults: function() {
@@ -14,6 +16,7 @@
         initialize: function() {
             this.listenTo(Streamus.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
             this.listenTo(Streamus.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
         },
 
         isStreamusTabActive: function(callback) {
@@ -106,6 +109,12 @@
         _highlightTabs: function(highlightInfo) {
             //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
+        },
+
+        _onChromeCommandsCommand: function (command) {
+            if (command === ChromeCommand.OpenInTab) {
+                this.showStreamusTab();
+            }
         }
     });
 
