@@ -17,6 +17,10 @@
             };
         },
 
+        events: {
+            'contextmenu': '_onContextMenu'
+        },
+
         behaviors: {
             Tooltip: {
                 behaviorClass: Tooltip
@@ -24,9 +28,11 @@
         },
 
         instant: false,
+        player: null,
 
         initialize: function(options) {
             this.instant = options.instant;
+            this.player = Streamus.backgroundPage.player;
         },
 
         onRender: function() {
@@ -75,6 +81,32 @@
                 Streamus.channels.activeStreamItemArea.vent.trigger('hidden');
                 this.destroy();
             }
+        },
+
+        _onContextMenu: function () {
+            event.preventDefault();
+
+            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
+                text: chrome.i18n.getMessage('copyUrl'),
+                onClick: this._copyUrl.bind(this)
+            }, {
+                text: chrome.i18n.getMessage('copyTitleAndUrl'),
+                onClick: this._copyTitleAndUrl.bind(this)
+            }, {
+                text: chrome.i18n.getMessage('watchOnYouTube'),
+                onClick: this._watchOnYouTube.bind(this)
+            }]);
+        },
+
+        _copyUrl: function () {
+            this.model.get('song').copyUrl();
+        },
+
+        _copyTitleAndUrl: function () {
+            this.model.get('song').copyTitleAndUrl();
+        },
+        _watchOnYouTube: function () {
+            this.player.watchInTab(this.model.get('song'));
         }
     });
 
