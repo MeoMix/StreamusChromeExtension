@@ -76,6 +76,7 @@
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\lodashMixin.js" />
+    <Content Include="src\js\foreground\enum\keyboardKey.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
