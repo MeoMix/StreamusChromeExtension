@@ -24,11 +24,10 @@ You will need to have [Node](https://nodejs.org/) installed on your system as we
     npm install
 
 <h3>Loading the extension</h3>
-1. Navigate to: chrome://extensions/
-2. Toggle the 'Developer mode' checkbox on.
-3. Click the button 'Load unpacked extension...'
-4. Select the directory '/Streamus Chrome Extension/src/'
-5. Streamus is now loaded and can be developed upon.
+1. Navigate to **chrome://extensions/**
+2. Ensure the checkbox labeled **Developer mode** is enabled.
+3. Click the button labeled **Load unpacked extension...**
+4. Select the directory **/Streamus Chrome Extension/src/**
 
 <img src='http://i.imgur.com/1fckCGn.png' />
 
