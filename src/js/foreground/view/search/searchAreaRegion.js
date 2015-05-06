@@ -35,16 +35,24 @@
         },
 
         _createSearchView: function() {
-            var searchView = new SearchView({
-                model: Streamus.backgroundPage.search,
-                collection: Streamus.backgroundPage.search.get('results')
-            });
+            if (!this._searchViewExists()) {
+                var searchView = new SearchView({
+                    model: Streamus.backgroundPage.search,
+                    collection: Streamus.backgroundPage.search.get('results')
+                });
 
-            this.show(searchView);
-            this.listenTo(searchView, 'hide:search', this._hideSearch);
+                this.show(searchView);
+                this.listenTo(searchView, 'hide:search', this._hideSearch);
+            }
         },
 
         _showSearch: function(options) {
+            //  It's technially possible for the user to request search to be shown before the view has been created.
+            //  If the Application hasn't entered 'idle' state yet and the user moves fast then they can get here.
+            if (!this._searchViewExists()) {
+                this._createSearchView();
+            }
+
             Streamus.channels.searchArea.vent.trigger('showing');
 
             //  If the view should be visible when UI first loads then do not transition.
@@ -59,6 +67,11 @@
         _hideSearch: function() {
             Streamus.channels.searchArea.vent.trigger('hiding');
             this.$el.removeClass('is-instant is-visible');
+        },
+
+        //  Returns true if SearchView is currently shown in the region
+        _searchViewExists: function() {
+            return !_.isUndefined(this.currentView);
         }
     });
 

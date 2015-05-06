@@ -134,7 +134,7 @@
             //  Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
             setTimeout(function() {
                 Streamus.channels.foregroundArea.vent.trigger('idle');
-            }.bind(this), 500);
+            }.bind(this), 250);
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views

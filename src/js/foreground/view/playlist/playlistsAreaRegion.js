@@ -26,6 +26,13 @@
         },
 
         _showPlaylistsArea: function() {
+            //  It's possibly that the user might want to show playlistsArea before it has been created (i.e. before Application is idle)
+            //  If so, just create it now so that it can be shown.
+            if (!this._playlistsAreaViewExists()) {
+                var signedInUser = this.signInManager.get('signedInUser');
+                this._createPlaylistsAreaView(signedInUser.get('playlists'));
+            }
+
             this.currentView.show();
         },
 
@@ -36,9 +43,9 @@
             }
         },
         
-        //  Returns true if PlaylistsAreaView is currently shown
+        //  Returns true if PlaylistsAreaView is currently shown in the region.
         _playlistsAreaViewExists: function() {
-            return !_.isUndefined(this.currentView) && this.currentView instanceof PlaylistsAreaView;
+            return !_.isUndefined(this.currentView);
         },
 
         _createPlaylistsAreaView: function(playlists) {
