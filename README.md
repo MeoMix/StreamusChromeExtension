@@ -31,6 +31,8 @@ You will need to have [Node](https://nodejs.org/) installed on your system as we
 4. Select the directory '/Streamus Chrome Extension/src/'
 5. Streamus is now loaded and can be developed upon.
 
+<img src='http://i.imgur.com/1fckCGn.png' />
+
 <h3>Editing LESS</h3>
 Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to run the following command from the 'Streamus Chrome Extension' directory before modifying any LESS files:
 
