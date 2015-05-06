@@ -73,11 +73,13 @@ Streamus uses a fair number of third-party libraries. Introduction of additional
 * [Require](http://requirejs.org/)
 * [Text](https://github.com/requirejs/text)
 * [Less](http://lesscss.org)
+
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
 * [jQuery UI](http://jqueryui.com/)
 * [jQuery Perfect Scrollbar](http://noraesae.github.io/perfect-scrollbar/)
 * [jQuery qTip](http://qtip2.com/)
+
 <h3>Testing</h3>
 * [Mocha](http://visionmedia.github.io/mocha/)
 * [Chai](http://chaijs.com/)
