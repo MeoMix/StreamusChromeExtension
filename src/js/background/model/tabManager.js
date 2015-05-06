@@ -30,16 +30,6 @@
             });
         },
 
-        isStreamusTabOpen: function(callback) {
-            var queryInfo = {
-                url: this.get('streamusForegroundUrl')
-            };
-
-            this._queryTabs(queryInfo, function(tabs) {
-                callback(tabs.length > 0);
-            });
-        },
-
         showStreamusTab: function() {
             this._showTab(this.get('streamusForegroundUrl'));
         },
@@ -58,7 +48,10 @@
 
         _showTab: function(urlPattern, url) {
             var queryInfo = {
-                url: urlPattern
+                url: urlPattern,
+                //  It's possible for a tab to be open in another window.
+                //  Instead of bringing that window to the foreground -- just assume tab isn't visible.
+                currentWindow: true
             };
 
             this._queryTabs(queryInfo, function(tabDetailsList) {
