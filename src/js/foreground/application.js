@@ -20,7 +20,8 @@
             element: Backbone.Wreqr.radio.channel('element'),
             saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),
             listItem: Backbone.Wreqr.radio.channel('listItem'),
-            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu')
+            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
+            video: Backbone.Wreqr.radio.channel('video')
         },
 
         backgroundChannels: null,

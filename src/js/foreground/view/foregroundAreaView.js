@@ -12,6 +12,7 @@
     var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
+    var VideoRegion = require('foreground/view/video/videoRegion');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -87,6 +88,10 @@
                 selectionBarRegion: {
                     selector: '#' + this.id + '-selectionBarRegion',
                     regionClass: SelectionBarRegion
+                },
+                videoRegion: {
+                    selector: '#' + this.id + '-videoRegion',
+                    regionClass: VideoRegion
                 }
             };
         },
