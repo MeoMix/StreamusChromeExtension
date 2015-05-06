@@ -27,7 +27,7 @@ You will need to have [Node](https://nodejs.org/) installed on your system as we
 1. Navigate to **chrome://extensions/**
 2. Ensure the checkbox labeled **Developer mode** is enabled.
 3. Click the button labeled **Load unpacked extension...**
-4. Select the directory **/Streamus Chrome Extension/src/**
+4. Select the directory **/StreamusChromeExtension/src/**
 
 <img src='http://i.imgur.com/1fckCGn.png' />
 
