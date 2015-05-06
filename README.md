@@ -8,7 +8,7 @@
 
 <h2>Overview</h2>
 
-This is the repository for Streamus the browser extension. Streamus' [server](https://github.com/MeoMix/StreamusServer) and [website](https://github.com/MeoMix/StreamusWebsite) are located in their own, respective repositories.
+This is the repository for Streamus the browser extension. The source for Streamus' [server](https://github.com/MeoMix/StreamusServer) and [website](https://github.com/MeoMix/StreamusWebsite) are located in their own, respective repositories.
 
 Streamus is currently supported on all derivatives of WebKit such as [Chrome](http://www.google.com/chrome/), [Opera](http://www.opera.com/computer/windows), [Slimjet](http://www.slimjet.com/en/), and [Iron](https://www.srware.net/en/software_srware_iron.php). Additionally, it will support [Edge](http://windows.microsoft.com/en-us/windows/preview-microsoft-edge-pc) once stable.
 
