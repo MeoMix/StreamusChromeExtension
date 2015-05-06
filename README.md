@@ -38,6 +38,8 @@ Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to 
 
 After this command is running all modifications to .less files will automatically be compiled into .css.
 
+<img src='http://i.imgur.com/bzEn7Ny.png' />
+
 <h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
 
@@ -49,6 +51,8 @@ Testing
 Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
 
 Streamus uses [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
+
+<img src='http://i.imgur.com/OGBCmTz.png' />
 
 Libraries
 ------
