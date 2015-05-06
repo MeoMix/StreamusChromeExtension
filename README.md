@@ -57,8 +57,6 @@ Ensure that the property 'localDebug' is set to **false** unless you have config
 <h3>Testing</h3>
 Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
 
-Streamus uses [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
-
 <img src='http://i.imgur.com/OGBCmTz.png' />
 
 <h2>Libraries</h2>
