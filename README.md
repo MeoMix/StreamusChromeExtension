@@ -63,7 +63,7 @@ Streamus uses [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), and [Sin
 
 <h2>Libraries</h2>
 
-Streamus uses a fair number of third-party libraries. Introduction of additional libraries for off-the-shelf functionality is discouraged. Non-core libraries may be removed in the near future and additional functionality should not be implemented with them.
+Streamus uses a fair number of third-party JavaScript libraries. Introduction of additional libraries for off-the-shelf functionality is discouraged. Non-core libraries may be removed in the near future and additional functionality should not be implemented with them.
 
 <h3>Core</h3>
 * [jQuery](http://jquery.com/)
@@ -72,7 +72,6 @@ Streamus uses a fair number of third-party libraries. Introduction of additional
 * [Lo-Dash](http://lodash.com/)
 * [Require](http://requirejs.org/)
 * [Text](https://github.com/requirejs/text)
-* [Less](http://lesscss.org)
 
 <h3>Non-core</h3>
 * [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
