@@ -54,33 +54,34 @@ Ensure that the property 'localDebug' is set to **false** unless you have config
 
 <img src='http://i.imgur.com/S7iLhtI.png' />
 
-Testing
-------
+<h3>Testing</h3>
 Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbmekbmkkfpmjd/test.html, but only after the extension package has been loaded into Google Chrome. 
 
 Streamus uses [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
 
 <img src='http://i.imgur.com/OGBCmTz.png' />
 
-Libraries
-------
+<h2>Libraries</h2>
 
-Streamus utilizes several third-party libraries. Here's a list of those most prominent: 
+Streamus uses a fair number of third-party libraries. Introduction of additional libraries for off-the-shelf functionality is discouraged. Non-core libraries may be removed in the near future and additional functionality should not be implemented with them.
 
-* [BackboneJS](http://backbonejs.org/)
-* [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
-* [Backbone MarionetteJS](http://marionettejs.com)
-* [Chai](http://chaijs.com/)
+<h3>Core</h3>
 * [jQuery](http://jquery.com/)
+* [Backbone](http://backbonejs.org/)
+* [Marionette](http://marionettejs.com)
+* [Lo-Dash](http://lodash.com/)
+* [Require](http://requirejs.org/)
+* [Text](https://github.com/requirejs/text)
+* [Less](http://lesscss.org)
+<h3>Non-core</h3>
+* [Backbone LocalStorage](https://github.com/jeromegn/Backbone.localStorage)
 * [jQuery UI](http://jqueryui.com/)
 * [jQuery Perfect Scrollbar](http://noraesae.github.io/perfect-scrollbar/)
 * [jQuery qTip](http://qtip2.com/)
-* [Less](http://lesscss.org)
-* [Lo-Dash](http://lodash.com/)
+<h3>Testing</h3>
 * [Mocha](http://visionmedia.github.io/mocha/)
-* [RequireJS](http://requirejs.org/)
+* [Chai](http://chaijs.com/)
 * [Sinon](http://sinonjs.org/)
-* [Text](https://github.com/requirejs/text)
 
 <h2>Authors</h2>
 
