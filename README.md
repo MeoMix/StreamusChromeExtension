@@ -9,23 +9,27 @@
 Overview
 ========
 
-Streamus consists of a front-end client, the Google Chrome extension, a back-end server and a website. This repository contains the files for the Google Chrome extension. Please see the other repositories, [StreamusServer](https://github.com/MeoMix/StreamusServer) and [StreamusWebsite](https://github.com/MeoMix/StreamusWebsite), to gain a full understanding of the product.
-Streamus currently only supports YouTube's API, but will be expanding to SoundCloud shortly.
+This is the repository for Streamus. The server and website are located elsewhere:
+
+* [Server](https://github.com/MeoMix/StreamusServer)
+* [Website](https://github.com/MeoMix/StreamusWebsite)
+
+Streamus is currently supported on all derivatives of WebKit such as Chrome, Opera, Slimjet, and Iron. Additionally, it will support Edge once Edge becomes stable.
 
 Development
 ========
 
 1. Navigate to: chrome://extensions/
-2. Enabled developer mode by checking the 'Developer mode' checkbox. This will introduce several new buttons to the chrome://extensions page
+2. Enabled developer mode by checking the 'Developer mode' checkbox.
 3. Click the button 'Load unpacked extension...'
 4. Select the directory '/Streamus Chrome Extension/src/'
 5. Streamus is now loaded and can be developed upon.
 
 **API KEYS:**
-You will need to modify the example key files located in the 'js/background/key/' directory. Production keys are not committed to GitHub.
+You will need to modify the example key files located in the 'js/background/key/' directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
 
 **SERVER SETTINGS:**
-Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at 'src/js/background/application.js'.
+Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at ['src/js/background/application.js'](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
 
 Testing
 ------
