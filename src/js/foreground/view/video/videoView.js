@@ -96,7 +96,7 @@
             //  the information. So, subtract an offset of the time it took to receive the message.
             if (playerState === PlayerState.Playing) {
                 var offset = Date.now() - timestamp;
-                currentTimeHighPrecision -= offset * .001;
+                currentTimeHighPrecision -= offset * 0.001;
             }
 
             this.el.currentTime = currentTimeHighPrecision;
