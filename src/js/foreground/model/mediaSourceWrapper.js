@@ -68,7 +68,6 @@
         //  Creating a buffer mostly consists of setting the objectURL of the source.
         //  Once that is set, the source will transition to the 'open' state and the buffer will become usable.
         _createBuffer: function() {
-            console.log('creating buffer');
             if (this.get('sourceBufferWrapper') === null) {
                 this.set({
                     sourceBufferWrapper: new SourceBufferWrapper({

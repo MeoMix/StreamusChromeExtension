@@ -49,12 +49,10 @@
         },
 
         _onMediaSourceWrapperChangeObjectURL: function(mediaSourceWrapper, objectURL) {
-            console.log('setting video src');
             this._setVideoSrc(objectURL);
         },
 
         _onPlayerChangeBufferType: function(player, bufferType) {
-            console.log('player changed buffer type');
             this.mediaSourceWrapper.set('bufferType', bufferType);
         },
 
