@@ -174,11 +174,10 @@
             Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
         },
 
-        _onKeyDown: function (event) {
-            if (document.activeElement === document.body) {
-                if (event.keyCode == KeyboardKey.Space) {
-                    Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
-                }
+        _onKeyDown: function(event) {
+            //  If the user presses the space key without any child element focused then assume it's an intenentional request to play/pause.
+            if (event.keyCode === KeyboardKey.Space && document.activeElement === document.body) {
+                Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
             }
         },
 
