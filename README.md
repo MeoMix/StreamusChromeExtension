@@ -19,7 +19,7 @@ Streamus is currently supported on all derivatives of WebKit such as Chrome, Ope
 Development
 ========
 
-1. Navigate to: chrome://extensions/
+1. Navigate to: [chrome://extensions/](chrome://extensions/)
 2. Enabled developer mode by checking the 'Developer mode' checkbox.
 3. Click the button 'Load unpacked extension...'
 4. Select the directory '/Streamus Chrome Extension/src/'
