@@ -43,8 +43,12 @@ After this command is running all modifications to .less files will automaticall
 <h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
 
+<img src='http://i.imgur.com/Oyb7KqV.png' />
+
 <h3>Server settings</h3>
 Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at [/js/background/application.js](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
+
+<img src='http://i.imgur.com/S7iLhtI.png' />
 
 Testing
 ------
