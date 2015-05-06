@@ -222,7 +222,7 @@
                 //  the page does not reload because they use AJAX to load the video page. 
                 var isPageLoaded = false;
       
-                var observer = new window.MutationObserver(function(mutations) {
+                var observer = new MutationObserver(function(mutations) {
                     var hasPageLoadedClass = mutations[0].target.classList.contains('page-loaded');
 
                     if (hasPageLoadedClass && !isPageLoaded) {

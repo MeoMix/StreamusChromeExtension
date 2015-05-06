@@ -60,7 +60,7 @@
         },
 
         onAttach: function() {
-            _.defer(this._transitionIn.bind(this));
+            requestAnimationFrame(this._transitionIn.bind(this));
         },
         
         //  Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.

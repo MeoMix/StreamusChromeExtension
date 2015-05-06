@@ -117,7 +117,7 @@
         _onReset: function() {
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-                var activePlaylistId = window.localStorage.getItem('activePlaylistId');
+                var activePlaylistId = localStorage.getItem('activePlaylistId');
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
@@ -186,7 +186,7 @@
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
-                window.localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+                localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
 
@@ -232,7 +232,7 @@
         _onRemove: function(removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {
                 //  Clear local storage of the active playlist if it gets removed.
-                window.localStorage.setItem('activePlaylistId', null);
+                localStorage.setItem('activePlaylistId', null);
                 //  If the index of the item removed was the last one in the list, activate previous.
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);

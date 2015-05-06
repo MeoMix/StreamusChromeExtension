@@ -93,7 +93,7 @@
         //  So, watch for a loading class being added and then removed. The new page is loaded once the class has been removed.
         this.toggleObservePageLoad = function(enable) {
             if (enable) {
-                this.pageLoadObserver = new window.MutationObserver(function(mutations) {
+                this.pageLoadObserver = new MutationObserver(function(mutations) {
                     var isPageLoading = mutations[0].target.classList.contains('loading');
 
                     if (!isPageLoading) {
