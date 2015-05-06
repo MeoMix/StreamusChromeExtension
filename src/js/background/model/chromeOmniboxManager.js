@@ -54,8 +54,8 @@
 
                 var searchRequest = YouTubeV3API.search({
                     text: searchText,
-                    //  Omnibox can only show 6 results
-                    maxResults: 6,
+                    //  Omnibox can only show 5 results
+                    maxResults: 5,
                     success: this._onSearchResponse.bind(this, suggest, searchText)
                 });
 
