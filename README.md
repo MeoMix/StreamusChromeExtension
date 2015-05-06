@@ -6,8 +6,7 @@
   </a>
 </p>
 
-Overview
-========
+<h2>Overview</h2>
 
 This is the repository for Streamus the browser extension. The server and website are located elsewhere:
 
@@ -16,19 +15,19 @@ This is the repository for Streamus the browser extension. The server and websit
 
 Streamus is currently supported on all derivatives of WebKit such as Chrome, Opera, Slimjet, and Iron. Additionally, it will support Edge once Edge becomes stable.
 
-Development
-========
+<h2>Development</h2>
 
+<h3>Loading the extension</h3>
 1. Navigate to: chrome://extensions/
 2. Toggle the 'Developer mode' checkbox on.
 3. Click the button 'Load unpacked extension...'
 4. Select the directory '/Streamus Chrome Extension/src/'
 5. Streamus is now loaded and can be developed upon.
 
-**API KEYS:**
+<h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
 
-**SERVER SETTINGS:**
+<h3>Server settings</h3>
 Ensure that the property 'localDebug' is set to **false** unless you have configured an instance of Streamus' server on your local machine. The localDebug property can be found at [/js/background/application.js](https://github.com/MeoMix/StreamusChromeExtension/blob/Development/src/js/background/application.js).
 
 Testing
@@ -37,34 +36,7 @@ Test cases may be ran by navigating to chrome-extension://jbnkffmindojffecdhbbme
 
 Streamus uses [Mocha](http://mochajs.org/), [Chai](http://chaijs.com/), and [Sinon](http://sinonjs.org/) for its test cases.
 
-Deployment
-========
-
-Streamus utilizes NodeJS and GruntJS to bundle and package itself for deployment to the Chrome Web Store.
-Run "grunt deploy" to generate a new dist folder. Provide a version number, i.e. "grunt deploy:0.103" to generate a .zip file and adjust the build version. 
-Uploading the .zip file to the Chrome Web Store will cause the new version to be distributed to all users within an hour.
- 
-Supported Functionality
-========
-
-* YouTube search
-* Add YouTube video to playlist
-* Add YouTube playlist as playlist
-* Add YouTube channel as playlist
-* Play, pause, skip, rewind, shuffle, repeat video, repeat playlist
-* Discovery of songs via radio
-* Desktop notifications of currently playing video
-* Customizable keyboard shortcuts
-* Sharing of playlists via URL
-* Enhancement of YouTube video pages with button for adding songs to playlists
-* Enhancement of Beatport with Streamus buttons for listening to full songs
-
-Usage Demo
-========
-
-A video explanation of how to use Streamus can be found [here on YouTube](https://www.youtube.com/watch?v=sVxncDakIdA)
-
-Third-Party Libraries
+Libraries
 ------
 
 Streamus utilizes several third-party libraries. Here's a list of those most prominent: 
@@ -84,8 +56,7 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [Sinon](http://sinonjs.org/)
 * [Text](https://github.com/requirejs/text)
 
-License
-=======
+<h2>License</h2>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use any files in this repository except in compliance with the License.
