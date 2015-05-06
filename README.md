@@ -17,12 +17,26 @@ Streamus is currently supported on all derivatives of WebKit such as Chrome, Ope
 
 <h2>Development</h2>
 
+Start by cloning the development branch. All PRs should be submitted to the development branch as the master branch is only modified for releases.
+
+<h3>Dependencies</h3>
+You will need to have [Node](https://nodejs.org/) installed on your system as well as [Grunt](http://gruntjs.com/). Install Node and then, using your terminal, navigate to the directory in which you cloned the development branch. Then, perform the following command to install dependencies:
+
+    npm install
+
 <h3>Loading the extension</h3>
 1. Navigate to: chrome://extensions/
 2. Toggle the 'Developer mode' checkbox on.
 3. Click the button 'Load unpacked extension...'
 4. Select the directory '/Streamus Chrome Extension/src/'
 5. Streamus is now loaded and can be developed upon.
+
+<h3>Editing LESS</h3>
+Streamus' CSS is compiled via [LESS](http://lesscss.org/). As such, you need to run the following command from the 'Streamus Chrome Extension' directory before modifying any LESS files:
+
+    grunt watch
+
+After this command is running all modifications to .less files will automatically be compiled into .css.
 
 <h3>API keys</h3>
 You will need to modify the example key files located in the [/js/background/key/](https://github.com/MeoMix/StreamusChromeExtension/tree/Development/src/js/background/key) directory. Production keys are not committed to GitHub. There is an example key provided. It should not be relied upon for anything other than testing.
@@ -55,6 +69,12 @@ Streamus utilizes several third-party libraries. Here's a list of those most pro
 * [RequireJS](http://requirejs.org/)
 * [Sinon](http://sinonjs.org/)
 * [Text](https://github.com/requirejs/text)
+
+<h2>Authors</h2>
+
+* [MeoMix](https://github.com/MeoMix)
+
+with translation support provided by a community of volunteers.
 
 <h2>License</h2>
 
