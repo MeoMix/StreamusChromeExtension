@@ -29,98 +29,101 @@
             "suggested_key": {
                 "default": "MediaNextTrack"
             },
-            "description": "__MSG_nextSongCommandDescription__"
+            "description": "__MSG_nextSong__"
         },
         "previousSong": {
             "suggested_key": {
                 "default": "MediaPrevTrack"
             },
-            "description": "__MSG_previousSongCommandDescription__"
+            "description": "__MSG_previousSong__"
         },
         "toggleSong": {
             "suggested_key": {
                 "default": "MediaPlayPause"
             },
-            "description": "__MSG_toggleSongCommandDescription__"
+            "description": "__MSG_toggleSong__"
         },
-        "deleteSongFromStream": {
-            "description": "__MSG_deleteSongCommandDescription__"
+        "deleteSong": {
+            "description": "__MSG_deleteSong__"
         },
         "copySongUrl": {
-            "description": "__MSG_copySongUrlCommandDescription__"
+            "description": "__MSG_copySongUrl__"
         },
         "copySongTitleAndUrl": {
-            "description": "__MSG_copySongTitleUrlCommandDescription__"
+            "description": "__MSG_copySongTitleAndUrl__"
         },
         "toggleRadio": {
-            "description": "__MSG_toggleRadioCommandDescription__"
+            "description": "__MSG_toggleRadio__"
         },
         "toggleShuffle": {
-            "description": "__MSG_toggleShuffleCommandDescription__"
+            "description": "__MSG_toggleShuffle__"
         },
         "toggleRepeat": {
-            "description": "__MSG_toggleRepeatCommandDescription__"
+            "description": "__MSG_toggleRepeat__"
         },
         "increaseVolume": {
-            "description": "__MSG_increaseVolumeCommandDescription__"
+            "description": "__MSG_increaseVolume__"
         },
         "decreaseVolume": {
-            "description": "__MSG_decreaseVolumeCommandDescription__"
+            "description": "__MSG_decreaseVolume__"
         },
-        "showActiveSong": {
-            "description": "__MSG_showActiveSongCommandDescription__"
+        "showSongDetails": {
+            "description": "__MSG_showSongDetails__"
         },
-        "saveActiveSong": {
-            "description": "__MSG_saveActiveSongCommandDescription__"
+        "saveSong": {
+            "description": "__MSG_saveSong__"
         },
         "openInTab": { 
-            "description":  "__MSG_openInTab__"
+            "description": "__MSG_openInTab__"
         },
         "_execute_browser_action": {
         }
     },
-	"content_scripts": [
-		{
-			"matches": ["*://*.youtube.com/embed/*streamus=1*"],
-			//  all_frames needs to be set to true because the url is loaded into an iframe
-			"all_frames": true,
-			//  run at document_start to allow time to setup code before youtube's scripts execute.
-			"run_at": "document_start",
-			"js": ["js/contentScript/youTubeIFrame.js"]
-		},
-		{
-			"matches": ["*://*.youtube.com/*"],
-			"run_at": "document_start",
-			"js": ["js/contentScript/youTube.js"],
-			"css": ["css/contentScript/youTube.css"]
-		},
-		{
-			"matches": ["*://*.pro.beatport.com/*"],
-			"js": ["js/contentScript/beatport.js"],
-			"css": ["css/contentScript/beatport.css"]
-		}
-	],
-	"content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
-	"externally_connectable": {
-		"matches": ["*://*.streamus.com/*"]
-	},
-	"homepage_url": "http://streamus.com",
-	"incognito": "spanning",
-	"key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",
-	"minimum_chrome_version": "37",
-	"offline_enabled": false,
-	"omnibox": { "keyword" : "streamus" },
-	"optional_permissions": ["*://*.pro.beatport.com/*"],
-	"permissions": [
-	    "alarms",
-	    "contextMenus",
-		"background",
-		"notifications",
-		"storage",
-		"identity",
-		"identity.email",
-		"webRequest",
-		"webRequestBlocking",
-		"*://*.youtube.com/*"
-	]
+    "content_scripts": [
+        {
+            "matches": [ "*://*.youtube.com/embed/*streamus=1*" ],
+            //  all_frames needs to be set to true because the url is loaded into an iframe
+            "all_frames": true,
+            //  run at document_start to allow time to setup code before youtube's scripts execute.
+            "run_at": "document_start",
+            "js": [ "js/contentScript/youTubeIFrame.js" ]
+        },
+        {
+            "matches": [ "*://*.youtube.com/*" ],
+            "run_at": "document_start",
+            "js": [ "js/contentScript/youTube.js" ],
+            "css": [ "css/contentScript/youTube.css" ]
+        },
+        {
+            "matches": [ "*://*.pro.beatport.com/*" ],
+            "js": [ "js/contentScript/beatport.js" ],
+            "css": [ "css/contentScript/beatport.css" ]
+        }
+    ],
+    "content_security_policy": "script-src 'self' 'unsafe-eval' https://www.google-analytics.com/;  object-src 'self'",
+    "externally_connectable": {
+        "matches": [ "*://*.streamus.com/*" ]
+    },
+    "homepage_url": "http://streamus.com",
+    "incognito": "spanning",
+    "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDmO/I2g0AsHj5gwKYcAv19xa/E4FYE3gD1DtReHysli/YvzOX2X/VOgPMNCB9d5PvuWNH0xud21ztmk7wsNxKLcEuDTENgGqA9voTTG+3hgT1zH5R7rm8E0Kw590KhNattqwXkoRqdvavMjnUzlB9gDbU1duI1V8U03etW4Ta8EwIDAQAB",
+    "minimum_chrome_version": "37",
+    "offline_enabled": false,
+    "omnibox": { "keyword": "streamus" },
+    "optional_permissions": [ "*://*.pro.beatport.com/*" ],
+    "permissions": [
+        "alarms",
+        "contextMenus",
+        "background",
+        "notifications",
+        "storage",
+        "identity",
+        "identity.email",
+        "webRequest",
+        "webRequestBlocking",
+        "*://*.youtube.com/*"
+    ],
+    "web_accessible_resources": [
+        "js/inject/interceptor.js"
+    ]
 }
