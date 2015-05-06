@@ -127,6 +127,8 @@
         },
 
         _setRenderedElements: function(scrollTop) {
+            //  TODO: Clean this up. It's still such a huge function.
+            /* jshint ignore:start */
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;
             var currentMaxRenderIndex = this.maxRenderIndex;
@@ -190,6 +192,7 @@
             }
 
             this.lastScrollTop = scrollTop;
+            /* jshint ignore:end */
         },
 
         _setHeightTranslateY: function() {

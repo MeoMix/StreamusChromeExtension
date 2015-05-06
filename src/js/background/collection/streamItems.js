@@ -68,6 +68,8 @@
         },
 
         addSongs: function(songs, options) {
+            //  TODO: reduce cyclomatic complexity.
+            /* jshint ignore:start */
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
@@ -125,6 +127,7 @@
             }
 
             return createdStreamItems;
+            /* jshint ignore:end */
         },
 
         _onAdd: function(model) {
@@ -267,7 +270,9 @@
 
         _onChromeCommandsCommand: function(command) {
             //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-            if (command === ChromeCommand.ShowSongDetails || command === ChromeCommand.DeleteSong || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveSong) {
+            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+  
+            if (_.contains(streamItemsCommands, command)) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),

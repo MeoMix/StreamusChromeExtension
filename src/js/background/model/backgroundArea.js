@@ -24,10 +24,27 @@
     var ShuffleButton = require('background/model/buttons/shuffleButton');
 
     var BackgroundArea = Backbone.Model.extend({
-        defaults: {
-            youTubePlayer: null,
-            analyticsManager: null,
-            foregroundUnloadTimeout: null
+        defaults: function() {
+            return {
+                browserSettings: new BrowserSettings(),
+                settings: new Settings(),
+                youTubePlayer: new YouTubePlayer(),
+                radioButton: new RadioButton(),
+                shuffleButton: new ShuffleButton(),
+                repeatButton: new RepeatButton(),
+                search: new Search(),
+                tabManager: new TabManager(),
+                signInManager: new SignInManager(),
+                analyticsManager: new AnalyticsManager(),
+                dataSourceManager: new DataSourceManager(),
+                player: null,
+                stream: null,
+                nextButton: null,
+                playPauseButton: null,
+                previousButton: null,
+
+                foregroundUnloadTimeout: null
+            };
         },
 
         initialize: function() {
@@ -36,51 +53,40 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
-            var browserSettings = new BrowserSettings();
-            var settings = new Settings();
-
-            var youTubePlayer = new YouTubePlayer();
-            this.set('youTubePlayer', youTubePlayer);
-
             var player = new Player({
-                settings: settings,
-                youTubePlayer: youTubePlayer
+                settings: this.get('settings'),
+                youTubePlayer: this.get('youTubePlayer')
             });
-
-            var radioButton = new RadioButton();
-            var shuffleButton = new ShuffleButton();
-            var repeatButton = new RepeatButton();
+            this.set('player', player);
 
             var stream = new Stream({
                 player: player,
-                shuffleButton: shuffleButton,
-                radioButton: radioButton,
-                repeatButton: repeatButton
+                shuffleButton: this.get('shuffleButton'),
+                radioButton: this.get('radioButton'),
+                repeatButton: this.get('repeatButton')
             });
+            this.set('stream', stream);
 
-            var tabManager = new TabManager();
-            var signInManager = new SignInManager();
-            signInManager.signInWithGoogle();
-
-            var search = new Search();
+            //  TODO: Do this via an event instead.
+            this.get('signInManager').signInWithGoogle();
 
             var chromeContextMenusManager = new ChromeContextMenusManager({
-                browserSettings: browserSettings,
-                tabManager: tabManager,
-                signInManager: signInManager,
+                browserSettings: this.get('browserSettings'),
+                tabManager: this.get('tabManager'),
+                signInManager: this.get('signInManager'),
                 streamItems: stream.get('items')
             });
 
             var chromeIconManager = new ChromeIconManager({
                 player: player,
                 streamItems: stream.get('items'),
-                settings: settings,
-                tabManager: tabManager
+                settings: this.get('settings'),
+                tabManager: this.get('tabManager')
             });
 
             var chromeNotificationsManager = new ChromeNotificationsManager({
-                tabManager: tabManager,
-                settings: settings
+                tabManager: this.get('tabManager'),
+                settings: this.get('settings')
             });
 
             var chromeOmniboxManager = new ChromeOmniboxManager({
@@ -88,49 +94,29 @@
             });
 
             var clientErrorManager = new ClientErrorManager({
-                signInManager: signInManager
+                signInManager: this.get('signInManager')
             });
 
-            var nextButton = new NextButton({
+            this.set('nextButton', new NextButton({
                 stream: stream,
-                radioButton: radioButton,
-                shuffleButton: shuffleButton,
-                repeatButton: repeatButton
-            });
+                radioButton: this.get('radioButton'),
+                shuffleButton: this.get('shuffleButton'),
+                repeatButton: this.get('repeatButton')
+            }));
 
-            var playPauseButton = new PlayPauseButton({
+            this.set('playPauseButton', new PlayPauseButton({
                 player: player,
                 streamItems: stream.get('items')
-            });
+            }));
 
-            var previousButton = new PreviousButton({
+            this.set('previousButton', new PreviousButton({
                 player: player,
-                shuffleButton: shuffleButton,
-                repeatButton: repeatButton,
+                shuffleButton: this.get('shuffleButton'),
+                repeatButton: this.get('repeatButton'),
                 stream: stream
-            });
+            }));
 
-            var dataSourceManager = new DataSourceManager();
-
-            var analyticsManager = new AnalyticsManager();
-            this.set('analyticsManager', analyticsManager);
-
-            //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
-            window.analyticsManager = analyticsManager;
-            window.browserSettings = browserSettings;
-            window.tabManager = tabManager;
-            window.signInManager = signInManager;
-            window.settings = settings;
-            window.stream = stream;
-            window.nextButton = nextButton;
-            window.playPauseButton = playPauseButton;
-            window.previousButton = previousButton;
-            window.radioButton = radioButton;
-            window.repeatButton = repeatButton;
-            window.shuffleButton = shuffleButton;
-            window.search = search;
-            window.player = player;
-            window.dataSourceManager = dataSourceManager;
+            this._exposeProperties();
         },
 
         _onForegroundStarted: function() {
@@ -155,11 +141,6 @@
             this._clearForegroundUnloadTimeout();
         },
 
-        _clearForegroundUnloadTimeout: function() {
-            clearTimeout(this.get('foregroundUnloadTimeout'));
-            this.set('foregroundUnloadTimeout', null);
-        },
-        
         //  Allow external websites to ping the extension to find out whether the extension is installed or not
         _onChromeRuntimeMessageExternal: function(request, sender, sendResponse) {
             if (request.message === 'isInstalled') {
@@ -167,6 +148,31 @@
                     isInstalled: true
                 });
             }
+        },
+
+        _clearForegroundUnloadTimeout: function() {
+            clearTimeout(this.get('foregroundUnloadTimeout'));
+            this.set('foregroundUnloadTimeout', null);
+        },
+
+        _exposeProperties: function() {
+            //  TODO: Can I do this dynamically instead of explicitly?
+            //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
+            window.analyticsManager = this.get('analyticsManager');
+            window.browserSettings = this.get('browserSettings');
+            window.tabManager = this.get('tabManager');
+            window.signInManager = this.get('signInManager');
+            window.settings = this.get('settings');
+            window.stream = this.get('stream');
+            window.nextButton = this.get('nextButton');
+            window.playPauseButton = this.get('playPauseButton');
+            window.previousButton = this.get('previousButton');
+            window.radioButton = this.get('radioButton');
+            window.repeatButton = this.get('repeatButton');
+            window.shuffleButton = this.get('shuffleButton');
+            window.search = this.get('search');
+            window.player = this.get('player');
+            window.dataSourceManager = this.get('dataSourceManager');
         }
     });
 

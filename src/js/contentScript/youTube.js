@@ -168,6 +168,8 @@
         }.bind(this);
 
         this.onChromeRuntimeMessage = function(message) {
+            //  TODO: Reduce cyclomatic complexity.
+            /* jshint ignore:start */
             if (message.action) {
                 this[message.action](message.value);
             }
@@ -212,6 +214,7 @@
                         break;
                 }
             }
+            /* jshint ignore:end */
         }.bind(this);
 
         this.onGetYouTubeContentScriptDataResponse = function(youTubeContentScriptData) {
