@@ -1,528 +1,528 @@
 ﻿{
-	"extensionName": {
-		"message": "Streamus"
-	},
-	"extensionDescription": {
-		"message": "Simpele, gestreamde muziek."
-	},
-	"toggleRadioCommandDescription": {
-		"message": "Radio uit/aan"
-	},
-	"toggleShuffleCommandDescription": {
-		"message": "Shuffle uit/aan"
-	},
-	"toggleRepeatCommandDescription": {
-		"message": "Herhalen uit/alle nummers/huidige nummer"
-	},
-	"increaseVolumeCommandDescription": {
-		"message": "Volume hoger"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "Volume lager"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "Toon details van dit nummer"
-	},
-	"nextSongCommandDescription": {
-		"message": "Volgende nummer"
-	},
-	"previousSongCommandDescription": {
-		"message": "Vorig nummer"
-	},
-	"toggleSongCommandDescription": {
-		"message": "Speel/pauzeer nummer"
-	},
-	"deleteSongCommandDescription": {
-		"message": "Verwijder nummer"
-	},
-	"copySongURLCommandDescription": {
-		"message": "Kopieer URL van dit nummer"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "Kopieer URL en titel van dit nummer"
-	},
-	"save": {
-		"message": "Opslaan"
-	},
-	"copyUrl": {
-		"message": "Kopieer URL"
-	},
-	"copyTitleAndUrl": {
-		"message": "Kopieer titel en URL"
-	},
-	"delete": {
-		"message": "Verwijderen"
-	},
-	"clearStream": {
-		"message": "Leeg deze stream"
-	},
-	"saveStream": {
-		"message": "Sla deze stream op"
-	},
-	"addToStreamus": {
-		"message": "Voeg aan Streamus toe"
-	},
-	"youTubePlayerErrorSongNotFound": {
-		"message": "Dit nummer is  of privé gemaakt."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Nummer kan niet worden afgespeeld."
-	},
-	"errorEncountered": {
-		"message": "Er is iets foutgegaan."
-	},
-	"saving": {
-		"message": "Opslaan"
-	},
-	"installed": {
-		"message": "Geïnstalleerd"
-	},
-	"repeatOff": {
-		"message": "Herhalen uit"
-	},
-	"repeatSong": {
-		"message": "Herhaal nummer"
-	},
-	"repeatAll": {
-		"message": "Herhaal alles"
-	},
-	"radioOn": {
-		"message": "Radio aan"
-	},
-	"radioOff": {
-		"message": "Radio uit"
-	},
-	"shufflingOn": {
-		"message": "Shuffle aan"
-	},
-	"shufflingOff": {
-		"message": "Shuffle uit"
-	},
-	"elapsedTime": {
-		"message": "Tijd verstreken"
-	},
-	"remainingTime": {
-		"message": "Resterende tijd"
-	},
-	"totalTime": {
-		"message": "Totale tijd"
-	},
-	"highest": {
-		"message": "Hoogste"
-	},
-	"auto": {
-		"message": "Auto"
-	},
-	"lowest": {
-		"message": "Laagste"
-	},
-	"reload": {
-		"message": "Herlaad"
-	},
-	"playAll": {
-		"message": "Speel af"
-	},
-	"addAll": {
-		"message": "Voeg toe"
-	},
-	"addSelected": {
-		"message": "Voeg geselecteerde toe"
-	},
-	"playSelected": {
-		"message": "Speel geselecteerde af"
-	},
-	"saveSelected": {
-		"message": "Sla geselecteerde op"
-	},
-	"search": {
-		"message": "Zoek"
-	},
-	"searching": {
-		"message": "Zoeken"
-	},
-	"noResultsFound": {
-		"message": "Geen resultaten gevonden"
-	},
-	"clearStream": {
-		"message": "Leeg stream"
-	},
-	"createPlaylist": {
-		"message": "Nieuwe afspeellijst"
-	},
-	"ok": {
-		"message": "Ok"
-	},
-	"playlist": {
-		"message": "Afspeellijst"
-	},
-	"stream": {
-		"message": "Stream"
-	},
-	"settings": {
-		"message": "Instellingen"
-	},
-	"edit": {
-		"message": "Bewerk"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "Kan laatste afspeellijst niet verwijderen"
-	},
-	"clearStreamQuestion": {
-		"message": "Stream leegmaken?"
-	},
-	"play": {
-		"message": "Speel af"
-	},
-	"add": {
-		"message": "Voeg toe"
-	},
-	"title": {
-		"message": "Titel"
-	},
-	"url": {
-		"message": "URL"
-	},
-	"playlists": {
-		"message": "Afspeellijsten"
-	},
-	"remind": {
-		"message": "Waarschuwing"
-	},
-	"reminders": {
-		"message": "Waarschuwingen"
-	},
-	"remindClearStream": {
-		"message": "Waarschuwing bij legen stream"
-	},
-	"remindDeletePlaylist": {
-		"message": "Waarschuwing bij verwijderen afspeellijst"
-	},
-	"minute": {
-		"message": "Minuut"
-	},
-	"minutes": {
-		"message": "Minuten"
-	},
-	"hours": {
-		"message": "Uur"
-	},
-	"days": {
-		"message": "Dagen"
-	},
-	"errorLoadingTitle": {
-		"message": "Probleem bij het laden van de titel"	
-	},
-	"keyboardCommandFailure": {
-		"message": "Probleem met toetsenbord commando"
-	},
-	"streamEmpty": {
-		"message": "Stream leeg"
-	},
-	"playlistEmpty": {
-		"message": "Afspeellijst leeg"
-	},
-	"create": {
-		"message": "Maak"
-	},
-	"update": {
-		"message": "Update"
-	},
-	"wouldYouLikeTo": {
-		"message": "Wat wil je doen"
-	},
-	"general": {
-		"message": "Algemeen"
-	},
-	"startTyping": {
-		"message": "Begin met typen"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "Resultaten verschijnen als je begint met typen."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "Probeer iets anders op te zoeken."
-	},
-	"watchOnYouTube": {
-		"message": "Bekijk op YouTube"
-	},
-	"notSignedIn": {
-		"message": "Niet ingelogd"
-	},
-	"signingIn": {
-		"message": "Inloggen"
-	},
-	"signIn": {
-		"message": "Log in"
-	},
-	"signInFailed": {
-		"message": "Login mislukt"
-	},
-	"pleaseWait": {
-		"message": "Even wachten"
-	},
-	"openToSearch": {
-		"message": "Open om te zoeken"
-	},
-	"anUpdateIsAvailable": {
-		"message": "Een update is beschikbaar"
-	},
-	"pressEnterToPlay": {
-		"message": "Druk op enter om af te spelen"
-	},
-	"volume": {
-		"message": "Volume"
-	},
-	"songAdded": {
-		"message": "Nummer toegevoegd"
-	},
-	"addSong": {
-		"message": "Voeg nummer toe"
-	},
-	"song": {
-		"message": "Nummer"
-	},
-	"songs": {
-		"message": "Nummers"
-	},
-	"cantSkipToNextSong": {
-		"message": "Kan niet naar volgende nummer gaan"
-	},
-	"cantGoBackToPreviousSong": {
-		"message": "Kan niet naar het vorige nummer terug gaan"
-	},
-	"cantToggleSong": {
-		"message": "Kan nummer niet schakelen"
-	},
-	"searchForSongs": {
-		"message": "Zoek naar nummers"
-	},
-	"songQuality": {
-		"message": "Kwaliteit nummers"
-	},
-	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Voeg een nummer uit een afspeellijst toe of",
-		"description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "Zoek en speel af"
-	},
-	"searchAndAdd": {
-		"message": "Zoek en voeg toe"
-	},
-	"linkAccountsMessage": {
-		"message": "Streamus is niet gekoppelt aan je Chrome account. Je afspeellijsten zijn ook beschikbaar op andere computers als je je accounts koppelt."
-	},
-	"link": {
-		"message": "Koppel",
-		"description": "This is 'Link' as in 'Link my account'"
-	},
-	"googleSignInMessage": {
-		"message": "Je bent niet ingelogd bij Chrome. Je afspeellijsten zijn alleen op deze computer beschikbaar."
-	},
-	"remindGoogleSignIn": {
-		"message": "Herinnering voor inloggen bij Google"
-	},
-	"keyboardShortcuts": {
-		"message": "Sneltoetsen"
-	},
-	"export": {
-		"message": "Exporteer"
-	},
-	"openInTab": {
-		"message": "Open in tabblad"
-	},
-	"browserSettings": {
-		"message": "Browser instellingen"
-	},
-	"contextMenus": {
-		"message": "Contextmenu's"
-	},
-	"websiteEnhancements": {
-		"message": "Website toevoegingen"
-	},
-	"textSelection": {
-		"message": "Tekst selectie"
-	},
-	"youTubeLinks": {
-		"message": "YouTube links"
-	},
-	"youTubePages": {
-		"message": "YouTube paginas"
-	},
-	"youTube": {
-		"message": "YouTube"
-	},
-	"beatport": {
-		"message": "Beatport"
-	},
-	"fileType": {
-		"message": "Bestands type"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindSong": {
-		"message": "Kan nummer niet vinden"
-	},
-	"failedToFindSongs": {
-		"message": "Kan nummers niet vinden"
-	},
-	"loadingYouTube": {
-		"message": "YouTube laden"
-	},
-	"loadingYouTubeFailed": {
-		"message": "YouTube laden mislukt"
-	},
-	"loadAttempt": {
-		"message": "Poging $currentLoadAttempt$ van de $maxLoadAttempts$",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"songAlreadyInCollection": {
-		"message": "Nummer zit al in $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allSongsAlreadyInCollection": {
-		"message": "Alle nummers zitten al in $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ van de $draggedSongCount$ nummers zitten al in $collectionName$",
-		"placeholders": {
-			"duplicateSongCount": {
-				"content": "$1"
-			},
-			"draggedSongCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "URL gekopiëerd"
-	},
-	"copyFailed": {
-		"message": "Kopiëren mislukt"
-	},
-	"playlistExported": {
-		"message": "Afspeellijst succesvol geëxporteerd."
-	},
-	"playing": {
-		"message": "Spelen"
-	},
-	"buffering": {
-		"message": "Bufferen"
-	},
-	"paused": {
-		"message": "Gepauzeerd"
-	},
-	"cancel": {
-		"message": "Annuleren"
-	},
-	"errorLoadingUrl": {
-		"message": "Probleem bij het laaden van de URL"
-	},
-	"playlistLoaded": {
-		"message": "Afspeellijst geladen"
-	},
-	"playlistCreated": {
-		"message": "Afspeellijst aangemaakt"
-	},
-	"extensionConflict": {
-		"message": "Een andere extensie, of een andere probleem, heeft er voor gezorgd dat YouTube Flash gebruikt.$lineBreak$ Streamus zal niet goed functioneren totdat die extensie is uitgeschakeld, of het probleem is opgelost, en Streamus herstart is.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
-	"searchResults": {
-		"message": "Zoek resultaten"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ kan niet worden verwijderd",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ geselecteerd",
-		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "Bewaar alles"
-	},
-	"saveActiveSongCommandDescription": {
-		"message": "Bewaar nummer"
-	},
-	"songSavedToPlaylist": {
-		"message": "$songTitle$ opgeslagen in $playlistTitle$",
-		"placeholders": {
-			"songTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "Bureaubladmeldingen"
-	},
-	"showNotifications": {
-		"message": "Geef Bureaubladmeldingen weer"
-	},
-	"notificationDuration": {
-		"message": "Duur bureaubladmeldingen"
-	},
-	"oneSecond": {
-		"message": "Een seconde"
-	},
-	"twoSeconds": {
-		"message": "Twee seconden"
-	},
-	"threeSeconds": {
-		"message": "Drie seconden"
-	},
-	"fourSeconds": {
-		"message": "Vier seconden"
-	},
-	"fiveSeconds": {
-		"message": "Vijf seconden"
-	},
-	"tenSeconds": {
-		"message": "Tien seconden"
-	},
-	"playlistUrl": {
-		"message": "Afspeellijst nettadresse"
-	}
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Simpele, gestreamde muziek."
+    },
+    "toggleRadio": {
+        "message": "Radio uit/aan"
+    },
+    "toggleShuffle": {
+        "message": "Shuffle uit/aan"
+    },
+    "toggleRepeat": {
+        "message": "Herhalen uit/alle nummers/huidige nummer"
+    },
+    "increaseVolume": {
+        "message": "Volume hoger"
+    },
+    "decreaseVolume": {
+        "message": "Volume lager"
+    },
+    "showSongDetails": {
+        "message": "Toon details van dit nummer"
+    },
+    "nextSong": {
+        "message": "Volgende nummer"
+    },
+    "previousSong": {
+        "message": "Vorig nummer"
+    },
+    "toggleSong": {
+        "message": "Speel/pauzeer nummer"
+    },
+    "deleteSong": {
+        "message": "Verwijder nummer"
+    },
+    "copySongUrl": {
+        "message": "Kopieer URL van dit nummer"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Kopieer URL en titel van dit nummer"
+    },
+    "save": {
+        "message": "Opslaan"
+    },
+    "copyUrl": {
+        "message": "Kopieer URL"
+    },
+    "copyTitleAndUrl": {
+        "message": "Kopieer titel en URL"
+    },
+    "delete": {
+        "message": "Verwijderen"
+    },
+    "clearStream": {
+        "message": "Leeg deze stream"
+    },
+    "saveStream": {
+        "message": "Sla deze stream op"
+    },
+    "addToStreamus": {
+        "message": "Voeg aan Streamus toe"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Dit nummer is  of privé gemaakt."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Nummer kan niet worden afgespeeld."
+    },
+    "errorEncountered": {
+        "message": "Er is iets foutgegaan."
+    },
+    "saving": {
+        "message": "Opslaan"
+    },
+    "installed": {
+        "message": "Geïnstalleerd"
+    },
+    "repeatOff": {
+        "message": "Herhalen uit"
+    },
+    "repeatSong": {
+        "message": "Herhaal nummer"
+    },
+    "repeatAll": {
+        "message": "Herhaal alles"
+    },
+    "radioOn": {
+        "message": "Radio aan"
+    },
+    "radioOff": {
+        "message": "Radio uit"
+    },
+    "shufflingOn": {
+        "message": "Shuffle aan"
+    },
+    "shufflingOff": {
+        "message": "Shuffle uit"
+    },
+    "elapsedTime": {
+        "message": "Tijd verstreken"
+    },
+    "remainingTime": {
+        "message": "Resterende tijd"
+    },
+    "totalTime": {
+        "message": "Totale tijd"
+    },
+    "highest": {
+        "message": "Hoogste"
+    },
+    "auto": {
+        "message": "Auto"
+    },
+    "lowest": {
+        "message": "Laagste"
+    },
+    "reload": {
+        "message": "Herlaad"
+    },
+    "playAll": {
+        "message": "Speel af"
+    },
+    "addAll": {
+        "message": "Voeg toe"
+    },
+    "addSelected": {
+        "message": "Voeg geselecteerde toe"
+    },
+    "playSelected": {
+        "message": "Speel geselecteerde af"
+    },
+    "saveSelected": {
+        "message": "Sla geselecteerde op"
+    },
+    "search": {
+        "message": "Zoek"
+    },
+    "searching": {
+        "message": "Zoeken"
+    },
+    "noResultsFound": {
+        "message": "Geen resultaten gevonden"
+    },
+    "clearStream": {
+        "message": "Leeg stream"
+    },
+    "createPlaylist": {
+        "message": "Nieuwe afspeellijst"
+    },
+    "ok": {
+        "message": "Ok"
+    },
+    "playlist": {
+        "message": "Afspeellijst"
+    },
+    "stream": {
+        "message": "Stream"
+    },
+    "settings": {
+        "message": "Instellingen"
+    },
+    "edit": {
+        "message": "Bewerk"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Kan laatste afspeellijst niet verwijderen"
+    },
+    "clearStreamQuestion": {
+        "message": "Stream leegmaken?"
+    },
+    "play": {
+        "message": "Speel af"
+    },
+    "add": {
+        "message": "Voeg toe"
+    },
+    "title": {
+        "message": "Titel"
+    },
+    "url": {
+        "message": "URL"
+    },
+    "playlists": {
+        "message": "Afspeellijsten"
+    },
+    "remind": {
+        "message": "Waarschuwing"
+    },
+    "reminders": {
+        "message": "Waarschuwingen"
+    },
+    "remindClearStream": {
+        "message": "Waarschuwing bij legen stream"
+    },
+    "remindDeletePlaylist": {
+        "message": "Waarschuwing bij verwijderen afspeellijst"
+    },
+    "minute": {
+        "message": "Minuut"
+    },
+    "minutes": {
+        "message": "Minuten"
+    },
+    "hours": {
+        "message": "Uur"
+    },
+    "days": {
+        "message": "Dagen"
+    },
+    "errorLoadingTitle": {
+        "message": "Probleem bij het laden van de titel"	
+    },
+    "keyboardCommandFailure": {
+        "message": "Probleem met toetsenbord commando"
+    },
+    "streamEmpty": {
+        "message": "Stream leeg"
+    },
+    "playlistEmpty": {
+        "message": "Afspeellijst leeg"
+    },
+    "create": {
+        "message": "Maak"
+    },
+    "update": {
+        "message": "Update"
+    },
+    "wouldYouLikeTo": {
+        "message": "Wat wil je doen"
+    },
+    "general": {
+        "message": "Algemeen"
+    },
+    "startTyping": {
+        "message": "Begin met typen"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Resultaten verschijnen als je begint met typen."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Probeer iets anders op te zoeken."
+    },
+    "watchOnYouTube": {
+        "message": "Bekijk op YouTube"
+    },
+    "notSignedIn": {
+        "message": "Niet ingelogd"
+    },
+    "signingIn": {
+        "message": "Inloggen"
+    },
+    "signIn": {
+        "message": "Log in"
+    },
+    "signInFailed": {
+        "message": "Login mislukt"
+    },
+    "pleaseWait": {
+        "message": "Even wachten"
+    },
+    "openToSearch": {
+        "message": "Open om te zoeken"
+    },
+    "anUpdateIsAvailable": {
+        "message": "Een update is beschikbaar"
+    },
+    "pressEnterToPlay": {
+        "message": "Druk op enter om af te spelen"
+    },
+    "volume": {
+        "message": "Volume"
+    },
+    "songAdded": {
+        "message": "Nummer toegevoegd"
+    },
+    "addSong": {
+        "message": "Voeg nummer toe"
+    },
+    "song": {
+        "message": "Nummer"
+    },
+    "songs": {
+        "message": "Nummers"
+    },
+    "cantSkipToNextSong": {
+        "message": "Kan niet naar volgende nummer gaan"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Kan niet naar het vorige nummer terug gaan"
+    },
+    "cantToggleSong": {
+        "message": "Kan nummer niet schakelen"
+    },
+    "searchForSongs": {
+        "message": "Zoek naar nummers"
+    },
+    "songQuality": {
+        "message": "Kwaliteit nummers"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Voeg een nummer uit een afspeellijst toe of",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Zoek en speel af"
+    },
+    "searchAndAdd": {
+        "message": "Zoek en voeg toe"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus is niet gekoppelt aan je Chrome account. Je afspeellijsten zijn ook beschikbaar op andere computers als je je accounts koppelt."
+    },
+    "link": {
+        "message": "Koppel",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "Je bent niet ingelogd bij Chrome. Je afspeellijsten zijn alleen op deze computer beschikbaar."
+    },
+    "remindGoogleSignIn": {
+        "message": "Herinnering voor inloggen bij Google"
+    },
+    "keyboardShortcuts": {
+        "message": "Sneltoetsen"
+    },
+    "export": {
+        "message": "Exporteer"
+    },
+    "openInTab": {
+        "message": "Open in tabblad"
+    },
+    "browserSettings": {
+        "message": "Browser instellingen"
+    },
+    "contextMenus": {
+        "message": "Contextmenu's"
+    },
+    "websiteEnhancements": {
+        "message": "Website toevoegingen"
+    },
+    "textSelection": {
+        "message": "Tekst selectie"
+    },
+    "youTubeLinks": {
+        "message": "YouTube links"
+    },
+    "youTubePages": {
+        "message": "YouTube paginas"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Bestands type"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Kan nummer niet vinden"
+    },
+    "failedToFindSongs": {
+        "message": "Kan nummers niet vinden"
+    },
+    "loadingYouTube": {
+        "message": "YouTube laden"
+    },
+    "loadingYouTubeFailed": {
+        "message": "YouTube laden mislukt"
+    },
+    "loadAttempt": {
+        "message": "Poging $currentLoadAttempt$ van de $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "Nummer zit al in $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Alle nummers zitten al in $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ van de $draggedSongCount$ nummers zitten al in $collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "URL gekopiëerd"
+    },
+    "copyFailed": {
+        "message": "Kopiëren mislukt"
+    },
+    "playlistExported": {
+        "message": "Afspeellijst succesvol geëxporteerd."
+    },
+    "playing": {
+        "message": "Spelen"
+    },
+    "buffering": {
+        "message": "Bufferen"
+    },
+    "paused": {
+        "message": "Gepauzeerd"
+    },
+    "cancel": {
+        "message": "Annuleren"
+    },
+    "errorLoadingUrl": {
+        "message": "Probleem bij het laaden van de URL"
+    },
+    "playlistLoaded": {
+        "message": "Afspeellijst geladen"
+    },
+    "playlistCreated": {
+        "message": "Afspeellijst aangemaakt"
+    },
+    "extensionConflict": {
+        "message": "Een andere extensie, of een andere probleem, heeft er voor gezorgd dat YouTube Flash gebruikt.$lineBreak$ Streamus zal niet goed functioneren totdat die extensie is uitgeschakeld, of het probleem is opgelost, en Streamus herstart is.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "Zoek resultaten"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ kan niet worden verwijderd",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ geselecteerd",
+        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Bewaar alles"
+    },
+    "saveSong": {
+        "message": "Bewaar nummer"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ opgeslagen in $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Bureaubladmeldingen"
+    },
+    "showNotifications": {
+        "message": "Geef Bureaubladmeldingen weer"
+    },
+    "notificationDuration": {
+        "message": "Duur bureaubladmeldingen"
+    },
+    "oneSecond": {
+        "message": "Een seconde"
+    },
+    "twoSeconds": {
+        "message": "Twee seconden"
+    },
+    "threeSeconds": {
+        "message": "Drie seconden"
+    },
+    "fourSeconds": {
+        "message": "Vier seconden"
+    },
+    "fiveSeconds": {
+        "message": "Vijf seconden"
+    },
+    "tenSeconds": {
+        "message": "Tien seconden"
+    },
+    "playlistUrl": {
+        "message": "Afspeellijst nettadresse"
+    }
 }

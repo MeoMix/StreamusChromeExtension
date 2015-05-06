@@ -29,49 +29,52 @@
             "suggested_key": {
                 "default": "MediaNextTrack"
             },
-            "description": "__MSG_nextSongCommandDescription__"
+            "description": "__MSG_nextSong__"
         },
         "previousSong": {
             "suggested_key": {
                 "default": "MediaPrevTrack"
             },
-            "description": "__MSG_previousSongCommandDescription__"
+            "description": "__MSG_previousSong__"
         },
         "toggleSong": {
             "suggested_key": {
                 "default": "MediaPlayPause"
             },
-            "description": "__MSG_toggleSongCommandDescription__"
+            "description": "__MSG_toggleSong__"
         },
-        "deleteSongFromStream": {
-            "description": "__MSG_deleteSongCommandDescription__"
+        "deleteSong": {
+            "description": "__MSG_deleteSong__"
         },
         "copySongUrl": {
-            "description": "__MSG_copySongUrlCommandDescription__"
+            "description": "__MSG_copySongUrl__"
         },
         "copySongTitleAndUrl": {
-            "description": "__MSG_copySongTitleUrlCommandDescription__"
+            "description": "__MSG_copySongTitleAndUrl__"
         },
         "toggleRadio": {
-            "description": "__MSG_toggleRadioCommandDescription__"
+            "description": "__MSG_toggleRadio__"
         },
         "toggleShuffle": {
-            "description": "__MSG_toggleShuffleCommandDescription__"
+            "description": "__MSG_toggleShuffle__"
         },
         "toggleRepeat": {
-            "description": "__MSG_toggleRepeatCommandDescription__"
+            "description": "__MSG_toggleRepeat__"
         },
         "increaseVolume": {
-            "description": "__MSG_increaseVolumeCommandDescription__"
+            "description": "__MSG_increaseVolume__"
         },
         "decreaseVolume": {
-            "description": "__MSG_decreaseVolumeCommandDescription__"
+            "description": "__MSG_decreaseVolume__"
         },
-        "showActiveSong": {
-            "description": "__MSG_showActiveSongCommandDescription__"
+        "showSongDetails": {
+            "description": "__MSG_showSongDetails__"
         },
-        "saveActiveSong": {
-            "description": "__MSG_saveActiveSongCommandDescription__"
+        "saveSong": {
+            "description": "__MSG_saveSong__"
+        },
+        "openInTab": { 
+            "description": "__MSG_openInTab__"
         },
         "_execute_browser_action": {
         }

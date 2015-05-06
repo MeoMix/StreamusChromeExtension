@@ -267,7 +267,7 @@
 
         _onChromeCommandsCommand: function(command) {
             //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveActiveSong) {
+            if (command === ChromeCommand.ShowSongDetails || command === ChromeCommand.DeleteSong || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveSong) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
@@ -275,10 +275,10 @@
                     });
                 } else {
                     switch (command) {
-                        case ChromeCommand.ShowActiveSong:
+                        case ChromeCommand.ShowSongDetails:
                             this.showActiveNotification();
                             break;
-                        case ChromeCommand.DeleteSongFromStream:
+                        case ChromeCommand.DeleteSong:
                             this.getActiveItem().destroy();
                             break;
                         case ChromeCommand.CopySongUrl:
@@ -287,7 +287,7 @@
                         case ChromeCommand.CopySongTitleAndUrl:
                             this.getActiveItem().get('song').copyTitleAndUrl();
                             break;
-                        case ChromeCommand.SaveActiveSong:
+                        case ChromeCommand.SaveSong:
                             Streamus.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
                             break;
                     }

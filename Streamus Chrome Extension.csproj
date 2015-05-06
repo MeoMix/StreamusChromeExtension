@@ -456,7 +456,6 @@
     <Content Include="src\_locales\cs\messages.json" />
     <Content Include="src\_locales\ko\messages.json" />
     <Content Include="src\_locales\ro\messages.json" />
-    <Content Include="src\less\video.less" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />
