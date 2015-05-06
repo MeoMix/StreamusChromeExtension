@@ -2,7 +2,6 @@
     'use strict';
 
     var PlayerState = require('common/enum/playerState');
-    var KeyboardKey = require('foreground/enum/keyboardKey');
     var PlayPauseButtonTemplate = require('text!template/appBar/playPauseButton.html');
     var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
     var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');
@@ -38,9 +37,7 @@
             this.player = Streamus.backgroundPage.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
 
-            // It's important to watch for keydown events at the window level so that spacebar can trigger play/pause without requiring any UI element to have focus.
-            this._onKeyDown = this._onKeyDown.bind(this);
-            window.addEventListener('keydown', this._onKeyDown);
+            this.listenTo(Streamus.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
         },
 
         onRender: function() {
@@ -48,15 +45,11 @@
         },
 
         _onClick: function() {
-            this.model.tryTogglePlayerState();
+            this._tryTogglePlayerState();
         },
 
-        _onKeyDown: function (event) {
-            if (document.activeElement === document.body) {
-                if (event.keyCode == KeyboardKey.Space) {
-                    this._onClick();
-                }
-            }
+        _tryTogglePlayerState: function(){
+            this.model.tryTogglePlayerState();
         },
 
         _onChangeEnabled: function(model, enabled) {

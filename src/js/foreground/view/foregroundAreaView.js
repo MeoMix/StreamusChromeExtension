@@ -12,6 +12,7 @@
     var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
+    var KeyboardKey = require('foreground/enum/keyboardKey');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -108,10 +109,12 @@
             this._onWindowUnload = this._onWindowUnload.bind(this);
             this._onWindowResize = this._onWindowResize.bind(this);
             this._onWindowError = this._onWindowError.bind(this);
+            this._onKeyDown = this._onKeyDown.bind(this);
 
             window.addEventListener('unload', this._onWindowUnload);
             window.addEventListener('resize', this._onWindowResize);
             window.addEventListener('error', this._onWindowError);
+            window.addEventListener('keydown', this._onKeyDown);
 
             Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
         },
@@ -164,6 +167,14 @@
 
         _onWindowError: function(message, url, lineNumber, columnNumber, error) {
             Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
+        },
+
+        _onKeyDown: function (event) {
+            if (document.activeElement === document.body) {
+                if (event.keyCode == KeyboardKey.Space) {
+                    Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
+                }
+            }
         },
 
         _onPlayerChangeLoading: function(model, loading) {
