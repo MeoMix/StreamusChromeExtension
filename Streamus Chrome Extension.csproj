@@ -79,6 +79,7 @@
     <Content Include="src\js\contentScript\interceptor.js" />
     <Content Include="src\js\foreground\model\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\sourceBufferWrapper.js" />
+    <Content Include="src\js\foreground\enum\keyboardKey.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
