@@ -15,7 +15,7 @@ This is the repository for Streamus the browser extension. The server and websit
 
 Streamus is currently supported on all derivatives of WebKit such as Chrome, Opera, Slimjet, and Iron. Additionally, it will support Edge once Edge becomes stable.
 
-It can be installed through the [Chrome Web Store](https://chrome.google.com/webstore/detail/streamus/jbnkffmindojffecdhbbmekbmkkfpmjd/), the [Opera Web Store](https://addons.opera.com/en/extensions/details/streamustm-beta/), or from [https://streamus.com](https://streamus.com/)
+It can be installed through the [Chrome Web Store](https://chrome.google.com/webstore/detail/streamus/jbnkffmindojffecdhbbmekbmkkfpmjd/), the [Opera Web Store](https://addons.opera.com/en/extensions/details/streamustm-beta/), or from the [Streamus website](https://streamus.com/)
 
 <h2>Development</h2>
 
