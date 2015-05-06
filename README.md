@@ -19,7 +19,7 @@ It can be installed through the [Chrome Web Store](https://chrome.google.com/web
 Start by cloning the development branch. All PRs should be submitted to the development branch.
 
 <h3>Dependencies</h3>
-You will need to have [Node](https://nodejs.org/) installed on your system as well as [Grunt](http://gruntjs.com/). Install Node and then, using your terminal, navigate to the directory in which you cloned the development branch. Then, perform the following command to install dependencies:
+You will need to have [Node](https://nodejs.org/) installed on your system as well as [Grunt](http://gruntjs.com/). After installing Node, navigate using a terminal to the directory in which you cloned Streamus. Then, perform the following command to install dependencies:
 
     npm install
 
