@@ -9,7 +9,7 @@
 Overview
 ========
 
-This is the repository for Streamus. The server and website are located elsewhere:
+This is the repository for Streamus the browser extension. The server and website are located elsewhere:
 
 * [Server](https://github.com/MeoMix/StreamusServer)
 * [Website](https://github.com/MeoMix/StreamusWebsite)
