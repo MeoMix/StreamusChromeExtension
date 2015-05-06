@@ -1,5 +1,5 @@
 <h1 align="center">Streamus</h1>
-<p align="center">The most popular Chrome extension YouTube music player</p>
+<p align="center">The most popular Chrome extension YouTube music player.</p>
 <p align="center">
   <a title='Build Status' href="https://travis-ci.org/MeoMix/StreamusChromeExtension">
     <img src='https://travis-ci.org/MeoMix/StreamusChromeExtension.svg?branch=Development' />
@@ -14,6 +14,8 @@ This is the repository for Streamus the browser extension. The server and websit
 * [Website](https://github.com/MeoMix/StreamusWebsite)
 
 Streamus is currently supported on all derivatives of WebKit such as Chrome, Opera, Slimjet, and Iron. Additionally, it will support Edge once Edge becomes stable.
+
+It can be installed through the [Chrome Web Store](https://chrome.google.com/webstore/detail/streamus/jbnkffmindojffecdhbbmekbmkkfpmjd/), the [Opera Web Store](https://addons.opera.com/en/extensions/details/streamustm-beta/), or from [https://streamus.com](https://streamus.com/)
 
 <h2>Development</h2>
 
