@@ -90,7 +90,7 @@
         //  Include any errors encountered to help with debugging.
         this.notifyYouTubeLoadFailure = function() {
             this.port.postMessage({
-                error: 'videoStream not found. Errors: ' + this.errors.join(', ')
+                error: 'videoStream not found. Errors: ' + JSON.stringify(this.errors)
             });
         }.bind(this);
 
