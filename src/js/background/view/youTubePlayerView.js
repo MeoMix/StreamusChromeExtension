@@ -55,6 +55,7 @@
         //  Without a Referer - YouTube will reject most requests to play music.
         _onChromeWebRequestBeforeSendHeaders: function(info) {
             var refererRequestHeader = this._getHeader(info.requestHeaders, 'Referer');
+            //  TODO: I think it would be prudent to set the referer to this.el.src
             var referer = 'https://www.youtube.com/';
 
             if (_.isUndefined(refererRequestHeader)) {
