@@ -249,7 +249,6 @@
                 complete: options.complete
             }, {
                 part: 'contentDetails, snippet, status',
-                maxResults: 50,
                 id: options.songIds.join(','),
                 fields: 'items/id, items/contentDetails/duration, items/snippet/title, items/snippet/channelTitle, items/status/embeddable'
             });
