@@ -38,7 +38,7 @@
 
         getActiveSongId: function() {
             var activeItem = this.getActiveItem();
-            var activeSongId = undefined;
+            var activeSongId = null;
 
             if (!_.isUndefined(activeItem)) {
                 activeSongId = activeItem.get('song').get('id');
