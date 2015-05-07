@@ -36,6 +36,17 @@
             return this.findWhere({ active: true });
         },
 
+        getActiveSongId: function() {
+            var activeItem = this.getActiveItem();
+            var activeSongId = undefined;
+
+            if (!_.isUndefined(activeItem)) {
+                activeSongId = activeItem.get('song').get('id');
+            }
+
+            return activeSongId;
+        },
+
         notPlayedRecently: function() {
             return this.where({ playedRecently: false });
         },

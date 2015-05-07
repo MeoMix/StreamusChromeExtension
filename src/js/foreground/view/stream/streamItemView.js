@@ -4,7 +4,7 @@
     var ListItemView = require('foreground/view/listItemView');
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
-    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var ExtraActionsButtonView = require('foreground/view/listItemButton/extraActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
@@ -30,7 +30,7 @@
             }
         }),
 
-        buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
+        buttonViews: [PlayPauseSongButtonView, SaveSongButtonView, DeleteSongButtonView],
 
         player: null,
         playPauseButton: null,

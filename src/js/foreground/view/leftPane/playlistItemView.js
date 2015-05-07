@@ -6,7 +6,7 @@
     var SpinnerView = require('foreground/view/element/spinnerView');
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
-    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
     var Tooltip = require('foreground/view/behavior/tooltip');
 
@@ -31,7 +31,7 @@
             }
         }),
 
-        buttonViews: [PlaySongButtonView, AddSongButtonView, DeleteSongButtonView],
+        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, DeleteSongButtonView],
 
         streamItems: null,
         player: null,

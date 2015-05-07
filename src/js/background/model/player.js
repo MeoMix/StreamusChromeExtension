@@ -200,6 +200,13 @@ define(function(require) {
                 this.activateSong(loadedSong, this.get('currentTime'));
             }
         },
+
+        isPausable: function() {
+            var state = this.get('state');
+            var isPausable = state === PlayerState.Playing || state === PlayerState.Buffering;
+
+            return isPausable;
+        },
         
         //  Ensure that the initial state of the player properly reflects the state of its APIs
         _ensureInitialState: function() {
