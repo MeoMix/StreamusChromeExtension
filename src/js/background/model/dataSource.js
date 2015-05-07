@@ -11,6 +11,7 @@
             //  Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
             parseVideo: true,
             //  The songId, playlistId, channelId etc..
+            //  TODO: Probably rename this to entityId since it's not actually the dataSource's id.
             id: '',
             title: '',
             url: ''

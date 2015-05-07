@@ -56,7 +56,7 @@
         },
 
         streamItemsEvents: {
-            'add': '_onStreamItemsAdd',
+            'add:completed': '_onStreamItemsAddCompleted',
             'remove': '_onStreamItemsRemove',
             'reset': '_onStreamItemsReset'
         },
@@ -170,7 +170,7 @@
             this._setButtonStates();
         },
 
-        _onStreamItemsAdd: function() {
+        _onStreamItemsAddCompleted: function() {
             this._setAddButtonState(this.model.get('activeCollection'));
         },
 

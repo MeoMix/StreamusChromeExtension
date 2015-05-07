@@ -37,21 +37,20 @@
             'click @ui.createPlaylistButton': '_onClickCreatePlaylistButton'
         },
 
+        childEvents: {
+            'click:childContainer': '_onClickChildContainer'
+        },
+
         playlists: null,
 
-        //  TODO: This feels weird...
         initialize: function(options) {
             this.playlists = options.playlists;
         },
 
         onRender: function() {
-            var playlistsView = new PlaylistsView({
+            this.showChildView('playlistsRegion', new PlaylistsView({
                 collection: this.playlists
-            });
-
-            this.playlistsRegion.show(playlistsView);
-            // TODO: This also feels kind of weird.
-            this.listenTo(playlistsView, 'click:childContainer', this._onClickChildContainer);
+            }));
         },
 
         show: function() {

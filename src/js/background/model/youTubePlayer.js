@@ -18,9 +18,6 @@
                 loading: false,
                 api: new YouTubePlayerAPI(),
                 iframeId: '',
-                //  Match on my specific iframe or else else this logic can leak into outside webpages and corrupt other YouTube embeds.
-                //  TODO: Keep this DRY with other area + leave comment for manifest.json.
-                youTubeEmbedUrl: '*://*.youtube.com/embed/*?enablejsapi=1&origin=chrome-extension://' + chrome.runtime.id,
                 //  Wait 6 seconds before each load attempt so that total time elapsed is one minute
                 maxLoadAttempts: 10,
                 loadAttemptDelay: 6000,
@@ -132,6 +129,8 @@
 
         //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(error) {
+            //  TODO: YouTube's API emits a 'ReallyBad' error when it really wants to emit an 'NoPlayEmbedded2' error due to content restrictions.
+            //  This only happens if I have the Referer set to a YouTube domain, though. Otherwise, it gives the correct error message.
             //  If the error is really bad then attempt to recover rather than reflecting the error throughout the program.
             if (error.data === YouTubePlayerError.ReallyBad) {
                 this.preload();

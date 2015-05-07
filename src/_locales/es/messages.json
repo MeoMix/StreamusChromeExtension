@@ -1,528 +1,528 @@
 ﻿{
-	"extensionName": {
-		"message": "Streamus"
-	},
-	"extensionDescription": {
-		"message": "Streaming de música, simple."
-	},
-	"toggleRadioCommandDescription": {
-		"message": "Radio apagada/encendida"
-	},
-	"toggleShuffleCommandDescription": {
-		"message": "Reproducción aleatoria apagada/encendida"
-	},
-	"toggleRepeatCommandDescription": {
-		"message": "Repetir apagado/todas las canciones/canción actual"
-	},
-	"increaseVolumeCommandDescription": {
-		"message": "Incrementar volumen"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "Disminuir volumen"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "Mostrar detalles de canción"
-	},
-	"nextSongCommandDescription": {
-		"message": "Canción siguiente"
-	},
-	"previousSongCommandDescription": {
-		"message": "Canción anterior"
-	},
-	"toggleSongCommandDescription": {
-		"message": "Reproducir/pausar canción"
-	},
-	"deleteSongCommandDescription": {
-		"message": "Eliminar canción"
-	},
-	"copySongURLCommandDescription": {
-		"message": "Copiar dirección del enlace de la canción"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "Copiar titulo y direccion del enlace de la canción"
-	},
-	"save": {
-		"message": "Guardar"
-	},
-	"copyUrl": {
-		"message": "Copiar direción del enlace"
-	},
-	"copyTitleAndUrl": {
-		"message": "Copiar título y dirección del enlace"
-	},
-	"delete": {
-		"message": "Eliminar"
-	},
-	"clearStream": {
-		"message": "Borrar stream"
-	},
-	"saveStream": {
-		"message": "Guardar stream"
-	},
-	"addToStreamus": {
-		"message": "Añadir a Streamus"
-	},
-	"youTubePlayerErrorSongNotFound": {
-		"message": "La canción ha sido removida o marcada como privada."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "No fue posible reproducir la canción."
-	},
-	"errorEncountered": {
-		"message": "Un error fue encontrado."
-	},
-	"saving": {
-		"message": "Guardando"
-	},
-	"installed": {
-		"message": "Instalado"
-	},
-	"repeatOff": {
-		"message": "Repetir apagado"
-	},
-	"repeatSong": {
-		"message": "Repetir canción"
-	},
-	"repeatAll": {
-		"message": "Repetir todo"
-	},
-	"radioOn": {
-		"message": "Radio encendida"
-	},
-	"radioOff": {
-		"message": "Radio apagada"
-	},
-	"shufflingOn": {
-		"message": "Reproducción aleatoria encendida"
-	},
-	"shufflingOff": {
-		"message": "Reproducción aleatoria apagada"
-	},
-	"elapsedTime": {
-		"message": "Tiempo transcurrido"
-	},
-	"remainingTime": {
-		"message": "Tiempo restante"
-	},
-	"totalTime": {
-		"message": "Tiempo total"
-	},
-	"highest": {
-		"message": "Más alto"
-	},
-	"auto": {
-		"message": "Automático"
-	},
-	"lowest": {
-		"message": "Más bajo"
-	},
-	"reload": {
-		"message": "Recargar"
-	},
-	"playAll": {
-		"message": "Reproducir todo"
-	},
-	"addAll": {
-		"message": "Añadir todo"
-	},
-	"addSelected": {
-		"message": "Añadir seleccionados"
-	},
-	"playSelected": {
-		"message": "Reproducir seleccionados"
-	},
-	"saveSelected": {
-		"message": "Guardar seleccionados"
-	},
-	"search": {
-		"message": "Buscar"
-	},
-	"searching": {
-		"message": "Buscando"
-	},
-	"noResultsFound": {
-		"message": "No se encontraron resultados"
-	},
-	"clearStream": {
-		"message": "Borrar stream"
-	},
-	"createPlaylist": {
-		"message": "Crear lista de reproducción"
-	},
-	"ok": {
-		"message": "Ok"
-	},
-	"playlist": {
-		"message": "Lista de reproducción"
-	},
-	"stream": {
-		"message": "Stream"
-	},
-	"settings": {
-		"message": "Ajustes"
-	},
-	"edit": {
-		"message": "Editar"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "No se puede eliminar la lista de reproducción"
-	},
-	"clearStreamQuestion": {
-		"message": "Borrar stream?"
-	},
-	"play": {
-		"message": "Reproducir"
-	},
-	"add": {
-		"message": "Añadir"
-	},
-	"title": {
-		"message": "Título"
-	},
-	"url": {
-		"message": "Dirección del enlace"
-	},
-	"playlists": {
-		"message": "Listas de reproducción"
-	},
-	"remind": {
-		"message": "Recordar"
-	},
-	"reminders": {
-		"message": "Recordatorios"
-	},
-	"remindClearStream": {
-		"message": "Recordar borrar stream"
-	},
-	"remindDeletePlaylist": {
-		"message": "Recordar eliminar lista de reproducción"
-	},
-	"minute": {
-		"message": "Minuto"
-	},
-	"minutes": {
-		"message": "Minutos"
-	},
-	"hours": {
-		"message": "Horas"
-	},
-	"days": {
-		"message": "Días"
-	},
-	"errorLoadingTitle": {
-		"message": "Error cargando título"	
-	},
-	"keyboardCommandFailure": {
-		"message": "Falla en comando de teclado"
-	},
-	"streamEmpty": {
-		"message": "Stream vacío"
-	},
-	"playlistEmpty": {
-		"message": "Lista de reproducción vacía"
-	},
-	"create": {
-		"message": "Crear"
-	},
-	"update": {
-		"message": "Actualizar"
-	},
-	"wouldYouLikeTo": {
-		"message": "Te gustaría"
-	},
-	"general": {
-		"message": "General"
-	},
-	"startTyping": {
-		"message": "Empieza a escribir"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "Los resultados aparecerán mientras buscas."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "Intenta buscando otra cosa."
-	},
-	"watchOnYouTube": {
-		"message": "Ver en YouTube"
-	},
-	"notSignedIn": {
-		"message": "No has iniciado sesión"
-	},
-	"signingIn": {
-		"message": "Iniciando sesión"
-	},
-	"signIn": {
-		"message": "Iniciar sesión"
-	},
-	"signInFailed": {
-		"message": "Inicio de sesión fallido"
-	},
-	"pleaseWait": {
-		"message": "Espere por favor"
-	},
-	"openToSearch": {
-		"message": "Abrir para buscar"
-	},
-	"anUpdateIsAvailable": {
-		"message": "Hay una actualización disponible"
-	},
-	"pressEnterToPlay": {
-		"message": "Presione enter para reproducir"
-	},
-	"volume": {
-		"message": "Volumen"
-	},
-	"songAdded": {
-		"message": "Canción añadida"
-	},
-	"addSong": {
-		"message": "Añadir canción"
-	},
-	"song": {
-		"message": "Canción"
-	},
-	"songs": {
-		"message": "Canciones"
-	},
-	"cantSkipToNextSong": {
-		"message": "No se puede adelantar a la siguiente canción"
-	},
-	"cantGoBackToPreviousSong": {
-		"message": "No se puede regresar a la canción anterior"
-	},
-	"cantToggleSong": {
-		"message": "No se puede cambiar la canción"
-	},
-	"searchForSongs": {
-		"message": "Buscar canciones"
-	},
-	"songQuality": {
-		"message": "Calidad de canción"
-	},
-	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Por que no añadir una canción desde una lista de reproduccion o",
-		"description": "The full sentence here is 'Por que no añadir una canción desde una lista de reproduccion o buscar canciones?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "Buscar y reproducir"
-	},
-	"searchAndAdd": {
-		"message": "Buscar y añadir"
-	},
-	"linkAccountsMessage": {
-		"message": "Streamus no esta enlazado a tu cuenta de Chrome. Tus listas de reproducción estarán disponibles en otras computadoras si enlazas tus cuentas."
-	},
-	"link": {
-		"message": "Enlazar",
-		"description": "Esto es 'Enlazar' como en 'Enlazar mi cuenta'"
-	},
-	"googleSignInMessage": {
-		"message": "No has iniciado sesión en chrome. Tus listas de reproducción están disponibles sólo en éste equipo."
-	},
-	"remindGoogleSignIn": {
-		"message": "Recordar inicio de sesión de Google"
-	},
-	"keyboardShortcuts": {
-		"message": "Atajos de teclado"
-	},
-	"export": {
-		"message": "Exportar"
-	},
-	"openInTab": {
-		"message": "Abrir en pestaña"
-	},
-	"browserSettings": {
-		"message": "Ajustes de explorador"
-	},
-	"contextMenus": {
-		"message": "Menúes contextuales"
-	},
-	"websiteEnhancements": {
-		"message": "Mejoras de sitio web"
-	},
-	"textSelection": {
-		"message": "Selección de textos"
-	},
-	"youTubeLinks": {
-		"message": "Enlaces de Youtube"
-	},
-	"youTubePages": {
-		"message": "Páginas de Youtube"
-	},
-	"youTube": {
-		"message": "YouTube"
-	},
-	"beatport": {
-		"message": "Beatport"
-	},
-	"fileType": {
-		"message": "Tipo de Archivo"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindSong": {
-		"message": "Hubo un fallo buscando la canción"
-	},
-	"failedToFindSongs": {
-		"message": "Hubo un fallo buscando las canciónes"
-	},
-	"loadingYouTube": {
-		"message": "Cargando YouTube"
-	},
-	"loadingYouTubeFailed": {
-		"message": "Hubo una falla cargando Youtube"
-	},
-	"loadAttempt": {
-		"message": "Intento $currentLoadAttempt$ de $maxLoadAttempts$",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"songAlreadyInCollection": {
-		"message": "La canción ya está en $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allSongsAlreadyInCollection": {
-		"message": "Todas las canciones ya están en $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ de $draggedSongCount$ canciones ya están en $collectionName$",
-		"placeholders": {
-			"duplicateSongCount": {
-				"content": "$1"
-			},
-			"draggedSongCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "Dirección de enlace copiada"
-	},
-	"copyFailed": {
-		"message": "Falla al copiar"
-	},
-	"playlistExported": {
-		"message": "Lista de reproducción exportada con éxito."
-	},
-	"playing": {
-		"message": "Reproduciendo"
-	},
-	"buffering": {
-		"message": "Buffering"
-	},
-	"paused": {
-		"message": "Pausado"
-	},
-	"cancel": {
-		"message": "Cancelar"
-	},
-	"errorLoadingUrl": {
-		"message": "Error cargando dirección del enlace"
-	},
-	"playlistLoaded": {
-		"message": "Lista de reproducción cargada"
-	},
-	"playlistCreated": {
-		"message": "Lista de reproducción creada"
-	},
-	"extensionConflict": {
-		"message": "Otra extensión, u otro problema ha forzado a Youtube a utilizar Flash.$lineBreak$ Streamus no funcionará correctamente hasta que esa extensión esté deshabilitada, o el problema sea resuelto y Streamus sea reiniciado.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Streaming de música, simple."
+    },
+    "toggleRadio": {
+        "message": "Radio apagada/encendida"
+    },
+    "toggleShuffle": {
+        "message": "Reproducción aleatoria apagada/encendida"
+    },
+    "toggleRepeat": {
+        "message": "Repetir apagado/todas las canciones/canción actual"
+    },
+    "increaseVolume": {
+        "message": "Incrementar volumen"
+    },
+    "decreaseVolume": {
+        "message": "Disminuir volumen"
+    },
+    "showSongDetails": {
+        "message": "Mostrar detalles de canción"
+    },
+    "nextSong": {
+        "message": "Canción siguiente"
+    },
+    "previousSong": {
+        "message": "Canción anterior"
+    },
+    "toggleSong": {
+        "message": "Reproducir/pausar canción"
+    },
+    "deleteSong": {
+        "message": "Eliminar canción"
+    },
+    "copySongUrl": {
+        "message": "Copiar dirección del enlace de la canción"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Copiar titulo y direccion del enlace de la canción"
+    },
+    "save": {
+        "message": "Guardar"
+    },
+    "copyUrl": {
+        "message": "Copiar direción del enlace"
+    },
+    "copyTitleAndUrl": {
+        "message": "Copiar título y dirección del enlace"
+    },
+    "delete": {
+        "message": "Eliminar"
+    },
+    "clearStream": {
+        "message": "Borrar stream"
+    },
+    "saveStream": {
+        "message": "Guardar stream"
+    },
+    "addToStreamus": {
+        "message": "Añadir a Streamus"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "La canción ha sido removida o marcada como privada."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "No fue posible reproducir la canción."
+    },
+    "errorEncountered": {
+        "message": "Un error fue encontrado."
+    },
+    "saving": {
+        "message": "Guardando"
+    },
+    "installed": {
+        "message": "Instalado"
+    },
+    "repeatOff": {
+        "message": "Repetir apagado"
+    },
+    "repeatSong": {
+        "message": "Repetir canción"
+    },
+    "repeatAll": {
+        "message": "Repetir todo"
+    },
+    "radioOn": {
+        "message": "Radio encendida"
+    },
+    "radioOff": {
+        "message": "Radio apagada"
+    },
+    "shufflingOn": {
+        "message": "Reproducción aleatoria encendida"
+    },
+    "shufflingOff": {
+        "message": "Reproducción aleatoria apagada"
+    },
+    "elapsedTime": {
+        "message": "Tiempo transcurrido"
+    },
+    "remainingTime": {
+        "message": "Tiempo restante"
+    },
+    "totalTime": {
+        "message": "Tiempo total"
+    },
+    "highest": {
+        "message": "Más alto"
+    },
+    "auto": {
+        "message": "Automático"
+    },
+    "lowest": {
+        "message": "Más bajo"
+    },
+    "reload": {
+        "message": "Recargar"
+    },
+    "playAll": {
+        "message": "Reproducir todo"
+    },
+    "addAll": {
+        "message": "Añadir todo"
+    },
+    "addSelected": {
+        "message": "Añadir seleccionados"
+    },
+    "playSelected": {
+        "message": "Reproducir seleccionados"
+    },
+    "saveSelected": {
+        "message": "Guardar seleccionados"
+    },
+    "search": {
+        "message": "Buscar"
+    },
+    "searching": {
+        "message": "Buscando"
+    },
+    "noResultsFound": {
+        "message": "No se encontraron resultados"
+    },
+    "clearStream": {
+        "message": "Borrar stream"
+    },
+    "createPlaylist": {
+        "message": "Crear lista de reproducción"
+    },
+    "ok": {
+        "message": "Ok"
+    },
+    "playlist": {
+        "message": "Lista de reproducción"
+    },
+    "stream": {
+        "message": "Stream"
+    },
+    "settings": {
+        "message": "Ajustes"
+    },
+    "edit": {
+        "message": "Editar"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "No se puede eliminar la lista de reproducción"
+    },
+    "clearStreamQuestion": {
+        "message": "Borrar stream?"
+    },
+    "play": {
+        "message": "Reproducir"
+    },
+    "add": {
+        "message": "Añadir"
+    },
+    "title": {
+        "message": "Título"
+    },
+    "url": {
+        "message": "Dirección del enlace"
+    },
+    "playlists": {
+        "message": "Listas de reproducción"
+    },
+    "remind": {
+        "message": "Recordar"
+    },
+    "reminders": {
+        "message": "Recordatorios"
+    },
+    "remindClearStream": {
+        "message": "Recordar borrar stream"
+    },
+    "remindDeletePlaylist": {
+        "message": "Recordar eliminar lista de reproducción"
+    },
+    "minute": {
+        "message": "Minuto"
+    },
+    "minutes": {
+        "message": "Minutos"
+    },
+    "hours": {
+        "message": "Horas"
+    },
+    "days": {
+        "message": "Días"
+    },
+    "errorLoadingTitle": {
+        "message": "Error cargando título"	
+    },
+    "keyboardCommandFailure": {
+        "message": "Falla en comando de teclado"
+    },
+    "streamEmpty": {
+        "message": "Stream vacío"
+    },
+    "playlistEmpty": {
+        "message": "Lista de reproducción vacía"
+    },
+    "create": {
+        "message": "Crear"
+    },
+    "update": {
+        "message": "Actualizar"
+    },
+    "wouldYouLikeTo": {
+        "message": "Te gustaría"
+    },
+    "general": {
+        "message": "General"
+    },
+    "startTyping": {
+        "message": "Empieza a escribir"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Los resultados aparecerán mientras buscas."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Intenta buscando otra cosa."
+    },
+    "watchOnYouTube": {
+        "message": "Ver en YouTube"
+    },
+    "notSignedIn": {
+        "message": "No has iniciado sesión"
+    },
+    "signingIn": {
+        "message": "Iniciando sesión"
+    },
+    "signIn": {
+        "message": "Iniciar sesión"
+    },
+    "signInFailed": {
+        "message": "Inicio de sesión fallido"
+    },
+    "pleaseWait": {
+        "message": "Espere por favor"
+    },
+    "openToSearch": {
+        "message": "Abrir para buscar"
+    },
+    "anUpdateIsAvailable": {
+        "message": "Hay una actualización disponible"
+    },
+    "pressEnterToPlay": {
+        "message": "Presione enter para reproducir"
+    },
+    "volume": {
+        "message": "Volumen"
+    },
+    "songAdded": {
+        "message": "Canción añadida"
+    },
+    "addSong": {
+        "message": "Añadir canción"
+    },
+    "song": {
+        "message": "Canción"
+    },
+    "songs": {
+        "message": "Canciones"
+    },
+    "cantSkipToNextSong": {
+        "message": "No se puede adelantar a la siguiente canción"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "No se puede regresar a la canción anterior"
+    },
+    "cantToggleSong": {
+        "message": "No se puede cambiar la canción"
+    },
+    "searchForSongs": {
+        "message": "Buscar canciones"
+    },
+    "songQuality": {
+        "message": "Calidad de canción"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Por que no añadir una canción desde una lista de reproduccion o",
+        "description": "The full sentence here is 'Por que no añadir una canción desde una lista de reproduccion o buscar canciones?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Buscar y reproducir"
+    },
+    "searchAndAdd": {
+        "message": "Buscar y añadir"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus no esta enlazado a tu cuenta de Chrome. Tus listas de reproducción estarán disponibles en otras computadoras si enlazas tus cuentas."
+    },
+    "link": {
+        "message": "Enlazar",
+        "description": "Esto es 'Enlazar' como en 'Enlazar mi cuenta'"
+    },
+    "googleSignInMessage": {
+        "message": "No has iniciado sesión en chrome. Tus listas de reproducción están disponibles sólo en éste equipo."
+    },
+    "remindGoogleSignIn": {
+        "message": "Recordar inicio de sesión de Google"
+    },
+    "keyboardShortcuts": {
+        "message": "Atajos de teclado"
+    },
+    "export": {
+        "message": "Exportar"
+    },
+    "openInTab": {
+        "message": "Abrir en pestaña"
+    },
+    "browserSettings": {
+        "message": "Ajustes de explorador"
+    },
+    "contextMenus": {
+        "message": "Menúes contextuales"
+    },
+    "websiteEnhancements": {
+        "message": "Mejoras de sitio web"
+    },
+    "textSelection": {
+        "message": "Selección de textos"
+    },
+    "youTubeLinks": {
+        "message": "Enlaces de Youtube"
+    },
+    "youTubePages": {
+        "message": "Páginas de Youtube"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Tipo de Archivo"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Hubo un fallo buscando la canción"
+    },
+    "failedToFindSongs": {
+        "message": "Hubo un fallo buscando las canciónes"
+    },
+    "loadingYouTube": {
+        "message": "Cargando YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Hubo una falla cargando Youtube"
+    },
+    "loadAttempt": {
+        "message": "Intento $currentLoadAttempt$ de $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "La canción ya está en $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Todas las canciones ya están en $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ de $draggedSongCount$ canciones ya están en $collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "Dirección de enlace copiada"
+    },
+    "copyFailed": {
+        "message": "Falla al copiar"
+    },
+    "playlistExported": {
+        "message": "Lista de reproducción exportada con éxito."
+    },
+    "playing": {
+        "message": "Reproduciendo"
+    },
+    "buffering": {
+        "message": "Buffering"
+    },
+    "paused": {
+        "message": "Pausado"
+    },
+    "cancel": {
+        "message": "Cancelar"
+    },
+    "errorLoadingUrl": {
+        "message": "Error cargando dirección del enlace"
+    },
+    "playlistLoaded": {
+        "message": "Lista de reproducción cargada"
+    },
+    "playlistCreated": {
+        "message": "Lista de reproducción creada"
+    },
+    "extensionConflict": {
+        "message": "Otra extensión, u otro problema ha forzado a Youtube a utilizar Flash.$lineBreak$ Streamus no funcionará correctamente hasta que esa extensión esté deshabilitada, o el problema sea resuelto y Streamus sea reiniciado.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
         "searchResults": {
-		"message": "Resultados de la búsqueda"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ no puede ser borrada",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ seleccionada",
-		"description": "Esto puede ser 0 canciones seleccionadas, 1 canción seleccionada, o 2 canciones seleccionadas",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "Guardar todo"
-	},
-	"saveActiveSongCommandDescription": {
-		"message": "Guardar canción"
-	},
-	"songSavedToPlaylist": {
-		"message": "$songTitle$ guardada en $playlistTitle$",
-		"placeholders": {
-			"songTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "Notificaciones de escritorio"
-	},
-	"showNotifications": {
-		"message": "Mostrar notificaciones"
-	},
-	"notificationDuration": {
-		"message": "Duración de las notificaciones"
-	},
-	"oneSecond": {
-		"message": "Un segundo"
-	},
-	"twoSeconds": {
-		"message": "Dos segundos"
-	},
-	"threeSeconds": {
-		"message": "Tres segundos"
-	},
-	"fourSeconds": {
-		"message": "Cuatro segundos"
-	},
-	"fiveSeconds": {
-		"message": "Cinco segundos"
-	},
-	"tenSeconds": {
-		"message": "Diez segundos"
-	},
-	"playlistUrl": {
-		"message": "Lista de reproducción URL"
-	}
+        "message": "Resultados de la búsqueda"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ no puede ser borrada",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ seleccionada",
+        "description": "Esto puede ser 0 canciones seleccionadas, 1 canción seleccionada, o 2 canciones seleccionadas",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Guardar todo"
+    },
+    "saveSong": {
+        "message": "Guardar canción"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ guardada en $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Notificaciones de escritorio"
+    },
+    "showNotifications": {
+        "message": "Mostrar notificaciones"
+    },
+    "notificationDuration": {
+        "message": "Duración de las notificaciones"
+    },
+    "oneSecond": {
+        "message": "Un segundo"
+    },
+    "twoSeconds": {
+        "message": "Dos segundos"
+    },
+    "threeSeconds": {
+        "message": "Tres segundos"
+    },
+    "fourSeconds": {
+        "message": "Cuatro segundos"
+    },
+    "fiveSeconds": {
+        "message": "Cinco segundos"
+    },
+    "tenSeconds": {
+        "message": "Diez segundos"
+    },
+    "playlistUrl": {
+        "message": "Lista de reproducción URL"
+    }
 }

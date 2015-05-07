@@ -6,6 +6,7 @@
     var Playlist = require('background/model/playlist');
     var YouTubeV3API = require('background/model/youTubeV3API');
     var ListItemType = require('common/enum/listItemType');
+    var DataSource = require('background/model/dataSource');
 
     var Playlists = Backbone.Collection.extend({
         model: Playlist,
@@ -43,6 +44,7 @@
                 success: function(playlistDto) {
                     //  Add and convert back from JSON to Backbone object.
                     var playlist = this.add(playlistDto);
+                    playlist.set('active', true);
                     options.success(playlist);
                 }.bind(this),
                 error: options.error
@@ -65,6 +67,10 @@
                 sequence: this.getSequenceFromIndex(this.length),
                 items: playlistItems
             }, {
+                success: function(playlist) {
+                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    playlist.set('active', true);
+                },
                 error: function(model) {
                     model.trigger('createError');
                 }
@@ -82,6 +88,9 @@
                 dataSourceLoaded: !dataSource.isYouTubePlaylist()
             }, {
                 success: function(playlist) {
+                    //  It's important to call set instead of providing value in create in order to de-activate other active playlist.
+                    playlist.set('active', true);
+
                     if (!playlist.get('dataSourceLoaded')) {
                         playlist.loadDataSource();
                     }
@@ -108,7 +117,7 @@
         _onReset: function() {
             //  Ensure there is an always active playlist by trying to load from localstorage
             if (this.length > 0 && _.isUndefined(this.getActivePlaylist())) {
-                var activePlaylistId = window.localStorage.getItem('activePlaylistId');
+                var activePlaylistId = localStorage.getItem('activePlaylistId');
 
                 //  Be sure to always have an active playlist if there is one available.
                 var playlistToSetActive = this.get(activePlaylistId) || this.at(0);
@@ -125,21 +134,36 @@
                 case 'getPlaylists':
                     sendResponse({ playlists: this });
                     break;
-                case 'addYouTubeSongByIdToPlaylist':
-                    YouTubeV3API.getSong({
-                        songId: request.songId,
-                        success: function(song) {
-                            this.get(request.playlistId).get('items').addSongs(song);
+                case 'addSongByUrlToPlaylist':
+                    var dataSource = new DataSource({
+                        url: request.url
+                    });
 
-                            //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
-                            //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
-                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                title: chrome.i18n.getMessage('songAdded'),
-                                message: song.get('title')
+                    dataSource.parseUrl({
+                        success: function() {
+                            YouTubeV3API.getSong({
+                                songId: dataSource.get('id'),
+                                success: function(song) {
+                                    this.get(request.playlistId).get('items').addSongs(song);
+
+                                    //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
+                                    //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
+                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                        title: chrome.i18n.getMessage('songAdded'),
+                                        message: song.get('title')
+                                    });
+
+                                    //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
+                                    sendResponse({ result: 'success' });
+                                }.bind(this),
+                                error: function() {
+                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                        title: chrome.i18n.getMessage('errorEncountered')
+                                    });
+
+                                    sendResponse({ result: 'error' });
+                                }
                             });
-
-                            //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
-                            sendResponse({ result: 'success' });
                         }.bind(this),
                         error: function() {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
@@ -154,7 +178,7 @@
                     break;
             }
 
-            //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
+            //  sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
             return sendAsynchronousResponse;
         },
 
@@ -162,7 +186,7 @@
             //  Ensure only one playlist is active at a time by de-activating all other active playlists.
             if (active) {
                 this._deactivateAllExcept(changedPlaylist);
-                window.localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
+                localStorage.setItem('activePlaylistId', changedPlaylist.get('id'));
             }
         },
 
@@ -191,7 +215,8 @@
                 type: ListItemType.Playlist,
                 data: {
                     id: addedPlaylist.get('id'),
-                    title: addedPlaylist.get('title')
+                    title: addedPlaylist.get('title'),
+                    active: addedPlaylist.get('active')
                 }
             });
 
@@ -207,7 +232,7 @@
         _onRemove: function(removedPlaylist, collection, options) {
             if (removedPlaylist.get('active')) {
                 //  Clear local storage of the active playlist if it gets removed.
-                window.localStorage.setItem('activePlaylistId', null);
+                localStorage.setItem('activePlaylistId', null);
                 //  If the index of the item removed was the last one in the list, activate previous.
                 var index = options.index === this.length ? options.index - 1 : options.index;
                 this._activateByIndex(index);

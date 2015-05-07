@@ -1,4 +1,5 @@
-﻿/* Copyright (c) 2012, 2014 Hyunje Alex Jun and other contributors
+﻿//  NOTE: I've added e.preventDefault() to the click event handler of YRail because it doesn't make sense to have click events come out from a scrollbar.
+/* Copyright (c) 2012, 2014 Hyunje Alex Jun and other contributors
  * Licensed under the MIT License
  */
 (function (factory) {
@@ -538,7 +539,8 @@
         function stopPropagation(e) { e.stopPropagation(); }
 
         $scrollbarY.bind(eventClass('click'), stopPropagation);
-        $scrollbarYRail.bind(eventClass('click'), function (e) {
+        $scrollbarYRail.bind(eventClass('click'), function(e) {
+            e.preventDefault();
           var halfOfScrollbarLength = getInt(scrollbarYHeight / 2);
           var positionTop = e.pageY - $scrollbarYRail.offset().top - halfOfScrollbarLength;
           var maxPositionTop = containerHeight - scrollbarYHeight;
@@ -862,7 +864,7 @@
 
       var supportsTouch = (('ontouchstart' in window) || window.DocumentTouch && document instanceof window.DocumentTouch);
       var supportsIePointer = window.navigator.msMaxTouchPoints !== null;
-
+ 
       function initialize() {
         updateGeometry();
         bindScrollHandler();

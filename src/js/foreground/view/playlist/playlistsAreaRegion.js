@@ -11,11 +11,14 @@
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
             this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
         },
 
-        _onForegroundAreaRendered: function() {
+        //  PlaylistsAreaView isn't initially visible. So, it is OK to defer creation until idle.
+        //  This ensures that initial rendering performance isn't hurt, but also allows for the view to be cached before needed.
+        //  Caching the view allows for a snappier response when animating.
+        _onForegroundAreaIdle: function () {
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
                 this._createPlaylistsAreaView(signedInUser.get('playlists'));
@@ -23,6 +26,13 @@
         },
 
         _showPlaylistsArea: function() {
+            //  It's possibly that the user might want to show playlistsArea before it has been created (i.e. before Application is idle)
+            //  If so, just create it now so that it can be shown.
+            if (!this._playlistsAreaViewExists()) {
+                var signedInUser = this.signInManager.get('signedInUser');
+                this._createPlaylistsAreaView(signedInUser.get('playlists'));
+            }
+
             this.currentView.show();
         },
 
@@ -33,9 +43,9 @@
             }
         },
         
-        //  Returns true if PlaylistsAreaView is currently shown
+        //  Returns true if PlaylistsAreaView is currently shown in the region.
         _playlistsAreaViewExists: function() {
-            return !_.isUndefined(this.currentView) && this.currentView instanceof PlaylistsAreaView;
+            return !_.isUndefined(this.currentView);
         },
 
         _createPlaylistsAreaView: function(playlists) {

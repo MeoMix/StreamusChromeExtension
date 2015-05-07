@@ -3,7 +3,6 @@
 
     var YouTubePlayerError = require('common/enum/youTubePlayerError');
     var ErrorDialogView = require('foreground/view/dialog/errorDialogView');
-    var FlashLoadedDialogView = require('foreground/view/dialog/flashLoadedDialogView');
     var GoogleSignInDialogView = require('foreground/view/dialog/googleSignInDialogView');
     var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
     var UpdateStreamusDialogView = require('foreground/view/dialog/updateStreamusDialogView');
@@ -11,26 +10,23 @@
     var DialogRegion = Marionette.Region.extend({
         player: null,
         signInManager: null,
-        debugManager: null,
 
         initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.signInManager = Streamus.backgroundPage.signInManager;
-            this.debugManager = Streamus.backgroundPage.debugManager;
-
+ 
             this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
-            this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
             this.listenTo(this.player, 'youTubeError', this._onPlayerYouTubeError);
             this.listenTo(this.signInManager, 'change:needLinkUserId', this._onSignInManagerChangeNeedLinkUserId);
             this.listenTo(this.signInManager, 'change:needGoogleSignIn', this._onSignInManagerChangeNeedGoogleSignIn);
             chrome.runtime.onUpdateAvailable.addListener(this._onChromeRuntimeUpdateAvailable.bind(this));
         },
 
-        _onForegroundAreaRendered: function() {
+        _onForegroundAreaIdle: function() {
             this._showDialogIfNeedGoogleSignIn();
             this._showDialogIfNeedLinkUserId();
             this._showDialogIfUpdateAvailable();
-            this._showDialogIfFlashLoaded();
         },
 
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
@@ -52,12 +48,6 @@
         _showDialogIfNeedGoogleSignIn: function() {
             if (this.signInManager.get('needGoogleSignIn')) {
                 this._showGoogleSignInDialog();
-            }
-        },
-
-        _showDialogIfFlashLoaded: function() {
-            if (this.debugManager.get('flashLoaded')) {
-                this._showDialog(FlashLoadedDialogView);
             }
         },
         

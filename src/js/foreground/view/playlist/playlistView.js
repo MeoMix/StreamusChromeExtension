@@ -14,10 +14,10 @@
         className: ListItemView.prototype.className + ' playlist listItem--small listItem--hasButtons listItem--selectable',
         template: _.template(PlaylistTemplate),
 
-        ui: _.extend({}, ListItemView.prototype.ui, {
+        ui: {
             title: '.listItem-title',
             itemCount: '.listItem-itemCount'
-        }),
+        },
 
         events: _.extend({}, ListItemView.prototype.events, {
             'click': '_onClick',
@@ -34,7 +34,7 @@
         buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
 
         playlistItemsEvents: {
-            'add': '_onPlaylistItemsAdd',
+            'add:completed': '_onPlaylistItemsAddCompleted',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
@@ -44,13 +44,15 @@
         },
 
         onRender: function() {
-            this.spinnerRegion.show(new SpinnerView({
+            //  TODO: Don't incur this load unless needed.
+            this.showChildView('spinnerRegion', new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
 
             this._setShowingSpinnerClass();
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
+            //  TODO: Ensure that the playlist scrolls into view -- but I need to create it as active I think because I don't ALWAYS want to scroll to the active item.
         },
 
         showContextMenu: function() {
@@ -98,7 +100,7 @@
             this.$el.toggleClass('is-active', active);
         },
 
-        _onPlaylistItemsAdd: function(model, collection) {
+        _onPlaylistItemsAddCompleted: function(collection) {
             this._setItemCount(collection.length);
         },
 

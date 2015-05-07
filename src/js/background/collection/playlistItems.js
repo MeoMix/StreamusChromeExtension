@@ -23,6 +23,7 @@
             }
         },
 
+        //  TODO: It would be nice to DRY this method with streamItems and searchResults
         addSongs: function(songs, options) {
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
@@ -49,6 +50,12 @@
                     index++;
                 }
             }, this);
+            
+            if (itemsToCreate.length > 0) {
+                //  Emit a custom event signaling items have been added. 
+                //  Useful for not responding to add until all items have been added.
+                this.trigger('add:completed', this);
+            }
 
             if (itemsToCreate.length === 1) {
                 //  Default to Backbone if only creating 1 item.

@@ -36,6 +36,8 @@
         initialize: function() {
             this.player = Streamus.backgroundPage.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
+
+            this.listenTo(Streamus.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);
         },
 
         onRender: function() {
@@ -43,6 +45,10 @@
         },
 
         _onClick: function() {
+            this._tryTogglePlayerState();
+        },
+
+        _tryTogglePlayerState: function(){
             this.model.tryTogglePlayerState();
         },
 

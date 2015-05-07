@@ -12,11 +12,14 @@ define(function(require) {
         className: 'volumeArea',
         template: _.template(VolumeAreaTemplate),
 
-        templateHelpers: {
-            volumeUpIcon: _.template(VolumeUpIconTemplate)(),
-            volumeDownIcon: _.template(VolumeDownIconTemplate)(),
-            volumeOffIcon: _.template(VolumeOffIconTemplate)(),
-            volumeMuteIcon: _.template(VolumeMuteIconTemplate)()
+        templateHelpers: function() {
+            return {
+                volumeUpIcon: _.template(VolumeUpIconTemplate)(),
+                volumeDownIcon: _.template(VolumeDownIconTemplate)(),
+                volumeOffIcon: _.template(VolumeOffIconTemplate)(),
+                volumeMuteIcon: _.template(VolumeMuteIconTemplate)(),
+                volume: this.player.get('volume')
+            };
         },
 
         ui: function() {
@@ -49,7 +52,9 @@ define(function(require) {
 
         onRender: function() {
             var volume = this.player.get('volume');
-            this._setVolumeProgress(volume);
+            //  NOTE: Don't call setVolumeProgress during onRender because it causes a document repaint to set the height.
+            //  Set the value in the template instead (which is always faster, but harder to maintain without two-way data-binding plugin.
+            //this._setVolumeProgress(volume);
 
             var muted = this.player.get('muted');
             this._setVolumeIcon(volume, muted);
@@ -73,6 +78,7 @@ define(function(require) {
             this.player.setVolume(volume);
         },
 
+        //  NOTE: This function is (relatively) expensive. Don't call it during onRender -- instead just set the values in the template.
         _setVolumeProgress: function(volume) {
             this.ui.volumeRange.val(volume);
             this.ui.volumeProgress.height(volume + '%');

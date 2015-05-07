@@ -54,7 +54,7 @@
         
         //  If the user is signed in -- show the user's active playlist items / information.
         _showActivePlaylistContent: function(activePlaylist) {
-            this.contentRegion.show(new ActivePlaylistAreaView({
+            this.showChildView('contentRegion', new ActivePlaylistAreaView({
                 model: activePlaylist,
                 collection: activePlaylist.get('items')
             }));
@@ -63,9 +63,9 @@
         _showSignInContent: function() {
             //  Don't continously generate the signIn view if it's already visible because the view itself is trying to update its state
             //  and if you rip out the view while it's trying to update -- Marionette will throw errors saying elements don't have events/methods.
-            if (!(this.contentRegion.currentView instanceof SignInView)) {
+            if (!(this.getChildView('contentRegion') instanceof SignInView)) {
                 //  Otherwise, allow the user to sign in by showing a link to sign in.
-                this.contentRegion.show(new SignInView({
+                this.showChildView('contentRegion', new SignInView({
                     model: this.signInManager
                 }));
             }

@@ -42,7 +42,8 @@
                 behaviorClass: CollectionViewMultiSelect
             },
             Scrollable: {
-                behaviorClass: Scrollable
+                behaviorClass: Scrollable,
+                implementsSlidingRender: true
             },
             SlidingRender: {
                 behaviorClass: SlidingRender

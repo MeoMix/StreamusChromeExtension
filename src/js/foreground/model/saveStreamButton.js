@@ -10,7 +10,7 @@
         
         initialize: function () {
             var streamItems = this.get('streamItems');
-            this.listenTo(streamItems, 'add', this._onStreamItemsAdd);
+            this.listenTo(streamItems, 'add:completed', this._onStreamItemsAddCompleted);
             this.listenTo(streamItems, 'remove', this._onStreamItemsRemove);
             this.listenTo(streamItems, 'reset', this._onStreamItemsReset);
 
@@ -40,7 +40,7 @@
             this.set('enabled', signedIn && !streamEmpty);
         },
         
-        _onStreamItemsAdd: function () {
+        _onStreamItemsAddCompleted: function() {
             this._setEnabled(this.get('signInManager').isSignedIn(), false);
         },
 

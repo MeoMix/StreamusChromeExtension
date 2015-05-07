@@ -48,16 +48,15 @@ module.exports = function(grunt) {
                 quotmark: 'single',
                 jquery: true,
                 maxparams: 5,
-                //  TODO: Reduce these values.
                 maxdepth: 4,
-                maxstatements: 50,
-                maxcomplexity: 13,
-                maxlen: 90001,
+                maxstatements: 25,
+                maxcomplexity: 10,
+                maxlen: 200,
                 //	Don't validate third-party libraries
                 ignores: ['src/js/thirdParty/**/*.js']
             },
 
-            files: ['Gruntfile.js', 'src/js/**/*.js'],
+            files: ['src/js/**/*.js'],
         },
         //  Compile LESS to CSS
         less: {
@@ -162,16 +161,6 @@ module.exports = function(grunt) {
                         //  Don't remove key when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
-                },{
-                    //  Transform inject javascript to reference uglified/concat versions for production.
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeIFrameInject.js"]',
-                    to: '"js": ["js/inject/youTubeIFrameInject.js"]'
-                }, {
-                    from: '"js": ["js/thirdParty/lodash.js", "js/thirdParty/jquery.js", "js/inject/youTubeInject.js"]',
-                    to: '"js": ["js/inject/youTubeInject.js"]'
-                }, {
-                    from: '"js": ["js/thirdParty/jquery.js", "js/inject/beatportInject.js"]',
-                    to: '"js": ["js/inject/beatportInject.js"]'
                 }]
             }
         },
@@ -194,7 +183,7 @@ module.exports = function(grunt) {
                 files: [{
                     expand: true,
                     cwd: '<%= meta.releaseDirectory %>/_locales/',
-                    src: ['*', '!/en']
+                    src: ['*', '!en']
                 }]
             },
             //  Cleanup the dist folder of files which don't need to be pushed to production.
@@ -215,12 +204,13 @@ module.exports = function(grunt) {
             }
         },
         concat: {
-            //  Injected JavaScript does not use RequireJS so they need to be concatenated and moved to dist with a separate task
-            injectedJs: {
+            //  TODO: This isn't really a concat anymore. Just a copy operation.
+            //  Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
+            contentScripts: {
                 files: {
-                    'dist/js/inject/beatportInject.js': ['src/js/thirdParty/jquery.js', 'src/js/inject/beatportInject.js'],
-                    'dist/js/inject/youTubeInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeInject.js'],
-                    'dist/js/inject/youTubeIFrameInject.js': ['src/js/thirdParty/jquery.js', 'src/js/thirdParty/lodash.js', 'src/js/inject/youTubeIFrameInject.js']
+                    'dist/js/contentScript/beatport.js': ['src/js/contentScript/beatport.js'],
+                    'dist/js/contentScript/youTube.js': ['src/js/contentScript/youTube.js'],
+                    'dist/js/contentScript/youTubeIFrame.js': ['src/js/contentScript/youTubeIFrame.js']
                 }
             }
         },
@@ -243,7 +233,7 @@ module.exports = function(grunt) {
             grunt.task.run('replace:updateVersion');
         }
 
-        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:injectedJs', 'less', 'imagemin', 'clean:dist');
+        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:contentScripts', 'less', 'imagemin', 'clean:dist');
 
         //  Build chrome release
         grunt.task.run('compressRelease:' + chromeReleaseDirectory);

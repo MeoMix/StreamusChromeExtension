@@ -40,7 +40,8 @@
                 behaviorClass: CollectionViewMultiSelect,
             },
             Scrollable: {
-                behaviorClass: Scrollable
+                behaviorClass: Scrollable,
+                implementsSlidingRender: true
             },
             SlidingRender: {
                 behaviorClass: SlidingRender
@@ -51,13 +52,7 @@
         },
 
         initialize: function() {
-            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
-
             this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
-
-            setTimeout(function () {
-                console.log('hallo', this.$childViewContainer);
-            }.bind(this), 3000);
         },
 
         //  Don't maintain selected results after showing SearchArea because this view won't be visible.

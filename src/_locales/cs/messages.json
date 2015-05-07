@@ -1,529 +1,528 @@
 ﻿{
-	"extensionName": {
-		"message": "Streamus"
-	},
-	"extensionDescription": {
-		"message": "Poslech hudby jednoduše."
-	},
-	"toggleRadioCommandDescription": {
-		"message": "Rádio zap/vyp"
-	},
-	"toggleShuffleCommandDescription": {
-		"message": "Náhodné prehrávání zap/vyp"
-	},
-	"toggleRepeatCommandDescription": {
-		"message": "Prepnout opakování"
-	},
-	"increaseVolumeCommandDescription": {
-		"message": "Zvýšit hlasitost"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "Snížit hlasitost"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "Ukázat podrobnosti stopy"
-	},
-	"nextSongCommandDescription": {
-		"message": "Další stopa"
-	},
-	"previousSongCommandDescription": {
-		"message": "Predchozí stopa"
-	},
-	"toggleSongCommandDescription": {
-		"message": "Prehrát/pozastavit stopu"
-	},
-	"deleteSongCommandDescription": {
-		"message": "Odstranit stopu"
-	},
-	"copySongURLCommandDescription": {
-		"message": "Zkopírovat URL stopy"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "Zkopírovat název a URL stopy"
-
-	},
-	"save": {
-		"message": "Uložit"
-	},
-	"copyUrl": {
-		"message": "Zkopírovat URL"
-	},
-	"copyTitleAndUrl": {
-		"message": "Zkopírovat název a URL"
-	},
-	"delete": {
-		"message": "Odstranit"
-	},
-	"clearStream": {
-		"message": "Smazat frontu"
-	},
-	"saveStream": {
-		"message": "Uložit frontu"
-	},
-	"addToStreamus": {
-		"message": "Pridat do streamusu"
-	},
-	"youTubePlayerErrorSongNotFound": {
-		"message": "Stopa byla smazána nebo oznacena jako soukromá."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Stopu nelze  prehrát."
-	},
-	"errorEncountered": {
-		"message": "Vyskytl se problém."
-	},
-	"saving": {
-		"message": "Ukládání"
-	},
-	"installed": {
-		"message": "Nainstalováno"
-	},
-	"repeatOff": {
-		"message": "Opakování vypnuto"
-	},
-	"repeatSong": {
-		"message": "Opakování stopy"
-	},
-	"repeatAll": {
-		"message": "Opakování seznamu"
-	},
-	"radioOn": {
-		"message": "Rádio zapnuto"
-	},
-	"radioOff": {
-		"message": "Rádio vypnuto"
-	},
-	"shufflingOn": {
-		"message": "Náhodné prehrávání zapnuto"
-	},
-	"shufflingOff": {
-		"message": "Náhodné prehrávání vypnuto"
-	},
-	"elapsedTime": {
-		"message": "Uplynulý cas"
-	},
-	"remainingTime": {
-		"message": "Zbývající cas"
-	},
-	"totalTime": {
-		"message": "Celkový cas"
-	},
-	"highest": {
-		"message": "Nejvyšší"
-	},
-	"auto": {
-		"message": "Automatická"
-	},
-	"lowest": {
-		"message": "Nejnižší"
-	},
-	"reload": {
-		"message": "Obnovit"
-	},
-	"playAll": {
-		"message": "Prehrát vše"
-	},
-	"addAll": {
-		"message": "Pridat vše"
-	},
-	"addSelected": {
-		"message": "Pridat vybrané"
-	},
-	"playSelected": {
-		"message": "Prehrát vybrané"
-	},
-	"saveSelected": {
-		"message": "Uložit vybrané"
-	},
-	"search": {
-		"message": "Hledat"
-	},
-	"searching": {
-		"message": "Hledání"
-	},
-	"noResultsFound": {
-		"message": "Žádná stopa nenalezena"
-	},
-	"clearStream": {
-		"message": "Smazat frontu"
-	},
-	"createPlaylist": {
-		"message": "Vytvorit seznam"
-	},
-	"ok": {
-		"message": "Ok"
-	},
-	"playlist": {
-		"message": "Seznam"
-	},
-	"stream": {
-		"message": "Fronta"
-	},
-	"settings": {
-		"message": "Nastavení"
-	},
-	"edit": {
-		"message": "Upravit"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "Nelze odstranit zbývající seznam"
-	},
-	"clearStreamQuestion": {
-		"message": "Smazat frontu?"
-	},
-	"play": {
-		"message": "Prehrát"
-	},
-	"add": {
-		"message": "Pridat"
-	},
-	"title": {
-		"message": "Název"
-	},
-	"url": {
-		"message": "URL"
-	},
-	"playlists": {
-		"message": "Seznamy"
-	},
-	"remind": {
-		"message": "Upozornit"
-	},
-	"reminders": {
-		"message": "Upozornení"
-	},
-	"remindClearStream": {
-		"message": "Upozornit na mazání fronty"
-	},
-	"remindDeletePlaylist": {
-		"message": "Upozornit na mazání seznamu"
-	},
-	"minute": {
-		"message": "Minuta"
-	},
-	"minutes": {
-		"message": "Minut"
-	},
-	"hours": {
-		"message": "Hodin"
-	},
-	"days": {
-		"message": "Dnu"
-	},
-	"errorLoadingTitle": {
-		"message": "Nelze nacíst název"	
-	},
-	"keyboardCommandFailure": {
-		"message": "Chyba provedení klávesové zkratky"
-	},
-	"streamEmpty": {
-		"message": "Fronta je prázdná"
-	},
-	"playlistEmpty": {
-		"message": "Seznam je prázdný"
-	},
-	"create": {
-		"message": "Vytvorit"
-	},
-	"update": {
-		"message": "Aktualizovat"
-	},
-	"wouldYouLikeTo": {
-		"message": "Chcete"
-	},
-	"general": {
-		"message": "Obecné"
-	},
-	"startTyping": {
-		"message": "Zacnete psát"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "Výsledky se zobrazí po vyhledání."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "Zkuste vyhledat neco jiného."
-	},
-	"watchOnYouTube": {
-		"message": "Prehrát na YouTube"
-	},
-	"notSignedIn": {
-		"message": "Neprihlášen"
-	},
-	"signingIn": {
-		"message": "Prihlašování"
-	},
-	"signIn": {
-		"message": "Prihlášení"
-	},
-	"signInFailed": {
-		"message": "Prihlášení selhalo"
-	},
-	"pleaseWait": {
-		"message": "Cekejte"
-	},
-	"openToSearch": {
-		"message": "Po otevrení vyhledávat"
-	},
-	"anUpdateIsAvailable": {
-		"message": "Je dostupná aktualizace"
-	},
-	"pressEnterToPlay": {
-		"message": "Zmácknete enter pro prehrání"
-	},
-	"volume": {
-		"message": "Hlasitost"
-	},
-	"songAdded": {
-		"message": "Stopa pridána"
-	},
-	"addSong": {
-		"message": "Pridat stopu"
-	},
-	"song": {
-		"message": "Stopa"
-	},
-	"songs": {
-		"message": "Stop"
-	},
-	"cantSkipToNextSong": {
-		"message": "Nelze prejít na další stopu"
-	},
-	"cantGoBackToPreviousSong": {
-		"message": "Nelze prejít na predchozí stopu"
-	},
-	"cantToggleSong": {
-		"message": "Nelze prehrát stopu"
-	},
-	"searchForSongs": {
-		"message": "Vyhledat stopy"
-	},
-	"songQuality": {
-		"message": "Kvalita prehrávání"
-	},
-	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Nechcete pridat stopu ze seznamu nebor",
-		"description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "Vyhledat a prehrát"
-	},
-	"searchAndAdd": {
-		"message": "Vyhledat a pridat"
-	},
-	"linkAccountsMessage": {
-		"message": "Streamus není propojen s Vaším Chrome úctem. Vaše seznamy budou dostupné z jakéhokoliv zarízení pokud úcty propojíte."
-	},
-	"link": {
-		"message": "Propojit",
-		"description": "This is 'Link' as in 'Link my account'"
-	},
-	"googleSignInMessage": {
-		"message": "Nejste prihlášeni do úctu Chrome. Seznamy budou dostupné pouze z tohoto zarízení."
-	},
-	"remindGoogleSignIn": {
-		"message": "Upozornit na prihlášení k úctu Google"
-	},
-	"keyboardShortcuts": {
-		"message": "Klávesové zkratky"
-	},
-	"export": {
-		"message": "Exportovat"
-	},
-	"openInTab": {
-		"message": "Otevrít na karte"
-	},
-	"browserSettings": {
-		"message": "Nastavení prohlížece"
-	},
-	"contextMenus": {
-		"message": "Kontextová menu"
-	},
-	"websiteEnhancements": {
-		"message": "Vylepšení webové stránky"
-	},
-	"textSelection": {
-		"message": "Výber textu"
-	},
-	"youTubeLinks": {
-		"message": "Odkazy na YouTube"
-	},
-	"youTubePages": {
-		"message": "Stránky YouTube"
-	},
-	"youTube": {
-		"message": "YouTube"
-	},
-	"beatport": {
-		"message": "Beatport"
-	},
-	"fileType": {
-		"message": "Typ souboru"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindSong": {
-		"message": "Hledání stopy selhalo"
-	},
-	"failedToFindSongs": {
-		"message": "Hledání stop selhalo"
-	},
-	"loadingYouTube": {
-		"message": "Nacítání YouTube"
-	},
-	"loadingYouTubeFailed": {
-		"message": "Nacítání YouTube selhalo"
-	},
-	"loadAttempt": {
-		"message": "Pokus c. $currentLoadAttempt$ z $maxLoadAttempts$",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"songAlreadyInCollection": {
-		"message": "$collectionName$ již stopu obsahuje",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allSongsAlreadyInCollection": {
-		"message": "$collectionName$ již všechny stopy obsahuje",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"songsAlreadyInCollection": {
-		"message": "$collectionName$ již $duplicateSongCount$ z $draggedSongCount$ stop obsahuje",
-		"placeholders": {
-			"duplicateSongCount": {
-				"content": "$1"
-			},
-			"draggedSongCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "URL zkopírováno"
-	},
-	"copyFailed": {
-		"message": "Kopírování selhalo"
-	},
-	"playlistExported": {
-		"message": "Seznam byl úspešne exportován."
-	},
-	"playing": {
-		"message": "Prehrávání"
-	},
-	"buffering": {
-		"message": "Nacítání"
-	},
-	"paused": {
-		"message": "Pozastaveno"
-	},
-	"cancel": {
-		"message": "Zrušit"
-	},
-	"errorLoadingUrl": {
-		"message": "Selhalo nacítání URL"
-	},
-	"playlistLoaded": {
-		"message": "Seznam nacten"
-	},
-	"playlistCreated": {
-		"message": "Seznam vytvoren"
-	},
-	"extensionConflict": {
-		"message": "Jiné rozšírení nebo jiný problém nutí YouTube používat flash.$lineBreak$ Streamus nebude pracovat správne pokud bude rozšírení povoleno nebo pokud jiný problém nebude vyrešen. Poté je nutno Streamus obnovit.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
-	"searchResults": {
-		"message": "Výsledky vyhledávání"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ nelze odstranit",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ vybrán",
-		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "Uložit vše"
-	},
-	"saveActiveSongCommandDescription": {
-		"message": "Uložit stopu"
-	},
-	"songSavedToPlaylist": {
-		"message": "Stopa $songTitle$ uložena do seznamu $playlistTitle$",
-		"placeholders": {
-			"songTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "Upozornení na ploše"
-	},
-	"showNotifications": {
-		"message": "Zobrazovat upozornení"
-	},
-	"notificationDuration": {
-		"message": "Trvání upozornení"
-	},
-	"oneSecond": {
-		"message": "Jedna sekunda"
-	},
-	"twoSeconds": {
-		"message": "Dve sekundy"
-	},
-	"threeSeconds": {
-		"message": "Tri sekundy"
-	},
-	"fourSeconds": {
-		"message": "Ctyri sekundy"
-	},
-	"fiveSeconds": {
-		"message": "Pet sekund"
-	},
-	"tenSeconds": {
-		"message": "Deset sekund"
-	},
-	"playlistUrl": {
-		"message": "URL seznamu"
-	}
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Poslech hudby jednoduše."
+    },
+    "toggleRadio": {
+        "message": "Rádio zap/vyp"
+    },
+    "toggleShuffle": {
+        "message": "Náhodné prehrávání zap/vyp"
+    },
+    "toggleRepeat": {
+        "message": "Prepnout opakování"
+    },
+    "increaseVolume": {
+        "message": "Zvýšit hlasitost"
+    },
+    "decreaseVolume": {
+        "message": "Snížit hlasitost"
+    },
+    "showSongDetails": {
+        "message": "Ukázat podrobnosti stopy"
+    },
+    "nextSong": {
+        "message": "Další stopa"
+    },
+    "previousSong": {
+        "message": "Predchozí stopa"
+    },
+    "toggleSong": {
+        "message": "Prehrát/pozastavit stopu"
+    },
+    "deleteSong": {
+        "message": "Odstranit stopu"
+    },
+    "copySongUrl": {
+        "message": "Zkopírovat URL stopy"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Zkopírovat název a URL stopy"
+    },
+    "save": {
+        "message": "Uložit"
+    },
+    "copyUrl": {
+        "message": "Zkopírovat URL"
+    },
+    "copyTitleAndUrl": {
+        "message": "Zkopírovat název a URL"
+    },
+    "delete": {
+        "message": "Odstranit"
+    },
+    "clearStream": {
+        "message": "Smazat frontu"
+    },
+    "saveStream": {
+        "message": "Uložit frontu"
+    },
+    "addToStreamus": {
+        "message": "Pridat do streamusu"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Stopa byla smazána nebo oznacena jako soukromá."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Stopu nelze  prehrát."
+    },
+    "errorEncountered": {
+        "message": "Vyskytl se problém."
+    },
+    "saving": {
+        "message": "Ukládání"
+    },
+    "installed": {
+        "message": "Nainstalováno"
+    },
+    "repeatOff": {
+        "message": "Opakování vypnuto"
+    },
+    "repeatSong": {
+        "message": "Opakování stopy"
+    },
+    "repeatAll": {
+        "message": "Opakování seznamu"
+    },
+    "radioOn": {
+        "message": "Rádio zapnuto"
+    },
+    "radioOff": {
+        "message": "Rádio vypnuto"
+    },
+    "shufflingOn": {
+        "message": "Náhodné prehrávání zapnuto"
+    },
+    "shufflingOff": {
+        "message": "Náhodné prehrávání vypnuto"
+    },
+    "elapsedTime": {
+        "message": "Uplynulý cas"
+    },
+    "remainingTime": {
+        "message": "Zbývající cas"
+    },
+    "totalTime": {
+        "message": "Celkový cas"
+    },
+    "highest": {
+        "message": "Nejvyšší"
+    },
+    "auto": {
+        "message": "Automatická"
+    },
+    "lowest": {
+        "message": "Nejnižší"
+    },
+    "reload": {
+        "message": "Obnovit"
+    },
+    "playAll": {
+        "message": "Prehrát vše"
+    },
+    "addAll": {
+        "message": "Pridat vše"
+    },
+    "addSelected": {
+        "message": "Pridat vybrané"
+    },
+    "playSelected": {
+        "message": "Prehrát vybrané"
+    },
+    "saveSelected": {
+        "message": "Uložit vybrané"
+    },
+    "search": {
+        "message": "Hledat"
+    },
+    "searching": {
+        "message": "Hledání"
+    },
+    "noResultsFound": {
+        "message": "Žádná stopa nenalezena"
+    },
+    "clearStream": {
+        "message": "Smazat frontu"
+    },
+    "createPlaylist": {
+        "message": "Vytvorit seznam"
+    },
+    "ok": {
+        "message": "Ok"
+    },
+    "playlist": {
+        "message": "Seznam"
+    },
+    "stream": {
+        "message": "Fronta"
+    },
+    "settings": {
+        "message": "Nastavení"
+    },
+    "edit": {
+        "message": "Upravit"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Nelze odstranit zbývající seznam"
+    },
+    "clearStreamQuestion": {
+        "message": "Smazat frontu?"
+    },
+    "play": {
+        "message": "Prehrát"
+    },
+    "add": {
+        "message": "Pridat"
+    },
+    "title": {
+        "message": "Název"
+    },
+    "url": {
+        "message": "URL"
+    },
+    "playlists": {
+        "message": "Seznamy"
+    },
+    "remind": {
+        "message": "Upozornit"
+    },
+    "reminders": {
+        "message": "Upozornení"
+    },
+    "remindClearStream": {
+        "message": "Upozornit na mazání fronty"
+    },
+    "remindDeletePlaylist": {
+        "message": "Upozornit na mazání seznamu"
+    },
+    "minute": {
+        "message": "Minuta"
+    },
+    "minutes": {
+        "message": "Minut"
+    },
+    "hours": {
+        "message": "Hodin"
+    },
+    "days": {
+        "message": "Dnu"
+    },
+    "errorLoadingTitle": {
+        "message": "Nelze nacíst název"	
+    },
+    "keyboardCommandFailure": {
+        "message": "Chyba provedení klávesové zkratky"
+    },
+    "streamEmpty": {
+        "message": "Fronta je prázdná"
+    },
+    "playlistEmpty": {
+        "message": "Seznam je prázdný"
+    },
+    "create": {
+        "message": "Vytvorit"
+    },
+    "update": {
+        "message": "Aktualizovat"
+    },
+    "wouldYouLikeTo": {
+        "message": "Chcete"
+    },
+    "general": {
+        "message": "Obecné"
+    },
+    "startTyping": {
+        "message": "Zacnete psát"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Výsledky se zobrazí po vyhledání."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Zkuste vyhledat neco jiného."
+    },
+    "watchOnYouTube": {
+        "message": "Prehrát na YouTube"
+    },
+    "notSignedIn": {
+        "message": "Neprihlášen"
+    },
+    "signingIn": {
+        "message": "Prihlašování"
+    },
+    "signIn": {
+        "message": "Prihlášení"
+    },
+    "signInFailed": {
+        "message": "Prihlášení selhalo"
+    },
+    "pleaseWait": {
+        "message": "Cekejte"
+    },
+    "openToSearch": {
+        "message": "Po otevrení vyhledávat"
+    },
+    "anUpdateIsAvailable": {
+        "message": "Je dostupná aktualizace"
+    },
+    "pressEnterToPlay": {
+        "message": "Zmácknete enter pro prehrání"
+    },
+    "volume": {
+        "message": "Hlasitost"
+    },
+    "songAdded": {
+        "message": "Stopa pridána"
+    },
+    "addSong": {
+        "message": "Pridat stopu"
+    },
+    "song": {
+        "message": "Stopa"
+    },
+    "songs": {
+        "message": "Stop"
+    },
+    "cantSkipToNextSong": {
+        "message": "Nelze prejít na další stopu"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Nelze prejít na predchozí stopu"
+    },
+    "cantToggleSong": {
+        "message": "Nelze prehrát stopu"
+    },
+    "searchForSongs": {
+        "message": "Vyhledat stopy"
+    },
+    "songQuality": {
+        "message": "Kvalita prehrávání"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Nechcete pridat stopu ze seznamu nebor",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Vyhledat a prehrát"
+    },
+    "searchAndAdd": {
+        "message": "Vyhledat a pridat"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus není propojen s Vaším Chrome úctem. Vaše seznamy budou dostupné z jakéhokoliv zarízení pokud úcty propojíte."
+    },
+    "link": {
+        "message": "Propojit",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "Nejste prihlášeni do úctu Chrome. Seznamy budou dostupné pouze z tohoto zarízení."
+    },
+    "remindGoogleSignIn": {
+        "message": "Upozornit na prihlášení k úctu Google"
+    },
+    "keyboardShortcuts": {
+        "message": "Klávesové zkratky"
+    },
+    "export": {
+        "message": "Exportovat"
+    },
+    "openInTab": {
+        "message": "Otevrít na karte"
+    },
+    "browserSettings": {
+        "message": "Nastavení prohlížece"
+    },
+    "contextMenus": {
+        "message": "Kontextová menu"
+    },
+    "websiteEnhancements": {
+        "message": "Vylepšení webové stránky"
+    },
+    "textSelection": {
+        "message": "Výber textu"
+    },
+    "youTubeLinks": {
+        "message": "Odkazy na YouTube"
+    },
+    "youTubePages": {
+        "message": "Stránky YouTube"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Typ souboru"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Hledání stopy selhalo"
+    },
+    "failedToFindSongs": {
+        "message": "Hledání stop selhalo"
+    },
+    "loadingYouTube": {
+        "message": "Nacítání YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Nacítání YouTube selhalo"
+    },
+    "loadAttempt": {
+        "message": "Pokus c. $currentLoadAttempt$ z $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "$collectionName$ již stopu obsahuje",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "$collectionName$ již všechny stopy obsahuje",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$collectionName$ již $duplicateSongCount$ z $draggedSongCount$ stop obsahuje",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "URL zkopírováno"
+    },
+    "copyFailed": {
+        "message": "Kopírování selhalo"
+    },
+    "playlistExported": {
+        "message": "Seznam byl úspešne exportován."
+    },
+    "playing": {
+        "message": "Prehrávání"
+    },
+    "buffering": {
+        "message": "Nacítání"
+    },
+    "paused": {
+        "message": "Pozastaveno"
+    },
+    "cancel": {
+        "message": "Zrušit"
+    },
+    "errorLoadingUrl": {
+        "message": "Selhalo nacítání URL"
+    },
+    "playlistLoaded": {
+        "message": "Seznam nacten"
+    },
+    "playlistCreated": {
+        "message": "Seznam vytvoren"
+    },
+    "extensionConflict": {
+        "message": "Jiné rozšírení nebo jiný problém nutí YouTube používat flash.$lineBreak$ Streamus nebude pracovat správne pokud bude rozšírení povoleno nebo pokud jiný problém nebude vyrešen. Poté je nutno Streamus obnovit.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "Výsledky vyhledávání"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ nelze odstranit",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ vybrán",
+        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Uložit vše"
+    },
+    "saveSong": {
+        "message": "Uložit stopu"
+    },
+    "songSavedToPlaylist": {
+        "message": "Stopa $songTitle$ uložena do seznamu $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Upozornení na ploše"
+    },
+    "showNotifications": {
+        "message": "Zobrazovat upozornení"
+    },
+    "notificationDuration": {
+        "message": "Trvání upozornení"
+    },
+    "oneSecond": {
+        "message": "Jedna sekunda"
+    },
+    "twoSeconds": {
+        "message": "Dve sekundy"
+    },
+    "threeSeconds": {
+        "message": "Tri sekundy"
+    },
+    "fourSeconds": {
+        "message": "Ctyri sekundy"
+    },
+    "fiveSeconds": {
+        "message": "Pet sekund"
+    },
+    "tenSeconds": {
+        "message": "Deset sekund"
+    },
+    "playlistUrl": {
+        "message": "URL seznamu"
+    }
 }

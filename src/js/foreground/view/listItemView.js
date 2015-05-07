@@ -46,7 +46,7 @@
         },
 
         _onMouseEnter: function() {
-            this.buttonsRegion.show(new ListItemButtonsView({
+            this.showChildView('buttonsRegion', new ListItemButtonsView({
                 model: this.model,
                 buttonViews: this.buttonViews
             }));

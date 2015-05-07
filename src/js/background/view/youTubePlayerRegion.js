@@ -9,12 +9,12 @@
         initialize: function(options) {
             this.youTubePlayer = options.youTubePlayer;
 
-            this.listenTo(Streamus.channels.backgroundArea.vent, 'attached', this._onBackgroundAreaAttached);
+            this.listenTo(Streamus.channels.backgroundArea.vent, 'rendered', this._onBackgroundAreaRendered);
             this.listenTo(this.youTubePlayer, 'change:loading', this._onYouTubePlayerChangeLoading);
             this.listenTo(this.youTubePlayer, 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
         },
 
-        _onBackgroundAreaAttached: function() {
+        _onBackgroundAreaRendered: function() {
             if (this.youTubePlayer.get('loading')) {
                 this._showYouTubePlayerView();
             } else {

@@ -42,7 +42,7 @@ define(function(require) {
         },
 
         tryloadByUserId: function() {
-            var userId = window.localStorage.getItem('userId');
+            var userId = localStorage.getItem('userId');
 
             if (userId === null) {
                 this._create();

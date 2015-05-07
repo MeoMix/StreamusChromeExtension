@@ -14,7 +14,7 @@
         streamItems: null,
 
         playlistItemsEvents: {
-            'add': '_onPlaylistItemsAdd',
+            'add:completed': '_onPlaylistItemsAddCompleted',
             'remove': '_onPlaylistItemsRemove',
             'reset': '_onPlaylistItemsReset'
         },
@@ -38,8 +38,8 @@
             });
         },
 
-        _onPlaylistItemsAdd: function() {
-            this._setState(false);
+        _onPlaylistItemsAddCompleted: function(collection) {
+            this._setState(collection.isEmpty());
         },
 
         _onPlaylistItemsRemove: function(model, collection) {

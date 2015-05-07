@@ -36,6 +36,17 @@
             return this.findWhere({ active: true });
         },
 
+        getActiveSongId: function() {
+            var activeItem = this.getActiveItem();
+            var activeSongId = null;
+
+            if (!_.isUndefined(activeItem)) {
+                activeSongId = activeItem.get('song').get('id');
+            }
+
+            return activeSongId;
+        },
+
         notPlayedRecently: function() {
             return this.where({ playedRecently: false });
         },
@@ -68,6 +79,8 @@
         },
 
         addSongs: function(songs, options) {
+            //  TODO: reduce cyclomatic complexity.
+            /* jshint ignore:start */
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
@@ -98,6 +111,12 @@
                     index++;
                 }
             }, this);
+            
+            if (createdStreamItems.length > 0) {
+                //  Emit a custom event signaling items have been added. 
+                //  Useful for not responding to add until all items have been added.
+                this.trigger('add:completed', this);
+            }
 
             if (options.playOnAdd || options.markFirstActive) {
                 if (createdStreamItems.length > 0) {
@@ -119,6 +138,7 @@
             }
 
             return createdStreamItems;
+            /* jshint ignore:end */
         },
 
         _onAdd: function(model) {
@@ -261,7 +281,9 @@
 
         _onChromeCommandsCommand: function(command) {
             //  Only respond to a subset of commands because all commands get broadcast, but not all are for this entity.
-            if (command === ChromeCommand.ShowActiveSong || command === ChromeCommand.DeleteSongFromStream || command === ChromeCommand.CopySongUrl || command === ChromeCommand.CopySongTitleAndUrl || command === ChromeCommand.SaveActiveSong) {
+            var streamItemsCommands = [ChromeCommand.ShowSongDetails, ChromeCommand.DeleteSong, ChromeCommand.CopySongUrl, ChromeCommand.CopySongTitleAndUrl, ChromeCommand.SaveSong];
+  
+            if (_.contains(streamItemsCommands, command)) {
                 if (this.length === 0) {
                     Streamus.channels.notification.commands.trigger('show:notification', {
                         title: chrome.i18n.getMessage('keyboardCommandFailure'),
@@ -269,10 +291,10 @@
                     });
                 } else {
                     switch (command) {
-                        case ChromeCommand.ShowActiveSong:
+                        case ChromeCommand.ShowSongDetails:
                             this.showActiveNotification();
                             break;
-                        case ChromeCommand.DeleteSongFromStream:
+                        case ChromeCommand.DeleteSong:
                             this.getActiveItem().destroy();
                             break;
                         case ChromeCommand.CopySongUrl:
@@ -281,7 +303,7 @@
                         case ChromeCommand.CopySongTitleAndUrl:
                             this.getActiveItem().get('song').copyTitleAndUrl();
                             break;
-                        case ChromeCommand.SaveActiveSong:
+                        case ChromeCommand.SaveSong:
                             Streamus.channels.activePlaylist.commands.trigger('save:song', this.getActiveItem().get('song'));
                             break;
                     }

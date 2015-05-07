@@ -36,7 +36,7 @@
                 this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
             }
 
-            this.timeAreaRegion.show(new TimeAreaView({
+            this.showChildView('timeAreaRegion', new TimeAreaView({
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')
                 })
@@ -49,7 +49,7 @@
                 this.$el.addClass('is-visible');
                 Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             } else {
-                _.defer(function() {
+                requestAnimationFrame(function() {
                     this.$el.addClass('is-visible');
                 }.bind(this));
 
@@ -72,7 +72,7 @@
         _onTransitionOutComplete: function(event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
-                Streamus.channels.activeStreamItemArea.vent.trigger('is-hidden');
+                Streamus.channels.activeStreamItemArea.vent.trigger('hidden');
                 this.destroy();
             }
         }

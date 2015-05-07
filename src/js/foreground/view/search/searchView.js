@@ -58,7 +58,7 @@
         },
 
         collectionEvents: {
-            'add': '_onSearchResultsAdd',
+            'add:completed': '_onSearchResultsAddCompleted',
             'remove': '_onSearchResultsRemove',
             'reset': '_onSearchResultsReset'
         },
@@ -79,11 +79,11 @@
             this._setButtonStates();
             this._toggleInstructions();
 
-            this.searchResultsRegion.show(new SearchResultsView({
+            this.showChildView('searchResultsRegion', new SearchResultsView({
                 collection: this.model.get('results')
             }));
 
-            this.spinnerRegion.show(new SpinnerView());
+            this.showChildView('spinnerRegion', new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.
@@ -122,7 +122,7 @@
             this._setButtonStates();
         },
 
-        _onSearchResultsAdd: function() {
+        _onSearchResultsAddCompleted: function() {
             this._toggleInstructions();
             this._setButtonStates();
         },

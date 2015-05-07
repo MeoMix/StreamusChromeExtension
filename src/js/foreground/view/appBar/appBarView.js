@@ -100,31 +100,23 @@
                 this._setPlaylistTitleRegion(signedInUser);
             }
 
-            this.volumeAreaRegion.show(new VolumeAreaView());
+            this.showChildView('volumeAreaRegion', new VolumeAreaView());
 
-            this.adminMenuAreaRegion.show(new AdminMenuAreaView({
+            this.showChildView('adminMenuAreaRegion', new AdminMenuAreaView({
                 model: new AdminMenuArea()
             }));
 
-            this.previousButtonRegion.show(new PreviousButtonView({
+            this.showChildView('previousButtonRegion', new PreviousButtonView({
                 model: Streamus.backgroundPage.previousButton
             }));
 
-            this.playPauseButtonRegion.show(new PlayPauseButtonView({
+            this.showChildView('playPauseButtonRegion', new PlayPauseButtonView({
                 model: Streamus.backgroundPage.playPauseButton
             }));
 
-            this.nextButtonRegion.show(new NextButtonView({
+            this.showChildView('nextButtonRegion', new NextButtonView({
                 model: Streamus.backgroundPage.nextButton
             }));
-        },
-
-        onAttach: function() {
-            //  TODO: It would be better to read this state from a viewmodel rather than hitting the DOM.
-            //  Needs to be ran in onAttach as well as when the search is showing because 'showing' event can trigger when view is rendering rather than attached.
-            if (this.ui.searchInput.is(':visible')) {
-                this._focusSearchInput();
-            }
         },
 
         _onSearchChangeQuery: function(model, query) {
@@ -151,7 +143,7 @@
 
         _onPlaylistsChangeActive: function(model, active) {
             if (active) {
-                this.playlistTitleRegion.show(new PlaylistTitleView({
+                this.showChildView('playlistTitleRegion', new PlaylistTitleView({
                     model: model
                 }));
             }
@@ -208,7 +200,7 @@
         },
 
         _setPlaylistTitleRegion: function(signedInUser) {
-            this.playlistTitleRegion.show(new PlaylistTitleView({
+            this.showChildView('playlistTitleRegion', new PlaylistTitleView({
                 model: signedInUser.get('playlists').getActivePlaylist()
             }));
         },

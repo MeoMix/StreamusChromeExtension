@@ -6,10 +6,6 @@
     var Application = Marionette.Application.extend({
         backgroundPage: null,
 
-        regions: {
-            foregroundAreaRegion: '#foregroundAreaRegion'
-        },
-
         channels: {
             global: Backbone.Wreqr.radio.channel('global'),
             dialog: Backbone.Wreqr.radio.channel('dialog'),
@@ -24,7 +20,9 @@
             element: Backbone.Wreqr.radio.channel('element'),
             saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),
             listItem: Backbone.Wreqr.radio.channel('listItem'),
-            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu')
+            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
+            video: Backbone.Wreqr.radio.channel('video'),
+            playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton')
         },
 
         backgroundChannels: null,
@@ -53,13 +51,12 @@
         },
 
         _showForegroundArea: function() {
-            this.foregroundAreaRegion.show(new ForegroundAreaView());
+            var foregroundAreaView = new ForegroundAreaView();
+            foregroundAreaView.render();
         }
     });
 
-    $(function() {
-        var streamus = new Application();
-        window.Streamus = streamus;
-        streamus.start();
-    });
+    var streamus = new Application();
+    window.Streamus = streamus;
+    streamus.start();
 });

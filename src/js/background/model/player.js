@@ -33,14 +33,16 @@ define(function(require) {
                 loadedSong: null,
                 playImmediately: false,
                 songToActivate: null,
+                iframePort: null,
+                buffers: [],
+                bufferType: '',
 
                 //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
                 //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
                 refreshAlarmName: 'refreshAlarm_' + _.now(),
 
                 settings: null,
-                youTubePlayer: null,
-                debugManager: null
+                youTubePlayer: null
             };
         },
         
@@ -66,6 +68,7 @@ define(function(require) {
             this.listenTo(this.get('youTubePlayer'), 'change:currentLoadAttempt', this._onYouTubePlayerChangeCurrentLoadAttempt);
             this.listenTo(Streamus.channels.player.commands, 'playOnActivate', this._playOnActivate);
 
+            //window.addEventListener('message', this._onWindowMessage.bind(this));
             chrome.runtime.onConnect.addListener(this._onChromeRuntimeConnect.bind(this));
             chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
             chrome.alarms.onAlarm.addListener(this._onChromeAlarmsAlarm.bind(this));
@@ -86,6 +89,7 @@ define(function(require) {
                     suggestedQuality: this._getYouTubeQuality(this.get('settings').get('songQuality'))
                 };
 
+                this._resetMetaData();
                 //  TODO: I don't think I *always* want to keep the player going if a song is activated while one is playing, but maybe...
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
                     this.get('youTubePlayer').loadVideoById(videoOptions);
@@ -167,7 +171,10 @@ define(function(require) {
                     this.get('youTubePlayer').seekTo(timeInSeconds);
                 }
             } else {
-                this.set('currentTime', timeInSeconds);
+                this.set({
+                    currentTime: timeInSeconds,
+                    currentTimeHighPrecision: timeInSeconds
+                });
             }
         },
 
@@ -192,6 +199,13 @@ define(function(require) {
             if (loadedSong !== null) {
                 this.activateSong(loadedSong, this.get('currentTime'));
             }
+        },
+
+        isPausable: function() {
+            var state = this.get('state');
+            var isPausable = state === PlayerState.Playing || state === PlayerState.Buffering;
+
+            return isPausable;
         },
         
         //  Ensure that the initial state of the player properly reflects the state of its APIs
@@ -265,6 +279,7 @@ define(function(require) {
 
         _onChromeRuntimeConnect: function(port) {
             if (port.name === 'youTubeIFrameConnectRequest') {
+                this.set('iframePort', port);
                 port.onMessage.addListener(this._onYouTubeIFrameMessage.bind(this));
             }
         },
@@ -272,7 +287,10 @@ define(function(require) {
         _onYouTubeIFrameMessage: function(message) {
             //  It's better to be told when time updates rather than poll YouTube's API for the currentTime.
             if (!_.isUndefined(message.currentTime)) {
-                this.set('currentTime', message.currentTime);
+                this.set({
+                    currentTimeHighPrecision: message.currentTime,
+                    currentTime: Math.ceil(message.currentTime)
+                });
             }
 
             //  YouTube's API for seeking/buffering doesn't fire events reliably.
@@ -289,13 +307,15 @@ define(function(require) {
                 }
             }
 
+            if (!_.isUndefined(message.currentTimeHighPrecision)) {
+                //  Event listeners may need to know the absolute currentTime. They have no idea if it is current or not.
+                //  If it is current, still notify them.
+                this.trigger('receive:currentTimeHighPrecision', this, message);
+            }
+
             if (!_.isUndefined(message.error)) {
                 var error = new Error(message.error);
                 Streamus.channels.error.commands.trigger('log:error', error);
-            }
-
-            if (!_.isUndefined(message.flashLoaded)) {
-                this.get('debugManager').set('flashLoaded', message.flashLoaded);
             }
         },
 
@@ -337,6 +357,15 @@ define(function(require) {
         //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(model, error) {
             this.trigger('youTubeError', this, error);
+        },
+
+        _onWindowMessage: function(message) {
+            //  When receiving a message of buffer data from YouTube's API, store it.
+            //  TODO: Clear this when switching to SoundCloud.
+            if (message.data && message.data.buffer) {
+                this.get('buffers').push(message.data.buffer);
+                this.set('bufferType', message.data.bufferType);
+            }
         },
 
         _createRefreshAlarm: function() {
@@ -414,6 +443,24 @@ define(function(require) {
             }
 
             return playerState;
+        },
+
+        //  Some video information is stored on YouTubePlayer for a per-video basis
+        //  This information should be discarded whenever the video changes.
+        _resetMetaData: function() {
+            this.get('buffers').length = 0;
+            //  NOTE: It's technically possible to squeeze a bit of extra performance out of MediaSource by not clearing bufferType here.
+            //  Instead, one could keep track of the 'lastKnownBufferType' and only call addSourceBuffer when the bufferType changes.
+            //  HOWEVER, knowledge of a video's bufferType arrives after the 'loadedVideoId' event fires. This leads to complications where a 
+            //  MediaSource attempts to use one bufferType for a video only to find out that the bufferType is incorrect a moment later.
+            //  So, I'm clearing the bufferType every time the video changes to prevent this confusion, but at the cost of a small perf. hit.
+            this.set('bufferType', '');
+        },
+
+        //  Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.
+        requestCurrentTimeHighPrecision: function() {
+            var iframePort = this.get('iframePort');
+            iframePort.postMessage('getCurrentTimeHighPrecision');
         }
     });
 

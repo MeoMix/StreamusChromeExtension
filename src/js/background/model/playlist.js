@@ -114,6 +114,11 @@ define(function(require) {
         _onChangeActive: function(model, active) {
             this._setActivePlaylistListeners(active);
 
+            this._emitYouTubeTabUpdateEvent({
+                id: model.get('id'),
+                active: active
+            });
+
             if (!active) {
                 this.get('items').deselectAll();
             }

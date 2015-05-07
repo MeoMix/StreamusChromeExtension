@@ -12,10 +12,13 @@
     var SearchAreaRegion = require('foreground/view/search/searchAreaRegion');
     var StreamRegion = require('foreground/view/stream/streamRegion');
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
+    var VideoRegion = require('foreground/view/video/videoRegion');
+    var KeyboardKey = require('foreground/enum/keyboardKey');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
         id: 'foregroundArea',
+        el: '#foregroundArea',
         className: 'flexColumn u-fullHeight',
         template: _.template(ForegroundAreaTemplate),
 
@@ -86,6 +89,10 @@
                 selectionBarRegion: {
                     selector: '#' + this.id + '-selectionBarRegion',
                     regionClass: SelectionBarRegion
+                },
+                videoRegion: {
+                    selector: '#' + this.id + '-videoRegion',
+                    regionClass: VideoRegion
                 }
             };
         },
@@ -102,19 +109,32 @@
             this.player = Streamus.backgroundPage.player;
             this.settings = Streamus.backgroundPage.settings;
             this.bindEntityEvents(this.player, this.playerEvents);
+            
+            //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
+            this._onWindowUnload = this._onWindowUnload.bind(this);
+            this._onWindowResize = this._onWindowResize.bind(this);
+            this._onWindowError = this._onWindowError.bind(this);
+            this._onKeyDown = this._onKeyDown.bind(this);
 
-            window.onunload = this._onWindowUnload.bind(this);
-            window.onresize = this._onWindowResize.bind(this);
-            window.onerror = this._onWindowError.bind(this);
+            window.addEventListener('unload', this._onWindowUnload);
+            window.addEventListener('resize', this._onWindowResize);
+            window.addEventListener('error', this._onWindowError);
+            window.addEventListener('keydown', this._onKeyDown);
 
             Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
         },
 
         onRender: function() {
-            this.spinnerRegion.show(new SpinnerView());
+            this.showChildView('spinnerRegion', new SpinnerView());
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');
+
+            //  After announcing that the foregroundArea has rendered successfully, wait a moment for other views to respond.
+            //  Then, announce that the foregroundArea is now an 'idle' state to allow for non-critical components to render themselves.
+            setTimeout(function() {
+                Streamus.channels.foregroundArea.vent.trigger('idle');
+            }.bind(this), 250);
         },
 
         //  Announce the jQuery target of element clicked so multi-select collections can decide if they should de-select their child views
@@ -152,6 +172,13 @@
 
         _onWindowError: function(message, url, lineNumber, columnNumber, error) {
             Streamus.backgroundChannels.error.vent.trigger('windowError', message, url, lineNumber, columnNumber, error);
+        },
+
+        _onKeyDown: function(event) {
+            //  If the user presses the space key without any child element focused then assume it's an intenentional request to play/pause.
+            if (event.keyCode === KeyboardKey.Space && document.activeElement === document.body) {
+                Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
+            }
         },
 
         _onPlayerChangeLoading: function(model, loading) {

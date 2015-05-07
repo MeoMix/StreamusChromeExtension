@@ -41,7 +41,8 @@
                 behaviorClass: CollectionViewMultiSelect
             },
             Scrollable: {
-                behaviorClass: Scrollable
+                behaviorClass: Scrollable,
+                implementsSlidingRender: true
             },
             SlidingRender: {
                 behaviorClass: SlidingRender
@@ -55,8 +56,6 @@
         },
 
         initialize: function() {
-            this.viewModel = Streamus.backgroundPage.playlistsViewModel;
-
             this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
         },
 

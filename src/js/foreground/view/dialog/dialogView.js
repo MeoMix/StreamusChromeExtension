@@ -52,7 +52,7 @@
         },
 
         onRender: function() {
-            this.contentRegion.show(this.contentView);
+            this.showChildView('contentRegion', this.contentView);
 
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -60,17 +60,7 @@
         },
 
         onAttach: function() {
-            //  TODO: Keep DRY w/ scrollable.
-            //  More info: https://github.com/noraesae/perfect-scrollbar
-            //  This needs to be ran during onShow for perfectScrollbar to do its math properly.
-            this.contentView.$el.perfectScrollbar({
-                suppressScrollX: true,
-                //  56px because that is the height of 1 listItem--medium
-                minScrollbarLength: 56,
-                includePadding: true
-            });
-
-            _.defer(this._transitionIn.bind(this));
+            requestAnimationFrame(this._transitionIn.bind(this));
         },
         
         //  Unless a dialog specifically implements reminderProperty it is assumed that reminder is enabled and the dialog will be shown when asked.
@@ -156,7 +146,7 @@
                 iconOnLeft: true
             });
 
-            this.reminderRegion.show(new CheckboxView({
+            this.showChildView('reminderRegion', new CheckboxView({
                 id: this.id + '-reminderCheckbox',
                 model: this.reminderCheckbox
             }));

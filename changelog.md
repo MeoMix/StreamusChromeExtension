@@ -15,7 +15,7 @@ v0.169
 
 - Selection bar now appears at the bottom when you have checked items. Provides a consistent interface for play/add/delete/save of items.
 - Items can now only be selected by checking their checkbox area rather than the entire item. 
-- Beatport inject code has been updated to support their new website.
+- Beatport content script code has been updated to support their new website.
 - All Beatport pages are now supported by Streamus rather than just Top 10 and Top 100.
 - Size of the volume icon has been increased.
 - There are now "Add all / play all" buttons for search results.

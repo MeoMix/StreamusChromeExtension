@@ -7,6 +7,7 @@
 
     var BackgroundAreaView = Marionette.LayoutView.extend({
         id: 'backgroundArea',
+        el: '#backgroundArea',
         template: _.template(BackgroundAreaTemplate),
 
         regions: function(options) {
@@ -27,8 +28,8 @@
             this.model.get('analyticsManager').sendPageView('/background.html');
         },
 
-        onAttach: function() {
-            Streamus.channels.backgroundArea.vent.trigger('attached');
+        onRender: function() {
+            Streamus.channels.backgroundArea.vent.trigger('rendered');
         }
     });
 
