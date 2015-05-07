@@ -85,6 +85,11 @@ define(function() {
                         this._decorateTextTooltipable($(textTooltipable));
                     }, this);
                 }
+
+                // We only come here once, but since we are decorating the
+                // element after it has been hovered over, we need to trigger
+                // the 'mouseenter' again to get desired tooltip behavior.
+                this.$el.trigger('mouseenter');
             }
         },
 
