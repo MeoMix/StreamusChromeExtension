@@ -59,7 +59,7 @@
                 this._centerActive();
             }
 
-            _.defer(function() {
+            requestAnimationFrame(function() {
                 this.$el.addClass('is-visible');
             }.bind(this));
         },

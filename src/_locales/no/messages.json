@@ -1,528 +1,528 @@
 {
-	"extensionName": {
-		"message": "Streamus"
-	},
-	"extensionDescription": {
-		"message": "Enkel strømming av musikk."
-	},
-	"toggleRadioCommandDescription": {
-		"message": "Radio av/på"
-	},
-	"toggleShuffleCommandDescription": {
-		"message": "Tilfeldig rekkefølge av/på"
-	},
-	"toggleRepeatCommandDescription": {
-		"message": "Gjenta av/alle sanger/gjeldende sang"
-	},
-	"increaseVolumeCommandDescription": {
-		"message": "Øk volum"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "Senk volum"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "Vis sanginformasjon"
-	},
-	"nextSongCommandDescription": {
-		"message": "Neste sang"
-	},
-	"previousSongCommandDescription": {
-		"message": "Forrige sang"
-	},
-	"toggleSongCommandDescription": {
-		"message": "Spill av/pause sang"
-	},
-	"deleteSongCommandDescription": {
-		"message": "Slett sang"
-	},
-	"copySongURLCommandDescription": {
-		"message": "Kopier sangens nettadresse"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "Kopier sangens tittel og nettadresse"
-	},
-	"save": {
-		"message": "Lagre"
-	},
-	"copyUrl": {
-		"message": "Kopier nettadresse"
-	},
-	"copyTitleAndUrl": {
-		"message": "Kopier tittel og nettadresse"
-	},
-	"delete": {
-		"message": "Slett"
-	},
-	"clearStream": {
-		"message": "Tøm stream"
-	},
-	"saveStream": {
-		"message": "Lagre stream"
-	},
-	"addToStreamus": {
-		"message": "Legg til Streamus"
-	},
-	"youTubePlayerErrorSongNotFound": {
-		"message": "Sangen har blitt fjernet eller markert som privat."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "Kan ikke spille av sang."
-	},
-	"errorEncountered": {
-		"message": "Det oppstod en feil."
-	},
-	"saving": {
-		"message": "Lagrer"
-	},
-	"installed": {
-		"message": "Installert"
-	},
-	"repeatOff": {
-		"message": "Gjenta av"
-	},
-	"repeatSong": {
-		"message": "Gjenta på"
-	},
-	"repeatAll": {
-		"message": "Gjenta alt"
-	},
-	"radioOn": {
-		"message": "Radio på"
-	},
-	"radioOff": {
-		"message": "Radio av"
-	},
-	"shufflingOn": {
-		"message": "Tilfeldig rekkefølge på"
-	},
-	"shufflingOff": {
-		"message": "Tilfeldig rekkefølge av"
-	},
-	"elapsedTime": {
-		"message": "Tid gått"
-	},
-	"remainingTime": {
-		"message": "Gjenstående tid"
-	},
-	"totalTime": {
-		"message": "Total tid"
-	},
-	"highest": {
-		"message": "Høyeste"
-	},
-	"auto": {
-		"message": "Auto"
-	},
-	"lowest": {
-		"message": "Laveste"
-	},
-	"reload": {
-		"message": "Last inn på nytt"
-	},
-	"playAll": {
-		"message": "Spill av alle"
-	},
-	"addAll": {
-		"message": "Legg til alle"
-	},
-	"addSelected": {
-		"message": "Legg til valgte"
-	},
-	"playSelected": {
-		"message": "Spill av valgte"
-	},
-	"saveSelected": {
-		"message": "Lagre valgte"
-	},
-	"search": {
-		"message": "Søk"
-	},
-	"searching": {
-		"message": "Søker"
-	},
-	"noResultsFound": {
-		"message": "Fant ingen resultater"
-	},
-	"clearStream": {
-		"message": "Tøm stream"
-	},
-	"createPlaylist": {
-		"message": "Opprett spilleliste"
-	},
-	"ok": {
-		"message": "Ok"
-	},
-	"playlist": {
-		"message": "Spilleliste"
-	},
-	"stream": {
-		"message": "Stream"
-	},
-	"settings": {
-		"message": "Instillinger"
-	},
-	"edit": {
-		"message": "Rediger"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "Kan ikke slette siste spilleliste"
-	},
-	"clearStreamQuestion": {
-		"message": "Tøm streamen?"
-	},
-	"play": {
-		"message": "Spill av"
-	},
-	"add": {
-		"message": "Legg til"
-	},
-	"title": {
-		"message": "Tittel"
-	},
-	"url": {
-		"message": "Nettadresse"
-	},
-	"playlists": {
-		"message": "Spillelister"
-	},
-	"remind": {
-		"message": "Husk"
-	},
-	"reminders": {
-		"message": "Påminnelser"
-	},
-	"remindClearStream": {
-		"message": "Husk tøm stream"
-	},
-	"remindDeletePlaylist": {
-		"message": "Husk slett spilleliste"
-	},
-	"minute": {
-		"message": "Minutt"
-	},
-	"minutes": {
-		"message": "Minutter"
-	},
-	"hours": {
-		"message": "Timer"
-	},
-	"days": {
-		"message": "Dager"
-	},
-	"errorLoadingTitle": {
-		"message": "Feil ved lasting av tittel"	
-	},
-	"keyboardCommandFailure": {
-		"message": "Tastaturkommando mislyktes"
-	},
-	"streamEmpty": {
-		"message": "Stream tom"
-	},
-	"playlistEmpty": {
-		"message": "Spilleliste tom"
-	},
-	"create": {
-		"message": "Opprett"
-	},
-	"update": {
-		"message": "Oppdatere"
-	},
-	"wouldYouLikeTo": {
-		"message": "Ønsker du å"
-	},
-	"general": {
-		"message": "Generelt"
-	},
-	"startTyping": {
-		"message": "Skriv"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "Resultater vises mens du skriver."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "Prøv å søke etter noe annet."
-	},
-	"watchOnYouTube": {
-		"message": "Se på YouTube"
-	},
-	"notSignedIn": {
-		"message": "Ikke logget inn"
-	},
-	"signingIn": {
-		"message": "Logger inn"
-	},
-	"signIn": {
-		"message": "Logg inn"
-	},
-	"signInFailed": {
-		"message": "Pålogging mislyktes"
-	},
-	"pleaseWait": {
-		"message": "Vennligst vent"
-	},
-	"openToSearch": {
-		"message": "Åpne for å søke"
-	},
-	"anUpdateIsAvailable": {
-		"message": "En oppdatering er tilgjengelig"
-	},
-	"pressEnterToPlay": {
-		"message": "Trykk enter for å spille av"
-	},
-	"volume": {
-		"message": "Volum"
-	},
-	"songAdded": {
-		"message": "Sang lagt til"
-	},
-	"addSong": {
-		"message": "Legg til sang"
-	},
-	"song": {
-		"message": "Sang"
-	},
-	"songs": {
-		"message": "Sanger"
-	},
-	"cantSkipToNextSong": {
-		"message": "Kan ikke hoppe til neste sang"
-	},
-	"cantGoBackToPreviousSong": {
-		"message": "Kan ikke gå tilbake til forrige sang"
-	},
-	"cantToggleSong": {
-		"message": "Kan ikke skifte sang"
-	},
-	"searchForSongs": {
-		"message": "Søk etter sanger"
-	},
-	"songQuality": {
-		"message": "Sangkvalitet"
-	},
-	"whyNotAddASongFromAPlaylistOr": {
-		"message": "Hvorfor ikke legge til en sang fra en spilleliste eller",
-		"description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "Søk og Spill av"
-	},
-	"searchAndAdd": {
-		"message": "Søk og Legg til"
-	},
-	"linkAccountsMessage": {
-		"message": "Streamus er ikke koblet til din Chrome konto. Spillelistene vil være tilgjengelig på andre datamaskiner hvis du kobler til kontoene dine"
-	},
-	"link": {
-		"message": "Koble til",
-		"description": "This is 'Link' as in 'Link my account'"
-	},
-	"googleSignInMessage": {
-		"message": "Du er ikke pålogget Chrome. Dine spillelister er bare tilgjengelig på denne datamaskinen."
-	},
-	"remindGoogleSignIn": {
-		"message": "Husk Google-pålogging"
-	},
-	"keyboardShortcuts": {
-		"message": "Skrivebordssnarveier"
-	},
-	"export": {
-		"message": "Eksporter"
-	},
-	"openInTab": {
-		"message": "Åpne i ny fane"
-	},
-	"browserSettings": {
-		"message": "Nettleserinnstillinger"
-	},
-	"contextMenus": {
-		"message": "hurtigmenyer"
-	},
-	"websiteEnhancements": {
-		"message": "Nettside-forbedringer"
-	},
-	"textSelection": {
-		"message": "Tekstmarkering"
-	},
-	"youTubeLinks": {
-		"message": "YouTube-lenker"
-	},
-	"youTubePages": {
-		"message": "YouTube-sider"
-	},
-	"youTube": {
-		"message": "YouTube"
-	},
-	"beatport": {
-		"message": "Beatport"
-	},
-	"fileType": {
-		"message": "Filtype"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindSong": {
-		"message": "Kunne ikke finne sang"
-	},
-	"failedToFindSongs": {
-		"message": "Kunne ikke finne sanger"
-	},
-	"loadingYouTube": {
-		"message": "Laster YouTube"
-	},
-	"loadingYouTubeFailed": {
-		"message": "Lasting av YouTube mislyktes"
-	},
-	"loadAttempt": {
-		"message": "Forsøk $currentLoadAttempt$ av $maxLoadAttempts$",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"songAlreadyInCollection": {
-		"message": "Sang allerede i $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allSongsAlreadyInCollection": {
-		"message": "Alle sanger allerede i $collectionName$",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ av $draggedSongCount$ sanger allerede i $collectionName$",
-		"placeholders": {
-			"duplicateSongCount": {
-				"content": "$1"
-			},
-			"draggedSongCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "Nettadresse kopiert"
-	},
-	"copyFailed": {
-		"message": "Kopiering mislyktes"
-	},
-	"playlistExported": {
-		"message": "Spilleliste eksportert vellykket."
-	},
-	"playing": {
-		"message": "Spiller av"
-	},
-	"buffering": {
-		"message": "Bufrer"
-	},
-	"paused": {
-		"message": "Pauset"
-	},
-	"cancel": {
-		"message": "Avbryt"
-	},
-	"errorLoadingUrl": {
-		"message": "Feil ved lasting av nettadresse"
-	},
-	"playlistLoaded": {
-		"message": "Spilleliste lastet inn"
-	},
-	"playlistCreated": {
-		"message": "Spilleliste opprettet"
-	},
-	"extensionConflict": {
-		"message": "En annen utvidelse, eller et annet problem, har tvunget YouTube til å bruke Flash.$lineBreak$ Streamus vil ikke fungere ordentlig før utvidelsen er deaktivert, eller problemet er løst, og Streamus startes på nytt.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
-	"searchResults": {
-		"message": "Søkeresultater"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ kan ikke slettes",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ valgt",
-		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "Lagre alt"
-	},
-	"saveActiveSongCommandDescription": {
-		"message": "Lagre sang"
-	},
-	"songSavedToPlaylist": {
-		"message": "$songTitle$ lagret i $playlistTitle$",
-		"placeholders": {
-			"songTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "Skrivebordsvarslinger"
-	},
-	"showNotifications": {
-		"message": "Vis varslinger"
-	},
-	"notificationDuration": {
-		"message": "Varighet"
-	},
-	"oneSecond": {
-		"message": "Ett sekund"
-	},
-	"twoSeconds": {
-		"message": "To sekunder"
-	},
-	"threeSeconds": {
-		"message": "Tre sekunder"
-	},
-	"fourSeconds": {
-		"message": "Fire sekunder"
-	},
-	"fiveSeconds": {
-		"message": "Fem sekunder"
-	},
-	"tenSeconds": {
-		"message": "Ti sekunder"
-	},
-	"playlistUrl": {
-		"message": "Spilleliste nettadresse"
-	}
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Enkel strømming av musikk."
+    },
+    "toggleRadio": {
+        "message": "Radio av/på"
+    },
+    "toggleShuffle": {
+        "message": "Tilfeldig rekkefølge av/på"
+    },
+    "toggleRepeat": {
+        "message": "Gjenta av/alle sanger/gjeldende sang"
+    },
+    "increaseVolume": {
+        "message": "Øk volum"
+    },
+    "decreaseVolume": {
+        "message": "Senk volum"
+    },
+    "showSongDetails": {
+        "message": "Vis sanginformasjon"
+    },
+    "nextSong": {
+        "message": "Neste sang"
+    },
+    "previousSong": {
+        "message": "Forrige sang"
+    },
+    "toggleSong": {
+        "message": "Spill av/pause sang"
+    },
+    "deleteSong": {
+        "message": "Slett sang"
+    },
+    "copySongUrl": {
+        "message": "Kopier sangens nettadresse"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Kopier sangens tittel og nettadresse"
+    },
+    "save": {
+        "message": "Lagre"
+    },
+    "copyUrl": {
+        "message": "Kopier nettadresse"
+    },
+    "copyTitleAndUrl": {
+        "message": "Kopier tittel og nettadresse"
+    },
+    "delete": {
+        "message": "Slett"
+    },
+    "clearStream": {
+        "message": "Tøm stream"
+    },
+    "saveStream": {
+        "message": "Lagre stream"
+    },
+    "addToStreamus": {
+        "message": "Legg til Streamus"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Sangen har blitt fjernet eller markert som privat."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Kan ikke spille av sang."
+    },
+    "errorEncountered": {
+        "message": "Det oppstod en feil."
+    },
+    "saving": {
+        "message": "Lagrer"
+    },
+    "installed": {
+        "message": "Installert"
+    },
+    "repeatOff": {
+        "message": "Gjenta av"
+    },
+    "repeatSong": {
+        "message": "Gjenta på"
+    },
+    "repeatAll": {
+        "message": "Gjenta alt"
+    },
+    "radioOn": {
+        "message": "Radio på"
+    },
+    "radioOff": {
+        "message": "Radio av"
+    },
+    "shufflingOn": {
+        "message": "Tilfeldig rekkefølge på"
+    },
+    "shufflingOff": {
+        "message": "Tilfeldig rekkefølge av"
+    },
+    "elapsedTime": {
+        "message": "Tid gått"
+    },
+    "remainingTime": {
+        "message": "Gjenstående tid"
+    },
+    "totalTime": {
+        "message": "Total tid"
+    },
+    "highest": {
+        "message": "Høyeste"
+    },
+    "auto": {
+        "message": "Auto"
+    },
+    "lowest": {
+        "message": "Laveste"
+    },
+    "reload": {
+        "message": "Last inn på nytt"
+    },
+    "playAll": {
+        "message": "Spill av alle"
+    },
+    "addAll": {
+        "message": "Legg til alle"
+    },
+    "addSelected": {
+        "message": "Legg til valgte"
+    },
+    "playSelected": {
+        "message": "Spill av valgte"
+    },
+    "saveSelected": {
+        "message": "Lagre valgte"
+    },
+    "search": {
+        "message": "Søk"
+    },
+    "searching": {
+        "message": "Søker"
+    },
+    "noResultsFound": {
+        "message": "Fant ingen resultater"
+    },
+    "clearStream": {
+        "message": "Tøm stream"
+    },
+    "createPlaylist": {
+        "message": "Opprett spilleliste"
+    },
+    "ok": {
+        "message": "Ok"
+    },
+    "playlist": {
+        "message": "Spilleliste"
+    },
+    "stream": {
+        "message": "Stream"
+    },
+    "settings": {
+        "message": "Instillinger"
+    },
+    "edit": {
+        "message": "Rediger"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Kan ikke slette siste spilleliste"
+    },
+    "clearStreamQuestion": {
+        "message": "Tøm streamen?"
+    },
+    "play": {
+        "message": "Spill av"
+    },
+    "add": {
+        "message": "Legg til"
+    },
+    "title": {
+        "message": "Tittel"
+    },
+    "url": {
+        "message": "Nettadresse"
+    },
+    "playlists": {
+        "message": "Spillelister"
+    },
+    "remind": {
+        "message": "Husk"
+    },
+    "reminders": {
+        "message": "Påminnelser"
+    },
+    "remindClearStream": {
+        "message": "Husk tøm stream"
+    },
+    "remindDeletePlaylist": {
+        "message": "Husk slett spilleliste"
+    },
+    "minute": {
+        "message": "Minutt"
+    },
+    "minutes": {
+        "message": "Minutter"
+    },
+    "hours": {
+        "message": "Timer"
+    },
+    "days": {
+        "message": "Dager"
+    },
+    "errorLoadingTitle": {
+        "message": "Feil ved lasting av tittel"	
+    },
+    "keyboardCommandFailure": {
+        "message": "Tastaturkommando mislyktes"
+    },
+    "streamEmpty": {
+        "message": "Stream tom"
+    },
+    "playlistEmpty": {
+        "message": "Spilleliste tom"
+    },
+    "create": {
+        "message": "Opprett"
+    },
+    "update": {
+        "message": "Oppdatere"
+    },
+    "wouldYouLikeTo": {
+        "message": "Ønsker du å"
+    },
+    "general": {
+        "message": "Generelt"
+    },
+    "startTyping": {
+        "message": "Skriv"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Resultater vises mens du skriver."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Prøv å søke etter noe annet."
+    },
+    "watchOnYouTube": {
+        "message": "Se på YouTube"
+    },
+    "notSignedIn": {
+        "message": "Ikke logget inn"
+    },
+    "signingIn": {
+        "message": "Logger inn"
+    },
+    "signIn": {
+        "message": "Logg inn"
+    },
+    "signInFailed": {
+        "message": "Pålogging mislyktes"
+    },
+    "pleaseWait": {
+        "message": "Vennligst vent"
+    },
+    "openToSearch": {
+        "message": "Åpne for å søke"
+    },
+    "anUpdateIsAvailable": {
+        "message": "En oppdatering er tilgjengelig"
+    },
+    "pressEnterToPlay": {
+        "message": "Trykk enter for å spille av"
+    },
+    "volume": {
+        "message": "Volum"
+    },
+    "songAdded": {
+        "message": "Sang lagt til"
+    },
+    "addSong": {
+        "message": "Legg til sang"
+    },
+    "song": {
+        "message": "Sang"
+    },
+    "songs": {
+        "message": "Sanger"
+    },
+    "cantSkipToNextSong": {
+        "message": "Kan ikke hoppe til neste sang"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Kan ikke gå tilbake til forrige sang"
+    },
+    "cantToggleSong": {
+        "message": "Kan ikke skifte sang"
+    },
+    "searchForSongs": {
+        "message": "Søk etter sanger"
+    },
+    "songQuality": {
+        "message": "Sangkvalitet"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Hvorfor ikke legge til en sang fra en spilleliste eller",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Søk og Spill av"
+    },
+    "searchAndAdd": {
+        "message": "Søk og Legg til"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus er ikke koblet til din Chrome konto. Spillelistene vil være tilgjengelig på andre datamaskiner hvis du kobler til kontoene dine"
+    },
+    "link": {
+        "message": "Koble til",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "Du er ikke pålogget Chrome. Dine spillelister er bare tilgjengelig på denne datamaskinen."
+    },
+    "remindGoogleSignIn": {
+        "message": "Husk Google-pålogging"
+    },
+    "keyboardShortcuts": {
+        "message": "Skrivebordssnarveier"
+    },
+    "export": {
+        "message": "Eksporter"
+    },
+    "openInTab": {
+        "message": "Åpne i ny fane"
+    },
+    "browserSettings": {
+        "message": "Nettleserinnstillinger"
+    },
+    "contextMenus": {
+        "message": "hurtigmenyer"
+    },
+    "websiteEnhancements": {
+        "message": "Nettside-forbedringer"
+    },
+    "textSelection": {
+        "message": "Tekstmarkering"
+    },
+    "youTubeLinks": {
+        "message": "YouTube-lenker"
+    },
+    "youTubePages": {
+        "message": "YouTube-sider"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Filtype"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Kunne ikke finne sang"
+    },
+    "failedToFindSongs": {
+        "message": "Kunne ikke finne sanger"
+    },
+    "loadingYouTube": {
+        "message": "Laster YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Lasting av YouTube mislyktes"
+    },
+    "loadAttempt": {
+        "message": "Forsøk $currentLoadAttempt$ av $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "Sang allerede i $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Alle sanger allerede i $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ av $draggedSongCount$ sanger allerede i $collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "Nettadresse kopiert"
+    },
+    "copyFailed": {
+        "message": "Kopiering mislyktes"
+    },
+    "playlistExported": {
+        "message": "Spilleliste eksportert vellykket."
+    },
+    "playing": {
+        "message": "Spiller av"
+    },
+    "buffering": {
+        "message": "Bufrer"
+    },
+    "paused": {
+        "message": "Pauset"
+    },
+    "cancel": {
+        "message": "Avbryt"
+    },
+    "errorLoadingUrl": {
+        "message": "Feil ved lasting av nettadresse"
+    },
+    "playlistLoaded": {
+        "message": "Spilleliste lastet inn"
+    },
+    "playlistCreated": {
+        "message": "Spilleliste opprettet"
+    },
+    "extensionConflict": {
+        "message": "En annen utvidelse, eller et annet problem, har tvunget YouTube til å bruke Flash.$lineBreak$ Streamus vil ikke fungere ordentlig før utvidelsen er deaktivert, eller problemet er løst, og Streamus startes på nytt.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "Søkeresultater"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ kan ikke slettes",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ valgt",
+        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Lagre alt"
+    },
+    "saveSong": {
+        "message": "Lagre sang"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ lagret i $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Skrivebordsvarslinger"
+    },
+    "showNotifications": {
+        "message": "Vis varslinger"
+    },
+    "notificationDuration": {
+        "message": "Varighet"
+    },
+    "oneSecond": {
+        "message": "Ett sekund"
+    },
+    "twoSeconds": {
+        "message": "To sekunder"
+    },
+    "threeSeconds": {
+        "message": "Tre sekunder"
+    },
+    "fourSeconds": {
+        "message": "Fire sekunder"
+    },
+    "fiveSeconds": {
+        "message": "Fem sekunder"
+    },
+    "tenSeconds": {
+        "message": "Ti sekunder"
+    },
+    "playlistUrl": {
+        "message": "Spilleliste nettadresse"
+    }
 }

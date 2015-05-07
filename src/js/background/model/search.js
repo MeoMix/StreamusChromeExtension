@@ -27,7 +27,7 @@
 
         //  The foreground has to be able to call this whenever a view opens.
         stopClearQueryTimer: function() {
-            window.clearTimeout(this.get('clearQueryTimeout'));
+            clearTimeout(this.get('clearQueryTimeout'));
             this.set('clearQueryTimeout', null);
         },
 

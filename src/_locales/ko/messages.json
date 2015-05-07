@@ -1,528 +1,528 @@
 ﻿{
-	"extensionName": {
-		"message": "Streamus(스트리머스)"
-	},
-	"extensionDescription": {
-		"message": "간단하고 빠르게 음악을 들으세요."
-	},
-	"toggleRadioCommandDescription": {
-		"message": "라디오 끄기/켜기"
-	},
-	"toggleShuffleCommandDescription": {
-		"message": "셔플 끄기/켜기"
-	},
-	"toggleRepeatCommandDescription": {
-		"message": "반복 끄기/모든 노래/현재 노래"
-	},
-	"increaseVolumeCommandDescription": {
-		"message": "소리 늘리기"
-	},
-	"decreaseVolumeCommandDescription": {
-		"message": "소리 줄이기"
-	},
-	"showActiveSongCommandDescription": {
-		"message": "자세히"
-	},
-	"nextSongCommandDescription": {
-		"message": "다음곡"
-	},
-	"previousSongCommandDescription": {
-		"message": "이전곡"
-	},
-	"toggleSongCommandDescription": {
-		"message": "재생/정지"
-	},
-	"deleteSongCommandDescription": {
-		"message": "노래 삭제"
-	},
-	"copySongURLCommandDescription": {
-		"message": "링크 복사"
-	},
-	"copySongTitleURLCommandDescription": {
-		"message": "노래 제목과 링크 복사"
-	},
-	"save": {
-		"message": "저장"
-	},
-	"copyUrl": {
-		"message": "주소 복사"
-	},
-	"copyTitleAndUrl": {
-		"message": "제목과 주소 복사"
-	},
-	"delete": {
-		"message": "삭제"
-	},
-	"clearStream": {
-		"message": "스트림 지우기"
-	},
-	"saveStream": {
-		"message": "스트림 저장"
-	},
-	"addToStreamus": {
-		"message": "Streamus에 등록"
-	},
-	"youTubePlayerErrorSongNotFound": {
-		"message": "노래가 지워졌거나 비공개 상태입니다."
-	},
-	"youTubePlayerErrorNoPlayEmbedded": {
-		"message": "노래가 재생될 수 없습니다."
-	},
-	"errorEncountered": {
-		"message": "에러가 발생했습니다."
-	},
-	"saving": {
-		"message": "저장중"
-	},
-	"installed": {
-		"message": "설치됨"
-	},
-	"repeatOff": {
-		"message": "반복 끄기"
-	},
-	"repeatSong": {
-		"message": "노래 반복"
-	},
-	"repeatAll": {
-		"message": "전체 반복"
-	},
-	"radioOn": {
-		"message": "라디오 켜기"
-	},
-	"radioOff": {
-		"message": "라디오 끄기"
-	},
-	"shufflingOn": {
-		"message": "셔플 켜기"
-	},
-	"shufflingOff": {
-		"message": "셔플 끄기"
-	},
-	"elapsedTime": {
-		"message": "재생된 시간"
-	},
-	"remainingTime": {
-		"message": "남은 시간"
-	},
-	"totalTime": {
-		"message": "전체 시간"
-	},
-	"highest": {
-		"message": "높음"
-	},
-	"auto": {
-		"message": "자동"
-	},
-	"lowest": {
-		"message": "낮음"
-	},
-	"reload": {
-		"message": "리로드"
-	},
-	"playAll": {
-		"message": "모두 재생"
-	},
-	"addAll": {
-		"message": "모두 등록"
-	},
-	"addSelected": {
-		"message": "선택한 노래 등록"
-	},
-	"playSelected": {
-		"message": "선택한 노래 재생"
-	},
-	"saveSelected": {
-		"message": "선택한 노래 저장"
-	},
-	"search": {
-		"message": "검색"
-	},
-	"searching": {
-		"message": "검색중"
-	},
-	"noResultsFound": {
-		"message": "결과 없음"
-	},
-	"clearStream": {
-		"message": "스트림 제거"
-	},
-	"createPlaylist": {
-		"message": "재생목록 생성"
-	},
-	"ok": {
-		"message": "확인"
-	},
-	"playlist": {
-		"message": "재생목록"
-	},
-	"stream": {
-		"message": "스트림"
-	},
-	"settings": {
-		"message": "설정"
-	},
-	"edit": {
-		"message": "수정"
-	},
-	"cantDeleteLastPlaylist": {
-		"message": "재생목록 삭제 불가"
-	},
-	"clearStreamQuestion": {
-		"message": "스트림을 제거하시겠습니까?"
-	},
-	"play": {
-		"message": "재생"
-	},
-	"add": {
-		"message": "등록"
-	},
-	"title": {
-		"message": "제목"
-	},
-	"url": {
-		"message": "주소"
-	},
-	"playlists": {
-		"message": "재생목록"
-	},
-	"remind": {
-		"message": "알림"
-	},
-	"reminders": {
-		"message": "알리미"
-	},
-	"remindClearStream": {
-		"message": "스트림 제거 알림"
-	},
-	"remindDeletePlaylist": {
-		"message": "재생목록 제거 알림"
-	},
-	"minute": {
-		"message": "분"
-	},
-	"minutes": {
-		"message": "분"
-	},
-	"hours": {
-		"message": "시간"
-	},
-	"days": {
-		"message": "일"
-	},
-	"errorLoadingTitle": {
-		"message": "제목 불러오기 실패"	
-	},
-	"keyboardCommandFailure": {
-		"message": "키보드 커맨드 실패"
-	},
-	"streamEmpty": {
-		"message": "스트림 비어있음"
-	},
-	"playlistEmpty": {
-		"message": "빈 재생목록"
-	},
-	"create": {
-		"message": "생성"
-	},
-	"update": {
-		"message": "업데이트"
-	},
-	"wouldYouLikeTo": {
-		"message": "하시겠습니까"
-	},
-	"general": {
-		"message": "일반"
-	},
-	"startTyping": {
-		"message": "입력하세요"
-	},
-	"resultsWillAppearAsYouSearch": {
-		"message": "검색을 시작하시면 결과가 나옵니다."
-	},
-	"trySearchingForSomethingElse": {
-		"message": "다른 것도 찾아보세요."
-	},
-	"watchOnYouTube": {
-		"message": "유투브에서 보기"
-	},
-	"notSignedIn": {
-		"message": "로그인 안됨"
-	},
-	"signingIn": {
-		"message": "로그인 중"
-	},
-	"signIn": {
-		"message": "로그인"
-	},
-	"signInFailed": {
-		"message": "로그인 실패"
-	},
-	"pleaseWait": {
-		"message": "기다려주세요"
-	},
-	"openToSearch": {
-		"message": "검색 열기"
-	},
-	"anUpdateIsAvailable": {
-		"message": "업데이트가 가능합니다"
-	},
-	"pressEnterToPlay": {
-		"message": "엔터를 눌러 재생"
-	},
-	"volume": {
-		"message": "소리"
-	},
-	"songAdded": {
-		"message": "노래 추가됨"
-	},
-	"addSong": {
-		"message": "노래 추가"
-	},
-	"song": {
-		"message": "노래"
-	},
-	"songs": {
-		"message": "노래"
-	},
-	"cantSkipToNextSong": {
-		"message": "다음 노래 재생 불가"
-	},
-	"cantGoBackToPreviousSong": {
-		"message": "이전 노래 재생 불가"
-	},
-	"cantToggleSong": {
-		"message": "노래 토글 불가"
-	},
-	"searchForSongs": {
-		"message": "노래 찾기"
-	},
-	"songQuality": {
-		"message": "노래 품질"
-	},
-	"whyNotAddASongFromAPlaylistOr": {
-		"message": "재생목록에서 노래를 추가하거나",
-		"description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
-	},
-	"searchAndPlay": {
-		"message": "검색과 재생"
-	},
-	"searchAndAdd": {
-		"message": "검색과 추가"
-	},
-	"linkAccountsMessage": {
-		"message": "구글 계정에 스트리머스가 연동되지 않았습니다. 구글 계정을 연동시키면 다른 컴퓨터에서도 재생목록을 이용할 수 있습니다."
-	},
-	"link": {
-		"message": "계정 연동",
-		"description": "This is 'Link' as in 'Link my account'"
-	},
-	"googleSignInMessage": {
-		"message": "크롬에 로그인 되지 않았습니다. 이 컴퓨터에서만 재생목록을 사용할 수 있습니다."
-	},
-	"remindGoogleSignIn": {
-		"message": "구글 로그인 알림"
-	},
-	"keyboardShortcuts": {
-		"message": "키보드 단축키"
-	},
-	"export": {
-		"message": "추출"
-	},
-	"openInTab": {
-		"message": "탭에서 열기"
-	},
-	"browserSettings": {
-		"message": "브라우저 설정"
-	},
-	"contextMenus": {
-		"message": "메뉴"
-	},
-	"websiteEnhancements": {
-		"message": "웹사이트 향상"
-	},
-	"textSelection": {
-		"message": "텍스트 선택"
-	},
-	"youTubeLinks": {
-		"message": "유투브 링크"
-	},
-	"youTubePages": {
-		"message": "유투브 페이지"
-	},
-	"youTube": {
-		"message": "유투브"
-	},
-	"beatport": {
-		"message": "비트포트"
-	},
-	"fileType": {
-		"message": "파일 타입"
-	},
-	"csv":{
-		"message": "CSV"
-	},
-	"json": {
-		"message": "JSON"
-	},
-	"failedToFindSong": {
-		"message": "노래를 찾지 못했습니다"
-	},
-	"failedToFindSongs": {
-		"message": "노래를 찾지 못했습니다"
-	},
-	"loadingYouTube": {
-		"message": "유투브 로딩중"
-	},
-	"loadingYouTubeFailed": {
-		"message": "유투브 로딩 실패"
-	},
-	"loadAttempt": {
-		"message": "$currentLoadAttempt$ / $maxLoadAttempts$ 시도중",
-		"placeholders": {
-			"currentLoadAttempt": {
-				"content": "$1"
-			},
-			"maxLoadAttempts": {
-				"content": "$2"
-			}
-		}
-	},
-	"songAlreadyInCollection": {
-		"message": "노래가 이미 $collectionName$ 에 있습니다",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"allSongsAlreadyInCollection": {
-		"message": "모든 노래가 이미 $collectionName$ 에 있습니다",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"songsAlreadyInCollection": {
-		"message": "$duplicateSongCount$ / $draggedSongCount$ 노래가 이미 $collectionName$ 에 있습니다",
-		"placeholders": {
-			"duplicateSongCount": {
-				"content": "$1"
-			},
-			"draggedSongCount": {
-				"content": "$2"
-			},
-			"collectionName": {
-				"content": "$3"
-			}
-		}
-	},
-	"urlCopied": {
-		"message": "주소 복사됨"
-	},
-	"copyFailed": {
-		"message": "복사 실패"
-	},
-	"playlistExported": {
-		"message": "재생 목록 추출 성공."
-	},
-	"playing": {
-		"message": "재생중"
-	},
-	"buffering": {
-		"message": "버퍼링"
-	},
-	"paused": {
-		"message": "멈춤"
-	},
-	"cancel": {
-		"message": "취소"
-	},
-	"errorLoadingUrl": {
-		"message": "주소 로딩 실패"
-	},
-	"playlistLoaded": {
-		"message": "재생목록 준비됨"
-	},
-	"playlistCreated": {
-		"message": "재생목록 생성됨"
-	},
-	"extensionConflict": {
-		"message": "다른 확장프로그램이나 어떤 이유로 인해 유투브가 Flash를 사용합니다.$lineBreak$ 그 확장프로그램을 삭제하고 문제를 해결한 후, 스트리머스를 재시작해야 합니다.",
-		"placeholders": {
-			"lineBreak": {
-				"content": "$1"
-			}
-		}
-	},
-	"searchResults": {
-		"message": "검색 결과"
-	},
-	"collectionCantBeDeleted": {
-		"message": "$collectionName$ 삭제 불가능",
-		"placeholders": {
-			"collectionName": {
-				"content": "$1"
-			}
-		}
-	},
-	"collectionSelected": {
-		"message": "$count$ $collectionName$ 선택됨",
-		"description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
-		"placeholders": {
-			"count": {
-				"content": "$1"
-			},
-			"collectionName": {
-				"content": "$2"
-			}
-		}
-	},
-	"saveAll": {
-		"message": "모두 저장"
-	},
-	"saveActiveSongCommandDescription": {
-		"message": "노래 저장"
-	},
-	"songSavedToPlaylist": {
-		"message": "$songTitle$ 가 $playlistTitle$ 에 저장됨",
-		"placeholders": {
-			"songTitle": {
-				"content": "$1"
-			},
-			"playlistTitle": {
-				"content": "$2"
-			}
-		}
-	},
-	"desktopNotifications": {
-		"message": "데스크탑 알림"
-	},
-	"showNotifications": {
-		"message": "알림 보기"
-	},
-	"notificationDuration": {
-		"message": "알림 지속시간"
-	},
-	"oneSecond": {
-		"message": "1초"
-	},
-	"twoSeconds": {
-		"message": "2초"
-	},
-	"threeSeconds": {
-		"message": "3초"
-	},
-	"fourSeconds": {
-		"message": "4초"
-	},
-	"fiveSeconds": {
-		"message": "5초"
-	},
-	"tenSeconds": {
-		"message": "10초"
-	},
-	"playlistUrl": {
-		"message": "재생목록 주소"
-	}
+    "extensionName": {
+        "message": "Streamus(스트리머스)"
+    },
+    "extensionDescription": {
+        "message": "간단하고 빠르게 음악을 들으세요."
+    },
+    "toggleRadio": {
+        "message": "라디오 끄기/켜기"
+    },
+    "toggleShuffle": {
+        "message": "셔플 끄기/켜기"
+    },
+    "toggleRepeat": {
+        "message": "반복 끄기/모든 노래/현재 노래"
+    },
+    "increaseVolume": {
+        "message": "소리 늘리기"
+    },
+    "decreaseVolume": {
+        "message": "소리 줄이기"
+    },
+    "showSongDetails": {
+        "message": "자세히"
+    },
+    "nextSong": {
+        "message": "다음곡"
+    },
+    "previousSong": {
+        "message": "이전곡"
+    },
+    "toggleSong": {
+        "message": "재생/정지"
+    },
+    "deleteSong": {
+        "message": "노래 삭제"
+    },
+    "copySongUrl": {
+        "message": "링크 복사"
+    },
+    "copySongTitleAndUrl": {
+        "message": "노래 제목과 링크 복사"
+    },
+    "save": {
+        "message": "저장"
+    },
+    "copyUrl": {
+        "message": "주소 복사"
+    },
+    "copyTitleAndUrl": {
+        "message": "제목과 주소 복사"
+    },
+    "delete": {
+        "message": "삭제"
+    },
+    "clearStream": {
+        "message": "스트림 지우기"
+    },
+    "saveStream": {
+        "message": "스트림 저장"
+    },
+    "addToStreamus": {
+        "message": "Streamus에 등록"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "노래가 지워졌거나 비공개 상태입니다."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "노래가 재생될 수 없습니다."
+    },
+    "errorEncountered": {
+        "message": "에러가 발생했습니다."
+    },
+    "saving": {
+        "message": "저장중"
+    },
+    "installed": {
+        "message": "설치됨"
+    },
+    "repeatOff": {
+        "message": "반복 끄기"
+    },
+    "repeatSong": {
+        "message": "노래 반복"
+    },
+    "repeatAll": {
+        "message": "전체 반복"
+    },
+    "radioOn": {
+        "message": "라디오 켜기"
+    },
+    "radioOff": {
+        "message": "라디오 끄기"
+    },
+    "shufflingOn": {
+        "message": "셔플 켜기"
+    },
+    "shufflingOff": {
+        "message": "셔플 끄기"
+    },
+    "elapsedTime": {
+        "message": "재생된 시간"
+    },
+    "remainingTime": {
+        "message": "남은 시간"
+    },
+    "totalTime": {
+        "message": "전체 시간"
+    },
+    "highest": {
+        "message": "높음"
+    },
+    "auto": {
+        "message": "자동"
+    },
+    "lowest": {
+        "message": "낮음"
+    },
+    "reload": {
+        "message": "리로드"
+    },
+    "playAll": {
+        "message": "모두 재생"
+    },
+    "addAll": {
+        "message": "모두 등록"
+    },
+    "addSelected": {
+        "message": "선택한 노래 등록"
+    },
+    "playSelected": {
+        "message": "선택한 노래 재생"
+    },
+    "saveSelected": {
+        "message": "선택한 노래 저장"
+    },
+    "search": {
+        "message": "검색"
+    },
+    "searching": {
+        "message": "검색중"
+    },
+    "noResultsFound": {
+        "message": "결과 없음"
+    },
+    "clearStream": {
+        "message": "스트림 제거"
+    },
+    "createPlaylist": {
+        "message": "재생목록 생성"
+    },
+    "ok": {
+        "message": "확인"
+    },
+    "playlist": {
+        "message": "재생목록"
+    },
+    "stream": {
+        "message": "스트림"
+    },
+    "settings": {
+        "message": "설정"
+    },
+    "edit": {
+        "message": "수정"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "재생목록 삭제 불가"
+    },
+    "clearStreamQuestion": {
+        "message": "스트림을 제거하시겠습니까?"
+    },
+    "play": {
+        "message": "재생"
+    },
+    "add": {
+        "message": "등록"
+    },
+    "title": {
+        "message": "제목"
+    },
+    "url": {
+        "message": "주소"
+    },
+    "playlists": {
+        "message": "재생목록"
+    },
+    "remind": {
+        "message": "알림"
+    },
+    "reminders": {
+        "message": "알리미"
+    },
+    "remindClearStream": {
+        "message": "스트림 제거 알림"
+    },
+    "remindDeletePlaylist": {
+        "message": "재생목록 제거 알림"
+    },
+    "minute": {
+        "message": "분"
+    },
+    "minutes": {
+        "message": "분"
+    },
+    "hours": {
+        "message": "시간"
+    },
+    "days": {
+        "message": "일"
+    },
+    "errorLoadingTitle": {
+        "message": "제목 불러오기 실패"	
+    },
+    "keyboardCommandFailure": {
+        "message": "키보드 커맨드 실패"
+    },
+    "streamEmpty": {
+        "message": "스트림 비어있음"
+    },
+    "playlistEmpty": {
+        "message": "빈 재생목록"
+    },
+    "create": {
+        "message": "생성"
+    },
+    "update": {
+        "message": "업데이트"
+    },
+    "wouldYouLikeTo": {
+        "message": "하시겠습니까"
+    },
+    "general": {
+        "message": "일반"
+    },
+    "startTyping": {
+        "message": "입력하세요"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "검색을 시작하시면 결과가 나옵니다."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "다른 것도 찾아보세요."
+    },
+    "watchOnYouTube": {
+        "message": "유투브에서 보기"
+    },
+    "notSignedIn": {
+        "message": "로그인 안됨"
+    },
+    "signingIn": {
+        "message": "로그인 중"
+    },
+    "signIn": {
+        "message": "로그인"
+    },
+    "signInFailed": {
+        "message": "로그인 실패"
+    },
+    "pleaseWait": {
+        "message": "기다려주세요"
+    },
+    "openToSearch": {
+        "message": "검색 열기"
+    },
+    "anUpdateIsAvailable": {
+        "message": "업데이트가 가능합니다"
+    },
+    "pressEnterToPlay": {
+        "message": "엔터를 눌러 재생"
+    },
+    "volume": {
+        "message": "소리"
+    },
+    "songAdded": {
+        "message": "노래 추가됨"
+    },
+    "addSong": {
+        "message": "노래 추가"
+    },
+    "song": {
+        "message": "노래"
+    },
+    "songs": {
+        "message": "노래"
+    },
+    "cantSkipToNextSong": {
+        "message": "다음 노래 재생 불가"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "이전 노래 재생 불가"
+    },
+    "cantToggleSong": {
+        "message": "노래 토글 불가"
+    },
+    "searchForSongs": {
+        "message": "노래 찾기"
+    },
+    "songQuality": {
+        "message": "노래 품질"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "재생목록에서 노래를 추가하거나",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "검색과 재생"
+    },
+    "searchAndAdd": {
+        "message": "검색과 추가"
+    },
+    "linkAccountsMessage": {
+        "message": "구글 계정에 스트리머스가 연동되지 않았습니다. 구글 계정을 연동시키면 다른 컴퓨터에서도 재생목록을 이용할 수 있습니다."
+    },
+    "link": {
+        "message": "계정 연동",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "크롬에 로그인 되지 않았습니다. 이 컴퓨터에서만 재생목록을 사용할 수 있습니다."
+    },
+    "remindGoogleSignIn": {
+        "message": "구글 로그인 알림"
+    },
+    "keyboardShortcuts": {
+        "message": "키보드 단축키"
+    },
+    "export": {
+        "message": "추출"
+    },
+    "openInTab": {
+        "message": "탭에서 열기"
+    },
+    "browserSettings": {
+        "message": "브라우저 설정"
+    },
+    "contextMenus": {
+        "message": "메뉴"
+    },
+    "websiteEnhancements": {
+        "message": "웹사이트 향상"
+    },
+    "textSelection": {
+        "message": "텍스트 선택"
+    },
+    "youTubeLinks": {
+        "message": "유투브 링크"
+    },
+    "youTubePages": {
+        "message": "유투브 페이지"
+    },
+    "youTube": {
+        "message": "유투브"
+    },
+    "beatport": {
+        "message": "비트포트"
+    },
+    "fileType": {
+        "message": "파일 타입"
+    },
+    "csv":{
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "노래를 찾지 못했습니다"
+    },
+    "failedToFindSongs": {
+        "message": "노래를 찾지 못했습니다"
+    },
+    "loadingYouTube": {
+        "message": "유투브 로딩중"
+    },
+    "loadingYouTubeFailed": {
+        "message": "유투브 로딩 실패"
+    },
+    "loadAttempt": {
+        "message": "$currentLoadAttempt$ / $maxLoadAttempts$ 시도중",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "노래가 이미 $collectionName$ 에 있습니다",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "모든 노래가 이미 $collectionName$ 에 있습니다",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ / $draggedSongCount$ 노래가 이미 $collectionName$ 에 있습니다",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "주소 복사됨"
+    },
+    "copyFailed": {
+        "message": "복사 실패"
+    },
+    "playlistExported": {
+        "message": "재생 목록 추출 성공."
+    },
+    "playing": {
+        "message": "재생중"
+    },
+    "buffering": {
+        "message": "버퍼링"
+    },
+    "paused": {
+        "message": "멈춤"
+    },
+    "cancel": {
+        "message": "취소"
+    },
+    "errorLoadingUrl": {
+        "message": "주소 로딩 실패"
+    },
+    "playlistLoaded": {
+        "message": "재생목록 준비됨"
+    },
+    "playlistCreated": {
+        "message": "재생목록 생성됨"
+    },
+    "extensionConflict": {
+        "message": "다른 확장프로그램이나 어떤 이유로 인해 유투브가 Flash를 사용합니다.$lineBreak$ 그 확장프로그램을 삭제하고 문제를 해결한 후, 스트리머스를 재시작해야 합니다.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "검색 결과"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ 삭제 불가능",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ 선택됨",
+        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "모두 저장"
+    },
+    "saveSong": {
+        "message": "노래 저장"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ 가 $playlistTitle$ 에 저장됨",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "데스크탑 알림"
+    },
+    "showNotifications": {
+        "message": "알림 보기"
+    },
+    "notificationDuration": {
+        "message": "알림 지속시간"
+    },
+    "oneSecond": {
+        "message": "1초"
+    },
+    "twoSeconds": {
+        "message": "2초"
+    },
+    "threeSeconds": {
+        "message": "3초"
+    },
+    "fourSeconds": {
+        "message": "4초"
+    },
+    "fiveSeconds": {
+        "message": "5초"
+    },
+    "tenSeconds": {
+        "message": "10초"
+    },
+    "playlistUrl": {
+        "message": "재생목록 주소"
+    }
 }

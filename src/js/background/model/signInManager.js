@@ -260,7 +260,7 @@
                     break;
             }
 
-            //  sendResponse becomes invalid when the event listener returns, unless you return true from the event listener to indicate you wish to send a response asynchronously (this will keep the message channel open to the other end until sendResponse is called).
+            //  sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
             return sendAsynchronousResponse;
         },
 

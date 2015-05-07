@@ -49,7 +49,7 @@
                 this.$el.addClass('is-visible');
                 Streamus.channels.activeStreamItemArea.vent.trigger('visible');
             } else {
-                _.defer(function() {
+                requestAnimationFrame(function() {
                     this.$el.addClass('is-visible');
                 }.bind(this));
 

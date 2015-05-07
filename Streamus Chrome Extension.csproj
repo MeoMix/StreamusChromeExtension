@@ -76,6 +76,10 @@
     <Content Include="src\js\background\model\analyticsManager.js" />
     <Content Include="src\js\common\enum\desktopNotificationDuration.js" />
     <Content Include="src\js\common\lodashMixin.js" />
+    <Content Include="src\js\contentScript\interceptor.js" />
+    <Content Include="src\js\foreground\model\mediaSourceWrapper.js" />
+    <Content Include="src\js\foreground\model\sourceBufferWrapper.js" />
+    <Content Include="src\js\foreground\enum\keyboardKey.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
@@ -83,12 +87,17 @@
     <Content Include="src\js\foreground\view\leftPane\playlistItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
+    <Content Include="src\js\foreground\view\listItemButton\extraActionsButtonView.js" />
+    <Content Include="src\js\foreground\view\video\videoRegion.js" />
+    <Content Include="src\js\foreground\view\video\videoView.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
     <Content Include="src\template\icon\menuIcon_24.svg" />
+    <Content Include="src\template\icon\extraActionsIcon_18.svg" />
+    <Content Include="src\template\icon\pauseIcon_18.svg" />
     <Content Include="src\template\icon\settingsIcon_24.svg" />
     <Content Include="src\template\icon\pauseIcon_30.svg" />
     <Content Include="src\template\icon\playIcon_18.svg" />
@@ -273,7 +282,7 @@
     <Content Include="src\js\foreground\view\dialog\updateStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\listItemButton\saveSongButtonView.js" />
     <Content Include="src\js\foreground\view\appBar\playlistTitleView.js" />
-    <Content Include="src\js\foreground\view\listItemButton\playSongButtonView.js" />
+    <Content Include="src\js\foreground\view\listItemButton\playPauseSongButtonView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistsAreaView.js" />
     <Content Include="src\js\foreground\view\playlist\playlistView.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuView.js" />
@@ -368,6 +377,8 @@
     <Content Include="src\template\foregroundArea.html" />
     <Content Include="src\template\leftPane\playlistItems.html" />
     <Content Include="src\template\listItemButton\addListItemButton.html" />
+    <Content Include="src\template\listItemButton\extraActionsListItemButton.html" />
+    <Content Include="src\template\listItemButton\playPauseSongButton.html" />
     <Content Include="src\template\playlist\playlists.html" />
     <Content Include="src\template\dialog\browserSettings.html" />
     <Content Include="src\template\dialog\exportPlaylist.html" />
@@ -448,6 +459,7 @@
     <Content Include="src\_locales\cs\messages.json" />
     <Content Include="src\_locales\ko\messages.json" />
     <Content Include="src\_locales\ro\messages.json" />
+    <Content Include="src\_locales\pt_BR\messages.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\manifest.json" />

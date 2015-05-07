@@ -168,6 +168,8 @@
         }.bind(this);
 
         this.onChromeRuntimeMessage = function(message) {
+            //  TODO: Reduce cyclomatic complexity.
+            /* jshint ignore:start */
             if (message.action) {
                 this[message.action](message.value);
             }
@@ -212,6 +214,7 @@
                         break;
                 }
             }
+            /* jshint ignore:end */
         }.bind(this);
 
         this.onGetYouTubeContentScriptDataResponse = function(youTubeContentScriptData) {
@@ -222,7 +225,7 @@
                 //  the page does not reload because they use AJAX to load the video page. 
                 var isPageLoaded = false;
       
-                var observer = new window.MutationObserver(function(mutations) {
+                var observer = new MutationObserver(function(mutations) {
                     var hasPageLoadedClass = mutations[0].target.classList.contains('page-loaded');
 
                     if (hasPageLoadedClass && !isPageLoaded) {

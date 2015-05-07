@@ -27,9 +27,9 @@
         //  Append a script to the page which will intercept YouTube's server requests and post messages out of the iframe with details about those requests.
         //  Needs to be an appended script because content scripts are sandboxed in such a way that they do not share variables with appended scripts.
         this.appendInterceptorScript = function() {
-            var interceptorScript = document.createElement('script');
-            interceptorScript.src = chrome.runtime.getURL('js/contentScript/interceptor.js');
-            document.head.appendChild(interceptorScript);
+            //var interceptorScript = document.createElement('script');
+            //interceptorScript.src = chrome.runtime.getURL('js/contentScript/interceptor.js');
+            //document.head.appendChild(interceptorScript);
         }.bind(this);
 
         //  Attach event listeners to the <video> element.
@@ -90,7 +90,7 @@
         //  Include any errors encountered to help with debugging.
         this.notifyYouTubeLoadFailure = function() {
             this.port.postMessage({
-                error: 'videoStream not found. Errors: ' + this.errors.join(', ')
+                error: 'videoStream not found. Errors: ' + JSON.stringify(this.errors)
             });
         }.bind(this);
 

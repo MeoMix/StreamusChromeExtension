@@ -86,8 +86,8 @@ define(function(require) {
             }
         },
 
-        _onClickSimpleMenuItem: function(eventArgs) {
-            var activeItem = eventArgs.simpleMenuItems.getActive();
+        _onClickSimpleMenuItem: function(model, eventArgs) {
+            var activeItem = eventArgs.collection.getActive();
             this.model.set('value', activeItem.get('value'));
         }
     });

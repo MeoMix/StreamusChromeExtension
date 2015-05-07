@@ -50,9 +50,9 @@
             }));
 
             this._setShowingSpinnerClass();
-            //  TODO: Ensure that when adding a new item its scrolled into view.
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
+            //  TODO: Ensure that the playlist scrolls into view -- but I need to create it as active I think because I don't ALWAYS want to scroll to the active item.
         },
 
         showContextMenu: function() {

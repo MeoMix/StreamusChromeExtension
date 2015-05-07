@@ -1,5 +1,7 @@
-﻿define(function() {
+﻿define(function(require) {
     'use strict';
+
+    var ChromeCommand = require('background/enum/chromeCommand');
 
     var TabManager = Backbone.Model.extend({
         defaults: function() {
@@ -14,22 +16,13 @@
         initialize: function() {
             this.listenTo(Streamus.channels.tab.commands, 'notify:youTube', this._notifyYouTube);
             this.listenTo(Streamus.channels.tab.commands, 'notify:beatport', this._notifyBeatport);
+            chrome.commands.onCommand.addListener(this._onChromeCommandsCommand.bind(this));
         },
 
         isStreamusTabActive: function(callback) {
             var queryInfo = {
                 url: this.get('streamusForegroundUrl'),
                 lastFocusedWindow: true
-            };
-
-            this._queryTabs(queryInfo, function(tabs) {
-                callback(tabs.length > 0);
-            });
-        },
-
-        isStreamusTabOpen: function(callback) {
-            var queryInfo = {
-                url: this.get('streamusForegroundUrl')
             };
 
             this._queryTabs(queryInfo, function(tabs) {
@@ -55,7 +48,10 @@
 
         _showTab: function(urlPattern, url) {
             var queryInfo = {
-                url: urlPattern
+                url: urlPattern,
+                //  It's possible for a tab to be open in another window.
+                //  Instead of bringing that window to the foreground -- just assume tab isn't visible.
+                currentWindow: true
             };
 
             this._queryTabs(queryInfo, function(tabDetailsList) {
@@ -106,6 +102,12 @@
         _highlightTabs: function(highlightInfo) {
             //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
+        },
+
+        _onChromeCommandsCommand: function (command) {
+            if (command === ChromeCommand.OpenInTab) {
+                this.showStreamusTab();
+            }
         }
     });
 
