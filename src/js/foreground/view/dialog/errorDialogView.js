@@ -22,10 +22,13 @@
 
             DialogView.prototype.initialize.apply(this, arguments);
 
-            var loadedSong = this.player.get('loadedSong');
-            var loadedSongId = loadedSong ? loadedSong.get('id') : '';
-            var error = new Error('Error: ' + options.error + ', loadedSongId:' + loadedSongId);
-            Streamus.backgroundChannels.error.commands.trigger('log:error', error);
+            //  TODO: This tends to flood my DB with errors. Possible (expected) errors still need to be handled:
+            //  - Geographic restrictions aren't filtered from results and then fail to play properly.
+            //  - Songs which have been removed from YouTube for copyright issues are very common.
+            //var loadedSong = this.player.get('loadedSong');
+            //var loadedSongId = loadedSong ? loadedSong.get('id') : '';
+            //var error = new Error('Error: ' + options.error + ', loadedSongId:' + loadedSongId);
+            //Streamus.backgroundChannels.error.commands.trigger('log:error', error);
         }
     });
 

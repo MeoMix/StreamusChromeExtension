@@ -58,9 +58,9 @@
             }, {
                 text: chrome.i18n.getMessage('watchOnYouTube'),
                 onClick: this._watchOnYouTube.bind(this)
-            }, {
-                text: 'Show video',
-                onClick: this._showVideo.bind(this)
+            //}, {
+            //    text: 'Show video',
+            //    onClick: this._showVideo.bind(this)
             }]);
         },
 

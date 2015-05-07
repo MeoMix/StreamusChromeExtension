@@ -22,7 +22,10 @@
                 this.ui.childContainer.sortable(this._getSortableOptions());
 
                 this.$el.scroll(_.throttle(function() {
-                    this.ui.childContainer.sortable('refresh');
+                    //  Any function which is throttled can potentially be ran after the view is destroyed.
+                    if (!this.view.isDestroyed) {
+                        this.ui.childContainer.sortable('refresh');
+                    }
                 }.bind(this), 20));
             }
         },
