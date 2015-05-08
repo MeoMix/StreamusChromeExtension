@@ -86,6 +86,12 @@ define(function() {
                     }, this);
                 }
             }
+
+            // We only come here the first time the element is hovered over,
+            // but since we don't decorate the element until after it has been
+            // hovered over, we need to trigger the 'mouseenter' again to make
+            // the tooltip appear.
+            this.$el.trigger('mouseenter');
         },
 
         _decorateTooltipable: function(tooltipableElement) {
