@@ -11,7 +11,7 @@ define(function(require) {
         //id: function () {
         //    return _.uniqueId('simpleListItem_');
         //},
-        className: 'simpleListItem listItem listItem--medium is-clickable',
+        className: 'simpleListItem listItem listItem--medium listItem--clickable',
         template: _.template(SimpleListItemTemplate),
 
         templateHelpers: function() {
@@ -86,8 +86,8 @@ define(function(require) {
             }
         },
 
-        _onClickSimpleMenuItem: function(eventArgs) {
-            var activeItem = eventArgs.simpleMenuItems.getActive();
+        _onClickSimpleMenuItem: function(model, eventArgs) {
+            var activeItem = eventArgs.collection.getActive();
             this.model.set('value', activeItem.get('value'));
         }
     });

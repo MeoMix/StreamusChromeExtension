@@ -1,0 +1,29 @@
+﻿<section class='grouping'>
+    <div class='grouping-header'>
+        <%= applicationDetailsMessage %>
+    </div>
+
+    <div class='grouping-content'>
+        <ul>
+            <li class="openHomepage grouping-item listItem listItem--small listItem--clickable">
+                <%= openHomepageMessage %>
+            </li>
+            <li class="openPatchNotes grouping-item listItem listItem--small listItem--clickable">
+                <%= openPatchNotesMessage %>
+            </li>
+            <li class="grouping-item version">
+                <div class="simpleListItem listItem listItem--medium">
+                    <div class="listItem-content">
+                        <div class="listItem-title">
+                            <%= versionMessage %>
+                        </div>
+
+                        <div class="listItem-details">
+                            <%= applicationDetails.version %>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>

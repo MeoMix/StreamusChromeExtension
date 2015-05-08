@@ -150,7 +150,7 @@ module.exports = function(grunt) {
                     to: 'localDebug: false'
                 }]
             },
-            //  Replace debugging and non-concatenated file references in manifest.json
+            //  Remove development key and comments from manifest for deployment
             transformManifest: {
                 src: ['dist/manifest.json'],
                 overwrite: true,
@@ -161,6 +161,10 @@ module.exports = function(grunt) {
                         //  Don't remove key when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
+                }, {
+                    //  Remove comments because they can't be uploaded to the web store.
+                    from: /\/\/ .*/ig,
+                    to: ''
                 }]
             }
         },
