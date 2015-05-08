@@ -11,7 +11,7 @@ define(function(require) {
         //id: function () {
         //    return _.uniqueId('simpleListItem_');
         //},
-        className: 'simpleListItem listItem listItem--medium is-clickable',
+        className: 'simpleListItem listItem listItem--medium listItem--clickable',
         template: _.template(SimpleListItemTemplate),
 
         templateHelpers: function() {

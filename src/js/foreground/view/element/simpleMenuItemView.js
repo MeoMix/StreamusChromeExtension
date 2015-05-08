@@ -4,7 +4,7 @@
     var SimpleMenuItemTemplate = require('text!template/element/simpleMenuItem.html');
 
     var SimpleMenuItemView = Marionette.LayoutView.extend({
-        className: 'listItem listItem--small listItem--selectable',
+        className: 'listItem listItem--small listItem--selectable listItem--clickable',
         template: _.template(SimpleMenuItemTemplate),
 
         events: {

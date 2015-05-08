@@ -30,6 +30,10 @@
             });
         },
 
+        showWebsite: function(url) {
+            this._showTab(url);
+        },
+
         showStreamusTab: function() {
             this._showTab(this.get('streamusForegroundUrl'));
         },
