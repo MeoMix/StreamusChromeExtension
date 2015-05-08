@@ -13,7 +13,19 @@
             'mouseenter': '_onMouseEnter'
         },
 
+        initialize: function() {
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+        },
+
+        _onForegroundAreaIdle: function() {
+            this._decorate();
+        },
+
         _onMouseEnter: function () {
+            this._decorate();
+        },
+
+        _decorate: function() {
             //  There's no reason to take this perf hit unless the user is actually going to use sortable logic.
             //  So, only run it once the user could potentially need to do so.
             if (!this.isDecorated) {
