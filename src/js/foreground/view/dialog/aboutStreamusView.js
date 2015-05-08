@@ -32,12 +32,10 @@
             this.tabManager = Streamus.backgroundPage.tabManager;
         },
 
-        onRender: function() {
-
-        },
-
         _onClickOpenHomepage: function() {
+            /* jshint camelcase: false */
             var homepageUrl = chrome.app.getDetails().homepage_url;
+            /* jshint camelcase: true */
             this.tabManager.showWebsite(homepageUrl);
         },
 
