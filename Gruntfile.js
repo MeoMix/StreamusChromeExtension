@@ -48,11 +48,10 @@ module.exports = function(grunt) {
                 quotmark: 'single',
                 jquery: true,
                 maxparams: 5,
-                //  TODO: Reduce these values.
                 maxdepth: 4,
-                maxstatements: 50,
-                maxcomplexity: 13,
-                maxlen: 90001,
+                maxstatements: 25,
+                maxcomplexity: 10,
+                maxlen: 200,
                 //	Don't validate third-party libraries
                 ignores: ['src/js/thirdParty/**/*.js']
             },
@@ -151,7 +150,7 @@ module.exports = function(grunt) {
                     to: 'localDebug: false'
                 }]
             },
-            //  Replace debugging and non-concatenated file references in manifest.json
+            //  Remove development key and comments from manifest for deployment
             transformManifest: {
                 src: ['dist/manifest.json'],
                 overwrite: true,
@@ -162,6 +161,10 @@ module.exports = function(grunt) {
                         //  Don't remove key when testing because server will throw CORS errors.
                         return isDebug ? match : '';
                     }
+                }, {
+                    //  Remove comments because they can't be uploaded to the web store.
+                    from: /\/\/ .*/ig,
+                    to: ''
                 }]
             }
         },

@@ -56,6 +56,7 @@
         //  TODO: Function is way too big.
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
         activateNext: function(removedActiveItemIndex) {
+            /* jshint ignore:start */
             var nextItem = null;
 
             var shuffleEnabled = this.get('shuffleButton').get('enabled');
@@ -140,6 +141,7 @@
             }
 
             return nextItem;
+            /* jshint ignore:end */
         },
 
         activatePrevious: function() {
@@ -160,6 +162,8 @@
 
         //  Return the previous item or null without affecting the history.
         getPrevious: function() {
+            //  TODO: Reduce cyclomatic complexity.
+            /* jshint ignore:start */
             var previousStreamItem = null;
             var history = this.get('history');
             var items = this.get('items');
@@ -194,6 +198,7 @@
             }
 
             return previousStreamItem;
+            /* jshint ignore:end */
         },
 
         //  A StreamItem's related song information is used when radio mode is enabled to allow users to discover new music.

@@ -1,8 +1,8 @@
 ﻿//  These values are synced with manifest.json's commands declaration.
 define({
-    ShowActiveSong: 'showActiveSong',
-    SaveActiveSong: 'saveActiveSong',
-    DeleteSongFromStream: 'deleteSongFromStream',
+    ShowSongDetails: 'showSongDetails',
+    SaveSong: 'saveSong',
+    DeleteSong: 'deleteSong',
     CopySongUrl: 'copySongUrl',
     CopySongTitleAndUrl: 'copySongTitleAndUrl',
     NextSong: 'nextSong',
@@ -12,5 +12,6 @@ define({
     ToggleRepeat: 'toggleRepeat',
     ToggleShuffle: 'toggleShuffle',
     IncreaseVolume: 'increaseVolume',
-    DecreaseVolume: 'decreaseVolume'
+    DecreaseVolume: 'decreaseVolume',
+    OpenInTab: 'openInTab'
 });

@@ -58,8 +58,14 @@ define(function() {
             //  Defer applying tooltips until absolutely necessary for rendering performance.
             if (!this.isDecorated) {
                 this.isDecorated = true;
+
                 //  Wrap in a RAF to allow for :hover effects to take place which might affect whether textTooltipable overflows or not.
-                requestAnimationFrame(this._setTooltips.bind(this));
+                requestAnimationFrame(function() {
+                    this._setTooltips.bind(this);
+                    //  This forces a tooltip to appear immediately if it exists. This is necessary because decorating
+                    //  the element has been delayed until mouseenter for performance, but that is when tooltip rendering triggers, too
+                    this.$el.qtip('toggle', true);
+                }.bind(this));
             }
         },
 

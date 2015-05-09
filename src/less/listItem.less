@@ -18,7 +18,6 @@
     position: relative;
     display: flex;
     width: 100%;
-    cursor: pointer;
     transition: color @transition-color-time @transition-easeOutSine, 
                 background @transition-color-time @transition-easeOutSine,
                 opacity @transition-color-time @transition-easeOutSine;
@@ -47,6 +46,11 @@
             background-color: @blue--500;
         }
     }
+}
+
+.listItem--clickable {
+    //  TODO: Maybe make the 'hover' state applied here?
+    cursor: pointer;
 }
 
 .listItem-spinner,

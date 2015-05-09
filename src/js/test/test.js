@@ -1,6 +1,8 @@
 ﻿define(function(require) {
     'use strict';
 
+    //  TODO: It might be worth breaking these tests up into sub-modules which would allow me to pass jshint.
+    /* jshint ignore:start */
     var ClientErrorManagerTest = require('test/background/model/clientErrorManagerTest');
     var UserTests = require('test/background/model/userTests');
     var SignInManagerTests = require('test/background/model/signInManagerTests');
@@ -28,4 +30,5 @@
     var SettingsDialogViewTest = require('test/foreground/view/dialog/settingsDialogViewTest');
     var SettingsViewTest = require('test/foreground/view/dialog/settingsViewTest');
     var UpdateStreamusDialogViewTest = require('test/foreground/view/dialog/updateStreamusDialogViewTest');
+    /* jshint ignore:end */
 });

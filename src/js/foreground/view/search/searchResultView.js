@@ -4,7 +4,7 @@
     var ListItemView = require('foreground/view/listItemView');
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
-    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
 
@@ -12,7 +12,7 @@
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(SearchResultTemplate),
 
-        buttonViews: [PlaySongButtonView, AddSongButtonView, SaveSongButtonView],
+        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, SaveSongButtonView],
 
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'

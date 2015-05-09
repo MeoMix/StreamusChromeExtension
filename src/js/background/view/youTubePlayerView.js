@@ -55,6 +55,7 @@
         //  Without a Referer - YouTube will reject most requests to play music.
         _onChromeWebRequestBeforeSendHeaders: function(info) {
             var refererRequestHeader = this._getHeader(info.requestHeaders, 'Referer');
+            //  TODO: I think it would be prudent to set the referer to this.el.src
             var referer = 'https://www.youtube.com/';
 
             if (_.isUndefined(refererRequestHeader)) {
@@ -64,6 +65,40 @@
                 });
             } else {
                 refererRequestHeader.value = referer;
+            }
+
+            //  Opera does not default to using the HTML5 player because of lack of MSE support.
+            //  Modify user's preferences being sent to YouTube to imply that the user wants HTML5 only
+            //  This will cause preferences to go from looking like PREF=al=en&f1=50000000&f5=30; to PREF=al=en&f1=50000000&f5=30&f2=40000000;
+            var isOpera = navigator.userAgent.indexOf(' OPR/') >= 0;
+            if (isOpera) {
+                var html5PrefValue = 'f2=40000000';
+                var cookieRequestHeader = this._getHeader(info.requestHeaders, 'Cookie');
+
+                if (_.isUndefined(cookieRequestHeader)) {
+                    info.requestHeaders.push({
+                        name: 'Cookie',
+                        value: 'PREF=' + html5PrefValue
+                    });
+                } else {
+                    //  Try to find PREF:
+                    var cookieValue = cookieRequestHeader.value;
+                    var prefStartIndex = cookieValue.indexOf('PREF');
+
+                    //  Failed to find any preferences, so provide full pref string
+                    if (prefStartIndex === -1) {
+                        cookieRequestHeader.value = cookieValue + '; PREF=' + html5PrefValue + ';';
+                    } else {
+                        var prefEndIndex = cookieValue.indexOf(';', prefStartIndex);
+
+                        //  Don't try to handle malformed preferences, too difficult.
+                        if (prefEndIndex !== -1) {
+                            //  Inject custom preference value
+                            var modifiedPref = cookieValue.slice(0, prefEndIndex) + '&' + html5PrefValue + cookieValue.slice(prefEndIndex);
+                            cookieRequestHeader.value = modifiedPref;
+                        }
+                    }
+                }
             }
 
             return { requestHeaders: info.requestHeaders };

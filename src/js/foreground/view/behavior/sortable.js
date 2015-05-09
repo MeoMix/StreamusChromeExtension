@@ -13,7 +13,19 @@
             'mouseenter': '_onMouseEnter'
         },
 
+        initialize: function() {
+            this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
+        },
+
+        _onForegroundAreaIdle: function() {
+            this._decorate();
+        },
+
         _onMouseEnter: function () {
+            this._decorate();
+        },
+
+        _decorate: function() {
             //  There's no reason to take this perf hit unless the user is actually going to use sortable logic.
             //  So, only run it once the user could potentially need to do so.
             if (!this.isDecorated) {
@@ -22,7 +34,10 @@
                 this.ui.childContainer.sortable(this._getSortableOptions());
 
                 this.$el.scroll(_.throttle(function() {
-                    this.ui.childContainer.sortable('refresh');
+                    //  Any function which is throttled can potentially be ran after the view is destroyed.
+                    if (!this.view.isDestroyed) {
+                        this.ui.childContainer.sortable('refresh');
+                    }
                 }.bind(this), 20));
             }
         },

@@ -6,7 +6,7 @@
 
     var ListItemView = Marionette.LayoutView.extend({
         tagName: 'li',
-        className: 'listItem',
+        className: 'listItem listItem--clickable',
 
         attributes: function() {
             //  Store the clientId on the view until the model has been saved successfully.
@@ -28,9 +28,9 @@
 
         regions: function() {
             return {
-                buttonsRegion: '.' + ListItemView.prototype.className + '-buttonsRegion',
-                spinnerRegion: '.' + ListItemView.prototype.className + '-spinnerRegion',
-                checkboxRegion: '.' + ListItemView.prototype.className + '-checkboxRegion'
+                buttonsRegion: '.listItem-buttonsRegion',
+                spinnerRegion: '.listItem-spinnerRegion',
+                checkboxRegion: '.listItem-checkboxRegion'
             };
         },
 

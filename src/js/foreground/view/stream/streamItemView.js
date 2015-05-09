@@ -4,8 +4,9 @@
     var ListItemView = require('foreground/view/listItemView');
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
-    var PlaySongButtonView = require('foreground/view/listItemButton/playSongButtonView');
+    var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
+    var ExtraActionsButtonView = require('foreground/view/listItemButton/extraActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
 
     var StreamItemView = ListItemView.extend({
@@ -13,7 +14,9 @@
         template: _.template(StreamItemTemplate),
 
         events: _.extend({}, ListItemView.prototype.events, {
-            'dblclick': '_onDblClick'
+            'dblclick': '_onDblClick',
+            //  TODO: bad
+            'click .extraActions': '_showContextMenu'
         }),
 
         modelEvents: {
@@ -27,7 +30,7 @@
             }
         }),
 
-        buttonViews: [PlaySongButtonView, SaveSongButtonView, DeleteSongButtonView],
+        buttonViews: [PlayPauseSongButtonView, SaveSongButtonView, DeleteSongButtonView],
 
         player: null,
         playPauseButton: null,
@@ -41,6 +44,10 @@
             this._setActiveClass(this.model.get('active'));
         },
 
+        onShowExtraActions: function() {
+            this._showContextMenu();
+        },
+
         showContextMenu: function() {
             Streamus.channels.contextMenu.commands.trigger('reset:items', [{
                 text: chrome.i18n.getMessage('copyUrl'),
@@ -51,6 +58,9 @@
             }, {
                 text: chrome.i18n.getMessage('watchOnYouTube'),
                 onClick: this._watchOnYouTube.bind(this)
+            //}, {
+            //    text: 'Show video',
+            //    onClick: this._showVideo.bind(this)
             }]);
         },
 
@@ -85,8 +95,13 @@
         _copyTitleAndUrl: function() {
             this.model.get('song').copyTitleAndUrl();
         },
+
         _watchOnYouTube: function() {
             this.player.watchInTab(this.model.get('song'));
+        },
+
+        _showVideo: function() {
+            Streamus.channels.video.commands.trigger('show:video');
         }
     });
 

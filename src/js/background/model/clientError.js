@@ -59,10 +59,10 @@
         _getBrowserVersion: function() {
             var browserVersion = '';
 
-            var chromeMatch = window.navigator.appVersion.match(/Chrome\/(.*?) /);
+            var chromeMatch = navigator.appVersion.match(/Chrome\/(.*?) /);
             browserVersion += chromeMatch ? chromeMatch[0] : '';
 
-            var operaMatch = window.navigator.appVersion.match(/OPR\/.*/);
+            var operaMatch = navigator.appVersion.match(/OPR\/.*/);
             browserVersion += operaMatch ? operaMatch[0] : '';
 
             return browserVersion;

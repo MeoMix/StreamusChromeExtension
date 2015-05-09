@@ -3,6 +3,7 @@
 
     var SettingsDialogView = require('foreground/view/dialog/settingsDialogView');
     var BrowserSettingsDialogView = require('foreground/view/dialog/browserSettingsDialogView');
+    var AboutStreamusDialogView = require('foreground/view/dialog/aboutStreamusDialogView');
     var AdminMenuAreaTemplate = require('text!template/appBar/adminMenuArea.html');
     var SettingsIcon = require('text!template/icon/settingsIcon_24.svg');
 
@@ -15,29 +16,30 @@
             browserSettingsMessage: chrome.i18n.getMessage('browserSettings'),
             keyboardShortcutsMessage: chrome.i18n.getMessage('keyboardShortcuts'),
             openInTabMessage: chrome.i18n.getMessage('openInTab'),
+            aboutStreamusMessage: chrome.i18n.getMessage('aboutStreamus'),
             reloadMessage: chrome.i18n.getMessage('reload'),
             settingsIcon: SettingsIcon
         },
 
-        ui: function() {
-            return {
-                menuButton: '#' + this.id + '-menuButton',
-                menu: '#' + this.id + '-menu',
-                settingsMenuItem: '#' + this.id + '-settingsMenuItem',
-                browserSettingsMenuItem: '#' + this.id + '-browserSettingsMenuItem',
-                openInTabMenuItem: '#' + this.id + '-openInTabMenuItem',
-                keyboardShortcutsMenuItem: '#' + this.id + '-keyboardShortcutsMenuItem',
-                restartMenuItem: '#' + this.id + '-reloadMenuItem'
-            };
+        ui: {
+            menuButton: '.menuButton',
+            menu: '.menu',
+            settings: '.settings',
+            browserSettings: '.browserSettings',
+            openInTab: '.openInTab',
+            keyboardShortcuts: '.keyboardShortcuts',
+            aboutStreamus: '.aboutStreamus',
+            restart: '.reload'
         },
 
         events: {
             'click @ui.menuButton': '_onClickMenuButton',
-            'click @ui.settingsMenuItem': '_onClickSettingsMenuItem',
-            'click @ui.browserSettingsMenuItem': '_onClickBrowserSettingsMenuItem',
-            'click @ui.keyboardShortcutsMenuItem': '_onClickKeyboardShortcutsMenuItem',
-            'click @ui.openInTabMenuItem': '_onClickOpenInTabMenuItem',
-            'click @ui.restartMenuItem': '_onClickRestartMenuItem'
+            'click @ui.settings': '_onClickSettings',
+            'click @ui.browserSettings': '_onClickBrowserSettings',
+            'click @ui.keyboardShortcuts': '_onClickKeyboardShortcuts',
+            'click @ui.openInTab': '_onClickOpenInTab',
+            'click @ui.aboutStreamus': '_onClickAboutStreamus',
+            'click @ui.restart': '_onClickRestart'
         },
 
         modelEvents: {
@@ -60,23 +62,27 @@
             this.model.set('menuShown', !this.model.get('menuShown'));
         },
 
-        _onClickSettingsMenuItem: function() {
+        _onClickSettings: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', SettingsDialogView);
         },
 
-        _onClickBrowserSettingsMenuItem: function() {
+        _onClickBrowserSettings: function() {
             Streamus.channels.dialog.commands.trigger('show:dialog', BrowserSettingsDialogView);
         },
 
-        _onClickKeyboardShortcutsMenuItem: function() {
+        _onClickKeyboardShortcuts: function() {
             this.tabManager.showKeyboardShortcutsTab();
         },
 
-        _onClickOpenInTabMenuItem: function() {
+        _onClickOpenInTab: function() {
             this.tabManager.showStreamusTab();
         },
 
-        _onClickRestartMenuItem: function() {
+        _onClickAboutStreamus: function() {
+            Streamus.channels.dialog.commands.trigger('show:dialog', AboutStreamusDialogView);
+        },
+
+        _onClickRestart: function() {
             Streamus.backgroundPage.chrome.runtime.reload();
         },
 

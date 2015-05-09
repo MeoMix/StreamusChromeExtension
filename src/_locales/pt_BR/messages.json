@@ -5,40 +5,40 @@
 	"extensionDescription": {
 		"message": "Simples, streaming de música."
 	},
-	"toggleRadioCommandDescription": {
+	"toggleRadio": {
 		"message": "Rádio desligar/ligar"
 	},
-	"toggleShuffleCommandDescription": {
+	"toggleShuffle": {
 		"message": "Misturar desligar/ligar"
 	},
-	"toggleRepeatCommandDescription": {
+	"toggleRepeat": {
 		"message": "Repetir desligar/todas músicas/música atual"
 	},
-	"increaseVolumeCommandDescription": {
+	"increaseVolume": {
 		"message": "Aumentar volume"
 	},
-	"decreaseVolumeCommandDescription": {
+	"decreaseVolume": {
 		"message": "Diminuir volume"
 	},
-	"showActiveSongCommandDescription": {
+	"showSongDetails": {
 		"message": "Exibir detalhes da música"
 	},
-	"nextSongCommandDescription": {
+	"nextSong": {
 		"message": "Próxima música"
 	},
-	"previousSongCommandDescription": {
+	"previousSong": {
 		"message": "Música anterior"
 	},
-	"toggleSongCommandDescription": {
+	"toggleSong": {
 		"message": "Reproduzir/pausar música"
 	},
-	"deleteSongCommandDescription": {
+	"deleteSong": {
 		"message": "Excluir música"
 	},
-	"copySongURLCommandDescription": {
+	"copySongUrl": {
 		"message": "Copiar URL da música"
 	},
-	"copySongTitleURLCommandDescription": {
+	"copySongTitleAndUrl": {
 		"message": "Copiar título e URL da música"
 	},
 	"save": {
@@ -481,7 +481,7 @@
 	"saveAll": {
 		"message": "Salvar todas"
 	},
-	"saveActiveSongCommandDescription": {
+	"saveSong": {
 		"message": "Salvar música"
 	},
 	"songSavedToPlaylist": {

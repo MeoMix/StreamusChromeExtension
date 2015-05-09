@@ -127,6 +127,8 @@
         },
 
         _setRenderedElements: function(scrollTop) {
+            //  TODO: Clean this up. It's still such a huge function.
+            /* jshint ignore:start */
             //  Figure out the range of items currently rendered:
             var currentMinRenderIndex = this.minRenderIndex;
             var currentMaxRenderIndex = this.maxRenderIndex;
@@ -190,6 +192,7 @@
             }
 
             this.lastScrollTop = scrollTop;
+            /* jshint ignore:end */
         },
 
         _setHeightTranslateY: function() {
@@ -356,25 +359,28 @@
             //  Use _.defer to wait for the view to remove the element corresponding to item.
             //  _renderElementAtIndex has an off-by-one error if executed immediately.
             _.defer(function() {
-                //  When a rendered view is lost - render the next one since there's a spot in the viewport
-                //  Note that I'm checking to see if options.index is rendered rather than giving it to _renderElementAtIndex.
-                if (this._indexWithinRenderRange(options.index)) {
-                    var rendered = this._tryRenderElementAtIndex(this.maxRenderIndex);
+                //  Any function which is deferred can potentially be ran after the view is destroyed.
+                if (!this.view.isDestroyed) {
+                    //  When a rendered view is lost - render the next one since there's a spot in the viewport
+                    //  Note that I'm checking to see if options.index is rendered rather than giving it to _renderElementAtIndex.
+                    if (this._indexWithinRenderRange(options.index)) {
+                        var rendered = this._tryRenderElementAtIndex(this.maxRenderIndex);
 
-                    //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
-                    if (!rendered && this.minRenderIndex > 0) {
-                        //  Also ensure that the last item in the view is fully visible before doing the math for scrolling up.
-                        var childContainerTotalHeight = this.childContainerHeight + this.childContainerTranslateY;
-                        //  Determine what fraction of childViewHeight is still outside of the viewport.
-                        var offsetToBottom = childContainerTotalHeight - this.lastScrollTop - this.viewportHeight;
-                        //  Scroll up one item at max. Reduce the scroll amount by amount needed to force the last item into full view.
-                        var scrollTop = this.lastScrollTop - this.childViewHeight + offsetToBottom;
-                        this.el.scrollTop = scrollTop;
+                        //  If failed to render next item and there are previous items waiting to be rendered, slide view back 1 item
+                        if (!rendered && this.minRenderIndex > 0) {
+                            //  Also ensure that the last item in the view is fully visible before doing the math for scrolling up.
+                            var childContainerTotalHeight = this.childContainerHeight + this.childContainerTranslateY;
+                            //  Determine what fraction of childViewHeight is still outside of the viewport.
+                            var offsetToBottom = childContainerTotalHeight - this.lastScrollTop - this.viewportHeight;
+                            //  Scroll up one item at max. Reduce the scroll amount by amount needed to force the last item into full view.
+                            var scrollTop = this.lastScrollTop - this.childViewHeight + offsetToBottom;
+                            this.el.scrollTop = scrollTop;
+                        }
                     }
-                }
 
-                this._setHeightTranslateY();
-                this.view.triggerMethod('UpdateScrollbar');
+                    this._setHeightTranslateY();
+                    this.view.triggerMethod('UpdateScrollbar');
+                }
             }.bind(this));
         },
 

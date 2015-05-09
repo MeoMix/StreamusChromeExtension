@@ -53,7 +53,7 @@ define(function(require) {
         },
 
         _onClickSimpleMenuItem: function(playlists, songs, eventArgs) {
-            var activeItem = eventArgs.simpleMenuItems.getActive();
+            var activeItem = eventArgs.collection.getActive();
             var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },

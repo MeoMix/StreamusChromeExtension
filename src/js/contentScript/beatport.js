@@ -35,6 +35,29 @@
             });
         }
 
+        //  Take a given track element and parse its children for information needed to query YouTube for corresponding song.
+        this.getQueryFromTrack = function(track) {
+            //  Figure out the information needed to find a song on YouTube.
+            //  Query will look like "primaryTitle remix artist1 artist2"
+            var primaryTitle = track.querySelector('[class*=track-primary-title]').textContent;
+            var remix = track.querySelector('[class*=track-remixed]').textContent;
+
+            var artistsNodeList = track.querySelectorAll('[class*=track-artists] a');
+            var artists = [];
+            for (var artistNodeIndex = 0; artistNodeIndex < artistsNodeList.length; artistNodeIndex++) {
+                artists.push(artistsNodeList[artistNodeIndex].textContent);
+            }
+
+            var query = primaryTitle;
+            //  Original Mix can mess up YouTube queries since songs won't always have that value.
+            if (remix !== 'Original Mix') {
+                query = ' ' + remix;
+            }
+            query += ' ' + artists.join(' ');
+
+            return query;
+        }.bind(this);
+
         //  Pass enable: true in to enable Streamus icons. Pass enable: false in to disable Streamus icons and revert back to original Beatport functionality.
         this.toggleStreamusIcons = function(enable) {
             //  Work within a container because bucket-items are scattered throughout Beatport pages.
@@ -47,27 +70,11 @@
                 var button = track.querySelector('.icon[class*=track-play]');
 
                 if (enable) {
-                    //  Figure out the information needed to find a song on YouTube.
-                    //  Query will look like "primaryTitle remix artist1 artist2"
-                    var primaryTitle = track.querySelector('[class*=track-primary-title]').textContent;
-                    var remix = track.querySelector('[class*=track-remixed]').textContent;
-
-                    var artistsNodeList = track.querySelectorAll('[class*=track-artists] a');
-                    var artists = [];
-                    for (var artistNodeIndex = 0; artistNodeIndex < artistsNodeList.length; artistNodeIndex++) {
-                        artists.push(artistsNodeList[artistNodeIndex].textContent);
-                    }
-
-                    var streamusQuery = primaryTitle;
-                    //  Original Mix can mess up YouTube queries since songs won't always have that value.
-                    if (remix !== 'Original Mix') {
-                        streamusQuery = ' ' + remix;
-                    }
-                    streamusQuery += ' ' + artists.join(' ');
+                    var query = this.getQueryFromTrack(track);
 
                     //  Decorate button to indicate it is Streamus-ified, cache query on the button so playAll can read it.
                     button.classList.add('streamusButton');
-                    button.dataset.streamusQuery = streamusQuery;
+                    button.dataset.streamusQuery = query;
                     button.addEventListener('click', onTrackPlayButtonClick);
                 } else {
                     button.classList.remove('streamusButton');
@@ -93,7 +100,7 @@
         //  So, watch for a loading class being added and then removed. The new page is loaded once the class has been removed.
         this.toggleObservePageLoad = function(enable) {
             if (enable) {
-                this.pageLoadObserver = new window.MutationObserver(function(mutations) {
+                this.pageLoadObserver = new MutationObserver(function(mutations) {
                     var isPageLoading = mutations[0].target.classList.contains('loading');
 
                     if (!isPageLoading) {
