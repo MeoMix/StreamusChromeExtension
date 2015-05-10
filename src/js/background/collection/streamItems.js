@@ -254,10 +254,12 @@
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 //  assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
-                //  TODO: I need better detection than this -- this filters out other things with the word live in it.
-                var isNotLive = relatedSong.get('title').toLowerCase().indexOf('live') === -1;
+                //  TODO: I need better detection than this -- this filters out other things with the word live/parody in it.
+                var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
+                var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
+                var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
 
-                return isJustOneSong && isNotLive;
+                return isJustOneSong && isNotLive && isNotParody;
             });
 
             if (tempFilteredRelatedSongs.length !== 0) {
