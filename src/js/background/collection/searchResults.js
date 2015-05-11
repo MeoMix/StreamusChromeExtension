@@ -12,56 +12,50 @@
         userFriendlyName: chrome.i18n.getMessage('searchResults'),
 
         addSongs: function(songs) {
-            var searchResults = this._songsAsSearchResults(songs);
-            this.add(searchResults);
-            
-            if (searchResults.length > 0) {
+            if (songs.length > 0) {
+                var searchResults = this._songsAsSearchResults(songs);
+                this.add(searchResults);
+
                 //  Emit a custom event signaling items have been added. 
                 //  Useful for not responding to add until all items have been added.
                 this.trigger('add:completed', this);
             }
         },
         
-        //  Returns the collection of SearchResults' underlying songs.
+        //  Returns an array of Song models corresponding to the current collection of SearchResults
         getSongs: function() {
             return this.map(function(model) {
                 return model.get('song');
             });
         },
         
-        //  Reset the collection's values by mapping a single or list of Song objects into
-        //  JSON objects which will be instantiated by Backbone.
+        //  Reset the collection with SearchResults derived from a collection, array, or individual Song
         resetSongs: function(songs) {
             var searchResults = this._songsAsSearchResults(songs);
             this.reset(searchResults);
         },
 
-        //  TODO: Maybe return non-JSON? Would that make this shorter?
+        //  Takes a collection, array, or individual Song model and returns an array of SearchResult models
         _songsAsSearchResults: function(songs) {
             var searchResults = [];
 
             if (songs instanceof Backbone.Collection) {
-                searchResults = songs.map(function(song) {
-                    return {
-                        song: song,
-                        title: song.get('title')
-                    };
-                });
+                searchResults = songs.map(this._songAsSearchResult.bind(this));
             } else if (_.isArray(songs)) {
-                searchResults = _.map(songs, function(song) {
-                    return {
-                        song: song,
-                        title: song.get('title')
-                    };
-                });
+                searchResults = _.map(songs, this._songAsSearchResult.bind(this));
             } else {
-                searchResults.push({
-                    song: songs,
-                    title: songs.get('title')
-                });
+                searchResults.push(this._songAsSearchResult(songs));
             }
 
             return searchResults;
+        },
+
+        //  Takes an individual Song model and returns a SearchResult model
+        _songAsSearchResult: function(song) {
+            return new SearchResult({
+                song: song,
+                title: song.get('title')
+            });
         }
     });
 

@@ -12,6 +12,7 @@
     var DataSourceTests = require('test/background/model/dataSourceTests');
     var UtilityTests = require('test/common/model/utilityTests');
     var YouTubeV3APITests = require('test/background/model/youTubeV3APITests');
+    var SearchResultsTests = require('test/background/collection/searchResultsTests');
 
     var BrowserSettingsDialogViewTest = require('test/foreground/view/dialog/browserSettingsDialogViewTest');
     var BrowserSettingsViewTest = require('test/foreground/view/dialog/browserSettingsViewTest');
