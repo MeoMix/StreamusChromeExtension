@@ -85,7 +85,7 @@
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
             if (options.playOnAdd) {
-                //  TODO: This is hacky... re-think playOnActivate to not have to use a channel since this is basically just a glorified global.
+                //  TODO: Rethink playOnActivate to not have to use a channel since this is basically just a glorified global.
                 Streamus.channels.player.commands.trigger('playOnActivate', true);
             }
 
@@ -254,7 +254,7 @@
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 //  assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
-                //  TODO: I need better detection than this -- this filters out other things with the word live/parody in it.
+                //  TODO: Filter out other things with the word live/parody in it and match words more specifically.
                 var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
                 var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
                 var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;

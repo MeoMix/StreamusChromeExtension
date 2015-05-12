@@ -243,7 +243,6 @@ define(function(require) {
         },
 
         _onChangeState: function(model, state) {
-            console.log('new state:', state);
             if (state === PlayerState.Playing || state === PlayerState.Buffering) {
                 this._clearRefreshAlarm();
             } else {

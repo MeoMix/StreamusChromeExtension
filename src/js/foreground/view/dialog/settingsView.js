@@ -58,7 +58,6 @@
         },
 
         onRender: function() {
-            //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
             this._showSimpleListItem({
                 propertyName: 'songQuality',
                 options: _.values(SongQuality)

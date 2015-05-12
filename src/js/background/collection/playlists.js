@@ -142,7 +142,7 @@
                     dataSource.parseUrl({
                         success: function() {
                             YouTubeV3API.getSong({
-                                songId: dataSource.get('id'),
+                                songId: dataSource.get('entityId'),
                                 success: function(song) {
                                     this.get(request.playlistId).get('items').addSongs(song);
 
@@ -207,7 +207,7 @@
                 this._onCreateSuccess(addedPlaylist, options);
             }
         },
-        //  TODO: added vs created.
+
         _onCreateSuccess: function(addedPlaylist) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {

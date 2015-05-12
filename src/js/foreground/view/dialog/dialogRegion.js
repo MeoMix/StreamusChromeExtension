@@ -32,8 +32,7 @@
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _showDialogIfUpdateAvailable: function() {
-            //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
-            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
+            //  Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
             chrome.runtime.requestUpdateCheck(_.noop);
         },
         

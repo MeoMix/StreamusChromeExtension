@@ -66,6 +66,7 @@
             //  If the player is playing then the pause icon clearly needs to be shown.
             var showPauseIcon = playerState === PlayerState.Playing;
 
+            //  TODO: This still flickers when first loading the stream because there's a slight 'buffering' that isnt' user-initiated.
             //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
             if (playerState === PlayerState.Buffering) {
                 var previousState = this.player.get('previousState');

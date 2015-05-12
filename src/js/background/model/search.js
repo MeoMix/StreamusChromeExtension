@@ -106,9 +106,9 @@
 
                         //  If the search query had a valid YouTube Video ID inside of it -- display that result, otherwise search.
                         if (dataSource.isYouTubeVideo()) {
-                            this._setResultsBySong(dataSource.get('id'));
+                            this._setResultsBySong(dataSource.get('entityId'));
                         } else if (dataSource.isYouTubePlaylist()) {
-                            this._setResultsByPlaylist(dataSource.get('id'));
+                            this._setResultsByPlaylist(dataSource.get('entityId'));
                         } else {
                             this._setResultsByText(trimmedQuery);
                         }

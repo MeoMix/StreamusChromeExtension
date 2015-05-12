@@ -241,10 +241,9 @@
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
-                //  TODO: Trigger an event which causes the scrollbar to update instead.
                 //  Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
                 //  then the scrollbar is not representing the correct height after the placeholder is removed.
-                this.view._behaviors[1]._updateScrollbar();
+                this.view.triggerMethod('UpdateScrollbar');
             }
         },
 

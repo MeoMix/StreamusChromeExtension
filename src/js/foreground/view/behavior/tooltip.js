@@ -5,7 +5,6 @@
 define(function() {
     'use strict';
 
-    //  TODO: There might be a more elegant way to initialize these, but I definitely don't want to query for the window every time.
     $.extend($.fn.qtip.defaults.position, {
         viewport: $(window),
         my: 'top center',

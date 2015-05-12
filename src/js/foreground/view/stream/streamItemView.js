@@ -6,7 +6,7 @@
     var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
-    var ExtraActionsButtonView = require('foreground/view/listItemButton/extraActionsButtonView');
+    var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
 
     var StreamItemView = ListItemView.extend({
@@ -16,7 +16,7 @@
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick',
             //  TODO: bad
-            'click .extraActions': '_showContextMenu'
+            'click .moreActions': '_showContextMenu'
         }),
 
         modelEvents: {
@@ -44,7 +44,7 @@
             this._setActiveClass(this.model.get('active'));
         },
 
-        onShowExtraActions: function() {
+        onShowMoreActions: function() {
             this._showContextMenu();
         },
 

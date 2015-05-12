@@ -8,7 +8,7 @@
     describe('DataSource', function() {
         var expectDataSource = function(dataSource, expectations) {
             expectations = expectations || {};
-            expect(dataSource.get('id')).to.equal(expectations.id === undefined ? dataSource.defaults.id : expectations.id);
+            expect(dataSource.get('entityId')).to.equal(expectations.entityId === undefined ? dataSource.defaults.entityId : expectations.entityId);
             expect(dataSource.get('type')).to.equal(expectations.type === undefined ? dataSource.defaults.type : expectations.type);
         };
 
@@ -22,7 +22,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'PL63F0C78739B09958',
+                            entityId: 'PL63F0C78739B09958',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -37,7 +37,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'PL63F0C78739B09958',
+                            entityId: 'PL63F0C78739B09958',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -53,7 +53,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'FL-SyDtP6JOvHZVcRrZrXnyA',
+                            entityId: 'FL-SyDtP6JOvHZVcRrZrXnyA',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -68,7 +68,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'FL-SyDtP6JOvHZVcRrZrXnyA',
+                            entityId: 'FL-SyDtP6JOvHZVcRrZrXnyA',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -84,7 +84,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'UU-e1BqfubuSdFPHauQwZmlg',
+                            entityId: 'UU-e1BqfubuSdFPHauQwZmlg',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -99,7 +99,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'UU-e1BqfubuSdFPHauQwZmlg',
+                            entityId: 'UU-e1BqfubuSdFPHauQwZmlg',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -115,7 +115,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
+                            entityId: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -130,7 +130,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
+                            entityId: 'ALYL4kY05133rTMhTulSaXKj_Y6el9q0JH',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -193,7 +193,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'UUXIyz409s7bNWVcM-vjfdVA',
+                            entityId: 'UUXIyz409s7bNWVcM-vjfdVA',
                             type: DataSourceType.YouTubePlaylist
                         });
 
@@ -214,7 +214,7 @@
                 dataSource.parseUrl({
                     success: function() {
                         expectDataSource(dataSource, {
-                            id: 'UUXIyz409s7bNWVcM-vjfdVA',
+                            entityId: 'UUXIyz409s7bNWVcM-vjfdVA',
                             type: DataSourceType.YouTubePlaylist
                         });
 

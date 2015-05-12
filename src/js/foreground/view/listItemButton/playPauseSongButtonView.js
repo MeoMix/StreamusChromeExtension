@@ -63,6 +63,7 @@
         _setState: function() {
             var isPausable = this._isPausable();
 
+            //  TODO: Fix this along with the playPauseButtonView lgoic.
             //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?
             this.ui.pauseIcon.toggleClass('is-hidden', !isPausable);
             this.ui.playIcon.toggleClass('is-hidden', isPausable);

@@ -1,5 +1,4 @@
-﻿//  TODO: I'd like to figure out better naming conventions for this.
-define(function(require) {
+﻿define(function(require) {
     'use strict';
 
     var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
@@ -8,30 +7,21 @@ define(function(require) {
     var SimpleListItemTemplate = require('text!template/element/simpleListItem.html');
 
     var SimpleListItemView = Marionette.LayoutView.extend({
-        //id: function () {
-        //    return _.uniqueId('simpleListItem_');
-        //},
         className: 'simpleListItem listItem listItem--medium listItem--clickable',
         template: _.template(SimpleListItemTemplate),
 
         templateHelpers: function() {
             return {
-                title: chrome.i18n.getMessage(this.model.get('labelKey')),
-                viewId: 'simpleListItem'
+                title: chrome.i18n.getMessage(this.model.get('labelKey'))
             };
         },
 
-        regions: function() {
-            return {
-                //  TODO: This isn't a unique identifier.
-                simpleMenuRegion: '#' + 'simpleListItem' + '-simpleMenuRegion'
-            };
+        regions: {
+            simpleMenuRegion: '.simpleMenuRegion'
         },
 
-        ui: function() {
-            return {
-                prettyValue: '#' + 'simpleListItem' + '-prettyValue'
-            };
+        ui: {
+            prettyValue: '.prettyValue'
         },
 
         events: {

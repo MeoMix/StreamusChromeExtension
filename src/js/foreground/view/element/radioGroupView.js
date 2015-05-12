@@ -14,11 +14,8 @@
             tabIndex: 0
         },
 
-        ui: function() {
-            return {
-                //  TODO: Naming isn't dynamic.
-                buttons: '.radio-buttons'
-            };
+        ui: {
+            buttons: '.radio-buttons'
         },
 
         events: {

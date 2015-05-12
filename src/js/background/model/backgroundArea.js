@@ -72,9 +72,6 @@
             });
             this.set('stream', stream);
 
-            //  TODO: Do this via an event instead.
-            this.get('signInManager').signInWithGoogle();
-
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: this.get('browserSettings'),
                 tabManager: this.get('tabManager'),
@@ -157,7 +154,6 @@
         },
 
         _exposeProperties: function() {
-            //  TODO: Can I do this dynamically instead of explicitly?
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.analyticsManager = this.get('analyticsManager');
             window.browserSettings = this.get('browserSettings');

@@ -37,9 +37,6 @@
             this.view.collection.deselectAll();
         },
         
-        //  TODO: This function name sucks. Waiting on issues from Marionette:
-        //  - https://github.com/marionettejs/backbone.marionette/issues/2235
-        //  - https://github.com/marionettejs/backbone.marionette/issues/2236
         onChildviewClickLeftContent: function(childView, options) {
             this._setSelected({
                 shiftKey: options.shiftKey,
