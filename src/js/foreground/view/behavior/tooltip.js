@@ -16,8 +16,9 @@ define(function() {
         })
     });
 
+    var tooltipDelay = 200;
     $.extend($.fn.qtip.defaults.show, {
-        delay: 200
+        delay: tooltipDelay
     });
 
     var Tooltip = Marionette.Behavior.extend({
@@ -61,10 +62,16 @@ define(function() {
 
                 //  Wrap in a RAF to allow for :hover effects to take place which might affect whether textTooltipable overflows or not.
                 requestAnimationFrame(function() {
-                    this._setTooltips.bind(this);
-                    //  This forces a tooltip to appear immediately if it exists. This is necessary because decorating
-                    //  the element has been delayed until mouseenter for performance, but that is when tooltip rendering triggers, too
-                    this.$el.qtip('toggle', true);
+                    this._setTooltips();
+
+                    //  Since calling toggle will force the tooltip to show -- wait the normal delay amount to emulate its effect.
+                    setTimeout(function() {
+                        if (!this.view.isDestroyed && this.$el.is(':hover')) {
+                            //  This forces a tooltip to appear immediately if it exists. This is necessary because decorating
+                            //  the element has been delayed until mouseenter for performance, but that is when tooltip rendering triggers, too
+                            this.$el.qtip('toggle', true);
+                        }
+                    }.bind(this), tooltipDelay);
                 }.bind(this));
             }
         },
@@ -115,7 +122,7 @@ define(function() {
         
         //  Whenever an element's title changes -- need to re-check to see if a title exists / if the element is overflowing and apply/remove the tooltip accordingly.
         _setTitleMutationObserver: function(element, checkOverflow) {
-            var titleMutationObserver = new window.MutationObserver(function(mutations) {
+            var titleMutationObserver = new MutationObserver(function(mutations) {
                 mutations.forEach(function(mutation) {
                     var oldTitle = mutation.attributeName === 'title' ? mutation.oldValue : undefined;
                     this._setTitleTooltip(element, checkOverflow, oldTitle);
