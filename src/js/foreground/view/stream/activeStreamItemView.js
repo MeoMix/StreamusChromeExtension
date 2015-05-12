@@ -5,6 +5,7 @@
     var Tooltip = require('foreground/view/behavior/tooltip');
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
+    var ContextMenuAction = require('foreground/model/contextMenuAction');
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
         id: 'activeStreamItem',
@@ -68,6 +69,15 @@
             this.$el.removeClass('is-instant is-visible');
         },
 
+        showContextMenu: function () {
+            var contextMenuAction = new ContextMenuAction({
+                song: this.model.get('song'),
+                player: this.player
+            });
+
+            contextMenuAction.showContextMenu();
+        },
+
         _onTransitionInComplete: function(event) {
             if (event.target === event.currentTarget) {
                 this.$el.off('webkitTransitionEnd');
@@ -85,28 +95,7 @@
 
         _onContextMenu: function () {
             event.preventDefault();
-
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            }]);
-        },
-
-        _copyUrl: function () {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function () {
-            this.model.get('song').copyTitleAndUrl();
-        },
-        _watchOnYouTube: function () {
-            this.player.watchInTab(this.model.get('song'));
+            this.showContextMenu();
         }
     });
 
