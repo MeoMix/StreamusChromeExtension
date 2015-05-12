@@ -22,7 +22,9 @@ define(function(require) {
                 currentLoadAttempt: 1,
                 //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
                 maxLoadAttempts: 10,
+                previousState: PlayerState.Unstarted,
                 state: PlayerState.Unstarted,
+                seeking: false,
                 //  This will be set after the player is ready and can communicate its true value.
                 //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
                 volume: 50,
@@ -112,7 +114,8 @@ define(function(require) {
         },
 
         toggleState: function() {
-            var playing = this.get('state') === PlayerState.Playing;
+            var state = this.get('state');
+            var playing = state === PlayerState.Playing || state === PlayerState.Buffering;
 
             if (playing) {
                 this.pause();
@@ -162,7 +165,14 @@ define(function(require) {
 
         seekTo: function(timeInSeconds) {
             if (this.get('ready')) {
-                this.get('youTubePlayer').seekTo(timeInSeconds);
+                //  There's an issue in YouTube's API which makes this code necessary.
+                //  If the user calls seekTo to the end of the song then the state of the player gets put into 'ended'
+                //  That's OK, but then calling seekTo to the middle of the song will cause the song to move to the 'playing' state instead of 'paused'
+                if (timeInSeconds === this.get('loadedSong').get('duration')) {
+                    this.activateSong(this.get('loadedSong'), timeInSeconds);
+                } else {
+                    this.get('youTubePlayer').seekTo(timeInSeconds);
+                }
             } else {
                 this.set({
                     currentTime: timeInSeconds,
@@ -233,6 +243,7 @@ define(function(require) {
         },
 
         _onChangeState: function(model, state) {
+            console.log('new state:', state);
             if (state === PlayerState.Playing || state === PlayerState.Buffering) {
                 this._clearRefreshAlarm();
             } else {
@@ -286,20 +297,6 @@ define(function(require) {
                 });
             }
 
-            //  YouTube's API for seeking/buffering doesn't fire events reliably.
-            //  Listen directly to the element for more responsive results.
-            if (!_.isUndefined(message.seeking)) {
-                if (message.seeking) {
-                    if (this.get('state') === PlayerState.Playing) {
-                        this.set('state', PlayerState.Buffering);
-                    }
-                } else {
-                    if (this.get('state') === PlayerState.Buffering) {
-                        this.set('state', PlayerState.Playing);
-                    }
-                }
-            }
-
             if (!_.isUndefined(message.currentTimeHighPrecision)) {
                 //  Event listeners may need to know the absolute currentTime. They have no idea if it is current or not.
                 //  If it is current, still notify them.
@@ -309,6 +306,10 @@ define(function(require) {
             if (!_.isUndefined(message.error)) {
                 var error = new Error(message.error);
                 Streamus.channels.error.commands.trigger('log:error', error);
+            }
+
+            if (!_.isUndefined(message.seeking)) {
+                this.set('seeking', message.seeking);
             }
         },
 
@@ -335,6 +336,7 @@ define(function(require) {
 
         _onYouTubePlayerChangeState: function(model, youTubePlayerState) {
             var playerState = this._getPlayerState(youTubePlayerState);
+            this.set('previousState', this.get('state'));
             this.set('state', playerState);
         },
 

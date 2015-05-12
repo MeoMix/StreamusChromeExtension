@@ -253,7 +253,11 @@
             //  Since the player's state is dependent on asynchronous actions it's important to ensure that
             //  the Stream is still in a valid state when an event comes in. The user could've removed songs after an event started to arrive.
             if (!this.get('items').isEmpty()) {
-                if (state === PlayerState.Ended) {
+                var previousState = this.get('player').get('previousState');
+                //  If the user seeks to the end of a song then YouTube will trigger an 'Ended' event, but skipping to the next song does not make sense.
+                var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
+
+                if (state === PlayerState.Ended && wasPlaying) {
                     //  TODO: I need to be able to check whether there's an active item or not before calling activateNext.
                     model.set('playOnActivate', true);
                     var nextItem = this.activateNext();

@@ -80,6 +80,8 @@
     <Content Include="src\js\foreground\model\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyboardKey.js" />
+    <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
+    <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
     <Content Include="src\js\foreground\view\leftPane\activePlaylistAreaView.js" />
     <Content Include="src\js\foreground\view\leftPane\leftPaneRegion.js" />
@@ -90,9 +92,15 @@
     <Content Include="src\js\foreground\view\listItemButton\extraActionsButtonView.js" />
     <Content Include="src\js\foreground\view\video\videoRegion.js" />
     <Content Include="src\js\foreground\view\video\videoView.js" />
+    <Content Include="src\js\test\background\backgroundTests.js" />
+    <Content Include="src\js\test\background\collection\searchResultsTests.js" />
+    <Content Include="src\js\test\common\commonTests.js" />
+    <Content Include="src\js\test\foreground\foregroundTests.js" />
+    <Content Include="src\js\test\foreground\view\search\searchViewTests.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
+    <Content Include="src\template\dialog\aboutStreamus.html" />
     <Content Include="src\template\icon\closeIcon_24.svg" />
     <Content Include="src\template\icon\deleteIcon_18.svg" />
     <Content Include="src\template\icon\menuIcon_24.svg" />
@@ -304,7 +312,6 @@
     <Content Include="src\js\contentScript\beatport.js" />
     <Content Include="src\js\contentScript\youTubeIFrame.js" />
     <Content Include="src\js\contentScript\youTube.js" />
-    <Content Include="src\js\test\background\collection\playlistsTests.js" />
     <Content Include="src\js\test\background\model\clientErrorManagerTest.js" />
     <Content Include="src\js\test\background\model\signInManagerTests.js" />
     <Content Include="src\js\test\background\model\userTests.js" />

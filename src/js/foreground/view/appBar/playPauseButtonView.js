@@ -63,9 +63,25 @@
         _setState: function(enabled, playerState) {
             this.$el.toggleClass('is-disabled', !enabled);
 
-            //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?
-            this.ui.pauseIcon.toggleClass('is-hidden', playerState !== PlayerState.Playing && playerState !== PlayerState.Buffering);
-            this.ui.playIcon.toggleClass('is-hidden', playerState === PlayerState.Playing || playerState === PlayerState.Buffering);
+            //  If the player is playing then the pause icon clearly needs to be shown.
+            var showPauseIcon = playerState === PlayerState.Playing;
+
+            //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
+            if (playerState === PlayerState.Buffering) {
+                var previousState = this.player.get('previousState');
+
+                //  When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
+                var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
+
+                if (this.player.get('seeking') && !wasPlaying) {
+                    showPauseIcon = false;
+                } else {
+                    showPauseIcon = true;
+                }
+            }
+
+            this.ui.pauseIcon.toggleClass('is-hidden', !showPauseIcon);
+            this.ui.playIcon.toggleClass('is-hidden', showPauseIcon);
         }
     });
 
