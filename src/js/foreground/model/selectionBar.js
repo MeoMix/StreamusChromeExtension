@@ -3,6 +3,7 @@
 
     var SelectionBar = Backbone.Model.extend({
         defaults: {
+            //  A reference to the collection which currently has selected models. Only one collection can have selected models at a time.
             activeCollection: null
             //canAdd: false,
             //canDelete: false,

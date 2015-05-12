@@ -36,7 +36,12 @@
             searchArea: Backbone.Wreqr.radio.channel('searchArea'),
             activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
             element: Backbone.Wreqr.radio.channel('element'),
-            
+            saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),
+            listItem: Backbone.Wreqr.radio.channel('listItem'),
+            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
+            video: Backbone.Wreqr.radio.channel('video'),
+            playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton'),
+
             //  BACKGROUND:
             tab: Backbone.Wreqr.radio.channel('tab'),
             error: Backbone.Wreqr.radio.channel('error'),

@@ -38,7 +38,9 @@
             if (!this._searchViewExists()) {
                 var searchView = new SearchView({
                     model: Streamus.backgroundPage.search,
-                    collection: Streamus.backgroundPage.search.get('results')
+                    collection: Streamus.backgroundPage.search.get('results'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    signInManager: Streamus.backgroundPage.signInManager
                 });
 
                 this.show(searchView);

@@ -59,8 +59,7 @@
             'click @ui.showSearchButton': '_onClickShowSearchButton',
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
             'input @ui.searchInput': '_onInputSearchInput',
-            //  TODO: prefer to read from ViewModel state rather than rely on HTML state.
-            'click @ui.showPlaylistsAreaButton:not(.is-disabled)': '_onClickShowPlaylistsAreaButton',
+            'click @ui.showPlaylistsAreaButton': '_onClickShowPlaylistsAreaButton',
             'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
         },
 
@@ -165,8 +164,12 @@
         },
 
         _onClickShowPlaylistsAreaButton: function() {
-            Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
-            Streamus.channels.searchArea.commands.trigger('hide:search');
+            var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
+
+            if (isButtonEnabled) {
+                Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
+                Streamus.channels.searchArea.commands.trigger('hide:search');
+            }
         },
 
         _onClickHidePlaylistsAreaButton: function() {
@@ -208,7 +211,14 @@
         _setShowPlaylistsAreaButtonState: function(signedInUser) {
             var signedOut = signedInUser === null;
             var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
-            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', signedOut).attr('title', title);
+
+            var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
+            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', !isButtonEnabled).attr('title', title);
+        },
+
+        //  Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.
+        _isShowPlaylistsAreaButtonEnabled: function() {
+            return this.signInManager.get('signedInUser') !== null;
         },
 
         _focusSearchInput: function() {

@@ -100,7 +100,11 @@
         },
 
         cueVideoById: function(videoOptions) {
-            youTubePlayerWidget.cueVideoById(videoOptions);
+            //  Avoid using cueVideoById because it will set the player's state to 'SongCued'
+            //  'SongCued' is similar to 'paused' but causes 'seekTo' to begin playback immediately.
+            //  There's no advantage to the SongCued state and has obvious drawbacks; avoid it.
+            youTubePlayerWidget.loadVideoById(videoOptions);
+            _.defer(this.pause.bind(this));
         },
 
         _loadWidget: function() {

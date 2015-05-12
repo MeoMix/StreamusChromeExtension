@@ -137,7 +137,6 @@
         },
 
         _onClickDeleteButton: function() {
-            //  TODO: Implement undo since I've opted to not show a dialog.
             var canDelete = this._canDelete();
 
             if (canDelete) {

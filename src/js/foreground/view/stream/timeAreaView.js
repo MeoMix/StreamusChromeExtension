@@ -13,7 +13,6 @@
         templateHelpers: function() {
             return {
                 totalTimeMessage: chrome.i18n.getMessage('totalTime'),
-                //  TODO: I don't want totalTime written to localStorage which means I exclude it from the JSON serialization, but I need it in my template..
                 totalTime: this.model.get('totalTime'),
                 prettyTotalTime: Utility.prettyPrintTime(this.model.get('totalTime'))
             };
@@ -110,7 +109,7 @@
             //  Seek is known to have finished when the player announces a state change that isn't buffering / unstarted.
             var state = this.player.get('state');
 
-            if (state === PlayerState.Playing || state === PlayerState.Paused || state === PlayerState.SongCued) {
+            if (state === PlayerState.Playing || state === PlayerState.Paused) {
                 this.model.set('seeking', false);
             }
         },

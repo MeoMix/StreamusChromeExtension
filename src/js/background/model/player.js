@@ -80,10 +80,11 @@ define(function(require) {
             if (this.get('ready')) {
                 var playerState = this.get('state');
                 var playOnActivate = this.get('playOnActivate');
+                var startSeconds = timeInSeconds || 0;
 
                 var videoOptions = {
                     videoId: song.get('id'),
-                    startSeconds: timeInSeconds || 0,
+                    startSeconds: startSeconds,
                     //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
                     //  If it cannot, it will set its quality to the level most near suggested quality.
                     suggestedQuality: this._getYouTubeQuality(this.get('settings').get('songQuality'))
@@ -101,7 +102,7 @@ define(function(require) {
                     loadedSong: song,
                     //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
                     //  but until the song actually loads -- current time isn't set.
-                    currentTime: timeInSeconds || 0,
+                    currentTime: startSeconds,
                     playOnActivate: false,
                     songToActivate: null
                 });
@@ -161,15 +162,7 @@ define(function(require) {
 
         seekTo: function(timeInSeconds) {
             if (this.get('ready')) {
-                var state = this.get('state');
-
-                //  TODO: I'd like to ensure the Player is always in the 'paused' state because seekTo will start playing
-                //  if called when in the Unstarted or SongCued state.
-                if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
-                    this.activateSong(this.get('loadedSong'), timeInSeconds);
-                } else {
-                    this.get('youTubePlayer').seekTo(timeInSeconds);
-                }
+                this.get('youTubePlayer').seekTo(timeInSeconds);
             } else {
                 this.set({
                     currentTime: timeInSeconds,
@@ -434,9 +427,10 @@ define(function(require) {
                 case YouTubePlayerState.Buffering:
                     playerState = PlayerState.Buffering;
                     break;
-                //  TODO: I think that SongCued should map to Paused because Streamus doesn't really care about SongCued at all.
                 case YouTubePlayerState.SongCued:
-                    playerState = PlayerState.SongCued;
+                    //  TODO: I'm mapping SongCued to 'paused', but it shouldn't ever happen in the wild now. Remove this entirely in v0.175+ once confirmed.
+                    playerState = PlayerState.Paused;
+                    Streamus.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
                     break;
                 default:
                     throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);

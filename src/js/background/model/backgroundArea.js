@@ -53,6 +53,11 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
+            //  It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
+            var clientErrorManager = new ClientErrorManager({
+                signInManager: this.get('signInManager')
+            });
+
             var player = new Player({
                 settings: this.get('settings'),
                 youTubePlayer: this.get('youTubePlayer')
@@ -91,10 +96,6 @@
 
             var chromeOmniboxManager = new ChromeOmniboxManager({
                 streamItems: stream.get('items')
-            });
-
-            var clientErrorManager = new ClientErrorManager({
-                signInManager: this.get('signInManager')
             });
 
             this.set('nextButton', new NextButton({
