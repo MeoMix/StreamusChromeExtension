@@ -41,7 +41,7 @@
         },
 
         onRender: function() {
-            this._setState(this.model.get('enabled'), this.player.get('state'));
+            this._setState(this.model.get('enabled'));
         },
 
         _onClick: function() {
@@ -56,33 +56,16 @@
             this._setState(enabled, this.player.get('state'));
         },
 
-        _onPlayerChangeState: function(model, state) {
-            this._setState(this.model.get('enabled'), state);
+        _onPlayerChangeState: function() {
+            this._setState(this.model.get('enabled'));
         },
 
-        _setState: function(enabled, playerState) {
+        _setState: function(enabled) {
             this.$el.toggleClass('is-disabled', !enabled);
 
-            //  If the player is playing then the pause icon clearly needs to be shown.
-            var showPauseIcon = playerState === PlayerState.Playing;
-
-            //  TODO: This still flickers when first loading the stream because there's a slight 'buffering' that isnt' user-initiated.
-            //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
-            if (playerState === PlayerState.Buffering) {
-                var previousState = this.player.get('previousState');
-
-                //  When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
-                var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
-
-                if (this.player.get('seeking') && !wasPlaying) {
-                    showPauseIcon = false;
-                } else {
-                    showPauseIcon = true;
-                }
-            }
-
-            this.ui.pauseIcon.toggleClass('is-hidden', !showPauseIcon);
-            this.ui.playIcon.toggleClass('is-hidden', showPauseIcon);
+            var isPausable = this.player.isPausable();
+            this.ui.pauseIcon.toggleClass('is-hidden', !isPausable);
+            this.ui.playIcon.toggleClass('is-hidden', isPausable);
         }
     });
 

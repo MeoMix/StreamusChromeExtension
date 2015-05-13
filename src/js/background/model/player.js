@@ -38,6 +38,7 @@ define(function(require) {
                 iframePort: null,
                 buffers: [],
                 bufferType: '',
+                cueing: false,
 
                 //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
                 //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
@@ -97,6 +98,7 @@ define(function(require) {
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
                     this.get('youTubePlayer').loadVideoById(videoOptions);
                 } else {
+                    this.set('cueing', true);
                     this.get('youTubePlayer').cueVideoById(videoOptions);
                 }
 
@@ -206,7 +208,23 @@ define(function(require) {
 
         isPausable: function() {
             var state = this.get('state');
-            var isPausable = state === PlayerState.Playing || state === PlayerState.Buffering;
+            //  If the player is playing then it's obvious that it can be paused.
+            var isPausable = state === PlayerState.Playing;
+
+            //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
+            if (state === PlayerState.Buffering) {
+                var previousState = this.get('previousState');
+
+                //  When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
+                var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
+
+                if (this.get('seeking') && !wasPlaying) {
+                    isPausable = false;
+                } else {
+                    //  If the player is 'cueuing' a song then the user doesn't expect to see a flicker of buffering. Only when loading/playing.
+                    isPausable = !this.get('cueing');
+                }
+            }
 
             return isPausable;
         },
@@ -337,6 +355,10 @@ define(function(require) {
             var playerState = this._getPlayerState(youTubePlayerState);
             this.set('previousState', this.get('state'));
             this.set('state', playerState);
+
+            if (this.get('previousState') === PlayerState.Buffering) {
+                this.set('cueing', false);
+            }
         },
 
         _onYouTubePlayerChangeLoading: function(model, loading) {

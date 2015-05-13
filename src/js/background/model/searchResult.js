@@ -15,11 +15,6 @@
                 listItemType: ListItemType.SearchResult,
                 song: null
             };
-        },
-        //  TODO: Why is this needed?
-        //  SearchResults are never saved to the server.
-        sync: function() {
-            return false;
         }
     });
 

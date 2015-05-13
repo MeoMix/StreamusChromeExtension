@@ -56,23 +56,23 @@ define(function() {
 
         _onMouseEnter: function() {
             //  Defer applying tooltips until absolutely necessary for rendering performance.
-            if (!this.isDecorated) {
-                this.isDecorated = true;
+            //if (!this.isDecorated) {
+            //    this.isDecorated = true;
 
-                //  Wrap in a RAF to allow for :hover effects to take place which might affect whether textTooltipable overflows or not.
-                requestAnimationFrame(function() {
-                    this._setTooltips();
+            //    //  Wrap in a RAF to allow for :hover effects to take place which might affect whether textTooltipable overflows or not.
+            //    requestAnimationFrame(function() {
+            //        this._setTooltips();
 
-                    //  Since calling toggle will force the tooltip to show -- wait the normal delay amount to emulate its effect.
-                    setTimeout(function() {
-                        if (!this.view.isDestroyed && this.$el.is(':hover')) {
-                            //  This forces a tooltip to appear immediately if it exists. This is necessary because decorating
-                            //  the element has been delayed until mouseenter for performance, but that is when tooltip rendering triggers, too
-                            this.$el.qtip('toggle', true);
-                        }
-                    }.bind(this), tooltipDelay);
-                }.bind(this));
-            }
+            //        //  Since calling toggle will force the tooltip to show -- wait the normal delay amount to emulate its effect.
+            //        setTimeout(function() {
+            //            if (!this.view.isDestroyed && this.$el.is(':hover')) {
+            //                //  This forces a tooltip to appear immediately if it exists. This is necessary because decorating
+            //                //  the element has been delayed until mouseenter for performance, but that is when tooltip rendering triggers, too
+            //                this.$el.qtip('toggle', true);
+            //            }
+            //        }.bind(this), tooltipDelay);
+            //    }.bind(this));
+            //}
         },
 
         _setTooltips: function() {
