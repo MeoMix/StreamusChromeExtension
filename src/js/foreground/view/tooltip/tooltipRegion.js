@@ -61,22 +61,22 @@
         
         //  Perform math to figure out whether the element needs to be shifted left/right and, if so, how much it needs to shift.
         _shiftLeftOffset: function(targetOffset, viewportLength, targetLength, tooltipLength) {
-            var initialOffset = targetOffset['left'];
+            var initialOffset = targetOffset.left;
             var myLength = -tooltipLength / 2;
             var overflow1 = -initialOffset;
             var overflow2 = initialOffset + tooltipLength - viewportLength;
             var offset = -myLength;
 
             // Adjust position but keep it within viewport dimensions
-            targetOffset['left'] += overflow1 > 0 ? overflow1 : overflow2 > 0 ? -overflow2 : 0;
-            targetOffset['left'] = Math.max(
+            targetOffset.left += overflow1 > 0 ? overflow1 : overflow2 > 0 ? -overflow2 : 0;
+            targetOffset.left = Math.max(
                 initialOffset - offset,
                 Math.min(
                     Math.max(
                         viewportLength,
                         initialOffset + offset
                     ),
-                    targetOffset['left'],
+                    targetOffset.left,
                     // Make sure we don't adjust complete off the element when using 'center'
                     initialOffset - myLength
                 )
@@ -85,18 +85,18 @@
 
         //  Perform math to figure out whether the element fits beneath the target. If not, flip it to the top.
         _flipInvertTopOffset: function(targetOffset, viewportLength, adjust, targetLength, tooltipLength) {
-            var initialOffset = targetOffset['top'];
+            var initialOffset = targetOffset.top;
             var overflow1 = -initialOffset;
             var overflow2 = initialOffset + tooltipLength - viewportLength;
             var offset = tooltipLength + targetLength;
 
             if (overflow1 > 0 && overflow2 > 0) {
                 // Check for overflow on the left/top
-                targetOffset['top'] -= offset + adjust;
+                targetOffset.top -= offset + adjust;
             }
             else if (overflow2 > 0) {
                 // Check for overflow on the left/top
-                targetOffset['top'] -= offset + (adjust * 2);
+                targetOffset.top -= offset + (adjust * 2);
             }
         }
     });
