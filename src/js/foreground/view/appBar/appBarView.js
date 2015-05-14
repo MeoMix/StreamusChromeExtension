@@ -73,9 +73,9 @@
         signInManager: null,
         search: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
-            this.search = Streamus.backgroundPage.search;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
+            this.search = options.search;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(this.search, 'change:query', this._onSearchChangeQuery);
@@ -99,10 +99,13 @@
                 this._setPlaylistTitleRegion(signedInUser);
             }
 
-            this.showChildView('volumeAreaRegion', new VolumeAreaView());
+            this.showChildView('volumeAreaRegion', new VolumeAreaView({
+                player: Streamus.backgroundPage.player
+            }));
 
             this.showChildView('adminMenuAreaRegion', new AdminMenuAreaView({
-                model: new AdminMenuArea()
+                model: new AdminMenuArea(),
+                tabManager: Streamus.backgroundPage.tabManager
             }));
 
             this.showChildView('previousButtonRegion', new PreviousButtonView({
@@ -110,7 +113,8 @@
             }));
 
             this.showChildView('playPauseButtonRegion', new PlayPauseButtonView({
-                model: Streamus.backgroundPage.playPauseButton
+                model: Streamus.backgroundPage.playPauseButton,
+                player: Streamus.backgroundPage.player
             }));
 
             this.showChildView('nextButtonRegion', new NextButtonView({

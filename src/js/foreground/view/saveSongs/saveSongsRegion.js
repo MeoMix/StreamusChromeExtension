@@ -10,8 +10,8 @@ define(function(require) {
     var SaveSongsRegion = Marionette.Region.extend({
         signInManager: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
             this.listenTo(Streamus.channels.saveSongs.commands, 'show:simpleMenu', this._showSimpleMenu);
         },
 

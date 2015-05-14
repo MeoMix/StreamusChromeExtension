@@ -65,10 +65,10 @@
             'change:active': '_onPlaylistsChangeActive'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.searchResults = Streamus.backgroundPage.search.get('results');
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.searchResults = options.searchResults;
+            this.signInManager = options.signInManager;
 
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
             this.bindEntityEvents(this.streamItems, this.multiSelectCollectionEvents);

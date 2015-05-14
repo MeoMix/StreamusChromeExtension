@@ -57,7 +57,9 @@
                 },
                 dialogRegion: {
                     selector: '#' + this.id + '-dialogRegion',
-                    regionClass: DialogRegion
+                    regionClass: DialogRegion,
+                    player: Streamus.backgroundPage.player,
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
                 notificationRegion: {
                     selector: '#' + this.id + '-notificationRegion',
@@ -69,19 +71,23 @@
                 },
                 leftPaneRegion: {
                     selector: '#' + this.id + '-leftPaneRegion',
-                    regionClass: LeftPaneRegion
+                    regionClass: LeftPaneRegion,
+                    settings: Streamus.backgroundPage.settings
                 },
                 searchAreaRegion: {
                     selector: '#' + this.id + '-searchAreaRegion',
-                    regionClass: SearchAreaRegion
+                    regionClass: SearchAreaRegion,
+                    settings: Streamus.backgroundPage.settings
                 },
                 saveSongsRegion: {
                     selector: '#' + this.id + '-saveSongsRegion',
-                    regionClass: SaveSongsRegion
+                    regionClass: SaveSongsRegion,
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
                 playlistsAreaRegion: {
                     selector: '#' + this.id + '-playlistsAreaRegion',
-                    regionClass: PlaylistsAreaRegion
+                    regionClass: PlaylistsAreaRegion,
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
                 streamRegion: {
                     selector: '#' + this.id + '-streamRegion',
@@ -104,15 +110,17 @@
 
         player: null,
         settings: null,
+        analyticsManager: null,
 
         playerEvents: {
             'change:loading': '_onPlayerChangeLoading',
             'change:currentLoadAttempt': '_onPlayerChangeCurrentLoadAttempt'
         },
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.settings = Streamus.backgroundPage.settings;
+        initialize: function(options) {
+            this.player = options.player;
+            this.settings = options.settings;
+            this.analyticsManager = options.analyticsManager;
             this.bindEntityEvents(this.player, this.playerEvents);
             
             //  It's important to bind pre-emptively or attempts to call removeEventListener will fail to find the appropriate reference.
@@ -126,7 +134,7 @@
             window.addEventListener('error', this._onWindowError);
             window.addEventListener('keydown', this._onKeyDown);
 
-            Streamus.backgroundPage.analyticsManager.sendPageView('/foreground.html');
+            this.analyticsManager.sendPageView('/foreground.html');
         },
 
         onRender: function() {

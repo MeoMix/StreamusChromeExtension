@@ -14,6 +14,8 @@
             });
 
             this.contentView = new CreatePlaylistView({
+                dataSourceManager: Streamus.backgroundPage.dataSourceManager,
+                playlists: Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists'),
                 songs: options && options.songs ? options.songs : []
             });
 

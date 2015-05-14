@@ -28,9 +28,9 @@
         streamItems: null,
         player: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
         },
 
         showContextMenu: function() {

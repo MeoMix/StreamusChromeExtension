@@ -11,9 +11,9 @@
         player: null,
         signInManager: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.player = options.player;
+            this.signInManager = options.signInManager;
  
             this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);

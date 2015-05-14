@@ -43,8 +43,8 @@ define(function(require) {
 
         player: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.player = options.player;
 
             this.listenTo(this.player, 'change:muted', this._onPlayerChangeMuted);
             this.listenTo(this.player, 'change:volume', this._onPlayerChangeVolume);

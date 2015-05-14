@@ -52,7 +52,11 @@
         },
 
         _showForegroundArea: function() {
-            var foregroundAreaView = new ForegroundAreaView();
+            var foregroundAreaView = new ForegroundAreaView({
+                player: Streamus.backgroundPage.player,
+                settings: Streamus.backgroundPage.settings,
+                analyticsManager: Streamus.backgroundPage.analyticsManager
+            });
             foregroundAreaView.render();
         }
     });

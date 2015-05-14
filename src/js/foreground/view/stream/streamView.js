@@ -139,6 +139,7 @@
         _showActiveStreamItem: function(activeStreamItem, instant) {
             this.showChildView('activeStreamItemRegion', new ActiveStreamItemView({
                 model: activeStreamItem,
+                player: Streamus.backgroundPage.player,
                 instant: instant
             }));
         }

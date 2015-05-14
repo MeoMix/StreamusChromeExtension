@@ -48,13 +48,13 @@
         simpleListItems: null,
         signInManager: null,
 
-        initialize: function() {
+        initialize: function(options) {
             this.checkboxes = new Checkboxes();
             this.radioGroups = new RadioGroups();
             this.switches = new Switches();
             this.simpleListItems = new SimpleListItems();
 
-            this.signInManager = Streamus.backgroundPage.signInManager;
+            this.signInManager = options.signInManager;
         },
 
         onRender: function() {
@@ -95,6 +95,8 @@
                 value: this.model.get(propertyName),
                 options: options.options
             });
+
+            console.log('simpleListItem:', simpleListItem);
 
             this[propertyName + 'Region'].show(new SimpleListItemView({
                 model: simpleListItem

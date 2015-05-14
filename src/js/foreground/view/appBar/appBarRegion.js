@@ -9,7 +9,10 @@
         },
 
         _onForegroundAreaRendered: function() {
-            this.show(new AppBarView());
+            this.show(new AppBarView({
+                signInManager: Streamus.backgroundPage.signInManager,
+                search: Streamus.backgroundPage.search
+            }));
         }
     });
 

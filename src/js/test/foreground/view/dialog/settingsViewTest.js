@@ -7,7 +7,8 @@
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new SettingsView({
-                model: Streamus.backgroundPage.settings
+                model: Streamus.backgroundPage.settings,
+                signInManager: Streamus.backgroundPage.signInManager
             });
         });
 

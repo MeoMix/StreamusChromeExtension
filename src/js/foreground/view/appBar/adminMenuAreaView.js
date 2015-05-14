@@ -53,8 +53,8 @@
             'click': '_onElementClick'
         },
 
-        initialize: function() {
-            this.tabManager = Streamus.backgroundPage.tabManager;
+        initialize: function(options) {
+            this.tabManager = options.tabManager;
             this.bindEntityEvents(Streamus.channels.element.vent, this.elementEvents);
         },
 

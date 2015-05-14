@@ -18,8 +18,8 @@
 
         signInManager: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
             var signedInUser = this.signInManager.get('signedInUser');
@@ -56,7 +56,8 @@
         _showActivePlaylistContent: function(activePlaylist) {
             this.showChildView('contentRegion', new ActivePlaylistAreaView({
                 model: activePlaylist,
-                collection: activePlaylist.get('items')
+                collection: activePlaylist.get('items'),
+                streamItems: Streamus.backgroundPage.stream.get('items')
             }));
         },
 

@@ -36,9 +36,9 @@
         player: null,
         playPauseButton: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.playPauseButton = Streamus.backgroundPage.playPauseButton;
+        initialize: function(options) {
+            this.player = options.player;
+            this.playPauseButton = options.playPauseButton;
         },
 
         onRender: function() {

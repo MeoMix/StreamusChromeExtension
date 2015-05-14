@@ -33,7 +33,7 @@
 
         initialize: function(options) {
             this.instant = options.instant;
-            this.player = Streamus.backgroundPage.player;
+            this.player = options.player;
         },
 
         onRender: function() {
@@ -44,6 +44,8 @@
             }
 
             this.showChildView('timeAreaRegion', new TimeAreaView({
+                streamItems: Streamus.backgroundPage.stream.get('items'),
+                player: Streamus.backgroundPage.player,
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')
                 })

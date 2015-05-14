@@ -32,8 +32,8 @@
 
         player: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.player = options.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
 
             this.listenTo(Streamus.channels.playPauseButton.commands, 'tryToggle:playerState', this._tryTogglePlayerState);

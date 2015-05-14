@@ -360,6 +360,7 @@
     <Content Include="LICENSE" />
     <Content Include="src\js\background\key\youTubeAPIKey.js.example" />
     <Content Include="changelog.md" />
+    <Content Include="CONTRIBUTING.md" />
     <None Include="src\js\thirdParty\chrome-api-vsdoc.js" />
     <Content Include="src\less\color.less" />
     <Content Include="src\less\font.less" />

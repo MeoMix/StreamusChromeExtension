@@ -40,9 +40,9 @@
         songs: [],
 
         initialize: function(options) {
-            this.songs = options && options.songs ? options.songs : this.songs;
-            this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
-            this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
+            this.playlists = options.playlists;
+            this.dataSourceManager = options.dataSourceManager;
+            this.songs = _.isUndefined(options.songs) ? this.songs : options.songs;
         },
 
         onRender: function() {

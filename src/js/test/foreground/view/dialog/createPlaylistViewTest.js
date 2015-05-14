@@ -6,7 +6,10 @@
     describe('CreatePlaylistView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.view = new CreatePlaylistView();
+            this.view = new CreatePlaylistView({
+                playlists: Streamus.backgroundPage.playlists,
+                dataSourceManager: Streamus.backgroundPage.dataSourceManager
+            });
         });
 
         afterEach(function() {
