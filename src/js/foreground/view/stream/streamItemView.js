@@ -8,6 +8,7 @@
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
+    var ContextMenuAction = require('foreground/model/contextMenuAction');
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -49,19 +50,12 @@
         },
 
         showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            //}, {
-            //    text: 'Show video',
-            //    onClick: this._showVideo.bind(this)
-            }]);
+            var contextMenuAction = new ContextMenuAction({
+                song: this.model.get('song'),
+                player: this.player
+            });
+
+            contextMenuAction.showContextMenu();
         },
 
         _onDblClick: function() {
@@ -86,18 +80,6 @@
         //  render will cause the lazy-loaded image to be reset.
         _setActiveClass: function(active) {
             this.$el.toggleClass('is-active', active);
-        },
-
-        _copyUrl: function() {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function() {
-            this.model.get('song').copyTitleAndUrl();
-        },
-
-        _watchOnYouTube: function() {
-            this.player.watchInTab(this.model.get('song'));
         },
 
         _showVideo: function() {

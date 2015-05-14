@@ -9,6 +9,7 @@
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
+    var ContextMenuAction = require('foreground/model/contextMenuAction');
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -50,16 +51,12 @@
         },
 
         showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            }]);
+            var contextMenuAction = new ContextMenuAction({
+                song: this.model.get('song'),
+                player: this.player
+            });
+
+            contextMenuAction.showContextMenu();
         },
 
         _onDblClick: function() {
@@ -81,22 +78,10 @@
             this.$el.data('id', id).attr('id', id);
         },
 
-        _copyUrl: function() {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function() {
-            this.model.get('song').copyTitleAndUrl();
-        },
-
         _playInStream: function() {
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
-        },
-
-        _watchOnYouTube: function() {
-            this.player.watchInTab(this.model.get('song'));
         }
     });
 
