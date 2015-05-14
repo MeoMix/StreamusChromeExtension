@@ -6,7 +6,7 @@
     var Scrollable = require('foreground/view/behavior/scrollable');
     var SlidingRender = require('foreground/view/behavior/slidingRender');
     var Sortable = require('foreground/view/behavior/sortable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var StreamItemView = require('foreground/view/stream/streamItemView');
     var StreamItemsTemplate = require('text!template/stream/streamItems.html');
 
@@ -51,8 +51,8 @@
             Sortable: {
                 behaviorClass: Sortable
             },
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

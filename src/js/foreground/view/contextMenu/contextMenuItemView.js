@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ContextMenuItemTemplate = require('text!template/contextMenu/contextMenuItem.html');
 
     var ContextMenuItemView = Marionette.ItemView.extend({
@@ -19,13 +19,13 @@
 
         attributes: function() {
             return {
-                title: this.model.get('title')
+                'data-tooltip-text': this.model.get('title')
             };
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

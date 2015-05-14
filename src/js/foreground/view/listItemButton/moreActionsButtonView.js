@@ -12,7 +12,7 @@
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('moreActions')
+            'data-tooltip-text': chrome.i18n.getMessage('moreActions')
         },
 
         initialize: function() {

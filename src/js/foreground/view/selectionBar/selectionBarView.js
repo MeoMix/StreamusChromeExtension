@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SelectionBarTemplate = require('text!template/selectionBar/selectionBar.html');
     var CloseIconTemplate = require('text!template/icon/closeIcon_24.svg');
 
@@ -41,8 +41,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -263,7 +263,7 @@
                 deleteTitle = chrome.i18n.getMessage('collectionCantBeDeleted', [activeCollection.userFriendlyName]);
             }
 
-            this.ui.deleteButton.toggleClass('is-disabled', !canDelete).attr('title', deleteTitle);
+            this.ui.deleteButton.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', deleteTitle);
         },
 
         _setAddButtonState: function(activeCollection) {
@@ -280,7 +280,7 @@
                 addTitle = duplicatesInfo.message;
             }
 
-            this.ui.addButton.toggleClass('is-disabled', !canAdd).attr('title', addTitle);
+            this.ui.addButton.toggleClass('is-disabled', !canAdd).attr('data-tooltip-text', addTitle);
         },
 
         _canPlay: function() {

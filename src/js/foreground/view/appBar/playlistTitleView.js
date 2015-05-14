@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var PlaylistTitleTemplate = require('text!template/appBar/playlistTitle.html');
 
     var PlaylistTitleView = Marionette.ItemView.extend({
@@ -13,21 +13,21 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
         onRender: function() {
-            this._setTitle(this.model.get('title'));
+            this._setTooltipText(this.model.get('title'));
         },
 
         _onChangeTitle: function() {
             this.render();
         },
 
-        _setTitle: function(title) {
-            this.$el.attr('title', title);
+        _setTooltipText: function(tooltipText) {
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

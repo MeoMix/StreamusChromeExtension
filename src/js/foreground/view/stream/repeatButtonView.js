@@ -2,7 +2,7 @@
     'use strict';
 
     var RepeatButtonState = require('common/enum/repeatButtonState');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var RepeatButtonTemplate = require('text!template/stream/repeatButton.html');
     var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
     var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
@@ -33,8 +33,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -54,7 +54,7 @@
             //  The button is considered enabled if it is anything but off.
             var enabled = state !== RepeatButtonState.Off;
 
-            this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
             this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatSong);
             this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatSong);
         },

@@ -68,15 +68,15 @@
 
             this.$el.toggleClass('is-disabled', empty || duplicatesInfo.allDuplicates);
 
-            var title = chrome.i18n.getMessage('add');
+            var tooltipText = chrome.i18n.getMessage('add');
 
             if (empty) {
-                title = chrome.i18n.getMessage('playlistEmpty');
+                tooltipText = chrome.i18n.getMessage('playlistEmpty');
             } else if (duplicatesInfo.message !== '') {
-                title = duplicatesInfo.message;
+                tooltipText = duplicatesInfo.message;
             }
 
-            this.$el.attr('title', title);
+            this.$el.attr('data-tooltip-text', tooltipText);
         },
 
         doOnClickAction: function() {

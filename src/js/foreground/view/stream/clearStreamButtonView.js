@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
     var ClearStreamButtonTemplate = require('text!template/stream/clearStreamButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
@@ -23,8 +23,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -43,7 +43,7 @@
         },
 
         _setState: function(enabled, stateMessage) {
-            this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-disabled', !enabled).attr('data-tooltip-text', stateMessage);
         },
 
         _showClearStreamDialog: function() {

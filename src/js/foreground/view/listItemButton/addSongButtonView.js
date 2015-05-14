@@ -51,8 +51,8 @@
 
             this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
 
-            var title = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
-            this.$el.attr('title', title);
+            var tooltipText = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

@@ -2,7 +2,7 @@
     'use strict';
 
     var TimeArea = require('foreground/model/timeArea');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
 
@@ -18,8 +18,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

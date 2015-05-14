@@ -6,7 +6,7 @@
     var Scrollable = require('foreground/view/behavior/scrollable');
     var SlidingRender = require('foreground/view/behavior/slidingRender');
     var Sortable = require('foreground/view/behavior/sortable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SearchResultView = require('foreground/view/search/searchResultView');
     var SearchResultsTemplate = require('text!template/search/searchResults.html');
 
@@ -50,8 +50,8 @@
             Sortable: {
                 behaviorClass: Sortable
             },
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

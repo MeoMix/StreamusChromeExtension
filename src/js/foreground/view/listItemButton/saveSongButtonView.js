@@ -41,8 +41,8 @@
         _setState: function() {
             var signedIn = this.signInManager.get('signedInUser') !== null;
 
-            var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
-            this.$el.attr('title', title).toggleClass('is-disabled', !signedIn);
+            var tooltipText = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
+            this.$el.attr('data-tooltip-text', tooltipText).toggleClass('is-disabled', !signedIn);
         }
     });
 

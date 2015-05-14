@@ -13,7 +13,7 @@
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('delete')
+            'data-tooltip-text': chrome.i18n.getMessage('delete')
         },
 
         initialize: function() {
@@ -36,14 +36,14 @@
         _setState: function() {
             var canDelete = this.model.get('canDelete');
 
-            var title;
+            var tooltipText;
             if (canDelete) {
-                title = chrome.i18n.getMessage('delete');
+                tooltipText = chrome.i18n.getMessage('delete');
             } else {
-                title = chrome.i18n.getMessage('cantDeleteLastPlaylist');
+                tooltipText = chrome.i18n.getMessage('cantDeleteLastPlaylist');
             }
 
-            this.$el.toggleClass('is-disabled', !canDelete).attr('title', title);
+            this.$el.toggleClass('is-disabled', !canDelete).attr('data-tooltip-text', tooltipText);
         }
     });
 

@@ -80,6 +80,7 @@
     <Content Include="src\js\foreground\model\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyboardKey.js" />
+    <Content Include="src\js\foreground\model\tooltip.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
     <Content Include="src\js\foreground\view\element\simpleMenuItemsView.js" />
@@ -90,6 +91,8 @@
     <Content Include="src\js\foreground\view\leftPane\playlistItemView.js" />
     <Content Include="src\js\foreground\view\leftPane\signInView.js" />
     <Content Include="src\js\foreground\view\listItemButton\moreActionsButtonView.js" />
+    <Content Include="src\js\foreground\view\tooltip\tooltipRegion.js" />
+    <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
     <Content Include="src\js\foreground\view\video\videoRegion.js" />
     <Content Include="src\js\foreground\view\video\videoView.js" />
     <Content Include="src\js\test\background\backgroundTests.js" />
@@ -221,7 +224,7 @@
     <Content Include="src\js\foreground\view\appBar\appBarView.js" />
     <Content Include="src\js\foreground\view\behavior\itemViewMultiSelect.js" />
     <Content Include="src\js\foreground\view\behavior\scrollable.js" />
-    <Content Include="src\js\foreground\view\behavior\tooltip.js" />
+    <Content Include="src\js\foreground\view\behavior\tooltipable.js" />
     <Content Include="src\js\foreground\view\element\checkboxView.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuRegion.js" />
     <Content Include="src\js\foreground\view\element\radioButtonView.js" />
@@ -344,7 +347,6 @@
     <Content Include="src\js\thirdParty\backbone.marionette.js" />
     <Content Include="src\js\thirdParty\jquery.js" />
     <Content Include="src\js\thirdParty\jquery.perfectScrollbar.js" />
-    <Content Include="src\js\thirdParty\jquery.qtip.js" />
     <Content Include="src\js\thirdParty\jquery-ui.js" />
     <Content Include="src\js\thirdParty\lodash.js" />
     <Content Include="src\js\thirdParty\require.js" />
@@ -431,6 +433,7 @@
     <Content Include="src\js\test\test.js" />
     <Content Include="src\js\test\testUtility.js" />
     <Content Include="src\template\search\searchResults.html" />
+    <Content Include="src\template\tooltip\tooltip.html" />
     <Content Include="src\test.html" />
     <Content Include="package.json" />
     <Content Include="src\_locales\de\messages.json" />

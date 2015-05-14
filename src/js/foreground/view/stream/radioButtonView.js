@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var RadioButtonTemplate = require('text!template/stream/radioButton.html');
     var RadioIconTemplate = require('text!template/icon/radioIcon_18.svg');
 
@@ -22,8 +22,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -40,7 +40,7 @@
         },
 
         _setState: function(enabled, stateMessage) {
-            this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
         }
     });
 

@@ -12,7 +12,7 @@
 
         templateHelpers: function() {
             return {
-                title: chrome.i18n.getMessage(this.model.get('labelKey'))
+                'data-tooltip-text': chrome.i18n.getMessage(this.model.get('labelKey'))
             };
         },
 

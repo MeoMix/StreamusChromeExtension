@@ -53,8 +53,8 @@
         _setState: function(isEmpty) {
             this.$el.toggleClass('is-disabled', isEmpty);
 
-            var title = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
-            this.$el.attr('title', title);
+            var tooltipText = isEmpty ? chrome.i18n.getMessage('playlistEmpty') : chrome.i18n.getMessage('play');
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

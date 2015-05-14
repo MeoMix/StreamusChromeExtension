@@ -12,7 +12,7 @@
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('delete')
+            'data-tooltip-text': chrome.i18n.getMessage('delete')
         },
 
         initialize: function() {

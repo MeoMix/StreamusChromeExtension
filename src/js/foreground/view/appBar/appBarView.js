@@ -8,7 +8,7 @@
     var PlayPauseButtonView = require('foreground/view/appBar/playPauseButtonView');
     var PreviousButtonView = require('foreground/view/appBar/previousButtonView');
     var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var AppBarTemplate = require('text!template/appBar/appBar.html');
     var MenuIconTemplate = require('text!template/icon/menuIcon_24.svg');
     var SearchIconTemplate = require('text!template/icon/searchIcon_24.svg');
@@ -65,8 +65,8 @@
 
         behaviors: {
             //  Needed for the 'not signed in' message on nav button.
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -210,10 +210,10 @@
 
         _setShowPlaylistsAreaButtonState: function(signedInUser) {
             var signedOut = signedInUser === null;
-            var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
+            var tooltipText = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
 
             var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
-            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', !isButtonEnabled).attr('title', title);
+            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', !isButtonEnabled).attr('data-tooltip-text', tooltipText);
         },
 
         //  Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.

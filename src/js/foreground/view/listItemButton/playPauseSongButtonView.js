@@ -5,7 +5,6 @@
     var PlayPauseSongButtonTemplate = require('text!template/listItemButton/playPauseSongButton.html');
     var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
     var PauseIconTemplate = require('text!template/icon/pauseIcon_18.svg');
-    var PlayerState = require('common/enum/playerState');
 
     var PlayPauseSongButtonView = ListItemButtonView.extend({
         template: _.template(PlayPauseSongButtonTemplate),
@@ -15,7 +14,7 @@
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('play')
+            'data-tooltip-text': chrome.i18n.getMessage('play')
         },
 
         ui: function() {

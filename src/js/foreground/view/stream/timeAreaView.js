@@ -3,7 +3,7 @@
 
     var PlayerState = require('common/enum/playerState');
     var Utility = require('common/utility');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var TimeAreaTemplate = require('text!template/stream/timeArea.html');
 
     var TimeAreaView = Marionette.ItemView.extend({
@@ -35,8 +35,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -57,7 +57,7 @@
 
         onRender: function() {
             this._setCurrentTime(this.player.get('currentTime'));
-            this._setElapsedTimeLabelTitle(this.model.get('showRemainingTime'));
+            this._setElapsedTimeLabelTooltipText(this.model.get('showRemainingTime'));
         },
 
         _onInputTimeRange: function() {
@@ -126,14 +126,14 @@
             //  Toggle showRemainingTime and then read the new state and apply it.
             this.model.save('showRemainingTime', !showRemainingTime);
 
-            this._setElapsedTimeLabelTitle(!showRemainingTime);
+            this._setElapsedTimeLabelTooltipText(!showRemainingTime);
 
             this._updateTimeProgress();
         },
 
-        _setElapsedTimeLabelTitle: function(showRemainingTime) {
-            var title = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
-            this.ui.elapsedTimeLabel.attr('title', title);
+        _setElapsedTimeLabelTooltipText: function(showRemainingTime) {
+            var tooltipText = chrome.i18n.getMessage(showRemainingTime ? 'remainingTime' : 'elapsedTime');
+            this.ui.elapsedTimeLabel.attr('data-tooltip-text', tooltipText);
         },
 
         _setCurrentTime: function(currentTime) {

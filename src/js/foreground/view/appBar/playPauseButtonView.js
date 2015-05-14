@@ -1,7 +1,6 @@
 ﻿define(function(require) {
     'use strict';
 
-    var PlayerState = require('common/enum/playerState');
     var PlayPauseButtonTemplate = require('text!template/appBar/playPauseButton.html');
     var PauseIconTemplate = require('text!template/icon/pauseIcon_30.svg');
     var PlayIconTemplate = require('text!template/icon/playIcon_30.svg');

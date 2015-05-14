@@ -3,7 +3,7 @@
 
     var ListItemType = require('common/enum/listItemType');
     var Scrollable = require('foreground/view/behavior/scrollable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var PlaylistView = require('foreground/view/playlist/playlistView');
     var PlaylistsTemplate = require('text!template/playlist/playlists.html');
 
@@ -38,8 +38,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             },
             Scrollable: {
                 behaviorClass: Scrollable

@@ -1,10 +1,10 @@
 ﻿@import "color";
 @import "utility";
 @import "boxShadow";
+@import "transition";
 
-.qtip {
+.tooltip {
     position: absolute;
-    display: none;
     max-width: 280px;
     padding: 5px 8px;
     font-size: 13px;
@@ -16,9 +16,18 @@
     background-color: @gray--tooltip;
 	border-radius: 2px;
 	box-shadow: @boxShadow-elevation--low;
+    opacity: 0;
+    .transition--veryFast;
+    transition-property: opacity;
+    transition-timing-function: @transition-easeOutSine;
+    will-change: opacity;
+
+    &.is-visible {
+        opacity: 1;
+    }
 }
 
-.qtip-content {
+.tooltip-content {
     overflow: hidden;
     text-overflow: ellipsis;
 }

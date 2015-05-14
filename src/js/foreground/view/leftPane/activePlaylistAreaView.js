@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
     var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
 
@@ -45,8 +45,8 @@
         },
         
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -125,11 +125,11 @@
             this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
+            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
         },
 
         _updatePlaylistDetails: function(displayInfo) {
-            this.ui.playlistDetails.text(displayInfo).attr('title', displayInfo);
+            this.ui.playlistDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
         },
 
         _onClickAddAllButton: function() {

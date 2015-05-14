@@ -74,7 +74,7 @@
         },
 
         _onChangeTitle: function(model, title) {
-            this.ui.title.text(title).attr('title', title);
+            this.ui.title.text(title).attr('data-tooltip-text', title);
         },
 
         _onChangeDataSourceLoaded: function() {

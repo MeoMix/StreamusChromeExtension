@@ -35,7 +35,6 @@ define(function() {
             'cocktail': 'thirdParty/cocktail',
             'jquery': 'thirdParty/jquery',
             'jquery.perfectScrollbar': 'thirdParty/jquery.perfectScrollbar',
-            'jquery.qtip': 'thirdParty/jquery.qtip',
             'jquery-ui': 'thirdParty/jquery-ui',
             'lodash': 'thirdParty/lodash',
             'text': 'thirdParty/text'
