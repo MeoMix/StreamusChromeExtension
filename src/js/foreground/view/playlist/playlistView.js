@@ -31,7 +31,25 @@
             'change:id': '_onChangeId'
         },
 
-        buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
+        buttonViewOptions: function() {
+            return {
+                PlayPlaylistButtonView: {
+                    viewClass: PlayPlaylistButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items')
+                    }
+                },
+                AddPlaylistButtonView: {
+                    viewClass: AddPlaylistButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items')
+                    }
+                },
+                DeletePlaylistButtonView: {
+                    viewClass: DeletePlaylistButtonView
+                }
+            };
+        },
 
         playlistItemsEvents: {
             'add:completed': '_onPlaylistItemsAddCompleted',

@@ -96,10 +96,10 @@
     <Content Include="src\js\foreground\view\tooltip\tooltipView.js" />
     <Content Include="src\js\foreground\view\video\videoRegion.js" />
     <Content Include="src\js\foreground\view\video\videoView.js" />
-    <Content Include="src\js\test\background\backgroundTests.js" />
+    <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
-    <Content Include="src\js\test\common\commonTests.js" />
-    <Content Include="src\js\test\foreground\foregroundTests.js" />
+    <Content Include="src\js\test\common\commonSpecLoader.js" />
+    <Content Include="src\js\test\foreground\foregroundSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\search\searchView.spec.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />

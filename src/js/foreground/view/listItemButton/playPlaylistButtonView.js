@@ -19,8 +19,8 @@
             'reset': '_onPlaylistItemsReset'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
             this.bindEntityEvents(this.model.get('items'), this.playlistItemsEvents);
 
             ListItemButtonView.prototype.initialize.apply(this, arguments);

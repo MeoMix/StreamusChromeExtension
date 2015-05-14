@@ -13,8 +13,6 @@
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',
         template: _.template(SearchResultTemplate),
 
-        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, SaveSongButtonView],
-
         events: _.extend({}, ListItemView.prototype.events, {
             'dblclick': '_onDblClick'
         }),
@@ -24,6 +22,30 @@
                 behaviorClass: ListItemMultiSelect
             }
         }),
+
+        buttonViewOptions: function() {
+            return {
+                PlayPauseSongButtonView: {
+                    viewClass: PlayPauseSongButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items'),
+                        player: Streamus.backgroundPage.player
+                    }
+                },
+                AddSongButtonView: {
+                    viewClass: AddSongButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items')
+                    }
+                },
+                SaveSongButtonView: {
+                    viewClass: SaveSongButtonView,
+                    options: {
+                        signInManager: Streamus.backgroundPage.signInManager
+                    }
+                }
+            };
+        },
 
         streamItems: null,
         player: null,

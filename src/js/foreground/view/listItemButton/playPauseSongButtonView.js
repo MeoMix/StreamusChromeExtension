@@ -17,20 +17,17 @@
             'data-tooltip-text': chrome.i18n.getMessage('play')
         },
 
-        ui: function() {
-            return {
-                playIcon: '.playIcon',
-                pauseIcon: '.pauseIcon'
-            };
+        ui: {
+            playIcon: '.playIcon',
+            pauseIcon: '.pauseIcon'
         },
 
         streamItems: null,
         player: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
-
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
             this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
 

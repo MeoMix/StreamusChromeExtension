@@ -32,7 +32,26 @@
             }
         }),
 
-        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, DeleteSongButtonView],
+        buttonViewOptions: function() {
+            return {
+                PlayPauseSongButtonView: {
+                    viewClass: PlayPauseSongButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items'),
+                        player: Streamus.backgroundPage.player
+                    }
+                },
+                AddSongButtonView: {
+                    viewClass: AddSongButtonView,
+                    options: {
+                        streamItems: Streamus.backgroundPage.stream.get('items')
+                    }
+                },
+                DeleteSongButtonView: {
+                    viewClass: DeleteSongButtonView
+                }
+            };
+        },
 
         streamItems: null,
         player: null,
