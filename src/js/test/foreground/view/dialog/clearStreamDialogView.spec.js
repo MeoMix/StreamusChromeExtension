@@ -2,11 +2,16 @@
     'use strict';
 
     var ClearStreamDialogView = require('foreground/view/dialog/clearStreamDialogView');
+    var StreamItems = require('background/collection/streamItems');
 
     describe('ClearStreamDialogView', function() {
         beforeEach(function() {
+            this.streamItems = new StreamItems();
+
             this.documentFragment = document.createDocumentFragment();
-            this.view = new ClearStreamDialogView();
+            this.view = new ClearStreamDialogView({
+                streamItems: this.streamItems
+            });
         });
 
         afterEach(function() {
@@ -20,12 +25,12 @@
 
         describe('onSubmit', function() {
             it('should clear StreamItems', function() {
-                sinon.stub(Streamus.backgroundPage.stream.get('items'), 'clear');
+                sinon.stub(this.streamItems, 'clear');
 
                 this.view.onSubmit();
-                expect(Streamus.backgroundPage.stream.get('items').clear.calledOnce).to.equal(true);
+                expect(this.streamItems.clear.calledOnce).to.equal(true);
 
-                Streamus.backgroundPage.stream.get('items').clear.restore();
+                this.streamItems.clear.restore();
             });
         });
     });

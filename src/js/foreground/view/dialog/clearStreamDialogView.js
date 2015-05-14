@@ -5,11 +5,14 @@
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
+    //  TODO: Rename this to ClearStreamItems
     var ClearStreamDialogView = DialogView.extend({
         id: 'clearStreamDialog',
-        stream: null,
+        streamItems: null,
 
-        initialize: function() {
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+
             this.model = new Dialog({
                 reminderProperty: 'remindClearStream'
             });
@@ -18,13 +21,11 @@
                 template: _.template(chrome.i18n.getMessage('clearStreamQuestion'))
             });
 
-            this.stream = Streamus.backgroundPage.stream;
-
             DialogView.prototype.initialize.apply(this, arguments);
         },
 
         onSubmit: function() {
-            this.stream.get('items').clear();
+            this.streamItems.clear();
         }
     });
 

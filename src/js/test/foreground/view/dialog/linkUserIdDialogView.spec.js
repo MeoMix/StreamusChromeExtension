@@ -2,11 +2,16 @@
     'use strict';
 
     var LinkUserIdDialogView = require('foreground/view/dialog/linkUserIdDialogView');
+    var SignInManager = require('background/model/signInManager');
 
     describe('LinkUserIdDialogView', function() {
         beforeEach(function() {
+            this.signInManager = new SignInManager();
+
             this.documentFragment = document.createDocumentFragment();
-            this.view = new LinkUserIdDialogView();
+            this.view = new LinkUserIdDialogView({
+                signInManager: this.signInManager
+            });
         });
 
         afterEach(function() {
@@ -20,12 +25,12 @@
 
         describe('onSubmit', function() {
             it('should tell SignInManager to save the current user\'s GooglePlusId', function() {
-                sinon.stub(Streamus.backgroundPage.signInManager, 'saveGooglePlusId');
+                sinon.stub(this.signInManager, 'saveGooglePlusId');
 
                 this.view.onSubmit();
-                expect(Streamus.backgroundPage.signInManager.saveGooglePlusId.calledOnce).to.equal(true);
+                expect(this.signInManager.saveGooglePlusId.calledOnce).to.equal(true);
 
-                Streamus.backgroundPage.signInManager.saveGooglePlusId.restore();
+                this.signInManager.saveGooglePlusId.restore();
             });
         });
     });

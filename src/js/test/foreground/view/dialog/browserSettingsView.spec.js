@@ -2,12 +2,13 @@
     'use strict';
 
     var BrowserSettingsView = require('foreground/view/dialog/browserSettingsView');
+    var Settings = require('background/model/settings');
 
     describe('BrowserSettingsView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new BrowserSettingsView({
-                model: Streamus.backgroundPage.browserSettings
+                model: new Settings()
             });
         });
 

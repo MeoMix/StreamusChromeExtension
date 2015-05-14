@@ -10,7 +10,7 @@
         player: null,
    
         initialize: function(options) {
-            this.player = Streamus.backgroundPage.player;
+            this.player = options.player;
 
             this.model = new Dialog({
                 showCancelButton: false

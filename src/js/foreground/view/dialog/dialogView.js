@@ -48,6 +48,7 @@
         mouseDownTarget: null,
 
         initialize: function() {
+            //  TODO: Don't do this. Prefer to pass in as options, but really reminders will go away in favor of undo so just remove then.
             this.settings = Streamus.backgroundPage.settings;
         },
 

@@ -2,13 +2,15 @@
     'use strict';
 
     var SettingsView = require('foreground/view/dialog/settingsView');
+    var SignInManager = require('background/model/signInManager');
+    var Settings = require('background/model/settings');
 
     describe('SettingsView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.view = new SettingsView({
-                model: Streamus.backgroundPage.settings,
-                signInManager: Streamus.backgroundPage.signInManager
+                model: new Settings(),
+                signInManager: new SignInManager()
             });
         });
 

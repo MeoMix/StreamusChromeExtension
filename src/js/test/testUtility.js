@@ -7,6 +7,11 @@
 
     var TestUtility = {
         songIdLength: 7,
+        guidIdLength: 16,
+
+        getGuid: function() {
+            return this._getUniqueId(this.guidIdLength);
+        },
 
         _getUniqueId: function(idLength) {
             var text = '';

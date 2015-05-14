@@ -9,7 +9,9 @@
         id: 'googleSignInDialog',
         signInManager: null,
 
-        initialize: function() {
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
+
             this.model = new Dialog({
                 reminderProperty: 'remindGoogleSignIn',
                 alwaysSaveReminder: true
@@ -18,8 +20,6 @@
             this.contentView = new DialogContentView({
                 template: _.template(chrome.i18n.getMessage('googleSignInMessage'))
             });
-
-            this.signInManager = Streamus.backgroundPage.signInManager;
 
             DialogView.prototype.initialize.apply(this, arguments);
         },

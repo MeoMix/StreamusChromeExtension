@@ -53,7 +53,9 @@
             if (streamItems.length === 1) {
                 streamItems.clear();
             } else {
-                Streamus.channels.dialog.commands.trigger('show:dialog', ClearStreamDialogView);
+                Streamus.channels.dialog.commands.trigger('show:dialog', ClearStreamDialogView, {
+                    streamItems: streamItems
+                });
             }
         }
     });

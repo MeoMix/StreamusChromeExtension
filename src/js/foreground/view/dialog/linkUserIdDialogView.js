@@ -9,7 +9,9 @@
         id: 'linkUserIdDialog',
         signInManager: null,
 
-        initialize: function() {
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
+
             this.model = new Dialog({
                 reminderProperty: 'remindLinkUserId',
                 submitButtonText: chrome.i18n.getMessage('link'),
@@ -19,8 +21,6 @@
             this.contentView = new DialogContentView({
                 template: _.template(chrome.i18n.getMessage('linkAccountsMessage'))
             });
-
-            this.signInManager = Streamus.backgroundPage.signInManager;
 
             DialogView.prototype.initialize.apply(this, arguments);
         },
