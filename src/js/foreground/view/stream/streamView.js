@@ -3,7 +3,6 @@
 
     var ClearStreamButton = require('foreground/model/clearStreamButton');
     var SaveStreamButton = require('foreground/model/saveStreamButton');
-    var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
     var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
     var RadioButtonView = require('foreground/view/stream/radioButtonView');
     var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
@@ -33,7 +32,6 @@
                 repeatButtonRegion: '#' + this.id + '-repeatButtonRegion',
                 saveStreamButtonRegion: '#' + this.id + '-saveStreamButtonRegion',
                 shuffleButtonRegion: '#' + this.id + '-shuffleButtonRegion',
-                activeStreamItemRegion: '#' + this.id + '-activeStreamItemRegion',
                 streamItemsRegion: '#' + this.id + '-streamItemsRegion'
             };
         },
@@ -94,11 +92,6 @@
                     signInManager: Streamus.backgroundPage.signInManager
                 })
             }));
-
-            var activeItem = this.model.get('activeItem');
-            if (activeItem !== null) {
-                this._showActiveStreamItem(activeItem, true);
-            }
         },
 
         _onClickShowSearchLink: function() {
@@ -135,14 +128,6 @@
         _showSearch: function() {
             Streamus.channels.searchArea.commands.trigger('show:search');
         },
-
-        _showActiveStreamItem: function(activeStreamItem, instant) {
-            this.showChildView('activeStreamItemRegion', new ActiveStreamItemView({
-                model: activeStreamItem,
-                player: Streamus.backgroundPage.player,
-                instant: instant
-            }));
-        }
     });
 
     return StreamView;

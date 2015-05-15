@@ -3,10 +3,7 @@
 
     var AdminMenuArea = require('foreground/model/adminMenuArea');
     var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
-    var NextButtonView = require('foreground/view/appBar/nextButtonView');
     var PlaylistTitleView = require('foreground/view/appBar/playlistTitleView');
-    var PlayPauseButtonView = require('foreground/view/appBar/playPauseButtonView');
-    var PreviousButtonView = require('foreground/view/appBar/previousButtonView');
     var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var AppBarTemplate = require('text!template/appBar/appBar.html');
@@ -33,10 +30,7 @@
             return {
                 playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
                 volumeAreaRegion: '#' + this.id + '-volumeAreaRegion',
-                adminMenuAreaRegion: '#' + this.id + '-adminMenuAreaRegion',
-                previousButtonRegion: '#' + this.id + '-previousButtonRegion',
-                playPauseButtonRegion: '#' + this.id + '-playPauseButtonRegion',
-                nextButtonRegion: '#' + this.id + '-nextButtonRegion'
+                adminMenuAreaRegion: '#' + this.id + '-adminMenuAreaRegion'
             };
         },
 
@@ -105,19 +99,6 @@
             this.showChildView('adminMenuAreaRegion', new AdminMenuAreaView({
                 model: new AdminMenuArea(),
                 tabManager: Streamus.backgroundPage.tabManager
-            }));
-
-            this.showChildView('previousButtonRegion', new PreviousButtonView({
-                model: Streamus.backgroundPage.previousButton
-            }));
-
-            this.showChildView('playPauseButtonRegion', new PlayPauseButtonView({
-                model: Streamus.backgroundPage.playPauseButton,
-                player: Streamus.backgroundPage.player
-            }));
-
-            this.showChildView('nextButtonRegion', new NextButtonView({
-                model: Streamus.backgroundPage.nextButton
             }));
         },
 

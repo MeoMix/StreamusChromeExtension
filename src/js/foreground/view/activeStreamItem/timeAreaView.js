@@ -1,10 +1,10 @@
-﻿define(function(require) {
+define(function(require) {
     'use strict';
 
     var PlayerState = require('common/enum/playerState');
     var Utility = require('common/utility');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var TimeAreaTemplate = require('text!template/stream/timeArea.html');
+    var TimeAreaTemplate = require('text!template/activeStreamItem/timeArea.html');
 
     var TimeAreaView = Marionette.ItemView.extend({
         id: 'timeArea',

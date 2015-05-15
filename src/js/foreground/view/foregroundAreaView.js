@@ -14,6 +14,7 @@
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
     var VideoRegion = require('foreground/view/video/videoRegion');
     var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
+    var ActiveStreamItemRegion = require('foreground/view/activeStreamItem/activeStreamItemRegion');
     var KeyboardKey = require('foreground/enum/keyboardKey');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
@@ -104,6 +105,10 @@
                 tooltipRegion: {
                     selector: '#' + this.id + '-tooltipRegion',
                     regionClass: TooltipRegion
+                },
+                activeStreamItemRegion: {
+                    selector: '#' + this.id + '-activeStreamItemRegion',
+                    regionClass: ActiveStreamItemRegion,
                 }
             };
         },
