@@ -61,6 +61,7 @@
             tooltipView.showAtOffset.restore();
         });
 
+        //  TODO: Test the placement math. Need a lot of energy to check this correctly.
         xit('should be able to get the adjusted offset', function() {
 
         });

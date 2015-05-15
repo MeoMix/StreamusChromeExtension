@@ -67,7 +67,6 @@
             });
         },
 
-        //  TODO: Show 'next up' as well once I am able to calculate that information. 
         _setTitle: function(activeStreamItem, playerState, volume) {
             var title;
             if (_.isUndefined(activeStreamItem)) {

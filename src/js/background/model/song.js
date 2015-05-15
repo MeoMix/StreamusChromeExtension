@@ -20,12 +20,6 @@
             url: '',
             cleanTitle: ''
         },
-        
-        //  TODO: Needed?
-        //  Song is never saved to the server -- it gets flattened into a PlaylistItem
-        sync: function() {
-            return false;
-        },
 
         initialize: function() {
             this._setPrettyDuration(this.get('duration'));

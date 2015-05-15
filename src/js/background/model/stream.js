@@ -53,7 +53,6 @@
             }, this);
         },
 
-        //  TODO: Function is way too big.
         //  If a streamItem which was active is removed, activateNext will have a removedActiveItemIndex provided
         activateNext: function(removedActiveItemIndex) {
             /* jshint ignore:start */
@@ -72,7 +71,6 @@
             } else if (shuffleEnabled) {
                 var eligibleItems = items.notPlayedRecently();
 
-                //  TODO: It doesn't make sense that the Stream cycles indefinitely through shuffled songs without RepeatStream enabled.
                 //  All songs will be played recently if there's only one item because it just finished playing.
                 if (eligibleItems.length > 0) {
                     nextItem = _.sample(eligibleItems);
@@ -258,7 +256,6 @@
                 var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
 
                 if (state === PlayerState.Ended && wasPlaying) {
-                    //  TODO: I need to be able to check whether there's an active item or not before calling activateNext.
                     model.set('playOnActivate', true);
                     var nextItem = this.activateNext();
 
@@ -272,23 +269,19 @@
             }
         },
 
-        //  TODO: Really needs to be reworked.
         _onPlayerYouTubeError: function(model, youTubeError) {
             if (this.get('items').length > 0) {
                 //model.set('playOnActivate', false);
-                //  TODO: It would be better if I could get the next item instead of having to activate it automatically.
                 //var nextItem = this.activateNext();
 
                 //if (nextItem === null) {
                 //    model.set('playOnActivate', false);
 
-                //    //  TODO: Once I refactoring activateNext and have better ways of handling errors then I can re-enable this, but infinite looping for now sucks.
                 //    //  YouTube's API does not emit an error if the cue'd video has already emitted an error.
                 //    //  So, when put into an error state, re-cue the video so that subsequent user interactions will continue to show the error.
                 //    //model.activateSong(this.get('items').getActiveItem().get('song'));
                 //}
             } else {
-                //  TODO: I don't understand how _onPlayerError could ever fire when length is 0, but it happens in production.
                 var error = new Error('Error ' + youTubeError + ' happened while StreamItems was empty.');
                 Streamus.channels.error.commands.trigger('log:error', error);
             }

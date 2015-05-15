@@ -44,7 +44,7 @@
             this._setViewportHeight();
             this._tryScrollToActiveItem();
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.el.addEventListener('scroll', _.throttleFramerate(this._onScroll.bind(this)));
+            this.el.addEventListener('scroll', _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this)));
             this.view.triggerMethod('UpdateScrollbar');
         },
         

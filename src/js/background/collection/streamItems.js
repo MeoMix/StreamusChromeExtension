@@ -122,7 +122,6 @@
                 if (createdStreamItems.length > 0) {
                     createdStreamItems[0].save({ active: true });
                 } else {
-                    //  TODO: I need to notify the user that this fallback happened.
                     var songToActivate = this.getBySong(songs[0]);
 
                     if (_.isUndefined(songToActivate)) {
@@ -254,7 +253,6 @@
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 //  assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
-                //  TODO: Filter out other things with the word live/parody in it and match words more specifically.
                 var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
                 var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
                 var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;

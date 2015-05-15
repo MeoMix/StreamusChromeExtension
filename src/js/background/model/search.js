@@ -184,7 +184,6 @@
             }
         },
         
-        //  TODO: Should I be notifying the user an error happened here?
         _onSearchError: function() {
             this.set('pendingRequest', null);
         },

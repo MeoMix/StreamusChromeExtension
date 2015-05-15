@@ -23,7 +23,6 @@
             }
         },
 
-        //  TODO: It would be nice to DRY this method with streamItems and searchResults
         addSongs: function(songs, options) {
             options = _.isUndefined(options) ? {} : options;
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];

@@ -31,7 +31,6 @@
 
         regions: function() {
             return {
-                //  TODO: Maybe move into its own region because it's getting complicated to tell whether user is signed in or not to load playlist title.
                 playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
                 volumeAreaRegion: '#' + this.id + '-volumeAreaRegion',
                 adminMenuAreaRegion: '#' + this.id + '-adminMenuAreaRegion',

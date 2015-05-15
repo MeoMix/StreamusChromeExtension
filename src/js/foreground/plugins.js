@@ -1,12 +1,9 @@
 ﻿define(function(require) {
     'use strict';
 
-    //  Overwrite _ not only in the AMD module wrapper but also globally here so that 100% of references point to the background page.
+    //  Overwrite lodash here in addition to in its AMD module factory to ensure all lo-dash calls reference the background's instance.
+    //  This is important to prevent memory leaks due to the coupling of background + foreground pages.
     window._ = chrome.extension.getBackgroundPage()._;
-
-    //  TODO: I really feel like I should be able to mix this in from the background page, but it throws errors. Need to debug at some point. Probably very scary..
-    var lodashMixin = require('common/lodashMixin');
-    _.mixin(lodashMixin);
 
     require('backbone.marionette');
     require('backbone.localStorage');

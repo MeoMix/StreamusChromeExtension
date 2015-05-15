@@ -66,7 +66,6 @@
 
             var streamItems = this.get('stream').get('items');
 
-            //  TODO: Make this call a getNext() to keep parity with previousButton
             if (streamItems.length > 0) {
                 var radioEnabled = this.get('radioButton').get('enabled');
                 var shuffleEnabled = this.get('shuffleButton').get('enabled');
