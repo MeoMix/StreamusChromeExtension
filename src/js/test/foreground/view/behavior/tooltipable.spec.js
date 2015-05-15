@@ -11,6 +11,7 @@
         it('should hide any tooltips when its view is destroyed', function() {
             sinon.stub(this.tooltipable, '_hideTooltip');
             this.tooltipable.onBeforeDestroy();
+
             expect(this.tooltipable._hideTooltip.calledOnce).to.equal(true);
             this.tooltipable._hideTooltip.restore();
         });
@@ -20,6 +21,7 @@
             var target = document.createElement('div');
             target.setAttribute('data-tooltip-text', 'hello, world');
             this.tooltipable._setHovered(target);
+
             expect($(target).data('is-hovered')).to.equal(true);
             expect(window.setTimeout.calledOnce).to.equal(true);
             window.setTimeout.restore();
@@ -30,6 +32,7 @@
             var target = document.createElement('div');
             $(target).data('is-hovered', true);
             this.tooltipable._setHovered(target);
+
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
         });
@@ -38,6 +41,7 @@
             sinon.stub(window, 'setTimeout');
             var target = document.createElement('div');
             this.tooltipable._setHovered(target);
+
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
         });
@@ -47,6 +51,7 @@
             var target = document.createElement('div');
             target.setAttribute('data-tooltip-text', '');
             this.tooltipable._setHovered(target);
+
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
         });
@@ -55,18 +60,21 @@
             this.tooltipable.isShowingTooltip = true;
             this.tooltipable.mutationObserver = new MutationObserver(_.noop);
             this.tooltipable._hideTooltip();
+
             expect(this.tooltipable.isShowingTooltip).to.equal(false);
         });
 
         it('should set a mutation observer when watching a target', function() {
             var target = document.createElement('div');
             this.tooltipable._watchTooltipText(target, {});
+
             expect(this.tooltipable.mutationObserver).not.to.equal(null);
         });
 
         it('should indicate that a tooltip should not be shown if target is not hovered', function() {
             var target = document.createElement('div');
             var showTooltip = this.tooltipable._needShowTooltip(target);
+
             expect(showTooltip).to.equal(false);
         });
 
@@ -74,6 +82,7 @@
             var target = document.createElement('div');
             $(target).data('is-hovered', true);
             var showTooltip = this.tooltipable._needShowTooltip(target);
+
             expect(showTooltip).to.equal(true);
         });
 
@@ -82,18 +91,17 @@
             $(target).data('is-hovered', true);
             target.classList.add('js-textTooltipable');
             var showTooltip = this.tooltipable._needShowTooltip(target);
+
             expect(showTooltip).to.equal(false);
         });
 
         it('should be able to show a tooltip', function() {
             sinon.stub(Streamus.channels.tooltip.commands, 'trigger');
-
             this.tooltipable._showTooltip({}, '');
 
             expect(this.tooltipable.isShowingTooltip).to.equal(true);
             expect(Streamus.channels.tooltip.commands.trigger.calledOnce).to.equal(true);
             expect(Streamus.channels.tooltip.commands.trigger.calledWithMatch('show:tooltip', {})).to.equal(true);
-
             Streamus.channels.tooltip.commands.trigger.restore();
         });
     });

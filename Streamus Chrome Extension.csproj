@@ -99,8 +99,10 @@
     <Content Include="src\js\test\background\backgroundSpecLoader.js" />
     <Content Include="src\js\test\background\collection\searchResults.spec.js" />
     <Content Include="src\js\test\common\commonSpecLoader.js" />
+    <Content Include="src\js\test\foreground\view\behavior\tooltipable.spec.js" />
     <Content Include="src\js\test\foreground\foregroundSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\search\searchView.spec.js" />
+    <Content Include="src\js\test\foreground\view\tooltip\tooltipRegion.spec.js" />
     <Content Include="src\js\thirdParty\test\chai.js" />
     <Content Include="src\js\thirdParty\test\mocha.js" />
     <Content Include="src\js\thirdParty\test\sinon.js" />
@@ -478,6 +480,7 @@
     <Content Include="src\_locales\en\messages.json" />
     <Content Include="src\_locales\es\messages.json" />
   </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
