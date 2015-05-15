@@ -40,6 +40,7 @@
             simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
             video: Backbone.Wreqr.radio.channel('video'),
             playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton'),
+            tooltip: Backbone.Wreqr.radio.channel('tooltip'),
 
             //  BACKGROUND:
             tab: Backbone.Wreqr.radio.channel('tab'),

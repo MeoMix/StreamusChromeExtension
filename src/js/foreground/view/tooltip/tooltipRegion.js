@@ -20,21 +20,22 @@
             this.show(tooltipView);
 
             //  Let the DOM update so that offsetWidth and offsetHeight return correct values
-            requestAnimationFrame(function() {
-                var tooltipWidth = tooltipView.el.offsetWidth;
-                var tooltipHeight = tooltipView.el.offsetHeight;
-
-                //  Figure out the desired offset of the tooltip based on its dimensions, location, and the dimensions of its target
-                var offset = this._getAdjustedOffset(options.targetBoundingClientRect, tooltipWidth, tooltipHeight);
-                tooltipView.showAtOffset(offset);
-            }.bind(this));
+            requestAnimationFrame(this._setTooltipViewOffset.bind(this, tooltipView, options.targetBoundingClientRect));
         },
 
         _hideTooltip: function() {
-            //  TODO: I'd prefer doing this logic on the region itself, but making the region a panel conflicts with :hover once visible.
             if (!_.isUndefined(this.currentView)) {
                 this.currentView.hide();
             }
+        },
+
+        _setTooltipViewOffset: function(tooltipView, boundingClientRect) {
+            var tooltipWidth = tooltipView.el.offsetWidth;
+            var tooltipHeight = tooltipView.el.offsetHeight;
+
+            //  Figure out the desired offset of the tooltip based on its dimensions, location, and the dimensions of its target
+            var offset = this._getAdjustedOffset(boundingClientRect, tooltipWidth, tooltipHeight);
+            tooltipView.showAtOffset(offset);
         },
 
         //  Perform math in an attempt to center the tooltip along the bottom of a given element.

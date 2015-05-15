@@ -2,6 +2,9 @@
     'use strict';
 
     //  /view/
+    //  /view/behavior/
+    require('test/foreground/view/behavior/tooltipable.spec');
+
     //  /view/dialog/
     require('test/foreground/view/dialog/browserSettingsDialogView.spec');
     require('test/foreground/view/dialog/browserSettingsView.spec');
@@ -23,4 +26,7 @@
 
     //  /view/search/
     require('test/foreground/view/search/searchView.spec');
+
+    // /view/tooltip/
+    require('test/foreground/view/tooltip/tooltipRegion.spec');
 });

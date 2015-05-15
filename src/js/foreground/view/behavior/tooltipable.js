@@ -70,26 +70,32 @@
             if (needShowTooltip) {
                 var boundingClientRect = target.getBoundingClientRect();
                 this._showTooltip(boundingClientRect, text);
-
-                //  If the data-tooltip-text attribute is modified while the tooltip is shown - refresh the tooltip.
-                this.mutationObserver = new MutationObserver(function(mutations) {
-                    mutations.forEach(function(mutation) {
-                        var newText = $(mutation.target).attr(mutation.attributeName);
-                        this._showTooltip(boundingClientRect, newText);
-                    }.bind(this));
-                }.bind(this));
-
-                this.mutationObserver.observe(target, {
-                    attributes: true,
-                    attributeFilter: ['data-tooltip-text'],
-                    subtree: false
-                });
+                this._watchTooltipText(target, boundingClientRect);
             }
+        },
+
+        //  Create a mutation observer which watches the target for changes to its tooltip-text data attribute.
+        //  If that attribute changes then refresh the tooltip to reflect the new text.
+        _watchTooltipText: function(target, boundingClientRect) {
+            var mutationObserver = new MutationObserver(function(mutations) {
+                mutations.forEach(function(mutation) {
+                    var newText = mutation.target.getAttribute(mutation.attributeName);
+                    this._showTooltip(boundingClientRect, newText);
+                }.bind(this));
+            }.bind(this));
+
+            mutationObserver.observe(target, {
+                attributes: true,
+                attributeFilter: ['data-tooltip-text'],
+                subtree: false
+            });
+
+            this.mutationObserver = mutationObserver;
         },
 
         _needShowTooltip: function(target) {
             //  If the user is still hovering the element after the delay then go ahead and confirm the tooltip should be shown.
-            var showTooltip = $(target).data('is-hovered');
+            var showTooltip = $(target).data('is-hovered') || false;
 
             if (showTooltip) {
                 //  Some elements only want to show a tooltip if their text can't all be seen

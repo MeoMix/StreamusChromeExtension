@@ -19,7 +19,7 @@
 
         //  Fade out the tooltip and then destroy it once completely hidden
         hide: function() {
-            this.$el.off('webkitTransitionEnd').one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
+            this.$el.one('webkitTransitionEnd', this._onTransitionOutComplete.bind(this));
             this.$el.removeClass('is-visible');
         },
 
