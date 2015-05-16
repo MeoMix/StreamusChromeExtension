@@ -3,6 +3,7 @@ define(function(require) {
     'use strict';
 
     var SimpleMenuItems = require('foreground/collection/simpleMenuItems');
+    var FixedMenuItem = require('foreground/model/fixedMenuItem');
     var SimpleMenu = require('foreground/model/simpleMenu');
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
     var CreatePlaylistDialogView = require('foreground/view/dialog/createPlaylistDialogView');
@@ -30,9 +31,11 @@ define(function(require) {
                 }));
 
                 var simpleMenuView = new SimpleMenuView({
-                    simpleMenuItems: simpleMenuItems,
                     model: new SimpleMenu({
-                        fixedMenuItemTitle: chrome.i18n.getMessage('createPlaylist')
+                        simpleMenuItems: simpleMenuItems, 
+                        fixedMenuItem: new FixedMenuItem({
+                            text: chrome.i18n.getMessage('createPlaylist')
+                        })
                     })
                 });
 
@@ -53,7 +56,7 @@ define(function(require) {
         },
 
         _onClickSimpleMenuItem: function(playlists, songs, eventArgs) {
-            var activeItem = eventArgs.collection.getActive();
+            var activeItem = eventArgs.model.get('simpleMenuItems').getActive();
             var playlist = playlists.get(activeItem.get('value'));
             playlist.get('items').addSongs(songs);
         },

@@ -2,6 +2,7 @@
     'use strict';
 
     require('test/foreground/view/element/checkboxView.spec');
+    require('test/foreground/view/element/fixedMenuItemView.spec');
     require('test/foreground/view/element/radioButtonView.spec');
     require('test/foreground/view/element/radioGroupView.spec');
     require('test/foreground/view/element/simpleListItemView.spec');

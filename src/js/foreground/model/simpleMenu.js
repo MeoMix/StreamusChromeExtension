@@ -3,7 +3,9 @@
 
     var SimpleMenu = Backbone.Model.extend({
         defaults: {
-            fixedMenuItemTitle: ''
+            simpleMenuItems: null,
+            fixedMenuItem: null,
+            listItemHeight: 0
         }
     });
 

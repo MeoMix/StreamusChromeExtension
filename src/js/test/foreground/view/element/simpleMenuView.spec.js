@@ -16,8 +16,7 @@
             this.simpleMenuView.destroy();
         });
 
-        //  TODO: fix
-        xit('should be able to find all referenced ui targets', function() {
+        it('should be able to find all referenced ui targets', function() {
             this.documentFragment.appendChild(this.simpleMenuView.render().el);
 
             _.forIn(this.simpleMenuView.ui, function(element) {

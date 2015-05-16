@@ -17,7 +17,7 @@
 
             var player = new Player({
                 settings: new Settings(),
-                youTubePlayer: new YouTubePlayer
+                youTubePlayer: new YouTubePlayer()
             });
 
             var shuffleButton = new ShuffleButton();

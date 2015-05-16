@@ -68,16 +68,17 @@
                 //  otherwise it'll close immediately.
                 _.defer(function() {
                     this.showChildView('simpleMenu', new SimpleMenuView({
-                        simpleMenuItems: simpleMenuItems,
-                        model: new SimpleMenu(),
-                        listItemHeight: this.$el.height()
+                        model: new SimpleMenu({
+                            simpleMenuItems: simpleMenuItems,
+                            listItemHeight: this.$el.height()
+                        })
                     }));
                 }.bind(this));
             }
         },
 
         _onClickSimpleMenuItem: function(model, eventArgs) {
-            var activeItem = eventArgs.collection.getActive();
+            var activeItem = eventArgs.model.get('simpleMenuItems').getActive();
             this.model.set('value', activeItem.get('value'));
         }
     });

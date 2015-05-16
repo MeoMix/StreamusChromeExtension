@@ -24,7 +24,7 @@
                     stream: new Stream({
                         player: new Player({
                             settings: new Settings(),
-                            youTubePlayer: new YouTubePlayer
+                            youTubePlayer: new YouTubePlayer()
                         }),
                         shuffleButton: shuffleButton,
                         radioButton: radioButton,
