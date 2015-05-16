@@ -11,8 +11,8 @@
         contentView: null,
 
         regions: {
-            reminderRegion: '[data-region=reminder]',
-            contentRegion: '[data-region=content]'
+            reminder: '[data-region=reminder]',
+            content: '[data-region=content]'
         },
 
         ui: {
@@ -43,7 +43,7 @@
         },
 
         onRender: function() {
-            this.showChildView('contentRegion', this.contentView);
+            this.showChildView('content', this.contentView);
 
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -137,7 +137,7 @@
                 iconOnLeft: true
             });
 
-            this.showChildView('reminderRegion', new CheckboxView({
+            this.showChildView('reminder', new CheckboxView({
                 model: this.reminderCheckbox
             }));
         },

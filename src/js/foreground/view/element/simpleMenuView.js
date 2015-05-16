@@ -10,7 +10,7 @@
         template: _.template(SimpleMenuTemplate),
 
         regions: {
-            simpleMenuItemsRegion: '[data-region=simpleMenuItems]'
+            simpleMenuItems: '[data-region=simpleMenuItems]'
         },
 
         ui: {
@@ -36,7 +36,7 @@
         },
 
         onRender: function() {
-            this.showChildView('simpleMenuItemsRegion', new SimpleMenuItemsView({
+            this.showChildView('simpleMenuItems', new SimpleMenuItemsView({
                 collection: this.simpleMenuItems,
                 listItemHeight: this.listItemHeight
             }));
@@ -44,7 +44,7 @@
 
         onAttach: function() {
             //  This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
-            this.getChildView('simpleMenuItemsRegion').ensureActiveIsVisible();
+            this.getChildView('simpleMenuItems').ensureActiveIsVisible();
 
             if (this.listItemHeight > 0) {
                 this._centerActive();
@@ -87,7 +87,7 @@
 
         _onElementClick: function(event) {
             //  These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
-            if (event.target !== this.getRegion('simpleMenuItemsRegion').el) {
+            if (event.target !== this.getRegion('simpleMenuItems').el) {
                 this.hide();
             }
         },
@@ -99,11 +99,11 @@
             var index = this.simpleMenuItems.indexOf(this.simpleMenuItems.getActive());
 
             //  TODO: This feels weirdly coupled.
-            var childHeight = this.getChildView('simpleMenuItemsRegion').children.first().$el.height();
+            var childHeight = this.getChildView('simpleMenuItems').children.first().$el.height();
             var offset = -1 * index * childHeight;
 
             //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
-            var scrollTop = this.getChildView('simpleMenuItemsRegion').el.scrollTop;
+            var scrollTop = this.getChildView('simpleMenuItems').el.scrollTop;
             offset += scrollTop;
 
             //  Now center the item over its ListItem

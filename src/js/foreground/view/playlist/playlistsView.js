@@ -13,12 +13,12 @@
         template: _.template(PlaylistsTemplate),
 
         childView: PlaylistView,
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childViewType: ListItemType.Playlist,
         childViewOptions: function() {
             return {
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -28,12 +28,11 @@
         },
 
         ui: {
-            //  TODO: naming convention
-            childContainer: '[data-ui~=listItems]'
+            listItems: '[data-ui~=listItems]'
         },
 
         triggers: {
-            'click @ui.childContainer': 'click:childContainer'
+            'click @ui.listItems': 'click:listItems'
         },
 
         behaviors: {
@@ -46,7 +45,7 @@
         },
 
         onRender: function() {
-            this.ui.childContainer.sortable(this._getSortableOptions());
+            this.ui.listItems.sortable(this._getSortableOptions());
         },
 
         _getSortableOptions: function() {

@@ -14,7 +14,7 @@
         },
 
         regions: {
-            playlistsRegion: '[data-region=playlists]'
+            playlists: '[data-region=playlists]'
         },
 
         ui: {
@@ -31,7 +31,7 @@
         },
 
         childEvents: {
-            'click:childContainer': '_onClickChildContainer'
+            'click:listItems': '_onClickListItems'
         },
 
         playlists: null,
@@ -41,7 +41,7 @@
         },
 
         onRender: function() {
-            this.showChildView('playlistsRegion', new PlaylistsView({
+            this.showChildView('playlists', new PlaylistsView({
                 collection: this.playlists
             }));
         },
@@ -69,7 +69,7 @@
         },
  
         //  Whenever a playlist is clicked it will become active and the menu should hide itself.
-        _onClickChildContainer: function() {
+        _onClickListItems: function() {
             this.hide();
         }
     });

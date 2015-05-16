@@ -56,7 +56,7 @@
                 this.ui.leftContent.addClass('is-showingCheckbox');
                 this.ui.leftContent.removeClass('is-showingThumbnail');
 
-                this.view.showChildView('checkboxRegion', new CheckboxView({
+                this.view.showChildView('checkbox', new CheckboxView({
                     model: this.checkbox
                 }));
             }
@@ -69,7 +69,8 @@
                 this.ui.leftContent.removeClass('is-showingCheckbox');
                 this.ui.leftContent.addClass('is-showingThumbnail');
 
-                this.view.checkboxRegion.empty();
+                //  TODO: Change to getChildView
+                this.view.checkbox.empty();
             }
         },
 
@@ -86,7 +87,7 @@
                 this.ui.leftContent.toggleClass('is-showingThumbnail', !selected);
 
                 if (selected) {
-                    this.view.showChildView('checkboxRegion', new CheckboxView({
+                    this.view.showChildView('checkbox', new CheckboxView({
                         model: this.checkbox
                     }));
                 }

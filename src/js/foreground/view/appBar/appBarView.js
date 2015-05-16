@@ -30,12 +30,12 @@
         },
 
         regions: {
-            playlistTitleRegion: '[data-region=playlistTitle]',
-            volumeAreaRegion: '[data-region=volumeArea]',
-            adminMenuAreaRegion: '[data-region=adminMenuArea]',
-            previousButtonRegion: '[data-region=previousButton]',
-            playPauseButtonRegion: '[data-region=playPauseButton]',
-            nextButtonRegion: '[data-region=nextButton]'
+            playlistTitle: '[data-region=playlistTitle]',
+            volumeArea: '[data-region=volumeArea]',
+            adminMenuArea: '[data-region=adminMenuArea]',
+            previousButton: '[data-region=previousButton]',
+            playPauseButton: '[data-region=playPauseButton]',
+            nextButton: '[data-region=nextButton]'
         },
 
         ui: {
@@ -94,25 +94,25 @@
                 this._setPlaylistTitleRegion(signedInUser);
             }
 
-            this.showChildView('volumeAreaRegion', new VolumeAreaView({
+            this.showChildView('volumeArea', new VolumeAreaView({
                 player: Streamus.backgroundPage.player
             }));
 
-            this.showChildView('adminMenuAreaRegion', new AdminMenuAreaView({
+            this.showChildView('adminMenuArea', new AdminMenuAreaView({
                 model: new AdminMenuArea(),
                 tabManager: Streamus.backgroundPage.tabManager
             }));
 
-            this.showChildView('previousButtonRegion', new PreviousButtonView({
+            this.showChildView('previousButton', new PreviousButtonView({
                 model: Streamus.backgroundPage.previousButton
             }));
 
-            this.showChildView('playPauseButtonRegion', new PlayPauseButtonView({
+            this.showChildView('playPauseButton', new PlayPauseButtonView({
                 model: Streamus.backgroundPage.playPauseButton,
                 player: Streamus.backgroundPage.player
             }));
 
-            this.showChildView('nextButtonRegion', new NextButtonView({
+            this.showChildView('nextButton', new NextButtonView({
                 model: Streamus.backgroundPage.nextButton
             }));
         },
@@ -141,7 +141,7 @@
 
         _onPlaylistsChangeActive: function(model, active) {
             if (active) {
-                this.showChildView('playlistTitleRegion', new PlaylistTitleView({
+                this.showChildView('playlistTitle', new PlaylistTitleView({
                     model: model
                 }));
             }
@@ -202,7 +202,7 @@
         },
 
         _setPlaylistTitleRegion: function(signedInUser) {
-            this.showChildView('playlistTitleRegion', new PlaylistTitleView({
+            this.showChildView('playlistTitle', new PlaylistTitleView({
                 model: signedInUser.get('playlists').getActivePlaylist()
             }));
         },

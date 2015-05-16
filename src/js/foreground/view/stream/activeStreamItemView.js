@@ -13,7 +13,7 @@
         template: _.template(ActiveStreamItemTemplate),
 
         regions: {
-            timeAreaRegion: '[data-region=timeArea]'
+            timeArea: '[data-region=timeArea]'
         },
 
         events: {
@@ -41,7 +41,7 @@
                 this.$el.on('webkitTransitionEnd', this._onTransitionInComplete.bind(this));
             }
 
-            this.showChildView('timeAreaRegion', new TimeAreaView({
+            this.showChildView('timeArea', new TimeAreaView({
                 streamItems: Streamus.backgroundPage.stream.get('items'),
                 player: Streamus.backgroundPage.player,
                 model: new TimeArea({

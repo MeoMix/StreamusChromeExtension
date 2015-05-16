@@ -27,9 +27,9 @@
         },
 
         regions: {
-            buttonsRegion: '[data-region=buttons]',
-            spinnerRegion: '[data-region=spinner]',
-            checkboxRegion: '[data-region=checkbox]'
+            buttons: '[data-region=buttons]',
+            spinner: '[data-region=spinner]',
+            checkbox: '[data-region=checkbox]'
         },
 
         behaviors: {
@@ -44,14 +44,14 @@
         },
 
         _onMouseEnter: function() {
-            this.showChildView('buttonsRegion', new ListItemButtonsView({
+            this.showChildView('buttons', new ListItemButtonsView({
                 model: this.model,
                 buttonViewOptions: this.buttonViewOptions
             }));
         },
 
         _onMouseLeave: function() {
-            this.buttonsRegion.empty();
+            this.buttons.empty();
         }
     });
 

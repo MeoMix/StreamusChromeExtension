@@ -17,7 +17,7 @@
         },
 
         regions: {
-            spinnerRegion: '[data-region=spinner]'
+            spinner: '[data-region=spinner]'
         },
 
         ui: {
@@ -40,7 +40,7 @@
 
         onRender: function() {
             this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
-            this.showChildView('spinnerRegion', new SpinnerView());
+            this.showChildView('spinner', new SpinnerView());
         },
 
         _onClickSignInLink: function() {

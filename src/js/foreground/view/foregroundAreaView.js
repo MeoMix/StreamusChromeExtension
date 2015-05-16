@@ -48,58 +48,58 @@
 
         regions: function() {
             return {
-                spinnerRegion: '[data-region=spinner]',
-                appBarRegion: {
+                spinner: '[data-region=spinner]',
+                appBar: {
                     selector: '[data-region=appBar]',
                     regionClass: AppBarRegion
                 },
-                dialogRegion: {
+                dialog: {
                     selector: '[data-region=dialog]',
                     regionClass: DialogRegion,
                     player: Streamus.backgroundPage.player,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
-                notificationRegion: {
+                notification: {
                     selector: '[data-region=notification]',
                     regionClass: NotificationRegion
                 },
-                contextMenuRegion: {
+                contextMenu: {
                     selector: '[data-region=contextMenu]',
                     regionClass: ContextMenuRegion
                 },
-                leftPaneRegion: {
+                leftPane: {
                     selector: '[data-region=leftPane]',
                     regionClass: LeftPaneRegion,
                     settings: Streamus.backgroundPage.settings
                 },
-                searchAreaRegion: {
+                searchArea: {
                     selector: '[data-region=searchArea]',
                     regionClass: SearchAreaRegion,
                     settings: Streamus.backgroundPage.settings
                 },
-                saveSongsRegion: {
+                saveSongs: {
                     selector: '[data-region=saveSongs]',
                     regionClass: SaveSongsRegion,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
-                playlistsAreaRegion: {
+                playlistsArea: {
                     selector: '[data-region=playlistsArea]',
                     regionClass: PlaylistsAreaRegion,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
-                streamRegion: {
+                stream: {
                     selector: '[data-region=stream]',
                     regionClass: StreamRegion
                 },
-                selectionBarRegion: {
+                selectionBar: {
                     selector: '[data-region=selectionBar]',
                     regionClass: SelectionBarRegion
                 },
-                videoRegion: {
+                video: {
                     selector: '[data-region=video]',
                     regionClass: VideoRegion
                 },
-                tooltipRegion: {
+                tooltip: {
                     selector: '[data-region=tooltip]',
                     regionClass: TooltipRegion
                 }
@@ -136,7 +136,7 @@
         },
 
         onRender: function() {
-            this.showChildView('spinnerRegion', new SpinnerView());
+            this.showChildView('spinner', new SpinnerView());
             this._checkPlayerLoading();
 
             Streamus.channels.foregroundArea.vent.trigger('rendered');

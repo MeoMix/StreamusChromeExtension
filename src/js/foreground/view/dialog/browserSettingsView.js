@@ -16,11 +16,11 @@
         },
 
         regions: {
-            showTextSelectionContextMenuRegion: '[data-region=showTextSelectionContextMenu]',
-            showYouTubeLinkContextMenuRegion: '[data-region=showYouTubeLinkContextMenu]',
-            showYouTubePageContextMenuRegion: '[data-region=showYouTubePageContextMenu]',
-            enhanceYouTubeRegion: '[data-region=enhanceYouTube]',
-            enhanceBeatportRegion: '[data-region=enhanceBeatport]'
+            showTextSelectionContextMenu: '[data-region=showTextSelectionContextMenu]',
+            showYouTubeLinkContextMenu: '[data-region=showYouTubeLinkContextMenu]',
+            showYouTubePageContextMenu: '[data-region=showYouTubePageContextMenu]',
+            enhanceYouTube: '[data-region=enhanceYouTube]',
+            enhanceBeatport: '[data-region=enhanceBeatport]'
         },
 
         initialize: function() {
@@ -52,7 +52,8 @@
                 property: propertyName
             });
 
-            this[propertyName + 'Region'].show(new CheckboxView({
+            //  TODO: Change to getChildView
+            this[propertyName].show(new CheckboxView({
                 model: checkbox
             }));
         }

@@ -20,7 +20,7 @@
         },
 
         regions: {
-            playlistItemsRegion: '[data-region=playlistItems]'
+            playlistItems: '[data-region=playlistItems]'
         },
 
         ui: {
@@ -71,7 +71,7 @@
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
             this._toggleInstructions(this.model.get('items').isEmpty());
 
-            this.showChildView('playlistItemsRegion', new PlaylistItemsView({
+            this.showChildView('playlistItems', new PlaylistItemsView({
                 collection: this.model.get('items')
             }));
         },

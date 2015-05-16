@@ -62,7 +62,7 @@
         },
 
         onRender: function() {
-            this.showChildView('spinnerRegion', new SpinnerView({
+            this.showChildView('spinner', new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
 

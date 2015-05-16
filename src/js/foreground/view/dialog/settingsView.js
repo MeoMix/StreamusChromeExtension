@@ -26,15 +26,15 @@
         },
 
         regions: {
-            songQualityRegion: '[data-region=songQuality]',
-            openToSearchRegion: '[data-region=openToSearch]',
-            openInTabRegion: '[data-region=openInTab]',
-            remindClearStreamRegion: '[data-region=remindClearStream]',
-            remindDeletePlaylistRegion: '[data-region=remindDeletePlaylist]',
-            remindLinkAccountRegion: '[data-region=remindLinkAccount]',
-            remindGoogleSignInRegion: '[data-region=remindGoogleSignIn]',
-            desktopNotificationsEnabledRegion: '[data-region=desktopNotificationsEnabled]',
-            desktopNotificationDurationRegion: '[data-region=desktopNotificationDuration]'
+            songQuality: '[data-region=songQuality]',
+            openToSearch: '[data-region=openToSearch]',
+            openInTab: '[data-region=openInTab]',
+            remindClearStream: '[data-region=remindClearStream]',
+            remindDeletePlaylist: '[data-region=remindDeletePlaylist]',
+            remindLinkAccount: '[data-region=remindLinkAccount]',
+            remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
+            desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
+            desktopNotificationDuration: '[data-region=desktopNotificationDuration]'
         },
 
         checkboxes: null,
@@ -92,7 +92,7 @@
             });
 
             //  TODO: Change to showChildView
-            this[propertyName + 'Region'].show(new SimpleListItemView({
+            this[propertyName].show(new SimpleListItemView({
                 model: simpleListItem
             }));
         },
@@ -112,7 +112,7 @@
             });
 
             //  TODO: Change to showChildView
-            this[propertyName + 'Region'].show(new RadioGroupView({
+            this[propertyName].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));
@@ -126,7 +126,7 @@
             });
 
             //  TODO: Change to showChildView
-            this[propertyName + 'Region'].show(new CheckboxView({
+            this[propertyName].show(new CheckboxView({
                 model: checkbox
             }));
         },
@@ -140,7 +140,7 @@
             });
 
             //  TODO: Change to showChildView
-            this[propertyName + 'Region'].show(new SwitchView({
+            this[propertyName].show(new SwitchView({
                 model: switchModel
             }));
         },

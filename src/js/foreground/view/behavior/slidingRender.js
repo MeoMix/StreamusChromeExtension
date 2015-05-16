@@ -206,7 +206,7 @@
 
             if (translateY !== this.childContainerTranslateY) {
                 this.childContainerTranslateY = translateY;
-                this.ui.childContainer.css('transform', 'translateY(' + translateY + 'px)');
+                this.ui.listItems.css('transform', 'translateY(' + translateY + 'px)');
             }
         },
 
@@ -228,7 +228,7 @@
 
             if (height !== this.childContainerHeight) {
                 this.childContainerHeight = height;
-                this.ui.childContainer.height(height);
+                this.ui.listItems.height(height);
             }
         },
 

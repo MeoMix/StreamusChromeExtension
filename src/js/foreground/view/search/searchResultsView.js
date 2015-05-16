@@ -13,7 +13,7 @@
     var SearchResultsView = Marionette.CompositeView.extend({
         id: 'searchResults',
         className: 'list u-flex--full',
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childView: SearchResultView,
         childViewType: ListItemType.SearchResult,
         childViewOptions: function() {
@@ -21,7 +21,7 @@
                 streamItems: Streamus.backgroundPage.stream.get('items'),
                 player: Streamus.backgroundPage.player,
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -33,8 +33,7 @@
         template: _.template(SearchResultsTemplate),
 
         ui: {
-            //  TODO: Namign conventions
-            childContainer: '[data-ui~=listItems]'
+            listItems: '[data-ui~=listItems]'
         },
 
         behaviors: {

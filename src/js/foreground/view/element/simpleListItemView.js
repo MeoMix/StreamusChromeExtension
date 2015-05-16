@@ -17,7 +17,7 @@
         },
 
         regions: {
-            simpleMenuRegion: '[data-region=simpleMenu]'
+            simpleMenu: '[data-region=simpleMenu]'
         },
 
         ui: {
@@ -54,7 +54,7 @@
 
         _openSimpleMenu: function() {
             //  If the list item is clicked while the menu is open do not re-open it.
-            if (_.isUndefined(this.getChildView('simpleMenuRegion'))) {
+            if (_.isUndefined(this.getChildView('simpleMenu'))) {
                 var options = this.model.get('options');
                 var simpleMenuItems = new SimpleMenuItems(_.map(options, function(option) {
                     return {
@@ -67,7 +67,7 @@
                 //  Since I'm building this inside of a click event and click events can close the menu I need to let the event finish before showing the menu
                 //  otherwise it'll close immediately.
                 _.defer(function() {
-                    this.showChildView('simpleMenuRegion', new SimpleMenuView({
+                    this.showChildView('simpleMenu', new SimpleMenuView({
                         simpleMenuItems: simpleMenuItems,
                         model: new SimpleMenu(),
                         listItemHeight: this.$el.height()

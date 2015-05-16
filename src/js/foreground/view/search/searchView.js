@@ -25,8 +25,8 @@
         },
 
         regions: {
-            searchResultsRegion: '[data-region=searchResults]',
-            spinnerRegion: '[data-region=spinner]'
+            searchResults: '[data-region=searchResults]',
+            spinner: '[data-region=spinner]'
         },
 
         ui: {
@@ -71,11 +71,11 @@
             this._setButtonStates();
             this._toggleInstructions();
 
-            this.showChildView('searchResultsRegion', new SearchResultsView({
+            this.showChildView('searchResults', new SearchResultsView({
                 collection: this.model.get('results')
             }));
 
-            this.showChildView('spinnerRegion', new SpinnerView());
+            this.showChildView('spinner', new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.

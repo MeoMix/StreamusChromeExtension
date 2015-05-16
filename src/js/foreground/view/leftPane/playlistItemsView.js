@@ -12,7 +12,7 @@
     var PlaylistItemsView = Marionette.CompositeView.extend({
         id: 'playlistItems',
         className: 'list u-flex--full',
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childView: PlaylistItemView,
         childViewType: ListItemType.PlaylistItem,
         childViewOptions: function() {
@@ -20,7 +20,7 @@
                 streamItems: Streamus.backgroundPage.stream.get('items'),
                 player: Streamus.backgroundPage.player,
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -32,7 +32,7 @@
         template: _.template(PlaylistItemsTemplate),
 
         ui: {
-            childContainer: '[data-ui~=listItems]'
+            listItems: '[data-ui~=listItems]'
         },
 
         behaviors: {

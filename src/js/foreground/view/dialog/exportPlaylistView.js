@@ -19,7 +19,7 @@
         },
 
         regions: {
-            fileTypeRegion: '[data-region=fileType]'
+            fileType: '[data-region=fileType]'
         },
 
         radioGroups: null,
@@ -52,7 +52,7 @@
             });
 
             //  TODO: Change to showChildView
-            this[propertyName + 'Region'].show(new RadioGroupView({
+            this[propertyName].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));
