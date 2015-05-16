@@ -2,12 +2,18 @@
     'use strict';
 
     var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
+    var Player = require('background/model/player');
+    var Settings = require('background/model/settings');
+    var YouTubePlayer = require('background/model/youTubePlayer');
 
     describe('VolumeAreaView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.volumeAreaView = new VolumeAreaView({
-                player: Streamus.backgroundPage.player
+                player: new Player({
+                    settings: new Settings(),
+                    youTubePlayer: new YouTubePlayer()
+                })
             });
         });
 

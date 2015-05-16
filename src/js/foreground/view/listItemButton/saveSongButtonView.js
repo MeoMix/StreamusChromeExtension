@@ -28,7 +28,7 @@
             var offset = this.$el.offset();
 
             Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                songs: [this.model.get('song')],
+                songs: [this.model],
                 top: offset.top,
                 left: offset.left
             });

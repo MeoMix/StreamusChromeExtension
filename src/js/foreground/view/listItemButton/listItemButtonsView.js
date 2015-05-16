@@ -17,9 +17,9 @@
             this.shownButtonViews = [];
 
             _.forIn(this.buttonViewOptions, function(buttonViewOption) {
-                var buttonView = new buttonViewOption.viewClass(_.extend({
-                    model: this.model
-                }, buttonViewOption.options));
+                var ViewClass = buttonViewOption.viewClass;
+                var options = _.omit(buttonViewOption, 'viewClass');
+                var buttonView = new ViewClass(options);
 
                 documentFragment.appendChild(buttonView.render().el);
                 buttonView.triggerMethod('show');

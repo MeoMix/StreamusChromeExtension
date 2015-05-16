@@ -6,14 +6,13 @@
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var PlaylistItem = require('background/model/playlistItem');
+    var Song = require('background/model/song');
 
     describe('PlayPauseSongButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.playPauseSongButtonView = new PlayPauseSongButtonView({
-                //  TODO: This should really be a Song not a ListItem
-                model: new PlaylistItem(),
+                model: new Song(),
                 streamItems: new StreamItems(),
                 player: new Player({
                     settings: new Settings(),

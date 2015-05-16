@@ -35,18 +35,17 @@
             return {
                 PlayPlaylistButtonView: {
                     viewClass: PlayPlaylistButtonView,
-                    options: {
-                        streamItems: Streamus.backgroundPage.stream.get('items')
-                    }
+                    model: this.model,
+                    streamItems: Streamus.backgroundPage.stream.get('items')
                 },
                 AddPlaylistButtonView: {
                     viewClass: AddPlaylistButtonView,
-                    options: {
-                        streamItems: Streamus.backgroundPage.stream.get('items')
-                    }
+                    model: this.model,
+                    streamItems: Streamus.backgroundPage.stream.get('items')
                 },
                 DeletePlaylistButtonView: {
-                    viewClass: DeletePlaylistButtonView
+                    viewClass: DeletePlaylistButtonView,
+                    model: this.model
                 }
             };
         },

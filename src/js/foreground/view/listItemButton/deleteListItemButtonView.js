@@ -5,7 +5,7 @@
     var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');
 
-    var DeleteSongButtonView = ListItemButtonView.extend({
+    var DeleteListItemButtonView = ListItemButtonView.extend({
         template: _.template(DeleteListItemButtonTemplate),
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
@@ -27,5 +27,5 @@
         }
     });
 
-    return DeleteSongButtonView;
+    return DeleteListItemButtonView;
 });

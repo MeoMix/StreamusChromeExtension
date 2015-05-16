@@ -65,7 +65,7 @@
         _isPausable: function() {
             var activeSongId = this.streamItems.getActiveSongId();
             //  The pause icon is visible only if the player is playing/buffering and the song is this model's song.
-            var songId = this.model.get('song').get('id');
+            var songId = this.model.get('id');
             var isPlayerPausable = this.player.isPausable();
             var isPausable = activeSongId === songId && isPlayerPausable;
 
@@ -73,13 +73,11 @@
         },
 
         _playSong: function() {
-            var song = this.model.get('song');
-
             //  If there's only one song to be played - check if it's already in the stream.
-            var streamItem = this.streamItems.getBySong(song);
+            var streamItem = this.streamItems.getBySong(this.model);
 
             if (_.isUndefined(streamItem)) {
-                this.streamItems.addSongs(song, {
+                this.streamItems.addSongs(this.model, {
                     playOnAdd: true
                 });
             } else {

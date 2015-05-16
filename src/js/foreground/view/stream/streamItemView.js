@@ -3,7 +3,7 @@
 
     var ListItemView = require('foreground/view/listItemView');
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
-    var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
+    var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
@@ -35,19 +35,18 @@
             return {
                 PlayPauseSongButtonView: {
                     viewClass: PlayPauseSongButtonView,
-                    options: {
-                        streamItems: Streamus.backgroundPage.stream.get('items'),
-                        player: Streamus.backgroundPage.player
-                    }
+                    model: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    player: Streamus.backgroundPage.player
                 },
                 SaveSongButtonView: {
                     viewClass: SaveSongButtonView,
-                    options: {
-                        signInManager: Streamus.backgroundPage.signInManager
-                    }
+                    model: this.model.get('song'),
+                    signInManager: Streamus.backgroundPage.signInManager
                 },
-                DeleteSongButtonView: {
-                    viewClass: DeleteSongButtonView
+                DeleteListItemButtonView: {
+                    viewClass: DeleteListItemButtonView,
+                    model: this.model
                 }
             };
         },

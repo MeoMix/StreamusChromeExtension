@@ -2,15 +2,14 @@
     'use strict';
 
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
-    var StreamItem = require('background/model/streamItem');
+    var Song = require('background/model/song');
     var SignInManager = require('background/model/signInManager');
 
     describe('SaveSongButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
             this.saveSongButtonView = new SaveSongButtonView({
-                //  TODO: This should really be a Song not a StreamItem
-                model: new StreamItem(),
+                model: new Song(),
                 signInManager: new SignInManager()
             });
         });

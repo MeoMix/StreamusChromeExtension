@@ -57,7 +57,8 @@
             return targetOffset;
         },
 
-        //  Credit to jquery.qtip2, http://qtip2.com/, for providing a lot of this math.
+        //  Credit to jquery.qtip2, http://qtip2.com/, for providing a lot of this math
+        //  https://github.com/qTip2/qTip2/blob/master/src/position/viewport.js
         //  I've stripped the given math **way** down to just my specific use case.
         
         //  Perform math to figure out whether the element needs to be shifted left/right and, if so, how much it needs to shift.

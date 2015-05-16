@@ -30,8 +30,7 @@
         },
 
         doOnClickAction: function() {
-            var song = this.model.get('song');
-            this.streamItems.addSongs(song);
+            this.streamItems.addSongs(this.model);
         },
 
         _onStreamItemsAddCompleted: function() {
@@ -47,8 +46,7 @@
         },
 
         _setState: function() {
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('song'));
-
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model);
             this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
 
             var tooltipText = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');

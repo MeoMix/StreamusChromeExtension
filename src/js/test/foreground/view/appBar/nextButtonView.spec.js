@@ -2,12 +2,38 @@
     'use strict';
 
     var NextButtonView = require('foreground/view/appBar/nextButtonView');
+    var NextButton = require('background/model/buttons/nextButton');
+    var Stream = require('background/model/stream');
+    var Player = require('background/model/player');
+    var Settings = require('background/model/settings');
+    var YouTubePlayer = require('background/model/youTubePlayer');
+    var RadioButton = require('background/model/buttons/radioButton');
+    var ShuffleButton = require('background/model/buttons/shuffleButton');
+    var RepeatButton = require('background/model/buttons/repeatButton');
 
     describe('NextButtonView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
+
+            var shuffleButton = new ShuffleButton();
+            var radioButton = new RadioButton();
+            var repeatButton = new RepeatButton();
+
             this.nextButtonView = new NextButtonView({
-                model: Streamus.backgroundPage.nextButton
+                model: new NextButton({
+                    stream: new Stream({
+                        player: new Player({
+                            settings: new Settings(),
+                            youTubePlayer: new YouTubePlayer
+                        }),
+                        shuffleButton: shuffleButton,
+                        radioButton: radioButton,
+                        repeatButton: repeatButton
+                    }),
+                    radioButton: radioButton,
+                    shuffleButton: shuffleButton,
+                    repeatButton: repeatButton
+                })
             });
         });
 
