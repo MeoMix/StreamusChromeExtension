@@ -8,6 +8,8 @@
 
     describe('SearchView', function() {
         beforeEach(function() {
+            this.documentFragment = document.createDocumentFragment();
+
             this.search = new Search();
             this.searchResults = this.search.get('results');
             this.signInManager = new SignInManager();
@@ -21,6 +23,14 @@
             });
 
             this.searchView.render();
+        });
+
+        it('should be able to find all referenced ui targets', function() {
+            this.documentFragment.appendChild(this.searchView.render().el);
+
+            _.forIn(this.searchView.ui, function(element) {
+                expect(element.length).to.not.equal(0);
+            });
         });
 
         it('should not be able to save if there are no search results and the user is not signed in', function() {

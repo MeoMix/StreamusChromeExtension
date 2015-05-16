@@ -19,7 +19,7 @@
         },
 
         initialize: function(models, options) {
-            this.userId = options.userId;
+            this.userId = options ? options.userId : this.userId;
 
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             this.on('add', this._onAdd);

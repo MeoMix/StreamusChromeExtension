@@ -14,6 +14,7 @@
         },
 
         ui: {
+            //  TODO: Fix this so that fixedMenuItem can be rendered or use a region or something. Need to pass my ui testing.
             fixedMenuItem: '[data-ui~=fixedMenuItem]',
             panelContent: '[data-ui~=panelContent]'
         },

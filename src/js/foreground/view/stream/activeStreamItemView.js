@@ -42,11 +42,11 @@
             }
 
             this.showChildView('timeArea', new TimeAreaView({
-                streamItems: Streamus.backgroundPage.stream.get('items'),
-                player: Streamus.backgroundPage.player,
                 model: new TimeArea({
                     totalTime: this.model.get('song').get('duration')
-                })
+                }),
+                streamItems: Streamus.backgroundPage.stream.get('items'),
+                player: Streamus.backgroundPage.player
             }));
         },
 
