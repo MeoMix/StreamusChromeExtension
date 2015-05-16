@@ -1,6 +1,6 @@
 ﻿define(function(require) {
     'use strict';
-
+    /* jshint ignore:start */
     //  /view/
     //  /view/appBar/
     require('test/foreground/view/appBar/adminMenuAreaView.spec');
@@ -126,4 +126,5 @@
 
     require('test/foreground/view/foregroundAreaView.spec');
     require('test/foreground/view/listItemView.spec');
+    /* jshint ignore:end */
 });
