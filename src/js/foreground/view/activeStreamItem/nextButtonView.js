@@ -28,7 +28,7 @@ define(function(require){
 			this.model.tryActivateNextStreamItem();
 		},
 		
-		_onChangeEnabled: function(model, enabled) {
+		_onChangeEnabled: function(enabled) {
 			this._setState(enabled);
 		},
 		

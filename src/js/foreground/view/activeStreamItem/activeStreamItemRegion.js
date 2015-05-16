@@ -13,7 +13,7 @@ define(function(require) {
 			this.show(new ActiveStreamItemView({
 				model: Streamus.backgroundPage.stream.get('activeItem'),
 				player: Streamus.backgroundPage.player,
-				instant: false
+				instant: Streamus.backgroundPage.stream.previous('activeItem') !== null
 			}));
 		},
 		
