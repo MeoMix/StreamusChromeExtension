@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SelectionBar = require('foreground/model/selectionBar');
+    var SelectionBar = require('foreground/model/selectionBar/selectionBar');
     var SelectionBarView = require('foreground/view/selectionBar/selectionBarView');
 
     var SelectionBarRegion = Marionette.Region.extend({

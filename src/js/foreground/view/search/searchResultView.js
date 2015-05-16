@@ -7,7 +7,7 @@
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var SearchResultTemplate = require('text!template/search/searchResult.html');
-    var ContextMenuAction = require('foreground/model/contextMenuAction');
+    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
 
     var SearchResultView = ListItemView.extend({
         className: ListItemView.prototype.className + ' search-result listItem--medium listItem--hasButtons listItem--selectable',

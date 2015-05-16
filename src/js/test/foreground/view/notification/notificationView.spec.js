@@ -2,7 +2,7 @@
     'use strict';
 
     var NotificationView = require('foreground/view/notification/notificationView');
-    var Notification = require('foreground/model/notification');
+    var Notification = require('foreground/model/notification/notification');
 
     describe('NotificationView', function() {
         beforeEach(function() {

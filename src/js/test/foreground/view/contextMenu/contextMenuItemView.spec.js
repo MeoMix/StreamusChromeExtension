@@ -2,7 +2,7 @@
     'use strict';
 
     var ContextMenuItemView = require('foreground/view/contextMenu/contextMenuItemView');
-    var ContextMenuItem = require('foreground/model/contextMenuItem');
+    var ContextMenuItem = require('foreground/model/contextMenu/contextMenuItem');
 
     describe('ContextMenuItemView', function() {
         beforeEach(function() {

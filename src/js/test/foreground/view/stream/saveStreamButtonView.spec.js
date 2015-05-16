@@ -2,7 +2,7 @@
     'use strict';
 
     var SaveStreamButtonView = require('foreground/view/stream/saveStreamButtonView');
-    var SaveStreamButton = require('foreground/model/saveStreamButton');
+    var SaveStreamButton = require('foreground/model/stream/saveStreamButton');
     var StreamItems = require('background/collection/streamItems');
     var SignInManager = require('background/model/signInManager');
 

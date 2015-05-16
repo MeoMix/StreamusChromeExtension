@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var PlaylistAction = require('foreground/model/playlistAction');
+    var PlaylistAction = require('foreground/model/playlist/playlistAction');
     var ListItemButtonView = require('foreground/view/listItemButton/listItemButtonView');
     var DeleteListItemButtonTemplate = require('text!template/listItemButton/deleteListItemButton.html');
     var DeleteIconTemplate = require('text!template/icon/deleteIcon_18.svg');

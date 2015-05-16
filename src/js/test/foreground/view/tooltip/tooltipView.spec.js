@@ -2,7 +2,7 @@
     'use strict';
 
     var TooltipView = require('foreground/view/tooltip/tooltipView');
-    var Tooltip = require('foreground/model/tooltip');
+    var Tooltip = require('foreground/model/tooltip/tooltip');
 
     describe('TooltipView', function() {
         beforeEach(function() {

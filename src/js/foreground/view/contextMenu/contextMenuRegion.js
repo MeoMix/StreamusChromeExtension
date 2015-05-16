@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ContextMenu = require('foreground/model/contextMenu');
+    var ContextMenu = require('foreground/model/contextMenu/contextMenu');
     var ContextMenuView = require('foreground/view/contextMenu/contextMenuView');
 
     var ContextMenuRegion = Marionette.Region.extend({

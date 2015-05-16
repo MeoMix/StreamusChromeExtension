@@ -1,4 +1,4 @@
-﻿define(function (require) {
+﻿define(function () {
     'use strict';
 
     var ContextMenuAction = Backbone.Model.extend({

@@ -3,10 +3,10 @@
 
     var SongQuality = require('common/enum/songQuality');
     var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
-    var Checkboxes = require('foreground/collection/checkboxes');
-    var RadioGroups = require('foreground/collection/radioGroups');
-    var Switches = require('foreground/collection/switches');
-    var SimpleListItems = require('foreground/collection/simpleListItems');
+    var Checkboxes = require('foreground/collection/element/checkboxes');
+    var RadioGroups = require('foreground/collection/element/radioGroups');
+    var Switches = require('foreground/collection/element/switches');
+    var SimpleListItems = require('foreground/collection/element/simpleListItems');
     var CheckboxView = require('foreground/view/element/checkboxView');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var SimpleListItemView = require('foreground/view/element/simpleListItemView');

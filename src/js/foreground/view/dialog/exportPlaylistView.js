@@ -3,7 +3,7 @@
 
     var Utility = require('common/utility');
     var ExportFileType = require('common/enum/exportFileType');
-    var RadioGroups = require('foreground/collection/radioGroups');
+    var RadioGroups = require('foreground/collection/element/radioGroups');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var ExportPlaylistTemplate = require('text!template/dialog/exportPlaylist.html');

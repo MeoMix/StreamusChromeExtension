@@ -2,7 +2,7 @@
     'use strict';
 
     var SelectionBarView = require('foreground/view/selectionBar/selectionBarView');
-    var SelectionBar = require('foreground/model/selectionBar');
+    var SelectionBar = require('foreground/model/selectionBar/selectionBar');
     var StreamItems = require('background/collection/streamItems');
     var SearchResults = require('background/collection/searchResults');
     var SignInManager = require('background/model/signInManager');

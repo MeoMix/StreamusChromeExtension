@@ -2,7 +2,7 @@
     'use strict';
 
     var CheckboxView = require('foreground/view/element/checkboxView');
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
 
     describe('CheckboxView', function() {
         beforeEach(function() {

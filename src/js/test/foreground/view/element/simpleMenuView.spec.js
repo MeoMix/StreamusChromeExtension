@@ -2,7 +2,7 @@
     'use strict';
 
     var SimpleMenuView = require('foreground/view/element/simpleMenuView');
-    var SimpleMenu = require('foreground/model/simpleMenu');
+    var SimpleMenu = require('foreground/model/element/simpleMenu');
 
     describe('SimpleMenuView', function() {
         beforeEach(function() {

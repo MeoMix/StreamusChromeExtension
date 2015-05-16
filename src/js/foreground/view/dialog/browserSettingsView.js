@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkboxes = require('foreground/collection/checkboxes');
+    var Checkboxes = require('foreground/collection/element/checkboxes');
     var CheckboxView = require('foreground/view/element/checkboxView');
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var BrowserSettingsTemplate = require('text!template/dialog/browserSettings.html');

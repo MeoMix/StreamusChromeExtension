@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ExportPlaylist = require('foreground/model/exportPlaylist');
+    var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
     var ExportPlaylistDialogView = require('foreground/view/dialog/exportPlaylistDialogView');
     var TestUtility = require('test/testUtility');
 

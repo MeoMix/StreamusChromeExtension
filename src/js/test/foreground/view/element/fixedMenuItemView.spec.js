@@ -2,7 +2,7 @@
     'use strict';
 
     var FixedMenuItemView = require('foreground/view/element/fixedMenuItemView');
-    var FixedMenuItem = require('foreground/model/fixedMenuItem');
+    var FixedMenuItem = require('foreground/model/element/fixedMenuItem');
 
     describe('FixedMenuItemView', function() {
         beforeEach(function() {

@@ -2,7 +2,7 @@
     'use strict';
 
     var SimpleListItemView = require('foreground/view/element/simpleListItemView');
-    var SimpleListItem = require('foreground/model/simpleListItem');
+    var SimpleListItem = require('foreground/model/element/simpleListItem');
 
     describe('SimpleListItemView', function() {
         beforeEach(function() {

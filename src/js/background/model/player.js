@@ -479,8 +479,6 @@ define(function(require) {
             var iframePort = this.get('iframePort');
             if (iframePort !== null) {
                 iframePort.postMessage('getCurrentTimeHighPrecision');
-            } else {
-                console.warn('iframe port is null');
             }
         }
     });

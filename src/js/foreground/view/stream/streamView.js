@@ -1,8 +1,8 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ClearStreamButton = require('foreground/model/clearStreamButton');
-    var SaveStreamButton = require('foreground/model/saveStreamButton');
+    var ClearStreamButton = require('foreground/model/stream/clearStreamButton');
+    var SaveStreamButton = require('foreground/model/stream/saveStreamButton');
     var ActiveStreamItemView = require('foreground/view/stream/activeStreamItemView');
     var ClearStreamButtonView = require('foreground/view/stream/clearStreamButtonView');
     var RadioButtonView = require('foreground/view/stream/radioButtonView');

@@ -1,11 +1,11 @@
 ﻿define(function(require) {
     'use strict';
 
-    var TimeArea = require('foreground/model/timeArea');
+    var TimeArea = require('foreground/model/stream/timeArea');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
     var ActiveStreamItemTemplate = require('text!template/stream/activeStreamItem.html');
-    var ContextMenuAction = require('foreground/model/contextMenuAction');
+    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
 
     var ActiveStreamItemView = Marionette.LayoutView.extend({
         id: 'activeStreamItem',

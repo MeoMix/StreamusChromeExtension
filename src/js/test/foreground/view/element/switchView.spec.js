@@ -2,7 +2,7 @@
     'use strict';
 
     var SwitchView = require('foreground/view/element/switchView');
-    var Switch = require('foreground/model/switch');
+    var Switch = require('foreground/model/element/switch');
 
     describe('SwitchView', function() {
         beforeEach(function() {

@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var SourceBufferWrapper = require('foreground/model/sourceBufferWrapper');
+    var SourceBufferWrapper = require('foreground/model/video/sourceBufferWrapper');
 
     var MediaSourceWrapper = Backbone.Model.extend({
         defaults: function() {

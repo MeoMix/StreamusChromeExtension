@@ -1,7 +1,7 @@
 ﻿define(function (require) {
     'use strict';
 
-    var RadioButtons = require('foreground/collection/radioButtons');
+    var RadioButtons = require('foreground/collection/element/radioButtons');
 
     var RadioGroup = Backbone.Model.extend({
         defaults: {

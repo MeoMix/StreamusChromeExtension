@@ -2,7 +2,7 @@
     'use strict';
 
     var TimeAreaView = require('foreground/view/stream/timeAreaView');
-    var TimeArea = require('foreground/model/timeArea');
+    var TimeArea = require('foreground/model/stream/timeArea');
     var StreamItems = require('background/collection/streamItems');
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');

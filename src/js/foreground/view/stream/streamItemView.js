@@ -8,7 +8,7 @@
     var SaveSongButtonView = require('foreground/view/listItemButton/saveSongButtonView');
     var MoreActionsButtonView = require('foreground/view/listItemButton/moreActionsButtonView');
     var StreamItemTemplate = require('text!template/stream/streamItem.html');
-    var ContextMenuAction = require('foreground/model/contextMenuAction');
+    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
 
     var StreamItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' stream-item listItem--medium listItem--hasButtons listItem--selectable',

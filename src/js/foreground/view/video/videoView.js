@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var MediaSourceWrapper = require('foreground/model/mediaSourceWrapper');
+    var MediaSourceWrapper = require('foreground/model/video/mediaSourceWrapper');
     var PlayerState = require('common/enum/playerState');
 
     var VideoView = Marionette.ItemView.extend({

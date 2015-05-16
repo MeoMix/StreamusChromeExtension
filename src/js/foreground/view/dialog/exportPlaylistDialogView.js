@@ -1,8 +1,8 @@
 ﻿define(function(require) {
     'use strict';
 
-    var ExportPlaylist = require('foreground/model/exportPlaylist');
-    var Dialog = require('foreground/model/dialog');
+    var ExportPlaylist = require('foreground/model/dialog/exportPlaylist');
+    var Dialog = require('foreground/model/dialog/dialog');
     var ExportPlaylistView = require('foreground/view/dialog/exportPlaylistView');
     var DialogView = require('foreground/view/dialog/dialogView');
 

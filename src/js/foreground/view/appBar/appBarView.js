@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var AdminMenuArea = require('foreground/model/adminMenuArea');
+    var AdminMenuArea = require('foreground/model/appBar/adminMenuArea');
     var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
     var NextButtonView = require('foreground/view/appBar/nextButtonView');
     var PlaylistTitleView = require('foreground/view/appBar/playlistTitleView');

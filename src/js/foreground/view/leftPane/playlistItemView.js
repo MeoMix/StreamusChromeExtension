@@ -9,7 +9,7 @@
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
     var Tooltipable = require('foreground/view/behavior/tooltipable');
-    var ContextMenuAction = require('foreground/model/contextMenuAction');
+    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',

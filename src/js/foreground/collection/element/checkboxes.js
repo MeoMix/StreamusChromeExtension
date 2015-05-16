@@ -1,7 +1,7 @@
 ﻿define(function (require) {
     'use strict';
 
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
 
     var Checkboxes = Backbone.Collection.extend({
         model: Checkbox,

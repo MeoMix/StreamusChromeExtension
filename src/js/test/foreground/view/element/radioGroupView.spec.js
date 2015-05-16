@@ -2,7 +2,7 @@
     'use strict';
 
     var RadioGroupView = require('foreground/view/element/radioGroupView');
-    var RadioGroup = require('foreground/model/radioGroup');
+    var RadioGroup = require('foreground/model/element/radioGroup');
 
     describe('RadioGroupView', function() {
         beforeEach(function() {

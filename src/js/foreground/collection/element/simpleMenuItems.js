@@ -1,7 +1,7 @@
 ﻿define(function (require) {
     'use strict';
 
-    var SimpleMenuItem = require('foreground/model/simpleMenuItem');
+    var SimpleMenuItem = require('foreground/model/element/simpleMenuItem');
 
     var SimpleMenuItems = Backbone.Collection.extend({
         model: SimpleMenuItem,

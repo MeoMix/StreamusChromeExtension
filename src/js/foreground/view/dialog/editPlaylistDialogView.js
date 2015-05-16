@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Dialog = require('foreground/model/dialog');
+    var Dialog = require('foreground/model/dialog/dialog');
     var EditPlaylistView = require('foreground/view/dialog/editPlaylistView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
