@@ -9,26 +9,19 @@
         id: 'playlistsArea',
         className: 'flexColumn',
         template: _.template(PlaylistsAreaTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                createPlaylist: chrome.i18n.getMessage('createPlaylist')
-            };
+        templateHelpers: {
+            createPlaylist: chrome.i18n.getMessage('createPlaylist')
         },
 
-        regions: function() {
-            return {
-                playlistsRegion: '#' + this.id + '-playlistsRegion'
-            };
+        regions: {
+            playlistsRegion: '[data-region=playlists]'
         },
 
-        ui: function() {
-            return {
-                transitionable: '.u-transitionable',
-                overlay: '#' + this.id + '-overlay',
-                panel: '#' + this.id + '-panel',
-                createPlaylistButton: '#' + this.id + '-createPlaylistButton'
-            };
+        ui: {
+            transitionable: '[data-ui~=transitionable]',
+            overlay: '[data-ui~=overlay]',
+            panel: '[data-ui~=panel]',
+            createPlaylistButton: '[data-ui~=createPlaylistButton]'
         },
 
         events: {

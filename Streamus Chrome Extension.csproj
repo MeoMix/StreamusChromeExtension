@@ -80,7 +80,7 @@
     <Content Include="src\js\foreground\model\contextMenuAction.js" />
     <Content Include="src\js\foreground\model\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\sourceBufferWrapper.js" />
-    <Content Include="src\js\foreground\enum\keyboardKey.js" />
+    <Content Include="src\js\foreground\enum\keyCode.js" />
     <Content Include="src\js\foreground\model\tooltip.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />

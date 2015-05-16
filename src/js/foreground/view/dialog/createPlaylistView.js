@@ -21,13 +21,11 @@
             };
         },
 
-        ui: function() {
-            return {
-                title: '#' + this.id + '-title',
-                titleCharacterCount: '#' + this.id + '-title-characterCount',
-                dataSource: '#' + this.id + '-dataSource',
-                dataSourceHint: '#' + this.id + '-dataSource-hint'
-            };
+        ui: {
+            title: '[data-ui~=title]',
+            titleCharacterCount: '[data-ui~=title-characterCount]',
+            dataSource: '[data-ui~=dataSource]',
+            dataSourceHint: '[data-ui~=dataSource-hint]'
         },
 
         events: {

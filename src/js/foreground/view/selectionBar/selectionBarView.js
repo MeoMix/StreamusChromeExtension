@@ -10,26 +10,21 @@
         className: 'selectionBar panel-content panel-content--uncolored',
         template: _.template(SelectionBarTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                playMessage: chrome.i18n.getMessage('play'),
-                addMessage: chrome.i18n.getMessage('add'),
-                saveMessage: chrome.i18n.getMessage('save'),
-                deleteMessage: chrome.i18n.getMessage('delete'),
-                closeIcon: _.template(CloseIconTemplate)()
-            };
+        templateHelpers: {
+            playMessage: chrome.i18n.getMessage('play'),
+            addMessage: chrome.i18n.getMessage('add'),
+            saveMessage: chrome.i18n.getMessage('save'),
+            deleteMessage: chrome.i18n.getMessage('delete'),
+            closeIcon: _.template(CloseIconTemplate)()
         },
 
-        ui: function() {
-            return {
-                playButton: '#' + this.id + '-playButton',
-                addButton: '#' + this.id + '-addButton',
-                saveButton: '#' + this.id + '-saveButton',
-                deleteButton: '#' + this.id + '-deleteButton',
-                selectionCountText: '#' + this.id + '-selectionCountText',
-                clearButton: '#' + this.id + '-clearButton'
-            };
+        ui: {
+            playButton: '[data-ui~=playButton]',
+            addButton: '[data-ui~=addButton]',
+            saveButton: '[data-ui~=saveButton]',
+            deleteButton: '[data-ui~=deleteButton]',
+            selectionCountText: '[data-ui~=selectionCountText]',
+            clearButton: '[data-ui~=clearButton]'
         },
 
         events: {

@@ -18,12 +18,10 @@
             };
         },
 
-        ui: function() {
-            return {
-                timeProgress: '#' + this.id + '-timeProgress',
-                timeRange: '#' + this.id + '-timeRange',
-                elapsedTimeLabel: '#' + this.id + '-elapsedTimeLabel'
-            };
+        ui: {
+            timeProgress: '[data-ui~=timeProgress]',
+            timeRange: '[data-ui~=timeRange]',
+            elapsedTimeLabel: '[data-ui~=elapsedTimeLabel]'
         },
 
         events: {

@@ -17,8 +17,8 @@
         },
 
         ui: {
-            openHomepage: '.openHomepage',
-            openPatchNotes: '.openPatchNotes'
+            openHomepage: '[data-ui~=openHomepage]',
+            openPatchNotes: '[data-ui~=openPatchNotes]'
         },
 
         events: {

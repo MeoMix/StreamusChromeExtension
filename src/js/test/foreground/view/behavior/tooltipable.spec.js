@@ -20,7 +20,7 @@
             sinon.stub(window, 'setTimeout');
             var target = document.createElement('div');
             target.setAttribute('data-tooltip-text', 'hello, world');
-            this.tooltipable._setHovered(target);
+            this.tooltipable._ensureHovered(target);
 
             expect($(target).data('is-hovered')).to.equal(true);
             expect(window.setTimeout.calledOnce).to.equal(true);
@@ -31,7 +31,7 @@
             sinon.stub(window, 'setTimeout');
             var target = document.createElement('div');
             $(target).data('is-hovered', true);
-            this.tooltipable._setHovered(target);
+            this.tooltipable._ensureHovered(target);
 
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
@@ -40,7 +40,7 @@
         it('should not mark a target which does not have tooltip text', function() {
             sinon.stub(window, 'setTimeout');
             var target = document.createElement('div');
-            this.tooltipable._setHovered(target);
+            this.tooltipable._ensureHovered(target);
 
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
@@ -50,7 +50,7 @@
             sinon.stub(window, 'setTimeout');
             var target = document.createElement('div');
             target.setAttribute('data-tooltip-text', '');
-            this.tooltipable._setHovered(target);
+            this.tooltipable._ensureHovered(target);
 
             expect(window.setTimeout.calledOnce).to.equal(false);
             window.setTimeout.restore();
@@ -89,10 +89,20 @@
         it('should indicate that a tooltip should not be shown if target is hovered and fails an overflow check', function() {
             var target = document.createElement('div');
             $(target).data('is-hovered', true);
-            target.classList.add('js-textTooltipable');
+            target.setAttribute('data-ui', 'textTooltipable');
             var showTooltip = this.tooltipable._needShowTooltip(target);
 
             expect(showTooltip).to.equal(false);
+        });
+
+        it('should not throw an error if a hovered element is missing the data-ui attribute', function() {
+            sinon.spy(this.tooltipable, '_needShowTooltip');
+            var target = document.createElement('div');
+            $(target).data('is-hovered', true);
+            this.tooltipable._needShowTooltip(target);
+
+            expect(this.tooltipable._needShowTooltip.threw()).to.equal(false);
+            this.tooltipable._needShowTooltip.restore();
         });
 
         it('should be able to show a tooltip', function() {

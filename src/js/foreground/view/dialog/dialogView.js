@@ -8,30 +8,20 @@
     var DialogView = Marionette.LayoutView.extend({
         className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',
         template: _.template(DialogTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
-        },
-
         contentView: null,
 
-        regions: function() {
-            return {
-                reminderRegion: '#' + this.id + '-reminderRegion',
-                contentRegion: '#' + this.id + '-contentRegion'
-            };
+        regions: {
+            reminderRegion: '[data-region=reminder]',
+            contentRegion: '[data-region=content]'
         },
 
-        ui: function() {
-            return {
-                panel: '#' + this.id + '-panel',
-                submitButton: '#' + this.id + '-submitButton',
-                cancelButton: '#' + this.id + '-cancelButton',
-                reminderCheckbox: '#' + this.id + '-reminderCheckbox',
-                closeButton: '#' + this.id + '-closeButton',
-                submittable: '.js-submittable'
-            };
+        ui: {
+            panel: '[data-ui~=panel]',
+            submitButton: '[data-ui~=submitButton]',
+            cancelButton: '[data-ui~=cancelButton]',
+            reminderCheckbox: '[data-ui~=reminderCheckbox]',
+            closeButton: '[data-ui~=closeButton]',
+            submittable: '[data-ui~=submittable]'
         },
 
         events: {
@@ -148,7 +138,6 @@
             });
 
             this.showChildView('reminderRegion', new CheckboxView({
-                id: this.id + '-reminderCheckbox',
                 model: this.reminderCheckbox
             }));
         },
@@ -174,7 +163,7 @@
         _isValid: function() {
             //  TODO: Derive this from dialog's ViewModel state instead of asking the DOM.
             //  Don't use UI here because is-invalid is appended dynamically and so I can't rely on the cache.
-            return this.$el.find('.js-submittable.is-invalid').length === 0;
+            return this.$el.find('[data-ui~=submittable].is-invalid').length === 0;
         },
 
         _hide: function() {

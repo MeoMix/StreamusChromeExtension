@@ -7,10 +7,14 @@
 
     var RadioButtonView = Marionette.ItemView.extend({
         id: 'radioButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(RadioButtonTemplate),
         templateHelpers: {
             radioIcon: _.template(RadioIconTemplate)()
+        },
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {

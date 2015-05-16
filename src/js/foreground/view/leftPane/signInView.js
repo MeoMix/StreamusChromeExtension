@@ -16,20 +16,16 @@
             pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
         },
 
-        regions: function() {
-            return {
-                spinnerRegion: '#' + this.id + '-spinnerRegion'
-            };
+        regions: {
+            spinnerRegion: '[data-region=spinner]'
         },
 
-        ui: function() {
-            return {
-                signingInMessage: '#' + this.id + '-signingInMessage',
-                signInMessage: '#' + this.id + '-signInMessage',
-                signInFailedMessage: '#' + this.id + '-signInFailedMessage',
-                signInLink: '#' + this.id + '-signInLink',
-                signInRetryTimer: '#' + this.id + '-signInRetryTimer'
-            };
+        ui: {
+            signingInMessage: '[data-ui~=signingInMessage]',
+            signInMessage: '[data-ui~=signInMessage]',
+            signInFailedMessage: '[data-ui~=signInFailedMessage]',
+            signInLink: '[data-ui~=signInLink]',
+            signInRetryTimer: '[data-ui~=signInRetryTimer]'
         },
 
         events: {

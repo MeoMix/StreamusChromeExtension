@@ -7,7 +7,7 @@
     var ContextMenuItemView = Marionette.ItemView.extend({
         tagName: 'li',
         className: function() {
-            var className = 'listItem listItem--small listItem--clickable js-tooltipable';
+            var className = 'listItem listItem--small listItem--clickable';
             className += this.model.get('disabled') ? ' is-disabled' : '';
             return className;
         },
@@ -19,6 +19,7 @@
 
         attributes: function() {
             return {
+                'data-ui': 'tooltipable',
                 'data-tooltip-text': this.model.get('title')
             };
         },

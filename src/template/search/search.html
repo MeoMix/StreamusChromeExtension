@@ -1,5 +1,5 @@
 ﻿<div class='instruction-wrapper'>
-    <div id='<%= viewId %>-typeToSearchMessage' class='instruction'>
+    <div data-ui='typeToSearchMessage' class='instruction'>
         <div class='instruction-header'>
             <%= startTypingMessage %>
         </div>
@@ -8,14 +8,14 @@
         </div>
     </div>
     
-    <div id='<%= viewId %>-searchingMessage' class='instruction is-showingSpinner'>
+    <div data-ui='searchingMessage' class='instruction is-showingSpinner'>
         <div class='instruction-header'>
             <%= searchingMessage %>
         </div>
-        <div id='<%= viewId %>-spinnerRegion'></div>
+        <div data-region='spinner'></div>
     </div>
 
-    <div id='<%= viewId %>-noResultsMessage' class='instruction'>
+    <div data-ui='noResultsMessage' class='instruction'>
         <div class='instruction-header'>
             <%= noResultsFoundMessage %>
         </div>
@@ -24,19 +24,19 @@
         </div>
     </div>
     
-    <div id='<%= viewId %>-searchResultsRegion' class='flexColumn'></div>
+    <div data-region='searchResults' class='flexColumn'></div>
 </div>
 
 <div class='contentBar contentBar--bottom u-bordered--top'>
-    <div id='<%= viewId %>-playAllButton' class='button button--flat'>
+    <div data-ui='playAllButton' class='button button--flat'>
         <%= playAllMessage %>
     </div>
         
-    <div id='<%= viewId %>-addAllButton' class='button button--flat'>
+    <div data-ui='addAllButton' class='button button--flat'>
         <%= addAllMessage %>
     </div>
 
-    <div id='<%= viewId %>-saveAllButton' class='button button--flat'>
+    <div data-ui='saveAllButton' class='button button--flat'>
         <%= saveAllMessage %>
     </div>
 </div>

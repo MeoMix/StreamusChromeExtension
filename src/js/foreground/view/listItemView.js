@@ -26,12 +26,10 @@
             'mouseleave': '_onMouseLeave'
         },
 
-        regions: function() {
-            return {
-                buttonsRegion: '.listItem-buttonsRegion',
-                spinnerRegion: '.listItem-spinnerRegion',
-                checkboxRegion: '.listItem-checkboxRegion'
-            };
+        regions: {
+            buttonsRegion: '[data-region=buttons]',
+            spinnerRegion: '[data-region=spinner]',
+            checkboxRegion: '[data-region=checkbox]'
         },
 
         behaviors: {

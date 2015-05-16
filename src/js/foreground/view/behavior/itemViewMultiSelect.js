@@ -6,7 +6,7 @@
 
     var ItemViewMultiSelect = Marionette.Behavior.extend({
         ui: {
-            leftContent: '.listItem-leftContent'
+            leftContent: '[data-ui~=leftContent]'
         },
 
         events: {
@@ -31,7 +31,6 @@
         },
 
         onRender: function() {
-            this.$el.addClass('js-listItem--multiSelect');
             this._setSelectedClass(this.view.model.get('selected'));
         },
 

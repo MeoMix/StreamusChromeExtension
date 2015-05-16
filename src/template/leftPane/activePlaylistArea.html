@@ -1,26 +1,26 @@
 ﻿<div class='instruction-wrapper'>
-    <div id='<%= viewId %>-playlistEmptyMessage' class='instruction'>
+    <div data-ui='playlistEmptyMessage' class='instruction'>
         <div class='instruction-header'>
             <%= playlistEmptyMessage %>
         </div>
         <div class='instruction-content'>
-            <%= wouldYouLikeToMessage %> <span id='<%= viewId %>-showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
+            <%= wouldYouLikeToMessage %> <span data-ui='showSearchLink' class='u-link u-lowercase'><%= searchForSongsMessage %></span>?
         </div>
     </div>
     
-    <div id='<%= viewId %>-playlistItemsRegion' class='flexColumn'></div>
+    <div data-region='playlistItems' class='flexColumn'></div>
 </div>
 
 <div class='contentBar contentBar--bottom u-bordered--top'>
     <div class='contentBar--bottom-text--left flexRow'>
-        <div id='<%= viewId %>-playlistDetails' class=' u-lowercase u-textOverflowEllipsis text u-textSecondary js-textTooltipable'></div>
+        <div data-ui='playlistDetails textTooltipable' class=' u-lowercase u-textOverflowEllipsis text u-textSecondary'></div>
     </div>
 
-    <div id='<%= viewId %>-playAllButton' class='button button--flat'>
+    <div data-ui='playAllButton' class='button button--flat'>
         <%= playAllMessage %>
     </div>
 
-    <div id='<%= viewId %>-addAllButton' class='button button--flat js-tooltipable'>
+    <div data-ui='addAllButton tooltipable' class='button button--flat'>
         <%= addAllMessage %>
     </div>
 </div>

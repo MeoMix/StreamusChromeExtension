@@ -13,7 +13,7 @@
         template: _.template(CheckboxTemplate),
 
         ui: {
-            icon: '.checkbox-icon'
+            icon: '[data-ui~=icon]'
         },
 
         events: {

@@ -3,10 +3,10 @@
 
     var Tooltipable = Marionette.Behavior.extend({
         ui: {
-            //  Children which need tooltips are decorated with the js-tooltipable class.
-            tooltipable: '.js-tooltipable',
-            //  Children which need tooltips, but also need to take into account overflowing, are decorated with the js-textTooltipable class.
-            textTooltipable: '.js-textTooltipable'
+            //  Children which need tooltips and do not need to take into account text overflowing.
+            tooltipable: '[data-ui~=tooltipable]',
+            //  Children which need tooltips, but also need to take into account overflowing.
+            textTooltipable: '[data-ui~=textTooltipable]'
         },
 
         //  Whether view's element or a descendant is showing a tooltip
@@ -29,7 +29,7 @@
         },
 
         _onMouseEnter: function(event) {
-            this._setHovered(event.target);
+            this._ensureHovered(event.target);
         },
 
         _onMouseLeave: function(event) {
@@ -39,7 +39,7 @@
 
         //  Begin the process of showing a tooltip on a given target by ensuring the target wants a tooltip
         //  Some parent views can implement the Tooltipable behavior for children without themselves needing a tooltip
-        _setHovered: function(target) {
+        _ensureHovered: function(target) {
             var $target = $(target);
 
             if (!$target.data('is-hovered')) {
@@ -99,7 +99,8 @@
 
             if (showTooltip) {
                 //  Some elements only want to show a tooltip if their text can't all be seen
-                var checkOverflow = target.classList.contains('js-textTooltipable');
+                var uiDataAttribute = target.dataset.ui;
+                var checkOverflow = !_.isUndefined(uiDataAttribute) && uiDataAttribute.indexOf('textTooltipable') !== -1;
 
                 if (checkOverflow) {
                     //  If offsetWidth is less than scrollWidth then text is being clipped.

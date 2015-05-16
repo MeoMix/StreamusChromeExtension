@@ -8,10 +8,14 @@
 
     var ClearStreamButtonView = Marionette.ItemView.extend({
         id: 'clearStreamButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(ClearStreamButtonTemplate),
         templateHelpers: {
             deleteIcon: _.template(DeleteIconTemplate)()
+        },
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {

@@ -9,7 +9,7 @@
 
     var RepeatButtonView = Marionette.ItemView.extend({
         id: 'repeatButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(RepeatButtonTemplate),
 
         templateHelpers: {
@@ -17,11 +17,13 @@
             repeatOneIcon: _.template(RepeatOneIconTemplate)()
         },
 
-        ui: function() {
-            return {
-                repeatIcon: '#' + this.id + '-repeatIcon',
-                repeatOneIcon: '#' + this.id + '-repeatOneIcon'
-            };
+        attributes: {
+            'data-ui': 'tooltipable'
+        },
+
+        ui: {
+            repeatIcon: '[data-ui~=repeatIcon]',
+            repeatOneIcon: '[data-ui~=repeatOneIcon]'
         },
 
         events: {

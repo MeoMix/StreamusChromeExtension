@@ -9,7 +9,7 @@
         template: _.template(SwitchTemplate),
 
         ui: {
-            icon: '.switch-icon'
+            icon: '[data-ui~=icon]'
         },
 
         events: {

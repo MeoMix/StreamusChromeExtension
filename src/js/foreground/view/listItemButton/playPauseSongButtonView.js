@@ -18,8 +18,8 @@
         },
 
         ui: {
-            playIcon: '.playIcon',
-            pauseIcon: '.pauseIcon'
+            playIcon: '[data-ui~=playIcon]',
+            pauseIcon: '[data-ui~=pauseIcon]'
         },
 
         streamItems: null,

@@ -15,8 +15,8 @@
         template: _.template(PlaylistTemplate),
 
         ui: {
-            title: '.listItem-title',
-            itemCount: '.listItem-itemCount'
+            title: '[data-ui~=title]',
+            itemCount: '[data-ui~=itemCount]'
         },
 
         events: _.extend({}, ListItemView.prototype.events, {

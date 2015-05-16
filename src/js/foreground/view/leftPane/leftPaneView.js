@@ -10,10 +10,8 @@
         className: 'leftPane flexColumn',
         template: _.template(LeftPaneTemplate),
 
-        regions: function() {
-            return {
-                contentRegion: '#' + this.id + '-contentRegion'
-            };
+        regions: {
+            contentRegion: '[data-region=content]'
         },
 
         signInManager: null,

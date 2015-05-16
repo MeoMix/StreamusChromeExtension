@@ -14,7 +14,7 @@
     var SelectionBarRegion = require('foreground/view/selectionBar/selectionBarRegion');
     var VideoRegion = require('foreground/view/video/videoRegion');
     var TooltipRegion = require('foreground/view/tooltip/tooltipRegion');
-    var KeyboardKey = require('foreground/enum/keyboardKey');
+    var KeyCode = require('foreground/enum/keyCode');
     var ForegroundAreaTemplate = require('text!template/foregroundArea.html');
 
     var ForegroundAreaView = Marionette.LayoutView.extend({
@@ -39,70 +39,68 @@
             'click @ui.reloadLink': '_onClickReloadLink'
         },
 
-        ui: function() {
-            return {
-                loadingMessage: '#' + this.id + '-loadingMessage',
-                loadingFailedMessage: '#' + this.id + '-loadingFailedMessage',
-                reloadLink: '.' + this.id + '-reloadLink',
-                loadAttemptMessage: '#' + this.id + '-loadAttemptMessage'
-            };
+        ui: {
+            loadingMessage: '[data-ui~=loadingMessage]',
+            loadingFailedMessage: '[data-ui~=loadingFailedMessage]',
+            reloadLink: '[data-ui~=reloadLink]',
+            loadAttemptMessage: '[data-ui~=loadAttemptMessage]'
         },
 
         regions: function() {
             return {
-                spinnerRegion: '#' + this.id + '-spinnerRegion',
+                spinnerRegion: '[data-region=spinner]',
                 appBarRegion: {
-                    selector: '#' + this.id + '-appBarRegion',
+                    selector: '[data-region=appBar]',
                     regionClass: AppBarRegion
                 },
                 dialogRegion: {
-                    selector: '#' + this.id + '-dialogRegion',
+                    selector: '[data-region=dialog]',
                     regionClass: DialogRegion,
                     player: Streamus.backgroundPage.player,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
                 notificationRegion: {
-                    selector: '#' + this.id + '-notificationRegion',
+                    selector: '[data-region=notification]',
                     regionClass: NotificationRegion
                 },
                 contextMenuRegion: {
-                    selector: '#' + this.id + '-contextMenuRegion',
+                    selector: '[data-region=contextMenu]',
                     regionClass: ContextMenuRegion
                 },
                 leftPaneRegion: {
-                    selector: '#' + this.id + '-leftPaneRegion',
+                    selector: '[data-region=leftPane]',
                     regionClass: LeftPaneRegion,
                     settings: Streamus.backgroundPage.settings
                 },
                 searchAreaRegion: {
-                    selector: '#' + this.id + '-searchAreaRegion',
+                    selector: '[data-region=searchArea]',
                     regionClass: SearchAreaRegion,
                     settings: Streamus.backgroundPage.settings
                 },
                 saveSongsRegion: {
-                    selector: '#' + this.id + '-saveSongsRegion',
+                    selector: '[data-region=saveSongs]',
                     regionClass: SaveSongsRegion,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
                 playlistsAreaRegion: {
-                    selector: '#' + this.id + '-playlistsAreaRegion',
+                    selector: '[data-region=playlistsArea]',
                     regionClass: PlaylistsAreaRegion,
                     signInManager: Streamus.backgroundPage.signInManager
                 },
                 streamRegion: {
-                    selector: '#' + this.id + '-streamRegion',
+                    selector: '[data-region=stream]',
                     regionClass: StreamRegion
                 },
                 selectionBarRegion: {
-                    selector: '#' + this.id + '-selectionBarRegion',
+                    selector: '[data-region=selectionBar]',
                     regionClass: SelectionBarRegion
                 },
                 videoRegion: {
-                    selector: '#' + this.id + '-videoRegion',
+                    selector: '[data-region=video]',
                     regionClass: VideoRegion
                 },
                 tooltipRegion: {
-                    selector: '#' + this.id + '-tooltipRegion',
+                    selector: '[data-region=tooltip]',
                     regionClass: TooltipRegion
                 }
             };
@@ -188,8 +186,8 @@
         },
 
         _onKeyDown: function(event) {
-            //  If the user presses the space key without any child element focused then assume it's an intenentional request to play/pause.
-            if (event.keyCode === KeyboardKey.Space && document.activeElement === document.body) {
+            //  If the user presses space without any child element focused then assume it's an intenentional request to play/pause.
+            if (event.keyCode === KeyCode.Space && document.activeElement === document.body) {
                 Streamus.channels.playPauseButton.commands.trigger('tryToggle:playerState');
             }
         },

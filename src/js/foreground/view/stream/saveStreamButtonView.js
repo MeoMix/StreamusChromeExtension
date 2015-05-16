@@ -7,14 +7,18 @@
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(SaveStreamButtonTemplate),
         templateHelpers: {
             saveIcon: _.template(SaveIconTemplate)()
         },
 
+        attributes: {
+            'data-ui': 'tooltipable'
+        },
+
         events: {
-            'click': '_onClick',
+            'click': '_onClick'
         },
 
         modelEvents: {

@@ -32,10 +32,9 @@
 
         template: _.template(SearchResultsTemplate),
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            //  TODO: Namign conventions
+            childContainer: '[data-ui~=listItems]'
         },
 
         behaviors: {

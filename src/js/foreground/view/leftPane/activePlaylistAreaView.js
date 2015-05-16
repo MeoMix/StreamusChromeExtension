@@ -10,36 +10,30 @@
         className: 'flexColumn',
         template: _.template(ActivePlaylistAreaTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                addAllMessage: chrome.i18n.getMessage('addAll'),
-                playAllMessage: chrome.i18n.getMessage('playAll'),
-                playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-                showSearchMessage: chrome.i18n.getMessage('showSearch'),
-                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
-            };
+        templateHelpers: {
+            addAllMessage: chrome.i18n.getMessage('addAll'),
+            playAllMessage: chrome.i18n.getMessage('playAll'),
+            playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
+            showSearchMessage: chrome.i18n.getMessage('showSearch'),
+            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+            wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
         },
 
-        regions: function() {
-            return {
-                playlistItemsRegion: '#' + this.id + '-playlistItemsRegion'
-            };
+        regions: {
+            playlistItemsRegion: '[data-region=playlistItems]'
         },
 
-        ui: function() {
-            return {
-                playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
-                showSearchLink: '#' + this.id + '-showSearchLink',
-                playlistDetails: '#' + this.id + '-playlistDetails',
-                playAllButton: '#' + this.id + '-playAllButton',
-                addAllButton: '#' + this.id + '-addAllButton'
-            };
+        ui: {
+            playlistEmptyMessage: '[data-ui~=playlistEmptyMessage]',
+            showSearchLink: '[data-ui~=showSearchLink]',
+            playlistDetails: '[data-ui~=playlistDetails]',
+            playAllButton: '[data-ui~=playAllButton]',
+            addAllButton: '[data-ui~=addAllButton]'
         },
 
         events: {
             'click @ui.showSearchLink': '_onClickShowSearchLink',
+            //  TODO: Don't check class like this. Use model state
             'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
             'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
         },

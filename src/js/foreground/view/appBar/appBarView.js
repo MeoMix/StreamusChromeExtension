@@ -29,29 +29,25 @@
             };
         },
 
-        regions: function() {
-            return {
-                playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
-                volumeAreaRegion: '#' + this.id + '-volumeAreaRegion',
-                adminMenuAreaRegion: '#' + this.id + '-adminMenuAreaRegion',
-                previousButtonRegion: '#' + this.id + '-previousButtonRegion',
-                playPauseButtonRegion: '#' + this.id + '-playPauseButtonRegion',
-                nextButtonRegion: '#' + this.id + '-nextButtonRegion'
-            };
+        regions: {
+            playlistTitleRegion: '[data-region=playlistTitle]',
+            volumeAreaRegion: '[data-region=volumeArea]',
+            adminMenuAreaRegion: '[data-region=adminMenuArea]',
+            previousButtonRegion: '[data-region=previousButton]',
+            playPauseButtonRegion: '[data-region=playPauseButton]',
+            nextButtonRegion: '[data-region=nextButton]'
         },
 
-        ui: function() {
-            return {
-                searchInput: '#' + this.id + '-searchInput',
-                showSearchButton: '#' + this.id + '-showSearchButton',
-                hideSearchButton: '#' + this.id + '-hideSearchButton',
-                showPlaylistsAreaButton: '#' + this.id + '-showPlaylistsAreaButton',
-                hidePlaylistsAreaButton: '#' + this.id + '-hidePlaylistsAreaButton',
-                //  TODO: I don't like regions being manipulated in UI they should be stateless.
-                //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
-                playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
-                searchInputRegion: '#' + this.id + '-searchInputRegion'
-            };
+        ui: {
+            searchInput: '[data-ui~=searchInput]',
+            showSearchButton: '[data-ui~=showSearchButton]',
+            hideSearchButton: '[data-ui~=hideSearchButton]',
+            showPlaylistsAreaButton: '[data-ui~=showPlaylistsAreaButton]',
+            hidePlaylistsAreaButton: '[data-ui~=hidePlaylistsAreaButton]',
+            //  TODO: I don't like regions being manipulated in UI they should be stateless.
+            //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
+            playlistTitleRegion: '[data-ui~=playlistTitleRegion]',
+            searchInputRegion: '[data-ui~=searchInputRegion]'
         },
 
         events: {

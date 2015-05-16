@@ -8,39 +8,30 @@
         id: 'simpleMenu',
         className: 'panel menu',
         template: _.template(SimpleMenuTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
+
+        regions: {
+            simpleMenuItemsRegion: '[data-region=simpleMenuItems]'
         },
 
-        regions: function() {
-            return {
-                simpleMenuItemsRegion: '#' + this.id + '-simpleMenuItemsRegion'
-            };
-        },
-
-        ui: function() {
-            return {
-                //  TODO: This is weird. Maybe bubble the click event up or something.
-                simpleMenuItems: '.menu-simpleItems',
-                fixedMenuItem: '#' + this.id + '-fixedMenuItem',
-                panelContent: '#' + this.id + '-panelContent'
-            };
+        ui: {
+            fixedMenuItem: '[data-ui~=fixedMenuItem]',
+            panelContent: '[data-ui~=panelContent]'
         },
 
         events: {
-            'click @ui.simpleMenuItems': '_onClickSimpleMenuItems',
             'click @ui.fixedMenuItem': '_onClickFixedMenuItem'
+        },
+
+        childEvents: {
+            'click:simpleMenuItem': '_onClickSimpleMenuItem'
         },
 
         listItemHeight: 0,
         simpleMenuItems: null,
 
         initialize: function(options) {
-            //  TODO: Feels weird to bubble this down?
-            this.simpleMenuItems = options && options.simpleMenuItems;
-            this.listItemHeight = options && options.listItemHeight ? options.listItemHeight : this.listItemHeight;
+            this.simpleMenuItems = options.simpleMenuItems;
+            this.listItemHeight = _.isUndefined(options.listItemHeight) ? this.listItemHeight : options.listItemHeight;
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
         },
 
@@ -70,7 +61,7 @@
             this.$el.removeClass('is-visible');
         },
 
-        _onClickSimpleMenuItems: function() {
+        _onClickSimpleMenuItem: function() {
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
                 model: this.model,

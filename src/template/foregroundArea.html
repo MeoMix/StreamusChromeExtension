@@ -1,43 +1,43 @@
-﻿<div id='foregroundArea-loadingMessage' class='instruction is-hidden is-showingSpinner'>
+﻿<div data-ui='loadingMessage' class='instruction is-hidden is-showingSpinner'>
     <div class='instruction-header'>
         <%= loadingYouTubeMessage %>
     </div>
     <div class='instruction-content'>
-        <div id='foregroundArea-spinnerRegion'></div>
-        <span id='foregroundArea-loadAttemptMessage'>
+        <div data-region='spinner'></div>
+        <span data='loadAttemptMessage'>
             <%= loadAttemptMessage %>
         </span>
         <div>
-            <span class='foregroundArea-reloadLink u-link'>
+            <span data-ui='reloadLink' class='u-link'>
                 <%= reloadMessage %>
             </span>  
         </div>
     </div>
 </div>
 
-<div id='foregroundArea-loadingFailedMessage' class='instruction is-hidden'>
+<div data-ui='loadingFailedMessage' class='instruction is-hidden'>
     <div class='instruction-header'>
         <%= loadingYouTubeFailedMessage %>
     </div>
     <div>
-        <span class='foregroundArea-reloadLink u-link'>
+        <span data-ui='reloadLink' class='u-link'>
             <%= reloadMessage %>
-        </span>  
+        </span>
     </div>
 </div>
 
-<div id="foregroundArea-appBarRegion" class="u-elevated u-shadowed--low spinner--faded spinner--unclickable"></div>
+<div data-region='appBar' class="u-elevated u-shadowed--low spinner--faded spinner--unclickable"></div>
 <div class="flexRow u-relative spinner--faded spinner--unclickable">
-    <div id='foregroundArea-leftPaneRegion' class='flexColumn--wide flexColumn'></div>
-    <div id='foregroundArea-streamRegion' class='flexColumn--thin flexColumn'></div>
-    <div id='foregroundArea-searchAreaRegion' class='panel panel--left column flexColumn--wide u-transitionable transition--fast flexColumn u-fullHeight'></div>
-    <div id='foregroundArea-playlistsAreaRegion' class='flexColumn overlay u-zIndex--3'></div>
-    <div id='foregroundArea-videoRegion' class='panel panel--left column u-transitionable transition--fast flexColumn u-fullHeight u-fullWidth'></div>
+    <div data-region='leftPane' class='flexColumn--wide flexColumn'></div>
+    <div data-region='stream' class='flexColumn--thin flexColumn'></div>
+    <div data-region='searchArea' class='panel panel--left column flexColumn--wide u-transitionable transition--fast flexColumn u-fullHeight'></div>
+    <div data-region='playlistsArea' class='flexColumn overlay u-zIndex--3'></div>
+    <div data-region='video' class='panel panel--left column u-transitionable transition--fast flexColumn u-fullHeight u-fullWidth'></div>
 </div>
-<div id="foregroundArea-selectionBarRegion" class="u-shadowed--low panel panel--bottom spinner--faded spinner--unclickable transition--veryFast u-fullWidth"></div>
 
-<div id='foregroundArea-tooltipRegion' class='spinner--faded spinner--unclickable u-zIndex--5'></div>
-<div id='foregroundArea-dialogRegion' class='spinner--faded spinner--unclickable overlay u-elevated'></div>
-<div id='foregroundArea-notificationRegion' class='spinner--faded spinner--unclickable panel panel--bottom u-transitionable transition--veryFast u-zIndex--5'></div>
-<div id='foregroundArea-contextMenuRegion' class='spinner--faded spinner--unclickable overlay u-zIndex--6'></div>
-<div id='foregroundArea-saveSongsRegion' class='spinner--faded spinner--unclickable overlay'></div>
+<div data-region='selectionBar' class="u-shadowed--low panel panel--bottom spinner--faded spinner--unclickable transition--veryFast u-fullWidth"></div>
+<div data-region='tooltip' class='spinner--faded spinner--unclickable u-zIndex--5'></div>
+<div data-region='dialog' class='spinner--faded spinner--unclickable overlay u-elevated'></div>
+<div data-region='notification' class='spinner--faded spinner--unclickable panel panel--bottom u-transitionable transition--veryFast u-zIndex--5'></div>
+<div data-region='contextMenu' class='spinner--faded spinner--unclickable overlay u-zIndex--6'></div>
+<div data-region='saveSongs' class='spinner--faded spinner--unclickable overlay'></div>

@@ -11,38 +11,31 @@
         className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
         template: _.template(SearchTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                searchMessage: chrome.i18n.getMessage('search'),
-                saveAllMessage: chrome.i18n.getMessage('saveAll'),
-                addAllMessage: chrome.i18n.getMessage('addAll'),
-                playAllMessage: chrome.i18n.getMessage('playAll'),
-                notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
-                startTypingMessage: chrome.i18n.getMessage('startTyping'),
-                resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
-                searchingMessage: chrome.i18n.getMessage('searching'),
-                noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-                trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
-            };
+        templateHelpers: {
+            searchMessage: chrome.i18n.getMessage('search'),
+            saveAllMessage: chrome.i18n.getMessage('saveAll'),
+            addAllMessage: chrome.i18n.getMessage('addAll'),
+            playAllMessage: chrome.i18n.getMessage('playAll'),
+            notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
+            startTypingMessage: chrome.i18n.getMessage('startTyping'),
+            resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
+            searchingMessage: chrome.i18n.getMessage('searching'),
+            noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
+            trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
         },
 
-        regions: function() {
-            return {
-                searchResultsRegion: '#' + this.id + '-searchResultsRegion',
-                spinnerRegion: '#' + this.id + '-spinnerRegion'
-            };
+        regions: {
+            searchResultsRegion: '[data-region=searchResults]',
+            spinnerRegion: '[data-region=spinner]'
         },
 
-        ui: function() {
-            return {
-                playAllButton: '#' + this.id + '-playAllButton',
-                saveAllButton: '#' + this.id + '-saveAllButton',
-                addAllButton: '#' + this.id + '-addAllButton',
-                searchingMessage: '#' + this.id + '-searchingMessage',
-                typeToSearchMessage: '#' + this.id + '-typeToSearchMessage',
-                noResultsMessage: '#' + this.id + '-noResultsMessage'
-            };
+        ui: {
+            playAllButton: '[data-ui~=playAllButton]',
+            saveAllButton: '[data-ui~=saveAllButton]',
+            addAllButton: '[data-ui~=addAllButton]',
+            searchingMessage: '[data-ui~=searchingMessage]',
+            typeToSearchMessage: '[data-ui~=typeToSearchMessage]',
+            noResultsMessage: '[data-ui~=noResultsMessage]'
         },
 
         events: {

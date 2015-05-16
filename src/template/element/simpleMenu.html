@@ -1,8 +1,8 @@
-﻿<div id='<%= viewId %>-panelContent' class='menu-items panel-content panel-content--uncolored panel-content--fadeInOut'>
-    <div id='<%= viewId %>-simpleMenuItemsRegion'></div>
+﻿<div data-ui='panelContent' class='menu-items panel-content panel-content--uncolored panel-content--fadeInOut'>
+    <div data-region='simpleMenuItems'></div>
     
     <% if(fixedMenuItemTitle !== '') { %>
-        <div id='<%= viewId %>-fixedMenuItem' class='listItem listItem--small listItem--clickable listItem--selectable u-bordered--top'>
+        <div data-ui='fixedMenuItem' class='listItem listItem--small listItem--clickable listItem--selectable u-bordered--top'>
             <div class='listItem-content'>
                 <div class='listItem-title'>
                     <%- fixedMenuItemTitle %>

@@ -17,6 +17,10 @@
 
         _onClick: function() {
             this.model.set('active', true);
+            this.triggerMethod('click:simpleMenuItem', {
+                view: this,
+                model: this.model
+            });
         },
 
         _onChangeActive: function(model, active) {

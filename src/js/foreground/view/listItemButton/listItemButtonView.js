@@ -4,8 +4,10 @@
     var Tooltipable = require('foreground/view/behavior/tooltipable');
 
     var ListItemButtonView = Marionette.ItemView.extend({
-        className: function() {
-            return 'js-tooltipable listItem-button button button--icon button--icon--secondary button--medium';
+        className: 'listItem-button button button--icon button--icon--secondary button--medium',
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {

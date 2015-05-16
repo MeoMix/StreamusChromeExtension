@@ -8,7 +8,7 @@
         template: _.template(TooltipTemplate),
 
         ui: {
-            content: '.tooltip-content'
+            content: '[data-ui~=content]'
         },
 
         //  Move the tooltip's location to a spot on the page and fade it in

@@ -1,10 +1,10 @@
-﻿<div class='listItem-leftContent is-showingThumbnail'>
+﻿<div data-ui='leftContent' class='listItem-leftContent is-showingThumbnail'>
     <div class='listItem-imageThumbnail' style='background-image: url("https://img.youtube.com/vi/<%= song.get("id") %>/mqdefault.jpg")' />
-    <div class='listItem-checkboxRegion'></div>
+    <div data-region='checkbox' class='listItem-checkboxRegion'></div>
 </div>
 
 <div class='listItem-content'>
-    <div class='listItem-title js-textTooltipable' data-tooltip-text='<%- title %>'>
+    <div class='listItem-title' data-ui='textTooltipable' data-tooltip-text='<%- title %>'>
         <%= title %>
     </div>
 
@@ -13,4 +13,4 @@
     </div>
 </div>
 
-<span class='listItem-buttonsRegion'></span>
+<span data-region='buttons' class='listItem-buttonsRegion'></span>

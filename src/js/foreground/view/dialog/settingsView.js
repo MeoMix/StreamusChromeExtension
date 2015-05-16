@@ -18,28 +18,23 @@
         id: 'settings',
         template: _.template(SettingsTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                generalMessage: chrome.i18n.getMessage('general'),
-                songQualityMessage: chrome.i18n.getMessage('songQuality'),
-                remindersMessage: chrome.i18n.getMessage('reminders'),
-                desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
-            };
+        templateHelpers: {
+            generalMessage: chrome.i18n.getMessage('general'),
+            songQualityMessage: chrome.i18n.getMessage('songQuality'),
+            remindersMessage: chrome.i18n.getMessage('reminders'),
+            desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
         },
 
-        regions: function() {
-            return {
-                songQualityRegion: '#' + this.id + '-songQualityRegion',
-                openToSearchRegion: '#' + this.id + '-openToSearchRegion',
-                openInTabRegion: '#' + this.id + '-openInTabRegion',
-                remindClearStreamRegion: '#' + this.id + '-remindClearStreamRegion',
-                remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
-                remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
-                remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
-                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion',
-                desktopNotificationDurationRegion: '#' + this.id + '-desktopNotificationDurationRegion'
-            };
+        regions: {
+            songQualityRegion: '[data-region=songQuality]',
+            openToSearchRegion: '[data-region=openToSearch]',
+            openInTabRegion: '[data-region=openInTab]',
+            remindClearStreamRegion: '[data-region=remindClearStream]',
+            remindDeletePlaylistRegion: '[data-region=remindDeletePlaylist]',
+            remindLinkAccountRegion: '[data-region=remindLinkAccount]',
+            remindGoogleSignInRegion: '[data-region=remindGoogleSignIn]',
+            desktopNotificationsEnabledRegion: '[data-region=desktopNotificationsEnabled]',
+            desktopNotificationDurationRegion: '[data-region=desktopNotificationDuration]'
         },
 
         checkboxes: null,
@@ -96,8 +91,7 @@
                 options: options.options
             });
 
-            console.log('simpleListItem:', simpleListItem);
-
+            //  TODO: Change to showChildView
             this[propertyName + 'Region'].show(new SimpleListItemView({
                 model: simpleListItem
             }));
@@ -117,6 +111,7 @@
                 buttons: buttons
             });
 
+            //  TODO: Change to showChildView
             this[propertyName + 'Region'].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
@@ -130,6 +125,7 @@
                 property: propertyName
             });
 
+            //  TODO: Change to showChildView
             this[propertyName + 'Region'].show(new CheckboxView({
                 model: checkbox
             }));
@@ -143,6 +139,7 @@
                 property: propertyName
             });
 
+            //  TODO: Change to showChildView
             this[propertyName + 'Region'].show(new SwitchView({
                 model: switchModel
             }));

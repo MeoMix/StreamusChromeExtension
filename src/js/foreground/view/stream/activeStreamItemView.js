@@ -12,10 +12,8 @@
         className: 'activeStreamItem',
         template: _.template(ActiveStreamItemTemplate),
 
-        regions: function() {
-            return {
-                timeAreaRegion: '#' + this.id + '-timeAreaRegion'
-            };
+        regions: {
+            timeAreaRegion: '[data-region=timeArea]'
         },
 
         events: {

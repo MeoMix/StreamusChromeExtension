@@ -17,32 +17,25 @@
         className: 'flexColumn',
         template: _.template(StreamTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                emptyMessage: chrome.i18n.getMessage('streamEmpty'),
-                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
-            };
+        templateHelpers: {
+            emptyMessage: chrome.i18n.getMessage('streamEmpty'),
+            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+            whyNotAddASongFromAPlaylistOrMessage: chrome.i18n.getMessage('whyNotAddASongFromAPlaylistOr')
         },
 
-        regions: function() {
-            return {
-                clearStreamButtonRegion: '#' + this.id + '-clearStreamButtonRegion',
-                radioButtonRegion: '#' + this.id + '-radioButtonRegion',
-                repeatButtonRegion: '#' + this.id + '-repeatButtonRegion',
-                saveStreamButtonRegion: '#' + this.id + '-saveStreamButtonRegion',
-                shuffleButtonRegion: '#' + this.id + '-shuffleButtonRegion',
-                activeStreamItemRegion: '#' + this.id + '-activeStreamItemRegion',
-                streamItemsRegion: '#' + this.id + '-streamItemsRegion'
-            };
+        regions: {
+            clearStreamButtonRegion: '[data-region=clearStreamButton]',
+            radioButtonRegion: '[data-region=radioButton]',
+            repeatButtonRegion: '[data-region=repeatButton]',
+            saveStreamButtonRegion: '[data-region=saveStreamButton]',
+            shuffleButtonRegion: '[data-region=shuffleButton]',
+            activeStreamItemRegion: '[data-region=activeStreamItem]',
+            streamItemsRegion: '[data-region=streamItems]'
         },
 
-        ui: function() {
-            return {
-                emptyMessage: '#' + this.id + '-emptyMessage',
-                showSearchLink: '#' + this.id + '-showSearchLink'
-            };
+        ui: {
+            emptyMessage: '[data-ui~=emptyMessage]',
+            showSearchLink: '[data-ui~=showSearchLink]'
         },
 
         events: {

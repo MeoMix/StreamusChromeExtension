@@ -18,17 +18,8 @@
             jsonMessage: chrome.i18n.getMessage('json')
         },
 
-        regions: function() {
-            return {
-                fileTypeRegion: '#' + this.id + '-fileTypeRegion'
-            };
-        },
-
-        ui: function() {
-            return {
-                exportCsvRadio: '#' + this.id + '-exportCsvRadio',
-                exportJsonRadio: '#' + this.id + '-exportJsonRadio'
-            };
+        regions: {
+            fileTypeRegion: '[data-region=fileType]'
         },
 
         radioGroups: null,
@@ -60,6 +51,7 @@
                 buttons: buttons
             });
 
+            //  TODO: Change to showChildView
             this[propertyName + 'Region'].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')

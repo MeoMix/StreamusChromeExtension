@@ -31,15 +31,13 @@
 
         template: _.template(PlaylistItemsTemplate),
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            childContainer: '[data-ui~=listItems]'
         },
 
         behaviors: {
             CollectionViewMultiSelect: {
-                behaviorClass: CollectionViewMultiSelect,
+                behaviorClass: CollectionViewMultiSelect
             },
             Scrollable: {
                 behaviorClass: Scrollable,

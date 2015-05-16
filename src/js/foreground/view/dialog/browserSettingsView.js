@@ -15,14 +15,12 @@
             websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
         },
 
-        regions: function() {
-            return {
-                showTextSelectionContextMenuRegion: '#' + this.id + '-showTextSelectionContextMenuRegion',
-                showYouTubeLinkContextMenuRegion: '#' + this.id + '-showYouTubeLinkContextMenuRegion',
-                showYouTubePageContextMenuRegion: '#' + this.id + '-showYouTubePageContextMenuRegion',
-                enhanceYouTubeRegion: '#' + this.id + '-enhanceYouTubeRegion',
-                enhanceBeatportRegion: '#' + this.id + '-enhanceBeatportRegion',
-            };
+        regions: {
+            showTextSelectionContextMenuRegion: '[data-region=showTextSelectionContextMenu]',
+            showYouTubeLinkContextMenuRegion: '[data-region=showYouTubeLinkContextMenu]',
+            showYouTubePageContextMenuRegion: '[data-region=showYouTubePageContextMenu]',
+            enhanceYouTubeRegion: '[data-region=enhanceYouTube]',
+            enhanceBeatportRegion: '[data-region=enhanceBeatport]'
         },
 
         initialize: function() {

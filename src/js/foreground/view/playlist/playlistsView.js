@@ -27,10 +27,9 @@
             this._renderChildren();
         },
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            //  TODO: naming convention
+            childContainer: '[data-ui~=listItems]'
         },
 
         triggers: {

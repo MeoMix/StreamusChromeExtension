@@ -7,10 +7,14 @@
 
     var ShuffleButtonView = Marionette.ItemView.extend({
         id: 'shuffleButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(ShuffleButtonTemplate),
         templateHelpers: {
             shuffleIcon: _.template(ShuffleIconTemplate)()
+        },
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {

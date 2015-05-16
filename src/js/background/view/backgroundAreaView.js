@@ -13,12 +13,13 @@
         regions: function(options) {
             return {
                 youTubePlayerRegion: {
-                    el: '#' + this.id + '-youTubePlayerRegion',
+                    el: '[data-region=youTubePlayer]',
                     regionClass: YouTubePlayerRegion,
+                    //  TODO: feels weird to need to do this... all other regions aren't functions
                     youTubePlayer: options.model.get('youTubePlayer')
                 },
                 clipboardRegion: {
-                    el: '#' + this.id + '-clipboardRegion',
+                    el: '[data-region=clipboard]',
                     regionClass: ClipboardRegion
                 }
             };

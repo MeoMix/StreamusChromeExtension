@@ -2,6 +2,7 @@
     'use strict';
 
     var RadioButtonView = require('foreground/view/element/radioButtonView');
+    var KeyCode = require('foreground/enum/keyCode');
     var RadioGroupTemplate = require('text!template/element/radioGroup.html');
 
     var RadioGroupView = Marionette.CompositeView.extend({
@@ -15,7 +16,7 @@
         },
 
         ui: {
-            buttons: '.radio-buttons'
+            buttons: '[data-ui~=buttons]'
         },
 
         events: {
@@ -23,9 +24,9 @@
         },
 
         _onKeyDown: function(event) {
-            if (event.keyCode === 37 || event.keyCode === 38) {
+            if (event.keyCode === KeyCode.ArrowLeft || event.keyCode === KeyCode.ArrowUp) {
                 this.collection.checkPrevious();
-            } else if (event.keyCode === 39 || event.keyCode === 40) {
+            } else if (event.keyCode === KeyCode.ArrowRight || event.keyCode === KeyCode.ArrowDown) {
                 this.collection.checkNext();
             }
         }

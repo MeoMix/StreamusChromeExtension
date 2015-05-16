@@ -15,11 +15,9 @@
             playIcon: _.template(PlayIconTemplate)()
         },
 
-        ui: function() {
-            return {
-                playIcon: '#' + this.id + '-playIcon',
-                pauseIcon: '#' + this.id + '-pauseIcon'
-            };
+        ui: {
+            playIcon: '[data-ui~=playIcon]',
+            pauseIcon: '[data-ui~=pauseIcon]'
         },
 
         events: {

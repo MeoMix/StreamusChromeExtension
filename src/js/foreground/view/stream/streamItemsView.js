@@ -32,11 +32,9 @@
 
         template: _.template(StreamItemsTemplate),
 
-        ui: function() {
-            return {
-                //  TODO: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            //  TODO: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
+            childContainer: '[data-ui~=listItems]'
         },
 
         behaviors: {
