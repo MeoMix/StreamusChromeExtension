@@ -2,7 +2,7 @@
     'use strict';
 
     var RadioButtonView = require('foreground/view/stream/radioButtonView');
-    var RadioButton = require('background/model/buttons/radioButton');
+    var RadioButton = require('background/model/radioButton');
 
     describe('RadioButtonView', function() {
         beforeEach(function() {

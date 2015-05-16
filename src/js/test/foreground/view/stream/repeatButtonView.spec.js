@@ -2,7 +2,7 @@
     'use strict';
 
     var RepeatButtonView = require('foreground/view/stream/repeatButtonView');
-    var RepeatButton = require('background/model/buttons/repeatButton');
+    var RepeatButton = require('background/model/repeatButton');
 
     describe('RepeatButtonView', function() {
         beforeEach(function() {

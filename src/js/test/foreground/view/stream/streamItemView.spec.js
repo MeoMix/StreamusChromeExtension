@@ -7,7 +7,7 @@
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var PlayPauseButton = require('background/model/buttons/playPauseButton');
+    var PlayPauseButton = require('background/model/playPauseButton');
     var ListItemType = require('common/enum/listItemType');
 
     describe('StreamItemView', function() {

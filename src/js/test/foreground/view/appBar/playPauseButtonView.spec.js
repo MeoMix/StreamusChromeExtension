@@ -2,7 +2,7 @@
     'use strict';
 
     var PlayPauseButtonView = require('foreground/view/appBar/playPauseButtonView');
-    var PlayPauseButton = require('background/model/buttons/playPauseButton');
+    var PlayPauseButton = require('background/model/playPauseButton');
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');

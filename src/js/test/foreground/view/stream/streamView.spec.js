@@ -6,9 +6,9 @@
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var ShuffleButton = require('background/model/buttons/shuffleButton');
-    var RadioButton = require('background/model/buttons/radioButton');
-    var RepeatButton = require('background/model/buttons/repeatButton');
+    var ShuffleButton = require('background/model/shuffleButton');
+    var RadioButton = require('background/model/radioButton');
+    var RepeatButton = require('background/model/repeatButton');
 
     describe('StreamView', function() {
         beforeEach(function() {

@@ -16,12 +16,12 @@
     var Stream = require('background/model/stream');
     var TabManager = require('background/model/tabManager');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var NextButton = require('background/model/buttons/nextButton');
-    var PlayPauseButton = require('background/model/buttons/playPauseButton');
-    var PreviousButton = require('background/model/buttons/previousButton');
-    var RadioButton = require('background/model/buttons/radioButton');
-    var RepeatButton = require('background/model/buttons/repeatButton');
-    var ShuffleButton = require('background/model/buttons/shuffleButton');
+    var NextButton = require('background/model/nextButton');
+    var PlayPauseButton = require('background/model/playPauseButton');
+    var PreviousButton = require('background/model/previousButton');
+    var RadioButton = require('background/model/radioButton');
+    var RepeatButton = require('background/model/repeatButton');
+    var ShuffleButton = require('background/model/shuffleButton');
 
     var BackgroundArea = Backbone.Model.extend({
         defaults: function() {

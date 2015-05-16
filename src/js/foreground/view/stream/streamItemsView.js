@@ -17,6 +17,7 @@
         childView: StreamItemView,
         childViewType: ListItemType.StreamItem,
         childViewOptions: function() {
+            console.log('parentId:', this.ui.listItems[0].id);
             return {
                 player: Streamus.backgroundPage.player,
                 playPauseButton: Streamus.backgroundPage.playPauseButton,

@@ -2,7 +2,7 @@
     'use strict';
 
     var ShuffleButtonView = require('foreground/view/stream/shuffleButtonView');
-    var ShuffleButton = require('background/model/buttons/shuffleButton');
+    var ShuffleButton = require('background/model/shuffleButton');
 
     describe('ShuffleButtonView', function() {
         beforeEach(function() {

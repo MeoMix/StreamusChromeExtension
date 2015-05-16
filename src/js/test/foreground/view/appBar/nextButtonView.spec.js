@@ -2,14 +2,14 @@
     'use strict';
 
     var NextButtonView = require('foreground/view/appBar/nextButtonView');
-    var NextButton = require('background/model/buttons/nextButton');
+    var NextButton = require('background/model/nextButton');
     var Stream = require('background/model/stream');
     var Player = require('background/model/player');
     var Settings = require('background/model/settings');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var RadioButton = require('background/model/buttons/radioButton');
-    var ShuffleButton = require('background/model/buttons/shuffleButton');
-    var RepeatButton = require('background/model/buttons/repeatButton');
+    var RadioButton = require('background/model/radioButton');
+    var ShuffleButton = require('background/model/shuffleButton');
+    var RepeatButton = require('background/model/repeatButton');
 
     describe('NextButtonView', function() {
         beforeEach(function() {
