@@ -5,7 +5,6 @@
     var PlayPauseSongButtonTemplate = require('text!template/listItemButton/playPauseSongButton.html');
     var PlayIconTemplate = require('text!template/icon/playIcon_18.svg');
     var PauseIconTemplate = require('text!template/icon/pauseIcon_18.svg');
-    var PlayerState = require('common/enum/playerState');
 
     var PlayPauseSongButtonView = ListItemButtonView.extend({
         template: _.template(PlayPauseSongButtonTemplate),
@@ -15,23 +14,20 @@
         },
 
         attributes: {
-            title: chrome.i18n.getMessage('play')
+            'data-tooltip-text': chrome.i18n.getMessage('play')
         },
 
-        ui: function() {
-            return {
-                playIcon: '.playIcon',
-                pauseIcon: '.pauseIcon'
-            };
+        ui: {
+            playIcon: '[data-ui~=playIcon]',
+            pauseIcon: '[data-ui~=pauseIcon]'
         },
 
         streamItems: null,
         player: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
-
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
             this.listenTo(this.player, 'change:state', this._onPlayerChangeState);
             this.listenTo(this.streamItems, 'change:active', this._onStreamItemsChangeActive);
 
@@ -62,8 +58,6 @@
 
         _setState: function() {
             var isPausable = this._isPausable();
-
-            //  TODO: There's a difference between buffering-->play and buffering-->paused. Don't want to change button when buffering-->paused. How to tell the difference?
             this.ui.pauseIcon.toggleClass('is-hidden', !isPausable);
             this.ui.playIcon.toggleClass('is-hidden', isPausable);
         },
@@ -71,7 +65,7 @@
         _isPausable: function() {
             var activeSongId = this.streamItems.getActiveSongId();
             //  The pause icon is visible only if the player is playing/buffering and the song is this model's song.
-            var songId = this.model.get('song').get('id');
+            var songId = this.model.get('id');
             var isPlayerPausable = this.player.isPausable();
             var isPausable = activeSongId === songId && isPlayerPausable;
 
@@ -79,13 +73,11 @@
         },
 
         _playSong: function() {
-            var song = this.model.get('song');
-
             //  If there's only one song to be played - check if it's already in the stream.
-            var streamItem = this.streamItems.getBySong(song);
+            var streamItem = this.streamItems.getBySong(this.model);
 
             if (_.isUndefined(streamItem)) {
-                this.streamItems.addSongs(song, {
+                this.streamItems.addSongs(this.model, {
                     playOnAdd: true
                 });
             } else {

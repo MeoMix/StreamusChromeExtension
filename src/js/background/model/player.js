@@ -22,7 +22,9 @@ define(function(require) {
                 currentLoadAttempt: 1,
                 //  TODO: maxLoadAttempts isn't DRY with YouTubePlayer.
                 maxLoadAttempts: 10,
+                previousState: PlayerState.Unstarted,
                 state: PlayerState.Unstarted,
+                seeking: false,
                 //  This will be set after the player is ready and can communicate its true value.
                 //  Default to 50 because having the music on and audible, but not blasting, seems like the best default if we fail for some reason.
                 volume: 50,
@@ -36,6 +38,7 @@ define(function(require) {
                 iframePort: null,
                 buffers: [],
                 bufferType: '',
+                cueing: false,
 
                 //  Suffix alarm with unique identifier to prevent running after browser closed & re-opened.
                 //  http://stackoverflow.com/questions/14101569/chrome-extension-alarms-go-off-when-chrome-is-reopened-after-time-runs-out
@@ -80,10 +83,11 @@ define(function(require) {
             if (this.get('ready')) {
                 var playerState = this.get('state');
                 var playOnActivate = this.get('playOnActivate');
+                var startSeconds = timeInSeconds || 0;
 
                 var videoOptions = {
                     videoId: song.get('id'),
-                    startSeconds: timeInSeconds || 0,
+                    startSeconds: startSeconds,
                     //  The variable is called suggestedQuality because the widget may not have be able to fulfill the request.
                     //  If it cannot, it will set its quality to the level most near suggested quality.
                     suggestedQuality: this._getYouTubeQuality(this.get('settings').get('songQuality'))
@@ -94,6 +98,7 @@ define(function(require) {
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
                     this.get('youTubePlayer').loadVideoById(videoOptions);
                 } else {
+                    this.set('cueing', true);
                     this.get('youTubePlayer').cueVideoById(videoOptions);
                 }
 
@@ -101,7 +106,7 @@ define(function(require) {
                     loadedSong: song,
                     //  It's helpful to keep currentTime set here because the progress bar in foreground might be visually set,
                     //  but until the song actually loads -- current time isn't set.
-                    currentTime: timeInSeconds || 0,
+                    currentTime: startSeconds,
                     playOnActivate: false,
                     songToActivate: null
                 });
@@ -111,7 +116,8 @@ define(function(require) {
         },
 
         toggleState: function() {
-            var playing = this.get('state') === PlayerState.Playing;
+            var state = this.get('state');
+            var playing = state === PlayerState.Playing || state === PlayerState.Buffering;
 
             if (playing) {
                 this.pause();
@@ -161,11 +167,10 @@ define(function(require) {
 
         seekTo: function(timeInSeconds) {
             if (this.get('ready')) {
-                var state = this.get('state');
-
-                //  TODO: I'd like to ensure the Player is always in the 'paused' state because seekTo will start playing
-                //  if called when in the Unstarted or SongCued state.
-                if (state === PlayerState.Unstarted || state === PlayerState.SongCued) {
+                //  There's an issue in YouTube's API which makes this code necessary.
+                //  If the user calls seekTo to the end of the song then the state of the player gets put into 'ended'
+                //  That's OK, but then calling seekTo to the middle of the song will cause the song to move to the 'playing' state instead of 'paused'
+                if (timeInSeconds === this.get('loadedSong').get('duration')) {
                     this.activateSong(this.get('loadedSong'), timeInSeconds);
                 } else {
                     this.get('youTubePlayer').seekTo(timeInSeconds);
@@ -203,7 +208,23 @@ define(function(require) {
 
         isPausable: function() {
             var state = this.get('state');
-            var isPausable = state === PlayerState.Playing || state === PlayerState.Buffering;
+            //  If the player is playing then it's obvious that it can be paused.
+            var isPausable = state === PlayerState.Playing;
+
+            //  However, if the player is buffering, then it's not so simple. The player might be buffering and paused/unstarted.
+            if (state === PlayerState.Buffering) {
+                var previousState = this.get('previousState');
+
+                //  When seeking it's even more complicated. The seek might result in the player beginning playback, or remaining paused.
+                var wasPlaying = previousState === PlayerState.Playing || previousState === PlayerState.Buffering;
+
+                if (this.get('seeking') && !wasPlaying) {
+                    isPausable = false;
+                } else {
+                    //  If the player is 'cueuing' a song then the user doesn't expect to see a flicker of buffering. Only when loading/playing.
+                    isPausable = !this.get('cueing');
+                }
+            }
 
             return isPausable;
         },
@@ -293,20 +314,6 @@ define(function(require) {
                 });
             }
 
-            //  YouTube's API for seeking/buffering doesn't fire events reliably.
-            //  Listen directly to the element for more responsive results.
-            if (!_.isUndefined(message.seeking)) {
-                if (message.seeking) {
-                    if (this.get('state') === PlayerState.Playing) {
-                        this.set('state', PlayerState.Buffering);
-                    }
-                } else {
-                    if (this.get('state') === PlayerState.Buffering) {
-                        this.set('state', PlayerState.Playing);
-                    }
-                }
-            }
-
             if (!_.isUndefined(message.currentTimeHighPrecision)) {
                 //  Event listeners may need to know the absolute currentTime. They have no idea if it is current or not.
                 //  If it is current, still notify them.
@@ -316,6 +323,10 @@ define(function(require) {
             if (!_.isUndefined(message.error)) {
                 var error = new Error(message.error);
                 Streamus.channels.error.commands.trigger('log:error', error);
+            }
+
+            if (!_.isUndefined(message.seeking)) {
+                this.set('seeking', message.seeking);
             }
         },
 
@@ -342,7 +353,12 @@ define(function(require) {
 
         _onYouTubePlayerChangeState: function(model, youTubePlayerState) {
             var playerState = this._getPlayerState(youTubePlayerState);
+            this.set('previousState', this.get('state'));
             this.set('state', playerState);
+
+            if (this.get('previousState') === PlayerState.Buffering) {
+                this.set('cueing', false);
+            }
         },
 
         _onYouTubePlayerChangeLoading: function(model, loading) {
@@ -434,9 +450,10 @@ define(function(require) {
                 case YouTubePlayerState.Buffering:
                     playerState = PlayerState.Buffering;
                     break;
-                //  TODO: I think that SongCued should map to Paused because Streamus doesn't really care about SongCued at all.
                 case YouTubePlayerState.SongCued:
-                    playerState = PlayerState.SongCued;
+                    //  TODO: I'm mapping SongCued to 'paused', but it shouldn't ever happen in the wild now. Remove this entirely in v0.175+ once confirmed.
+                    playerState = PlayerState.Paused;
+                    Streamus.channels.error.commands.trigger('log:error', new Error('Unexpected PlayerState.SongCued event.'));
                     break;
                 default:
                     throw new Error('Unmapped YouTubePlayerState:' + youTubePlayerState);
@@ -460,7 +477,9 @@ define(function(require) {
         //  Send a message to YouTube's iframe to figure out what the current time is of the video element inside of the iframe.
         requestCurrentTimeHighPrecision: function() {
             var iframePort = this.get('iframePort');
-            iframePort.postMessage('getCurrentTimeHighPrecision');
+            if (iframePort !== null) {
+                iframePort.postMessage('getCurrentTimeHighPrecision');
+            }
         }
     });
 

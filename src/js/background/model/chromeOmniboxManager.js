@@ -20,7 +20,6 @@
 
         initialize: function() {
             chrome.omnibox.setDefaultSuggestion({
-                //  TODO: Inform user that @add will cause add to happen.
                 description: chrome.i18n.getMessage('pressEnterToPlay')
             });
 

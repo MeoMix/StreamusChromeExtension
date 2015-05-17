@@ -19,7 +19,7 @@
 
         //_createVideoView: function() {
         //    var videoView = new VideoView({
-        //        //  TODO: model?
+        //        player: Streamus.backgroundPage.player
         //    });
 
         //    this.show(videoView);

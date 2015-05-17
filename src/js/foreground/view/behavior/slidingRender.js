@@ -44,7 +44,7 @@
             this._setViewportHeight();
             this._tryScrollToActiveItem();
             //  Throttle the scroll event because scrolls can happen a lot and don't need to re-calculate very often.
-            this.el.addEventListener('scroll', _.throttleFramerate(this._onScroll.bind(this)));
+            this.el.addEventListener('scroll', _.throttleFramerate(requestAnimationFrame, this._onScroll.bind(this)));
             this.view.triggerMethod('UpdateScrollbar');
         },
         
@@ -206,7 +206,7 @@
 
             if (translateY !== this.childContainerTranslateY) {
                 this.childContainerTranslateY = translateY;
-                this.ui.childContainer.css('transform', 'translateY(' + translateY + 'px)');
+                this.ui.listItems.css('transform', 'translateY(' + translateY + 'px)');
             }
         },
 
@@ -228,7 +228,7 @@
 
             if (height !== this.childContainerHeight) {
                 this.childContainerHeight = height;
-                this.ui.childContainer.height(height);
+                this.ui.listItems.height(height);
             }
         },
 

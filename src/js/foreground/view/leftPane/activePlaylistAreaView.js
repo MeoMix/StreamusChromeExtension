@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var PlaylistItemsView = require('foreground/view/leftPane/playlistItemsView');
     var ActivePlaylistAreaTemplate = require('text!template/leftPane/activePlaylistArea.html');
 
@@ -10,43 +10,37 @@
         className: 'flexColumn',
         template: _.template(ActivePlaylistAreaTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                addAllMessage: chrome.i18n.getMessage('addAll'),
-                playAllMessage: chrome.i18n.getMessage('playAll'),
-                playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
-                showSearchMessage: chrome.i18n.getMessage('showSearch'),
-                searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
-                wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
-            };
+        templateHelpers: {
+            addAllMessage: chrome.i18n.getMessage('addAll'),
+            playAllMessage: chrome.i18n.getMessage('playAll'),
+            playlistEmptyMessage: chrome.i18n.getMessage('playlistEmpty'),
+            showSearchMessage: chrome.i18n.getMessage('showSearch'),
+            searchForSongsMessage: chrome.i18n.getMessage('searchForSongs'),
+            wouldYouLikeToMessage: chrome.i18n.getMessage('wouldYouLikeTo')
         },
 
-        regions: function() {
-            return {
-                playlistItemsRegion: '#' + this.id + '-playlistItemsRegion'
-            };
+        regions: {
+            playlistItems: '[data-region=playlistItems]'
         },
 
-        ui: function() {
-            return {
-                playlistEmptyMessage: '#' + this.id + '-playlistEmptyMessage',
-                showSearchLink: '#' + this.id + '-showSearchLink',
-                playlistDetails: '#' + this.id + '-playlistDetails',
-                playAllButton: '#' + this.id + '-playAllButton',
-                addAllButton: '#' + this.id + '-addAllButton'
-            };
+        ui: {
+            playlistEmptyMessage: '[data-ui~=playlistEmptyMessage]',
+            showSearchLink: '[data-ui~=showSearchLink]',
+            playlistDetails: '[data-ui~=playlistDetails]',
+            playAllButton: '[data-ui~=playAllButton]',
+            addAllButton: '[data-ui~=addAllButton]'
         },
 
         events: {
             'click @ui.showSearchLink': '_onClickShowSearchLink',
+            //  TODO: Don't check class like this. Use model state
             'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
             'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
         },
         
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -64,8 +58,8 @@
             'reset': '_onPlaylistItemsReset'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
 
             var playlistItems = this.model.get('items');
@@ -77,7 +71,7 @@
             this._updatePlaylistDetails(this.model.get('items').getDisplayInfo());
             this._toggleInstructions(this.model.get('items').isEmpty());
 
-            this.showChildView('playlistItemsRegion', new PlaylistItemsView({
+            this.showChildView('playlistItems', new PlaylistItemsView({
                 collection: this.model.get('items')
             }));
         },
@@ -125,11 +119,11 @@
             this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
 
             var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
-            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('title', isEmpty ? '' : duplicatesInfo.message);
+            this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
         },
 
         _updatePlaylistDetails: function(displayInfo) {
-            this.ui.playlistDetails.text(displayInfo).attr('title', displayInfo);
+            this.ui.playlistDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
         },
 
         _onClickAddAllButton: function() {

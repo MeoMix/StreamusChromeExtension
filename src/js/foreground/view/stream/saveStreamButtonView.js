@@ -1,20 +1,24 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SaveStreamButtonTemplate = require('text!template/stream/saveStreamButton.html');
     var SaveIconTemplate = require('text!template/icon/saveIcon_18.svg');
 
     var SaveStreamButtonView = Marionette.ItemView.extend({
         id: 'saveStreamButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(SaveStreamButtonTemplate),
         templateHelpers: {
             saveIcon: _.template(SaveIconTemplate)()
         },
 
+        attributes: {
+            'data-ui': 'tooltipable'
+        },
+
         events: {
-            'click': '_onClick',
+            'click': '_onClick'
         },
 
         modelEvents: {
@@ -22,8 +26,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -42,7 +46,7 @@
         },
 
         _setState: function(enabled, stateMessage) {
-            this.$el.toggleClass('is-disabled', !enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-disabled', !enabled).attr('data-tooltip-text', stateMessage);
         },
 
         _showSaveSongsSimpleMenu: function(songs) {

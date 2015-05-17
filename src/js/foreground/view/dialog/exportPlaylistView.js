@@ -3,7 +3,7 @@
 
     var Utility = require('common/utility');
     var ExportFileType = require('common/enum/exportFileType');
-    var RadioGroups = require('foreground/collection/radioGroups');
+    var RadioGroups = require('foreground/collection/element/radioGroups');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var ExportPlaylistTemplate = require('text!template/dialog/exportPlaylist.html');
@@ -18,17 +18,8 @@
             jsonMessage: chrome.i18n.getMessage('json')
         },
 
-        regions: function() {
-            return {
-                fileTypeRegion: '#' + this.id + '-fileTypeRegion'
-            };
-        },
-
-        ui: function() {
-            return {
-                exportCsvRadio: '#' + this.id + '-exportCsvRadio',
-                exportJsonRadio: '#' + this.id + '-exportJsonRadio'
-            };
+        regions: {
+            fileType: '[data-region=fileType]'
         },
 
         radioGroups: null,
@@ -60,7 +51,8 @@
                 buttons: buttons
             });
 
-            this[propertyName + 'Region'].show(new RadioGroupView({
+            //  TODO: Change to showChildView
+            this[propertyName].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));

@@ -16,20 +16,16 @@
             pleaseWaitMessage: chrome.i18n.getMessage('pleaseWait')
         },
 
-        regions: function() {
-            return {
-                spinnerRegion: '#' + this.id + '-spinnerRegion'
-            };
+        regions: {
+            spinner: '[data-region=spinner]'
         },
 
-        ui: function() {
-            return {
-                signingInMessage: '#' + this.id + '-signingInMessage',
-                signInMessage: '#' + this.id + '-signInMessage',
-                signInFailedMessage: '#' + this.id + '-signInFailedMessage',
-                signInLink: '#' + this.id + '-signInLink',
-                signInRetryTimer: '#' + this.id + '-signInRetryTimer'
-            };
+        ui: {
+            signingInMessage: '[data-ui~=signingInMessage]',
+            signInMessage: '[data-ui~=signInMessage]',
+            signInFailedMessage: '[data-ui~=signInFailedMessage]',
+            signInLink: '[data-ui~=signInLink]',
+            signInRetryTimer: '[data-ui~=signInRetryTimer]'
         },
 
         events: {
@@ -44,7 +40,7 @@
 
         onRender: function() {
             this._toggleBigText(this.model.get('signingIn'), this.model.get('signInFailed'));
-            this.showChildView('spinnerRegion', new SpinnerView());
+            this.showChildView('spinner', new SpinnerView());
         },
 
         _onClickSignInLink: function() {

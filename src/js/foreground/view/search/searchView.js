@@ -11,45 +11,37 @@
         className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
         template: _.template(SearchTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                searchMessage: chrome.i18n.getMessage('search'),
-                saveAllMessage: chrome.i18n.getMessage('saveAll'),
-                addAllMessage: chrome.i18n.getMessage('addAll'),
-                playAllMessage: chrome.i18n.getMessage('playAll'),
-                notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
-                startTypingMessage: chrome.i18n.getMessage('startTyping'),
-                resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
-                searchingMessage: chrome.i18n.getMessage('searching'),
-                noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
-                trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
-            };
+        templateHelpers: {
+            searchMessage: chrome.i18n.getMessage('search'),
+            saveAllMessage: chrome.i18n.getMessage('saveAll'),
+            addAllMessage: chrome.i18n.getMessage('addAll'),
+            playAllMessage: chrome.i18n.getMessage('playAll'),
+            notSignedInMessage: chrome.i18n.getMessage('notSignedIn'),
+            startTypingMessage: chrome.i18n.getMessage('startTyping'),
+            resultsWillAppearAsYouSearchMessage: chrome.i18n.getMessage('resultsWillAppearAsYouSearch'),
+            searchingMessage: chrome.i18n.getMessage('searching'),
+            noResultsFoundMessage: chrome.i18n.getMessage('noResultsFound'),
+            trySearchingForSomethingElseMessage: chrome.i18n.getMessage('trySearchingForSomethingElse')
         },
 
-        regions: function() {
-            return {
-                searchResultsRegion: '#' + this.id + '-searchResultsRegion',
-                spinnerRegion: '#' + this.id + '-spinnerRegion'
-            };
+        regions: {
+            searchResults: '[data-region=searchResults]',
+            spinner: '[data-region=spinner]'
         },
 
-        ui: function() {
-            return {
-                playAllButton: '#' + this.id + '-playAllButton',
-                saveAllButton: '#' + this.id + '-saveAllButton',
-                addAllButton: '#' + this.id + '-addAllButton',
-                searchingMessage: '#' + this.id + '-searchingMessage',
-                typeToSearchMessage: '#' + this.id + '-typeToSearchMessage',
-                noResultsMessage: '#' + this.id + '-noResultsMessage'
-            };
+        ui: {
+            playAllButton: '[data-ui~=playAllButton]',
+            saveAllButton: '[data-ui~=saveAllButton]',
+            addAllButton: '[data-ui~=addAllButton]',
+            searchingMessage: '[data-ui~=searchingMessage]',
+            typeToSearchMessage: '[data-ui~=typeToSearchMessage]',
+            noResultsMessage: '[data-ui~=noResultsMessage]'
         },
 
         events: {
-            //  TODO: Quit checking class like this.
-            'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton',
-            'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
-            'click @ui.saveAllButton:not(.is-disabled)': '_onClickSaveAllButton'
+            'click @ui.playAllButton': '_onClickPlayAllButton',
+            'click @ui.addAllButton': '_onClickAddAllButton',
+            'click @ui.saveAllButton': '_onClickSaveAllButton'
         },
 
         modelEvents: {
@@ -67,9 +59,9 @@
         streamItems: null,
         signInManager: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.signInManager = options.signInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(Streamus.channels.searchArea.commands, 'search', this._search);
@@ -79,11 +71,11 @@
             this._setButtonStates();
             this._toggleInstructions();
 
-            this.showChildView('searchResultsRegion', new SearchResultsView({
+            this.showChildView('searchResults', new SearchResultsView({
                 collection: this.model.get('results')
             }));
 
-            this.showChildView('spinnerRegion', new SpinnerView());
+            this.showChildView('spinner', new SpinnerView());
         },
         
         //  onVisible is triggered when the element begins to transition into the viewport.
@@ -92,17 +84,29 @@
         },
 
         _onClickSaveAllButton: function() {
-            this._showSaveSelectedSimpleMenu();
+            var canSave = this._canSave();
+
+            if (canSave) {
+                this._showSaveSelectedSimpleMenu();
+            }
         },
 
         _onClickAddAllButton: function() {
-            this.streamItems.addSongs(this.collection.getSongs());
+            var canAdd = this._canPlayOrAdd();
+
+            if (canAdd) {
+                this.streamItems.addSongs(this.collection.getSongs());
+            }
         },
 
         _onClickPlayAllButton: function() {
-            this.streamItems.addSongs(this.collection.getSongs(), {
-                playOnAdd: true
-            });
+            var canPlay = this._canPlayOrAdd();
+
+            if (canPlay) {
+                this.streamItems.addSongs(this.collection.getSongs(), {
+                    playOnAdd: true
+                });
+            }
         },
 
         _onSignInManagerChangeSignedInUser: function() {
@@ -144,9 +148,10 @@
 
         _setButtonStates: function() {
             this._setSaveAllButtonState();
-            var isEmpty = this.collection.isEmpty();
-            this.ui.playAllButton.toggleClass('is-disabled', isEmpty);
-            this.ui.addAllButton.toggleClass('is-disabled', isEmpty);
+
+            var canPlayOrAdd = this._canPlayOrAdd();
+            this.ui.playAllButton.toggleClass('is-disabled', !canPlayOrAdd);
+            this.ui.addAllButton.toggleClass('is-disabled', !canPlayOrAdd);
         },
 
         _showSaveSelectedSimpleMenu: function() {
@@ -168,6 +173,12 @@
             var isEmpty = this.collection.isEmpty();
 
             return signedIn && !isEmpty;
+        },
+
+        _canPlayOrAdd: function() {
+            var isEmpty = this.collection.isEmpty();
+
+            return !isEmpty;
         },
 
         //  Set the visibility of any visible text messages.

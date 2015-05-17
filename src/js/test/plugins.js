@@ -4,7 +4,6 @@
     require('backbone.marionette');
     require('backbone.localStorage');
     require('jquery.perfectScrollbar');
-    require('jquery.qtip');
     require('jquery-ui');
     require('mocha');
     var chai = require('chai');
@@ -36,7 +35,13 @@
             searchArea: Backbone.Wreqr.radio.channel('searchArea'),
             activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
             element: Backbone.Wreqr.radio.channel('element'),
-            
+            saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),
+            listItem: Backbone.Wreqr.radio.channel('listItem'),
+            simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
+            video: Backbone.Wreqr.radio.channel('video'),
+            playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton'),
+            tooltip: Backbone.Wreqr.radio.channel('tooltip'),
+
             //  BACKGROUND:
             tab: Backbone.Wreqr.radio.channel('tab'),
             error: Backbone.Wreqr.radio.channel('error'),

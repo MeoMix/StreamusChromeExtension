@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkboxes = require('foreground/collection/checkboxes');
+    var Checkboxes = require('foreground/collection/element/checkboxes');
     var CheckboxView = require('foreground/view/element/checkboxView');
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var BrowserSettingsTemplate = require('text!template/dialog/browserSettings.html');
@@ -15,14 +15,12 @@
             websiteEnhancementsMessage: chrome.i18n.getMessage('websiteEnhancements')
         },
 
-        regions: function() {
-            return {
-                showTextSelectionContextMenuRegion: '#' + this.id + '-showTextSelectionContextMenuRegion',
-                showYouTubeLinkContextMenuRegion: '#' + this.id + '-showYouTubeLinkContextMenuRegion',
-                showYouTubePageContextMenuRegion: '#' + this.id + '-showYouTubePageContextMenuRegion',
-                enhanceYouTubeRegion: '#' + this.id + '-enhanceYouTubeRegion',
-                enhanceBeatportRegion: '#' + this.id + '-enhanceBeatportRegion',
-            };
+        regions: {
+            showTextSelectionContextMenu: '[data-region=showTextSelectionContextMenu]',
+            showYouTubeLinkContextMenu: '[data-region=showYouTubeLinkContextMenu]',
+            showYouTubePageContextMenu: '[data-region=showYouTubePageContextMenu]',
+            enhanceYouTube: '[data-region=enhanceYouTube]',
+            enhanceBeatport: '[data-region=enhanceBeatport]'
         },
 
         initialize: function() {
@@ -40,7 +38,6 @@
         },
 
         onRender: function() {
-            //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
             this._showCheckbox('showTextSelectionContextMenu', 'textSelection');
             this._showCheckbox('showYouTubeLinkContextMenu', 'youTubeLinks');
             this._showCheckbox('showYouTubePageContextMenu', 'youTubePages');
@@ -55,7 +52,8 @@
                 property: propertyName
             });
 
-            this[propertyName + 'Region'].show(new CheckboxView({
+            //  TODO: Change to getChildView
+            this[propertyName].show(new CheckboxView({
                 model: checkbox
             }));
         }

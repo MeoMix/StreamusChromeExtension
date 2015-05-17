@@ -6,8 +6,8 @@
     var PlaylistsAreaRegion = Marionette.Region.extend({
         signInManager: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
 
             this.listenTo(Streamus.channels.playlistsArea.commands, 'show:playlistsArea', this._showPlaylistsArea);
             this.listenTo(Streamus.channels.playlistsArea.commands, 'hide:playlistsArea', this._hidePlaylistsArea);

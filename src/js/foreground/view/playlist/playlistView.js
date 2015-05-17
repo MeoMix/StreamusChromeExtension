@@ -15,8 +15,8 @@
         template: _.template(PlaylistTemplate),
 
         ui: {
-            title: '.listItem-title',
-            itemCount: '.listItem-itemCount'
+            title: '[data-ui~=title]',
+            itemCount: '[data-ui~=itemCount]'
         },
 
         events: _.extend({}, ListItemView.prototype.events, {
@@ -31,7 +31,24 @@
             'change:id': '_onChangeId'
         },
 
-        buttonViews: [PlayPlaylistButtonView, AddPlaylistButtonView, DeletePlaylistButtonView],
+        buttonViewOptions: function() {
+            return {
+                PlayPlaylistButtonView: {
+                    viewClass: PlayPlaylistButtonView,
+                    model: this.model,
+                    streamItems: Streamus.backgroundPage.stream.get('items')
+                },
+                AddPlaylistButtonView: {
+                    viewClass: AddPlaylistButtonView,
+                    model: this.model,
+                    streamItems: Streamus.backgroundPage.stream.get('items')
+                },
+                DeletePlaylistButtonView: {
+                    viewClass: DeletePlaylistButtonView,
+                    model: this.model
+                }
+            };
+        },
 
         playlistItemsEvents: {
             'add:completed': '_onPlaylistItemsAddCompleted',
@@ -45,14 +62,13 @@
 
         onRender: function() {
             //  TODO: Don't incur this load unless needed.
-            this.showChildView('spinnerRegion', new SpinnerView({
+            this.showChildView('spinner', new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
 
             this._setShowingSpinnerClass();
             this._setActiveClass(this.model.get('active'));
             this._setItemCount(this.model.get('items').length);
-            //  TODO: Ensure that the playlist scrolls into view -- but I need to create it as active I think because I don't ALWAYS want to scroll to the active item.
         },
 
         showContextMenu: function() {
@@ -75,7 +91,7 @@
         },
 
         _onChangeTitle: function(model, title) {
-            this.ui.title.text(title).attr('title', title);
+            this.ui.title.text(title).attr('data-tooltip-text', title);
         },
 
         _onChangeDataSourceLoaded: function() {

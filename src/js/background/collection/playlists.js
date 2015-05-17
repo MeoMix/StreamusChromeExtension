@@ -19,7 +19,7 @@
         },
 
         initialize: function(models, options) {
-            this.userId = options.userId;
+            this.userId = options ? options.userId : this.userId;
 
             chrome.runtime.onMessage.addListener(this._onChromeRuntimeMessage.bind(this));
             this.on('add', this._onAdd);
@@ -132,7 +132,9 @@
 
             switch (request.method) {
                 case 'getPlaylists':
-                    sendResponse({ playlists: this });
+                    sendResponse({
+                        playlists: this
+                    });
                     break;
                 case 'addSongByUrlToPlaylist':
                     var dataSource = new DataSource({
@@ -142,36 +144,29 @@
                     dataSource.parseUrl({
                         success: function() {
                             YouTubeV3API.getSong({
-                                songId: dataSource.get('id'),
+                                songId: dataSource.get('entityId'),
                                 success: function(song) {
-                                    this.get(request.playlistId).get('items').addSongs(song);
+                                    var playlistItems = this.get(request.playlistId).get('items');
 
-                                    //  TODO: It would be nice to run this in addSongs not here to keep things more DRY.
-                                    //  But I kind of feel like I need the playlist title when adding > 1 song (5 songs added to playlist XYZ) which forces it back to the playlist.
-                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                        title: chrome.i18n.getMessage('songAdded'),
-                                        message: song.get('title')
+                                    playlistItems.addSongs(song, {
+                                        success: function() {
+                                            //  TODO: I would prefer displaying this notification through the addSongs method, but I think I'll need access to playlist title in the future.
+                                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                                                title: chrome.i18n.getMessage('songAdded'),
+                                                message: song.get('title')
+                                            });
+
+                                            sendResponse({
+                                                result: 'success'
+                                            });
+                                        },
+                                        error: this._notifyChromeRuntimeMessageError.bind(this, sendResponse)
                                     });
-
-                                    //  TODO: This responds success after fetching songs but not after the songs were actually added successfully.
-                                    sendResponse({ result: 'success' });
                                 }.bind(this),
-                                error: function() {
-                                    Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                        title: chrome.i18n.getMessage('errorEncountered')
-                                    });
-
-                                    sendResponse({ result: 'error' });
-                                }
+                                error: this._notifyChromeRuntimeMessageError.bind(this, sendResponse)
                             });
                         }.bind(this),
-                        error: function() {
-                            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
-                                title: chrome.i18n.getMessage('errorEncountered')
-                            });
-
-                            sendResponse({ result: 'error' });
-                        }
+                        error: this._notifyChromeRuntimeMessageError.bind(this, sendResponse)
                     });
 
                     sendAsynchronousResponse = true;
@@ -180,6 +175,16 @@
 
             //  sendResponse becomes invalid after returning you return true to indicate a response will be sent asynchronously.
             return sendAsynchronousResponse;
+        },
+
+        _notifyChromeRuntimeMessageError: function(sendResponse) {
+            Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
+                title: chrome.i18n.getMessage('errorEncountered')
+            });
+
+            sendResponse({
+                result: 'error'
+            });
         },
 
         _onChangeActive: function(changedPlaylist, active) {
@@ -195,7 +200,6 @@
             //  This means that addedPlaylist's ID might not be set yet. If that's the case, wait until successful save before relying on it.
             if (addedPlaylist.isNew()) {
                 this.listenToOnce(addedPlaylist, 'createError', function() {
-                    //  TODO: Do something with this error.
                     this.stopListening(addedPlaylist, 'change:id');
                 });
 
@@ -207,7 +211,7 @@
                 this._onCreateSuccess(addedPlaylist, options);
             }
         },
-        //  TODO: added vs created.
+
         _onCreateSuccess: function(addedPlaylist) {
             //  Notify all open YouTube tabs that a playlist has been added.
             Streamus.channels.tab.commands.trigger('notify:youTube', {

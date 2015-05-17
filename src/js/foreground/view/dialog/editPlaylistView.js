@@ -17,11 +17,9 @@
             };
         },
 
-        ui: function() {
-            return {
-                title: '#' + this.id + '-title',
-                titleCharacterCount: '#' + this.id + '-title-characterCount'
-            };
+        ui: {
+            title: '[data-ui~=title]',
+            titleCharacterCount: '[data-ui~=title-characterCount]'
         },
 
         events: {

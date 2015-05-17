@@ -205,10 +205,7 @@ module.exports = function(grunt) {
                 cwd: 'dist/',
                 src: '**/*',
                 dest: '<%= meta.releaseDirectory %>'
-            }
-        },
-        concat: {
-            //  TODO: This isn't really a concat anymore. Just a copy operation.
+            },
             //  Content scripts don't use RequireJS so they need to be concatenated and moved to dist with a separate task
             contentScripts: {
                 files: {
@@ -237,7 +234,7 @@ module.exports = function(grunt) {
             grunt.task.run('replace:updateVersion');
         }
 
-        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'concat:contentScripts', 'less', 'imagemin', 'clean:dist');
+        grunt.task.run('requirejs', 'replace:transformManifest', 'replace:localDebug', 'copy:contentScripts', 'less', 'imagemin', 'clean:dist');
 
         //  Build chrome release
         grunt.task.run('compressRelease:' + chromeReleaseDirectory);

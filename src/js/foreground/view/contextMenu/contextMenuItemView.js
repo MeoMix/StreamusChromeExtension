@@ -1,13 +1,13 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ContextMenuItemTemplate = require('text!template/contextMenu/contextMenuItem.html');
 
     var ContextMenuItemView = Marionette.ItemView.extend({
         tagName: 'li',
         className: function() {
-            var className = 'listItem listItem--small listItem--clickable js-tooltipable';
+            var className = 'listItem listItem--small listItem--clickable';
             className += this.model.get('disabled') ? ' is-disabled' : '';
             return className;
         },
@@ -19,13 +19,14 @@
 
         attributes: function() {
             return {
-                title: this.model.get('title')
+                'data-ui': 'tooltipable',
+                'data-tooltip-text': this.model.get('title')
             };
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

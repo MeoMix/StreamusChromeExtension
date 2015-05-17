@@ -2,61 +2,52 @@
     'use strict';
 
     var SimpleMenuItemsView = require('foreground/view/element/simpleMenuItemsView');
+    var FixedMenuItemView = require('foreground/view/element/fixedMenuItemView');
     var SimpleMenuTemplate = require('text!template/element/simpleMenu.html');
 
     var SimpleMenuView = Marionette.LayoutView.extend({
         id: 'simpleMenu',
         className: 'panel menu',
         template: _.template(SimpleMenuTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
+
+        regions: {
+            simpleMenuItems: '[data-region=simpleMenuItems]',
+            fixedMenuItem: '[data-region=fixedMenuItem]'
         },
 
-        regions: function() {
-            return {
-                simpleMenuItemsRegion: '#' + this.id + '-simpleMenuItemsRegion'
-            };
+        ui: {
+            panelContent: '[data-ui~=panelContent]'
         },
 
-        ui: function() {
-            return {
-                //  TODO: This is weird. Maybe bubble the click event up or something.
-                simpleMenuItems: '.menu-simpleItems',
-                fixedMenuItem: '#' + this.id + '-fixedMenuItem',
-                panelContent: '#' + this.id + '-panelContent'
-            };
+        childEvents: {
+            'click:simpleMenuItem': '_onClickSimpleMenuItem',
+            'click:fixedMenuItem': '_onClickFixedMenuItem'
         },
 
-        events: {
-            'click @ui.simpleMenuItems': '_onClickSimpleMenuItems',
-            'click @ui.fixedMenuItem': '_onClickFixedMenuItem'
-        },
-
-        listItemHeight: 0,
-        simpleMenuItems: null,
-
-        initialize: function(options) {
-            //  TODO: Feels weird to bubble this down?
-            this.simpleMenuItems = options && options.simpleMenuItems;
-            this.listItemHeight = options && options.listItemHeight ? options.listItemHeight : this.listItemHeight;
+        initialize: function() {
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);
         },
 
         onRender: function() {
-            this.showChildView('simpleMenuItemsRegion', new SimpleMenuItemsView({
-                collection: this.simpleMenuItems,
-                listItemHeight: this.listItemHeight
+            this.showChildView('simpleMenuItems', new SimpleMenuItemsView({
+                collection: this.model.get('simpleMenuItems'),
+                listItemHeight: this.model.get('listItemHeight')
             }));
+
+            if (this.model.has('fixedMenuItem')) {
+                this.showChildView('fixedMenuItem', new FixedMenuItemView({
+                    model: this.model.get('fixedMenuItem')
+                }));
+            }
         },
 
         onAttach: function() {
             //  This needs to be ran on the parent because _centerActive has a dependency on simpleMenuItems scrollTop which is set here.
-            this.getChildView('simpleMenuItemsRegion').ensureActiveIsVisible();
+            this.getChildView('simpleMenuItems').ensureActiveIsVisible();
 
-            if (this.listItemHeight > 0) {
-                this._centerActive();
+            var listItemHeight = this.model.get('listItemHeight');
+            if (listItemHeight > 0) {
+                this._centerActive(listItemHeight);
             }
 
             requestAnimationFrame(function() {
@@ -70,11 +61,10 @@
             this.$el.removeClass('is-visible');
         },
 
-        _onClickSimpleMenuItems: function() {
+        _onClickSimpleMenuItem: function() {
             this.triggerMethod('click:simpleMenuItem', {
                 view: this,
-                model: this.model,
-                collection: this.simpleMenuItems
+                model: this.model
             });
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
@@ -83,8 +73,7 @@
         _onClickFixedMenuItem: function() {
             this.triggerMethod('click:fixedMenuItem', {
                 view: this,
-                model: this.model,
-                collection: this.simpleMenuItems
+                model: this.model
             });
             Streamus.channels.simpleMenu.vent.trigger('clicked:item');
             this.hide();
@@ -96,28 +85,29 @@
 
         _onElementClick: function(event) {
             //  These targets can show up when dragging the scrollbar and it's weird to close when interacting with scrollbar.
-            if (event.target !== this.getRegion('simpleMenuItemsRegion').el) {
+            if (event.target !== this.getRegion('simpleMenuItems').el) {
                 this.hide();
             }
         },
 
         //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
         //  When showing this view over a ListItem, center the view's active item over the ListItem.
-        _centerActive: function() {
+        _centerActive: function(listItemHeight) {
+            var simpleMenuItems = this.model.get('simpleMenuItems');
             //  Adjust the top position of the view based on which item is active.
-            var index = this.simpleMenuItems.indexOf(this.simpleMenuItems.getActive());
+            var index = simpleMenuItems.indexOf(simpleMenuItems.getActive());
 
             //  TODO: This feels weirdly coupled.
-            var childHeight = this.getChildView('simpleMenuItemsRegion').children.first().$el.height();
+            var childHeight = this.getChildView('simpleMenuItems').children.first().$el.height();
             var offset = -1 * index * childHeight;
 
             //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
-            var scrollTop = this.getChildView('simpleMenuItemsRegion').el.scrollTop;
+            var scrollTop = this.getChildView('simpleMenuItems').el.scrollTop;
             offset += scrollTop;
 
             //  Now center the item over its ListItem
             var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
-            var centering = (this.listItemHeight - childHeight - paddingTop) / 2;
+            var centering = (listItemHeight - childHeight - paddingTop) / 2;
 
             this.$el.css('top', offset + centering);
         }

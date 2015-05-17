@@ -17,8 +17,8 @@
         },
 
         ui: {
-            openHomepage: '.openHomepage',
-            openPatchNotes: '.openPatchNotes'
+            openHomepage: '[data-ui~=openHomepage]',
+            openPatchNotes: '[data-ui~=openPatchNotes]'
         },
 
         events: {
@@ -28,8 +28,8 @@
 
         tabManager: null,
 
-        initialize: function() {
-            this.tabManager = Streamus.backgroundPage.tabManager;
+        initialize: function(options) {
+            this.tabManager = options.tabManager;
         },
 
         _onClickOpenHomepage: function() {

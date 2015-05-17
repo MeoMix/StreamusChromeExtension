@@ -21,13 +21,11 @@
             };
         },
 
-        ui: function() {
-            return {
-                title: '#' + this.id + '-title',
-                titleCharacterCount: '#' + this.id + '-title-characterCount',
-                dataSource: '#' + this.id + '-dataSource',
-                dataSourceHint: '#' + this.id + '-dataSource-hint'
-            };
+        ui: {
+            title: '[data-ui~=title]',
+            titleCharacterCount: '[data-ui~=title-characterCount]',
+            dataSource: '[data-ui~=dataSource]',
+            dataSourceHint: '[data-ui~=dataSource-hint]'
         },
 
         events: {
@@ -40,9 +38,9 @@
         songs: [],
 
         initialize: function(options) {
-            this.songs = options && options.songs ? options.songs : this.songs;
-            this.playlists = Streamus.backgroundPage.signInManager.get('signedInUser').get('playlists');
-            this.dataSourceManager = Streamus.backgroundPage.dataSourceManager;
+            this.playlists = options.playlists;
+            this.dataSourceManager = options.dataSourceManager;
+            this.songs = _.isUndefined(options.songs) ? this.songs : options.songs;
         },
 
         onRender: function() {

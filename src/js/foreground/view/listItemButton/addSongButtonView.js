@@ -18,8 +18,8 @@
             'reset': '_onStreamItemsReset'
         },
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
             this.bindEntityEvents(this.streamItems, this.streamItemsEvents);
 
             ListItemButtonView.prototype.initialize.apply(this, arguments);
@@ -30,8 +30,7 @@
         },
 
         doOnClickAction: function() {
-            var song = this.model.get('song');
-            this.streamItems.addSongs(song);
+            this.streamItems.addSongs(this.model);
         },
 
         _onStreamItemsAddCompleted: function() {
@@ -47,12 +46,11 @@
         },
 
         _setState: function() {
-            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('song'));
-
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model);
             this.$el.toggleClass('is-disabled', duplicatesInfo.allDuplicates);
 
-            var title = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
-            this.$el.attr('title', title);
+            var tooltipText = duplicatesInfo.allDuplicates ? duplicatesInfo.message : chrome.i18n.getMessage('add');
+            this.$el.attr('data-tooltip-text', tooltipText);
         }
     });
 

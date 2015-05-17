@@ -11,9 +11,9 @@
         player: null,
         signInManager: null,
 
-        initialize: function() {
-            this.player = Streamus.backgroundPage.player;
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.player = options.player;
+            this.signInManager = options.signInManager;
  
             this.listenTo(Streamus.channels.dialog.commands, 'show:dialog', this._showDialog);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
@@ -32,8 +32,8 @@
         //  Make sure Streamus stays up to date because if my Server de-syncs people won't be able to save properly.
         //  http://developer.chrome.com/extensions/runtime#method-requestUpdateCheck
         _showDialogIfUpdateAvailable: function() {
-            //  Don't need to handle the update check -- just need to call it so that onUpdateAvailable will fire.
-            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
+            //  Calling requestUpdateCheck will cause onUpdateAvailable to trigger if an update is available.
+            //  TODO: Check if the response is 'throttled' and, if so, wait 5 seconds and try again. Potentially use exponential back-off instead of linear 5s.
             chrome.runtime.requestUpdateCheck(_.noop);
         },
         
@@ -70,11 +70,15 @@
         
         //  Ask the user to confirm linking their Google+ ID to the currently signed in Chrome account.
         _showLinkUserIdDialog: function() {
-            this._showDialog(LinkUserIdDialogView);
+            this._showDialog(LinkUserIdDialogView, {
+                signInManager: Streamus.backgroundPage.signInManager
+            });
         },
 
         _showGoogleSignInDialog: function() {
-            this._showDialog(GoogleSignInDialogView);
+            this._showDialog(GoogleSignInDialogView, {
+                signInManager: Streamus.backgroundPage.signInManager
+            });
         },
 
         _showDialog: function(DialogView, options) {
@@ -110,6 +114,7 @@
             }
 
             this._showDialog(ErrorDialogView, {
+                player: Streamus.backgroundPage.player,
                 text: text,
                 error: youTubeError
             });

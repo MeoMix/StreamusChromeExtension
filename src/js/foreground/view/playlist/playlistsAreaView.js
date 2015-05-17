@@ -9,26 +9,19 @@
         id: 'playlistsArea',
         className: 'flexColumn',
         template: _.template(PlaylistsAreaTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                createPlaylist: chrome.i18n.getMessage('createPlaylist')
-            };
+        templateHelpers: {
+            createPlaylist: chrome.i18n.getMessage('createPlaylist')
         },
 
-        regions: function() {
-            return {
-                playlistsRegion: '#' + this.id + '-playlistsRegion'
-            };
+        regions: {
+            playlists: '[data-region=playlists]'
         },
 
-        ui: function() {
-            return {
-                transitionable: '.u-transitionable',
-                overlay: '#' + this.id + '-overlay',
-                panel: '#' + this.id + '-panel',
-                createPlaylistButton: '#' + this.id + '-createPlaylistButton'
-            };
+        ui: {
+            transitionable: '[data-ui~=transitionable]',
+            overlay: '[data-ui~=overlay]',
+            panel: '[data-ui~=panel]',
+            createPlaylistButton: '[data-ui~=createPlaylistButton]'
         },
 
         events: {
@@ -38,7 +31,7 @@
         },
 
         childEvents: {
-            'click:childContainer': '_onClickChildContainer'
+            'click:listItems': '_onClickListItems'
         },
 
         playlists: null,
@@ -48,7 +41,7 @@
         },
 
         onRender: function() {
-            this.showChildView('playlistsRegion', new PlaylistsView({
+            this.showChildView('playlists', new PlaylistsView({
                 collection: this.playlists
             }));
         },
@@ -76,7 +69,7 @@
         },
  
         //  Whenever a playlist is clicked it will become active and the menu should hide itself.
-        _onClickChildContainer: function() {
+        _onClickListItems: function() {
             this.hide();
         }
     });

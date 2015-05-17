@@ -67,7 +67,7 @@
 
             for (var trackIndex = 0; trackIndex < tracks.length; trackIndex++) {
                 var track = tracks[trackIndex];
-                var button = track.querySelector('.icon[class*=track-play]');
+                var button = track.querySelector('button[class*=track-play]');
 
                 if (enable) {
                     var query = this.getQueryFromTrack(track);

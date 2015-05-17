@@ -6,20 +6,23 @@
     var Scrollable = require('foreground/view/behavior/scrollable');
     var SlidingRender = require('foreground/view/behavior/slidingRender');
     var Sortable = require('foreground/view/behavior/sortable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var StreamItemView = require('foreground/view/stream/streamItemView');
     var StreamItemsTemplate = require('text!template/stream/streamItems.html');
 
     var StreamItemsView = Marionette.CompositeView.extend({
         id: 'streamItems',
         className: 'list u-flex--full u-bordered--left',
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childView: StreamItemView,
         childViewType: ListItemType.StreamItem,
         childViewOptions: function() {
+            console.log('parentId:', this.ui.listItems[0].id);
             return {
+                player: Streamus.backgroundPage.player,
+                playPauseButton: Streamus.backgroundPage.playPauseButton,
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -30,11 +33,8 @@
 
         template: _.template(StreamItemsTemplate),
 
-        ui: function() {
-            return {
-                //  TODO: This has to be named generic for Sortable/SlidingRender behaviors. See issue here: https://github.com/marionettejs/backbone.marionette/issues/1909
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            listItems: '[data-ui~=listItems]'
         },
 
         behaviors: {
@@ -51,8 +51,8 @@
             Sortable: {
                 behaviorClass: Sortable
             },
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -67,18 +67,18 @@
         },
 
         _onActiveStreamItemAreaBeforeVisible: function() {
-            //  ChildContainer's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be visible.
+            //  listItems's height isn't updated until ItemViews inside it are rendered which is just after the ActiveStreamItemArea is about to be visible.
             setTimeout(function() {
                 //  If the content isn't going to have a scrollbar later then add a class to ensure that 
                 //  a scrollbar doesn't shown for a second as the content transitions in.
-                if (this.ui.childContainer.height() <= this.$el.height()) {
-                    this.ui.childContainer.addClass('is-heightRestricted');
+                if (this.ui.listItems.height() <= this.$el.height()) {
+                    this.ui.listItems.addClass('is-heightRestricted');
                 }
             }.bind(this));
         },
 
         _onActiveStreamItemAreaVisible: function() {
-            this.ui.childContainer.removeClass('is-heightRestricted');
+            this.ui.listItems.removeClass('is-heightRestricted');
             this.triggerMethod('ListHeightUpdated');
         },
 

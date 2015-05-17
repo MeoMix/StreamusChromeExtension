@@ -3,10 +3,10 @@
 
     var SongQuality = require('common/enum/songQuality');
     var DesktopNotificationDurations = require('common/enum/desktopNotificationDuration');
-    var Checkboxes = require('foreground/collection/checkboxes');
-    var RadioGroups = require('foreground/collection/radioGroups');
-    var Switches = require('foreground/collection/switches');
-    var SimpleListItems = require('foreground/collection/simpleListItems');
+    var Checkboxes = require('foreground/collection/element/checkboxes');
+    var RadioGroups = require('foreground/collection/element/radioGroups');
+    var Switches = require('foreground/collection/element/switches');
+    var SimpleListItems = require('foreground/collection/element/simpleListItems');
     var CheckboxView = require('foreground/view/element/checkboxView');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var SimpleListItemView = require('foreground/view/element/simpleListItemView');
@@ -18,28 +18,23 @@
         id: 'settings',
         template: _.template(SettingsTemplate),
 
-        templateHelpers: function() {
-            return {
-                viewId: this.id,
-                generalMessage: chrome.i18n.getMessage('general'),
-                songQualityMessage: chrome.i18n.getMessage('songQuality'),
-                remindersMessage: chrome.i18n.getMessage('reminders'),
-                desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
-            };
+        templateHelpers: {
+            generalMessage: chrome.i18n.getMessage('general'),
+            songQualityMessage: chrome.i18n.getMessage('songQuality'),
+            remindersMessage: chrome.i18n.getMessage('reminders'),
+            desktopNotificationsMessage: chrome.i18n.getMessage('desktopNotifications')
         },
 
-        regions: function() {
-            return {
-                songQualityRegion: '#' + this.id + '-songQualityRegion',
-                openToSearchRegion: '#' + this.id + '-openToSearchRegion',
-                openInTabRegion: '#' + this.id + '-openInTabRegion',
-                remindClearStreamRegion: '#' + this.id + '-remindClearStreamRegion',
-                remindDeletePlaylistRegion: '#' + this.id + '-remindDeletePlaylistRegion',
-                remindLinkAccountRegion: '#' + this.id + '-remindLinkAccountRegion',
-                remindGoogleSignInRegion: '#' + this.id + '-remindGoogleSignInRegion',
-                desktopNotificationsEnabledRegion: '#' + this.id + '-desktopNotificationsEnabledRegion',
-                desktopNotificationDurationRegion: '#' + this.id + '-desktopNotificationDurationRegion'
-            };
+        regions: {
+            songQuality: '[data-region=songQuality]',
+            openToSearch: '[data-region=openToSearch]',
+            openInTab: '[data-region=openInTab]',
+            remindClearStream: '[data-region=remindClearStream]',
+            remindDeletePlaylist: '[data-region=remindDeletePlaylist]',
+            remindLinkAccount: '[data-region=remindLinkAccount]',
+            remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
+            desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
+            desktopNotificationDuration: '[data-region=desktopNotificationDuration]'
         },
 
         checkboxes: null,
@@ -48,17 +43,16 @@
         simpleListItems: null,
         signInManager: null,
 
-        initialize: function() {
+        initialize: function(options) {
             this.checkboxes = new Checkboxes();
             this.radioGroups = new RadioGroups();
             this.switches = new Switches();
             this.simpleListItems = new SimpleListItems();
 
-            this.signInManager = Streamus.backgroundPage.signInManager;
+            this.signInManager = options.signInManager;
         },
 
         onRender: function() {
-            //  TODO: It would be sweet to render some CollectionViews which are able to render radios, selects or checkboxes... but not just yet.
             this._showSimpleListItem({
                 propertyName: 'songQuality',
                 options: _.values(SongQuality)
@@ -97,7 +91,8 @@
                 options: options.options
             });
 
-            this[propertyName + 'Region'].show(new SimpleListItemView({
+            //  TODO: Change to showChildView
+            this[propertyName].show(new SimpleListItemView({
                 model: simpleListItem
             }));
         },
@@ -116,7 +111,8 @@
                 buttons: buttons
             });
 
-            this[propertyName + 'Region'].show(new RadioGroupView({
+            //  TODO: Change to showChildView
+            this[propertyName].show(new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));
@@ -129,7 +125,8 @@
                 property: propertyName
             });
 
-            this[propertyName + 'Region'].show(new CheckboxView({
+            //  TODO: Change to showChildView
+            this[propertyName].show(new CheckboxView({
                 model: checkbox
             }));
         },
@@ -142,7 +139,8 @@
                 property: propertyName
             });
 
-            this[propertyName + 'Region'].show(new SwitchView({
+            //  TODO: Change to showChildView
+            this[propertyName].show(new SwitchView({
                 model: switchModel
             }));
         },

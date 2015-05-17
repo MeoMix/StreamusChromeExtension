@@ -85,7 +85,7 @@
             songs = songs instanceof Backbone.Collection ? songs.models : _.isArray(songs) ? songs : [songs];
 
             if (options.playOnAdd) {
-                //  TODO: This is hacky... re-think playOnActivate to not have to use a channel since this is basically just a glorified global.
+                //  TODO: Rethink playOnActivate to not have to use a channel since this is basically just a glorified global.
                 Streamus.channels.player.commands.trigger('playOnActivate', true);
             }
 
@@ -122,7 +122,6 @@
                 if (createdStreamItems.length > 0) {
                     createdStreamItems[0].save({ active: true });
                 } else {
-                    //  TODO: I need to notify the user that this fallback happened.
                     var songToActivate = this.getBySong(songs[0]);
 
                     if (_.isUndefined(songToActivate)) {
@@ -254,10 +253,11 @@
             var tempFilteredRelatedSongs = _.filter(relatedSongs, function(relatedSong) {
                 //  assuming things >8m are playlists.
                 var isJustOneSong = relatedSong.get('duration') < 480;
-                //  TODO: I need better detection than this -- this filters out other things with the word live in it.
-                var isNotLive = relatedSong.get('title').toLowerCase().indexOf('live') === -1;
+                var lowerCaseSongTitle = relatedSong.get('title').toLowerCase();
+                var isNotLive = lowerCaseSongTitle.indexOf('live') === -1;
+                var isNotParody = lowerCaseSongTitle.indexOf('parody') === -1;
 
-                return isJustOneSong && isNotLive;
+                return isJustOneSong && isNotLive && isNotParody;
             });
 
             if (tempFilteredRelatedSongs.length !== 0) {

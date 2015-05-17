@@ -1,37 +1,27 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
     var DialogTemplate = require('text!template/dialog/dialog.html');
 
     var DialogView = Marionette.LayoutView.extend({
         className: 'dialog overlay overlay--faded u-transitionable transition--veryFast',
         template: _.template(DialogTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
-        },
-
         contentView: null,
 
-        regions: function() {
-            return {
-                reminderRegion: '#' + this.id + '-reminderRegion',
-                contentRegion: '#' + this.id + '-contentRegion'
-            };
+        regions: {
+            reminder: '[data-region=reminder]',
+            content: '[data-region=content]'
         },
 
-        ui: function() {
-            return {
-                panel: '#' + this.id + '-panel',
-                submitButton: '#' + this.id + '-submitButton',
-                cancelButton: '#' + this.id + '-cancelButton',
-                reminderCheckbox: '#' + this.id + '-reminderCheckbox',
-                closeButton: '#' + this.id + '-closeButton',
-                submittable: '.js-submittable'
-            };
+        ui: {
+            panel: '[data-ui~=panel]',
+            submitButton: '[data-ui~=submitButton]',
+            cancelButton: '[data-ui~=cancelButton]',
+            reminderCheckbox: '[data-ui~=reminderCheckbox]',
+            closeButton: '[data-ui~=closeButton]',
+            submittable: '[data-ui~=submittable]'
         },
 
         events: {
@@ -48,11 +38,12 @@
         mouseDownTarget: null,
 
         initialize: function() {
+            //  TODO: Don't do this. Prefer to pass in as options, but really reminders will go away in favor of undo so just remove then.
             this.settings = Streamus.backgroundPage.settings;
         },
 
         onRender: function() {
-            this.showChildView('contentRegion', this.contentView);
+            this.showChildView('content', this.contentView);
 
             if (this.model.hasReminder()) {
                 this._showReminder();
@@ -146,8 +137,7 @@
                 iconOnLeft: true
             });
 
-            this.showChildView('reminderRegion', new CheckboxView({
-                id: this.id + '-reminderCheckbox',
+            this.showChildView('reminder', new CheckboxView({
                 model: this.reminderCheckbox
             }));
         },
@@ -173,7 +163,7 @@
         _isValid: function() {
             //  TODO: Derive this from dialog's ViewModel state instead of asking the DOM.
             //  Don't use UI here because is-invalid is appended dynamically and so I can't rely on the cache.
-            return this.$el.find('.js-submittable.is-invalid').length === 0;
+            return this.$el.find('[data-ui~=submittable].is-invalid').length === 0;
         },
 
         _hide: function() {

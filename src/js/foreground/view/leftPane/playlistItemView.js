@@ -5,10 +5,11 @@
     var ListItemMultiSelect = require('foreground/view/behavior/itemViewMultiSelect');
     var SpinnerView = require('foreground/view/element/spinnerView');
     var AddSongButtonView = require('foreground/view/listItemButton/addSongButtonView');
-    var DeleteSongButtonView = require('foreground/view/listItemButton/deleteSongButtonView');
+    var DeleteListItemButtonView = require('foreground/view/listItemButton/deleteListItemButtonView');
     var PlayPauseSongButtonView = require('foreground/view/listItemButton/playPauseSongButtonView');
     var PlaylistItemTemplate = require('text!template/leftPane/playlistItem.html');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
+    var ContextMenuAction = require('foreground/model/contextMenu/contextMenuAction');
 
     var PlaylistItemView = ListItemView.extend({
         className: ListItemView.prototype.className + ' playlist-item listItem--medium listItem--hasButtons listItem--selectable',
@@ -26,23 +27,41 @@
             ListItemMultiSelect: {
                 behaviorClass: ListItemMultiSelect
             },
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         }),
 
-        buttonViews: [PlayPauseSongButtonView, AddSongButtonView, DeleteSongButtonView],
+        buttonViewOptions: function() {
+            return {
+                PlayPauseSongButtonView: {
+                    viewClass: PlayPauseSongButtonView,
+                    model: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    player: Streamus.backgroundPage.player
+                },
+                AddSongButtonView: {
+                    viewClass: AddSongButtonView,
+                    model: this.model.get('song'),
+                    streamItems: Streamus.backgroundPage.stream.get('items')
+                },
+                DeleteListItemButtonView: {
+                    viewClass: DeleteListItemButtonView,
+                    model: this.model
+                }
+            };
+        },
 
         streamItems: null,
         player: null,
 
-        initialize: function() {
-            this.streamItems = Streamus.backgroundPage.stream.get('items');
-            this.player = Streamus.backgroundPage.player;
+        initialize: function(options) {
+            this.streamItems = options.streamItems;
+            this.player = options.player;
         },
 
         onRender: function() {
-            this.showChildView('spinnerRegion', new SpinnerView({
+            this.showChildView('spinner', new SpinnerView({
                 className: 'overlay u-marginAuto'
             }));
 
@@ -50,16 +69,12 @@
         },
 
         showContextMenu: function() {
-            Streamus.channels.contextMenu.commands.trigger('reset:items', [{
-                text: chrome.i18n.getMessage('copyUrl'),
-                onClick: this._copyUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('copyTitleAndUrl'),
-                onClick: this._copyTitleAndUrl.bind(this)
-            }, {
-                text: chrome.i18n.getMessage('watchOnYouTube'),
-                onClick: this._watchOnYouTube.bind(this)
-            }]);
+            var contextMenuAction = new ContextMenuAction({
+                song: this.model.get('song'),
+                player: this.player
+            });
+
+            contextMenuAction.showContextMenu();
         },
 
         _onDblClick: function() {
@@ -81,22 +96,10 @@
             this.$el.data('id', id).attr('id', id);
         },
 
-        _copyUrl: function() {
-            this.model.get('song').copyUrl();
-        },
-
-        _copyTitleAndUrl: function() {
-            this.model.get('song').copyTitleAndUrl();
-        },
-
         _playInStream: function() {
             this.streamItems.addSongs(this.model.get('song'), {
                 playOnAdd: true
             });
-        },
-
-        _watchOnYouTube: function() {
-            this.player.watchInTab(this.model.get('song'));
         }
     });
 

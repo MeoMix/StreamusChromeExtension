@@ -16,12 +16,12 @@
     var Stream = require('background/model/stream');
     var TabManager = require('background/model/tabManager');
     var YouTubePlayer = require('background/model/youTubePlayer');
-    var NextButton = require('background/model/buttons/nextButton');
-    var PlayPauseButton = require('background/model/buttons/playPauseButton');
-    var PreviousButton = require('background/model/buttons/previousButton');
-    var RadioButton = require('background/model/buttons/radioButton');
-    var RepeatButton = require('background/model/buttons/repeatButton');
-    var ShuffleButton = require('background/model/buttons/shuffleButton');
+    var NextButton = require('background/model/nextButton');
+    var PlayPauseButton = require('background/model/playPauseButton');
+    var PreviousButton = require('background/model/previousButton');
+    var RadioButton = require('background/model/radioButton');
+    var RepeatButton = require('background/model/repeatButton');
+    var ShuffleButton = require('background/model/shuffleButton');
 
     var BackgroundArea = Backbone.Model.extend({
         defaults: function() {
@@ -53,6 +53,11 @@
             this.listenTo(Streamus.channels.foreground.vent, 'endUnload', this._onForegroundEndUnload.bind(this));
             chrome.runtime.onMessageExternal.addListener(this._onChromeRuntimeMessageExternal.bind(this));
 
+            //  It's a good idea to create this as soon as possible so that all commands to log errors can be captured.
+            var clientErrorManager = new ClientErrorManager({
+                signInManager: this.get('signInManager')
+            });
+
             var player = new Player({
                 settings: this.get('settings'),
                 youTubePlayer: this.get('youTubePlayer')
@@ -66,9 +71,6 @@
                 repeatButton: this.get('repeatButton')
             });
             this.set('stream', stream);
-
-            //  TODO: Do this via an event instead.
-            this.get('signInManager').signInWithGoogle();
 
             var chromeContextMenusManager = new ChromeContextMenusManager({
                 browserSettings: this.get('browserSettings'),
@@ -91,10 +93,6 @@
 
             var chromeOmniboxManager = new ChromeOmniboxManager({
                 streamItems: stream.get('items')
-            });
-
-            var clientErrorManager = new ClientErrorManager({
-                signInManager: this.get('signInManager')
             });
 
             this.set('nextButton', new NextButton({
@@ -156,7 +154,6 @@
         },
 
         _exposeProperties: function() {
-            //  TODO: Can I do this dynamically instead of explicitly?
             //  Exposed globally so that the foreground can access the same instance through chrome.extension.getBackgroundPage()
             window.analyticsManager = this.get('analyticsManager');
             window.browserSettings = this.get('browserSettings');

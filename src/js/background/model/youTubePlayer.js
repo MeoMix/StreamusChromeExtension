@@ -100,7 +100,11 @@
         },
 
         cueVideoById: function(videoOptions) {
-            youTubePlayerWidget.cueVideoById(videoOptions);
+            //  Avoid using cueVideoById because it will set the player's state to 'SongCued'
+            //  'SongCued' is similar to 'paused' but causes 'seekTo' to begin playback immediately.
+            //  There's no advantage to the SongCued state and has obvious drawbacks; avoid it.
+            youTubePlayerWidget.loadVideoById(videoOptions);
+            _.defer(this.pause.bind(this));
         },
 
         _loadWidget: function() {
@@ -116,7 +120,6 @@
         },
 
         _onYouTubePlayerReady: function() {
-            //  TODO: It's apparently possible for youTubePlayerWidget.setVolume to be undefined at this point in time. How can I reproduce?
             //  It's important to set ready to true before loading to false otherwise it looks like YouTubePlayer failed to load properly.
             this.set('ready', true);
             this.set('loading', false);

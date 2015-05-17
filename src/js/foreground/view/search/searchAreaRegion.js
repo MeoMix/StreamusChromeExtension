@@ -7,8 +7,8 @@
     var SearchAreaRegion = Marionette.Region.extend({
         settings: null,
 
-        initialize: function() {
-            this.settings = Streamus.backgroundPage.settings;
+        initialize: function(options) {
+            this.settings = options.settings;
 
             this.listenTo(Streamus.channels.searchArea.commands, 'show:search', this._showSearch);
             this.listenTo(Streamus.channels.searchArea.commands, 'hide:search', this._hideSearch);
@@ -38,7 +38,9 @@
             if (!this._searchViewExists()) {
                 var searchView = new SearchView({
                     model: Streamus.backgroundPage.search,
-                    collection: Streamus.backgroundPage.search.get('results')
+                    collection: Streamus.backgroundPage.search.get('results'),
+                    streamItems: Streamus.backgroundPage.stream.get('items'),
+                    signInManager: Streamus.backgroundPage.signInManager
                 });
 
                 this.show(searchView);

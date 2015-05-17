@@ -22,7 +22,8 @@
             listItem: Backbone.Wreqr.radio.channel('listItem'),
             simpleMenu: Backbone.Wreqr.radio.channel('simpleMenu'),
             video: Backbone.Wreqr.radio.channel('video'),
-            playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton')
+            playPauseButton: Backbone.Wreqr.radio.channel('playPauseButton'),
+            tooltip: Backbone.Wreqr.radio.channel('tooltip')
         },
 
         backgroundChannels: null,
@@ -51,7 +52,11 @@
         },
 
         _showForegroundArea: function() {
-            var foregroundAreaView = new ForegroundAreaView();
+            var foregroundAreaView = new ForegroundAreaView({
+                player: Streamus.backgroundPage.player,
+                settings: Streamus.backgroundPage.settings,
+                analyticsManager: Streamus.backgroundPage.analyticsManager
+            });
             foregroundAreaView.render();
         }
     });

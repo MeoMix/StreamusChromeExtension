@@ -13,8 +13,8 @@
 
         signInManager: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
 
             ListItemButtonView.prototype.initialize.apply(this, arguments);
@@ -28,7 +28,7 @@
             var offset = this.$el.offset();
 
             Streamus.channels.saveSongs.commands.trigger('show:simpleMenu', {
-                songs: [this.model.get('song')],
+                songs: [this.model],
                 top: offset.top,
                 left: offset.left
             });
@@ -41,8 +41,8 @@
         _setState: function() {
             var signedIn = this.signInManager.get('signedInUser') !== null;
 
-            var title = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
-            this.$el.attr('title', title).toggleClass('is-disabled', !signedIn);
+            var tooltipText = signedIn ? chrome.i18n.getMessage('save') : chrome.i18n.getMessage('notSignedIn');
+            this.$el.attr('data-tooltip-text', tooltipText).toggleClass('is-disabled', !signedIn);
         }
     });
 

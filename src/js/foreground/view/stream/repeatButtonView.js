@@ -2,14 +2,14 @@
     'use strict';
 
     var RepeatButtonState = require('common/enum/repeatButtonState');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var RepeatButtonTemplate = require('text!template/stream/repeatButton.html');
     var RepeatIconTemplate = require('text!template/icon/repeatIcon_18.svg');
     var RepeatOneIconTemplate = require('text!template/icon/repeatOneIcon_18.svg');
 
     var RepeatButtonView = Marionette.ItemView.extend({
         id: 'repeatButton',
-        className: 'button button--icon button--icon--secondary button--medium js-tooltipable',
+        className: 'button button--icon button--icon--secondary button--medium',
         template: _.template(RepeatButtonTemplate),
 
         templateHelpers: {
@@ -17,11 +17,13 @@
             repeatOneIcon: _.template(RepeatOneIconTemplate)()
         },
 
-        ui: function() {
-            return {
-                repeatIcon: '#' + this.id + '-repeatIcon',
-                repeatOneIcon: '#' + this.id + '-repeatOneIcon'
-            };
+        attributes: {
+            'data-ui': 'tooltipable'
+        },
+
+        ui: {
+            repeatIcon: '[data-ui~=repeatIcon]',
+            repeatOneIcon: '[data-ui~=repeatOneIcon]'
         },
 
         events: {
@@ -33,8 +35,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -54,7 +56,7 @@
             //  The button is considered enabled if it is anything but off.
             var enabled = state !== RepeatButtonState.Off;
 
-            this.$el.toggleClass('is-enabled', enabled).attr('title', stateMessage);
+            this.$el.toggleClass('is-enabled', enabled).attr('data-tooltip-text', stateMessage);
             this.ui.repeatOneIcon.toggleClass('is-hidden', state !== RepeatButtonState.RepeatSong);
             this.ui.repeatIcon.toggleClass('is-hidden', state === RepeatButtonState.RepeatSong);
         },

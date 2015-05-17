@@ -31,12 +31,12 @@
             if (!this.isDecorated) {
                 this.isDecorated = true;
 
-                this.ui.childContainer.sortable(this._getSortableOptions());
+                this.ui.listItems.sortable(this._getSortableOptions());
 
                 this.$el.scroll(_.throttle(function() {
                     //  Any function which is throttled can potentially be ran after the view is destroyed.
                     if (!this.view.isDestroyed) {
-                        this.ui.childContainer.sortable('refresh');
+                        this.ui.listItems.sortable('refresh');
                     }
                 }.bind(this), 20));
             }
@@ -88,7 +88,7 @@
 
             $('.' + this.placeholderClass).toggleClass('is-hidden', placeholderAdjacent);
 
-            this.ui.childContainer.sortable('refresh');
+            this.ui.listItems.sortable('refresh');
 
             //  Hiding or removing the placeholder modifies the height of the child container which can cause a scrollbar to appear/disappear. So, need to notify.
             this.view.triggerMethod('UpdateScrollbar');
@@ -109,7 +109,7 @@
                 return item.get('song');
             });
 
-            this.ui.childContainer.addClass(this.isDraggingClass).data({
+            this.ui.listItems.addClass(this.isDraggingClass).data({
                 draggedSongs: draggedSongs
             });
 
@@ -119,7 +119,7 @@
         //  Placeholder stops being accessible once beforeStop finishes, so store its index here for use later.
         _beforeStop: function(event, ui) {
             //  Subtract one from placeholderIndex when parentNode exists because jQuery UI moves the HTML element above the placeholder.
-            this.ui.childContainer.data({
+            this.ui.listItems.data({
                 placeholderIndex: ui.placeholder.index() - 1
             });
         },
@@ -130,10 +130,10 @@
             //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
-            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.childContainer.is(':hover');
+            var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.listItems.is(':hover');
             if (allowMove) {
                 this.view.once('GetMinRenderIndexResponse', function(response) {
-                    var dropIndex = this.ui.childContainer.data('placeholderIndex') + response.minRenderIndex;
+                    var dropIndex = this.ui.listItems.data('placeholderIndex') + response.minRenderIndex;
                     this._moveItems(this.view.collection.selected(), dropIndex, isParentNodeLost);
                     this._cleanup();
                 }.bind(this));
@@ -149,7 +149,7 @@
         },
 
         _cleanup: function() {
-            this.ui.childContainer.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
+            this.ui.listItems.removeData('draggedSongs placeholderIndex').removeClass(this.isDraggingClass);
             Streamus.channels.element.vent.trigger('drop');
         },
 
@@ -241,10 +241,9 @@
             if (moved) {
                 //  If a move happened call sort without silent so that views can update accordingly.
                 this.view.collection.sort();
-                //  TODO: Trigger an event which causes the scrollbar to update instead.
                 //  Need to update the scrollbar because if the drag-and-drop placeholder pushed scrollTop beyond its normal limits
                 //  then the scrollbar is not representing the correct height after the placeholder is removed.
-                this.view._behaviors[1]._updateScrollbar();
+                this.view.triggerMethod('UpdateScrollbar');
             }
         },
 

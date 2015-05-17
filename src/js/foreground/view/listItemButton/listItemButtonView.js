@@ -1,11 +1,13 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
 
     var ListItemButtonView = Marionette.ItemView.extend({
-        className: function() {
-            return 'js-tooltipable listItem-button button button--icon button--icon--secondary button--medium';
+        className: 'listItem-button button button--icon button--icon--secondary button--medium',
+
+        attributes: {
+            'data-ui': 'tooltipable'
         },
 
         events: {
@@ -14,8 +16,8 @@
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

@@ -1,14 +1,14 @@
 ﻿define(function(require) {
     'use strict';
 
-    var AdminMenuArea = require('foreground/model/adminMenuArea');
+    var AdminMenuArea = require('foreground/model/appBar/adminMenuArea');
     var AdminMenuAreaView = require('foreground/view/appBar/adminMenuAreaView');
     var NextButtonView = require('foreground/view/appBar/nextButtonView');
     var PlaylistTitleView = require('foreground/view/appBar/playlistTitleView');
     var PlayPauseButtonView = require('foreground/view/appBar/playPauseButtonView');
     var PreviousButtonView = require('foreground/view/appBar/previousButtonView');
     var VolumeAreaView = require('foreground/view/appBar/volumeAreaView');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var AppBarTemplate = require('text!template/appBar/appBar.html');
     var MenuIconTemplate = require('text!template/icon/menuIcon_24.svg');
     var SearchIconTemplate = require('text!template/icon/searchIcon_24.svg');
@@ -29,54 +29,48 @@
             };
         },
 
-        regions: function() {
-            return {
-                //  TODO: Maybe move into its own region because it's getting complicated to tell whether user is signed in or not to load playlist title.
-                playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
-                volumeAreaRegion: '#' + this.id + '-volumeAreaRegion',
-                adminMenuAreaRegion: '#' + this.id + '-adminMenuAreaRegion',
-                previousButtonRegion: '#' + this.id + '-previousButtonRegion',
-                playPauseButtonRegion: '#' + this.id + '-playPauseButtonRegion',
-                nextButtonRegion: '#' + this.id + '-nextButtonRegion'
-            };
+        regions: {
+            playlistTitle: '[data-region=playlistTitle]',
+            volumeArea: '[data-region=volumeArea]',
+            adminMenuArea: '[data-region=adminMenuArea]',
+            previousButton: '[data-region=previousButton]',
+            playPauseButton: '[data-region=playPauseButton]',
+            nextButton: '[data-region=nextButton]'
         },
 
-        ui: function() {
-            return {
-                searchInput: '#' + this.id + '-searchInput',
-                showSearchButton: '#' + this.id + '-showSearchButton',
-                hideSearchButton: '#' + this.id + '-hideSearchButton',
-                showPlaylistsAreaButton: '#' + this.id + '-showPlaylistsAreaButton',
-                hidePlaylistsAreaButton: '#' + this.id + '-hidePlaylistsAreaButton',
-                //  TODO: I don't like regions being manipulated in UI they should be stateless.
-                //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
-                playlistTitleRegion: '#' + this.id + '-playlistTitleRegion',
-                searchInputRegion: '#' + this.id + '-searchInputRegion'
-            };
+        ui: {
+            searchInput: '[data-ui~=searchInput]',
+            showSearchButton: '[data-ui~=showSearchButton]',
+            hideSearchButton: '[data-ui~=hideSearchButton]',
+            showPlaylistsAreaButton: '[data-ui~=showPlaylistsAreaButton]',
+            hidePlaylistsAreaButton: '[data-ui~=hidePlaylistsAreaButton]',
+            //  TODO: I don't like regions being manipulated in UI they should be stateless.
+            //  To achieve this, I'll need to make playlistTitleRegion and searchInputRegion the same region and swap views out.
+            playlistTitleRegion: '[data-ui~=playlistTitleRegion]',
+            searchInputRegion: '[data-ui~=searchInputRegion]'
         },
 
         events: {
             'click @ui.showSearchButton': '_onClickShowSearchButton',
             'click @ui.hideSearchButton': '_onClickHideSearchButton',
             'input @ui.searchInput': '_onInputSearchInput',
-            //  TODO: prefer to read from ViewModel state rather than rely on HTML state.
-            'click @ui.showPlaylistsAreaButton:not(.is-disabled)': '_onClickShowPlaylistsAreaButton',
+            'click @ui.showPlaylistsAreaButton': '_onClickShowPlaylistsAreaButton',
             'click @ui.hidePlaylistsAreaButton': '_onClickHidePlaylistsAreaButton'
         },
 
         behaviors: {
             //  Needed for the 'not signed in' message on nav button.
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
         signInManager: null,
         search: null,
 
-        initialize: function() {
-            this.signInManager = Streamus.backgroundPage.signInManager;
-            this.search = Streamus.backgroundPage.search;
+        initialize: function(options) {
+            this.signInManager = options.signInManager;
+            this.search = options.search;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
             this.listenTo(this.search, 'change:query', this._onSearchChangeQuery);
@@ -100,21 +94,25 @@
                 this._setPlaylistTitleRegion(signedInUser);
             }
 
-            this.showChildView('volumeAreaRegion', new VolumeAreaView());
-
-            this.showChildView('adminMenuAreaRegion', new AdminMenuAreaView({
-                model: new AdminMenuArea()
+            this.showChildView('volumeArea', new VolumeAreaView({
+                player: Streamus.backgroundPage.player
             }));
 
-            this.showChildView('previousButtonRegion', new PreviousButtonView({
+            this.showChildView('adminMenuArea', new AdminMenuAreaView({
+                model: new AdminMenuArea(),
+                tabManager: Streamus.backgroundPage.tabManager
+            }));
+
+            this.showChildView('previousButton', new PreviousButtonView({
                 model: Streamus.backgroundPage.previousButton
             }));
 
-            this.showChildView('playPauseButtonRegion', new PlayPauseButtonView({
-                model: Streamus.backgroundPage.playPauseButton
+            this.showChildView('playPauseButton', new PlayPauseButtonView({
+                model: Streamus.backgroundPage.playPauseButton,
+                player: Streamus.backgroundPage.player
             }));
 
-            this.showChildView('nextButtonRegion', new NextButtonView({
+            this.showChildView('nextButton', new NextButtonView({
                 model: Streamus.backgroundPage.nextButton
             }));
         },
@@ -143,7 +141,7 @@
 
         _onPlaylistsChangeActive: function(model, active) {
             if (active) {
-                this.showChildView('playlistTitleRegion', new PlaylistTitleView({
+                this.showChildView('playlistTitle', new PlaylistTitleView({
                     model: model
                 }));
             }
@@ -165,8 +163,12 @@
         },
 
         _onClickShowPlaylistsAreaButton: function() {
-            Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
-            Streamus.channels.searchArea.commands.trigger('hide:search');
+            var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
+
+            if (isButtonEnabled) {
+                Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
+                Streamus.channels.searchArea.commands.trigger('hide:search');
+            }
         },
 
         _onClickHidePlaylistsAreaButton: function() {
@@ -200,15 +202,22 @@
         },
 
         _setPlaylistTitleRegion: function(signedInUser) {
-            this.showChildView('playlistTitleRegion', new PlaylistTitleView({
+            this.showChildView('playlistTitle', new PlaylistTitleView({
                 model: signedInUser.get('playlists').getActivePlaylist()
             }));
         },
 
         _setShowPlaylistsAreaButtonState: function(signedInUser) {
             var signedOut = signedInUser === null;
-            var title = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
-            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', signedOut).attr('title', title);
+            var tooltipText = signedOut ? chrome.i18n.getMessage('notSignedIn') : '';
+
+            var isButtonEnabled = this._isShowPlaylistsAreaButtonEnabled();
+            this.ui.showPlaylistsAreaButton.toggleClass('is-disabled', !isButtonEnabled).attr('data-tooltip-text', tooltipText);
+        },
+
+        //  Can't show the navigation drawer if the user isn't logged in because playlists aren't loaded.
+        _isShowPlaylistsAreaButtonEnabled: function() {
+            return this.signInManager.get('signedInUser') !== null;
         },
 
         _focusSearchInput: function() {

@@ -1,12 +1,12 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Checkbox = require('foreground/model/checkbox');
+    var Checkbox = require('foreground/model/element/checkbox');
     var CheckboxView = require('foreground/view/element/checkboxView');
 
     var ItemViewMultiSelect = Marionette.Behavior.extend({
         ui: {
-            leftContent: '.listItem-leftContent'
+            leftContent: '[data-ui~=leftContent]'
         },
 
         events: {
@@ -31,7 +31,6 @@
         },
 
         onRender: function() {
-            this.$el.addClass('js-listItem--multiSelect');
             this._setSelectedClass(this.view.model.get('selected'));
         },
 
@@ -57,7 +56,7 @@
                 this.ui.leftContent.addClass('is-showingCheckbox');
                 this.ui.leftContent.removeClass('is-showingThumbnail');
 
-                this.view.showChildView('checkboxRegion', new CheckboxView({
+                this.view.showChildView('checkbox', new CheckboxView({
                     model: this.checkbox
                 }));
             }
@@ -70,7 +69,8 @@
                 this.ui.leftContent.removeClass('is-showingCheckbox');
                 this.ui.leftContent.addClass('is-showingThumbnail');
 
-                this.view.checkboxRegion.empty();
+                //  TODO: Change to getChildView
+                this.view.checkbox.empty();
             }
         },
 
@@ -87,7 +87,7 @@
                 this.ui.leftContent.toggleClass('is-showingThumbnail', !selected);
 
                 if (selected) {
-                    this.view.showChildView('checkboxRegion', new CheckboxView({
+                    this.view.showChildView('checkbox', new CheckboxView({
                         model: this.checkbox
                     }));
                 }

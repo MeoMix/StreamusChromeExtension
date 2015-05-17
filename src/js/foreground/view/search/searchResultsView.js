@@ -6,20 +6,22 @@
     var Scrollable = require('foreground/view/behavior/scrollable');
     var SlidingRender = require('foreground/view/behavior/slidingRender');
     var Sortable = require('foreground/view/behavior/sortable');
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var SearchResultView = require('foreground/view/search/searchResultView');
     var SearchResultsTemplate = require('text!template/search/searchResults.html');
 
     var SearchResultsView = Marionette.CompositeView.extend({
         id: 'searchResults',
         className: 'list u-flex--full',
-        childViewContainer: '@ui.childContainer',
+        childViewContainer: '@ui.listItems',
         childView: SearchResultView,
         childViewType: ListItemType.SearchResult,
         childViewOptions: function() {
             return {
+                streamItems: Streamus.backgroundPage.stream.get('items'),
+                player: Streamus.backgroundPage.player,
                 type: this.childViewType,
-                parentId: this.ui.childContainer[0].id
+                parentId: this.ui.listItems[0].id
             };
         },
 
@@ -30,10 +32,8 @@
 
         template: _.template(SearchResultsTemplate),
 
-        ui: function() {
-            return {
-                childContainer: '#' + this.id + '-listItems'
-            };
+        ui: {
+            listItems: '[data-ui~=listItems]'
         },
 
         behaviors: {
@@ -50,8 +50,8 @@
             Sortable: {
                 behaviorClass: Sortable
             },
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 

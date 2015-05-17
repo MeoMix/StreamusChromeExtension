@@ -104,7 +104,6 @@
         },
 
         _highlightTabs: function(highlightInfo) {
-            //  TODO: The callback will be optional once Google resolves https://code.google.com/p/chromium/issues/detail?id=417564
             chrome.tabs.highlight(highlightInfo, _.noop);
         },
 

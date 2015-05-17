@@ -22,14 +22,14 @@
         },
 
         ui: {
-            menuButton: '.menuButton',
-            menu: '.menu',
-            settings: '.settings',
-            browserSettings: '.browserSettings',
-            openInTab: '.openInTab',
-            keyboardShortcuts: '.keyboardShortcuts',
-            aboutStreamus: '.aboutStreamus',
-            restart: '.reload'
+            menuButton: '[data-ui~=menuButton]',
+            menu: '[data-ui~=menu]',
+            settings: '[data-ui~=settings]',
+            browserSettings: '[data-ui~=browserSettings]',
+            openInTab: '[data-ui~=openInTab]',
+            keyboardShortcuts: '[data-ui~=keyboardShortcuts]',
+            aboutStreamus: '[data-ui~=aboutStreamus]',
+            restart: '[data-ui~=reload]'
         },
 
         events: {
@@ -53,8 +53,8 @@
             'click': '_onElementClick'
         },
 
-        initialize: function() {
-            this.tabManager = Streamus.backgroundPage.tabManager;
+        initialize: function(options) {
+            this.tabManager = options.tabManager;
             this.bindEntityEvents(Streamus.channels.element.vent, this.elementEvents);
         },
 

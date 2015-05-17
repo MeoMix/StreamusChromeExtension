@@ -73,7 +73,7 @@ define(function(require) {
         //  Recursively load any potential bulk data from YouTube after the Playlist has saved successfully.
         loadDataSource: function() {
             YouTubeV3API.getPlaylistSongs({
-                playlistId: this.get('dataSource').get('id'),
+                playlistId: this.get('dataSource').get('entityId'),
                 success: this._onGetPlaylistSongsSuccess.bind(this)
             });
         },
@@ -95,7 +95,7 @@ define(function(require) {
             } else {
                 //  Request next batch of data by iteration once addItems has succeeded.
                 YouTubeV3API.getPlaylistSongs({
-                    playlistId: this.get('dataSource').get('id'),
+                    playlistId: this.get('dataSource').get('entityId'),
                     pageToken: nextPageToken,
                     success: this._onGetPlaylistSongsSuccess.bind(this)
                 });

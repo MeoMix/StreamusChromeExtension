@@ -1,7 +1,7 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Tooltip = require('foreground/view/behavior/tooltip');
+    var Tooltipable = require('foreground/view/behavior/tooltipable');
     var ListItemButtonsView = require('foreground/view/listItemButton/listItemButtonsView');
 
     var ListItemView = Marionette.LayoutView.extend({
@@ -26,17 +26,15 @@
             'mouseleave': '_onMouseLeave'
         },
 
-        regions: function() {
-            return {
-                buttonsRegion: '.listItem-buttonsRegion',
-                spinnerRegion: '.listItem-spinnerRegion',
-                checkboxRegion: '.listItem-checkboxRegion'
-            };
+        regions: {
+            buttons: '[data-region=buttons]',
+            spinner: '[data-region=spinner]',
+            checkbox: '[data-region=checkbox]'
         },
 
         behaviors: {
-            Tooltip: {
-                behaviorClass: Tooltip
+            Tooltipable: {
+                behaviorClass: Tooltipable
             }
         },
 
@@ -46,14 +44,14 @@
         },
 
         _onMouseEnter: function() {
-            this.showChildView('buttonsRegion', new ListItemButtonsView({
+            this.showChildView('buttons', new ListItemButtonsView({
                 model: this.model,
-                buttonViews: this.buttonViews
+                buttonViewOptions: this.buttonViewOptions
             }));
         },
 
         _onMouseLeave: function() {
-            this.buttonsRegion.empty();
+            this.buttons.empty();
         }
     });
 

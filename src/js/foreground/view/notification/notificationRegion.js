@@ -1,11 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var Notification = require('foreground/model/notification');
+    var Notification = require('foreground/model/notification/notification');
     var NotificationView = require('foreground/view/notification/notificationView');
 
     var NotificationRegion = Marionette.Region.extend({
-        el: '#foregroundArea-notificationRegion',
         hideTimeout: null,
         hideTimeoutDelay: 3000,
 

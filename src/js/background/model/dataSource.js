@@ -11,8 +11,7 @@
             //  Valid song ID can appear in a playlist URL so provide the ability to only pull out a playlist URL
             parseVideo: true,
             //  The songId, playlistId, channelId etc..
-            //  TODO: Probably rename this to entityId since it's not actually the dataSource's id.
-            id: '',
+            entityId: '',
             title: '',
             url: ''
         },
@@ -27,16 +26,16 @@
                 throw new Error('URL expected to be set');
             }
 
-            var dataSourceId;
+            var entityId;
 
             //  URLs could have both video id + playlist id. Use a flag to determine whether video id is important
             if (this.get('parseVideo')) {
-                dataSourceId = this._parseYouTubeSongIdFromUrl(url);
+                entityId = this._parseYouTubeSongIdFromUrl(url);
 
-                if (dataSourceId !== '') {
+                if (entityId !== '') {
                     this.set({
                         type: DataSourceType.YouTubeVideo,
-                        id: dataSourceId
+                        entityId: entityId
                     });
 
                     options.success();
@@ -45,12 +44,12 @@
             }
 
             //  Try to find a playlist id if no video id was found.
-            dataSourceId = this._parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
+            entityId = this._parseIdFromUrlWithIdentifiers(url, ['list=', 'p=']);
 
-            if (dataSourceId !== '') {
+            if (entityId !== '') {
                 this.set({
                     type: DataSourceType.YouTubePlaylist,
-                    id: dataSourceId
+                    entityId: entityId
                 });
 
                 options.success();
@@ -58,14 +57,14 @@
             }
 
             //  Try to find channel id if still nothing found.
-            dataSourceId = this._parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
+            entityId = this._parseIdFromUrlWithIdentifiers(url, ['/user/', '/channel/']);
 
-            if (dataSourceId !== '') {
+            if (entityId !== '') {
                 var channelUploadOptions = {
                     success: function(response) {
                         this.set({
                             type: DataSourceType.YouTubePlaylist,
-                            id: response.uploadsPlaylistId
+                            entityId: response.uploadsPlaylistId
                         });
 
                         options.success();
@@ -75,9 +74,9 @@
                 };
 
                 if (this._idIsUsername()) {
-                    channelUploadOptions.forUsername = dataSourceId;
+                    channelUploadOptions.forUsername = entityId;
                 } else {
-                    channelUploadOptions.id = dataSourceId;
+                    channelUploadOptions.id = entityId;
                 }
 
                 YouTubeV3API.getChannelUploadsPlaylistId(channelUploadOptions);
@@ -91,7 +90,7 @@
             this.parseUrl({
                 success: function() {
                     YouTubeV3API.getSong({
-                        songId: this.get('id'),
+                        songId: this.get('entityId'),
                         success: options.success,
                         error: function() {
                             Streamus.channels.backgroundNotification.commands.trigger('show:notification', {
@@ -126,7 +125,7 @@
 
             YouTubeV3API.getTitle({
                 serviceType: YouTubeServiceType.Playlists,
-                id: this.get('id'),
+                id: this.get('entityId'),
                 success: function(title) {
                     this.set('title', title);
                     options.success(title);
@@ -135,7 +134,6 @@
             });
         },
         
-        //  TODO: I'd much rather use a series of identifiers to try and parse out a video id instead of a regex.
         //  Takes a URL and returns parsed URL information such as schema and song id if found inside of the URL.
         _parseYouTubeSongIdFromUrl: function(url) {
             var songId = '';
@@ -180,7 +178,7 @@
 
         _idIsUsername: function() {
             var indexOfUser = this.get('url').indexOf('/user/');
-            return indexOfUser != -1;
+            return indexOfUser !== -1;
         }
     });
 

@@ -11,19 +11,12 @@
         childView: ContextMenuItemView,
         childViewContainer: '@ui.contextMenuItems',
         template: _.template(ContextMenuTemplate),
-        templateHelpers: function() {
-            return {
-                viewId: this.id
-            };
-        },
         //  Used to determine whether contextMenu display should flip as to not overflow container
         containerHeight: 0,
         containerWidth: 0,
 
-        ui: function() {
-            return {
-                contextMenuItems: '#' + this.id + '-contextMenuItems'
-            };
+        ui: {
+            contextMenuItems: '[data-ui~=contextMenuItems]'
         },
 
         initialize: function(options) {

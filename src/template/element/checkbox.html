@@ -1,8 +1,8 @@
 ﻿<% if( labelText === '') { %>
-        <span class="checkbox-icon"></span> 
+        <span data-ui='icon' class="checkbox-icon"></span> 
 <% } else { %>
     <% if(iconOnLeft){ %>
-        <span class="checkbox-icon"></span> 
+        <span data-ui='icon' class="checkbox-icon"></span> 
 
         <label class='checkbox-label'>
             <%= labelText %>
@@ -12,6 +12,6 @@
             <%= labelText %>
         </label>
 
-        <span class="checkbox-icon"></span> 
+        <span data-ui='icon' class="checkbox-icon"></span> 
     <% } %>
 <% } %>

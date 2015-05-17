@@ -3,6 +3,5 @@
     Ended: 'ended',
     Playing: 'playing',
     Paused: 'paused',
-    Buffering: 'buffering',
-    SongCued: 'songCued'
+    Buffering: 'buffering'
 });
