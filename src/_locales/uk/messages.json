@@ -1,0 +1,543 @@
+﻿{
+    "extensionName": {
+        "message": "Streamus"
+    },
+    "extensionDescription": {
+        "message": "Потокова музика в вашому браузері."
+    },
+    "toggleRadio": {
+        "message": "Радіо викл/вкл"
+    },
+    "toggleShuffle": {
+        "message": "Перемішування викл/вкл"
+    },
+    "toggleRepeat": {
+        "message": "Повтор викл/усі пісні/дана пісня"
+    },
+    "increaseVolume": {
+        "message": "Збільшити гучність"
+    },
+    "decreaseVolume": {
+        "message": "Зменшити гучність"
+    },
+    "showSongDetails": {
+        "message": "Показати детальну інформацію про пісню"
+    },
+    "nextSong": {
+        "message": "Наступна пісня"
+    },
+    "previousSong": {
+        "message": "Попередня пісня"
+    },
+    "toggleSong": {
+        "message": "Відтворити/пауза"
+    },
+    "deleteSong": {
+        "message": "Видалити пісню"
+    },
+    "copySongUrl": {
+        "message": "Скопіювати посилання на пісню"
+    },
+    "copySongTitleAndUrl": {
+        "message": "Скопіювати назву та посилання пісні"
+    },
+    "save": {
+        "message": "Зберегти"
+    },
+    "copyUrl": {
+        "message": "Скопіювати посилання"
+    },
+    "copyTitleAndUrl": {
+        "message": "Скопіювати назву та посилання"
+    },
+    "delete": {
+        "message": "Видалити"
+    },
+    "clearStream": {
+        "message": "Очистити список відтворення"
+    },
+    "saveStream": {
+        "message": "Зберегти список відтворення"
+    },
+    "addToStreamus": {
+        "message": "Додати в Streamus"
+    },
+    "youTubePlayerErrorSongNotFound": {
+        "message": "Пісня була видалена або позначена приватною."
+    },
+    "youTubePlayerErrorNoPlayEmbedded": {
+        "message": "Неможливо відтворити пісню."
+    },
+    "errorEncountered": {
+        "message": "Виявлено помилку."
+    },
+    "saving": {
+        "message": "Зберігаю"
+    },
+    "installed": {
+        "message": "Встановлено"
+    },
+    "repeatOff": {
+        "message": "Повтор викл"
+    },
+    "repeatSong": {
+        "message": "Повтор пісні"
+    },
+    "repeatAll": {
+        "message": "Повторити все"
+    },
+    "radioOn": {
+        "message": "Радіо вкл"
+    },
+    "radioOff": {
+        "message": "Радіо викл"
+    },
+    "shufflingOn": {
+        "message": "Перемішування вкл"
+    },
+    "shufflingOff": {
+        "message": "Перемішування викл"
+    },
+    "elapsedTime": {
+        "message": "Час, що пройшов"
+    },
+    "remainingTime": {
+        "message": "Час, що залишився"
+    },
+    "totalTime": {
+        "message": "Всього часу"
+    },
+    "highest": {
+        "message": "Найкраща"
+    },
+    "auto": {
+        "message": "Авто"
+    },
+    "lowest": {
+        "message": "Найгірша"
+    },
+    "reload": {
+        "message": "Перезапустити додаток"
+    },
+    "playAll": {
+        "message": "Відтворити все"
+    },
+    "addAll": {
+        "message": "Додати все"
+    },
+    "addSelected": {
+        "message": "Додати виділені"
+    },
+    "playSelected": {
+        "message": "Відтворити виділені"
+    },
+    "saveSelected": {
+        "message": "Зберегти виділені"
+    },
+    "search": {
+        "message": "Пошук"
+    },
+    "searching": {
+        "message": "Виконується пошук"
+    },
+    "noResultsFound": {
+        "message": "Результатів не знайдено"
+    },
+    "clearStream": {
+        "message": "Очистити список відтворення"
+    },
+    "createPlaylist": {
+        "message": "Створити плейліст"
+    },
+    "ok": {
+        "message": "Ок"
+    },
+    "playlist": {
+        "message": "Плейліст"
+    },
+    "stream": {
+        "message": "Список відтворення"
+    },
+    "settings": {
+        "message": "Налаштування"
+    },
+    "edit": {
+        "message": "Редагувати"
+    },
+    "cantDeleteLastPlaylist": {
+        "message": "Не можна видалити останній плейліст"
+    },
+    "clearStreamQuestion": {
+        "message": "Очистити список відтворення?"
+    },
+    "play": {
+        "message": "Відтворити"
+    },
+    "add": {
+        "message": "Додати"
+    },
+    "title": {
+        "message": "Назва"
+    },
+    "url": {
+        "message": "Посилання"
+    },
+    "playlists": {
+        "message": "Плейлісти"
+    },
+    "remind": {
+        "message": "Нагадати"
+    },
+    "reminders": {
+        "message": "Нагадування"
+    },
+    "remindClearStream": {
+        "message": "Нагадати очистити список відтворення"
+    },
+    "remindDeletePlaylist": {
+        "message": "Нагадати видалити плейліст"
+    },
+    "minute": {
+        "message": "Хвилина"
+    },
+    "minutes": {
+        "message": "Хвилин"
+    },
+    "hours": {
+        "message": "Годин"
+    },
+    "days": {
+        "message": "Днів"
+    },
+    "errorLoadingTitle": {
+        "message": "Помилка при завантаженні назви"
+    },
+    "keyboardCommandFailure": {
+        "message": "Помилка комбінації клавіш"
+    },
+    "streamEmpty": {
+        "message": "Список відтворення порожній"
+    },
+    "playlistEmpty": {
+        "message": "Плейліст порожній"
+    },
+    "create": {
+        "message": "Створити"
+    },
+    "update": {
+        "message": "Оновити"
+    },
+    "wouldYouLikeTo": {
+        "message": "Чи не бажаєте ви"
+    },
+    "general": {
+        "message": "Основні"
+    },
+    "startTyping": {
+        "message": "Почніть друкувати"
+    },
+    "resultsWillAppearAsYouSearch": {
+        "message": "Результати будуть показані по мірі того, як ви будете друкувати."
+    },
+    "trySearchingForSomethingElse": {
+        "message": "Спробуйте пошукати що-небудь інше."
+    },
+    "watchOnYouTube": {
+        "message": "Переглянути на YouTube"
+    },
+    "notSignedIn": {
+        "message": "Не виконано вхід"
+    },
+    "signingIn": {
+        "message": "Виконується вхід"
+    },
+    "signIn": {
+        "message": "Увійти"
+    },
+    "signInFailed": {
+        "message": "Помилка авторизації"
+    },
+    "pleaseWait": {
+        "message": "Будь ласка зачекайте"
+    },
+    "openToSearch": {
+        "message": "Відкрити для пошуку"
+    },
+    "anUpdateIsAvailable": {
+        "message": "Доступно оновлення"
+    },
+    "pressEnterToPlay": {
+        "message": "Натисніть enter для відтворення"
+    },
+    "volume": {
+        "message": "Гучність"
+    },
+    "songAdded": {
+        "message": "Пісня додана"
+    },
+    "addSong": {
+        "message": "Додати пісню"
+    },
+    "song": {
+        "message": "Пісня"
+    },
+    "songs": {
+        "message": "Пісні"
+    },
+    "cantSkipToNextSong": {
+        "message": "Неможливо відтворити наступну пісню"
+    },
+    "cantGoBackToPreviousSong": {
+        "message": "Неможливо відтворити попередню пісню"
+    },
+    "cantToggleSong": {
+        "message": "Неможливо виконати дію"
+    },
+    "searchForSongs": {
+        "message": "Виконати пошук пісень"
+    },
+    "songQuality": {
+        "message": "Якість пісень"
+    },
+    "whyNotAddASongFromAPlaylistOr": {
+        "message": "Чому б не додати пісню з плейліста або",
+        "description": "The full sentence here is 'Why not add a song from a playlist or search for songs?' but I need to wrap part of the sentence in HTML"
+    },
+    "searchAndPlay": {
+        "message": "Знайти і відтворити"
+    },
+    "searchAndAdd": {
+        "message": "Знайти і додати"
+    },
+    "linkAccountsMessage": {
+        "message": "Streamus не прив'язаний до Вашого Chrome аккаунту. Ваші плейлісти будуть доступні на інших комп'ютерах після прив'язки."
+    },
+    "link": {
+        "message": "Прив'язати",
+        "description": "This is 'Link' as in 'Link my account'"
+    },
+    "googleSignInMessage": {
+        "message": "Ви не авторизовані в браузері. Ваші плейлісти доступні тільки на цьому комп'ютері."
+    },
+    "remindGoogleSignIn": {
+        "message": "Нагадати виконати вхід в Google аккаунт"
+    },
+    "keyboardShortcuts": {
+        "message": "Гарячі клавіші"
+    },
+    "export": {
+        "message": "Експорт"
+    },
+    "openInTab": {
+        "message": "Відкривати у вкладці"
+    },
+    "browserSettings": {
+        "message": "Налаштування браузера"
+    },
+    "contextMenus": {
+        "message": "Контекстне меню"
+    },
+    "websiteEnhancements": {
+        "message": "Індексуємі сайти"
+    },
+    "textSelection": {
+        "message": "Виділення тексту"
+    },
+    "youTubeLinks": {
+        "message": "Посилання YouTube"
+    },
+    "youTubePages": {
+        "message": "Сторінки YouTube"
+    },
+    "youTube": {
+        "message": "YouTube"
+    },
+    "beatport": {
+        "message": "Beatport"
+    },
+    "fileType": {
+        "message": "Формат файлу"
+    },
+    "csv": {
+        "message": "CSV"
+    },
+    "json": {
+        "message": "JSON"
+    },
+    "failedToFindSong": {
+        "message": "Неможливо знайти пісню"
+    },
+    "failedToFindSongs": {
+        "message": "Неможливо знайти пісні"
+    },
+    "loadingYouTube": {
+        "message": "Завантаження YouTube"
+    },
+    "loadingYouTubeFailed": {
+        "message": "Помилка завантаження YouTube"
+    },
+    "loadAttempt": {
+        "message": "Спроба $currentLoadAttempt$ з $maxLoadAttempts$",
+        "placeholders": {
+            "currentLoadAttempt": {
+                "content": "$1"
+            },
+            "maxLoadAttempts": {
+                "content": "$2"
+            }
+        }
+    },
+    "songAlreadyInCollection": {
+        "message": "Пісня вже є в $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "allSongsAlreadyInCollection": {
+        "message": "Всі пісні вже є в $collectionName$",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "songsAlreadyInCollection": {
+        "message": "$duplicateSongCount$ з $draggedSongCount$ пісень вже є в $collectionName$",
+        "placeholders": {
+            "duplicateSongCount": {
+                "content": "$1"
+            },
+            "draggedSongCount": {
+                "content": "$2"
+            },
+            "collectionName": {
+                "content": "$3"
+            }
+        }
+    },
+    "urlCopied": {
+        "message": "Посилання скопійоване"
+    },
+    "copyFailed": {
+        "message": "Помилка копіювання"
+    },
+    "playlistExported": {
+        "message": "Плейліст успішно експортований."
+    },
+    "playing": {
+        "message": "Відтворення"
+    },
+    "buffering": {
+        "message": "Буферизація"
+    },
+    "paused": {
+        "message": "Пауза"
+    },
+    "cancel": {
+        "message": "Відміна"
+    },
+    "errorLoadingUrl": {
+        "message": "Помилка завантаження посилання"
+    },
+    "playlistLoaded": {
+        "message": "Плейліст завантажений"
+    },
+    "playlistCreated": {
+        "message": "Плейліст створений"
+    },
+    "extensionConflict": {
+        "message": "Інший додаток, або ще щось, змушує YouTube працювати на Flash. $ LineBreak $ Streamus не може працювати до тих пір, поки проблема не буде вирішена, а Streamus перезавантажений.",
+        "placeholders": {
+            "lineBreak": {
+                "content": "$1"
+            }
+        }
+    },
+    "searchResults": {
+        "message": "Результати пошуку"
+    },
+    "collectionCantBeDeleted": {
+        "message": "$collectionName$ не може бути видалений",
+        "placeholders": {
+            "collectionName": {
+                "content": "$1"
+            }
+        }
+    },
+    "collectionSelected": {
+        "message": "$count$ $collectionName$ обрано",
+        "description": "This is either 0 songs selected, 1 song selected, or 2 songs selected",
+        "placeholders": {
+            "count": {
+                "content": "$1"
+            },
+            "collectionName": {
+                "content": "$2"
+            }
+        }
+    },
+    "saveAll": {
+        "message": "Зберігти все"
+    },
+    "saveSong": {
+        "message": "Зберігти пісню"
+    },
+    "songSavedToPlaylist": {
+        "message": "$songTitle$ збережено в $playlistTitle$",
+        "placeholders": {
+            "songTitle": {
+                "content": "$1"
+            },
+            "playlistTitle": {
+                "content": "$2"
+            }
+        }
+    },
+    "desktopNotifications": {
+        "message": "Сповіщення на робочому столі"
+    },
+    "showNotifications": {
+        "message": "Показувати сповіщення"
+    },
+    "notificationDuration": {
+        "message": "Тривалість сповіщення"
+    },
+    "oneSecond": {
+        "message": "Одна секунда"
+    },
+    "twoSeconds": {
+        "message": "Дві секунди"
+    },
+    "threeSeconds": {
+        "message": "Три секунди"
+    },
+    "fourSeconds": {
+        "message": "Чотири секунди"
+    },
+    "fiveSeconds": {
+        "message": "П'ять секунд"
+    },
+    "tenSeconds": {
+        "message": "Десять секунд"
+    },
+    "playlistUrl": {
+        "message": "Посилання на плейліст"
+    },
+    "aboutStreamus": {
+        "message": "Про Streamus"
+    },
+    "applicationDetails": {
+        "message":  "Детальна інформація про додаток"
+    },
+    "openHomepage": {
+        "message": "Відкрити домашню сторінку"
+    },
+    "version": {
+        "message": "Версія"
+    },
+    "openPatchNotes": { 
+        "message":  "Відкрити інформацію про оновлення"
+    }
+}
