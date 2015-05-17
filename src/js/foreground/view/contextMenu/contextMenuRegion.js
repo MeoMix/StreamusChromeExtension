@@ -35,19 +35,18 @@
         },
 
         _showContextMenu: function(top, left) {
-            //  TODO: A bug in Marionette causes this.$el.height/width to be null on first use, https://github.com/marionettejs/backbone.marionette/issues/1971.
+            //  this.$el.height/width is null on first use, https://github.com/marionettejs/backbone.marionette/issues/1971.
             var $this = $(this.el);
 
             this.contextMenu.set({
                 top: top,
-                left: left
+                left: left,
+                containerHeight: $this.height(),
+                containerWidth: $this.width()
             });
 
             this.show(new ContextMenuView({
-                collection: this.contextMenu.get('items'),
-                model: this.contextMenu,
-                containerHeight: $this.height(),
-                containerWidth: $this.width()
+                model: this.contextMenu
             }));
         },
 

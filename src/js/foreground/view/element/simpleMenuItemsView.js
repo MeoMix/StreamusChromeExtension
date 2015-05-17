@@ -30,6 +30,19 @@
                 var center = offsetTop - (this.$el.innerHeight() / 2) + centerHeight;
                 this.el.scrollTop = center;
             }
+        },
+
+        //  Return information indicating the position of the active model's view in the collection
+        getActiveItemOffsetData: function() {
+            var activeItemIndex = this.collection.indexOf(this.collection.getActive());
+            var itemHeight = this.children.first().$el.height();
+            //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
+            var activeItemOffset = activeItemIndex * -itemHeight + this.el.scrollTop;
+
+            return {
+                itemHeight: itemHeight,
+                itemOffset: activeItemOffset
+            };
         }
     });
 

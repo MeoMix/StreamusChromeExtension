@@ -102,7 +102,9 @@
         _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var title = this._getTrimmedTitle();
-            this.ui.title.toggleClass('is-invalid', title.length === 0 || title.length > this.titleMaxLength);
+            var isInvalid = title.length === 0 || title.length > this.titleMaxLength;
+            this.ui.title.toggleClass('is-invalid', isInvalid);
+            this.model.set('titleValid', !isInvalid);
         },
 
         _setDataSourceAsUserInput: function() {
@@ -142,9 +144,10 @@
         _onGetTitleSuccess: function(title) {
             if (!this.isDestroyed) {
                 this.ui.title.val(title);
-                this._validateTitle();
+                this.tit();
                 this.ui.dataSource.removeClass('is-invalid').addClass('is-valid');
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('playlistLoaded'));
+                this.model.set('dataSourceValid', true);
             }
         },
 
@@ -152,6 +155,7 @@
             if (!this.isDestroyed) {
                 this.ui.dataSourceHint.text(chrome.i18n.getMessage('errorLoadingUrl'));
                 this.ui.dataSource.removeClass('is-valid').addClass('is-invalid');
+                this.model.set('dataSourceValid', false);
             }
         },
 
@@ -159,6 +163,7 @@
             this.ui.dataSource.removeClass('is-invalid is-valid').removeData('datasource');
             this.ui.dataSourceHint.text('');
             this._setDataSourceAsUserInput();
+            this.model.set('dataSourceValid', true);
         }
     });
 

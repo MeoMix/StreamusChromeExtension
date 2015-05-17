@@ -15,7 +15,7 @@
             window: Backbone.Wreqr.radio.channel('window'),
             contextMenu: Backbone.Wreqr.radio.channel('contextMenu'),
             playlistsArea: Backbone.Wreqr.radio.channel('playlistsArea'),
-            searchArea: Backbone.Wreqr.radio.channel('searchArea'),
+            search: Backbone.Wreqr.radio.channel('search'),
             activeStreamItemArea: Backbone.Wreqr.radio.channel('activeStreamItemArea'),
             element: Backbone.Wreqr.radio.channel('element'),
             saveSongs: Backbone.Wreqr.radio.channel('saveSongs'),

@@ -3,7 +3,6 @@
 
     var SwitchTemplate = require('text!template/element/switch.html');
 
-    //  TODO: I could probably extract some of the logic of Switch, Radio and Checkbox out into a behavior.
     var SwitchView = Marionette.ItemView.extend({
         tagName: 'switch',
         template: _.template(SwitchTemplate),

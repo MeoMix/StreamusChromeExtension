@@ -31,14 +31,15 @@
         },
 
         _onIconWebkitAnimationEnd: function() {
-            //  TODO: Prefer not to use hasClass.
-            if (this.$el.hasClass('is-checking')) {
+            if (this.model.get('checking')){
                 this.$el.removeClass('is-checking');
                 this.$el.addClass('is-checked');
-            } else if (this.$el.hasClass('is-unchecking')) {
+            } else {
                 this.$el.removeClass('is-unchecking');
                 this.$el.addClass('is-unchecked');
             }
+
+            this.model.set('checking', false);
         },
 
         _onClick: function() {
@@ -46,6 +47,8 @@
         },
 
         _onChangeChecked: function(model, checked) {
+            this.model.set('checking', checked);
+
             if (checked) {
                 this.$el.addClass('is-checking').removeClass('is-unchecked is-unchecking');
             } else {

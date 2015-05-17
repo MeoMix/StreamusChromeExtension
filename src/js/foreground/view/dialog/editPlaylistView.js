@@ -36,7 +36,7 @@
 
         editPlaylist: function() {
             var trimmedTitle = this._getTrimmedTitle();
-            this.model.set('title', trimmedTitle);
+            this.model.get('playlist').set('title', trimmedTitle);
         },
 
         _setTitleCharacterCount: function() {
@@ -57,7 +57,9 @@
         _validateTitle: function() {
             //  When the user submits - check to see if they provided a playlist name
             var trimmedTitle = this._getTrimmedTitle();
-            this.ui.title.toggleClass('is-invalid', trimmedTitle === '');
+            var isValid = trimmedTitle !== '';
+            this.ui.title.toggleClass('is-invalid', !isValid);
+            this.model.set('valid', isValid);
         },
 
         _getTrimmedTitle: function() {

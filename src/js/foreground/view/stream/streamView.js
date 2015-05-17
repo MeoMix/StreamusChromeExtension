@@ -126,7 +126,7 @@
         },
 
         _showSearch: function() {
-            Streamus.channels.searchArea.commands.trigger('show:search');
+            Streamus.channels.search.commands.trigger('show:search');
         },
 
         _showActiveStreamItem: function(activeStreamItem, instant) {

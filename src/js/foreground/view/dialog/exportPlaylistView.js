@@ -51,8 +51,7 @@
                 buttons: buttons
             });
 
-            //  TODO: Change to showChildView
-            this[propertyName].show(new RadioGroupView({
+            this.showChildView(propertyName, new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));

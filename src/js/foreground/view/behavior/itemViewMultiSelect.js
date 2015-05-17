@@ -25,7 +25,7 @@
 
         initialize: function() {
             this.checkbox = new Checkbox({
-                //  TODO: I cannot access this.view.model in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
+                // this.view.model can't be accessed in initialize from a behavior. https://github.com/marionettejs/backbone.marionette/issues/1579
                 checked: this.view.options.model.get('selected')
             });
         },
@@ -68,9 +68,7 @@
             if (!this.view.model.get('selected')) {
                 this.ui.leftContent.removeClass('is-showingCheckbox');
                 this.ui.leftContent.addClass('is-showingThumbnail');
-
-                //  TODO: Change to getChildView
-                this.view.checkbox.empty();
+                this.view.getRegion('checkbox').empty();
             }
         },
 

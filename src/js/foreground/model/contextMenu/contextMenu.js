@@ -8,6 +8,9 @@
             return {
                 top: 0,
                 left: 0,
+                //  Used to determine whether contextMenu display should flip as to not overflow container
+                containerHeight: 0,
+                containerWidth: 0,
                 items: new ContextMenuItems()
             };
         },

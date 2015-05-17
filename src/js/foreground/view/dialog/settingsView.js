@@ -91,8 +91,7 @@
                 options: options.options
             });
 
-            //  TODO: Change to showChildView
-            this[propertyName].show(new SimpleListItemView({
+            this.showChildView(propertyName, new SimpleListItemView({
                 model: simpleListItem
             }));
         },
@@ -111,8 +110,7 @@
                 buttons: buttons
             });
 
-            //  TODO: Change to showChildView
-            this[propertyName].show(new RadioGroupView({
+            this.showChildView(propertyName, new RadioGroupView({
                 model: radioGroup,
                 collection: radioGroup.get('buttons')
             }));
@@ -125,8 +123,7 @@
                 property: propertyName
             });
 
-            //  TODO: Change to showChildView
-            this[propertyName].show(new CheckboxView({
+            this.showChildView(propertyName, new CheckboxView({
                 model: checkbox
             }));
         },
@@ -139,8 +136,7 @@
                 property: propertyName
             });
 
-            //  TODO: Change to showChildView
-            this[propertyName].show(new SwitchView({
+            this.showChildView(propertyName, new SwitchView({
                 model: switchModel
             }));
         },

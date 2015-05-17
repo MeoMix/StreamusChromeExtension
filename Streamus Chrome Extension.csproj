@@ -78,11 +78,14 @@
     <Content Include="src\js\common\lodashMixin.js" />
     <Content Include="src\js\contentScript\interceptor.js" />
     <Content Include="src\js\foreground\model\contextMenu\contextMenuAction.js" />
+    <Content Include="src\js\foreground\model\dialog\createPlaylist.js" />
+    <Content Include="src\js\foreground\model\dialog\editPlaylist.js" />
     <Content Include="src\js\foreground\model\element\fixedMenuItem.js" />
     <Content Include="src\js\foreground\model\video\mediaSourceWrapper.js" />
     <Content Include="src\js\foreground\model\video\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyCode.js" />
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
+    <Content Include="src\js\foreground\view\contextMenu\contextMenuItemsView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
     <Content Include="src\js\foreground\view\element\fixedMenuItemView.js" />
@@ -168,7 +171,7 @@
     <Content Include="src\js\test\foreground\view\playlist\playlistsView.spec.js" />
     <Content Include="src\js\test\foreground\view\playlist\playlistView.spec.js" />
     <Content Include="src\js\test\foreground\view\saveSongs\saveSongsRegion.spec.js" />
-    <Content Include="src\js\test\foreground\view\search\searchAreaRegion.spec.js" />
+    <Content Include="src\js\test\foreground\view\search\searchRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchResultsView.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchResultView.spec.js" />
     <Content Include="src\js\test\foreground\view\search\searchSpecLoader.js" />
@@ -350,7 +353,7 @@
     <Content Include="src\js\foreground\view\stream\saveStreamButtonView.js" />
     <Content Include="src\js\foreground\view\stream\shuffleButtonView.js" />
     <Content Include="src\js\foreground\view\stream\streamItemsView.js" />
-    <Content Include="src\js\foreground\view\search\searchAreaRegion.js" />
+    <Content Include="src\js\foreground\view\search\searchRegion.js" />
     <Content Include="src\js\foreground\view\listItemButton\listItemButtonView.js" />
     <Content Include="src\js\foreground\view\notification\notificationRegion.js" />
     <Content Include="src\js\foreground\view\notification\notificationView.js" />

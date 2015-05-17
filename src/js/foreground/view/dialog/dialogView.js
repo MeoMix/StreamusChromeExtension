@@ -161,13 +161,18 @@
         },
 
         _isValid: function() {
-            //  TODO: Derive this from dialog's ViewModel state instead of asking the DOM.
-            //  Don't use UI here because is-invalid is appended dynamically and so I can't rely on the cache.
-            return this.$el.find('[data-ui~=submittable].is-invalid').length === 0;
+            var isValid = true;
+            
+            var contentViewModel = this.contentView.model;
+            if (!_.isUndefined(contentViewModel)) {
+                isValid = contentViewModel.has('valid') ? contentViewModel.get('valid') : true;
+            }
+
+            return isValid;
         },
 
         _hide: function() {
-            //  TODO: This is just a patch for now. Some dialogs you don't want to run onSubmit for but you also don't want to always be reminded.
+            //  Some dialogs you don't want to run obSubmit logic for when closing, but also don't always want to be reminded.
             if (this.model.get('alwaysSaveReminder')) {
                 this._saveReminderState();
             }

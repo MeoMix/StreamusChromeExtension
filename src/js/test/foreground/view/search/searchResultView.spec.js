@@ -23,8 +23,7 @@
                     youTubePlayer: new YouTubePlayer()
                 }),
                 type: ListItemType.SearchResult,
-                //  TODO: parentId?
-                parentId: ''
+                parentId: 'searchResults-list'
             });
         });
 

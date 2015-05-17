@@ -18,8 +18,6 @@
             //  Prevent Beatport from playing all tracks.
             event.stopPropagation();
 
-            //  TODO: Prefer to not have to re-find tracks by passing them into the function, but
-            //  it's tricky because I'd need to use a 'bind' which gets hard with removeEventListener.
             var container = document.querySelector('.bucket[class*=tracks]');
             var streamusButtons = container.querySelectorAll('.bucket-items .bucket-item .streamusButton');
 

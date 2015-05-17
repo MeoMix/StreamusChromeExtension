@@ -314,7 +314,6 @@
             return isInRange;
         },
         
-        //  TODO: An animation on this would be nice.
         //  Ensure that the active item is visible by setting the container's scrollTop to a position which allows it to be seen.
         _scrollToItem: function(item) {
             var itemIndex = this.view.collection.indexOf(item);

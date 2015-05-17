@@ -25,11 +25,6 @@
             this._setPrettyDuration(this.get('duration'));
             this._setCleanTitle(this.get('title'));
             this._setUrl(this.get('id'));
-
-            //  TODO: Why can song values even change?
-            this.on('change:duration', this._onChangeDuration);
-            this.on('change:title', this._onChangeTitle);
-            this.on('change:id', this._onChangeId);
         },
 
         copyUrl: function() {
@@ -48,18 +43,6 @@
             Streamus.channels.notification.commands.trigger('show:notification', {
                 message: chrome.i18n.getMessage('urlCopied')
             });
-        },
-
-        _onChangeId: function(model, id) {
-            this._setUrl(id);
-        },
-
-        _onChangeTitle: function(model, title) {
-            this._setCleanTitle(title);
-        },
-
-        _onChangeDuration: function(model, duration) {
-            this._setPrettyDuration(duration);
         },
         
         //  Calculate this value pre-emptively because when rendering I don't want to incur inefficiency

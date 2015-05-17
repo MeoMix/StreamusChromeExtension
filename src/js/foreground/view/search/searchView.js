@@ -5,7 +5,6 @@
     var SearchResultsView = require('foreground/view/search/searchResultsView');
     var SearchTemplate = require('text!template/search/search.html');
 
-    //  TODO: I feel like this should be called searchResultsArea
     var SearchView = Marionette.LayoutView.extend({
         id: 'search',
         className: 'leftPane flexColumn panel-content panel-content--uncolored u-fullHeight',
@@ -64,7 +63,7 @@
             this.signInManager = options.signInManager;
 
             this.listenTo(this.signInManager, 'change:signedInUser', this._onSignInManagerChangeSignedInUser);
-            this.listenTo(Streamus.channels.searchArea.commands, 'search', this._search);
+            this.listenTo(Streamus.channels.search.commands, 'search', this._search);
         },
 
         onRender: function() {

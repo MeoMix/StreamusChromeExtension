@@ -5,7 +5,6 @@
     var DialogContentView = require('foreground/view/dialog/dialogContentView');
     var DialogView = require('foreground/view/dialog/dialogView');
 
-    //  TODO: Rename this to ClearStreamItems
     var ClearStreamDialogView = DialogView.extend({
         id: 'clearStreamDialog',
         streamItems: null,

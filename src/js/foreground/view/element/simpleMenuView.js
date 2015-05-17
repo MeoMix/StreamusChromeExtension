@@ -62,21 +62,11 @@
         },
 
         _onClickSimpleMenuItem: function() {
-            this.triggerMethod('click:simpleMenuItem', {
-                view: this,
-                model: this.model
-            });
-            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
-            this.hide();
+            this._handleClickedMenuItem('simpleMenuItem');
         },
 
         _onClickFixedMenuItem: function() {
-            this.triggerMethod('click:fixedMenuItem', {
-                view: this,
-                model: this.model
-            });
-            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
-            this.hide();
+            this._handleClickedMenuItem('fixedMenuItem');
         },
 
         _onTransitionOutComplete: function() {
@@ -90,26 +80,28 @@
             }
         },
 
+        _handleClickedMenuItem: function(menuItemType) {
+            this.triggerMethod('click:' + menuItemType, {
+                view: this,
+                model: this.model
+            });
+            Streamus.channels.simpleMenu.vent.trigger('clicked:item');
+            this.hide();
+        },
+
         //  TODO: This should also take into account overflow. If overflow would happen, abandon trying to perfectly center and keep the menu within the viewport.
         //  When showing this view over a ListItem, center the view's active item over the ListItem.
         _centerActive: function(listItemHeight) {
-            var simpleMenuItems = this.model.get('simpleMenuItems');
-            //  Adjust the top position of the view based on which item is active.
-            var index = simpleMenuItems.indexOf(simpleMenuItems.getActive());
-
-            //  TODO: This feels weirdly coupled.
-            var childHeight = this.getChildView('simpleMenuItems').children.first().$el.height();
-            var offset = -1 * index * childHeight;
-
-            //  Account for the fact that the view could be scrolling to show the child so that an offset derived just by index is insufficient.
-            var scrollTop = this.getChildView('simpleMenuItems').el.scrollTop;
-            offset += scrollTop;
-
-            //  Now center the item over its ListItem
+            var offsetData = this.getChildView('simpleMenuItems').getActiveItemOffsetData();
+            //  Center the offset over the listItem using logic outlined in Material guidelines
+            //  http://www.google.com/design/spec/components/menus.html#menus-simple-menus
             var paddingTop = parseInt(this.ui.panelContent.css('padding-top'));
-            var centering = (listItemHeight - childHeight - paddingTop) / 2;
+            var centering = (listItemHeight - offsetData.itemHeight) / 2 - paddingTop;
+            var topOffset = offsetData.itemOffset + centering;
 
-            this.$el.css('top', offset + centering);
+            console.log('this.$el height and scroll', this.el.offsetHeight, this.el.scrollHeight);
+
+            this.$el.css('top', topOffset);
         }
     });
 

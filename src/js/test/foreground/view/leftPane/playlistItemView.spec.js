@@ -20,8 +20,7 @@
                     youTubePlayer: new YouTubePlayer()
                 }),
                 type: ListItemType.PlaylistItem,
-                //  TODO: Figure out parentId
-                parentId: ''
+                parentId: 'playlistItems-list'
             });
         });
 

@@ -56,11 +56,11 @@
         },
 
         initialize: function() {
-            this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
+            this.listenTo(Streamus.channels.search.vent, 'hiding', this._onSearchHiding);
         },
 
         //  Don't maintain selected results after closing the view because the view won't be visible.
-        _onSearchAreaHiding: function() {
+        _onSearchHiding: function() {
             this.triggerMethod('DeselectCollection');
         }
     });

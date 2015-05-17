@@ -27,8 +27,7 @@
                     streamItems: new StreamItems()
                 }),
                 type: ListItemType.StreamItem,
-                //  TODO: parentId?
-                parentId: ''
+                parentId: 'streamItems-list'
             });
         });
 

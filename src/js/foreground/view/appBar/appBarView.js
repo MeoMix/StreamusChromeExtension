@@ -77,8 +77,8 @@
 
             this.listenTo(Streamus.channels.playlistsArea.vent, 'hiding', this._onPlaylistsAreaHiding);
             this.listenTo(Streamus.channels.playlistsArea.vent, 'showing', this._onPlaylistsAreaShowing);
-            this.listenTo(Streamus.channels.searchArea.vent, 'hiding', this._onSearchAreaHiding);
-            this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
+            this.listenTo(Streamus.channels.search.vent, 'hiding', this._onSearchHiding);
+            this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
 
             var signedInUser = this.signInManager.get('signedInUser');
             if (signedInUser !== null) {
@@ -148,16 +148,16 @@
         },
 
         _onClickShowSearchButton: function() {
-            Streamus.channels.searchArea.commands.trigger('show:search');
+            Streamus.channels.search.commands.trigger('show:search');
             Streamus.channels.playlistsArea.commands.trigger('hide:playlistsArea');
         },
 
         _onClickHideSearchButton: function() {
-            Streamus.channels.searchArea.commands.trigger('hide:search');
+            Streamus.channels.search.commands.trigger('hide:search');
         },
 
         _onInputSearchInput: function() {
-            Streamus.channels.searchArea.commands.trigger('search', {
+            Streamus.channels.search.commands.trigger('search', {
                 query: this.ui.searchInput.val()
             });
         },
@@ -167,7 +167,7 @@
 
             if (isButtonEnabled) {
                 Streamus.channels.playlistsArea.commands.trigger('show:playlistsArea');
-                Streamus.channels.searchArea.commands.trigger('hide:search');
+                Streamus.channels.search.commands.trigger('hide:search');
             }
         },
 
@@ -185,7 +185,7 @@
             this.ui.hidePlaylistsAreaButton.addClass('is-hidden');
         },
 
-        _onSearchAreaShowing: function() {
+        _onSearchShowing: function() {
             this.ui.showSearchButton.addClass('is-hidden');
             this.ui.hideSearchButton.removeClass('is-hidden');
             this.ui.playlistTitleRegion.addClass('is-hidden');
@@ -194,7 +194,7 @@
             this._focusSearchInput();
         },
 
-        _onSearchAreaHiding: function() {
+        _onSearchHiding: function() {
             this.ui.showSearchButton.removeClass('is-hidden');
             this.ui.hideSearchButton.addClass('is-hidden');
             this.ui.playlistTitleRegion.removeClass('is-hidden');

@@ -33,9 +33,8 @@
 
         events: {
             'click @ui.showSearchLink': '_onClickShowSearchLink',
-            //  TODO: Don't check class like this. Use model state
-            'click @ui.addAllButton:not(.is-disabled)': '_onClickAddAllButton',
-            'click @ui.playAllButton:not(.is-disabled)': '_onClickPlayAllButton'
+            'click @ui.addAllButton': '_onClickAddAllButton',
+            'click @ui.playAllButton': '_onClickPlayAllButton'
         },
         
         behaviors: {
@@ -77,7 +76,25 @@
         },
 
         _onClickShowSearchLink: function() {
-            Streamus.channels.searchArea.commands.trigger('show:search');
+            Streamus.channels.search.commands.trigger('show:search');
+        },
+
+        _onClickAddAllButton: function() {
+            if (this._canAdd()) {
+                var songs = this.model.get('items').pluck('song');
+
+                this.streamItems.addSongs(songs);
+            }
+        },
+
+        _onClickPlayAllButton: function() {
+            if (this._canPlay()) {
+                var songs = this.model.get('items').pluck('song');
+
+                this.streamItems.addSongs(songs, {
+                    playOnAdd: true
+                });
+            }
         },
 
         _onStreamItemsAddCompleted: function() {
@@ -122,18 +139,20 @@
             this.ui.addAllButton.toggleClass('is-disabled', isEmpty || duplicatesInfo.allDuplicates).attr('data-tooltip-text', isEmpty ? '' : duplicatesInfo.message);
         },
 
+        _canPlay: function() {
+            var isEmpty = this.model.get('items').isEmpty();
+            return !isEmpty;
+        },
+
+        _canAdd: function() {
+            var isEmpty = this.model.get('items').isEmpty();
+            var duplicatesInfo = this.streamItems.getDuplicatesInfo(this.model.get('items').pluck('song'));
+
+            return !isEmpty && !duplicatesInfo.allDuplicates;
+        },
+
         _updatePlaylistDetails: function(displayInfo) {
             this.ui.playlistDetails.text(displayInfo).attr('data-tooltip-text', displayInfo);
-        },
-
-        _onClickAddAllButton: function() {
-            this.streamItems.addSongs(this.model.get('items').pluck('song'));
-        },
-
-        _onClickPlayAllButton: function() {
-            this.streamItems.addSongs(this.model.get('items').pluck('song'), {
-                playOnAdd: true
-            });
         }
     });
 

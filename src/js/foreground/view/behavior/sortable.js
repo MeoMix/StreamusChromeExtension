@@ -127,7 +127,6 @@
         _stop: function(event, ui) {
             var isParentNodeLost = ui.item[0].parentNode === null;
 
-            //  TODO: Check collection isImmutable instead of ListItemType.
             //  The SearchResult view is not able to be moved so disable move logic for it.
             //  If the mouse dropped the items not over the given list don't run move logic.
             var allowMove = ui.item.data('type') !== ListItemType.SearchResult && this.ui.listItems.is(':hover');
@@ -284,6 +283,7 @@
             //  If the item being sorted has been unloaded by slidingRender behavior then sortableItem will be unavailable.
             //  In this scenario, fall back to the more expensive query of getting a reference to the sortable instance via its parent's ID.
             if (_.isUndefined(sortableItem)) {
+                debugger;
                 sortableItem = $('#' + ui.item.data('parentid')).sortable('instance');
             }
 

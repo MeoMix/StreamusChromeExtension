@@ -2,11 +2,14 @@
     'use strict';
 
     var ContextMenuView = require('foreground/view/contextMenu/contextMenuView');
+    var ContextMenu = require('foreground/model/contextMenu/contextMenu');
 
     describe('ContextMenuView', function() {
         beforeEach(function() {
             this.documentFragment = document.createDocumentFragment();
-            this.contextMenuView = new ContextMenuView();
+            this.contextMenuView = new ContextMenuView({
+                model: new ContextMenu()
+            });
         });
 
         afterEach(function() {

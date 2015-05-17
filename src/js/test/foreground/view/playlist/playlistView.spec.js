@@ -11,8 +11,7 @@
             this.playlistView = new PlaylistView({
                 model: new Playlist(),
                 type: ListItemType.Playlist,
-                //  TODO: parentId?
-                parentId: ''
+                parentId: 'playlists-list'
             });
         });
 

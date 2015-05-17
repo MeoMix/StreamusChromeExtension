@@ -52,8 +52,7 @@
                 property: propertyName
             });
 
-            //  TODO: Change to getChildView
-            this[propertyName].show(new CheckboxView({
+            this.showChildView(propertyName, new CheckboxView({
                 model: checkbox
             }));
         }

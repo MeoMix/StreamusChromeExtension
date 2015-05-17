@@ -3,15 +3,14 @@
 
     var SearchView = require('foreground/view/search/searchView');
 
-    //  TODO: SearchAreaRegion vs SearchView...
-    var SearchAreaRegion = Marionette.Region.extend({
+    var SearchRegion = Marionette.Region.extend({
         settings: null,
 
         initialize: function(options) {
             this.settings = options.settings;
 
-            this.listenTo(Streamus.channels.searchArea.commands, 'show:search', this._showSearch);
-            this.listenTo(Streamus.channels.searchArea.commands, 'hide:search', this._hideSearch);
+            this.listenTo(Streamus.channels.search.commands, 'show:search', this._showSearch);
+            this.listenTo(Streamus.channels.search.commands, 'hide:search', this._hideSearch);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'rendered', this._onForegroundAreaRendered);
             this.listenTo(Streamus.channels.foregroundArea.vent, 'idle', this._onForegroundAreaIdle);
         },
@@ -55,7 +54,7 @@
                 this._createSearchView();
             }
 
-            Streamus.channels.searchArea.vent.trigger('showing');
+            Streamus.channels.search.vent.trigger('showing');
 
             //  If the view should be visible when UI first loads then do not transition.
             if (options && options.instant) {
@@ -67,7 +66,7 @@
         },
 
         _hideSearch: function() {
-            Streamus.channels.searchArea.vent.trigger('hiding');
+            Streamus.channels.search.vent.trigger('hiding');
             this.$el.removeClass('is-instant is-visible');
         },
 
@@ -77,5 +76,5 @@
         }
     });
 
-    return SearchAreaRegion;
+    return SearchRegion;
 });

@@ -52,11 +52,11 @@
         },
 
         initialize: function() {
-            this.listenTo(Streamus.channels.searchArea.vent, 'showing', this._onSearchAreaShowing);
+            this.listenTo(Streamus.channels.search.vent, 'showing', this._onSearchShowing);
         },
 
-        //  Don't maintain selected results after showing SearchArea because this view won't be visible.
-        _onSearchAreaShowing: function() {
+        //  Don't maintain selected results after showing SearchView because this view won't be visible.
+        _onSearchShowing: function() {
             this.triggerMethod('DeselectCollection');
         }
     });
