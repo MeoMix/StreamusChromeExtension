@@ -3,10 +3,10 @@
 
     var Checkboxes = require('foreground/collection/element/checkboxes');
     var CheckboxView = require('foreground/view/element/checkboxView');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var BrowserSettingsTemplate = require('text!template/dialog/browserSettings.html');
 
-    var BrowserSettingsView = DialogContentView.extend({
+    var BrowserSettingsView = Marionette.LayoutView.extend({
         id: 'browserSettings',
         template: _.template(BrowserSettingsTemplate),
 
@@ -21,6 +21,12 @@
             showYouTubePageContextMenu: '[data-region=showYouTubePageContextMenu]',
             enhanceYouTube: '[data-region=enhanceYouTube]',
             enhanceBeatport: '[data-region=enhanceBeatport]'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         initialize: function() {

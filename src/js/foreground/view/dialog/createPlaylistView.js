@@ -2,10 +2,10 @@
     'use strict';
 
     var DataSourceType = require('common/enum/dataSourceType');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var CreatePlaylistTemplate = require('text!template/dialog/createPlaylist.html');
 
-    var CreatePlaylistView = DialogContentView.extend({
+    var CreatePlaylistView = Marionette.LayoutView.extend({
         id: 'createPlaylist',
         template: _.template(CreatePlaylistTemplate),
         //  TODO: Would also be nice to pull this from the DB instead, need to truncate DB column to 150.
@@ -31,6 +31,12 @@
         events: {
             'input @ui.title': '_onInputTitle',
             'input @ui.dataSource': '_onInputDataSource'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         playlists: null,

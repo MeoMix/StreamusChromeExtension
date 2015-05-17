@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var EditPlaylistTemplate = require('text!template/dialog/editPlaylist.html');
 
-    var EditPlaylistView = DialogContentView.extend({
+    var EditPlaylistView = Marionette.LayoutView.extend({
         id: 'editPlaylist',
         template: _.template(EditPlaylistTemplate),
         //  TODO: Not DRY w/ CreatePlaylistView -- pull from DB?
@@ -24,6 +24,12 @@
 
         events: {
             'input @ui.title': '_onInputTitle'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         onRender: function() {

@@ -22,7 +22,7 @@
 
             this._toggleEnabled();
         },
-        //  TODO: IDK how I feel about this checking enabled vs outsiders checking enabled.
+
         //  Prevent spamming by only allowing a previous click once every 100ms.
         tryDoTimeBasedPrevious: _.debounce(function() {
             var enabled = this.get('enabled');

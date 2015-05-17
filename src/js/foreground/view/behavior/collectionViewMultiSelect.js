@@ -1,7 +1,6 @@
 ﻿define(function() {
     'use strict';
 
-    //  TODO: Rename this to maybe CollectionMultiSelectable?
     var CollectionViewMultiSelect = Marionette.Behavior.extend({
         initialize: function() {
             this.listenTo(Streamus.channels.element.vent, 'click', this._onElementClick);

@@ -5,10 +5,10 @@
     var ExportFileType = require('common/enum/exportFileType');
     var RadioGroups = require('foreground/collection/element/radioGroups');
     var RadioGroupView = require('foreground/view/element/radioGroupView');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var ExportPlaylistTemplate = require('text!template/dialog/exportPlaylist.html');
 
-    var ExportPlaylistView = DialogContentView.extend({
+    var ExportPlaylistView = Marionette.LayoutView.extend({
         id: 'exportPlaylist',
         template: _.template(ExportPlaylistTemplate),
 
@@ -20,6 +20,12 @@
 
         regions: {
             fileType: '[data-region=fileType]'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         radioGroups: null,

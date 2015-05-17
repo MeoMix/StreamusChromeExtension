@@ -132,7 +132,7 @@
 
         //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(error) {
-            //  TODO: YouTube's API emits a 'ReallyBad' error when it really wants to emit an 'NoPlayEmbedded2' error due to content restrictions.
+            //  YouTube's API emits a 'ReallyBad' error when it really wants to emit an 'NoPlayEmbedded2' error due to content restrictions.
             //  This only happens if I have the Referer set to a YouTube domain, though. Otherwise, it gives the correct error message.
             //  If the error is really bad then attempt to recover rather than reflecting the error throughout the program.
             if (error.data === YouTubePlayerError.ReallyBad) {

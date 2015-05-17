@@ -1,14 +1,20 @@
 ﻿define(function(require) {
     'use strict';
 
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var DeletePlaylistTemplate = require('text!template/dialog/deletePlaylist.html');
 
-    var DeletePlaylistView = DialogContentView.extend({
+    var DeletePlaylistView = Marionette.LayoutView.extend({
         template: _.template(DeletePlaylistTemplate),
 
         templateHelpers: {
             deleteMessage: chrome.i18n.getMessage('delete')
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         deletePlaylist: function() {

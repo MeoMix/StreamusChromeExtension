@@ -1,10 +1,10 @@
 ﻿define(function(require) {
     'use strict';
 
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var AboutStreamusTemplate = require('text!template/dialog/aboutStreamus.html');
 
-    var AboutStreamusView = DialogContentView.extend({
+    var AboutStreamusView = Marionette.LayoutView.extend({
         id: 'aboutStreamus',
         template: _.template(AboutStreamusTemplate),
 
@@ -24,6 +24,12 @@
         events: {
             'click @ui.openHomepage': '_onClickOpenHomepage',
             'click @ui.openPatchNotes': '_onClickOpenPatchNotes'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         tabManager: null,

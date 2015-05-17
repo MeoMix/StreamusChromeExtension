@@ -85,6 +85,7 @@
     <Content Include="src\js\foreground\model\video\sourceBufferWrapper.js" />
     <Content Include="src\js\foreground\enum\keyCode.js" />
     <Content Include="src\js\foreground\model\tooltip\tooltip.js" />
+    <Content Include="src\js\foreground\view\behavior\dialogContent.js" />
     <Content Include="src\js\foreground\view\contextMenu\contextMenuItemsView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusDialogView.js" />
     <Content Include="src\js\foreground\view\dialog\aboutStreamusView.js" />
@@ -115,12 +116,14 @@
     <Content Include="src\js\test\foreground\view\appBar\volumeAreaView.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\behaviorSpecLoader.js" />
     <Content Include="src\js\test\foreground\view\behavior\collectionViewMultiSelect.spec.js" />
+    <Content Include="src\js\test\foreground\view\behavior\dialogContent.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\itemViewMultiSelect.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\scrollable.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\slidingRender.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\sortable.spec.js" />
     <Content Include="src\js\test\foreground\view\behavior\tooltipable.spec.js" />
     <Content Include="src\js\test\foreground\foregroundSpecLoader.js" />
+    <Content Include="src\js\test\foreground\view\contextMenu\contextMenuItemsView.spec.js" />
     <Content Include="src\js\test\foreground\view\contextMenu\contextMenuItemView.spec.js" />
     <Content Include="src\js\test\foreground\view\contextMenu\contextMenuRegion.spec.js" />
     <Content Include="src\js\test\foreground\view\contextMenu\contextMenuSpecLoader.js" />
@@ -339,7 +342,6 @@
     <Content Include="src\js\foreground\view\listItemButton\playPlaylistButtonView.js" />
     <Content Include="src\js\foreground\view\dialog\exportPlaylistView.js" />
     <Content Include="src\js\foreground\view\dialog\browserSettingsDialogView.js" />
-    <Content Include="src\js\foreground\view\dialog\dialogContentView.js" />
     <Content Include="src\js\foreground\view\saveSongs\saveSongsRegion.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarRegion.js" />
     <Content Include="src\js\foreground\view\selectionBar\selectionBarView.js" />

@@ -134,7 +134,6 @@
             chrome.identity.getProfileUserInfo(this._onGetProfileUserInfo.bind(this));
         },
 
-        //  TODO: It feels weird that this explicitly calls signIn - what if I want to get their info without signing in?
         //  https://developer.chrome.com/extensions/identity#method-getProfileUserInfo
         _onGetProfileUserInfo: function(profileUserInfo) {
             this._signIn(profileUserInfo.id);

@@ -369,7 +369,6 @@ define(function(require) {
             this.set('currentLoadAttempt', currentLoadAttempt);
         },
         
-        //  TODO: In the future this should probably be generic and just emit an error which isn't tied to YouTube.
         //  Emit errors so the foreground so can notify the user.
         _onYouTubePlayerError: function(model, error) {
             this.trigger('youTubeError', this, error);
@@ -377,7 +376,6 @@ define(function(require) {
 
         _onWindowMessage: function(message) {
             //  When receiving a message of buffer data from YouTube's API, store it.
-            //  TODO: Clear this when switching to SoundCloud.
             if (message.data && message.data.buffer) {
                 this.get('buffers').push(message.data.buffer);
                 this.set('bufferType', message.data.bufferType);
@@ -394,9 +392,6 @@ define(function(require) {
             }
         },
         
-        //  TODO: Reconsider pause logic. It's possible for someone to juggle a single song between playing/not playing for long enough that
-        //  it would still expire. It would be better to keep the timer always going as long as the song is loaded and if it pauses with the timer exceeded
-        //  or is paused when the timer exceeds, reload.
         _clearRefreshAlarm: function() {
             if (this.get('refreshAlarmCreated')) {
                 this.set('refreshAlarmCreated', false);

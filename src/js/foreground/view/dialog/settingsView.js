@@ -11,10 +11,10 @@
     var RadioGroupView = require('foreground/view/element/radioGroupView');
     var SimpleListItemView = require('foreground/view/element/simpleListItemView');
     var SwitchView = require('foreground/view/element/switchView');
-    var DialogContentView = require('foreground/view/dialog/dialogContentView');
+    var DialogContent = require('foreground/view/behavior/dialogContent');
     var SettingsTemplate = require('text!template/dialog/settings.html');
 
-    var SettingsView = DialogContentView.extend({
+    var SettingsView = Marionette.LayoutView.extend({
         id: 'settings',
         template: _.template(SettingsTemplate),
 
@@ -35,6 +35,12 @@
             remindGoogleSignIn: '[data-region=remindGoogleSignIn]',
             desktopNotificationsEnabled: '[data-region=desktopNotificationsEnabled]',
             desktopNotificationDuration: '[data-region=desktopNotificationDuration]'
+        },
+
+        behaviors: {
+            DialogContent: {
+                behaviorClass: DialogContent
+            }
         },
 
         checkboxes: null,
