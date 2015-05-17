@@ -283,7 +283,6 @@
             //  If the item being sorted has been unloaded by slidingRender behavior then sortableItem will be unavailable.
             //  In this scenario, fall back to the more expensive query of getting a reference to the sortable instance via its parent's ID.
             if (_.isUndefined(sortableItem)) {
-                debugger;
                 sortableItem = $('#' + ui.item.data('parentid')).sortable('instance');
             }
 

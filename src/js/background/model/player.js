@@ -94,7 +94,7 @@ define(function(require) {
                 };
 
                 this._resetMetaData();
-                //  TODO: I don't think I *always* want to keep the player going if a song is activated while one is playing, but maybe...
+
                 if (playOnActivate || playerState === PlayerState.Playing || playerState === PlayerState.Buffering) {
                     this.get('youTubePlayer').loadVideoById(videoOptions);
                 } else {
